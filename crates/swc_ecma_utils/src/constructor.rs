@@ -100,7 +100,6 @@ impl<'a> Fold for Injector<'a> {
                         ..Default::default()
                     }
                     .into()
-                    .into()
                 }));
                 buf.push(stmt);
             }

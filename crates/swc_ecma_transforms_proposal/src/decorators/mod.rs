@@ -245,7 +245,7 @@ impl Fold for Decorators {
                     }) => handle_class!(class, ident),
 
                     _ => {
-                        let item = ExportDefaultExpr { span, expr }.into().into();
+                        let item = ExportDefaultExpr { span, expr }.into();
                         buf.push(item.fold_with(self));
                     }
                 },
@@ -597,7 +597,6 @@ impl Decorators {
                                 .into(),
                                 declare: false,
                             }
-                            .into()
                             .into(),
                         ))
                         .chain(iter::once(

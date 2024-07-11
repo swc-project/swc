@@ -347,7 +347,6 @@ impl VisitMut for ConstructorFolder<'_> {
                             ..Default::default()
                         }
                         .into()
-                        .into()
                     }
                     None => {
                         *stmt = ReturnStmt {

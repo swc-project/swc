@@ -50,7 +50,6 @@ impl VisitMut for Merger {
                     type_only: Default::default(),
                     with: Default::default(),
                 }
-                .into()
                 .into(),
             );
         }
@@ -65,7 +64,6 @@ impl VisitMut for Merger {
                     type_only: Default::default(),
                     with: Default::default(),
                 }
-                .into()
                 .into(),
             );
         }

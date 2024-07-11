@@ -245,7 +245,6 @@ impl VisitMut for RegeneratorHandler {
             }
             .into()
             .into()
-            .into()
         }
     }
 }

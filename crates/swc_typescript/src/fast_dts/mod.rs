@@ -133,7 +133,6 @@ impl FastDts {
                                 decl: decl.take(),
                                 span: *span,
                             }
-                            .into()
                             .into(),
                         );
                     } else {
@@ -195,7 +194,6 @@ impl FastDts {
                                 ..Default::default()
                             }
                             .into()
-                            .into()
                             .into(),
                         );
 
@@ -204,7 +202,6 @@ impl FastDts {
                                 span: export.span,
                                 expr: name_ident.into(),
                             }
-                            .into()
                             .into(),
                         )
                     } else {
@@ -213,7 +210,6 @@ impl FastDts {
                                 span: export.span,
                                 expr: export.expr.take(),
                             }
-                            .into()
                             .into(),
                         )
                     }

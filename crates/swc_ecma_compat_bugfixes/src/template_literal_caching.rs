@@ -49,7 +49,6 @@ impl TemplateLiteralCaching {
                     decls: self.decls.clone(),
                     ..Default::default()
                 }
-                .into()
                 .into(),
             );
         }

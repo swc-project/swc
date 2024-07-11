@@ -730,7 +730,7 @@ impl Decorator2022_03 {
         }));
         self.state = old_state;
 
-        c.take().into().into()
+        c.take().into()
     }
 
     fn process_decorators(&mut self, decorators: &mut [Decorator]) {
@@ -1600,7 +1600,6 @@ impl VisitMut for Decorator2022_03 {
                         ..Default::default()
                     }
                     .into()
-                    .into()
                     .into(),
                 );
             }
@@ -1611,7 +1610,6 @@ impl VisitMut for Decorator2022_03 {
                         span: DUMMY_SP,
                         expr: Expr::from_exprs(self.pre_class_inits.take()),
                     }
-                    .into()
                     .into(),
                 );
             }
@@ -1648,7 +1646,6 @@ impl VisitMut for Decorator2022_03 {
                     type_only: false,
                     with: None,
                 }
-                .into()
                 .into(),
             );
         }
@@ -1808,7 +1805,6 @@ impl VisitMut for Decorator2022_03 {
                         declare: false,
                         ..Default::default()
                     }
-                    .into()
                     .into(),
                 );
             }

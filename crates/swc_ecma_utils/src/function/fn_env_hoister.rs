@@ -129,7 +129,6 @@ impl FnEnvHoister {
                     decls,
                     ..Default::default()
                 }
-                .into()
                 .into(),
             )
         }
@@ -190,7 +189,6 @@ impl FnEnvHoister {
                         decls,
                         ..Default::default()
                     }
-                    .into()
                     .into(),
                 ),
                 this,
@@ -314,7 +312,6 @@ impl VisitMut for FnEnvHoister {
                         .collect(),
                     ..Default::default()
                 }
-                .into()
                 .into(),
             )
         }

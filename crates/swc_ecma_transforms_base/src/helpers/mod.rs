@@ -460,7 +460,6 @@ impl InjectHelpers {
             }],
             ..Default::default()
         }
-        .into()
         .into();
         decl.into()
     }

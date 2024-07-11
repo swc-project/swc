@@ -83,7 +83,6 @@ impl VisitMut for ExportNamespaceFrom {
                             with: with.clone(),
                             phase: Default::default(),
                         }
-                        .into()
                         .into(),
                     );
 
@@ -95,7 +94,6 @@ impl VisitMut for ExportNamespaceFrom {
                             type_only: false,
                             with: None,
                         }
-                        .into()
                         .into(),
                     );
 
@@ -108,7 +106,6 @@ impl VisitMut for ExportNamespaceFrom {
                                 type_only: false,
                                 with,
                             }
-                            .into()
                             .into(),
                         );
                     }

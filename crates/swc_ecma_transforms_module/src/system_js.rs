@@ -867,7 +867,7 @@ impl Fold for SystemJs {
                                     fn_decl.ident.to_id(),
                                     fn_decl.ident.sym.clone(),
                                 );
-                                before_body_stmts.push(fn_decl.into().into());
+                                before_body_stmts.push(fn_decl.into());
                             }
                             Decl::Var(var_decl) => {
                                 let mut decl = VarDecl {
@@ -921,7 +921,6 @@ impl Fold for SystemJs {
                                             declare: false,
                                             function: fn_expr.function,
                                         }
-                                        .into()
                                         .into(),
                                     );
                                 } else {
@@ -968,7 +967,7 @@ impl Fold for SystemJs {
                             );
                         }
                         Decl::Fn(fn_decl) => {
-                            before_body_stmts.push(fn_decl.into().into());
+                            before_body_stmts.push(fn_decl.into());
                         }
                         _ => execute_stmts.push(decl.into()),
                     },

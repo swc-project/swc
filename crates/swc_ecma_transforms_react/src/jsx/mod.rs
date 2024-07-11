@@ -1110,7 +1110,6 @@ where
                         with: Default::default(),
                         phase: Default::default(),
                     }
-                    .into()
                     .into(),
                 )
             });
@@ -1192,7 +1191,6 @@ fn add_require(imports: Vec<(Ident, IdentName)>, src: &str, unresolved_mark: Mar
         }],
         ..Default::default()
     }
-    .into()
     .into()
 }
 

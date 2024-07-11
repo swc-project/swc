@@ -104,7 +104,6 @@ impl ClassExtra {
                     decls: self.vars,
                     ..Default::default()
                 }
-                .into()
                 .into(),
             )
         }
@@ -118,7 +117,6 @@ impl ClassExtra {
                     decls: self.lets,
                     ..Default::default()
                 }
-                .into()
                 .into(),
             )
         }
@@ -135,7 +133,6 @@ impl ClassExtra {
                     decls: self.vars,
                     ..Default::default()
                 }
-                .into()
                 .into(),
             )
         }
@@ -148,7 +145,6 @@ impl ClassExtra {
                     decls: self.lets,
                     ..Default::default()
                 }
-                .into()
                 .into(),
             )
         }
@@ -194,7 +190,7 @@ impl<C: Comments> VisitMut for ClassProperties<C> {
                 let ident = ident.unwrap_or_else(|| private_ident!("_class"));
                 let (decl, extra) = self.visit_mut_class_as_decl(ident.clone(), class);
 
-                extra.merge_with(&mut stmts, decl.into().into());
+                extra.merge_with(&mut stmts, decl.into());
 
                 stmts.push(
                     ReturnStmt {
@@ -360,7 +356,7 @@ impl<C: Comments> ClassProperties<C> {
                                 let (decl, extra) =
                                     self.visit_mut_class_as_decl(ident.clone(), class);
 
-                                extra.merge_with(&mut buf, T::from_stmt(decl.into().into()));
+                                extra.merge_with(&mut buf, T::from_stmt(decl.into()));
 
                                 buf.push(
                                     match T::try_from_module_decl(
@@ -431,7 +427,7 @@ impl<C: Comments> ClassProperties<C> {
                             declare: false,
                         })) => {
                             let (decl, extra) = self.visit_mut_class_as_decl(ident, class);
-                            extra.merge_with(&mut buf, T::from_stmt(decl.into().into()))
+                            extra.merge_with(&mut buf, T::from_stmt(decl.into()))
                         }
                         _ => {
                             stmt.visit_mut_children_with(self);
@@ -968,7 +964,6 @@ impl<C: Comments> ClassProperties<C> {
                             function: method.function,
                             declare: false,
                         }
-                        .into()
                         .into(),
                     )
                 }

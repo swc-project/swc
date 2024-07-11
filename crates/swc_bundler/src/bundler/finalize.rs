@@ -272,7 +272,6 @@ where
                                         class: expr.class,
                                         declare: false,
                                     }
-                                    .into()
                                     .into(),
                                 )
                             }
@@ -297,7 +296,6 @@ where
                                         function: expr.function,
                                         declare: false,
                                     }
-                                    .into()
                                     .into(),
                                 )
                             }
@@ -322,7 +320,6 @@ where
                                     decls: vec![var],
                                     ..Default::default()
                                 }
-                                .into()
                                 .into(),
                             )
                         }

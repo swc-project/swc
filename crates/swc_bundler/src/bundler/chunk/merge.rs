@@ -578,7 +578,7 @@ where
                     ModuleItem::ModuleDecl(ModuleDecl::Import(mut import)) => {
                         // Preserve imports from node.js builtin modules.
                         if self.config.external_modules.contains(&import.src.value) {
-                            new.push(import.into().into());
+                            new.push(import.into());
                             continue;
                         }
 
@@ -589,7 +589,7 @@ where
                             .find(|s| s.0.src.value == import.src.value)
                         {
                             if !self.scope.get_module(src.module_id).unwrap().is_es6 {
-                                new.push(import.into().into());
+                                new.push(import.into());
                                 continue;
                             }
                         }
@@ -661,7 +661,7 @@ where
                         }
 
                         import.specifiers.clear();
-                        new.push(import.into().into());
+                        new.push(import.into());
                     }
                     ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(export)) => {
                         // At here, we create multiple items.
@@ -685,7 +685,6 @@ where
                                                 class: c.class,
                                                 declare: false,
                                             }
-                                            .into()
                                             .into()
                                             .into(),
                                         );
@@ -716,7 +715,6 @@ where
                                                 declare: false,
                                             }
                                             .into()
-                                            .into()
                                             .into(),
                                         );
 
@@ -738,7 +736,6 @@ where
                                                 function: f.function,
                                                 declare: false,
                                             }
-                                            .into()
                                             .into()
                                             .into(),
                                         );
@@ -789,7 +786,6 @@ where
                                     .into_with(),
                                 ),
                             }
-                            .into()
                             .into(),
                         );
                     }
@@ -843,7 +839,6 @@ where
                                     .into_with(),
                                 ),
                             }
-                            .into()
                             .into(),
                         );
                     }
@@ -855,13 +850,13 @@ where
                         let local = match export.decl {
                             Decl::Class(c) => {
                                 let i = c.ident.clone();
-                                new.push(c.into().into().into());
+                                new.push(c.into().into());
 
                                 i
                             }
                             Decl::Fn(f) => {
                                 let i = f.ident.clone();
-                                new.push(f.into().into().into());
+                                new.push(f.into().into());
 
                                 i
                             }
@@ -869,7 +864,7 @@ where
                                 let ids: Vec<Ident> = find_pat_ids(&v);
                                 //
 
-                                new.push(v.into().into().into());
+                                new.push(v.into().into());
 
                                 let export = NamedExport {
                                     span: export.span,
@@ -916,7 +911,6 @@ where
                                         .into_with(),
                                     ),
                                 }
-                                .into()
                                 .into();
                                 extra.push(export);
                                 continue;
@@ -966,7 +960,6 @@ where
                                     .into_with(),
                                 ),
                             }
-                            .into()
                             .into(),
                         );
                     }
@@ -1084,7 +1077,6 @@ where
                                                 ..Default::default()
                                             }
                                             .into()
-                                            .into()
                                             .into(),
                                         );
                                     }
@@ -1188,7 +1180,6 @@ where
                                                                 with: None,
                                                                 type_only: false,
                                                             }
-                                                            .into()
                                                             .into(),
                                                         );
                                                     }
@@ -1399,7 +1390,6 @@ impl VisitMut for ImportMetaHandler<'_, '_> {
                             }],
                             ..Default::default()
                         }
-                        .into()
                         .into()
                         .into(),
                     );

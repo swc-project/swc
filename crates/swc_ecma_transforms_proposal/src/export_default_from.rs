@@ -82,7 +82,6 @@ impl VisitMut for ExportDefaultFrom {
                             type_only: false,
                             with: None,
                         }
-                        .into()
                         .into(),
                     );
 
@@ -95,7 +94,6 @@ impl VisitMut for ExportDefaultFrom {
                                 type_only: false,
                                 with,
                             }
-                            .into()
                             .into(),
                         );
                     }

@@ -133,7 +133,7 @@ impl<'a, I: Tokens> Parser<I> {
 
                 let v = self.parse_using_decl(start, true)?;
                 if let Some(v) = v {
-                    return Ok(v.into().into());
+                    return Ok(v.into());
                 }
             }
 
@@ -164,7 +164,7 @@ impl<'a, I: Tokens> Parser<I> {
                     assert_and_bump!(self, "await");
                     let v = self.parse_using_decl(start, true)?;
                     if let Some(v) = v {
-                        return Ok(v.into().into());
+                        return Ok(v.into());
                     }
                 }
             }
@@ -297,12 +297,12 @@ impl<'a, I: Tokens> Parser<I> {
 
             tok!("var") => {
                 let v = self.parse_var_stmt(false)?;
-                return Ok(v.into().into());
+                return Ok(v.into());
             }
 
             tok!("const") if include_decl => {
                 let v = self.parse_var_stmt(false)?;
-                return Ok(v.into().into());
+                return Ok(v.into());
             }
 
             // 'let' can start an identifier reference.
@@ -315,14 +315,14 @@ impl<'a, I: Tokens> Parser<I> {
 
                 if is_keyword {
                     let v = self.parse_var_stmt(false)?;
-                    return Ok(v.into().into());
+                    return Ok(v.into());
                 }
             }
 
             tok!("using") if include_decl => {
                 let v = self.parse_using_decl(start, false)?;
                 if let Some(v) = v {
-                    return Ok(v.into().into());
+                    return Ok(v.into());
                 }
             }
 
@@ -333,7 +333,7 @@ impl<'a, I: Tokens> Parser<I> {
                 {
                     let start = self.input.cur_pos();
                     bump!(self);
-                    return Ok(self.parse_ts_interface_decl(start)?.into().into());
+                    return Ok(self.parse_ts_interface_decl(start)?.into());
                 }
             }
 
@@ -344,7 +344,7 @@ impl<'a, I: Tokens> Parser<I> {
                 {
                     let start = self.input.cur_pos();
                     bump!(self);
-                    return Ok(self.parse_ts_type_alias_decl(start)?.into().into());
+                    return Ok(self.parse_ts_type_alias_decl(start)?.into());
                 }
             }
 
@@ -355,7 +355,7 @@ impl<'a, I: Tokens> Parser<I> {
                 {
                     let start = self.input.cur_pos();
                     bump!(self);
-                    return Ok(self.parse_ts_enum_decl(start, false)?.into().into());
+                    return Ok(self.parse_ts_enum_decl(start, false)?.into());
                 }
             }
 

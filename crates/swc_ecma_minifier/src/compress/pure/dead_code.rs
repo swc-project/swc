@@ -246,7 +246,7 @@ impl Pure<'_> {
                 |(mut decls, mut hoisted_fns, mut new_stmts), stmt| {
                     match stmt.take().try_into_stmt() {
                         Ok(Stmt::Decl(Decl::Fn(f))) => {
-                            hoisted_fns.push(f.into().into().into());
+                            hoisted_fns.push(f.into().into());
                         }
                         Ok(t) => {
                             let ids = extract_var_ids(&t).into_iter().map(|i| VarDeclarator {
@@ -272,7 +272,6 @@ impl Pure<'_> {
                         declare: false,
                         ..Default::default()
                     }
-                    .into()
                     .into(),
                 );
             }

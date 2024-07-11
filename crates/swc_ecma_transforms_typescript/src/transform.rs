@@ -485,7 +485,7 @@ impl Transform {
 
                                 var_decl.span = decl.span;
 
-                                var_decl.into().into()
+                                var_decl.into()
                             };
 
                             stmts.push(stmt);
@@ -1025,10 +1025,9 @@ impl Transform {
                                     decl: var_decl.into(),
                                 }
                                 .into()
-                                .into()
                             } else {
                                 var_decl.span = decl.span;
-                                var_decl.into().into()
+                                var_decl.into()
                             };
                             n.push(module_item);
                         }
@@ -1058,7 +1057,7 @@ impl Transform {
                                         .into_var_decl(VarDeclKind::Const, decl.id.take().into());
                                     var_decl.span = decl.span;
 
-                                    n.push(var_decl.into().into());
+                                    n.push(var_decl.into());
                                 }
                                 TsImportExportAssignConfig::Preserve => n.push(module_item),
                                 TsImportExportAssignConfig::NodeNext => {
@@ -1075,10 +1074,9 @@ impl Transform {
                                             decl: var_decl.into(),
                                         }
                                         .into()
-                                        .into()
                                     } else {
                                         var_decl.span = decl.span;
-                                        var_decl.into().into().into()
+                                        var_decl.into().into()
                                     };
                                     n.push(module_item);
                                 }
@@ -1127,7 +1125,6 @@ impl Transform {
                     with: None,
                     phase: Default::default(),
                 }
-                .into()
                 .into(),
                 // const __require = _createRequire(import.meta.url);
                 create_require
@@ -1141,7 +1138,6 @@ impl Transform {
                         .as_arg()],
                     )
                     .into_var_decl(VarDeclKind::Const, require.clone().into())
-                    .into()
                     .into()
                     .into(),
             ]);
@@ -1167,12 +1163,11 @@ impl Transform {
                                 ),
                             ),
                         }
-                        .into()
                         .into(),
                     );
                 }
                 TsImportExportAssignConfig::Preserve => {
-                    n.push(cjs_export_assign.into().into());
+                    n.push(cjs_export_assign.into());
                 }
                 TsImportExportAssignConfig::NodeNext | TsImportExportAssignConfig::EsNext => {
                     // TS1203

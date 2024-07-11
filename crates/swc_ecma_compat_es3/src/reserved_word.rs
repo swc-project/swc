@@ -50,7 +50,7 @@ impl VisitMut for ReservedWord {
                         return;
                     }
 
-                    *module_item = decl.take().into().into();
+                    *module_item = decl.take().into();
 
                     let mut orig = ident.clone();
                     orig.visit_mut_with(self);
@@ -101,7 +101,7 @@ impl VisitMut for ReservedWord {
                         );
                     }
 
-                    *module_item = var.take().into().into().into();
+                    *module_item = var.take().into().into();
                 }
 
                 _ => {}
@@ -118,7 +118,6 @@ impl VisitMut for ReservedWord {
                 type_only: false,
                 with: None,
             }
-            .into()
             .into();
 
             n.push(module_item);

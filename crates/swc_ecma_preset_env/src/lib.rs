@@ -475,7 +475,6 @@ impl VisitMut for Polyfills {
                         phase: Default::default(),
                     }
                     .into()
-                    .into()
                 }),
             );
         } else {
@@ -495,7 +494,6 @@ impl VisitMut for Polyfills {
                         with: None,
                         phase: Default::default(),
                     }
-                    .into()
                     .into()
                 }),
             );

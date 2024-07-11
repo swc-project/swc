@@ -171,7 +171,6 @@ fn wrap_module(
         ..Default::default()
     }
     .into()
-    .into()
 }
 
 struct RequireReplacer<'a, 'b, L, R>
@@ -315,7 +314,6 @@ where
                             ..Default::default()
                         }
                         .into()
-                        .into()
                         .into();
                         return;
                     }
@@ -345,7 +343,6 @@ where
                 }],
                 ..Default::default()
             }
-            .into()
             .into()
             .into();
         }

@@ -771,7 +771,6 @@ where
                     }),
                     declare: false,
                 }
-                .into()
                 .into(),
             );
         }

@@ -430,12 +430,12 @@ impl VisitMut for Remover {
                         if v {
                             // Preserve variables
                             if let Some(var) = alt.and_then(|alt| alt.extract_var_ids_as_var()) {
-                                stmts.push(var.into().into())
+                                stmts.push(var.into())
                             }
                             stmts.push(*cons);
                         } else {
                             if let Some(var) = cons.extract_var_ids_as_var() {
-                                stmts.push(var.into().into())
+                                stmts.push(var.into())
                             }
 
                             if let Some(alt) = alt {
@@ -1330,7 +1330,7 @@ impl Remover {
                             for t in iter {
                                 match t.try_into_stmt() {
                                     Ok(Stmt::Decl(Decl::Fn(f))) => {
-                                        hoisted_fns.push(T::from_stmt(f.into().into()));
+                                        hoisted_fns.push(T::from_stmt(f.into()));
                                     }
                                     Ok(t) => {
                                         let ids = extract_var_ids(&t).into_iter().map(|i| {

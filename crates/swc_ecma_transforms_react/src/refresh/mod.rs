@@ -358,7 +358,6 @@ impl<C: Comments> VisitMut for Refresh<C> {
                                 expr: Box::new(make_assign_stmt(reg[0].0.clone(), expr.take())),
                                 span: *span,
                             }
-                            .into()
                             .into();
                             Persist::Hoc(Hoc {
                                 insert: false,
@@ -408,7 +407,6 @@ impl<C: Comments> VisitMut for Refresh<C> {
                                 persistent_id.into(),
                             )),
                         }
-                        .into()
                         .into(),
                     );
                 }
@@ -425,7 +423,6 @@ impl<C: Comments> VisitMut for Refresh<C> {
                                     Ident::new(name.0.clone(), DUMMY_SP, name.1).into(),
                                 )),
                             }
-                            .into()
                             .into(),
                         )
                     }
@@ -480,7 +477,6 @@ impl<C: Comments> VisitMut for Refresh<C> {
                     }
                     .into(),
                 }
-                .into()
                 .into(),
             );
         }

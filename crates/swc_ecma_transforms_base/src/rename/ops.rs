@@ -283,7 +283,6 @@ where
                             declare: *declare,
                         }
                         .into()
-                        .into()
                         .into();
                         export!(
                             ModuleExportName::Ident(orig_ident),
@@ -300,7 +299,6 @@ where
                             }
                             .into(),
                         }
-                        .into()
                         .into()
                     }
                 }
@@ -327,7 +325,6 @@ where
                             declare: *declare,
                         }
                         .into()
-                        .into()
                         .into();
                         export!(
                             ModuleExportName::Ident(orig_ident),
@@ -344,7 +341,6 @@ where
                             }
                             .into(),
                         }
-                        .into()
                         .into()
                     }
                 }
@@ -374,7 +370,6 @@ where
                         }
                         .into(),
                     }
-                    .into()
                     .into();
                     return;
                 }
@@ -382,7 +377,6 @@ where
                     decls,
                     ..*var.take()
                 }
-                .into()
                 .into()
                 .into();
                 self.extra.push(
@@ -393,7 +387,6 @@ where
                         type_only: false,
                         with: None,
                     }
-                    .into()
                     .into(),
                 );
             }

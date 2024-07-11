@@ -95,7 +95,6 @@ where
                                             .into_with(),
                                         ),
                                     }
-                                    .into()
                                     .into(),
                                 ));
                             }
@@ -182,7 +181,7 @@ where
             }],
         };
 
-        module.append(id, var_decl.into().into().into());
+        module.append(id, var_decl.into().into());
 
         // print_hygiene(
         //     "wrap",
@@ -265,7 +264,6 @@ impl Fold for ExportToReturn {
                             class: expr.class,
                             declare: false,
                         }
-                        .into()
                         .into(),
                     )
                 }
@@ -284,14 +282,13 @@ impl Fold for ExportToReturn {
                             function: expr.function,
                             declare: false,
                         }
-                        .into()
                         .into(),
                     )
                 }
                 DefaultDecl::TsInterfaceDecl(_) => None,
             },
             ModuleDecl::ExportDefaultExpr(_) => None,
-            ModuleDecl::ExportAll(export) => return export.into().into(),
+            ModuleDecl::ExportAll(export) => return export.into(),
             ModuleDecl::ExportNamed(export) => {
                 for specifier in &export.specifiers {
                     match specifier {
@@ -328,7 +325,7 @@ impl Fold for ExportToReturn {
                 {
                     None
                 } else {
-                    return export.into().into();
+                    return export.into();
                 }
             }
             ModuleDecl::TsImportEquals(_) => None,
@@ -339,7 +336,7 @@ impl Fold for ExportToReturn {
         if let Some(stmt) = stmt {
             stmt.into()
         } else {
-            EmptyStmt { span: DUMMY_SP }.into().into()
+            EmptyStmt { span: DUMMY_SP }.into()
         }
     }
 }

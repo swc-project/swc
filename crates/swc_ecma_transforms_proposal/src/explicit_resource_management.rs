@@ -83,7 +83,6 @@ impl ExplicitResourceManagement {
                 decls: vec![using_ctx_var],
                 ..Default::default()
             }
-            .into()
             .into(),
         );
 
@@ -94,7 +93,7 @@ impl ExplicitResourceManagement {
                 }
                 Ok(Stmt::Decl(Decl::Var(var))) => {
                     // var.kind = VarDeclKind::Var;
-                    try_body.push(var.into().into());
+                    try_body.push(var.into());
                 }
                 Ok(stmt) => try_body.push(stmt),
                 Err(stmt) => match stmt.try_into_module_decl() {
@@ -146,7 +145,6 @@ impl ExplicitResourceManagement {
                                 }],
                                 ..Default::default()
                             }
-                            .into()
                             .into(),
                         );
                     }
@@ -190,7 +188,6 @@ impl ExplicitResourceManagement {
                                 }],
                                 ..Default::default()
                             }
-                            .into()
                             .into(),
                         );
                     }
@@ -216,7 +213,6 @@ impl ExplicitResourceManagement {
                                         decls: vec![var],
                                         ..Default::default()
                                     }
-                                    .into()
                                     .into(),
                                 ));
 
@@ -283,7 +279,6 @@ impl ExplicitResourceManagement {
                                         decls: var_decls,
                                         ..Default::default()
                                     }
-                                    .into()
                                     .into(),
                                 ));
 
@@ -498,7 +493,6 @@ impl VisitMut for ExplicitResourceManagement {
                     .collect(),
                 ..Default::default()
             }
-            .into()
             .into();
         }
     }

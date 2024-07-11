@@ -208,7 +208,7 @@ impl<C: Comments> VisitMut for Actual<C> {
 
         let FnWrapperResult { name_fn, ref_fn } = wrapper.into();
         *f = name_fn;
-        self.extra_stmts.push(ref_fn.into().into());
+        self.extra_stmts.push(ref_fn.into());
     }
 
     fn visit_mut_module_item(&mut self, item: &mut ModuleItem) {
@@ -231,9 +231,8 @@ impl<C: Comments> VisitMut for Actual<C> {
                             span: export_default.span,
                             decl: name_fn.into(),
                         }
-                        .into()
                         .into();
-                        self.extra_stmts.push(ref_fn.into().into());
+                        self.extra_stmts.push(ref_fn.into());
                     };
                 } else {
                     export_default.visit_mut_children_with(self);

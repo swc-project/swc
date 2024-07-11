@@ -123,7 +123,6 @@ impl<T> FunctionWrapper<T> {
 
             ..Default::default()
         }
-        .into()
         .into();
 
         let fn_decl_stmt = {
@@ -134,7 +133,6 @@ impl<T> FunctionWrapper<T> {
                 declare: false,
                 function,
             }
-            .into()
             .into()
         };
 

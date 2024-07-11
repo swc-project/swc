@@ -339,7 +339,6 @@ impl BlockScoping {
                                 span: DUMMY_SP,
                                 label: None,
                             }
-                            .into()
                             .into(),
                             alt: None,
                         }

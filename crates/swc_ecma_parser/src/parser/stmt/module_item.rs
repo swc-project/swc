@@ -13,7 +13,6 @@ impl<I: Tokens> Parser<I> {
                 span: span!(self, start),
                 expr,
             }
-            .into()
             .into());
         }
 
@@ -26,7 +25,6 @@ impl<I: Tokens> Parser<I> {
                 span: span!(self, start),
                 expr,
             }
-            .into()
             .into());
         }
 
@@ -76,7 +74,6 @@ impl<I: Tokens> Parser<I> {
                 with,
                 phase: Default::default(),
             }
-            .into()
             .into());
         }
 
@@ -204,7 +201,6 @@ impl<I: Tokens> Parser<I> {
             with,
             phase,
         }
-        .into()
         .into())
     }
 

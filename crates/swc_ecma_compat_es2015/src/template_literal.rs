@@ -362,7 +362,6 @@ impl VisitMut for TemplateLiteral {
                         ident: fn_ident.clone(),
                         function: f.into(),
                     }
-                    .into()
                     .into(),
                 );
 

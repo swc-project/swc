@@ -94,7 +94,6 @@ impl TypeScript {
                 span,
                 ..NamedExport::dummy()
             }
-            .into()
             .into(),
         );
     }

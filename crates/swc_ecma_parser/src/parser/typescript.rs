@@ -2856,7 +2856,6 @@ mod tests {
                     })),
                 }
                 .into()
-                .into()
                 .into();
                 vec![first]
             },
@@ -2897,7 +2896,6 @@ mod tests {
                     }],
                     ..Default::default()
                 }
-                .into()
                 .into()
                 .into();
                 vec![second]

@@ -24,7 +24,6 @@ pub(super) fn load_json_as_module(fm: &Arc<SourceFile>) -> Result<Module, Error>
         }
         .into(),
     }
-    .into()
     .into();
 
     Ok(Module {
