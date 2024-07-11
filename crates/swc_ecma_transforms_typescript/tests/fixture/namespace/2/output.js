@@ -7,7 +7,7 @@ function X2() {}
 (function(X2) {
     console.log(2);
 })(X2 || (X2 = {}));
-let X3;
+var X3;
 (function(X3) {})(X3 || (X3 = {}));
 (function(X3) {
     console.log(3);

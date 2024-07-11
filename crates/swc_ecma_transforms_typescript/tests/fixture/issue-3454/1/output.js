@@ -1,4 +1,4 @@
-export let a;
+export var a;
 (function(a) {
     (function(b) {
         let e;

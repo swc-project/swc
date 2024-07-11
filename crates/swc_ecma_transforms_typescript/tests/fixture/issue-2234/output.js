@@ -1,4 +1,4 @@
-let Shapes;
+var Shapes;
 (function(Shapes) {
     let Polygons;
     (function(Polygons) {

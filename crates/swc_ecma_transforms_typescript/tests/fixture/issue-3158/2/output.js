@@ -1,4 +1,4 @@
-let Test;
+var Test;
 (function(Test) {
     function abc() {
         return 10;

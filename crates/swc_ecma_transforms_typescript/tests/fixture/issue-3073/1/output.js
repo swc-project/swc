@@ -1,4 +1,4 @@
-let Foo;
+var Foo;
 (function(Foo) {
     ({ a: Foo.a } = {
         a: 1

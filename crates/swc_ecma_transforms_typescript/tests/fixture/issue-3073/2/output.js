@@ -1,4 +1,4 @@
-let Bar;
+var Bar;
 (function(Bar) {
     ({ a: Bar.a, b: Bar.b } = {
         a: 1,

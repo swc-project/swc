@@ -1,4 +1,4 @@
-let Baz;
+var Baz;
 (function(Baz) {
     Baz.baz = {
         a: 1,
