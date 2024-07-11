@@ -43,6 +43,28 @@ pub enum ModuleDecl {
     TsNamespaceExport(TsNamespaceExportDecl),
 }
 
+boxed!(ModuleDecl, [TsImportEqualsDecl]);
+
+macro_rules! module_decl {
+    ([$($variant:ty),*]) => {
+        $(
+            bridge_from!(crate::ModuleItem, crate::ModuleDecl, $variant);
+        )*
+    };
+}
+
+module_decl!([
+    ImportDecl,
+    ExportDecl,
+    NamedExport,
+    ExportDefaultDecl,
+    ExportDefaultExpr,
+    ExportAll,
+    TsImportEqualsDecl,
+    TsExportAssignment,
+    TsNamespaceExportDecl
+]);
+
 impl Take for ModuleDecl {
     fn dummy() -> Self {
         ImportDecl::dummy().into()
