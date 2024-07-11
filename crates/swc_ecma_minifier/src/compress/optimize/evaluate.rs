@@ -335,6 +335,11 @@ impl Optimizer<'_> {
                 self.changed = true;
                 report_change!("evaluate: Evaluated an expression as `{}`", value);
 
+                if value.is_nan() {
+                    *e = Expr::Ident(Ident::new("NaN".into(), e.span()));
+                    return;
+                }
+
                 *e = Expr::Lit(Lit::Num(Number {
                     span: e.span(),
                     value,

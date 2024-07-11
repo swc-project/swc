@@ -514,6 +514,10 @@ pub(crate) fn eval_as_number(expr_ctx: &ExprCtx, e: &Expr) -> Option<f64> {
                             let first = eval_as_number(expr_ctx, &args[0].expr)?;
                             let second = eval_as_number(expr_ctx, &args[1].expr)?;
 
+                            if first.is_nan() || second.is_nan() {
+                                return Some(f64::NAN);
+                            }
+
                             return Some(first.powf(second));
                         }
 
