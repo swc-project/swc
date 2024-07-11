@@ -150,28 +150,27 @@ fn wrap_module(
 
     // var load = __swcpack_require__.bind(void 0, moduleDecl)
 
-    Stmt::Decl(
-        VarDecl {
+    VarDecl {
+        span: DUMMY_SP,
+        kind: VarDeclKind::Var,
+        declare: false,
+        decls: vec![VarDeclarator {
             span: DUMMY_SP,
-            kind: VarDeclKind::Var,
-            declare: false,
-            decls: vec![VarDeclarator {
+            name: Pat::Ident(load_var.into()),
+            init: Some(Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
-                name: Pat::Ident(load_var.into()),
-                init: Some(Box::new(Expr::Call(CallExpr {
-                    span: DUMMY_SP,
-                    callee: Ident::new("__swcpack_require__".into(), DUMMY_SP, helper_ctxt)
-                        .make_member(quote_ident!("bind"))
-                        .as_callee(),
-                    args: vec![Expr::undefined(DUMMY_SP).as_arg(), module_fn.as_arg()],
-                    ..Default::default()
-                }))),
-                definite: false,
-            }],
-            ..Default::default()
-        }
-        .into(),
-    )
+                callee: Ident::new("__swcpack_require__".into(), DUMMY_SP, helper_ctxt)
+                    .make_member(quote_ident!("bind"))
+                    .as_callee(),
+                args: vec![Expr::undefined(DUMMY_SP).as_arg(), module_fn.as_arg()],
+                ..Default::default()
+            }))),
+            definite: false,
+        }],
+        ..Default::default()
+    }
+    .into()
+    .into()
 }
 
 struct RequireReplacer<'a, 'b, L, R>
@@ -294,7 +293,7 @@ where
                     }
                     ImportSpecifier::Namespace(ns) => {
                         self.replaced = true;
-                        *node = ModuleItem::Stmt(Stmt::Decl(
+                        *node = ModuleItem::Stmt(
                             VarDecl {
                                 span: i.span,
                                 kind: VarDeclKind::Var,
@@ -316,15 +315,16 @@ where
                                 }],
                                 ..Default::default()
                             }
+                            .into()
                             .into(),
-                        ));
+                        );
                         return;
                     }
                 }
             }
 
             self.replaced = true;
-            *node = ModuleItem::Stmt(Stmt::Decl(
+            *node = ModuleItem::Stmt(
                 VarDecl {
                     span: i.span,
                     kind: VarDeclKind::Var,
@@ -347,8 +347,9 @@ where
                     }],
                     ..Default::default()
                 }
+                .into()
                 .into(),
-            ));
+            );
         }
     }
 }

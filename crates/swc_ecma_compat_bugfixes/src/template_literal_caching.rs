@@ -41,7 +41,7 @@ impl TemplateLiteralCaching {
 
     fn create_var_decl(&mut self) -> Option<Stmt> {
         if !self.decls.is_empty() {
-            return Some(Stmt::Decl(
+            return Some(
                 VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Let,
@@ -49,8 +49,9 @@ impl TemplateLiteralCaching {
                     decls: self.decls.clone(),
                     ..Default::default()
                 }
+                .into()
                 .into(),
-            ));
+            );
         }
         None
     }

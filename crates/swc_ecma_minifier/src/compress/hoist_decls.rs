@@ -172,18 +172,21 @@ impl Hoister<'_> {
                             if exprs.is_empty() {
                                 continue;
                             }
-                            new_stmts.push(T::from_stmt(Stmt::Expr(ExprStmt {
-                                span: var.span,
-                                expr: if exprs.len() == 1 {
-                                    exprs.into_iter().next().unwrap()
-                                } else {
-                                    SeqExpr {
-                                        span: DUMMY_SP,
-                                        exprs,
-                                    }
-                                    .into()
-                                },
-                            })))
+                            new_stmts.push(T::from_stmt(
+                                ExprStmt {
+                                    span: var.span,
+                                    expr: if exprs.len() == 1 {
+                                        exprs.into_iter().next().unwrap()
+                                    } else {
+                                        SeqExpr {
+                                            span: DUMMY_SP,
+                                            exprs,
+                                        }
+                                        .into()
+                                    },
+                                }
+                                .into(),
+                            ))
                         }
 
                         Stmt::Decl(Decl::Var(v))

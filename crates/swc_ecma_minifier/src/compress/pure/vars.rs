@@ -78,7 +78,7 @@ impl Pure<'_> {
                                 v.decls.extend(var.decls);
                             }
                             _ => {
-                                if let Some(s) = cur.take().map(|c| Stmt::Decl(c.into())) {
+                                if let Some(s) = cur.take().map(|c| c.into().into()) {
                                     new.push(T::from_stmt(s));
                                 }
                                 cur = Some(var);
@@ -100,13 +100,13 @@ impl Pure<'_> {
                                         cur.decls.append(&mut var.decls);
                                         var.decls = cur.decls.take();
 
-                                        new.push(T::from_stmt(Stmt::For(stmt)));
+                                        new.push(T::from_stmt(stmt.into()));
                                     }
                                     _ => {
                                         if let Some(s) = cur.take() {
-                                            new.push(T::from_stmt(Stmt::Decl(s.into())));
+                                            new.push(T::from_stmt(s.into().into()));
                                         }
-                                        new.push(T::from_stmt(Stmt::For(stmt)));
+                                        new.push(T::from_stmt(stmt.into()));
                                     }
                                 }
                             }
@@ -120,18 +120,18 @@ impl Pure<'_> {
                                     .and_then(|v| if v.decls.is_empty() { None } else { Some(v) })
                                     .map(VarDeclOrExpr::VarDecl);
 
-                                new.push(T::from_stmt(Stmt::For(stmt)));
+                                new.push(T::from_stmt(stmt.into()));
                             }
                             _ => {
                                 if let Some(s) = cur.take() {
-                                    new.push(T::from_stmt(Stmt::Decl(s.into())));
+                                    new.push(T::from_stmt(s.into().into()));
                                 }
-                                new.push(T::from_stmt(Stmt::For(stmt)));
+                                new.push(T::from_stmt(stmt.into()));
                             }
                         },
                         _ => {
                             if let Some(s) = cur.take() {
-                                new.push(T::from_stmt(Stmt::Decl(s.into())));
+                                new.push(T::from_stmt(s.into().into()));
                             }
                             new.push(T::from_stmt(stmt));
                         }
@@ -139,7 +139,7 @@ impl Pure<'_> {
                 }
                 Err(item) => {
                     if let Some(s) = cur.take() {
-                        new.push(T::from_stmt(Stmt::Decl(s.into())));
+                        new.push(T::from_stmt(s.into().into()));
                     }
                     new.push(item);
                 }
@@ -147,7 +147,7 @@ impl Pure<'_> {
         });
 
         if let Some(s) = cur.take() {
-            new.push(T::from_stmt(Stmt::Decl(s.into())));
+            new.push(T::from_stmt(s.into().into()));
         }
 
         drop_invalid_stmts(&mut new);

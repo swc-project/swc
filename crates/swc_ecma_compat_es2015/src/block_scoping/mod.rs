@@ -317,10 +317,13 @@ impl BlockScoping {
                                 right: "object".into(),
                             }
                             .into(),
-                            cons: Box::new(Stmt::Return(ReturnStmt {
-                                span: DUMMY_SP,
-                                arg: Some(ret.clone().make_member(quote_ident!("v")).into()),
-                            })),
+                            cons: Box::new(
+                                ReturnStmt {
+                                    span: DUMMY_SP,
+                                    arg: Some(ret.clone().make_member(quote_ident!("v")).into()),
+                                }
+                                .into(),
+                            ),
                             alt: None,
                         }
                         .into(),
@@ -332,10 +335,11 @@ impl BlockScoping {
                         IfStmt {
                             span: DUMMY_SP,
                             test: ret.clone().make_eq(quote_str!("break")).into(),
-                            cons: Stmt::Break(BreakStmt {
+                            cons: BreakStmt {
                                 span: DUMMY_SP,
                                 label: None,
-                            })
+                            }
+                            .into()
                             .into(),
                             alt: None,
                         }
@@ -404,11 +408,14 @@ impl BlockScoping {
     /// which fixes https://github.com/swc-project/swc/issues/6573
     fn blockify_for_stmt_body(&self, body: &mut Box<Stmt>) -> bool {
         if !body.is_block() {
-            *body = Box::new(Stmt::Block(BlockStmt {
-                span: Default::default(),
-                stmts: vec![*body.take()],
-                ..Default::default()
-            }));
+            *body = Box::new(
+                BlockStmt {
+                    span: Default::default(),
+                    stmts: vec![*body.take()],
+                    ..Default::default()
+                }
+                .into(),
+            );
             true
         } else {
             false
@@ -767,7 +774,7 @@ impl VisitMut for FlowHelper<'_> {
                     "continue".into()
                 };
 
-                *node = Stmt::Return(ReturnStmt {
+                *node = ReturnStmt {
                     span,
                     arg: Some(
                         Lit::Str(Str {
@@ -777,7 +784,8 @@ impl VisitMut for FlowHelper<'_> {
                         })
                         .into(),
                     ),
-                });
+                }
+                .into();
             }
             Stmt::Break(BreakStmt { label, .. }) => {
                 if (self.in_switch_case || self.in_nested_loop) && !self.has_outer_label(label) {
@@ -792,7 +800,7 @@ impl VisitMut for FlowHelper<'_> {
                     self.has_break = true;
                     "break".into()
                 };
-                *node = Stmt::Return(ReturnStmt {
+                *node = ReturnStmt {
                     span,
                     arg: Some(
                         Lit::Str(Str {
@@ -802,13 +810,14 @@ impl VisitMut for FlowHelper<'_> {
                         })
                         .into(),
                     ),
-                });
+                }
+                .into();
             }
             Stmt::Return(s) => {
                 self.has_return = true;
                 s.visit_mut_with(self);
 
-                *node = Stmt::Return(ReturnStmt {
+                *node = ReturnStmt {
                     span,
                     arg: Some(
                         ObjectLit {
@@ -828,7 +837,8 @@ impl VisitMut for FlowHelper<'_> {
                         }
                         .into(),
                     ),
-                });
+                }
+                .into();
             }
             _ => node.visit_mut_children_with(self),
         }

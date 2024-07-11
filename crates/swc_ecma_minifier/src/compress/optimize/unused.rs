@@ -490,18 +490,21 @@ impl Optimizer<'_> {
                     let mut side_effects = extract_class_side_effect(&self.expr_ctx, *class.class);
 
                     if !side_effects.is_empty() {
-                        self.prepend_stmts.push(Stmt::Expr(ExprStmt {
-                            span: DUMMY_SP,
-                            expr: if side_effects.len() > 1 {
-                                SeqExpr {
-                                    span: DUMMY_SP,
-                                    exprs: side_effects,
-                                }
-                                .into()
-                            } else {
-                                side_effects.remove(0)
-                            },
-                        }))
+                        self.prepend_stmts.push(
+                            ExprStmt {
+                                span: DUMMY_SP,
+                                expr: if side_effects.len() > 1 {
+                                    SeqExpr {
+                                        span: DUMMY_SP,
+                                        exprs: side_effects,
+                                    }
+                                    .into()
+                                } else {
+                                    side_effects.remove(0)
+                                },
+                            }
+                            .into(),
+                        )
                     }
                 }
             }

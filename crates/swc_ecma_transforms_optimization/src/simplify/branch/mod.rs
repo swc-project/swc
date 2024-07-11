@@ -401,10 +401,13 @@ impl VisitMut for Remover {
                     if let Stmt::If(IfStmt { alt: Some(..), .. }) = *cons {
                         return IfStmt {
                             test,
-                            cons: Box::new(Stmt::Block(BlockStmt {
-                                stmts: vec![*cons],
-                                ..Default::default()
-                            })),
+                            cons: Box::new(
+                                BlockStmt {
+                                    stmts: vec![*cons],
+                                    ..Default::default()
+                                }
+                                .into(),
+                            ),
                             alt,
                             span,
                         }
@@ -420,19 +423,19 @@ impl VisitMut for Remover {
                         // Preserve effect of the test
                         if !p.is_pure() {
                             if let Some(expr) = ignore_result(test, true, &self.expr_ctx) {
-                                stmts.push(Stmt::Expr(ExprStmt { span, expr }))
+                                stmts.push(ExprStmt { span, expr }.into())
                             }
                         }
 
                         if v {
                             // Preserve variables
                             if let Some(var) = alt.and_then(|alt| alt.extract_var_ids_as_var()) {
-                                stmts.push(Stmt::Decl(var.into()))
+                                stmts.push(var.into().into())
                             }
                             stmts.push(*cons);
                         } else {
                             if let Some(var) = cons.extract_var_ids_as_var() {
-                                stmts.push(Stmt::Decl(var.into()))
+                                stmts.push(var.into().into())
                             }
 
                             if let Some(alt) = alt {
@@ -441,7 +444,7 @@ impl VisitMut for Remover {
                         }
 
                         if stmts.is_empty() {
-                            return Stmt::Empty(EmptyStmt { span });
+                            return EmptyStmt { span }.into();
                         }
 
                         if cfg!(feature = "debug") {
@@ -450,11 +453,12 @@ impl VisitMut for Remover {
 
                         self.changed = true;
 
-                        let mut block = Stmt::Block(BlockStmt {
+                        let mut block = BlockStmt {
                             span,
                             stmts,
                             ..Default::default()
-                        });
+                        }
+                        .into();
                         block.visit_mut_with(self);
                         return block;
                     }
@@ -468,33 +472,34 @@ impl VisitMut for Remover {
                             self.changed = true;
 
                             return if let Some(expr) = ignore_result(test, true, &self.expr_ctx) {
-                                Stmt::Expr(ExprStmt { span, expr })
+                                ExprStmt { span, expr }.into()
                             } else {
-                                Stmt::Empty(EmptyStmt { span })
+                                EmptyStmt { span }.into()
                             };
                         }
                     }
 
-                    Stmt::If(IfStmt {
+                    IfStmt {
                         span,
                         test,
                         cons,
                         alt,
-                    })
+                    }
+                    .into()
                 }
 
                 Stmt::Decl(Decl::Var(v)) if v.decls.is_empty() => {
                     if cfg!(feature = "debug") {
                         debug!("Dropping an empty var declaration");
                     }
-                    Stmt::Empty(EmptyStmt { span: v.span })
+                    EmptyStmt { span: v.span }.into()
                 }
 
                 Stmt::Labeled(LabeledStmt {
                     label, span, body, ..
                 }) if body.is_empty() => {
                     debug!("Dropping an empty label statement: `{}`", label);
-                    Stmt::Empty(EmptyStmt { span })
+                    EmptyStmt { span }.into()
                 }
 
                 Stmt::Labeled(LabeledStmt {
@@ -508,19 +513,19 @@ impl VisitMut for Remover {
                 } =>
                 {
                     debug!("Dropping a label statement with instant break: `{}`", label);
-                    Stmt::Empty(EmptyStmt { span })
+                    EmptyStmt { span }.into()
                 }
 
                 // `1;` -> `;`
                 Stmt::Expr(ExprStmt { span, expr, .. }) => {
                     // Directives
                     if let Expr::Lit(Lit::Str(..)) = &*expr {
-                        return Stmt::Expr(ExprStmt { span, expr });
+                        return ExprStmt { span, expr }.into();
                     }
 
                     match ignore_result(expr, false, &self.expr_ctx) {
-                        Some(e) => Stmt::Expr(ExprStmt { span, expr: e }),
-                        None => Stmt::Empty(EmptyStmt { span: DUMMY_SP }),
+                        Some(e) => ExprStmt { span, expr: e }.into(),
+                        None => EmptyStmt { span: DUMMY_SP }.into(),
                     }
                 }
 
@@ -530,7 +535,7 @@ impl VisitMut for Remover {
                             debug!("Drooping an empty block statement");
                         }
 
-                        Stmt::Empty(EmptyStmt { span })
+                        EmptyStmt { span }.into()
                     } else if stmts.len() == 1
                         && !is_block_scoped_stuff(&stmts[0])
                         && stmt_depth(&stmts[0]) <= 1
@@ -543,7 +548,7 @@ impl VisitMut for Remover {
                         v.visit_mut_with(self);
                         v
                     } else {
-                        Stmt::Block(BlockStmt { span, stmts, ctxt })
+                        BlockStmt { span, stmts, ctxt }.into()
                     }
                 }
                 Stmt::Try(s) => {
@@ -556,7 +561,7 @@ impl VisitMut for Remover {
 
                     // Only leave the finally block if try block is empty
                     if block.is_empty() {
-                        let var = handler.and_then(|h| Stmt::from(h.body).extract_var_ids_as_var());
+                        let var = handler.and_then(|h| h.body.into().extract_var_ids_as_var());
 
                         return if let Some(mut finalizer) = finalizer {
                             if let Some(var) = var.map(Box::new).map(Decl::from).map(Stmt::from) {
@@ -567,7 +572,7 @@ impl VisitMut for Remover {
                             var.map(Box::new)
                                 .map(Decl::from)
                                 .map(Stmt::from)
-                                .unwrap_or_else(|| Stmt::Empty(EmptyStmt { span }))
+                                .unwrap_or_else(|| EmptyStmt { span }.into())
                         };
                     }
 
@@ -578,7 +583,7 @@ impl VisitMut for Remover {
                             debug!("Converting a try statement to a block statement");
                         }
 
-                        return Stmt::Block(block);
+                        return block.into();
                     }
 
                     TryStmt {
@@ -595,11 +600,11 @@ impl VisitMut for Remover {
                         .iter()
                         .any(|case| matches!(case.test.as_deref(), Some(Expr::Update(..))))
                     {
-                        return Stmt::Switch(s);
+                        return s.into();
                     }
                     if let Expr::Update(..) = &*s.discriminant {
                         if s.cases.len() != 1 {
-                            return Stmt::Switch(s);
+                            return s.into();
                         }
                     }
 
@@ -669,8 +674,8 @@ impl VisitMut for Remover {
                             debug!("Removing an empty switch statement");
                         }
                         return match ignore_result(s.discriminant, true, &self.expr_ctx) {
-                            Some(expr) => Stmt::Expr(ExprStmt { span: s.span, expr }),
-                            None => Stmt::Empty(EmptyStmt { span: s.span }),
+                            Some(expr) => ExprStmt { span: s.span, expr }.into(),
+                            None => EmptyStmt { span: s.span }.into(),
                         };
                     }
 
@@ -688,11 +693,12 @@ impl VisitMut for Remover {
                             prepend_stmt(&mut stmts, expr.into_stmt());
                         }
 
-                        let mut block = Stmt::Block(BlockStmt {
+                        let mut block = BlockStmt {
                             span: s.span,
                             stmts,
                             ..Default::default()
-                        });
+                        }
+                        .into();
                         block.visit_mut_with(self);
                         return block;
                     }
@@ -804,7 +810,7 @@ impl VisitMut for Remover {
                             if !exprs.is_empty() {
                                 prepend_stmt(
                                     &mut stmts,
-                                    Stmt::Expr(ExprStmt {
+                                    ExprStmt {
                                         span: DUMMY_SP,
                                         expr: if exprs.len() == 1 {
                                             exprs.remove(0)
@@ -815,18 +821,20 @@ impl VisitMut for Remover {
                                             }
                                             .into()
                                         },
-                                    }),
+                                    }
+                                    .into(),
                                 );
                             }
 
                             if cfg!(feature = "debug") {
                                 debug!("Switch -> Block as we know discriminant");
                             }
-                            let mut block = Stmt::Block(BlockStmt {
+                            let mut block = BlockStmt {
                                 span: s.span,
                                 stmts,
                                 ..Default::default()
-                            });
+                            }
+                            .into();
                             block.visit_mut_with(self);
                             return block;
                         }
@@ -868,11 +876,12 @@ impl VisitMut for Remover {
                                         )
                                     }
 
-                                    let mut block = Stmt::Block(BlockStmt {
+                                    let mut block = BlockStmt {
                                         span: s.span,
                                         stmts,
                                         ..Default::default()
-                                    });
+                                    }
+                                    .into();
 
                                     block.visit_mut_with(self);
 
@@ -983,7 +992,7 @@ impl VisitMut for Remover {
                             if !exprs.is_empty() {
                                 prepend_stmt(
                                     &mut stmts,
-                                    Stmt::Expr(ExprStmt {
+                                    ExprStmt {
                                         span: DUMMY_SP,
                                         expr: if exprs.len() == 1 {
                                             exprs.remove(0)
@@ -994,18 +1003,20 @@ impl VisitMut for Remover {
                                             }
                                             .into()
                                         },
-                                    }),
+                                    }
+                                    .into(),
                                 );
                             }
 
                             if cfg!(feature = "debug") {
                                 debug!("Stmt -> Block as all cases are empty");
                             }
-                            let mut block = Stmt::Block(BlockStmt {
+                            let mut block = BlockStmt {
                                 span: s.span,
                                 stmts,
                                 ..Default::default()
-                            });
+                            }
+                            .into();
                             block.visit_mut_with(self);
                             return block;
                         }
@@ -1058,7 +1069,7 @@ impl VisitMut for Remover {
                                 }
                                 .into();
                             }
-                            return Stmt::Empty(EmptyStmt { span: s.span });
+                            return EmptyStmt { span: s.span }.into();
                         }
                     }
 
@@ -1081,15 +1092,16 @@ impl VisitMut for Remover {
                     let body = if let Some(var) = decl {
                         var.into()
                     } else {
-                        Stmt::Empty(EmptyStmt { span: s.span })
+                        EmptyStmt { span: s.span }.into()
                     };
 
                     if s.init.is_some() {
-                        Stmt::For(ForStmt {
+                        ForStmt {
                             body: Box::new(body),
                             update: None,
                             ..s
-                        })
+                        }
+                        .into()
                     } else {
                         body
                     }
@@ -1099,51 +1111,54 @@ impl VisitMut for Remover {
                     if let (purity, Known(v)) = s.test.cast_to_bool(&self.expr_ctx) {
                         if v {
                             if purity.is_pure() {
-                                Stmt::While(WhileStmt {
+                                WhileStmt {
                                     test: Lit::Bool(Bool {
                                         span: s.test.span(),
                                         value: true,
                                     })
                                     .into(),
                                     ..s
-                                })
+                                }
+                                .into()
                             } else {
-                                Stmt::While(s)
+                                s.into()
                             }
                         } else {
                             let body = s.body.extract_var_ids_as_var();
                             let body = body.map(Box::new).map(Decl::Var).map(Stmt::Decl);
-                            let body = body.unwrap_or(Stmt::Empty(EmptyStmt { span: s.span }));
+                            let body = body.unwrap_or(EmptyStmt { span: s.span }.into());
 
                             if purity.is_pure() {
                                 body
                             } else {
-                                Stmt::While(WhileStmt {
+                                WhileStmt {
                                     body: Box::new(body),
                                     ..s
-                                })
+                                }
+                                .into()
                             }
                         }
                     } else {
-                        Stmt::While(s)
+                        s.into()
                     }
                 }
 
                 Stmt::DoWhile(s) => {
-                    if has_conditional_stopper(&[Stmt::DoWhile(s.clone())]) {
-                        return Stmt::DoWhile(s);
+                    if has_conditional_stopper(&[s.clone().into()]) {
+                        return s.into();
                     }
 
                     if let Known(v) = s.test.as_pure_bool(&self.expr_ctx) {
                         if v {
                             // `for(;;);` is shorter than `do ; while(true);`
-                            Stmt::For(ForStmt {
+                            ForStmt {
                                 span: s.span,
                                 init: None,
                                 test: None,
                                 update: None,
                                 body: s.body,
-                            })
+                            }
+                            .into()
                         } else {
                             let mut body = prepare_loop_body_for_inlining(*s.body);
                             body.visit_mut_with(self);
@@ -1160,7 +1175,7 @@ impl VisitMut for Remover {
                             }
                         }
                     } else {
-                        Stmt::DoWhile(s)
+                        s.into()
                     }
                 }
 
@@ -1196,7 +1211,7 @@ impl VisitMut for Remover {
                             debug!("Dropping a useless variable declaration");
                         }
 
-                        return Stmt::Empty(EmptyStmt { span: v.span });
+                        return EmptyStmt { span: v.span }.into();
                     }
 
                     VarDecl { decls, ..*v }.into()
@@ -1315,7 +1330,7 @@ impl Remover {
                             for t in iter {
                                 match t.try_into_stmt() {
                                     Ok(Stmt::Decl(Decl::Fn(f))) => {
-                                        hoisted_fns.push(T::from_stmt(Stmt::Decl(f.into())));
+                                        hoisted_fns.push(T::from_stmt(f.into().into()));
                                     }
                                     Ok(t) => {
                                         let ids = extract_var_ids(&t).into_iter().map(|i| {
@@ -1400,10 +1415,13 @@ impl Remover {
                                         let expr = ignore_result(test, true, &self.expr_ctx);
 
                                         if let Some(expr) = expr {
-                                            new_stmts.push(T::from_stmt(Stmt::Expr(ExprStmt {
-                                                span: DUMMY_SP,
-                                                expr,
-                                            })));
+                                            new_stmts.push(T::from_stmt(
+                                                ExprStmt {
+                                                    span: DUMMY_SP,
+                                                    expr,
+                                                }
+                                                .into(),
+                                            ));
                                         }
                                     }
 
@@ -1426,12 +1444,13 @@ impl Remover {
                                         }
                                     }
                                 }
-                                _ => Stmt::If(IfStmt {
+                                _ => IfStmt {
                                     test,
                                     cons,
                                     alt,
                                     span,
-                                }),
+                                }
+                                .into(),
                             }
                         }
 

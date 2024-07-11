@@ -190,7 +190,7 @@ where
                                 _ => unreachable!(),
                             }
 
-                            Some(Stmt::Decl(export.decl))
+                            Some(export.decl.into())
                         }
 
                         ModuleDecl::ExportNamed(NamedExport {
@@ -266,14 +266,15 @@ where
                                     },
                                 ))));
 
-                                Some(Stmt::Decl(
+                                Some(
                                     ClassDecl {
                                         ident,
                                         class: expr.class,
                                         declare: false,
                                     }
+                                    .into()
                                     .into(),
-                                ))
+                                )
                             }
                             DefaultDecl::Fn(expr) => {
                                 let ident = expr.ident;
@@ -290,14 +291,15 @@ where
                                     },
                                 ))));
 
-                                Some(Stmt::Decl(
+                                Some(
                                     FnDecl {
                                         ident,
                                         function: expr.function,
                                         declare: false,
                                     }
+                                    .into()
                                     .into(),
-                                ))
+                                )
                             }
                             DefaultDecl::TsInterfaceDecl(_) => None,
                         },
@@ -312,7 +314,7 @@ where
                                 init: Some(export.expr),
                                 definite: false,
                             };
-                            Some(Stmt::Decl(
+                            Some(
                                 VarDecl {
                                     span: DUMMY_SP,
                                     kind: VarDeclKind::Const,
@@ -320,8 +322,9 @@ where
                                     decls: vec![var],
                                     ..Default::default()
                                 }
+                                .into()
                                 .into(),
-                            ))
+                            )
                         }
 
                         ModuleDecl::ExportAll(_) => None,
@@ -330,16 +333,19 @@ where
                 .collect(),
             ..Default::default()
         };
-        body.stmts.push(Stmt::Return(ReturnStmt {
-            span: DUMMY_SP,
-            arg: Some(
-                ObjectLit {
-                    span: DUMMY_SP,
-                    props,
-                }
-                .into(),
-            ),
-        }));
+        body.stmts.push(
+            ReturnStmt {
+                span: DUMMY_SP,
+                arg: Some(
+                    ObjectLit {
+                        span: DUMMY_SP,
+                        props,
+                    }
+                    .into(),
+                ),
+            }
+            .into(),
+        );
 
         let f = Function {
             is_generator: false,

@@ -679,14 +679,15 @@ where
                                 //
                                 match c.ident {
                                     Some(ident) => {
-                                        new.push(ModuleItem::Stmt(Stmt::Decl(
+                                        new.push(ModuleItem::Stmt(
                                             ClassDecl {
                                                 ident: ident.clone(),
                                                 class: c.class,
                                                 declare: false,
                                             }
+                                            .into()
                                             .into(),
-                                        )));
+                                        ));
 
                                         new.push(ident.assign_to(local.clone()).into_module_item(
                                             injected_ctxt,
@@ -707,14 +708,15 @@ where
                                 //
                                 match f.ident {
                                     Some(ident) => {
-                                        new.push(ModuleItem::Stmt(Stmt::Decl(
+                                        new.push(ModuleItem::Stmt(
                                             FnDecl {
                                                 ident: ident.clone(),
                                                 function: f.function,
                                                 declare: false,
                                             }
+                                            .into()
                                             .into(),
-                                        )));
+                                        ));
 
                                         new.push(ident.assign_to(local.clone()).into_module_item(
                                             injected_ctxt,
@@ -728,14 +730,15 @@ where
                                         //
                                         // See: https://github.com/denoland/deno/issues/9346
                                         let ident = private_ident!("default");
-                                        new.push(ModuleItem::Stmt(Stmt::Decl(
+                                        new.push(ModuleItem::Stmt(
                                             FnDecl {
                                                 ident: ident.clone(),
                                                 function: f.function,
                                                 declare: false,
                                             }
+                                            .into()
                                             .into(),
-                                        )));
+                                        ));
 
                                         new.push(ident.assign_to(local.clone()).into_module_item(
                                             injected_ctxt,
@@ -845,13 +848,13 @@ where
                         let local = match export.decl {
                             Decl::Class(c) => {
                                 let i = c.ident.clone();
-                                new.push(ModuleItem::Stmt(Stmt::Decl(c.into())));
+                                new.push(ModuleItem::Stmt(c.into().into()));
 
                                 i
                             }
                             Decl::Fn(f) => {
                                 let i = f.ident.clone();
-                                new.push(ModuleItem::Stmt(Stmt::Decl(f.into())));
+                                new.push(ModuleItem::Stmt(f.into().into()));
 
                                 i
                             }
@@ -859,7 +862,7 @@ where
                                 let ids: Vec<Ident> = find_pat_ids(&v);
                                 //
 
-                                new.push(ModuleItem::Stmt(Stmt::Decl(v.into())));
+                                new.push(ModuleItem::Stmt(v.into().into()));
 
                                 let export =
                                     ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
@@ -1064,7 +1067,7 @@ where
                                     }
 
                                     if !vars.is_empty() {
-                                        new.push(ModuleItem::Stmt(Stmt::Decl(
+                                        new.push(ModuleItem::Stmt(
                                             VarDecl {
                                                 span: DUMMY_SP,
                                                 kind: VarDeclKind::Const,
@@ -1072,8 +1075,9 @@ where
                                                 decls: vars,
                                                 ..Default::default()
                                             }
+                                            .into()
                                             .into(),
-                                        )));
+                                        ));
                                     }
                                     continue;
                                 }
@@ -1365,7 +1369,7 @@ impl VisitMut for ImportMetaHandler<'_, '_> {
                 Ok(key_value_props) => {
                     prepend_stmt(
                         &mut n.body,
-                        ModuleItem::Stmt(Stmt::Decl(
+                        ModuleItem::Stmt(
                             VarDecl {
                                 span: n.span,
                                 kind: VarDeclKind::Const,
@@ -1387,8 +1391,9 @@ impl VisitMut for ImportMetaHandler<'_, '_> {
                                 }],
                                 ..Default::default()
                             }
+                            .into()
                             .into(),
-                        )),
+                        ),
                     );
                 }
                 Err(err) => self.err = Some(err),

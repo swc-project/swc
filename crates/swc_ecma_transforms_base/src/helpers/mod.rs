@@ -462,7 +462,7 @@ impl InjectHelpers {
         }
         .into()
         .into();
-        Stmt::Decl(decl)
+        decl.into()
     }
 
     fn map_helper_ref_ident(&mut self, ref_ident: &Ident) -> Option<Expr> {

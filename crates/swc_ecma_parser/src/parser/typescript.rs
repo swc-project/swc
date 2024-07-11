@@ -2841,7 +2841,7 @@ mod tests {
             span: DUMMY_SP,
             shebang: None,
             body: {
-                let first = ModuleItem::Stmt(Stmt::Decl(
+                let first = ModuleItem::Stmt(
                     TsTypeAliasDecl {
                         span: DUMMY_SP,
                         declare: false,
@@ -2856,8 +2856,9 @@ mod tests {
                             }),
                         })),
                     }
+                    .into()
                     .into(),
-                ));
+                );
                 vec![first]
             },
         };
@@ -2877,7 +2878,7 @@ mod tests {
             span: DUMMY_SP,
             shebang: None,
             body: {
-                let second = ModuleItem::Stmt(Stmt::Decl(
+                let second = ModuleItem::Stmt(
                     VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Const,
@@ -2898,8 +2899,9 @@ mod tests {
                         }],
                         ..Default::default()
                     }
+                    .into()
                     .into(),
-                ));
+                );
                 vec![second]
             },
         };

@@ -170,19 +170,19 @@ impl Optimizer<'_> {
 
                         Stmt::If(mut stmt) => {
                             stmt.test.prepend_exprs(take(&mut exprs));
-                            new_stmts.push(T::from_stmt(Stmt::If(stmt)));
+                            new_stmts.push(T::from_stmt(stmt.into()));
                         }
 
                         Stmt::Switch(mut stmt) => {
                             stmt.discriminant.prepend_exprs(take(&mut exprs));
 
-                            new_stmts.push(T::from_stmt(Stmt::Switch(stmt)));
+                            new_stmts.push(T::from_stmt(stmt.into()));
                         }
 
                         Stmt::With(mut stmt) => {
                             stmt.obj.prepend_exprs(take(&mut exprs));
 
-                            new_stmts.push(T::from_stmt(Stmt::With(stmt)));
+                            new_stmts.push(T::from_stmt(stmt.into()));
                         }
 
                         Stmt::Return(mut stmt @ ReturnStmt { arg: Some(..), .. }) => {
@@ -198,13 +198,13 @@ impl Optimizer<'_> {
                                 }
                             }
 
-                            new_stmts.push(T::from_stmt(Stmt::Return(stmt)));
+                            new_stmts.push(T::from_stmt(stmt.into()));
                         }
 
                         Stmt::Throw(mut stmt) => {
                             stmt.arg.prepend_exprs(take(&mut exprs));
 
-                            new_stmts.push(T::from_stmt(Stmt::Throw(stmt)));
+                            new_stmts.push(T::from_stmt(stmt.into()));
                         }
 
                         Stmt::For(mut stmt @ ForStmt { init: None, .. })
@@ -270,7 +270,7 @@ impl Optimizer<'_> {
                                                     ));
                                                 }
 
-                                                new_stmts.push(T::from_stmt(Stmt::For(stmt)));
+                                                new_stmts.push(T::from_stmt(stmt.into()));
 
                                                 continue;
                                             }
@@ -291,19 +291,19 @@ impl Optimizer<'_> {
                                     unreachable!()
                                 }
                             }
-                            new_stmts.push(T::from_stmt(Stmt::For(stmt)));
+                            new_stmts.push(T::from_stmt(stmt.into()));
                         }
 
                         Stmt::ForIn(mut stmt) => {
                             stmt.right.prepend_exprs(take(&mut exprs));
 
-                            new_stmts.push(T::from_stmt(Stmt::ForIn(stmt)));
+                            new_stmts.push(T::from_stmt(stmt.into()));
                         }
 
                         Stmt::ForOf(mut stmt) => {
                             stmt.right.prepend_exprs(take(&mut exprs));
 
-                            new_stmts.push(T::from_stmt(Stmt::ForOf(stmt)));
+                            new_stmts.push(T::from_stmt(stmt.into()));
                         }
 
                         Stmt::Decl(Decl::Var(var))
@@ -315,7 +315,7 @@ impl Optimizer<'_> {
                                 }
                             ) && var.decls.iter().all(|v| v.init.is_none()) =>
                         {
-                            new_stmts.push(T::from_stmt(Stmt::Decl(var.into())));
+                            new_stmts.push(T::from_stmt(var.into().into()));
                         }
 
                         Stmt::Decl(Decl::Fn(..)) => {
@@ -324,10 +324,13 @@ impl Optimizer<'_> {
 
                         _ => {
                             if !exprs.is_empty() {
-                                new_stmts.push(T::from_stmt(Stmt::Expr(ExprStmt {
-                                    span: DUMMY_SP,
-                                    expr: Expr::from_exprs(take(&mut exprs)),
-                                })))
+                                new_stmts.push(T::from_stmt(
+                                    ExprStmt {
+                                        span: DUMMY_SP,
+                                        expr: Expr::from_exprs(take(&mut exprs)),
+                                    }
+                                    .into(),
+                                ))
                             }
 
                             new_stmts.push(T::from_stmt(stmt));
@@ -336,10 +339,13 @@ impl Optimizer<'_> {
                 }
                 Err(item) => {
                     if !exprs.is_empty() {
-                        new_stmts.push(T::from_stmt(Stmt::Expr(ExprStmt {
-                            span: DUMMY_SP,
-                            expr: Expr::from_exprs(take(&mut exprs)),
-                        })))
+                        new_stmts.push(T::from_stmt(
+                            ExprStmt {
+                                span: DUMMY_SP,
+                                expr: Expr::from_exprs(take(&mut exprs)),
+                            }
+                            .into(),
+                        ))
                     }
 
                     new_stmts.push(item);
@@ -348,10 +354,13 @@ impl Optimizer<'_> {
         }
 
         if !exprs.is_empty() {
-            new_stmts.push(T::from_stmt(Stmt::Expr(ExprStmt {
-                span: DUMMY_SP,
-                expr: Expr::from_exprs(take(&mut exprs)),
-            })))
+            new_stmts.push(T::from_stmt(
+                ExprStmt {
+                    span: DUMMY_SP,
+                    expr: Expr::from_exprs(take(&mut exprs)),
+                }
+                .into(),
+            ))
         }
 
         *stmts = new_stmts;

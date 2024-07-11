@@ -712,20 +712,26 @@ where
                 let is_last_return = matches!(body.last(), Some(Stmt::Return(..)));
                 if !is_last_return {
                     if is_always_initialized {
-                        body.push(Stmt::Return(ReturnStmt {
-                            span: DUMMY_SP,
-                            arg: Some(this.into()),
-                        }));
+                        body.push(
+                            ReturnStmt {
+                                span: DUMMY_SP,
+                                arg: Some(this.into()),
+                            }
+                            .into(),
+                        );
                     } else {
                         let possible_return_value =
                             Box::new(make_possible_return_value(ReturningMode::Returning {
                                 mark: this_mark,
                                 arg: None,
                             }));
-                        body.push(Stmt::Return(ReturnStmt {
-                            span: DUMMY_SP,
-                            arg: Some(possible_return_value),
-                        }));
+                        body.push(
+                            ReturnStmt {
+                                span: DUMMY_SP,
+                                arg: Some(possible_return_value),
+                            }
+                            .into(),
+                        );
                     }
                 }
             }
@@ -750,7 +756,7 @@ where
                 inject_class_call_check(&mut body, class_name.clone());
             }
 
-            stmts.push(Stmt::Decl(
+            stmts.push(
                 FnDecl {
                     ident: class_name.clone(),
                     function: constructor_fn(Constructor {
@@ -763,8 +769,9 @@ where
                     }),
                     declare: false,
                 }
+                .into()
                 .into(),
-            ));
+            );
         }
 
         // convert class methods
@@ -806,10 +813,13 @@ where
         class_name_sym.ctxt = class_name.ctxt;
 
         // `return Foo`
-        stmts.push(Stmt::Return(ReturnStmt {
-            span: DUMMY_SP,
-            arg: Some(class_name_sym.into()),
-        }));
+        stmts.push(
+            ReturnStmt {
+                span: DUMMY_SP,
+                arg: Some(class_name_sym.into()),
+            }
+            .into(),
+        );
 
         stmts
     }
@@ -1151,21 +1161,24 @@ where
                     }
                     let span = method.span();
                     let prop = *v.key_prop.clone();
-                    res.push(Stmt::Expr(ExprStmt {
-                        span,
-                        expr: AssignExpr {
+                    res.push(
+                        ExprStmt {
                             span,
-                            op: op!("="),
-                            left: MemberExpr {
+                            expr: AssignExpr {
                                 span,
-                                obj: Box::new(proto.clone().into()),
-                                prop: mk_key_prop_member(prop),
+                                op: op!("="),
+                                left: MemberExpr {
+                                    span,
+                                    obj: Box::new(proto.clone().into()),
+                                    prop: mk_key_prop_member(prop),
+                                }
+                                .into(),
+                                right: escape_keywords(method),
                             }
                             .into(),
-                            right: escape_keywords(method),
                         }
                         .into(),
-                    }));
+                    );
                     !(v.get.is_none() && v.set.is_none())
                 } else {
                     true
@@ -1176,21 +1189,24 @@ where
                 if let Some(method) = v.method.take() {
                     let span = method.span();
                     let prop = *v.key_prop.clone();
-                    res.push(Stmt::Expr(ExprStmt {
-                        span,
-                        expr: AssignExpr {
+                    res.push(
+                        ExprStmt {
                             span,
-                            op: op!("="),
-                            left: MemberExpr {
+                            expr: AssignExpr {
                                 span,
-                                obj: Box::new(class_name.clone().into()),
-                                prop: mk_key_prop_member(prop),
+                                op: op!("="),
+                                left: MemberExpr {
+                                    span,
+                                    obj: Box::new(class_name.clone().into()),
+                                    prop: mk_key_prop_member(prop),
+                                }
+                                .into(),
+                                right: escape_keywords(method),
                             }
                             .into(),
-                            right: escape_keywords(method),
                         }
                         .into(),
-                    }));
+                    );
                     !(v.get.is_none() && v.set.is_none())
                 } else {
                     true

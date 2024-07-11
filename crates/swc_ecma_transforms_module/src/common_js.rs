@@ -348,13 +348,14 @@ where
 
                 if decl_mod_ident {
                     let stmt = if is_lazy {
-                        Stmt::Decl(lazy_require(import_expr, mod_ident, self.const_var_kind).into())
+                        lazy_require(import_expr, mod_ident, self.const_var_kind)
+                            .into()
+                            .into()
                     } else {
-                        Stmt::Decl(
-                            import_expr
-                                .into_var_decl(self.const_var_kind, mod_ident.into())
-                                .into(),
-                        )
+                        import_expr
+                            .into_var_decl(self.const_var_kind, mod_ident.into())
+                            .into()
+                            .into()
                     };
 
                     stmts.push(stmt);
@@ -443,7 +444,7 @@ where
                     let mut var_decl = require.into_var_decl(self.const_var_kind, id.into());
                     var_decl.span = span;
 
-                    Stmt::Decl(var_decl.into())
+                    var_decl.into().into()
                 }
                 .into()
             }

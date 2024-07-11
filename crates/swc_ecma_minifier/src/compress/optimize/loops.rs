@@ -26,28 +26,34 @@ impl Optimizer<'_> {
 
         self.changed = true;
         report_change!("loops: Removing a for loop with instant break");
-        self.prepend_stmts
-            .extend(f.init.take().map(|init| match init {
-                VarDeclOrExpr::VarDecl(var) => Stmt::Decl(var.into()),
-                VarDeclOrExpr::Expr(expr) => Stmt::Expr(ExprStmt {
+        self.prepend_stmts.extend(f.init.take().map(|init| {
+            match init {
+                VarDeclOrExpr::VarDecl(var) => var.into().into(),
+                VarDeclOrExpr::Expr(expr) => ExprStmt {
                     span: DUMMY_SP,
                     expr,
-                }),
-            }));
+                }
+                .into(),
+            }
+        }));
         self.prepend_stmts.extend(f.test.take().map(|expr| {
-            Stmt::Expr(ExprStmt {
+            ExprStmt {
                 span: DUMMY_SP,
                 expr,
-            })
+            }
+            .into()
         }));
         if label.is_some() {
-            self.prepend_stmts.push(Stmt::Break(BreakStmt {
-                span: DUMMY_SP,
-                label,
-            }));
+            self.prepend_stmts.push(
+                BreakStmt {
+                    span: DUMMY_SP,
+                    label,
+                }
+                .into(),
+            );
         }
 
-        *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP })
+        *s = EmptyStmt { span: DUMMY_SP }.into()
     }
 
     ///
@@ -89,18 +95,23 @@ impl Optimizer<'_> {
                         }
                         self.changed |= f.init.is_some() | f.update.is_some();
 
-                        self.prepend_stmts
-                            .extend(f.init.take().map(|init| match init {
-                                VarDeclOrExpr::VarDecl(var) => Stmt::Decl(var.into()),
-                                VarDeclOrExpr::Expr(expr) => Stmt::Expr(ExprStmt {
+                        self.prepend_stmts.extend(f.init.take().map(|init| {
+                            match init {
+                                VarDeclOrExpr::VarDecl(var) => var.into().into(),
+                                VarDeclOrExpr::Expr(expr) => ExprStmt {
                                     span: DUMMY_SP,
                                     expr,
-                                }),
-                            }));
-                        self.prepend_stmts.push(Stmt::Expr(ExprStmt {
-                            span: DUMMY_SP,
-                            expr: f.test.take().unwrap(),
+                                }
+                                .into(),
+                            }
                         }));
+                        self.prepend_stmts.push(
+                            ExprStmt {
+                                span: DUMMY_SP,
+                                expr: f.test.take().unwrap(),
+                            }
+                            .into(),
+                        );
                         f.update = None;
                         *stmt = *f.body.take();
                     } else if let Known(true) = val {

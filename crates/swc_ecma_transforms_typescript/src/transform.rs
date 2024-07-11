@@ -404,10 +404,11 @@ impl Transform {
         let expr =
             Self::wrap_enum_or_module_with_iife(&self.namespace_id, module_ident, body, is_export);
 
-        Stmt::Expr(ExprStmt {
+        ExprStmt {
             span,
             expr: expr.into(),
-        })
+        }
+        .into()
     }
 
     fn transform_ts_namespace_body(id: Id, body: TsNamespaceBody) -> BlockStmt {
@@ -484,7 +485,7 @@ impl Transform {
 
                                 var_decl.span = decl.span;
 
-                                Stmt::Decl(var_decl.into())
+                                var_decl.into().into()
                             };
 
                             stmts.push(stmt);
@@ -605,10 +606,11 @@ impl Transform {
             is_export,
         );
 
-        Stmt::Expr(ExprStmt {
+        ExprStmt {
             span,
             expr: expr.into(),
-        })
+        }
+        .into()
     }
 
     fn transform_ts_enum_member(
@@ -671,7 +673,7 @@ impl Transform {
         match decl {
             Decl::Fn(FnDecl { ref ident, .. }) | Decl::Class(ClassDecl { ref ident, .. }) => {
                 let assign_stmt = Self::assign_prop(id, ident, span);
-                [Stmt::Decl(decl), assign_stmt].map(Option::Some)
+                [decl.into(), assign_stmt].map(Option::Some)
             }
             Decl::Var(var_decl) => [
                 Self::transform_export_var_decl_in_ts_module_block(
@@ -718,7 +720,7 @@ impl Transform {
             .into()
         };
 
-        Some(Stmt::Expr(ExprStmt { span, expr }))
+        Some(ExprStmt { span, expr }.into())
     }
 }
 
@@ -833,10 +835,11 @@ impl Transform {
             .clone()
             .make_assign_to(op!("="), id.clone().make_member(prop.clone().into()).into());
 
-        Stmt::Expr(ExprStmt {
+        ExprStmt {
             span,
             expr: expr.into(),
-        })
+        }
+        .into()
     }
 
     fn add_var_for_enum_or_module_declaration(
@@ -1073,7 +1076,7 @@ impl Transform {
                                         .into()
                                     } else {
                                         var_decl.span = decl.span;
-                                        Stmt::Decl(var_decl.into()).into()
+                                        var_decl.into().into().into()
                                     };
                                     n.push(module_item);
                                 }
@@ -1124,21 +1127,20 @@ impl Transform {
                 })
                 .into(),
                 // const __require = _createRequire(import.meta.url);
-                Stmt::Decl(
-                    create_require
-                        .as_call(
-                            DUMMY_SP,
-                            vec![MetaPropExpr {
-                                span: DUMMY_SP,
-                                kind: MetaPropKind::ImportMeta,
-                            }
-                            .make_member(quote_ident!("url"))
-                            .as_arg()],
-                        )
-                        .into_var_decl(VarDeclKind::Const, require.clone().into())
-                        .into(),
-                )
-                .into(),
+                create_require
+                    .as_call(
+                        DUMMY_SP,
+                        vec![MetaPropExpr {
+                            span: DUMMY_SP,
+                            kind: MetaPropKind::ImportMeta,
+                        }
+                        .make_member(quote_ident!("url"))
+                        .as_arg()],
+                    )
+                    .into_var_decl(VarDeclKind::Const, require.clone().into())
+                    .into()
+                    .into()
+                    .into(),
             ]);
         }
 
@@ -1148,7 +1150,7 @@ impl Transform {
                     let TsExportAssignment { expr, span } = cjs_export_assign;
 
                     n.push(
-                        Stmt::Expr(ExprStmt {
+                        ExprStmt {
                             span,
                             expr: Box::new(
                                 expr.make_assign_to(
@@ -1161,7 +1163,8 @@ impl Transform {
                                     .into(),
                                 ),
                             ),
-                        })
+                        }
+                        .into()
                         .into(),
                     );
                 }

@@ -522,11 +522,14 @@ impl VisitMut for Fixer<'_> {
         node.visit_mut_children_with(self);
 
         if will_eat_else_token(&node.cons) {
-            node.cons = Box::new(Stmt::Block(BlockStmt {
-                span: node.cons.span(),
-                stmts: vec![*node.cons.take()],
-                ..Default::default()
-            }));
+            node.cons = Box::new(
+                BlockStmt {
+                    span: node.cons.span(),
+                    stmts: vec![*node.cons.take()],
+                    ..Default::default()
+                }
+                .into(),
+            );
         }
     }
 

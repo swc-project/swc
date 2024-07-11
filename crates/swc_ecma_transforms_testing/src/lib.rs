@@ -236,7 +236,7 @@ impl VisitMut for RegeneratorHandler {
                 init: Some(init),
                 definite: Default::default(),
             };
-            *item = ModuleItem::Stmt(Stmt::Decl(
+            *item = ModuleItem::Stmt(
                 VarDecl {
                     span: import.span,
                     kind: VarDeclKind::Var,
@@ -244,8 +244,9 @@ impl VisitMut for RegeneratorHandler {
                     decls: vec![decl],
                     ..Default::default()
                 }
+                .into()
                 .into(),
-            ))
+            )
         }
     }
 }

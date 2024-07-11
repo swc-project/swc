@@ -9,10 +9,11 @@ impl<I: Tokens> Parser<I> {
 
             eat!(self, ';');
 
-            return Ok(Stmt::Expr(ExprStmt {
+            return Ok(ExprStmt {
                 span: span!(self, start),
                 expr,
-            })
+            }
+            .into()
             .into());
         }
 
@@ -21,10 +22,11 @@ impl<I: Tokens> Parser<I> {
 
             eat!(self, ';');
 
-            return Ok(Stmt::Expr(ExprStmt {
+            return Ok(ExprStmt {
                 span: span!(self, start),
                 expr,
-            })
+            }
+            .into()
             .into());
         }
 

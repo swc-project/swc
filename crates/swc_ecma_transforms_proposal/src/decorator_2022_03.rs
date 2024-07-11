@@ -215,22 +215,28 @@ impl Decorator2022_03 {
         }
         .into();
 
-        self.state.extra_stmts.push(Stmt::Expr(ExprStmt {
-            span: DUMMY_SP,
-            expr,
-        }));
+        self.state.extra_stmts.push(
+            ExprStmt {
+                span: DUMMY_SP,
+                expr,
+            }
+            .into(),
+        );
 
         if let Some(init) = self.state.init_static.take() {
-            self.state.extra_stmts.push(Stmt::Expr(ExprStmt {
-                span: DUMMY_SP,
-                expr: CallExpr {
+            self.state.extra_stmts.push(
+                ExprStmt {
                     span: DUMMY_SP,
-                    callee: init.as_callee(),
-                    args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-                    ..Default::default()
+                    expr: CallExpr {
+                        span: DUMMY_SP,
+                        callee: init.as_callee(),
+                        args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                        ..Default::default()
+                    }
+                    .into(),
                 }
                 .into(),
-            }));
+            );
         }
     }
 
@@ -724,7 +730,7 @@ impl Decorator2022_03 {
         }));
         self.state = old_state;
 
-        Stmt::Decl(c.take().into())
+        c.take().into().into()
     }
 
     fn process_decorators(&mut self, decorators: &mut [Decorator]) {
@@ -914,10 +920,11 @@ impl VisitMut for Decorator2022_03 {
 
             match p.kind {
                 MethodKind::Method => {
-                    let call_stmt = Stmt::Return(ReturnStmt {
+                    let call_stmt = ReturnStmt {
                         span: DUMMY_SP,
                         arg: Some(init.into()),
-                    });
+                    }
+                    .into();
 
                     p.kind = MethodKind::Getter;
                     p.function.body = Some(BlockStmt {
@@ -927,7 +934,7 @@ impl VisitMut for Decorator2022_03 {
                     });
                 }
                 MethodKind::Getter => {
-                    let call_stmt = Stmt::Return(ReturnStmt {
+                    let call_stmt = ReturnStmt {
                         span: DUMMY_SP,
                         arg: Some(
                             CallExpr {
@@ -938,7 +945,8 @@ impl VisitMut for Decorator2022_03 {
                             }
                             .into(),
                         ),
-                    });
+                    }
+                    .into();
 
                     p.function.body = Some(BlockStmt {
                         span: DUMMY_SP,
@@ -947,7 +955,7 @@ impl VisitMut for Decorator2022_03 {
                     });
                 }
                 MethodKind::Setter => {
-                    let call_stmt = Stmt::Return(ReturnStmt {
+                    let call_stmt = ReturnStmt {
                         span: DUMMY_SP,
                         arg: Some(
                             CallExpr {
@@ -962,7 +970,8 @@ impl VisitMut for Decorator2022_03 {
                             }
                             .into(),
                         ),
-                    });
+                    }
+                    .into();
 
                     p.function.body = Some(BlockStmt {
                         span: DUMMY_SP,
@@ -1583,26 +1592,26 @@ impl VisitMut for Decorator2022_03 {
             if !self.extra_lets.is_empty() {
                 insert_builder.push_back(
                     index,
-                    Stmt::Decl(
-                        VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Let,
-                            decls: self.extra_lets.take(),
-                            declare: false,
-                            ..Default::default()
-                        }
-                        .into(),
-                    )
+                    VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Let,
+                        decls: self.extra_lets.take(),
+                        declare: false,
+                        ..Default::default()
+                    }
+                    .into()
+                    .into()
                     .into(),
                 );
             }
             if !self.pre_class_inits.is_empty() {
                 insert_builder.push_back(
                     index,
-                    Stmt::Expr(ExprStmt {
+                    ExprStmt {
                         span: DUMMY_SP,
                         expr: Expr::from_exprs(self.pre_class_inits.take()),
-                    })
+                    }
+                    .into()
                     .into(),
                 );
             }
@@ -1790,25 +1799,25 @@ impl VisitMut for Decorator2022_03 {
             if !self.extra_lets.is_empty() {
                 insert_builder.push_back(
                     index,
-                    Stmt::Decl(
-                        VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Let,
-                            decls: self.extra_lets.take(),
-                            declare: false,
-                            ..Default::default()
-                        }
-                        .into(),
-                    ),
+                    VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Let,
+                        decls: self.extra_lets.take(),
+                        declare: false,
+                        ..Default::default()
+                    }
+                    .into()
+                    .into(),
                 );
             }
             if !self.pre_class_inits.is_empty() {
                 insert_builder.push_back(
                     index,
-                    Stmt::Expr(ExprStmt {
+                    ExprStmt {
                         span: DUMMY_SP,
                         expr: Expr::from_exprs(self.pre_class_inits.take()),
-                    }),
+                    }
+                    .into(),
                 );
             }
         }

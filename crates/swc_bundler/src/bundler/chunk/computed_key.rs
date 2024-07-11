@@ -112,7 +112,7 @@ where
 
         module.append_all(additional_items);
 
-        let return_stmt = Stmt::Return(ReturnStmt {
+        let return_stmt = ReturnStmt {
             span: DUMMY_SP,
             arg: Some(
                 ObjectLit {
@@ -121,7 +121,8 @@ where
                 }
                 .into(),
             ),
-        });
+        }
+        .into();
 
         module.iter().for_each(|(_, v)| {
             if let ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export)) = v {
@@ -179,7 +180,7 @@ where
             }],
         };
 
-        module.append(id, ModuleItem::Stmt(Stmt::Decl(var_decl.into())));
+        module.append(id, ModuleItem::Stmt(var_decl.into().into()));
 
         // print_hygiene(
         //     "wrap",
@@ -243,7 +244,7 @@ impl Fold for ExportToReturn {
                     _ => unreachable!(),
                 }
 
-                Some(Stmt::Decl(export.decl))
+                Some(export.decl.into())
             }
 
             ModuleDecl::ExportDefaultDecl(export) => match export.decl {
@@ -256,14 +257,15 @@ impl Fold for ExportToReturn {
                         ident.clone(),
                     );
 
-                    Some(Stmt::Decl(
+                    Some(
                         ClassDecl {
                             ident,
                             class: expr.class,
                             declare: false,
                         }
+                        .into()
                         .into(),
-                    ))
+                    )
                 }
                 DefaultDecl::Fn(expr) => {
                     let ident = expr.ident;
@@ -274,14 +276,15 @@ impl Fold for ExportToReturn {
                         ident.clone(),
                     );
 
-                    Some(Stmt::Decl(
+                    Some(
                         FnDecl {
                             ident,
                             function: expr.function,
                             declare: false,
                         }
+                        .into()
                         .into(),
-                    ))
+                    )
                 }
                 DefaultDecl::TsInterfaceDecl(_) => None,
             },
@@ -336,7 +339,7 @@ impl Fold for ExportToReturn {
         if let Some(stmt) = stmt {
             ModuleItem::Stmt(stmt)
         } else {
-            ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
+            ModuleItem::Stmt(EmptyStmt { span: DUMMY_SP }.into())
         }
     }
 }

@@ -587,7 +587,7 @@ impl Decorators {
                             None
                         }
                         .into_iter()
-                        .chain(iter::once(Stmt::Decl(
+                        .chain(iter::once(
                             ClassDecl {
                                 ident: ident.clone(),
                                 class: Class {
@@ -598,34 +598,38 @@ impl Decorators {
                                 .into(),
                                 declare: false,
                             }
+                            .into()
                             .into(),
-                        )))
-                        .chain(iter::once(Stmt::Return(ReturnStmt {
-                            span: DUMMY_SP,
-                            arg: Some(
-                                ObjectLit {
-                                    span: DUMMY_SP,
-                                    props: vec![
-                                        PropOrSpread::Prop(Box::new(Prop::KeyValue(
-                                            KeyValueProp {
-                                                key: PropName::Ident(quote_ident!("F")),
-                                                value: Box::new(Expr::Ident(ident)),
-                                            },
-                                        ))),
-                                        PropOrSpread::Prop(Box::new(Prop::KeyValue(
-                                            KeyValueProp {
-                                                key: PropName::Ident(quote_ident!("d")),
-                                                value: Box::new(Expr::Array(ArrayLit {
-                                                    span: DUMMY_SP,
-                                                    elems: descriptors,
-                                                })),
-                                            },
-                                        ))),
-                                    ],
-                                }
-                                .into(),
-                            ),
-                        })))
+                        ))
+                        .chain(iter::once(
+                            ReturnStmt {
+                                span: DUMMY_SP,
+                                arg: Some(
+                                    ObjectLit {
+                                        span: DUMMY_SP,
+                                        props: vec![
+                                            PropOrSpread::Prop(Box::new(Prop::KeyValue(
+                                                KeyValueProp {
+                                                    key: PropName::Ident(quote_ident!("F")),
+                                                    value: Box::new(Expr::Ident(ident)),
+                                                },
+                                            ))),
+                                            PropOrSpread::Prop(Box::new(Prop::KeyValue(
+                                                KeyValueProp {
+                                                    key: PropName::Ident(quote_ident!("d")),
+                                                    value: Box::new(Expr::Array(ArrayLit {
+                                                        span: DUMMY_SP,
+                                                        elems: descriptors,
+                                                    })),
+                                                },
+                                            ))),
+                                        ],
+                                    }
+                                    .into(),
+                                ),
+                            }
+                            .into(),
+                        ))
                         .collect(),
                         ..Default::default()
                     }),

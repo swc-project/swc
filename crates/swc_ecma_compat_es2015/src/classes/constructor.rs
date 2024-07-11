@@ -330,31 +330,31 @@ impl VisitMut for ConstructorFolder<'_> {
                         .into_stmt()
                     }
                     Some(SuperFoldingMode::Var) => {
-                        *stmt = Stmt::Decl(
-                            VarDecl {
+                        *stmt = VarDecl {
+                            span: DUMMY_SP,
+                            declare: false,
+                            kind: VarDeclKind::Var,
+                            decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
-                                declare: false,
-                                kind: VarDeclKind::Var,
-                                decls: vec![VarDeclarator {
-                                    span: DUMMY_SP,
-                                    name: quote_ident!(
-                                        SyntaxContext::empty().apply_mark(self.mark),
-                                        "_this"
-                                    )
-                                    .into(),
-                                    init: Some(expr),
-                                    definite: false,
-                                }],
-                                ..Default::default()
-                            }
-                            .into(),
-                        )
+                                name: quote_ident!(
+                                    SyntaxContext::empty().apply_mark(self.mark),
+                                    "_this"
+                                )
+                                .into(),
+                                init: Some(expr),
+                                definite: false,
+                            }],
+                            ..Default::default()
+                        }
+                        .into()
+                        .into()
                     }
                     None => {
-                        *stmt = Stmt::Return(ReturnStmt {
+                        *stmt = ReturnStmt {
                             span: DUMMY_SP,
                             arg: Some(expr),
-                        })
+                        }
+                        .into()
                     }
                 }
             }

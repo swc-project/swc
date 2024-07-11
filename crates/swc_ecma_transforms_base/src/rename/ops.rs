@@ -277,14 +277,15 @@ where
                 let orig_ident = ident.clone();
                 match self.rename_ident(&mut ident) {
                     Ok(..) => {
-                        *item = ModuleItem::Stmt(Stmt::Decl(
+                        *item = ModuleItem::Stmt(
                             ClassDecl {
                                 ident: ident.clone(),
                                 class: class.take(),
                                 declare: *declare,
                             }
+                            .into()
                             .into(),
-                        ));
+                        );
                         export!(
                             ModuleExportName::Ident(orig_ident),
                             ModuleExportName::Ident(ident.take())
@@ -319,14 +320,15 @@ where
                 let orig_ident = ident.clone();
                 match self.rename_ident(&mut ident) {
                     Ok(..) => {
-                        *item = ModuleItem::Stmt(Stmt::Decl(
+                        *item = ModuleItem::Stmt(
                             FnDecl {
                                 ident: ident.clone(),
                                 function,
                                 declare: *declare,
                             }
+                            .into()
                             .into(),
-                        ));
+                        );
                         export!(
                             ModuleExportName::Ident(orig_ident),
                             ModuleExportName::Ident(ident)
@@ -372,13 +374,14 @@ where
                     }));
                     return;
                 }
-                *item = ModuleItem::Stmt(Stmt::Decl(
+                *item = ModuleItem::Stmt(
                     VarDecl {
                         decls,
                         ..*var.take()
                     }
+                    .into()
                     .into(),
-                ));
+                );
                 self.extra
                     .push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                         NamedExport {

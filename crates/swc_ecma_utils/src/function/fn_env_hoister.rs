@@ -123,14 +123,15 @@ impl FnEnvHoister {
         if decls.is_empty() {
             None
         } else {
-            Some(Stmt::Decl(
+            Some(
                 VarDecl {
                     kind: VarDeclKind::Var,
                     decls,
                     ..Default::default()
                 }
+                .into()
                 .into(),
-            ))
+            )
         }
     }
 
@@ -183,14 +184,15 @@ impl FnEnvHoister {
             (None, None)
         } else {
             (
-                Some(Stmt::Decl(
+                Some(
                     VarDecl {
                         kind: VarDeclKind::Var,
                         decls,
                         ..Default::default()
                     }
+                    .into()
                     .into(),
-                )),
+                ),
                 this,
             )
         }
@@ -297,24 +299,23 @@ impl VisitMut for FnEnvHoister {
         if !self.extra_ident.is_empty() {
             b.stmts.insert(
                 0,
-                Stmt::Decl(
-                    VarDecl {
-                        kind: VarDeclKind::Var,
-                        decls: self
-                            .extra_ident
-                            .take()
-                            .into_iter()
-                            .map(|ident| VarDeclarator {
-                                span: DUMMY_SP,
-                                name: ident.into(),
-                                init: None,
-                                definite: false,
-                            })
-                            .collect(),
-                        ..Default::default()
-                    }
-                    .into(),
-                ),
+                VarDecl {
+                    kind: VarDeclKind::Var,
+                    decls: self
+                        .extra_ident
+                        .take()
+                        .into_iter()
+                        .map(|ident| VarDeclarator {
+                            span: DUMMY_SP,
+                            name: ident.into(),
+                            init: None,
+                            definite: false,
+                        })
+                        .collect(),
+                    ..Default::default()
+                }
+                .into()
+                .into(),
             )
         }
     }

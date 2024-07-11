@@ -88,20 +88,19 @@ impl<'a> Fold for Injector<'a> {
                 self.injected |= folder.injected;
 
                 buf.extend(folder.injected_tmp.map(|ident| {
-                    Stmt::Decl(
-                        VarDecl {
+                    VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: vec![VarDeclarator {
                             span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            decls: vec![VarDeclarator {
-                                span: DUMMY_SP,
-                                name: Pat::Ident(ident.into()),
-                                init: None,
-                                definite: false,
-                            }],
-                            ..Default::default()
-                        }
-                        .into(),
-                    )
+                            name: Pat::Ident(ident.into()),
+                            init: None,
+                            definite: false,
+                        }],
+                        ..Default::default()
+                    }
+                    .into()
+                    .into()
                 }));
                 buf.push(stmt);
             }

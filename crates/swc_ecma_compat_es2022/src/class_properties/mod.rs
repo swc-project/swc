@@ -98,12 +98,13 @@ impl ClassExtra {
         if !self.vars.is_empty() {
             prepend_stmt(
                 stmts,
-                Stmt::from(VarDecl {
+                VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     decls: self.vars,
                     ..Default::default()
-                })
+                }
+                .into()
                 .into(),
             )
         }
@@ -111,12 +112,13 @@ impl ClassExtra {
         if !self.lets.is_empty() {
             prepend_stmt(
                 stmts,
-                Stmt::from(VarDecl {
+                VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Let,
                     decls: self.lets,
                     ..Default::default()
-                })
+                }
+                .into()
                 .into(),
             )
         }
@@ -127,24 +129,26 @@ impl ClassExtra {
     fn merge_with<T: StmtLike + From<Stmt>>(self, stmts: &mut Vec<T>, class: T) {
         if !self.vars.is_empty() {
             stmts.push(
-                Stmt::from(VarDecl {
+                VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     decls: self.vars,
                     ..Default::default()
-                })
+                }
+                .into()
                 .into(),
             )
         }
 
         if !self.lets.is_empty() {
             stmts.push(
-                Stmt::from(VarDecl {
+                VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Let,
                     decls: self.lets,
                     ..Default::default()
-                })
+                }
+                .into()
                 .into(),
             )
         }
@@ -190,12 +194,15 @@ impl<C: Comments> VisitMut for ClassProperties<C> {
                 let ident = ident.unwrap_or_else(|| private_ident!("_class"));
                 let (decl, extra) = self.visit_mut_class_as_decl(ident.clone(), class);
 
-                extra.merge_with(&mut stmts, Stmt::Decl(decl.into()));
+                extra.merge_with(&mut stmts, decl.into().into());
 
-                stmts.push(Stmt::Return(ReturnStmt {
-                    span: DUMMY_SP,
-                    arg: Some(ident.into()),
-                }));
+                stmts.push(
+                    ReturnStmt {
+                        span: DUMMY_SP,
+                        arg: Some(ident.into()),
+                    }
+                    .into(),
+                );
 
                 *body = BlockStmtOrExpr::BlockStmt(BlockStmt {
                     span: DUMMY_SP,
@@ -353,7 +360,7 @@ impl<C: Comments> ClassProperties<C> {
                                 let (decl, extra) =
                                     self.visit_mut_class_as_decl(ident.clone(), class);
 
-                                extra.merge_with(&mut buf, T::from_stmt(Stmt::Decl(decl.into())));
+                                extra.merge_with(&mut buf, T::from_stmt(decl.into().into()));
 
                                 buf.push(
                                     match T::try_from_module_decl(ModuleDecl::ExportNamed(
@@ -422,7 +429,7 @@ impl<C: Comments> ClassProperties<C> {
                             declare: false,
                         })) => {
                             let (decl, extra) = self.visit_mut_class_as_decl(ident, class);
-                            extra.merge_with(&mut buf, T::from_stmt(Stmt::Decl(decl.into())))
+                            extra.merge_with(&mut buf, T::from_stmt(decl.into().into()))
                         }
                         _ => {
                             stmt.visit_mut_children_with(self);
@@ -953,14 +960,15 @@ impl<C: Comments> ClassProperties<C> {
                         in_pat: false,
                     });
 
-                    private_method_fn_decls.push(Stmt::Decl(
+                    private_method_fn_decls.push(
                         FnDecl {
                             ident: fn_name,
                             function: method.function,
                             declare: false,
                         }
+                        .into()
                         .into(),
-                    ))
+                    )
                 }
 
                 ClassMember::StaticBlock(..) => {

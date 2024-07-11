@@ -400,23 +400,32 @@ impl<C: Comments> VisitMut for Refresh<C> {
 
                     refresh_regs.push((registration_handle.clone(), persistent_id.to_id()));
 
-                    items.push(ModuleItem::Stmt(Stmt::Expr(ExprStmt {
-                        span: DUMMY_SP,
-                        expr: Box::new(make_assign_stmt(registration_handle, persistent_id.into())),
-                    })));
+                    items.push(ModuleItem::Stmt(
+                        ExprStmt {
+                            span: DUMMY_SP,
+                            expr: Box::new(make_assign_stmt(
+                                registration_handle,
+                                persistent_id.into(),
+                            )),
+                        }
+                        .into(),
+                    ));
                 }
 
                 Persist::Hoc(mut hoc) => {
                     hoc.reg = hoc.reg.into_iter().rev().collect();
                     if hoc.insert {
                         let (ident, name) = hoc.reg.last().unwrap();
-                        items.push(ModuleItem::Stmt(Stmt::Expr(ExprStmt {
-                            span: DUMMY_SP,
-                            expr: Box::new(make_assign_stmt(
-                                ident.clone(),
-                                Ident::new(name.0.clone(), DUMMY_SP, name.1).into(),
-                            )),
-                        })))
+                        items.push(ModuleItem::Stmt(
+                            ExprStmt {
+                                span: DUMMY_SP,
+                                expr: Box::new(make_assign_stmt(
+                                    ident.clone(),
+                                    Ident::new(name.0.clone(), DUMMY_SP, name.1).into(),
+                                )),
+                            }
+                            .into(),
+                        ))
                     }
                     refresh_regs.append(&mut hoc.reg);
                 }
@@ -459,15 +468,18 @@ impl<C: Comments> VisitMut for Refresh<C> {
         // ```
         let refresh_reg = self.options.refresh_reg.as_str();
         for (handle, persistent_id) in refresh_regs {
-            items.push(ModuleItem::Stmt(Stmt::Expr(ExprStmt {
-                span: DUMMY_SP,
-                expr: CallExpr {
-                    callee: quote_ident!(refresh_reg).as_callee(),
-                    args: vec![handle.as_arg(), quote_str!(persistent_id.0).as_arg()],
-                    ..Default::default()
+            items.push(ModuleItem::Stmt(
+                ExprStmt {
+                    span: DUMMY_SP,
+                    expr: CallExpr {
+                        callee: quote_ident!(refresh_reg).as_callee(),
+                        args: vec![handle.as_arg(), quote_str!(persistent_id.0).as_arg()],
+                        ..Default::default()
+                    }
+                    .into(),
                 }
                 .into(),
-            })));
+            ));
         }
 
         *module_items = items
