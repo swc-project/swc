@@ -31,7 +31,7 @@ impl SafariIdDestructuringCollisionInFunctionExpression {
 
 #[swc_trace]
 impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_assign_pat_prop(&mut self, n: &mut AssignPatProp) {
         self.visit_mut_pat_id(&n.key);

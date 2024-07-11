@@ -236,7 +236,7 @@ impl ParentScope<'_> {
 
 #[swc_trace]
 impl VisitMut for BlockScopedVars {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
         self.with_scope(ScopeKind::Fn, |v| {

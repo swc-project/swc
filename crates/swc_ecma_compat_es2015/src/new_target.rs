@@ -37,7 +37,7 @@ impl NewTarget {
 
 #[swc_trace]
 impl VisitMut for NewTarget {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_class_method(&mut self, c: &mut ClassMethod) {
         c.key.visit_mut_with(self);

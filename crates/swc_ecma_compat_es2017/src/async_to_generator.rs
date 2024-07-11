@@ -77,7 +77,7 @@ struct Actual<C: Comments> {
 #[swc_trace]
 #[fast_path(ShouldWork)]
 impl<C: Comments + Clone> VisitMut for AsyncToGenerator<C> {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         self.visit_mut_stmt_like(n);
@@ -120,7 +120,7 @@ impl<C: Comments + Clone> AsyncToGenerator<C> {
 #[swc_trace]
 #[fast_path(ShouldWork)]
 impl<C: Comments> VisitMut for Actual<C> {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_class_method(&mut self, m: &mut ClassMethod) {
         if m.function.body.is_none() {
@@ -452,7 +452,7 @@ macro_rules! noop {
 
 #[swc_trace]
 impl VisitMut for AsyncFnBodyHandler {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     noop!(visit_mut_fn_expr, FnExpr);
 

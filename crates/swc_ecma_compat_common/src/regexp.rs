@@ -32,7 +32,7 @@ struct RegExp {
 }
 
 impl VisitMut for RegExp {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         expr.visit_mut_children_with(self);

@@ -35,7 +35,7 @@ pub struct Config {
 }
 
 impl VisitMut for OptionalChaining {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_block_stmt_or_expr(&mut self, expr: &mut BlockStmtOrExpr) {
         if let BlockStmtOrExpr::Expr(e) = expr {

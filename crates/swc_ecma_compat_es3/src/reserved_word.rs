@@ -27,7 +27,7 @@ struct ReservedWord {
 }
 
 impl VisitMut for ReservedWord {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         let mut extra_exports = vec![];

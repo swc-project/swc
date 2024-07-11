@@ -55,7 +55,7 @@ impl Parallel for Shorthand {
 
 #[swc_trace]
 impl VisitMut for Shorthand {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_prop(&mut self, prop: &mut Prop) {
         prop.visit_mut_children_with(self);

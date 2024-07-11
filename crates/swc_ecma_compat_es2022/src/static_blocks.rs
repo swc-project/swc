@@ -76,7 +76,7 @@ impl ClassStaticBlock {
 
 #[swc_trace]
 impl VisitMut for ClassStaticBlock {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_class(&mut self, class: &mut Class) {
         class.visit_mut_children_with(self);

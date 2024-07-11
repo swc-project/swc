@@ -16,7 +16,7 @@ struct EdgeDefaultParam {
 
 #[swc_trace]
 impl VisitMut for EdgeDefaultParam {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
         self.in_arrow = true;

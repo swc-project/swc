@@ -23,7 +23,7 @@ impl Parallel for TypeOfSymbol {
 
 #[swc_trace]
 impl VisitMut for TypeOfSymbol {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_bin_expr(&mut self, expr: &mut BinExpr) {
         match expr.op {

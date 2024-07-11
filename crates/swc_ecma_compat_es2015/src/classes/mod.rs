@@ -220,7 +220,7 @@ impl<C> VisitMut for Classes<C>
 where
     C: Comments,
 {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
         self.visit_mut_stmt_like(items)

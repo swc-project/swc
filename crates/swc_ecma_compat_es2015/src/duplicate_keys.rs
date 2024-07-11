@@ -22,7 +22,7 @@ impl Parallel for DuplicateKeys {
 
 #[swc_trace]
 impl VisitMut for DuplicateKeys {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         expr.visit_mut_children_with(self);
@@ -42,7 +42,7 @@ struct PropFolder {
 
 #[swc_trace]
 impl VisitMut for PropFolder {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     /// Noop
     fn visit_mut_expr(&mut self, _: &mut Expr) {}
@@ -90,7 +90,7 @@ struct PropNameFolder<'a> {
 
 #[swc_trace]
 impl<'a> VisitMut for PropNameFolder<'a> {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_expr(&mut self, _: &mut Expr) {}
 

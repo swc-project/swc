@@ -12,7 +12,7 @@ struct ExportNamespaceFrom;
 
 #[swc_trace]
 impl VisitMut for ExportNamespaceFrom {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
         let count = items

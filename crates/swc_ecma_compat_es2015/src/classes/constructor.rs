@@ -176,7 +176,7 @@ pub(super) enum SuperFoldingMode {
 
 #[swc_trace]
 impl VisitMut for ConstructorFolder<'_> {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     visit_mut_only_key!();
 
@@ -460,7 +460,7 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: &mut Constructor) -> bo
     }
 
     impl VisitMut for Replacer {
-        noop_visit_mut_type!();
+        standard_only_visit_mut!();
 
         // let computed keys be visited
         fn visit_mut_constructor(&mut self, _: &mut Constructor) {}

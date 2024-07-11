@@ -24,7 +24,7 @@ impl Parallel for ObjectSpread {
 
 #[swc_trace]
 impl VisitMut for ObjectSpread {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         expr.visit_mut_children_with(self);

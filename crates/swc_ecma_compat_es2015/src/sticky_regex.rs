@@ -34,7 +34,7 @@ impl Parallel for StickyRegex {
 
 #[swc_trace]
 impl VisitMut for StickyRegex {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);

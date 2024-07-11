@@ -72,7 +72,7 @@ struct Arrow {
 
 #[swc_trace]
 impl VisitMut for Arrow {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_class(&mut self, c: &mut Class) {
         if c.super_class.is_some() {

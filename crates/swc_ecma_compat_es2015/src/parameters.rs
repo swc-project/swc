@@ -423,7 +423,7 @@ impl Params {
 
 #[swc_trace]
 impl VisitMut for Params {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     // generally speaking, there won't be class field in here, but Safari 14.1
     // still has bugs in parameters

@@ -36,7 +36,7 @@ struct Spread {
 #[swc_trace]
 #[fast_path(SpreadFinder)]
 impl VisitMut for Spread {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         self.visit_mut_stmt_like(n);

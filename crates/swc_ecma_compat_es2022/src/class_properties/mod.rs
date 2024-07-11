@@ -164,7 +164,7 @@ impl Take for ClassExtra {
 #[swc_trace]
 #[fast_path(ShouldWork)]
 impl<C: Comments> VisitMut for ClassProperties<C> {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         self.visit_mut_stmt_like(n);

@@ -462,7 +462,7 @@ impl AssignFolder {
 #[swc_trace]
 #[fast_path(DestructuringVisitor)]
 impl VisitMut for Destructuring {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     impl_for_for_stmt!(visit_mut_for_in_stmt, ForInStmt);
 
@@ -586,7 +586,7 @@ impl AssignFolder {
 #[swc_trace]
 #[fast_path(DestructuringVisitor)]
 impl VisitMut for AssignFolder {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_export_decl(&mut self, decl: &mut ExportDecl) {
         let old = self.exporting;

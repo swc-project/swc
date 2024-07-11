@@ -52,7 +52,7 @@ fn prepare(i: Ident) -> Ident {
 
 #[swc_trace]
 impl VisitMut for FnName {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_assign_expr(&mut self, expr: &mut AssignExpr) {
         expr.visit_mut_children_with(self);
@@ -134,7 +134,7 @@ macro_rules! noop {
 }
 
 impl VisitMut for Rename {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     impl_for!(visit_mut_fn_expr, FnExpr);
 

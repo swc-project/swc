@@ -78,7 +78,7 @@ impl ParExplode for Exponentiation {
 #[swc_trace]
 #[parallel(explode)]
 impl VisitMut for Exponentiation {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
