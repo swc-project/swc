@@ -123,6 +123,10 @@ impl VisitMut for TsHygiene {
         i.span = i.span.with_ctxt(SyntaxContext::empty());
     }
 
+    fn visit_mut_jsx_member_expr(&mut self, n: &mut JSXMemberExpr) {
+        n.obj.visit_mut_with(self);
+    }
+
     fn visit_mut_prop_name(&mut self, n: &mut PropName) {
         if let PropName::Computed(n) = n {
             n.visit_mut_with(self);

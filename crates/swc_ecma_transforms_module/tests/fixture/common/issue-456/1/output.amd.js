@@ -1,8 +1,7 @@
 define([
     "require",
-    "exports",
-    "path"
-], function(require, exports, _path) {
+    "exports"
+], function(require, exports) {
     "use strict";
     Object.defineProperty(exports, "foo", {
         enumerable: true,

@@ -4,6 +4,7 @@ use swc_ecma_transforms_module::common_js::common_js;
 use swc_ecma_transforms_testing::{test, Tester};
 
 use super::*;
+use crate::jsx;
 
 fn tr(t: &mut Tester) -> impl Fold {
     let unresolved_mark = Mark::new();
@@ -555,6 +556,13 @@ test!(
                 t.cm.clone(),
                 Some(t.comments.clone()),
                 top_level_mark
+            ),
+            jsx(
+                t.cm.clone(),
+                Some(t.comments.clone()),
+                Default::default(),
+                top_level_mark,
+                unresolved_mark
             ),
             common_js(
                 unresolved_mark,

@@ -1,16 +1,10 @@
 define([
     "require",
-    "exports",
-    "foo"
-], function(require, exports, _foo) {
+    "exports"
+], function(require, exports1) {
     "use strict";
-    Object.defineProperty(exports, "__esModule", {
+    Object.defineProperty(exports1, "__esModule", {
         value: true
     });
-    Object.defineProperty(exports, "foo", {
-        enumerable: true,
-        get: function() {
-            return _foo;
-        }
-    });
+    const foo = exports.foo = require("foo");
 });

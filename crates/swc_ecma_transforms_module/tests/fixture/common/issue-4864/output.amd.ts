@@ -60,7 +60,7 @@ define([
         }
     });
     const SETs = {
-        [_ST.S_E_T]: _ST.S_E_T as typeof SSET
+        [_ST.S_E_T]: _ST.S_E_T
     };
     const SI = {
         [SETs[_ST.S_E_T]]: _SS.SI

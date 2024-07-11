@@ -5,8 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 Object.defineProperty(exports, "jquery", {
     enumerable: true,
     get: function() {
-        return exports.$;
+        return $;
     }
 });
-exports.$ = require("jquery");
-(0, exports.$)(".hello");
+const $ = exports.$ = require("jquery");
+$(".hello");

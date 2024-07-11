@@ -8,7 +8,7 @@ use swc_ecma_transforms_base::{helper, perf::Parallel};
 use swc_ecma_utils::{
     is_literal, prepend_stmts, private_ident, quote_ident, ExprFactory, StmtLike,
 };
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, standard_only_visit_mut, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 pub fn template_literal(c: Config) -> impl Fold + VisitMut {
@@ -45,7 +45,7 @@ impl Parallel for TemplateLiteral {
 
 #[swc_trace]
 impl VisitMut for TemplateLiteral {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);

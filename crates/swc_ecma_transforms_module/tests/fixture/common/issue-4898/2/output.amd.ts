@@ -7,7 +7,8 @@ define([
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    const _assert1 = /*#__PURE__*/ _interop_require_default(_assert);
-    _assert(true);
-    (0, _assert1.default)(true);
+    _assert = /*#__PURE__*/ _interop_require_default(_assert);
+    const assert = require("assert");
+    assert(true);
+    (0, _assert.default)(true);
 });

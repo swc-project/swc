@@ -46,4 +46,5 @@ swc_ecma_loader = { version = "0.46.0", path = "../swc_ecma_loader", features = 
 ] }
 swc_ecma_transforms_compat = { version = "0.166.1", path = "../swc_ecma_transforms_compat" }
 swc_ecma_transforms_testing = { version = "0.143.1", path = "../swc_ecma_transforms_testing" }
+swc_ecma_transforms_typescript = { version = "0.191.2", path = "../swc_ecma_transforms_typescript" }
 testing = { version = "0.36.0", path = "../testing/" }

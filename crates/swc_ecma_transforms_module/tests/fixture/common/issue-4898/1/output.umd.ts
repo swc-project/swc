@@ -1,14 +1,14 @@
 (function(global, factory) {
-    if (typeof module === "object" && typeof module.exports === "object") factory(exports, require("assert"));
+    if (typeof module === "object" && typeof module.exports === "object") factory(exports);
     else if (typeof define === "function" && define.amd) define([
-        "exports",
-        "assert"
+        "exports"
     ], factory);
-    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.assert);
-})(this, function(exports, _assert) {
+    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {});
+})(this, function(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    _assert(true);
+    const assert = require("assert");
+    assert(true);
 });

@@ -1,7 +1,6 @@
 define([
-    "require",
-    "mongodb"
-], function(require, _mongodb) {
+    "require"
+], function(require) {
     "use strict";
     require("foo");
 });

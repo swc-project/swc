@@ -1,7 +1,7 @@
 use swc_atoms::JsWord;
 use swc_common::collections::AHashMap;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, standard_only_visit_mut, Fold, VisitMut, VisitMutWith};
 
 use super::Base54Chars;
 
@@ -44,7 +44,7 @@ impl PrivateNameMangler {
 }
 
 impl VisitMut for PrivateNameMangler {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
         n.obj.visit_mut_with(self);

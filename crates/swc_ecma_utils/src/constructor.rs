@@ -2,7 +2,9 @@ use std::iter;
 
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
+use swc_ecma_visit::{
+    standard_only_fold, standard_only_visit_mut, Fold, FoldWith, VisitMut, VisitMutWith,
+};
 
 use crate::{prepend_stmts, ExprFactory};
 
@@ -35,7 +37,7 @@ struct Injector<'a> {
 }
 
 impl<'a> Fold for Injector<'a> {
-    noop_fold_type!();
+    standard_only_fold!();
 
     fn fold_class(&mut self, c: Class) -> Class {
         c
@@ -117,7 +119,7 @@ struct ExprInjector<'a> {
 }
 
 impl VisitMut for ExprInjector<'_> {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_class(&mut self, c: &mut Class) {
         c.super_class.visit_mut_with(self);

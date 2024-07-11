@@ -3,7 +3,7 @@ use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prepend_stmt, StmtLike};
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
+    standard_only_visit, standard_only_visit_mut, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 
 use super::Pure;
@@ -299,7 +299,7 @@ pub(super) struct VarWithOutInitCounter {
 }
 
 impl Visit for VarWithOutInitCounter {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
 
@@ -367,7 +367,7 @@ pub(super) struct VarMover {
 }
 
 impl VisitMut for VarMover {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     /// Noop
     fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}
@@ -485,7 +485,7 @@ pub(super) struct VarPrepender {
 }
 
 impl VisitMut for VarPrepender {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     /// Noop
     fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}

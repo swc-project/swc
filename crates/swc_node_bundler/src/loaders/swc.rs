@@ -10,7 +10,7 @@ use swc_atoms::JsWord;
 use swc_bundler::{Load, ModuleData};
 use swc_common::{
     collections::AHashMap,
-    comments::SingleThreadedComments,
+    comments::{NoopComments, SingleThreadedComments},
     errors::{Handler, HANDLER},
     sync::Lrc,
     FileName, Mark, DUMMY_SP,
@@ -24,7 +24,9 @@ use swc_ecma_transforms::{
         simplify::{dead_branch_remover, expr_simplifier},
     },
     pass::noop,
+    react::jsx,
     resolver,
+    typescript::typescript,
 };
 use swc_ecma_visit::{FoldWith, VisitMutWith};
 
@@ -154,7 +156,7 @@ impl SwcLoader {
         let program = if fm.name.to_string().contains("node_modules") {
             let comments = self.compiler.comments().clone();
 
-            let program = self.compiler.parse_js(
+            let mut program = self.compiler.parse_js(
                 fm.clone(),
                 handler,
                 EsVersion::Es2020,
@@ -165,15 +167,30 @@ impl SwcLoader {
 
             helpers::HELPERS.set(&helpers, || {
                 HANDLER.set(handler, || {
-                    let mut program = program.fold_with(&mut inline_globals(
-                        self.env_map(),
-                        Default::default(),
-                        Default::default(),
-                    ));
                     let unresolved_mark = Mark::new();
                     let top_level_mark = Mark::new();
 
                     program.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
+                    program.visit_mut_with(&mut typescript(
+                        Default::default(),
+                        unresolved_mark,
+                        top_level_mark,
+                    ));
+
+                    program.visit_mut_with(&mut jsx(
+                        self.compiler.cm.clone(),
+                        None::<NoopComments>,
+                        Default::default(),
+                        top_level_mark,
+                        unresolved_mark,
+                    ));
+
+                    program.visit_mut_with(&mut inline_globals(
+                        self.env_map(),
+                        Default::default(),
+                        Default::default(),
+                    ));
+
                     let program = program
                         .fold_with(&mut expr_simplifier(unresolved_mark, Default::default()));
 
@@ -239,16 +256,11 @@ impl SwcLoader {
             //
             // Note that we don't apply compat transform at loading phase.
             let program = if let Some(config) = config {
-                let program = config.program;
+                let mut program = config.program;
                 let mut pass = config.pass;
 
                 helpers::HELPERS.set(&helpers, || {
                     HANDLER.set(handler, || {
-                        let mut program = program.fold_with(&mut inline_globals(
-                            self.env_map(),
-                            Default::default(),
-                            Default::default(),
-                        ));
                         let unresolved_mark = Mark::new();
                         let top_level_mark = Mark::new();
 
@@ -257,6 +269,26 @@ impl SwcLoader {
                             top_level_mark,
                             false,
                         ));
+                        program.visit_mut_with(&mut typescript(
+                            Default::default(),
+                            unresolved_mark,
+                            top_level_mark,
+                        ));
+
+                        program.visit_mut_with(&mut jsx(
+                            self.compiler.cm.clone(),
+                            None::<NoopComments>,
+                            Default::default(),
+                            top_level_mark,
+                            unresolved_mark,
+                        ));
+
+                        let program = program.fold_with(&mut inline_globals(
+                            self.env_map(),
+                            Default::default(),
+                            Default::default(),
+                        ));
+
                         let program = program
                             .fold_with(&mut expr_simplifier(unresolved_mark, Default::default()));
                         let program = program.fold_with(&mut dead_branch_remover(unresolved_mark));

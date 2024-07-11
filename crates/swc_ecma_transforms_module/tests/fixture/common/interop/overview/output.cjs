@@ -20,7 +20,6 @@ require("foo");
 require("foo-bar");
 require("./directory/foo-bar");
 const _foo2 = /*#__PURE__*/ _interop_require_default(require("foo2"));
-const _foo3 = /*#__PURE__*/ _interop_require_wildcard(require("foo3"));
 const _foo4 = require("foo4");
 const _foo5 = require("foo5");
 var test;

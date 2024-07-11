@@ -4,7 +4,7 @@ use swc_common::{collections::AHashSet, pass::Repeated, util::take::Take, DUMMY_
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::analyzer::UsageAnalyzer;
 use swc_ecma_utils::{find_pat_ids, StmtLike};
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{standard_only_visit_mut, VisitMut, VisitMutWith, VisitWith};
 
 use super::util::drop_invalid_stmts;
 use crate::{
@@ -270,7 +270,7 @@ impl Hoister<'_> {
 }
 
 impl VisitMut for Hoister<'_> {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         self.handle_stmt_likes(stmts);

@@ -2,7 +2,7 @@ use std::borrow::Cow;
 
 use swc_common::{pass::CompilerPass, EqIgnoreSpan, Mark, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{standard_only_visit_mut, VisitMut, VisitMutWith};
 
 pub fn globals_defs(
     defs: Vec<(Box<Expr>, Box<Expr>)>,
@@ -35,7 +35,7 @@ impl CompilerPass for GlobalDefs {
 
 /// We use [VisitMut] instead of [swc_ecma_visit::Fold] because it's faster.
 impl VisitMut for GlobalDefs {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
         let old = self.in_lhs_of_assign;

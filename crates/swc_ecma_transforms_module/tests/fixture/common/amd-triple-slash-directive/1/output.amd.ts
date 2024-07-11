@@ -1,13 +1,17 @@
 ///<amd-module name='NamedModule'/>
 define("NamedModule", [
-    "require"
-], function(require) {
+    "require",
+    "exports"
+], function(require, exports) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
     class Foo {
-        x: number;
+        x;
         constructor(){
             this.x = 5;
         }
     }
-    return Foo;
+    module.exports = Foo;
 });

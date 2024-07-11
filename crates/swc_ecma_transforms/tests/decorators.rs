@@ -74,6 +74,7 @@ fn simple_strip(t: &Tester, config: Config) -> impl Fold {
                 no_empty_export: true,
                 ..Default::default()
             },
+            unresolved_mark,
             top_level_mark
         ),
         class_fields_use_set(true),
@@ -4045,7 +4046,7 @@ fn fixture_exec(input: PathBuf) {
                     emit_metadata: true,
                     use_define_for_class_fields: false,
                 }),
-                strip(top_level_mark),
+                strip(unresolved_mark, top_level_mark),
                 class_fields_use_set(true),
             )
         },

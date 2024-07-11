@@ -15,7 +15,8 @@ use swc_ecma_utils::{
     quote_str, replace_ident, ExprFactory, ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
+    as_folder, standard_only_visit, standard_only_visit_mut, Fold, Visit, VisitMut, VisitMutWith,
+    VisitWith,
 };
 use swc_trace_macro::swc_trace;
 use tracing::debug;
@@ -220,7 +221,7 @@ impl<C> VisitMut for Classes<C>
 where
     C: Comments,
 {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
         self.visit_mut_stmt_like(items)
@@ -1229,7 +1230,7 @@ fn is_always_initialized(body: &[Stmt]) -> bool {
     }
 
     impl Visit for SuperFinder {
-        noop_visit_type!();
+        standard_only_visit!();
 
         fn visit_callee(&mut self, node: &Callee) {
             match *node {
@@ -1284,7 +1285,7 @@ struct ClassFinder {
 }
 
 impl Visit for ClassFinder {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_class(&mut self, _: &Class) {
         self.found = true

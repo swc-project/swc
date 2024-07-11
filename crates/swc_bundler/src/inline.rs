@@ -1,7 +1,7 @@
 use swc_common::{collections::AHashMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, visit_mut_obj_and_computed, Visit, VisitMut,
+    noop_visit_type, standard_only_visit_mut, visit_mut_obj_and_computed, Visit, VisitMut,
     VisitMutWith, VisitWith,
 };
 
@@ -84,7 +84,7 @@ impl Visit for Analyzer<'_> {
 }
 
 impl VisitMut for Inliner {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     visit_mut_obj_and_computed!();
 

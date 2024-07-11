@@ -1,11 +1,10 @@
 (function(global, factory) {
-    if (typeof module === "object" && typeof module.exports === "object") factory(exports, require("./dep.js"));
+    if (typeof module === "object" && typeof module.exports === "object") factory(exports);
     else if (typeof define === "function" && define.amd) define([
-        "exports",
-        "./dep.js"
+        "exports"
     ], factory);
-    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.depJs);
-})(this, function(exports, _dep) {
+    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {});
+})(this, function(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -15,7 +14,7 @@
             this.props = properties;
         }
         call() {
-            const { myFunction  } = this.props;
+            const { myFunction } = this.props;
             if (myFunction) {
                 myFunction();
             } else {

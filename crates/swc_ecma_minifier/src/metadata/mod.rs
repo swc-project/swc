@@ -7,7 +7,7 @@ use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::marks::Marks;
 use swc_ecma_utils::NodeIgnoringSpan;
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
+    standard_only_visit, standard_only_visit_mut, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 
 use crate::option::CompressOptions;
@@ -92,7 +92,7 @@ impl InfoMarker<'_> {
 }
 
 impl VisitMut for InfoMarker<'_> {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_call_expr(&mut self, n: &mut CallExpr) {
         n.visit_mut_children_with(self);
@@ -249,7 +249,7 @@ struct InfoCollector<'a> {
 }
 
 impl Visit for InfoCollector<'_> {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_export_decl(&mut self, f: &ExportDecl) {
         f.visit_children_with(self);

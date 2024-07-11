@@ -500,7 +500,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
-            strip(top_level_mark),
+            strip(unresolved_mark, top_level_mark),
             class_properties(
                 Some(t.comments.clone()),
                 class_properties::Config {
@@ -553,7 +553,7 @@ test!(
         chain!(
             decorators(Default::default()),
             resolver(unresolved_mark, top_level_mark, false),
-            strip(top_level_mark),
+            strip(unresolved_mark, top_level_mark),
             class_properties(
                 Some(t.comments.clone()),
                 Default::default(),

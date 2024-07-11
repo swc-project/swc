@@ -7,7 +7,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_pat_ids;
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{standard_only_visit_mut, VisitMut, VisitMutWith};
 
 use super::Bundler;
 use crate::{load::Load, resolve::Resolve};
@@ -368,7 +368,7 @@ where
     L: Load,
     R: Resolve,
 {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_export_named_specifier(&mut self, s: &mut ExportNamedSpecifier) {
         let orig = match &s.orig {

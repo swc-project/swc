@@ -37,9 +37,6 @@
         }
     });
     _styled = /*#__PURE__*/ _interop_require_default(_styled);
-    interface IStyledProp {
-        className?: string;
-    }
     const breakpoints = _breakpoints.breakpoinstUtils;
     const styled = _styled.default;
     const _default = styled;
