@@ -11,7 +11,7 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut};
 struct PanicOnVisit;
 
 impl VisitMut for PanicOnVisit {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_number(&mut self, n: &mut Number) {
         panic!("Expected {:?}", n.value)

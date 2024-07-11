@@ -368,7 +368,7 @@ where
     L: Load,
     R: Resolve,
 {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_export_named_specifier(&mut self, s: &mut ExportNamedSpecifier) {
         let orig = match &s.orig {

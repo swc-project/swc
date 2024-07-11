@@ -147,7 +147,7 @@ where
 pub(crate) struct HygieneRemover;
 
 impl VisitMut for HygieneRemover {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_span(&mut self, s: &mut Span) {
         *s = s.with_ctxt(SyntaxContext::empty())

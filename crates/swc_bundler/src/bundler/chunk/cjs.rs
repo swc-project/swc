@@ -192,7 +192,7 @@ where
     L: Load,
     R: Resolve,
 {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_call_expr(&mut self, node: &mut CallExpr) {
         node.visit_mut_children_with(self);
@@ -350,7 +350,7 @@ struct DefaultHandler {
 }
 
 impl VisitMut for DefaultHandler {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
@@ -375,7 +375,7 @@ struct Remapper {
 }
 
 impl VisitMut for Remapper {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
         if let Some(v) = self.vars.get(&i.to_id()).copied() {

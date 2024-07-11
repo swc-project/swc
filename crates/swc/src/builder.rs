@@ -382,7 +382,7 @@ struct MinifierPass<'a> {
 }
 
 impl VisitMut for MinifierPass<'_> {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_module(&mut self, m: &mut Module) {
         if let Some(options) = &self.options {

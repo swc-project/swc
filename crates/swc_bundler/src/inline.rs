@@ -84,7 +84,7 @@ impl Visit for Analyzer<'_> {
 }
 
 impl VisitMut for Inliner {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     visit_mut_obj_and_computed!();
 

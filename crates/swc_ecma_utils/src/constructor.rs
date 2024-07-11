@@ -117,7 +117,7 @@ struct ExprInjector<'a> {
 }
 
 impl VisitMut for ExprInjector<'_> {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_class(&mut self, c: &mut Class) {
         c.super_class.visit_mut_with(self);

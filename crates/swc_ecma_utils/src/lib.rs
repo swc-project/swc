@@ -2701,7 +2701,7 @@ pub struct IdentReplacer<'a> {
 }
 
 impl VisitMut for IdentReplacer<'_> {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     visit_mut_obj_and_computed!();
 
@@ -2984,7 +2984,7 @@ impl<'a> Remapper<'a> {
 }
 
 impl VisitMut for Remapper<'_> {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
         if let Some(new_ctxt) = self.vars.get(&i.to_id()).copied() {
@@ -3005,7 +3005,7 @@ impl<'a> IdentRenamer<'a> {
 }
 
 impl VisitMut for IdentRenamer<'_> {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     visit_mut_obj_and_computed!();
 
@@ -3127,7 +3127,7 @@ impl<T> VisitMut for RefRewriter<T>
 where
     T: QueryRef,
 {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     /// replace bar in binding pattern
     /// input:
