@@ -8,9 +8,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
-use swc_ecma_visit::{
-    noop_visit_type, standard_only_visit, visit_obj_and_computed, Visit, VisitWith,
-};
+use swc_ecma_visit::{standard_only_visit, visit_obj_and_computed, Visit, VisitWith};
 
 #[derive(Clone, Copy)]
 
