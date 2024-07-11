@@ -47,7 +47,7 @@ fn tr_config(
             has_decorators,
         ),
         resolver(unresolved_mark, top_level_mark, true),
-        typescript(config, unresolved_mark),
+        typescript(config, unresolved_mark, top_level_mark),
         jsx(
             t.cm.clone(),
             None::<NoopComments>,
@@ -1867,7 +1867,7 @@ test!(
         chain!(
             Optional::new(decorators(Default::default()), false,),
             resolver(unresolved_mark, top_level_mark, true),
-            typescript(config, top_level_mark),
+            typescript(config, unresolved_mark, top_level_mark),
             async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved_mark),
         )
     },
@@ -1897,7 +1897,7 @@ test!(
         chain!(
             Optional::new(decorators(Default::default()), false,),
             resolver(unresolved_mark, top_level_mark, true),
-            typescript(config, top_level_mark),
+            typescript(config, unresolved_mark, top_level_mark),
             optional_chaining(Default::default(), unresolved_mark)
         )
     },
