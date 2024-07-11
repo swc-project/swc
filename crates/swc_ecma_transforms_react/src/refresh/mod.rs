@@ -479,13 +479,6 @@ impl<C: Comments> VisitMut for Refresh<C> {
                 }
                 .into(),
             );
-                expr: Box::new(Expr::Call(CallExpr {
-                    callee: quote_ident!(refresh_reg).as_callee(),
-                    args: vec![handle.as_arg(), quote_str!(persistent_id.0).as_arg()],
-                    ..Default::default()
-                }
-                .into(),
-            })));
         }
 
         *module_items = items

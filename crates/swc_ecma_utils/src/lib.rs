@@ -2180,12 +2180,7 @@ pub fn is_rest_arguments(e: &ExprOrSpread) -> bool {
     e.expr.is_ident_ref_to("arguments")
 }
 
-pub fn opt_chain_test(
-    left: Expr,
-    right: Expr,
-    span: Span,
-    no_document_all: bool,
-) -> Expr {
+pub fn opt_chain_test(left: Expr, right: Expr, span: Span, no_document_all: bool) -> Expr {
     if no_document_all {
         BinExpr {
             span,

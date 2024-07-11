@@ -162,7 +162,7 @@ impl Drop for WithCtx<'_, '_> {
     }
 }
 
-pub(crate) fn extract_class_side_effect(expr_ctx: &ExprCtx, c: Class) -> Vec<Expr> {
+pub(crate) fn extract_class_side_effect(expr_ctx: &ExprCtx, c: Class) -> Vec<Box<Expr>> {
     let mut res = Vec::new();
     if let Some(e) = c.super_class {
         if e.may_have_side_effects(expr_ctx) {
@@ -220,10 +220,10 @@ pub(crate) fn is_valid_for_lhs(e: &Expr) -> bool {
 /// handle all edge cases and this type is the complement for it.
 #[derive(Clone, Copy)]
 pub(crate) struct Finalizer<'a> {
-    pub simple_functions: &'a FxHashMap<Id, Expr>,
-    pub lits: &'a FxHashMap<Id, Expr>,
-    pub lits_for_cmp: &'a FxHashMap<Id, Expr>,
-    pub lits_for_array_access: &'a FxHashMap<Id, Expr>,
+    pub simple_functions: &'a FxHashMap<Id, Box<Expr>>,
+    pub lits: &'a FxHashMap<Id, Box<Expr>>,
+    pub lits_for_cmp: &'a FxHashMap<Id, Box<Expr>>,
+    pub lits_for_array_access: &'a FxHashMap<Id, Box<Expr>>,
     pub hoisted_props: &'a FxHashMap<(Id, JsWord), Ident>,
 
     pub vars_to_remove: &'a FxHashSet<Id>,
@@ -242,7 +242,7 @@ impl Parallel for Finalizer<'_> {
 }
 
 impl<'a> Finalizer<'a> {
-    fn var(&mut self, i: &Id, mode: FinalizerMode) -> Option<Expr> {
+    fn var(&mut self, i: &Id, mode: FinalizerMode) -> Option<Box<Expr>> {
         let mut e = match mode {
             FinalizerMode::Callee => {
                 let mut value = self.simple_functions.get(i).cloned()?;
@@ -399,7 +399,7 @@ impl VisitMut for Finalizer<'_> {
         });
     }
 
-    fn visit_mut_exprs(&mut self, n: &mut Vec<Expr>) {
+    fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
         self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
             n.visit_mut_with(v);
         });
@@ -451,20 +451,20 @@ impl VisitMut for Finalizer<'_> {
 }
 
 pub(crate) struct NormalMultiReplacer<'a> {
-    pub vars: &'a mut FxHashMap<Id, Expr>,
+    pub vars: &'a mut FxHashMap<Id, Box<Expr>>,
     pub changed: bool,
 }
 
 impl<'a> NormalMultiReplacer<'a> {
     /// `worked` will be changed to `true` if any replacement is done
-    pub fn new(vars: &'a mut FxHashMap<Id, Expr>) -> Self {
+    pub fn new(vars: &'a mut FxHashMap<Id, Box<Expr>>) -> Self {
         NormalMultiReplacer {
             vars,
             changed: false,
         }
     }
 
-    fn var(&mut self, i: &Id) -> Option<Expr> {
+    fn var(&mut self, i: &Id) -> Option<Box<Expr>> {
         let mut e = self.vars.remove(i)?;
 
         e.visit_mut_children_with(self);
@@ -535,7 +535,7 @@ impl VisitMut for NormalMultiReplacer<'_> {
     }
 }
 
-pub(crate) fn replace_id_with_expr<N>(node: &mut N, from: Id, to: Expr) -> Option<Expr>
+pub(crate) fn replace_id_with_expr<N>(node: &mut N, from: Id, to: Box<Expr>) -> Option<Box<Expr>>
 where
     N: VisitMutWith<ExprReplacer>,
 {
@@ -547,11 +547,11 @@ where
 
 pub(crate) struct ExprReplacer {
     from: Id,
-    to: Option<Expr>,
+    to: Option<Box<Expr>>,
 }
 
 impl ExprReplacer {
-    fn take(&mut self) -> Option<Expr> {
+    fn take(&mut self) -> Option<Box<Expr>> {
         let e = self.to.take()?;
 
         match &*e {

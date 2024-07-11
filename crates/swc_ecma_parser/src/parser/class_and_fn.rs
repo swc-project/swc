@@ -5,14 +5,14 @@ use crate::lexer::TokenContext;
 
 /// Parser for function expression and function declaration.
 impl<I: Tokens> Parser<I> {
-    pub(super) fn parse_async_fn_expr(&mut self) -> PResult<Expr> {
+    pub(super) fn parse_async_fn_expr(&mut self) -> PResult<Box<Expr>> {
         let start = cur_pos!(self);
         expect!(self, "async");
         self.parse_fn(None, Some(start), vec![])
     }
 
     /// Parse function expression
-    pub(super) fn parse_fn_expr(&mut self) -> PResult<Expr> {
+    pub(super) fn parse_fn_expr(&mut self) -> PResult<Box<Expr>> {
         self.parse_fn(None, None, vec![])
     }
 
@@ -58,7 +58,7 @@ impl<I: Tokens> Parser<I> {
         &mut self,
         start: BytePos,
         decorators: Vec<Decorator>,
-    ) -> PResult<Expr> {
+    ) -> PResult<Box<Expr>> {
         self.parse_class(start, start, decorators, false)
     }
 
@@ -208,12 +208,12 @@ impl<I: Tokens> Parser<I> {
         } else {
             for member in class.body.iter() {
                 match member {
-                    ClassMember::ClassProp(box ClassProp {
+                    ClassMember::ClassProp(ClassProp {
                         is_abstract: true,
                         span,
                         ..
                     })
-                    | ClassMember::Method(box ClassMethod {
+                    | ClassMember::Method(ClassMethod {
                         span,
                         is_abstract: true,
                         ..
@@ -229,10 +229,10 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    fn parse_super_class(&mut self) -> PResult<(Expr, Option<Box<TsTypeParamInstantiation>>)> {
+    fn parse_super_class(&mut self) -> PResult<(Box<Expr>, Option<Box<TsTypeParamInstantiation>>)> {
         let super_class = self.parse_lhs_expr()?;
-        match super_class {
-            Expr::TsInstantiation(box TsInstantiation {
+        match *super_class {
+            Expr::TsInstantiation(TsInstantiation {
                 expr, type_args, ..
             }) => Ok((expr, Some(type_args))),
             _ => {
@@ -295,7 +295,10 @@ impl<I: Tokens> Parser<I> {
             expect!(self, ')');
             expr
         } else {
-            let expr = self.parse_ident(false, false).map(Expr::from)?;
+            let expr = self
+                .parse_ident(false, false)
+                .map(Expr::from)
+                .map(Box::new)?;
 
             self.parse_subscripts(Callee::Expr(expr), false, true)?
         };
@@ -308,7 +311,7 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
-    fn parse_maybe_decorator_args(&mut self, expr: Expr) -> PResult<Expr> {
+    fn parse_maybe_decorator_args(&mut self, expr: Box<Expr>) -> PResult<Box<Expr>> {
         let type_args = if self.input.syntax().typescript() && is!(self, '<') {
             Some(self.parse_ts_type_args()?)
         } else {
@@ -347,7 +350,7 @@ impl<I: Tokens> Parser<I> {
             let elem = p.parse_class_member()?;
 
             if !p.ctx().in_declare {
-                if let ClassMember::Constructor(box Constructor {
+                if let ClassMember::Constructor(Constructor {
                     body: Some(..),
                     span,
                     ..
@@ -832,7 +835,7 @@ impl<I: Tokens> Parser<I> {
                                 Pat::Assign(ref p) => Some(p.span()),
                                 _ => None,
                             },
-                            ParamOrTsParamProp::TsParamProp(box TsParamProp {
+                            ParamOrTsParamProp::TsParamProp(TsParamProp {
                                 param: TsParamPropParam::Assign(ref p),
                                 ..
                             }) => Some(p.span()),
@@ -855,7 +858,7 @@ impl<I: Tokens> Parser<I> {
                     }
                 }
 
-                return Ok(ClassMember::Constructor(Box::new(Constructor {
+                return Ok(ClassMember::Constructor(Constructor {
                     span: span!(self, start),
                     accessibility,
                     key: match key {
@@ -866,7 +869,7 @@ impl<I: Tokens> Parser<I> {
                     params,
                     body,
                     ..Default::default()
-                })));
+                }));
             } else {
                 return self.make_method(
                     |p| p.parse_formal_params(),
@@ -1089,7 +1092,7 @@ impl<I: Tokens> Parser<I> {
             }
 
             if accessor_token.is_some() {
-                return Ok(ClassMember::AutoAccessor(Box::new(AutoAccessor {
+                return Ok(ClassMember::AutoAccessor(AutoAccessor {
                     span: span!(p, start),
                     key,
                     value,
@@ -1100,7 +1103,7 @@ impl<I: Tokens> Parser<I> {
                     is_abstract,
                     is_override,
                     definite,
-                })));
+                }));
             }
 
             Ok(match key {
@@ -1557,7 +1560,7 @@ trait OutputType: Sized {
     ) -> Result<Self, SyntaxError>;
 }
 
-impl OutputType for Expr {
+impl OutputType for Box<Expr> {
     const IS_IDENT_REQUIRED: bool = false;
 
     fn is_fn_expr() -> bool {
@@ -1623,13 +1626,6 @@ impl OutputType for Decl {
             function,
         }
         .into())
-        Ok(Decl::Fn(Box::new(FnDecl {
-        Ok(Decl::Fn(FnDecl {
-        Ok(Decl::Fn(Box::new(FnDecl {
-            declare: false,
-            ident,
-            function,
-        })))
     }
 
     fn finish_class(_: Span, ident: Option<Ident>, class: Box<Class>) -> Result<Self, SyntaxError> {
@@ -1641,13 +1637,6 @@ impl OutputType for Decl {
             class,
         }
         .into())
-        Ok(Decl::Class(Box::new(ClassDecl {
-        Ok(Decl::Class(ClassDecl {
-        Ok(Decl::Class(Box::new(ClassDecl {
-            declare: false,
-            ident,
-            class,
-        })))
     }
 }
 
@@ -1680,7 +1669,7 @@ impl<I: Tokens> FnBodyParser<Box<BlockStmtOrExpr>> for Parser<I> {
                             self.emit_err(span, SyntaxError::IllegalLanguageModeDirective);
                         }
                     }
-                    BlockStmtOrExpr::BlockStmt(Box::new(block_stmt))
+                    BlockStmtOrExpr::BlockStmt(block_stmt)
                 })
                 .map(Box::new)
         } else {
@@ -1786,11 +1775,11 @@ mod tests {
 
     use super::*;
 
-    fn lhs(s: &'static str) -> Expr {
+    fn lhs(s: &'static str) -> Box<Expr> {
         test_parser(s, Syntax::default(), |p| p.parse_lhs_expr())
     }
 
-    fn expr(s: &'static str) -> Expr {
+    fn expr(s: &'static str) -> Box<Expr> {
         test_parser(s, Syntax::default(), |p| p.parse_expr())
     }
 
@@ -1798,9 +1787,9 @@ mod tests {
     fn class_expr() {
         assert_eq_ignore_span!(
             expr("(class extends a {})"),
-            Expr::Paren(Box::new(ParenExpr {
+            Box::new(Expr::Paren(ParenExpr {
                 span,
-                expr: Expr::Class(Box::new(ClassExpr {
+                expr: Box::new(Expr::Class(ClassExpr {
                     ident: None,
                     class: Box::new(Class {
                         decorators: vec![],

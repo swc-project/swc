@@ -360,7 +360,7 @@ impl Optimizer<'_> {
 
     fn compress_similar_cons_alt(
         &mut self,
-        test: &mut Expr,
+        test: &mut Box<Expr>,
         cons: &mut Expr,
         alt: &mut Expr,
         is_for_if_stmt: bool,

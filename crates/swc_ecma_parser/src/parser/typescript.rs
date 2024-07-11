@@ -1372,7 +1372,7 @@ impl<I: Tokens> Parser<I> {
     /// `parsePropertyName` in babel.
     ///
     /// Returns `(computed, key)`.
-    fn parse_ts_property_name(&mut self) -> PResult<(bool, Expr)> {
+    fn parse_ts_property_name(&mut self) -> PResult<(bool, Box<Expr>)> {
         let (computed, key) = if eat!(self, '[') {
             let key = self.parse_assignment_expr()?;
             expect!(self, ']');
@@ -2389,8 +2389,6 @@ impl<I: Tokens> Parser<I> {
                     .parse_fn_decl(decorators)
                     .map(|decl| match decl {
                         Decl::Fn(f) => FnDecl {
-                        Decl::Fn(f) => Decl::Fn(Box::new(FnDecl {
-                        Decl::Fn(f) => Decl::Fn(FnDecl {
                             declare: true,
                             function: Box::new(Function {
                                 span: Span {
@@ -2402,9 +2400,6 @@ impl<I: Tokens> Parser<I> {
                             ..f
                         }
                         .into(),
-                            ..*f
-                        })),
-                        }),
                         _ => decl,
                     })
                     .map(Some);
@@ -2415,8 +2410,6 @@ impl<I: Tokens> Parser<I> {
                     .parse_class_decl(start, start, decorators, false)
                     .map(|decl| match decl {
                         Decl::Class(c) => ClassDecl {
-                        Decl::Class(c) => Decl::Class(Box::new(ClassDecl {
-                        Decl::Class(c) => Decl::Class(ClassDecl {
                             declare: true,
                             class: Box::new(Class {
                                 span: Span {
@@ -2428,9 +2421,6 @@ impl<I: Tokens> Parser<I> {
                             ..c
                         }
                         .into(),
-                            ..*c
-                        })),
-                        }),
                         _ => decl,
                     })
                     .map(Some);

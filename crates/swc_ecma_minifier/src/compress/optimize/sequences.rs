@@ -331,10 +331,6 @@ impl Optimizer<'_> {
                                     }
                                     .into(),
                                 ))
-                                new_stmts.push(T::from_stmt(Stmt::Expr(ExprStmt {
-                                    span: DUMMY_SP,
-                                    expr: Expr::from_exprs(take(&mut exprs)),
-                                })))
                             }
 
                             new_stmts.push(T::from(stmt));
@@ -350,10 +346,6 @@ impl Optimizer<'_> {
                             }
                             .into(),
                         ))
-                        new_stmts.push(T::from_stmt(Stmt::Expr(ExprStmt {
-                            span: DUMMY_SP,
-                            expr: Expr::from_exprs(take(&mut exprs)),
-                        })))
                     }
 
                     new_stmts.push(item);
@@ -369,10 +361,6 @@ impl Optimizer<'_> {
                 }
                 .into(),
             ))
-            new_stmts.push(T::from_stmt(Stmt::Expr(ExprStmt {
-                span: DUMMY_SP,
-                expr: Expr::from_exprs(take(&mut exprs)),
-            })))
         }
 
         *stmts = new_stmts;
@@ -1760,7 +1748,7 @@ impl Optimizer<'_> {
                         trace_op!("seq: Try lhs of assign");
 
                         if let SimpleAssignTarget::Member(..) = b_left {
-                            let mut b_left_expr: Expr = b_left.take().into();
+                            let mut b_left_expr: Box<Expr> = b_left.take().into();
 
                             let res = self.merge_sequential_expr(a, &mut b_left_expr);
 

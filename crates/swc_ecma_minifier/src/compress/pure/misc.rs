@@ -232,7 +232,7 @@ impl Pure<'_> {
                 return;
             }
 
-            let sep: Expr = Lit::Str(Str {
+            let sep: Box<Expr> = Lit::Str(Str {
                 span: DUMMY_SP,
                 raw: None,
                 value: separator,
@@ -245,7 +245,7 @@ impl Pure<'_> {
             })
             .into();
 
-            fn add(to: &mut Expr, right: Expr) {
+            fn add(to: &mut Expr, right: Box<Expr>) {
                 let lhs = to.take();
                 *to = BinExpr {
                     span: DUMMY_SP,
@@ -870,7 +870,7 @@ impl Pure<'_> {
         }
     }
 
-    fn make_ignored_expr(&mut self, exprs: impl Iterator<Item = Expr>) -> Option<Expr> {
+    fn make_ignored_expr(&mut self, exprs: impl Iterator<Item = Box<Expr>>) -> Option<Expr> {
         let mut exprs = exprs
             .filter_map(|mut e| {
                 self.ignore_return_value(

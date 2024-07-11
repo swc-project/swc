@@ -392,7 +392,7 @@ impl<'a, I: Tokens> Parser<I> {
         // Identifier node, we switch to interpreting it as a label.
         let expr = self.include_in_expr(true).parse_expr()?;
 
-        let expr = match expr {
+        let expr = match *expr {
             Expr::Ident(ident) => {
                 if eat!(self, ':') {
                     return self.parse_labelled_stmt(ident);
@@ -401,7 +401,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
             _ => self.verify_expr(expr)?,
         };
-        if let Expr::Ident(ref ident) = expr {
+        if let Expr::Ident(ref ident) = *expr {
             if &*ident.sym == "interface" && self.input.had_line_break_before_cur() {
                 self.emit_strict_mode_err(
                     ident.span,
@@ -424,7 +424,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
-        if let Expr::Ident(Ident { ref sym, span, .. }) = expr {
+        if let Expr::Ident(Ident { ref sym, span, .. }) = *expr {
             match &**sym {
                 "enum" | "interface" => {
                     self.emit_strict_mode_err(span, SyntaxError::InvalidIdentInStrict(sym.clone()));
@@ -434,7 +434,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         if self.syntax().typescript() {
-            if let Expr::Ident(ref i) = expr {
+            if let Expr::Ident(ref i) = *expr {
                 match &*i.sym {
                     "public" | "static" | "abstract" => {
                         if eat!(self, "interface") {
@@ -681,11 +681,6 @@ impl<'a, I: Tokens> Parser<I> {
             cases,
         }
         .into())
-        Ok(Stmt::Switch(Box::new(SwitchStmt {
-            span: span!(self, switch_start),
-            discriminant,
-            cases,
-        })))
     }
 
     fn parse_throw_stmt(&mut self) -> PResult<Stmt> {
@@ -773,9 +768,9 @@ impl<'a, I: Tokens> Parser<I> {
 
                 match &mut pat {
                     Pat::Ident(BindingIdent { type_ann, .. })
-                    | Pat::Array(box ArrayPat { type_ann, .. })
-                    | Pat::Rest(box RestPat { type_ann, .. })
-                    | Pat::Object(box ObjectPat { type_ann, .. }) => {
+                    | Pat::Array(ArrayPat { type_ann, .. })
+                    | Pat::Rest(RestPat { type_ann, .. })
+                    | Pat::Object(ObjectPat { type_ann, .. }) => {
                         *type_ann = Some(Box::new(TsTypeAnn {
                             span: span!(self, type_ann_start),
                             type_ann: ty,
@@ -987,16 +982,16 @@ impl<'a, I: Tokens> Parser<I> {
         if self.input.syntax().typescript() && is!(self, ':') {
             let type_annotation = self.try_parse_ts_type_ann()?;
             match name {
-                Pat::Array(box ArrayPat {
+                Pat::Array(ArrayPat {
                     ref mut type_ann, ..
                 })
                 | Pat::Ident(BindingIdent {
                     ref mut type_ann, ..
                 })
-                | Pat::Object(box ObjectPat {
+                | Pat::Object(ObjectPat {
                     ref mut type_ann, ..
                 })
-                | Pat::Rest(box RestPat {
+                | Pat::Rest(RestPat {
                     ref mut type_ann, ..
                 }) => {
                     *type_ann = type_annotation;
@@ -1156,7 +1151,7 @@ impl<'a, I: Tokens> Parser<I> {
 
             let body = Box::new(if is!(p, "function") {
                 let f = p.parse_fn_decl(vec![])?;
-                if let Decl::Fn(box FnDecl { function, .. }) = &f {
+                if let Decl::Fn(FnDecl { function, .. }) = &f {
                     if p.ctx().strict {
                         p.emit_err(function.span, SyntaxError::LabelledFunctionInStrict)
                     }
@@ -1223,7 +1218,6 @@ impl<'a, I: Tokens> Parser<I> {
                 }
 
                 ForStmt {
-                Stmt::For(Box::new(ForStmt {
                     span,
                     init,
                     test,
@@ -1231,7 +1225,6 @@ impl<'a, I: Tokens> Parser<I> {
                     body,
                 }
                 .into()
-                }))
             }
             TempForHead::ForIn { left, right } => {
                 if let Some(await_token) = await_token {
@@ -1239,7 +1232,6 @@ impl<'a, I: Tokens> Parser<I> {
                 }
 
                 ForInStmt {
-                Stmt::ForIn(Box::new(ForInStmt {
                     span,
                     left,
                     right,
@@ -1248,9 +1240,6 @@ impl<'a, I: Tokens> Parser<I> {
                 .into()
             }
             TempForHead::ForOf { left, right } => ForOfStmt {
-                }))
-            }
-            TempForHead::ForOf { left, right } => Stmt::ForOf(Box::new(ForOfStmt {
                 span,
                 is_await: await_token.is_some(),
                 left,
@@ -1258,7 +1247,6 @@ impl<'a, I: Tokens> Parser<I> {
                 body,
             }
             .into(),
-            })),
         })
     }
 
@@ -1378,7 +1366,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             }
 
-            return self.parse_for_each_head(ForHead::Pat(pat));
+            return self.parse_for_each_head(ForHead::Pat(Box::new(pat)));
         }
 
         expect_exact!(self, ';');
@@ -1425,16 +1413,16 @@ impl<'a, I: Tokens> Parser<I> {
 enum TempForHead {
     For {
         init: Option<VarDeclOrExpr>,
-        test: Option<Expr>,
-        update: Option<Expr>,
+        test: Option<Box<Expr>>,
+        update: Option<Box<Expr>>,
     },
     ForIn {
         left: ForHead,
-        right: Expr,
+        right: Box<Expr>,
     },
     ForOf {
         left: ForHead,
-        right: Expr,
+        right: Box<Expr>,
     },
 }
 
@@ -1528,7 +1516,7 @@ mod tests {
     fn module_item(s: &'static str) -> ModuleItem {
         test_parser(s, Syntax::default(), |p| p.parse_stmt_like(true, true))
     }
-    fn expr(s: &'static str) -> Expr {
+    fn expr(s: &'static str) -> Box<Expr> {
         test_parser(s, Syntax::default(), |p| p.parse_expr())
     }
 
@@ -1555,17 +1543,19 @@ mod tests {
                 },
                 handler: Some(CatchClause {
                     span,
-                    param: Pat::Object(Box::new(ObjectPat {
+                    param: Pat::Object(ObjectPat {
                         span,
                         optional: false,
-                        props: vec![ObjectPatProp::Rest(Box::new(RestPat {
+                        props: vec![ObjectPatProp::Rest(RestPat {
                             span,
                             dot3_token: span,
-                            arg: Pat::Ident(Ident::new_no_ctxt("a34".into(), span).into()),
+                            arg: Box::new(Pat::Ident(
+                                Ident::new_no_ctxt("a34".into(), span).into()
+                            )),
                             type_ann: None
-                        }))],
+                        })],
                         type_ann: None,
-                    }))
+                    })
                     .into(),
                     body: BlockStmt {
                         span,
@@ -1592,7 +1582,7 @@ mod tests {
     fn await_for_of() {
         assert_eq_ignore_span!(
             stmt("for await (const a of b) ;"),
-            Stmt::ForOf(Box::new(ForOfStmt {
+            Stmt::ForOf(ForOfStmt {
                 span,
                 is_await: true,
                 left: ForHead::VarDecl(Box::new(VarDecl {
@@ -1606,10 +1596,10 @@ mod tests {
                     }],
                     ..Default::default()
                 })),
-                right: Expr::Ident(Ident::new_no_ctxt("b".into(), span)),
+                right: Box::new(Expr::Ident(Ident::new_no_ctxt("b".into(), span))),
 
                 body: Box::new(Stmt::Empty(EmptyStmt { span })),
-            }))
+            })
         )
     }
 
@@ -1662,7 +1652,7 @@ mod tests {
                 }),
                 |p| p.parse_stmt_list_item(true),
             ),
-            Stmt::Decl(Decl::Class(Box::new(ClassDecl {
+            Stmt::Decl(Decl::Class(ClassDecl {
                 ident: Ident::new_no_ctxt("Foo".into(), span),
                 class: Box::new(Class {
                     span,
@@ -1682,7 +1672,7 @@ mod tests {
                     ..Default::default()
                 }),
                 declare: false,
-            })))
+            }))
         );
     }
 
@@ -2086,7 +2076,7 @@ export default function waitUntil(callback, options = {}) {
                     kind: VarDeclKind::Let,
                     decls: vec![VarDeclarator {
                         span,
-                        name: Pat::Array(Box::new(ArrayPat {
+                        name: Pat::Array(ArrayPat {
                             span,
                             type_ann: None,
                             optional: false,
@@ -2095,8 +2085,11 @@ export default function waitUntil(callback, options = {}) {
                                 None,
                                 Some(Pat::Ident(Ident::new_no_ctxt("t".into(), span).into()))
                             ]
-                        })),
-                        init: Some(Expr::Ident(Ident::new_no_ctxt("simple_array".into(), span))),
+                        }),
+                        init: Some(Box::new(Expr::Ident(Ident::new_no_ctxt(
+                            "simple_array".into(),
+                            span
+                        )))),
                         definite: false
                     }],
                     ..Default::default()
@@ -2115,17 +2108,20 @@ export default function waitUntil(callback, options = {}) {
                     kind: VarDeclKind::Let,
                     decls: vec![VarDeclarator {
                         span,
-                        name: Pat::Object(Box::new(ObjectPat {
+                        name: Pat::Object(ObjectPat {
                             optional: false,
                             type_ann: None,
                             span,
-                            props: vec![ObjectPatProp::Assign(Box::new(AssignPatProp {
+                            props: vec![ObjectPatProp::Assign(AssignPatProp {
                                 span,
                                 key: Ident::new_no_ctxt("num".into(), span).into(),
                                 value: None
-                            }))]
-                        })),
-                        init: Some(Expr::Ident(Ident::new_no_ctxt("obj".into(), span))),
+                            })]
+                        }),
+                        init: Some(Box::new(Expr::Ident(Ident::new_no_ctxt(
+                            "obj".into(),
+                            span
+                        )))),
                         definite: false
                     }],
                     ..Default::default()
@@ -2264,7 +2260,7 @@ export default function waitUntil(callback, options = {}) {
         let src = "class Foo { static { 1 + 1; } }";
         assert_eq_ignore_span!(
             test_parser(src, Syntax::Es(Default::default()), |p| p.parse_expr()),
-            Expr::Class(Box::new(ClassExpr {
+            Box::new(Expr::Class(ClassExpr {
                 ident: Some(Ident {
                     span,
                     sym: "Foo".into(),
