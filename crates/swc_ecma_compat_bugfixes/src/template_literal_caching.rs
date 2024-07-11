@@ -1,7 +1,7 @@
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prepend_stmt, private_ident, ExprFactory};
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, standard_only_fold, Fold, FoldWith};
 use swc_trace_macro::swc_trace;
 
 // Converts destructured parameters with default values to non-shorthand syntax.

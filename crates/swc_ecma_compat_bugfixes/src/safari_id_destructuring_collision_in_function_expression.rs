@@ -4,7 +4,7 @@ use swc_atoms::JsWord;
 use swc_common::{collections::AHashSet, Span};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::hygiene::rename;
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, standard_only_visit_mut, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 pub fn safari_id_destructuring_collision_in_function_expression() -> impl Fold + VisitMut {
