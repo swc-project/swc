@@ -8,4 +8,4 @@ Object.defineProperty(exports, "Foo", {
         return _foo.Foo;
     }
 });
-const _foo = /*#__PURE__*/ _interop_require_wildcard(require("foo"));
+const _foo = require("foo");

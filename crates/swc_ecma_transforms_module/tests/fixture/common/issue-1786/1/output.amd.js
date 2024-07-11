@@ -13,5 +13,4 @@ define([
             return _foo.Foo;
         }
     });
-    _foo = /*#__PURE__*/ _interop_require_wildcard(_foo);
 });
