@@ -77,12 +77,15 @@ impl Pure<'_> {
                             let mut cons = bs.take();
                             cons.stmts.remove(0);
 
-                            ls.body = Box::new(Stmt::If(IfStmt {
-                                span: ls.span,
-                                test,
-                                cons: Box::new(Stmt::Block(cons)),
-                                alt: None,
-                            }));
+                            ls.body = Box::new(
+                                IfStmt {
+                                    span: ls.span,
+                                    test,
+                                    cons: Box::new(Stmt::Block(cons)),
+                                    alt: None,
+                                }
+                                .into(),
+                            );
                             return None;
                         }
                     }
@@ -112,12 +115,15 @@ impl Pure<'_> {
                             let mut new_cons = bs.take();
                             new_cons.stmts[0] = cons;
 
-                            ls.body = Box::new(Stmt::If(IfStmt {
-                                span: ls.span,
-                                test,
-                                cons: Box::new(Stmt::Block(new_cons)),
-                                alt: None,
-                            }));
+                            ls.body = Box::new(
+                                IfStmt {
+                                    span: ls.span,
+                                    test,
+                                    cons: Box::new(Stmt::Block(new_cons)),
+                                    alt: None,
+                                }
+                                .into(),
+                            );
                             return None;
                         }
                     }
@@ -240,7 +246,7 @@ impl Pure<'_> {
                 |(mut decls, mut hoisted_fns, mut new_stmts), stmt| {
                     match stmt.take().try_into_stmt() {
                         Ok(Stmt::Decl(Decl::Fn(f))) => {
-                            hoisted_fns.push(Stmt::Decl(Decl::Fn(f)).into());
+                            hoisted_fns.push(T::from(Stmt::from(f)));
                         }
                         Ok(t) => {
                             let ids = extract_var_ids(&t).into_iter().map(|i| VarDeclarator {
@@ -258,16 +264,13 @@ impl Pure<'_> {
             );
 
             if !decls.is_empty() {
-                new_stmts.push(
-                    Stmt::from(VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        decls,
-                        declare: false,
-                        ..Default::default()
-                    })
-                    .into(),
-                );
+                new_stmts.push(T::from(Stmt::from(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    decls,
+                    declare: false,
+                    ..Default::default()
+                })));
             }
 
             new_stmts.extend(stmts.drain(..=idx));
@@ -290,10 +293,11 @@ impl Pure<'_> {
             match stmt.as_stmt_mut() {
                 Some(s) if s.eq_ignore_span(last) => {
                     if need_break {
-                        *s = Stmt::Break(BreakStmt {
+                        *s = BreakStmt {
                             label: None,
                             span: s.span(),
-                        });
+                        }
+                        .into();
                     } else {
                         s.take();
                     }
@@ -418,11 +422,11 @@ impl Pure<'_> {
                             Stmt::Block(v) if is_ok(&v) => {
                                 let stmts = v.stmts;
                                 maybe_par!(
-                                    stmts.into_iter().map(T::from_stmt).collect(),
+                                    stmts.into_iter().map(T::from).collect(),
                                     *crate::LIGHT_TASK_PARALLELS
                                 )
                             }
-                            _ => vec![T::from_stmt(v)],
+                            _ => vec![T::from(v)],
                         },
                         Err(v) => vec![v],
                     })
@@ -437,11 +441,11 @@ impl Pure<'_> {
                             Stmt::Block(v) if is_ok(&v) => {
                                 let stmts = v.stmts;
                                 maybe_par!(
-                                    stmts.into_iter().map(T::from_stmt).collect(),
+                                    stmts.into_iter().map(T::from).collect(),
                                     *crate::LIGHT_TASK_PARALLELS
                                 )
                             }
-                            _ => vec![T::from_stmt(v)],
+                            _ => vec![T::from(v)],
                         },
                         Err(v) => vec![v],
                     })
@@ -454,9 +458,9 @@ impl Pure<'_> {
                 .for_each(|stmt| match stmt.try_into_stmt() {
                     Ok(v) => match v {
                         Stmt::Block(v) if is_ok(&v) => {
-                            new.extend(v.stmts.into_iter().map(T::from_stmt));
+                            new.extend(v.stmts.into_iter().map(T::from));
                         }
-                        _ => new.push(T::from_stmt(v)),
+                        _ => new.push(T::from(v)),
                     },
                     Err(v) => new.push(v),
                 });
@@ -475,10 +479,11 @@ impl Pure<'_> {
             {
                 report_change!("unused: Removing `return void` in end of a function");
                 self.changed = true;
-                *s = Stmt::Expr(ExprStmt {
+                *s = ExprStmt {
                     span: *span,
                     expr: arg.take(),
-                });
+                }
+                .into();
             }
         }
     }
@@ -513,10 +518,13 @@ impl Pure<'_> {
                     Stmt::If(mut s) => {
                         if let Value::Known(v) = s.test.cast_to_bool(&self.expr_ctx).1 {
                             let mut var_ids = vec![];
-                            new.push(T::from_stmt(Stmt::Expr(ExprStmt {
-                                span: DUMMY_SP,
-                                expr: s.test.take(),
-                            })));
+                            new.push(T::from(
+                                ExprStmt {
+                                    span: DUMMY_SP,
+                                    expr: s.test.take(),
+                                }
+                                .into(),
+                            ));
 
                             if v {
                                 if let Some(alt) = s.alt.take() {
@@ -532,7 +540,7 @@ impl Pure<'_> {
                                         .collect();
                                 }
                                 if !var_ids.is_empty() {
-                                    new.push(T::from_stmt(
+                                    new.push(T::from(
                                         VarDecl {
                                             span: DUMMY_SP,
                                             kind: VarDeclKind::Var,
@@ -543,7 +551,7 @@ impl Pure<'_> {
                                         .into(),
                                     ))
                                 }
-                                new.push(T::from_stmt(*s.cons.take()));
+                                new.push(T::from(*s.cons.take()));
                             } else {
                                 var_ids = s
                                     .cons
@@ -557,7 +565,7 @@ impl Pure<'_> {
                                     })
                                     .collect();
                                 if !var_ids.is_empty() {
-                                    new.push(T::from_stmt(
+                                    new.push(T::from(
                                         VarDecl {
                                             span: DUMMY_SP,
                                             kind: VarDeclKind::Var,
@@ -569,14 +577,14 @@ impl Pure<'_> {
                                     ))
                                 }
                                 if let Some(alt) = s.alt.take() {
-                                    new.push(T::from_stmt(*alt));
+                                    new.push(T::from(*alt));
                                 }
                             }
                         } else {
-                            new.push(T::from_stmt(Stmt::If(s)));
+                            new.push(T::from(s.into()));
                         }
                     }
-                    _ => new.push(T::from_stmt(stmt)),
+                    _ => new.push(T::from(stmt)),
                 },
                 Err(stmt) => new.push(stmt),
             });

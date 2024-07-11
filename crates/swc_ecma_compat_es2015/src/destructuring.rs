@@ -1088,7 +1088,7 @@ impl Destructuring {
                     // Add variable declaration
                     // e.g. var ref
                     if !folder.vars.is_empty() {
-                        stmts_updated.push(T::from_stmt(
+                        stmts_updated.push(T::from(
                             VarDecl {
                                 span: DUMMY_SP,
                                 kind: VarDeclKind::Var,
@@ -1107,7 +1107,7 @@ impl Destructuring {
                     // Add variable declaration
                     // e.g. var ref
                     if !folder.vars.is_empty() {
-                        stmts_updated.push(T::from_stmt(
+                        stmts_updated.push(T::from(
                             VarDecl {
                                 span: DUMMY_SP,
                                 kind: VarDeclKind::Var,
@@ -1118,7 +1118,7 @@ impl Destructuring {
                         ));
                     }
 
-                    stmts_updated.push(T::from_stmt(stmt));
+                    stmts_updated.push(T::from(stmt));
                 }
             }
         }

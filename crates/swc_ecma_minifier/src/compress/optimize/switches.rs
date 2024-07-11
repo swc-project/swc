@@ -145,17 +145,18 @@ impl Optimizer<'_> {
             }
 
             stmts.extend(last.cons);
-            *s = Stmt::Block(BlockStmt {
+            *s = BlockStmt {
                 stmts,
                 ..Default::default()
-            })
+            }
+            .into()
         } else {
             report_change!("switches: Removing unreachable cases from a constant switch");
 
             stmt.cases = cases;
 
             if !var_ids.is_empty() {
-                *s = Stmt::Block(BlockStmt {
+                *s = BlockStmt {
                     stmts: vec![
                         VarDecl {
                             span: DUMMY_SP,
@@ -168,7 +169,8 @@ impl Optimizer<'_> {
                         s.take(),
                     ],
                     ..Default::default()
-                })
+                }
+                .into()
             }
         }
     }
@@ -347,10 +349,11 @@ impl Optimizer<'_> {
                 [] => {
                     self.changed = true;
                     report_change!("switches: Removing empty switch");
-                    *s = Stmt::Expr(ExprStmt {
+                    *s = ExprStmt {
                         span: sw.span,
                         expr: sw.discriminant.take(),
-                    })
+                    }
+                    .into()
                 }
                 [case] => {
                     if contains_nested_break(case) {
@@ -372,7 +375,7 @@ impl Optimizer<'_> {
                         }
                         .into();
 
-                        *s = Stmt::If(IfStmt {
+                        *s = IfStmt {
                             span: sw.span,
                             test,
                             cons: Box::new(Stmt::Block(BlockStmt {
@@ -381,7 +384,8 @@ impl Optimizer<'_> {
                                 ..Default::default()
                             })),
                             alt: None,
-                        })
+                        }
+                        .into()
                     } else {
                         // is default
                         let mut stmts = vec![Stmt::Expr(ExprStmt {
@@ -389,11 +393,12 @@ impl Optimizer<'_> {
                             expr: discriminant,
                         })];
                         stmts.extend(case.cons);
-                        *s = Stmt::Block(BlockStmt {
+                        *s = BlockStmt {
                             span: sw.span,
                             stmts,
                             ..Default::default()
-                        })
+                        }
+                        .into()
                     }
                 }
                 [first, second] if first.test.is_none() || second.test.is_none() => {
@@ -412,7 +417,7 @@ impl Optimizer<'_> {
                         } else {
                             (second, first)
                         };
-                        *s = Stmt::If(IfStmt {
+                        *s = IfStmt {
                             span: sw.span,
                             test: BinExpr {
                                 span: DUMMY_SP,
@@ -435,7 +440,8 @@ impl Optimizer<'_> {
                                 })
                                 .into(),
                             ),
-                        })
+                        }
+                        .into()
                     } else {
                         let mut stmts = vec![Stmt::If(IfStmt {
                             span: DUMMY_SP,
@@ -464,11 +470,12 @@ impl Optimizer<'_> {
                             alt: None,
                         })];
                         stmts.extend(second.cons.take());
-                        *s = Stmt::Block(BlockStmt {
+                        *s = BlockStmt {
                             span: sw.span,
                             stmts,
                             ..Default::default()
-                        })
+                        }
+                        .into()
                     }
                 }
                 _ => (),

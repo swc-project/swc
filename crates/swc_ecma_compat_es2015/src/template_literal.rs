@@ -5,9 +5,7 @@ use swc_atoms::JsWord;
 use swc_common::{util::take::Take, BytePos, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Parallel};
-use swc_ecma_utils::{
-    is_literal, prepend_stmts, private_ident, quote_ident, ExprFactory, StmtLike,
-};
+use swc_ecma_utils::{is_literal, prepend_stmts, private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
@@ -356,11 +354,14 @@ impl VisitMut for TemplateLiteral {
 
                     ..Default::default()
                 };
-                self.added.push(Stmt::Decl(Decl::Fn(FnDecl {
-                    declare: false,
-                    ident: fn_ident.clone(),
-                    function: f.into(),
-                })));
+                self.added.push(
+                    FnDecl {
+                        declare: false,
+                        ident: fn_ident.clone(),
+                        function: f.into(),
+                    }
+                    .into(),
+                );
 
                 *e = CallExpr {
                     span: DUMMY_SP,
@@ -388,7 +389,7 @@ impl VisitMut for TemplateLiteral {
     fn visit_mut_module(&mut self, m: &mut Module) {
         m.visit_mut_children_with(self);
 
-        prepend_stmts(&mut m.body, self.added.drain(..).map(ModuleItem::from_stmt));
+        prepend_stmts(&mut m.body, self.added.drain(..).map(ModuleItem::from));
     }
 
     fn visit_mut_script(&mut self, m: &mut Script) {

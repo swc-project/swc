@@ -115,7 +115,7 @@ impl Hoister<'_> {
                     match stmt {
                         Stmt::Decl(Decl::Fn(..)) if self.config.hoist_fns => {
                             // Move functions to top.
-                            fn_decls.push(T::from_stmt(stmt))
+                            fn_decls.push(T::from(stmt))
                         }
 
                         Stmt::Decl(Decl::Var(var))
@@ -172,18 +172,21 @@ impl Hoister<'_> {
                             if exprs.is_empty() {
                                 continue;
                             }
-                            new_stmts.push(T::from_stmt(Stmt::Expr(ExprStmt {
-                                span: var.span,
-                                expr: if exprs.len() == 1 {
-                                    exprs.into_iter().next().unwrap()
-                                } else {
-                                    SeqExpr {
-                                        span: DUMMY_SP,
-                                        exprs,
-                                    }
-                                    .into()
-                                },
-                            })))
+                            new_stmts.push(T::from(
+                                ExprStmt {
+                                    span: var.span,
+                                    expr: if exprs.len() == 1 {
+                                        exprs.into_iter().next().unwrap()
+                                    } else {
+                                        SeqExpr {
+                                            span: DUMMY_SP,
+                                            exprs,
+                                        }
+                                        .into()
+                                    },
+                                }
+                                .into(),
+                            ))
                         }
 
                         Stmt::Decl(Decl::Var(v))
@@ -234,10 +237,10 @@ impl Hoister<'_> {
                             }));
                         }
 
-                        Stmt::Decl(Decl::Var(..)) => new_stmts.push(T::from_stmt(stmt)),
+                        Stmt::Decl(Decl::Var(..)) => new_stmts.push(T::from(stmt)),
                         _ => {
                             if let Stmt::Throw(..) = stmt {
-                                fn_decls.push(T::from_stmt(
+                                fn_decls.push(T::from(
                                     VarDecl {
                                         span: DUMMY_SP,
                                         kind: VarDeclKind::Var,
@@ -249,7 +252,7 @@ impl Hoister<'_> {
                                 ));
                             }
                             found_non_var_decl = true;
-                            new_stmts.push(T::from_stmt(stmt))
+                            new_stmts.push(T::from(stmt))
                         }
                     }
                 }
@@ -257,7 +260,7 @@ impl Hoister<'_> {
             }
         }
 
-        fn_decls.push(T::from_stmt(
+        fn_decls.push(T::from(
             VarDecl {
                 span: DUMMY_SP,
                 kind: VarDeclKind::Var,

@@ -277,25 +277,28 @@ where
                 let orig_ident = ident.clone();
                 match self.rename_ident(&mut ident) {
                     Ok(..) => {
-                        *item = ModuleItem::Stmt(Stmt::Decl(Decl::Class(ClassDecl {
+                        *item = ClassDecl {
                             ident: ident.clone(),
                             class: class.take(),
                             declare: *declare,
-                        })));
+                        }
+                        .into();
                         export!(
                             ModuleExportName::Ident(orig_ident),
                             ModuleExportName::Ident(ident.take())
                         );
                     }
                     Err(..) => {
-                        *item = ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                        *item = ExportDecl {
                             span: *span,
-                            decl: Decl::Class(ClassDecl {
+                            decl: ClassDecl {
                                 ident: ident.take(),
                                 class: class.take(),
                                 declare: *declare,
-                            }),
-                        }))
+                            }
+                            .into(),
+                        }
+                        .into()
                     }
                 }
             }
@@ -315,25 +318,28 @@ where
                 let orig_ident = ident.clone();
                 match self.rename_ident(&mut ident) {
                     Ok(..) => {
-                        *item = ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
+                        *item = FnDecl {
                             ident: ident.clone(),
                             function,
                             declare: *declare,
-                        })));
+                        }
+                        .into();
                         export!(
                             ModuleExportName::Ident(orig_ident),
                             ModuleExportName::Ident(ident)
                         );
                     }
                     Err(..) => {
-                        *item = ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                        *item = ExportDecl {
                             span: *span,
-                            decl: Decl::Fn(FnDecl {
+                            decl: FnDecl {
                                 ident,
                                 function,
                                 declare: *declare,
-                            }),
-                        }))
+                            }
+                            .into(),
+                        }
+                        .into()
                     }
                 }
             }
@@ -354,29 +360,32 @@ where
                 });
 
                 if renamed.is_empty() {
-                    *item = ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    *item = ExportDecl {
                         span,
-                        decl: Decl::Var(Box::new(VarDecl {
+                        decl: VarDecl {
                             decls,
                             ..*var.take()
-                        })),
-                    }));
+                        }
+                        .into(),
+                    }
+                    .into();
                     return;
                 }
-                *item = ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                *item = VarDecl {
                     decls,
                     ..*var.take()
-                }))));
-                self.extra
-                    .push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
-                        NamedExport {
-                            span,
-                            specifiers: renamed,
-                            src: None,
-                            type_only: false,
-                            with: None,
-                        },
-                    )));
+                }
+                .into();
+                self.extra.push(
+                    NamedExport {
+                        span,
+                        specifiers: renamed,
+                        src: None,
+                        type_only: false,
+                        with: None,
+                    }
+                    .into(),
+                );
             }
             _ => {
                 item.visit_mut_children_with(self);

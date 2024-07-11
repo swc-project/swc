@@ -330,7 +330,7 @@ impl VisitMut for ConstructorFolder<'_> {
                         .into_stmt()
                     }
                     Some(SuperFoldingMode::Var) => {
-                        *stmt = Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                        *stmt = VarDecl {
                             span: DUMMY_SP,
                             declare: false,
                             kind: VarDeclKind::Var,
@@ -345,13 +345,15 @@ impl VisitMut for ConstructorFolder<'_> {
                                 definite: false,
                             }],
                             ..Default::default()
-                        })))
+                        }
+                        .into()
                     }
                     None => {
-                        *stmt = Stmt::Return(ReturnStmt {
+                        *stmt = ReturnStmt {
                             span: DUMMY_SP,
                             arg: Some(expr),
-                        })
+                        }
+                        .into()
                     }
                 }
             }

@@ -94,59 +94,54 @@ struct ClassExtra {
 
 #[swc_trace]
 impl ClassExtra {
-    fn prepend_with<T: StmtLike + From<Stmt>>(self, stmts: &mut Vec<T>) {
+    fn prepend_with<T: StmtLike>(self, stmts: &mut Vec<T>) {
         if !self.vars.is_empty() {
             prepend_stmt(
                 stmts,
-                Stmt::from(VarDecl {
+                T::from(Stmt::from(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     decls: self.vars,
                     ..Default::default()
-                })
-                .into(),
+                })),
             )
         }
 
         if !self.lets.is_empty() {
             prepend_stmt(
                 stmts,
-                Stmt::from(VarDecl {
+                T::from(Stmt::from(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Let,
                     decls: self.lets,
                     ..Default::default()
-                })
-                .into(),
+                })),
             )
         }
 
         stmts.extend(self.stmts.into_iter().map(|stmt| stmt.into()))
     }
 
-    fn merge_with<T: StmtLike + From<Stmt>>(self, stmts: &mut Vec<T>, class: T) {
+    fn merge_with<T: StmtLike>(self, stmts: &mut Vec<T>, class: T) {
         if !self.vars.is_empty() {
-            stmts.push(
-                Stmt::from(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    decls: self.vars,
-                    ..Default::default()
-                })
-                .into(),
-            )
+            stmts.push(T::from(Stmt::from(VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Var,
+                decls: self.vars,
+                ..Default::default()
+            })))
         }
 
         if !self.lets.is_empty() {
-            stmts.push(
-                Stmt::from(VarDecl {
+            stmts.push(T::from(
+                VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Let,
                     decls: self.lets,
                     ..Default::default()
-                })
+                }
                 .into(),
-            )
+            ));
         }
 
         stmts.push(class);
@@ -190,12 +185,15 @@ impl<C: Comments> VisitMut for ClassProperties<C> {
                 let ident = ident.unwrap_or_else(|| private_ident!("_class"));
                 let (decl, extra) = self.visit_mut_class_as_decl(ident.clone(), class);
 
-                extra.merge_with(&mut stmts, Stmt::Decl(Decl::Class(decl)));
+                extra.merge_with(&mut stmts, decl.into());
 
-                stmts.push(Stmt::Return(ReturnStmt {
-                    span: DUMMY_SP,
-                    arg: Some(ident.into()),
-                }));
+                stmts.push(
+                    ReturnStmt {
+                        span: DUMMY_SP,
+                        arg: Some(ident.into()),
+                    }
+                    .into(),
+                );
 
                 *body = BlockStmtOrExpr::BlockStmt(BlockStmt {
                     span: DUMMY_SP,
@@ -353,13 +351,10 @@ impl<C: Comments> ClassProperties<C> {
                                 let (decl, extra) =
                                     self.visit_mut_class_as_decl(ident.clone(), class);
 
-                                extra.merge_with(
-                                    &mut buf,
-                                    T::from_stmt(Stmt::Decl(Decl::Class(decl))),
-                                );
+                                extra.merge_with(&mut buf, T::from(decl.into()));
 
                                 buf.push(
-                                    match T::try_from_module_decl(ModuleDecl::ExportNamed(
+                                    match T::try_from_module_decl(
                                         NamedExport {
                                             span,
                                             specifiers: vec![ExportNamedSpecifier {
@@ -374,8 +369,9 @@ impl<C: Comments> ClassProperties<C> {
                                             src: None,
                                             type_only: false,
                                             with: None,
-                                        },
-                                    )) {
+                                        }
+                                        .into(),
+                                    ) {
                                         Ok(t) => t,
                                         Err(..) => unreachable!(),
                                     },
@@ -394,12 +390,13 @@ impl<C: Comments> ClassProperties<C> {
                                 let (decl, extra) = self.visit_mut_class_as_decl(ident, class);
                                 extra.merge_with(
                                     &mut buf,
-                                    match T::try_from_module_decl(ModuleDecl::ExportDecl(
+                                    match T::try_from_module_decl(
                                         ExportDecl {
                                             span,
-                                            decl: Decl::Class(decl),
-                                        },
-                                    )) {
+                                            decl: decl.into(),
+                                        }
+                                        .into(),
+                                    ) {
                                         Ok(t) => t,
                                         Err(..) => unreachable!(),
                                     },
@@ -425,11 +422,11 @@ impl<C: Comments> ClassProperties<C> {
                             declare: false,
                         })) => {
                             let (decl, extra) = self.visit_mut_class_as_decl(ident, class);
-                            extra.merge_with(&mut buf, T::from_stmt(Stmt::Decl(Decl::Class(decl))))
+                            extra.merge_with(&mut buf, T::from(decl.into()))
                         }
                         _ => {
                             stmt.visit_mut_children_with(self);
-                            buf.push(T::from_stmt(stmt))
+                            buf.push(T::from(stmt))
                         }
                     }
                 }
@@ -956,11 +953,14 @@ impl<C: Comments> ClassProperties<C> {
                         in_pat: false,
                     });
 
-                    private_method_fn_decls.push(Stmt::Decl(Decl::Fn(FnDecl {
-                        ident: fn_name,
-                        function: method.function,
-                        declare: false,
-                    })))
+                    private_method_fn_decls.push(
+                        FnDecl {
+                            ident: fn_name,
+                            function: method.function,
+                            declare: false,
+                        }
+                        .into(),
+                    )
                 }
 
                 ClassMember::StaticBlock(..) => {

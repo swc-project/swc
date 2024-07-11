@@ -919,7 +919,7 @@ impl VisitMut for TreeShaker {
                 {
                     debug!("Dropping an import because it's not used");
                     self.changed = true;
-                    *n = ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }));
+                    *n = EmptyStmt { span: DUMMY_SP }.into();
                 }
             }
             _ => {
@@ -970,20 +970,21 @@ impl VisitMut for TreeShaker {
                 self.changed = true;
 
                 if exprs.is_empty() {
-                    *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                    *s = EmptyStmt { span: DUMMY_SP }.into();
                     return;
                 } else {
-                    *s = Stmt::Expr(ExprStmt {
+                    *s = ExprStmt {
                         span,
                         expr: Expr::from_exprs(exprs),
-                    });
+                    }
+                    .into();
                 }
             }
         }
 
         if let Stmt::Decl(Decl::Var(v)) = s {
             if v.decls.is_empty() {
-                *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                *s = EmptyStmt { span: DUMMY_SP }.into();
             }
         }
 

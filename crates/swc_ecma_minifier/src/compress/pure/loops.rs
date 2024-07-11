@@ -17,13 +17,14 @@ impl Pure<'_> {
             Stmt::While(stmt) => {
                 self.changed = true;
                 report_change!("loops: Converting a while loop to a for loop");
-                *s = Stmt::For(ForStmt {
+                *s = ForStmt {
                     span: stmt.span,
                     init: None,
                     test: Some(stmt.test.take()),
                     update: None,
                     body: stmt.body.take(),
-                });
+                }
+                .into();
             }
             Stmt::DoWhile(stmt) => {
                 let val = stmt.test.as_pure_bool(&self.expr_ctx);
@@ -31,13 +32,14 @@ impl Pure<'_> {
                     self.changed = true;
                     report_change!("loops: Converting an always-true do-while loop to a for loop");
 
-                    *s = Stmt::For(ForStmt {
+                    *s = ForStmt {
                         span: stmt.span,
                         init: None,
                         test: Some(stmt.test.take()),
                         update: None,
                         body: stmt.body.take(),
-                    });
+                    }
+                    .into();
                 }
             }
             _ => {}

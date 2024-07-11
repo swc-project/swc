@@ -123,11 +123,14 @@ impl FnEnvHoister {
         if decls.is_empty() {
             None
         } else {
-            Some(Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                kind: VarDeclKind::Var,
-                decls,
-                ..Default::default()
-            }))))
+            Some(
+                VarDecl {
+                    kind: VarDeclKind::Var,
+                    decls,
+                    ..Default::default()
+                }
+                .into(),
+            )
         }
     }
 
@@ -180,11 +183,14 @@ impl FnEnvHoister {
             (None, None)
         } else {
             (
-                Some(Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                    kind: VarDeclKind::Var,
-                    decls,
-                    ..Default::default()
-                })))),
+                Some(
+                    VarDecl {
+                        kind: VarDeclKind::Var,
+                        decls,
+                        ..Default::default()
+                    }
+                    .into(),
+                ),
                 this,
             )
         }
@@ -291,7 +297,7 @@ impl VisitMut for FnEnvHoister {
         if !self.extra_ident.is_empty() {
             b.stmts.insert(
                 0,
-                Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                VarDecl {
                     kind: VarDeclKind::Var,
                     decls: self
                         .extra_ident
@@ -305,7 +311,8 @@ impl VisitMut for FnEnvHoister {
                         })
                         .collect(),
                     ..Default::default()
-                }))),
+                }
+                .into(),
             )
         }
     }

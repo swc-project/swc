@@ -107,9 +107,9 @@ impl<C: Comments + Clone> AsyncToGenerator<C> {
             };
 
             stmt.visit_mut_with(&mut actual);
-            stmts_updated.extend(actual.hoist_stmts.into_iter().map(T::from_stmt));
+            stmts_updated.extend(actual.hoist_stmts.into_iter().map(T::from));
             stmts_updated.push(stmt);
-            stmts_updated.extend(actual.extra_stmts.into_iter().map(T::from_stmt));
+            stmts_updated.extend(actual.extra_stmts.into_iter().map(T::from));
         }
 
         *stmts = stmts_updated;
@@ -153,18 +153,21 @@ impl<C: Comments> VisitMut for Actual<C> {
                 stmts: visitor
                     .to_stmt()
                     .into_iter()
-                    .chain(iter::once(Stmt::Return(ReturnStmt {
-                        span: DUMMY_SP,
-                        arg: Some(
-                            CallExpr {
-                                span: DUMMY_SP,
-                                callee: expr.as_callee(),
-                                args: vec![],
-                                ..Default::default()
-                            }
-                            .into(),
-                        ),
-                    })))
+                    .chain(iter::once(
+                        ReturnStmt {
+                            span: DUMMY_SP,
+                            arg: Some(
+                                CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: expr.as_callee(),
+                                    args: vec![],
+                                    ..Default::default()
+                                }
+                                .into(),
+                            ),
+                        }
+                        .into(),
+                    ))
                     .collect(),
                 ..Default::default()
             }),
@@ -205,7 +208,7 @@ impl<C: Comments> VisitMut for Actual<C> {
 
         let FnWrapperResult { name_fn, ref_fn } = wrapper.into();
         *f = name_fn;
-        self.extra_stmts.push(Stmt::Decl(ref_fn.into()));
+        self.extra_stmts.push(ref_fn.into());
     }
 
     fn visit_mut_module_item(&mut self, item: &mut ModuleItem) {
@@ -224,14 +227,12 @@ impl<C: Comments> VisitMut for Actual<C> {
 
                         let FnWrapperResult { name_fn, ref_fn } = wrapper.into();
 
-                        *item = ModuleItem::ModuleDecl(
-                            ExportDefaultDecl {
-                                span: export_default.span,
-                                decl: name_fn.into(),
-                            }
-                            .into(),
-                        );
-                        self.extra_stmts.push(Stmt::Decl(ref_fn.into()));
+                        *item = ExportDefaultDecl {
+                            span: export_default.span,
+                            decl: name_fn.into(),
+                        }
+                        .into();
+                        self.extra_stmts.push(ref_fn.into());
                     };
                 } else {
                     export_default.visit_mut_children_with(self);
@@ -624,16 +625,19 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 );
             }
             ForHead::Pat(p) => {
-                for_loop_body.push(Stmt::Expr(ExprStmt {
-                    span: DUMMY_SP,
-                    expr: AssignExpr {
+                for_loop_body.push(
+                    ExprStmt {
                         span: DUMMY_SP,
-                        op: op!("="),
-                        left: p.try_into().unwrap(),
-                        right: Box::new(value.into()),
+                        expr: AssignExpr {
+                            span: DUMMY_SP,
+                            op: op!("="),
+                            left: p.try_into().unwrap(),
+                            right: Box::new(value.into()),
+                        }
+                        .into(),
                     }
                     .into(),
-                }));
+                );
             }
 
             ForHead::UsingDecl(..) => {
@@ -676,7 +680,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             definite: false,
         });
 
-        let for_stmt = Stmt::For(ForStmt {
+        let for_stmt = ForStmt {
             span: s.span,
             // var _iterator = _async_iterator(lol()), _step;
             init: Some(
@@ -754,7 +758,8 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 .into(),
             ),
             body: Box::new(Stmt::Block(for_loop_body)),
-        });
+        }
+        .into();
 
         BlockStmt {
             span: body_span,
@@ -765,7 +770,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
 
     let catch_clause = {
         // _didIteratorError = true;
-        let mark_as_errorred = Stmt::Expr(ExprStmt {
+        let mark_as_errorred = ExprStmt {
             span: DUMMY_SP,
             expr: AssignExpr {
                 span: DUMMY_SP,
@@ -774,9 +779,10 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 right: true.into(),
             }
             .into(),
-        });
+        }
+        .into();
         // _iteratorError = err;
-        let store_error = Stmt::Expr(ExprStmt {
+        let store_error = ExprStmt {
             span: DUMMY_SP,
             expr: AssignExpr {
                 span: DUMMY_SP,
@@ -785,7 +791,8 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 right: Box::new(err_param.clone().into()),
             }
             .into(),
-        });
+        }
+        .into();
 
         CatchClause {
             span: DUMMY_SP,
@@ -798,11 +805,12 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
     };
 
     let finally_block = {
-        let throw_iterator_error = Stmt::Throw(ThrowStmt {
+        let throw_iterator_error = ThrowStmt {
             span: DUMMY_SP,
             arg: iterator_error.clone().into(),
-        });
-        let throw_iterator_error = Stmt::If(IfStmt {
+        }
+        .into();
+        let throw_iterator_error = IfStmt {
             span: DUMMY_SP,
             test: did_iteration_error.clone().into(),
             cons: Box::new(Stmt::Block(BlockStmt {
@@ -811,7 +819,8 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 ..Default::default()
             })),
             alt: None,
-        });
+        }
+        .into();
 
         let iterator_return: Expr = CallExpr {
             span: DUMMY_SP,
@@ -827,7 +836,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
         // yield _iterator.return();
         // or
         // yield _awaitAsyncGenerator(_iterator.return());
-        let yield_stmt = Stmt::Expr(ExprStmt {
+        let yield_stmt = ExprStmt {
             span: DUMMY_SP,
             expr: YieldExpr {
                 span: DUMMY_SP,
@@ -845,9 +854,10 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 }),
             }
             .into(),
-        });
+        }
+        .into();
 
-        let conditional_yield = Stmt::If(IfStmt {
+        let conditional_yield = IfStmt {
             span: DUMMY_SP,
             // _iteratorAbruptCompletion && _iterator.return != null
             test: BinExpr {
@@ -872,7 +882,8 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 ..Default::default()
             })),
             alt: None,
-        });
+        }
+        .into();
         let body = BlockStmt {
             stmts: vec![conditional_yield],
             ..Default::default()
@@ -933,9 +944,10 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
         try_stmt.into(),
     ];
 
-    *stmt = Stmt::Block(BlockStmt {
+    *stmt = BlockStmt {
         span: s.span,
         stmts,
         ..Default::default()
-    })
+    }
+    .into()
 }

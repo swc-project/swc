@@ -17,7 +17,7 @@ const TRACK: bool = false;
 
 pub(crate) trait VarDeclaratorExt: Into<VarDeclarator> {
     fn into_module_item(self, injected_ctxt: SyntaxContext, name: &str) -> ModuleItem {
-        ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+        VarDecl {
             span: DUMMY_SP,
             ctxt: injected_ctxt,
             kind: VarDeclKind::Const,
@@ -35,7 +35,8 @@ pub(crate) trait VarDeclaratorExt: Into<VarDeclarator> {
             } else {
                 vec![self.into()]
             },
-        }))))
+        }
+        .into()
     }
 }
 

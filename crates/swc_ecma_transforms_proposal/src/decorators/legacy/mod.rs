@@ -65,7 +65,7 @@ impl TscDecorator {
             s.visit_mut_with(self);
 
             if !self.vars.is_empty() {
-                new.push(T::from_stmt(
+                new.push(T::from(
                     VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
@@ -81,12 +81,13 @@ impl TscDecorator {
                 self.prepended_exprs
                     .drain(..)
                     .map(|expr| {
-                        Stmt::Expr(ExprStmt {
+                        ExprStmt {
                             span: DUMMY_SP,
                             expr,
-                        })
+                        }
+                        .into()
                     })
-                    .map(T::from_stmt),
+                    .map(T::from),
             );
 
             new.push(s);
@@ -95,12 +96,13 @@ impl TscDecorator {
                 self.appended_exprs
                     .drain(..)
                     .map(|expr| {
-                        Stmt::Expr(ExprStmt {
+                        ExprStmt {
                             span: DUMMY_SP,
                             expr,
-                        })
+                        }
+                        .into()
                     })
-                    .map(T::from_stmt),
+                    .map(T::from),
             );
         }
 

@@ -284,55 +284,61 @@ impl SystemJs {
                 }
                 .into(),
             );
-            meta.setter_fn_stmts.push(Stmt::ForIn(ForInStmt {
-                span: DUMMY_SP,
-                left: VarDecl {
-                    kind: VarDeclKind::Var,
-                    decls: vec![VarDeclarator {
+            meta.setter_fn_stmts.push(
+                ForInStmt {
+                    span: DUMMY_SP,
+                    left: VarDecl {
+                        kind: VarDeclKind::Var,
+                        decls: vec![VarDeclarator {
+                            span: DUMMY_SP,
+                            name: key_ident.clone().into(),
+                            init: None,
+                            definite: false,
+                        }],
+                        ..Default::default()
+                    }
+                    .into(),
+                    right: target.clone().into(),
+
+                    body: Box::new(Stmt::Block(BlockStmt {
                         span: DUMMY_SP,
-                        name: key_ident.clone().into(),
-                        init: None,
-                        definite: false,
-                    }],
-                    ..Default::default()
+                        stmts: vec![Stmt::If(IfStmt {
+                            span: DUMMY_SP,
+                            test: Box::new(Expr::Bin(BinExpr {
+                                span: DUMMY_SP,
+                                op: op!("&&"),
+                                left: Box::new(
+                                    key_ident
+                                        .clone()
+                                        .make_bin(op!("!=="), quote_str!("default")),
+                                ),
+                                right: Box::new(
+                                    key_ident
+                                        .clone()
+                                        .make_bin(op!("!=="), quote_str!("__esModule")),
+                                ),
+                            })),
+                            cons: Box::new(Stmt::Block(BlockStmt {
+                                stmts: vec![AssignExpr {
+                                    span: DUMMY_SP,
+                                    op: op!("="),
+                                    left: export_obj
+                                        .clone()
+                                        .computed_member(key_ident.clone())
+                                        .into(),
+                                    right: target.computed_member(key_ident).into(),
+                                }
+                                .into_stmt()],
+                                ..Default::default()
+                            })),
+                            alt: None,
+                        })],
+
+                        ..Default::default()
+                    })),
                 }
                 .into(),
-                right: target.clone().into(),
-
-                body: Box::new(Stmt::Block(BlockStmt {
-                    span: DUMMY_SP,
-                    stmts: vec![Stmt::If(IfStmt {
-                        span: DUMMY_SP,
-                        test: Box::new(Expr::Bin(BinExpr {
-                            span: DUMMY_SP,
-                            op: op!("&&"),
-                            left: Box::new(
-                                key_ident
-                                    .clone()
-                                    .make_bin(op!("!=="), quote_str!("default")),
-                            ),
-                            right: Box::new(
-                                key_ident
-                                    .clone()
-                                    .make_bin(op!("!=="), quote_str!("__esModule")),
-                            ),
-                        })),
-                        cons: Box::new(Stmt::Block(BlockStmt {
-                            stmts: vec![AssignExpr {
-                                span: DUMMY_SP,
-                                op: op!("="),
-                                left: export_obj.clone().computed_member(key_ident.clone()).into(),
-                                right: target.computed_member(key_ident).into(),
-                            }
-                            .into_stmt()],
-                            ..Default::default()
-                        })),
-                        alt: None,
-                    })],
-
-                    ..Default::default()
-                })),
-            }));
+            );
             for (sym, value) in meta
                 .export_names
                 .drain(..)
@@ -471,49 +477,54 @@ impl SystemJs {
                     if let Some(expr) = self.hoist_var_decl(var_decl) {
                         expr.into_stmt()
                     } else {
-                        Stmt::Empty(EmptyStmt { span: DUMMY_SP })
+                        EmptyStmt { span: DUMMY_SP }.into()
                     }
                     // } else {
                     //     return Stmt::Decl(Decl::Var(var_decl));
                     // }
                 } else {
-                    Stmt::Decl(decl)
+                    decl.into()
                 }
             }
             Stmt::For(for_stmt) => {
                 if let Some(init) = for_stmt.init {
                     if let VarDeclOrExpr::VarDecl(var_decl) = init {
                         if var_decl.kind == VarDeclKind::Var {
-                            Stmt::For(ForStmt {
+                            ForStmt {
                                 init: self
                                     .hoist_var_decl(var_decl)
                                     .map(|expr| VarDeclOrExpr::Expr(Box::new(expr))),
                                 ..for_stmt
-                            })
+                            }
+                            .into()
                         } else {
-                            Stmt::For(ForStmt {
+                            ForStmt {
                                 init: Some(VarDeclOrExpr::VarDecl(var_decl)),
                                 ..for_stmt
-                            })
+                            }
+                            .into()
                         }
                     } else {
-                        Stmt::For(ForStmt {
+                        ForStmt {
                             init: Some(init),
                             ..for_stmt
-                        })
+                        }
+                        .into()
                     }
                 } else {
-                    Stmt::For(for_stmt)
+                    for_stmt.into()
                 }
             }
-            Stmt::ForIn(for_in_stmt) => Stmt::ForIn(ForInStmt {
+            Stmt::ForIn(for_in_stmt) => ForInStmt {
                 left: self.hoist_for_var_decl(for_in_stmt.left),
                 ..for_in_stmt
-            }),
-            Stmt::ForOf(for_of_stmt) => Stmt::ForOf(ForOfStmt {
+            }
+            .into(),
+            Stmt::ForOf(for_of_stmt) => ForOfStmt {
                 left: self.hoist_for_var_decl(for_of_stmt.left),
                 ..for_of_stmt
-            }),
+            }
+            .into(),
             _ => stmt,
         }
     }
@@ -856,7 +867,7 @@ impl Fold for SystemJs {
                                     fn_decl.ident.to_id(),
                                     fn_decl.ident.sym.clone(),
                                 );
-                                before_body_stmts.push(Stmt::Decl(Decl::Fn(fn_decl)));
+                                before_body_stmts.push(fn_decl.into());
                             }
                             Decl::Var(var_decl) => {
                                 let mut decl = VarDecl {
@@ -904,11 +915,14 @@ impl Fold for SystemJs {
                                     self.export_names.push("default".into());
                                     self.export_values.push(ident.clone().into());
                                     self.add_export_name(ident.to_id(), "default".into());
-                                    before_body_stmts.push(Stmt::Decl(Decl::Fn(FnDecl {
-                                        ident: ident.clone(),
-                                        declare: false,
-                                        function: fn_expr.function,
-                                    })));
+                                    before_body_stmts.push(
+                                        FnDecl {
+                                            ident: ident.clone(),
+                                            declare: false,
+                                            function: fn_expr.function,
+                                        }
+                                        .into(),
+                                    );
                                 } else {
                                     self.export_names.push("default".into());
                                     self.export_values.push(fn_expr.into());
@@ -953,9 +967,9 @@ impl Fold for SystemJs {
                             );
                         }
                         Decl::Fn(fn_decl) => {
-                            before_body_stmts.push(Stmt::Decl(Decl::Fn(fn_decl)));
+                            before_body_stmts.push(fn_decl.into());
                         }
-                        _ => execute_stmts.push(Stmt::Decl(decl)),
+                        _ => execute_stmts.push(decl.into()),
                     },
                     _ => execute_stmts.push(stmt),
                 },

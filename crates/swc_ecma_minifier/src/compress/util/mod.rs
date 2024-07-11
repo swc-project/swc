@@ -658,7 +658,7 @@ impl UnreachableHandler {
         let mut v = Self::default();
         s.visit_mut_with(&mut v);
         if v.vars.is_empty() {
-            *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+            *s = EmptyStmt { span: DUMMY_SP }.into();
         } else {
             *s = VarDecl {
                 span: DUMMY_SP,

@@ -82,7 +82,7 @@ where
                                 });
                                 additional_items.push((
                                     module_id,
-                                    ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                                    NamedExport {
                                         span: DUMMY_SP,
                                         specifiers: vec![specifier],
                                         src: None,
@@ -94,7 +94,8 @@ where
                                             }
                                             .into_with(),
                                         ),
-                                    })),
+                                    }
+                                    .into(),
                                 ));
                             }
                         }
@@ -112,7 +113,7 @@ where
 
         module.append_all(additional_items);
 
-        let return_stmt = Stmt::Return(ReturnStmt {
+        let return_stmt = ReturnStmt {
             span: DUMMY_SP,
             arg: Some(
                 ObjectLit {
@@ -121,7 +122,8 @@ where
                 }
                 .into(),
             ),
-        });
+        }
+        .into();
 
         module.iter().for_each(|(_, v)| {
             if let ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export)) = v {
@@ -179,10 +181,7 @@ where
             }],
         };
 
-        module.append(
-            id,
-            ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(var_decl)))),
-        );
+        module.append(id, var_decl.into());
 
         // print_hygiene(
         //     "wrap",
@@ -233,7 +232,7 @@ impl Fold for ExportToReturn {
         };
 
         let stmt = match decl {
-            ModuleDecl::Import(_) => return ModuleItem::ModuleDecl(decl),
+            ModuleDecl::Import(_) => return decl.into(),
             ModuleDecl::ExportDecl(export) => {
                 match &export.decl {
                     Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
@@ -246,7 +245,7 @@ impl Fold for ExportToReturn {
                     _ => unreachable!(),
                 }
 
-                Some(Stmt::Decl(export.decl))
+                Some(ModuleItem::from(export.decl))
             }
 
             ModuleDecl::ExportDefaultDecl(export) => match export.decl {
@@ -259,11 +258,14 @@ impl Fold for ExportToReturn {
                         ident.clone(),
                     );
 
-                    Some(Stmt::Decl(Decl::Class(ClassDecl {
-                        ident,
-                        class: expr.class,
-                        declare: false,
-                    })))
+                    Some(
+                        ClassDecl {
+                            ident,
+                            class: expr.class,
+                            declare: false,
+                        }
+                        .into(),
+                    )
                 }
                 DefaultDecl::Fn(expr) => {
                     let ident = expr.ident;
@@ -274,18 +276,19 @@ impl Fold for ExportToReturn {
                         ident.clone(),
                     );
 
-                    Some(Stmt::Decl(Decl::Fn(FnDecl {
-                        ident,
-                        function: expr.function,
-                        declare: false,
-                    })))
+                    Some(
+                        FnDecl {
+                            ident,
+                            function: expr.function,
+                            declare: false,
+                        }
+                        .into(),
+                    )
                 }
                 DefaultDecl::TsInterfaceDecl(_) => None,
             },
             ModuleDecl::ExportDefaultExpr(_) => None,
-            ModuleDecl::ExportAll(export) => {
-                return ModuleItem::ModuleDecl(ModuleDecl::ExportAll(export))
-            }
+            ModuleDecl::ExportAll(export) => return export.into(),
             ModuleDecl::ExportNamed(export) => {
                 for specifier in &export.specifiers {
                     match specifier {
@@ -322,7 +325,7 @@ impl Fold for ExportToReturn {
                 {
                     None
                 } else {
-                    return ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export));
+                    return export.into();
                 }
             }
             ModuleDecl::TsImportEquals(_) => None,
@@ -331,9 +334,9 @@ impl Fold for ExportToReturn {
         };
 
         if let Some(stmt) = stmt {
-            ModuleItem::Stmt(stmt)
+            stmt
         } else {
-            ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
+            EmptyStmt { span: DUMMY_SP }.into()
         }
     }
 }

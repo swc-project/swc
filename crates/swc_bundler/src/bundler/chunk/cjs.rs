@@ -65,13 +65,14 @@ where
         });
         module.sort(info.id, &ctx.graph, &ctx.cycles, &self.cm);
 
-        let stmt = ModuleItem::Stmt(wrap_module(
+        let stmt = wrap_module(
             SyntaxContext::empty(),
             SyntaxContext::empty().apply_mark(self.unresolved_mark),
             info.local_ctxt(),
             load_var,
             module.into(),
-        ));
+        )
+        .into();
 
         let wrapped = Modules::from(
             info.id,
@@ -150,7 +151,7 @@ fn wrap_module(
 
     // var load = __swcpack_require__.bind(void 0, moduleDecl)
 
-    Stmt::Decl(Decl::Var(Box::new(VarDecl {
+    VarDecl {
         span: DUMMY_SP,
         kind: VarDeclKind::Var,
         declare: false,
@@ -168,7 +169,8 @@ fn wrap_module(
             definite: false,
         }],
         ..Default::default()
-    })))
+    }
+    .into()
 }
 
 struct RequireReplacer<'a, 'b, L, R>
@@ -248,16 +250,15 @@ where
             // Side effect import
             if i.specifiers.is_empty() {
                 self.replaced = true;
-                *node = ModuleItem::Stmt(
-                    CallExpr {
-                        span: DUMMY_SP,
-                        callee: load_var.as_callee(),
-                        args: vec![],
+                *node = CallExpr {
+                    span: DUMMY_SP,
+                    callee: load_var.as_callee(),
+                    args: vec![],
 
-                        ..Default::default()
-                    }
-                    .into_stmt(),
-                );
+                    ..Default::default()
+                }
+                .into_stmt()
+                .into();
                 return;
             }
 
@@ -291,7 +292,7 @@ where
                     }
                     ImportSpecifier::Namespace(ns) => {
                         self.replaced = true;
-                        *node = ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                        *node = VarDecl {
                             span: i.span,
                             kind: VarDeclKind::Var,
                             declare: false,
@@ -311,14 +312,15 @@ where
                                 definite: false,
                             }],
                             ..Default::default()
-                        }))));
+                        }
+                        .into();
                         return;
                     }
                 }
             }
 
             self.replaced = true;
-            *node = ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+            *node = VarDecl {
                 span: i.span,
                 kind: VarDeclKind::Var,
                 declare: false,
@@ -339,7 +341,8 @@ where
                     definite: false,
                 }],
                 ..Default::default()
-            }))));
+            }
+            .into();
         }
     }
 }

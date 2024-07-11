@@ -138,10 +138,10 @@ where
 
                                 let mut decl = self.fold_class_as_var_decl(ident.clone(), class);
                                 decl.visit_mut_children_with(self);
-                                buf.push(T::from_stmt(decl.into()));
+                                buf.push(T::from(decl.into()));
 
                                 buf.push(
-                                    match T::try_from_module_decl(ModuleDecl::ExportNamed(
+                                    match T::try_from_module_decl(
                                         NamedExport {
                                             span: DUMMY_SP,
                                             specifiers: vec![ExportNamedSpecifier {
@@ -156,8 +156,9 @@ where
                                             src: None,
                                             type_only: false,
                                             with: None,
-                                        },
-                                    )) {
+                                        }
+                                        .into(),
+                                    ) {
                                         Ok(t) => t,
                                         Err(..) => unreachable!(),
                                     },
@@ -176,12 +177,13 @@ where
                                 let mut decl = self.fold_class_as_var_decl(ident, class);
                                 decl.visit_mut_children_with(self);
                                 buf.push(
-                                    match T::try_from_module_decl(ModuleDecl::ExportDecl(
+                                    match T::try_from_module_decl(
                                         ExportDecl {
                                             span,
                                             decl: decl.into(),
-                                        },
-                                    )) {
+                                        }
+                                        .into(),
+                                    ) {
                                         Ok(t) => t,
                                         Err(..) => unreachable!(),
                                     },
@@ -204,7 +206,7 @@ where
                     }
 
                     stmt.visit_mut_children_with(self);
-                    buf.push(T::from_stmt(stmt));
+                    buf.push(T::from(stmt));
                 }
             }
             first = false;
@@ -712,20 +714,26 @@ where
                 let is_last_return = matches!(body.last(), Some(Stmt::Return(..)));
                 if !is_last_return {
                     if is_always_initialized {
-                        body.push(Stmt::Return(ReturnStmt {
-                            span: DUMMY_SP,
-                            arg: Some(this.into()),
-                        }));
+                        body.push(
+                            ReturnStmt {
+                                span: DUMMY_SP,
+                                arg: Some(this.into()),
+                            }
+                            .into(),
+                        );
                     } else {
                         let possible_return_value =
                             Box::new(make_possible_return_value(ReturningMode::Returning {
                                 mark: this_mark,
                                 arg: None,
                             }));
-                        body.push(Stmt::Return(ReturnStmt {
-                            span: DUMMY_SP,
-                            arg: Some(possible_return_value),
-                        }));
+                        body.push(
+                            ReturnStmt {
+                                span: DUMMY_SP,
+                                arg: Some(possible_return_value),
+                            }
+                            .into(),
+                        );
                     }
                 }
             }
@@ -750,18 +758,21 @@ where
                 inject_class_call_check(&mut body, class_name.clone());
             }
 
-            stmts.push(Stmt::Decl(Decl::Fn(FnDecl {
-                ident: class_name.clone(),
-                function: constructor_fn(Constructor {
-                    body: Some(BlockStmt {
-                        span: DUMMY_SP,
-                        stmts: body,
-                        ..Default::default()
+            stmts.push(
+                FnDecl {
+                    ident: class_name.clone(),
+                    function: constructor_fn(Constructor {
+                        body: Some(BlockStmt {
+                            span: DUMMY_SP,
+                            stmts: body,
+                            ..Default::default()
+                        }),
+                        ..constructor
                     }),
-                    ..constructor
-                }),
-                declare: false,
-            })));
+                    declare: false,
+                }
+                .into(),
+            );
         }
 
         // convert class methods
@@ -803,10 +814,13 @@ where
         class_name_sym.ctxt = class_name.ctxt;
 
         // `return Foo`
-        stmts.push(Stmt::Return(ReturnStmt {
-            span: DUMMY_SP,
-            arg: Some(class_name_sym.into()),
-        }));
+        stmts.push(
+            ReturnStmt {
+                span: DUMMY_SP,
+                arg: Some(class_name_sym.into()),
+            }
+            .into(),
+        );
 
         stmts
     }
@@ -1148,21 +1162,24 @@ where
                     }
                     let span = method.span();
                     let prop = *v.key_prop.clone();
-                    res.push(Stmt::Expr(ExprStmt {
-                        span,
-                        expr: AssignExpr {
+                    res.push(
+                        ExprStmt {
                             span,
-                            op: op!("="),
-                            left: MemberExpr {
+                            expr: AssignExpr {
                                 span,
-                                obj: Box::new(proto.clone().into()),
-                                prop: mk_key_prop_member(prop),
+                                op: op!("="),
+                                left: MemberExpr {
+                                    span,
+                                    obj: Box::new(proto.clone().into()),
+                                    prop: mk_key_prop_member(prop),
+                                }
+                                .into(),
+                                right: escape_keywords(method),
                             }
                             .into(),
-                            right: escape_keywords(method),
                         }
                         .into(),
-                    }));
+                    );
                     !(v.get.is_none() && v.set.is_none())
                 } else {
                     true
@@ -1173,21 +1190,24 @@ where
                 if let Some(method) = v.method.take() {
                     let span = method.span();
                     let prop = *v.key_prop.clone();
-                    res.push(Stmt::Expr(ExprStmt {
-                        span,
-                        expr: AssignExpr {
+                    res.push(
+                        ExprStmt {
                             span,
-                            op: op!("="),
-                            left: MemberExpr {
+                            expr: AssignExpr {
                                 span,
-                                obj: Box::new(class_name.clone().into()),
-                                prop: mk_key_prop_member(prop),
+                                op: op!("="),
+                                left: MemberExpr {
+                                    span,
+                                    obj: Box::new(class_name.clone().into()),
+                                    prop: mk_key_prop_member(prop),
+                                }
+                                .into(),
+                                right: escape_keywords(method),
                             }
                             .into(),
-                            right: escape_keywords(method),
                         }
                         .into(),
-                    }));
+                    );
                     !(v.get.is_none() && v.set.is_none())
                 } else {
                     true

@@ -41,13 +41,16 @@ impl TemplateLiteralCaching {
 
     fn create_var_decl(&mut self) -> Option<Stmt> {
         if !self.decls.is_empty() {
-            return Some(Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Let,
-                declare: false,
-                decls: self.decls.clone(),
-                ..Default::default()
-            }))));
+            return Some(
+                VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Let,
+                    declare: false,
+                    decls: self.decls.clone(),
+                    ..Default::default()
+                }
+                .into(),
+            );
         }
         None
     }
@@ -140,7 +143,7 @@ impl Fold for TemplateLiteralCaching {
     fn fold_module(&mut self, n: Module) -> Module {
         let mut body = n.body.fold_children_with(self);
         if let Some(var) = self.create_var_decl() {
-            prepend_stmt(&mut body, ModuleItem::Stmt(var))
+            prepend_stmt(&mut body, var.into())
         }
 
         Module { body, ..n }

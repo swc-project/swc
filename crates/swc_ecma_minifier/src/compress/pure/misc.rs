@@ -828,10 +828,10 @@ impl Pure<'_> {
                 let span = ret.span;
                 match ret.arg.take() {
                     Some(arg) => {
-                        *s = Stmt::Expr(ExprStmt { span, expr: arg });
+                        *s = ExprStmt { span, expr: arg }.into();
                     }
                     None => {
-                        *s = Stmt::Empty(EmptyStmt { span });
+                        *s = EmptyStmt { span }.into();
                     }
                 }
 

@@ -392,19 +392,25 @@ impl Optimizer<'_> {
                     let expr = self.ignore_return_value(&mut cur);
 
                     if let Some(cur) = expr {
-                        new.push(Stmt::Expr(ExprStmt {
-                            span: DUMMY_SP,
-                            expr: Box::new(cur),
-                        }))
+                        new.push(
+                            ExprStmt {
+                                span: DUMMY_SP,
+                                expr: Box::new(cur),
+                            }
+                            .into(),
+                        )
                     } else {
                         trace_op!("if_return: Ignoring return value");
                     }
                 }
                 _ => {
-                    new.push(Stmt::Return(ReturnStmt {
-                        span: DUMMY_SP,
-                        arg: Some(cur),
-                    }));
+                    new.push(
+                        ReturnStmt {
+                            span: DUMMY_SP,
+                            arg: Some(cur),
+                        }
+                        .into(),
+                    );
                 }
             }
         }
