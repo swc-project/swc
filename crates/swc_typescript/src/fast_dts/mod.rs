@@ -230,6 +230,7 @@ impl FastDts {
                     Decl::TsInterface(_) | Decl::TsTypeAlias(_) | Decl::Using(_) => {
                         new_items.push(item);
                     }
+                    Decl::Invalid(_) => unreachable!(),
                 },
 
                 ModuleItem::Stmt(..) => {}
@@ -563,7 +564,7 @@ impl FastDts {
                     Some(())
                 }
             }
-            Decl::TsInterface(_) | Decl::TsTypeAlias(_) => Some(()),
+            Decl::TsInterface(_) | Decl::TsTypeAlias(_) | Decl::Invalid(..) => Some(()),
             Decl::Using(_) => {
                 self.mark_diagnostic(DtsIssue::UnsupportedUsing {
                     range: self.source_range_to_range(decl.span()),

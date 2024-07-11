@@ -328,6 +328,7 @@ impl StartsWithAlphaNum for Decl {
             | Decl::TsModule(..)
             | Decl::TsTypeAlias(..)
             | Decl::Using(..) => true,
+            Decl::Invalid(..) => false,
         }
     }
 }
