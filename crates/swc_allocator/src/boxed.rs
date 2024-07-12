@@ -10,7 +10,7 @@ use crate::alloc::{SwcAlloc, ALLOC};
 ///
 /// The last bit is 1 if the box is allocated with a custom allocator.
 #[repr(transparent)]
-#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Box<T: ?Sized>(allocator_api2::boxed::Box<T, SwcAlloc>);
 
 impl<T> Box<T> {
@@ -22,6 +22,10 @@ impl<T> Box<T> {
             value,
             SwcAlloc { is_custom },
         ))
+    }
+
+    pub fn unbox(self) -> T {
+        allocator_api2::boxed::Box::into_inner(self.0)
     }
 }
 
