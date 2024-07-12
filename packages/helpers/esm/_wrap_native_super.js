@@ -3,7 +3,7 @@ import { _get_prototype_of } from "./_get_prototype_of.js";
 import { _is_native_function } from "./_is_native_function.js";
 import { _set_prototype_of } from "./_set_prototype_of.js";
 
-export function _wrap_native_super(Class) {
+function _wrap_native_super(Class) {
     var _cache = typeof Map === "function" ? new Map() : undefined;
     _wrap_native_super = function(Class) {
         if (Class === null || !_is_native_function(Class)) return Class;

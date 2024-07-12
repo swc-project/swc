@@ -1,6 +1,6 @@
 import { _is_native_reflect_construct } from "./_is_native_reflect_construct.js";
 import { _set_prototype_of } from "./_set_prototype_of.js";
-export function _construct(Parent, args, Class) {
+function _construct(Parent, args, Class) {
     if (_is_native_reflect_construct()) _construct = Reflect.construct;
     else {
         _construct = function construct(Parent, args, Class) {
