@@ -3848,6 +3848,7 @@ dependencies = [
  "serde_json",
  "siphasher",
  "sourcemap",
+ "swc_allocator",
  "swc_atoms",
  "swc_eq_ignore_macros",
  "swc_visit",
