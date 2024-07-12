@@ -21,7 +21,10 @@ impl Pure<'_> {
             function,
         }) = e
         {
-            if contains_this_expr(&function.body) || function.is_generator {
+            if function.params.iter().any(contains_this_expr)
+                || contains_this_expr(&function.body)
+                || function.is_generator
+            {
                 return;
             }
 
