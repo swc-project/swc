@@ -890,6 +890,13 @@ pub trait ExprExt {
                 Lit::Str(Str { value, .. }) => return (Pure, num_from_str(value)),
                 _ => return (Pure, Unknown),
             },
+            Expr::Array(..) => {
+                let Known(s) = self.as_pure_string(ctx) else {
+                    return (Pure, Unknown);
+                };
+
+                return (Pure, num_from_str(&s));
+            }
             Expr::Ident(Ident { sym, span, .. }) => match &**sym {
                 "undefined" | "NaN" if span.ctxt == ctx.unresolved_ctxt => f64::NAN,
                 "Infinity" if span.ctxt == ctx.unresolved_ctxt => f64::INFINITY,
@@ -1572,7 +1579,6 @@ pub fn num_from_str(s: &str) -> Value<f64> {
         return Unknown;
     }
 
-    // TODO: Check if this is correct
     let s = s.trim();
 
     if s.is_empty() {
