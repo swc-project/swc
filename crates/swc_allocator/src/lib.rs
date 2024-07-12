@@ -2,12 +2,19 @@
 //!
 //! API designed after [`oxc_allocator`](https://github.com/oxc-project/oxc/tree/725571aad193ec6ba779c820baeb4a7774533ed7/crates/oxc_allocator/src).
 
-use alloc::{SwcAlloc, ALLOC};
 use std::ops::{Deref, DerefMut};
 
 use bumpalo::Bump;
-use rkyv::vec::{ArchivedVec, VecResolver};
+use rkyv::{
+    vec::{ArchivedVec, VecResolver},
+    DeserializeUnsized,
+};
 use serde_derive::{Deserialize, Serialize};
+
+use crate::{
+    alloc::{SwcAlloc, ALLOC},
+    boxed::Box,
+};
 
 mod alloc;
 pub mod boxed;
@@ -90,5 +97,31 @@ where
 
     unsafe fn resolve(&self, pos: usize, resolver: Self::Resolver, out: *mut Self::Archived) {
         rkyv::vec::ArchivedVec::resolve_from_slice(self, pos, resolver, out);
+    }
+}
+
+impl<T: rkyv::Serialize<S>, S: rkyv::ser::ScratchSpace + rkyv::ser::Serializer + ?Sized>
+    rkyv::Serialize<S> for Vec<T>
+{
+    #[inline]
+    fn serialize(&self, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
+        ArchivedVec::<T::Archived>::serialize_from_slice(self, serializer)
+    }
+}
+
+impl<T: rkyv::Archive, D: rkyv::Fallible + ?Sized> rkyv::Deserialize<Vec<T>, D>
+    for ArchivedVec<T::Archived>
+where
+    [T::Archived]: rkyv::DeserializeUnsized<[T], D>,
+{
+    #[inline]
+    fn deserialize(&self, deserializer: &mut D) -> Result<Vec<T>, D::Error> {
+        unsafe {
+            let data_address =
+                (&**self).deserialize_unsized(deserializer, |layout| std::alloc::alloc(layout))?;
+            let metadata = self.as_slice().deserialize_metadata(deserializer)?;
+            let ptr = ptr_meta::from_raw_parts_mut(data_address, metadata);
+            Ok(Box::<[T]>::from_raw(ptr).into())
+        }
     }
 }

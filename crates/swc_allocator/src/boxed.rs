@@ -2,7 +2,7 @@ use std::ops::{Deref, DerefMut};
 
 use rkyv::Archived;
 
-use crate::alloc::{SwcAlloc, ALLOC};
+use crate::alloc::SwcAlloc;
 
 /// A special `Box` which has size of [`std::boxed::Box`] but **may** be
 /// allocated with a custom allocator.
@@ -18,16 +18,23 @@ pub struct Box<T: ?Sized>(allocator_api2::boxed::Box<T, SwcAlloc>);
 impl<T> Box<T> {
     #[inline(always)]
     pub fn new(value: T) -> Self {
-        let is_custom = ALLOC.is_set();
-
         Self(allocator_api2::boxed::Box::new_in(
             value,
-            SwcAlloc { is_custom },
+            SwcAlloc::default(),
         ))
     }
 
     pub fn unbox(self) -> T {
         allocator_api2::boxed::Box::into_inner(self.0)
+    }
+}
+
+impl<T: ?Sized> Box<T> {
+    pub unsafe fn from_raw(raw: *mut T) -> Self {
+        Self(allocator_api2::boxed::Box::from_raw_in(
+            raw,
+            SwcAlloc::default(),
+        ))
     }
 }
 
