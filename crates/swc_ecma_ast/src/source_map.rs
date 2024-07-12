@@ -1,5 +1,6 @@
 use std::{rc::Rc, sync::Arc};
 
+use swc_allocator::{boxed::Box, Vec};
 use swc_common::{BytePos, SourceMap, SourceMapper, SourceMapperDyn, Span, Spanned};
 
 use crate::list::ListFormat;
