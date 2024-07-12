@@ -9,4 +9,5 @@ repository    = { workspace = true }
 version       = "0.1.1"
 
 [dependencies]
-bumpalo = { workspace = true, features = ["boxed", "collections"] }
+bumpalo    = { workspace = true, features = ["boxed", "collections"] }
+scoped-tls = { workspace = true }
