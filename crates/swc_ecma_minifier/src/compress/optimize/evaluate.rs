@@ -336,7 +336,12 @@ impl Optimizer<'_> {
                 report_change!("evaluate: Evaluated an expression as `{}`", value);
 
                 if value.is_nan() {
-                    *e = Expr::Ident(Ident::new("NaN".into(), e.span()));
+                    *e = Expr::Ident(Ident::new(
+                        "NaN".into(),
+                        e.span().with_ctxt(
+                            SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
+                        ),
+                    ));
                     return;
                 }
 
