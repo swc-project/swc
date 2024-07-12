@@ -1003,9 +1003,9 @@ impl Transform {
         // NOTE: This is not correct!
         // However, all unresolved_span are used in TsImportExportAssignConfig::Classic
         // which is deprecated and not used in real world.
-        let top_level_ctxt = self.top_level_ctxt;
-        let cjs_require = quote_ident!(top_level_ctxt, "require");
-        let cjs_exports = quote_ident!(top_level_ctxt, "exports");
+        let unresolved_ctxt = self.unresolved_ctxt;
+        let cjs_require = quote_ident!(unresolved_ctxt, "require");
+        let cjs_exports = quote_ident!(unresolved_ctxt, "exports");
 
         let mut cjs_export_assign = None;
 
@@ -1162,7 +1162,7 @@ impl Transform {
                                 expr.make_assign_to(
                                     op!("="),
                                     member_expr!(
-                                        top_level_ctxt,
+                                        unresolved_ctxt,
                                         Default::default(),
                                         module.exports
                                     )
