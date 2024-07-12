@@ -2,23 +2,20 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 368,
-    "ctxt": 0
+    "end": 368
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
         "start": 1,
-        "end": 29,
-        "ctxt": 0
+        "end": 29
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 2,
-          "end": 7,
-          "ctxt": 0
+          "end": 7
         },
         "value": "media",
         "raw": "media"
@@ -27,24 +24,21 @@
         "type": "MediaQueryList",
         "span": {
           "start": 8,
-          "end": 26,
-          "ctxt": 0
+          "end": 26
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
               "start": 8,
-              "end": 26,
-              "ctxt": 0
+              "end": 26
             },
             "modifier": null,
             "mediaType": {
               "type": "Ident",
               "span": {
                 "start": 8,
-                "end": 14,
-                "ctxt": 0
+                "end": 14
               },
               "value": "screen",
               "raw": "screen"
@@ -53,8 +47,7 @@
               "type": "Ident",
               "span": {
                 "start": 15,
-                "end": 18,
-                "ctxt": 0
+                "end": 18
               },
               "value": "and",
               "raw": "and"
@@ -63,23 +56,20 @@
               "type": "MediaConditionWithoutOr",
               "span": {
                 "start": 19,
-                "end": 26,
-                "ctxt": 0
+                "end": 26
               },
               "conditions": [
                 {
                   "type": "MediaFeatureBoolean",
                   "span": {
                     "start": 19,
-                    "end": 26,
-                    "ctxt": 0
+                    "end": 26
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
                       "start": 20,
-                      "end": 25,
-                      "ctxt": 0
+                      "end": 25
                     },
                     "value": "color",
                     "raw": "color"
@@ -94,15 +84,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 27,
-          "end": 29,
-          "ctxt": 0
+          "end": 29
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 27,
-            "end": 28,
-            "ctxt": 0
+            "end": 28
           },
           "token": "LBrace"
         },
@@ -113,15 +101,13 @@
       "type": "AtRule",
       "span": {
         "start": 30,
-        "end": 63,
-        "ctxt": 0
+        "end": 63
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 31,
-          "end": 36,
-          "ctxt": 0
+          "end": 36
         },
         "value": "media",
         "raw": "media"
@@ -130,23 +116,20 @@
         "type": "MediaQueryList",
         "span": {
           "start": 37,
-          "end": 60,
-          "ctxt": 0
+          "end": 60
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
               "start": 37,
-              "end": 60,
-              "ctxt": 0
+              "end": 60
             },
             "modifier": {
               "type": "Ident",
               "span": {
                 "start": 37,
-                "end": 41,
-                "ctxt": 0
+                "end": 41
               },
               "value": "only",
               "raw": "only"
@@ -155,8 +138,7 @@
               "type": "Ident",
               "span": {
                 "start": 42,
-                "end": 48,
-                "ctxt": 0
+                "end": 48
               },
               "value": "screen",
               "raw": "screen"
@@ -165,8 +147,7 @@
               "type": "Ident",
               "span": {
                 "start": 49,
-                "end": 52,
-                "ctxt": 0
+                "end": 52
               },
               "value": "and",
               "raw": "and"
@@ -175,23 +156,20 @@
               "type": "MediaConditionWithoutOr",
               "span": {
                 "start": 53,
-                "end": 60,
-                "ctxt": 0
+                "end": 60
               },
               "conditions": [
                 {
                   "type": "MediaFeatureBoolean",
                   "span": {
                     "start": 53,
-                    "end": 60,
-                    "ctxt": 0
+                    "end": 60
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
                       "start": 54,
-                      "end": 59,
-                      "ctxt": 0
+                      "end": 59
                     },
                     "value": "color",
                     "raw": "color"
@@ -206,15 +184,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 61,
-          "end": 63,
-          "ctxt": 0
+          "end": 63
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 61,
-            "end": 62,
-            "ctxt": 0
+            "end": 62
           },
           "token": "LBrace"
         },
@@ -225,15 +201,13 @@
       "type": "AtRule",
       "span": {
         "start": 64,
-        "end": 108,
-        "ctxt": 0
+        "end": 108
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 65,
-          "end": 70,
-          "ctxt": 0
+          "end": 70
         },
         "value": "media",
         "raw": "media"
@@ -242,23 +216,20 @@
         "type": "MediaQueryList",
         "span": {
           "start": 71,
-          "end": 105,
-          "ctxt": 0
+          "end": 105
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
               "start": 71,
-              "end": 105,
-              "ctxt": 0
+              "end": 105
             },
             "modifier": {
               "type": "Ident",
               "span": {
                 "start": 71,
-                "end": 75,
-                "ctxt": 0
+                "end": 75
               },
               "value": "only",
               "raw": "only"
@@ -267,8 +238,7 @@
               "type": "Ident",
               "span": {
                 "start": 76,
-                "end": 82,
-                "ctxt": 0
+                "end": 82
               },
               "value": "screen",
               "raw": "screen"
@@ -277,8 +247,7 @@
               "type": "Ident",
               "span": {
                 "start": 83,
-                "end": 86,
-                "ctxt": 0
+                "end": 86
               },
               "value": "and",
               "raw": "and"
@@ -287,23 +256,20 @@
               "type": "MediaConditionWithoutOr",
               "span": {
                 "start": 87,
-                "end": 105,
-                "ctxt": 0
+                "end": 105
               },
               "conditions": [
                 {
                   "type": "MediaFeaturePlain",
                   "span": {
                     "start": 87,
-                    "end": 105,
-                    "ctxt": 0
+                    "end": 105
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
                       "start": 88,
-                      "end": 97,
-                      "ctxt": 0
+                      "end": 97
                     },
                     "value": "min-width",
                     "raw": "min-width"
@@ -312,15 +278,13 @@
                     "type": "Length",
                     "span": {
                       "start": 99,
-                      "end": 104,
-                      "ctxt": 0
+                      "end": 104
                     },
                     "value": {
                       "type": "Number",
                       "span": {
                         "start": 99,
-                        "end": 102,
-                        "ctxt": 0
+                        "end": 102
                       },
                       "value": 800.0,
                       "raw": "800"
@@ -329,8 +293,7 @@
                       "type": "Ident",
                       "span": {
                         "start": 102,
-                        "end": 104,
-                        "ctxt": 0
+                        "end": 104
                       },
                       "value": "px",
                       "raw": "px"
@@ -346,15 +309,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 106,
-          "end": 108,
-          "ctxt": 0
+          "end": 108
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 106,
-            "end": 107,
-            "ctxt": 0
+            "end": 107
           },
           "token": "LBrace"
         },
@@ -365,15 +326,13 @@
       "type": "AtRule",
       "span": {
         "start": 109,
-        "end": 172,
-        "ctxt": 0
+        "end": 172
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 110,
-          "end": 115,
-          "ctxt": 0
+          "end": 115
         },
         "value": "media",
         "raw": "media"
@@ -382,24 +341,21 @@
         "type": "MediaQueryList",
         "span": {
           "start": 116,
-          "end": 169,
-          "ctxt": 0
+          "end": 169
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
               "start": 116,
-              "end": 169,
-              "ctxt": 0
+              "end": 169
             },
             "modifier": null,
             "mediaType": {
               "type": "Ident",
               "span": {
                 "start": 116,
-                "end": 122,
-                "ctxt": 0
+                "end": 122
               },
               "value": "screen",
               "raw": "screen"
@@ -408,8 +364,7 @@
               "type": "Ident",
               "span": {
                 "start": 123,
-                "end": 126,
-                "ctxt": 0
+                "end": 126
               },
               "value": "and",
               "raw": "and"
@@ -418,23 +373,20 @@
               "type": "MediaConditionWithoutOr",
               "span": {
                 "start": 127,
-                "end": 169,
-                "ctxt": 0
+                "end": 169
               },
               "conditions": [
                 {
                   "type": "MediaFeaturePlain",
                   "span": {
                     "start": 127,
-                    "end": 169,
-                    "ctxt": 0
+                    "end": 169
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
                       "start": 128,
-                      "end": 137,
-                      "ctxt": 0
+                      "end": 137
                     },
                     "value": "min-width",
                     "raw": "min-width"
@@ -443,15 +395,13 @@
                     "type": "Length",
                     "span": {
                       "start": 155,
-                      "end": 160,
-                      "ctxt": 0
+                      "end": 160
                     },
                     "value": {
                       "type": "Number",
                       "span": {
                         "start": 155,
-                        "end": 158,
-                        "ctxt": 0
+                        "end": 158
                       },
                       "value": 800.0,
                       "raw": "800"
@@ -460,8 +410,7 @@
                       "type": "Ident",
                       "span": {
                         "start": 158,
-                        "end": 160,
-                        "ctxt": 0
+                        "end": 160
                       },
                       "value": "px",
                       "raw": "px"
@@ -477,15 +426,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 170,
-          "end": 172,
-          "ctxt": 0
+          "end": 172
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 170,
-            "end": 171,
-            "ctxt": 0
+            "end": 171
           },
           "token": "LBrace"
         },
@@ -496,15 +443,13 @@
       "type": "AtRule",
       "span": {
         "start": 173,
-        "end": 258,
-        "ctxt": 0
+        "end": 258
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 174,
-          "end": 179,
-          "ctxt": 0
+          "end": 179
         },
         "value": "media",
         "raw": "media"
@@ -513,24 +458,21 @@
         "type": "MediaQueryList",
         "span": {
           "start": 180,
-          "end": 255,
-          "ctxt": 0
+          "end": 255
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
               "start": 180,
-              "end": 255,
-              "ctxt": 0
+              "end": 255
             },
             "modifier": null,
             "mediaType": {
               "type": "Ident",
               "span": {
                 "start": 180,
-                "end": 186,
-                "ctxt": 0
+                "end": 186
               },
               "value": "screen",
               "raw": "screen"
@@ -539,8 +481,7 @@
               "type": "Ident",
               "span": {
                 "start": 187,
-                "end": 190,
-                "ctxt": 0
+                "end": 190
               },
               "value": "and",
               "raw": "and"
@@ -549,23 +490,20 @@
               "type": "MediaConditionWithoutOr",
               "span": {
                 "start": 191,
-                "end": 255,
-                "ctxt": 0
+                "end": 255
               },
               "conditions": [
                 {
                   "type": "MediaFeaturePlain",
                   "span": {
                     "start": 191,
-                    "end": 209,
-                    "ctxt": 0
+                    "end": 209
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
                       "start": 192,
-                      "end": 201,
-                      "ctxt": 0
+                      "end": 201
                     },
                     "value": "min-width",
                     "raw": "min-width"
@@ -574,15 +512,13 @@
                     "type": "Length",
                     "span": {
                       "start": 203,
-                      "end": 208,
-                      "ctxt": 0
+                      "end": 208
                     },
                     "value": {
                       "type": "Number",
                       "span": {
                         "start": 203,
-                        "end": 206,
-                        "ctxt": 0
+                        "end": 206
                       },
                       "value": 800.0,
                       "raw": "800"
@@ -591,8 +527,7 @@
                       "type": "Ident",
                       "span": {
                         "start": 206,
-                        "end": 208,
-                        "ctxt": 0
+                        "end": 208
                       },
                       "value": "px",
                       "raw": "px"
@@ -603,15 +538,13 @@
                   "type": "MediaAnd",
                   "span": {
                     "start": 210,
-                    "end": 232,
-                    "ctxt": 0
+                    "end": 232
                   },
                   "keyword": {
                     "type": "Ident",
                     "span": {
                       "start": 210,
-                      "end": 213,
-                      "ctxt": 0
+                      "end": 213
                     },
                     "value": "and",
                     "raw": "and"
@@ -620,15 +553,13 @@
                     "type": "MediaFeaturePlain",
                     "span": {
                       "start": 214,
-                      "end": 232,
-                      "ctxt": 0
+                      "end": 232
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
                         "start": 215,
-                        "end": 224,
-                        "ctxt": 0
+                        "end": 224
                       },
                       "value": "min-width",
                       "raw": "min-width"
@@ -637,15 +568,13 @@
                       "type": "Length",
                       "span": {
                         "start": 226,
-                        "end": 231,
-                        "ctxt": 0
+                        "end": 231
                       },
                       "value": {
                         "type": "Number",
                         "span": {
                           "start": 226,
-                          "end": 229,
-                          "ctxt": 0
+                          "end": 229
                         },
                         "value": 800.0,
                         "raw": "800"
@@ -654,8 +583,7 @@
                         "type": "Ident",
                         "span": {
                           "start": 229,
-                          "end": 231,
-                          "ctxt": 0
+                          "end": 231
                         },
                         "value": "px",
                         "raw": "px"
@@ -667,15 +595,13 @@
                   "type": "MediaAnd",
                   "span": {
                     "start": 233,
-                    "end": 255,
-                    "ctxt": 0
+                    "end": 255
                   },
                   "keyword": {
                     "type": "Ident",
                     "span": {
                       "start": 233,
-                      "end": 236,
-                      "ctxt": 0
+                      "end": 236
                     },
                     "value": "and",
                     "raw": "and"
@@ -684,15 +610,13 @@
                     "type": "MediaFeaturePlain",
                     "span": {
                       "start": 237,
-                      "end": 255,
-                      "ctxt": 0
+                      "end": 255
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
                         "start": 238,
-                        "end": 247,
-                        "ctxt": 0
+                        "end": 247
                       },
                       "value": "min-width",
                       "raw": "min-width"
@@ -701,15 +625,13 @@
                       "type": "Length",
                       "span": {
                         "start": 249,
-                        "end": 254,
-                        "ctxt": 0
+                        "end": 254
                       },
                       "value": {
                         "type": "Number",
                         "span": {
                           "start": 249,
-                          "end": 252,
-                          "ctxt": 0
+                          "end": 252
                         },
                         "value": 800.0,
                         "raw": "800"
@@ -718,8 +640,7 @@
                         "type": "Ident",
                         "span": {
                           "start": 252,
-                          "end": 254,
-                          "ctxt": 0
+                          "end": 254
                         },
                         "value": "px",
                         "raw": "px"
@@ -736,15 +657,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 256,
-          "end": 258,
-          "ctxt": 0
+          "end": 258
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 256,
-            "end": 257,
-            "ctxt": 0
+            "end": 257
           },
           "token": "LBrace"
         },
@@ -755,15 +674,13 @@
       "type": "AtRule",
       "span": {
         "start": 259,
-        "end": 366,
-        "ctxt": 0
+        "end": 366
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 260,
-          "end": 265,
-          "ctxt": 0
+          "end": 265
         },
         "value": "media",
         "raw": "media"
@@ -772,24 +689,21 @@
         "type": "MediaQueryList",
         "span": {
           "start": 266,
-          "end": 364,
-          "ctxt": 0
+          "end": 364
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
               "start": 266,
-              "end": 364,
-              "ctxt": 0
+              "end": 364
             },
             "modifier": null,
             "mediaType": {
               "type": "Ident",
               "span": {
                 "start": 266,
-                "end": 272,
-                "ctxt": 0
+                "end": 272
               },
               "value": "screen",
               "raw": "screen"
@@ -798,8 +712,7 @@
               "type": "Ident",
               "span": {
                 "start": 273,
-                "end": 276,
-                "ctxt": 0
+                "end": 276
               },
               "value": "and",
               "raw": "and"
@@ -808,23 +721,20 @@
               "type": "MediaConditionWithoutOr",
               "span": {
                 "start": 277,
-                "end": 364,
-                "ctxt": 0
+                "end": 364
               },
               "conditions": [
                 {
                   "type": "MediaFeaturePlain",
                   "span": {
                     "start": 277,
-                    "end": 295,
-                    "ctxt": 0
+                    "end": 295
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
                       "start": 278,
-                      "end": 287,
-                      "ctxt": 0
+                      "end": 287
                     },
                     "value": "min-width",
                     "raw": "min-width"
@@ -833,15 +743,13 @@
                     "type": "Length",
                     "span": {
                       "start": 289,
-                      "end": 294,
-                      "ctxt": 0
+                      "end": 294
                     },
                     "value": {
                       "type": "Number",
                       "span": {
                         "start": 289,
-                        "end": 292,
-                        "ctxt": 0
+                        "end": 292
                       },
                       "value": 800.0,
                       "raw": "800"
@@ -850,8 +758,7 @@
                       "type": "Ident",
                       "span": {
                         "start": 292,
-                        "end": 294,
-                        "ctxt": 0
+                        "end": 294
                       },
                       "value": "px",
                       "raw": "px"
@@ -862,15 +769,13 @@
                   "type": "MediaAnd",
                   "span": {
                     "start": 296,
-                    "end": 318,
-                    "ctxt": 0
+                    "end": 318
                   },
                   "keyword": {
                     "type": "Ident",
                     "span": {
                       "start": 296,
-                      "end": 299,
-                      "ctxt": 0
+                      "end": 299
                     },
                     "value": "and",
                     "raw": "and"
@@ -879,15 +784,13 @@
                     "type": "MediaFeaturePlain",
                     "span": {
                       "start": 300,
-                      "end": 318,
-                      "ctxt": 0
+                      "end": 318
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
                         "start": 301,
-                        "end": 310,
-                        "ctxt": 0
+                        "end": 310
                       },
                       "value": "min-width",
                       "raw": "min-width"
@@ -896,15 +799,13 @@
                       "type": "Length",
                       "span": {
                         "start": 312,
-                        "end": 317,
-                        "ctxt": 0
+                        "end": 317
                       },
                       "value": {
                         "type": "Number",
                         "span": {
                           "start": 312,
-                          "end": 315,
-                          "ctxt": 0
+                          "end": 315
                         },
                         "value": 800.0,
                         "raw": "800"
@@ -913,8 +814,7 @@
                         "type": "Ident",
                         "span": {
                           "start": 315,
-                          "end": 317,
-                          "ctxt": 0
+                          "end": 317
                         },
                         "value": "px",
                         "raw": "px"
@@ -926,15 +826,13 @@
                   "type": "MediaAnd",
                   "span": {
                     "start": 319,
-                    "end": 341,
-                    "ctxt": 0
+                    "end": 341
                   },
                   "keyword": {
                     "type": "Ident",
                     "span": {
                       "start": 319,
-                      "end": 322,
-                      "ctxt": 0
+                      "end": 322
                     },
                     "value": "and",
                     "raw": "and"
@@ -943,15 +841,13 @@
                     "type": "MediaFeaturePlain",
                     "span": {
                       "start": 323,
-                      "end": 341,
-                      "ctxt": 0
+                      "end": 341
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
                         "start": 324,
-                        "end": 333,
-                        "ctxt": 0
+                        "end": 333
                       },
                       "value": "min-width",
                       "raw": "min-width"
@@ -960,15 +856,13 @@
                       "type": "Length",
                       "span": {
                         "start": 335,
-                        "end": 340,
-                        "ctxt": 0
+                        "end": 340
                       },
                       "value": {
                         "type": "Number",
                         "span": {
                           "start": 335,
-                          "end": 338,
-                          "ctxt": 0
+                          "end": 338
                         },
                         "value": 800.0,
                         "raw": "800"
@@ -977,8 +871,7 @@
                         "type": "Ident",
                         "span": {
                           "start": 338,
-                          "end": 340,
-                          "ctxt": 0
+                          "end": 340
                         },
                         "value": "px",
                         "raw": "px"
@@ -990,15 +883,13 @@
                   "type": "MediaAnd",
                   "span": {
                     "start": 342,
-                    "end": 364,
-                    "ctxt": 0
+                    "end": 364
                   },
                   "keyword": {
                     "type": "Ident",
                     "span": {
                       "start": 342,
-                      "end": 345,
-                      "ctxt": 0
+                      "end": 345
                     },
                     "value": "and",
                     "raw": "and"
@@ -1007,15 +898,13 @@
                     "type": "MediaFeaturePlain",
                     "span": {
                       "start": 346,
-                      "end": 364,
-                      "ctxt": 0
+                      "end": 364
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
                         "start": 347,
-                        "end": 356,
-                        "ctxt": 0
+                        "end": 356
                       },
                       "value": "min-width",
                       "raw": "min-width"
@@ -1024,15 +913,13 @@
                       "type": "Length",
                       "span": {
                         "start": 358,
-                        "end": 363,
-                        "ctxt": 0
+                        "end": 363
                       },
                       "value": {
                         "type": "Number",
                         "span": {
                           "start": 358,
-                          "end": 361,
-                          "ctxt": 0
+                          "end": 361
                         },
                         "value": 800.0,
                         "raw": "800"
@@ -1041,8 +928,7 @@
                         "type": "Ident",
                         "span": {
                           "start": 361,
-                          "end": 363,
-                          "ctxt": 0
+                          "end": 363
                         },
                         "value": "px",
                         "raw": "px"
@@ -1059,15 +945,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 364,
-          "end": 366,
-          "ctxt": 0
+          "end": 366
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 364,
-            "end": 365,
-            "ctxt": 0
+            "end": 365
           },
           "token": "LBrace"
         },

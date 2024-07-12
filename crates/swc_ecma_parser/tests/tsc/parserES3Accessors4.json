@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 28,
-    "ctxt": 0
+    "end": 28
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 1,
-        "end": 28,
-        "ctxt": 0
+        "end": 28
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 5,
-            "end": 27,
-            "ctxt": 0
+            "end": 27
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 5,
-              "end": 6,
-              "ctxt": 0
+              "end": 6
             },
+            "ctxt": 0,
             "value": "v",
             "optional": false,
             "typeAnnotation": null
@@ -38,35 +36,31 @@
             "type": "ObjectExpression",
             "span": {
               "start": 9,
-              "end": 27,
-              "ctxt": 0
+              "end": 27
             },
             "properties": [
               {
                 "type": "SetterProperty",
                 "span": {
                   "start": 11,
-                  "end": 25,
-                  "ctxt": 0
+                  "end": 25
                 },
                 "key": {
                   "type": "Identifier",
                   "span": {
                     "start": 15,
-                    "end": 18,
-                    "ctxt": 0
+                    "end": 18
                   },
-                  "value": "Foo",
-                  "optional": false
+                  "value": "Foo"
                 },
                 "thisParam": null,
                 "param": {
                   "type": "Identifier",
                   "span": {
                     "start": 19,
-                    "end": 20,
-                    "ctxt": 0
+                    "end": 20
                   },
+                  "ctxt": 0,
                   "value": "a",
                   "optional": false,
                   "typeAnnotation": null
@@ -75,9 +69,9 @@
                   "type": "BlockStatement",
                   "span": {
                     "start": 22,
-                    "end": 25,
-                    "ctxt": 0
+                    "end": 25
                   },
+                  "ctxt": 0,
                   "stmts": []
                 }
               }

@@ -1,20 +1,20 @@
 [
     JsDoc {
-        span: 0..1#0,
+        span: 0..1,
         description: Text {
-            span: 1..40#0,
+            span: 1..40,
             value: "This function is package-private.\n *\n *",
         },
         tags: [
             TagItem {
-                span: 1..8#0,
+                span: 1..8,
                 tag_name: Text {
-                    span: 1..8#0,
+                    span: 1..8,
                     value: "package",
                 },
                 tag: Package(
                     PackageTag {
-                        span: 1..8#0,
+                        span: 1..8,
                         ty: None,
                     },
                 ),

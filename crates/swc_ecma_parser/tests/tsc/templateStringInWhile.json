@@ -2,31 +2,27 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 43,
-    "ctxt": 0
+    "end": 43
   },
   "body": [
     {
       "type": "WhileStatement",
       "span": {
         "start": 1,
-        "end": 43,
-        "ctxt": 0
+        "end": 43
       },
       "test": {
         "type": "TemplateLiteral",
         "span": {
           "start": 8,
-          "end": 20,
-          "ctxt": 0
+          "end": 20
         },
         "expressions": [
           {
             "type": "NumericLiteral",
             "span": {
               "start": 14,
-              "end": 15,
-              "ctxt": 0
+              "end": 15
             },
             "value": 0.0,
             "raw": "0"
@@ -37,8 +33,7 @@
             "type": "TemplateElement",
             "span": {
               "start": 9,
-              "end": 12,
-              "ctxt": 0
+              "end": 12
             },
             "tail": false,
             "cooked": "abc",
@@ -48,8 +43,7 @@
             "type": "TemplateElement",
             "span": {
               "start": 16,
-              "end": 19,
-              "ctxt": 0
+              "end": 19
             },
             "tail": true,
             "cooked": "abc",
@@ -61,31 +55,28 @@
         "type": "BlockStatement",
         "span": {
           "start": 22,
-          "end": 43,
-          "ctxt": 0
+          "end": 43
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 28,
-              "end": 41,
-              "ctxt": 0
+              "end": 41
             },
             "expression": {
               "type": "TemplateLiteral",
               "span": {
                 "start": 28,
-                "end": 40,
-                "ctxt": 0
+                "end": 40
               },
               "expressions": [
                 {
                   "type": "NumericLiteral",
                   "span": {
                     "start": 34,
-                    "end": 35,
-                    "ctxt": 0
+                    "end": 35
                   },
                   "value": 1.0,
                   "raw": "1"
@@ -96,8 +87,7 @@
                   "type": "TemplateElement",
                   "span": {
                     "start": 29,
-                    "end": 32,
-                    "ctxt": 0
+                    "end": 32
                   },
                   "tail": false,
                   "cooked": "def",
@@ -107,8 +97,7 @@
                   "type": "TemplateElement",
                   "span": {
                     "start": 36,
-                    "end": 39,
-                    "ctxt": 0
+                    "end": 39
                   },
                   "tail": true,
                   "cooked": "def",

@@ -1,24 +1,24 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..10#0,
+                span: 1..10,
                 tag_name: Text {
-                    span: 1..10#0,
+                    span: 1..10,
                     value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {
-                        span: 1..10#0,
+                        span: 1..10,
                         ty: None,
                         name: Some(
                             Text {
-                                span: 1..14#0,
+                                span: 1..14,
                                 value: "borrows rtrim",
                             },
                         ),
@@ -28,25 +28,25 @@
         ],
     },
     JsDoc {
-        span: 76..76#0,
+        span: 76..76,
         description: Text {
-            span: 76..76#0,
+            span: 76..76,
             value: "",
         },
         tags: [
             TagItem {
-                span: 76..85#0,
+                span: 76..85,
                 tag_name: Text {
-                    span: 76..85#0,
+                    span: 76..85,
                     value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {
-                        span: 76..85#0,
+                        span: 76..85,
                         ty: None,
                         name: Some(
                             Text {
-                                span: 76..89#0,
+                                span: 76..89,
                                 value: "borrows rtrim",
                             },
                         ),
@@ -56,30 +56,30 @@
         ],
     },
     JsDoc {
-        span: 147..147#0,
+        span: 147..147,
         description: Text {
-            span: 147..197#0,
+            span: 147..197,
             value: "Remove whitespace from the right side of a string.",
         },
         tags: [
             TagItem {
-                span: 147..152#0,
+                span: 147..152,
                 tag_name: Text {
-                    span: 147..152#0,
+                    span: 147..152,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 147..152#0,
+                        span: 147..152,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 147..155#0,
+                                span: 147..155,
                                 value: "{string}",
                             },
                         ),
                         desc: Text {
-                            span: 147..150#0,
+                            span: 147..150,
                             value: "str",
                         },
                     },

@@ -52,6 +52,7 @@ impl Swcify for swc_estree_ast::ClassMethod {
                         is_async: self.is_async.unwrap_or_default(),
                         type_params: self.type_parameters.swcify(ctx).flatten().map(Box::new),
                         return_type: self.return_type.swcify(ctx).flatten().map(Box::new),
+                        ..Default::default()
                     }
                     .into(),
                     kind: self
@@ -85,6 +86,7 @@ impl Swcify for swc_estree_ast::ClassMethod {
                 body: Some(self.body.swcify(ctx)),
                 accessibility: self.accessibility.swcify(ctx),
                 is_optional: self.optional.unwrap_or_default(),
+                ..Default::default()
             }
             .into(),
         }
@@ -107,6 +109,7 @@ impl Swcify for swc_estree_ast::ClassPrivateMethod {
                 is_async: self.is_async.unwrap_or_default(),
                 type_params: self.type_parameters.swcify(ctx).flatten().map(Box::new),
                 return_type: self.return_type.swcify(ctx).flatten().map(Box::new),
+                ..Default::default()
             }
             .into(),
             kind: match self.kind.unwrap_or(ClassMethodKind::Method) {
@@ -166,6 +169,7 @@ impl Swcify for swc_estree_ast::ClassPrivateProperty {
             is_override: false,
             readonly: false,
             definite: false,
+            ctxt: Default::default(),
         }
     }
 }
@@ -193,16 +197,17 @@ impl Swcify for TSExpressionWithTypeArguments {
         // if we change its conversion logic, it will break.
         fn swcify_expr(expr: TSEntityName, ctx: &Context) -> Box<Expr> {
             match expr {
-                TSEntityName::Id(v) => Box::new(Expr::Ident(v.swcify(ctx).id)),
+                TSEntityName::Id(v) => v.swcify(ctx).into(),
                 TSEntityName::Qualified(v) => swcify_qualified_name(v, ctx),
             }
         }
         fn swcify_qualified_name(qualified_name: TSQualifiedName, ctx: &Context) -> Box<Expr> {
-            Box::new(Expr::Member(MemberExpr {
+            MemberExpr {
                 obj: swcify_expr(*qualified_name.left, ctx),
-                prop: MemberProp::Ident(qualified_name.right.swcify(ctx).id),
+                prop: MemberProp::Ident(qualified_name.right.swcify(ctx).into()),
                 span: ctx.span(&qualified_name.base),
-            }))
+            }
+            .into()
         }
 
         TsExprWithTypeArgs {

@@ -2,23 +2,20 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 36,
-    "ctxt": 0
+    "end": 36
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 36,
-        "ctxt": 0
+        "end": 36
       },
       "expression": {
         "type": "JSXElement",
         "span": {
           "start": 1,
-          "end": 36,
-          "ctxt": 0
+          "end": 36
         },
         "opening": {
           "type": "JSXOpeningElement",
@@ -26,32 +23,30 @@
             "type": "Identifier",
             "span": {
               "start": 2,
-              "end": 5,
-              "ctxt": 0
+              "end": 5
             },
+            "ctxt": 0,
             "value": "div",
             "optional": false
           },
           "span": {
             "start": 1,
-            "end": 36,
-            "ctxt": 0
+            "end": 36
           },
           "attributes": [
             {
               "type": "SpreadElement",
               "spread": {
                 "start": 7,
-                "end": 10,
-                "ctxt": 0
+                "end": 10
               },
               "arguments": {
                 "type": "Identifier",
                 "span": {
                   "start": 10,
-                  "end": 15,
-                  "ctxt": 0
+                  "end": 15
                 },
+                "ctxt": 0,
                 "value": "props",
                 "optional": false
               }
@@ -60,25 +55,21 @@
               "type": "JSXAttribute",
               "span": {
                 "start": 17,
-                "end": 33,
-                "ctxt": 0
+                "end": 33
               },
               "name": {
                 "type": "Identifier",
                 "span": {
                   "start": 17,
-                  "end": 21,
-                  "ctxt": 0
+                  "end": 21
                 },
-                "value": "post",
-                "optional": false
+                "value": "post"
               },
               "value": {
                 "type": "StringLiteral",
                 "span": {
                   "start": 22,
-                  "end": 33,
-                  "ctxt": 0
+                  "end": 33
                 },
                 "value": "attribute",
                 "raw": "\"attribute\""

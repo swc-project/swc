@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 383,
-    "end": 449,
-    "ctxt": 0
+    "end": 449
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 392,
-          "end": 402,
-          "ctxt": 0
+          "end": 402
         },
+        "ctxt": 0,
         "value": "eachPerson",
         "optional": false
       },
@@ -24,17 +23,16 @@
           "type": "Parameter",
           "span": {
             "start": 403,
-            "end": 411,
-            "ctxt": 0
+            "end": 411
           },
           "decorators": [],
           "pat": {
             "type": "Identifier",
             "span": {
               "start": 403,
-              "end": 411,
-              "ctxt": 0
+              "end": 411
             },
+            "ctxt": 0,
             "value": "callback",
             "optional": false,
             "typeAnnotation": null
@@ -44,38 +42,37 @@
       "decorators": [],
       "span": {
         "start": 383,
-        "end": 449,
-        "ctxt": 0
+        "end": 449
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 413,
-          "end": 449,
-          "ctxt": 0
+          "end": 449
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 419,
-              "end": 447,
-              "ctxt": 0
+              "end": 447
             },
             "expression": {
               "type": "CallExpression",
               "span": {
                 "start": 419,
-                "end": 446,
-                "ctxt": 0
+                "end": 446
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Identifier",
                 "span": {
                   "start": 419,
-                  "end": 427,
-                  "ctxt": 0
+                  "end": 427
                 },
+                "ctxt": 0,
                 "value": "callback",
                 "optional": false
               },
@@ -86,8 +83,7 @@
                     "type": "ObjectExpression",
                     "span": {
                       "start": 428,
-                      "end": 445,
-                      "ctxt": 0
+                      "end": 445
                     },
                     "properties": [
                       {
@@ -96,18 +92,15 @@
                           "type": "Identifier",
                           "span": {
                             "start": 430,
-                            "end": 434,
-                            "ctxt": 0
+                            "end": 434
                           },
-                          "value": "name",
-                          "optional": false
+                          "value": "name"
                         },
                         "value": {
                           "type": "StringLiteral",
                           "span": {
                             "start": 436,
-                            "end": 443,
-                            "ctxt": 0
+                            "end": 443
                           },
                           "value": "Empty",
                           "raw": "\"Empty\""

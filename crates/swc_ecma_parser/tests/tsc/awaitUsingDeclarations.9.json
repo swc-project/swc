@@ -2,24 +2,22 @@
   "type": "Module",
   "span": {
     "start": 84,
-    "end": 125,
-    "ctxt": 0
+    "end": 125
   },
   "body": [
     {
       "type": "BlockStatement",
       "span": {
         "start": 84,
-        "end": 113,
-        "ctxt": 0
+        "end": 113
       },
+      "ctxt": 0,
       "stmts": [
         {
           "type": "UsingDeclaration",
           "span": {
             "start": 90,
-            "end": 110,
-            "ctxt": 0
+            "end": 110
           },
           "isAwait": true,
           "decls": [
@@ -27,16 +25,15 @@
               "type": "VariableDeclarator",
               "span": {
                 "start": 102,
-                "end": 110,
-                "ctxt": 0
+                "end": 110
               },
               "id": {
                 "type": "Identifier",
                 "span": {
                   "start": 102,
-                  "end": 103,
-                  "ctxt": 0
+                  "end": 103
                 },
+                "ctxt": 0,
                 "value": "a",
                 "optional": false,
                 "typeAnnotation": null
@@ -45,8 +42,7 @@
                 "type": "NullLiteral",
                 "span": {
                   "start": 106,
-                  "end": 110,
-                  "ctxt": 0
+                  "end": 110
                 }
               },
               "definite": false
@@ -57,8 +53,7 @@
           "type": "EmptyStatement",
           "span": {
             "start": 110,
-            "end": 111,
-            "ctxt": 0
+            "end": 111
           }
         }
       ]
@@ -67,8 +62,7 @@
       "type": "ExportNamedDeclaration",
       "span": {
         "start": 115,
-        "end": 125,
-        "ctxt": 0
+        "end": 125
       },
       "specifiers": [],
       "source": null,

@@ -1,25 +1,25 @@
 [
     JsDoc {
-        span: 20..29#0,
+        span: 20..29,
         description: Text {
-            span: 20..20#0,
+            span: 20..20,
             value: "",
         },
         tags: [
             TagItem {
-                span: 20..25#0,
+                span: 20..25,
                 tag_name: Text {
-                    span: 20..25#0,
+                    span: 20..25,
                     value: "alias",
                 },
                 tag: Alias(
                     AliasTag {
-                        span: 20..25#0,
+                        span: 20..25,
                         name_path: NamePath {
-                            span: 20..29#0,
+                            span: 20..29,
                             components: [
                                 Text {
-                                    span: 20..22#0,
+                                    span: 20..22,
                                     value: "ns",
                                 },
                             ],
@@ -30,9 +30,9 @@
         ],
     },
     JsDoc {
-        span: 68..68#0,
+        span: 68..68,
         description: Text {
-            span: 68..79#0,
+            span: 68..79,
             value: "document me",
         },
         tags: [],

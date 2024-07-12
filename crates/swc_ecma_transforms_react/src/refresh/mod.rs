@@ -35,7 +35,7 @@ enum Persist {
 }
 fn get_persistent_id(ident: &Ident) -> Persist {
     if ident.sym.starts_with(|c: char| c.is_ascii_uppercase()) {
-        if cfg!(debug_assertions) && ident.span.ctxt == SyntaxContext::empty() {
+        if cfg!(debug_assertions) && ident.ctxt == SyntaxContext::empty() {
             panic!("`{}` should be resolved", ident)
         }
         Persist::Component(ident.clone())
@@ -90,13 +90,13 @@ impl<C: Comments> Refresh<C> {
                 match init_expr.as_ref() {
                     // TaggedTpl is for something like styled.div`...`
                     Expr::Arrow(_) | Expr::Fn(_) | Expr::TaggedTpl(_) | Expr::Call(_) => {
-                        return Persist::Component(binding.id.clone())
+                        return Persist::Component(Ident::from(&*binding))
                     }
                     _ => (),
                 }
             }
 
-            if let Persist::Component(persistent_id) = get_persistent_id(&binding.id) {
+            if let Persist::Component(persistent_id) = get_persistent_id(&Ident::from(&*binding)) {
                 return match init_expr.as_mut() {
                     Expr::Fn(_) => Persist::Component(persistent_id),
                     Expr::Arrow(ArrowExpr { body, .. }) => {
@@ -175,12 +175,13 @@ impl<C: Comments> Refresh<C> {
                         let span = first.span();
                         let mut args = vec![first.as_arg()];
                         args.extend(rest_arg.clone());
-                        first = Box::new(Expr::Call(CallExpr {
+                        first = CallExpr {
                             span,
                             callee: callee.clone(),
                             args,
-                            type_args: None,
-                        }))
+                            ..Default::default()
+                        }
+                        .into()
                     }
                     *first_arg = Box::new(make_assign_stmt(reg_ident, first));
 
@@ -353,12 +354,11 @@ impl<C: Comments> VisitMut for Refresh<C> {
                             if let Some(hook) = hook {
                                 make_hook_reg(expr.as_mut(), hook)
                             }
-                            item = ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(
-                                ExportDefaultExpr {
-                                    expr: Box::new(make_assign_stmt(reg[0].0.clone(), expr.take())),
-                                    span: *span,
-                                },
-                            ));
+                            item = ExportDefaultExpr {
+                                expr: Box::new(make_assign_stmt(reg[0].0.clone(), expr.take())),
+                                span: *span,
+                            }
+                            .into();
                             Persist::Hoc(Hoc {
                                 insert: false,
                                 reg,
@@ -399,29 +399,32 @@ impl<C: Comments> VisitMut for Refresh<C> {
 
                     refresh_regs.push((registration_handle.clone(), persistent_id.to_id()));
 
-                    items.push(ModuleItem::Stmt(Stmt::Expr(ExprStmt {
-                        span: DUMMY_SP,
-                        expr: Box::new(make_assign_stmt(
-                            registration_handle,
-                            Box::new(Expr::Ident(persistent_id)),
-                        )),
-                    })));
+                    items.push(
+                        ExprStmt {
+                            span: DUMMY_SP,
+                            expr: Box::new(make_assign_stmt(
+                                registration_handle,
+                                persistent_id.into(),
+                            )),
+                        }
+                        .into(),
+                    );
                 }
 
                 Persist::Hoc(mut hoc) => {
                     hoc.reg = hoc.reg.into_iter().rev().collect();
                     if hoc.insert {
                         let (ident, name) = hoc.reg.last().unwrap();
-                        items.push(ModuleItem::Stmt(Stmt::Expr(ExprStmt {
-                            span: DUMMY_SP,
-                            expr: Box::new(make_assign_stmt(
-                                ident.clone(),
-                                Box::new(Expr::Ident(Ident::new(
-                                    name.0.clone(),
-                                    DUMMY_SP.with_ctxt(name.1),
-                                ))),
-                            )),
-                        })))
+                        items.push(
+                            ExprStmt {
+                                span: DUMMY_SP,
+                                expr: Box::new(make_assign_stmt(
+                                    ident.clone(),
+                                    Ident::new(name.0.clone(), DUMMY_SP, name.1).into(),
+                                )),
+                            }
+                            .into(),
+                        )
                     }
                     refresh_regs.append(&mut hoc.reg);
                 }
@@ -429,7 +432,7 @@ impl<C: Comments> VisitMut for Refresh<C> {
         }
 
         if !hook_visitor.ident.is_empty() {
-            items.insert(0, ModuleItem::Stmt(hook_visitor.gen_hook_handle()));
+            items.insert(0, hook_visitor.gen_hook_handle().into());
         }
 
         // Insert
@@ -451,6 +454,7 @@ impl<C: Comments> VisitMut for Refresh<C> {
                             definite: false,
                         })
                         .collect(),
+                    ..Default::default()
                 }
                 .into(),
             );
@@ -463,15 +467,18 @@ impl<C: Comments> VisitMut for Refresh<C> {
         // ```
         let refresh_reg = self.options.refresh_reg.as_str();
         for (handle, persistent_id) in refresh_regs {
-            items.push(ModuleItem::Stmt(Stmt::Expr(ExprStmt {
-                span: DUMMY_SP,
-                expr: Box::new(Expr::Call(CallExpr {
+            items.push(
+                ExprStmt {
                     span: DUMMY_SP,
-                    callee: quote_ident!(refresh_reg).as_callee(),
-                    args: vec![handle.as_arg(), quote_str!(persistent_id.0).as_arg()],
-                    type_args: None,
-                })),
-            })));
+                    expr: CallExpr {
+                        callee: quote_ident!(refresh_reg).as_callee(),
+                        args: vec![handle.as_arg(), quote_str!(persistent_id.0).as_arg()],
+                        ..Default::default()
+                    }
+                    .into(),
+                }
+                .into(),
+            );
         }
 
         *module_items = items
@@ -484,10 +491,11 @@ fn make_hook_reg(expr: &mut Expr, mut hook: HocHook) {
     let span = expr.span();
     let mut args = vec![expr.take().as_arg()];
     args.append(&mut hook.rest_arg);
-    *expr = Expr::Call(CallExpr {
+    *expr = CallExpr {
         span,
         callee: hook.callee,
         args,
-        type_args: None,
-    });
+        ..Default::default()
+    }
+    .into();
 }

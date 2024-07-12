@@ -2,46 +2,40 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 7,
-    "ctxt": 0
+    "end": 7
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
         "start": 1,
-        "end": 7,
-        "ctxt": 0
+        "end": 7
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 1,
-          "end": 4,
-          "ctxt": 0
+          "end": 4
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
               "start": 1,
-              "end": 4,
-              "ctxt": 0
+              "end": 4
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
                   "start": 1,
-                  "end": 4,
-                  "ctxt": 0
+                  "end": 4
                 },
                 "nestingSelector": {
                   "type": "NestingSelector",
                   "span": {
                     "start": 1,
-                    "end": 2,
-                    "ctxt": 0
+                    "end": 2
                   }
                 },
                 "typeSelector": null,
@@ -50,15 +44,13 @@
                     "type": "PseudoClassSelector",
                     "span": {
                       "start": 2,
-                      "end": 4,
-                      "ctxt": 0
+                      "end": 4
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
                         "start": 3,
-                        "end": 4,
-                        "ctxt": 0
+                        "end": 4
                       },
                       "value": "b",
                       "raw": "b"
@@ -75,15 +67,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 5,
-          "end": 7,
-          "ctxt": 0
+          "end": 7
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 5,
-            "end": 6,
-            "ctxt": 0
+            "end": 6
           },
           "token": "LBrace"
         },

@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 16,
-    "end": 56,
-    "ctxt": 0
+    "end": 56
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 16,
-        "end": 46,
-        "ctxt": 0
+        "end": 46
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 20,
-            "end": 45,
-            "ctxt": 0
+            "end": 45
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 20,
-              "end": 21,
-              "ctxt": 0
+              "end": 21
             },
+            "ctxt": 0,
             "value": "s",
             "optional": false,
             "typeAnnotation": null
@@ -38,23 +36,22 @@
             "type": "CallExpression",
             "span": {
               "start": 24,
-              "end": 45,
-              "ctxt": 0
+              "end": 45
             },
+            "ctxt": 0,
             "callee": {
               "type": "MemberExpression",
               "span": {
                 "start": 24,
-                "end": 34,
-                "ctxt": 0
+                "end": 34
               },
               "object": {
                 "type": "Identifier",
                 "span": {
                   "start": 24,
-                  "end": 30,
-                  "ctxt": 0
+                  "end": 30
                 },
+                "ctxt": 0,
                 "value": "Symbol",
                 "optional": false
               },
@@ -62,11 +59,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 31,
-                  "end": 34,
-                  "ctxt": 0
+                  "end": 34
                 },
-                "value": "for",
-                "optional": false
+                "value": "for"
               }
             },
             "arguments": [
@@ -76,8 +71,7 @@
                   "type": "StringLiteral",
                   "span": {
                     "start": 35,
-                    "end": 44,
-                    "ctxt": 0
+                    "end": 44
                   },
                   "value": "postfix",
                   "raw": "\"postfix\""
@@ -94,15 +88,13 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 47,
-        "end": 51,
-        "ctxt": 0
+        "end": 51
       },
       "expression": {
         "type": "UpdateExpression",
         "span": {
           "start": 47,
-          "end": 50,
-          "ctxt": 0
+          "end": 50
         },
         "operator": "++",
         "prefix": false,
@@ -110,9 +102,9 @@
           "type": "Identifier",
           "span": {
             "start": 47,
-            "end": 48,
-            "ctxt": 0
+            "end": 48
           },
+          "ctxt": 0,
           "value": "s",
           "optional": false
         }
@@ -122,15 +114,13 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 52,
-        "end": 56,
-        "ctxt": 0
+        "end": 56
       },
       "expression": {
         "type": "UpdateExpression",
         "span": {
           "start": 52,
-          "end": 55,
-          "ctxt": 0
+          "end": 55
         },
         "operator": "--",
         "prefix": false,
@@ -138,9 +128,9 @@
           "type": "Identifier",
           "span": {
             "start": 52,
-            "end": 53,
-            "ctxt": 0
+            "end": 53
           },
+          "ctxt": 0,
           "value": "s",
           "optional": false
         }

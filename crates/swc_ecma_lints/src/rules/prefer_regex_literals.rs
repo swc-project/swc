@@ -175,7 +175,7 @@ impl Visit for PreferRegexLiterals {
     }
 
     fn visit_ident(&mut self, ident: &Ident) {
-        if ident.span.ctxt != self.unresolved_ctxt {
+        if ident.ctxt != self.unresolved_ctxt {
             return;
         }
 
@@ -196,7 +196,7 @@ impl Visit for PreferRegexLiterals {
         }
 
         if let Some(ident) = member_expr.obj.as_ident() {
-            if ident.span.ctxt != self.unresolved_ctxt {
+            if ident.ctxt != self.unresolved_ctxt {
                 return;
             }
 

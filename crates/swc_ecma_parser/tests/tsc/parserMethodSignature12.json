@@ -2,24 +2,22 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 27,
-    "ctxt": 0
+    "end": 27
   },
   "body": [
     {
       "type": "TsInterfaceDeclaration",
       "span": {
         "start": 1,
-        "end": 27,
-        "ctxt": 0
+        "end": 27
       },
       "id": {
         "type": "Identifier",
         "span": {
           "start": 11,
-          "end": 12,
-          "ctxt": 0
+          "end": 12
         },
+        "ctxt": 0,
         "value": "I",
         "optional": false
       },
@@ -30,23 +28,20 @@
         "type": "TsInterfaceBody",
         "span": {
           "start": 13,
-          "end": 27,
-          "ctxt": 0
+          "end": 27
         },
         "body": [
           {
             "type": "TsMethodSignature",
             "span": {
               "start": 17,
-              "end": 25,
-              "ctxt": 0
+              "end": 25
             },
             "key": {
               "type": "NumericLiteral",
               "span": {
                 "start": 17,
-                "end": 18,
-                "ctxt": 0
+                "end": 18
               },
               "value": 3.0,
               "raw": "3"
@@ -59,24 +54,22 @@
               "type": "TsTypeParameterDeclaration",
               "span": {
                 "start": 19,
-                "end": 22,
-                "ctxt": 0
+                "end": 22
               },
               "parameters": [
                 {
                   "type": "TsTypeParameter",
                   "span": {
                     "start": 20,
-                    "end": 21,
-                    "ctxt": 0
+                    "end": 21
                   },
                   "name": {
                     "type": "Identifier",
                     "span": {
                       "start": 20,
-                      "end": 21,
-                      "ctxt": 0
+                      "end": 21
                     },
+                    "ctxt": 0,
                     "value": "T",
                     "optional": false
                   },

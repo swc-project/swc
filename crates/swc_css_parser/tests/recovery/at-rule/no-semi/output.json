@@ -2,23 +2,20 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 44,
-    "ctxt": 0
+    "end": 44
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
         "start": 1,
-        "end": 25,
-        "ctxt": 0
+        "end": 25
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 2,
-          "end": 7,
-          "ctxt": 0
+          "end": 7
         },
         "value": "media",
         "raw": "media"
@@ -27,24 +24,21 @@
         "type": "MediaQueryList",
         "span": {
           "start": 8,
-          "end": 14,
-          "ctxt": 0
+          "end": 14
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
               "start": 8,
-              "end": 14,
-              "ctxt": 0
+              "end": 14
             },
             "modifier": null,
             "mediaType": {
               "type": "Ident",
               "span": {
                 "start": 8,
-                "end": 14,
-                "ctxt": 0
+                "end": 14
               },
               "value": "screen",
               "raw": "screen"
@@ -58,15 +52,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 15,
-          "end": 25,
-          "ctxt": 0
+          "end": 25
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 15,
-            "end": 16,
-            "ctxt": 0
+            "end": 16
           },
           "token": "LBrace"
         },
@@ -75,15 +67,13 @@
             "type": "AtRule",
             "span": {
               "start": 16,
-              "end": 24,
-              "ctxt": 0
+              "end": 24
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 17,
-                "end": 24,
-                "ctxt": 0
+                "end": 24
               },
               "value": "content",
               "raw": "content"
@@ -98,15 +88,13 @@
       "type": "AtRule",
       "span": {
         "start": 27,
-        "end": 44,
-        "ctxt": 0
+        "end": 44
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 28,
-          "end": 35,
-          "ctxt": 0
+          "end": 35
         },
         "value": "charset",
         "raw": "charset"
@@ -115,8 +103,7 @@
         "type": "String",
         "span": {
           "start": 36,
-          "end": 43,
-          "ctxt": 0
+          "end": 43
         },
         "value": "UTF-8",
         "raw": "\"UTF-8\""

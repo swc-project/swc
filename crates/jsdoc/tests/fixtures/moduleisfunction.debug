@@ -1,26 +1,26 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..32#0,
+            span: 1..32,
             value: "This is a module called foo.\n *",
         },
         tags: [
             TagItem {
-                span: 1..7#0,
+                span: 1..7,
                 tag_name: Text {
-                    span: 1..7#0,
+                    span: 1..7,
                     value: "module",
                 },
                 tag: Module(
                     ModuleTag {
-                        span: 1..7#0,
+                        span: 1..7,
                         name: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                         ty: Text {
-                            span: 1..4#0,
+                            span: 1..4,
                             value: "foo",
                         },
                     },
@@ -29,30 +29,30 @@
         ],
     },
     JsDoc {
-        span: 57..57#0,
+        span: 57..57,
         description: Text {
-            span: 57..97#0,
+            span: 57..97,
             value: "The module exports a single function.\n *",
         },
         tags: [
             TagItem {
-                span: 57..62#0,
+                span: 57..62,
                 tag_name: Text {
-                    span: 57..62#0,
+                    span: 57..62,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 57..62#0,
+                        span: 57..62,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 57..65#0,
+                                span: 57..65,
                                 value: "{string}",
                             },
                         ),
                         desc: Text {
-                            span: 57..60#0,
+                            span: 57..60,
                             value: "bar",
                         },
                     },

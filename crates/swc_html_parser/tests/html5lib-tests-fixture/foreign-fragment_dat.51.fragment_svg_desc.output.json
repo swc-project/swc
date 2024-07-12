@@ -2,16 +2,14 @@
   "type": "DocumentFragment",
   "span": {
     "start": 1,
-    "end": 17,
-    "ctxt": 0
+    "end": 17
   },
   "children": [
     {
       "type": "Element",
       "span": {
         "start": 1,
-        "end": 17,
-        "ctxt": 0
+        "end": 17
       },
       "tagName": "plaintext",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -21,8 +19,7 @@
           "type": "Text",
           "span": {
             "start": 12,
-            "end": 17,
-            "ctxt": 0
+            "end": 17
           },
           "data": "<foo>",
           "raw": "<foo>"

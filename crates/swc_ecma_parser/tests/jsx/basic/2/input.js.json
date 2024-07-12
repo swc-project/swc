@@ -2,83 +2,78 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 12,
-    "ctxt": 0
+    "end": 12
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 12,
-        "ctxt": 0
+        "end": 12
       },
       "expression": {
         "type": "JSXElement",
         "span": {
           "start": 1,
-          "end": 12,
-          "ctxt": 0
+          "end": 12
         },
         "opening": {
           "type": "JSXOpeningElement",
           "name": {
             "type": "JSXNamespacedName",
+            "span": {
+              "start": 2,
+              "end": 5
+            },
             "namespace": {
               "type": "Identifier",
               "span": {
                 "start": 2,
-                "end": 3,
-                "ctxt": 0
+                "end": 3
               },
-              "value": "n",
-              "optional": false
+              "value": "n"
             },
             "name": {
               "type": "Identifier",
               "span": {
                 "start": 4,
-                "end": 5,
-                "ctxt": 0
+                "end": 5
               },
-              "value": "a",
-              "optional": false
+              "value": "a"
             }
           },
           "span": {
             "start": 1,
-            "end": 12,
-            "ctxt": 0
+            "end": 12
           },
           "attributes": [
             {
               "type": "JSXAttribute",
               "span": {
                 "start": 6,
-                "end": 9,
-                "ctxt": 0
+                "end": 9
               },
               "name": {
                 "type": "JSXNamespacedName",
+                "span": {
+                  "start": 6,
+                  "end": 9
+                },
                 "namespace": {
                   "type": "Identifier",
                   "span": {
                     "start": 6,
-                    "end": 7,
-                    "ctxt": 0
+                    "end": 7
                   },
-                  "value": "n",
-                  "optional": false
+                  "value": "n"
                 },
                 "name": {
                   "type": "Identifier",
                   "span": {
                     "start": 8,
-                    "end": 9,
-                    "ctxt": 0
+                    "end": 9
                   },
-                  "value": "v",
-                  "optional": false
+                  "value": "v"
                 }
               },
               "value": null

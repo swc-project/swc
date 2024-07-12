@@ -24,7 +24,7 @@ use std::{
 use serde::{Deserialize, Serialize};
 
 use super::GLOBALS;
-use crate::collections::AHashMap;
+use crate::{collections::AHashMap, EqIgnoreSpan};
 
 /// A SyntaxContext represents a chain of macro expansions (represented by
 /// marks).
@@ -43,6 +43,24 @@ pub struct SyntaxContext(#[cfg_attr(feature = "__rkyv", omit_bounds)] u32);
 impl<'a> arbitrary::Arbitrary<'a> for SyntaxContext {
     fn arbitrary(_: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
         Ok(SyntaxContext::empty())
+    }
+}
+
+better_scoped_tls::scoped_tls!(static EQ_IGNORE_SPAN_IGNORE_CTXT: ());
+
+impl EqIgnoreSpan for SyntaxContext {
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self == other || EQ_IGNORE_SPAN_IGNORE_CTXT.is_set()
+    }
+}
+
+impl SyntaxContext {
+    /// In `op`, [EqIgnoreSpan] of [Ident] will ignore the syntax context.
+    pub fn within_ignored_ctxt<F, Ret>(op: F) -> Ret
+    where
+        F: FnOnce() -> Ret,
+    {
+        EQ_IGNORE_SPAN_IGNORE_CTXT.set(&(), op)
     }
 }
 

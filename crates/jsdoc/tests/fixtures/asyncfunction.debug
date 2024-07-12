@@ -1,29 +1,29 @@
 [
     JsDoc {
-        span: 152..152#0,
+        span: 152..152,
         description: Text {
-            span: 152..168#0,
+            span: 152..168,
             value: "Add a number.\n *",
         },
         tags: [
             TagItem {
-                span: 152..157#0,
+                span: 152..157,
                 tag_name: Text {
-                    span: 152..157#0,
+                    span: 152..157,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 152..157#0,
+                        span: 152..157,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 152..160#0,
+                                span: 152..160,
                                 value: "{number}",
                             },
                         ),
                         desc: Text {
-                            span: 152..174#0,
+                            span: 152..174,
                             value: "x - The number to add.",
                         },
                     },
@@ -32,30 +32,30 @@
         ],
     },
     JsDoc {
-        span: 356..356#0,
+        span: 356..356,
         description: Text {
-            span: 356..377#0,
+            span: 356..377,
             value: "Subtract a number.\n *",
         },
         tags: [
             TagItem {
-                span: 356..361#0,
+                span: 356..361,
                 tag_name: Text {
-                    span: 356..361#0,
+                    span: 356..361,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 356..361#0,
+                        span: 356..361,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 356..364#0,
+                                span: 356..364,
                                 value: "{number}",
                             },
                         ),
                         desc: Text {
-                            span: 356..383#0,
+                            span: 356..383,
                             value: "x - The number to subtract.",
                         },
                     },
@@ -64,46 +64,46 @@
         ],
     },
     JsDoc {
-        span: 590..590#0,
+        span: 590..590,
         description: Text {
-            span: 590..602#0,
+            span: 590..602,
             value: "Adder class.",
         },
         tags: [],
     },
     JsDoc {
-        span: 632..632#0,
+        span: 632..632,
         description: Text {
-            span: 632..660#0,
+            span: 632..660,
             value: "Construct an Adder instance.",
         },
         tags: [],
     },
     JsDoc {
-        span: 706..706#0,
+        span: 706..706,
         description: Text {
-            span: 706..726#0,
+            span: 706..726,
             value: "Add a number.\n     *",
         },
         tags: [
             TagItem {
-                span: 706..711#0,
+                span: 706..711,
                 tag_name: Text {
-                    span: 706..711#0,
+                    span: 706..711,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 706..711#0,
+                        span: 706..711,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 706..714#0,
+                                span: 706..714,
                                 value: "{number}",
                             },
                         ),
                         desc: Text {
-                            span: 706..728#0,
+                            span: 706..728,
                             value: "x - The number to add.",
                         },
                     },

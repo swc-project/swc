@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 61,
-    "ctxt": 0
+    "end": 61
   },
   "body": [
     {
@@ -12,43 +11,39 @@
         "type": "Identifier",
         "span": {
           "start": 7,
-          "end": 8,
-          "ctxt": 0
+          "end": 8
         },
+        "ctxt": 0,
         "value": "C",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 1,
-        "end": 30,
-        "ctxt": 0
+        "end": 30
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassProperty",
           "span": {
             "start": 15,
-            "end": 28,
-            "ctxt": 0
+            "end": 28
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 22,
-              "end": 23,
-              "ctxt": 0
+              "end": 23
             },
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": {
             "type": "NumericLiteral",
             "span": {
               "start": 26,
-              "end": 27,
-              "ctxt": 0
+              "end": 27
             },
             "value": 1.0,
             "raw": "1"
@@ -75,9 +70,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 32,
-        "end": 48,
-        "ctxt": 0
+        "end": 48
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -85,16 +80,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 36,
-            "end": 47,
-            "ctxt": 0
+            "end": 47
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 36,
-              "end": 37,
-              "ctxt": 0
+              "end": 37
             },
+            "ctxt": 0,
             "value": "c",
             "optional": false,
             "typeAnnotation": null
@@ -103,16 +97,16 @@
             "type": "NewExpression",
             "span": {
               "start": 40,
-              "end": 47,
-              "ctxt": 0
+              "end": 47
             },
+            "ctxt": 0,
             "callee": {
               "type": "Identifier",
               "span": {
                 "start": 44,
-                "end": 45,
-                "ctxt": 0
+                "end": 45
               },
+              "ctxt": 0,
               "value": "C",
               "optional": false
             },
@@ -127,9 +121,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 49,
-        "end": 61,
-        "ctxt": 0
+        "end": 61
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -137,16 +131,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 53,
-            "end": 60,
-            "ctxt": 0
+            "end": 60
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 53,
-              "end": 54,
-              "ctxt": 0
+              "end": 54
             },
+            "ctxt": 0,
             "value": "r",
             "optional": false,
             "typeAnnotation": null
@@ -155,16 +148,15 @@
             "type": "MemberExpression",
             "span": {
               "start": 57,
-              "end": 60,
-              "ctxt": 0
+              "end": 60
             },
             "object": {
               "type": "Identifier",
               "span": {
                 "start": 57,
-                "end": 58,
-                "ctxt": 0
+                "end": 58
               },
+              "ctxt": 0,
               "value": "C",
               "optional": false
             },
@@ -172,11 +164,9 @@
               "type": "Identifier",
               "span": {
                 "start": 59,
-                "end": 60,
-                "ctxt": 0
+                "end": 60
               },
-              "value": "x",
-              "optional": false
+              "value": "x"
             }
           },
           "definite": false

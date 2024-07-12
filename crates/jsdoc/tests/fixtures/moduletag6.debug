@@ -1,26 +1,26 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..7#0,
+                span: 1..7,
                 tag_name: Text {
-                    span: 1..7#0,
+                    span: 1..7,
                     value: "module",
                 },
                 tag: Module(
                     ModuleTag {
-                        span: 1..7#0,
+                        span: 1..7,
                         name: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                         ty: Text {
-                            span: 1..8#0,
+                            span: 1..8,
                             value: "appname",
                         },
                     },
@@ -29,23 +29,23 @@
         ],
     },
     JsDoc {
-        span: 25..25#0,
+        span: 25..25,
         description: Text {
-            span: 25..56#0,
+            span: 25..56,
             value: "The name of the application.\n *",
         },
         tags: [
             TagItem {
-                span: 25..29#0,
+                span: 25..29,
                 tag_name: Text {
-                    span: 25..29#0,
+                    span: 25..29,
                     value: "type",
                 },
                 tag: Type(
                     TypeTag {
-                        span: 25..29#0,
+                        span: 25..29,
                         name: Text {
-                            span: 25..33#0,
+                            span: 25..33,
                             value: "{string}",
                         },
                     },

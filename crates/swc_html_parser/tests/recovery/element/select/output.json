@@ -2,8 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 52,
-    "ctxt": 0
+    "end": 52
   },
   "mode": "quirks",
   "children": [
@@ -11,8 +10,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 0,
-        "ctxt": 0
+        "end": 0
       },
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -22,8 +20,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -36,8 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -47,8 +43,7 @@
               "type": "Element",
               "span": {
                 "start": 1,
-                "end": 35,
-                "ctxt": 0
+                "end": 35
               },
               "tagName": "select",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -58,8 +53,7 @@
                   "type": "Text",
                   "span": {
                     "start": 14,
-                    "end": 26,
-                    "ctxt": 0
+                    "end": 26
                   },
                   "data": "foobar",
                   "raw": "foobar"
@@ -72,8 +66,7 @@
               "type": "Text",
               "span": {
                 "start": 35,
-                "end": 36,
-                "ctxt": 0
+                "end": 36
               },
               "data": "\n",
               "raw": "\n"
@@ -82,8 +75,7 @@
               "type": "Element",
               "span": {
                 "start": 36,
-                "end": 44,
-                "ctxt": 0
+                "end": 44
               },
               "tagName": "select",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -96,8 +88,7 @@
               "type": "Element",
               "span": {
                 "start": 44,
-                "end": 52,
-                "ctxt": 0
+                "end": 52
               },
               "tagName": "keygen",
               "namespace": "http://www.w3.org/1999/xhtml",

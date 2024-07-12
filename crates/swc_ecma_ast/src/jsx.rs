@@ -7,6 +7,7 @@ use crate::{
     ident::Ident,
     lit::Lit,
     typescript::TsTypeParamInstantiation,
+    IdentName,
 };
 
 /// Used for `obj` property of `JSXMemberExpr`.
@@ -25,13 +26,13 @@ pub enum JSXObject {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct JSXMemberExpr {
+    pub span: Span,
+
     #[cfg_attr(feature = "serde-impl", serde(rename = "object"))]
-    #[span(lo)]
     pub obj: JSXObject,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "property"))]
-    #[span(hi)]
-    pub prop: Ident,
+    pub prop: IdentName,
 }
 
 /// XML-based namespace syntax:
@@ -39,11 +40,10 @@ pub struct JSXMemberExpr {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct JSXNamespacedName {
+    pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "namespace"))]
-    #[span(lo)]
-    pub ns: Ident,
-    #[span(hi)]
-    pub name: Ident,
+    pub ns: IdentName,
+    pub name: IdentName,
 }
 
 #[ast_node("JSXEmptyExpression")]
@@ -166,7 +166,7 @@ pub struct JSXAttr {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum JSXAttrName {
     #[tag("Identifier")]
-    Ident(Ident),
+    Ident(IdentName),
     #[tag("JSXNamespacedName")]
     JSXNamespacedName(JSXNamespacedName),
 }

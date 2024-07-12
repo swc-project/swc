@@ -1,7 +1,0 @@
-language: rust
-id: into-after-boxing
-rule:
-    all:
-        - kind: call_expression
-        - pattern: "Box::new($EXPR).into()"
-fix: $EXPR.into()

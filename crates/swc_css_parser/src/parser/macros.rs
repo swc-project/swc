@@ -1,7 +1,7 @@
 macro_rules! span {
     ($parser:expr, $start:expr) => {{
         let last_pos = $parser.input.last_pos();
-        swc_common::Span::new($start, last_pos, Default::default())
+        swc_common::Span::new($start, last_pos)
     }};
 }
 
@@ -49,7 +49,7 @@ macro_rules! cur {
             Some(v) => v,
             None => {
                 let last_pos = $parser.input.last_pos();
-                let span = swc_common::Span::new(last_pos, last_pos, Default::default());
+                let span = swc_common::Span::new(last_pos, last_pos);
 
                 for error in $parser.input.take_errors() {
                     let (span, kind) = *error.into_inner();

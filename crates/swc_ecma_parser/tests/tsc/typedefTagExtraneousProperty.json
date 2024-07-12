@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 233,
-    "end": 331,
-    "ctxt": 0
+    "end": 331
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 233,
-        "end": 255,
-        "ctxt": 0
+        "end": 255
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 237,
-            "end": 254,
-            "ctxt": 0
+            "end": 254
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 237,
-              "end": 238,
-              "ctxt": 0
+              "end": 238
             },
+            "ctxt": 0,
             "value": "y",
             "optional": false,
             "typeAnnotation": null
@@ -38,8 +36,7 @@
             "type": "ObjectExpression",
             "span": {
               "start": 241,
-              "end": 254,
-              "ctxt": 0
+              "end": 254
             },
             "properties": [
               {
@@ -48,18 +45,15 @@
                   "type": "Identifier",
                   "span": {
                     "start": 243,
-                    "end": 246,
-                    "ctxt": 0
+                    "end": 246
                   },
-                  "value": "bye",
-                  "optional": false
+                  "value": "bye"
                 },
                 "value": {
                   "type": "StringLiteral",
                   "span": {
                     "start": 248,
-                    "end": 252,
-                    "ctxt": 0
+                    "end": 252
                   },
                   "value": "no",
                   "raw": "\"no\""
@@ -75,16 +69,15 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 256,
-        "end": 257,
-        "ctxt": 0
+        "end": 257
       },
       "expression": {
         "type": "Identifier",
         "span": {
           "start": 256,
-          "end": 257,
-          "ctxt": 0
+          "end": 257
         },
+        "ctxt": 0,
         "value": "y",
         "optional": false
       }
@@ -93,31 +86,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 258,
-        "end": 315,
-        "ctxt": 0
+        "end": 315
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
           "start": 258,
-          "end": 315,
-          "ctxt": 0
+          "end": 315
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
             "start": 258,
-            "end": 268,
-            "ctxt": 0
+            "end": 268
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 258,
-              "end": 259,
-              "ctxt": 0
+              "end": 259
             },
+            "ctxt": 0,
             "value": "y",
             "optional": false
           },
@@ -125,19 +115,16 @@
             "type": "Identifier",
             "span": {
               "start": 260,
-              "end": 268,
-              "ctxt": 0
+              "end": 268
             },
-            "value": "ignoreMe",
-            "optional": false
+            "value": "ignoreMe"
           }
         },
         "right": {
           "type": "StringLiteral",
           "span": {
             "start": 271,
-            "end": 315,
-            "ctxt": 0
+            "end": 315
           },
           "value": "ok but just because of the index signature",
           "raw": "\"ok but just because of the index signature\""
@@ -148,31 +135,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 316,
-        "end": 331,
-        "ctxt": 0
+        "end": 331
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
           "start": 316,
-          "end": 331,
-          "ctxt": 0
+          "end": 331
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
             "start": 316,
-            "end": 323,
-            "ctxt": 0
+            "end": 323
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 316,
-              "end": 317,
-              "ctxt": 0
+              "end": 317
             },
+            "ctxt": 0,
             "value": "y",
             "optional": false
           },
@@ -180,15 +164,13 @@
             "type": "Computed",
             "span": {
               "start": 317,
-              "end": 323,
-              "ctxt": 0
+              "end": 323
             },
             "expression": {
               "type": "StringLiteral",
               "span": {
                 "start": 318,
-                "end": 322,
-                "ctxt": 0
+                "end": 322
               },
               "value": "hi",
               "raw": "'hi'"
@@ -199,8 +181,7 @@
           "type": "StringLiteral",
           "span": {
             "start": 326,
-            "end": 331,
-            "ctxt": 0
+            "end": 331
           },
           "value": "yes",
           "raw": "\"yes\""

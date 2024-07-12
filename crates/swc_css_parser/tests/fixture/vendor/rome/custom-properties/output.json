@@ -2,39 +2,34 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 509,
-    "ctxt": 0
+    "end": 509
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
         "start": 1,
-        "end": 508,
-        "ctxt": 0
+        "end": 508
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 1,
-          "end": 7,
-          "ctxt": 0
+          "end": 7
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
               "start": 1,
-              "end": 7,
-              "ctxt": 0
+              "end": 7
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
                   "start": 1,
-                  "end": 7,
-                  "ctxt": 0
+                  "end": 7
                 },
                 "nestingSelector": null,
                 "typeSelector": null,
@@ -43,15 +38,13 @@
                     "type": "ClassSelector",
                     "span": {
                       "start": 1,
-                      "end": 7,
-                      "ctxt": 0
+                      "end": 7
                     },
                     "text": {
                       "type": "Ident",
                       "span": {
                         "start": 2,
-                        "end": 7,
-                        "ctxt": 0
+                        "end": 7
                       },
                       "value": "style",
                       "raw": "style"
@@ -67,15 +60,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 8,
-          "end": 508,
-          "ctxt": 0
+          "end": 508
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 8,
-            "end": 9,
-            "ctxt": 0
+            "end": 9
           },
           "token": "LBrace"
         },
@@ -84,15 +75,13 @@
             "type": "Declaration",
             "span": {
               "start": 11,
-              "end": 23,
-              "ctxt": 0
+              "end": 23
             },
             "name": {
               "type": "DashedIdent",
               "span": {
                 "start": 11,
-                "end": 16,
-                "ctxt": 0
+                "end": 16
               },
               "value": "foo",
               "raw": "--foo"
@@ -102,8 +91,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 18,
-                  "end": 23,
-                  "ctxt": 0
+                  "end": 23
                 },
                 "token": {
                   "String": {
@@ -119,15 +107,13 @@
             "type": "Declaration",
             "span": {
               "start": 26,
-              "end": 45,
-              "ctxt": 0
+              "end": 45
             },
             "name": {
               "type": "DashedIdent",
               "span": {
                 "start": 26,
-                "end": 38,
-                "ctxt": 0
+                "end": 38
               },
               "value": "lore-ipsum",
               "raw": "--lore-ipsum"
@@ -137,8 +123,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 40,
-                  "end": 45,
-                  "ctxt": 0
+                  "end": 45
                 },
                 "token": {
                   "String": {
@@ -154,15 +139,13 @@
             "type": "Declaration",
             "span": {
               "start": 48,
-              "end": 64,
-              "ctxt": 0
+              "end": 64
             },
             "name": {
               "type": "DashedIdent",
               "span": {
                 "start": 48,
-                "end": 55,
-                "ctxt": 0
+                "end": 55
               },
               "value": "FANCY",
               "raw": "--FANCY"
@@ -172,8 +155,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 57,
-                  "end": 64,
-                  "ctxt": 0
+                  "end": 64
                 },
                 "token": {
                   "String": {
@@ -189,15 +171,13 @@
             "type": "Declaration",
             "span": {
               "start": 67,
-              "end": 79,
-              "ctxt": 0
+              "end": 79
             },
             "name": {
               "type": "DashedIdent",
               "span": {
                 "start": 67,
-                "end": 73,
-                "ctxt": 0
+                "end": 73
               },
               "value": "test",
               "raw": "--test"
@@ -207,8 +187,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 75,
-                  "end": 79,
-                  "ctxt": 0
+                  "end": 79
                 },
                 "token": {
                   "Number": {
@@ -225,15 +204,13 @@
             "type": "Declaration",
             "span": {
               "start": 82,
-              "end": 99,
-              "ctxt": 0
+              "end": 99
             },
             "name": {
               "type": "DashedIdent",
               "span": {
                 "start": 82,
-                "end": 94,
-                "ctxt": 0
+                "end": 94
               },
               "value": "percentage",
               "raw": "--percentage"
@@ -243,8 +220,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 96,
-                  "end": 99,
-                  "ctxt": 0
+                  "end": 99
                 },
                 "token": {
                   "Percentage": {
@@ -260,15 +236,13 @@
             "type": "Declaration",
             "span": {
               "start": 102,
-              "end": 114,
-              "ctxt": 0
+              "end": 114
             },
             "name": {
               "type": "DashedIdent",
               "span": {
                 "start": 102,
-                "end": 110,
-                "ctxt": 0
+                "end": 110
               },
               "value": "number",
               "raw": "--number"
@@ -278,8 +252,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 112,
-                  "end": 114,
-                  "ctxt": 0
+                  "end": 114
                 },
                 "token": {
                   "Number": {
@@ -296,15 +269,13 @@
             "type": "Declaration",
             "span": {
               "start": 117,
-              "end": 131,
-              "ctxt": 0
+              "end": 131
             },
             "name": {
               "type": "DashedIdent",
               "span": {
                 "start": 117,
-                "end": 125,
-                "ctxt": 0
+                "end": 125
               },
               "value": "length",
               "raw": "--length"
@@ -314,8 +285,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 127,
-                  "end": 131,
-                  "ctxt": 0
+                  "end": 131
                 },
                 "token": {
                   "Dimension": {
@@ -334,15 +304,13 @@
             "type": "Declaration",
             "span": {
               "start": 134,
-              "end": 146,
-              "ctxt": 0
+              "end": 146
             },
             "name": {
               "type": "DashedIdent",
               "span": {
                 "start": 134,
-                "end": 140,
-                "ctxt": 0
+                "end": 140
               },
               "value": "time",
               "raw": "--time"
@@ -352,8 +320,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 142,
-                  "end": 146,
-                  "ctxt": 0
+                  "end": 146
                 },
                 "token": {
                   "Dimension": {
@@ -372,15 +339,13 @@
             "type": "Declaration",
             "span": {
               "start": 149,
-              "end": 166,
-              "ctxt": 0
+              "end": 166
             },
             "name": {
               "type": "DashedIdent",
               "span": {
                 "start": 149,
-                "end": 159,
-                "ctxt": 0
+                "end": 159
               },
               "value": "function",
               "raw": "--function"
@@ -390,15 +355,13 @@
                 "type": "Function",
                 "span": {
                   "start": 161,
-                  "end": 166,
-                  "ctxt": 0
+                  "end": 166
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 161,
-                    "end": 164,
-                    "ctxt": 0
+                    "end": 164
                   },
                   "value": "foo",
                   "raw": "foo"
@@ -412,15 +375,13 @@
             "type": "Declaration",
             "span": {
               "start": 169,
-              "end": 198,
-              "ctxt": 0
+              "end": 198
             },
             "name": {
               "type": "DashedIdent",
               "span": {
                 "start": 169,
-                "end": 186,
-                "ctxt": 0
+                "end": 186
               },
               "value": "nested-function",
               "raw": "--nested-function"
@@ -430,15 +391,13 @@
                 "type": "Function",
                 "span": {
                   "start": 188,
-                  "end": 198,
-                  "ctxt": 0
+                  "end": 198
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 188,
-                    "end": 191,
-                    "ctxt": 0
+                    "end": 191
                   },
                   "value": "foo",
                   "raw": "foo"
@@ -448,15 +407,13 @@
                     "type": "Function",
                     "span": {
                       "start": 192,
-                      "end": 197,
-                      "ctxt": 0
+                      "end": 197
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
                         "start": 192,
-                        "end": 195,
-                        "ctxt": 0
+                        "end": 195
                       },
                       "value": "bar",
                       "raw": "bar"
@@ -472,15 +429,13 @@
             "type": "Declaration",
             "span": {
               "start": 201,
-              "end": 219,
-              "ctxt": 0
+              "end": 219
             },
             "name": {
               "type": "DashedIdent",
               "span": {
                 "start": 201,
-                "end": 214,
-                "ctxt": 0
+                "end": 214
               },
               "value": "parentheses",
               "raw": "--parentheses"
@@ -490,15 +445,13 @@
                 "type": "SimpleBlock",
                 "span": {
                   "start": 216,
-                  "end": 219,
-                  "ctxt": 0
+                  "end": 219
                 },
                 "name": {
                   "type": "PreservedToken",
                   "span": {
                     "start": 216,
-                    "end": 217,
-                    "ctxt": 0
+                    "end": 217
                   },
                   "token": "LParen"
                 },
@@ -507,8 +460,7 @@
                     "type": "PreservedToken",
                     "span": {
                       "start": 217,
-                      "end": 218,
-                      "ctxt": 0
+                      "end": 218
                     },
                     "token": {
                       "WhiteSpace": {
@@ -525,15 +477,13 @@
             "type": "Declaration",
             "span": {
               "start": 222,
-              "end": 235,
-              "ctxt": 0
+              "end": 235
             },
             "name": {
               "type": "DashedIdent",
               "span": {
                 "start": 222,
-                "end": 230,
-                "ctxt": 0
+                "end": 230
               },
               "value": "braces",
               "raw": "--braces"
@@ -543,15 +493,13 @@
                 "type": "SimpleBlock",
                 "span": {
                   "start": 232,
-                  "end": 235,
-                  "ctxt": 0
+                  "end": 235
                 },
                 "name": {
                   "type": "PreservedToken",
                   "span": {
                     "start": 232,
-                    "end": 233,
-                    "ctxt": 0
+                    "end": 233
                   },
                   "token": "LBrace"
                 },
@@ -560,8 +508,7 @@
                     "type": "PreservedToken",
                     "span": {
                       "start": 233,
-                      "end": 234,
-                      "ctxt": 0
+                      "end": 234
                     },
                     "token": {
                       "WhiteSpace": {
@@ -578,15 +525,13 @@
             "type": "Declaration",
             "span": {
               "start": 238,
-              "end": 253,
-              "ctxt": 0
+              "end": 253
             },
             "name": {
               "type": "DashedIdent",
               "span": {
                 "start": 238,
-                "end": 248,
-                "ctxt": 0
+                "end": 248
               },
               "value": "brackets",
               "raw": "--brackets"
@@ -596,15 +541,13 @@
                 "type": "SimpleBlock",
                 "span": {
                   "start": 250,
-                  "end": 253,
-                  "ctxt": 0
+                  "end": 253
                 },
                 "name": {
                   "type": "PreservedToken",
                   "span": {
                     "start": 250,
-                    "end": 251,
-                    "ctxt": 0
+                    "end": 251
                   },
                   "token": "LBracket"
                 },
@@ -613,8 +556,7 @@
                     "type": "PreservedToken",
                     "span": {
                       "start": 251,
-                      "end": 252,
-                      "ctxt": 0
+                      "end": 252
                     },
                     "token": {
                       "WhiteSpace": {
@@ -631,15 +573,13 @@
             "type": "Declaration",
             "span": {
               "start": 256,
-              "end": 285,
-              "ctxt": 0
+              "end": 285
             },
             "name": {
               "type": "DashedIdent",
               "span": {
                 "start": 256,
-                "end": 276,
-                "ctxt": 0
+                "end": 276
               },
               "value": "at-keyword-unknown",
               "raw": "--at-keyword-unknown"
@@ -649,8 +589,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 278,
-                  "end": 285,
-                  "ctxt": 0
+                  "end": 285
                 },
                 "token": {
                   "AtKeyword": {
@@ -666,15 +605,13 @@
             "type": "Declaration",
             "span": {
               "start": 288,
-              "end": 314,
-              "ctxt": 0
+              "end": 314
             },
             "name": {
               "type": "DashedIdent",
               "span": {
                 "start": 288,
-                "end": 306,
-                "ctxt": 0
+                "end": 306
               },
               "value": "at-keyword-known",
               "raw": "--at-keyword-known"
@@ -684,8 +621,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 308,
-                  "end": 314,
-                  "ctxt": 0
+                  "end": 314
                 },
                 "token": {
                   "AtKeyword": {
@@ -701,15 +637,13 @@
             "type": "Declaration",
             "span": {
               "start": 317,
-              "end": 355,
-              "ctxt": 0
+              "end": 355
             },
             "name": {
               "type": "DashedIdent",
               "span": {
                 "start": 317,
-                "end": 343,
-                "ctxt": 0
+                "end": 343
               },
               "value": "at-keyword-unknown-block",
               "raw": "--at-keyword-unknown-block"
@@ -719,8 +653,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 345,
-                  "end": 352,
-                  "ctxt": 0
+                  "end": 352
                 },
                 "token": {
                   "AtKeyword": {
@@ -733,8 +666,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 352,
-                  "end": 353,
-                  "ctxt": 0
+                  "end": 353
                 },
                 "token": {
                   "WhiteSpace": {
@@ -746,15 +678,13 @@
                 "type": "SimpleBlock",
                 "span": {
                   "start": 353,
-                  "end": 355,
-                  "ctxt": 0
+                  "end": 355
                 },
                 "name": {
                   "type": "PreservedToken",
                   "span": {
                     "start": 353,
-                    "end": 354,
-                    "ctxt": 0
+                    "end": 354
                   },
                   "token": "LBrace"
                 },
@@ -767,15 +697,13 @@
             "type": "Declaration",
             "span": {
               "start": 358,
-              "end": 393,
-              "ctxt": 0
+              "end": 393
             },
             "name": {
               "type": "DashedIdent",
               "span": {
                 "start": 358,
-                "end": 382,
-                "ctxt": 0
+                "end": 382
               },
               "value": "at-keyword-known-block",
               "raw": "--at-keyword-known-block"
@@ -785,8 +713,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 384,
-                  "end": 390,
-                  "ctxt": 0
+                  "end": 390
                 },
                 "token": {
                   "AtKeyword": {
@@ -799,8 +726,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 390,
-                  "end": 391,
-                  "ctxt": 0
+                  "end": 391
                 },
                 "token": {
                   "WhiteSpace": {
@@ -812,15 +738,13 @@
                 "type": "SimpleBlock",
                 "span": {
                   "start": 391,
-                  "end": 393,
-                  "ctxt": 0
+                  "end": 393
                 },
                 "name": {
                   "type": "PreservedToken",
                   "span": {
                     "start": 391,
-                    "end": 392,
-                    "ctxt": 0
+                    "end": 392
                   },
                   "token": "LBrace"
                 },
@@ -833,15 +757,13 @@
             "type": "Declaration",
             "span": {
               "start": 396,
-              "end": 420,
-              "ctxt": 0
+              "end": 420
             },
             "name": {
               "type": "DashedIdent",
               "span": {
                 "start": 396,
-                "end": 414,
-                "ctxt": 0
+                "end": 414
               },
               "value": "cdo-at-top-level",
               "raw": "--cdo-at-top-level"
@@ -851,8 +773,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 416,
-                  "end": 420,
-                  "ctxt": 0
+                  "end": 420
                 },
                 "token": "CDO"
               }
@@ -863,15 +784,13 @@
             "type": "Declaration",
             "span": {
               "start": 423,
-              "end": 446,
-              "ctxt": 0
+              "end": 446
             },
             "name": {
               "type": "DashedIdent",
               "span": {
                 "start": 423,
-                "end": 441,
-                "ctxt": 0
+                "end": 441
               },
               "value": "cdc-at-top-level",
               "raw": "--cdc-at-top-level"
@@ -881,8 +800,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 443,
-                  "end": 446,
-                  "ctxt": 0
+                  "end": 446
                 },
                 "token": "CDC"
               }
@@ -893,15 +811,13 @@
             "type": "Declaration",
             "span": {
               "start": 449,
-              "end": 476,
-              "ctxt": 0
+              "end": 476
             },
             "name": {
               "type": "DashedIdent",
               "span": {
                 "start": 449,
-                "end": 468,
-                "ctxt": 0
+                "end": 468
               },
               "value": "cdo-not-top-level",
               "raw": "--cdo-not-top-level"
@@ -911,15 +827,13 @@
                 "type": "SimpleBlock",
                 "span": {
                   "start": 470,
-                  "end": 476,
-                  "ctxt": 0
+                  "end": 476
                 },
                 "name": {
                   "type": "PreservedToken",
                   "span": {
                     "start": 470,
-                    "end": 471,
-                    "ctxt": 0
+                    "end": 471
                   },
                   "token": "LParen"
                 },
@@ -928,8 +842,7 @@
                     "type": "PreservedToken",
                     "span": {
                       "start": 471,
-                      "end": 475,
-                      "ctxt": 0
+                      "end": 475
                     },
                     "token": "CDO"
                   }
@@ -942,15 +855,13 @@
             "type": "Declaration",
             "span": {
               "start": 479,
-              "end": 505,
-              "ctxt": 0
+              "end": 505
             },
             "name": {
               "type": "DashedIdent",
               "span": {
                 "start": 479,
-                "end": 498,
-                "ctxt": 0
+                "end": 498
               },
               "value": "cdc-not-top-level",
               "raw": "--cdc-not-top-level"
@@ -960,15 +871,13 @@
                 "type": "SimpleBlock",
                 "span": {
                   "start": 500,
-                  "end": 505,
-                  "ctxt": 0
+                  "end": 505
                 },
                 "name": {
                   "type": "PreservedToken",
                   "span": {
                     "start": 500,
-                    "end": 501,
-                    "ctxt": 0
+                    "end": 501
                   },
                   "token": "LParen"
                 },
@@ -977,8 +886,7 @@
                     "type": "PreservedToken",
                     "span": {
                       "start": 501,
-                      "end": 504,
-                      "ctxt": 0
+                      "end": 504
                     },
                     "token": "CDC"
                   }

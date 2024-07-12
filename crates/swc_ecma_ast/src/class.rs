@@ -1,5 +1,5 @@
 use is_macro::Is;
-use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
+use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, SyntaxContext, DUMMY_SP};
 
 use crate::{
     expr::Expr,
@@ -11,14 +11,16 @@ use crate::{
         Accessibility, TsExprWithTypeArgs, TsIndexSignature, TsTypeAnn, TsTypeParamDecl,
         TsTypeParamInstantiation,
     },
-    BigInt, ComputedPropName, EmptyStmt, Id, Ident, Number,
+    BigInt, ComputedPropName, EmptyStmt, Id, Ident, IdentName, Number,
 };
 
 #[ast_node]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Class {
     pub span: Span,
+
+    pub ctxt: SyntaxContext,
 
     #[cfg_attr(c, serde(default))]
     pub decorators: Vec<Decorator>,
@@ -46,14 +48,7 @@ pub struct Class {
 impl Take for Class {
     fn dummy() -> Self {
         Class {
-            span: DUMMY_SP,
-            decorators: Default::default(),
-            body: Default::default(),
-            super_class: Default::default(),
-            is_abstract: Default::default(),
-            type_params: Default::default(),
-            super_type_params: Default::default(),
-            implements: Default::default(),
+            ..Default::default()
         }
     }
 }
@@ -146,6 +141,9 @@ pub struct PrivateProp {
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub ctxt: SyntaxContext,
+
     pub key: PrivateName,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -216,10 +214,12 @@ method!(ClassMethod, "ClassMethod", PropName);
 method!(PrivateMethod, "PrivateMethod", PrivateName);
 
 #[ast_node("Constructor")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Constructor {
     pub span: Span,
+
+    pub ctxt: SyntaxContext,
 
     pub key: PropName,
 
@@ -295,7 +295,8 @@ pub enum Key {
     Public(PropName),
 }
 
-bridge_from!(Key, PropName, Ident);
+bridge_from!(Key, IdentName, Ident);
+bridge_from!(Key, PropName, IdentName);
 bridge_from!(Key, PropName, Id);
 bridge_from!(Key, PropName, Number);
 bridge_from!(Key, PropName, ComputedPropName);

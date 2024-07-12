@@ -144,6 +144,7 @@ impl ClassFieldsUseSet {
                         kind: VarDeclKind::Let,
                         declare: false,
                         decls: var_decls,
+                        ..Default::default()
                     }
                     .into(),
                 ))
@@ -204,6 +205,7 @@ impl VisitMut for FieldsHandler {
                                 body: BlockStmt {
                                     span: DUMMY_SP,
                                     stmts: vec![init_expr.into_stmt()],
+                                    ..Default::default()
                                 },
                             }
                             .into();
@@ -274,7 +276,7 @@ impl VisitMut for ComputedFieldsHandler {
                 if !is_literal(expr) && !is_simple_pure_expr(expr, self.pure_getters) =>
             {
                 let ref_key = private_ident!("prop");
-                let mut computed_expr = Box::new(Expr::Ident(ref_key.clone()));
+                let mut computed_expr = ref_key.clone().into();
 
                 mem::swap(expr, &mut computed_expr);
 
@@ -312,6 +314,7 @@ impl VisitMut for ComputedFieldsHandler {
                     body: BlockStmt {
                         span: DUMMY_SP,
                         stmts: self.static_init_blocks.take(),
+                        ..Default::default()
                     },
                 }
                 .into(),

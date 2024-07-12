@@ -4,8 +4,7 @@
       "kind": "Block",
       "span": {
         "start": 810,
-        "end": 827,
-        "ctxt": 0
+        "end": 827
       },
       "text": "/* Forgiving */"
     }

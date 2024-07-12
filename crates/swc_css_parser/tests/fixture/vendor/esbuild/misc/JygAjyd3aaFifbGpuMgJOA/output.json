@@ -2,23 +2,20 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 25,
-    "ctxt": 0
+    "end": 25
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
         "start": 1,
-        "end": 25,
-        "ctxt": 0
+        "end": 25
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 2,
-          "end": 11,
-          "ctxt": 0
+          "end": 11
         },
         "value": "namespace",
         "raw": "namespace"
@@ -27,15 +24,13 @@
         "type": "NamespacePrelude",
         "span": {
           "start": 12,
-          "end": 24,
-          "ctxt": 0
+          "end": 24
         },
         "prefix": {
           "type": "Ident",
           "span": {
             "start": 12,
-            "end": 15,
-            "ctxt": 0
+            "end": 15
           },
           "value": ",s",
           "raw": "\\,s"
@@ -44,8 +39,7 @@
           "type": "String",
           "span": {
             "start": 16,
-            "end": 24,
-            "ctxt": 0
+            "end": 24
           },
           "value": "path",
           "raw": "'p\\61th'"

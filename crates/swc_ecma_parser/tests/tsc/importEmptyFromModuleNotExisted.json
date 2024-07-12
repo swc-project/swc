@@ -2,24 +2,21 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 36,
-    "ctxt": 0
+    "end": 36
   },
   "body": [
     {
       "type": "ImportDeclaration",
       "span": {
         "start": 1,
-        "end": 36,
-        "ctxt": 0
+        "end": 36
       },
       "specifiers": [],
       "source": {
         "type": "StringLiteral",
         "span": {
           "start": 16,
-          "end": 36,
-          "ctxt": 0
+          "end": 36
         },
         "value": "module-not-existed",
         "raw": "'module-not-existed'"

@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 16,
-    "end": 107,
-    "ctxt": 0
+    "end": 107
   },
   "body": [
     {
@@ -12,48 +11,45 @@
         "type": "Identifier",
         "span": {
           "start": 22,
-          "end": 36,
-          "ctxt": 0
+          "end": 36
         },
+        "ctxt": 0,
         "value": "StringIterator",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 16,
-        "end": 68,
-        "ctxt": 0
+        "end": 68
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassProperty",
           "span": {
             "start": 43,
-            "end": 66,
-            "ctxt": 0
+            "end": 66
           },
           "key": {
             "type": "Computed",
             "span": {
               "start": 43,
-              "end": 60,
-              "ctxt": 0
+              "end": 60
             },
             "expression": {
               "type": "MemberExpression",
               "span": {
                 "start": 44,
-                "end": 59,
-                "ctxt": 0
+                "end": 59
               },
               "object": {
                 "type": "Identifier",
                 "span": {
                   "start": 44,
-                  "end": 50,
-                  "ctxt": 0
+                  "end": 50
                 },
+                "ctxt": 0,
                 "value": "Symbol",
                 "optional": false
               },
@@ -61,11 +57,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 51,
-                  "end": 59,
-                  "ctxt": 0
+                  "end": 59
                 },
-                "value": "iterator",
-                "optional": false
+                "value": "iterator"
               }
             }
           },
@@ -74,15 +68,13 @@
             "type": "TsTypeAnnotation",
             "span": {
               "start": 60,
-              "end": 65,
-              "ctxt": 0
+              "end": 65
             },
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
                 "start": 62,
-                "end": 65,
-                "ctxt": 0
+                "end": 65
               },
               "kind": "any"
             }
@@ -108,17 +100,16 @@
       "type": "ForOfStatement",
       "span": {
         "start": 70,
-        "end": 107,
-        "ctxt": 0
+        "end": 107
       },
       "await": false,
       "left": {
         "type": "VariableDeclaration",
         "span": {
           "start": 75,
-          "end": 80,
-          "ctxt": 0
+          "end": 80
         },
+        "ctxt": 0,
         "kind": "var",
         "declare": false,
         "declarations": [
@@ -126,16 +117,15 @@
             "type": "VariableDeclarator",
             "span": {
               "start": 79,
-              "end": 80,
-              "ctxt": 0
+              "end": 80
             },
             "id": {
               "type": "Identifier",
               "span": {
                 "start": 79,
-                "end": 80,
-                "ctxt": 0
+                "end": 80
               },
+              "ctxt": 0,
               "value": "v",
               "optional": false,
               "typeAnnotation": null
@@ -149,16 +139,16 @@
         "type": "NewExpression",
         "span": {
           "start": 84,
-          "end": 102,
-          "ctxt": 0
+          "end": 102
         },
+        "ctxt": 0,
         "callee": {
           "type": "Identifier",
           "span": {
             "start": 88,
-            "end": 102,
-            "ctxt": 0
+            "end": 102
           },
+          "ctxt": 0,
           "value": "StringIterator",
           "optional": false
         },
@@ -169,9 +159,9 @@
         "type": "BlockStatement",
         "span": {
           "start": 104,
-          "end": 107,
-          "ctxt": 0
+          "end": 107
         },
+        "ctxt": 0,
         "stmts": []
       }
     }

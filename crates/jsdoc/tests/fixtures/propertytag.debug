@@ -1,24 +1,24 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..10#0,
+                span: 1..10,
                 tag_name: Text {
-                    span: 1..10#0,
+                    span: 1..10,
                     value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {
-                        span: 1..10#0,
+                        span: 1..10,
                         ty: None,
                         name: Some(
                             Text {
-                                span: 1..45#0,
+                                span: 1..45,
                                 value: "@property {String} id=abc123 The identifier.",
                             },
                         ),
@@ -26,93 +26,93 @@
                 ),
             },
             TagItem {
-                span: 1..9#0,
+                span: 1..9,
                 tag_name: Text {
-                    span: 1..9#0,
+                    span: 1..9,
                     value: "property",
                 },
                 tag: Property(
                     PropertyTag {
-                        span: 1..9#0,
+                        span: 1..9,
                         name_path: NamePath {
-                            span: 1..163#0,
+                            span: 1..163,
                             components: [
                                 Text {
-                                    span: 1..1#0,
+                                    span: 1..1,
                                     value: "",
                                 },
                             ],
                         },
                         ty: Some(
                             Text {
-                                span: 1..9#0,
+                                span: 1..9,
                                 value: "{Object}",
                             },
                         ),
                         desc: Text {
-                            span: 1..29#0,
+                            span: 1..29,
                             value: "defaults The default values.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 1..9#0,
+                span: 1..9,
                 tag_name: Text {
-                    span: 1..9#0,
+                    span: 1..9,
                     value: "property",
                 },
                 tag: Property(
                     PropertyTag {
-                        span: 1..9#0,
+                        span: 1..9,
                         name_path: NamePath {
-                            span: 1..112#0,
+                            span: 1..112,
                             components: [
                                 Text {
-                                    span: 1..1#0,
+                                    span: 1..1,
                                     value: "",
                                 },
                             ],
                         },
                         ty: Some(
                             Text {
-                                span: 1..9#0,
+                                span: 1..9,
                                 value: "{Number}",
                             },
                         ),
                         desc: Text {
-                            span: 1..45#0,
+                            span: 1..45,
                             value: "defaults.a=1 The a property of the defaults.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 1..9#0,
+                span: 1..9,
                 tag_name: Text {
-                    span: 1..9#0,
+                    span: 1..9,
                     value: "property",
                 },
                 tag: Property(
                     PropertyTag {
-                        span: 1..9#0,
+                        span: 1..9,
                         name_path: NamePath {
-                            span: 1..45#0,
+                            span: 1..45,
                             components: [
                                 Text {
-                                    span: 1..1#0,
+                                    span: 1..1,
                                     value: "",
                                 },
                             ],
                         },
                         ty: Some(
                             Text {
-                                span: 1..9#0,
+                                span: 1..9,
                                 value: "{String}",
                             },
                         ),
                         desc: Text {
-                            span: 1..43#0,
+                            span: 1..43,
                             value: "defaults.b The b property of the defaults.",
                         },
                     },

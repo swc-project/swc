@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 79,
-    "end": 153,
-    "ctxt": 0
+    "end": 153
   },
   "body": [
     {
@@ -12,60 +11,56 @@
         "type": "Identifier",
         "span": {
           "start": 85,
-          "end": 93,
-          "ctxt": 0
+          "end": 93
         },
+        "ctxt": 0,
         "value": "ErrClass",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 79,
-        "end": 153,
-        "ctxt": 0
+        "end": 153
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "Constructor",
           "span": {
             "start": 126,
-            "end": 151,
-            "ctxt": 0
+            "end": 151
           },
+          "ctxt": 0,
           "key": {
             "type": "Identifier",
             "span": {
               "start": 126,
-              "end": 137,
-              "ctxt": 0
+              "end": 137
             },
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
               "type": "Parameter",
               "span": {
                 "start": 138,
-                "end": 146,
-                "ctxt": 0
+                "end": 146
               },
               "decorators": [],
               "pat": {
                 "type": "AssignmentPattern",
                 "span": {
                   "start": 138,
-                  "end": 146,
-                  "ctxt": 0
+                  "end": 146
                 },
                 "left": {
                   "type": "Identifier",
                   "span": {
                     "start": 138,
-                    "end": 139,
-                    "ctxt": 0
+                    "end": 139
                   },
+                  "ctxt": 0,
                   "value": "f",
                   "optional": false,
                   "typeAnnotation": null
@@ -74,8 +69,7 @@
                   "type": "ThisExpression",
                   "span": {
                     "start": 142,
-                    "end": 146,
-                    "ctxt": 0
+                    "end": 146
                   }
                 }
               }
@@ -85,9 +79,9 @@
             "type": "BlockStatement",
             "span": {
               "start": 148,
-              "end": 151,
-              "ctxt": 0
+              "end": 151
             },
+            "ctxt": 0,
             "stmts": []
           },
           "accessibility": null,

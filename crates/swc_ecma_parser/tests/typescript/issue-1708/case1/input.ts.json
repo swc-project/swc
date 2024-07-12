@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 93,
-    "ctxt": 0
+    "end": 93
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 1,
-        "end": 66,
-        "ctxt": 0
+        "end": 66
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 7,
-            "end": 65,
-            "ctxt": 0
+            "end": 65
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 7,
-              "end": 12,
-              "ctxt": 0
+              "end": 12
             },
+            "ctxt": 0,
             "value": "thing",
             "optional": false,
             "typeAnnotation": null
@@ -38,23 +36,20 @@
             "type": "ObjectExpression",
             "span": {
               "start": 15,
-              "end": 65,
-              "ctxt": 0
+              "end": 65
             },
             "properties": [
               {
                 "type": "GetterProperty",
                 "span": {
                   "start": 21,
-                  "end": 62,
-                  "ctxt": 0
+                  "end": 62
                 },
                 "key": {
                   "type": "StringLiteral",
                   "span": {
                     "start": 25,
-                    "end": 30,
-                    "ctxt": 0
+                    "end": 30
                   },
                   "value": "a-b",
                   "raw": "\"a-b\""
@@ -64,23 +59,21 @@
                   "type": "BlockStatement",
                   "span": {
                     "start": 33,
-                    "end": 62,
-                    "ctxt": 0
+                    "end": 62
                   },
+                  "ctxt": 0,
                   "stmts": [
                     {
                       "type": "ReturnStatement",
                       "span": {
                         "start": 43,
-                        "end": 56,
-                        "ctxt": 0
+                        "end": 56
                       },
                       "argument": {
                         "type": "StringLiteral",
                         "span": {
                           "start": 50,
-                          "end": 55,
-                          "ctxt": 0
+                          "end": 55
                         },
                         "value": "abc",
                         "raw": "\"abc\""
@@ -99,30 +92,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 67,
-        "end": 93,
-        "ctxt": 0
+        "end": 93
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 67,
-          "end": 92,
-          "ctxt": 0
+          "end": 92
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 67,
-            "end": 78,
-            "ctxt": 0
+            "end": 78
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 67,
-              "end": 74,
-              "ctxt": 0
+              "end": 74
             },
+            "ctxt": 0,
             "value": "console",
             "optional": false
           },
@@ -130,11 +121,9 @@
             "type": "Identifier",
             "span": {
               "start": 75,
-              "end": 78,
-              "ctxt": 0
+              "end": 78
             },
-            "value": "log",
-            "optional": false
+            "value": "log"
           }
         },
         "arguments": [
@@ -144,16 +133,15 @@
               "type": "MemberExpression",
               "span": {
                 "start": 79,
-                "end": 91,
-                "ctxt": 0
+                "end": 91
               },
               "object": {
                 "type": "Identifier",
                 "span": {
                   "start": 79,
-                  "end": 84,
-                  "ctxt": 0
+                  "end": 84
                 },
+                "ctxt": 0,
                 "value": "thing",
                 "optional": false
               },
@@ -161,15 +149,13 @@
                 "type": "Computed",
                 "span": {
                   "start": 84,
-                  "end": 91,
-                  "ctxt": 0
+                  "end": 91
                 },
                 "expression": {
                   "type": "StringLiteral",
                   "span": {
                     "start": 85,
-                    "end": 90,
-                    "ctxt": 0
+                    "end": 90
                   },
                   "value": "a-b",
                   "raw": "'a-b'"

@@ -2,46 +2,42 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 10,
-    "ctxt": 0
+    "end": 10
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 10,
-        "ctxt": 0
+        "end": 10
       },
       "expression": {
         "type": "TaggedTemplateExpression",
         "span": {
           "start": 1,
-          "end": 10,
-          "ctxt": 0
+          "end": 10
         },
+        "ctxt": 0,
         "tag": {
           "type": "OptionalChainingExpression",
           "span": {
             "start": 1,
-            "end": 5,
-            "ctxt": 0
+            "end": 5
           },
           "optional": true,
           "base": {
             "type": "MemberExpression",
             "span": {
               "start": 1,
-              "end": 5,
-              "ctxt": 0
+              "end": 5
             },
             "object": {
               "type": "Identifier",
               "span": {
                 "start": 1,
-                "end": 2,
-                "ctxt": 0
+                "end": 2
               },
+              "ctxt": 0,
               "value": "a",
               "optional": false
             },
@@ -49,11 +45,9 @@
               "type": "Identifier",
               "span": {
                 "start": 4,
-                "end": 5,
-                "ctxt": 0
+                "end": 5
               },
-              "value": "b",
-              "optional": false
+              "value": "b"
             }
           }
         },
@@ -62,8 +56,7 @@
           "type": "TemplateLiteral",
           "span": {
             "start": 5,
-            "end": 10,
-            "ctxt": 0
+            "end": 10
           },
           "expressions": [],
           "quasis": [
@@ -71,8 +64,7 @@
               "type": "TemplateElement",
               "span": {
                 "start": 6,
-                "end": 9,
-                "ctxt": 0
+                "end": 9
               },
               "tail": true,
               "cooked": "foo",

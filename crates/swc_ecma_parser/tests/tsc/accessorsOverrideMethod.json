@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 54,
-    "end": 130,
-    "ctxt": 0
+    "end": 130
   },
   "body": [
     {
@@ -12,52 +11,49 @@
         "type": "Identifier",
         "span": {
           "start": 60,
-          "end": 61,
-          "ctxt": 0
+          "end": 61
         },
+        "ctxt": 0,
         "value": "A",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 54,
-        "end": 77,
-        "ctxt": 0
+        "end": 77
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassMethod",
           "span": {
             "start": 68,
-            "end": 75,
-            "ctxt": 0
+            "end": 75
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 68,
-              "end": 69,
-              "ctxt": 0
+              "end": 69
             },
-            "value": "m",
-            "optional": false
+            "value": "m"
           },
           "function": {
             "params": [],
             "decorators": [],
             "span": {
               "start": 68,
-              "end": 75,
-              "ctxt": 0
+              "end": 75
             },
+            "ctxt": 0,
             "body": {
               "type": "BlockStatement",
               "span": {
                 "start": 72,
-                "end": 75,
-                "ctxt": 0
+                "end": 75
               },
+              "ctxt": 0,
               "stmts": []
             },
             "generator": false,
@@ -85,74 +81,69 @@
         "type": "Identifier",
         "span": {
           "start": 84,
-          "end": 85,
-          "ctxt": 0
+          "end": 85
         },
+        "ctxt": 0,
         "value": "B",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 78,
-        "end": 130,
-        "ctxt": 0
+        "end": 130
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassMethod",
           "span": {
             "start": 102,
-            "end": 128,
-            "ctxt": 0
+            "end": 128
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 106,
-              "end": 107,
-              "ctxt": 0
+              "end": 107
             },
-            "value": "m",
-            "optional": false
+            "value": "m"
           },
           "function": {
             "params": [],
             "decorators": [],
             "span": {
               "start": 102,
-              "end": 128,
-              "ctxt": 0
+              "end": 128
             },
+            "ctxt": 0,
             "body": {
               "type": "BlockStatement",
               "span": {
                 "start": 110,
-                "end": 128,
-                "ctxt": 0
+                "end": 128
               },
+              "ctxt": 0,
               "stmts": [
                 {
                   "type": "ReturnStatement",
                   "span": {
                     "start": 112,
-                    "end": 126,
-                    "ctxt": 0
+                    "end": 126
                   },
                   "argument": {
                     "type": "ArrowFunctionExpression",
                     "span": {
                       "start": 119,
-                      "end": 126,
-                      "ctxt": 0
+                      "end": 126
                     },
+                    "ctxt": 0,
                     "params": [],
                     "body": {
                       "type": "NumericLiteral",
                       "span": {
                         "start": 125,
-                        "end": 126,
-                        "ctxt": 0
+                        "end": 126
                       },
                       "value": 1.0,
                       "raw": "1"
@@ -182,9 +173,9 @@
         "type": "Identifier",
         "span": {
           "start": 94,
-          "end": 95,
-          "ctxt": 0
+          "end": 95
         },
+        "ctxt": 0,
         "value": "A",
         "optional": false
       },

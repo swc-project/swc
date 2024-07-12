@@ -2,23 +2,20 @@
   "type": "Script",
   "span": {
     "start": 17,
-    "end": 20,
-    "ctxt": 0
+    "end": 20
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 17,
-        "end": 20,
-        "ctxt": 0
+        "end": 20
       },
       "expression": {
         "type": "NumericLiteral",
         "span": {
           "start": 17,
-          "end": 20,
-          "ctxt": 0
+          "end": 20
         },
         "value": 1.0,
         "raw": "1e0"

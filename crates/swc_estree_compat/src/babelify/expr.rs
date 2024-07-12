@@ -552,7 +552,7 @@ impl Babelify for MetaPropExpr {
                         ..self.span
                     },
                     sym: "import".into(),
-                    optional: false,
+                    ..Default::default()
                 }
                 .babelify(ctx),
                 Ident {
@@ -561,7 +561,7 @@ impl Babelify for MetaPropExpr {
                         ..self.span
                     },
                     sym: "meta".into(),
-                    optional: false,
+                    ..Default::default()
                 }
                 .babelify(ctx),
             ),
@@ -572,7 +572,7 @@ impl Babelify for MetaPropExpr {
                         ..self.span
                     },
                     sym: "new".into(),
-                    optional: false,
+                    ..Default::default()
                 }
                 .babelify(ctx),
                 Ident {
@@ -581,7 +581,7 @@ impl Babelify for MetaPropExpr {
                         ..self.span
                     },
                     sym: "target".into(),
-                    optional: false,
+                    ..Default::default()
                 }
                 .babelify(ctx),
             ),

@@ -12,7 +12,7 @@ pub enum HashKey {
 impl From<&PropName> for HashKey {
     fn from(p: &PropName) -> Self {
         match p {
-            PropName::Ident(Ident { sym: value, .. }) | PropName::Str(Str { value, .. }) => {
+            PropName::Ident(IdentName { sym: value, .. }) | PropName::Str(Str { value, .. }) => {
                 HashKey::Str(value.clone())
             }
             PropName::Num(Number { value, .. }) => HashKey::Str(value.to_string().into()),

@@ -2,24 +2,22 @@
   "type": "Script",
   "span": {
     "start": 61,
-    "end": 112,
-    "ctxt": 0
+    "end": 112
   },
   "body": [
     {
       "type": "LabeledStatement",
       "span": {
         "start": 61,
-        "end": 85,
-        "ctxt": 0
+        "end": 85
       },
       "label": {
         "type": "Identifier",
         "span": {
           "start": 61,
-          "end": 67,
-          "ctxt": 0
+          "end": 67
         },
+        "ctxt": 0,
         "value": "target",
         "optional": false
       },
@@ -27,15 +25,13 @@
         "type": "WhileStatement",
         "span": {
           "start": 69,
-          "end": 85,
-          "ctxt": 0
+          "end": 85
         },
         "test": {
           "type": "BooleanLiteral",
           "span": {
             "start": 76,
-            "end": 80,
-            "ctxt": 0
+            "end": 80
           },
           "value": true
         },
@@ -43,9 +39,9 @@
           "type": "BlockStatement",
           "span": {
             "start": 82,
-            "end": 85,
-            "ctxt": 0
+            "end": 85
           },
+          "ctxt": 0,
           "stmts": []
         }
       }
@@ -54,16 +50,15 @@
       "type": "LabeledStatement",
       "span": {
         "start": 87,
-        "end": 112,
-        "ctxt": 0
+        "end": 112
       },
       "label": {
         "type": "Identifier",
         "span": {
           "start": 87,
-          "end": 93,
-          "ctxt": 0
+          "end": 93
         },
+        "ctxt": 0,
         "value": "target",
         "optional": false
       },
@@ -71,15 +66,13 @@
         "type": "WhileStatement",
         "span": {
           "start": 96,
-          "end": 112,
-          "ctxt": 0
+          "end": 112
         },
         "test": {
           "type": "BooleanLiteral",
           "span": {
             "start": 103,
-            "end": 107,
-            "ctxt": 0
+            "end": 107
           },
           "value": true
         },
@@ -87,9 +80,9 @@
           "type": "BlockStatement",
           "span": {
             "start": 109,
-            "end": 112,
-            "ctxt": 0
+            "end": 112
           },
+          "ctxt": 0,
           "stmts": []
         }
       }

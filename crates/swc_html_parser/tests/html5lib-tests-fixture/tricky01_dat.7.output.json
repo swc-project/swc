@@ -2,8 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 164,
-    "ctxt": 0
+    "end": 164
   },
   "mode": "quirks",
   "children": [
@@ -11,8 +10,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 0,
-        "ctxt": 0
+        "end": 0
       },
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -22,8 +20,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -36,8 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -47,8 +43,7 @@
               "type": "Element",
               "span": {
                 "start": 14,
-                "end": 30,
-                "ctxt": 0
+                "end": 30
               },
               "tagName": "center",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -58,8 +53,7 @@
                   "type": "Element",
                   "span": {
                     "start": 22,
-                    "end": 30,
-                    "ctxt": 0
+                    "end": 30
                   },
                   "tagName": "center",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -76,8 +70,7 @@
               "type": "Element",
               "span": {
                 "start": 49,
-                "end": 56,
-                "ctxt": 0
+                "end": 56
               },
               "tagName": "font",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -87,8 +80,7 @@
                   "type": "Text",
                   "span": {
                     "start": 55,
-                    "end": 56,
-                    "ctxt": 0
+                    "end": 56
                   },
                   "data": "\n",
                   "raw": "\n"
@@ -101,8 +93,7 @@
               "type": "Element",
               "span": {
                 "start": 1,
-                "end": 49,
-                "ctxt": 0
+                "end": 49
               },
               "tagName": "table",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -112,8 +103,7 @@
                   "type": "Text",
                   "span": {
                     "start": 8,
-                    "end": 9,
-                    "ctxt": 0
+                    "end": 9
                   },
                   "data": "\n",
                   "raw": "\n"
@@ -122,8 +112,7 @@
                   "type": "Element",
                   "span": {
                     "start": 0,
-                    "end": 0,
-                    "ctxt": 0
+                    "end": 0
                   },
                   "tagName": "tbody",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -133,8 +122,7 @@
                       "type": "Element",
                       "span": {
                         "start": 9,
-                        "end": 44,
-                        "ctxt": 0
+                        "end": 44
                       },
                       "tagName": "tr",
                       "namespace": "http://www.w3.org/1999/xhtml",
@@ -144,8 +132,7 @@
                           "type": "Text",
                           "span": {
                             "start": 13,
-                            "end": 14,
-                            "ctxt": 0
+                            "end": 14
                           },
                           "data": "\n",
                           "raw": "\n"
@@ -154,8 +141,7 @@
                           "type": "Element",
                           "span": {
                             "start": 30,
-                            "end": 39,
-                            "ctxt": 0
+                            "end": 39
                           },
                           "tagName": "td",
                           "namespace": "http://www.w3.org/1999/xhtml",
@@ -172,8 +158,7 @@
                       "type": "Element",
                       "span": {
                         "start": 44,
-                        "end": 49,
-                        "ctxt": 0
+                        "end": 49
                       },
                       "tagName": "tr",
                       "namespace": "http://www.w3.org/1999/xhtml",
@@ -183,8 +168,7 @@
                           "type": "Text",
                           "span": {
                             "start": 48,
-                            "end": 49,
-                            "ctxt": 0
+                            "end": 49
                           },
                           "data": "\n",
                           "raw": "\n"
@@ -205,8 +189,7 @@
               "type": "Element",
               "span": {
                 "start": 56,
-                "end": 80,
-                "ctxt": 0
+                "end": 80
               },
               "tagName": "table",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -216,8 +199,7 @@
                   "type": "Element",
                   "span": {
                     "start": 0,
-                    "end": 0,
-                    "ctxt": 0
+                    "end": 0
                   },
                   "tagName": "tbody",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -227,8 +209,7 @@
                       "type": "Element",
                       "span": {
                         "start": 63,
-                        "end": 72,
-                        "ctxt": 0
+                        "end": 72
                       },
                       "tagName": "tr",
                       "namespace": "http://www.w3.org/1999/xhtml",
@@ -249,8 +230,7 @@
               "type": "Element",
               "span": {
                 "start": 49,
-                "end": 96,
-                "ctxt": 0
+                "end": 96
               },
               "tagName": "font",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -260,8 +240,7 @@
                   "type": "Text",
                   "span": {
                     "start": 80,
-                    "end": 81,
-                    "ctxt": 0
+                    "end": 81
                   },
                   "data": "\n",
                   "raw": "\n"
@@ -270,8 +249,7 @@
                   "type": "Element",
                   "span": {
                     "start": 81,
-                    "end": 85,
-                    "ctxt": 0
+                    "end": 85
                   },
                   "tagName": "p",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -284,8 +262,7 @@
                   "type": "Text",
                   "span": {
                     "start": 85,
-                    "end": 86,
-                    "ctxt": 0
+                    "end": 86
                   },
                   "data": "\n",
                   "raw": "\n"
@@ -294,8 +271,7 @@
                   "type": "Element",
                   "span": {
                     "start": 86,
-                    "end": 89,
-                    "ctxt": 0
+                    "end": 89
                   },
                   "tagName": "a",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -312,8 +288,7 @@
               "type": "Element",
               "span": {
                 "start": 86,
-                "end": 106,
-                "ctxt": 0
+                "end": 106
               },
               "tagName": "a",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -323,8 +298,7 @@
                   "type": "Element",
                   "span": {
                     "start": 96,
-                    "end": 102,
-                    "ctxt": 0
+                    "end": 102
                   },
                   "tagName": "font",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -341,8 +315,7 @@
               "type": "Element",
               "span": {
                 "start": 96,
-                "end": 164,
-                "ctxt": 0
+                "end": 164
               },
               "tagName": "font",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -352,8 +325,7 @@
                   "type": "Text",
                   "span": {
                     "start": 106,
-                    "end": 164,
-                    "ctxt": 0
+                    "end": 164
                   },
                   "data": "\nThis page contains an insanely badly-nested tag sequence.",
                   "raw": "\nThis page contains an insanely badly-nested tag sequence."

@@ -2,47 +2,42 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 20,
-    "ctxt": 0
+    "end": 20
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 20,
-        "ctxt": 0
+        "end": 20
       },
       "expression": {
         "type": "UnaryExpression",
         "span": {
           "start": 1,
-          "end": 19,
-          "ctxt": 0
+          "end": 19
         },
         "operator": "delete",
         "argument": {
           "type": "OptionalChainingExpression",
           "span": {
             "start": 8,
-            "end": 19,
-            "ctxt": 0
+            "end": 19
           },
           "optional": true,
           "base": {
             "type": "MemberExpression",
             "span": {
               "start": 8,
-              "end": 19,
-              "ctxt": 0
+              "end": 19
             },
             "object": {
               "type": "Identifier",
               "span": {
                 "start": 8,
-                "end": 11,
-                "ctxt": 0
+                "end": 11
               },
+              "ctxt": 0,
               "value": "obj",
               "optional": false
             },
@@ -50,11 +45,9 @@
               "type": "Identifier",
               "span": {
                 "start": 13,
-                "end": 19,
-                "ctxt": 0
+                "end": 19
               },
-              "value": "myProp",
-              "optional": false
+              "value": "myProp"
             }
           }
         }

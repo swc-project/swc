@@ -62,7 +62,7 @@ where
     T: ToCode,
 {
     let cm = Lrc::new(SourceMap::default());
-    let fm = cm.new_source_file(FileName::Anon, input_str.to_string());
+    let fm = cm.new_source_file(FileName::Anon.into(), input_str.to_string());
 
     let lexer = Lexer::new(
         Default::default(),

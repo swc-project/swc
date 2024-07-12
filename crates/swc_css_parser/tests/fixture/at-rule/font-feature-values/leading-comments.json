@@ -4,8 +4,7 @@
       "kind": "Block",
       "span": {
         "start": 432,
-        "end": 478,
-        "ctxt": 0
+        "end": 478
       },
       "text": "/* circled form defined for both fonts */"
     }

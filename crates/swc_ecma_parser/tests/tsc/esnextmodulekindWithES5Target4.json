@@ -2,8 +2,7 @@
   "type": "Module",
   "span": {
     "start": 37,
-    "end": 66,
-    "ctxt": 0
+    "end": 66
   },
   "body": [
     {
@@ -12,18 +11,18 @@
         "type": "Identifier",
         "span": {
           "start": 43,
-          "end": 44,
-          "ctxt": 0
+          "end": 44
         },
+        "ctxt": 0,
         "value": "E",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 37,
-        "end": 48,
-        "ctxt": 0
+        "end": 48
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [],
       "superClass": null,
@@ -36,16 +35,15 @@
       "type": "ExportDefaultExpression",
       "span": {
         "start": 49,
-        "end": 66,
-        "ctxt": 0
+        "end": 66
       },
       "expression": {
         "type": "Identifier",
         "span": {
           "start": 64,
-          "end": 65,
-          "ctxt": 0
+          "end": 65
         },
+        "ctxt": 0,
         "value": "E",
         "optional": false
       }

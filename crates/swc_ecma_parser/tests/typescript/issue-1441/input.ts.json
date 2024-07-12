@@ -2,38 +2,35 @@
   "type": "Module",
   "span": {
     "start": 3,
-    "end": 26,
-    "ctxt": 0
+    "end": 26
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 3,
-        "end": 14,
-        "ctxt": 0
+        "end": 14
       },
       "expression": {
         "type": "AwaitExpression",
         "span": {
           "start": 3,
-          "end": 14,
-          "ctxt": 0
+          "end": 14
         },
         "argument": {
           "type": "CallExpression",
           "span": {
             "start": 9,
-            "end": 14,
-            "ctxt": 0
+            "end": 14
           },
+          "ctxt": 0,
           "callee": {
             "type": "Identifier",
             "span": {
               "start": 9,
-              "end": 12,
-              "ctxt": 0
+              "end": 12
             },
+            "ctxt": 0,
             "value": "foo",
             "optional": false
           },
@@ -46,8 +43,7 @@
       "type": "ExportNamedDeclaration",
       "span": {
         "start": 16,
-        "end": 26,
-        "ctxt": 0
+        "end": 26
       },
       "specifiers": [],
       "source": null,

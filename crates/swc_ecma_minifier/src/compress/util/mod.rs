@@ -165,11 +165,12 @@ fn negate_inner(
     } else {
         report_change!("negate: e => !e");
 
-        *e = Expr::Unary(UnaryExpr {
+        *e = UnaryExpr {
             span: DUMMY_SP,
             op: op!("!"),
             arg,
-        });
+        }
+        .into();
 
         dump_change_detail!("Negated `{}` as `{}`", start_str, dump(&*e, false));
 
@@ -663,7 +664,7 @@ impl UnreachableHandler {
         let mut v = Self::default();
         s.visit_mut_with(&mut v);
         if v.vars.is_empty() {
-            *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+            *s = EmptyStmt { span: DUMMY_SP }.into();
         } else {
             *s = VarDecl {
                 span: DUMMY_SP,
@@ -681,6 +682,7 @@ impl UnreachableHandler {
                         definite: false,
                     })
                     .collect(),
+                ..Default::default()
             }
             .into()
         }

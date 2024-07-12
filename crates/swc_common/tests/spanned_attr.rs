@@ -12,8 +12,5 @@ fn lo_hi() {
 
     let lo = BytePos(0);
     let hi = BytePos(5);
-    assert_eq!(
-        LoHi { lo, hi }.span(),
-        Span::new(lo, hi, Default::default())
-    );
+    assert_eq!(LoHi { lo, hi }.span(), Span::new(lo, hi,));
 }

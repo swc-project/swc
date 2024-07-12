@@ -1,22 +1,22 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..13#0,
+                span: 1..13,
                 tag_name: Text {
-                    span: 1..13#0,
+                    span: 1..13,
                     value: "fileoverview",
                 },
                 tag: File(
                     FileTag {
-                        span: 1..13#0,
+                        span: 1..13,
                         text: Text {
-                            span: 1..23#0,
+                            span: 1..23,
                             value: "Overview of this file.",
                         },
                     },

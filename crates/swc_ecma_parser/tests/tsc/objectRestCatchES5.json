@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 48,
-    "ctxt": 0
+    "end": 48
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 1,
-        "end": 18,
-        "ctxt": 0
+        "end": 18
       },
+      "ctxt": 0,
       "kind": "let",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 5,
-            "end": 10,
-            "ctxt": 0
+            "end": 10
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 5,
-              "end": 6,
-              "ctxt": 0
+              "end": 6
             },
+            "ctxt": 0,
             "value": "a",
             "optional": false,
             "typeAnnotation": null
@@ -38,8 +36,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 9,
-              "end": 10,
-              "ctxt": 0
+              "end": 10
             },
             "value": 1.0,
             "raw": "1"
@@ -50,16 +47,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 12,
-            "end": 17,
-            "ctxt": 0
+            "end": 17
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 12,
-              "end": 13,
-              "ctxt": 0
+              "end": 13
             },
+            "ctxt": 0,
             "value": "b",
             "optional": false,
             "typeAnnotation": null
@@ -68,8 +64,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 16,
-              "end": 17,
-              "ctxt": 0
+              "end": 17
             },
             "value": 2.0,
             "raw": "2"
@@ -82,47 +77,43 @@
       "type": "TryStatement",
       "span": {
         "start": 19,
-        "end": 48,
-        "ctxt": 0
+        "end": 48
       },
       "block": {
         "type": "BlockStatement",
         "span": {
           "start": 23,
-          "end": 25,
-          "ctxt": 0
+          "end": 25
         },
+        "ctxt": 0,
         "stmts": []
       },
       "handler": {
         "type": "CatchClause",
         "span": {
           "start": 26,
-          "end": 48,
-          "ctxt": 0
+          "end": 48
         },
         "param": {
           "type": "ObjectPattern",
           "span": {
             "start": 33,
-            "end": 44,
-            "ctxt": 0
+            "end": 44
           },
           "properties": [
             {
               "type": "AssignmentPatternProperty",
               "span": {
                 "start": 35,
-                "end": 36,
-                "ctxt": 0
+                "end": 36
               },
               "key": {
                 "type": "Identifier",
                 "span": {
                   "start": 35,
-                  "end": 36,
-                  "ctxt": 0
+                  "end": 36
                 },
+                "ctxt": 0,
                 "value": "a",
                 "optional": false,
                 "typeAnnotation": null
@@ -133,21 +124,19 @@
               "type": "RestElement",
               "span": {
                 "start": 38,
-                "end": 42,
-                "ctxt": 0
+                "end": 42
               },
               "rest": {
                 "start": 38,
-                "end": 41,
-                "ctxt": 0
+                "end": 41
               },
               "argument": {
                 "type": "Identifier",
                 "span": {
                   "start": 41,
-                  "end": 42,
-                  "ctxt": 0
+                  "end": 42
                 },
+                "ctxt": 0,
                 "value": "b",
                 "optional": false,
                 "typeAnnotation": null
@@ -162,9 +151,9 @@
           "type": "BlockStatement",
           "span": {
             "start": 46,
-            "end": 48,
-            "ctxt": 0
+            "end": 48
           },
+          "ctxt": 0,
           "stmts": []
         }
       },

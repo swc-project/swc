@@ -111,7 +111,7 @@ macro_rules! build_minify_sync {
                       .map_err(|e| $crate::wasm::anyhow::anyhow!("failed to parse options: {}", e))?
                   };
 
-                  let fm = c.cm.new_source_file($crate::wasm::FileName::Anon, s.into());
+                  let fm = c.cm.new_source_file($crate::wasm::FileName::Anon.into(), s.into());
                   let program = $crate::wasm::anyhow::Context::context(c.minify(fm, handler, &opts), "failed to minify file")?;
 
                   program
@@ -167,7 +167,7 @@ macro_rules! build_parse_sync {
                         .map_err(|e| $crate::wasm::anyhow::anyhow!("failed to parse options: {}", e))?
                   };
 
-                  let fm = c.cm.new_source_file($crate::wasm::FileName::Anon, s.into());
+                  let fm = c.cm.new_source_file($crate::wasm::FileName::Anon.into(), s.into());
 
                   let cmts = c.comments().clone();
                   let comments = if opts.comments {
@@ -371,9 +371,9 @@ macro_rules! build_transform_sync {
                       Ok(s) => {
                           let fm = c.cm.new_source_file(
                               if opts.filename.is_empty() {
-                                $crate::wasm::FileName::Anon
+                                $crate::wasm::FileName::Anon.into()
                               } else {
-                                $crate::wasm::FileName::Real(opts.filename.clone().into())
+                                $crate::wasm::FileName::Real(opts.filename.clone().into()).into()
                               },
                               s.into(),
                           );

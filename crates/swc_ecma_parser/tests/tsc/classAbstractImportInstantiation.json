@@ -2,16 +2,14 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 89,
-    "ctxt": 0
+    "end": 89
   },
   "body": [
     {
       "type": "TsModuleDeclaration",
       "span": {
         "start": 1,
-        "end": 60,
-        "ctxt": 0
+        "end": 60
       },
       "declare": false,
       "global": false,
@@ -19,9 +17,9 @@
         "type": "Identifier",
         "span": {
           "start": 8,
-          "end": 9,
-          "ctxt": 0
+          "end": 9
         },
+        "ctxt": 0,
         "value": "M",
         "optional": false
       },
@@ -29,16 +27,14 @@
         "type": "TsModuleBlock",
         "span": {
           "start": 10,
-          "end": 60,
-          "ctxt": 0
+          "end": 60
         },
         "body": [
           {
             "type": "ExportDeclaration",
             "span": {
               "start": 16,
-              "end": 42,
-              "ctxt": 0
+              "end": 42
             },
             "declaration": {
               "type": "ClassDeclaration",
@@ -46,18 +42,18 @@
                 "type": "Identifier",
                 "span": {
                   "start": 38,
-                  "end": 39,
-                  "ctxt": 0
+                  "end": 39
                 },
+                "ctxt": 0,
                 "value": "A",
                 "optional": false
               },
               "declare": false,
               "span": {
                 "start": 23,
-                "end": 42,
-                "ctxt": 0
+                "end": 42
               },
+              "ctxt": 0,
               "decorators": [],
               "body": [],
               "superClass": null,
@@ -71,23 +67,22 @@
             "type": "ExpressionStatement",
             "span": {
               "start": 52,
-              "end": 58,
-              "ctxt": 0
+              "end": 58
             },
             "expression": {
               "type": "NewExpression",
               "span": {
                 "start": 52,
-                "end": 57,
-                "ctxt": 0
+                "end": 57
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Identifier",
                 "span": {
                   "start": 56,
-                  "end": 57,
-                  "ctxt": 0
+                  "end": 57
                 },
+                "ctxt": 0,
                 "value": "A",
                 "optional": false
               },
@@ -102,8 +97,7 @@
       "type": "TsImportEqualsDeclaration",
       "span": {
         "start": 62,
-        "end": 79,
-        "ctxt": 0
+        "end": 79
       },
       "isExport": false,
       "isTypeOnly": false,
@@ -111,21 +105,25 @@
         "type": "Identifier",
         "span": {
           "start": 69,
-          "end": 72,
-          "ctxt": 0
+          "end": 72
         },
+        "ctxt": 0,
         "value": "myA",
         "optional": false
       },
       "moduleRef": {
         "type": "TsQualifiedName",
+        "span": {
+          "start": 75,
+          "end": 78
+        },
         "left": {
           "type": "Identifier",
           "span": {
             "start": 75,
-            "end": 76,
-            "ctxt": 0
+            "end": 76
           },
+          "ctxt": 0,
           "value": "M",
           "optional": false
         },
@@ -133,11 +131,9 @@
           "type": "Identifier",
           "span": {
             "start": 77,
-            "end": 78,
-            "ctxt": 0
+            "end": 78
           },
-          "value": "A",
-          "optional": false
+          "value": "A"
         }
       }
     },
@@ -145,23 +141,22 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 81,
-        "end": 89,
-        "ctxt": 0
+        "end": 89
       },
       "expression": {
         "type": "NewExpression",
         "span": {
           "start": 81,
-          "end": 88,
-          "ctxt": 0
+          "end": 88
         },
+        "ctxt": 0,
         "callee": {
           "type": "Identifier",
           "span": {
             "start": 85,
-            "end": 88,
-            "ctxt": 0
+            "end": 88
           },
+          "ctxt": 0,
           "value": "myA",
           "optional": false
         },

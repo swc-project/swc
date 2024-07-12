@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 29,
-    "ctxt": 0
+    "end": 29
   },
   "body": [
     {
@@ -12,36 +11,33 @@
         "type": "Identifier",
         "span": {
           "start": 7,
-          "end": 8,
-          "ctxt": 0
+          "end": 8
         },
+        "ctxt": 0,
         "value": "C",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 1,
-        "end": 29,
-        "ctxt": 0
+        "end": 29
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassProperty",
           "span": {
             "start": 14,
-            "end": 17,
-            "ctxt": 0
+            "end": 17
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 14,
-              "end": 17,
-              "ctxt": 0
+              "end": 17
             },
-            "value": "var",
-            "optional": false
+            "value": "var"
           },
           "value": null,
           "typeAnnotation": null,
@@ -59,18 +55,15 @@
           "type": "ClassProperty",
           "span": {
             "start": 21,
-            "end": 27,
-            "ctxt": 0
+            "end": 27
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 21,
-              "end": 27,
-              "ctxt": 0
+              "end": 27
             },
-            "value": "public",
-            "optional": false
+            "value": "public"
           },
           "value": null,
           "typeAnnotation": null,

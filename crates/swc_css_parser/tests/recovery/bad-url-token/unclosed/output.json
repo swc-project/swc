@@ -2,39 +2,34 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 38,
-    "ctxt": 0
+    "end": 38
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
         "start": 1,
-        "end": 38,
-        "ctxt": 0
+        "end": 38
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 1,
-          "end": 5,
-          "ctxt": 0
+          "end": 5
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
               "start": 1,
-              "end": 5,
-              "ctxt": 0
+              "end": 5
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
                   "start": 1,
-                  "end": 5,
-                  "ctxt": 0
+                  "end": 5
                 },
                 "nestingSelector": null,
                 "typeSelector": null,
@@ -43,15 +38,13 @@
                     "type": "ClassSelector",
                     "span": {
                       "start": 1,
-                      "end": 5,
-                      "ctxt": 0
+                      "end": 5
                     },
                     "text": {
                       "type": "Ident",
                       "span": {
                         "start": 2,
-                        "end": 5,
-                        "ctxt": 0
+                        "end": 5
                       },
                       "value": "foo",
                       "raw": "foo"
@@ -67,15 +60,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 6,
-          "end": 38,
-          "ctxt": 0
+          "end": 38
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 6,
-            "end": 7,
-            "ctxt": 0
+            "end": 7
           },
           "token": "LBrace"
         },
@@ -84,15 +75,13 @@
             "type": "Declaration",
             "span": {
               "start": 12,
-              "end": 38,
-              "ctxt": 0
+              "end": 38
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 12,
-                "end": 22,
-                "ctxt": 0
+                "end": 22
               },
               "value": "background",
               "raw": "background"
@@ -102,8 +91,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 24,
-                  "end": 38,
-                  "ctxt": 0
+                  "end": 38
                 },
                 "token": {
                   "BadUrl": {

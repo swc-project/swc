@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 98,
-    "ctxt": 0
+    "end": 98
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 1,
-        "end": 98,
-        "ctxt": 0
+        "end": 98
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 5,
-            "end": 97,
-            "ctxt": 0
+            "end": 97
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 5,
-              "end": 6,
-              "ctxt": 0
+              "end": 6
             },
+            "ctxt": 0,
             "value": "a",
             "optional": false,
             "typeAnnotation": null
@@ -38,39 +36,36 @@
             "type": "ArrowFunctionExpression",
             "span": {
               "start": 9,
-              "end": 97,
-              "ctxt": 0
+              "end": 97
             },
+            "ctxt": 0,
             "params": [
               {
                 "type": "AssignmentPattern",
                 "span": {
                   "start": 10,
-                  "end": 36,
-                  "ctxt": 0
+                  "end": 36
                 },
                 "left": {
                   "type": "Identifier",
                   "span": {
                     "start": 10,
-                    "end": 26,
-                    "ctxt": 0
+                    "end": 26
                   },
+                  "ctxt": 0,
                   "value": "greeting",
                   "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
                       "start": 18,
-                      "end": 26,
-                      "ctxt": 0
+                      "end": 26
                     },
                     "typeAnnotation": {
                       "type": "TsKeywordType",
                       "span": {
                         "start": 20,
-                        "end": 26,
-                        "ctxt": 0
+                        "end": 26
                       },
                       "kind": "string"
                     }
@@ -80,8 +75,7 @@
                   "type": "StringLiteral",
                   "span": {
                     "start": 29,
-                    "end": 36,
-                    "ctxt": 0
+                    "end": 36
                   },
                   "value": "Hello",
                   "raw": "\"Hello\""
@@ -91,24 +85,22 @@
                 "type": "Identifier",
                 "span": {
                   "start": 38,
-                  "end": 52,
-                  "ctxt": 0
+                  "end": 52
                 },
+                "ctxt": 0,
                 "value": "target",
                 "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
                     "start": 44,
-                    "end": 52,
-                    "ctxt": 0
+                    "end": 52
                   },
                   "typeAnnotation": {
                     "type": "TsKeywordType",
                     "span": {
                       "start": 46,
-                      "end": 52,
-                      "ctxt": 0
+                      "end": 52
                     },
                     "kind": "string"
                   }
@@ -119,32 +111,30 @@
               "type": "BlockStatement",
               "span": {
                 "start": 57,
-                "end": 97,
-                "ctxt": 0
+                "end": 97
               },
+              "ctxt": 0,
               "stmts": [
                 {
                   "type": "ReturnStatement",
                   "span": {
                     "start": 63,
-                    "end": 95,
-                    "ctxt": 0
+                    "end": 95
                   },
                   "argument": {
                     "type": "TemplateLiteral",
                     "span": {
                       "start": 70,
-                      "end": 94,
-                      "ctxt": 0
+                      "end": 94
                     },
                     "expressions": [
                       {
                         "type": "Identifier",
                         "span": {
                           "start": 73,
-                          "end": 81,
-                          "ctxt": 0
+                          "end": 81
                         },
+                        "ctxt": 0,
                         "value": "greeting",
                         "optional": false
                       },
@@ -152,9 +142,9 @@
                         "type": "Identifier",
                         "span": {
                           "start": 85,
-                          "end": 91,
-                          "ctxt": 0
+                          "end": 91
                         },
+                        "ctxt": 0,
                         "value": "target",
                         "optional": false
                       }
@@ -164,8 +154,7 @@
                         "type": "TemplateElement",
                         "span": {
                           "start": 71,
-                          "end": 71,
-                          "ctxt": 0
+                          "end": 71
                         },
                         "tail": false,
                         "cooked": "",
@@ -175,8 +164,7 @@
                         "type": "TemplateElement",
                         "span": {
                           "start": 82,
-                          "end": 83,
-                          "ctxt": 0
+                          "end": 83
                         },
                         "tail": false,
                         "cooked": " ",
@@ -186,8 +174,7 @@
                         "type": "TemplateElement",
                         "span": {
                           "start": 92,
-                          "end": 93,
-                          "ctxt": 0
+                          "end": 93
                         },
                         "tail": true,
                         "cooked": "!",

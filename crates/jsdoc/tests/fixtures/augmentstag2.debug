@@ -1,23 +1,23 @@
 [
     JsDoc {
-        span: 69..69#0,
+        span: 69..69,
         description: Text {
-            span: 69..69#0,
+            span: 69..69,
             value: "",
         },
         tags: [
             TagItem {
-                span: 69..80#0,
+                span: 69..80,
                 tag_name: Text {
-                    span: 69..80#0,
+                    span: 69..80,
                     value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 69..80#0,
+                        span: 69..80,
                         ty: Some(
                             Text {
-                                span: 69..97#0,
+                                span: 69..97,
                                 value: "* @extends UndocumentedThing",
                             },
                         ),

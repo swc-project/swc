@@ -2,16 +2,14 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 63,
-    "ctxt": 0
+    "end": 63
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
         "start": 1,
-        "end": 63,
-        "ctxt": 0
+        "end": 63
       },
       "declaration": {
         "type": "ClassDeclaration",
@@ -19,43 +17,39 @@
           "type": "Identifier",
           "span": {
             "start": 14,
-            "end": 21,
-            "ctxt": 0
+            "end": 21
           },
+          "ctxt": 0,
           "value": "MyClass",
           "optional": false
         },
         "declare": false,
         "span": {
           "start": 8,
-          "end": 63,
-          "ctxt": 0
+          "end": 63
         },
+        "ctxt": 0,
         "decorators": [],
         "body": [
           {
             "type": "ClassProperty",
             "span": {
               "start": 28,
-              "end": 61,
-              "ctxt": 0
+              "end": 61
             },
             "key": {
               "type": "Identifier",
               "span": {
                 "start": 47,
-                "end": 53,
-                "ctxt": 0
+                "end": 53
               },
-              "value": "export",
-              "optional": false
+              "value": "export"
             },
             "value": {
               "type": "BooleanLiteral",
               "span": {
                 "start": 56,
-                "end": 60,
-                "ctxt": 0
+                "end": 60
               },
               "value": true
             },
@@ -66,23 +60,22 @@
                 "type": "Decorator",
                 "span": {
                   "start": 28,
-                  "end": 42,
-                  "ctxt": 0
+                  "end": 42
                 },
                 "expression": {
                   "type": "CallExpression",
                   "span": {
                     "start": 29,
-                    "end": 42,
-                    "ctxt": 0
+                    "end": 42
                   },
+                  "ctxt": 0,
                   "callee": {
                     "type": "Identifier",
                     "span": {
                       "start": 29,
-                      "end": 40,
-                      "ctxt": 0
+                      "end": 40
                     },
+                    "ctxt": 0,
                     "value": "MyDecorator",
                     "optional": false
                   },

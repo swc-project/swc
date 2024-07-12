@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 40,
-    "ctxt": 0
+    "end": 40
   },
   "body": [
     {
@@ -12,45 +11,42 @@
         "type": "Identifier",
         "span": {
           "start": 15,
-          "end": 16,
-          "ctxt": 0
+          "end": 16
         },
+        "ctxt": 0,
         "value": "C",
         "optional": false
       },
       "declare": true,
       "span": {
         "start": 1,
-        "end": 40,
-        "ctxt": 0
+        "end": 40
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassMethod",
           "span": {
             "start": 23,
-            "end": 38,
-            "ctxt": 0
+            "end": 38
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 23,
-              "end": 26,
-              "ctxt": 0
+              "end": 26
             },
-            "value": "get",
-            "optional": false
+            "value": "get"
           },
           "function": {
             "params": [],
             "decorators": [],
             "span": {
               "start": 23,
-              "end": 38,
-              "ctxt": 0
+              "end": 38
             },
+            "ctxt": 0,
             "body": null,
             "generator": false,
             "async": false,
@@ -58,24 +54,22 @@
               "type": "TsTypeParameterDeclaration",
               "span": {
                 "start": 26,
-                "end": 29,
-                "ctxt": 0
+                "end": 29
               },
               "parameters": [
                 {
                   "type": "TsTypeParameter",
                   "span": {
                     "start": 27,
-                    "end": 28,
-                    "ctxt": 0
+                    "end": 28
                   },
                   "name": {
                     "type": "Identifier",
                     "span": {
                       "start": 27,
-                      "end": 28,
-                      "ctxt": 0
+                      "end": 28
                     },
+                    "ctxt": 0,
                     "value": "T",
                     "optional": false
                   },
@@ -91,15 +85,13 @@
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 31,
-                "end": 37,
-                "ctxt": 0
+                "end": 37
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 33,
-                  "end": 37,
-                  "ctxt": 0
+                  "end": 37
                 },
                 "kind": "void"
               }

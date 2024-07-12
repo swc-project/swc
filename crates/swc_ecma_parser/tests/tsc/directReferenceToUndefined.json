@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 37,
-    "ctxt": 0
+    "end": 37
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 1,
-        "end": 18,
-        "ctxt": 0
+        "end": 18
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,39 +19,36 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 5,
-            "end": 17,
-            "ctxt": 0
+            "end": 17
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 5,
-              "end": 6,
-              "ctxt": 0
+              "end": 6
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 6,
-                "end": 17,
-                "ctxt": 0
+                "end": 17
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
                   "start": 8,
-                  "end": 17,
-                  "ctxt": 0
+                  "end": 17
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
                     "start": 8,
-                    "end": 17,
-                    "ctxt": 0
+                    "end": 17
                   },
+                  "ctxt": 0,
                   "value": "Undefined",
                   "optional": false
                 },
@@ -69,9 +65,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 19,
-        "end": 37,
-        "ctxt": 0
+        "end": 37
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -79,16 +75,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 23,
-            "end": 36,
-            "ctxt": 0
+            "end": 36
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 23,
-              "end": 24,
-              "ctxt": 0
+              "end": 24
             },
+            "ctxt": 0,
             "value": "y",
             "optional": false,
             "typeAnnotation": null
@@ -97,9 +92,9 @@
             "type": "Identifier",
             "span": {
               "start": 27,
-              "end": 36,
-              "ctxt": 0
+              "end": 36
             },
+            "ctxt": 0,
             "value": "undefined",
             "optional": false
           },

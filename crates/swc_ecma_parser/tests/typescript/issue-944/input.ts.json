@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 48,
-    "ctxt": 0
+    "end": 48
   },
   "body": [
     {
@@ -12,59 +11,54 @@
         "type": "Identifier",
         "span": {
           "start": 7,
-          "end": 12,
-          "ctxt": 0
+          "end": 12
         },
+        "ctxt": 0,
         "value": "CTest",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 1,
-        "end": 48,
-        "ctxt": 0
+        "end": 48
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassProperty",
           "span": {
             "start": 19,
-            "end": 46,
-            "ctxt": 0
+            "end": 46
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 19,
-              "end": 25,
-              "ctxt": 0
+              "end": 25
             },
-            "value": "myFunc",
-            "optional": false
+            "value": "myFunc"
           },
           "value": {
             "type": "ArrowFunctionExpression",
             "span": {
               "start": 28,
-              "end": 45,
-              "ctxt": 0
+              "end": 45
             },
+            "ctxt": 0,
             "params": [],
             "body": {
               "type": "BinaryExpression",
               "span": {
                 "start": 34,
-                "end": 45,
-                "ctxt": 0
+                "end": 45
               },
               "operator": "in",
               "left": {
                 "type": "StringLiteral",
                 "span": {
                   "start": 34,
-                  "end": 39,
-                  "ctxt": 0
+                  "end": 39
                 },
                 "value": "key",
                 "raw": "\"key\""
@@ -73,8 +67,7 @@
                 "type": "ObjectExpression",
                 "span": {
                   "start": 43,
-                  "end": 45,
-                  "ctxt": 0
+                  "end": 45
                 },
                 "properties": []
               }

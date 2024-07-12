@@ -2,16 +2,14 @@
   "type": "DocumentFragment",
   "span": {
     "start": 1,
-    "end": 13,
-    "ctxt": 0
+    "end": 13
   },
   "children": [
     {
       "type": "Element",
       "span": {
         "start": 9,
-        "end": 13,
-        "ctxt": 0
+        "end": 13
       },
       "tagName": "td",
       "namespace": "http://www.w3.org/1999/xhtml",

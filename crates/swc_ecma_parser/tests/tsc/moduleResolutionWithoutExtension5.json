@@ -2,44 +2,40 @@
   "type": "Script",
   "span": {
     "start": 140,
-    "end": 169,
-    "ctxt": 0
+    "end": 169
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 140,
-        "end": 169,
-        "ctxt": 0
+        "end": 169
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 140,
-          "end": 168,
-          "ctxt": 0
+          "end": 168
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 140,
-            "end": 160,
-            "ctxt": 0
+            "end": 160
           },
           "object": {
             "type": "CallExpression",
             "span": {
               "start": 140,
-              "end": 155,
-              "ctxt": 0
+              "end": 155
             },
+            "ctxt": 0,
             "callee": {
               "type": "Import",
               "span": {
                 "start": 140,
-                "end": 146,
-                "ctxt": 0
+                "end": 146
               },
               "phase": "evaluation"
             },
@@ -50,8 +46,7 @@
                   "type": "StringLiteral",
                   "span": {
                     "start": 147,
-                    "end": 154,
-                    "ctxt": 0
+                    "end": 154
                   },
                   "value": "./foo",
                   "raw": "\"./foo\""
@@ -64,11 +59,9 @@
             "type": "Identifier",
             "span": {
               "start": 156,
-              "end": 160,
-              "ctxt": 0
+              "end": 160
             },
-            "value": "then",
-            "optional": false
+            "value": "then"
           }
         },
         "arguments": [
@@ -78,17 +71,17 @@
               "type": "ArrowFunctionExpression",
               "span": {
                 "start": 161,
-                "end": 167,
-                "ctxt": 0
+                "end": 167
               },
+              "ctxt": 0,
               "params": [
                 {
                   "type": "Identifier",
                   "span": {
                     "start": 161,
-                    "end": 162,
-                    "ctxt": 0
+                    "end": 162
                   },
+                  "ctxt": 0,
                   "value": "x",
                   "optional": false,
                   "typeAnnotation": null
@@ -98,9 +91,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 166,
-                  "end": 167,
-                  "ctxt": 0
+                  "end": 167
                 },
+                "ctxt": 0,
                 "value": "x",
                 "optional": false
               },

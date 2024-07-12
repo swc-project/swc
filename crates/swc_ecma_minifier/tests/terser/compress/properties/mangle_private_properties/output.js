@@ -1,6 +1,6 @@
-class s {
-    #s = 123;
-    #e() {}
-    get #t() {}
-    set #t(s) {}
+class o {
+    #o = 123;
+    #p() {}
+    get #r() {}
+    set #r(o) {}
 }

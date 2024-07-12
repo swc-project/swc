@@ -2,38 +2,34 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 6,
-    "ctxt": 0
+    "end": 6
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 6,
-        "ctxt": 0
+        "end": 6
       },
       "expression": {
         "type": "MemberExpression",
         "span": {
           "start": 1,
-          "end": 5,
-          "ctxt": 0
+          "end": 5
         },
         "object": {
           "type": "TsNonNullExpression",
           "span": {
             "start": 1,
-            "end": 3,
-            "ctxt": 0
+            "end": 3
           },
           "expression": {
             "type": "Identifier",
             "span": {
               "start": 1,
-              "end": 2,
-              "ctxt": 0
+              "end": 2
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false
           }
@@ -42,11 +38,9 @@
           "type": "Identifier",
           "span": {
             "start": 4,
-            "end": 5,
-            "ctxt": 0
+            "end": 5
           },
-          "value": "y",
-          "optional": false
+          "value": "y"
         }
       }
     }

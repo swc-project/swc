@@ -47,7 +47,7 @@ fn parse_option(cm: &SourceMap, name: &str, src: String) -> Arc<Expr> {
     static CACHE: Lazy<DashMap<String, Arc<Expr>, ARandomState>> = Lazy::new(DashMap::default);
 
     let fm = cm.new_source_file(
-        FileName::Internal(format!("<const-module-{}.js>", name)),
+        FileName::Internal(format!("<const-module-{}.js>", name)).into(),
         src,
     );
     if let Some(expr) = CACHE.get(&**fm.src) {
@@ -141,7 +141,7 @@ impl VisitMut for ConstModules {
 
                     None
                 } else {
-                    Some(ModuleItem::ModuleDecl(ModuleDecl::Import(import)))
+                    Some(import.into())
                 }
             }
             _ => Some(item),

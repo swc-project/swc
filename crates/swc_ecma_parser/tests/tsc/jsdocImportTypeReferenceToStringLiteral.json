@@ -2,24 +2,22 @@
   "type": "Module",
   "span": {
     "start": 73,
-    "end": 158,
-    "ctxt": 0
+    "end": 158
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
         "start": 73,
-        "end": 98,
-        "ctxt": 0
+        "end": 98
       },
       "declaration": {
         "type": "VariableDeclaration",
         "span": {
           "start": 80,
-          "end": 98,
-          "ctxt": 0
+          "end": 98
         },
+        "ctxt": 0,
         "kind": "const",
         "declare": false,
         "declarations": [
@@ -27,16 +25,15 @@
             "type": "VariableDeclarator",
             "span": {
               "start": 86,
-              "end": 97,
-              "ctxt": 0
+              "end": 97
             },
             "id": {
               "type": "Identifier",
               "span": {
                 "start": 86,
-                "end": 89,
-                "ctxt": 0
+                "end": 89
               },
+              "ctxt": 0,
               "value": "FOO",
               "optional": false,
               "typeAnnotation": null
@@ -45,8 +42,7 @@
               "type": "StringLiteral",
               "span": {
                 "start": 92,
-                "end": 97,
-                "ctxt": 0
+                "end": 97
               },
               "value": "foo",
               "raw": "\"foo\""
@@ -60,9 +56,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 152,
-        "end": 158,
-        "ctxt": 0
+        "end": 158
       },
+      "ctxt": 0,
       "kind": "let",
       "declare": false,
       "declarations": [
@@ -70,16 +66,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 156,
-            "end": 157,
-            "ctxt": 0
+            "end": 157
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 156,
-              "end": 157,
-              "ctxt": 0
+              "end": 157
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false,
             "typeAnnotation": null

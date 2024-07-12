@@ -74,12 +74,6 @@
  2 |     #foo() {
    :     ^^^^
    `----
-  x Ident
-   ,-[$DIR/tests/span/js/decl/private-method.js:2:1]
- 1 | class Foo {
- 2 |     #foo() {
-   :      ^^^
-   `----
   x Function
    ,-[$DIR/tests/span/js/decl/private-method.js:2:1]
  1 |     class Foo {

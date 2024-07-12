@@ -4,8 +4,7 @@
       "kind": "Block",
       "span": {
         "start": 404,
-        "end": 416,
-        "ctxt": 0
+        "end": 416
       },
       "text": "/*! test */"
     }
@@ -15,8 +14,7 @@
       "kind": "Block",
       "span": {
         "start": 471,
-        "end": 483,
-        "ctxt": 0
+        "end": 483
       },
       "text": "/* sep */"
     }
@@ -26,8 +24,7 @@
       "kind": "Block",
       "span": {
         "start": 363,
-        "end": 375,
-        "ctxt": 0
+        "end": 375
       },
       "text": "/*! test */"
     }
@@ -37,8 +34,7 @@
       "kind": "Block",
       "span": {
         "start": 319,
-        "end": 331,
-        "ctxt": 0
+        "end": 331
       },
       "text": "/* test */"
     }

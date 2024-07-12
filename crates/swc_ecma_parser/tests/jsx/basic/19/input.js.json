@@ -2,23 +2,20 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 54,
-    "ctxt": 0
+    "end": 54
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 54,
-        "ctxt": 0
+        "end": 54
       },
       "expression": {
         "type": "JSXElement",
         "span": {
           "start": 1,
-          "end": 54,
-          "ctxt": 0
+          "end": 54
         },
         "opening": {
           "type": "JSXOpeningElement",
@@ -26,41 +23,36 @@
             "type": "Identifier",
             "span": {
               "start": 2,
-              "end": 5,
-              "ctxt": 0
+              "end": 5
             },
+            "ctxt": 0,
             "value": "div",
             "optional": false
           },
           "span": {
             "start": 1,
-            "end": 48,
-            "ctxt": 0
+            "end": 48
           },
           "attributes": [
             {
               "type": "JSXAttribute",
               "span": {
                 "start": 6,
-                "end": 19,
-                "ctxt": 0
+                "end": 19
               },
               "name": {
                 "type": "Identifier",
                 "span": {
                   "start": 6,
-                  "end": 9,
-                  "ctxt": 0
+                  "end": 9
                 },
-                "value": "pre",
-                "optional": false
+                "value": "pre"
               },
               "value": {
                 "type": "StringLiteral",
                 "span": {
                   "start": 10,
-                  "end": 19,
-                  "ctxt": 0
+                  "end": 19
                 },
                 "value": "leading",
                 "raw": "\"leading\""
@@ -70,25 +62,21 @@
               "type": "JSXAttribute",
               "span": {
                 "start": 20,
-                "end": 36,
-                "ctxt": 0
+                "end": 36
               },
               "name": {
                 "type": "Identifier",
                 "span": {
                   "start": 20,
-                  "end": 24,
-                  "ctxt": 0
+                  "end": 24
                 },
-                "value": "pre2",
-                "optional": false
+                "value": "pre2"
               },
               "value": {
                 "type": "StringLiteral",
                 "span": {
                   "start": 25,
-                  "end": 36,
-                  "ctxt": 0
+                  "end": 36
                 },
                 "value": "attribute",
                 "raw": "\"attribute\""
@@ -98,16 +86,15 @@
               "type": "SpreadElement",
               "spread": {
                 "start": 38,
-                "end": 41,
-                "ctxt": 0
+                "end": 41
               },
               "arguments": {
                 "type": "Identifier",
                 "span": {
                   "start": 41,
-                  "end": 46,
-                  "ctxt": 0
+                  "end": 46
                 },
+                "ctxt": 0,
                 "value": "props",
                 "optional": false
               }
@@ -121,16 +108,15 @@
           "type": "JSXClosingElement",
           "span": {
             "start": 48,
-            "end": 54,
-            "ctxt": 0
+            "end": 54
           },
           "name": {
             "type": "Identifier",
             "span": {
               "start": 50,
-              "end": 53,
-              "ctxt": 0
+              "end": 53
             },
+            "ctxt": 0,
             "value": "div",
             "optional": false
           }

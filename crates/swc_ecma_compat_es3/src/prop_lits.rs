@@ -50,11 +50,11 @@ impl Fold for PropertyLiteral {
                 if value.is_reserved() || !is_valid_ident(&value) {
                     PropName::Str(Str { span, raw, value })
                 } else {
-                    PropName::Ident(Ident::new(value, span))
+                    PropName::Ident(IdentName::new(value, span))
                 }
             }
             PropName::Ident(i) => {
-                let Ident { sym, span, .. } = i;
+                let IdentName { sym, span, .. } = i;
                 if sym.is_reserved() || sym.contains('-') || sym.contains('.') {
                     PropName::Str(Str {
                         span,
@@ -62,7 +62,7 @@ impl Fold for PropertyLiteral {
                         value: sym,
                     })
                 } else {
-                    PropName::Ident(Ident { span, sym, ..i })
+                    PropName::Ident(IdentName { span, sym })
                 }
             }
             _ => n,

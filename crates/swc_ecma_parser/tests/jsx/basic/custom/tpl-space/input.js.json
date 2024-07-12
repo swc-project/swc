@@ -2,32 +2,29 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 15,
-    "ctxt": 0
+    "end": 15
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 15,
-        "ctxt": 0
+        "end": 15
       },
       "expression": {
         "type": "TemplateLiteral",
         "span": {
           "start": 1,
-          "end": 15,
-          "ctxt": 0
+          "end": 15
         },
         "expressions": [
           {
             "type": "Identifier",
             "span": {
               "start": 4,
-              "end": 7,
-              "ctxt": 0
+              "end": 7
             },
+            "ctxt": 0,
             "value": "foo",
             "optional": false
           }
@@ -37,8 +34,7 @@
             "type": "TemplateElement",
             "span": {
               "start": 2,
-              "end": 2,
-              "ctxt": 0
+              "end": 2
             },
             "tail": false,
             "cooked": "",
@@ -48,8 +44,7 @@
             "type": "TemplateElement",
             "span": {
               "start": 8,
-              "end": 14,
-              "ctxt": 0
+              "end": 14
             },
             "tail": true,
             "cooked": " <bar>",

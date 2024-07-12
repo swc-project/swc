@@ -2,23 +2,20 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 212,
-    "ctxt": 0
+    "end": 212
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
         "start": 1,
-        "end": 24,
-        "ctxt": 0
+        "end": 24
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 2,
-          "end": 9,
-          "ctxt": 0
+          "end": 9
         },
         "value": "charset",
         "raw": "charset"
@@ -27,8 +24,7 @@
         "type": "String",
         "span": {
           "start": 10,
-          "end": 23,
-          "ctxt": 0
+          "end": 23
         },
         "value": "iso-8859-15",
         "raw": "'iso-8859-15'"
@@ -39,15 +35,13 @@
       "type": "AtRule",
       "span": {
         "start": 65,
-        "end": 83,
-        "ctxt": 0
+        "end": 83
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 66,
-          "end": 73,
-          "ctxt": 0
+          "end": 73
         },
         "value": "charset",
         "raw": "charset"
@@ -56,8 +50,7 @@
         "type": "String",
         "span": {
           "start": 75,
-          "end": 82,
-          "ctxt": 0
+          "end": 82
         },
         "value": "UTF-8",
         "raw": "\"UTF-8\""
@@ -68,15 +61,13 @@
       "type": "AtRule",
       "span": {
         "start": 124,
-        "end": 141,
-        "ctxt": 0
+        "end": 141
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 125,
-          "end": 132,
-          "ctxt": 0
+          "end": 132
         },
         "value": "charset",
         "raw": "charset"
@@ -85,8 +76,7 @@
         "type": "String",
         "span": {
           "start": 133,
-          "end": 140,
-          "ctxt": 0
+          "end": 140
         },
         "value": "UTF-8",
         "raw": "\"UTF-8\""

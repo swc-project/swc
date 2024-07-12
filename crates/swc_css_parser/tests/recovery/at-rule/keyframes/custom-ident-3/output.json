@@ -2,23 +2,20 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 20,
-    "ctxt": 0
+    "end": 20
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
         "start": 1,
-        "end": 20,
-        "ctxt": 0
+        "end": 20
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 2,
-          "end": 11,
-          "ctxt": 0
+          "end": 11
         },
         "value": "keyframes",
         "raw": "keyframes"
@@ -27,16 +24,14 @@
         "type": "ListOfComponentValues",
         "span": {
           "start": 11,
-          "end": 18,
-          "ctxt": 0
+          "end": 18
         },
         "children": [
           {
             "type": "PreservedToken",
             "span": {
               "start": 11,
-              "end": 12,
-              "ctxt": 0
+              "end": 12
             },
             "token": {
               "WhiteSpace": {
@@ -48,8 +43,7 @@
             "type": "PreservedToken",
             "span": {
               "start": 12,
-              "end": 17,
-              "ctxt": 0
+              "end": 17
             },
             "token": {
               "Ident": {
@@ -62,8 +56,7 @@
             "type": "PreservedToken",
             "span": {
               "start": 17,
-              "end": 18,
-              "ctxt": 0
+              "end": 18
             },
             "token": {
               "WhiteSpace": {
@@ -77,15 +70,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 18,
-          "end": 20,
-          "ctxt": 0
+          "end": 20
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 18,
-            "end": 19,
-            "ctxt": 0
+            "end": 19
           },
           "token": "LBrace"
         },

@@ -419,7 +419,7 @@ impl VisitMut for Pure<'_> {
 
         if let Expr::Seq(seq) = e {
             if seq.exprs.is_empty() {
-                *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                *e = Invalid { span: DUMMY_SP }.into();
                 return;
             }
             if seq.exprs.len() == 1 {
@@ -891,7 +891,7 @@ impl VisitMut for Pure<'_> {
 
         match s {
             Stmt::Expr(ExprStmt { expr, .. }) if expr.is_invalid() => {
-                *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                *s = EmptyStmt { span: DUMMY_SP }.into();
                 return;
             }
             _ => {}
@@ -911,7 +911,7 @@ impl VisitMut for Pure<'_> {
         if self.options.drop_debugger {
             if let Stmt::Debugger(..) = s {
                 self.changed = true;
-                *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                *s = EmptyStmt { span: DUMMY_SP }.into();
                 report_change!("drop_debugger: Dropped a debugger statement");
                 return;
             }
@@ -935,7 +935,7 @@ impl VisitMut for Pure<'_> {
 
         if let Stmt::Expr(es) = s {
             if es.expr.is_invalid() {
-                *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                *s = EmptyStmt { span: DUMMY_SP }.into();
                 return;
             }
         }

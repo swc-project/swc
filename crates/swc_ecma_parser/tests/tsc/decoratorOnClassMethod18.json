@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 85,
-    "end": 160,
-    "ctxt": 0
+    "end": 160
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 85,
-        "end": 112,
-        "ctxt": 0
+        "end": 112
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": true,
       "declarations": [
@@ -20,31 +19,28 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 97,
-            "end": 111,
-            "ctxt": 0
+            "end": 111
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 97,
-              "end": 106,
-              "ctxt": 0
+              "end": 106
             },
+            "ctxt": 0,
             "value": "decorator",
             "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 106,
-                "end": 111,
-                "ctxt": 0
+                "end": 111
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 108,
-                  "end": 111,
-                  "ctxt": 0
+                  "end": 111
                 },
                 "kind": "any"
               }
@@ -61,36 +57,33 @@
         "type": "Identifier",
         "span": {
           "start": 120,
-          "end": 123,
-          "ctxt": 0
+          "end": 123
         },
+        "ctxt": 0,
         "value": "Foo",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 114,
-        "end": 160,
-        "ctxt": 0
+        "end": 160
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassProperty",
           "span": {
             "start": 130,
-            "end": 132,
-            "ctxt": 0
+            "end": 132
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 130,
-              "end": 132,
-              "ctxt": 0
+              "end": 132
             },
-            "value": "p1",
-            "optional": false
+            "value": "p1"
           },
           "value": null,
           "typeAnnotation": null,
@@ -108,18 +101,15 @@
           "type": "ClassProperty",
           "span": {
             "start": 138,
-            "end": 158,
-            "ctxt": 0
+            "end": 158
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 155,
-              "end": 157,
-              "ctxt": 0
+              "end": 157
             },
-            "value": "p2",
-            "optional": false
+            "value": "p2"
           },
           "value": null,
           "typeAnnotation": null,
@@ -129,23 +119,22 @@
               "type": "Decorator",
               "span": {
                 "start": 138,
-                "end": 150,
-                "ctxt": 0
+                "end": 150
               },
               "expression": {
                 "type": "CallExpression",
                 "span": {
                   "start": 139,
-                  "end": 150,
-                  "ctxt": 0
+                  "end": 150
                 },
+                "ctxt": 0,
                 "callee": {
                   "type": "Identifier",
                   "span": {
                     "start": 139,
-                    "end": 148,
-                    "ctxt": 0
+                    "end": 148
                   },
+                  "ctxt": 0,
                   "value": "decorator",
                   "optional": false
                 },

@@ -2,46 +2,41 @@
   "type": "Script",
   "span": {
     "start": 175,
-    "end": 274,
-    "ctxt": 0
+    "end": 274
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 175,
-        "end": 274,
-        "ctxt": 0
+        "end": 274
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
           "start": 175,
-          "end": 274,
-          "ctxt": 0
+          "end": 274
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
             "start": 175,
-            "end": 205,
-            "ctxt": 0
+            "end": 205
           },
           "object": {
             "type": "MemberExpression",
             "span": {
               "start": 175,
-              "end": 190,
-              "ctxt": 0
+              "end": 190
             },
             "object": {
               "type": "Identifier",
               "span": {
                 "start": 175,
-                "end": 180,
-                "ctxt": 0
+                "end": 180
               },
+              "ctxt": 0,
               "value": "Event",
               "optional": false
             },
@@ -49,22 +44,18 @@
               "type": "Identifier",
               "span": {
                 "start": 181,
-                "end": 190,
-                "ctxt": 0
+                "end": 190
               },
-              "value": "prototype",
-              "optional": false
+              "value": "prototype"
             }
           },
           "property": {
             "type": "Identifier",
             "span": {
               "start": 191,
-              "end": 205,
-              "ctxt": 0
+              "end": 205
             },
-            "value": "removeChildren",
-            "optional": false
+            "value": "removeChildren"
           }
         },
         "right": {
@@ -74,64 +65,57 @@
           "decorators": [],
           "span": {
             "start": 208,
-            "end": 274,
-            "ctxt": 0
+            "end": 274
           },
+          "ctxt": 0,
           "body": {
             "type": "BlockStatement",
             "span": {
               "start": 220,
-              "end": 274,
-              "ctxt": 0
+              "end": 274
             },
+            "ctxt": 0,
             "stmts": [
               {
                 "type": "ExpressionStatement",
                 "span": {
                   "start": 226,
-                  "end": 272,
-                  "ctxt": 0
+                  "end": 272
                 },
                 "expression": {
                   "type": "AssignmentExpression",
                   "span": {
                     "start": 226,
-                    "end": 272,
-                    "ctxt": 0
+                    "end": 272
                   },
                   "operator": "=",
                   "left": {
                     "type": "MemberExpression",
                     "span": {
                       "start": 226,
-                      "end": 242,
-                      "ctxt": 0
+                      "end": 242
                     },
                     "object": {
                       "type": "ThisExpression",
                       "span": {
                         "start": 226,
-                        "end": 230,
-                        "ctxt": 0
+                        "end": 230
                       }
                     },
                     "property": {
                       "type": "Identifier",
                       "span": {
                         "start": 231,
-                        "end": 242,
-                        "ctxt": 0
+                        "end": 242
                       },
-                      "value": "textContent",
-                      "optional": false
+                      "value": "textContent"
                     }
                   },
                   "right": {
                     "type": "StringLiteral",
                     "span": {
                       "start": 245,
-                      "end": 272,
-                      "ctxt": 0
+                      "end": 272
                     },
                     "value": "nope, not going to happen",
                     "raw": "'nope, not going to happen'"

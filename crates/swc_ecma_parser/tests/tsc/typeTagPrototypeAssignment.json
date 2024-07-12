@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 80,
-    "end": 135,
-    "ctxt": 0
+    "end": 135
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 89,
-          "end": 90,
-          "ctxt": 0
+          "end": 90
         },
+        "ctxt": 0,
         "value": "C",
         "optional": false
       },
@@ -23,16 +22,16 @@
       "decorators": [],
       "span": {
         "start": 80,
-        "end": 96,
-        "ctxt": 0
+        "end": 96
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 93,
-          "end": 96,
-          "ctxt": 0
+          "end": 96
         },
+        "ctxt": 0,
         "stmts": []
       },
       "generator": false,
@@ -44,31 +43,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 119,
-        "end": 135,
-        "ctxt": 0
+        "end": 135
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
           "start": 119,
-          "end": 135,
-          "ctxt": 0
+          "end": 135
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
             "start": 119,
-            "end": 130,
-            "ctxt": 0
+            "end": 130
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 119,
-              "end": 120,
-              "ctxt": 0
+              "end": 120
             },
+            "ctxt": 0,
             "value": "C",
             "optional": false
           },
@@ -76,19 +72,16 @@
             "type": "Identifier",
             "span": {
               "start": 121,
-              "end": 130,
-              "ctxt": 0
+              "end": 130
             },
-            "value": "prototype",
-            "optional": false
+            "value": "prototype"
           }
         },
         "right": {
           "type": "NumericLiteral",
           "span": {
             "start": 133,
-            "end": 135,
-            "ctxt": 0
+            "end": 135
           },
           "value": 12.0,
           "raw": "12"

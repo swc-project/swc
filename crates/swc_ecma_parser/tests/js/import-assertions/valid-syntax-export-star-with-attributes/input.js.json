@@ -2,23 +2,20 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 50,
-    "ctxt": 0
+    "end": 50
   },
   "body": [
     {
       "type": "ExportAllDeclaration",
       "span": {
         "start": 1,
-        "end": 50,
-        "ctxt": 0
+        "end": 50
       },
       "source": {
         "type": "StringLiteral",
         "span": {
           "start": 15,
-          "end": 25,
-          "ctxt": 0
+          "end": 25
         },
         "value": "foo.json",
         "raw": "\"foo.json\""
@@ -28,8 +25,7 @@
         "type": "ObjectExpression",
         "span": {
           "start": 33,
-          "end": 49,
-          "ctxt": 0
+          "end": 49
         },
         "properties": [
           {
@@ -38,18 +34,15 @@
               "type": "Identifier",
               "span": {
                 "start": 35,
-                "end": 39,
-                "ctxt": 0
+                "end": 39
               },
-              "value": "type",
-              "optional": false
+              "value": "type"
             },
             "value": {
               "type": "StringLiteral",
               "span": {
                 "start": 41,
-                "end": 47,
-                "ctxt": 0
+                "end": 47
               },
               "value": "json",
               "raw": "\"json\""

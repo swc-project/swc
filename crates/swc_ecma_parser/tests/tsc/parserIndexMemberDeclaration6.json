@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 43,
-    "ctxt": 0
+    "end": 43
   },
   "body": [
     {
@@ -12,18 +11,18 @@
         "type": "Identifier",
         "span": {
           "start": 7,
-          "end": 8,
-          "ctxt": 0
+          "end": 8
         },
+        "ctxt": 0,
         "value": "C",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 1,
-        "end": 43,
-        "ctxt": 0
+        "end": 43
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
@@ -33,24 +32,22 @@
               "type": "Identifier",
               "span": {
                 "start": 22,
-                "end": 31,
-                "ctxt": 0
+                "end": 31
               },
+              "ctxt": 0,
               "value": "x",
               "optional": false,
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
                   "start": 23,
-                  "end": 31,
-                  "ctxt": 0
+                  "end": 31
                 },
                 "typeAnnotation": {
                   "type": "TsKeywordType",
                   "span": {
                     "start": 25,
-                    "end": 31,
-                    "ctxt": 0
+                    "end": 31
                   },
                   "kind": "string"
                 }
@@ -61,15 +58,13 @@
             "type": "TsTypeAnnotation",
             "span": {
               "start": 32,
-              "end": 40,
-              "ctxt": 0
+              "end": 40
             },
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
                 "start": 34,
-                "end": 40,
-                "ctxt": 0
+                "end": 40
               },
               "kind": "string"
             }
@@ -78,8 +73,7 @@
           "static": true,
           "span": {
             "start": 14,
-            "end": 41,
-            "ctxt": 0
+            "end": 41
           }
         }
       ],

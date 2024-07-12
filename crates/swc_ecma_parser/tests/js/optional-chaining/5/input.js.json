@@ -2,46 +2,42 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 10,
-    "ctxt": 0
+    "end": 10
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 10,
-        "ctxt": 0
+        "end": 10
       },
       "expression": {
         "type": "OptionalChainingExpression",
         "span": {
           "start": 1,
-          "end": 10,
-          "ctxt": 0
+          "end": 10
         },
         "optional": true,
         "base": {
           "type": "CallExpression",
           "span": {
             "start": 1,
-            "end": 10,
-            "ctxt": 0
+            "end": 10
           },
+          "ctxt": 0,
           "callee": {
             "type": "MemberExpression",
             "span": {
               "start": 1,
-              "end": 6,
-              "ctxt": 0
+              "end": 6
             },
             "object": {
               "type": "Identifier",
               "span": {
                 "start": 1,
-                "end": 4,
-                "ctxt": 0
+                "end": 4
               },
+              "ctxt": 0,
               "value": "obj",
               "optional": false
             },
@@ -49,11 +45,9 @@
               "type": "Identifier",
               "span": {
                 "start": 5,
-                "end": 6,
-                "ctxt": 0
+                "end": 6
               },
-              "value": "a",
-              "optional": false
+              "value": "a"
             }
           },
           "arguments": [],

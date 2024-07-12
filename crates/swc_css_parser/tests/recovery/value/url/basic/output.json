@@ -2,62 +2,54 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 400,
-    "ctxt": 0
+    "end": 400
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
         "start": 1,
-        "end": 292,
-        "ctxt": 0
+        "end": 292
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 1,
-          "end": 4,
-          "ctxt": 0
+          "end": 4
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
               "start": 1,
-              "end": 4,
-              "ctxt": 0
+              "end": 4
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
                   "start": 1,
-                  "end": 4,
-                  "ctxt": 0
+                  "end": 4
                 },
                 "nestingSelector": null,
                 "typeSelector": {
                   "type": "TagNameSelector",
                   "span": {
                     "start": 1,
-                    "end": 4,
-                    "ctxt": 0
+                    "end": 4
                   },
                   "name": {
                     "type": "WqName",
                     "span": {
                       "start": 1,
-                      "end": 4,
-                      "ctxt": 0
+                      "end": 4
                     },
                     "prefix": null,
                     "value": {
                       "type": "Ident",
                       "span": {
                         "start": 1,
-                        "end": 4,
-                        "ctxt": 0
+                        "end": 4
                       },
                       "value": "div",
                       "raw": "div"
@@ -74,15 +66,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 5,
-          "end": 292,
-          "ctxt": 0
+          "end": 292
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 5,
-            "end": 6,
-            "ctxt": 0
+            "end": 6
           },
           "token": "LBrace"
         },
@@ -91,15 +81,13 @@
             "type": "Declaration",
             "span": {
               "start": 11,
-              "end": 54,
-              "ctxt": 0
+              "end": 54
             },
             "name": {
               "type": "DashedIdent",
               "span": {
                 "start": 11,
-                "end": 16,
-                "ctxt": 0
+                "end": 16
               },
               "value": "foo",
               "raw": "--foo"
@@ -109,8 +97,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 18,
-                  "end": 54,
-                  "ctxt": 0
+                  "end": 54
                 },
                 "token": {
                   "String": {
@@ -126,15 +113,13 @@
             "type": "Declaration",
             "span": {
               "start": 60,
-              "end": 87,
-              "ctxt": 0
+              "end": 87
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 60,
-                "end": 70,
-                "ctxt": 0
+                "end": 70
               },
               "value": "background",
               "raw": "background"
@@ -144,8 +129,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 72,
-                  "end": 86,
-                  "ctxt": 0
+                  "end": 86
                 },
                 "token": {
                   "BadUrl": {
@@ -157,8 +141,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 86,
-                  "end": 87,
-                  "ctxt": 0
+                  "end": 87
                 },
                 "token": "RParen"
               }
@@ -169,15 +152,13 @@
             "type": "Declaration",
             "span": {
               "start": 93,
-              "end": 126,
-              "ctxt": 0
+              "end": 126
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 93,
-                "end": 103,
-                "ctxt": 0
+                "end": 103
               },
               "value": "background",
               "raw": "background"
@@ -187,15 +168,13 @@
                 "type": "Url",
                 "span": {
                   "start": 105,
-                  "end": 126,
-                  "ctxt": 0
+                  "end": 126
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 105,
-                    "end": 108,
-                    "ctxt": 0
+                    "end": 108
                   },
                   "value": "url",
                   "raw": "url"
@@ -204,8 +183,7 @@
                   "type": "UrlValueRaw",
                   "span": {
                     "start": 109,
-                    "end": 125,
-                    "ctxt": 0
+                    "end": 125
                   },
                   "value": "image.png�",
                   "raw": "image.png\\999999"
@@ -219,15 +197,13 @@
             "type": "Declaration",
             "span": {
               "start": 132,
-              "end": 160,
-              "ctxt": 0
+              "end": 160
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 132,
-                "end": 142,
-                "ctxt": 0
+                "end": 142
               },
               "value": "background",
               "raw": "background"
@@ -237,15 +213,13 @@
                 "type": "Url",
                 "span": {
                   "start": 144,
-                  "end": 160,
-                  "ctxt": 0
+                  "end": 160
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 144,
-                    "end": 147,
-                    "ctxt": 0
+                    "end": 147
                   },
                   "value": "url",
                   "raw": "url"
@@ -254,8 +228,7 @@
                   "type": "UrlValueRaw",
                   "span": {
                     "start": 148,
-                    "end": 159,
-                    "ctxt": 0
+                    "end": 159
                   },
                   "value": "image.png�",
                   "raw": "image.png\\0"
@@ -269,15 +242,13 @@
             "type": "Declaration",
             "span": {
               "start": 166,
-              "end": 197,
-              "ctxt": 0
+              "end": 197
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 166,
-                "end": 176,
-                "ctxt": 0
+                "end": 176
               },
               "value": "background",
               "raw": "background"
@@ -287,15 +258,13 @@
                 "type": "Url",
                 "span": {
                   "start": 178,
-                  "end": 197,
-                  "ctxt": 0
+                  "end": 197
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 178,
-                    "end": 181,
-                    "ctxt": 0
+                    "end": 181
                   },
                   "value": "url",
                   "raw": "url"
@@ -304,8 +273,7 @@
                   "type": "UrlValueRaw",
                   "span": {
                     "start": 182,
-                    "end": 196,
-                    "ctxt": 0
+                    "end": 196
                   },
                   "value": "image.png�",
                   "raw": "image.png\\D800"
@@ -319,15 +287,13 @@
             "type": "Declaration",
             "span": {
               "start": 203,
-              "end": 234,
-              "ctxt": 0
+              "end": 234
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 203,
-                "end": 213,
-                "ctxt": 0
+                "end": 213
               },
               "value": "background",
               "raw": "background"
@@ -337,15 +303,13 @@
                 "type": "Url",
                 "span": {
                   "start": 215,
-                  "end": 234,
-                  "ctxt": 0
+                  "end": 234
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 215,
-                    "end": 218,
-                    "ctxt": 0
+                    "end": 218
                   },
                   "value": "url",
                   "raw": "url"
@@ -354,8 +318,7 @@
                   "type": "UrlValueRaw",
                   "span": {
                     "start": 219,
-                    "end": 233,
-                    "ctxt": 0
+                    "end": 233
                   },
                   "value": "image.png�",
                   "raw": "image.png\\DFFF"
@@ -369,15 +332,13 @@
             "type": "Declaration",
             "span": {
               "start": 240,
-              "end": 273,
-              "ctxt": 0
+              "end": 273
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 240,
-                "end": 250,
-                "ctxt": 0
+                "end": 250
               },
               "value": "background",
               "raw": "background"
@@ -387,15 +348,13 @@
                 "type": "Url",
                 "span": {
                   "start": 252,
-                  "end": 273,
-                  "ctxt": 0
+                  "end": 273
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 252,
-                    "end": 255,
-                    "ctxt": 0
+                    "end": 255
                   },
                   "value": "url",
                   "raw": "url"
@@ -404,8 +363,7 @@
                   "type": "UrlValueRaw",
                   "span": {
                     "start": 256,
-                    "end": 272,
-                    "ctxt": 0
+                    "end": 272
                   },
                   "value": "image.png�",
                   "raw": "image.png\\11FFFF"
@@ -419,15 +377,13 @@
             "type": "Declaration",
             "span": {
               "start": 279,
-              "end": 289,
-              "ctxt": 0
+              "end": 289
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 279,
-                "end": 284,
-                "ctxt": 0
+                "end": 284
               },
               "value": "color",
               "raw": "color"
@@ -437,8 +393,7 @@
                 "type": "Ident",
                 "span": {
                   "start": 286,
-                  "end": 289,
-                  "ctxt": 0
+                  "end": 289
                 },
                 "value": "red",
                 "raw": "red"
@@ -453,31 +408,27 @@
       "type": "QualifiedRule",
       "span": {
         "start": 294,
-        "end": 352,
-        "ctxt": 0
+        "end": 352
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 294,
-          "end": 298,
-          "ctxt": 0
+          "end": 298
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
               "start": 294,
-              "end": 298,
-              "ctxt": 0
+              "end": 298
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
                   "start": 294,
-                  "end": 298,
-                  "ctxt": 0
+                  "end": 298
                 },
                 "nestingSelector": null,
                 "typeSelector": null,
@@ -486,15 +437,13 @@
                     "type": "ClassSelector",
                     "span": {
                       "start": 294,
-                      "end": 298,
-                      "ctxt": 0
+                      "end": 298
                     },
                     "text": {
                       "type": "Ident",
                       "span": {
                         "start": 295,
-                        "end": 298,
-                        "ctxt": 0
+                        "end": 298
                       },
                       "value": "foo",
                       "raw": "foo"
@@ -510,15 +459,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 299,
-          "end": 352,
-          "ctxt": 0
+          "end": 352
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 299,
-            "end": 300,
-            "ctxt": 0
+            "end": 300
           },
           "token": "LBrace"
         },
@@ -527,15 +474,13 @@
             "type": "Declaration",
             "span": {
               "start": 305,
-              "end": 349,
-              "ctxt": 0
+              "end": 349
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 305,
-                "end": 315,
-                "ctxt": 0
+                "end": 315
               },
               "value": "background",
               "raw": "background"
@@ -545,8 +490,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 317,
-                  "end": 347,
-                  "ctxt": 0
+                  "end": 347
                 },
                 "token": {
                   "BadUrl": {
@@ -558,8 +502,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 347,
-                  "end": 348,
-                  "ctxt": 0
+                  "end": 348
                 },
                 "token": "RParen"
               },
@@ -567,8 +510,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 348,
-                  "end": 349,
-                  "ctxt": 0
+                  "end": 349
                 },
                 "token": "RParen"
               }
@@ -582,31 +524,27 @@
       "type": "QualifiedRule",
       "span": {
         "start": 354,
-        "end": 399,
-        "ctxt": 0
+        "end": 399
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 354,
-          "end": 360,
-          "ctxt": 0
+          "end": 360
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
               "start": 354,
-              "end": 360,
-              "ctxt": 0
+              "end": 360
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
                   "start": 354,
-                  "end": 360,
-                  "ctxt": 0
+                  "end": 360
                 },
                 "nestingSelector": null,
                 "typeSelector": null,
@@ -615,15 +553,13 @@
                     "type": "ClassSelector",
                     "span": {
                       "start": 354,
-                      "end": 360,
-                      "ctxt": 0
+                      "end": 360
                     },
                     "text": {
                       "type": "Ident",
                       "span": {
                         "start": 355,
-                        "end": 360,
-                        "ctxt": 0
+                        "end": 360
                       },
                       "value": "style",
                       "raw": "style"
@@ -639,15 +575,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 361,
-          "end": 399,
-          "ctxt": 0
+          "end": 399
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 361,
-            "end": 362,
-            "ctxt": 0
+            "end": 362
           },
           "token": "LBrace"
         },
@@ -656,15 +590,13 @@
             "type": "Declaration",
             "span": {
               "start": 367,
-              "end": 396,
-              "ctxt": 0
+              "end": 396
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 367,
-                "end": 377,
-                "ctxt": 0
+                "end": 377
               },
               "value": "background",
               "raw": "background"
@@ -674,15 +606,13 @@
                 "type": "Function",
                 "span": {
                   "start": 379,
-                  "end": 396,
-                  "ctxt": 0
+                  "end": 396
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 379,
-                    "end": 382,
-                    "ctxt": 0
+                    "end": 382
                   },
                   "value": "url",
                   "raw": "url"
@@ -692,8 +622,7 @@
                     "type": "PreservedToken",
                     "span": {
                       "start": 383,
-                      "end": 388,
-                      "ctxt": 0
+                      "end": 388
                     },
                     "token": {
                       "String": {
@@ -706,8 +635,7 @@
                     "type": "PreservedToken",
                     "span": {
                       "start": 388,
-                      "end": 389,
-                      "ctxt": 0
+                      "end": 389
                     },
                     "token": "Comma"
                   },
@@ -715,8 +643,7 @@
                     "type": "PreservedToken",
                     "span": {
                       "start": 389,
-                      "end": 390,
-                      "ctxt": 0
+                      "end": 390
                     },
                     "token": {
                       "WhiteSpace": {
@@ -728,8 +655,7 @@
                     "type": "PreservedToken",
                     "span": {
                       "start": 390,
-                      "end": 395,
-                      "ctxt": 0
+                      "end": 395
                     },
                     "token": {
                       "String": {

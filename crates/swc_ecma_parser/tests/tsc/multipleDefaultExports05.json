@@ -2,16 +2,14 @@
   "type": "Module",
   "span": {
     "start": 39,
-    "end": 124,
-    "ctxt": 0
+    "end": 124
   },
   "body": [
     {
       "type": "ExportDefaultDeclaration",
       "span": {
         "start": 39,
-        "end": 66,
-        "ctxt": 0
+        "end": 66
       },
       "decl": {
         "type": "ClassExpression",
@@ -19,17 +17,17 @@
           "type": "Identifier",
           "span": {
             "start": 60,
-            "end": 63,
-            "ctxt": 0
+            "end": 63
           },
+          "ctxt": 0,
           "value": "AA1",
           "optional": false
         },
         "span": {
           "start": 54,
-          "end": 66,
-          "ctxt": 0
+          "end": 66
         },
+        "ctxt": 0,
         "decorators": [],
         "body": [],
         "superClass": null,
@@ -43,8 +41,7 @@
       "type": "ExportDefaultDeclaration",
       "span": {
         "start": 68,
-        "end": 95,
-        "ctxt": 0
+        "end": 95
       },
       "decl": {
         "type": "ClassExpression",
@@ -52,17 +49,17 @@
           "type": "Identifier",
           "span": {
             "start": 89,
-            "end": 92,
-            "ctxt": 0
+            "end": 92
           },
+          "ctxt": 0,
           "value": "BB1",
           "optional": false
         },
         "span": {
           "start": 83,
-          "end": 95,
-          "ctxt": 0
+          "end": 95
         },
+        "ctxt": 0,
         "decorators": [],
         "body": [],
         "superClass": null,
@@ -76,8 +73,7 @@
       "type": "ExportDefaultDeclaration",
       "span": {
         "start": 97,
-        "end": 124,
-        "ctxt": 0
+        "end": 124
       },
       "decl": {
         "type": "ClassExpression",
@@ -85,17 +81,17 @@
           "type": "Identifier",
           "span": {
             "start": 118,
-            "end": 121,
-            "ctxt": 0
+            "end": 121
           },
+          "ctxt": 0,
           "value": "CC1",
           "optional": false
         },
         "span": {
           "start": 112,
-          "end": 124,
-          "ctxt": 0
+          "end": 124
         },
+        "ctxt": 0,
         "decorators": [],
         "body": [],
         "superClass": null,

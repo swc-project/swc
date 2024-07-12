@@ -33,7 +33,7 @@ fn print(cm: Lrc<SourceMap>, m: &Module, config: Config) -> String {
 
 fn assert_format(src: &str, expected: &str, opts: Config) {
     testing::run_test2(false, |cm, _| {
-        let fm = cm.new_source_file(FileName::Anon, src.into());
+        let fm = cm.new_source_file(FileName::Anon.into(), src.into());
 
         let program = parse_file_as_module(
             &fm,

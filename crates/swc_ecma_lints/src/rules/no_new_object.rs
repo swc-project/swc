@@ -56,7 +56,7 @@ impl Visit for NoNewObject {
 
     fn visit_new_expr(&mut self, new_expr: &NewExpr) {
         if let Expr::Ident(callee) = new_expr.callee.as_ref() {
-            if callee.sym == "Object" && callee.span.ctxt == self.unresolved_ctxt {
+            if callee.sym == "Object" && callee.ctxt == self.unresolved_ctxt {
                 self.emit_report(new_expr.span);
             }
         }

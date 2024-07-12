@@ -2,16 +2,14 @@
   "type": "Script",
   "span": {
     "start": 105,
-    "end": 875,
-    "ctxt": 0
+    "end": 875
   },
   "body": [
     {
       "type": "TsModuleDeclaration",
       "span": {
         "start": 105,
-        "end": 200,
-        "ctxt": 0
+        "end": 200
       },
       "declare": false,
       "global": false,
@@ -19,9 +17,9 @@
         "type": "Identifier",
         "span": {
           "start": 112,
-          "end": 113,
-          "ctxt": 0
+          "end": 113
         },
+        "ctxt": 0,
         "value": "M",
         "optional": false
       },
@@ -29,23 +27,20 @@
         "type": "TsModuleBlock",
         "span": {
           "start": 114,
-          "end": 200,
-          "ctxt": 0
+          "end": 200
         },
         "body": [
           {
             "type": "ExportDeclaration",
             "span": {
               "start": 120,
-              "end": 144,
-              "ctxt": 0
+              "end": 144
             },
             "declaration": {
               "type": "TsEnumDeclaration",
               "span": {
                 "start": 127,
-                "end": 144,
-                "ctxt": 0
+                "end": 144
               },
               "declare": false,
               "isConst": false,
@@ -53,9 +48,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 132,
-                  "end": 134,
-                  "ctxt": 0
+                  "end": 134
                 },
+                "ctxt": 0,
                 "value": "E1",
                 "optional": false
               },
@@ -64,16 +59,15 @@
                   "type": "TsEnumMember",
                   "span": {
                     "start": 137,
-                    "end": 142,
-                    "ctxt": 0
+                    "end": 142
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
                       "start": 137,
-                      "end": 138,
-                      "ctxt": 0
+                      "end": 138
                     },
+                    "ctxt": 0,
                     "value": "A",
                     "optional": false
                   },
@@ -81,8 +75,7 @@
                     "type": "NumericLiteral",
                     "span": {
                       "start": 141,
-                      "end": 142,
-                      "ctxt": 0
+                      "end": 142
                     },
                     "value": 0.0,
                     "raw": "0"
@@ -95,15 +88,13 @@
             "type": "ExportDeclaration",
             "span": {
               "start": 149,
-              "end": 169,
-              "ctxt": 0
+              "end": 169
             },
             "declaration": {
               "type": "TsEnumDeclaration",
               "span": {
                 "start": 156,
-                "end": 169,
-                "ctxt": 0
+                "end": 169
               },
               "declare": false,
               "isConst": false,
@@ -111,9 +102,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 161,
-                  "end": 163,
-                  "ctxt": 0
+                  "end": 163
                 },
+                "ctxt": 0,
                 "value": "E2",
                 "optional": false
               },
@@ -122,16 +113,15 @@
                   "type": "TsEnumMember",
                   "span": {
                     "start": 166,
-                    "end": 167,
-                    "ctxt": 0
+                    "end": 167
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
                       "start": 166,
-                      "end": 167,
-                      "ctxt": 0
+                      "end": 167
                     },
+                    "ctxt": 0,
                     "value": "C",
                     "optional": false
                   },
@@ -144,15 +134,13 @@
             "type": "ExportDeclaration",
             "span": {
               "start": 174,
-              "end": 198,
-              "ctxt": 0
+              "end": 198
             },
             "declaration": {
               "type": "TsEnumDeclaration",
               "span": {
                 "start": 181,
-                "end": 198,
-                "ctxt": 0
+                "end": 198
               },
               "declare": false,
               "isConst": false,
@@ -160,9 +148,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 186,
-                  "end": 188,
-                  "ctxt": 0
+                  "end": 188
                 },
+                "ctxt": 0,
                 "value": "E3",
                 "optional": false
               },
@@ -171,16 +159,15 @@
                   "type": "TsEnumMember",
                   "span": {
                     "start": 191,
-                    "end": 196,
-                    "ctxt": 0
+                    "end": 196
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
                       "start": 191,
-                      "end": 192,
-                      "ctxt": 0
+                      "end": 192
                     },
+                    "ctxt": 0,
                     "value": "A",
                     "optional": false
                   },
@@ -188,8 +175,7 @@
                     "type": "NumericLiteral",
                     "span": {
                       "start": 195,
-                      "end": 196,
-                      "ctxt": 0
+                      "end": 196
                     },
                     "value": 0.0,
                     "raw": "0"
@@ -205,8 +191,7 @@
       "type": "TsModuleDeclaration",
       "span": {
         "start": 201,
-        "end": 318,
-        "ctxt": 0
+        "end": 318
       },
       "declare": false,
       "global": false,
@@ -214,9 +199,9 @@
         "type": "Identifier",
         "span": {
           "start": 208,
-          "end": 209,
-          "ctxt": 0
+          "end": 209
         },
+        "ctxt": 0,
         "value": "M",
         "optional": false
       },
@@ -224,23 +209,20 @@
         "type": "TsModuleBlock",
         "span": {
           "start": 210,
-          "end": 318,
-          "ctxt": 0
+          "end": 318
         },
         "body": [
           {
             "type": "ExportDeclaration",
             "span": {
               "start": 216,
-              "end": 251,
-              "ctxt": 0
+              "end": 251
             },
             "declaration": {
               "type": "TsEnumDeclaration",
               "span": {
                 "start": 223,
-                "end": 251,
-                "ctxt": 0
+                "end": 251
               },
               "declare": false,
               "isConst": false,
@@ -248,9 +230,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 228,
-                  "end": 230,
-                  "ctxt": 0
+                  "end": 230
                 },
+                "ctxt": 0,
                 "value": "E1",
                 "optional": false
               },
@@ -259,16 +241,15 @@
                   "type": "TsEnumMember",
                   "span": {
                     "start": 233,
-                    "end": 249,
-                    "ctxt": 0
+                    "end": 249
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
                       "start": 233,
-                      "end": 234,
-                      "ctxt": 0
+                      "end": 234
                     },
+                    "ctxt": 0,
                     "value": "B",
                     "optional": false
                   },
@@ -276,15 +257,13 @@
                     "type": "MemberExpression",
                     "span": {
                       "start": 237,
-                      "end": 249,
-                      "ctxt": 0
+                      "end": 249
                     },
                     "object": {
                       "type": "StringLiteral",
                       "span": {
                         "start": 237,
-                        "end": 242,
-                        "ctxt": 0
+                        "end": 242
                       },
                       "value": "foo",
                       "raw": "'foo'"
@@ -293,11 +272,9 @@
                       "type": "Identifier",
                       "span": {
                         "start": 243,
-                        "end": 249,
-                        "ctxt": 0
+                        "end": 249
                       },
-                      "value": "length",
-                      "optional": false
+                      "value": "length"
                     }
                   }
                 }
@@ -308,15 +285,13 @@
             "type": "ExportDeclaration",
             "span": {
               "start": 256,
-              "end": 291,
-              "ctxt": 0
+              "end": 291
             },
             "declaration": {
               "type": "TsEnumDeclaration",
               "span": {
                 "start": 263,
-                "end": 291,
-                "ctxt": 0
+                "end": 291
               },
               "declare": false,
               "isConst": false,
@@ -324,9 +299,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 268,
-                  "end": 270,
-                  "ctxt": 0
+                  "end": 270
                 },
+                "ctxt": 0,
                 "value": "E2",
                 "optional": false
               },
@@ -335,16 +310,15 @@
                   "type": "TsEnumMember",
                   "span": {
                     "start": 273,
-                    "end": 289,
-                    "ctxt": 0
+                    "end": 289
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
                       "start": 273,
-                      "end": 274,
-                      "ctxt": 0
+                      "end": 274
                     },
+                    "ctxt": 0,
                     "value": "B",
                     "optional": false
                   },
@@ -352,15 +326,13 @@
                     "type": "MemberExpression",
                     "span": {
                       "start": 277,
-                      "end": 289,
-                      "ctxt": 0
+                      "end": 289
                     },
                     "object": {
                       "type": "StringLiteral",
                       "span": {
                         "start": 277,
-                        "end": 282,
-                        "ctxt": 0
+                        "end": 282
                       },
                       "value": "foo",
                       "raw": "'foo'"
@@ -369,11 +341,9 @@
                       "type": "Identifier",
                       "span": {
                         "start": 283,
-                        "end": 289,
-                        "ctxt": 0
+                        "end": 289
                       },
-                      "value": "length",
-                      "optional": false
+                      "value": "length"
                     }
                   }
                 }
@@ -384,15 +354,13 @@
             "type": "ExportDeclaration",
             "span": {
               "start": 296,
-              "end": 316,
-              "ctxt": 0
+              "end": 316
             },
             "declaration": {
               "type": "TsEnumDeclaration",
               "span": {
                 "start": 303,
-                "end": 316,
-                "ctxt": 0
+                "end": 316
               },
               "declare": false,
               "isConst": false,
@@ -400,9 +368,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 308,
-                  "end": 310,
-                  "ctxt": 0
+                  "end": 310
                 },
+                "ctxt": 0,
                 "value": "E3",
                 "optional": false
               },
@@ -411,16 +379,15 @@
                   "type": "TsEnumMember",
                   "span": {
                     "start": 313,
-                    "end": 314,
-                    "ctxt": 0
+                    "end": 314
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
                       "start": 313,
-                      "end": 314,
-                      "ctxt": 0
+                      "end": 314
                     },
+                    "ctxt": 0,
                     "value": "C",
                     "optional": false
                   },
@@ -436,8 +403,7 @@
       "type": "TsModuleDeclaration",
       "span": {
         "start": 319,
-        "end": 425,
-        "ctxt": 0
+        "end": 425
       },
       "declare": false,
       "global": false,
@@ -445,9 +411,9 @@
         "type": "Identifier",
         "span": {
           "start": 326,
-          "end": 327,
-          "ctxt": 0
+          "end": 327
         },
+        "ctxt": 0,
         "value": "M",
         "optional": false
       },
@@ -455,23 +421,20 @@
         "type": "TsModuleBlock",
         "span": {
           "start": 328,
-          "end": 425,
-          "ctxt": 0
+          "end": 425
         },
         "body": [
           {
             "type": "ExportDeclaration",
             "span": {
               "start": 334,
-              "end": 354,
-              "ctxt": 0
+              "end": 354
             },
             "declaration": {
               "type": "TsEnumDeclaration",
               "span": {
                 "start": 341,
-                "end": 354,
-                "ctxt": 0
+                "end": 354
               },
               "declare": false,
               "isConst": false,
@@ -479,9 +442,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 346,
-                  "end": 348,
-                  "ctxt": 0
+                  "end": 348
                 },
+                "ctxt": 0,
                 "value": "E1",
                 "optional": false
               },
@@ -490,16 +453,15 @@
                   "type": "TsEnumMember",
                   "span": {
                     "start": 351,
-                    "end": 352,
-                    "ctxt": 0
+                    "end": 352
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
                       "start": 351,
-                      "end": 352,
-                      "ctxt": 0
+                      "end": 352
                     },
+                    "ctxt": 0,
                     "value": "C",
                     "optional": false
                   },
@@ -512,15 +474,13 @@
             "type": "ExportDeclaration",
             "span": {
               "start": 359,
-              "end": 383,
-              "ctxt": 0
+              "end": 383
             },
             "declaration": {
               "type": "TsEnumDeclaration",
               "span": {
                 "start": 366,
-                "end": 383,
-                "ctxt": 0
+                "end": 383
               },
               "declare": false,
               "isConst": false,
@@ -528,9 +488,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 371,
-                  "end": 373,
-                  "ctxt": 0
+                  "end": 373
                 },
+                "ctxt": 0,
                 "value": "E2",
                 "optional": false
               },
@@ -539,16 +499,15 @@
                   "type": "TsEnumMember",
                   "span": {
                     "start": 376,
-                    "end": 381,
-                    "ctxt": 0
+                    "end": 381
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
                       "start": 376,
-                      "end": 377,
-                      "ctxt": 0
+                      "end": 377
                     },
+                    "ctxt": 0,
                     "value": "A",
                     "optional": false
                   },
@@ -556,8 +515,7 @@
                     "type": "NumericLiteral",
                     "span": {
                       "start": 380,
-                      "end": 381,
-                      "ctxt": 0
+                      "end": 381
                     },
                     "value": 0.0,
                     "raw": "0"
@@ -570,15 +528,13 @@
             "type": "ExportDeclaration",
             "span": {
               "start": 388,
-              "end": 423,
-              "ctxt": 0
+              "end": 423
             },
             "declaration": {
               "type": "TsEnumDeclaration",
               "span": {
                 "start": 395,
-                "end": 423,
-                "ctxt": 0
+                "end": 423
               },
               "declare": false,
               "isConst": false,
@@ -586,9 +542,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 400,
-                  "end": 402,
-                  "ctxt": 0
+                  "end": 402
                 },
+                "ctxt": 0,
                 "value": "E3",
                 "optional": false
               },
@@ -597,16 +553,15 @@
                   "type": "TsEnumMember",
                   "span": {
                     "start": 405,
-                    "end": 421,
-                    "ctxt": 0
+                    "end": 421
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
                       "start": 405,
-                      "end": 406,
-                      "ctxt": 0
+                      "end": 406
                     },
+                    "ctxt": 0,
                     "value": "B",
                     "optional": false
                   },
@@ -614,15 +569,13 @@
                     "type": "MemberExpression",
                     "span": {
                       "start": 409,
-                      "end": 421,
-                      "ctxt": 0
+                      "end": 421
                     },
                     "object": {
                       "type": "StringLiteral",
                       "span": {
                         "start": 409,
-                        "end": 414,
-                        "ctxt": 0
+                        "end": 414
                       },
                       "value": "foo",
                       "raw": "'foo'"
@@ -631,11 +584,9 @@
                       "type": "Identifier",
                       "span": {
                         "start": 415,
-                        "end": 421,
-                        "ctxt": 0
+                        "end": 421
                       },
-                      "value": "length",
-                      "optional": false
+                      "value": "length"
                     }
                   }
                 }
@@ -649,8 +600,7 @@
       "type": "TsModuleDeclaration",
       "span": {
         "start": 525,
-        "end": 567,
-        "ctxt": 0
+        "end": 567
       },
       "declare": false,
       "global": false,
@@ -658,9 +608,9 @@
         "type": "Identifier",
         "span": {
           "start": 532,
-          "end": 534,
-          "ctxt": 0
+          "end": 534
         },
+        "ctxt": 0,
         "value": "M1",
         "optional": false
       },
@@ -668,23 +618,20 @@
         "type": "TsModuleBlock",
         "span": {
           "start": 535,
-          "end": 567,
-          "ctxt": 0
+          "end": 567
         },
         "body": [
           {
             "type": "ExportDeclaration",
             "span": {
               "start": 541,
-              "end": 565,
-              "ctxt": 0
+              "end": 565
             },
             "declaration": {
               "type": "TsEnumDeclaration",
               "span": {
                 "start": 548,
-                "end": 565,
-                "ctxt": 0
+                "end": 565
               },
               "declare": false,
               "isConst": false,
@@ -692,9 +639,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 553,
-                  "end": 555,
-                  "ctxt": 0
+                  "end": 555
                 },
+                "ctxt": 0,
                 "value": "E1",
                 "optional": false
               },
@@ -703,16 +650,15 @@
                   "type": "TsEnumMember",
                   "span": {
                     "start": 558,
-                    "end": 563,
-                    "ctxt": 0
+                    "end": 563
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
                       "start": 558,
-                      "end": 559,
-                      "ctxt": 0
+                      "end": 559
                     },
+                    "ctxt": 0,
                     "value": "A",
                     "optional": false
                   },
@@ -720,8 +666,7 @@
                     "type": "NumericLiteral",
                     "span": {
                       "start": 562,
-                      "end": 563,
-                      "ctxt": 0
+                      "end": 563
                     },
                     "value": 0.0,
                     "raw": "0"
@@ -737,8 +682,7 @@
       "type": "TsModuleDeclaration",
       "span": {
         "start": 568,
-        "end": 606,
-        "ctxt": 0
+        "end": 606
       },
       "declare": false,
       "global": false,
@@ -746,9 +690,9 @@
         "type": "Identifier",
         "span": {
           "start": 575,
-          "end": 577,
-          "ctxt": 0
+          "end": 577
         },
+        "ctxt": 0,
         "value": "M1",
         "optional": false
       },
@@ -756,23 +700,20 @@
         "type": "TsModuleBlock",
         "span": {
           "start": 578,
-          "end": 606,
-          "ctxt": 0
+          "end": 606
         },
         "body": [
           {
             "type": "ExportDeclaration",
             "span": {
               "start": 584,
-              "end": 604,
-              "ctxt": 0
+              "end": 604
             },
             "declaration": {
               "type": "TsEnumDeclaration",
               "span": {
                 "start": 591,
-                "end": 604,
-                "ctxt": 0
+                "end": 604
               },
               "declare": false,
               "isConst": false,
@@ -780,9 +721,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 596,
-                  "end": 598,
-                  "ctxt": 0
+                  "end": 598
                 },
+                "ctxt": 0,
                 "value": "E1",
                 "optional": false
               },
@@ -791,16 +732,15 @@
                   "type": "TsEnumMember",
                   "span": {
                     "start": 601,
-                    "end": 602,
-                    "ctxt": 0
+                    "end": 602
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
                       "start": 601,
-                      "end": 602,
-                      "ctxt": 0
+                      "end": 602
                     },
+                    "ctxt": 0,
                     "value": "B",
                     "optional": false
                   },
@@ -816,8 +756,7 @@
       "type": "TsModuleDeclaration",
       "span": {
         "start": 607,
-        "end": 645,
-        "ctxt": 0
+        "end": 645
       },
       "declare": false,
       "global": false,
@@ -825,9 +764,9 @@
         "type": "Identifier",
         "span": {
           "start": 614,
-          "end": 616,
-          "ctxt": 0
+          "end": 616
         },
+        "ctxt": 0,
         "value": "M1",
         "optional": false
       },
@@ -835,23 +774,20 @@
         "type": "TsModuleBlock",
         "span": {
           "start": 617,
-          "end": 645,
-          "ctxt": 0
+          "end": 645
         },
         "body": [
           {
             "type": "ExportDeclaration",
             "span": {
               "start": 623,
-              "end": 643,
-              "ctxt": 0
+              "end": 643
             },
             "declaration": {
               "type": "TsEnumDeclaration",
               "span": {
                 "start": 630,
-                "end": 643,
-                "ctxt": 0
+                "end": 643
               },
               "declare": false,
               "isConst": false,
@@ -859,9 +795,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 635,
-                  "end": 637,
-                  "ctxt": 0
+                  "end": 637
                 },
+                "ctxt": 0,
                 "value": "E1",
                 "optional": false
               },
@@ -870,16 +806,15 @@
                   "type": "TsEnumMember",
                   "span": {
                     "start": 640,
-                    "end": 641,
-                    "ctxt": 0
+                    "end": 641
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
                       "start": 640,
-                      "end": 641,
-                      "ctxt": 0
+                      "end": 641
                     },
+                    "ctxt": 0,
                     "value": "C",
                     "optional": false
                   },
@@ -895,8 +830,7 @@
       "type": "TsModuleDeclaration",
       "span": {
         "start": 755,
-        "end": 793,
-        "ctxt": 0
+        "end": 793
       },
       "declare": false,
       "global": false,
@@ -904,9 +838,9 @@
         "type": "Identifier",
         "span": {
           "start": 762,
-          "end": 764,
-          "ctxt": 0
+          "end": 764
         },
+        "ctxt": 0,
         "value": "M2",
         "optional": false
       },
@@ -914,23 +848,20 @@
         "type": "TsModuleBlock",
         "span": {
           "start": 765,
-          "end": 793,
-          "ctxt": 0
+          "end": 793
         },
         "body": [
           {
             "type": "ExportDeclaration",
             "span": {
               "start": 771,
-              "end": 791,
-              "ctxt": 0
+              "end": 791
             },
             "declaration": {
               "type": "TsEnumDeclaration",
               "span": {
                 "start": 778,
-                "end": 791,
-                "ctxt": 0
+                "end": 791
               },
               "declare": false,
               "isConst": false,
@@ -938,9 +869,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 783,
-                  "end": 785,
-                  "ctxt": 0
+                  "end": 785
                 },
+                "ctxt": 0,
                 "value": "E1",
                 "optional": false
               },
@@ -949,16 +880,15 @@
                   "type": "TsEnumMember",
                   "span": {
                     "start": 788,
-                    "end": 789,
-                    "ctxt": 0
+                    "end": 789
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
                       "start": 788,
-                      "end": 789,
-                      "ctxt": 0
+                      "end": 789
                     },
+                    "ctxt": 0,
                     "value": "A",
                     "optional": false
                   },
@@ -974,8 +904,7 @@
       "type": "TsModuleDeclaration",
       "span": {
         "start": 794,
-        "end": 836,
-        "ctxt": 0
+        "end": 836
       },
       "declare": false,
       "global": false,
@@ -983,9 +912,9 @@
         "type": "Identifier",
         "span": {
           "start": 801,
-          "end": 803,
-          "ctxt": 0
+          "end": 803
         },
+        "ctxt": 0,
         "value": "M2",
         "optional": false
       },
@@ -993,23 +922,20 @@
         "type": "TsModuleBlock",
         "span": {
           "start": 804,
-          "end": 836,
-          "ctxt": 0
+          "end": 836
         },
         "body": [
           {
             "type": "ExportDeclaration",
             "span": {
               "start": 810,
-              "end": 834,
-              "ctxt": 0
+              "end": 834
             },
             "declaration": {
               "type": "TsEnumDeclaration",
               "span": {
                 "start": 817,
-                "end": 834,
-                "ctxt": 0
+                "end": 834
               },
               "declare": false,
               "isConst": false,
@@ -1017,9 +943,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 822,
-                  "end": 824,
-                  "ctxt": 0
+                  "end": 824
                 },
+                "ctxt": 0,
                 "value": "E1",
                 "optional": false
               },
@@ -1028,16 +954,15 @@
                   "type": "TsEnumMember",
                   "span": {
                     "start": 827,
-                    "end": 832,
-                    "ctxt": 0
+                    "end": 832
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
                       "start": 827,
-                      "end": 828,
-                      "ctxt": 0
+                      "end": 828
                     },
+                    "ctxt": 0,
                     "value": "B",
                     "optional": false
                   },
@@ -1045,8 +970,7 @@
                     "type": "NumericLiteral",
                     "span": {
                       "start": 831,
-                      "end": 832,
-                      "ctxt": 0
+                      "end": 832
                     },
                     "value": 0.0,
                     "raw": "0"
@@ -1062,8 +986,7 @@
       "type": "TsModuleDeclaration",
       "span": {
         "start": 837,
-        "end": 875,
-        "ctxt": 0
+        "end": 875
       },
       "declare": false,
       "global": false,
@@ -1071,9 +994,9 @@
         "type": "Identifier",
         "span": {
           "start": 844,
-          "end": 846,
-          "ctxt": 0
+          "end": 846
         },
+        "ctxt": 0,
         "value": "M2",
         "optional": false
       },
@@ -1081,23 +1004,20 @@
         "type": "TsModuleBlock",
         "span": {
           "start": 847,
-          "end": 875,
-          "ctxt": 0
+          "end": 875
         },
         "body": [
           {
             "type": "ExportDeclaration",
             "span": {
               "start": 853,
-              "end": 873,
-              "ctxt": 0
+              "end": 873
             },
             "declaration": {
               "type": "TsEnumDeclaration",
               "span": {
                 "start": 860,
-                "end": 873,
-                "ctxt": 0
+                "end": 873
               },
               "declare": false,
               "isConst": false,
@@ -1105,9 +1025,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 865,
-                  "end": 867,
-                  "ctxt": 0
+                  "end": 867
                 },
+                "ctxt": 0,
                 "value": "E1",
                 "optional": false
               },
@@ -1116,16 +1036,15 @@
                   "type": "TsEnumMember",
                   "span": {
                     "start": 870,
-                    "end": 871,
-                    "ctxt": 0
+                    "end": 871
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
                       "start": 870,
-                      "end": 871,
-                      "ctxt": 0
+                      "end": 871
                     },
+                    "ctxt": 0,
                     "value": "C",
                     "optional": false
                   },

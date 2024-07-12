@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 16,
-    "end": 79,
-    "ctxt": 0
+    "end": 79
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 16,
-        "end": 54,
-        "ctxt": 0
+        "end": 54
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,47 +19,42 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 20,
-            "end": 53,
-            "ctxt": 0
+            "end": 53
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 20,
-              "end": 25,
-              "ctxt": 0
+              "end": 25
             },
+            "ctxt": 0,
             "value": "tuple",
             "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 25,
-                "end": 43,
-                "ctxt": 0
+                "end": 43
               },
               "typeAnnotation": {
                 "type": "TsTupleType",
                 "span": {
                   "start": 27,
-                  "end": 43,
-                  "ctxt": 0
+                  "end": 43
                 },
                 "elemTypes": [
                   {
                     "type": "TsTupleElement",
                     "span": {
                       "start": 28,
-                      "end": 34,
-                      "ctxt": 0
+                      "end": 34
                     },
                     "label": null,
                     "ty": {
                       "type": "TsKeywordType",
                       "span": {
                         "start": 28,
-                        "end": 34,
-                        "ctxt": 0
+                        "end": 34
                       },
                       "kind": "string"
                     }
@@ -69,16 +63,14 @@
                     "type": "TsTupleElement",
                     "span": {
                       "start": 36,
-                      "end": 42,
-                      "ctxt": 0
+                      "end": 42
                     },
                     "label": null,
                     "ty": {
                       "type": "TsKeywordType",
                       "span": {
                         "start": 36,
-                        "end": 42,
-                        "ctxt": 0
+                        "end": 42
                       },
                       "kind": "number"
                     }
@@ -91,8 +83,7 @@
             "type": "ArrayExpression",
             "span": {
               "start": 46,
-              "end": 53,
-              "ctxt": 0
+              "end": 53
             },
             "elements": [
               {
@@ -101,8 +92,7 @@
                   "type": "StringLiteral",
                   "span": {
                     "start": 47,
-                    "end": 49,
-                    "ctxt": 0
+                    "end": 49
                   },
                   "value": "",
                   "raw": "\"\""
@@ -114,8 +104,7 @@
                   "type": "NumericLiteral",
                   "span": {
                     "start": 51,
-                    "end": 52,
-                    "ctxt": 0
+                    "end": 52
                   },
                   "value": 0.0,
                   "raw": "0"
@@ -131,17 +120,16 @@
       "type": "ForOfStatement",
       "span": {
         "start": 55,
-        "end": 79,
-        "ctxt": 0
+        "end": 79
       },
       "await": false,
       "left": {
         "type": "VariableDeclaration",
         "span": {
           "start": 60,
-          "end": 65,
-          "ctxt": 0
+          "end": 65
         },
+        "ctxt": 0,
         "kind": "var",
         "declare": false,
         "declarations": [
@@ -149,16 +137,15 @@
             "type": "VariableDeclarator",
             "span": {
               "start": 64,
-              "end": 65,
-              "ctxt": 0
+              "end": 65
             },
             "id": {
               "type": "Identifier",
               "span": {
                 "start": 64,
-                "end": 65,
-                "ctxt": 0
+                "end": 65
               },
+              "ctxt": 0,
               "value": "v",
               "optional": false,
               "typeAnnotation": null
@@ -172,9 +159,9 @@
         "type": "Identifier",
         "span": {
           "start": 69,
-          "end": 74,
-          "ctxt": 0
+          "end": 74
         },
+        "ctxt": 0,
         "value": "tuple",
         "optional": false
       },
@@ -182,9 +169,9 @@
         "type": "BlockStatement",
         "span": {
           "start": 76,
-          "end": 79,
-          "ctxt": 0
+          "end": 79
         },
+        "ctxt": 0,
         "stmts": []
       }
     }

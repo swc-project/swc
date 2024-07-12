@@ -2,39 +2,35 @@
   "type": "Script",
   "span": {
     "start": 118,
-    "end": 229,
-    "ctxt": 0
+    "end": 229
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 118,
-        "end": 137,
-        "ctxt": 0
+        "end": 137
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
           "start": 118,
-          "end": 137,
-          "ctxt": 0
+          "end": 137
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
             "start": 118,
-            "end": 133,
-            "ctxt": 0
+            "end": 133
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 118,
-              "end": 125,
-              "ctxt": 0
+              "end": 125
             },
+            "ctxt": 0,
             "value": "exports",
             "optional": false
           },
@@ -42,19 +38,16 @@
             "type": "Identifier",
             "span": {
               "start": 126,
-              "end": 133,
-              "ctxt": 0
+              "end": 133
             },
-            "value": "version",
-            "optional": false
+            "value": "version"
           }
         },
         "right": {
           "type": "NumericLiteral",
           "span": {
             "start": 136,
-            "end": 137,
-            "ctxt": 0
+            "end": 137
           },
           "value": 1.0,
           "raw": "1"
@@ -67,9 +60,9 @@
         "type": "Identifier",
         "span": {
           "start": 147,
-          "end": 152,
-          "ctxt": 0
+          "end": 152
         },
+        "ctxt": 0,
         "value": "alias",
         "optional": false
       },
@@ -78,16 +71,16 @@
       "decorators": [],
       "span": {
         "start": 138,
-        "end": 158,
-        "ctxt": 0
+        "end": 158
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 155,
-          "end": 158,
-          "ctxt": 0
+          "end": 158
         },
+        "ctxt": 0,
         "stmts": []
       },
       "generator": false,
@@ -99,31 +92,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 159,
-        "end": 181,
-        "ctxt": 0
+        "end": 181
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
           "start": 159,
-          "end": 181,
-          "ctxt": 0
+          "end": 181
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
             "start": 159,
-            "end": 173,
-            "ctxt": 0
+            "end": 173
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 159,
-              "end": 165,
-              "ctxt": 0
+              "end": 165
             },
+            "ctxt": 0,
             "value": "module",
             "optional": false
           },
@@ -131,20 +121,18 @@
             "type": "Identifier",
             "span": {
               "start": 166,
-              "end": 173,
-              "ctxt": 0
+              "end": 173
             },
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {
           "type": "Identifier",
           "span": {
             "start": 176,
-            "end": 181,
-            "ctxt": 0
+            "end": 181
           },
+          "ctxt": 0,
           "value": "alias",
           "optional": false
         }
@@ -154,22 +142,20 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 209,
-        "end": 229,
-        "ctxt": 0
+        "end": 229
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 209,
-          "end": 229,
-          "ctxt": 0
+          "end": 229
         },
+        "ctxt": 0,
         "callee": {
           "type": "Import",
           "span": {
             "start": 209,
-            "end": 215,
-            "ctxt": 0
+            "end": 215
           },
           "phase": "evaluation"
         },
@@ -180,8 +166,7 @@
               "type": "StringLiteral",
               "span": {
                 "start": 216,
-                "end": 228,
-                "ctxt": 0
+                "end": 228
               },
               "value": "./bug28014",
               "raw": "'./bug28014'"

@@ -2,8 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 201,
-    "ctxt": 0
+    "end": 201
   },
   "mode": "no-quirks",
   "children": [
@@ -11,8 +10,7 @@
       "type": "DocumentType",
       "span": {
         "start": 1,
-        "end": 16,
-        "ctxt": 0
+        "end": 16
       },
       "name": "html",
       "publicId": null,
@@ -23,8 +21,7 @@
       "type": "Element",
       "span": {
         "start": 17,
-        "end": 201,
-        "ctxt": 0
+        "end": 201
       },
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -34,8 +31,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -48,8 +44,7 @@
           "type": "Element",
           "span": {
             "start": 24,
-            "end": 201,
-            "ctxt": 0
+            "end": 201
           },
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -59,8 +54,7 @@
               "type": "Text",
               "span": {
                 "start": 30,
-                "end": 32,
-                "ctxt": 0
+                "end": 32
               },
               "data": "\n\n",
               "raw": "\n\n"
@@ -69,8 +63,7 @@
               "type": "Element",
               "span": {
                 "start": 32,
-                "end": 81,
-                "ctxt": 0
+                "end": 81
               },
               "tagName": "h2",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -79,8 +72,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 36,
-                    "end": 56,
-                    "ctxt": 0
+                    "end": 56
                   },
                   "namespace": null,
                   "prefix": null,
@@ -95,8 +87,7 @@
                   "type": "Text",
                   "span": {
                     "start": 57,
-                    "end": 76,
-                    "ctxt": 0
+                    "end": 76
                   },
                   "data": "The title Attribute",
                   "raw": "The title Attribute"
@@ -109,8 +100,7 @@
               "type": "Text",
               "span": {
                 "start": 81,
-                "end": 83,
-                "ctxt": 0
+                "end": 83
               },
               "data": "\n\n",
               "raw": "\n\n"
@@ -119,8 +109,7 @@
               "type": "Element",
               "span": {
                 "start": 83,
-                "end": 183,
-                "ctxt": 0
+                "end": 183
               },
               "tagName": "p",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -129,8 +118,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 86,
-                    "end": 107,
-                    "ctxt": 0
+                    "end": 107
                   },
                   "namespace": null,
                   "prefix": null,
@@ -145,8 +133,7 @@
                   "type": "Text",
                   "span": {
                     "start": 108,
-                    "end": 179,
-                    "ctxt": 0
+                    "end": 179
                   },
                   "data": "Mouse over this paragraph, to display the title attribute as a tooltip.",
                   "raw": "Mouse over this paragraph, to display the title attribute as a tooltip."
@@ -159,8 +146,7 @@
               "type": "Text",
               "span": {
                 "start": 183,
-                "end": 201,
-                "ctxt": 0
+                "end": 201
               },
               "data": "\n\n\n\n",
               "raw": "\n\n\n\n"

@@ -2,39 +2,35 @@
   "type": "Script",
   "span": {
     "start": 102,
-    "end": 121,
-    "ctxt": 0
+    "end": 121
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 102,
-        "end": 121,
-        "ctxt": 0
+        "end": 121
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
           "start": 102,
-          "end": 120,
-          "ctxt": 0
+          "end": 120
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
             "start": 102,
-            "end": 116,
-            "ctxt": 0
+            "end": 116
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 102,
-              "end": 108,
-              "ctxt": 0
+              "end": 108
             },
+            "ctxt": 0,
             "value": "module",
             "optional": false
           },
@@ -42,19 +38,16 @@
             "type": "Identifier",
             "span": {
               "start": 109,
-              "end": 116,
-              "ctxt": 0
+              "end": 116
             },
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {
           "type": "NumericLiteral",
           "span": {
             "start": 119,
-            "end": 120,
-            "ctxt": 0
+            "end": 120
           },
           "value": 0.0,
           "raw": "0"

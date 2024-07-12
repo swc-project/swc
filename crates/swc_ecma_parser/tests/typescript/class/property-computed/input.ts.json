@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 75,
-    "ctxt": 0
+    "end": 75
   },
   "body": [
     {
@@ -12,48 +11,45 @@
         "type": "Identifier",
         "span": {
           "start": 7,
-          "end": 8,
-          "ctxt": 0
+          "end": 8
         },
+        "ctxt": 0,
         "value": "C",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 1,
-        "end": 75,
-        "ctxt": 0
+        "end": 75
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassProperty",
           "span": {
             "start": 15,
-            "end": 41,
-            "ctxt": 0
+            "end": 41
           },
           "key": {
             "type": "Computed",
             "span": {
               "start": 15,
-              "end": 32,
-              "ctxt": 0
+              "end": 32
             },
             "expression": {
               "type": "MemberExpression",
               "span": {
                 "start": 16,
-                "end": 31,
-                "ctxt": 0
+                "end": 31
               },
               "object": {
                 "type": "Identifier",
                 "span": {
                   "start": 16,
-                  "end": 22,
-                  "ctxt": 0
+                  "end": 22
                 },
+                "ctxt": 0,
                 "value": "Symbol",
                 "optional": false
               },
@@ -61,11 +57,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 23,
-                  "end": 31,
-                  "ctxt": 0
+                  "end": 31
                 },
-                "value": "iterator",
-                "optional": false
+                "value": "iterator"
               }
             }
           },
@@ -74,15 +68,13 @@
             "type": "TsTypeAnnotation",
             "span": {
               "start": 32,
-              "end": 40,
-              "ctxt": 0
+              "end": 40
             },
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
                 "start": 34,
-                "end": 40,
-                "ctxt": 0
+                "end": 40
               },
               "kind": "number"
             }
@@ -101,30 +93,27 @@
           "type": "ClassProperty",
           "span": {
             "start": 46,
-            "end": 73,
-            "ctxt": 0
+            "end": 73
           },
           "key": {
             "type": "Computed",
             "span": {
               "start": 46,
-              "end": 63,
-              "ctxt": 0
+              "end": 63
             },
             "expression": {
               "type": "MemberExpression",
               "span": {
                 "start": 47,
-                "end": 62,
-                "ctxt": 0
+                "end": 62
               },
               "object": {
                 "type": "Identifier",
                 "span": {
                   "start": 47,
-                  "end": 53,
-                  "ctxt": 0
+                  "end": 53
                 },
+                "ctxt": 0,
                 "value": "Symbol",
                 "optional": false
               },
@@ -132,11 +121,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 54,
-                  "end": 62,
-                  "ctxt": 0
+                  "end": 62
                 },
-                "value": "iterator",
-                "optional": false
+                "value": "iterator"
               }
             }
           },
@@ -145,15 +132,13 @@
             "type": "TsTypeAnnotation",
             "span": {
               "start": 64,
-              "end": 72,
-              "ctxt": 0
+              "end": 72
             },
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
                 "start": 66,
-                "end": 72,
-                "ctxt": 0
+                "end": 72
               },
               "kind": "number"
             }

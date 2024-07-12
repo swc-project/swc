@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 287,
-    "end": 1969,
-    "ctxt": 0
+    "end": 1969
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 287,
-        "end": 302,
-        "ctxt": 0
+        "end": 302
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 291,
-            "end": 301,
-            "ctxt": 0
+            "end": 301
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 291,
-              "end": 297,
-              "ctxt": 0
+              "end": 297
             },
+            "ctxt": 0,
             "value": "А",
             "optional": false,
             "typeAnnotation": null
@@ -38,8 +36,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 300,
-              "end": 301,
-              "ctxt": 0
+              "end": 301
             },
             "value": 1.0,
             "raw": "1"
@@ -52,24 +49,22 @@
       "type": "IfStatement",
       "span": {
         "start": 303,
-        "end": 337,
-        "ctxt": 0
+        "end": 337
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
           "start": 307,
-          "end": 315,
-          "ctxt": 0
+          "end": 315
         },
         "operator": "!==",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 307,
-            "end": 309,
-            "ctxt": 0
+            "end": 309
           },
+          "ctxt": 0,
           "value": "А",
           "optional": false
         },
@@ -77,8 +72,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 314,
-            "end": 315,
-            "ctxt": 0
+            "end": 315
           },
           "value": 1.0,
           "raw": "1"
@@ -88,31 +82,30 @@
         "type": "BlockStatement",
         "span": {
           "start": 317,
-          "end": 337,
-          "ctxt": 0
+          "end": 337
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 321,
-              "end": 335,
-              "ctxt": 0
+              "end": 335
             },
             "expression": {
               "type": "CallExpression",
               "span": {
                 "start": 321,
-                "end": 334,
-                "ctxt": 0
+                "end": 334
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Identifier",
                 "span": {
                   "start": 321,
-                  "end": 327,
-                  "ctxt": 0
+                  "end": 327
                 },
+                "ctxt": 0,
                 "value": "$ERROR",
                 "optional": false
               },
@@ -123,8 +116,7 @@
                     "type": "StringLiteral",
                     "span": {
                       "start": 328,
-                      "end": 333,
-                      "ctxt": 0
+                      "end": 333
                     },
                     "value": "#А",
                     "raw": "'#А'"
@@ -142,9 +134,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 338,
-        "end": 353,
-        "ctxt": 0
+        "end": 353
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -152,16 +144,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 342,
-            "end": 352,
-            "ctxt": 0
+            "end": 352
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 342,
-              "end": 348,
-              "ctxt": 0
+              "end": 348
             },
+            "ctxt": 0,
             "value": "Б",
             "optional": false,
             "typeAnnotation": null
@@ -170,8 +161,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 351,
-              "end": 352,
-              "ctxt": 0
+              "end": 352
             },
             "value": 1.0,
             "raw": "1"
@@ -184,24 +174,22 @@
       "type": "IfStatement",
       "span": {
         "start": 354,
-        "end": 388,
-        "ctxt": 0
+        "end": 388
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
           "start": 358,
-          "end": 366,
-          "ctxt": 0
+          "end": 366
         },
         "operator": "!==",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 358,
-            "end": 360,
-            "ctxt": 0
+            "end": 360
           },
+          "ctxt": 0,
           "value": "Б",
           "optional": false
         },
@@ -209,8 +197,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 365,
-            "end": 366,
-            "ctxt": 0
+            "end": 366
           },
           "value": 1.0,
           "raw": "1"
@@ -220,31 +207,30 @@
         "type": "BlockStatement",
         "span": {
           "start": 368,
-          "end": 388,
-          "ctxt": 0
+          "end": 388
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 372,
-              "end": 386,
-              "ctxt": 0
+              "end": 386
             },
             "expression": {
               "type": "CallExpression",
               "span": {
                 "start": 372,
-                "end": 385,
-                "ctxt": 0
+                "end": 385
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Identifier",
                 "span": {
                   "start": 372,
-                  "end": 378,
-                  "ctxt": 0
+                  "end": 378
                 },
+                "ctxt": 0,
                 "value": "$ERROR",
                 "optional": false
               },
@@ -255,8 +241,7 @@
                     "type": "StringLiteral",
                     "span": {
                       "start": 379,
-                      "end": 384,
-                      "ctxt": 0
+                      "end": 384
                     },
                     "value": "#Б",
                     "raw": "'#Б'"
@@ -274,9 +259,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 389,
-        "end": 404,
-        "ctxt": 0
+        "end": 404
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -284,16 +269,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 393,
-            "end": 403,
-            "ctxt": 0
+            "end": 403
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 393,
-              "end": 399,
-              "ctxt": 0
+              "end": 399
             },
+            "ctxt": 0,
             "value": "В",
             "optional": false,
             "typeAnnotation": null
@@ -302,8 +286,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 402,
-              "end": 403,
-              "ctxt": 0
+              "end": 403
             },
             "value": 1.0,
             "raw": "1"
@@ -316,24 +299,22 @@
       "type": "IfStatement",
       "span": {
         "start": 405,
-        "end": 439,
-        "ctxt": 0
+        "end": 439
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
           "start": 409,
-          "end": 417,
-          "ctxt": 0
+          "end": 417
         },
         "operator": "!==",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 409,
-            "end": 411,
-            "ctxt": 0
+            "end": 411
           },
+          "ctxt": 0,
           "value": "В",
           "optional": false
         },
@@ -341,8 +322,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 416,
-            "end": 417,
-            "ctxt": 0
+            "end": 417
           },
           "value": 1.0,
           "raw": "1"
@@ -352,31 +332,30 @@
         "type": "BlockStatement",
         "span": {
           "start": 419,
-          "end": 439,
-          "ctxt": 0
+          "end": 439
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 423,
-              "end": 437,
-              "ctxt": 0
+              "end": 437
             },
             "expression": {
               "type": "CallExpression",
               "span": {
                 "start": 423,
-                "end": 436,
-                "ctxt": 0
+                "end": 436
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Identifier",
                 "span": {
                   "start": 423,
-                  "end": 429,
-                  "ctxt": 0
+                  "end": 429
                 },
+                "ctxt": 0,
                 "value": "$ERROR",
                 "optional": false
               },
@@ -387,8 +366,7 @@
                     "type": "StringLiteral",
                     "span": {
                       "start": 430,
-                      "end": 435,
-                      "ctxt": 0
+                      "end": 435
                     },
                     "value": "#В",
                     "raw": "'#В'"
@@ -406,9 +384,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 440,
-        "end": 455,
-        "ctxt": 0
+        "end": 455
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -416,16 +394,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 444,
-            "end": 454,
-            "ctxt": 0
+            "end": 454
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 444,
-              "end": 450,
-              "ctxt": 0
+              "end": 450
             },
+            "ctxt": 0,
             "value": "Г",
             "optional": false,
             "typeAnnotation": null
@@ -434,8 +411,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 453,
-              "end": 454,
-              "ctxt": 0
+              "end": 454
             },
             "value": 1.0,
             "raw": "1"
@@ -448,24 +424,22 @@
       "type": "IfStatement",
       "span": {
         "start": 456,
-        "end": 490,
-        "ctxt": 0
+        "end": 490
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
           "start": 460,
-          "end": 468,
-          "ctxt": 0
+          "end": 468
         },
         "operator": "!==",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 460,
-            "end": 462,
-            "ctxt": 0
+            "end": 462
           },
+          "ctxt": 0,
           "value": "Г",
           "optional": false
         },
@@ -473,8 +447,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 467,
-            "end": 468,
-            "ctxt": 0
+            "end": 468
           },
           "value": 1.0,
           "raw": "1"
@@ -484,31 +457,30 @@
         "type": "BlockStatement",
         "span": {
           "start": 470,
-          "end": 490,
-          "ctxt": 0
+          "end": 490
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 474,
-              "end": 488,
-              "ctxt": 0
+              "end": 488
             },
             "expression": {
               "type": "CallExpression",
               "span": {
                 "start": 474,
-                "end": 487,
-                "ctxt": 0
+                "end": 487
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Identifier",
                 "span": {
                   "start": 474,
-                  "end": 480,
-                  "ctxt": 0
+                  "end": 480
                 },
+                "ctxt": 0,
                 "value": "$ERROR",
                 "optional": false
               },
@@ -519,8 +491,7 @@
                     "type": "StringLiteral",
                     "span": {
                       "start": 481,
-                      "end": 486,
-                      "ctxt": 0
+                      "end": 486
                     },
                     "value": "#Г",
                     "raw": "'#Г'"
@@ -538,9 +509,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 491,
-        "end": 506,
-        "ctxt": 0
+        "end": 506
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -548,16 +519,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 495,
-            "end": 505,
-            "ctxt": 0
+            "end": 505
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 495,
-              "end": 501,
-              "ctxt": 0
+              "end": 501
             },
+            "ctxt": 0,
             "value": "Д",
             "optional": false,
             "typeAnnotation": null
@@ -566,8 +536,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 504,
-              "end": 505,
-              "ctxt": 0
+              "end": 505
             },
             "value": 1.0,
             "raw": "1"
@@ -580,24 +549,22 @@
       "type": "IfStatement",
       "span": {
         "start": 507,
-        "end": 541,
-        "ctxt": 0
+        "end": 541
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
           "start": 511,
-          "end": 519,
-          "ctxt": 0
+          "end": 519
         },
         "operator": "!==",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 511,
-            "end": 513,
-            "ctxt": 0
+            "end": 513
           },
+          "ctxt": 0,
           "value": "Д",
           "optional": false
         },
@@ -605,8 +572,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 518,
-            "end": 519,
-            "ctxt": 0
+            "end": 519
           },
           "value": 1.0,
           "raw": "1"
@@ -616,31 +582,30 @@
         "type": "BlockStatement",
         "span": {
           "start": 521,
-          "end": 541,
-          "ctxt": 0
+          "end": 541
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 525,
-              "end": 539,
-              "ctxt": 0
+              "end": 539
             },
             "expression": {
               "type": "CallExpression",
               "span": {
                 "start": 525,
-                "end": 538,
-                "ctxt": 0
+                "end": 538
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Identifier",
                 "span": {
                   "start": 525,
-                  "end": 531,
-                  "ctxt": 0
+                  "end": 531
                 },
+                "ctxt": 0,
                 "value": "$ERROR",
                 "optional": false
               },
@@ -651,8 +616,7 @@
                     "type": "StringLiteral",
                     "span": {
                       "start": 532,
-                      "end": 537,
-                      "ctxt": 0
+                      "end": 537
                     },
                     "value": "#Д",
                     "raw": "'#Д'"
@@ -670,9 +634,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 542,
-        "end": 557,
-        "ctxt": 0
+        "end": 557
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -680,16 +644,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 546,
-            "end": 556,
-            "ctxt": 0
+            "end": 556
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 546,
-              "end": 552,
-              "ctxt": 0
+              "end": 552
             },
+            "ctxt": 0,
             "value": "Е",
             "optional": false,
             "typeAnnotation": null
@@ -698,8 +661,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 555,
-              "end": 556,
-              "ctxt": 0
+              "end": 556
             },
             "value": 1.0,
             "raw": "1"
@@ -712,24 +674,22 @@
       "type": "IfStatement",
       "span": {
         "start": 558,
-        "end": 592,
-        "ctxt": 0
+        "end": 592
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
           "start": 562,
-          "end": 570,
-          "ctxt": 0
+          "end": 570
         },
         "operator": "!==",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 562,
-            "end": 564,
-            "ctxt": 0
+            "end": 564
           },
+          "ctxt": 0,
           "value": "Е",
           "optional": false
         },
@@ -737,8 +697,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 569,
-            "end": 570,
-            "ctxt": 0
+            "end": 570
           },
           "value": 1.0,
           "raw": "1"
@@ -748,31 +707,30 @@
         "type": "BlockStatement",
         "span": {
           "start": 572,
-          "end": 592,
-          "ctxt": 0
+          "end": 592
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 576,
-              "end": 590,
-              "ctxt": 0
+              "end": 590
             },
             "expression": {
               "type": "CallExpression",
               "span": {
                 "start": 576,
-                "end": 589,
-                "ctxt": 0
+                "end": 589
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Identifier",
                 "span": {
                   "start": 576,
-                  "end": 582,
-                  "ctxt": 0
+                  "end": 582
                 },
+                "ctxt": 0,
                 "value": "$ERROR",
                 "optional": false
               },
@@ -783,8 +741,7 @@
                     "type": "StringLiteral",
                     "span": {
                       "start": 583,
-                      "end": 588,
-                      "ctxt": 0
+                      "end": 588
                     },
                     "value": "#Е",
                     "raw": "'#Е'"
@@ -802,9 +759,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 593,
-        "end": 608,
-        "ctxt": 0
+        "end": 608
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -812,16 +769,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 597,
-            "end": 607,
-            "ctxt": 0
+            "end": 607
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 597,
-              "end": 603,
-              "ctxt": 0
+              "end": 603
             },
+            "ctxt": 0,
             "value": "Ж",
             "optional": false,
             "typeAnnotation": null
@@ -830,8 +786,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 606,
-              "end": 607,
-              "ctxt": 0
+              "end": 607
             },
             "value": 1.0,
             "raw": "1"
@@ -844,24 +799,22 @@
       "type": "IfStatement",
       "span": {
         "start": 609,
-        "end": 643,
-        "ctxt": 0
+        "end": 643
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
           "start": 613,
-          "end": 621,
-          "ctxt": 0
+          "end": 621
         },
         "operator": "!==",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 613,
-            "end": 615,
-            "ctxt": 0
+            "end": 615
           },
+          "ctxt": 0,
           "value": "Ж",
           "optional": false
         },
@@ -869,8 +822,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 620,
-            "end": 621,
-            "ctxt": 0
+            "end": 621
           },
           "value": 1.0,
           "raw": "1"
@@ -880,31 +832,30 @@
         "type": "BlockStatement",
         "span": {
           "start": 623,
-          "end": 643,
-          "ctxt": 0
+          "end": 643
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 627,
-              "end": 641,
-              "ctxt": 0
+              "end": 641
             },
             "expression": {
               "type": "CallExpression",
               "span": {
                 "start": 627,
-                "end": 640,
-                "ctxt": 0
+                "end": 640
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Identifier",
                 "span": {
                   "start": 627,
-                  "end": 633,
-                  "ctxt": 0
+                  "end": 633
                 },
+                "ctxt": 0,
                 "value": "$ERROR",
                 "optional": false
               },
@@ -915,8 +866,7 @@
                     "type": "StringLiteral",
                     "span": {
                       "start": 634,
-                      "end": 639,
-                      "ctxt": 0
+                      "end": 639
                     },
                     "value": "#Ж",
                     "raw": "'#Ж'"
@@ -934,9 +884,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 644,
-        "end": 659,
-        "ctxt": 0
+        "end": 659
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -944,16 +894,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 648,
-            "end": 658,
-            "ctxt": 0
+            "end": 658
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 648,
-              "end": 654,
-              "ctxt": 0
+              "end": 654
             },
+            "ctxt": 0,
             "value": "З",
             "optional": false,
             "typeAnnotation": null
@@ -962,8 +911,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 657,
-              "end": 658,
-              "ctxt": 0
+              "end": 658
             },
             "value": 1.0,
             "raw": "1"
@@ -976,24 +924,22 @@
       "type": "IfStatement",
       "span": {
         "start": 660,
-        "end": 694,
-        "ctxt": 0
+        "end": 694
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
           "start": 664,
-          "end": 672,
-          "ctxt": 0
+          "end": 672
         },
         "operator": "!==",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 664,
-            "end": 666,
-            "ctxt": 0
+            "end": 666
           },
+          "ctxt": 0,
           "value": "З",
           "optional": false
         },
@@ -1001,8 +947,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 671,
-            "end": 672,
-            "ctxt": 0
+            "end": 672
           },
           "value": 1.0,
           "raw": "1"
@@ -1012,31 +957,30 @@
         "type": "BlockStatement",
         "span": {
           "start": 674,
-          "end": 694,
-          "ctxt": 0
+          "end": 694
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 678,
-              "end": 692,
-              "ctxt": 0
+              "end": 692
             },
             "expression": {
               "type": "CallExpression",
               "span": {
                 "start": 678,
-                "end": 691,
-                "ctxt": 0
+                "end": 691
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Identifier",
                 "span": {
                   "start": 678,
-                  "end": 684,
-                  "ctxt": 0
+                  "end": 684
                 },
+                "ctxt": 0,
                 "value": "$ERROR",
                 "optional": false
               },
@@ -1047,8 +991,7 @@
                     "type": "StringLiteral",
                     "span": {
                       "start": 685,
-                      "end": 690,
-                      "ctxt": 0
+                      "end": 690
                     },
                     "value": "#З",
                     "raw": "'#З'"
@@ -1066,9 +1009,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 695,
-        "end": 710,
-        "ctxt": 0
+        "end": 710
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -1076,16 +1019,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 699,
-            "end": 709,
-            "ctxt": 0
+            "end": 709
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 699,
-              "end": 705,
-              "ctxt": 0
+              "end": 705
             },
+            "ctxt": 0,
             "value": "И",
             "optional": false,
             "typeAnnotation": null
@@ -1094,8 +1036,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 708,
-              "end": 709,
-              "ctxt": 0
+              "end": 709
             },
             "value": 1.0,
             "raw": "1"
@@ -1108,24 +1049,22 @@
       "type": "IfStatement",
       "span": {
         "start": 711,
-        "end": 745,
-        "ctxt": 0
+        "end": 745
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
           "start": 715,
-          "end": 723,
-          "ctxt": 0
+          "end": 723
         },
         "operator": "!==",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 715,
-            "end": 717,
-            "ctxt": 0
+            "end": 717
           },
+          "ctxt": 0,
           "value": "И",
           "optional": false
         },
@@ -1133,8 +1072,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 722,
-            "end": 723,
-            "ctxt": 0
+            "end": 723
           },
           "value": 1.0,
           "raw": "1"
@@ -1144,31 +1082,30 @@
         "type": "BlockStatement",
         "span": {
           "start": 725,
-          "end": 745,
-          "ctxt": 0
+          "end": 745
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 729,
-              "end": 743,
-              "ctxt": 0
+              "end": 743
             },
             "expression": {
               "type": "CallExpression",
               "span": {
                 "start": 729,
-                "end": 742,
-                "ctxt": 0
+                "end": 742
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Identifier",
                 "span": {
                   "start": 729,
-                  "end": 735,
-                  "ctxt": 0
+                  "end": 735
                 },
+                "ctxt": 0,
                 "value": "$ERROR",
                 "optional": false
               },
@@ -1179,8 +1116,7 @@
                     "type": "StringLiteral",
                     "span": {
                       "start": 736,
-                      "end": 741,
-                      "ctxt": 0
+                      "end": 741
                     },
                     "value": "#И",
                     "raw": "'#И'"
@@ -1198,9 +1134,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 746,
-        "end": 761,
-        "ctxt": 0
+        "end": 761
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -1208,16 +1144,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 750,
-            "end": 760,
-            "ctxt": 0
+            "end": 760
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 750,
-              "end": 756,
-              "ctxt": 0
+              "end": 756
             },
+            "ctxt": 0,
             "value": "Й",
             "optional": false,
             "typeAnnotation": null
@@ -1226,8 +1161,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 759,
-              "end": 760,
-              "ctxt": 0
+              "end": 760
             },
             "value": 1.0,
             "raw": "1"
@@ -1240,24 +1174,22 @@
       "type": "IfStatement",
       "span": {
         "start": 762,
-        "end": 796,
-        "ctxt": 0
+        "end": 796
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
           "start": 766,
-          "end": 774,
-          "ctxt": 0
+          "end": 774
         },
         "operator": "!==",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 766,
-            "end": 768,
-            "ctxt": 0
+            "end": 768
           },
+          "ctxt": 0,
           "value": "Й",
           "optional": false
         },
@@ -1265,8 +1197,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 773,
-            "end": 774,
-            "ctxt": 0
+            "end": 774
           },
           "value": 1.0,
           "raw": "1"
@@ -1276,31 +1207,30 @@
         "type": "BlockStatement",
         "span": {
           "start": 776,
-          "end": 796,
-          "ctxt": 0
+          "end": 796
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 780,
-              "end": 794,
-              "ctxt": 0
+              "end": 794
             },
             "expression": {
               "type": "CallExpression",
               "span": {
                 "start": 780,
-                "end": 793,
-                "ctxt": 0
+                "end": 793
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Identifier",
                 "span": {
                   "start": 780,
-                  "end": 786,
-                  "ctxt": 0
+                  "end": 786
                 },
+                "ctxt": 0,
                 "value": "$ERROR",
                 "optional": false
               },
@@ -1311,8 +1241,7 @@
                     "type": "StringLiteral",
                     "span": {
                       "start": 787,
-                      "end": 792,
-                      "ctxt": 0
+                      "end": 792
                     },
                     "value": "#Й",
                     "raw": "'#Й'"
@@ -1330,9 +1259,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 797,
-        "end": 812,
-        "ctxt": 0
+        "end": 812
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -1340,16 +1269,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 801,
-            "end": 811,
-            "ctxt": 0
+            "end": 811
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 801,
-              "end": 807,
-              "ctxt": 0
+              "end": 807
             },
+            "ctxt": 0,
             "value": "К",
             "optional": false,
             "typeAnnotation": null
@@ -1358,8 +1286,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 810,
-              "end": 811,
-              "ctxt": 0
+              "end": 811
             },
             "value": 1.0,
             "raw": "1"
@@ -1372,24 +1299,22 @@
       "type": "IfStatement",
       "span": {
         "start": 813,
-        "end": 847,
-        "ctxt": 0
+        "end": 847
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
           "start": 817,
-          "end": 825,
-          "ctxt": 0
+          "end": 825
         },
         "operator": "!==",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 817,
-            "end": 819,
-            "ctxt": 0
+            "end": 819
           },
+          "ctxt": 0,
           "value": "К",
           "optional": false
         },
@@ -1397,8 +1322,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 824,
-            "end": 825,
-            "ctxt": 0
+            "end": 825
           },
           "value": 1.0,
           "raw": "1"
@@ -1408,31 +1332,30 @@
         "type": "BlockStatement",
         "span": {
           "start": 827,
-          "end": 847,
-          "ctxt": 0
+          "end": 847
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 831,
-              "end": 845,
-              "ctxt": 0
+              "end": 845
             },
             "expression": {
               "type": "CallExpression",
               "span": {
                 "start": 831,
-                "end": 844,
-                "ctxt": 0
+                "end": 844
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Identifier",
                 "span": {
                   "start": 831,
-                  "end": 837,
-                  "ctxt": 0
+                  "end": 837
                 },
+                "ctxt": 0,
                 "value": "$ERROR",
                 "optional": false
               },
@@ -1443,8 +1366,7 @@
                     "type": "StringLiteral",
                     "span": {
                       "start": 838,
-                      "end": 843,
-                      "ctxt": 0
+                      "end": 843
                     },
                     "value": "#К",
                     "raw": "'#К'"
@@ -1462,9 +1384,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 848,
-        "end": 863,
-        "ctxt": 0
+        "end": 863
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -1472,16 +1394,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 852,
-            "end": 862,
-            "ctxt": 0
+            "end": 862
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 852,
-              "end": 858,
-              "ctxt": 0
+              "end": 858
             },
+            "ctxt": 0,
             "value": "Л",
             "optional": false,
             "typeAnnotation": null
@@ -1490,8 +1411,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 861,
-              "end": 862,
-              "ctxt": 0
+              "end": 862
             },
             "value": 1.0,
             "raw": "1"
@@ -1504,24 +1424,22 @@
       "type": "IfStatement",
       "span": {
         "start": 864,
-        "end": 898,
-        "ctxt": 0
+        "end": 898
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
           "start": 868,
-          "end": 876,
-          "ctxt": 0
+          "end": 876
         },
         "operator": "!==",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 868,
-            "end": 870,
-            "ctxt": 0
+            "end": 870
           },
+          "ctxt": 0,
           "value": "Л",
           "optional": false
         },
@@ -1529,8 +1447,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 875,
-            "end": 876,
-            "ctxt": 0
+            "end": 876
           },
           "value": 1.0,
           "raw": "1"
@@ -1540,31 +1457,30 @@
         "type": "BlockStatement",
         "span": {
           "start": 878,
-          "end": 898,
-          "ctxt": 0
+          "end": 898
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 882,
-              "end": 896,
-              "ctxt": 0
+              "end": 896
             },
             "expression": {
               "type": "CallExpression",
               "span": {
                 "start": 882,
-                "end": 895,
-                "ctxt": 0
+                "end": 895
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Identifier",
                 "span": {
                   "start": 882,
-                  "end": 888,
-                  "ctxt": 0
+                  "end": 888
                 },
+                "ctxt": 0,
                 "value": "$ERROR",
                 "optional": false
               },
@@ -1575,8 +1491,7 @@
                     "type": "StringLiteral",
                     "span": {
                       "start": 889,
-                      "end": 894,
-                      "ctxt": 0
+                      "end": 894
                     },
                     "value": "#Л",
                     "raw": "'#Л'"
@@ -1594,9 +1509,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 899,
-        "end": 914,
-        "ctxt": 0
+        "end": 914
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -1604,16 +1519,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 903,
-            "end": 913,
-            "ctxt": 0
+            "end": 913
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 903,
-              "end": 909,
-              "ctxt": 0
+              "end": 909
             },
+            "ctxt": 0,
             "value": "М",
             "optional": false,
             "typeAnnotation": null
@@ -1622,8 +1536,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 912,
-              "end": 913,
-              "ctxt": 0
+              "end": 913
             },
             "value": 1.0,
             "raw": "1"
@@ -1636,24 +1549,22 @@
       "type": "IfStatement",
       "span": {
         "start": 915,
-        "end": 949,
-        "ctxt": 0
+        "end": 949
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
           "start": 919,
-          "end": 927,
-          "ctxt": 0
+          "end": 927
         },
         "operator": "!==",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 919,
-            "end": 921,
-            "ctxt": 0
+            "end": 921
           },
+          "ctxt": 0,
           "value": "М",
           "optional": false
         },
@@ -1661,8 +1572,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 926,
-            "end": 927,
-            "ctxt": 0
+            "end": 927
           },
           "value": 1.0,
           "raw": "1"
@@ -1672,31 +1582,30 @@
         "type": "BlockStatement",
         "span": {
           "start": 929,
-          "end": 949,
-          "ctxt": 0
+          "end": 949
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 933,
-              "end": 947,
-              "ctxt": 0
+              "end": 947
             },
             "expression": {
               "type": "CallExpression",
               "span": {
                 "start": 933,
-                "end": 946,
-                "ctxt": 0
+                "end": 946
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Identifier",
                 "span": {
                   "start": 933,
-                  "end": 939,
-                  "ctxt": 0
+                  "end": 939
                 },
+                "ctxt": 0,
                 "value": "$ERROR",
                 "optional": false
               },
@@ -1707,8 +1616,7 @@
                     "type": "StringLiteral",
                     "span": {
                       "start": 940,
-                      "end": 945,
-                      "ctxt": 0
+                      "end": 945
                     },
                     "value": "#М",
                     "raw": "'#М'"
@@ -1726,9 +1634,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 950,
-        "end": 965,
-        "ctxt": 0
+        "end": 965
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -1736,16 +1644,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 954,
-            "end": 964,
-            "ctxt": 0
+            "end": 964
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 954,
-              "end": 960,
-              "ctxt": 0
+              "end": 960
             },
+            "ctxt": 0,
             "value": "Н",
             "optional": false,
             "typeAnnotation": null
@@ -1754,8 +1661,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 963,
-              "end": 964,
-              "ctxt": 0
+              "end": 964
             },
             "value": 1.0,
             "raw": "1"
@@ -1768,24 +1674,22 @@
       "type": "IfStatement",
       "span": {
         "start": 966,
-        "end": 1000,
-        "ctxt": 0
+        "end": 1000
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
           "start": 970,
-          "end": 978,
-          "ctxt": 0
+          "end": 978
         },
         "operator": "!==",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 970,
-            "end": 972,
-            "ctxt": 0
+            "end": 972
           },
+          "ctxt": 0,
           "value": "Н",
           "optional": false
         },
@@ -1793,8 +1697,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 977,
-            "end": 978,
-            "ctxt": 0
+            "end": 978
           },
           "value": 1.0,
           "raw": "1"
@@ -1804,31 +1707,30 @@
         "type": "BlockStatement",
         "span": {
           "start": 980,
-          "end": 1000,
-          "ctxt": 0
+          "end": 1000
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 984,
-              "end": 998,
-              "ctxt": 0
+              "end": 998
             },
             "expression": {
               "type": "CallExpression",
               "span": {
                 "start": 984,
-                "end": 997,
-                "ctxt": 0
+                "end": 997
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Identifier",
                 "span": {
                   "start": 984,
-                  "end": 990,
-                  "ctxt": 0
+                  "end": 990
                 },
+                "ctxt": 0,
                 "value": "$ERROR",
                 "optional": false
               },
@@ -1839,8 +1741,7 @@
                     "type": "StringLiteral",
                     "span": {
                       "start": 991,
-                      "end": 996,
-                      "ctxt": 0
+                      "end": 996
                     },
                     "value": "#Н",
                     "raw": "'#Н'"
@@ -1858,9 +1759,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 1001,
-        "end": 1016,
-        "ctxt": 0
+        "end": 1016
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -1868,16 +1769,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 1005,
-            "end": 1015,
-            "ctxt": 0
+            "end": 1015
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 1005,
-              "end": 1011,
-              "ctxt": 0
+              "end": 1011
             },
+            "ctxt": 0,
             "value": "О",
             "optional": false,
             "typeAnnotation": null
@@ -1886,8 +1786,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 1014,
-              "end": 1015,
-              "ctxt": 0
+              "end": 1015
             },
             "value": 1.0,
             "raw": "1"
@@ -1900,24 +1799,22 @@
       "type": "IfStatement",
       "span": {
         "start": 1017,
-        "end": 1051,
-        "ctxt": 0
+        "end": 1051
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
           "start": 1021,
-          "end": 1029,
-          "ctxt": 0
+          "end": 1029
         },
         "operator": "!==",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 1021,
-            "end": 1023,
-            "ctxt": 0
+            "end": 1023
           },
+          "ctxt": 0,
           "value": "О",
           "optional": false
         },
@@ -1925,8 +1822,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 1028,
-            "end": 1029,
-            "ctxt": 0
+            "end": 1029
           },
           "value": 1.0,
           "raw": "1"
@@ -1936,31 +1832,30 @@
         "type": "BlockStatement",
         "span": {
           "start": 1031,
-          "end": 1051,
-          "ctxt": 0
+          "end": 1051
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 1035,
-              "end": 1049,
-              "ctxt": 0
+              "end": 1049
             },
             "expression": {
               "type": "CallExpression",
               "span": {
                 "start": 1035,
-                "end": 1048,
-                "ctxt": 0
+                "end": 1048
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Identifier",
                 "span": {
                   "start": 1035,
-                  "end": 1041,
-                  "ctxt": 0
+                  "end": 1041
                 },
+                "ctxt": 0,
                 "value": "$ERROR",
                 "optional": false
               },
@@ -1971,8 +1866,7 @@
                     "type": "StringLiteral",
                     "span": {
                       "start": 1042,
-                      "end": 1047,
-                      "ctxt": 0
+                      "end": 1047
                     },
                     "value": "#О",
                     "raw": "'#О'"
@@ -1990,9 +1884,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 1052,
-        "end": 1067,
-        "ctxt": 0
+        "end": 1067
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -2000,16 +1894,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 1056,
-            "end": 1066,
-            "ctxt": 0
+            "end": 1066
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 1056,
-              "end": 1062,
-              "ctxt": 0
+              "end": 1062
             },
+            "ctxt": 0,
             "value": "П",
             "optional": false,
             "typeAnnotation": null
@@ -2018,8 +1911,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 1065,
-              "end": 1066,
-              "ctxt": 0
+              "end": 1066
             },
             "value": 1.0,
             "raw": "1"
@@ -2032,24 +1924,22 @@
       "type": "IfStatement",
       "span": {
         "start": 1068,
-        "end": 1102,
-        "ctxt": 0
+        "end": 1102
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
           "start": 1072,
-          "end": 1080,
-          "ctxt": 0
+          "end": 1080
         },
         "operator": "!==",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 1072,
-            "end": 1074,
-            "ctxt": 0
+            "end": 1074
           },
+          "ctxt": 0,
           "value": "П",
           "optional": false
         },
@@ -2057,8 +1947,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 1079,
-            "end": 1080,
-            "ctxt": 0
+            "end": 1080
           },
           "value": 1.0,
           "raw": "1"
@@ -2068,31 +1957,30 @@
         "type": "BlockStatement",
         "span": {
           "start": 1082,
-          "end": 1102,
-          "ctxt": 0
+          "end": 1102
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 1086,
-              "end": 1100,
-              "ctxt": 0
+              "end": 1100
             },
             "expression": {
               "type": "CallExpression",
               "span": {
                 "start": 1086,
-                "end": 1099,
-                "ctxt": 0
+                "end": 1099
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Identifier",
                 "span": {
                   "start": 1086,
-                  "end": 1092,
-                  "ctxt": 0
+                  "end": 1092
                 },
+                "ctxt": 0,
                 "value": "$ERROR",
                 "optional": false
               },
@@ -2103,8 +1991,7 @@
                     "type": "StringLiteral",
                     "span": {
                       "start": 1093,
-                      "end": 1098,
-                      "ctxt": 0
+                      "end": 1098
                     },
                     "value": "#П",
                     "raw": "'#П'"
@@ -2122,9 +2009,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 1103,
-        "end": 1118,
-        "ctxt": 0
+        "end": 1118
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -2132,16 +2019,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 1107,
-            "end": 1117,
-            "ctxt": 0
+            "end": 1117
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 1107,
-              "end": 1113,
-              "ctxt": 0
+              "end": 1113
             },
+            "ctxt": 0,
             "value": "Р",
             "optional": false,
             "typeAnnotation": null
@@ -2150,8 +2036,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 1116,
-              "end": 1117,
-              "ctxt": 0
+              "end": 1117
             },
             "value": 1.0,
             "raw": "1"
@@ -2164,24 +2049,22 @@
       "type": "IfStatement",
       "span": {
         "start": 1119,
-        "end": 1153,
-        "ctxt": 0
+        "end": 1153
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
           "start": 1123,
-          "end": 1131,
-          "ctxt": 0
+          "end": 1131
         },
         "operator": "!==",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 1123,
-            "end": 1125,
-            "ctxt": 0
+            "end": 1125
           },
+          "ctxt": 0,
           "value": "Р",
           "optional": false
         },
@@ -2189,8 +2072,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 1130,
-            "end": 1131,
-            "ctxt": 0
+            "end": 1131
           },
           "value": 1.0,
           "raw": "1"
@@ -2200,31 +2082,30 @@
         "type": "BlockStatement",
         "span": {
           "start": 1133,
-          "end": 1153,
-          "ctxt": 0
+          "end": 1153
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 1137,
-              "end": 1151,
-              "ctxt": 0
+              "end": 1151
             },
             "expression": {
               "type": "CallExpression",
               "span": {
                 "start": 1137,
-                "end": 1150,
-                "ctxt": 0
+                "end": 1150
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Identifier",
                 "span": {
                   "start": 1137,
-                  "end": 1143,
-                  "ctxt": 0
+                  "end": 1143
                 },
+                "ctxt": 0,
                 "value": "$ERROR",
                 "optional": false
               },
@@ -2235,8 +2116,7 @@
                     "type": "StringLiteral",
                     "span": {
                       "start": 1144,
-                      "end": 1149,
-                      "ctxt": 0
+                      "end": 1149
                     },
                     "value": "#Р",
                     "raw": "'#Р'"
@@ -2254,9 +2134,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 1154,
-        "end": 1169,
-        "ctxt": 0
+        "end": 1169
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -2264,16 +2144,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 1158,
-            "end": 1168,
-            "ctxt": 0
+            "end": 1168
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 1158,
-              "end": 1164,
-              "ctxt": 0
+              "end": 1164
             },
+            "ctxt": 0,
             "value": "С",
             "optional": false,
             "typeAnnotation": null
@@ -2282,8 +2161,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 1167,
-              "end": 1168,
-              "ctxt": 0
+              "end": 1168
             },
             "value": 1.0,
             "raw": "1"
@@ -2296,24 +2174,22 @@
       "type": "IfStatement",
       "span": {
         "start": 1170,
-        "end": 1204,
-        "ctxt": 0
+        "end": 1204
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
           "start": 1174,
-          "end": 1182,
-          "ctxt": 0
+          "end": 1182
         },
         "operator": "!==",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 1174,
-            "end": 1176,
-            "ctxt": 0
+            "end": 1176
           },
+          "ctxt": 0,
           "value": "С",
           "optional": false
         },
@@ -2321,8 +2197,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 1181,
-            "end": 1182,
-            "ctxt": 0
+            "end": 1182
           },
           "value": 1.0,
           "raw": "1"
@@ -2332,31 +2207,30 @@
         "type": "BlockStatement",
         "span": {
           "start": 1184,
-          "end": 1204,
-          "ctxt": 0
+          "end": 1204
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 1188,
-              "end": 1202,
-              "ctxt": 0
+              "end": 1202
             },
             "expression": {
               "type": "CallExpression",
               "span": {
                 "start": 1188,
-                "end": 1201,
-                "ctxt": 0
+                "end": 1201
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Identifier",
                 "span": {
                   "start": 1188,
-                  "end": 1194,
-                  "ctxt": 0
+                  "end": 1194
                 },
+                "ctxt": 0,
                 "value": "$ERROR",
                 "optional": false
               },
@@ -2367,8 +2241,7 @@
                     "type": "StringLiteral",
                     "span": {
                       "start": 1195,
-                      "end": 1200,
-                      "ctxt": 0
+                      "end": 1200
                     },
                     "value": "#С",
                     "raw": "'#С'"
@@ -2386,9 +2259,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 1205,
-        "end": 1220,
-        "ctxt": 0
+        "end": 1220
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -2396,16 +2269,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 1209,
-            "end": 1219,
-            "ctxt": 0
+            "end": 1219
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 1209,
-              "end": 1215,
-              "ctxt": 0
+              "end": 1215
             },
+            "ctxt": 0,
             "value": "Т",
             "optional": false,
             "typeAnnotation": null
@@ -2414,8 +2286,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 1218,
-              "end": 1219,
-              "ctxt": 0
+              "end": 1219
             },
             "value": 1.0,
             "raw": "1"
@@ -2428,24 +2299,22 @@
       "type": "IfStatement",
       "span": {
         "start": 1221,
-        "end": 1255,
-        "ctxt": 0
+        "end": 1255
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
           "start": 1225,
-          "end": 1233,
-          "ctxt": 0
+          "end": 1233
         },
         "operator": "!==",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 1225,
-            "end": 1227,
-            "ctxt": 0
+            "end": 1227
           },
+          "ctxt": 0,
           "value": "Т",
           "optional": false
         },
@@ -2453,8 +2322,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 1232,
-            "end": 1233,
-            "ctxt": 0
+            "end": 1233
           },
           "value": 1.0,
           "raw": "1"
@@ -2464,31 +2332,30 @@
         "type": "BlockStatement",
         "span": {
           "start": 1235,
-          "end": 1255,
-          "ctxt": 0
+          "end": 1255
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 1239,
-              "end": 1253,
-              "ctxt": 0
+              "end": 1253
             },
             "expression": {
               "type": "CallExpression",
               "span": {
                 "start": 1239,
-                "end": 1252,
-                "ctxt": 0
+                "end": 1252
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Identifier",
                 "span": {
                   "start": 1239,
-                  "end": 1245,
-                  "ctxt": 0
+                  "end": 1245
                 },
+                "ctxt": 0,
                 "value": "$ERROR",
                 "optional": false
               },
@@ -2499,8 +2366,7 @@
                     "type": "StringLiteral",
                     "span": {
                       "start": 1246,
-                      "end": 1251,
-                      "ctxt": 0
+                      "end": 1251
                     },
                     "value": "#Т",
                     "raw": "'#Т'"
@@ -2518,9 +2384,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 1256,
-        "end": 1271,
-        "ctxt": 0
+        "end": 1271
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -2528,16 +2394,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 1260,
-            "end": 1270,
-            "ctxt": 0
+            "end": 1270
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 1260,
-              "end": 1266,
-              "ctxt": 0
+              "end": 1266
             },
+            "ctxt": 0,
             "value": "У",
             "optional": false,
             "typeAnnotation": null
@@ -2546,8 +2411,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 1269,
-              "end": 1270,
-              "ctxt": 0
+              "end": 1270
             },
             "value": 1.0,
             "raw": "1"
@@ -2560,24 +2424,22 @@
       "type": "IfStatement",
       "span": {
         "start": 1272,
-        "end": 1306,
-        "ctxt": 0
+        "end": 1306
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
           "start": 1276,
-          "end": 1284,
-          "ctxt": 0
+          "end": 1284
         },
         "operator": "!==",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 1276,
-            "end": 1278,
-            "ctxt": 0
+            "end": 1278
           },
+          "ctxt": 0,
           "value": "У",
           "optional": false
         },
@@ -2585,8 +2447,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 1283,
-            "end": 1284,
-            "ctxt": 0
+            "end": 1284
           },
           "value": 1.0,
           "raw": "1"
@@ -2596,31 +2457,30 @@
         "type": "BlockStatement",
         "span": {
           "start": 1286,
-          "end": 1306,
-          "ctxt": 0
+          "end": 1306
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 1290,
-              "end": 1304,
-              "ctxt": 0
+              "end": 1304
             },
             "expression": {
               "type": "CallExpression",
               "span": {
                 "start": 1290,
-                "end": 1303,
-                "ctxt": 0
+                "end": 1303
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Identifier",
                 "span": {
                   "start": 1290,
-                  "end": 1296,
-                  "ctxt": 0
+                  "end": 1296
                 },
+                "ctxt": 0,
                 "value": "$ERROR",
                 "optional": false
               },
@@ -2631,8 +2491,7 @@
                     "type": "StringLiteral",
                     "span": {
                       "start": 1297,
-                      "end": 1302,
-                      "ctxt": 0
+                      "end": 1302
                     },
                     "value": "#У",
                     "raw": "'#У'"
@@ -2650,9 +2509,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 1307,
-        "end": 1322,
-        "ctxt": 0
+        "end": 1322
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -2660,16 +2519,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 1311,
-            "end": 1321,
-            "ctxt": 0
+            "end": 1321
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 1311,
-              "end": 1317,
-              "ctxt": 0
+              "end": 1317
             },
+            "ctxt": 0,
             "value": "Ф",
             "optional": false,
             "typeAnnotation": null
@@ -2678,8 +2536,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 1320,
-              "end": 1321,
-              "ctxt": 0
+              "end": 1321
             },
             "value": 1.0,
             "raw": "1"
@@ -2692,24 +2549,22 @@
       "type": "IfStatement",
       "span": {
         "start": 1323,
-        "end": 1357,
-        "ctxt": 0
+        "end": 1357
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
           "start": 1327,
-          "end": 1335,
-          "ctxt": 0
+          "end": 1335
         },
         "operator": "!==",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 1327,
-            "end": 1329,
-            "ctxt": 0
+            "end": 1329
           },
+          "ctxt": 0,
           "value": "Ф",
           "optional": false
         },
@@ -2717,8 +2572,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 1334,
-            "end": 1335,
-            "ctxt": 0
+            "end": 1335
           },
           "value": 1.0,
           "raw": "1"
@@ -2728,31 +2582,30 @@
         "type": "BlockStatement",
         "span": {
           "start": 1337,
-          "end": 1357,
-          "ctxt": 0
+          "end": 1357
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 1341,
-              "end": 1355,
-              "ctxt": 0
+              "end": 1355
             },
             "expression": {
               "type": "CallExpression",
               "span": {
                 "start": 1341,
-                "end": 1354,
-                "ctxt": 0
+                "end": 1354
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Identifier",
                 "span": {
                   "start": 1341,
-                  "end": 1347,
-                  "ctxt": 0
+                  "end": 1347
                 },
+                "ctxt": 0,
                 "value": "$ERROR",
                 "optional": false
               },
@@ -2763,8 +2616,7 @@
                     "type": "StringLiteral",
                     "span": {
                       "start": 1348,
-                      "end": 1353,
-                      "ctxt": 0
+                      "end": 1353
                     },
                     "value": "#Ф",
                     "raw": "'#Ф'"
@@ -2782,9 +2634,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 1358,
-        "end": 1373,
-        "ctxt": 0
+        "end": 1373
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -2792,16 +2644,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 1362,
-            "end": 1372,
-            "ctxt": 0
+            "end": 1372
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 1362,
-              "end": 1368,
-              "ctxt": 0
+              "end": 1368
             },
+            "ctxt": 0,
             "value": "Х",
             "optional": false,
             "typeAnnotation": null
@@ -2810,8 +2661,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 1371,
-              "end": 1372,
-              "ctxt": 0
+              "end": 1372
             },
             "value": 1.0,
             "raw": "1"
@@ -2824,24 +2674,22 @@
       "type": "IfStatement",
       "span": {
         "start": 1374,
-        "end": 1408,
-        "ctxt": 0
+        "end": 1408
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
           "start": 1378,
-          "end": 1386,
-          "ctxt": 0
+          "end": 1386
         },
         "operator": "!==",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 1378,
-            "end": 1380,
-            "ctxt": 0
+            "end": 1380
           },
+          "ctxt": 0,
           "value": "Х",
           "optional": false
         },
@@ -2849,8 +2697,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 1385,
-            "end": 1386,
-            "ctxt": 0
+            "end": 1386
           },
           "value": 1.0,
           "raw": "1"
@@ -2860,31 +2707,30 @@
         "type": "BlockStatement",
         "span": {
           "start": 1388,
-          "end": 1408,
-          "ctxt": 0
+          "end": 1408
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 1392,
-              "end": 1406,
-              "ctxt": 0
+              "end": 1406
             },
             "expression": {
               "type": "CallExpression",
               "span": {
                 "start": 1392,
-                "end": 1405,
-                "ctxt": 0
+                "end": 1405
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Identifier",
                 "span": {
                   "start": 1392,
-                  "end": 1398,
-                  "ctxt": 0
+                  "end": 1398
                 },
+                "ctxt": 0,
                 "value": "$ERROR",
                 "optional": false
               },
@@ -2895,8 +2741,7 @@
                     "type": "StringLiteral",
                     "span": {
                       "start": 1399,
-                      "end": 1404,
-                      "ctxt": 0
+                      "end": 1404
                     },
                     "value": "#Х",
                     "raw": "'#Х'"
@@ -2914,9 +2759,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 1409,
-        "end": 1424,
-        "ctxt": 0
+        "end": 1424
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -2924,16 +2769,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 1413,
-            "end": 1423,
-            "ctxt": 0
+            "end": 1423
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 1413,
-              "end": 1419,
-              "ctxt": 0
+              "end": 1419
             },
+            "ctxt": 0,
             "value": "Ц",
             "optional": false,
             "typeAnnotation": null
@@ -2942,8 +2786,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 1422,
-              "end": 1423,
-              "ctxt": 0
+              "end": 1423
             },
             "value": 1.0,
             "raw": "1"
@@ -2956,24 +2799,22 @@
       "type": "IfStatement",
       "span": {
         "start": 1425,
-        "end": 1459,
-        "ctxt": 0
+        "end": 1459
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
           "start": 1429,
-          "end": 1437,
-          "ctxt": 0
+          "end": 1437
         },
         "operator": "!==",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 1429,
-            "end": 1431,
-            "ctxt": 0
+            "end": 1431
           },
+          "ctxt": 0,
           "value": "Ц",
           "optional": false
         },
@@ -2981,8 +2822,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 1436,
-            "end": 1437,
-            "ctxt": 0
+            "end": 1437
           },
           "value": 1.0,
           "raw": "1"
@@ -2992,31 +2832,30 @@
         "type": "BlockStatement",
         "span": {
           "start": 1439,
-          "end": 1459,
-          "ctxt": 0
+          "end": 1459
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 1443,
-              "end": 1457,
-              "ctxt": 0
+              "end": 1457
             },
             "expression": {
               "type": "CallExpression",
               "span": {
                 "start": 1443,
-                "end": 1456,
-                "ctxt": 0
+                "end": 1456
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Identifier",
                 "span": {
                   "start": 1443,
-                  "end": 1449,
-                  "ctxt": 0
+                  "end": 1449
                 },
+                "ctxt": 0,
                 "value": "$ERROR",
                 "optional": false
               },
@@ -3027,8 +2866,7 @@
                     "type": "StringLiteral",
                     "span": {
                       "start": 1450,
-                      "end": 1455,
-                      "ctxt": 0
+                      "end": 1455
                     },
                     "value": "#Ц",
                     "raw": "'#Ц'"
@@ -3046,9 +2884,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 1460,
-        "end": 1475,
-        "ctxt": 0
+        "end": 1475
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -3056,16 +2894,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 1464,
-            "end": 1474,
-            "ctxt": 0
+            "end": 1474
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 1464,
-              "end": 1470,
-              "ctxt": 0
+              "end": 1470
             },
+            "ctxt": 0,
             "value": "Ч",
             "optional": false,
             "typeAnnotation": null
@@ -3074,8 +2911,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 1473,
-              "end": 1474,
-              "ctxt": 0
+              "end": 1474
             },
             "value": 1.0,
             "raw": "1"
@@ -3088,24 +2924,22 @@
       "type": "IfStatement",
       "span": {
         "start": 1476,
-        "end": 1510,
-        "ctxt": 0
+        "end": 1510
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
           "start": 1480,
-          "end": 1488,
-          "ctxt": 0
+          "end": 1488
         },
         "operator": "!==",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 1480,
-            "end": 1482,
-            "ctxt": 0
+            "end": 1482
           },
+          "ctxt": 0,
           "value": "Ч",
           "optional": false
         },
@@ -3113,8 +2947,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 1487,
-            "end": 1488,
-            "ctxt": 0
+            "end": 1488
           },
           "value": 1.0,
           "raw": "1"
@@ -3124,31 +2957,30 @@
         "type": "BlockStatement",
         "span": {
           "start": 1490,
-          "end": 1510,
-          "ctxt": 0
+          "end": 1510
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 1494,
-              "end": 1508,
-              "ctxt": 0
+              "end": 1508
             },
             "expression": {
               "type": "CallExpression",
               "span": {
                 "start": 1494,
-                "end": 1507,
-                "ctxt": 0
+                "end": 1507
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Identifier",
                 "span": {
                   "start": 1494,
-                  "end": 1500,
-                  "ctxt": 0
+                  "end": 1500
                 },
+                "ctxt": 0,
                 "value": "$ERROR",
                 "optional": false
               },
@@ -3159,8 +2991,7 @@
                     "type": "StringLiteral",
                     "span": {
                       "start": 1501,
-                      "end": 1506,
-                      "ctxt": 0
+                      "end": 1506
                     },
                     "value": "#Ч",
                     "raw": "'#Ч'"
@@ -3178,9 +3009,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 1511,
-        "end": 1526,
-        "ctxt": 0
+        "end": 1526
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -3188,16 +3019,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 1515,
-            "end": 1525,
-            "ctxt": 0
+            "end": 1525
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 1515,
-              "end": 1521,
-              "ctxt": 0
+              "end": 1521
             },
+            "ctxt": 0,
             "value": "Ш",
             "optional": false,
             "typeAnnotation": null
@@ -3206,8 +3036,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 1524,
-              "end": 1525,
-              "ctxt": 0
+              "end": 1525
             },
             "value": 1.0,
             "raw": "1"
@@ -3220,24 +3049,22 @@
       "type": "IfStatement",
       "span": {
         "start": 1527,
-        "end": 1561,
-        "ctxt": 0
+        "end": 1561
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
           "start": 1531,
-          "end": 1539,
-          "ctxt": 0
+          "end": 1539
         },
         "operator": "!==",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 1531,
-            "end": 1533,
-            "ctxt": 0
+            "end": 1533
           },
+          "ctxt": 0,
           "value": "Ш",
           "optional": false
         },
@@ -3245,8 +3072,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 1538,
-            "end": 1539,
-            "ctxt": 0
+            "end": 1539
           },
           "value": 1.0,
           "raw": "1"
@@ -3256,31 +3082,30 @@
         "type": "BlockStatement",
         "span": {
           "start": 1541,
-          "end": 1561,
-          "ctxt": 0
+          "end": 1561
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 1545,
-              "end": 1559,
-              "ctxt": 0
+              "end": 1559
             },
             "expression": {
               "type": "CallExpression",
               "span": {
                 "start": 1545,
-                "end": 1558,
-                "ctxt": 0
+                "end": 1558
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Identifier",
                 "span": {
                   "start": 1545,
-                  "end": 1551,
-                  "ctxt": 0
+                  "end": 1551
                 },
+                "ctxt": 0,
                 "value": "$ERROR",
                 "optional": false
               },
@@ -3291,8 +3116,7 @@
                     "type": "StringLiteral",
                     "span": {
                       "start": 1552,
-                      "end": 1557,
-                      "ctxt": 0
+                      "end": 1557
                     },
                     "value": "#Ш",
                     "raw": "'#Ш'"
@@ -3310,9 +3134,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 1562,
-        "end": 1577,
-        "ctxt": 0
+        "end": 1577
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -3320,16 +3144,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 1566,
-            "end": 1576,
-            "ctxt": 0
+            "end": 1576
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 1566,
-              "end": 1572,
-              "ctxt": 0
+              "end": 1572
             },
+            "ctxt": 0,
             "value": "Щ",
             "optional": false,
             "typeAnnotation": null
@@ -3338,8 +3161,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 1575,
-              "end": 1576,
-              "ctxt": 0
+              "end": 1576
             },
             "value": 1.0,
             "raw": "1"
@@ -3352,24 +3174,22 @@
       "type": "IfStatement",
       "span": {
         "start": 1578,
-        "end": 1612,
-        "ctxt": 0
+        "end": 1612
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
           "start": 1582,
-          "end": 1590,
-          "ctxt": 0
+          "end": 1590
         },
         "operator": "!==",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 1582,
-            "end": 1584,
-            "ctxt": 0
+            "end": 1584
           },
+          "ctxt": 0,
           "value": "Щ",
           "optional": false
         },
@@ -3377,8 +3197,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 1589,
-            "end": 1590,
-            "ctxt": 0
+            "end": 1590
           },
           "value": 1.0,
           "raw": "1"
@@ -3388,31 +3207,30 @@
         "type": "BlockStatement",
         "span": {
           "start": 1592,
-          "end": 1612,
-          "ctxt": 0
+          "end": 1612
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 1596,
-              "end": 1610,
-              "ctxt": 0
+              "end": 1610
             },
             "expression": {
               "type": "CallExpression",
               "span": {
                 "start": 1596,
-                "end": 1609,
-                "ctxt": 0
+                "end": 1609
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Identifier",
                 "span": {
                   "start": 1596,
-                  "end": 1602,
-                  "ctxt": 0
+                  "end": 1602
                 },
+                "ctxt": 0,
                 "value": "$ERROR",
                 "optional": false
               },
@@ -3423,8 +3241,7 @@
                     "type": "StringLiteral",
                     "span": {
                       "start": 1603,
-                      "end": 1608,
-                      "ctxt": 0
+                      "end": 1608
                     },
                     "value": "#Щ",
                     "raw": "'#Щ'"
@@ -3442,9 +3259,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 1613,
-        "end": 1628,
-        "ctxt": 0
+        "end": 1628
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -3452,16 +3269,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 1617,
-            "end": 1627,
-            "ctxt": 0
+            "end": 1627
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 1617,
-              "end": 1623,
-              "ctxt": 0
+              "end": 1623
             },
+            "ctxt": 0,
             "value": "Ъ",
             "optional": false,
             "typeAnnotation": null
@@ -3470,8 +3286,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 1626,
-              "end": 1627,
-              "ctxt": 0
+              "end": 1627
             },
             "value": 1.0,
             "raw": "1"
@@ -3484,24 +3299,22 @@
       "type": "IfStatement",
       "span": {
         "start": 1629,
-        "end": 1663,
-        "ctxt": 0
+        "end": 1663
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
           "start": 1633,
-          "end": 1641,
-          "ctxt": 0
+          "end": 1641
         },
         "operator": "!==",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 1633,
-            "end": 1635,
-            "ctxt": 0
+            "end": 1635
           },
+          "ctxt": 0,
           "value": "Ъ",
           "optional": false
         },
@@ -3509,8 +3322,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 1640,
-            "end": 1641,
-            "ctxt": 0
+            "end": 1641
           },
           "value": 1.0,
           "raw": "1"
@@ -3520,31 +3332,30 @@
         "type": "BlockStatement",
         "span": {
           "start": 1643,
-          "end": 1663,
-          "ctxt": 0
+          "end": 1663
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 1647,
-              "end": 1661,
-              "ctxt": 0
+              "end": 1661
             },
             "expression": {
               "type": "CallExpression",
               "span": {
                 "start": 1647,
-                "end": 1660,
-                "ctxt": 0
+                "end": 1660
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Identifier",
                 "span": {
                   "start": 1647,
-                  "end": 1653,
-                  "ctxt": 0
+                  "end": 1653
                 },
+                "ctxt": 0,
                 "value": "$ERROR",
                 "optional": false
               },
@@ -3555,8 +3366,7 @@
                     "type": "StringLiteral",
                     "span": {
                       "start": 1654,
-                      "end": 1659,
-                      "ctxt": 0
+                      "end": 1659
                     },
                     "value": "#Ъ",
                     "raw": "'#Ъ'"
@@ -3574,9 +3384,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 1664,
-        "end": 1679,
-        "ctxt": 0
+        "end": 1679
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -3584,16 +3394,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 1668,
-            "end": 1678,
-            "ctxt": 0
+            "end": 1678
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 1668,
-              "end": 1674,
-              "ctxt": 0
+              "end": 1674
             },
+            "ctxt": 0,
             "value": "Ы",
             "optional": false,
             "typeAnnotation": null
@@ -3602,8 +3411,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 1677,
-              "end": 1678,
-              "ctxt": 0
+              "end": 1678
             },
             "value": 1.0,
             "raw": "1"
@@ -3616,24 +3424,22 @@
       "type": "IfStatement",
       "span": {
         "start": 1680,
-        "end": 1714,
-        "ctxt": 0
+        "end": 1714
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
           "start": 1684,
-          "end": 1692,
-          "ctxt": 0
+          "end": 1692
         },
         "operator": "!==",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 1684,
-            "end": 1686,
-            "ctxt": 0
+            "end": 1686
           },
+          "ctxt": 0,
           "value": "Ы",
           "optional": false
         },
@@ -3641,8 +3447,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 1691,
-            "end": 1692,
-            "ctxt": 0
+            "end": 1692
           },
           "value": 1.0,
           "raw": "1"
@@ -3652,31 +3457,30 @@
         "type": "BlockStatement",
         "span": {
           "start": 1694,
-          "end": 1714,
-          "ctxt": 0
+          "end": 1714
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 1698,
-              "end": 1712,
-              "ctxt": 0
+              "end": 1712
             },
             "expression": {
               "type": "CallExpression",
               "span": {
                 "start": 1698,
-                "end": 1711,
-                "ctxt": 0
+                "end": 1711
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Identifier",
                 "span": {
                   "start": 1698,
-                  "end": 1704,
-                  "ctxt": 0
+                  "end": 1704
                 },
+                "ctxt": 0,
                 "value": "$ERROR",
                 "optional": false
               },
@@ -3687,8 +3491,7 @@
                     "type": "StringLiteral",
                     "span": {
                       "start": 1705,
-                      "end": 1710,
-                      "ctxt": 0
+                      "end": 1710
                     },
                     "value": "#Ы",
                     "raw": "'#Ы'"
@@ -3706,9 +3509,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 1715,
-        "end": 1730,
-        "ctxt": 0
+        "end": 1730
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -3716,16 +3519,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 1719,
-            "end": 1729,
-            "ctxt": 0
+            "end": 1729
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 1719,
-              "end": 1725,
-              "ctxt": 0
+              "end": 1725
             },
+            "ctxt": 0,
             "value": "Ь",
             "optional": false,
             "typeAnnotation": null
@@ -3734,8 +3536,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 1728,
-              "end": 1729,
-              "ctxt": 0
+              "end": 1729
             },
             "value": 1.0,
             "raw": "1"
@@ -3748,24 +3549,22 @@
       "type": "IfStatement",
       "span": {
         "start": 1731,
-        "end": 1765,
-        "ctxt": 0
+        "end": 1765
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
           "start": 1735,
-          "end": 1743,
-          "ctxt": 0
+          "end": 1743
         },
         "operator": "!==",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 1735,
-            "end": 1737,
-            "ctxt": 0
+            "end": 1737
           },
+          "ctxt": 0,
           "value": "Ь",
           "optional": false
         },
@@ -3773,8 +3572,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 1742,
-            "end": 1743,
-            "ctxt": 0
+            "end": 1743
           },
           "value": 1.0,
           "raw": "1"
@@ -3784,31 +3582,30 @@
         "type": "BlockStatement",
         "span": {
           "start": 1745,
-          "end": 1765,
-          "ctxt": 0
+          "end": 1765
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 1749,
-              "end": 1763,
-              "ctxt": 0
+              "end": 1763
             },
             "expression": {
               "type": "CallExpression",
               "span": {
                 "start": 1749,
-                "end": 1762,
-                "ctxt": 0
+                "end": 1762
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Identifier",
                 "span": {
                   "start": 1749,
-                  "end": 1755,
-                  "ctxt": 0
+                  "end": 1755
                 },
+                "ctxt": 0,
                 "value": "$ERROR",
                 "optional": false
               },
@@ -3819,8 +3616,7 @@
                     "type": "StringLiteral",
                     "span": {
                       "start": 1756,
-                      "end": 1761,
-                      "ctxt": 0
+                      "end": 1761
                     },
                     "value": "#Ь",
                     "raw": "'#Ь'"
@@ -3838,9 +3634,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 1766,
-        "end": 1781,
-        "ctxt": 0
+        "end": 1781
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -3848,16 +3644,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 1770,
-            "end": 1780,
-            "ctxt": 0
+            "end": 1780
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 1770,
-              "end": 1776,
-              "ctxt": 0
+              "end": 1776
             },
+            "ctxt": 0,
             "value": "Э",
             "optional": false,
             "typeAnnotation": null
@@ -3866,8 +3661,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 1779,
-              "end": 1780,
-              "ctxt": 0
+              "end": 1780
             },
             "value": 1.0,
             "raw": "1"
@@ -3880,24 +3674,22 @@
       "type": "IfStatement",
       "span": {
         "start": 1782,
-        "end": 1816,
-        "ctxt": 0
+        "end": 1816
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
           "start": 1786,
-          "end": 1794,
-          "ctxt": 0
+          "end": 1794
         },
         "operator": "!==",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 1786,
-            "end": 1788,
-            "ctxt": 0
+            "end": 1788
           },
+          "ctxt": 0,
           "value": "Э",
           "optional": false
         },
@@ -3905,8 +3697,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 1793,
-            "end": 1794,
-            "ctxt": 0
+            "end": 1794
           },
           "value": 1.0,
           "raw": "1"
@@ -3916,31 +3707,30 @@
         "type": "BlockStatement",
         "span": {
           "start": 1796,
-          "end": 1816,
-          "ctxt": 0
+          "end": 1816
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 1800,
-              "end": 1814,
-              "ctxt": 0
+              "end": 1814
             },
             "expression": {
               "type": "CallExpression",
               "span": {
                 "start": 1800,
-                "end": 1813,
-                "ctxt": 0
+                "end": 1813
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Identifier",
                 "span": {
                   "start": 1800,
-                  "end": 1806,
-                  "ctxt": 0
+                  "end": 1806
                 },
+                "ctxt": 0,
                 "value": "$ERROR",
                 "optional": false
               },
@@ -3951,8 +3741,7 @@
                     "type": "StringLiteral",
                     "span": {
                       "start": 1807,
-                      "end": 1812,
-                      "ctxt": 0
+                      "end": 1812
                     },
                     "value": "#Э",
                     "raw": "'#Э'"
@@ -3970,9 +3759,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 1817,
-        "end": 1832,
-        "ctxt": 0
+        "end": 1832
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -3980,16 +3769,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 1821,
-            "end": 1831,
-            "ctxt": 0
+            "end": 1831
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 1821,
-              "end": 1827,
-              "ctxt": 0
+              "end": 1827
             },
+            "ctxt": 0,
             "value": "Ю",
             "optional": false,
             "typeAnnotation": null
@@ -3998,8 +3786,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 1830,
-              "end": 1831,
-              "ctxt": 0
+              "end": 1831
             },
             "value": 1.0,
             "raw": "1"
@@ -4012,24 +3799,22 @@
       "type": "IfStatement",
       "span": {
         "start": 1833,
-        "end": 1867,
-        "ctxt": 0
+        "end": 1867
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
           "start": 1837,
-          "end": 1845,
-          "ctxt": 0
+          "end": 1845
         },
         "operator": "!==",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 1837,
-            "end": 1839,
-            "ctxt": 0
+            "end": 1839
           },
+          "ctxt": 0,
           "value": "Ю",
           "optional": false
         },
@@ -4037,8 +3822,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 1844,
-            "end": 1845,
-            "ctxt": 0
+            "end": 1845
           },
           "value": 1.0,
           "raw": "1"
@@ -4048,31 +3832,30 @@
         "type": "BlockStatement",
         "span": {
           "start": 1847,
-          "end": 1867,
-          "ctxt": 0
+          "end": 1867
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 1851,
-              "end": 1865,
-              "ctxt": 0
+              "end": 1865
             },
             "expression": {
               "type": "CallExpression",
               "span": {
                 "start": 1851,
-                "end": 1864,
-                "ctxt": 0
+                "end": 1864
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Identifier",
                 "span": {
                   "start": 1851,
-                  "end": 1857,
-                  "ctxt": 0
+                  "end": 1857
                 },
+                "ctxt": 0,
                 "value": "$ERROR",
                 "optional": false
               },
@@ -4083,8 +3866,7 @@
                     "type": "StringLiteral",
                     "span": {
                       "start": 1858,
-                      "end": 1863,
-                      "ctxt": 0
+                      "end": 1863
                     },
                     "value": "#Ю",
                     "raw": "'#Ю'"
@@ -4102,9 +3884,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 1868,
-        "end": 1883,
-        "ctxt": 0
+        "end": 1883
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -4112,16 +3894,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 1872,
-            "end": 1882,
-            "ctxt": 0
+            "end": 1882
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 1872,
-              "end": 1878,
-              "ctxt": 0
+              "end": 1878
             },
+            "ctxt": 0,
             "value": "Я",
             "optional": false,
             "typeAnnotation": null
@@ -4130,8 +3911,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 1881,
-              "end": 1882,
-              "ctxt": 0
+              "end": 1882
             },
             "value": 1.0,
             "raw": "1"
@@ -4144,24 +3924,22 @@
       "type": "IfStatement",
       "span": {
         "start": 1884,
-        "end": 1918,
-        "ctxt": 0
+        "end": 1918
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
           "start": 1888,
-          "end": 1896,
-          "ctxt": 0
+          "end": 1896
         },
         "operator": "!==",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 1888,
-            "end": 1890,
-            "ctxt": 0
+            "end": 1890
           },
+          "ctxt": 0,
           "value": "Я",
           "optional": false
         },
@@ -4169,8 +3947,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 1895,
-            "end": 1896,
-            "ctxt": 0
+            "end": 1896
           },
           "value": 1.0,
           "raw": "1"
@@ -4180,31 +3957,30 @@
         "type": "BlockStatement",
         "span": {
           "start": 1898,
-          "end": 1918,
-          "ctxt": 0
+          "end": 1918
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 1902,
-              "end": 1916,
-              "ctxt": 0
+              "end": 1916
             },
             "expression": {
               "type": "CallExpression",
               "span": {
                 "start": 1902,
-                "end": 1915,
-                "ctxt": 0
+                "end": 1915
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Identifier",
                 "span": {
                   "start": 1902,
-                  "end": 1908,
-                  "ctxt": 0
+                  "end": 1908
                 },
+                "ctxt": 0,
                 "value": "$ERROR",
                 "optional": false
               },
@@ -4215,8 +3991,7 @@
                     "type": "StringLiteral",
                     "span": {
                       "start": 1909,
-                      "end": 1914,
-                      "ctxt": 0
+                      "end": 1914
                     },
                     "value": "#Я",
                     "raw": "'#Я'"
@@ -4234,9 +4009,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 1919,
-        "end": 1934,
-        "ctxt": 0
+        "end": 1934
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -4244,16 +4019,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 1923,
-            "end": 1933,
-            "ctxt": 0
+            "end": 1933
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 1923,
-              "end": 1929,
-              "ctxt": 0
+              "end": 1929
             },
+            "ctxt": 0,
             "value": "Ё",
             "optional": false,
             "typeAnnotation": null
@@ -4262,8 +4036,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 1932,
-              "end": 1933,
-              "ctxt": 0
+              "end": 1933
             },
             "value": 1.0,
             "raw": "1"
@@ -4276,24 +4049,22 @@
       "type": "IfStatement",
       "span": {
         "start": 1935,
-        "end": 1969,
-        "ctxt": 0
+        "end": 1969
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
           "start": 1939,
-          "end": 1947,
-          "ctxt": 0
+          "end": 1947
         },
         "operator": "!==",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 1939,
-            "end": 1941,
-            "ctxt": 0
+            "end": 1941
           },
+          "ctxt": 0,
           "value": "Ё",
           "optional": false
         },
@@ -4301,8 +4072,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 1946,
-            "end": 1947,
-            "ctxt": 0
+            "end": 1947
           },
           "value": 1.0,
           "raw": "1"
@@ -4312,31 +4082,30 @@
         "type": "BlockStatement",
         "span": {
           "start": 1949,
-          "end": 1969,
-          "ctxt": 0
+          "end": 1969
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 1953,
-              "end": 1967,
-              "ctxt": 0
+              "end": 1967
             },
             "expression": {
               "type": "CallExpression",
               "span": {
                 "start": 1953,
-                "end": 1966,
-                "ctxt": 0
+                "end": 1966
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Identifier",
                 "span": {
                   "start": 1953,
-                  "end": 1959,
-                  "ctxt": 0
+                  "end": 1959
                 },
+                "ctxt": 0,
                 "value": "$ERROR",
                 "optional": false
               },
@@ -4347,8 +4116,7 @@
                     "type": "StringLiteral",
                     "span": {
                       "start": 1960,
-                      "end": 1965,
-                      "ctxt": 0
+                      "end": 1965
                     },
                     "value": "#Ё",
                     "raw": "'#Ё'"

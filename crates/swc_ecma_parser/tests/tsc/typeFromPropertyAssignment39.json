@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 126,
-    "end": 182,
-    "ctxt": 0
+    "end": 182
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 126,
-        "end": 141,
-        "ctxt": 0
+        "end": 141
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 132,
-            "end": 140,
-            "ctxt": 0
+            "end": 140
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 132,
-              "end": 135,
-              "ctxt": 0
+              "end": 135
             },
+            "ctxt": 0,
             "value": "foo",
             "optional": false,
             "typeAnnotation": null
@@ -38,8 +36,7 @@
             "type": "ObjectExpression",
             "span": {
               "start": 138,
-              "end": 140,
-              "ctxt": 0
+              "end": 140
             },
             "properties": []
           },
@@ -51,31 +48,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 142,
-        "end": 158,
-        "ctxt": 0
+        "end": 158
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
           "start": 142,
-          "end": 157,
-          "ctxt": 0
+          "end": 157
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
             "start": 142,
-            "end": 152,
-            "ctxt": 0
+            "end": 152
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 142,
-              "end": 145,
-              "ctxt": 0
+              "end": 145
             },
+            "ctxt": 0,
             "value": "foo",
             "optional": false
           },
@@ -83,15 +77,13 @@
             "type": "Computed",
             "span": {
               "start": 145,
-              "end": 152,
-              "ctxt": 0
+              "end": 152
             },
             "expression": {
               "type": "StringLiteral",
               "span": {
                 "start": 146,
-                "end": 151,
-                "ctxt": 0
+                "end": 151
               },
               "value": "baz",
               "raw": "\"baz\""
@@ -102,8 +94,7 @@
           "type": "ObjectExpression",
           "span": {
             "start": 155,
-            "end": 157,
-            "ctxt": 0
+            "end": 157
           },
           "properties": []
         }
@@ -113,38 +104,34 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 159,
-        "end": 182,
-        "ctxt": 0
+        "end": 182
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
           "start": 159,
-          "end": 181,
-          "ctxt": 0
+          "end": 181
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
             "start": 159,
-            "end": 177,
-            "ctxt": 0
+            "end": 177
           },
           "object": {
             "type": "MemberExpression",
             "span": {
               "start": 159,
-              "end": 169,
-              "ctxt": 0
+              "end": 169
             },
             "object": {
               "type": "Identifier",
               "span": {
                 "start": 159,
-                "end": 162,
-                "ctxt": 0
+                "end": 162
               },
+              "ctxt": 0,
               "value": "foo",
               "optional": false
             },
@@ -152,15 +139,13 @@
               "type": "Computed",
               "span": {
                 "start": 162,
-                "end": 169,
-                "ctxt": 0
+                "end": 169
               },
               "expression": {
                 "type": "StringLiteral",
                 "span": {
                   "start": 163,
-                  "end": 168,
-                  "ctxt": 0
+                  "end": 168
                 },
                 "value": "baz",
                 "raw": "\"baz\""
@@ -171,15 +156,13 @@
             "type": "Computed",
             "span": {
               "start": 169,
-              "end": 177,
-              "ctxt": 0
+              "end": 177
             },
             "expression": {
               "type": "StringLiteral",
               "span": {
                 "start": 170,
-                "end": 176,
-                "ctxt": 0
+                "end": 176
               },
               "value": "blah",
               "raw": "\"blah\""
@@ -190,8 +173,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 180,
-            "end": 181,
-            "ctxt": 0
+            "end": 181
           },
           "value": 3.0,
           "raw": "3"

@@ -2,32 +2,29 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 57,
-    "ctxt": 0
+    "end": 57
   },
   "body": [
     {
       "type": "ExportNamedDeclaration",
       "span": {
         "start": 1,
-        "end": 57,
-        "ctxt": 0
+        "end": 57
       },
       "specifiers": [
         {
           "type": "ExportSpecifier",
           "span": {
             "start": 10,
-            "end": 22,
-            "ctxt": 0
+            "end": 22
           },
           "orig": {
             "type": "Identifier",
             "span": {
               "start": 10,
-              "end": 17,
-              "ctxt": 0
+              "end": 17
             },
+            "ctxt": 0,
             "value": "default",
             "optional": false
           },
@@ -35,9 +32,9 @@
             "type": "Identifier",
             "span": {
               "start": 21,
-              "end": 22,
-              "ctxt": 0
+              "end": 22
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false
           },
@@ -48,8 +45,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 30,
-          "end": 35,
-          "ctxt": 0
+          "end": 35
         },
         "value": "foo",
         "raw": "\"foo\""
@@ -59,8 +55,7 @@
         "type": "ObjectExpression",
         "span": {
           "start": 41,
-          "end": 57,
-          "ctxt": 0
+          "end": 57
         },
         "properties": [
           {
@@ -69,18 +64,15 @@
               "type": "Identifier",
               "span": {
                 "start": 43,
-                "end": 47,
-                "ctxt": 0
+                "end": 47
               },
-              "value": "type",
-              "optional": false
+              "value": "type"
             },
             "value": {
               "type": "StringLiteral",
               "span": {
                 "start": 49,
-                "end": 55,
-                "ctxt": 0
+                "end": 55
               },
               "value": "json",
               "raw": "\"json\""

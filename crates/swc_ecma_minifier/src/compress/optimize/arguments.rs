@@ -31,10 +31,9 @@ impl Optimizer<'_> {
 
                         self.changed = true;
                         report_change!("arguments: Optimizing computed access to arguments");
-                        *prop = MemberProp::Ident(Ident {
+                        *prop = MemberProp::Ident(IdentName {
                             span: s.span,
                             sym: s.take().value,
-                            optional: false,
                         })
                     }
                 }
@@ -53,10 +52,9 @@ impl Optimizer<'_> {
 
                         self.changed = true;
                         report_change!("arguments: Optimizing computed access to arguments");
-                        *prop = SuperProp::Ident(Ident {
+                        *prop = SuperProp::Ident(IdentName {
                             span: s.span,
                             sym: s.take().value,
-                            optional: false,
                         })
                     }
                 }
@@ -137,7 +135,7 @@ impl ArgReplacer<'_> {
                 let p = Param {
                     span: DUMMY_SP,
                     decorators: Default::default(),
-                    pat: Pat::Ident(private_ident!(format!("argument_{}", start)).into()),
+                    pat: private_ident!(format!("argument_{}", start)).into(),
                 };
                 start += 1;
                 p
@@ -193,7 +191,7 @@ impl VisitMut for ArgReplacer<'_> {
                                         "arguments: Replacing access to arguments to normal \
                                          reference"
                                     );
-                                    *n = Expr::Ident(i.id.clone());
+                                    *n = i.id.clone().into();
                                 }
                             }
                         }
@@ -215,7 +213,7 @@ impl VisitMut for ArgReplacer<'_> {
                                          reference"
                                     );
                                     self.changed = true;
-                                    *n = Expr::Ident(i.id.clone());
+                                    *n = i.id.clone().into();
                                 }
                             }
                         }

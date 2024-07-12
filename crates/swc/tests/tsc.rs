@@ -203,7 +203,10 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
             let mut source = String::default();
             mem::swap(&mut source, buffer);
 
-            Some(cm.new_source_file(swc_common::FileName::Custom(filename.to_string()), source))
+            Some(cm.new_source_file(
+                swc_common::FileName::Custom(filename.to_string()).into(),
+                source,
+            ))
         } else {
             None
         }
@@ -431,7 +434,7 @@ fn compile(output: &Path, test_unit_data: TestUnitData) {
     let mut result = String::default();
 
     for file in test_unit_data.files {
-        let filename = match &file.name {
+        let filename = match &*file.name {
             FileName::Custom(filename) => filename,
             _ => unreachable!(),
         };

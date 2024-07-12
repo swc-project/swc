@@ -49,34 +49,38 @@ impl TsEnumRecordValue {
 impl From<TsEnumRecordValue> for Expr {
     fn from(value: TsEnumRecordValue) -> Self {
         match value {
-            TsEnumRecordValue::String(string) => Expr::Lit(Lit::Str(string.into())),
-            TsEnumRecordValue::Number(num) if f64::is_nan(num) => Expr::Ident(Ident {
+            TsEnumRecordValue::String(string) => Lit::Str(string.into()).into(),
+            TsEnumRecordValue::Number(num) if f64::is_nan(num) => Ident {
                 span: DUMMY_SP,
                 sym: "NaN".into(),
-                optional: false,
-            }),
+                ..Default::default()
+            }
+            .into(),
             TsEnumRecordValue::Number(num) if f64::is_infinite(num) => {
-                let value = Expr::Ident(Ident {
+                let value: Expr = Ident {
                     span: DUMMY_SP,
                     sym: "Infinity".into(),
-                    optional: false,
-                });
+                    ..Default::default()
+                }
+                .into();
 
                 if f64::is_sign_negative(num) {
-                    Expr::Unary(UnaryExpr {
+                    UnaryExpr {
                         span: DUMMY_SP,
                         op: op!(unary, "-"),
                         arg: value.into(),
-                    })
+                    }
+                    .into()
                 } else {
                     value
                 }
             }
-            TsEnumRecordValue::Number(num) => Expr::Lit(Lit::Num(Number {
+            TsEnumRecordValue::Number(num) => Lit::Num(Number {
                 span: DUMMY_SP,
                 value: num,
                 raw: None,
-            })),
+            })
+            .into(),
             TsEnumRecordValue::Void => *Expr::undefined(DUMMY_SP),
             TsEnumRecordValue::Opaque(expr) => *expr,
         }
@@ -107,13 +111,13 @@ impl<'a> EnumValueComputer<'a> {
         match *expr {
             Expr::Lit(Lit::Str(s)) => TsEnumRecordValue::String(s.value),
             Expr::Lit(Lit::Num(n)) => TsEnumRecordValue::Number(n.value),
-            Expr::Ident(Ident { span, sym, .. })
-                if &*sym == "NaN" && span.ctxt.has_mark(self.top_level_mark) =>
+            Expr::Ident(Ident { ctxt, sym, .. })
+                if &*sym == "NaN" && ctxt.has_mark(self.top_level_mark) =>
             {
                 TsEnumRecordValue::Number(f64::NAN)
             }
-            Expr::Ident(Ident { span, sym, .. })
-                if &*sym == "Infinity" && span.ctxt.has_mark(self.top_level_mark) =>
+            Expr::Ident(Ident { ctxt, sym, .. })
+                if &*sym == "Infinity" && ctxt.has_mark(self.top_level_mark) =>
             {
                 TsEnumRecordValue::Number(f64::INFINITY)
             }
@@ -300,7 +304,11 @@ impl<'a> VisitMut for EnumValueComputer<'a> {
                     member_name: ident.sym.clone(),
                 }) =>
             {
-                *expr = self.enum_id.clone().make_member(ident.clone()).into();
+                *expr = self
+                    .enum_id
+                    .clone()
+                    .make_member(ident.clone().into())
+                    .into();
             }
             Expr::Member(MemberExpr {
                 obj,

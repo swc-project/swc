@@ -2,46 +2,41 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 23,
-    "ctxt": 0
+    "end": 23
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 23,
-        "ctxt": 0
+        "end": 23
       },
       "expression": {
         "type": "SequenceExpression",
         "span": {
           "start": 1,
-          "end": 22,
-          "ctxt": 0
+          "end": 22
         },
         "expressions": [
           {
             "type": "ConditionalExpression",
             "span": {
               "start": 1,
-              "end": 14,
-              "ctxt": 0
+              "end": 14
             },
             "test": {
               "type": "MemberExpression",
               "span": {
                 "start": 1,
-                "end": 6,
-                "ctxt": 0
+                "end": 6
               },
               "object": {
                 "type": "Identifier",
                 "span": {
                   "start": 1,
-                  "end": 2,
-                  "ctxt": 0
+                  "end": 2
                 },
+                "ctxt": 0,
                 "value": "b",
                 "optional": false
               },
@@ -49,19 +44,16 @@
                 "type": "Identifier",
                 "span": {
                   "start": 3,
-                  "end": 6,
-                  "ctxt": 0
+                  "end": 6
                 },
-                "value": "src",
-                "optional": false
+                "value": "src"
               }
             },
             "consequent": {
               "type": "NumericLiteral",
               "span": {
                 "start": 9,
-                "end": 10,
-                "ctxt": 0
+                "end": 10
               },
               "value": 1.0,
               "raw": "1"
@@ -70,8 +62,7 @@
               "type": "NumericLiteral",
               "span": {
                 "start": 13,
-                "end": 14,
-                "ctxt": 0
+                "end": 14
               },
               "value": 2.0,
               "raw": "2"
@@ -81,17 +72,16 @@
             "type": "BinaryExpression",
             "span": {
               "start": 16,
-              "end": 22,
-              "ctxt": 0
+              "end": 22
             },
             "operator": "&&",
             "left": {
               "type": "Identifier",
               "span": {
                 "start": 16,
-                "end": 17,
-                "ctxt": 0
+                "end": 17
               },
+              "ctxt": 0,
               "value": "c",
               "optional": false
             },
@@ -99,9 +89,9 @@
               "type": "Identifier",
               "span": {
                 "start": 21,
-                "end": 22,
-                "ctxt": 0
+                "end": 22
               },
+              "ctxt": 0,
               "value": "d",
               "optional": false
             }

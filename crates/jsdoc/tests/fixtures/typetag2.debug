@@ -1,22 +1,22 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..5#0,
+                span: 1..5,
                 tag_name: Text {
-                    span: 1..5#0,
+                    span: 1..5,
                     value: "type",
                 },
                 tag: Type(
                     TypeTag {
-                        span: 1..5#0,
+                        span: 1..5,
                         name: Text {
-                            span: 1..40#0,
+                            span: 1..40,
                             value: "{(string|number)} A string or a number.",
                         },
                     },

@@ -22,24 +22,23 @@ struct PrivateNameMangler {
     keep_private_props: bool,
     private_n: usize,
 
-    renamed_private: AHashMap<Id, JsWord>,
+    renamed_private: AHashMap<JsWord, JsWord>,
 }
 
 impl PrivateNameMangler {
     fn rename_private(&mut self, private_name: &mut PrivateName) {
-        let id = private_name.id.to_id();
-
-        let new_sym = if let Some(cached) = self.renamed_private.get(&id) {
+        let new_sym = if let Some(cached) = self.renamed_private.get(&private_name.name) {
             cached.clone()
         } else {
             let sym = self.chars.encode(&mut self.private_n, true);
 
-            self.renamed_private.insert(id.clone(), sym.clone());
+            self.renamed_private
+                .insert(private_name.name.clone(), sym.clone());
 
             sym
         };
 
-        private_name.id.sym = new_sym;
+        private_name.name = new_sym;
     }
 }
 

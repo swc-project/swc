@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 111,
-    "ctxt": 0
+    "end": 111
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 1,
-        "end": 111,
-        "ctxt": 0
+        "end": 111
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 7,
-            "end": 110,
-            "ctxt": 0
+            "end": 110
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 7,
-              "end": 10,
-              "ctxt": 0
+              "end": 10
             },
+            "ctxt": 0,
             "value": "obj",
             "optional": false,
             "typeAnnotation": null
@@ -38,40 +36,34 @@
             "type": "ObjectExpression",
             "span": {
               "start": 13,
-              "end": 110,
-              "ctxt": 0
+              "end": 110
             },
             "properties": [
               {
                 "type": "GetterProperty",
                 "span": {
                   "start": 19,
-                  "end": 65,
-                  "ctxt": 0
+                  "end": 65
                 },
                 "key": {
                   "type": "Identifier",
                   "span": {
                     "start": 23,
-                    "end": 28,
-                    "ctxt": 0
+                    "end": 28
                   },
-                  "value": "prop1",
-                  "optional": false
+                  "value": "prop1"
                 },
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
                     "start": 30,
-                    "end": 38,
-                    "ctxt": 0
+                    "end": 38
                   },
                   "typeAnnotation": {
                     "type": "TsKeywordType",
                     "span": {
                       "start": 32,
-                      "end": 38,
-                      "ctxt": 0
+                      "end": 38
                     },
                     "kind": "string"
                   }
@@ -80,23 +72,21 @@
                   "type": "BlockStatement",
                   "span": {
                     "start": 39,
-                    "end": 65,
-                    "ctxt": 0
+                    "end": 65
                   },
+                  "ctxt": 0,
                   "stmts": [
                     {
                       "type": "ReturnStatement",
                       "span": {
                         "start": 49,
-                        "end": 59,
-                        "ctxt": 0
+                        "end": 59
                       },
                       "argument": {
                         "type": "StringLiteral",
                         "span": {
                           "start": 56,
-                          "end": 58,
-                          "ctxt": 0
+                          "end": 58
                         },
                         "value": "",
                         "raw": "\"\""
@@ -109,41 +99,36 @@
                 "type": "GetterProperty",
                 "span": {
                   "start": 71,
-                  "end": 108,
-                  "ctxt": 0
+                  "end": 108
                 },
                 "key": {
                   "type": "Identifier",
                   "span": {
                     "start": 75,
-                    "end": 80,
-                    "ctxt": 0
+                    "end": 80
                   },
-                  "value": "prop2",
-                  "optional": false
+                  "value": "prop2"
                 },
                 "typeAnnotation": null,
                 "body": {
                   "type": "BlockStatement",
                   "span": {
                     "start": 83,
-                    "end": 108,
-                    "ctxt": 0
+                    "end": 108
                   },
+                  "ctxt": 0,
                   "stmts": [
                     {
                       "type": "ReturnStatement",
                       "span": {
                         "start": 93,
-                        "end": 102,
-                        "ctxt": 0
+                        "end": 102
                       },
                       "argument": {
                         "type": "NumericLiteral",
                         "span": {
                           "start": 100,
-                          "end": 101,
-                          "ctxt": 0
+                          "end": 101
                         },
                         "value": 5.0,
                         "raw": "5"

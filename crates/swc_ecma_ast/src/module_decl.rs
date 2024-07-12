@@ -8,7 +8,7 @@ use crate::{
     ident::Ident,
     lit::Str,
     typescript::{TsExportAssignment, TsImportEqualsDecl, TsInterfaceDecl, TsNamespaceExportDecl},
-    ObjectLit,
+    BindingIdent, IdentName, ObjectLit,
 };
 
 #[ast_node]
@@ -43,9 +43,31 @@ pub enum ModuleDecl {
     TsNamespaceExport(TsNamespaceExportDecl),
 }
 
+boxed!(ModuleDecl, [TsImportEqualsDecl]);
+
+macro_rules! module_decl {
+    ([$($variant:ty),*]) => {
+        $(
+            bridge_from!(crate::ModuleItem, crate::ModuleDecl, $variant);
+        )*
+    };
+}
+
+module_decl!([
+    ImportDecl,
+    ExportDecl,
+    NamedExport,
+    ExportDefaultDecl,
+    ExportDefaultExpr,
+    ExportAll,
+    TsImportEqualsDecl,
+    TsExportAssignment,
+    TsNamespaceExportDecl
+]);
+
 impl Take for ModuleDecl {
     fn dummy() -> Self {
-        ModuleDecl::Import(ImportDecl::dummy())
+        ImportDecl::dummy().into()
     }
 }
 
@@ -358,6 +380,9 @@ pub enum ModuleExportName {
     #[tag("StringLiteral")]
     Str(Str),
 }
+
+bridge_from!(ModuleExportName, Ident, BindingIdent);
+bridge_from!(ModuleExportName, Ident, IdentName);
 
 impl ModuleExportName {
     /// Get the atom of the export name.

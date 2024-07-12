@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 17,
-    "end": 67,
-    "ctxt": 0
+    "end": 67
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 17,
-        "end": 67,
-        "ctxt": 0
+        "end": 67
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 21,
-            "end": 66,
-            "ctxt": 0
+            "end": 66
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 21,
-              "end": 22,
-              "ctxt": 0
+              "end": 22
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false,
             "typeAnnotation": null
@@ -38,24 +36,21 @@
             "type": "TemplateLiteral",
             "span": {
               "start": 25,
-              "end": 66,
-              "ctxt": 0
+              "end": 66
             },
             "expressions": [
               {
                 "type": "BinaryExpression",
                 "span": {
                   "start": 32,
-                  "end": 60,
-                  "ctxt": 0
+                  "end": 60
                 },
                 "operator": "in",
                 "left": {
                   "type": "StringLiteral",
                   "span": {
                     "start": 32,
-                    "end": 36,
-                    "ctxt": 0
+                    "end": 36
                   },
                   "value": "hi",
                   "raw": "\"hi\""
@@ -64,8 +59,7 @@
                   "type": "ObjectExpression",
                   "span": {
                     "start": 40,
-                    "end": 60,
-                    "ctxt": 0
+                    "end": 60
                   },
                   "properties": [
                     {
@@ -74,18 +68,15 @@
                         "type": "Identifier",
                         "span": {
                           "start": 42,
-                          "end": 44,
-                          "ctxt": 0
+                          "end": 44
                         },
-                        "value": "hi",
-                        "optional": false
+                        "value": "hi"
                       },
                       "value": {
                         "type": "NumericLiteral",
                         "span": {
                           "start": 46,
-                          "end": 48,
-                          "ctxt": 0
+                          "end": 48
                         },
                         "value": 10.0,
                         "raw": "10"
@@ -97,18 +88,15 @@
                         "type": "Identifier",
                         "span": {
                           "start": 50,
-                          "end": 55,
-                          "ctxt": 0
+                          "end": 55
                         },
-                        "value": "hello",
-                        "optional": false
+                        "value": "hello"
                       },
                       "value": {
                         "type": "NumericLiteral",
                         "span": {
                           "start": 57,
-                          "end": 59,
-                          "ctxt": 0
+                          "end": 59
                         },
                         "value": 20.0,
                         "raw": "20"
@@ -123,8 +111,7 @@
                 "type": "TemplateElement",
                 "span": {
                   "start": 26,
-                  "end": 29,
-                  "ctxt": 0
+                  "end": 29
                 },
                 "tail": false,
                 "cooked": "abc",
@@ -134,8 +121,7 @@
                 "type": "TemplateElement",
                 "span": {
                   "start": 62,
-                  "end": 65,
-                  "ctxt": 0
+                  "end": 65
                 },
                 "tail": true,
                 "cooked": "def",

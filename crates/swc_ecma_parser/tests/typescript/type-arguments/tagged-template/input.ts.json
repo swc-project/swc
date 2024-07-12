@@ -2,31 +2,29 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 8,
-    "ctxt": 0
+    "end": 8
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 8,
-        "ctxt": 0
+        "end": 8
       },
       "expression": {
         "type": "TaggedTemplateExpression",
         "span": {
           "start": 1,
-          "end": 7,
-          "ctxt": 0
+          "end": 7
         },
+        "ctxt": 0,
         "tag": {
           "type": "Identifier",
           "span": {
             "start": 1,
-            "end": 2,
-            "ctxt": 0
+            "end": 2
           },
+          "ctxt": 0,
           "value": "f",
           "optional": false
         },
@@ -34,24 +32,22 @@
           "type": "TsTypeParameterInstantiation",
           "span": {
             "start": 2,
-            "end": 5,
-            "ctxt": 0
+            "end": 5
           },
           "params": [
             {
               "type": "TsTypeReference",
               "span": {
                 "start": 3,
-                "end": 4,
-                "ctxt": 0
+                "end": 4
               },
               "typeName": {
                 "type": "Identifier",
                 "span": {
                   "start": 3,
-                  "end": 4,
-                  "ctxt": 0
+                  "end": 4
                 },
+                "ctxt": 0,
                 "value": "T",
                 "optional": false
               },
@@ -63,8 +59,7 @@
           "type": "TemplateLiteral",
           "span": {
             "start": 5,
-            "end": 7,
-            "ctxt": 0
+            "end": 7
           },
           "expressions": [],
           "quasis": [
@@ -72,8 +67,7 @@
               "type": "TemplateElement",
               "span": {
                 "start": 6,
-                "end": 6,
-                "ctxt": 0
+                "end": 6
               },
               "tail": true,
               "cooked": "",

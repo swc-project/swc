@@ -2,50 +2,44 @@
   "type": "Module",
   "span": {
     "start": 16,
-    "end": 70,
-    "ctxt": 0
+    "end": 70
   },
   "body": [
     {
       "type": "ExportDefaultDeclaration",
       "span": {
         "start": 16,
-        "end": 70,
-        "ctxt": 0
+        "end": 70
       },
       "decl": {
         "type": "ClassExpression",
         "identifier": null,
         "span": {
           "start": 31,
-          "end": 70,
-          "ctxt": 0
+          "end": 70
         },
+        "ctxt": 0,
         "decorators": [],
         "body": [
           {
             "type": "ClassProperty",
             "span": {
               "start": 43,
-              "end": 68,
-              "ctxt": 0
+              "end": 68
             },
             "key": {
               "type": "Identifier",
               "span": {
                 "start": 50,
-                "end": 51,
-                "ctxt": 0
+                "end": 51
               },
-              "value": "z",
-              "optional": false
+              "value": "z"
             },
             "value": {
               "type": "StringLiteral",
               "span": {
                 "start": 62,
-                "end": 67,
-                "ctxt": 0
+                "end": 67
               },
               "value": "Foo",
               "raw": "\"Foo\""
@@ -54,15 +48,13 @@
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 51,
-                "end": 59,
-                "ctxt": 0
+                "end": 59
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 53,
-                  "end": 59,
-                  "ctxt": 0
+                  "end": 59
                 },
                 "kind": "string"
               }

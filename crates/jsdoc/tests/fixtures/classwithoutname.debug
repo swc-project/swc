@@ -1,22 +1,22 @@
 [
     JsDoc {
-        span: 99..99#0,
+        span: 99..99,
         description: Text {
-            span: 99..136#0,
+            span: 99..136,
             value: "Create an instance of MyClass.\n     *",
         },
         tags: [
             TagItem {
-                span: 99..109#0,
+                span: 99..109,
                 tag_name: Text {
-                    span: 99..109#0,
+                    span: 99..109,
                     value: "constructs",
                 },
                 tag: Constructs(
                     ConstructsTag {
-                        span: 99..109#0,
+                        span: 99..109,
                         name: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                     },

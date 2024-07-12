@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 16,
-    "end": 83,
-    "ctxt": 0
+    "end": 83
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 16,
-        "end": 83,
-        "ctxt": 0
+        "end": 83
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -20,32 +19,29 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 22,
-            "end": 83,
-            "ctxt": 0
+            "end": 83
           },
           "id": {
             "type": "ArrayPattern",
             "span": {
               "start": 22,
-              "end": 42,
-              "ctxt": 0
+              "end": 42
             },
             "elements": [
               {
                 "type": "ArrayPattern",
                 "span": {
                   "start": 23,
-                  "end": 31,
-                  "ctxt": 0
+                  "end": 31
                 },
                 "elements": [
                   {
                     "type": "Identifier",
                     "span": {
                       "start": 24,
-                      "end": 26,
-                      "ctxt": 0
+                      "end": 26
                     },
+                    "ctxt": 0,
                     "value": "k1",
                     "optional": false,
                     "typeAnnotation": null
@@ -54,9 +50,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 28,
-                      "end": 30,
-                      "ctxt": 0
+                      "end": 30
                     },
+                    "ctxt": 0,
                     "value": "v1",
                     "optional": false,
                     "typeAnnotation": null
@@ -69,17 +65,16 @@
                 "type": "ArrayPattern",
                 "span": {
                   "start": 33,
-                  "end": 41,
-                  "ctxt": 0
+                  "end": 41
                 },
                 "elements": [
                   {
                     "type": "Identifier",
                     "span": {
                       "start": 34,
-                      "end": 36,
-                      "ctxt": 0
+                      "end": 36
                     },
+                    "ctxt": 0,
                     "value": "k2",
                     "optional": false,
                     "typeAnnotation": null
@@ -88,9 +83,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 38,
-                      "end": 40,
-                      "ctxt": 0
+                      "end": 40
                     },
+                    "ctxt": 0,
                     "value": "v2",
                     "optional": false,
                     "typeAnnotation": null
@@ -107,16 +102,16 @@
             "type": "NewExpression",
             "span": {
               "start": 45,
-              "end": 83,
-              "ctxt": 0
+              "end": 83
             },
+            "ctxt": 0,
             "callee": {
               "type": "Identifier",
               "span": {
                 "start": 49,
-                "end": 52,
-                "ctxt": 0
+                "end": 52
               },
+              "ctxt": 0,
               "value": "Map",
               "optional": false
             },
@@ -127,8 +122,7 @@
                   "type": "ArrayExpression",
                   "span": {
                     "start": 53,
-                    "end": 82,
-                    "ctxt": 0
+                    "end": 82
                   },
                   "elements": [
                     {
@@ -137,8 +131,7 @@
                         "type": "ArrayExpression",
                         "span": {
                           "start": 54,
-                          "end": 64,
-                          "ctxt": 0
+                          "end": 64
                         },
                         "elements": [
                           {
@@ -147,8 +140,7 @@
                               "type": "StringLiteral",
                               "span": {
                                 "start": 55,
-                                "end": 57,
-                                "ctxt": 0
+                                "end": 57
                               },
                               "value": "",
                               "raw": "\"\""
@@ -160,8 +152,7 @@
                               "type": "BooleanLiteral",
                               "span": {
                                 "start": 59,
-                                "end": 63,
-                                "ctxt": 0
+                                "end": 63
                               },
                               "value": true
                             }
@@ -175,8 +166,7 @@
                         "type": "ArrayExpression",
                         "span": {
                           "start": 66,
-                          "end": 81,
-                          "ctxt": 0
+                          "end": 81
                         },
                         "elements": [
                           {
@@ -185,8 +175,7 @@
                               "type": "StringLiteral",
                               "span": {
                                 "start": 67,
-                                "end": 74,
-                                "ctxt": 0
+                                "end": 74
                               },
                               "value": "hello",
                               "raw": "\"hello\""
@@ -198,8 +187,7 @@
                               "type": "BooleanLiteral",
                               "span": {
                                 "start": 76,
-                                "end": 80,
-                                "ctxt": 0
+                                "end": 80
                               },
                               "value": true
                             }

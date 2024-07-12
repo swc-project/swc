@@ -2,32 +2,29 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 80,
-    "ctxt": 0
+    "end": 80
   },
   "body": [
     {
       "type": "ImportDeclaration",
       "span": {
         "start": 1,
-        "end": 80,
-        "ctxt": 0
+        "end": 80
       },
       "specifiers": [
         {
           "type": "ImportDefaultSpecifier",
           "span": {
             "start": 8,
-            "end": 11,
-            "ctxt": 0
+            "end": 11
           },
           "local": {
             "type": "Identifier",
             "span": {
               "start": 8,
-              "end": 11,
-              "ctxt": 0
+              "end": 11
             },
+            "ctxt": 0,
             "value": "foo",
             "optional": false
           }
@@ -37,8 +34,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 17,
-          "end": 27,
-          "ctxt": 0
+          "end": 27
         },
         "value": "foo.json",
         "raw": "\"foo.json\""
@@ -48,8 +44,7 @@
         "type": "ObjectExpression",
         "span": {
           "start": 35,
-          "end": 79,
-          "ctxt": 0
+          "end": 79
         },
         "properties": [
           {
@@ -58,18 +53,15 @@
               "type": "Identifier",
               "span": {
                 "start": 37,
-                "end": 41,
-                "ctxt": 0
+                "end": 41
               },
-              "value": "type",
-              "optional": false
+              "value": "type"
             },
             "value": {
               "type": "StringLiteral",
               "span": {
                 "start": 43,
-                "end": 49,
-                "ctxt": 0
+                "end": 49
               },
               "value": "json",
               "raw": "\"json\""
@@ -81,18 +73,15 @@
               "type": "Identifier",
               "span": {
                 "start": 51,
-                "end": 55,
-                "ctxt": 0
+                "end": 55
               },
-              "value": "lazy",
-              "optional": false
+              "value": "lazy"
             },
             "value": {
               "type": "BooleanLiteral",
               "span": {
                 "start": 57,
-                "end": 61,
-                "ctxt": 0
+                "end": 61
               },
               "value": true
             }
@@ -103,18 +92,15 @@
               "type": "Identifier",
               "span": {
                 "start": 63,
-                "end": 74,
-                "ctxt": 0
+                "end": 74
               },
-              "value": "startAtLine",
-              "optional": false
+              "value": "startAtLine"
             },
             "value": {
               "type": "NumericLiteral",
               "span": {
                 "start": 76,
-                "end": 77,
-                "ctxt": 0
+                "end": 77
               },
               "value": 1.0,
               "raw": "1"

@@ -2,32 +2,29 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 98,
-    "ctxt": 0
+    "end": 98
   },
   "body": [
     {
       "type": "ImportDeclaration",
       "span": {
         "start": 1,
-        "end": 47,
-        "ctxt": 0
+        "end": 47
       },
       "specifiers": [
         {
           "type": "ImportDefaultSpecifier",
           "span": {
             "start": 8,
-            "end": 11,
-            "ctxt": 0
+            "end": 11
           },
           "local": {
             "type": "Identifier",
             "span": {
               "start": 8,
-              "end": 11,
-              "ctxt": 0
+              "end": 11
             },
+            "ctxt": 0,
             "value": "foo",
             "optional": false
           }
@@ -37,8 +34,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 17,
-          "end": 27,
-          "ctxt": 0
+          "end": 27
         },
         "value": "foo.json",
         "raw": "\"foo.json\""
@@ -48,8 +44,7 @@
         "type": "ObjectExpression",
         "span": {
           "start": 33,
-          "end": 47,
-          "ctxt": 0
+          "end": 47
         },
         "properties": [
           {
@@ -58,18 +53,15 @@
               "type": "Identifier",
               "span": {
                 "start": 35,
-                "end": 38,
-                "ctxt": 0
+                "end": 38
               },
-              "value": "for",
-              "optional": false
+              "value": "for"
             },
             "value": {
               "type": "StringLiteral",
               "span": {
                 "start": 40,
-                "end": 45,
-                "ctxt": 0
+                "end": 45
               },
               "value": "for",
               "raw": "\"for\""
@@ -83,24 +75,22 @@
       "type": "ExportNamedDeclaration",
       "span": {
         "start": 48,
-        "end": 98,
-        "ctxt": 0
+        "end": 98
       },
       "specifiers": [
         {
           "type": "ExportSpecifier",
           "span": {
             "start": 57,
-            "end": 60,
-            "ctxt": 0
+            "end": 60
           },
           "orig": {
             "type": "Identifier",
             "span": {
               "start": 57,
-              "end": 60,
-              "ctxt": 0
+              "end": 60
             },
+            "ctxt": 0,
             "value": "foo",
             "optional": false
           },
@@ -112,8 +102,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 68,
-          "end": 78,
-          "ctxt": 0
+          "end": 78
         },
         "value": "foo.json",
         "raw": "\"foo.json\""
@@ -123,8 +112,7 @@
         "type": "ObjectExpression",
         "span": {
           "start": 84,
-          "end": 98,
-          "ctxt": 0
+          "end": 98
         },
         "properties": [
           {
@@ -133,18 +121,15 @@
               "type": "Identifier",
               "span": {
                 "start": 86,
-                "end": 89,
-                "ctxt": 0
+                "end": 89
               },
-              "value": "for",
-              "optional": false
+              "value": "for"
             },
             "value": {
               "type": "StringLiteral",
               "span": {
                 "start": 91,
-                "end": 96,
-                "ctxt": 0
+                "end": 96
               },
               "value": "for",
               "raw": "\"for\""

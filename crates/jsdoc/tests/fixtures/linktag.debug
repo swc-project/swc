@@ -1,23 +1,23 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..10#0,
+                span: 1..10,
                 tag_name: Text {
-                    span: 1..10#0,
+                    span: 1..10,
                     value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {
-                        span: 1..10#0,
+                        span: 1..10,
                         ty: Some(
                             Text {
-                                span: 1..3#0,
+                                span: 1..3,
                                 value: "ns",
                             },
                         ),
@@ -28,39 +28,39 @@
         ],
     },
     JsDoc {
-        span: 36..36#0,
+        span: 36..36,
         description: Text {
-            span: 36..66#0,
+            span: 36..66,
             value: "Similar to [the bar function]{",
         },
         tags: [
             TagItem {
-                span: 36..40#0,
+                span: 36..40,
                 tag_name: Text {
-                    span: 36..40#0,
+                    span: 36..40,
                     value: "link",
                 },
                 tag: Unknown(
                     UnknownTag {
-                        span: 36..40#0,
+                        span: 36..40,
                         extras: Text {
-                            span: 36..41#0,
+                            span: 36..41,
                             value: "bar}.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 36..39#0,
+                span: 36..39,
                 tag_name: Text {
-                    span: 36..39#0,
+                    span: 36..39,
                     value: "see",
                 },
                 tag: See(
                     SeeTag {
-                        span: 36..39#0,
+                        span: 36..39,
                         text: Text {
-                            span: 36..47#0,
+                            span: 36..47,
                             value: "{@link bar}",
                         },
                     },
@@ -69,23 +69,23 @@
         ],
     },
     JsDoc {
-        span: 134..134#0,
+        span: 134..134,
         description: Text {
-            span: 134..134#0,
+            span: 134..134,
             value: "",
         },
         tags: [
             TagItem {
-                span: 134..137#0,
+                span: 134..137,
                 tag_name: Text {
-                    span: 134..137#0,
+                    span: 134..137,
                     value: "see",
                 },
                 tag: See(
                     SeeTag {
-                        span: 134..137#0,
+                        span: 134..137,
                         text: Text {
-                            span: 134..148#0,
+                            span: 134..148,
                             value: "{@link ns.foo}",
                         },
                     },

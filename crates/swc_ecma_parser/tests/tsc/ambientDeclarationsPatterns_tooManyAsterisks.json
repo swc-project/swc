@@ -2,16 +2,14 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 40,
-    "ctxt": 0
+    "end": 40
   },
   "body": [
     {
       "type": "TsModuleDeclaration",
       "span": {
         "start": 1,
-        "end": 40,
-        "ctxt": 0
+        "end": 40
       },
       "declare": true,
       "global": false,
@@ -19,8 +17,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 16,
-          "end": 36,
-          "ctxt": 0
+          "end": 36
         },
         "value": "too*many*asterisks",
         "raw": "\"too*many*asterisks\""
@@ -29,8 +26,7 @@
         "type": "TsModuleBlock",
         "span": {
           "start": 37,
-          "end": 40,
-          "ctxt": 0
+          "end": 40
         },
         "body": []
       }

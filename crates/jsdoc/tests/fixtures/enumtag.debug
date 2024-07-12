@@ -1,22 +1,22 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..30#0,
+            span: 1..30,
             value: "Enum for tri-state values.\n *",
         },
         tags: [
             TagItem {
-                span: 1..5#0,
+                span: 1..5,
                 tag_name: Text {
-                    span: 1..5#0,
+                    span: 1..5,
                     value: "enum",
                 },
                 tag: Enum(
                     EnumTag {
-                        span: 1..5#0,
+                        span: 1..5,
                         ty: Text {
-                            span: 1..9#0,
+                            span: 1..9,
                             value: "{number}",
                         },
                     },
@@ -25,31 +25,31 @@
         ],
     },
     JsDoc {
-        span: 78..78#0,
+        span: 78..78,
         description: Text {
-            span: 78..82#0,
+            span: 78..82,
             value: "true",
         },
         tags: [],
     },
     JsDoc {
-        span: 122..132#0,
+        span: 122..132,
         description: Text {
-            span: 122..122#0,
+            span: 122..122,
             value: "",
         },
         tags: [
             TagItem {
-                span: 122..126#0,
+                span: 122..126,
                 tag_name: Text {
-                    span: 122..126#0,
+                    span: 122..126,
                     value: "type",
                 },
                 tag: Type(
                     TypeTag {
-                        span: 122..126#0,
+                        span: 122..126,
                         name: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                     },
@@ -58,23 +58,23 @@
         ],
     },
     JsDoc {
-        span: 165..165#0,
+        span: 165..165,
         description: Text {
-            span: 165..203#0,
+            span: 165..203,
             value: "Numeric enum for true/false values.\n *",
         },
         tags: [
             TagItem {
-                span: 165..169#0,
+                span: 165..169,
                 tag_name: Text {
-                    span: 165..169#0,
+                    span: 165..169,
                     value: "enum",
                 },
                 tag: Enum(
                     EnumTag {
-                        span: 165..169#0,
+                        span: 165..169,
                         ty: Text {
-                            span: 165..174#0,
+                            span: 165..174,
                             value: "{boolean}",
                         },
                     },
@@ -83,9 +83,9 @@
         ],
     },
     JsDoc {
-        span: 260..260#0,
+        span: 260..260,
         description: Text {
-            span: 260..265#0,
+            span: 260..265,
             value: "false",
         },
         tags: [],

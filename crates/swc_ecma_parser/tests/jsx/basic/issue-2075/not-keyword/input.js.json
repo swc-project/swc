@@ -2,17 +2,16 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 46,
-    "ctxt": 0
+    "end": 46
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 1,
-        "end": 46,
-        "ctxt": 0
+        "end": 46
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 7,
-            "end": 45,
-            "ctxt": 0
+            "end": 45
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 7,
-              "end": 8,
-              "ctxt": 0
+              "end": 8
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false,
             "typeAnnotation": null
@@ -38,8 +36,7 @@
             "type": "JSXElement",
             "span": {
               "start": 11,
-              "end": 45,
-              "ctxt": 0
+              "end": 45
             },
             "opening": {
               "type": "JSXOpeningElement",
@@ -47,48 +44,42 @@
                 "type": "Identifier",
                 "span": {
                   "start": 12,
-                  "end": 15,
-                  "ctxt": 0
+                  "end": 15
                 },
+                "ctxt": 0,
                 "value": "div",
                 "optional": false
               },
               "span": {
                 "start": 11,
-                "end": 39,
-                "ctxt": 0
+                "end": 39
               },
               "attributes": [
                 {
                   "type": "JSXAttribute",
                   "span": {
                     "start": 16,
-                    "end": 38,
-                    "ctxt": 0
+                    "end": 38
                   },
                   "name": {
                     "type": "Identifier",
                     "span": {
                       "start": 16,
-                      "end": 23,
-                      "ctxt": 0
+                      "end": 23
                     },
-                    "value": "onclick",
-                    "optional": false
+                    "value": "onclick"
                   },
                   "value": {
                     "type": "JSXExpressionContainer",
                     "span": {
                       "start": 24,
-                      "end": 38,
-                      "ctxt": 0
+                      "end": 38
                     },
                     "expression": {
                       "type": "ObjectExpression",
                       "span": {
                         "start": 25,
-                        "end": 37,
-                        "ctxt": 0
+                        "end": 37
                       },
                       "properties": [
                         {
@@ -97,18 +88,15 @@
                             "type": "Identifier",
                             "span": {
                               "start": 27,
-                              "end": 30,
-                              "ctxt": 0
+                              "end": 30
                             },
-                            "value": "foo",
-                            "optional": false
+                            "value": "foo"
                           },
                           "value": {
                             "type": "NumericLiteral",
                             "span": {
                               "start": 32,
-                              "end": 35,
-                              "ctxt": 0
+                              "end": 35
                             },
                             "value": 123.0,
                             "raw": "123"
@@ -127,16 +115,15 @@
               "type": "JSXClosingElement",
               "span": {
                 "start": 39,
-                "end": 45,
-                "ctxt": 0
+                "end": 45
               },
               "name": {
                 "type": "Identifier",
                 "span": {
                   "start": 41,
-                  "end": 44,
-                  "ctxt": 0
+                  "end": 44
                 },
+                "ctxt": 0,
                 "value": "div",
                 "optional": false
               }

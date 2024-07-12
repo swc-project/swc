@@ -117,7 +117,7 @@ where
             }
 
             new = new.move_map(|bundle| {
-                let path = match self.scope.get_module(bundle.id).unwrap().fm.name {
+                let path = match &*self.scope.get_module(bundle.id).unwrap().fm.name {
                     FileName::Real(ref v) => v.clone(),
                     _ => {
                         tracing::error!("Cannot rename: not a real file");
@@ -190,7 +190,7 @@ where
                                 _ => unreachable!(),
                             }
 
-                            Some(Stmt::Decl(export.decl))
+                            Some(export.decl.into())
                         }
 
                         ModuleDecl::ExportNamed(NamedExport {
@@ -206,11 +206,11 @@ where
                                     ExportSpecifier::Default(s) => {
                                         props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                             KeyValueProp {
-                                                key: PropName::Ident(Ident::new(
+                                                key: PropName::Ident(IdentName::new(
                                                     "default".into(),
                                                     DUMMY_SP,
                                                 )),
-                                                value: Box::new(Expr::Ident(s.exported)),
+                                                value: s.exported.into(),
                                             },
                                         ))));
                                     }
@@ -224,8 +224,8 @@ where
                                             };
                                             props.push(PropOrSpread::Prop(Box::new(
                                                 Prop::KeyValue(KeyValueProp {
-                                                    key: PropName::Ident(exported),
-                                                    value: Box::new(Expr::Ident(orig)),
+                                                    key: PropName::Ident(exported.into()),
+                                                    value: orig.into(),
                                                 }),
                                             )));
                                         }
@@ -258,19 +258,22 @@ where
 
                                 props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                     KeyValueProp {
-                                        key: PropName::Ident(Ident::new(
+                                        key: PropName::Ident(IdentName::new(
                                             "default".into(),
                                             export.span,
                                         )),
-                                        value: Box::new(Expr::Ident(ident.clone())),
+                                        value: ident.clone().into(),
                                     },
                                 ))));
 
-                                Some(Stmt::Decl(Decl::Class(ClassDecl {
-                                    ident,
-                                    class: expr.class,
-                                    declare: false,
-                                })))
+                                Some(
+                                    ClassDecl {
+                                        ident,
+                                        class: expr.class,
+                                        declare: false,
+                                    }
+                                    .into(),
+                                )
                             }
                             DefaultDecl::Fn(expr) => {
                                 let ident = expr.ident;
@@ -279,19 +282,22 @@ where
 
                                 props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                     KeyValueProp {
-                                        key: PropName::Ident(Ident::new(
+                                        key: PropName::Ident(IdentName::new(
                                             "default".into(),
                                             export.span,
                                         )),
-                                        value: Box::new(Expr::Ident(ident.clone())),
+                                        value: ident.clone().into(),
                                     },
                                 ))));
 
-                                Some(Stmt::Decl(Decl::Fn(FnDecl {
-                                    ident,
-                                    function: expr.function,
-                                    declare: false,
-                                })))
+                                Some(
+                                    FnDecl {
+                                        ident,
+                                        function: expr.function,
+                                        declare: false,
+                                    }
+                                    .into(),
+                                )
                             }
                             DefaultDecl::TsInterfaceDecl(_) => None,
                         },
@@ -302,40 +308,48 @@ where
                             ))));
                             let var = VarDeclarator {
                                 span: DUMMY_SP,
-                                name: Pat::Ident(default_var.into()),
+                                name: default_var.into(),
                                 init: Some(export.expr),
                                 definite: false,
                             };
-                            Some(Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                                span: DUMMY_SP,
-                                kind: VarDeclKind::Const,
-                                declare: false,
-                                decls: vec![var],
-                            }))))
+                            Some(
+                                VarDecl {
+                                    span: DUMMY_SP,
+                                    kind: VarDeclKind::Const,
+                                    declare: false,
+                                    decls: vec![var],
+                                    ..Default::default()
+                                }
+                                .into(),
+                            )
                         }
 
                         ModuleDecl::ExportAll(_) => None,
                     }
                 })
                 .collect(),
+            ..Default::default()
         };
-        body.stmts.push(Stmt::Return(ReturnStmt {
-            span: DUMMY_SP,
-            arg: Some(Box::new(Expr::Object(ObjectLit {
+        body.stmts.push(
+            ReturnStmt {
                 span: DUMMY_SP,
-                props,
-            }))),
-        }));
+                arg: Some(
+                    ObjectLit {
+                        span: DUMMY_SP,
+                        props,
+                    }
+                    .into(),
+                ),
+            }
+            .into(),
+        );
 
         let f = Function {
             is_generator: false,
             is_async,
-            params: Default::default(),
-            decorators: Default::default(),
             span: DUMMY_SP,
             body: Some(body),
-            type_params: Default::default(),
-            return_type: Default::default(),
+            ..Default::default()
         };
 
         let invoked_fn_expr = FnExpr {
@@ -343,12 +357,13 @@ where
             function: Box::new(f),
         };
 
-        let iife = Box::new(Expr::Call(CallExpr {
+        let iife = CallExpr {
             span: DUMMY_SP,
             callee: invoked_fn_expr.as_callee(),
             args: Default::default(),
-            type_args: Default::default(),
-        }));
+            ..Default::default()
+        }
+        .into();
 
         Module {
             span: DUMMY_SP,

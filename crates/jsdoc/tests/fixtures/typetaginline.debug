@@ -1,30 +1,30 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..23#0,
+            span: 1..23,
             value: "Inline type info only.",
         },
         tags: [],
     },
     JsDoc {
-        span: 53..62#0,
+        span: 53..62,
         description: Text {
-            span: 53..53#0,
+            span: 53..53,
             value: "",
         },
         tags: [
             TagItem {
-                span: 53..57#0,
+                span: 53..57,
                 tag_name: Text {
-                    span: 53..57#0,
+                    span: 53..57,
                     value: "type",
                 },
                 tag: Type(
                     TypeTag {
-                        span: 53..57#0,
+                        span: 53..57,
                         name: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                     },
@@ -33,47 +33,47 @@
         ],
     },
     JsDoc {
-        span: 86..86#0,
+        span: 86..86,
         description: Text {
-            span: 86..124#0,
+            span: 86..124,
             value: "Inline type info that conflicts with `",
         },
         tags: [
             TagItem {
-                span: 86..91#0,
+                span: 86..91,
                 tag_name: Text {
-                    span: 86..91#0,
+                    span: 86..91,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 86..91#0,
+                        span: 86..91,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 86..89#0,
+                                span: 86..89,
                                 value: "tag",
                             },
                         ),
                         desc: Text {
-                            span: 86..87#0,
+                            span: 86..87,
                             value: "*",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 86..91#0,
+                span: 86..91,
                 tag_name: Text {
-                    span: 86..91#0,
+                    span: 86..91,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 86..91#0,
+                        span: 86..91,
                         ty: Some(
                             Text {
-                                span: 86..137#0,
+                                span: 86..137,
                                 value: "* @param {number} candyId - The candy's identifier.",
                             },
                         ),
@@ -84,23 +84,23 @@
         ],
     },
     JsDoc {
-        span: 233..242#0,
+        span: 233..242,
         description: Text {
-            span: 233..233#0,
+            span: 233..233,
             value: "",
         },
         tags: [
             TagItem {
-                span: 233..237#0,
+                span: 233..237,
                 tag_name: Text {
-                    span: 233..237#0,
+                    span: 233..237,
                     value: "type",
                 },
                 tag: Type(
                     TypeTag {
-                        span: 233..237#0,
+                        span: 233..237,
                         name: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                     },
@@ -109,30 +109,30 @@
         ],
     },
     JsDoc {
-        span: 268..268#0,
+        span: 268..268,
         description: Text {
-            span: 268..314#0,
+            span: 268..314,
             value: "Inline type info for leading param only.\n *\n *",
         },
         tags: [
             TagItem {
-                span: 268..273#0,
+                span: 268..273,
                 tag_name: Text {
-                    span: 268..273#0,
+                    span: 268..273,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 268..273#0,
+                        span: 268..273,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 268..276#0,
+                                span: 268..276,
                                 value: "{string}",
                             },
                         ),
                         desc: Text {
-                            span: 268..272#0,
+                            span: 268..272,
                             value: "item",
                         },
                     },
@@ -141,23 +141,23 @@
         ],
     },
     JsDoc {
-        span: 364..376#0,
+        span: 364..376,
         description: Text {
-            span: 364..364#0,
+            span: 364..364,
             value: "",
         },
         tags: [
             TagItem {
-                span: 364..368#0,
+                span: 364..368,
                 tag_name: Text {
-                    span: 364..368#0,
+                    span: 364..368,
                     value: "type",
                 },
                 tag: Type(
                     TypeTag {
-                        span: 364..368#0,
+                        span: 364..368,
                         name: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                     },
@@ -166,30 +166,30 @@
         ],
     },
     JsDoc {
-        span: 410..410#0,
+        span: 410..410,
         description: Text {
-            span: 410..457#0,
+            span: 410..457,
             value: "Inline type info for trailing param only.\n *\n *",
         },
         tags: [
             TagItem {
-                span: 410..415#0,
+                span: 410..415,
                 tag_name: Text {
-                    span: 410..415#0,
+                    span: 410..415,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 410..415#0,
+                        span: 410..415,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 410..421#0,
+                                span: 410..421,
                                 value: "{Dispenser}",
                             },
                         ),
                         desc: Text {
-                            span: 410..419#0,
+                            span: 410..419,
                             value: "dispenser",
                         },
                     },
@@ -198,23 +198,23 @@
         ],
     },
     JsDoc {
-        span: 524..533#0,
+        span: 524..533,
         description: Text {
-            span: 524..524#0,
+            span: 524..524,
             value: "",
         },
         tags: [
             TagItem {
-                span: 524..528#0,
+                span: 524..528,
                 tag_name: Text {
-                    span: 524..528#0,
+                    span: 524..528,
                     value: "type",
                 },
                 tag: Type(
                     TypeTag {
-                        span: 524..528#0,
+                        span: 524..528,
                         name: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                     },
@@ -223,76 +223,76 @@
         ],
     },
     JsDoc {
-        span: 559..559#0,
+        span: 559..559,
         description: Text {
-            span: 559..603#0,
+            span: 559..603,
             value: "Inline type info for inner param only.\n *\n *",
         },
         tags: [
             TagItem {
-                span: 559..564#0,
+                span: 559..564,
                 tag_name: Text {
-                    span: 559..564#0,
+                    span: 559..564,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 559..564#0,
+                        span: 559..564,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 559..570#0,
+                                span: 559..570,
                                 value: "{Dispenser}",
                             },
                         ),
                         desc: Text {
-                            span: 559..568#0,
+                            span: 559..568,
                             value: "dispenser",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 559..564#0,
+                span: 559..564,
                 tag_name: Text {
-                    span: 559..564#0,
+                    span: 559..564,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 559..564#0,
+                        span: 559..564,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 559..567#0,
+                                span: 559..567,
                                 value: "{number}",
                             },
                         ),
                         desc: Text {
-                            span: 559..564#0,
+                            span: 559..564,
                             value: "shade",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 559..564#0,
+                span: 559..564,
                 tag_name: Text {
-                    span: 559..564#0,
+                    span: 559..564,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 559..564#0,
+                        span: 559..564,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 559..567#0,
+                                span: 559..567,
                                 value: "{string}",
                             },
                         ),
                         desc: Text {
-                            span: 559..564#0,
+                            span: 559..564,
                             value: "brand",
                         },
                     },
@@ -301,23 +301,23 @@
         ],
     },
     JsDoc {
-        span: 720..728#0,
+        span: 720..728,
         description: Text {
-            span: 720..720#0,
+            span: 720..720,
             value: "",
         },
         tags: [
             TagItem {
-                span: 720..724#0,
+                span: 720..724,
                 tag_name: Text {
-                    span: 720..724#0,
+                    span: 720..724,
                     value: "type",
                 },
                 tag: Type(
                     TypeTag {
-                        span: 720..724#0,
+                        span: 720..724,
                         name: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                     },
