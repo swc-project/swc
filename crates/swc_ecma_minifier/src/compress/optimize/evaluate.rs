@@ -345,6 +345,16 @@ impl Optimizer<'_> {
                 self.changed = true;
                 report_change!("evaluate: Evaluated an expression as `{}`", value);
 
+                if value.is_nan() {
+                    *e = Ident::new(
+                        "NaN".into(),
+                        e.span(),
+                        SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
+                    )
+                    .into();
+                    return;
+                }
+
                 *e = Lit::Num(Number {
                     span: e.span(),
                     value,
