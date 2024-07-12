@@ -6,6 +6,8 @@ use std::ops::{Deref, DerefMut};
 
 use bumpalo::Bump;
 
+pub mod boxed;
+
 #[derive(Default)]
 pub struct Allocator {
     alloc: Bump,
