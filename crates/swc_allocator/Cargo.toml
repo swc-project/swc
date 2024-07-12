@@ -15,6 +15,7 @@ bumpalo = { workspace = true, features = [
     "boxed",
     "collections",
 ] }
+rkyv = { workspace = true }
 scoped-tls = { workspace = true }
 serde = { workspace = true }
 serde_derive = { workspace = true }
