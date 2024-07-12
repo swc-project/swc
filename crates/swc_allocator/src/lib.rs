@@ -5,10 +5,7 @@
 use std::ops::{Deref, DerefMut};
 
 use bumpalo::Bump;
-use rkyv::{
-    vec::{ArchivedVec, VecResolver},
-    DeserializeUnsized,
-};
+use rkyv::{vec::ArchivedVec, DeserializeUnsized};
 use serde_derive::{Deserialize, Serialize};
 
 use crate::{
@@ -85,6 +82,12 @@ impl<T> IntoIterator for Vec<T> {
 
     fn into_iter(self) -> Self::IntoIter {
         self.0.into_iter()
+    }
+}
+
+impl<T> From<Box<[T]>> for Vec<T> {
+    fn from(v: Box<[T]>) -> Self {
+        Self(allocator_api2::vec::Vec::from(v.0))
     }
 }
 
