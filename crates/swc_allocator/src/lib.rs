@@ -6,6 +6,7 @@ use std::ops::{Deref, DerefMut};
 
 use bumpalo::Bump;
 
+mod alloc;
 pub mod boxed;
 
 #[derive(Default)]
