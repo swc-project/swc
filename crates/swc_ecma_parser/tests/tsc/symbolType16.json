@@ -2,24 +2,22 @@
   "type": "Script",
   "span": {
     "start": 16,
-    "end": 100,
-    "ctxt": 0
+    "end": 100
   },
   "body": [
     {
       "type": "TsInterfaceDeclaration",
       "span": {
         "start": 16,
-        "end": 63,
-        "ctxt": 0
+        "end": 63
       },
       "id": {
         "type": "Identifier",
         "span": {
           "start": 26,
-          "end": 32,
-          "ctxt": 0
+          "end": 32
         },
+        "ctxt": 0,
         "value": "Symbol",
         "optional": false
       },
@@ -30,25 +28,23 @@
         "type": "TsInterfaceBody",
         "span": {
           "start": 33,
-          "end": 63,
-          "ctxt": 0
+          "end": 63
         },
         "body": [
           {
             "type": "TsPropertySignature",
             "span": {
               "start": 39,
-              "end": 61,
-              "ctxt": 0
+              "end": 61
             },
             "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
                 "start": 39,
-                "end": 52,
-                "ctxt": 0
+                "end": 52
               },
+              "ctxt": 0,
               "value": "newSymbolProp",
               "optional": false
             },
@@ -58,15 +54,13 @@
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 52,
-                "end": 60,
-                "ctxt": 0
+                "end": 60
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 54,
-                  "end": 60,
-                  "ctxt": 0
+                  "end": 60
                 },
                 "kind": "number"
               }
@@ -79,9 +73,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 65,
-        "end": 81,
-        "ctxt": 0
+        "end": 81
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -89,31 +83,28 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 69,
-            "end": 80,
-            "ctxt": 0
+            "end": 80
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 69,
-              "end": 72,
-              "ctxt": 0
+              "end": 72
             },
+            "ctxt": 0,
             "value": "sym",
             "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 72,
-                "end": 80,
-                "ctxt": 0
+                "end": 80
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 74,
-                  "end": 80,
-                  "ctxt": 0
+                  "end": 80
                 },
                 "kind": "symbol"
               }
@@ -128,23 +119,21 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 82,
-        "end": 100,
-        "ctxt": 0
+        "end": 100
       },
       "expression": {
         "type": "MemberExpression",
         "span": {
           "start": 82,
-          "end": 99,
-          "ctxt": 0
+          "end": 99
         },
         "object": {
           "type": "Identifier",
           "span": {
             "start": 82,
-            "end": 85,
-            "ctxt": 0
+            "end": 85
           },
+          "ctxt": 0,
           "value": "sym",
           "optional": false
         },
@@ -152,11 +141,9 @@
           "type": "Identifier",
           "span": {
             "start": 86,
-            "end": 99,
-            "ctxt": 0
+            "end": 99
           },
-          "value": "newSymbolProp",
-          "optional": false
+          "value": "newSymbolProp"
         }
       }
     }

@@ -2,14 +2,17 @@ use is_macro::Is;
 use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
 use swc_cached::regex::CachedRegex;
-use swc_common::{Span, DUMMY_SP};
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     is_valid_prop_ident, member_expr, private_ident, quote_ident, quote_str, ExprFactory,
     FunctionFactory, IsDirective,
 };
 
-use crate::module_decl_strip::{ExportItem, ExportKV};
+use crate::{
+    module_decl_strip::{ExportItem, ExportKV},
+    SpanCtx,
+};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
@@ -168,7 +171,7 @@ pub(super) fn object_define_property(
     prop_name: ExprOrSpread,
     descriptor: ExprOrSpread,
 ) -> Expr {
-    member_expr!(DUMMY_SP, Object.defineProperty)
+    member_expr!(Default::default(), DUMMY_SP, Object.defineProperty)
         .as_call(DUMMY_SP, vec![target, prop_name, descriptor])
 }
 
@@ -282,7 +285,7 @@ pub(crate) fn esm_export() -> Function {
 
     let getter = KeyValueProp {
         key: quote_ident!("get").into(),
-        value: all.clone().computed_member(Expr::from(name.clone())).into(),
+        value: all.clone().computed_member(name.clone()).into(),
     };
 
     let body = object_define_enumerable(
@@ -304,6 +307,7 @@ pub(crate) fn esm_export() -> Function {
                 init: None,
                 definite: false,
             }],
+            ..Default::default()
         }
         .into(),
         right: Box::new(all.clone().into()),
@@ -316,13 +320,12 @@ pub(crate) fn esm_export() -> Function {
         decorators: Default::default(),
         span: DUMMY_SP,
         body: Some(BlockStmt {
-            span: DUMMY_SP,
             stmts: vec![for_in_stmt],
+            ..Default::default()
         }),
         is_generator: false,
         is_async: false,
-        type_params: None,
-        return_type: None,
+        ..Default::default()
     }
 }
 
@@ -333,10 +336,10 @@ pub(crate) fn emit_export_stmts(exports: Ident, mut prop_list: Vec<ExportKV>) ->
             .map(|(export_name, export_item)| {
                 object_define_enumerable(
                     exports.as_arg(),
-                    quote_str!(export_item.export_name_span(), export_name).as_arg(),
+                    quote_str!(export_item.export_name_span().0, export_name).as_arg(),
                     prop_function((
                         "get".into(),
-                        ExportItem::new(DUMMY_SP, export_item.into_local_ident()),
+                        ExportItem::new(Default::default(), export_item.into_local_ident()),
                     ))
                     .into(),
                 )
@@ -369,16 +372,16 @@ pub(crate) fn emit_export_stmts(exports: Ident, mut prop_list: Vec<ExportKV>) ->
     }
 }
 
-pub(crate) fn prop_name(key: &str, span: Span) -> IdentOrStr {
+pub(crate) fn prop_name(key: &str, (span, _): SpanCtx) -> IdentOrStr {
     if is_valid_prop_ident(key) {
-        IdentOrStr::Ident(quote_ident!(span, key))
+        IdentOrStr::Ident(IdentName::new(key.into(), span))
     } else {
         IdentOrStr::Str(quote_str!(span, key))
     }
 }
 
 pub(crate) enum IdentOrStr {
-    Ident(Ident),
+    Ident(IdentName),
     Str(Str),
 }
 

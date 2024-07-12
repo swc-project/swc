@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 37,
-    "end": 74,
-    "ctxt": 0
+    "end": 74
   },
   "body": [
     {
@@ -12,52 +11,49 @@
         "type": "Identifier",
         "span": {
           "start": 43,
-          "end": 44,
-          "ctxt": 0
+          "end": 44
         },
+        "ctxt": 0,
         "value": "C",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 37,
-        "end": 74,
-        "ctxt": 0
+        "end": 74
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassMethod",
           "span": {
             "start": 51,
-            "end": 72,
-            "ctxt": 0
+            "end": 72
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 52,
-              "end": 61,
-              "ctxt": 0
+              "end": 61
             },
-            "value": "generator",
-            "optional": false
+            "value": "generator"
           },
           "function": {
             "params": [],
             "decorators": [],
             "span": {
               "start": 51,
-              "end": 72,
-              "ctxt": 0
+              "end": 72
             },
+            "ctxt": 0,
             "body": {
               "type": "BlockStatement",
               "span": {
                 "start": 69,
-                "end": 72,
-                "ctxt": 0
+                "end": 72
               },
+              "ctxt": 0,
               "stmts": []
             },
             "generator": true,
@@ -67,15 +63,13 @@
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 63,
-                "end": 68,
-                "ctxt": 0
+                "end": 68
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 65,
-                  "end": 68,
-                  "ctxt": 0
+                  "end": 68
                 },
                 "kind": "any"
               }

@@ -2,54 +2,48 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 20,
-    "ctxt": 0
+    "end": 20
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 20,
-        "ctxt": 0
+        "end": 20
       },
       "expression": {
         "type": "OptionalChainingExpression",
         "span": {
           "start": 1,
-          "end": 20,
-          "ctxt": 0
+          "end": 20
         },
         "optional": false,
         "base": {
           "type": "MemberExpression",
           "span": {
             "start": 1,
-            "end": 20,
-            "ctxt": 0
+            "end": 20
           },
           "object": {
             "type": "OptionalChainingExpression",
             "span": {
               "start": 1,
-              "end": 15,
-              "ctxt": 0
+              "end": 15
             },
             "optional": true,
             "base": {
               "type": "MemberExpression",
               "span": {
                 "start": 1,
-                "end": 15,
-                "ctxt": 0
+                "end": 15
               },
               "object": {
                 "type": "Identifier",
                 "span": {
                   "start": 1,
-                  "end": 8,
-                  "ctxt": 0
+                  "end": 8
                 },
+                "ctxt": 0,
                 "value": "missing",
                 "optional": false
               },
@@ -57,11 +51,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 10,
-                  "end": 15,
-                  "ctxt": 0
+                  "end": 15
                 },
-                "value": "thing",
-                "optional": false
+                "value": "thing"
               }
             }
           },
@@ -69,11 +61,9 @@
             "type": "Identifier",
             "span": {
               "start": 16,
-              "end": 20,
-              "ctxt": 0
+              "end": 20
             },
-            "value": "name",
-            "optional": false
+            "value": "name"
           }
         }
       }

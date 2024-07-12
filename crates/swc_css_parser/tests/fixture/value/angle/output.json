@@ -2,62 +2,54 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 138,
-    "ctxt": 0
+    "end": 138
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
         "start": 1,
-        "end": 137,
-        "ctxt": 0
+        "end": 137
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 1,
-          "end": 4,
-          "ctxt": 0
+          "end": 4
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
               "start": 1,
-              "end": 4,
-              "ctxt": 0
+              "end": 4
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
                   "start": 1,
-                  "end": 4,
-                  "ctxt": 0
+                  "end": 4
                 },
                 "nestingSelector": null,
                 "typeSelector": {
                   "type": "TagNameSelector",
                   "span": {
                     "start": 1,
-                    "end": 4,
-                    "ctxt": 0
+                    "end": 4
                   },
                   "name": {
                     "type": "WqName",
                     "span": {
                       "start": 1,
-                      "end": 4,
-                      "ctxt": 0
+                      "end": 4
                     },
                     "prefix": null,
                     "value": {
                       "type": "Ident",
                       "span": {
                         "start": 1,
-                        "end": 4,
-                        "ctxt": 0
+                        "end": 4
                       },
                       "value": "div",
                       "raw": "div"
@@ -74,15 +66,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 5,
-          "end": 137,
-          "ctxt": 0
+          "end": 137
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 5,
-            "end": 6,
-            "ctxt": 0
+            "end": 6
           },
           "token": "LBrace"
         },
@@ -91,15 +81,13 @@
             "type": "Declaration",
             "span": {
               "start": 11,
-              "end": 35,
-              "ctxt": 0
+              "end": 35
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 11,
-                "end": 20,
-                "ctxt": 0
+                "end": 20
               },
               "value": "transform",
               "raw": "transform"
@@ -109,15 +97,13 @@
                 "type": "Function",
                 "span": {
                   "start": 22,
-                  "end": 35,
-                  "ctxt": 0
+                  "end": 35
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 22,
-                    "end": 28,
-                    "ctxt": 0
+                    "end": 28
                   },
                   "value": "rotate",
                   "raw": "rotate"
@@ -127,15 +113,13 @@
                     "type": "Angle",
                     "span": {
                       "start": 29,
-                      "end": 34,
-                      "ctxt": 0
+                      "end": 34
                     },
                     "value": {
                       "type": "Number",
                       "span": {
                         "start": 29,
-                        "end": 31,
-                        "ctxt": 0
+                        "end": 31
                       },
                       "value": 45.0,
                       "raw": "45"
@@ -144,8 +128,7 @@
                       "type": "Ident",
                       "span": {
                         "start": 31,
-                        "end": 34,
-                        "ctxt": 0
+                        "end": 34
                       },
                       "value": "deg",
                       "raw": "deg"
@@ -160,15 +143,13 @@
             "type": "Declaration",
             "span": {
               "start": 41,
-              "end": 67,
-              "ctxt": 0
+              "end": 67
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 41,
-                "end": 50,
-                "ctxt": 0
+                "end": 50
               },
               "value": "transform",
               "raw": "transform"
@@ -178,15 +159,13 @@
                 "type": "Function",
                 "span": {
                   "start": 52,
-                  "end": 67,
-                  "ctxt": 0
+                  "end": 67
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 52,
-                    "end": 58,
-                    "ctxt": 0
+                    "end": 58
                   },
                   "value": "rotate",
                   "raw": "rotate"
@@ -196,15 +175,13 @@
                     "type": "Angle",
                     "span": {
                       "start": 59,
-                      "end": 66,
-                      "ctxt": 0
+                      "end": 66
                     },
                     "value": {
                       "type": "Number",
                       "span": {
                         "start": 59,
-                        "end": 62,
-                        "ctxt": 0
+                        "end": 62
                       },
                       "value": -50.0,
                       "raw": "-50"
@@ -213,8 +190,7 @@
                       "type": "Ident",
                       "span": {
                         "start": 62,
-                        "end": 66,
-                        "ctxt": 0
+                        "end": 66
                       },
                       "value": "grad",
                       "raw": "grad"
@@ -229,15 +205,13 @@
             "type": "Declaration",
             "span": {
               "start": 73,
-              "end": 101,
-              "ctxt": 0
+              "end": 101
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 73,
-                "end": 82,
-                "ctxt": 0
+                "end": 82
               },
               "value": "transform",
               "raw": "transform"
@@ -247,15 +221,13 @@
                 "type": "Function",
                 "span": {
                   "start": 84,
-                  "end": 101,
-                  "ctxt": 0
+                  "end": 101
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 84,
-                    "end": 90,
-                    "ctxt": 0
+                    "end": 90
                   },
                   "value": "rotate",
                   "raw": "rotate"
@@ -265,15 +237,13 @@
                     "type": "Angle",
                     "span": {
                       "start": 91,
-                      "end": 100,
-                      "ctxt": 0
+                      "end": 100
                     },
                     "value": {
                       "type": "Number",
                       "span": {
                         "start": 91,
-                        "end": 97,
-                        "ctxt": 0
+                        "end": 97
                       },
                       "value": 3.1416,
                       "raw": "3.1416"
@@ -282,8 +252,7 @@
                       "type": "Ident",
                       "span": {
                         "start": 97,
-                        "end": 100,
-                        "ctxt": 0
+                        "end": 100
                       },
                       "value": "rad",
                       "raw": "rad"
@@ -298,15 +267,13 @@
             "type": "Declaration",
             "span": {
               "start": 107,
-              "end": 134,
-              "ctxt": 0
+              "end": 134
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 107,
-                "end": 116,
-                "ctxt": 0
+                "end": 116
               },
               "value": "transform",
               "raw": "transform"
@@ -316,15 +283,13 @@
                 "type": "Function",
                 "span": {
                   "start": 118,
-                  "end": 134,
-                  "ctxt": 0
+                  "end": 134
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 118,
-                    "end": 124,
-                    "ctxt": 0
+                    "end": 124
                   },
                   "value": "rotate",
                   "raw": "rotate"
@@ -334,15 +299,13 @@
                     "type": "Angle",
                     "span": {
                       "start": 125,
-                      "end": 133,
-                      "ctxt": 0
+                      "end": 133
                     },
                     "value": {
                       "type": "Number",
                       "span": {
                         "start": 125,
-                        "end": 129,
-                        "ctxt": 0
+                        "end": 129
                       },
                       "value": 1.75,
                       "raw": "1.75"
@@ -351,8 +314,7 @@
                       "type": "Ident",
                       "span": {
                         "start": 129,
-                        "end": 133,
-                        "ctxt": 0
+                        "end": 133
                       },
                       "value": "turn",
                       "raw": "turn"

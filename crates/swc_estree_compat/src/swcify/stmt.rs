@@ -1,13 +1,13 @@
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::{
-    BlockStmt, BreakStmt, ClassDecl, ClassExpr, ContinueStmt, DebuggerStmt, Decl, DefaultDecl,
+    BlockStmt, BreakStmt, ClassDecl, ClassExpr, ContinueStmt, DebuggerStmt, DefaultDecl,
     DoWhileStmt, EmptyStmt, ExportAll, ExportDecl, ExportDefaultDecl, ExportDefaultExpr,
-    ExportNamedSpecifier, Expr, ExprStmt, FnDecl, FnExpr, ForHead, ForInStmt, ForOfStmt, ForStmt,
-    IfStmt, ImportDecl, ImportNamedSpecifier, ImportSpecifier, ImportStarAsSpecifier, KeyValueProp,
+    ExportNamedSpecifier, ExprStmt, FnDecl, FnExpr, ForHead, ForInStmt, ForOfStmt, ForStmt, IfStmt,
+    ImportDecl, ImportNamedSpecifier, ImportSpecifier, ImportStarAsSpecifier, KeyValueProp,
     LabeledStmt, Lit, ModuleDecl, ModuleItem, NamedExport, ObjectLit, Pat, Prop, PropName,
-    PropOrSpread, ReturnStmt, Stmt, SwitchStmt, ThrowStmt, TryStmt, TsExportAssignment,
-    TsInterfaceDecl, TsModuleDecl, TsTypeAliasDecl, VarDecl, VarDeclKind, VarDeclOrExpr,
-    VarDeclarator, WhileStmt, WithStmt,
+    PropOrSpread, ReturnStmt, SwitchStmt, ThrowStmt, TryStmt, TsExportAssignment, TsInterfaceDecl,
+    TsModuleDecl, TsTypeAliasDecl, VarDecl, VarDeclKind, VarDeclOrExpr, VarDeclarator, WhileStmt,
+    WithStmt,
 };
 use swc_estree_ast::{
     BlockStatement, BreakStatement, ClassDeclaration, ContinueStatement, DebuggerStatement,
@@ -37,6 +37,7 @@ impl Swcify for BlockStatement {
                 .into_iter()
                 .map(|v| v.expect_stmt())
                 .collect(),
+            ..Default::default()
         }
     }
 }
@@ -45,7 +46,7 @@ impl Swcify for Statement {
     type Output = ModuleItem;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
-        ModuleItem::Stmt(match self {
+        match self {
             Statement::Block(v) => v.swcify(ctx).into(),
             Statement::Break(v) => v.swcify(ctx).into(),
             Statement::Continue(v) => v.swcify(ctx).into(),
@@ -55,7 +56,7 @@ impl Swcify for Statement {
             Statement::Expr(v) => v.swcify(ctx).into(),
             Statement::ForIn(v) => v.swcify(ctx).into(),
             Statement::For(v) => v.swcify(ctx).into(),
-            Statement::FuncDecl(v) => Decl::Fn(v.swcify(ctx)).into(),
+            Statement::FuncDecl(v) => v.swcify(ctx).into(),
             Statement::If(v) => v.swcify(ctx).into(),
             Statement::Labeled(v) => v.swcify(ctx).into(),
             Statement::Return(v) => v.swcify(ctx).into(),
@@ -65,37 +66,25 @@ impl Swcify for Statement {
             Statement::VarDecl(v) => v.swcify(ctx).into(),
             Statement::While(v) => v.swcify(ctx).into(),
             Statement::With(v) => v.swcify(ctx).into(),
-            Statement::ClassDecl(v) => Decl::Class(v.swcify(ctx)).into(),
-            Statement::ExportAllDecl(v) => {
-                return ModuleItem::ModuleDecl(ModuleDecl::from(v.swcify(ctx)))
-            }
-            Statement::ExportDefaultDecl(v) => return ModuleItem::ModuleDecl(v.swcify(ctx)),
-            Statement::ExportNamedDecl(v) => {
-                return ModuleItem::ModuleDecl(ModuleDecl::from(v.swcify(ctx)))
-            }
+            Statement::ClassDecl(v) => v.swcify(ctx).into(),
+            Statement::ExportAllDecl(v) => ModuleItem::ModuleDecl(v.swcify(ctx).into()),
+            Statement::ExportDefaultDecl(v) => ModuleItem::ModuleDecl(v.swcify(ctx)),
+            Statement::ExportNamedDecl(v) => ModuleItem::ModuleDecl(v.swcify(ctx).into()),
             Statement::ForOf(v) => v.swcify(ctx).into(),
-            Statement::ImportDecl(v) => {
-                return ModuleItem::ModuleDecl(ModuleDecl::from(v.swcify(ctx)))
-            }
-            Statement::DeclClass(v) => Stmt::Decl(v.swcify(ctx).into()),
-            Statement::DeclFunc(v) => Stmt::Decl(v.swcify(ctx).into()),
-            Statement::DeclInterface(v) => Stmt::Decl(v.swcify(ctx).into()),
-            Statement::DeclModule(v) => Stmt::Decl(v.swcify(ctx).into()),
-            Statement::DeclareModuleExports(v) => {
-                return ModuleItem::ModuleDecl(ModuleDecl::from(v.swcify(ctx)))
-            }
-            Statement::DeclTypeAlias(v) => Stmt::Decl(Decl::from(v.swcify(ctx))),
-            Statement::DeclVar(v) => Stmt::Decl(Decl::from(v.swcify(ctx))),
-            Statement::DeclExportDeclaration(v) => {
-                return ModuleItem::ModuleDecl(ModuleDecl::from(v.swcify(ctx)))
-            }
-            Statement::DeclExportAllDeclaration(v) => {
-                return ModuleItem::ModuleDecl(ModuleDecl::from(v.swcify(ctx)))
-            }
+            Statement::ImportDecl(v) => ModuleItem::ModuleDecl(v.swcify(ctx).into()),
+            Statement::DeclClass(v) => v.swcify(ctx).into(),
+            Statement::DeclFunc(v) => v.swcify(ctx).into(),
+            Statement::DeclInterface(v) => v.swcify(ctx).into(),
+            Statement::DeclModule(v) => v.swcify(ctx).into(),
+            Statement::DeclareModuleExports(v) => ModuleItem::ModuleDecl(v.swcify(ctx).into()),
+            Statement::DeclTypeAlias(v) => v.swcify(ctx).into(),
+            Statement::DeclVar(v) => v.swcify(ctx).into(),
+            Statement::DeclExportDeclaration(v) => ModuleItem::ModuleDecl(v.swcify(ctx).into()),
+            Statement::DeclExportAllDeclaration(v) => ModuleItem::ModuleDecl(v.swcify(ctx).into()),
             _ => {
                 todo!("swcify: {:?}", self)
             }
-        })
+        }
     }
 }
 
@@ -105,7 +94,7 @@ impl Swcify for BreakStatement {
     fn swcify(self, ctx: &Context) -> Self::Output {
         BreakStmt {
             span: ctx.span(&self.base),
-            label: self.label.swcify(ctx).map(|v| v.id),
+            label: self.label.swcify(ctx).map(|v| v.into()),
         }
     }
 }
@@ -116,7 +105,7 @@ impl Swcify for ContinueStatement {
     fn swcify(self, ctx: &Context) -> Self::Output {
         ContinueStmt {
             span: ctx.span(&self.base),
-            label: self.label.swcify(ctx).map(|v| v.id),
+            label: self.label.swcify(ctx).map(|v| v.into()),
         }
     }
 }
@@ -218,7 +207,7 @@ impl Swcify for FunctionDeclaration {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         FnDecl {
-            ident: self.id.swcify(ctx).map(|v| v.id).unwrap(),
+            ident: self.id.swcify(ctx).map(|v| v.into()).unwrap(),
             declare: false,
             function: swc_ecma_ast::Function {
                 params: self.params.swcify(ctx),
@@ -227,8 +216,7 @@ impl Swcify for FunctionDeclaration {
                 body: Some(self.body.swcify(ctx)),
                 is_generator: false,
                 is_async: self.is_async.unwrap_or_default(),
-                type_params: Default::default(),
-                return_type: Default::default(),
+                ..Default::default()
             }
             .into(),
         }
@@ -258,7 +246,7 @@ impl Swcify for LabeledStatement {
     fn swcify(self, ctx: &Context) -> Self::Output {
         LabeledStmt {
             span: ctx.span(&self.base),
-            label: self.label.swcify(ctx).id,
+            label: self.label.swcify(ctx).into(),
             body: Box::new(self.body.swcify(ctx).expect_stmt()),
         }
     }
@@ -345,9 +333,9 @@ impl Swcify for swc_estree_ast::CatchClauseParam {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {
-            swc_estree_ast::CatchClauseParam::Id(v) => Pat::from(v.swcify(ctx)),
-            swc_estree_ast::CatchClauseParam::Array(v) => Pat::from(v.swcify(ctx)),
-            swc_estree_ast::CatchClauseParam::Object(v) => Pat::from(v.swcify(ctx)),
+            swc_estree_ast::CatchClauseParam::Id(v) => v.swcify(ctx).into(),
+            swc_estree_ast::CatchClauseParam::Array(v) => v.swcify(ctx).into(),
+            swc_estree_ast::CatchClauseParam::Object(v) => v.swcify(ctx).into(),
         }
     }
 }
@@ -365,6 +353,7 @@ impl Swcify for VariableDeclaration {
             },
             declare: self.declare.unwrap_or_default(),
             decls: self.declarations.swcify(ctx),
+            ..Default::default()
         }
     }
 }
@@ -411,7 +400,7 @@ impl Swcify for ClassDeclaration {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         ClassDecl {
-            ident: self.id.swcify(ctx).id,
+            ident: self.id.swcify(ctx).into(),
             declare: self.declare.unwrap_or_default(),
             class: swc_ecma_ast::Class {
                 span: ctx.span(&self.base),
@@ -419,9 +408,7 @@ impl Swcify for ClassDeclaration {
                 body: self.body.swcify(ctx),
                 super_class: self.super_class.swcify(ctx),
                 is_abstract: self.is_abstract.unwrap_or_default(),
-                type_params: None,
-                super_type_params: None,
-                implements: Default::default(),
+                ..Default::default()
             }
             .into(),
         }
@@ -464,7 +451,7 @@ impl Swcify for ImportAttribute {
     fn swcify(self, ctx: &Context) -> Self::Output {
         KeyValueProp {
             key: self.key.swcify(ctx),
-            value: Box::new(Expr::Lit(Lit::Str(self.value.swcify(ctx)))),
+            value: Lit::Str(self.value.swcify(ctx)).into(),
         }
     }
 }
@@ -474,7 +461,7 @@ impl Swcify for IdOrString {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {
-            IdOrString::Id(v) => PropName::Ident(v.swcify(ctx).id),
+            IdOrString::Id(v) => PropName::Ident(v.swcify(ctx).into()),
             IdOrString::String(v) => PropName::Str(v.swcify(ctx)),
         }
     }
@@ -586,7 +573,7 @@ impl Swcify for swc_estree_ast::ExportDefaultSpecifier {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         swc_ecma_ast::ExportDefaultSpecifier {
-            exported: self.exported.swcify(ctx).id,
+            exported: self.exported.swcify(ctx).into(),
         }
     }
 }
@@ -680,7 +667,7 @@ impl Swcify for swc_estree_ast::ModuleExportNameType {
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {
             swc_estree_ast::ModuleExportNameType::Ident(ident) => {
-                swc_ecma_ast::ModuleExportName::Ident(ident.swcify(ctx).id)
+                swc_ecma_ast::ModuleExportName::Ident(ident.swcify(ctx).into())
             }
             swc_estree_ast::ModuleExportNameType::Str(s) => s.swcify(ctx).into(),
         }
@@ -693,7 +680,7 @@ impl Swcify for swc_estree_ast::ImportSpecifier {
     fn swcify(self, ctx: &Context) -> Self::Output {
         ImportNamedSpecifier {
             span: ctx.span(&self.base),
-            local: self.local.swcify(ctx).id,
+            local: self.local.swcify(ctx).into(),
             imported: Some(self.imported.swcify(ctx)),
             is_type_only: matches!(self.import_kind, Some(ImportKind::Type)),
         }
@@ -706,7 +693,7 @@ impl Swcify for swc_estree_ast::ImportDefaultSpecifier {
     fn swcify(self, ctx: &Context) -> Self::Output {
         swc_ecma_ast::ImportDefaultSpecifier {
             span: ctx.span(&self.base),
-            local: self.local.swcify(ctx).id,
+            local: self.local.swcify(ctx).into(),
         }
     }
 }
@@ -717,7 +704,7 @@ impl Swcify for ImportNamespaceSpecifier {
     fn swcify(self, ctx: &Context) -> Self::Output {
         ImportStarAsSpecifier {
             span: ctx.span(&self.base),
-            local: self.local.swcify(ctx).id,
+            local: self.local.swcify(ctx).into(),
         }
     }
 }

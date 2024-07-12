@@ -2,62 +2,54 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 1253,
-    "ctxt": 0
+    "end": 1253
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
         "start": 1,
-        "end": 1252,
-        "ctxt": 0
+        "end": 1252
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 1,
-          "end": 2,
-          "ctxt": 0
+          "end": 2
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
               "start": 1,
-              "end": 2,
-              "ctxt": 0
+              "end": 2
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
                   "start": 1,
-                  "end": 2,
-                  "ctxt": 0
+                  "end": 2
                 },
                 "nestingSelector": null,
                 "typeSelector": {
                   "type": "TagNameSelector",
                   "span": {
                     "start": 1,
-                    "end": 2,
-                    "ctxt": 0
+                    "end": 2
                   },
                   "name": {
                     "type": "WqName",
                     "span": {
                       "start": 1,
-                      "end": 2,
-                      "ctxt": 0
+                      "end": 2
                     },
                     "prefix": null,
                     "value": {
                       "type": "Ident",
                       "span": {
                         "start": 1,
-                        "end": 2,
-                        "ctxt": 0
+                        "end": 2
                       },
                       "value": "a",
                       "raw": "a"
@@ -74,15 +66,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 3,
-          "end": 1252,
-          "ctxt": 0
+          "end": 1252
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 3,
-            "end": 4,
-            "ctxt": 0
+            "end": 4
           },
           "token": "LBrace"
         },
@@ -91,15 +81,13 @@
             "type": "Declaration",
             "span": {
               "start": 9,
-              "end": 110,
-              "ctxt": 0
+              "end": 110
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 9,
-                "end": 25,
-                "ctxt": 0
+                "end": 25
               },
               "value": "background-image",
               "raw": "background-image"
@@ -109,15 +97,13 @@
                 "type": "Url",
                 "span": {
                   "start": 27,
-                  "end": 110,
-                  "ctxt": 0
+                  "end": 110
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 27,
-                    "end": 30,
-                    "ctxt": 0
+                    "end": 30
                   },
                   "value": "url",
                   "raw": "url"
@@ -126,8 +112,7 @@
                   "type": "UrlValueRaw",
                   "span": {
                     "start": 31,
-                    "end": 109,
-                    "ctxt": 0
+                    "end": 109
                   },
                   "value": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
                   "raw": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
@@ -141,15 +126,13 @@
             "type": "Declaration",
             "span": {
               "start": 116,
-              "end": 156,
-              "ctxt": 0
+              "end": 156
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 116,
-                "end": 132,
-                "ctxt": 0
+                "end": 132
               },
               "value": "background-image",
               "raw": "background-image"
@@ -159,15 +142,13 @@
                 "type": "Url",
                 "span": {
                   "start": 134,
-                  "end": 156,
-                  "ctxt": 0
+                  "end": 156
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 134,
-                    "end": 137,
-                    "ctxt": 0
+                    "end": 137
                   },
                   "value": "url",
                   "raw": "url"
@@ -176,8 +157,7 @@
                   "type": "String",
                   "span": {
                     "start": 138,
-                    "end": 155,
-                    "ctxt": 0
+                    "end": 155
                   },
                   "value": "./image (1).jpg",
                   "raw": "\"./image (1).jpg\""
@@ -191,15 +171,13 @@
             "type": "Declaration",
             "span": {
               "start": 162,
-              "end": 202,
-              "ctxt": 0
+              "end": 202
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 162,
-                "end": 178,
-                "ctxt": 0
+                "end": 178
               },
               "value": "background-image",
               "raw": "background-image"
@@ -209,15 +187,13 @@
                 "type": "Url",
                 "span": {
                   "start": 180,
-                  "end": 202,
-                  "ctxt": 0
+                  "end": 202
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 180,
-                    "end": 183,
-                    "ctxt": 0
+                    "end": 183
                   },
                   "value": "url",
                   "raw": "url"
@@ -226,8 +202,7 @@
                   "type": "String",
                   "span": {
                     "start": 184,
-                    "end": 201,
-                    "ctxt": 0
+                    "end": 201
                   },
                   "value": "./image (1).jpg",
                   "raw": "'./image (1).jpg'"
@@ -241,15 +216,13 @@
             "type": "Declaration",
             "span": {
               "start": 208,
-              "end": 248,
-              "ctxt": 0
+              "end": 248
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 208,
-                "end": 224,
-                "ctxt": 0
+                "end": 224
               },
               "value": "background-image",
               "raw": "background-image"
@@ -259,15 +232,13 @@
                 "type": "Url",
                 "span": {
                   "start": 226,
-                  "end": 248,
-                  "ctxt": 0
+                  "end": 248
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 226,
-                    "end": 229,
-                    "ctxt": 0
+                    "end": 229
                   },
                   "value": "URL",
                   "raw": "URL"
@@ -276,8 +247,7 @@
                   "type": "String",
                   "span": {
                     "start": 230,
-                    "end": 247,
-                    "ctxt": 0
+                    "end": 247
                   },
                   "value": "./image (1).jpg",
                   "raw": "'./image (1).jpg'"
@@ -291,15 +261,13 @@
             "type": "Declaration",
             "span": {
               "start": 254,
-              "end": 297,
-              "ctxt": 0
+              "end": 297
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 254,
-                "end": 270,
-                "ctxt": 0
+                "end": 270
               },
               "value": "background-image",
               "raw": "background-image"
@@ -309,15 +277,13 @@
                 "type": "Url",
                 "span": {
                   "start": 272,
-                  "end": 297,
-                  "ctxt": 0
+                  "end": 297
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 272,
-                    "end": 275,
-                    "ctxt": 0
+                    "end": 275
                   },
                   "value": "url",
                   "raw": "url"
@@ -326,8 +292,7 @@
                   "type": "String",
                   "span": {
                     "start": 279,
-                    "end": 296,
-                    "ctxt": 0
+                    "end": 296
                   },
                   "value": "./image (1).jpg",
                   "raw": "'./image (1).jpg'"
@@ -341,15 +306,13 @@
             "type": "Declaration",
             "span": {
               "start": 303,
-              "end": 346,
-              "ctxt": 0
+              "end": 346
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 303,
-                "end": 319,
-                "ctxt": 0
+                "end": 319
               },
               "value": "background-image",
               "raw": "background-image"
@@ -359,15 +322,13 @@
                 "type": "Url",
                 "span": {
                   "start": 321,
-                  "end": 346,
-                  "ctxt": 0
+                  "end": 346
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 321,
-                    "end": 324,
-                    "ctxt": 0
+                    "end": 324
                   },
                   "value": "url",
                   "raw": "url"
@@ -376,8 +337,7 @@
                   "type": "String",
                   "span": {
                     "start": 325,
-                    "end": 342,
-                    "ctxt": 0
+                    "end": 342
                   },
                   "value": "./image (1).jpg",
                   "raw": "'./image (1).jpg'"
@@ -391,15 +351,13 @@
             "type": "Declaration",
             "span": {
               "start": 352,
-              "end": 398,
-              "ctxt": 0
+              "end": 398
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 352,
-                "end": 368,
-                "ctxt": 0
+                "end": 368
               },
               "value": "background-image",
               "raw": "background-image"
@@ -409,15 +367,13 @@
                 "type": "Url",
                 "span": {
                   "start": 370,
-                  "end": 398,
-                  "ctxt": 0
+                  "end": 398
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 370,
-                    "end": 373,
-                    "ctxt": 0
+                    "end": 373
                   },
                   "value": "url",
                   "raw": "url"
@@ -426,8 +382,7 @@
                   "type": "String",
                   "span": {
                     "start": 377,
-                    "end": 394,
-                    "ctxt": 0
+                    "end": 394
                   },
                   "value": "./image (1).jpg",
                   "raw": "'./image (1).jpg'"
@@ -441,15 +396,13 @@
             "type": "Declaration",
             "span": {
               "start": 404,
-              "end": 460,
-              "ctxt": 0
+              "end": 460
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 404,
-                "end": 420,
-                "ctxt": 0
+                "end": 420
               },
               "value": "background-image",
               "raw": "background-image"
@@ -459,15 +412,13 @@
                 "type": "Url",
                 "span": {
                   "start": 422,
-                  "end": 460,
-                  "ctxt": 0
+                  "end": 460
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 422,
-                    "end": 425,
-                    "ctxt": 0
+                    "end": 425
                   },
                   "value": "url",
                   "raw": "url"
@@ -476,8 +427,7 @@
                   "type": "String",
                   "span": {
                     "start": 434,
-                    "end": 451,
-                    "ctxt": 0
+                    "end": 451
                   },
                   "value": "./image (1).jpg",
                   "raw": "'./image (1).jpg'"
@@ -491,15 +441,13 @@
             "type": "Declaration",
             "span": {
               "start": 466,
-              "end": 489,
-              "ctxt": 0
+              "end": 489
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 466,
-                "end": 482,
-                "ctxt": 0
+                "end": 482
               },
               "value": "background-image",
               "raw": "background-image"
@@ -509,15 +457,13 @@
                 "type": "Url",
                 "span": {
                   "start": 484,
-                  "end": 489,
-                  "ctxt": 0
+                  "end": 489
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 484,
-                    "end": 487,
-                    "ctxt": 0
+                    "end": 487
                   },
                   "value": "url",
                   "raw": "url"
@@ -526,8 +472,7 @@
                   "type": "UrlValueRaw",
                   "span": {
                     "start": 488,
-                    "end": 488,
-                    "ctxt": 0
+                    "end": 488
                   },
                   "value": "",
                   "raw": ""
@@ -541,15 +486,13 @@
             "type": "Declaration",
             "span": {
               "start": 495,
-              "end": 521,
-              "ctxt": 0
+              "end": 521
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 495,
-                "end": 511,
-                "ctxt": 0
+                "end": 511
               },
               "value": "background-image",
               "raw": "background-image"
@@ -559,15 +502,13 @@
                 "type": "Url",
                 "span": {
                   "start": 513,
-                  "end": 521,
-                  "ctxt": 0
+                  "end": 521
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 513,
-                    "end": 516,
-                    "ctxt": 0
+                    "end": 516
                   },
                   "value": "url",
                   "raw": "url"
@@ -576,8 +517,7 @@
                   "type": "UrlValueRaw",
                   "span": {
                     "start": 517,
-                    "end": 520,
-                    "ctxt": 0
+                    "end": 520
                   },
                   "value": "",
                   "raw": "   "
@@ -591,15 +531,13 @@
             "type": "Declaration",
             "span": {
               "start": 527,
-              "end": 552,
-              "ctxt": 0
+              "end": 552
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 527,
-                "end": 543,
-                "ctxt": 0
+                "end": 543
               },
               "value": "background-image",
               "raw": "background-image"
@@ -609,15 +547,13 @@
                 "type": "Url",
                 "span": {
                   "start": 545,
-                  "end": 552,
-                  "ctxt": 0
+                  "end": 552
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 545,
-                    "end": 548,
-                    "ctxt": 0
+                    "end": 548
                   },
                   "value": "url",
                   "raw": "url"
@@ -626,8 +562,7 @@
                   "type": "String",
                   "span": {
                     "start": 549,
-                    "end": 551,
-                    "ctxt": 0
+                    "end": 551
                   },
                   "value": "",
                   "raw": "\"\""
@@ -641,15 +576,13 @@
             "type": "Declaration",
             "span": {
               "start": 558,
-              "end": 589,
-              "ctxt": 0
+              "end": 589
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 558,
-                "end": 574,
-                "ctxt": 0
+                "end": 574
               },
               "value": "background-image",
               "raw": "background-image"
@@ -659,15 +592,13 @@
                 "type": "Url",
                 "span": {
                   "start": 576,
-                  "end": 589,
-                  "ctxt": 0
+                  "end": 589
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 576,
-                    "end": 579,
-                    "ctxt": 0
+                    "end": 579
                   },
                   "value": "url",
                   "raw": "url"
@@ -676,8 +607,7 @@
                   "type": "String",
                   "span": {
                     "start": 583,
-                    "end": 585,
-                    "ctxt": 0
+                    "end": 585
                   },
                   "value": "",
                   "raw": "\"\""
@@ -691,15 +621,13 @@
             "type": "Declaration",
             "span": {
               "start": 595,
-              "end": 620,
-              "ctxt": 0
+              "end": 620
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 595,
-                "end": 611,
-                "ctxt": 0
+                "end": 611
               },
               "value": "background-image",
               "raw": "background-image"
@@ -709,15 +637,13 @@
                 "type": "Url",
                 "span": {
                   "start": 613,
-                  "end": 620,
-                  "ctxt": 0
+                  "end": 620
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 613,
-                    "end": 616,
-                    "ctxt": 0
+                    "end": 616
                   },
                   "value": "url",
                   "raw": "url"
@@ -726,8 +652,7 @@
                   "type": "String",
                   "span": {
                     "start": 617,
-                    "end": 619,
-                    "ctxt": 0
+                    "end": 619
                   },
                   "value": "",
                   "raw": "''"
@@ -741,15 +666,13 @@
             "type": "Declaration",
             "span": {
               "start": 626,
-              "end": 657,
-              "ctxt": 0
+              "end": 657
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 626,
-                "end": 642,
-                "ctxt": 0
+                "end": 642
               },
               "value": "background-image",
               "raw": "background-image"
@@ -759,15 +682,13 @@
                 "type": "Url",
                 "span": {
                   "start": 644,
-                  "end": 657,
-                  "ctxt": 0
+                  "end": 657
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 644,
-                    "end": 647,
-                    "ctxt": 0
+                    "end": 647
                   },
                   "value": "url",
                   "raw": "url"
@@ -776,8 +697,7 @@
                   "type": "String",
                   "span": {
                     "start": 651,
-                    "end": 653,
-                    "ctxt": 0
+                    "end": 653
                   },
                   "value": "",
                   "raw": "''"
@@ -791,15 +711,13 @@
             "type": "Declaration",
             "span": {
               "start": 663,
-              "end": 695,
-              "ctxt": 0
+              "end": 695
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 663,
-                "end": 679,
-                "ctxt": 0
+                "end": 679
               },
               "value": "background-image",
               "raw": "background-image"
@@ -809,15 +727,13 @@
                 "type": "Url",
                 "span": {
                   "start": 681,
-                  "end": 695,
-                  "ctxt": 0
+                  "end": 695
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 681,
-                    "end": 684,
-                    "ctxt": 0
+                    "end": 684
                   },
                   "value": "url",
                   "raw": "url"
@@ -826,8 +742,7 @@
                   "type": "String",
                   "span": {
                     "start": 688,
-                    "end": 691,
-                    "ctxt": 0
+                    "end": 691
                   },
                   "value": " ",
                   "raw": "' '"
@@ -841,15 +756,13 @@
             "type": "Declaration",
             "span": {
               "start": 701,
-              "end": 735,
-              "ctxt": 0
+              "end": 735
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 701,
-                "end": 717,
-                "ctxt": 0
+                "end": 717
               },
               "value": "background-image",
               "raw": "background-image"
@@ -859,15 +772,13 @@
                 "type": "Url",
                 "span": {
                   "start": 719,
-                  "end": 735,
-                  "ctxt": 0
+                  "end": 735
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 719,
-                    "end": 722,
-                    "ctxt": 0
+                    "end": 722
                   },
                   "value": "url",
                   "raw": "url"
@@ -876,8 +787,7 @@
                   "type": "UrlValueRaw",
                   "span": {
                     "start": 723,
-                    "end": 734,
-                    "ctxt": 0
+                    "end": 734
                   },
                   "value": "./image.png",
                   "raw": "./image.png"
@@ -891,15 +801,13 @@
             "type": "Declaration",
             "span": {
               "start": 741,
-              "end": 781,
-              "ctxt": 0
+              "end": 781
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 741,
-                "end": 757,
-                "ctxt": 0
+                "end": 757
               },
               "value": "background-image",
               "raw": "background-image"
@@ -909,15 +817,13 @@
                 "type": "Url",
                 "span": {
                   "start": 759,
-                  "end": 781,
-                  "ctxt": 0
+                  "end": 781
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 759,
-                    "end": 762,
-                    "ctxt": 0
+                    "end": 762
                   },
                   "value": "url",
                   "raw": "url"
@@ -926,8 +832,7 @@
                   "type": "UrlValueRaw",
                   "span": {
                     "start": 763,
-                    "end": 780,
-                    "ctxt": 0
+                    "end": 780
                   },
                   "value": "./image.png",
                   "raw": "   ./image.png   "
@@ -941,15 +846,13 @@
             "type": "Declaration",
             "span": {
               "start": 787,
-              "end": 830,
-              "ctxt": 0
+              "end": 830
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 787,
-                "end": 803,
-                "ctxt": 0
+                "end": 803
               },
               "value": "background-image",
               "raw": "background-image"
@@ -959,15 +862,13 @@
                 "type": "Url",
                 "span": {
                   "start": 805,
-                  "end": 830,
-                  "ctxt": 0
+                  "end": 830
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 805,
-                    "end": 808,
-                    "ctxt": 0
+                    "end": 808
                   },
                   "value": "url",
                   "raw": "url"
@@ -976,8 +877,7 @@
                   "type": "UrlValueRaw",
                   "span": {
                     "start": 809,
-                    "end": 829,
-                    "ctxt": 0
+                    "end": 829
                   },
                   "value": "./image2.png",
                   "raw": "   ./image\\32.png   "
@@ -991,15 +891,13 @@
             "type": "Declaration",
             "span": {
               "start": 836,
-              "end": 889,
-              "ctxt": 0
+              "end": 889
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 836,
-                "end": 852,
-                "ctxt": 0
+                "end": 852
               },
               "value": "background-image",
               "raw": "background-image"
@@ -1009,15 +907,13 @@
                 "type": "Url",
                 "span": {
                   "start": 854,
-                  "end": 889,
-                  "ctxt": 0
+                  "end": 889
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 854,
-                    "end": 857,
-                    "ctxt": 0
+                    "end": 857
                   },
                   "value": "url",
                   "raw": "url"
@@ -1026,8 +922,7 @@
                   "type": "UrlValueRaw",
                   "span": {
                     "start": 858,
-                    "end": 888,
-                    "ctxt": 0
+                    "end": 888
                   },
                   "value": "./image2.png",
                   "raw": "   \n    ./image\\32.png   \n    "
@@ -1041,15 +936,13 @@
             "type": "Declaration",
             "span": {
               "start": 895,
-              "end": 975,
-              "ctxt": 0
+              "end": 975
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 895,
-                "end": 911,
-                "ctxt": 0
+                "end": 911
               },
               "value": "background-image",
               "raw": "background-image"
@@ -1059,15 +952,13 @@
                 "type": "Url",
                 "span": {
                   "start": 913,
-                  "end": 975,
-                  "ctxt": 0
+                  "end": 975
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 913,
-                    "end": 916,
-                    "ctxt": 0
+                    "end": 916
                   },
                   "value": "url",
                   "raw": "url"
@@ -1076,8 +967,7 @@
                   "type": "UrlValueRaw",
                   "span": {
                     "start": 917,
-                    "end": 974,
-                    "ctxt": 0
+                    "end": 974
                   },
                   "value": "./image2.png",
                   "raw": "\n    \n    \n    \n       ./image\\32.png\n    \n    \n    \n    "
@@ -1091,15 +981,13 @@
             "type": "Declaration",
             "span": {
               "start": 981,
-              "end": 1040,
-              "ctxt": 0
+              "end": 1040
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 981,
-                "end": 997,
-                "ctxt": 0
+                "end": 997
               },
               "value": "background-image",
               "raw": "background-image"
@@ -1109,15 +997,13 @@
                 "type": "Url",
                 "span": {
                   "start": 999,
-                  "end": 1040,
-                  "ctxt": 0
+                  "end": 1040
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 999,
-                    "end": 1002,
-                    "ctxt": 0
+                    "end": 1002
                   },
                   "value": "url",
                   "raw": "url"
@@ -1126,8 +1012,7 @@
                   "type": "UrlValueRaw",
                   "span": {
                     "start": 1003,
-                    "end": 1039,
-                    "ctxt": 0
+                    "end": 1039
                   },
                   "value": "./image2.png",
                   "raw": "   \n\n\n\n    ./image\\32.png\n\n\n\n       "
@@ -1141,15 +1026,13 @@
             "type": "Declaration",
             "span": {
               "start": 1046,
-              "end": 1077,
-              "ctxt": 0
+              "end": 1077
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 1046,
-                "end": 1056,
-                "ctxt": 0
+                "end": 1056
               },
               "value": "background",
               "raw": "background"
@@ -1159,15 +1042,13 @@
                 "type": "Url",
                 "span": {
                   "start": 1058,
-                  "end": 1077,
-                  "ctxt": 0
+                  "end": 1077
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 1058,
-                    "end": 1061,
-                    "ctxt": 0
+                    "end": 1061
                   },
                   "value": "url",
                   "raw": "url"
@@ -1176,8 +1057,7 @@
                   "type": "UrlValueRaw",
                   "span": {
                     "start": 1062,
-                    "end": 1076,
-                    "ctxt": 0
+                    "end": 1076
                   },
                   "value": "image.png\u0001",
                   "raw": "image.png\\0001"
@@ -1191,15 +1071,13 @@
             "type": "Declaration",
             "span": {
               "start": 1083,
-              "end": 1111,
-              "ctxt": 0
+              "end": 1111
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 1083,
-                "end": 1093,
-                "ctxt": 0
+                "end": 1093
               },
               "value": "background",
               "raw": "background"
@@ -1209,15 +1087,13 @@
                 "type": "Url",
                 "span": {
                   "start": 1095,
-                  "end": 1111,
-                  "ctxt": 0
+                  "end": 1111
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 1095,
-                    "end": 1098,
-                    "ctxt": 0
+                    "end": 1098
                   },
                   "value": "url",
                   "raw": "url"
@@ -1226,8 +1102,7 @@
                   "type": "UrlValueRaw",
                   "span": {
                     "start": 1099,
-                    "end": 1110,
-                    "ctxt": 0
+                    "end": 1110
                   },
                   "value": "image.png\u0001",
                   "raw": "image.png\\1"
@@ -1241,15 +1116,13 @@
             "type": "Declaration",
             "span": {
               "start": 1117,
-              "end": 1148,
-              "ctxt": 0
+              "end": 1148
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 1117,
-                "end": 1127,
-                "ctxt": 0
+                "end": 1127
               },
               "value": "background",
               "raw": "background"
@@ -1259,15 +1132,13 @@
                 "type": "Url",
                 "span": {
                   "start": 1129,
-                  "end": 1148,
-                  "ctxt": 0
+                  "end": 1148
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 1129,
-                    "end": 1132,
-                    "ctxt": 0
+                    "end": 1132
                   },
                   "value": "url",
                   "raw": "url"
@@ -1276,8 +1147,7 @@
                   "type": "UrlValueRaw",
                   "span": {
                     "start": 1133,
-                    "end": 1147,
-                    "ctxt": 0
+                    "end": 1147
                   },
                   "value": "image.png힙",
                   "raw": "image.png\\D799"
@@ -1291,15 +1161,13 @@
             "type": "Declaration",
             "span": {
               "start": 1154,
-              "end": 1185,
-              "ctxt": 0
+              "end": 1185
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 1154,
-                "end": 1164,
-                "ctxt": 0
+                "end": 1164
               },
               "value": "background",
               "raw": "background"
@@ -1309,15 +1177,13 @@
                 "type": "Url",
                 "span": {
                   "start": 1166,
-                  "end": 1185,
-                  "ctxt": 0
+                  "end": 1185
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 1166,
-                    "end": 1169,
-                    "ctxt": 0
+                    "end": 1169
                   },
                   "value": "url",
                   "raw": "url"
@@ -1326,8 +1192,7 @@
                   "type": "UrlValueRaw",
                   "span": {
                     "start": 1170,
-                    "end": 1184,
-                    "ctxt": 0
+                    "end": 1184
                   },
                   "value": "image.png",
                   "raw": "image.png\\E000"
@@ -1341,15 +1206,13 @@
             "type": "Declaration",
             "span": {
               "start": 1191,
-              "end": 1224,
-              "ctxt": 0
+              "end": 1224
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 1191,
-                "end": 1201,
-                "ctxt": 0
+                "end": 1201
               },
               "value": "background",
               "raw": "background"
@@ -1359,15 +1222,13 @@
                 "type": "Url",
                 "span": {
                   "start": 1203,
-                  "end": 1224,
-                  "ctxt": 0
+                  "end": 1224
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 1203,
-                    "end": 1206,
-                    "ctxt": 0
+                    "end": 1206
                   },
                   "value": "url",
                   "raw": "url"
@@ -1376,8 +1237,7 @@
                   "type": "UrlValueRaw",
                   "span": {
                     "start": 1207,
-                    "end": 1223,
-                    "ctxt": 0
+                    "end": 1223
                   },
                   "value": "image.png􏿿",
                   "raw": "image.png\\10FFFF"
@@ -1391,15 +1251,13 @@
             "type": "Declaration",
             "span": {
               "start": 1230,
-              "end": 1249,
-              "ctxt": 0
+              "end": 1249
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 1230,
-                "end": 1240,
-                "ctxt": 0
+                "end": 1240
               },
               "value": "background",
               "raw": "background"
@@ -1409,15 +1267,13 @@
                 "type": "Url",
                 "span": {
                   "start": 1242,
-                  "end": 1249,
-                  "ctxt": 0
+                  "end": 1249
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 1242,
-                    "end": 1245,
-                    "ctxt": 0
+                    "end": 1245
                   },
                   "value": "url",
                   "raw": "url"
@@ -1426,8 +1282,7 @@
                   "type": "UrlValueRaw",
                   "span": {
                     "start": 1246,
-                    "end": 1248,
-                    "ctxt": 0
+                    "end": 1248
                   },
                   "value": "18",
                   "raw": "18"

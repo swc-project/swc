@@ -4,8 +4,7 @@
       "kind": "Block",
       "span": {
         "start": 164,
-        "end": 172,
-        "ctxt": 0
+        "end": 172
       },
       "text": "/*)*/"
     }

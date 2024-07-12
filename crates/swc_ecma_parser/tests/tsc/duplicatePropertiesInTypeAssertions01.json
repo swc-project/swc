@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 24,
-    "end": 59,
-    "ctxt": 0
+    "end": 59
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 24,
-        "end": 59,
-        "ctxt": 0
+        "end": 59
       },
+      "ctxt": 0,
       "kind": "let",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 28,
-            "end": 58,
-            "ctxt": 0
+            "end": 58
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 28,
-              "end": 29,
-              "ctxt": 0
+              "end": 29
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false,
             "typeAnnotation": null
@@ -38,15 +36,13 @@
             "type": "TsTypeAssertion",
             "span": {
               "start": 32,
-              "end": 58,
-              "ctxt": 0
+              "end": 58
             },
             "expression": {
               "type": "ObjectExpression",
               "span": {
                 "start": 56,
-                "end": 58,
-                "ctxt": 0
+                "end": 58
               },
               "properties": []
             },
@@ -54,25 +50,23 @@
               "type": "TsTypeLiteral",
               "span": {
                 "start": 33,
-                "end": 55,
-                "ctxt": 0
+                "end": 55
               },
               "members": [
                 {
                   "type": "TsPropertySignature",
                   "span": {
                     "start": 34,
-                    "end": 44,
-                    "ctxt": 0
+                    "end": 44
                   },
                   "readonly": false,
                   "key": {
                     "type": "Identifier",
                     "span": {
                       "start": 34,
-                      "end": 35,
-                      "ctxt": 0
+                      "end": 35
                     },
+                    "ctxt": 0,
                     "value": "a",
                     "optional": false
                   },
@@ -82,15 +76,13 @@
                     "type": "TsTypeAnnotation",
                     "span": {
                       "start": 35,
-                      "end": 43,
-                      "ctxt": 0
+                      "end": 43
                     },
                     "typeAnnotation": {
                       "type": "TsKeywordType",
                       "span": {
                         "start": 37,
-                        "end": 43,
-                        "ctxt": 0
+                        "end": 43
                       },
                       "kind": "number"
                     }
@@ -100,17 +92,16 @@
                   "type": "TsPropertySignature",
                   "span": {
                     "start": 45,
-                    "end": 54,
-                    "ctxt": 0
+                    "end": 54
                   },
                   "readonly": false,
                   "key": {
                     "type": "Identifier",
                     "span": {
                       "start": 45,
-                      "end": 46,
-                      "ctxt": 0
+                      "end": 46
                     },
+                    "ctxt": 0,
                     "value": "a",
                     "optional": false
                   },
@@ -120,15 +111,13 @@
                     "type": "TsTypeAnnotation",
                     "span": {
                       "start": 46,
-                      "end": 54,
-                      "ctxt": 0
+                      "end": 54
                     },
                     "typeAnnotation": {
                       "type": "TsKeywordType",
                       "span": {
                         "start": 48,
-                        "end": 54,
-                        "ctxt": 0
+                        "end": 54
                       },
                       "kind": "number"
                     }

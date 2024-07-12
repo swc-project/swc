@@ -89,6 +89,6 @@ impl VisitMut for HygieneRemover {
     }
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
-        i.span.ctxt = Default::default();
+        i.ctxt = Default::default();
     }
 }

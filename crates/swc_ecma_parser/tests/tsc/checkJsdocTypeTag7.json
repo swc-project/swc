@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 135,
-    "end": 264,
-    "ctxt": 0
+    "end": 264
   },
   "body": [
     {
@@ -12,36 +11,33 @@
         "type": "Identifier",
         "span": {
           "start": 141,
-          "end": 142,
-          "ctxt": 0
+          "end": 142
         },
+        "ctxt": 0,
         "value": "C",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 135,
-        "end": 264,
-        "ctxt": 0
+        "end": 264
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassMethod",
           "span": {
             "start": 172,
-            "end": 184,
-            "ctxt": 0
+            "end": 184
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 172,
-              "end": 175,
-              "ctxt": 0
+              "end": 175
             },
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "function": {
             "params": [
@@ -49,17 +45,16 @@
                 "type": "Parameter",
                 "span": {
                   "start": 176,
-                  "end": 177,
-                  "ctxt": 0
+                  "end": 177
                 },
                 "decorators": [],
                 "pat": {
                   "type": "Identifier",
                   "span": {
                     "start": 176,
-                    "end": 177,
-                    "ctxt": 0
+                    "end": 177
                   },
+                  "ctxt": 0,
                   "value": "a",
                   "optional": false,
                   "typeAnnotation": null
@@ -69,17 +64,16 @@
                 "type": "Parameter",
                 "span": {
                   "start": 179,
-                  "end": 180,
-                  "ctxt": 0
+                  "end": 180
                 },
                 "decorators": [],
                 "pat": {
                   "type": "Identifier",
                   "span": {
                     "start": 179,
-                    "end": 180,
-                    "ctxt": 0
+                    "end": 180
                   },
+                  "ctxt": 0,
                   "value": "b",
                   "optional": false,
                   "typeAnnotation": null
@@ -89,16 +83,16 @@
             "decorators": [],
             "span": {
               "start": 172,
-              "end": 184,
-              "ctxt": 0
+              "end": 184
             },
+            "ctxt": 0,
             "body": {
               "type": "BlockStatement",
               "span": {
                 "start": 182,
-                "end": 184,
-                "ctxt": 0
+                "end": 184
               },
+              "ctxt": 0,
               "stmts": []
             },
             "generator": false,
@@ -117,34 +111,31 @@
           "type": "ClassMethod",
           "span": {
             "start": 229,
-            "end": 262,
-            "ctxt": 0
+            "end": 262
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 229,
-              "end": 257,
-              "ctxt": 0
+              "end": 257
             },
-            "value": "methodWithOptionalParameters",
-            "optional": false
+            "value": "methodWithOptionalParameters"
           },
           "function": {
             "params": [],
             "decorators": [],
             "span": {
               "start": 229,
-              "end": 262,
-              "ctxt": 0
+              "end": 262
             },
+            "ctxt": 0,
             "body": {
               "type": "BlockStatement",
               "span": {
                 "start": 260,
-                "end": 262,
-                "ctxt": 0
+                "end": 262
               },
+              "ctxt": 0,
               "stmts": []
             },
             "generator": false,

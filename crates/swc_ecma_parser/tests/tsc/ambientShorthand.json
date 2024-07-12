@@ -2,16 +2,14 @@
   "type": "Module",
   "span": {
     "start": 33,
-    "end": 280,
-    "ctxt": 0
+    "end": 280
   },
   "body": [
     {
       "type": "TsModuleDeclaration",
       "span": {
         "start": 33,
-        "end": 56,
-        "ctxt": 0
+        "end": 56
       },
       "declare": true,
       "global": false,
@@ -19,8 +17,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 48,
-          "end": 56,
-          "ctxt": 0
+          "end": 56
         },
         "value": "jquery",
         "raw": "\"jquery\""
@@ -31,8 +28,7 @@
       "type": "TsModuleDeclaration",
       "span": {
         "start": 82,
-        "end": 102,
-        "ctxt": 0
+        "end": 102
       },
       "declare": true,
       "global": false,
@@ -40,8 +36,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 97,
-          "end": 101,
-          "ctxt": 0
+          "end": 101
         },
         "value": "fs",
         "raw": "\"fs\""
@@ -52,24 +47,22 @@
       "type": "ImportDeclaration",
       "span": {
         "start": 167,
-        "end": 199,
-        "ctxt": 0
+        "end": 199
       },
       "specifiers": [
         {
           "type": "ImportDefaultSpecifier",
           "span": {
             "start": 174,
-            "end": 177,
-            "ctxt": 0
+            "end": 177
           },
           "local": {
             "type": "Identifier",
             "span": {
               "start": 174,
-              "end": 177,
-              "ctxt": 0
+              "end": 177
             },
+            "ctxt": 0,
             "value": "foo",
             "optional": false
           }
@@ -78,16 +71,15 @@
           "type": "ImportSpecifier",
           "span": {
             "start": 180,
-            "end": 183,
-            "ctxt": 0
+            "end": 183
           },
           "local": {
             "type": "Identifier",
             "span": {
               "start": 180,
-              "end": 183,
-              "ctxt": 0
+              "end": 183
             },
+            "ctxt": 0,
             "value": "bar",
             "optional": false
           },
@@ -99,8 +91,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 190,
-          "end": 198,
-          "ctxt": 0
+          "end": 198
         },
         "value": "jquery",
         "raw": "\"jquery\""
@@ -113,24 +104,22 @@
       "type": "ImportDeclaration",
       "span": {
         "start": 200,
-        "end": 226,
-        "ctxt": 0
+        "end": 226
       },
       "specifiers": [
         {
           "type": "ImportNamespaceSpecifier",
           "span": {
             "start": 207,
-            "end": 215,
-            "ctxt": 0
+            "end": 215
           },
           "local": {
             "type": "Identifier",
             "span": {
               "start": 212,
-              "end": 215,
-              "ctxt": 0
+              "end": 215
             },
+            "ctxt": 0,
             "value": "baz",
             "optional": false
           }
@@ -140,8 +129,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 221,
-          "end": 225,
-          "ctxt": 0
+          "end": 225
         },
         "value": "fs",
         "raw": "\"fs\""
@@ -154,8 +142,7 @@
       "type": "TsImportEqualsDeclaration",
       "span": {
         "start": 227,
-        "end": 259,
-        "ctxt": 0
+        "end": 259
       },
       "isExport": false,
       "isTypeOnly": false,
@@ -163,9 +150,9 @@
         "type": "Identifier",
         "span": {
           "start": 234,
-          "end": 238,
-          "ctxt": 0
+          "end": 238
         },
+        "ctxt": 0,
         "value": "boom",
         "optional": false
       },
@@ -173,15 +160,13 @@
         "type": "TsExternalModuleReference",
         "span": {
           "start": 241,
-          "end": 258,
-          "ctxt": 0
+          "end": 258
         },
         "expression": {
           "type": "StringLiteral",
           "span": {
             "start": 249,
-            "end": 257,
-            "ctxt": 0
+            "end": 257
           },
           "value": "jquery",
           "raw": "\"jquery\""
@@ -192,23 +177,22 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 260,
-        "end": 280,
-        "ctxt": 0
+        "end": 280
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 260,
-          "end": 279,
-          "ctxt": 0
+          "end": 279
         },
+        "ctxt": 0,
         "callee": {
           "type": "Identifier",
           "span": {
             "start": 260,
-            "end": 263,
-            "ctxt": 0
+            "end": 263
           },
+          "ctxt": 0,
           "value": "foo",
           "optional": false
         },
@@ -219,9 +203,9 @@
               "type": "Identifier",
               "span": {
                 "start": 264,
-                "end": 267,
-                "ctxt": 0
+                "end": 267
               },
+              "ctxt": 0,
               "value": "bar",
               "optional": false
             }
@@ -232,9 +216,9 @@
               "type": "Identifier",
               "span": {
                 "start": 269,
-                "end": 272,
-                "ctxt": 0
+                "end": 272
               },
+              "ctxt": 0,
               "value": "baz",
               "optional": false
             }
@@ -245,9 +229,9 @@
               "type": "Identifier",
               "span": {
                 "start": 274,
-                "end": 278,
-                "ctxt": 0
+                "end": 278
               },
+              "ctxt": 0,
               "value": "boom",
               "optional": false
             }

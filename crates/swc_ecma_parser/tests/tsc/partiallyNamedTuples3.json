@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 35,
-    "end": 158,
-    "ctxt": 0
+    "end": 158
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 35,
-        "end": 111,
-        "ctxt": 0
+        "end": 111
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": true,
       "declarations": [
@@ -20,47 +19,42 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 49,
-            "end": 110,
-            "ctxt": 0
+            "end": 110
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 49,
-              "end": 54,
-              "ctxt": 0
+              "end": 54
             },
+            "ctxt": 0,
             "value": "tuple",
             "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 54,
-                "end": 110,
-                "ctxt": 0
+                "end": 110
               },
               "typeAnnotation": {
                 "type": "TsTupleType",
                 "span": {
                   "start": 56,
-                  "end": 110,
-                  "ctxt": 0
+                  "end": 110
                 },
                 "elemTypes": [
                   {
                     "type": "TsTupleElement",
                     "span": {
                       "start": 57,
-                      "end": 63,
-                      "ctxt": 0
+                      "end": 63
                     },
                     "label": null,
                     "ty": {
                       "type": "TsKeywordType",
                       "span": {
                         "start": 57,
-                        "end": 63,
-                        "ctxt": 0
+                        "end": 63
                       },
                       "kind": "number"
                     }
@@ -69,16 +63,15 @@
                     "type": "TsTupleElement",
                     "span": {
                       "start": 65,
-                      "end": 77,
-                      "ctxt": 0
+                      "end": 77
                     },
                     "label": {
                       "type": "Identifier",
                       "span": {
                         "start": 65,
-                        "end": 69,
-                        "ctxt": 0
+                        "end": 69
                       },
+                      "ctxt": 0,
                       "value": "name",
                       "optional": false,
                       "typeAnnotation": null
@@ -87,8 +80,7 @@
                       "type": "TsKeywordType",
                       "span": {
                         "start": 71,
-                        "end": 77,
-                        "ctxt": 0
+                        "end": 77
                       },
                       "kind": "string"
                     }
@@ -97,16 +89,14 @@
                     "type": "TsTupleElement",
                     "span": {
                       "start": 79,
-                      "end": 86,
-                      "ctxt": 0
+                      "end": 86
                     },
                     "label": null,
                     "ty": {
                       "type": "TsKeywordType",
                       "span": {
                         "start": 79,
-                        "end": 86,
-                        "ctxt": 0
+                        "end": 86
                       },
                       "kind": "boolean"
                     }
@@ -115,16 +105,15 @@
                     "type": "TsTupleElement",
                     "span": {
                       "start": 88,
-                      "end": 101,
-                      "ctxt": 0
+                      "end": 101
                     },
                     "label": {
                       "type": "Identifier",
                       "span": {
                         "start": 88,
-                        "end": 93,
-                        "ctxt": 0
+                        "end": 93
                       },
+                      "ctxt": 0,
                       "value": "value",
                       "optional": false,
                       "typeAnnotation": null
@@ -133,8 +122,7 @@
                       "type": "TsKeywordType",
                       "span": {
                         "start": 95,
-                        "end": 101,
-                        "ctxt": 0
+                        "end": 101
                       },
                       "kind": "number"
                     }
@@ -143,16 +131,14 @@
                     "type": "TsTupleElement",
                     "span": {
                       "start": 103,
-                      "end": 109,
-                      "ctxt": 0
+                      "end": 109
                     },
                     "label": null,
                     "ty": {
                       "type": "TsKeywordType",
                       "span": {
                         "start": 103,
-                        "end": 109,
-                        "ctxt": 0
+                        "end": 109
                       },
                       "kind": "string"
                     }
@@ -170,9 +156,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 113,
-        "end": 158,
-        "ctxt": 0
+        "end": 158
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -180,16 +166,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 119,
-            "end": 157,
-            "ctxt": 0
+            "end": 157
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 119,
-              "end": 125,
-              "ctxt": 0
+              "end": 125
             },
+            "ctxt": 0,
             "value": "output",
             "optional": false,
             "typeAnnotation": null
@@ -198,43 +183,40 @@
             "type": "CallExpression",
             "span": {
               "start": 128,
-              "end": 157,
-              "ctxt": 0
+              "end": 157
             },
+            "ctxt": 0,
             "callee": {
               "type": "ParenthesisExpression",
               "span": {
                 "start": 128,
-                "end": 147,
-                "ctxt": 0
+                "end": 147
               },
               "expression": {
                 "type": "ArrowFunctionExpression",
                 "span": {
                   "start": 129,
-                  "end": 146,
-                  "ctxt": 0
+                  "end": 146
                 },
+                "ctxt": 0,
                 "params": [
                   {
                     "type": "RestElement",
                     "span": {
                       "start": 133,
-                      "end": 137,
-                      "ctxt": 0
+                      "end": 137
                     },
                     "rest": {
                       "start": 130,
-                      "end": 133,
-                      "ctxt": 0
+                      "end": 133
                     },
                     "argument": {
                       "type": "Identifier",
                       "span": {
                         "start": 133,
-                        "end": 137,
-                        "ctxt": 0
+                        "end": 137
                       },
+                      "ctxt": 0,
                       "value": "args",
                       "optional": false,
                       "typeAnnotation": null
@@ -246,9 +228,9 @@
                   "type": "Identifier",
                   "span": {
                     "start": 142,
-                    "end": 146,
-                    "ctxt": 0
+                    "end": 146
                   },
+                  "ctxt": 0,
                   "value": "args",
                   "optional": false
                 },
@@ -262,16 +244,15 @@
               {
                 "spread": {
                   "start": 148,
-                  "end": 151,
-                  "ctxt": 0
+                  "end": 151
                 },
                 "expression": {
                   "type": "Identifier",
                   "span": {
                     "start": 151,
-                    "end": 156,
-                    "ctxt": 0
+                    "end": 156
                   },
+                  "ctxt": 0,
                   "value": "tuple",
                   "optional": false
                 }

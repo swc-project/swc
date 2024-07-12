@@ -2,23 +2,20 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 101,
-    "ctxt": 0
+    "end": 101
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
         "start": 1,
-        "end": 100,
-        "ctxt": 0
+        "end": 100
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 2,
-          "end": 21,
-          "ctxt": 0
+          "end": 21
         },
         "value": "font-palette-values",
         "raw": "font-palette-values"
@@ -27,8 +24,7 @@
         "type": "DashedIdent",
         "span": {
           "start": 22,
-          "end": 39,
-          "ctxt": 0
+          "end": 39
         },
         "value": "SelectedPalette",
         "raw": "--SelectedPalette"
@@ -37,15 +33,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 40,
-          "end": 100,
-          "ctxt": 0
+          "end": 100
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 40,
-            "end": 41,
-            "ctxt": 0
+            "end": 41
           },
           "token": "LBrace"
         },
@@ -54,15 +48,13 @@
             "type": "Declaration",
             "span": {
               "start": 46,
-              "end": 76,
-              "ctxt": 0
+              "end": 76
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 46,
-                "end": 57,
-                "ctxt": 0
+                "end": 57
               },
               "value": "font-family",
               "raw": "font-family"
@@ -72,8 +64,7 @@
                 "type": "Ident",
                 "span": {
                   "start": 59,
-                  "end": 76,
-                  "ctxt": 0
+                  "end": 76
                 },
                 "value": "MyVectorColorFont",
                 "raw": "MyVectorColorFont"
@@ -85,15 +76,13 @@
             "type": "Declaration",
             "span": {
               "start": 82,
-              "end": 97,
-              "ctxt": 0
+              "end": 97
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 82,
-                "end": 94,
-                "ctxt": 0
+                "end": 94
               },
               "value": "base-palette",
               "raw": "base-palette"
@@ -103,8 +92,7 @@
                 "type": "Integer",
                 "span": {
                   "start": 96,
-                  "end": 97,
-                  "ctxt": 0
+                  "end": 97
                 },
                 "value": 3,
                 "raw": "3"

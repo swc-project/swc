@@ -1,6 +1,5 @@
 use swc_common::chain;
 use swc_ecma_transforms_base::resolver;
-use swc_ecma_transforms_module::common_js::common_js;
 use swc_ecma_transforms_testing::{test, Tester};
 
 use super::*;
@@ -564,12 +563,6 @@ test!(
                 top_level_mark,
                 unresolved_mark
             ),
-            common_js(
-                unresolved_mark,
-                Default::default(),
-                Default::default(),
-                Some(t.comments.clone())
-            )
         )
     },
     include_hook_signature_in_commonjs,

@@ -63,7 +63,7 @@ impl Swcify for Expression {
             Expression::TemplateLiteral(e) => e.swcify(ctx).into(),
             Expression::Yield(e) => e.swcify(ctx).into(),
             Expression::Await(e) => e.swcify(ctx).into(),
-            Expression::Literal(Literal::BigInt(e)) => Expr::Lit(e.swcify(ctx).into()),
+            Expression::Literal(Literal::BigInt(e)) => e.swcify(ctx).into(),
             Expression::OptionalMember(e) => e.swcify(ctx).into(),
             Expression::OptionalCall(e) => e.swcify(ctx).into(),
             Expression::JSXElement(e) => return e.swcify(ctx).into(),
@@ -128,7 +128,7 @@ impl Swcify for swc_estree_ast::PrivateName {
     fn swcify(self, ctx: &Context) -> Self::Output {
         swc_ecma_ast::PrivateName {
             span: ctx.span(&self.base),
-            id: self.id.swcify(ctx).id,
+            name: self.id.swcify(ctx).sym.clone(),
         }
     }
 }
@@ -138,7 +138,7 @@ impl Swcify for BinaryExprLeft {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {
-            BinaryExprLeft::Private(e) => Box::new(Expr::PrivateName(e.swcify(ctx))),
+            BinaryExprLeft::Private(e) => e.swcify(ctx).into(),
             BinaryExprLeft::Expr(e) => e.swcify(ctx),
         }
     }
@@ -250,6 +250,7 @@ impl Swcify for CallExpression {
                 .map(|v| v.expect("failed to swcify arguments"))
                 .collect(),
             type_args: self.type_parameters.swcify(ctx).map(Box::new),
+            ..Default::default()
         }
     }
 }
@@ -265,7 +266,7 @@ impl Swcify for Arg {
             },
             Arg::JSXName(e) => ExprOrSpread {
                 spread: None,
-                expr: Box::new(Expr::JSXNamespacedName(e.swcify(ctx))),
+                expr: e.swcify(ctx).into(),
             },
             Arg::Placeholder(_) => return None,
             Arg::Expr(e) => ExprOrSpread {
@@ -294,7 +295,7 @@ impl Swcify for FunctionExpression {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         FnExpr {
-            ident: self.id.swcify(ctx).map(|v| v.id),
+            ident: self.id.swcify(ctx).map(|v| v.into()),
             function: Box::new(Function {
                 params: self.params.swcify(ctx),
                 decorators: Default::default(),
@@ -304,6 +305,7 @@ impl Swcify for FunctionExpression {
                 is_async: self.is_async.unwrap_or(false),
                 type_params: self.type_parameters.swcify(ctx).flatten().map(Box::new),
                 return_type: self.return_type.swcify(ctx).flatten().map(Box::new),
+                ..Default::default()
             }),
         }
     }
@@ -318,6 +320,7 @@ impl Swcify for Identifier {
                 span: ctx.span(&self.base),
                 sym: self.name,
                 optional: self.optional.unwrap_or(false),
+                ctxt: Default::default(),
             },
             type_ann: self.type_annotation.swcify(ctx).flatten().map(Box::new),
         }
@@ -360,11 +363,11 @@ impl Swcify for MemberExpression {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match *self.object {
-            Expression::Super(s) => Expr::SuperProp(SuperPropExpr {
+            Expression::Super(s) => SuperPropExpr {
                 span: ctx.span(&self.base),
                 obj: s.swcify(ctx),
                 prop: match (*self.property, self.computed) {
-                    (MemberExprProp::Id(i), false) => SuperProp::Ident(i.swcify(ctx).id),
+                    (MemberExprProp::Id(i), false) => SuperProp::Ident(i.swcify(ctx).into()),
                     (MemberExprProp::Expr(e), true) => {
                         let expr = e.swcify(ctx);
                         SuperProp::Computed(ComputedPropName {
@@ -374,12 +377,13 @@ impl Swcify for MemberExpression {
                     }
                     _ => unreachable!(),
                 },
-            }),
-            _ => Expr::Member(MemberExpr {
+            }
+            .into(),
+            _ => MemberExpr {
                 span: ctx.span(&self.base),
                 obj: self.object.swcify(ctx),
                 prop: match (*self.property, self.computed) {
-                    (MemberExprProp::Id(i), false) => MemberProp::Ident(i.swcify(ctx).id),
+                    (MemberExprProp::Id(i), false) => MemberProp::Ident(i.swcify(ctx).into()),
                     (MemberExprProp::PrivateName(e), false) => {
                         MemberProp::PrivateName(e.swcify(ctx))
                     }
@@ -392,7 +396,8 @@ impl Swcify for MemberExpression {
                     }
                     _ => unreachable!(),
                 },
-            }),
+            }
+            .into(),
         }
     }
 }
@@ -417,6 +422,7 @@ impl Swcify for NewExpression {
                     .collect(),
             ),
             type_args: self.type_parameters.swcify(ctx).map(From::from),
+            ..Default::default()
         }
     }
 }
@@ -463,6 +469,7 @@ impl Swcify for ObjectMethod {
                 is_async: self.is_async.unwrap_or(false),
                 type_params: self.type_parameters.swcify(ctx).flatten().map(Box::new),
                 return_type: self.return_type.swcify(ctx).flatten().map(Box::new),
+                ..Default::default()
             }),
         }
     }
@@ -484,7 +491,7 @@ impl Swcify for ObjectKey {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {
-            ObjectKey::Id(v) => PropName::Ident(v.swcify(ctx).id),
+            ObjectKey::Id(v) => PropName::Ident(v.swcify(ctx).into()),
             ObjectKey::String(v) => PropName::Str(v.swcify(ctx)),
             ObjectKey::Numeric(v) => PropName::Num(v.swcify(ctx)),
             ObjectKey::Expr(v) => {
@@ -506,7 +513,7 @@ impl Swcify for ObjectProperty {
             key: self.key.swcify(ctx),
             value: match self.value {
                 ObjectPropVal::Pattern(pat) => match pat {
-                    PatternLike::Id(i) => Box::new(Expr::Ident(i.swcify(ctx).id)),
+                    PatternLike::Id(i) => i.swcify(ctx).into(),
                     _ => {
                         panic!("swc does not support ObjectPropVal::Pattern({:?})", pat)
                     }
@@ -626,6 +633,7 @@ impl Swcify for ArrowFunctionExpression {
             is_generator: self.generator,
             type_params: self.type_parameters.swcify(ctx).flatten().map(Box::new),
             return_type: self.return_type.swcify(ctx).flatten().map(Box::new),
+            ..Default::default()
         }
     }
 }
@@ -646,7 +654,7 @@ impl Swcify for ClassExpression {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         ClassExpr {
-            ident: self.id.swcify(ctx).map(|v| v.id),
+            ident: self.id.swcify(ctx).map(|v| v.into()),
             class: Box::new(swc_ecma_ast::Class {
                 span: ctx.span(&self.base),
                 decorators: self.decorators.swcify(ctx).unwrap_or_default(),
@@ -656,6 +664,7 @@ impl Swcify for ClassExpression {
                 type_params: self.type_parameters.swcify(ctx).flatten().map(Box::new),
                 super_type_params: self.super_type_parameters.swcify(ctx).map(Box::new),
                 implements: self.implements.swcify(ctx).unwrap_or_default(),
+                ..Default::default()
             }),
         }
     }
@@ -665,8 +674,8 @@ impl Swcify for MetaProperty {
     type Output = MetaPropExpr;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
-        let meta = self.meta.swcify(ctx).id;
-        let prop = self.property.swcify(ctx).id;
+        let meta: Ident = self.meta.swcify(ctx).into();
+        let prop: Ident = self.property.swcify(ctx).into();
         match (&*meta.sym, &*prop.sym) {
             ("new", "target") => MetaPropExpr {
                 kind: MetaPropKind::NewTarget,
@@ -700,6 +709,7 @@ impl Swcify for TaggedTemplateExpression {
             tag: self.tag.swcify(ctx),
             type_params: self.type_parameters.swcify(ctx).map(From::from),
             tpl: Box::new(self.quasi.swcify(ctx)),
+            ..Default::default()
         }
     }
 }
@@ -762,7 +772,9 @@ impl Swcify for OptionalMemberExpression {
                 span: ctx.span(&self.base),
                 obj: self.object.swcify(ctx),
                 prop: match (self.property, self.computed) {
-                    (OptionalMemberExprProp::Id(i), false) => MemberProp::Ident(i.swcify(ctx).id),
+                    (OptionalMemberExprProp::Id(i), false) => {
+                        MemberProp::Ident(i.swcify(ctx).into())
+                    }
                     (OptionalMemberExprProp::Expr(e), true) => {
                         let expr = e.swcify(ctx);
                         MemberProp::Computed(ComputedPropName {
@@ -782,7 +794,7 @@ impl Swcify for OptionalMemberExprProp {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {
-            OptionalMemberExprProp::Id(v) => Box::new(Expr::Ident(v.swcify(ctx).id)),
+            OptionalMemberExprProp::Id(v) => v.swcify(ctx).into(),
             OptionalMemberExprProp::Expr(v) => v.swcify(ctx),
         }
     }
@@ -800,6 +812,7 @@ impl Swcify for OptionalCallExpression {
                 callee: self.callee.swcify(ctx),
                 args: self.arguments.swcify(ctx).into_iter().flatten().collect(),
                 type_args: self.type_parameters.swcify(ctx).map(From::from),
+                ..Default::default()
             })),
         }
     }
@@ -863,8 +876,9 @@ impl Swcify for JSXMemberExpression {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         JSXMemberExpr {
+            span: ctx.span(&self.base),
             obj: self.object.swcify(ctx),
-            prop: self.property.swcify(ctx),
+            prop: self.property.swcify(ctx).into(),
         }
     }
 }
@@ -910,7 +924,9 @@ impl Swcify for swc_estree_ast::JSXAttrName {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {
-            swc_estree_ast::JSXAttrName::Id(v) => swc_ecma_ast::JSXAttrName::Ident(v.swcify(ctx)),
+            swc_estree_ast::JSXAttrName::Id(v) => {
+                swc_ecma_ast::JSXAttrName::Ident(v.swcify(ctx).into())
+            }
             swc_estree_ast::JSXAttrName::Name(v) => {
                 swc_ecma_ast::JSXAttrName::JSXNamespacedName(v.swcify(ctx))
             }

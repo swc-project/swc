@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 106,
-    "end": 159,
-    "ctxt": 0
+    "end": 159
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 106,
-        "end": 120,
-        "ctxt": 0
+        "end": 120
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 112,
-            "end": 119,
-            "ctxt": 0
+            "end": 119
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 112,
-              "end": 114,
-              "ctxt": 0
+              "end": 114
             },
+            "ctxt": 0,
             "value": "ns",
             "optional": false,
             "typeAnnotation": null
@@ -38,8 +36,7 @@
             "type": "ObjectExpression",
             "span": {
               "start": 117,
-              "end": 119,
-              "ctxt": 0
+              "end": 119
             },
             "properties": []
           },
@@ -51,31 +48,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 121,
-        "end": 138,
-        "ctxt": 0
+        "end": 138
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
           "start": 121,
-          "end": 138,
-          "ctxt": 0
+          "end": 138
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
             "start": 121,
-            "end": 127,
-            "ctxt": 0
+            "end": 127
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 121,
-              "end": 123,
-              "ctxt": 0
+              "end": 123
             },
+            "ctxt": 0,
             "value": "ns",
             "optional": false
           },
@@ -83,11 +77,9 @@
             "type": "Identifier",
             "span": {
               "start": 124,
-              "end": 127,
-              "ctxt": 0
+              "end": 127
             },
-            "value": "Foo",
-            "optional": false
+            "value": "Foo"
           }
         },
         "right": {
@@ -95,9 +87,9 @@
           "identifier": null,
           "span": {
             "start": 130,
-            "end": 138,
-            "ctxt": 0
+            "end": 138
           },
+          "ctxt": 0,
           "decorators": [],
           "body": [],
           "superClass": null,
@@ -112,31 +104,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 139,
-        "end": 159,
-        "ctxt": 0
+        "end": 159
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
           "start": 139,
-          "end": 158,
-          "ctxt": 0
+          "end": 158
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
             "start": 139,
-            "end": 153,
-            "ctxt": 0
+            "end": 153
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 139,
-              "end": 145,
-              "ctxt": 0
+              "end": 145
             },
+            "ctxt": 0,
             "value": "module",
             "optional": false
           },
@@ -144,20 +133,18 @@
             "type": "Identifier",
             "span": {
               "start": 146,
-              "end": 153,
-              "ctxt": 0
+              "end": 153
             },
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {
           "type": "Identifier",
           "span": {
             "start": 156,
-            "end": 158,
-            "ctxt": 0
+            "end": 158
           },
+          "ctxt": 0,
           "value": "ns",
           "optional": false
         }

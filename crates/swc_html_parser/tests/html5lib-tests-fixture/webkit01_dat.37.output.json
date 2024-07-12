@@ -2,8 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 42,
-    "ctxt": 0
+    "end": 42
   },
   "mode": "quirks",
   "children": [
@@ -11,8 +10,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 0,
-        "ctxt": 0
+        "end": 0
       },
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -22,8 +20,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -36,8 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -47,8 +43,7 @@
               "type": "Element",
               "span": {
                 "start": 1,
-                "end": 11,
-                "ctxt": 0
+                "end": 11
               },
               "tagName": "font",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -58,8 +53,7 @@
                   "type": "Element",
                   "span": {
                     "start": 7,
-                    "end": 11,
-                    "ctxt": 0
+                    "end": 11
                   },
                   "tagName": "p",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -76,8 +70,7 @@
               "type": "Element",
               "span": {
                 "start": 11,
-                "end": 42,
-                "ctxt": 0
+                "end": 42
               },
               "tagName": "p",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -87,8 +80,7 @@
                   "type": "Element",
                   "span": {
                     "start": 14,
-                    "end": 42,
-                    "ctxt": 0
+                    "end": 42
                   },
                   "tagName": "font",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -98,8 +90,7 @@
                       "type": "Element",
                       "span": {
                         "start": 14,
-                        "end": 20,
-                        "ctxt": 0
+                        "end": 20
                       },
                       "tagName": "meta",
                       "namespace": "http://www.w3.org/1999/xhtml",
@@ -112,8 +103,7 @@
                       "type": "Element",
                       "span": {
                         "start": 20,
-                        "end": 35,
-                        "ctxt": 0
+                        "end": 35
                       },
                       "tagName": "title",
                       "namespace": "http://www.w3.org/1999/xhtml",

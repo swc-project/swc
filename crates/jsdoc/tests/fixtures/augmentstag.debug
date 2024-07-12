@@ -1,20 +1,20 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..12#0,
+                span: 1..12,
                 tag_name: Text {
-                    span: 1..12#0,
+                    span: 1..12,
                     value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 1..12#0,
+                        span: 1..12,
                         ty: None,
                         name: None,
                     },
@@ -23,31 +23,31 @@
         ],
     },
     JsDoc {
-        span: 46..46#0,
+        span: 46..46,
         description: Text {
-            span: 46..60#0,
+            span: 46..60,
             value: "First property",
         },
         tags: [],
     },
     JsDoc {
-        span: 94..94#0,
+        span: 94..94,
         description: Text {
-            span: 94..112#0,
+            span: 94..112,
             value: "Second property\n *",
         },
         tags: [
             TagItem {
-                span: 94..98#0,
+                span: 94..98,
                 tag_name: Text {
-                    span: 94..98#0,
+                    span: 94..98,
                     value: "type",
                 },
                 tag: Type(
                     TypeTag {
-                        span: 94..98#0,
+                        span: 94..98,
                         name: Text {
-                            span: 94..102#0,
+                            span: 94..102,
                             value: "{String}",
                         },
                     },
@@ -56,48 +56,48 @@
         ],
     },
     JsDoc {
-        span: 178..178#0,
+        span: 178..178,
         description: Text {
-            span: 178..198#0,
+            span: 178..198,
             value: "First parent method.",
         },
         tags: [],
     },
     JsDoc {
-        span: 250..250#0,
+        span: 250..250,
         description: Text {
-            span: 250..271#0,
+            span: 250..271,
             value: "Second parent method.",
         },
         tags: [],
     },
     JsDoc {
-        span: 323..323#0,
+        span: 323..323,
         description: Text {
-            span: 323..343#0,
+            span: 323..343,
             value: "Third parent method.",
         },
         tags: [],
     },
     JsDoc {
-        span: 395..395#0,
+        span: 395..395,
         description: Text {
-            span: 395..395#0,
+            span: 395..395,
             value: "",
         },
         tags: [
             TagItem {
-                span: 395..406#0,
+                span: 395..406,
                 tag_name: Text {
-                    span: 395..406#0,
+                    span: 395..406,
                     value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 395..406#0,
+                        span: 395..406,
                         ty: Some(
                             Text {
-                                span: 395..409#0,
+                                span: 395..409,
                                 value: "* @extends Foo",
                             },
                         ),
@@ -108,40 +108,40 @@
         ],
     },
     JsDoc {
-        span: 456..456#0,
+        span: 456..456,
         description: Text {
-            span: 456..468#0,
+            span: 456..468,
             value: "Third prop *",
         },
         tags: [],
     },
     JsDoc {
-        span: 501..501#0,
+        span: 501..501,
         description: Text {
-            span: 501..521#0,
+            span: 501..521,
             value: "Second child method.",
         },
         tags: [],
     },
     JsDoc {
-        span: 573..573#0,
+        span: 573..573,
         description: Text {
-            span: 573..573#0,
+            span: 573..573,
             value: "",
         },
         tags: [
             TagItem {
-                span: 573..584#0,
+                span: 573..584,
                 tag_name: Text {
-                    span: 573..584#0,
+                    span: 573..584,
                     value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 573..584#0,
+                        span: 573..584,
                         ty: Some(
                             Text {
-                                span: 573..589#0,
+                                span: 573..589,
                                 value: "* @extends {Bar}",
                             },
                         ),
@@ -152,17 +152,17 @@
         ],
     },
     JsDoc {
-        span: 636..636#0,
+        span: 636..636,
         description: Text {
-            span: 636..650#0,
+            span: 636..650,
             value: "Override prop1",
         },
         tags: [],
     },
     JsDoc {
-        span: 685..685#0,
+        span: 685..685,
         description: Text {
-            span: 685..709#0,
+            span: 685..709,
             value: "Third grandchild method.",
         },
         tags: [],

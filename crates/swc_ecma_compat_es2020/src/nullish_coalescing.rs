@@ -39,12 +39,13 @@ impl NullishCoalescing {
             stmt.visit_mut_with(self);
 
             if !self.vars.is_empty() {
-                buf.push(T::from_stmt(
+                buf.push(T::from(
                     VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
                         decls: take(&mut self.vars),
                         declare: false,
+                        ..Default::default()
                     }
                     .into(),
                 ));
@@ -108,14 +109,15 @@ impl VisitMut for NullishCoalescing {
                 }
 
                 let var_expr = if aliased {
-                    Expr::Assign(AssignExpr {
+                    AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
                         left: l.clone().into(),
                         right: left.take(),
-                    })
+                    }
+                    .into()
                 } else {
-                    Expr::Ident(l.clone())
+                    l.clone().into()
                 };
 
                 *e = make_cond(self.c, *span, &l, var_expr, right.take());
@@ -124,18 +126,19 @@ impl VisitMut for NullishCoalescing {
             Expr::Assign(ref mut assign @ AssignExpr { op: op!("??="), .. }) => {
                 match &mut assign.left {
                     AssignTarget::Simple(SimpleAssignTarget::Ident(i)) => {
-                        *e = Expr::Assign(AssignExpr {
+                        *e = AssignExpr {
                             span: assign.span,
                             op: op!("="),
                             left: i.clone().into(),
                             right: Box::new(make_cond(
                                 self.c,
                                 assign.span,
-                                &i.id,
-                                Expr::Ident(i.id.clone()),
+                                &Ident::from(&*i),
+                                Expr::Ident(Ident::from(&*i)),
                                 assign.right.take(),
                             )),
-                        });
+                        }
+                        .into();
                     }
 
                     AssignTarget::Simple(left) => {
@@ -148,21 +151,23 @@ impl VisitMut for NullishCoalescing {
                         });
 
                         // TODO: Check for computed.
-                        let right_expr = Box::new(Expr::Assign(AssignExpr {
+                        let right_expr = AssignExpr {
                             span: assign.span,
                             left: left.clone().into(),
                             op: op!("="),
                             right: assign.right.take(),
-                        }));
+                        }
+                        .into();
 
-                        let var_expr = Expr::Assign(AssignExpr {
+                        let var_expr = AssignExpr {
                             span: DUMMY_SP,
                             op: op!("="),
                             left: alias.clone().into(),
                             right: left.take().into(),
-                        });
+                        }
+                        .into();
 
-                        *e = Expr::Assign(AssignExpr {
+                        *e = AssignExpr {
                             span: assign.span,
                             op: op!("="),
                             left: alias.clone().into(),
@@ -173,7 +178,8 @@ impl VisitMut for NullishCoalescing {
                                 var_expr,
                                 right_expr,
                             )),
-                        });
+                        }
+                        .into();
                     }
 
                     _ => {}
@@ -198,6 +204,7 @@ impl VisitMut for NullishCoalescing {
                         kind: VarDeclKind::Var,
                         decls: self.vars.take(),
                         declare: false,
+                        ..Default::default()
                     }
                     .into(),
                     Stmt::Return(ReturnStmt {
@@ -208,6 +215,7 @@ impl VisitMut for NullishCoalescing {
                 *n = BlockStmtOrExpr::BlockStmt(BlockStmt {
                     span: DUMMY_SP,
                     stmts,
+                    ..Default::default()
                 });
             }
         }
@@ -218,22 +226,23 @@ impl VisitMut for NullishCoalescing {
 
 #[tracing::instrument(level = "info", skip_all)]
 fn make_cond(c: Config, span: Span, alias: &Ident, var_expr: Expr, init: Box<Expr>) -> Expr {
-    Expr::Cond(if c.no_document_all {
+    if c.no_document_all {
         CondExpr {
             span,
-            test: Box::new(Expr::Bin(BinExpr {
+            test: BinExpr {
                 span: DUMMY_SP,
                 left: Box::new(var_expr),
                 op: op!("!="),
                 right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
-            })),
-            cons: Box::new(Expr::Ident(alias.clone())),
+            }
+            .into(),
+            cons: alias.clone().into(),
             alt: init,
         }
     } else {
         CondExpr {
             span,
-            test: Box::new(Expr::Bin(BinExpr {
+            test: BinExpr {
                 span: DUMMY_SP,
                 left: Box::new(Expr::Bin(BinExpr {
                     span: DUMMY_SP,
@@ -248,9 +257,11 @@ fn make_cond(c: Config, span: Span, alias: &Ident, var_expr: Expr, init: Box<Exp
                     op: op!("!=="),
                     right: Expr::undefined(DUMMY_SP),
                 })),
-            })),
-            cons: Box::new(Expr::Ident(alias.clone())),
+            }
+            .into(),
+            cons: alias.clone().into(),
             alt: init,
         }
-    })
+    }
+    .into()
 }

@@ -63,7 +63,7 @@ impl VisitMut for FnName {
 
         if let Some(ident) = expr.left.as_ident_mut() {
             let mut folder = Rename {
-                name: Some(ident.clone()),
+                name: Some(Ident::from(&*ident)),
             };
 
             expr.right.visit_mut_with(&mut folder);
@@ -76,12 +76,13 @@ impl VisitMut for FnName {
         if let Expr::Fn(expr @ FnExpr { ident: None, .. }) = &mut *p.value {
             //
             p.value = if let PropName::Ident(ref i) = p.key {
-                Box::new(Expr::Fn(FnExpr {
-                    ident: Some(prepare(i.clone())),
+                FnExpr {
+                    ident: Some(prepare(i.clone().into())),
                     ..expr.take()
-                }))
+                }
+                .into()
             } else {
-                Box::new(Expr::Fn(expr.take()))
+                expr.take().into()
             };
         };
     }
@@ -91,7 +92,7 @@ impl VisitMut for FnName {
 
         if let Pat::Ident(ref mut ident) = decl.name {
             let mut folder = Rename {
-                name: Some(prepare(ident.id.clone())),
+                name: Some(prepare(Ident::from(&*ident))),
             };
             decl.init.visit_mut_with(&mut folder);
         }

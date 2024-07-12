@@ -50,7 +50,7 @@ impl VisitMut for ReservedWord {
                         return;
                     }
 
-                    *module_item = ModuleItem::Stmt(decl.take().into());
+                    *module_item = decl.take().into();
 
                     let mut orig = ident.clone();
                     orig.visit_mut_with(self);
@@ -72,7 +72,7 @@ impl VisitMut for ReservedWord {
                 })) => {
                     if var.decls.iter().all(|var| {
                         if let Pat::Ident(i) = &var.name {
-                            !i.id.sym.is_reserved_in_es3()
+                            !i.sym.is_reserved_in_es3()
                         } else {
                             true
                         }
@@ -81,7 +81,7 @@ impl VisitMut for ReservedWord {
                     }
 
                     for var in &var.decls {
-                        let ident = var.name.clone().expect_ident().id;
+                        let ident = Ident::from(var.name.clone().expect_ident());
 
                         if !ident.is_reserved_in_es3() {
                             return;
@@ -101,7 +101,7 @@ impl VisitMut for ReservedWord {
                         );
                     }
 
-                    *module_item = ModuleItem::Stmt(Decl::Var(var.take()).into());
+                    *module_item = var.take().into();
                 }
 
                 _ => {}
@@ -111,16 +111,14 @@ impl VisitMut for ReservedWord {
         });
 
         if !extra_exports.is_empty() {
-            let module_item = ModuleItem::ModuleDecl(
-                NamedExport {
-                    span: DUMMY_SP,
-                    specifiers: extra_exports,
-                    src: None,
-                    type_only: false,
-                    with: None,
-                }
-                .into(),
-            );
+            let module_item = NamedExport {
+                span: DUMMY_SP,
+                specifiers: extra_exports,
+                src: None,
+                type_only: false,
+                with: None,
+            }
+            .into();
 
             n.push(module_item);
         }

@@ -5,7 +5,8 @@ use std::{
 
 use swc_atoms::JsWord;
 use swc_common::{
-    collections::AHashSet, pass::CompilerPass, util::take::Take, Mark, Spanned, DUMMY_SP,
+    collections::AHashSet, pass::CompilerPass, util::take::Take, Mark, Spanned, SyntaxContext,
+    DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::pass::JsPass;
@@ -50,12 +51,15 @@ impl Mode {
                     definite: Default::default(),
                 });
                 if let Some(init) = init {
-                    init_exprs.push(Box::new(Expr::Assign(AssignExpr {
-                        span: DUMMY_SP,
-                        op: op!("="),
-                        left: n.into(),
-                        right: init,
-                    })));
+                    init_exprs.push(
+                        AssignExpr {
+                            span: DUMMY_SP,
+                            op: op!("="),
+                            left: n.into(),
+                            right: init,
+                        }
+                        .into(),
+                    );
                 }
             }
             Mode::ClassDecl { vars } => {
@@ -111,17 +115,18 @@ impl CompilerPass for PrivateInObject {
 
 impl PrivateInObject {
     fn var_name_for_brand_check(&self, n: &PrivateName) -> Ident {
-        let is_static = self.cls.statics.contains(&n.id.sym);
+        let is_static = self.cls.statics.contains(&n.name);
 
-        let span = n.span.apply_mark(self.cls.mark);
+        let span = n.span;
+        let ctxt = SyntaxContext::empty().apply_mark(self.cls.mark);
 
-        if !is_static && self.cls.methods.contains(&n.id.sym) {
+        if !is_static && self.cls.methods.contains(&n.name) {
             if let Some(cls_name) = &self.cls.ident {
-                return Ident::new(format!("_brand_check_{}", cls_name.sym).into(), span);
+                return Ident::new(format!("_brand_check_{}", cls_name.sym).into(), span, ctxt);
             }
         }
 
-        Ident::new(format!("_brand_check_{}", n.id.sym).into(), span)
+        Ident::new(format!("_brand_check_{}", n.name).into(), span, ctxt)
     }
 }
 
@@ -139,20 +144,20 @@ impl VisitMut for PrivateInObject {
         for m in &n.body {
             match m {
                 ClassMember::PrivateMethod(m) => {
-                    self.cls.privates.insert(m.key.id.sym.clone());
+                    self.cls.privates.insert(m.key.name.clone());
 
-                    self.cls.methods.push(m.key.id.sym.clone());
+                    self.cls.methods.push(m.key.name.clone());
 
                     if m.is_static {
-                        self.cls.statics.push(m.key.id.sym.clone());
+                        self.cls.statics.push(m.key.name.clone());
                     }
                 }
 
                 ClassMember::PrivateProp(m) => {
-                    self.cls.privates.insert(m.key.id.sym.clone());
+                    self.cls.privates.insert(m.key.name.clone());
 
                     if m.is_static {
-                        self.cls.statics.push(m.key.id.sym.clone());
+                        self.cls.statics.push(m.key.name.clone());
                     }
                 }
 
@@ -180,10 +185,13 @@ impl VisitMut for PrivateInObject {
                 }) = m
                 {
                     for expr in take(&mut self.cls.constructor_exprs) {
-                        body.stmts.push(Stmt::Expr(ExprStmt {
-                            span: DUMMY_SP,
-                            expr,
-                        }));
+                        body.stmts.push(
+                            ExprStmt {
+                                span: DUMMY_SP,
+                                expr,
+                            }
+                            .into(),
+                        );
                     }
                 }
             }
@@ -255,14 +263,18 @@ impl VisitMut for PrivateInObject {
                 let mut bs = BlockStmt {
                     span: DUMMY_SP,
                     stmts: vec![],
+                    ..Default::default()
                 };
-                bs.stmts.push(Stmt::Return(ReturnStmt {
-                    span: DUMMY_SP,
-                    arg: Some(p.right.take()),
-                }));
+                bs.stmts.push(
+                    ReturnStmt {
+                        span: DUMMY_SP,
+                        arg: Some(p.right.take()),
+                    }
+                    .into(),
+                );
                 bs.visit_mut_with(self);
 
-                p.right = Box::new(Expr::Call(CallExpr {
+                p.right = CallExpr {
                     span: DUMMY_SP,
                     callee: ArrowExpr {
                         span: DUMMY_SP,
@@ -270,13 +282,13 @@ impl VisitMut for PrivateInObject {
                         body: Box::new(BlockStmtOrExpr::BlockStmt(bs)),
                         is_async: false,
                         is_generator: false,
-                        type_params: Default::default(),
-                        return_type: Default::default(),
+                        ..Default::default()
                     }
                     .as_callee(),
                     args: Default::default(),
-                    type_args: Default::default(),
-                }));
+                    ..Default::default()
+                }
+                .into();
             }
         }
     }
@@ -295,10 +307,11 @@ impl VisitMut for PrivateInObject {
                 }
                 _ => {
                     prepend_exprs.push(Box::new(e.take()));
-                    *e = Expr::Seq(SeqExpr {
+                    *e = SeqExpr {
                         span: DUMMY_SP,
                         exprs: prepend_exprs,
-                    });
+                    }
+                    .into();
                 }
             }
             return;
@@ -313,57 +326,63 @@ impl VisitMut for PrivateInObject {
             }) if left.is_private_name() => {
                 let left = left.take().expect_private_name();
 
-                let is_static = self.cls.statics.contains(&left.id.sym);
-                let is_method = self.cls.methods.contains(&left.id.sym);
+                let is_static = self.cls.statics.contains(&left.name);
+                let is_method = self.cls.methods.contains(&left.name);
 
                 if let Some(cls_ident) = self.cls.ident.clone() {
                     if is_static && is_method {
-                        *e = Expr::Bin(BinExpr {
+                        *e = BinExpr {
                             span: *span,
                             op: op!("==="),
-                            left: Box::new(Expr::Ident(cls_ident)),
+                            left: cls_ident.into(),
                             right: right.take(),
-                        });
+                        }
+                        .into();
                         return;
                     }
                 }
 
                 let var_name = self.var_name_for_brand_check(&left);
 
-                if self.cls.privates.contains(&left.id.sym)
+                if self.cls.privates.contains(&left.name)
                     && self.injected_vars.insert(var_name.to_id())
                 {
                     self.cls.vars.push_var(
                         var_name.clone(),
-                        Some(Box::new(Expr::New(NewExpr {
-                            span: DUMMY_SP,
-                            callee: Box::new(Expr::Ident(quote_ident!("WeakSet"))),
-                            args: Some(Default::default()),
-                            type_args: Default::default(),
-                        }))),
+                        Some(
+                            NewExpr {
+                                span: DUMMY_SP,
+                                callee: Box::new(quote_ident!("WeakSet").into()),
+                                args: Some(Default::default()),
+                                ..Default::default()
+                            }
+                            .into(),
+                        ),
                     );
 
                     if is_method {
-                        self.cls
-                            .constructor_exprs
-                            .push(Box::new(Expr::Call(CallExpr {
+                        self.cls.constructor_exprs.push(
+                            CallExpr {
                                 span: DUMMY_SP,
                                 callee: var_name
                                     .clone()
                                     .make_member(quote_ident!("add"))
                                     .as_callee(),
                                 args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-                                type_args: Default::default(),
-                            })));
+                                ..Default::default()
+                            }
+                            .into(),
+                        );
                     }
                 }
 
-                *e = Expr::Call(CallExpr {
+                *e = CallExpr {
                     span: *span,
                     callee: var_name.make_member(quote_ident!("has")).as_callee(),
                     args: vec![right.take().as_arg()],
-                    type_args: Default::default(),
-                });
+                    ..Default::default()
+                }
+                .into();
             }
 
             _ => {}
@@ -381,6 +400,7 @@ impl VisitMut for PrivateInObject {
                     kind: VarDeclKind::Var,
                     declare: Default::default(),
                     decls: take(&mut self.vars),
+                    ..Default::default()
                 }
                 .into(),
             );
@@ -390,7 +410,7 @@ impl VisitMut for PrivateInObject {
     fn visit_mut_private_prop(&mut self, n: &mut PrivateProp) {
         n.visit_mut_children_with(self);
 
-        if self.cls.names_used_for_brand_checks.contains(&n.key.id.sym) {
+        if self.cls.names_used_for_brand_checks.contains(&n.key.name) {
             let var_name = self.var_name_for_brand_check(&n.key);
 
             match &mut n.value {
@@ -401,36 +421,45 @@ impl VisitMut for PrivateInObject {
 
                     self.cls.vars.push_var(tmp.clone(), None);
 
-                    let assign = Box::new(Expr::Assign(AssignExpr {
+                    let assign = AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
                         left: tmp.clone().into(),
                         right: init.take(),
-                    }));
+                    }
+                    .into();
 
-                    let add_to_checker = Box::new(Expr::Call(CallExpr {
+                    let add_to_checker = CallExpr {
                         span: DUMMY_SP,
                         callee: var_name.make_member(quote_ident!("add")).as_callee(),
                         args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-                        type_args: Default::default(),
-                    }));
+                        ..Default::default()
+                    }
+                    .into();
 
-                    *init = Box::new(Expr::Seq(SeqExpr {
+                    *init = SeqExpr {
                         span: init_span,
                         exprs: vec![assign, add_to_checker, Box::new(tmp.into())],
-                    }));
+                    }
+                    .into();
                 }
                 None => {
-                    n.value = Some(Box::new(Expr::Unary(UnaryExpr {
-                        span: DUMMY_SP,
-                        op: op!("void"),
-                        arg: Box::new(Expr::Call(CallExpr {
+                    n.value = Some(
+                        UnaryExpr {
                             span: DUMMY_SP,
-                            callee: var_name.make_member(quote_ident!("add")).as_callee(),
-                            args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-                            type_args: Default::default(),
-                        })),
-                    })))
+                            op: op!("void"),
+                            arg: Box::new(
+                                CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: var_name.make_member(quote_ident!("add")).as_callee(),
+                                    args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                                    ..Default::default()
+                                }
+                                .into(),
+                            ),
+                        }
+                        .into(),
+                    )
                 }
             }
         }
@@ -453,6 +482,7 @@ impl VisitMut for PrivateInObject {
                     kind: VarDeclKind::Var,
                     declare: Default::default(),
                     decls: take(&mut self.vars),
+                    ..Default::default()
                 }
                 .into(),
             );
@@ -473,7 +503,7 @@ impl Visit for ClassAnalyzer<'_> {
 
         if n.op == op!("in") {
             if let Expr::PrivateName(left) = &*n.left {
-                self.brand_check_names.insert(left.id.sym.clone());
+                self.brand_check_names.insert(left.name.clone());
             }
         }
     }

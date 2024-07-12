@@ -2,62 +2,54 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 177,
-    "ctxt": 0
+    "end": 177
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
         "start": 1,
-        "end": 176,
-        "ctxt": 0
+        "end": 176
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 1,
-          "end": 4,
-          "ctxt": 0
+          "end": 4
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
               "start": 1,
-              "end": 4,
-              "ctxt": 0
+              "end": 4
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
                   "start": 1,
-                  "end": 4,
-                  "ctxt": 0
+                  "end": 4
                 },
                 "nestingSelector": null,
                 "typeSelector": {
                   "type": "TagNameSelector",
                   "span": {
                     "start": 1,
-                    "end": 4,
-                    "ctxt": 0
+                    "end": 4
                   },
                   "name": {
                     "type": "WqName",
                     "span": {
                       "start": 1,
-                      "end": 4,
-                      "ctxt": 0
+                      "end": 4
                     },
                     "prefix": null,
                     "value": {
                       "type": "Ident",
                       "span": {
                         "start": 1,
-                        "end": 4,
-                        "ctxt": 0
+                        "end": 4
                       },
                       "value": "div",
                       "raw": "div"
@@ -74,15 +66,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 5,
-          "end": 176,
-          "ctxt": 0
+          "end": 176
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 5,
-            "end": 6,
-            "ctxt": 0
+            "end": 6
           },
           "token": "LBrace"
         },
@@ -91,15 +81,13 @@
             "type": "Declaration",
             "span": {
               "start": 103,
-              "end": 142,
-              "ctxt": 0
+              "end": 142
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 103,
-                "end": 110,
-                "ctxt": 0
+                "end": 110
               },
               "value": "opacity",
               "raw": "opacity"
@@ -109,15 +97,13 @@
                 "type": "Function",
                 "span": {
                   "start": 112,
-                  "end": 142,
-                  "ctxt": 0
+                  "end": 142
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 112,
-                    "end": 115,
-                    "ctxt": 0
+                    "end": 115
                   },
                   "value": "mix",
                   "raw": "mix"
@@ -127,15 +113,13 @@
                     "type": "Percentage",
                     "span": {
                       "start": 117,
-                      "end": 120,
-                      "ctxt": 0
+                      "end": 120
                     },
                     "value": {
                       "type": "Number",
                       "span": {
                         "start": 117,
-                        "end": 119,
-                        "ctxt": 0
+                        "end": 119
                       },
                       "value": 70.0,
                       "raw": "70"
@@ -145,8 +129,7 @@
                     "type": "Ident",
                     "span": {
                       "start": 121,
-                      "end": 123,
-                      "ctxt": 0
+                      "end": 123
                     },
                     "value": "by",
                     "raw": "by"
@@ -155,8 +138,7 @@
                     "type": "Ident",
                     "span": {
                       "start": 124,
-                      "end": 128,
-                      "ctxt": 0
+                      "end": 128
                     },
                     "value": "ease",
                     "raw": "ease"
@@ -165,8 +147,7 @@
                     "type": "Delimiter",
                     "span": {
                       "start": 129,
-                      "end": 130,
-                      "ctxt": 0
+                      "end": 130
                     },
                     "value": ";"
                   },
@@ -174,15 +155,13 @@
                     "type": "Percentage",
                     "span": {
                       "start": 131,
-                      "end": 133,
-                      "ctxt": 0
+                      "end": 133
                     },
                     "value": {
                       "type": "Number",
                       "span": {
                         "start": 131,
-                        "end": 132,
-                        "ctxt": 0
+                        "end": 132
                       },
                       "value": 0.0,
                       "raw": "0"
@@ -192,8 +171,7 @@
                     "type": "Delimiter",
                     "span": {
                       "start": 134,
-                      "end": 135,
-                      "ctxt": 0
+                      "end": 135
                     },
                     "value": ";"
                   },
@@ -201,15 +179,13 @@
                     "type": "Percentage",
                     "span": {
                       "start": 136,
-                      "end": 140,
-                      "ctxt": 0
+                      "end": 140
                     },
                     "value": {
                       "type": "Number",
                       "span": {
                         "start": 136,
-                        "end": 139,
-                        "ctxt": 0
+                        "end": 139
                       },
                       "value": 100.0,
                       "raw": "100"
@@ -224,15 +200,13 @@
             "type": "Declaration",
             "span": {
               "start": 148,
-              "end": 173,
-              "ctxt": 0
+              "end": 173
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 148,
-                "end": 155,
-                "ctxt": 0
+                "end": 155
               },
               "value": "opacity",
               "raw": "opacity"
@@ -242,15 +216,13 @@
                 "type": "Function",
                 "span": {
                   "start": 157,
-                  "end": 173,
-                  "ctxt": 0
+                  "end": 173
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 157,
-                    "end": 160,
-                    "ctxt": 0
+                    "end": 160
                   },
                   "value": "mix",
                   "raw": "mix"
@@ -260,15 +232,13 @@
                     "type": "Percentage",
                     "span": {
                       "start": 161,
-                      "end": 164,
-                      "ctxt": 0
+                      "end": 164
                     },
                     "value": {
                       "type": "Number",
                       "span": {
                         "start": 161,
-                        "end": 163,
-                        "ctxt": 0
+                        "end": 163
                       },
                       "value": 70.0,
                       "raw": "70"
@@ -278,8 +248,7 @@
                     "type": "Delimiter",
                     "span": {
                       "start": 164,
-                      "end": 165,
-                      "ctxt": 0
+                      "end": 165
                     },
                     "value": ";"
                   },
@@ -287,15 +256,13 @@
                     "type": "Percentage",
                     "span": {
                       "start": 165,
-                      "end": 167,
-                      "ctxt": 0
+                      "end": 167
                     },
                     "value": {
                       "type": "Number",
                       "span": {
                         "start": 165,
-                        "end": 166,
-                        "ctxt": 0
+                        "end": 166
                       },
                       "value": 0.0,
                       "raw": "0"
@@ -305,8 +272,7 @@
                     "type": "Delimiter",
                     "span": {
                       "start": 167,
-                      "end": 168,
-                      "ctxt": 0
+                      "end": 168
                     },
                     "value": ";"
                   },
@@ -314,15 +280,13 @@
                     "type": "Percentage",
                     "span": {
                       "start": 168,
-                      "end": 172,
-                      "ctxt": 0
+                      "end": 172
                     },
                     "value": {
                       "type": "Number",
                       "span": {
                         "start": 168,
-                        "end": 171,
-                        "ctxt": 0
+                        "end": 171
                       },
                       "value": 100.0,
                       "raw": "100"

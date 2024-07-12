@@ -2,23 +2,20 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 27,
-    "ctxt": 0
+    "end": 27
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
         "start": 1,
-        "end": 27,
-        "ctxt": 0
+        "end": 27
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 2,
-          "end": 10,
-          "ctxt": 0
+          "end": 10
         },
         "value": "viewport",
         "raw": "viewport"
@@ -28,15 +25,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 11,
-          "end": 27,
-          "ctxt": 0
+          "end": 27
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 11,
-            "end": 12,
-            "ctxt": 0
+            "end": 12
           },
           "token": "LBrace"
         },
@@ -45,15 +40,13 @@
             "type": "Declaration",
             "span": {
               "start": 13,
-              "end": 26,
-              "ctxt": 0
+              "end": 26
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 13,
-                "end": 18,
-                "ctxt": 0
+                "end": 18
               },
               "value": "width",
               "raw": "width"
@@ -63,15 +56,13 @@
                 "type": "Length",
                 "span": {
                   "start": 20,
-                  "end": 25,
-                  "ctxt": 0
+                  "end": 25
                 },
                 "value": {
                   "type": "Number",
                   "span": {
                     "start": 20,
-                    "end": 23,
-                    "ctxt": 0
+                    "end": 23
                   },
                   "value": 100.0,
                   "raw": "100"
@@ -80,8 +71,7 @@
                   "type": "Ident",
                   "span": {
                     "start": 23,
-                    "end": 25,
-                    "ctxt": 0
+                    "end": 25
                   },
                   "value": "vw",
                   "raw": "vw"

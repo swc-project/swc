@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 147,
-    "end": 414,
-    "ctxt": 0
+    "end": 414
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 156,
-          "end": 157,
-          "ctxt": 0
+          "end": 157
         },
+        "ctxt": 0,
         "value": "f",
         "optional": false
       },
@@ -23,30 +22,28 @@
       "decorators": [],
       "span": {
         "start": 147,
-        "end": 183,
-        "ctxt": 0
+        "end": 183
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 160,
-          "end": 183,
-          "ctxt": 0
+          "end": 183
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ReturnStatement",
             "span": {
               "start": 166,
-              "end": 181,
-              "ctxt": 0
+              "end": 181
             },
             "argument": {
               "type": "StringLiteral",
               "span": {
                 "start": 173,
-                "end": 180,
-                "ctxt": 0
+                "end": 180
               },
               "value": "hello",
               "raw": "\"hello\""
@@ -65,9 +62,9 @@
         "type": "Identifier",
         "span": {
           "start": 262,
-          "end": 264,
-          "ctxt": 0
+          "end": 264
         },
+        "ctxt": 0,
         "value": "f1",
         "optional": false
       },
@@ -76,30 +73,28 @@
       "decorators": [],
       "span": {
         "start": 253,
-        "end": 296,
-        "ctxt": 0
+        "end": 296
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 267,
-          "end": 296,
-          "ctxt": 0
+          "end": 296
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ReturnStatement",
             "span": {
               "start": 273,
-              "end": 294,
-              "ctxt": 0
+              "end": 294
             },
             "argument": {
               "type": "StringLiteral",
               "span": {
                 "start": 280,
-                "end": 293,
-                "ctxt": 0
+                "end": 293
               },
               "value": "hello world",
               "raw": "\"hello world\""
@@ -118,9 +113,9 @@
         "type": "Identifier",
         "span": {
           "start": 381,
-          "end": 383,
-          "ctxt": 0
+          "end": 383
         },
+        "ctxt": 0,
         "value": "f2",
         "optional": false
       },
@@ -129,38 +124,35 @@
       "decorators": [],
       "span": {
         "start": 372,
-        "end": 414,
-        "ctxt": 0
+        "end": 414
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 386,
-          "end": 414,
-          "ctxt": 0
+          "end": 414
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ReturnStatement",
             "span": {
               "start": 392,
-              "end": 412,
-              "ctxt": 0
+              "end": 412
             },
             "argument": {
               "type": "BinaryExpression",
               "span": {
                 "start": 399,
-                "end": 411,
-                "ctxt": 0
+                "end": 411
               },
               "operator": "||",
               "left": {
                 "type": "NumericLiteral",
                 "span": {
                   "start": 399,
-                  "end": 400,
-                  "ctxt": 0
+                  "end": 400
                 },
                 "value": 5.0,
                 "raw": "5"
@@ -169,8 +161,7 @@
                 "type": "StringLiteral",
                 "span": {
                   "start": 404,
-                  "end": 411,
-                  "ctxt": 0
+                  "end": 411
                 },
                 "value": "hello",
                 "raw": "\"hello\""

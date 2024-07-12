@@ -2,23 +2,20 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 52,
-    "ctxt": 0
+    "end": 52
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 14,
-        "ctxt": 0
+        "end": 14
       },
       "expression": {
         "type": "StringLiteral",
         "span": {
           "start": 1,
-          "end": 13,
-          "ctxt": 0
+          "end": 13
         },
         "value": "use strict",
         "raw": "\"use strict\""
@@ -28,8 +25,7 @@
       "type": "ExportDeclaration",
       "span": {
         "start": 16,
-        "end": 52,
-        "ctxt": 0
+        "end": 52
       },
       "declaration": {
         "type": "ClassDeclaration",
@@ -37,36 +33,33 @@
           "type": "Identifier",
           "span": {
             "start": 29,
-            "end": 35,
-            "ctxt": 0
+            "end": 35
           },
+          "ctxt": 0,
           "value": "Logger",
           "optional": false
         },
         "declare": false,
         "span": {
           "start": 23,
-          "end": 52,
-          "ctxt": 0
+          "end": 52
         },
+        "ctxt": 0,
         "decorators": [],
         "body": [
           {
             "type": "ClassProperty",
             "span": {
               "start": 44,
-              "end": 50,
-              "ctxt": 0
+              "end": 50
             },
             "key": {
               "type": "Identifier",
               "span": {
                 "start": 44,
-                "end": 50,
-                "ctxt": 0
+                "end": 50
               },
-              "value": "public",
-              "optional": false
+              "value": "public"
             },
             "value": null,
             "typeAnnotation": null,

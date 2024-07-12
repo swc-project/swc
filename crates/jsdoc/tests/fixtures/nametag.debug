@@ -1,25 +1,25 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..11#0,
+            span: 1..11,
             value: "A view.\n *",
         },
         tags: [
             TagItem {
-                span: 1..5#0,
+                span: 1..5,
                 tag_name: Text {
-                    span: 1..5#0,
+                    span: 1..5,
                     value: "name",
                 },
                 tag: Name(
                     NameTag {
-                        span: 1..5#0,
+                        span: 1..5,
                         name_path: NamePath {
-                            span: 1..2#0,
+                            span: 1..2,
                             components: [
                                 Text {
-                                    span: 1..5#0,
+                                    span: 1..5,
                                     value: "View",
                                 },
                             ],
@@ -30,26 +30,26 @@
         ],
     },
     JsDoc {
-        span: 35..35#0,
+        span: 35..35,
         description: Text {
-            span: 35..51#0,
+            span: 35..51,
             value: "A controller.\n *",
         },
         tags: [
             TagItem {
-                span: 35..39#0,
+                span: 35..39,
                 tag_name: Text {
-                    span: 35..39#0,
+                    span: 35..39,
                     value: "name",
                 },
                 tag: Name(
                     NameTag {
-                        span: 35..39#0,
+                        span: 35..39,
                         name_path: NamePath {
-                            span: 35..46#0,
+                            span: 35..46,
                             components: [
                                 Text {
-                                    span: 35..45#0,
+                                    span: 35..45,
                                     value: "Controller",
                                 },
                             ],
@@ -58,14 +58,14 @@
                 ),
             },
             TagItem {
-                span: 35..40#0,
+                span: 35..40,
                 tag_name: Text {
-                    span: 35..40#0,
+                    span: 35..40,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 35..40#0,
+                        span: 35..40,
                         ty: None,
                         name: None,
                     },

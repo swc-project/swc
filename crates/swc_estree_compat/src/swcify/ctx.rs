@@ -1,6 +1,6 @@
 use std::sync::Arc;
 
-use swc_common::{BytePos, FileName, SourceFile, SourceMap, Span, SyntaxContext, DUMMY_SP};
+use swc_common::{BytePos, FileName, SourceFile, SourceMap, Span, DUMMY_SP};
 use swc_estree_ast::{BaseNode, LineCol, Loc};
 use swc_node_comments::SwcComments;
 
@@ -30,7 +30,7 @@ impl Context {
         let start = self.locate_line_col(loc.start);
         let end = self.locate_line_col(loc.end);
 
-        Span::new(start, end, SyntaxContext::empty())
+        Span::new(start, end)
     }
 
     pub(crate) fn span(&self, node: &BaseNode) -> Span {
@@ -50,7 +50,7 @@ impl Context {
             .map(|offset| self.fm.start_pos + BytePos(offset as _))
             .unwrap_or(BytePos::DUMMY);
 
-        Span::new(start, end, SyntaxContext::empty())
+        Span::new(start, end)
     }
 
     /// This accepts source string because the spans of an ast node of swc are
@@ -58,7 +58,7 @@ impl Context {
     ///
     /// This method allocate a new [SourceFile] in the given `cm`.
     pub fn new(cm: Arc<SourceMap>, comments: SwcComments, filename: FileName, src: String) -> Self {
-        let fm = cm.new_source_file(filename, src);
+        let fm = cm.new_source_file(filename.into(), src);
         Self::new_without_alloc(cm, comments, fm)
     }
 

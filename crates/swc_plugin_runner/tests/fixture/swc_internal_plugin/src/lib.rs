@@ -25,11 +25,11 @@ impl VisitMut for ConsoleOutputReplacer {
                         self.metadata.source_map.lookup_char_pos(ident.span.lo)
                     );
                     if ident.sym == *"console" {
-                        call.args[0].expr = Box::new(Expr::Lit(Lit::Str(Str {
+                        call.args[0].expr = Lit::Str(Str {
                             span: DUMMY_SP,
                             value: JsWord::from("changed_via_plugin"),
                             raw: Some(Atom::from("\"changed_via_plugin\"")),
-                        })));
+                        }).into();
                     }
                 }
             }
@@ -69,7 +69,7 @@ pub fn process(program: Program, metadata: TransformPluginProgramMetadata) -> Pr
 
     let _stmt = quote!(
         "const $name = 4;" as Stmt,
-        name = Ident::new("ref".into(), DUMMY_SP)
+        name = Ident::new_no_ctxt("ref".into(), DUMMY_SP)
     );
 
     dbg!();

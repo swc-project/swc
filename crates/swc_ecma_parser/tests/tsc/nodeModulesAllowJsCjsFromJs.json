@@ -2,39 +2,35 @@
   "type": "Module",
   "span": {
     "start": 86,
-    "end": 163,
-    "ctxt": 0
+    "end": 163
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 86,
-        "end": 105,
-        "ctxt": 0
+        "end": 105
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
           "start": 86,
-          "end": 105,
-          "ctxt": 0
+          "end": 105
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
             "start": 86,
-            "end": 97,
-            "ctxt": 0
+            "end": 97
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 86,
-              "end": 93,
-              "ctxt": 0
+              "end": 93
             },
+            "ctxt": 0,
             "value": "exports",
             "optional": false
           },
@@ -42,19 +38,16 @@
             "type": "Identifier",
             "span": {
               "start": 94,
-              "end": 97,
-              "ctxt": 0
+              "end": 97
             },
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           }
         },
         "right": {
           "type": "StringLiteral",
           "span": {
             "start": 100,
-            "end": 105,
-            "ctxt": 0
+            "end": 105
           },
           "value": "foo",
           "raw": "\"foo\""
@@ -65,24 +58,22 @@
       "type": "ImportDeclaration",
       "span": {
         "start": 127,
-        "end": 154,
-        "ctxt": 0
+        "end": 154
       },
       "specifiers": [
         {
           "type": "ImportDefaultSpecifier",
           "span": {
             "start": 134,
-            "end": 137,
-            "ctxt": 0
+            "end": 137
           },
           "local": {
             "type": "Identifier",
             "span": {
               "start": 134,
-              "end": 137,
-              "ctxt": 0
+              "end": 137
             },
+            "ctxt": 0,
             "value": "foo",
             "optional": false
           }
@@ -92,8 +83,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 143,
-          "end": 154,
-          "ctxt": 0
+          "end": 154
         },
         "value": "./foo.cjs",
         "raw": "\"./foo.cjs\""
@@ -106,23 +96,21 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 155,
-        "end": 163,
-        "ctxt": 0
+        "end": 163
       },
       "expression": {
         "type": "MemberExpression",
         "span": {
           "start": 155,
-          "end": 162,
-          "ctxt": 0
+          "end": 162
         },
         "object": {
           "type": "Identifier",
           "span": {
             "start": 155,
-            "end": 158,
-            "ctxt": 0
+            "end": 158
           },
+          "ctxt": 0,
           "value": "foo",
           "optional": false
         },
@@ -130,11 +118,9 @@
           "type": "Identifier",
           "span": {
             "start": 159,
-            "end": 162,
-            "ctxt": 0
+            "end": 162
           },
-          "value": "foo",
-          "optional": false
+          "value": "foo"
         }
       }
     }

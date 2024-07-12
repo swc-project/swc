@@ -2,24 +2,21 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 39,
-    "ctxt": 0
+    "end": 39
   },
   "body": [
     {
       "type": "ImportDeclaration",
       "span": {
         "start": 1,
-        "end": 35,
-        "ctxt": 0
+        "end": 35
       },
       "specifiers": [],
       "source": {
         "type": "StringLiteral",
         "span": {
           "start": 8,
-          "end": 11,
-          "ctxt": 0
+          "end": 11
         },
         "value": "x",
         "raw": "\"x\""
@@ -29,8 +26,7 @@
         "type": "ObjectExpression",
         "span": {
           "start": 19,
-          "end": 35,
-          "ctxt": 0
+          "end": 35
         },
         "properties": [
           {
@@ -39,18 +35,15 @@
               "type": "Identifier",
               "span": {
                 "start": 21,
-                "end": 25,
-                "ctxt": 0
+                "end": 25
               },
-              "value": "type",
-              "optional": false
+              "value": "type"
             },
             "value": {
               "type": "StringLiteral",
               "span": {
                 "start": 27,
-                "end": 33,
-                "ctxt": 0
+                "end": 33
               },
               "value": "json",
               "raw": "\"json\""
@@ -64,15 +57,13 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 36,
-        "end": 39,
-        "ctxt": 0
+        "end": 39
       },
       "expression": {
         "type": "ArrayExpression",
         "span": {
           "start": 36,
-          "end": 39,
-          "ctxt": 0
+          "end": 39
         },
         "elements": [
           {
@@ -81,8 +72,7 @@
               "type": "NumericLiteral",
               "span": {
                 "start": 37,
-                "end": 38,
-                "ctxt": 0
+                "end": 38
               },
               "value": 0.0,
               "raw": "0"

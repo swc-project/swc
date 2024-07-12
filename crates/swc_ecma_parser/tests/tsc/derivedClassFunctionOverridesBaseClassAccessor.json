@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 149,
-    "ctxt": 0
+    "end": 149
   },
   "body": [
     {
@@ -12,66 +11,61 @@
         "type": "Identifier",
         "span": {
           "start": 7,
-          "end": 11,
-          "ctxt": 0
+          "end": 11
         },
+        "ctxt": 0,
         "value": "Base",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 1,
-        "end": 74,
-        "ctxt": 0
+        "end": 74
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassMethod",
           "span": {
             "start": 18,
-            "end": 51,
-            "ctxt": 0
+            "end": 51
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 22,
-              "end": 23,
-              "ctxt": 0
+              "end": 23
             },
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "function": {
             "params": [],
             "decorators": [],
             "span": {
               "start": 18,
-              "end": 51,
-              "ctxt": 0
+              "end": 51
             },
+            "ctxt": 0,
             "body": {
               "type": "BlockStatement",
               "span": {
                 "start": 26,
-                "end": 51,
-                "ctxt": 0
+                "end": 51
               },
+              "ctxt": 0,
               "stmts": [
                 {
                   "type": "ReturnStatement",
                   "span": {
                     "start": 36,
-                    "end": 45,
-                    "ctxt": 0
+                    "end": 45
                   },
                   "argument": {
                     "type": "NumericLiteral",
                     "span": {
                       "start": 43,
-                      "end": 44,
-                      "ctxt": 0
+                      "end": 44
                     },
                     "value": 1.0,
                     "raw": "1"
@@ -95,18 +89,15 @@
           "type": "ClassMethod",
           "span": {
             "start": 56,
-            "end": 72,
-            "ctxt": 0
+            "end": 72
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 60,
-              "end": 61,
-              "ctxt": 0
+              "end": 61
             },
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "function": {
             "params": [
@@ -114,17 +105,16 @@
                 "type": "Parameter",
                 "span": {
                   "start": 62,
-                  "end": 63,
-                  "ctxt": 0
+                  "end": 63
                 },
                 "decorators": [],
                 "pat": {
                   "type": "Identifier",
                   "span": {
                     "start": 62,
-                    "end": 63,
-                    "ctxt": 0
+                    "end": 63
                   },
+                  "ctxt": 0,
                   "value": "v",
                   "optional": false,
                   "typeAnnotation": null
@@ -134,16 +124,16 @@
             "decorators": [],
             "span": {
               "start": 56,
-              "end": 72,
-              "ctxt": 0
+              "end": 72
             },
+            "ctxt": 0,
             "body": {
               "type": "BlockStatement",
               "span": {
                 "start": 65,
-                "end": 72,
-                "ctxt": 0
+                "end": 72
               },
+              "ctxt": 0,
               "stmts": []
             },
             "generator": false,
@@ -171,66 +161,61 @@
         "type": "Identifier",
         "span": {
           "start": 91,
-          "end": 98,
-          "ctxt": 0
+          "end": 98
         },
+        "ctxt": 0,
         "value": "Derived",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 85,
-        "end": 149,
-        "ctxt": 0
+        "end": 149
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassMethod",
           "span": {
             "start": 118,
-            "end": 147,
-            "ctxt": 0
+            "end": 147
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 118,
-              "end": 119,
-              "ctxt": 0
+              "end": 119
             },
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "function": {
             "params": [],
             "decorators": [],
             "span": {
               "start": 118,
-              "end": 147,
-              "ctxt": 0
+              "end": 147
             },
+            "ctxt": 0,
             "body": {
               "type": "BlockStatement",
               "span": {
                 "start": 122,
-                "end": 147,
-                "ctxt": 0
+                "end": 147
               },
+              "ctxt": 0,
               "stmts": [
                 {
                   "type": "ReturnStatement",
                   "span": {
                     "start": 132,
-                    "end": 141,
-                    "ctxt": 0
+                    "end": 141
                   },
                   "argument": {
                     "type": "NumericLiteral",
                     "span": {
                       "start": 139,
-                      "end": 140,
-                      "ctxt": 0
+                      "end": 140
                     },
                     "value": 1.0,
                     "raw": "1"
@@ -255,9 +240,9 @@
         "type": "Identifier",
         "span": {
           "start": 107,
-          "end": 111,
-          "ctxt": 0
+          "end": 111
         },
+        "ctxt": 0,
         "value": "Base",
         "optional": false
       },

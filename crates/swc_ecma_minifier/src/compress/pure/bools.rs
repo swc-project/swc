@@ -212,7 +212,7 @@ impl Pure<'_> {
 
             e if is_pure_undefined(&self.expr_ctx, e) => true,
 
-            Expr::Ident(i) => i.span.ctxt != self.expr_ctx.unresolved_ctxt,
+            Expr::Ident(i) => i.ctxt != self.expr_ctx.unresolved_ctxt,
 
             // NaN
             Expr::Bin(BinExpr {
@@ -233,10 +233,11 @@ impl Pure<'_> {
                     self.changed = true;
                     let span = delete.arg.span();
                     report_change!("booleans: Compressing `delete` as sequence expression");
-                    *e = Expr::Seq(SeqExpr {
+                    *e = SeqExpr {
                         span,
                         exprs: vec![delete.arg.take(), Box::new(make_bool(span, true))],
-                    });
+                    }
+                    .into();
                     return;
                 }
             }
@@ -321,11 +322,12 @@ impl Pure<'_> {
                     report_change!("Optimizing: number => number (in bool context)");
 
                     self.changed = true;
-                    *n = Expr::Lit(Lit::Num(Number {
+                    *n = Lit::Num(Number {
                         span: *span,
                         value: if *value == 0.0 { 1.0 } else { 0.0 },
                         raw: None,
-                    }))
+                    })
+                    .into()
                 }
 
                 Expr::Unary(UnaryExpr {
@@ -348,23 +350,26 @@ impl Pure<'_> {
 
                 match &**arg {
                     Expr::Ident(..) => {
-                        *n = Expr::Lit(Lit::Num(Number {
+                        *n = Lit::Num(Number {
                             span: *span,
                             value: 1.0,
                             raw: None,
-                        }))
+                        })
+                        .into()
                     }
                     _ => {
                         // Return value of typeof is always truthy
-                        let true_expr = Box::new(Expr::Lit(Lit::Num(Number {
+                        let true_expr = Lit::Num(Number {
                             span: *span,
                             value: 1.0,
                             raw: None,
-                        })));
-                        *n = Expr::Seq(SeqExpr {
+                        })
+                        .into();
+                        *n = SeqExpr {
                             span: *span,
                             exprs: vec![arg.take(), true_expr],
-                        })
+                        }
+                        .into()
                     }
                 }
             }
@@ -373,11 +378,12 @@ impl Pure<'_> {
                 if !is_ignore {
                     report_change!("Converting string as boolean expressions");
                     self.changed = true;
-                    *n = Expr::Lit(Lit::Num(Number {
+                    *n = Lit::Num(Number {
                         span: s.span,
                         value: if s.value.is_empty() { 0.0 } else { 1.0 },
                         raw: None,
-                    }));
+                    })
+                    .into();
                 }
             }
 
@@ -388,11 +394,12 @@ impl Pure<'_> {
                 if self.options.bools {
                     report_change!("booleans: Converting number as boolean expressions");
                     self.changed = true;
-                    *n = Expr::Lit(Lit::Num(Number {
+                    *n = Lit::Num(Number {
                         span: num.span,
                         value: if num.value == 0.0 { 0.0 } else { 1.0 },
                         raw: None,
-                    }));
+                    })
+                    .into();
                 }
             }
 

@@ -43,15 +43,15 @@ impl Jest {
                             ..
                         }) => {
                             if self.should_hoist(callee) {
-                                hoisted.push(T::from_stmt(stmt))
+                                hoisted.push(T::from(stmt))
                             } else {
-                                new.push(T::from_stmt(stmt))
+                                new.push(T::from(stmt))
                             }
                         }
-                        _ => new.push(T::from_stmt(stmt)),
+                        _ => new.push(T::from(stmt)),
                     },
 
-                    _ => new.push(T::from_stmt(stmt)),
+                    _ => new.push(T::from(stmt)),
                 },
                 Err(node) => new.push(node),
             };

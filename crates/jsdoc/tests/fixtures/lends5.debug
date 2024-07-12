@@ -1,23 +1,23 @@
 [
     JsDoc {
-        span: 19..19#0,
+        span: 19..19,
         description: Text {
-            span: 19..19#0,
+            span: 19..19,
             value: "",
         },
         tags: [
             TagItem {
-                span: 19..24#0,
+                span: 19..24,
                 tag_name: Text {
-                    span: 19..24#0,
+                    span: 19..24,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 19..24#0,
+                        span: 19..24,
                         ty: Some(
                             Text {
-                                span: 19..25#0,
+                                span: 19..25,
                                 value: "Person",
                             },
                         ),
@@ -28,26 +28,26 @@
         ],
     },
     JsDoc {
-        span: 125..135#0,
+        span: 125..135,
         description: Text {
-            span: 125..125#0,
+            span: 125..125,
             value: "",
         },
         tags: [
             TagItem {
-                span: 125..130#0,
+                span: 125..130,
                 tag_name: Text {
-                    span: 125..130#0,
+                    span: 125..130,
                     value: "lends",
                 },
                 tag: Lends(
                     LendsTag {
-                        span: 125..130#0,
+                        span: 125..130,
                         name: NamePath {
-                            span: 125..135#0,
+                            span: 125..135,
                             components: [
                                 Text {
-                                    span: 125..131#0,
+                                    span: 125..131,
                                     value: "Person",
                                 },
                             ],
@@ -58,9 +58,9 @@
         ],
     },
     JsDoc {
-        span: 166..166#0,
+        span: 166..166,
         description: Text {
-            span: 166..182#0,
+            span: 166..182,
             value: "Speak a message.",
         },
         tags: [],

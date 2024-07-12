@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 169,
-    "end": 238,
-    "ctxt": 0
+    "end": 238
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 169,
-        "end": 238,
-        "ctxt": 0
+        "end": 238
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 175,
-            "end": 238,
-            "ctxt": 0
+            "end": 238
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 175,
-              "end": 176,
-              "ctxt": 0
+              "end": 176
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false,
             "typeAnnotation": null
@@ -38,15 +36,13 @@
             "type": "ParenthesisExpression",
             "span": {
               "start": 205,
-              "end": 238,
-              "ctxt": 0
+              "end": 238
             },
             "expression": {
               "type": "ObjectExpression",
               "span": {
                 "start": 206,
-                "end": 237,
-                "ctxt": 0
+                "end": 237
               },
               "properties": [
                 {
@@ -55,18 +51,15 @@
                     "type": "Identifier",
                     "span": {
                       "start": 212,
-                      "end": 213,
-                      "ctxt": 0
+                      "end": 213
                     },
-                    "value": "m",
-                    "optional": false
+                    "value": "m"
                   },
                   "value": {
                     "type": "BooleanLiteral",
                     "span": {
                       "start": 215,
-                      "end": 219,
-                      "ctxt": 0
+                      "end": 219
                     },
                     "value": true
                   }
@@ -77,18 +70,15 @@
                     "type": "Identifier",
                     "span": {
                       "start": 225,
-                      "end": 226,
-                      "ctxt": 0
+                      "end": 226
                     },
-                    "value": "s",
-                    "optional": false
+                    "value": "s"
                   },
                   "value": {
                     "type": "StringLiteral",
                     "span": {
                       "start": 228,
-                      "end": 235,
-                      "ctxt": 0
+                      "end": 235
                     },
                     "value": "false",
                     "raw": "\"false\""

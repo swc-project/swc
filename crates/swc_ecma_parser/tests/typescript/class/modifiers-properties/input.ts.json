@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 510,
-    "ctxt": 0
+    "end": 510
   },
   "body": [
     {
@@ -12,36 +11,33 @@
         "type": "Identifier",
         "span": {
           "start": 16,
-          "end": 17,
-          "ctxt": 0
+          "end": 17
         },
+        "ctxt": 0,
         "value": "C",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 1,
-        "end": 510,
-        "ctxt": 0
+        "end": 510
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassProperty",
           "span": {
             "start": 24,
-            "end": 35,
-            "ctxt": 0
+            "end": 35
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 33,
-              "end": 34,
-              "ctxt": 0
+              "end": 34
             },
-            "value": "r",
-            "optional": false
+            "value": "r"
           },
           "value": null,
           "typeAnnotation": null,
@@ -59,33 +55,28 @@
           "type": "ClassProperty",
           "span": {
             "start": 40,
-            "end": 61,
-            "ctxt": 0
+            "end": 61
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 49,
-              "end": 51,
-              "ctxt": 0
+              "end": 51
             },
-            "value": "r2",
-            "optional": true
+            "value": "r2"
           },
           "value": null,
           "typeAnnotation": {
             "type": "TsTypeAnnotation",
             "span": {
               "start": 52,
-              "end": 60,
-              "ctxt": 0
+              "end": 60
             },
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
                 "start": 54,
-                "end": 60,
-                "ctxt": 0
+                "end": 60
               },
               "kind": "number"
             }
@@ -104,18 +95,15 @@
           "type": "ClassProperty",
           "span": {
             "start": 66,
-            "end": 77,
-            "ctxt": 0
+            "end": 77
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 75,
-              "end": 76,
-              "ctxt": 0
+              "end": 76
             },
-            "value": "a",
-            "optional": false
+            "value": "a"
           },
           "value": null,
           "typeAnnotation": null,
@@ -133,18 +121,15 @@
           "type": "ClassProperty",
           "span": {
             "start": 82,
-            "end": 91,
-            "ctxt": 0
+            "end": 91
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 89,
-              "end": 90,
-              "ctxt": 0
+              "end": 90
             },
-            "value": "s",
-            "optional": false
+            "value": "s"
           },
           "value": null,
           "typeAnnotation": null,
@@ -162,18 +147,15 @@
           "type": "ClassProperty",
           "span": {
             "start": 97,
-            "end": 107,
-            "ctxt": 0
+            "end": 107
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 104,
-              "end": 106,
-              "ctxt": 0
+              "end": 106
             },
-            "value": "pu",
-            "optional": false
+            "value": "pu"
           },
           "value": null,
           "typeAnnotation": null,
@@ -191,18 +173,15 @@
           "type": "ClassProperty",
           "span": {
             "start": 112,
-            "end": 125,
-            "ctxt": 0
+            "end": 125
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 122,
-              "end": 124,
-              "ctxt": 0
+              "end": 124
             },
-            "value": "po",
-            "optional": false
+            "value": "po"
           },
           "value": null,
           "typeAnnotation": null,
@@ -220,18 +199,15 @@
           "type": "ClassProperty",
           "span": {
             "start": 130,
-            "end": 141,
-            "ctxt": 0
+            "end": 141
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 138,
-              "end": 140,
-              "ctxt": 0
+              "end": 140
             },
-            "value": "pi",
-            "optional": false
+            "value": "pi"
           },
           "value": null,
           "typeAnnotation": null,
@@ -249,18 +225,15 @@
           "type": "ClassProperty",
           "span": {
             "start": 147,
-            "end": 168,
-            "ctxt": 0
+            "end": 168
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 165,
-              "end": 167,
-              "ctxt": 0
+              "end": 167
             },
-            "value": "ra",
-            "optional": false
+            "value": "ra"
           },
           "value": null,
           "typeAnnotation": null,
@@ -278,18 +251,15 @@
           "type": "ClassProperty",
           "span": {
             "start": 173,
-            "end": 194,
-            "ctxt": 0
+            "end": 194
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 191,
-              "end": 193,
-              "ctxt": 0
+              "end": 193
             },
-            "value": "ar",
-            "optional": false
+            "value": "ar"
           },
           "value": null,
           "typeAnnotation": null,
@@ -307,18 +277,15 @@
           "type": "ClassProperty",
           "span": {
             "start": 199,
-            "end": 218,
-            "ctxt": 0
+            "end": 218
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 215,
-              "end": 217,
-              "ctxt": 0
+              "end": 217
             },
-            "value": "sr",
-            "optional": false
+            "value": "sr"
           },
           "value": null,
           "typeAnnotation": null,
@@ -336,18 +303,15 @@
           "type": "ClassProperty",
           "span": {
             "start": 224,
-            "end": 244,
-            "ctxt": 0
+            "end": 244
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 240,
-              "end": 243,
-              "ctxt": 0
+              "end": 243
             },
-            "value": "pur",
-            "optional": false
+            "value": "pur"
           },
           "value": null,
           "typeAnnotation": null,
@@ -365,18 +329,15 @@
           "type": "ClassProperty",
           "span": {
             "start": 249,
-            "end": 269,
-            "ctxt": 0
+            "end": 269
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 265,
-              "end": 268,
-              "ctxt": 0
+              "end": 268
             },
-            "value": "pua",
-            "optional": false
+            "value": "pua"
           },
           "value": null,
           "typeAnnotation": null,
@@ -394,18 +355,15 @@
           "type": "ClassProperty",
           "span": {
             "start": 274,
-            "end": 292,
-            "ctxt": 0
+            "end": 292
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 288,
-              "end": 291,
-              "ctxt": 0
+              "end": 291
             },
-            "value": "pus",
-            "optional": false
+            "value": "pus"
           },
           "value": null,
           "typeAnnotation": null,
@@ -423,18 +381,15 @@
           "type": "ClassProperty",
           "span": {
             "start": 297,
-            "end": 327,
-            "ctxt": 0
+            "end": 327
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 322,
-              "end": 326,
-              "ctxt": 0
+              "end": 326
             },
-            "value": "pura",
-            "optional": false
+            "value": "pura"
           },
           "value": null,
           "typeAnnotation": null,
@@ -452,18 +407,15 @@
           "type": "ClassProperty",
           "span": {
             "start": 332,
-            "end": 362,
-            "ctxt": 0
+            "end": 362
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 357,
-              "end": 361,
-              "ctxt": 0
+              "end": 361
             },
-            "value": "puar",
-            "optional": false
+            "value": "puar"
           },
           "value": null,
           "typeAnnotation": null,
@@ -481,18 +433,15 @@
           "type": "ClassProperty",
           "span": {
             "start": 367,
-            "end": 395,
-            "ctxt": 0
+            "end": 395
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 390,
-              "end": 394,
-              "ctxt": 0
+              "end": 394
             },
-            "value": "pusr",
-            "optional": false
+            "value": "pusr"
           },
           "value": null,
           "typeAnnotation": null,
@@ -510,18 +459,15 @@
           "type": "ClassProperty",
           "span": {
             "start": 400,
-            "end": 429,
-            "ctxt": 0
+            "end": 429
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 424,
-              "end": 428,
-              "ctxt": 0
+              "end": 428
             },
-            "value": "dpur",
-            "optional": false
+            "value": "dpur"
           },
           "value": null,
           "typeAnnotation": null,
@@ -539,18 +485,15 @@
           "type": "ClassProperty",
           "span": {
             "start": 434,
-            "end": 472,
-            "ctxt": 0
+            "end": 472
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 466,
-              "end": 471,
-              "ctxt": 0
+              "end": 471
             },
-            "value": "dpisr",
-            "optional": false
+            "value": "dpisr"
           },
           "value": null,
           "typeAnnotation": null,
@@ -568,18 +511,15 @@
           "type": "ClassProperty",
           "span": {
             "start": 477,
-            "end": 487,
-            "ctxt": 0
+            "end": 487
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 485,
-              "end": 486,
-              "ctxt": 0
+              "end": 486
             },
-            "value": "d",
-            "optional": false
+            "value": "d"
           },
           "value": null,
           "typeAnnotation": null,
@@ -597,18 +537,15 @@
           "type": "ClassProperty",
           "span": {
             "start": 492,
-            "end": 508,
-            "ctxt": 0
+            "end": 508
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 500,
-              "end": 507,
-              "ctxt": 0
+              "end": 507
             },
-            "value": "declare",
-            "optional": false
+            "value": "declare"
           },
           "value": null,
           "typeAnnotation": null,

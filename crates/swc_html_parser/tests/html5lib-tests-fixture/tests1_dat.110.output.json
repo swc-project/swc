@@ -2,8 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 81,
-    "ctxt": 0
+    "end": 81
   },
   "mode": "quirks",
   "children": [
@@ -11,8 +10,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 0,
-        "ctxt": 0
+        "end": 0
       },
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -22,8 +20,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -36,8 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -47,8 +43,7 @@
               "type": "Element",
               "span": {
                 "start": 1,
-                "end": 71,
-                "ctxt": 0
+                "end": 71
               },
               "tagName": "table",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -58,8 +53,7 @@
                   "type": "Element",
                   "span": {
                     "start": 8,
-                    "end": 18,
-                    "ctxt": 0
+                    "end": 18
                   },
                   "tagName": "colgroup",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -72,8 +66,7 @@
                   "type": "Element",
                   "span": {
                     "start": 18,
-                    "end": 25,
-                    "ctxt": 0
+                    "end": 25
                   },
                   "tagName": "tbody",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -86,8 +79,7 @@
                   "type": "Element",
                   "span": {
                     "start": 25,
-                    "end": 35,
-                    "ctxt": 0
+                    "end": 35
                   },
                   "tagName": "colgroup",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -100,8 +92,7 @@
                   "type": "Element",
                   "span": {
                     "start": 0,
-                    "end": 0,
-                    "ctxt": 0
+                    "end": 0
                   },
                   "tagName": "tbody",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -111,8 +102,7 @@
                       "type": "Element",
                       "span": {
                         "start": 35,
-                        "end": 39,
-                        "ctxt": 0
+                        "end": 39
                       },
                       "tagName": "tr",
                       "namespace": "http://www.w3.org/1999/xhtml",
@@ -129,8 +119,7 @@
                   "type": "Element",
                   "span": {
                     "start": 39,
-                    "end": 49,
-                    "ctxt": 0
+                    "end": 49
                   },
                   "tagName": "colgroup",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -143,8 +132,7 @@
                   "type": "Element",
                   "span": {
                     "start": 0,
-                    "end": 0,
-                    "ctxt": 0
+                    "end": 0
                   },
                   "tagName": "tbody",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -154,8 +142,7 @@
                       "type": "Element",
                       "span": {
                         "start": 0,
-                        "end": 0,
-                        "ctxt": 0
+                        "end": 0
                       },
                       "tagName": "tr",
                       "namespace": "http://www.w3.org/1999/xhtml",
@@ -165,8 +152,7 @@
                           "type": "Element",
                           "span": {
                             "start": 49,
-                            "end": 53,
-                            "ctxt": 0
+                            "end": 53
                           },
                           "tagName": "td",
                           "namespace": "http://www.w3.org/1999/xhtml",
@@ -187,8 +173,7 @@
                   "type": "Element",
                   "span": {
                     "start": 53,
-                    "end": 63,
-                    "ctxt": 0
+                    "end": 63
                   },
                   "tagName": "colgroup",
                   "namespace": "http://www.w3.org/1999/xhtml",

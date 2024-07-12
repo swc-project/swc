@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 106,
-    "ctxt": 0
+    "end": 106
   },
   "body": [
     {
@@ -12,51 +11,46 @@
         "type": "Identifier",
         "span": {
           "start": 7,
-          "end": 16,
-          "ctxt": 0
+          "end": 16
         },
+        "ctxt": 0,
         "value": "SomeClass",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 1,
-        "end": 106,
-        "ctxt": 0
+        "end": 106
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassProperty",
           "span": {
             "start": 23,
-            "end": 49,
-            "ctxt": 0
+            "end": 49
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 32,
-              "end": 40,
-              "ctxt": 0
+              "end": 40
             },
-            "value": "accessor",
-            "optional": false
+            "value": "accessor"
           },
           "value": null,
           "typeAnnotation": {
             "type": "TsTypeAnnotation",
             "span": {
               "start": 40,
-              "end": 48,
-              "ctxt": 0
+              "end": 48
             },
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
                 "start": 42,
-                "end": 48,
-                "ctxt": 0
+                "end": 48
               },
               "kind": "string"
             }
@@ -75,75 +69,66 @@
           "type": "Constructor",
           "span": {
             "start": 55,
-            "end": 104,
-            "ctxt": 0
+            "end": 104
           },
+          "ctxt": 0,
           "key": {
             "type": "Identifier",
             "span": {
               "start": 55,
-              "end": 66,
-              "ctxt": 0
+              "end": 66
             },
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
             "type": "BlockStatement",
             "span": {
               "start": 69,
-              "end": 104,
-              "ctxt": 0
+              "end": 104
             },
+            "ctxt": 0,
             "stmts": [
               {
                 "type": "ExpressionStatement",
                 "span": {
                   "start": 79,
-                  "end": 98,
-                  "ctxt": 0
+                  "end": 98
                 },
                 "expression": {
                   "type": "AssignmentExpression",
                   "span": {
                     "start": 79,
-                    "end": 97,
-                    "ctxt": 0
+                    "end": 97
                   },
                   "operator": "=",
                   "left": {
                     "type": "MemberExpression",
                     "span": {
                       "start": 79,
-                      "end": 92,
-                      "ctxt": 0
+                      "end": 92
                     },
                     "object": {
                       "type": "ThisExpression",
                       "span": {
                         "start": 79,
-                        "end": 83,
-                        "ctxt": 0
+                        "end": 83
                       }
                     },
                     "property": {
                       "type": "Identifier",
                       "span": {
                         "start": 84,
-                        "end": 92,
-                        "ctxt": 0
+                        "end": 92
                       },
-                      "value": "accessor",
-                      "optional": false
+                      "value": "accessor"
                     }
                   },
                   "right": {
                     "type": "StringLiteral",
                     "span": {
                       "start": 95,
-                      "end": 97,
-                      "ctxt": 0
+                      "end": 97
                     },
                     "value": "",
                     "raw": "''"

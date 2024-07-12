@@ -81,18 +81,6 @@
    : ^
  2 | A?.['B']?.()
    `----
-  x Ident
-   ,-[$DIR/tests/span/js/expr/optional-chaining.js:1:1]
- 1 | a?.b?.c
-   :    ^
- 2 | A?.['B']?.()
-   `----
-  x Ident
-   ,-[$DIR/tests/span/js/expr/optional-chaining.js:1:1]
- 1 | a?.b?.c
-   :       ^
- 2 | A?.['B']?.()
-   `----
   x ModuleItem
    ,-[$DIR/tests/span/js/expr/optional-chaining.js:2:1]
  1 | a?.b?.c

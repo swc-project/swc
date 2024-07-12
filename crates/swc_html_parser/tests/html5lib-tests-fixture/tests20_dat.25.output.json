@@ -2,8 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 31,
-    "ctxt": 0
+    "end": 31
   },
   "mode": "no-quirks",
   "children": [
@@ -11,8 +10,7 @@
       "type": "DocumentType",
       "span": {
         "start": 1,
-        "end": 16,
-        "ctxt": 0
+        "end": 16
       },
       "name": "html",
       "publicId": null,
@@ -23,8 +21,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 0,
-        "ctxt": 0
+        "end": 0
       },
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -34,8 +31,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -48,8 +44,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -59,8 +54,7 @@
               "type": "Element",
               "span": {
                 "start": 16,
-                "end": 31,
-                "ctxt": 0
+                "end": 31
               },
               "tagName": "p",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -70,8 +64,7 @@
                   "type": "Element",
                   "span": {
                     "start": 19,
-                    "end": 31,
-                    "ctxt": 0
+                    "end": 31
                   },
                   "tagName": "button",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -81,8 +74,7 @@
                       "type": "Element",
                       "span": {
                         "start": 27,
-                        "end": 31,
-                        "ctxt": 0
+                        "end": 31
                       },
                       "tagName": "ul",
                       "namespace": "http://www.w3.org/1999/xhtml",

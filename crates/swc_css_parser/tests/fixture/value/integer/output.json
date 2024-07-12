@@ -2,62 +2,54 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 114,
-    "ctxt": 0
+    "end": 114
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
         "start": 1,
-        "end": 113,
-        "ctxt": 0
+        "end": 113
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 1,
-          "end": 4,
-          "ctxt": 0
+          "end": 4
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
               "start": 1,
-              "end": 4,
-              "ctxt": 0
+              "end": 4
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
                   "start": 1,
-                  "end": 4,
-                  "ctxt": 0
+                  "end": 4
                 },
                 "nestingSelector": null,
                 "typeSelector": {
                   "type": "TagNameSelector",
                   "span": {
                     "start": 1,
-                    "end": 4,
-                    "ctxt": 0
+                    "end": 4
                   },
                   "name": {
                     "type": "WqName",
                     "span": {
                       "start": 1,
-                      "end": 4,
-                      "ctxt": 0
+                      "end": 4
                     },
                     "prefix": null,
                     "value": {
                       "type": "Ident",
                       "span": {
                         "start": 1,
-                        "end": 4,
-                        "ctxt": 0
+                        "end": 4
                       },
                       "value": "div",
                       "raw": "div"
@@ -74,15 +66,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 5,
-          "end": 113,
-          "ctxt": 0
+          "end": 113
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 5,
-            "end": 6,
-            "ctxt": 0
+            "end": 6
           },
           "token": "LBrace"
         },
@@ -91,15 +81,13 @@
             "type": "Declaration",
             "span": {
               "start": 11,
-              "end": 22,
-              "ctxt": 0
+              "end": 22
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 11,
-                "end": 18,
-                "ctxt": 0
+                "end": 18
               },
               "value": "z-index",
               "raw": "z-index"
@@ -109,8 +97,7 @@
                 "type": "Integer",
                 "span": {
                   "start": 20,
-                  "end": 22,
-                  "ctxt": 0
+                  "end": 22
                 },
                 "value": 12,
                 "raw": "12"
@@ -122,15 +109,13 @@
             "type": "Declaration",
             "span": {
               "start": 28,
-              "end": 41,
-              "ctxt": 0
+              "end": 41
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 28,
-                "end": 35,
-                "ctxt": 0
+                "end": 35
               },
               "value": "z-index",
               "raw": "z-index"
@@ -140,8 +125,7 @@
                 "type": "Integer",
                 "span": {
                   "start": 37,
-                  "end": 41,
-                  "ctxt": 0
+                  "end": 41
                 },
                 "value": 123,
                 "raw": "+123"
@@ -153,15 +137,13 @@
             "type": "Declaration",
             "span": {
               "start": 47,
-              "end": 60,
-              "ctxt": 0
+              "end": 60
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 47,
-                "end": 54,
-                "ctxt": 0
+                "end": 54
               },
               "value": "z-index",
               "raw": "z-index"
@@ -171,8 +153,7 @@
                 "type": "Integer",
                 "span": {
                   "start": 56,
-                  "end": 60,
-                  "ctxt": 0
+                  "end": 60
                 },
                 "value": -456,
                 "raw": "-456"
@@ -184,15 +165,13 @@
             "type": "Declaration",
             "span": {
               "start": 66,
-              "end": 76,
-              "ctxt": 0
+              "end": 76
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 66,
-                "end": 73,
-                "ctxt": 0
+                "end": 73
               },
               "value": "z-index",
               "raw": "z-index"
@@ -202,8 +181,7 @@
                 "type": "Integer",
                 "span": {
                   "start": 75,
-                  "end": 76,
-                  "ctxt": 0
+                  "end": 76
                 },
                 "value": 0,
                 "raw": "0"
@@ -215,15 +193,13 @@
             "type": "Declaration",
             "span": {
               "start": 82,
-              "end": 93,
-              "ctxt": 0
+              "end": 93
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 82,
-                "end": 89,
-                "ctxt": 0
+                "end": 89
               },
               "value": "z-index",
               "raw": "z-index"
@@ -233,8 +209,7 @@
                 "type": "Integer",
                 "span": {
                   "start": 91,
-                  "end": 93,
-                  "ctxt": 0
+                  "end": 93
                 },
                 "value": 0,
                 "raw": "+0"
@@ -246,15 +221,13 @@
             "type": "Declaration",
             "span": {
               "start": 99,
-              "end": 110,
-              "ctxt": 0
+              "end": 110
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 99,
-                "end": 106,
-                "ctxt": 0
+                "end": 106
               },
               "value": "z-index",
               "raw": "z-index"
@@ -264,8 +237,7 @@
                 "type": "Integer",
                 "span": {
                   "start": 108,
-                  "end": 110,
-                  "ctxt": 0
+                  "end": 110
                 },
                 "value": 0,
                 "raw": "-0"

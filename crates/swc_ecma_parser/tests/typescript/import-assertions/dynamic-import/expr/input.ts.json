@@ -2,31 +2,29 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 52,
-    "ctxt": 0
+    "end": 52
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 52,
-        "ctxt": 0
+        "end": 52
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 1,
-          "end": 52,
-          "ctxt": 0
+          "end": 52
         },
+        "ctxt": 0,
         "callee": {
           "type": "Identifier",
           "span": {
             "start": 1,
-            "end": 4,
-            "ctxt": 0
+            "end": 4
           },
+          "ctxt": 0,
           "value": "foo",
           "optional": false
         },
@@ -37,15 +35,14 @@
               "type": "CallExpression",
               "span": {
                 "start": 5,
-                "end": 51,
-                "ctxt": 0
+                "end": 51
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Import",
                 "span": {
                   "start": 5,
-                  "end": 11,
-                  "ctxt": 0
+                  "end": 11
                 },
                 "phase": "evaluation"
               },
@@ -56,8 +53,7 @@
                     "type": "StringLiteral",
                     "span": {
                       "start": 12,
-                      "end": 20,
-                      "ctxt": 0
+                      "end": 20
                     },
                     "value": "./lazy",
                     "raw": "'./lazy'"
@@ -69,8 +65,7 @@
                     "type": "ObjectExpression",
                     "span": {
                       "start": 22,
-                      "end": 50,
-                      "ctxt": 0
+                      "end": 50
                     },
                     "properties": [
                       {
@@ -79,18 +74,15 @@
                           "type": "Identifier",
                           "span": {
                             "start": 24,
-                            "end": 30,
-                            "ctxt": 0
+                            "end": 30
                           },
-                          "value": "assert",
-                          "optional": false
+                          "value": "assert"
                         },
                         "value": {
                           "type": "ObjectExpression",
                           "span": {
                             "start": 32,
-                            "end": 48,
-                            "ctxt": 0
+                            "end": 48
                           },
                           "properties": [
                             {
@@ -99,18 +91,15 @@
                                 "type": "Identifier",
                                 "span": {
                                   "start": 34,
-                                  "end": 38,
-                                  "ctxt": 0
+                                  "end": 38
                                 },
-                                "value": "type",
-                                "optional": false
+                                "value": "type"
                               },
                               "value": {
                                 "type": "StringLiteral",
                                 "span": {
                                   "start": 40,
-                                  "end": 46,
-                                  "ctxt": 0
+                                  "end": 46
                                 },
                                 "value": "json",
                                 "raw": "\"json\""

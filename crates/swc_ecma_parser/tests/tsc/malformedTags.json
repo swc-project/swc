@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 166,
-    "end": 194,
-    "ctxt": 0
+    "end": 194
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 166,
-        "end": 194,
-        "ctxt": 0
+        "end": 194
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 170,
-            "end": 193,
-            "ctxt": 0
+            "end": 193
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 170,
-              "end": 177,
-              "ctxt": 0
+              "end": 177
             },
+            "ctxt": 0,
             "value": "isArray",
             "optional": false,
             "typeAnnotation": null
@@ -38,16 +36,15 @@
             "type": "MemberExpression",
             "span": {
               "start": 180,
-              "end": 193,
-              "ctxt": 0
+              "end": 193
             },
             "object": {
               "type": "Identifier",
               "span": {
                 "start": 180,
-                "end": 185,
-                "ctxt": 0
+                "end": 185
               },
+              "ctxt": 0,
               "value": "Array",
               "optional": false
             },
@@ -55,11 +52,9 @@
               "type": "Identifier",
               "span": {
                 "start": 186,
-                "end": 193,
-                "ctxt": 0
+                "end": 193
               },
-              "value": "isArray",
-              "optional": false
+              "value": "isArray"
             }
           },
           "definite": false

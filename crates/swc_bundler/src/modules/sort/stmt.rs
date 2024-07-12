@@ -6,14 +6,14 @@ use swc_common::{
     collections::{AHashMap, AHashSet, ARandomState},
     sync::Lrc,
     util::take::Take,
-    SourceMap, Spanned, SyntaxContext,
+    SourceMap, SyntaxContext,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_pat_ids;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::graph::Required;
-use crate::{id::Id, modules::sort::graph::StmtDepGraph};
+use crate::{id::Id, modules::sort::graph::StmtDepGraph, util::is_injected};
 
 pub(super) fn sort_stmts(
     injected_ctxt: SyntaxContext,
@@ -33,7 +33,7 @@ pub(super) fn sort_stmts(
         let mut module_item_count = 0;
 
         for stmt in module {
-            if stmt.span().ctxt == injected_ctxt {
+            if is_injected_module_item(&stmt, injected_ctxt) {
                 free.push(stmt)
             } else {
                 module_item_count += 1;
@@ -80,6 +80,26 @@ pub(super) fn sort_stmts(
     }
 
     new
+}
+
+fn is_injected_module_item(stmt: &ModuleItem, injected_ctxt: SyntaxContext) -> bool {
+    match stmt {
+        ModuleItem::ModuleDecl(
+            ModuleDecl::Import(ImportDecl {
+                with: Some(with), ..
+            })
+            | ModuleDecl::ExportAll(ExportAll {
+                with: Some(with), ..
+            })
+            | ModuleDecl::ExportNamed(NamedExport {
+                with: Some(with), ..
+            }),
+        ) => is_injected(with),
+
+        ModuleItem::Stmt(Stmt::Decl(Decl::Var(v))) => v.ctxt == injected_ctxt,
+
+        _ => false,
+    }
 }
 
 fn iter<'a>(
@@ -390,7 +410,7 @@ impl Visit for FieldInitFinder {
                 if let Expr::Member(callee) = &**callee {
                     if callee.obj.is_ident_ref_to("Object") {
                         match &callee.prop {
-                            MemberProp::Ident(Ident { sym: prop_sym, .. })
+                            MemberProp::Ident(IdentName { sym: prop_sym, .. })
                                 if *prop_sym == *"assign" =>
                             {
                                 let old = self.in_object_assign;
@@ -421,7 +441,9 @@ impl Visit for FieldInitFinder {
         if !self.in_rhs || self.in_object_assign {
             if let Expr::Ident(obj) = &*e.obj {
                 match &e.prop {
-                    MemberProp::Ident(Ident { sym: prop_sym, .. }) if *prop_sym == *"prototype" => {
+                    MemberProp::Ident(IdentName { sym: prop_sym, .. })
+                        if *prop_sym == *"prototype" =>
+                    {
                         self.accessed.insert(obj.into());
                     }
                     _ => {}
@@ -690,10 +712,10 @@ fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
                     //         format!("`{:?}`", ids)
                     //     }
                     //     ModuleItem::Stmt(Stmt::Decl(Decl::Class(c))) => {
-                    //         format!("{}{:?}", c.ident.sym, c.ident.span.ctxt)
+                    //         format!("{}{:?}", c.ident.sym, c.ident.ctxt)
                     //     }
                     //     ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
-                    //         format!("{}{:?}", f.ident.sym, f.ident.span.ctxt)
+                    //         format!("{}{:?}", f.ident.sym, f.ident.ctxt)
                     //     }
                     //     _ => String::from(""),
                     // };
@@ -760,10 +782,10 @@ fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
                         //         format!("`{:?}`", ids)
                         //     }
                         //     ModuleItem::Stmt(Stmt::Decl(Decl::Class(c))) => {
-                        //         format!("{}{:?}", c.ident.sym, c.ident.span.ctxt)
+                        //         format!("{}{:?}", c.ident.sym, c.ident.ctxt)
                         //     }
                         //     ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
-                        //         format!("{}{:?}", f.ident.sym, f.ident.span.ctxt)
+                        //         format!("{}{:?}", f.ident.sym, f.ident.ctxt)
                         //     }
                         //     _ => String::from(""),
                         // };

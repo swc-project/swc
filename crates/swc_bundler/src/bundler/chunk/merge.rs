@@ -21,7 +21,7 @@ use crate::{
     load::Load,
     modules::Modules,
     resolve::Resolve,
-    util::{CloneMap, ExprExt, VarDeclaratorExt},
+    util::{CloneMap, ExportMetadata, ExprExt, VarDeclaratorExt},
     Bundler, Hook, ModuleRecord,
 };
 
@@ -233,7 +233,7 @@ where
 
             for (_, stmt) in entry.iter() {
                 if let ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl))) = stmt {
-                    if decl.span.ctxt == injected_ctxt {
+                    if decl.ctxt == injected_ctxt {
                         let ids: Vec<Id> = find_pat_ids(decl);
                         declared_ids.extend(ids);
                     }
@@ -512,9 +512,9 @@ where
                         };
                         // Default is not exported via `export *`
                         if &*exported.sym == "default" {
-                            exported.span.ctxt == info.export_ctxt()
+                            exported.ctxt == info.export_ctxt()
                         } else {
-                            ctx.is_exported_ctxt(exported.span.ctxt, info.export_ctxt())
+                            ctx.is_exported_ctxt(exported.ctxt, info.export_ctxt())
                         }
                     }
                     _ => true,
@@ -578,7 +578,7 @@ where
                     ModuleItem::ModuleDecl(ModuleDecl::Import(mut import)) => {
                         // Preserve imports from node.js builtin modules.
                         if self.config.external_modules.contains(&import.src.value) {
-                            new.push(ModuleItem::ModuleDecl(ModuleDecl::Import(import)));
+                            new.push(import.into());
                             continue;
                         }
 
@@ -589,7 +589,7 @@ where
                             .find(|s| s.0.src.value == import.src.value)
                         {
                             if !self.scope.get_module(src.module_id).unwrap().is_es6 {
-                                new.push(ModuleItem::ModuleDecl(ModuleDecl::Import(import)));
+                                new.push(import.into());
                                 continue;
                             }
                         }
@@ -619,12 +619,18 @@ where
                                 },
                                 ImportSpecifier::Default(s) => {
                                     new.push(
-                                        Ident::new("default".into(), import.span)
-                                            .assign_to(s.local.clone())
-                                            .into_module_item(
-                                                injected_ctxt,
-                                                "prepare -> default import",
-                                            ),
+                                        Ident::new(
+                                            "default".into(),
+                                            import.span,
+                                            ExportMetadata::decode(import.with.as_deref())
+                                                .export_ctxt
+                                                .unwrap(),
+                                        )
+                                        .assign_to(s.local.clone())
+                                        .into_module_item(
+                                            injected_ctxt,
+                                            "prepare -> default import",
+                                        ),
                                     );
                                 }
                                 ImportSpecifier::Namespace(s) => {
@@ -655,7 +661,7 @@ where
                         }
 
                         import.specifiers.clear();
-                        new.push(ModuleItem::ModuleDecl(ModuleDecl::Import(import)));
+                        new.push(import.into());
                     }
                     ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(export)) => {
                         // At here, we create multiple items.
@@ -666,21 +672,21 @@ where
                         // To allow using identifier of the declaration in the original module, we
                         // create `const local_default = orig_ident` if original identifier exists.
 
-                        let local =
-                            Ident::new("default".into(), DUMMY_SP.with_ctxt(info.local_ctxt()));
+                        let local = Ident::new("default".into(), DUMMY_SP, info.local_ctxt());
 
                         match export.decl {
                             DefaultDecl::Class(c) => {
                                 //
                                 match c.ident {
                                     Some(ident) => {
-                                        new.push(ModuleItem::Stmt(Stmt::Decl(Decl::Class(
+                                        new.push(
                                             ClassDecl {
                                                 ident: ident.clone(),
                                                 class: c.class,
                                                 declare: false,
-                                            },
-                                        ))));
+                                            }
+                                            .into(),
+                                        );
 
                                         new.push(ident.assign_to(local.clone()).into_module_item(
                                             injected_ctxt,
@@ -688,7 +694,7 @@ where
                                         ))
                                     }
                                     None => {
-                                        let init = Expr::Class(c);
+                                        let init = c;
                                         new.push(init.assign_to(local.clone()).into_module_item(
                                             injected_ctxt,
                                             "prepare -> export default decl -> class -> without \
@@ -701,11 +707,14 @@ where
                                 //
                                 match f.ident {
                                     Some(ident) => {
-                                        new.push(ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
-                                            ident: ident.clone(),
-                                            function: f.function,
-                                            declare: false,
-                                        }))));
+                                        new.push(
+                                            FnDecl {
+                                                ident: ident.clone(),
+                                                function: f.function,
+                                                declare: false,
+                                            }
+                                            .into(),
+                                        );
 
                                         new.push(ident.assign_to(local.clone()).into_module_item(
                                             injected_ctxt,
@@ -719,11 +728,14 @@ where
                                         //
                                         // See: https://github.com/denoland/deno/issues/9346
                                         let ident = private_ident!("default");
-                                        new.push(ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
-                                            ident: ident.clone(),
-                                            function: f.function,
-                                            declare: false,
-                                        }))));
+                                        new.push(
+                                            FnDecl {
+                                                ident: ident.clone(),
+                                                function: f.function,
+                                                declare: false,
+                                            }
+                                            .into(),
+                                        );
 
                                         new.push(ident.assign_to(local.clone()).into_module_item(
                                             injected_ctxt,
@@ -742,8 +754,7 @@ where
                             local.sym
                         );
 
-                        let exported =
-                            Ident::new("default".into(), DUMMY_SP.with_ctxt(info.export_ctxt()));
+                        let exported = Ident::new("default".into(), DUMMY_SP, info.export_ctxt());
 
                         new.push(
                             local
@@ -758,15 +769,22 @@ where
                             exported: Some(ModuleExportName::Ident(exported)),
                             is_type_only: false,
                         });
-                        extra.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                        extra.push(
                             NamedExport {
-                                span: export.span.with_ctxt(injected_ctxt),
+                                span: export.span,
                                 specifiers: vec![specifier],
                                 src: None,
                                 type_only: false,
-                                with: None,
-                            },
-                        )));
+                                with: Some(
+                                    ExportMetadata {
+                                        injected: true,
+                                        ..Default::default()
+                                    }
+                                    .into_with(),
+                                ),
+                            }
+                            .into(),
+                        );
                     }
 
                     ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(export)) => {
@@ -777,8 +795,7 @@ where
 
                         // TODO: Check if we really need this.
 
-                        let local =
-                            Ident::new("default".into(), DUMMY_SP.with_ctxt(info.local_ctxt()));
+                        let local = Ident::new("default".into(), DUMMY_SP, info.local_ctxt());
 
                         // Create `const local_default = expr`
                         new.push(
@@ -788,8 +805,7 @@ where
                                 .into_module_item(injected_ctxt, "prepare -> export default expr"),
                         );
 
-                        let exported =
-                            Ident::new("default".into(), DUMMY_SP.with_ctxt(info.export_ctxt()));
+                        let exported = Ident::new("default".into(), DUMMY_SP, info.export_ctxt());
 
                         new.push(
                             local
@@ -806,15 +822,22 @@ where
                             is_type_only: false,
                         });
                         tracing::trace!("Exporting `default` with `export default expr`");
-                        extra.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                        extra.push(
                             NamedExport {
-                                span: export.span.with_ctxt(injected_ctxt),
+                                span: export.span,
                                 specifiers: vec![specifier],
                                 src: None,
                                 type_only: false,
-                                with: None,
-                            },
-                        )));
+                                with: Some(
+                                    ExportMetadata {
+                                        injected: true,
+                                        ..Default::default()
+                                    }
+                                    .into_with(),
+                                ),
+                            }
+                            .into(),
+                        );
                     }
 
                     ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export)) => {
@@ -824,13 +847,13 @@ where
                         let local = match export.decl {
                             Decl::Class(c) => {
                                 let i = c.ident.clone();
-                                new.push(ModuleItem::Stmt(Stmt::Decl(Decl::Class(c))));
+                                new.push(c.into());
 
                                 i
                             }
                             Decl::Fn(f) => {
                                 let i = f.ident.clone();
-                                new.push(ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))));
+                                new.push(f.into());
 
                                 i
                             }
@@ -838,49 +861,54 @@ where
                                 let ids: Vec<Ident> = find_pat_ids(&v);
                                 //
 
-                                new.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(v))));
+                                new.push(v.into());
 
-                                let export =
-                                    ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
-                                        span: export.span.with_ctxt(injected_ctxt),
-                                        specifiers: ids
-                                            .into_iter()
-                                            .map(|id| {
-                                                let exported = Ident::new(
-                                                    id.sym.clone(),
-                                                    id.span.with_ctxt(info.export_ctxt()),
-                                                );
+                                let export = NamedExport {
+                                    span: export.span,
+                                    specifiers: ids
+                                        .into_iter()
+                                        .map(|id| {
+                                            let exported = Ident::new(
+                                                id.sym.clone(),
+                                                id.span,
+                                                info.export_ctxt(),
+                                            );
 
-                                                tracing::trace!(
-                                                    "Exporting `{}{:?}` with `export decl`",
-                                                    id.sym,
-                                                    id.span.ctxt
-                                                );
+                                            tracing::trace!(
+                                                "Exporting `{}{:?}` with `export decl`",
+                                                id.sym,
+                                                id.ctxt
+                                            );
 
-                                                new.push(
-                                                    id.clone()
-                                                        .assign_to(exported.clone())
-                                                        .into_module_item(
-                                                            injected_ctxt,
-                                                            "prepare -> export decl -> var",
-                                                        ),
-                                                );
+                                            new.push(
+                                                id.clone()
+                                                    .assign_to(exported.clone())
+                                                    .into_module_item(
+                                                        injected_ctxt,
+                                                        "prepare -> export decl -> var",
+                                                    ),
+                                            );
 
-                                                ExportNamedSpecifier {
-                                                    span: DUMMY_SP,
-                                                    orig: ModuleExportName::Ident(id),
-                                                    exported: Some(ModuleExportName::Ident(
-                                                        exported,
-                                                    )),
-                                                    is_type_only: false,
-                                                }
-                                            })
-                                            .map(ExportSpecifier::Named)
-                                            .collect(),
-                                        src: None,
-                                        type_only: false,
-                                        with: None,
-                                    }));
+                                            ExportNamedSpecifier {
+                                                span: DUMMY_SP,
+                                                orig: ModuleExportName::Ident(id),
+                                                exported: Some(ModuleExportName::Ident(exported)),
+                                                is_type_only: false,
+                                            }
+                                        })
+                                        .map(ExportSpecifier::Named)
+                                        .collect(),
+                                    src: None,
+                                    type_only: false,
+                                    with: Some(
+                                        ExportMetadata {
+                                            injected: true,
+                                            ..Default::default()
+                                        }
+                                        .into_with(),
+                                    ),
+                                }
+                                .into();
                                 extra.push(export);
                                 continue;
                             }
@@ -899,7 +927,7 @@ where
 
                         // Create `export { local_ident as exported_ident }`
                         let exported =
-                            Ident::new(local.sym.clone(), local.span.with_ctxt(info.export_ctxt()));
+                            Ident::new(local.sym.clone(), local.span, info.export_ctxt());
 
                         new.push(
                             local
@@ -915,15 +943,22 @@ where
                             is_type_only: false,
                         });
 
-                        extra.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                        extra.push(
                             NamedExport {
-                                span: export.span.with_ctxt(injected_ctxt),
+                                span: export.span,
                                 specifiers: vec![specifier],
                                 src: None,
                                 type_only: false,
-                                with: None,
-                            },
-                        )));
+                                with: Some(
+                                    ExportMetadata {
+                                        injected: true,
+                                        ..Default::default()
+                                    }
+                                    .into_with(),
+                                ),
+                            }
+                            .into(),
+                        );
                     }
 
                     ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
@@ -947,17 +982,20 @@ where
 
                                     vars.push(VarDeclarator {
                                         span: DUMMY_SP,
-                                        name: Pat::Ident(mod_var.clone().into()),
-                                        init: Some(Box::new(Expr::Call(CallExpr {
-                                            span: DUMMY_SP,
-                                            callee: Ident::new(
-                                                "load".into(),
-                                                DUMMY_SP.with_ctxt(dep.export_ctxt()),
-                                            )
-                                            .as_callee(),
-                                            args: Default::default(),
-                                            type_args: Default::default(),
-                                        }))),
+                                        name: mod_var.clone().into(),
+                                        init: Some(
+                                            CallExpr {
+                                                span: DUMMY_SP,
+                                                callee: Ident::new(
+                                                    "load".into(),
+                                                    DUMMY_SP,
+                                                    dep.export_ctxt(),
+                                                )
+                                                .as_callee(),
+                                                ..Default::default()
+                                            }
+                                            .into(),
+                                        ),
                                         definite: Default::default(),
                                     });
                                     for s in specifiers {
@@ -967,10 +1005,8 @@ where
                                                     ModuleExportName::Ident(name) => {
                                                         vars.push(VarDeclarator {
                                                             span: s.span,
-                                                            name: Pat::Ident(name.clone().into()),
-                                                            init: Some(Box::new(Expr::Ident(
-                                                                mod_var.clone(),
-                                                            ))),
+                                                            name: name.clone().into(),
+                                                            init: Some(mod_var.clone().into()),
                                                             definite: Default::default(),
                                                         });
                                                     }
@@ -984,7 +1020,7 @@ where
                                             ExportSpecifier::Default(s) => {
                                                 vars.push(VarDeclarator {
                                                     span: DUMMY_SP,
-                                                    name: Pat::Ident(s.exported.clone().into()),
+                                                    name: s.exported.clone().into(),
                                                     init: Some(
                                                         mod_var
                                                             .clone()
@@ -1015,13 +1051,11 @@ where
                                                 };
                                                 vars.push(VarDeclarator {
                                                     span: s.span,
-                                                    name: Pat::Ident(
-                                                        exported.clone().unwrap().into(),
-                                                    ),
+                                                    name: exported.clone().unwrap().into(),
                                                     init: Some(
                                                         mod_var
                                                             .clone()
-                                                            .make_member(orig.clone())
+                                                            .make_member(orig.clone().into())
                                                             .into(),
                                                     ),
                                                     definite: Default::default(),
@@ -1031,14 +1065,16 @@ where
                                     }
 
                                     if !vars.is_empty() {
-                                        new.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(
-                                            Box::new(VarDecl {
+                                        new.push(
+                                            VarDecl {
                                                 span: DUMMY_SP,
                                                 kind: VarDeclKind::Const,
                                                 declare: Default::default(),
                                                 decls: vars,
-                                            }),
-                                        ))));
+                                                ..Default::default()
+                                            }
+                                            .into(),
+                                        );
                                     }
                                     continue;
                                 }
@@ -1078,16 +1114,13 @@ where
                                     ..
                                 }) => {
                                     new.push(
-                                        Ident::new(
-                                            "default".into(),
-                                            DUMMY_SP.with_ctxt(info.local_ctxt()),
-                                        )
-                                        .clone()
-                                        .assign_to(exported.clone())
-                                        .into_module_item(
-                                            injected_ctxt,
-                                            "prepare -> export named -> aliased",
-                                        ),
+                                        Ident::new("default".into(), DUMMY_SP, info.local_ctxt())
+                                            .clone()
+                                            .assign_to(exported.clone())
+                                            .into_module_item(
+                                                injected_ctxt,
+                                                "prepare -> export named -> aliased",
+                                            ),
                                     );
                                 }
 
@@ -1135,15 +1168,16 @@ where
                                                                 is_type_only: false,
                                                             },
                                                         );
-                                                        extra.push(ModuleItem::ModuleDecl(
-                                                            ModuleDecl::ExportNamed(NamedExport {
+                                                        extra.push(
+                                                            NamedExport {
                                                                 span: ns.span,
                                                                 specifiers: vec![specifier],
                                                                 src: None,
                                                                 with: None,
                                                                 type_only: false,
-                                                            }),
-                                                        ));
+                                                            }
+                                                            .into(),
+                                                        );
                                                     }
                                                     None => {
                                                         unreachable!(
@@ -1171,9 +1205,12 @@ where
                     }
 
                     ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export)) => {
-                        let export_ctxt = export.span.ctxt;
-                        let reexport = self.scope.get_module(info.id).unwrap().export_ctxt();
-                        ctx.transitive_remap.insert(export_ctxt, reexport);
+                        let metadata = ExportMetadata::decode(export.with.as_deref());
+
+                        if let Some(export_ctxt) = metadata.export_ctxt {
+                            let reexport = self.scope.get_module(info.id).unwrap().export_ctxt();
+                            ctx.transitive_remap.insert(export_ctxt, reexport);
+                        }
 
                         new.push(item);
                     }
@@ -1239,10 +1276,8 @@ where
                                     .iter()
                                     .find(|s| s.0.src.value == import.src.value)
                                 {
-                                    let imported = Ident::new(
-                                        "default".into(),
-                                        DUMMY_SP.with_ctxt(src.export_ctxt),
-                                    );
+                                    let imported =
+                                        Ident::new("default".into(), DUMMY_SP, src.export_ctxt);
                                     vars.push((
                                         module_id,
                                         imported.assign_to(default.local.clone()).into_module_item(
@@ -1313,7 +1348,7 @@ impl VisitMut for ImportMetaHandler<'_, '_> {
             ..
         }) = e
         {
-            *e = Expr::Ident(self.inline_ident.clone());
+            *e = self.inline_ident.clone().into();
             self.occurred = true;
         }
     }
@@ -1332,7 +1367,7 @@ impl VisitMut for ImportMetaHandler<'_, '_> {
                 Ok(key_value_props) => {
                     prepend_stmt(
                         &mut n.body,
-                        ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                        VarDecl {
                             span: n.span,
                             kind: VarDeclKind::Const,
                             declare: false,
@@ -1349,7 +1384,9 @@ impl VisitMut for ImportMetaHandler<'_, '_> {
                                 }))),
                                 definite: false,
                             }],
-                        })))),
+                            ..Default::default()
+                        }
+                        .into(),
                     );
                 }
                 Err(err) => self.err = Some(err),

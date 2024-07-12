@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 28,
-    "ctxt": 0
+    "end": 28
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 1,
-        "end": 28,
-        "ctxt": 0
+        "end": 28
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 5,
-            "end": 27,
-            "ctxt": 0
+            "end": 27
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 5,
-              "end": 6,
-              "ctxt": 0
+              "end": 6
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false,
             "typeAnnotation": null
@@ -38,24 +36,21 @@
             "type": "BinaryExpression",
             "span": {
               "start": 9,
-              "end": 27,
-              "ctxt": 0
+              "end": 27
             },
             "operator": "/",
             "left": {
               "type": "TemplateLiteral",
               "span": {
                 "start": 9,
-                "end": 23,
-                "ctxt": 0
+                "end": 23
               },
               "expressions": [
                 {
                   "type": "NumericLiteral",
                   "span": {
                     "start": 16,
-                    "end": 17,
-                    "ctxt": 0
+                    "end": 17
                   },
                   "value": 1.0,
                   "raw": "1"
@@ -66,8 +61,7 @@
                   "type": "TemplateElement",
                   "span": {
                     "start": 10,
-                    "end": 13,
-                    "ctxt": 0
+                    "end": 13
                   },
                   "tail": false,
                   "cooked": "abc",
@@ -77,8 +71,7 @@
                   "type": "TemplateElement",
                   "span": {
                     "start": 19,
-                    "end": 22,
-                    "ctxt": 0
+                    "end": 22
                   },
                   "tail": true,
                   "cooked": "def",
@@ -90,8 +83,7 @@
               "type": "NumericLiteral",
               "span": {
                 "start": 26,
-                "end": 27,
-                "ctxt": 0
+                "end": 27
               },
               "value": 1.0,
               "raw": "1"

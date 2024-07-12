@@ -178,7 +178,7 @@ impl Radix {
     }
 
     fn is_satisfying_indent(&self, ident: &Ident) -> bool {
-        if ident.span.ctxt != self.unresolved_ctxt {
+        if ident.ctxt != self.unresolved_ctxt {
             return false;
         }
 
@@ -187,7 +187,7 @@ impl Radix {
 
     fn extract_prop_value(&mut self, prop: &MemberProp) -> Option<JsWord> {
         match prop {
-            MemberProp::Ident(Ident { sym, .. }) => Some(sym.clone()),
+            MemberProp::Ident(IdentName { sym, .. }) => Some(sym.clone()),
             MemberProp::Computed(ComputedPropName { expr, .. }) => {
                 if let Expr::Lit(Lit::Str(Str { value, .. })) = expr.as_ref() {
                     return Some(value.clone());

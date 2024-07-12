@@ -1,20 +1,20 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..21#0,
+            span: 1..21,
             value: "Parent interface.\n *",
         },
         tags: [
             TagItem {
-                span: 1..10#0,
+                span: 1..10,
                 tag_name: Text {
-                    span: 1..10#0,
+                    span: 1..10,
                     value: "interface",
                 },
                 tag: Interface(
                     InterfaceTag {
-                        span: 1..10#0,
+                        span: 1..10,
                         name: None,
                     },
                 ),
@@ -22,32 +22,32 @@
         ],
     },
     JsDoc {
-        span: 70..70#0,
+        span: 70..70,
         description: Text {
-            span: 70..90#0,
+            span: 70..90,
             value: "Open the connection.",
         },
         tags: [],
     },
     JsDoc {
-        span: 146..146#0,
+        span: 146..146,
         description: Text {
-            span: 146..161#0,
+            span: 146..161,
             value: "Child class.\n *",
         },
         tags: [
             TagItem {
-                span: 146..151#0,
+                span: 146..151,
                 tag_name: Text {
-                    span: 146..151#0,
+                    span: 146..151,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 146..151#0,
+                        span: 146..151,
                         ty: Some(
                             Text {
-                                span: 146..172#0,
+                                span: 146..172,
                                 value: "* @implements {Connection}",
                             },
                         ),
@@ -58,45 +58,45 @@
         ],
     },
     JsDoc {
-        span: 230..230#0,
+        span: 230..230,
         description: Text {
-            span: 230..230#0,
+            span: 230..230,
             value: "",
         },
         tags: [
             TagItem {
-                span: 230..240#0,
+                span: 230..240,
                 tag_name: Text {
-                    span: 230..240#0,
+                    span: 230..240,
                     value: "inheritdoc",
                 },
                 tag: InheritDoc(
                     InheritDocTag {
-                        span: 230..240#0,
+                        span: 230..240,
                     },
                 ),
             },
         ],
     },
     JsDoc {
-        span: 289..289#0,
+        span: 289..289,
         description: Text {
-            span: 289..317#0,
+            span: 289..317,
             value: "Extension of child class.\n *",
         },
         tags: [
             TagItem {
-                span: 289..294#0,
+                span: 289..294,
                 tag_name: Text {
-                    span: 289..294#0,
+                    span: 289..294,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 289..294#0,
+                        span: 289..294,
                         ty: Some(
                             Text {
-                                span: 289..308#0,
+                                span: 289..308,
                                 value: "* @extends {Socket}",
                             },
                         ),

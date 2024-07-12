@@ -2,16 +2,14 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 89,
-    "ctxt": 0
+    "end": 89
   },
   "body": [
     {
       "type": "ExportDefaultDeclaration",
       "span": {
         "start": 1,
-        "end": 39,
-        "ctxt": 0
+        "end": 39
       },
       "decl": {
         "type": "FunctionExpression",
@@ -19,9 +17,9 @@
           "type": "Identifier",
           "span": {
             "start": 25,
-            "end": 28,
-            "ctxt": 0
+            "end": 28
           },
+          "ctxt": 0,
           "value": "Foo",
           "optional": false
         },
@@ -29,16 +27,16 @@
         "decorators": [],
         "span": {
           "start": 16,
-          "end": 39,
-          "ctxt": 0
+          "end": 39
         },
+        "ctxt": 0,
         "body": {
           "type": "BlockStatement",
           "span": {
             "start": 31,
-            "end": 39,
-            "ctxt": 0
+            "end": 39
           },
+          "ctxt": 0,
           "stmts": []
         },
         "generator": false,
@@ -51,15 +49,13 @@
       "type": "ExportDefaultExpression",
       "span": {
         "start": 41,
-        "end": 89,
-        "ctxt": 0
+        "end": 89
       },
       "expression": {
         "type": "ObjectExpression",
         "span": {
           "start": 56,
-          "end": 88,
-          "ctxt": 0
+          "end": 88
         },
         "properties": [
           {
@@ -68,18 +64,15 @@
               "type": "Identifier",
               "span": {
                 "start": 62,
-                "end": 66,
-                "ctxt": 0
+                "end": 66
               },
-              "value": "uhoh",
-              "optional": false
+              "value": "uhoh"
             },
             "value": {
               "type": "StringLiteral",
               "span": {
                 "start": 68,
-                "end": 85,
-                "ctxt": 0
+                "end": 85
               },
               "value": "another default",
               "raw": "\"another default\""

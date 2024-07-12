@@ -17,13 +17,14 @@ impl Pure<'_> {
             Stmt::While(stmt) => {
                 self.changed = true;
                 report_change!("loops: Converting a while loop to a for loop");
-                *s = Stmt::For(ForStmt {
+                *s = ForStmt {
                     span: stmt.span,
                     init: None,
                     test: Some(stmt.test.take()),
                     update: None,
                     body: stmt.body.take(),
-                });
+                }
+                .into();
             }
             Stmt::DoWhile(stmt) => {
                 let val = stmt.test.as_pure_bool(&self.expr_ctx);
@@ -31,13 +32,14 @@ impl Pure<'_> {
                     self.changed = true;
                     report_change!("loops: Converting an always-true do-while loop to a for loop");
 
-                    *s = Stmt::For(ForStmt {
+                    *s = ForStmt {
                         span: stmt.span,
                         init: None,
                         test: Some(stmt.test.take()),
                         update: None,
                         body: stmt.body.take(),
-                    });
+                    }
+                    .into();
                 }
             }
             _ => {}
@@ -79,12 +81,13 @@ impl Pure<'_> {
                     match s.test.as_deref_mut() {
                         Some(e) => {
                             let orig_test = e.take();
-                            *e = Expr::Bin(BinExpr {
+                            *e = BinExpr {
                                 span: *span,
                                 op: op!("&&"),
                                 left: Box::new(orig_test),
                                 right: test.take(),
-                            });
+                            }
+                            .into();
                         }
                         None => {
                             s.test = Some(test.take());
@@ -110,12 +113,13 @@ impl Pure<'_> {
                     match s.test.as_deref_mut() {
                         Some(e) => {
                             let orig_test = e.take();
-                            *e = Expr::Bin(BinExpr {
+                            *e = BinExpr {
                                 span: *span,
                                 op: op!("&&"),
                                 left: Box::new(orig_test),
                                 right: test.take(),
-                            });
+                            }
+                            .into();
                         }
                         None => {
                             s.test = Some(test.take());
@@ -173,12 +177,15 @@ impl Pure<'_> {
 
                 match s.test.take() {
                     Some(left) => {
-                        s.test = Some(Box::new(Expr::Bin(BinExpr {
-                            span: s.test.span(),
-                            op: op!("&&"),
-                            left,
-                            right: test.take(),
-                        })));
+                        s.test = Some(
+                            BinExpr {
+                                span: s.test.span(),
+                                op: op!("&&"),
+                                left,
+                                right: test.take(),
+                            }
+                            .into(),
+                        );
                     }
                     None => {
                         s.test = Some(test.take());

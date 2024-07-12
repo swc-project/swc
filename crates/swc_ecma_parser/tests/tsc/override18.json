@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 91,
-    "end": 172,
-    "ctxt": 0
+    "end": 172
   },
   "body": [
     {
@@ -12,51 +11,46 @@
         "type": "Identifier",
         "span": {
           "start": 97,
-          "end": 98,
-          "ctxt": 0
+          "end": 98
         },
+        "ctxt": 0,
         "value": "A",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 91,
-        "end": 120,
-        "ctxt": 0
+        "end": 120
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassProperty",
           "span": {
             "start": 105,
-            "end": 118,
-            "ctxt": 0
+            "end": 118
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 105,
-              "end": 108,
-              "ctxt": 0
+              "end": 108
             },
-            "value": "foo",
-            "optional": true
+            "value": "foo"
           },
           "value": null,
           "typeAnnotation": {
             "type": "TsTypeAnnotation",
             "span": {
               "start": 109,
-              "end": 117,
-              "ctxt": 0
+              "end": 117
             },
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
                 "start": 111,
-                "end": 117,
-                "ctxt": 0
+                "end": 117
               },
               "kind": "string"
             }
@@ -84,43 +78,39 @@
         "type": "Identifier",
         "span": {
           "start": 128,
-          "end": 129,
-          "ctxt": 0
+          "end": 129
         },
+        "ctxt": 0,
         "value": "B",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 122,
-        "end": 172,
-        "ctxt": 0
+        "end": 172
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassProperty",
           "span": {
             "start": 146,
-            "end": 170,
-            "ctxt": 0
+            "end": 170
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 155,
-              "end": 158,
-              "ctxt": 0
+              "end": 158
             },
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "value": {
             "type": "StringLiteral",
             "span": {
               "start": 161,
-              "end": 169,
-              "ctxt": 0
+              "end": 169
             },
             "value": "string",
             "raw": "\"string\""
@@ -141,9 +131,9 @@
         "type": "Identifier",
         "span": {
           "start": 138,
-          "end": 139,
-          "ctxt": 0
+          "end": 139
         },
+        "ctxt": 0,
         "value": "A",
         "optional": false
       },

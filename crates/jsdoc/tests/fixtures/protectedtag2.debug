@@ -1,23 +1,23 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..10#0,
+                span: 1..10,
                 tag_name: Text {
-                    span: 1..10#0,
+                    span: 1..10,
                     value: "protected",
                 },
                 tag: Protected(
                     ProtectedTag {
-                        span: 1..10#0,
+                        span: 1..10,
                         ty: Some(
                             Text {
-                                span: 1..9#0,
+                                span: 1..9,
                                 value: "{number}",
                             },
                         ),
@@ -27,21 +27,21 @@
         ],
     },
     JsDoc {
-        span: 49..49#0,
+        span: 49..49,
         description: Text {
-            span: 49..72#0,
+            span: 49..72,
             value: "Unique ID generator.\n *",
         },
         tags: [
             TagItem {
-                span: 49..60#0,
+                span: 49..60,
                 tag_name: Text {
-                    span: 49..60#0,
+                    span: 49..60,
                     value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 49..60#0,
+                        span: 49..60,
                         ty: None,
                         name: None,
                     },
@@ -50,9 +50,9 @@
         ],
     },
     JsDoc {
-        span: 125..125#0,
+        span: 125..125,
         description: Text {
-            span: 125..146#0,
+            span: 125..146,
             value: "Generate a unique ID.",
         },
         tags: [],

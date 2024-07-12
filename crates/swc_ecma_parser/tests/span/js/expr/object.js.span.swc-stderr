@@ -88,11 +88,6 @@
  1 | ({ a, b, c: d, ...rest, afterRest: true })
    :          ^
    `----
-  x Ident
-   ,-[$DIR/tests/span/js/expr/object.js:1:1]
- 1 | ({ a, b, c: d, ...rest, afterRest: true })
-   :          ^
-   `----
   x Expr
    ,-[$DIR/tests/span/js/expr/object.js:1:1]
  1 | ({ a, b, c: d, ...rest, afterRest: true })
@@ -139,11 +134,6 @@
    :                         ^^^^^^^^^^^^^^^
    `----
   x PropName
-   ,-[$DIR/tests/span/js/expr/object.js:1:1]
- 1 | ({ a, b, c: d, ...rest, afterRest: true })
-   :                         ^^^^^^^^^
-   `----
-  x Ident
    ,-[$DIR/tests/span/js/expr/object.js:1:1]
  1 | ({ a, b, c: d, ...rest, afterRest: true })
    :                         ^^^^^^^^^

@@ -54,7 +54,7 @@ impl Builder {
 
 fn parse_then_emit(from: &str, cfg: Config, syntax: Syntax) -> String {
     ::testing::run_test(false, |cm, handler| {
-        let src = cm.new_source_file(FileName::Real("custom.js".into()), from.to_string());
+        let src = cm.new_source_file(FileName::Real("custom.js".into()).into(), from.to_string());
         println!(
             "--------------------\nSource: \n{}\nPos: {:?} ~ {:?}\n",
             from, src.start_pos, src.end_pos

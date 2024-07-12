@@ -2,31 +2,28 @@
   "type": "Module",
   "span": {
     "start": 76,
-    "end": 149,
-    "ctxt": 0
+    "end": 149
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
         "start": 76,
-        "end": 97,
-        "ctxt": 0
+        "end": 97
       },
       "declaration": {
         "type": "TsInterfaceDeclaration",
         "span": {
           "start": 83,
-          "end": 97,
-          "ctxt": 0
+          "end": 97
         },
         "id": {
           "type": "Identifier",
           "span": {
             "start": 93,
-            "end": 94,
-            "ctxt": 0
+            "end": 94
           },
+          "ctxt": 0,
           "value": "A",
           "optional": false
         },
@@ -37,8 +34,7 @@
           "type": "TsInterfaceBody",
           "span": {
             "start": 95,
-            "end": 97,
-            "ctxt": 0
+            "end": 97
           },
           "body": []
         }
@@ -48,24 +44,22 @@
       "type": "ImportDeclaration",
       "span": {
         "start": 120,
-        "end": 149,
-        "ctxt": 0
+        "end": 149
       },
       "specifiers": [
         {
           "type": "ImportSpecifier",
           "span": {
             "start": 129,
-            "end": 135,
-            "ctxt": 0
+            "end": 135
           },
           "local": {
             "type": "Identifier",
             "span": {
               "start": 134,
-              "end": 135,
-              "ctxt": 0
+              "end": 135
             },
+            "ctxt": 0,
             "value": "A",
             "optional": false
           },
@@ -77,8 +71,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 143,
-          "end": 148,
-          "ctxt": 0
+          "end": 148
         },
         "value": "./a",
         "raw": "\"./a\""

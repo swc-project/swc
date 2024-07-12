@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 143,
-    "end": 226,
-    "ctxt": 0
+    "end": 226
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 154,
-          "end": 170,
-          "ctxt": 0
+          "end": 170
         },
+        "ctxt": 0,
         "value": "mergeStringLists",
         "optional": false
       },
@@ -24,29 +23,26 @@
           "type": "Parameter",
           "span": {
             "start": 171,
-            "end": 191,
-            "ctxt": 0
+            "end": 191
           },
           "decorators": [],
           "pat": {
             "type": "RestElement",
             "span": {
               "start": 171,
-              "end": 191,
-              "ctxt": 0
+              "end": 191
             },
             "rest": {
               "start": 171,
-              "end": 174,
-              "ctxt": 0
+              "end": 174
             },
             "argument": {
               "type": "Identifier",
               "span": {
                 "start": 174,
-                "end": 181,
-                "ctxt": 0
+                "end": 181
               },
+              "ctxt": 0,
               "value": "strings",
               "optional": false,
               "typeAnnotation": null
@@ -55,22 +51,19 @@
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 181,
-                "end": 191,
-                "ctxt": 0
+                "end": 191
               },
               "typeAnnotation": {
                 "type": "TsArrayType",
                 "span": {
                   "start": 183,
-                  "end": 191,
-                  "ctxt": 0
+                  "end": 191
                 },
                 "elemType": {
                   "type": "TsKeywordType",
                   "span": {
                     "start": 183,
-                    "end": 189,
-                    "ctxt": 0
+                    "end": 189
                   },
                   "kind": "string"
                 }
@@ -82,32 +75,31 @@
       "decorators": [],
       "span": {
         "start": 143,
-        "end": 226,
-        "ctxt": 0
+        "end": 226
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 193,
-          "end": 226,
-          "ctxt": 0
+          "end": 226
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ForOfStatement",
             "span": {
               "start": 199,
-              "end": 224,
-              "ctxt": 0
+              "end": 224
             },
             "await": false,
             "left": {
               "type": "VariableDeclaration",
               "span": {
                 "start": 204,
-                "end": 211,
-                "ctxt": 0
+                "end": 211
               },
+              "ctxt": 0,
               "kind": "var",
               "declare": false,
               "declarations": [
@@ -115,16 +107,15 @@
                   "type": "VariableDeclarator",
                   "span": {
                     "start": 208,
-                    "end": 211,
-                    "ctxt": 0
+                    "end": 211
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
                       "start": 208,
-                      "end": 211,
-                      "ctxt": 0
+                      "end": 211
                     },
+                    "ctxt": 0,
                     "value": "str",
                     "optional": false,
                     "typeAnnotation": null
@@ -138,9 +129,9 @@
               "type": "Identifier",
               "span": {
                 "start": 215,
-                "end": 222,
-                "ctxt": 0
+                "end": 222
               },
+              "ctxt": 0,
               "value": "strings",
               "optional": false
             },
@@ -148,8 +139,7 @@
               "type": "EmptyStatement",
               "span": {
                 "start": 223,
-                "end": 224,
-                "ctxt": 0
+                "end": 224
               }
             }
           }

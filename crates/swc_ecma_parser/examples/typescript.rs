@@ -15,7 +15,7 @@ fn main() {
     //     .expect("failed to load test.ts");
 
     let fm = cm.new_source_file(
-        FileName::Custom("test.ts".into()),
+        FileName::Custom("test.ts".into()).into(),
         "interface Foo {}".into(),
     );
 

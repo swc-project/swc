@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 45,
-    "end": 86,
-    "ctxt": 0
+    "end": 86
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 45,
-        "end": 86,
-        "ctxt": 0
+        "end": 86
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 49,
-            "end": 85,
-            "ctxt": 0
+            "end": 85
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 49,
-              "end": 52,
-              "ctxt": 0
+              "end": 52
             },
+            "ctxt": 0,
             "value": "foo",
             "optional": false,
             "typeAnnotation": null
@@ -38,17 +36,17 @@
             "type": "ArrowFunctionExpression",
             "span": {
               "start": 55,
-              "end": 85,
-              "ctxt": 0
+              "end": 85
             },
+            "ctxt": 0,
             "params": [],
             "body": {
               "type": "BlockStatement",
               "span": {
                 "start": 82,
-                "end": 85,
-                "ctxt": 0
+                "end": 85
               },
+              "ctxt": 0,
               "stmts": []
             },
             "async": true,
@@ -58,23 +56,21 @@
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 63,
-                "end": 78,
-                "ctxt": 0
+                "end": 78
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
                   "start": 65,
-                  "end": 78,
-                  "ctxt": 0
+                  "end": 78
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
                     "start": 65,
-                    "end": 72,
-                    "ctxt": 0
+                    "end": 72
                   },
+                  "ctxt": 0,
                   "value": "Promise",
                   "optional": false
                 },
@@ -82,16 +78,14 @@
                   "type": "TsTypeParameterInstantiation",
                   "span": {
                     "start": 72,
-                    "end": 78,
-                    "ctxt": 0
+                    "end": 78
                   },
                   "params": [
                     {
                       "type": "TsKeywordType",
                       "span": {
                         "start": 73,
-                        "end": 77,
-                        "ctxt": 0
+                        "end": 77
                       },
                       "kind": "void"
                     }

@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 84,
-    "end": 106,
-    "ctxt": 0
+    "end": 106
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 84,
-        "end": 106,
-        "ctxt": 0
+        "end": 106
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 90,
-            "end": 105,
-            "ctxt": 0
+            "end": 105
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 90,
-              "end": 91,
-              "ctxt": 0
+              "end": 91
             },
+            "ctxt": 0,
             "value": "a",
             "optional": false,
             "typeAnnotation": null
@@ -38,17 +36,16 @@
             "type": "AssignmentExpression",
             "span": {
               "start": 94,
-              "end": 105,
-              "ctxt": 0
+              "end": 105
             },
             "operator": "=",
             "left": {
               "type": "Identifier",
               "span": {
                 "start": 94,
-                "end": 95,
-                "ctxt": 0
+                "end": 95
               },
+              "ctxt": 0,
               "value": "b",
               "optional": false,
               "typeAnnotation": null
@@ -57,16 +54,15 @@
               "type": "ArrowFunctionExpression",
               "span": {
                 "start": 98,
-                "end": 105,
-                "ctxt": 0
+                "end": 105
               },
+              "ctxt": 0,
               "params": [],
               "body": {
                 "type": "NumericLiteral",
                 "span": {
                   "start": 104,
-                  "end": 105,
-                  "ctxt": 0
+                  "end": 105
                 },
                 "value": 0.0,
                 "raw": "0"

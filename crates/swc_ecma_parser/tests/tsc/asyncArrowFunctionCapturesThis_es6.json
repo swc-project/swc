@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 41,
-    "end": 116,
-    "ctxt": 0
+    "end": 116
   },
   "body": [
     {
@@ -12,60 +11,57 @@
         "type": "Identifier",
         "span": {
           "start": 47,
-          "end": 48,
-          "ctxt": 0
+          "end": 48
         },
+        "ctxt": 0,
         "value": "C",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 41,
-        "end": 116,
-        "ctxt": 0
+        "end": 116
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassMethod",
           "span": {
             "start": 54,
-            "end": 114,
-            "ctxt": 0
+            "end": 114
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 54,
-              "end": 60,
-              "ctxt": 0
+              "end": 60
             },
-            "value": "method",
-            "optional": false
+            "value": "method"
           },
           "function": {
             "params": [],
             "decorators": [],
             "span": {
               "start": 54,
-              "end": 114,
-              "ctxt": 0
+              "end": 114
             },
+            "ctxt": 0,
             "body": {
               "type": "BlockStatement",
               "span": {
                 "start": 63,
-                "end": 114,
-                "ctxt": 0
+                "end": 114
               },
+              "ctxt": 0,
               "stmts": [
                 {
                   "type": "VariableDeclaration",
                   "span": {
                     "start": 71,
-                    "end": 103,
-                    "ctxt": 0
+                    "end": 103
                   },
+                  "ctxt": 0,
                   "kind": "var",
                   "declare": false,
                   "declarations": [
@@ -73,16 +69,15 @@
                       "type": "VariableDeclarator",
                       "span": {
                         "start": 75,
-                        "end": 102,
-                        "ctxt": 0
+                        "end": 102
                       },
                       "id": {
                         "type": "Identifier",
                         "span": {
                           "start": 75,
-                          "end": 77,
-                          "ctxt": 0
+                          "end": 77
                         },
+                        "ctxt": 0,
                         "value": "fn",
                         "optional": false,
                         "typeAnnotation": null
@@ -91,23 +86,21 @@
                         "type": "ArrowFunctionExpression",
                         "span": {
                           "start": 80,
-                          "end": 102,
-                          "ctxt": 0
+                          "end": 102
                         },
+                        "ctxt": 0,
                         "params": [],
                         "body": {
                           "type": "AwaitExpression",
                           "span": {
                             "start": 92,
-                            "end": 102,
-                            "ctxt": 0
+                            "end": 102
                           },
                           "argument": {
                             "type": "ThisExpression",
                             "span": {
                               "start": 98,
-                              "end": 102,
-                              "ctxt": 0
+                              "end": 102
                             }
                           }
                         },

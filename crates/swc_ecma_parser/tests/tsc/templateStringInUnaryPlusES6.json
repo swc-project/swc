@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 17,
-    "end": 43,
-    "ctxt": 0
+    "end": 43
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 17,
-        "end": 43,
-        "ctxt": 0
+        "end": 43
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 21,
-            "end": 42,
-            "ctxt": 0
+            "end": 42
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 21,
-              "end": 22,
-              "ctxt": 0
+              "end": 22
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false,
             "typeAnnotation": null
@@ -38,24 +36,21 @@
             "type": "UnaryExpression",
             "span": {
               "start": 25,
-              "end": 42,
-              "ctxt": 0
+              "end": 42
             },
             "operator": "+",
             "argument": {
               "type": "TemplateLiteral",
               "span": {
                 "start": 26,
-                "end": 42,
-                "ctxt": 0
+                "end": 42
               },
               "expressions": [
                 {
                   "type": "NumericLiteral",
                   "span": {
                     "start": 33,
-                    "end": 36,
-                    "ctxt": 0
+                    "end": 36
                   },
                   "value": 123.0,
                   "raw": "123"
@@ -66,8 +61,7 @@
                   "type": "TemplateElement",
                   "span": {
                     "start": 27,
-                    "end": 30,
-                    "ctxt": 0
+                    "end": 30
                   },
                   "tail": false,
                   "cooked": "abc",
@@ -77,8 +71,7 @@
                   "type": "TemplateElement",
                   "span": {
                     "start": 38,
-                    "end": 41,
-                    "ctxt": 0
+                    "end": 41
                   },
                   "tail": true,
                   "cooked": "def",

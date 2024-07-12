@@ -32,7 +32,7 @@ where
         }
 
         let mut orig_name = ident.clone();
-        orig_name.span.ctxt = SyntaxContext::empty();
+        orig_name.ctxt = SyntaxContext::empty();
 
         {
             // Remove span hygiene of the class.
@@ -132,14 +132,14 @@ where
                     let var = VarDeclarator {
                         span,
                         name: cls.ident.clone().into(),
-                        init: Some(Box::new(Expr::Class(expr))),
+                        init: Some(expr.into()),
                         definite: false,
                     };
                     *decl = VarDecl {
                         span,
                         kind: VarDeclKind::Let,
-                        declare: false,
                         decls: vec![var],
+                        ..Default::default()
                     }
                     .into();
                     return;
@@ -277,25 +277,28 @@ where
                 let orig_ident = ident.clone();
                 match self.rename_ident(&mut ident) {
                     Ok(..) => {
-                        *item = ModuleItem::Stmt(Stmt::Decl(Decl::Class(ClassDecl {
+                        *item = ClassDecl {
                             ident: ident.clone(),
                             class: class.take(),
                             declare: *declare,
-                        })));
+                        }
+                        .into();
                         export!(
                             ModuleExportName::Ident(orig_ident),
                             ModuleExportName::Ident(ident.take())
                         );
                     }
                     Err(..) => {
-                        *item = ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                        *item = ExportDecl {
                             span: *span,
-                            decl: Decl::Class(ClassDecl {
+                            decl: ClassDecl {
                                 ident: ident.take(),
                                 class: class.take(),
                                 declare: *declare,
-                            }),
-                        }))
+                            }
+                            .into(),
+                        }
+                        .into()
                     }
                 }
             }
@@ -315,25 +318,28 @@ where
                 let orig_ident = ident.clone();
                 match self.rename_ident(&mut ident) {
                     Ok(..) => {
-                        *item = ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
+                        *item = FnDecl {
                             ident: ident.clone(),
                             function,
                             declare: *declare,
-                        })));
+                        }
+                        .into();
                         export!(
                             ModuleExportName::Ident(orig_ident),
                             ModuleExportName::Ident(ident)
                         );
                     }
                     Err(..) => {
-                        *item = ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                        *item = ExportDecl {
                             span: *span,
-                            decl: Decl::Fn(FnDecl {
+                            decl: FnDecl {
                                 ident,
                                 function,
                                 declare: *declare,
-                            }),
-                        }))
+                            }
+                            .into(),
+                        }
+                        .into()
                     }
                 }
             }
@@ -354,29 +360,32 @@ where
                 });
 
                 if renamed.is_empty() {
-                    *item = ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    *item = ExportDecl {
                         span,
-                        decl: Decl::Var(Box::new(VarDecl {
+                        decl: VarDecl {
                             decls,
                             ..*var.take()
-                        })),
-                    }));
+                        }
+                        .into(),
+                    }
+                    .into();
                     return;
                 }
-                *item = ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                *item = VarDecl {
                     decls,
                     ..*var.take()
-                }))));
-                self.extra
-                    .push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
-                        NamedExport {
-                            span,
-                            specifiers: renamed,
-                            src: None,
-                            type_only: false,
-                            with: None,
-                        },
-                    )));
+                }
+                .into();
+                self.extra.push(
+                    NamedExport {
+                        span,
+                        specifiers: renamed,
+                        src: None,
+                        type_only: false,
+                        with: None,
+                    }
+                    .into(),
+                );
             }
             _ => {
                 item.visit_mut_children_with(self);
@@ -457,20 +466,21 @@ where
         n.visit_mut_children_with(self);
 
         if let ObjectPatProp::Assign(p) = n {
-            let mut renamed = p.key.id.clone();
+            let mut renamed = Ident::from(&p.key);
             if self.rename_ident(&mut renamed).is_ok() {
                 if renamed.sym == p.key.sym {
                     return;
                 }
 
                 *n = KeyValuePatProp {
-                    key: PropName::Ident(p.key.id.take()),
+                    key: PropName::Ident(p.key.take().into()),
                     value: match p.value.take() {
-                        Some(default_expr) => Box::new(Pat::Assign(AssignPat {
+                        Some(default_expr) => AssignPat {
                             span: p.span,
                             left: renamed.into(),
                             right: default_expr,
-                        })),
+                        }
+                        .into(),
                         None => renamed.into(),
                     },
                 }
@@ -495,12 +505,12 @@ where
                     }
 
                     *prop = Prop::KeyValue(KeyValueProp {
-                        key: PropName::Ident(Ident {
+                        key: PropName::Ident(IdentName {
                             // clear mark
-                            span: i.span.with_ctxt(SyntaxContext::empty()),
-                            ..i.clone()
+                            span: i.span,
+                            sym: i.sym.clone(),
                         }),
-                        value: Box::new(Expr::Ident(renamed)),
+                        value: renamed.into(),
                     })
                 }
             }
@@ -642,7 +652,7 @@ where
                 return Err(());
             }
 
-            ident.span = ident.span.with_ctxt(new_ctxt);
+            ident.ctxt = new_ctxt;
             ident.sym = new_sym;
             return Ok(());
         }

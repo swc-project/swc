@@ -56,31 +56,35 @@ impl VisitMut for PostcompressOptimizer<'_> {
                 Expr::Fn(f) => {
                     if f.ident.is_some() {
                         if self.options.top_level() {
-                            *m = ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                            *m = ExportDefaultDecl {
                                 span: e.span,
                                 decl: DefaultDecl::Fn(f.take()),
-                            })
+                            }
+                            .into()
                         }
                     } else {
-                        *m = ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                        *m = ExportDefaultDecl {
                             span: e.span,
                             decl: DefaultDecl::Fn(f.take()),
-                        })
+                        }
+                        .into()
                     }
                 }
                 Expr::Class(c) => {
                     if c.ident.is_some() {
                         if self.options.top_level() {
-                            *m = ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                            *m = ExportDefaultDecl {
                                 span: e.span,
                                 decl: DefaultDecl::Class(c.take()),
-                            })
+                            }
+                            .into()
                         }
                     } else {
-                        *m = ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                        *m = ExportDefaultDecl {
                             span: e.span,
                             decl: DefaultDecl::Class(c.take()),
-                        })
+                        }
+                        .into()
                     }
                 }
                 _ => (),

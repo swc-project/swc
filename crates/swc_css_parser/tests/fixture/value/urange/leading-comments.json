@@ -4,8 +4,7 @@
       "kind": "Block",
       "span": {
         "start": 224,
-        "end": 253,
-        "ctxt": 0
+        "end": 253
       },
       "text": "/* codepoint range */"
     }
@@ -15,8 +14,7 @@
       "kind": "Block",
       "span": {
         "start": 433,
-        "end": 455,
-        "ctxt": 0
+        "end": 455
       },
       "text": "/* multiple values */"
     }
@@ -26,8 +24,7 @@
       "kind": "Block",
       "span": {
         "start": 103,
-        "end": 140,
-        "ctxt": 0
+        "end": 140
       },
       "text": "/* single codepoint */"
     }
@@ -37,8 +34,7 @@
       "kind": "Block",
       "span": {
         "start": 279,
-        "end": 313,
-        "ctxt": 0
+        "end": 313
       },
       "text": "/* wildcard range */"
     }
@@ -48,8 +44,7 @@
       "kind": "Block",
       "span": {
         "start": 352,
-        "end": 374,
-        "ctxt": 0
+        "end": 374
       },
       "text": "/* multiple values */"
     }

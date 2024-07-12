@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 77,
-    "ctxt": 0
+    "end": 77
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 1,
-        "end": 77,
-        "ctxt": 0
+        "end": 77
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 7,
-            "end": 76,
-            "ctxt": 0
+            "end": 76
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 7,
-              "end": 10,
-              "ctxt": 0
+              "end": 10
             },
+            "ctxt": 0,
             "value": "obj",
             "optional": false,
             "typeAnnotation": null
@@ -38,8 +36,7 @@
             "type": "ObjectExpression",
             "span": {
               "start": 13,
-              "end": 76,
-              "ctxt": 0
+              "end": 76
             },
             "properties": [
               {
@@ -48,26 +45,24 @@
                   "type": "Identifier",
                   "span": {
                     "start": 26,
-                    "end": 30,
-                    "ctxt": 0
+                    "end": 30
                   },
-                  "value": "test",
-                  "optional": false
+                  "value": "test"
                 },
                 "params": [],
                 "decorators": [],
                 "span": {
                   "start": 19,
-                  "end": 73,
-                  "ctxt": 0
+                  "end": 73
                 },
+                "ctxt": 0,
                 "body": {
                   "type": "BlockStatement",
                   "span": {
                     "start": 66,
-                    "end": 73,
-                    "ctxt": 0
+                    "end": 73
                   },
+                  "ctxt": 0,
                   "stmts": []
                 },
                 "generator": true,
@@ -77,23 +72,21 @@
                   "type": "TsTypeAnnotation",
                   "span": {
                     "start": 32,
-                    "end": 65,
-                    "ctxt": 0
+                    "end": 65
                   },
                   "typeAnnotation": {
                     "type": "TsTypeReference",
                     "span": {
                       "start": 34,
-                      "end": 65,
-                      "ctxt": 0
+                      "end": 65
                     },
                     "typeName": {
                       "type": "Identifier",
                       "span": {
                         "start": 34,
-                        "end": 55,
-                        "ctxt": 0
+                        "end": 55
                       },
+                      "ctxt": 0,
                       "value": "AsyncIterableIterator",
                       "optional": false
                     },
@@ -101,24 +94,22 @@
                       "type": "TsTypeParameterInstantiation",
                       "span": {
                         "start": 55,
-                        "end": 65,
-                        "ctxt": 0
+                        "end": 65
                       },
                       "params": [
                         {
                           "type": "TsTypeReference",
                           "span": {
                             "start": 56,
-                            "end": 64,
-                            "ctxt": 0
+                            "end": 64
                           },
                           "typeName": {
                             "type": "Identifier",
                             "span": {
                               "start": 56,
-                              "end": 64,
-                              "ctxt": 0
+                              "end": 64
                             },
+                            "ctxt": 0,
                             "value": "DirEntry",
                             "optional": false
                           },

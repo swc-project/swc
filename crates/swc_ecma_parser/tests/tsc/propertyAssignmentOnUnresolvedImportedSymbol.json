@@ -2,32 +2,29 @@
   "type": "Module",
   "span": {
     "start": 80,
-    "end": 122,
-    "ctxt": 0
+    "end": 122
   },
   "body": [
     {
       "type": "ImportDeclaration",
       "span": {
         "start": 80,
-        "end": 104,
-        "ctxt": 0
+        "end": 104
       },
       "specifiers": [
         {
           "type": "ImportDefaultSpecifier",
           "span": {
             "start": 87,
-            "end": 88,
-            "ctxt": 0
+            "end": 88
           },
           "local": {
             "type": "Identifier",
             "span": {
               "start": 87,
-              "end": 88,
-              "ctxt": 0
+              "end": 88
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false
           }
@@ -37,8 +34,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 94,
-          "end": 104,
-          "ctxt": 0
+          "end": 104
         },
         "value": "arglebaz",
         "raw": "'arglebaz'"
@@ -51,39 +47,36 @@
       "type": "BlockStatement",
       "span": {
         "start": 105,
-        "end": 122,
-        "ctxt": 0
+        "end": 122
       },
+      "ctxt": 0,
       "stmts": [
         {
           "type": "ExpressionStatement",
           "span": {
             "start": 111,
-            "end": 120,
-            "ctxt": 0
+            "end": 120
           },
           "expression": {
             "type": "AssignmentExpression",
             "span": {
               "start": 111,
-              "end": 120,
-              "ctxt": 0
+              "end": 120
             },
             "operator": "=",
             "left": {
               "type": "MemberExpression",
               "span": {
                 "start": 111,
-                "end": 116,
-                "ctxt": 0
+                "end": 116
               },
               "object": {
                 "type": "Identifier",
                 "span": {
                   "start": 111,
-                  "end": 112,
-                  "ctxt": 0
+                  "end": 112
                 },
+                "ctxt": 0,
                 "value": "x",
                 "optional": false
               },
@@ -91,19 +84,16 @@
                 "type": "Identifier",
                 "span": {
                   "start": 113,
-                  "end": 116,
-                  "ctxt": 0
+                  "end": 116
                 },
-                "value": "bar",
-                "optional": false
+                "value": "bar"
               }
             },
             "right": {
               "type": "NumericLiteral",
               "span": {
                 "start": 119,
-                "end": 120,
-                "ctxt": 0
+                "end": 120
               },
               "value": 1.0,
               "raw": "1"

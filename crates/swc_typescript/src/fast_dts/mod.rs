@@ -128,12 +128,13 @@ impl FastDts {
                     }
 
                     if let Some(()) = self.decl_to_type_decl(decl) {
-                        new_items.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(
+                        new_items.push(
                             ExportDecl {
                                 decl: decl.take(),
                                 span: *span,
-                            },
-                        )));
+                            }
+                            .into(),
+                        );
                     } else {
                         self.mark_diagnostic(DtsIssue::UnableToInferType {
                             range: self.source_range_to_range(*span),
@@ -169,13 +170,13 @@ impl FastDts {
                     }
 
                     let name = self.gen_unique_name();
-                    let name_ident = Ident::new(name, DUMMY_SP);
+                    let name_ident = Ident::new_no_ctxt(name, DUMMY_SP);
                     let type_ann = self
                         .expr_to_ts_type(export.expr.clone(), false, true)
                         .map(type_ann);
 
                     if let Some(type_ann) = type_ann {
-                        new_items.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(
+                        new_items.push(
                             VarDecl {
                                 span: DUMMY_SP,
                                 kind: VarDeclKind::Const,
@@ -184,27 +185,32 @@ impl FastDts {
                                     span: DUMMY_SP,
                                     name: Pat::Ident(BindingIdent {
                                         id: name_ident.clone(),
+
                                         type_ann: Some(type_ann),
                                     }),
                                     init: None,
                                     definite: false,
                                 }],
-                            },
-                        )))));
+                                ..Default::default()
+                            }
+                            .into(),
+                        );
 
-                        new_items.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(
+                        new_items.push(
                             ExportDefaultExpr {
                                 span: export.span,
-                                expr: Box::new(Expr::Ident(name_ident)),
-                            },
-                        )))
+                                expr: name_ident.into(),
+                            }
+                            .into(),
+                        )
                     } else {
-                        new_items.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(
+                        new_items.push(
                             ExportDefaultExpr {
                                 span: export.span,
                                 expr: export.expr.take(),
-                            },
-                        )))
+                            }
+                            .into(),
+                        )
                     }
                 }
 
@@ -292,14 +298,16 @@ impl FastDts {
                             match prop {
                                 Prop::KeyValue(key_value) => {
                                     let (key, computed) = match key_value.key {
-                                        PropName::Ident(ident) => (Expr::Ident(ident), false),
-                                        PropName::Str(str_prop) => {
-                                            (Expr::Lit(Lit::Str(str_prop)), false)
+                                        PropName::Ident(ident) => {
+                                            (Expr::Ident(ident.into()), false)
                                         }
-                                        PropName::Num(num) => (Expr::Lit(Lit::Num(num)), true),
+                                        PropName::Str(str_prop) => {
+                                            (Lit::Str(str_prop).into(), false)
+                                        }
+                                        PropName::Num(num) => (Lit::Num(num).into(), true),
                                         PropName::Computed(computed) => (*computed.expr, true),
                                         PropName::BigInt(big_int) => {
-                                            (Expr::Lit(Lit::BigInt(big_int)), true)
+                                            (Lit::BigInt(big_int).into(), true)
                                         }
                                     };
 
@@ -459,7 +467,7 @@ impl FastDts {
                                     }
 
                                     ident.optional = true;
-                                    param.pat = Pat::Ident(ident.clone());
+                                    param.pat = ident.clone().into();
                                 }
                                 Pat::Array(arr_pat) => {
                                     if arr_pat.type_ann.is_none() {
@@ -471,7 +479,7 @@ impl FastDts {
                                     }
 
                                     arr_pat.optional = true;
-                                    param.pat = Pat::Array(arr_pat.clone());
+                                    param.pat = arr_pat.clone().into();
                                 }
                                 Pat::Object(obj_pat) => {
                                     if obj_pat.type_ann.is_none() {
@@ -483,7 +491,7 @@ impl FastDts {
                                     }
 
                                     obj_pat.optional = true;
-                                    param.pat = Pat::Object(obj_pat.clone());
+                                    param.pat = obj_pat.clone().into();
                                 }
                                 Pat::Rest(_) | Pat::Assign(_) | Pat::Expr(_) | Pat::Invalid(_) => {}
                             };
@@ -594,7 +602,7 @@ impl FastDts {
             Expr::Member(member_expr) => self.valid_enum_init_expr(&member_expr.obj),
             Expr::OptChain(opt_expr) => match &*opt_expr.base {
                 OptChainBase::Member(member_expr) => {
-                    self.valid_enum_init_expr(&Expr::Member(member_expr.clone()))
+                    self.valid_enum_init_expr(&member_expr.clone().into())
                 }
                 OptChainBase::Call(_) => false,
             },
@@ -824,13 +832,18 @@ impl FastDts {
                 self.expr_to_ts_type(assign_pat.right, false, false)
                     .map(|param| {
                         let name = if let Pat::Ident(ident) = *assign_pat.left {
-                            ident.id.sym.clone()
+                            ident.sym.clone()
                         } else {
                             self.gen_unique_name()
                         };
 
                         TsFnParam::Ident(BindingIdent {
-                            id: Ident::new(name, assign_pat.span),
+                            id: Ident {
+                                span: assign_pat.span,
+                                ctxt: Default::default(),
+                                sym: name,
+                                optional: false,
+                            },
                             type_ann: Some(type_ann(param)),
                         })
                     })
@@ -865,7 +878,7 @@ fn type_ann(ts_type: Box<TsType>) -> Box<TsTypeAnn> {
 fn type_ref(name: Atom) -> TsTypeRef {
     TsTypeRef {
         span: DUMMY_SP,
-        type_name: TsEntityName::Ident(Ident::new(name, DUMMY_SP)),
+        type_name: TsEntityName::Ident(Ident::new_no_ctxt(name, DUMMY_SP)),
         type_params: None,
     }
 }

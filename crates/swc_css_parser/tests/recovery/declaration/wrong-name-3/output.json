@@ -2,62 +2,54 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 23,
-    "ctxt": 0
+    "end": 23
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
         "start": 1,
-        "end": 22,
-        "ctxt": 0
+        "end": 22
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 1,
-          "end": 2,
-          "ctxt": 0
+          "end": 2
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
               "start": 1,
-              "end": 2,
-              "ctxt": 0
+              "end": 2
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
                   "start": 1,
-                  "end": 2,
-                  "ctxt": 0
+                  "end": 2
                 },
                 "nestingSelector": null,
                 "typeSelector": {
                   "type": "TagNameSelector",
                   "span": {
                     "start": 1,
-                    "end": 2,
-                    "ctxt": 0
+                    "end": 2
                   },
                   "name": {
                     "type": "WqName",
                     "span": {
                       "start": 1,
-                      "end": 2,
-                      "ctxt": 0
+                      "end": 2
                     },
                     "prefix": null,
                     "value": {
                       "type": "Ident",
                       "span": {
                         "start": 1,
-                        "end": 2,
-                        "ctxt": 0
+                        "end": 2
                       },
                       "value": "a",
                       "raw": "a"
@@ -74,15 +66,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 3,
-          "end": 22,
-          "ctxt": 0
+          "end": 22
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 3,
-            "end": 4,
-            "ctxt": 0
+            "end": 4
           },
           "token": "LBrace"
         },
@@ -91,23 +81,20 @@
             "type": "ListOfComponentValues",
             "span": {
               "start": 9,
-              "end": 20,
-              "ctxt": 0
+              "end": 20
             },
             "children": [
               {
                 "type": "Function",
                 "span": {
                   "start": 9,
-                  "end": 19,
-                  "ctxt": 0
+                  "end": 19
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 9,
-                    "end": 13,
-                    "ctxt": 0
+                    "end": 13
                   },
                   "value": "func",
                   "raw": "func"
@@ -117,8 +104,7 @@
                     "type": "PreservedToken",
                     "span": {
                       "start": 14,
-                      "end": 18,
-                      "ctxt": 0
+                      "end": 18
                     },
                     "token": {
                       "Dimension": {
@@ -136,8 +122,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 19,
-                  "end": 20,
-                  "ctxt": 0
+                  "end": 20
                 },
                 "token": "Semi"
               }

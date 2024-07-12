@@ -2,8 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 35,
-    "ctxt": 0
+    "end": 35
   },
   "mode": "quirks",
   "children": [
@@ -11,8 +10,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 0,
-        "ctxt": 0
+        "end": 0
       },
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -22,8 +20,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -36,8 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -47,8 +43,7 @@
               "type": "Element",
               "span": {
                 "start": 1,
-                "end": 6,
-                "ctxt": 0
+                "end": 6
               },
               "tagName": "svg",
               "namespace": "http://www.w3.org/2000/svg",
@@ -61,8 +56,7 @@
               "type": "Element",
               "span": {
                 "start": 6,
-                "end": 29,
-                "ctxt": 0
+                "end": 29
               },
               "tagName": "font",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -71,8 +65,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 12,
-                    "end": 21,
-                    "ctxt": 0
+                    "end": 21
                   },
                   "namespace": null,
                   "prefix": null,

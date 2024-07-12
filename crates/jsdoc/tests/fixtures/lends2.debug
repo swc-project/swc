@@ -1,25 +1,25 @@
 [
     JsDoc {
-        span: 30..30#0,
+        span: 30..30,
         description: Text {
-            span: 30..30#0,
+            span: 30..30,
             value: "",
         },
         tags: [
             TagItem {
-                span: 30..35#0,
+                span: 30..35,
                 tag_name: Text {
-                    span: 30..35#0,
+                    span: 30..35,
                     value: "lends",
                 },
                 tag: Lends(
                     LendsTag {
-                        span: 30..35#0,
+                        span: 30..35,
                         name: NamePath {
-                            span: 30..31#0,
+                            span: 30..31,
                             components: [
                                 Text {
-                                    span: 30..36#0,
+                                    span: 30..36,
                                     value: "Person",
                                 },
                             ],
@@ -30,23 +30,23 @@
         ],
     },
     JsDoc {
-        span: 66..66#0,
+        span: 66..66,
         description: Text {
-            span: 66..85#0,
+            span: 66..85,
             value: "Construct a Person.",
         },
         tags: [
             TagItem {
-                span: 66..76#0,
+                span: 66..76,
                 tag_name: Text {
-                    span: 66..76#0,
+                    span: 66..76,
                     value: "constructs",
                 },
                 tag: Constructs(
                     ConstructsTag {
-                        span: 66..76#0,
+                        span: 66..76,
                         name: Text {
-                            span: 66..72#0,
+                            span: 66..72,
                             value: "Person",
                         },
                     },
@@ -55,17 +55,17 @@
         ],
     },
     JsDoc {
-        span: 182..182#0,
+        span: 182..182,
         description: Text {
-            span: 182..205#0,
+            span: 182..205,
             value: "The name of the person.",
         },
         tags: [],
     },
     JsDoc {
-        span: 263..263#0,
+        span: 263..263,
         description: Text {
-            span: 263..279#0,
+            span: 263..279,
             value: "Speak a message.",
         },
         tags: [],

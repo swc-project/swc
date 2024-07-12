@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 47,
-    "ctxt": 0
+    "end": 47
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 1,
-        "end": 47,
-        "ctxt": 0
+        "end": 47
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 5,
-            "end": 47,
-            "ctxt": 0
+            "end": 47
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 5,
-              "end": 6,
-              "ctxt": 0
+              "end": 6
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false,
             "typeAnnotation": null
@@ -38,8 +36,7 @@
             "type": "ObjectExpression",
             "span": {
               "start": 9,
-              "end": 47,
-              "ctxt": 0
+              "end": 47
             },
             "properties": [
               {
@@ -48,26 +45,22 @@
                   "type": "Identifier",
                   "span": {
                     "start": 15,
-                    "end": 16,
-                    "ctxt": 0
+                    "end": 16
                   },
-                  "value": "a",
-                  "optional": false
+                  "value": "a"
                 },
                 "value": {
                   "type": "TemplateLiteral",
                   "span": {
                     "start": 18,
-                    "end": 45,
-                    "ctxt": 0
+                    "end": 45
                   },
                   "expressions": [
                     {
                       "type": "NumericLiteral",
                       "span": {
                         "start": 25,
-                        "end": 28,
-                        "ctxt": 0
+                        "end": 28
                       },
                       "value": 123.0,
                       "raw": "123"
@@ -76,8 +69,7 @@
                       "type": "NumericLiteral",
                       "span": {
                         "start": 36,
-                        "end": 39,
-                        "ctxt": 0
+                        "end": 39
                       },
                       "value": 456.0,
                       "raw": "456"
@@ -88,8 +80,7 @@
                       "type": "TemplateElement",
                       "span": {
                         "start": 19,
-                        "end": 22,
-                        "ctxt": 0
+                        "end": 22
                       },
                       "tail": false,
                       "cooked": "abc",
@@ -99,8 +90,7 @@
                       "type": "TemplateElement",
                       "span": {
                         "start": 30,
-                        "end": 33,
-                        "ctxt": 0
+                        "end": 33
                       },
                       "tail": false,
                       "cooked": "def",
@@ -110,8 +100,7 @@
                       "type": "TemplateElement",
                       "span": {
                         "start": 41,
-                        "end": 44,
-                        "ctxt": 0
+                        "end": 44
                       },
                       "tail": true,
                       "cooked": "ghi",

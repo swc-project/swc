@@ -42,17 +42,18 @@ impl Fold for MemberExprLit {
                 return MemberExpr {
                     prop: MemberProp::Computed(ComputedPropName {
                         span: i.span,
-                        expr: Box::new(Expr::Lit(Lit::Str(Str {
+                        expr: Lit::Str(Str {
                             span: i.span,
                             raw: None,
                             value: i.sym,
-                        }))),
+                        })
+                        .into(),
                     }),
                     ..e
                 };
             } else {
                 return MemberExpr {
-                    prop: MemberProp::Ident(swc_ecma_utils::quote_ident!(i.span, i.sym)),
+                    prop: MemberProp::Ident(IdentName::new(i.sym, i.span)),
                     ..e
                 };
             }

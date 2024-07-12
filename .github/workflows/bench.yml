@@ -7,10 +7,6 @@ on:
   pull_request:
     types: ["opened", "reopened", "synchronize"]
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.sha }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
-
 env:
   CI: 1
   CARGO_INCREMENTAL: 0

@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 116,
-    "end": 157,
-    "ctxt": 0
+    "end": 157
   },
   "body": [
     {
@@ -12,18 +11,18 @@
         "type": "Identifier",
         "span": {
           "start": 122,
-          "end": 125,
-          "ctxt": 0
+          "end": 125
         },
+        "ctxt": 0,
         "value": "Foo",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 116,
-        "end": 128,
-        "ctxt": 0
+        "end": 128
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [],
       "superClass": null,
@@ -36,31 +35,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 130,
-        "end": 157,
-        "ctxt": 0
+        "end": 157
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
           "start": 130,
-          "end": 156,
-          "ctxt": 0
+          "end": 156
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
             "start": 130,
-            "end": 144,
-            "ctxt": 0
+            "end": 144
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 130,
-              "end": 136,
-              "ctxt": 0
+              "end": 136
             },
+            "ctxt": 0,
             "value": "module",
             "optional": false
           },
@@ -68,27 +64,25 @@
             "type": "Identifier",
             "span": {
               "start": 137,
-              "end": 144,
-              "ctxt": 0
+              "end": 144
             },
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {
           "type": "NewExpression",
           "span": {
             "start": 147,
-            "end": 156,
-            "ctxt": 0
+            "end": 156
           },
+          "ctxt": 0,
           "callee": {
             "type": "Identifier",
             "span": {
               "start": 151,
-              "end": 154,
-              "ctxt": 0
+              "end": 154
             },
+            "ctxt": 0,
             "value": "Foo",
             "optional": false
           },

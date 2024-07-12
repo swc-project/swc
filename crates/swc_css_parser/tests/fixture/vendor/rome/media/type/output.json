@@ -2,23 +2,20 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 158,
-    "ctxt": 0
+    "end": 158
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
         "start": 1,
-        "end": 17,
-        "ctxt": 0
+        "end": 17
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 2,
-          "end": 7,
-          "ctxt": 0
+          "end": 7
         },
         "value": "media",
         "raw": "media"
@@ -27,24 +24,21 @@
         "type": "MediaQueryList",
         "span": {
           "start": 8,
-          "end": 14,
-          "ctxt": 0
+          "end": 14
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
               "start": 8,
-              "end": 14,
-              "ctxt": 0
+              "end": 14
             },
             "modifier": null,
             "mediaType": {
               "type": "Ident",
               "span": {
                 "start": 8,
-                "end": 14,
-                "ctxt": 0
+                "end": 14
               },
               "value": "screen",
               "raw": "screen"
@@ -58,15 +52,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 15,
-          "end": 17,
-          "ctxt": 0
+          "end": 17
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 15,
-            "end": 16,
-            "ctxt": 0
+            "end": 16
           },
           "token": "LBrace"
         },
@@ -77,15 +69,13 @@
       "type": "AtRule",
       "span": {
         "start": 18,
-        "end": 38,
-        "ctxt": 0
+        "end": 38
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 19,
-          "end": 24,
-          "ctxt": 0
+          "end": 24
         },
         "value": "media",
         "raw": "media"
@@ -94,23 +84,20 @@
         "type": "MediaQueryList",
         "span": {
           "start": 25,
-          "end": 35,
-          "ctxt": 0
+          "end": 35
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
               "start": 25,
-              "end": 35,
-              "ctxt": 0
+              "end": 35
             },
             "modifier": {
               "type": "Ident",
               "span": {
                 "start": 25,
-                "end": 28,
-                "ctxt": 0
+                "end": 28
               },
               "value": "not",
               "raw": "not"
@@ -119,8 +106,7 @@
               "type": "Ident",
               "span": {
                 "start": 29,
-                "end": 35,
-                "ctxt": 0
+                "end": 35
               },
               "value": "screen",
               "raw": "screen"
@@ -134,15 +120,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 36,
-          "end": 38,
-          "ctxt": 0
+          "end": 38
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 36,
-            "end": 37,
-            "ctxt": 0
+            "end": 37
           },
           "token": "LBrace"
         },
@@ -153,15 +137,13 @@
       "type": "AtRule",
       "span": {
         "start": 39,
-        "end": 60,
-        "ctxt": 0
+        "end": 60
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 40,
-          "end": 45,
-          "ctxt": 0
+          "end": 45
         },
         "value": "media",
         "raw": "media"
@@ -170,23 +152,20 @@
         "type": "MediaQueryList",
         "span": {
           "start": 46,
-          "end": 57,
-          "ctxt": 0
+          "end": 57
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
               "start": 46,
-              "end": 57,
-              "ctxt": 0
+              "end": 57
             },
             "modifier": {
               "type": "Ident",
               "span": {
                 "start": 46,
-                "end": 50,
-                "ctxt": 0
+                "end": 50
               },
               "value": "only",
               "raw": "only"
@@ -195,8 +174,7 @@
               "type": "Ident",
               "span": {
                 "start": 51,
-                "end": 57,
-                "ctxt": 0
+                "end": 57
               },
               "value": "screen",
               "raw": "screen"
@@ -210,15 +188,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 58,
-          "end": 60,
-          "ctxt": 0
+          "end": 60
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 58,
-            "end": 59,
-            "ctxt": 0
+            "end": 59
           },
           "token": "LBrace"
         },
@@ -229,15 +205,13 @@
       "type": "AtRule",
       "span": {
         "start": 61,
-        "end": 84,
-        "ctxt": 0
+        "end": 84
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 62,
-          "end": 67,
-          "ctxt": 0
+          "end": 67
         },
         "value": "media",
         "raw": "media"
@@ -246,24 +220,21 @@
         "type": "MediaQueryList",
         "span": {
           "start": 68,
-          "end": 81,
-          "ctxt": 0
+          "end": 81
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
               "start": 68,
-              "end": 73,
-              "ctxt": 0
+              "end": 73
             },
             "modifier": null,
             "mediaType": {
               "type": "Ident",
               "span": {
                 "start": 68,
-                "end": 73,
-                "ctxt": 0
+                "end": 73
               },
               "value": "print",
               "raw": "print"
@@ -275,16 +246,14 @@
             "type": "MediaQuery",
             "span": {
               "start": 75,
-              "end": 81,
-              "ctxt": 0
+              "end": 81
             },
             "modifier": null,
             "mediaType": {
               "type": "Ident",
               "span": {
                 "start": 75,
-                "end": 81,
-                "ctxt": 0
+                "end": 81
               },
               "value": "screen",
               "raw": "screen"
@@ -298,15 +267,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 82,
-          "end": 84,
-          "ctxt": 0
+          "end": 84
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 82,
-            "end": 83,
-            "ctxt": 0
+            "end": 83
           },
           "token": "LBrace"
         },
@@ -317,15 +284,13 @@
       "type": "AtRule",
       "span": {
         "start": 85,
-        "end": 113,
-        "ctxt": 0
+        "end": 113
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 86,
-          "end": 91,
-          "ctxt": 0
+          "end": 91
         },
         "value": "media",
         "raw": "media"
@@ -334,24 +299,21 @@
         "type": "MediaQueryList",
         "span": {
           "start": 92,
-          "end": 110,
-          "ctxt": 0
+          "end": 110
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
               "start": 92,
-              "end": 98,
-              "ctxt": 0
+              "end": 98
             },
             "modifier": null,
             "mediaType": {
               "type": "Ident",
               "span": {
                 "start": 92,
-                "end": 98,
-                "ctxt": 0
+                "end": 98
               },
               "value": "screen",
               "raw": "screen"
@@ -363,16 +325,14 @@
             "type": "MediaQuery",
             "span": {
               "start": 100,
-              "end": 103,
-              "ctxt": 0
+              "end": 103
             },
             "modifier": null,
             "mediaType": {
               "type": "Ident",
               "span": {
                 "start": 100,
-                "end": 103,
-                "ctxt": 0
+                "end": 103
               },
               "value": "all",
               "raw": "all"
@@ -384,16 +344,14 @@
             "type": "MediaQuery",
             "span": {
               "start": 105,
-              "end": 110,
-              "ctxt": 0
+              "end": 110
             },
             "modifier": null,
             "mediaType": {
               "type": "Ident",
               "span": {
                 "start": 105,
-                "end": 110,
-                "ctxt": 0
+                "end": 110
               },
               "value": "print",
               "raw": "print"
@@ -407,15 +365,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 111,
-          "end": 113,
-          "ctxt": 0
+          "end": 113
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 111,
-            "end": 112,
-            "ctxt": 0
+            "end": 112
           },
           "token": "LBrace"
         },
@@ -426,15 +382,13 @@
       "type": "AtRule",
       "span": {
         "start": 114,
-        "end": 156,
-        "ctxt": 0
+        "end": 156
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 115,
-          "end": 120,
-          "ctxt": 0
+          "end": 120
         },
         "value": "media",
         "raw": "media"
@@ -443,23 +397,20 @@
         "type": "MediaQueryList",
         "span": {
           "start": 121,
-          "end": 153,
-          "ctxt": 0
+          "end": 153
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
               "start": 121,
-              "end": 132,
-              "ctxt": 0
+              "end": 132
             },
             "modifier": {
               "type": "Ident",
               "span": {
                 "start": 121,
-                "end": 125,
-                "ctxt": 0
+                "end": 125
               },
               "value": "only",
               "raw": "only"
@@ -468,8 +419,7 @@
               "type": "Ident",
               "span": {
                 "start": 126,
-                "end": 132,
-                "ctxt": 0
+                "end": 132
               },
               "value": "screen",
               "raw": "screen"
@@ -481,15 +431,13 @@
             "type": "MediaQuery",
             "span": {
               "start": 134,
-              "end": 141,
-              "ctxt": 0
+              "end": 141
             },
             "modifier": {
               "type": "Ident",
               "span": {
                 "start": 134,
-                "end": 137,
-                "ctxt": 0
+                "end": 137
               },
               "value": "not",
               "raw": "not"
@@ -498,8 +446,7 @@
               "type": "Ident",
               "span": {
                 "start": 138,
-                "end": 141,
-                "ctxt": 0
+                "end": 141
               },
               "value": "all",
               "raw": "all"
@@ -511,15 +458,13 @@
             "type": "MediaQuery",
             "span": {
               "start": 143,
-              "end": 153,
-              "ctxt": 0
+              "end": 153
             },
             "modifier": {
               "type": "Ident",
               "span": {
                 "start": 143,
-                "end": 147,
-                "ctxt": 0
+                "end": 147
               },
               "value": "only",
               "raw": "only"
@@ -528,8 +473,7 @@
               "type": "Ident",
               "span": {
                 "start": 148,
-                "end": 153,
-                "ctxt": 0
+                "end": 153
               },
               "value": "print",
               "raw": "print"
@@ -543,15 +487,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 154,
-          "end": 156,
-          "ctxt": 0
+          "end": 156
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 154,
-            "end": 155,
-            "ctxt": 0
+            "end": 155
           },
           "token": "LBrace"
         },

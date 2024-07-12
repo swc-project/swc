@@ -2,16 +2,14 @@
   "type": "Script",
   "span": {
     "start": 89,
-    "end": 575,
-    "ctxt": 0
+    "end": 575
   },
   "body": [
     {
       "type": "TsModuleDeclaration",
       "span": {
         "start": 89,
-        "end": 133,
-        "ctxt": 0
+        "end": 133
       },
       "declare": true,
       "global": false,
@@ -19,9 +17,9 @@
         "type": "Identifier",
         "span": {
           "start": 107,
-          "end": 109,
-          "ctxt": 0
+          "end": 109
         },
+        "ctxt": 0,
         "value": "NS",
         "optional": false
       },
@@ -29,25 +27,23 @@
         "type": "TsModuleBlock",
         "span": {
           "start": 110,
-          "end": 133,
-          "ctxt": 0
+          "end": 133
         },
         "body": [
           {
             "type": "TsTypeAliasDeclaration",
             "span": {
               "start": 116,
-              "end": 131,
-              "ctxt": 0
+              "end": 131
             },
             "declare": false,
             "id": {
               "type": "Identifier",
               "span": {
                 "start": 121,
-                "end": 122,
-                "ctxt": 0
+                "end": 122
               },
+              "ctxt": 0,
               "value": "R",
               "optional": false
             },
@@ -56,8 +52,7 @@
               "type": "TsKeywordType",
               "span": {
                 "start": 125,
-                "end": 131,
-                "ctxt": 0
+                "end": 131
               },
               "kind": "number"
             }
@@ -71,9 +66,9 @@
         "type": "Identifier",
         "span": {
           "start": 440,
-          "end": 479,
-          "ctxt": 0
+          "end": 479
         },
+        "ctxt": 0,
         "value": "computeCommonSourceDirectoryOfFilenames",
         "optional": false
       },
@@ -83,17 +78,16 @@
           "type": "Parameter",
           "span": {
             "start": 480,
-            "end": 487,
-            "ctxt": 0
+            "end": 487
           },
           "decorators": [],
           "pat": {
             "type": "Identifier",
             "span": {
               "start": 480,
-              "end": 487,
-              "ctxt": 0
+              "end": 487
             },
+            "ctxt": 0,
             "value": "integer",
             "optional": false,
             "typeAnnotation": null
@@ -103,39 +97,37 @@
       "decorators": [],
       "span": {
         "start": 431,
-        "end": 530,
-        "ctxt": 0
+        "end": 530
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 489,
-          "end": 530,
-          "ctxt": 0
+          "end": 530
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ReturnStatement",
             "span": {
               "start": 495,
-              "end": 513,
-              "ctxt": 0
+              "end": 513
             },
             "argument": {
               "type": "BinaryExpression",
               "span": {
                 "start": 502,
-                "end": 513,
-                "ctxt": 0
+                "end": 513
               },
               "operator": "+",
               "left": {
                 "type": "Identifier",
                 "span": {
                   "start": 502,
-                  "end": 509,
-                  "ctxt": 0
+                  "end": 509
                 },
+                "ctxt": 0,
                 "value": "integer",
                 "optional": false
               },
@@ -143,8 +135,7 @@
                 "type": "NumericLiteral",
                 "span": {
                   "start": 512,
-                  "end": 513,
-                  "ctxt": 0
+                  "end": 513
                 },
                 "value": 1.0,
                 "raw": "1"
@@ -162,9 +153,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 560,
-        "end": 575,
-        "ctxt": 0
+        "end": 575
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -172,16 +163,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 564,
-            "end": 575,
-            "ctxt": 0
+            "end": 575
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 564,
-              "end": 568,
-              "ctxt": 0
+              "end": 568
             },
+            "ctxt": 0,
             "value": "see3",
             "optional": false,
             "typeAnnotation": null
@@ -190,8 +180,7 @@
             "type": "BooleanLiteral",
             "span": {
               "start": 571,
-              "end": 575,
-              "ctxt": 0
+              "end": 575
             },
             "value": true
           },

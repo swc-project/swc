@@ -2,16 +2,14 @@
   "type": "Module",
   "span": {
     "start": 170,
-    "end": 316,
-    "ctxt": 0
+    "end": 316
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
         "start": 170,
-        "end": 211,
-        "ctxt": 0
+        "end": 211
       },
       "declaration": {
         "type": "FunctionDeclaration",
@@ -19,9 +17,9 @@
           "type": "Identifier",
           "span": {
             "start": 186,
-            "end": 190,
-            "ctxt": 0
+            "end": 190
           },
+          "ctxt": 0,
           "value": "inJs",
           "optional": false
         },
@@ -31,17 +29,16 @@
             "type": "Parameter",
             "span": {
               "start": 191,
-              "end": 192,
-              "ctxt": 0
+              "end": 192
             },
             "decorators": [],
             "pat": {
               "type": "Identifier",
               "span": {
                 "start": 191,
-                "end": 192,
-                "ctxt": 0
+                "end": 192
               },
+              "ctxt": 0,
               "value": "l",
               "optional": false,
               "typeAnnotation": null
@@ -51,31 +48,30 @@
         "decorators": [],
         "span": {
           "start": 177,
-          "end": 211,
-          "ctxt": 0
+          "end": 211
         },
+        "ctxt": 0,
         "body": {
           "type": "BlockStatement",
           "span": {
             "start": 194,
-            "end": 211,
-            "ctxt": 0
+            "end": 211
           },
+          "ctxt": 0,
           "stmts": [
             {
               "type": "ReturnStatement",
               "span": {
                 "start": 200,
-                "end": 209,
-                "ctxt": 0
+                "end": 209
               },
               "argument": {
                 "type": "Identifier",
                 "span": {
                   "start": 207,
-                  "end": 208,
-                  "ctxt": 0
+                  "end": 208
                 },
+                "ctxt": 0,
                 "value": "l",
                 "optional": false
               }
@@ -92,23 +88,22 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 212,
-        "end": 220,
-        "ctxt": 0
+        "end": 220
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 212,
-          "end": 219,
-          "ctxt": 0
+          "end": 219
         },
+        "ctxt": 0,
         "callee": {
           "type": "Identifier",
           "span": {
             "start": 212,
-            "end": 216,
-            "ctxt": 0
+            "end": 216
           },
+          "ctxt": 0,
           "value": "inJs",
           "optional": false
         },
@@ -119,8 +114,7 @@
               "type": "NumericLiteral",
               "span": {
                 "start": 217,
-                "end": 218,
-                "ctxt": 0
+                "end": 218
               },
               "value": 1.0,
               "raw": "1"
@@ -134,9 +128,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 260,
-        "end": 302,
-        "ctxt": 0
+        "end": 302
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -144,16 +138,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 266,
-            "end": 302,
-            "ctxt": 0
+            "end": 302
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 266,
-              "end": 275,
-              "ctxt": 0
+              "end": 275
             },
+            "ctxt": 0,
             "value": "inJsArrow",
             "optional": false,
             "typeAnnotation": null
@@ -162,17 +155,17 @@
             "type": "ArrowFunctionExpression",
             "span": {
               "start": 278,
-              "end": 302,
-              "ctxt": 0
+              "end": 302
             },
+            "ctxt": 0,
             "params": [
               {
                 "type": "Identifier",
                 "span": {
                   "start": 279,
-                  "end": 280,
-                  "ctxt": 0
+                  "end": 280
                 },
+                "ctxt": 0,
                 "value": "j",
                 "optional": false,
                 "typeAnnotation": null
@@ -182,24 +175,23 @@
               "type": "BlockStatement",
               "span": {
                 "start": 285,
-                "end": 302,
-                "ctxt": 0
+                "end": 302
               },
+              "ctxt": 0,
               "stmts": [
                 {
                   "type": "ReturnStatement",
                   "span": {
                     "start": 291,
-                    "end": 300,
-                    "ctxt": 0
+                    "end": 300
                   },
                   "argument": {
                     "type": "Identifier",
                     "span": {
                       "start": 298,
-                      "end": 299,
-                      "ctxt": 0
+                      "end": 299
                     },
+                    "ctxt": 0,
                     "value": "j",
                     "optional": false
                   }
@@ -219,23 +211,22 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 303,
-        "end": 316,
-        "ctxt": 0
+        "end": 316
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 303,
-          "end": 315,
-          "ctxt": 0
+          "end": 315
         },
+        "ctxt": 0,
         "callee": {
           "type": "Identifier",
           "span": {
             "start": 303,
-            "end": 312,
-            "ctxt": 0
+            "end": 312
           },
+          "ctxt": 0,
           "value": "inJsArrow",
           "optional": false
         },
@@ -246,8 +237,7 @@
               "type": "NumericLiteral",
               "span": {
                 "start": 313,
-                "end": 314,
-                "ctxt": 0
+                "end": 314
               },
               "value": 2.0,
               "raw": "2"

@@ -2,38 +2,35 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 71,
-    "ctxt": 0
+    "end": 71
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 71,
-        "ctxt": 0
+        "end": 71
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 1,
-          "end": 70,
-          "ctxt": 0
+          "end": 70
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 1,
-            "end": 10,
-            "ctxt": 0
+            "end": 10
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 1,
-              "end": 7,
-              "ctxt": 0
+              "end": 7
             },
+            "ctxt": 0,
             "value": "router",
             "optional": false
           },
@@ -41,11 +38,9 @@
             "type": "Identifier",
             "span": {
               "start": 8,
-              "end": 10,
-              "ctxt": 0
+              "end": 10
             },
-            "value": "on",
-            "optional": false
+            "value": "on"
           }
         },
         "arguments": [
@@ -55,8 +50,7 @@
               "type": "StringLiteral",
               "span": {
                 "start": 11,
-                "end": 28,
-                "ctxt": 0
+                "end": 28
               },
               "value": "routeWillChange",
               "raw": "'routeWillChange'"
@@ -68,32 +62,30 @@
               "type": "ArrowFunctionExpression",
               "span": {
                 "start": 30,
-                "end": 69,
-                "ctxt": 0
+                "end": 69
               },
+              "ctxt": 0,
               "params": [],
               "body": {
                 "type": "ParenthesisExpression",
                 "span": {
                   "start": 36,
-                  "end": 69,
-                  "ctxt": 0
+                  "end": 69
                 },
                 "expression": {
                   "type": "AssignmentExpression",
                   "span": {
                     "start": 37,
-                    "end": 68,
-                    "ctxt": 0
+                    "end": 68
                   },
                   "operator": "=",
                   "left": {
                     "type": "Identifier",
                     "span": {
                       "start": 37,
-                      "end": 61,
-                      "ctxt": 0
+                      "end": 61
                     },
+                    "ctxt": 0,
                     "value": "routerTransitionsPending",
                     "optional": false,
                     "typeAnnotation": null
@@ -102,8 +94,7 @@
                     "type": "BooleanLiteral",
                     "span": {
                       "start": 64,
-                      "end": 68,
-                      "ctxt": 0
+                      "end": 68
                     },
                     "value": true
                   }

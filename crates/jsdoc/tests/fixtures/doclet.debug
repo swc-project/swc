@@ -1,29 +1,29 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..133#0,
+            span: 1..133,
             value: "Markdown asterisks in a doclet that does not use leading asterisks.\n    **Strong** is strong.\n\n    * List item 1.\n    * List item 2.",
         },
         tags: [
             TagItem {
-                span: 1..6#0,
+                span: 1..6,
                 tag_name: Text {
-                    span: 1..6#0,
+                    span: 1..6,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 1..6#0,
+                        span: 1..6,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 1..9#0,
+                                span: 1..9,
                                 value: "{string}",
                             },
                         ),
                         desc: Text {
-                            span: 1..21#0,
+                            span: 1..21,
                             value: "thingy - The thingy.",
                         },
                     },
@@ -32,30 +32,30 @@
         ],
     },
     JsDoc {
-        span: 216..216#0,
+        span: 216..216,
         description: Text {
-            span: 216..342#0,
+            span: 216..342,
             value: "Markdown asterisks in a doclet that uses leading asterisks.\n * **Strong** is strong.\n *\n * * List item 1.\n * * List item 2.\n *",
         },
         tags: [
             TagItem {
-                span: 216..221#0,
+                span: 216..221,
                 tag_name: Text {
-                    span: 216..221#0,
+                    span: 216..221,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 216..221#0,
+                        span: 216..221,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 216..224#0,
+                                span: 216..224,
                                 value: "{string}",
                             },
                         ),
                         desc: Text {
-                            span: 216..236#0,
+                            span: 216..236,
                             value: "thingy - The thingy.",
                         },
                     },

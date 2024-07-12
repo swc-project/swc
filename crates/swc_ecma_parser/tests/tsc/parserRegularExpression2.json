@@ -2,45 +2,41 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 32,
-    "ctxt": 0
+    "end": 32
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 32,
-        "ctxt": 0
+        "end": 32
       },
       "expression": {
         "type": "MemberExpression",
         "span": {
           "start": 1,
-          "end": 31,
-          "ctxt": 0
+          "end": 31
         },
         "object": {
           "type": "CallExpression",
           "span": {
             "start": 1,
-            "end": 28,
-            "ctxt": 0
+            "end": 28
           },
+          "ctxt": 0,
           "callee": {
             "type": "MemberExpression",
             "span": {
               "start": 1,
-              "end": 11,
-              "ctxt": 0
+              "end": 11
             },
             "object": {
               "type": "Identifier",
               "span": {
                 "start": 1,
-                "end": 5,
-                "ctxt": 0
+                "end": 5
               },
+              "ctxt": 0,
               "value": "href",
               "optional": false
             },
@@ -48,11 +44,9 @@
               "type": "Identifier",
               "span": {
                 "start": 6,
-                "end": 11,
-                "ctxt": 0
+                "end": 11
               },
-              "value": "match",
-              "optional": false
+              "value": "match"
             }
           },
           "arguments": [
@@ -62,8 +56,7 @@
                 "type": "RegExpLiteral",
                 "span": {
                   "start": 12,
-                  "end": 27,
-                  "ctxt": 0
+                  "end": 27
                 },
                 "pattern": ":\\/\\/(.[^/]+)",
                 "flags": ""
@@ -76,15 +69,13 @@
           "type": "Computed",
           "span": {
             "start": 28,
-            "end": 31,
-            "ctxt": 0
+            "end": 31
           },
           "expression": {
             "type": "NumericLiteral",
             "span": {
               "start": 29,
-              "end": 30,
-              "ctxt": 0
+              "end": 30
             },
             "value": 1.0,
             "raw": "1"

@@ -48,7 +48,7 @@ impl NoConsole {
     }
 
     fn check(&self, span: Span, ident: &Ident, method: &JsWord) {
-        if &*ident.sym == "console" && ident.span.ctxt == self.unresolved_ctxt {
+        if &*ident.sym == "console" && ident.ctxt == self.unresolved_ctxt {
             if let Some(allow) = &self.allow {
                 if allow.contains(method) {
                     return;
@@ -74,7 +74,7 @@ impl Visit for NoConsole {
     fn visit_member_expr(&mut self, member: &MemberExpr) {
         if let Expr::Ident(ident) = member.obj.as_ref() {
             match &member.prop {
-                MemberProp::Ident(Ident { sym, .. }) => {
+                MemberProp::Ident(IdentName { sym, .. }) => {
                     self.check(member.span, ident, sym);
                 }
                 MemberProp::Computed(ComputedPropName { expr, .. }) => {

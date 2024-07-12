@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 98,
-    "end": 117,
-    "ctxt": 0
+    "end": 117
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 98,
-        "end": 117,
-        "ctxt": 0
+        "end": 117
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 104,
-            "end": 116,
-            "ctxt": 0
+            "end": 116
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 104,
-              "end": 105,
-              "ctxt": 0
+              "end": 105
             },
+            "ctxt": 0,
             "value": "E",
             "optional": false,
             "typeAnnotation": null
@@ -38,8 +36,7 @@
             "type": "ObjectExpression",
             "span": {
               "start": 108,
-              "end": 116,
-              "ctxt": 0
+              "end": 116
             },
             "properties": [
               {
@@ -48,18 +45,15 @@
                   "type": "Identifier",
                   "span": {
                     "start": 110,
-                    "end": 111,
-                    "ctxt": 0
+                    "end": 111
                   },
-                  "value": "x",
-                  "optional": false
+                  "value": "x"
                 },
                 "value": {
                   "type": "NumericLiteral",
                   "span": {
                     "start": 113,
-                    "end": 114,
-                    "ctxt": 0
+                    "end": 114
                   },
                   "value": 0.0,
                   "raw": "0"

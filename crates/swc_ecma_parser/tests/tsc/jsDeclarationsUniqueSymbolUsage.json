@@ -2,24 +2,22 @@
   "type": "Module",
   "span": {
     "start": 124,
-    "end": 377,
-    "ctxt": 0
+    "end": 377
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
         "start": 124,
-        "end": 167,
-        "ctxt": 0
+        "end": 167
       },
       "declaration": {
         "type": "VariableDeclaration",
         "span": {
           "start": 131,
-          "end": 167,
-          "ctxt": 0
+          "end": 167
         },
+        "ctxt": 0,
         "kind": "const",
         "declare": false,
         "declarations": [
@@ -27,16 +25,15 @@
             "type": "VariableDeclarator",
             "span": {
               "start": 137,
-              "end": 166,
-              "ctxt": 0
+              "end": 166
             },
             "id": {
               "type": "Identifier",
               "span": {
                 "start": 137,
-                "end": 144,
-                "ctxt": 0
+                "end": 144
               },
+              "ctxt": 0,
               "value": "kSymbol",
               "optional": false,
               "typeAnnotation": null
@@ -45,16 +42,16 @@
               "type": "CallExpression",
               "span": {
                 "start": 147,
-                "end": 166,
-                "ctxt": 0
+                "end": 166
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Identifier",
                 "span": {
                   "start": 147,
-                  "end": 153,
-                  "ctxt": 0
+                  "end": 153
                 },
+                "ctxt": 0,
                 "value": "Symbol",
                 "optional": false
               },
@@ -65,8 +62,7 @@
                     "type": "StringLiteral",
                     "span": {
                       "start": 154,
-                      "end": 165,
-                      "ctxt": 0
+                      "end": 165
                     },
                     "value": "my-symbol",
                     "raw": "\"my-symbol\""
@@ -84,8 +80,7 @@
       "type": "ExportDeclaration",
       "span": {
         "start": 331,
-        "end": 377,
-        "ctxt": 0
+        "end": 377
       },
       "declaration": {
         "type": "FunctionDeclaration",
@@ -93,9 +88,9 @@
           "type": "Identifier",
           "span": {
             "start": 347,
-            "end": 348,
-            "ctxt": 0
+            "end": 348
           },
+          "ctxt": 0,
           "value": "b",
           "optional": false
         },
@@ -105,17 +100,16 @@
             "type": "Parameter",
             "span": {
               "start": 349,
-              "end": 354,
-              "ctxt": 0
+              "end": 354
             },
             "decorators": [],
             "pat": {
               "type": "Identifier",
               "span": {
                 "start": 349,
-                "end": 354,
-                "ctxt": 0
+                "end": 354
               },
+              "ctxt": 0,
               "value": "value",
               "optional": false,
               "typeAnnotation": null
@@ -125,31 +119,30 @@
         "decorators": [],
         "span": {
           "start": 338,
-          "end": 377,
-          "ctxt": 0
+          "end": 377
         },
+        "ctxt": 0,
         "body": {
           "type": "BlockStatement",
           "span": {
             "start": 356,
-            "end": 377,
-            "ctxt": 0
+            "end": 377
           },
+          "ctxt": 0,
           "stmts": [
             {
               "type": "ReturnStatement",
               "span": {
                 "start": 362,
-                "end": 375,
-                "ctxt": 0
+                "end": 375
               },
               "argument": {
                 "type": "Identifier",
                 "span": {
                   "start": 369,
-                  "end": 374,
-                  "ctxt": 0
+                  "end": 374
                 },
+                "ctxt": 0,
                 "value": "value",
                 "optional": false
               }

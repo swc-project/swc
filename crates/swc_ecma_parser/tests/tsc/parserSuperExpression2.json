@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 41,
-    "ctxt": 0
+    "end": 41
   },
   "body": [
     {
@@ -12,91 +11,84 @@
         "type": "Identifier",
         "span": {
           "start": 7,
-          "end": 8,
-          "ctxt": 0
+          "end": 8
         },
+        "ctxt": 0,
         "value": "C",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 1,
-        "end": 41,
-        "ctxt": 0
+        "end": 41
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassMethod",
           "span": {
             "start": 13,
-            "end": 39,
-            "ctxt": 0
+            "end": 39
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 13,
-              "end": 14,
-              "ctxt": 0
+              "end": 14
             },
-            "value": "M",
-            "optional": false
+            "value": "M"
           },
           "function": {
             "params": [],
             "decorators": [],
             "span": {
               "start": 13,
-              "end": 39,
-              "ctxt": 0
+              "end": 39
             },
+            "ctxt": 0,
             "body": {
               "type": "BlockStatement",
               "span": {
                 "start": 17,
-                "end": 39,
-                "ctxt": 0
+                "end": 39
               },
+              "ctxt": 0,
               "stmts": [
                 {
                   "type": "ExpressionStatement",
                   "span": {
                     "start": 23,
-                    "end": 35,
-                    "ctxt": 0
+                    "end": 35
                   },
                   "expression": {
                     "type": "BinaryExpression",
                     "span": {
                       "start": 28,
-                      "end": 34,
-                      "ctxt": 0
+                      "end": 34
                     },
                     "operator": ">",
                     "left": {
                       "type": "BinaryExpression",
                       "span": {
                         "start": 28,
-                        "end": 30,
-                        "ctxt": 0
+                        "end": 30
                       },
                       "operator": "<",
                       "left": {
                         "type": "Invalid",
                         "span": {
                           "start": 28,
-                          "end": 29,
-                          "ctxt": 0
+                          "end": 29
                         }
                       },
                       "right": {
                         "type": "Identifier",
                         "span": {
                           "start": 29,
-                          "end": 30,
-                          "ctxt": 0
+                          "end": 30
                         },
+                        "ctxt": 0,
                         "value": "T",
                         "optional": false
                       }
@@ -105,15 +97,13 @@
                       "type": "ParenthesisExpression",
                       "span": {
                         "start": 31,
-                        "end": 34,
-                        "ctxt": 0
+                        "end": 34
                       },
                       "expression": {
                         "type": "NumericLiteral",
                         "span": {
                           "start": 32,
-                          "end": 33,
-                          "ctxt": 0
+                          "end": 33
                         },
                         "value": 0.0,
                         "raw": "0"

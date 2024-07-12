@@ -2,16 +2,14 @@
   "type": "Module",
   "span": {
     "start": 95,
-    "end": 213,
-    "ctxt": 0
+    "end": 213
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
         "start": 95,
-        "end": 113,
-        "ctxt": 0
+        "end": 113
       },
       "declaration": {
         "type": "ClassDeclaration",
@@ -19,18 +17,18 @@
           "type": "Identifier",
           "span": {
             "start": 108,
-            "end": 109,
-            "ctxt": 0
+            "end": 109
           },
+          "ctxt": 0,
           "value": "B",
           "optional": false
         },
         "declare": false,
         "span": {
           "start": 102,
-          "end": 113,
-          "ctxt": 0
+          "end": 113
         },
+        "ctxt": 0,
         "decorators": [],
         "body": [],
         "superClass": null,
@@ -44,24 +42,22 @@
       "type": "ImportDeclaration",
       "span": {
         "start": 137,
-        "end": 164,
-        "ctxt": 0
+        "end": 164
       },
       "specifiers": [
         {
           "type": "ImportSpecifier",
           "span": {
             "start": 146,
-            "end": 147,
-            "ctxt": 0
+            "end": 147
           },
           "local": {
             "type": "Identifier",
             "span": {
               "start": 146,
-              "end": 147,
-              "ctxt": 0
+              "end": 147
             },
+            "ctxt": 0,
             "value": "B",
             "optional": false
           },
@@ -73,8 +69,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 155,
-          "end": 164,
-          "ctxt": 0
+          "end": 164
         },
         "value": "./super",
         "raw": "'./super'"
@@ -89,27 +84,27 @@
         "type": "Identifier",
         "span": {
           "start": 198,
-          "end": 199,
-          "ctxt": 0
+          "end": 199
         },
+        "ctxt": 0,
         "value": "C",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 192,
-        "end": 213,
-        "ctxt": 0
+        "end": 213
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [],
       "superClass": {
         "type": "Identifier",
         "span": {
           "start": 208,
-          "end": 209,
-          "ctxt": 0
+          "end": 209
         },
+        "ctxt": 0,
         "value": "B",
         "optional": false
       },

@@ -2,39 +2,34 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 75,
-    "ctxt": 0
+    "end": 75
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
         "start": 1,
-        "end": 74,
-        "ctxt": 0
+        "end": 74
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 1,
-          "end": 7,
-          "ctxt": 0
+          "end": 7
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
               "start": 1,
-              "end": 7,
-              "ctxt": 0
+              "end": 7
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
                   "start": 1,
-                  "end": 7,
-                  "ctxt": 0
+                  "end": 7
                 },
                 "nestingSelector": null,
                 "typeSelector": null,
@@ -43,15 +38,13 @@
                     "type": "ClassSelector",
                     "span": {
                       "start": 1,
-                      "end": 7,
-                      "ctxt": 0
+                      "end": 7
                     },
                     "text": {
                       "type": "Ident",
                       "span": {
                         "start": 2,
-                        "end": 7,
-                        "ctxt": 0
+                        "end": 7
                       },
                       "value": "style",
                       "raw": "style"
@@ -67,15 +60,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 8,
-          "end": 74,
-          "ctxt": 0
+          "end": 74
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 8,
-            "end": 9,
-            "ctxt": 0
+            "end": 9
           },
           "token": "LBrace"
         },
@@ -84,15 +75,13 @@
             "type": "Declaration",
             "span": {
               "start": 11,
-              "end": 71,
-              "ctxt": 0
+              "end": 71
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 11,
-                "end": 32,
-                "ctxt": 0
+                "end": 32
               },
               "value": "grid-template-columns",
               "raw": "grid-template-columns"
@@ -102,15 +91,13 @@
                 "type": "Function",
                 "span": {
                   "start": 34,
-                  "end": 71,
-                  "ctxt": 0
+                  "end": 71
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 34,
-                    "end": 40,
-                    "ctxt": 0
+                    "end": 40
                   },
                   "value": "repeat",
                   "raw": "repeat"
@@ -120,8 +107,7 @@
                     "type": "Integer",
                     "span": {
                       "start": 41,
-                      "end": 42,
-                      "ctxt": 0
+                      "end": 42
                     },
                     "value": 4,
                     "raw": "4"
@@ -130,8 +116,7 @@
                     "type": "Delimiter",
                     "span": {
                       "start": 42,
-                      "end": 43,
-                      "ctxt": 0
+                      "end": 43
                     },
                     "value": ","
                   },
@@ -139,15 +124,13 @@
                     "type": "Function",
                     "span": {
                       "start": 44,
-                      "end": 70,
-                      "ctxt": 0
+                      "end": 70
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
                         "start": 44,
-                        "end": 50,
-                        "ctxt": 0
+                        "end": 50
                       },
                       "value": "minmax",
                       "raw": "minmax"
@@ -157,8 +140,7 @@
                         "type": "Ident",
                         "span": {
                           "start": 51,
-                          "end": 62,
-                          "ctxt": 0
+                          "end": 62
                         },
                         "value": "min-content",
                         "raw": "min-content"
@@ -167,8 +149,7 @@
                         "type": "Delimiter",
                         "span": {
                           "start": 62,
-                          "end": 63,
-                          "ctxt": 0
+                          "end": 63
                         },
                         "value": ","
                       },
@@ -176,15 +157,13 @@
                         "type": "Length",
                         "span": {
                           "start": 64,
-                          "end": 69,
-                          "ctxt": 0
+                          "end": 69
                         },
                         "value": {
                           "type": "Number",
                           "span": {
                             "start": 64,
-                            "end": 67,
-                            "ctxt": 0
+                            "end": 67
                           },
                           "value": 300.0,
                           "raw": "300"
@@ -193,8 +172,7 @@
                           "type": "Ident",
                           "span": {
                             "start": 67,
-                            "end": 69,
-                            "ctxt": 0
+                            "end": 69
                           },
                           "value": "px",
                           "raw": "px"

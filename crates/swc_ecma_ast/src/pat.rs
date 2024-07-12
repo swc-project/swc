@@ -6,7 +6,7 @@ use crate::{
     ident::{BindingIdent, Ident},
     prop::PropName,
     typescript::TsTypeAnn,
-    Id, Invalid,
+    Id, IdentName, Invalid,
 };
 
 #[ast_node(no_clone)]
@@ -53,13 +53,19 @@ impl Clone for Pat {
     }
 }
 
+impl Default for Pat {
+    fn default() -> Self {
+        Invalid { span: DUMMY_SP }.into()
+    }
+}
 impl Take for Pat {
     fn dummy() -> Self {
-        Pat::Invalid(Invalid { span: DUMMY_SP })
+        Default::default()
     }
 }
 
 bridge_pat_from!(BindingIdent, Ident);
+bridge_pat_from!(BindingIdent, IdentName);
 bridge_pat_from!(BindingIdent, Id);
 
 macro_rules! pat_to_other {
@@ -74,6 +80,7 @@ pat_to_other!(ArrayPat);
 pat_to_other!(ObjectPat);
 pat_to_other!(AssignPat);
 pat_to_other!(RestPat);
+pat_to_other!(Box<Expr>);
 
 #[ast_node("ArrayPattern")]
 #[derive(Eq, Hash, EqIgnoreSpan)]

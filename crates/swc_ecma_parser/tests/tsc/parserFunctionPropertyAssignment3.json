@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 25,
-    "ctxt": 0
+    "end": 25
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 1,
-        "end": 25,
-        "ctxt": 0
+        "end": 25
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 5,
-            "end": 24,
-            "ctxt": 0
+            "end": 24
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 5,
-              "end": 6,
-              "ctxt": 0
+              "end": 6
             },
+            "ctxt": 0,
             "value": "v",
             "optional": false,
             "typeAnnotation": null
@@ -38,8 +36,7 @@
             "type": "ObjectExpression",
             "span": {
               "start": 9,
-              "end": 24,
-              "ctxt": 0
+              "end": 24
             },
             "properties": [
               {
@@ -48,8 +45,7 @@
                   "type": "StringLiteral",
                   "span": {
                     "start": 11,
-                    "end": 16,
-                    "ctxt": 0
+                    "end": 16
                   },
                   "value": "foo",
                   "raw": "\"foo\""
@@ -58,16 +54,16 @@
                 "decorators": [],
                 "span": {
                   "start": 11,
-                  "end": 22,
-                  "ctxt": 0
+                  "end": 22
                 },
+                "ctxt": 0,
                 "body": {
                   "type": "BlockStatement",
                   "span": {
                     "start": 19,
-                    "end": 22,
-                    "ctxt": 0
+                    "end": 22
                   },
+                  "ctxt": 0,
                   "stmts": []
                 },
                 "generator": false,

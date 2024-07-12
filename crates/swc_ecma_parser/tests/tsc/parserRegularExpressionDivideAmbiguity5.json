@@ -2,38 +2,35 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 67,
-    "ctxt": 0
+    "end": 67
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 67,
-        "ctxt": 0
+        "end": 67
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 1,
-          "end": 66,
-          "ctxt": 0
+          "end": 66
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 1,
-            "end": 13,
-            "ctxt": 0
+            "end": 13
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 1,
-              "end": 6,
-              "ctxt": 0
+              "end": 6
             },
+            "ctxt": 0,
             "value": "model",
             "optional": false
           },
@@ -41,11 +38,9 @@
             "type": "Identifier",
             "span": {
               "start": 7,
-              "end": 13,
-              "ctxt": 0
+              "end": 13
             },
-            "value": "rotate",
-            "optional": false
+            "value": "rotate"
           }
         },
         "arguments": [
@@ -55,8 +50,7 @@
               "type": "NumericLiteral",
               "span": {
                 "start": 14,
-                "end": 15,
-                "ctxt": 0
+                "end": 15
               },
               "value": 0.0,
               "raw": "0"
@@ -68,25 +62,23 @@
               "type": "BinaryExpression",
               "span": {
                 "start": 17,
-                "end": 40,
-                "ctxt": 0
+                "end": 40
               },
               "operator": "/",
               "left": {
                 "type": "BinaryExpression",
                 "span": {
                   "start": 17,
-                  "end": 34,
-                  "ctxt": 0
+                  "end": 34
                 },
                 "operator": "*",
                 "left": {
                   "type": "Identifier",
                   "span": {
                     "start": 17,
-                    "end": 24,
-                    "ctxt": 0
+                    "end": 24
                   },
+                  "ctxt": 0,
                   "value": "rotateY",
                   "optional": false
                 },
@@ -94,16 +86,15 @@
                   "type": "MemberExpression",
                   "span": {
                     "start": 27,
-                    "end": 34,
-                    "ctxt": 0
+                    "end": 34
                   },
                   "object": {
                     "type": "Identifier",
                     "span": {
                       "start": 27,
-                      "end": 31,
-                      "ctxt": 0
+                      "end": 31
                     },
+                    "ctxt": 0,
                     "value": "Math",
                     "optional": false
                   },
@@ -111,11 +102,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 32,
-                      "end": 34,
-                      "ctxt": 0
+                      "end": 34
                     },
-                    "value": "PI",
-                    "optional": false
+                    "value": "PI"
                   }
                 }
               },
@@ -123,8 +112,7 @@
                 "type": "NumericLiteral",
                 "span": {
                   "start": 37,
-                  "end": 40,
-                  "ctxt": 0
+                  "end": 40
                 },
                 "value": 180.0,
                 "raw": "180"
@@ -137,25 +125,23 @@
               "type": "BinaryExpression",
               "span": {
                 "start": 42,
-                "end": 65,
-                "ctxt": 0
+                "end": 65
               },
               "operator": "/",
               "left": {
                 "type": "BinaryExpression",
                 "span": {
                   "start": 42,
-                  "end": 59,
-                  "ctxt": 0
+                  "end": 59
                 },
                 "operator": "*",
                 "left": {
                   "type": "Identifier",
                   "span": {
                     "start": 42,
-                    "end": 49,
-                    "ctxt": 0
+                    "end": 49
                   },
+                  "ctxt": 0,
                   "value": "rotateZ",
                   "optional": false
                 },
@@ -163,16 +149,15 @@
                   "type": "MemberExpression",
                   "span": {
                     "start": 52,
-                    "end": 59,
-                    "ctxt": 0
+                    "end": 59
                   },
                   "object": {
                     "type": "Identifier",
                     "span": {
                       "start": 52,
-                      "end": 56,
-                      "ctxt": 0
+                      "end": 56
                     },
+                    "ctxt": 0,
                     "value": "Math",
                     "optional": false
                   },
@@ -180,11 +165,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 57,
-                      "end": 59,
-                      "ctxt": 0
+                      "end": 59
                     },
-                    "value": "PI",
-                    "optional": false
+                    "value": "PI"
                   }
                 }
               },
@@ -192,8 +175,7 @@
                 "type": "NumericLiteral",
                 "span": {
                   "start": 62,
-                  "end": 65,
-                  "ctxt": 0
+                  "end": 65
                 },
                 "value": 180.0,
                 "raw": "180"

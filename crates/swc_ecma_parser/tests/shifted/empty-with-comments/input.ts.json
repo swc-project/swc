@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 2,
-    "end": 2,
-    "ctxt": 0
+    "end": 2
   },
   "body": [],
   "interpreter": null

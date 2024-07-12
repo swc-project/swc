@@ -62,7 +62,7 @@ impl VisitMut for ConstPropagation<'_> {
         match &n.exported {
             Some(ModuleExportName::Ident(exported)) => match &n.orig {
                 ModuleExportName::Ident(orig) => {
-                    if exported.sym == orig.sym && exported.span.ctxt == orig.span.ctxt {
+                    if exported.sym == orig.sym && exported.ctxt == orig.ctxt {
                         n.exported = None;
                     }
                 }
@@ -102,7 +102,7 @@ impl VisitMut for ConstPropagation<'_> {
         if let Prop::Shorthand(i) = p {
             if let Some(expr) = self.scope.find_var(&i.to_id()) {
                 *p = Prop::KeyValue(KeyValueProp {
-                    key: PropName::Ident(i.take()),
+                    key: PropName::Ident(i.take().into()),
                     value: expr.clone(),
                 });
             }
@@ -124,7 +124,7 @@ impl VisitMut for ConstPropagation<'_> {
                             }
 
                             Expr::Ident(init)
-                                if name.id.span.is_dummy()
+                                if name.span.is_dummy()
                                     || var.span.is_dummy()
                                     || init.span.is_dummy() =>
                             {
@@ -132,9 +132,7 @@ impl VisitMut for ConstPropagation<'_> {
                                 if let Some(value) = self.scope.vars.get(&init.to_id()).cloned() {
                                     self.scope.vars.insert(name.to_id(), value);
                                 } else {
-                                    self.scope
-                                        .vars
-                                        .insert(name.to_id(), Box::new(Expr::Ident(init.clone())));
+                                    self.scope.vars.insert(name.to_id(), init.clone().into());
                                 }
                             }
                             _ => {}

@@ -524,7 +524,7 @@ impl Visit for Analyzer<'_> {
 
         if !self.in_var_decl {
             if let Pat::Ident(i) = p {
-                self.add(i.id.to_id(), true);
+                self.add(i.to_id(), true);
             }
         }
     }
@@ -920,7 +920,7 @@ impl VisitMut for TreeShaker {
                 {
                     debug!("Dropping an import because it's not used");
                     self.changed = true;
-                    *n = ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }));
+                    *n = EmptyStmt { span: DUMMY_SP }.into();
                 }
             }
             _ => {
@@ -971,20 +971,21 @@ impl VisitMut for TreeShaker {
                 self.changed = true;
 
                 if exprs.is_empty() {
-                    *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                    *s = EmptyStmt { span: DUMMY_SP }.into();
                     return;
                 } else {
-                    *s = Stmt::Expr(ExprStmt {
+                    *s = ExprStmt {
                         span,
                         expr: Expr::from_exprs(exprs),
-                    });
+                    }
+                    .into();
                 }
             }
         }
 
         if let Stmt::Decl(Decl::Var(v)) = s {
             if v.decls.is_empty() {
-                *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                *s = EmptyStmt { span: DUMMY_SP }.into();
             }
         }
 
@@ -1031,10 +1032,10 @@ impl VisitMut for TreeShaker {
             };
 
             if can_drop
-                && self.can_drop_binding(i.id.to_id(), self.var_decl_kind == Some(VarDeclKind::Var))
+                && self.can_drop_binding(i.to_id(), self.var_decl_kind == Some(VarDeclKind::Var))
             {
                 self.changed = true;
-                debug!("Dropping {} because it's not used", i.id);
+                debug!("Dropping {} because it's not used", i);
                 v.name.take();
             }
         }

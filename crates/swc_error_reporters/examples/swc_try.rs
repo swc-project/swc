@@ -26,11 +26,11 @@ fn main() {
     let handler = Handler::with_emitter(true, false, Box::new(emitter));
 
     let fm1 = cm.new_source_file(
-        FileName::Custom("foo.js".into()),
+        Lrc::new(FileName::Custom("foo.js".into())),
         "13579\n12345\n13579".into(),
     );
     let fm2 = cm.new_source_file(
-        FileName::Custom("bar.js".into()),
+        Lrc::new(FileName::Custom("bar.js".into())),
         "02468\n12345\n02468".into(),
     );
 
@@ -57,7 +57,7 @@ fn span(base: &SourceFile, lo: u32, hi: u32) -> Span {
     let lo = base.start_pos.0 + lo;
     let hi = base.start_pos.0 + hi;
 
-    Span::new(BytePos(lo), BytePos(hi), Default::default())
+    Span::new(BytePos(lo), BytePos(hi))
 }
 
 #[derive(Clone, Default)]

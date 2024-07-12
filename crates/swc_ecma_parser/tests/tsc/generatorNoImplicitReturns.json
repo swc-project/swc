@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 81,
-    "end": 180,
-    "ctxt": 0
+    "end": 180
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 91,
-          "end": 104,
-          "ctxt": 0
+          "end": 104
         },
+        "ctxt": 0,
         "value": "testGenerator",
         "optional": false
       },
@@ -23,53 +22,50 @@
       "decorators": [],
       "span": {
         "start": 81,
-        "end": 180,
-        "ctxt": 0
+        "end": 180
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 108,
-          "end": 180,
-          "ctxt": 0
+          "end": 180
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "IfStatement",
             "span": {
               "start": 113,
-              "end": 159,
-              "ctxt": 0
+              "end": 159
             },
             "test": {
               "type": "BinaryExpression",
               "span": {
                 "start": 117,
-                "end": 136,
-                "ctxt": 0
+                "end": 136
               },
               "operator": ">",
               "left": {
                 "type": "CallExpression",
                 "span": {
                   "start": 117,
-                  "end": 130,
-                  "ctxt": 0
+                  "end": 130
                 },
+                "ctxt": 0,
                 "callee": {
                   "type": "MemberExpression",
                   "span": {
                     "start": 117,
-                    "end": 128,
-                    "ctxt": 0
+                    "end": 128
                   },
                   "object": {
                     "type": "Identifier",
                     "span": {
                       "start": 117,
-                      "end": 121,
-                      "ctxt": 0
+                      "end": 121
                     },
+                    "ctxt": 0,
                     "value": "Math",
                     "optional": false
                   },
@@ -77,11 +73,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 122,
-                      "end": 128,
-                      "ctxt": 0
+                      "end": 128
                     },
-                    "value": "random",
-                    "optional": false
+                    "value": "random"
                   }
                 },
                 "arguments": [],
@@ -91,8 +85,7 @@
                 "type": "NumericLiteral",
                 "span": {
                   "start": 133,
-                  "end": 136,
-                  "ctxt": 0
+                  "end": 136
                 },
                 "value": 0.5,
                 "raw": "0.5"
@@ -102,16 +95,15 @@
               "type": "BlockStatement",
               "span": {
                 "start": 138,
-                "end": 159,
-                "ctxt": 0
+                "end": 159
               },
+              "ctxt": 0,
               "stmts": [
                 {
                   "type": "ReturnStatement",
                   "span": {
                     "start": 147,
-                    "end": 154,
-                    "ctxt": 0
+                    "end": 154
                   },
                   "argument": null
                 }
@@ -123,22 +115,19 @@
             "type": "ExpressionStatement",
             "span": {
               "start": 163,
-              "end": 177,
-              "ctxt": 0
+              "end": 177
             },
             "expression": {
               "type": "YieldExpression",
               "span": {
                 "start": 163,
-                "end": 176,
-                "ctxt": 0
+                "end": 176
               },
               "argument": {
                 "type": "StringLiteral",
                 "span": {
                   "start": 169,
-                  "end": 176,
-                  "ctxt": 0
+                  "end": 176
                 },
                 "value": "hello",
                 "raw": "'hello'"

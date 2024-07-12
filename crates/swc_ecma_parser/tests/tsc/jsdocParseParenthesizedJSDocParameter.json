@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 136,
-    "end": 161,
-    "ctxt": 0
+    "end": 161
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 136,
-        "end": 161,
-        "ctxt": 0
+        "end": 161
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 140,
-            "end": 161,
-            "ctxt": 0
+            "end": 161
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 140,
-              "end": 141,
-              "ctxt": 0
+              "end": 141
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false,
             "typeAnnotation": null
@@ -38,17 +36,17 @@
             "type": "ArrowFunctionExpression",
             "span": {
               "start": 144,
-              "end": 161,
-              "ctxt": 0
+              "end": 161
             },
+            "ctxt": 0,
             "params": [
               {
                 "type": "Identifier",
                 "span": {
                   "start": 144,
-                  "end": 145,
-                  "ctxt": 0
+                  "end": 145
                 },
+                "ctxt": 0,
                 "value": "s",
                 "optional": false,
                 "typeAnnotation": null
@@ -58,23 +56,22 @@
               "type": "CallExpression",
               "span": {
                 "start": 149,
-                "end": 161,
-                "ctxt": 0
+                "end": 161
               },
+              "ctxt": 0,
               "callee": {
                 "type": "MemberExpression",
                 "span": {
                   "start": 149,
-                  "end": 159,
-                  "ctxt": 0
+                  "end": 159
                 },
                 "object": {
                   "type": "Identifier",
                   "span": {
                     "start": 149,
-                    "end": 150,
-                    "ctxt": 0
+                    "end": 150
                   },
+                  "ctxt": 0,
                   "value": "s",
                   "optional": false
                 },
@@ -82,11 +79,9 @@
                   "type": "Identifier",
                   "span": {
                     "start": 151,
-                    "end": 159,
-                    "ctxt": 0
+                    "end": 159
                   },
-                  "value": "toString",
-                  "optional": false
+                  "value": "toString"
                 }
               },
               "arguments": [],

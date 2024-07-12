@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 17,
-    "end": 45,
-    "ctxt": 0
+    "end": 45
   },
   "body": [
     {
@@ -12,52 +11,49 @@
         "type": "Identifier",
         "span": {
           "start": 23,
-          "end": 24,
-          "ctxt": 0
+          "end": 24
         },
+        "ctxt": 0,
         "value": "C",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 17,
-        "end": 45,
-        "ctxt": 0
+        "end": 45
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassMethod",
           "span": {
             "start": 30,
-            "end": 43,
-            "ctxt": 0
+            "end": 43
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 31,
-              "end": 34,
-              "ctxt": 0
+              "end": 34
             },
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "function": {
             "params": [],
             "decorators": [],
             "span": {
               "start": 30,
-              "end": 43,
-              "ctxt": 0
+              "end": 43
             },
+            "ctxt": 0,
             "body": {
               "type": "BlockStatement",
               "span": {
                 "start": 40,
-                "end": 43,
-                "ctxt": 0
+                "end": 43
               },
+              "ctxt": 0,
               "stmts": []
             },
             "generator": true,
@@ -66,24 +62,22 @@
               "type": "TsTypeParameterDeclaration",
               "span": {
                 "start": 34,
-                "end": 37,
-                "ctxt": 0
+                "end": 37
               },
               "parameters": [
                 {
                   "type": "TsTypeParameter",
                   "span": {
                     "start": 35,
-                    "end": 36,
-                    "ctxt": 0
+                    "end": 36
                   },
                   "name": {
                     "type": "Identifier",
                     "span": {
                       "start": 35,
-                      "end": 36,
-                      "ctxt": 0
+                      "end": 36
                     },
+                    "ctxt": 0,
                     "value": "T",
                     "optional": false
                   },

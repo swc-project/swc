@@ -35,11 +35,11 @@ impl Fold for HygieneVisualizer {
     noop_fold_type!();
 
     fn fold_ident(&mut self, node: Ident) -> Ident {
-        if node.span.ctxt == SyntaxContext::empty() {
+        if node.ctxt == SyntaxContext::empty() {
             return node;
         }
         Ident {
-            sym: format!("{}{:?}", node.sym, node.span.ctxt()).into(),
+            sym: format!("{}{:?}", node.sym, node.ctxt).into(),
             ..node
         }
     }

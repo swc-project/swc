@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 21,
-    "end": 124,
-    "ctxt": 0
+    "end": 124
   },
   "body": [
     {
@@ -12,51 +11,40 @@
         "type": "Identifier",
         "span": {
           "start": 27,
-          "end": 28,
-          "ctxt": 0
+          "end": 28
         },
+        "ctxt": 0,
         "value": "A",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 21,
-        "end": 124,
-        "ctxt": 0
+        "end": 124
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "PrivateProperty",
           "span": {
             "start": 35,
-            "end": 60,
-            "ctxt": 0
+            "end": 60
           },
+          "ctxt": 0,
           "key": {
             "type": "PrivateName",
             "span": {
               "start": 35,
-              "end": 43,
-              "ctxt": 0
+              "end": 43
             },
-            "id": {
-              "type": "Identifier",
-              "span": {
-                "start": 36,
-                "end": 43,
-                "ctxt": 0
-              },
-              "value": "myField",
-              "optional": false
-            }
+            "value": "myField"
           },
           "value": {
             "type": "StringLiteral",
             "span": {
               "start": 46,
-              "end": 59,
-              "ctxt": 0
+              "end": 59
             },
             "value": "hello world",
             "raw": "\"hello world\""
@@ -74,56 +62,52 @@
           "type": "Constructor",
           "span": {
             "start": 65,
-            "end": 122,
-            "ctxt": 0
+            "end": 122
           },
+          "ctxt": 0,
           "key": {
             "type": "Identifier",
             "span": {
               "start": 65,
-              "end": 76,
-              "ctxt": 0
+              "end": 76
             },
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
             "type": "BlockStatement",
             "span": {
               "start": 79,
-              "end": 122,
-              "ctxt": 0
+              "end": 122
             },
+            "ctxt": 0,
             "stmts": [
               {
                 "type": "ExpressionStatement",
                 "span": {
                   "start": 89,
-                  "end": 116,
-                  "ctxt": 0
+                  "end": 116
                 },
                 "expression": {
                   "type": "CallExpression",
                   "span": {
                     "start": 89,
-                    "end": 115,
-                    "ctxt": 0
+                    "end": 115
                   },
+                  "ctxt": 0,
                   "callee": {
                     "type": "MemberExpression",
                     "span": {
                       "start": 89,
-                      "end": 100,
-                      "ctxt": 0
+                      "end": 100
                     },
                     "object": {
                       "type": "Identifier",
                       "span": {
                         "start": 89,
-                        "end": 96,
-                        "ctxt": 0
+                        "end": 96
                       },
+                      "ctxt": 0,
                       "value": "console",
                       "optional": false
                     },
@@ -131,11 +115,9 @@
                       "type": "Identifier",
                       "span": {
                         "start": 97,
-                        "end": 100,
-                        "ctxt": 0
+                        "end": 100
                       },
-                      "value": "log",
-                      "optional": false
+                      "value": "log"
                     }
                   },
                   "arguments": [
@@ -145,34 +127,22 @@
                         "type": "MemberExpression",
                         "span": {
                           "start": 101,
-                          "end": 114,
-                          "ctxt": 0
+                          "end": 114
                         },
                         "object": {
                           "type": "ThisExpression",
                           "span": {
                             "start": 101,
-                            "end": 105,
-                            "ctxt": 0
+                            "end": 105
                           }
                         },
                         "property": {
                           "type": "PrivateName",
                           "span": {
                             "start": 106,
-                            "end": 114,
-                            "ctxt": 0
+                            "end": 114
                           },
-                          "id": {
-                            "type": "Identifier",
-                            "span": {
-                              "start": 107,
-                              "end": 114,
-                              "ctxt": 0
-                            },
-                            "value": "myField",
-                            "optional": false
-                          }
+                          "value": "myField"
                         }
                       }
                     }

@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 36,
-    "ctxt": 0
+    "end": 36
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 1,
-        "end": 36,
-        "ctxt": 0
+        "end": 36
       },
+      "ctxt": 0,
       "kind": "let",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 5,
-            "end": 35,
-            "ctxt": 0
+            "end": 35
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 5,
-              "end": 6,
-              "ctxt": 0
+              "end": 6
             },
+            "ctxt": 0,
             "value": "z",
             "optional": false,
             "typeAnnotation": null
@@ -38,15 +36,13 @@
             "type": "TsConstAssertion",
             "span": {
               "start": 9,
-              "end": 35,
-              "ctxt": 0
+              "end": 35
             },
             "expression": {
               "type": "ObjectExpression",
               "span": {
                 "start": 9,
-                "end": 26,
-                "ctxt": 0
+                "end": 26
               },
               "properties": [
                 {
@@ -55,18 +51,15 @@
                     "type": "Identifier",
                     "span": {
                       "start": 11,
-                      "end": 15,
-                      "ctxt": 0
+                      "end": 15
                     },
-                    "value": "text",
-                    "optional": false
+                    "value": "text"
                   },
                   "value": {
                     "type": "StringLiteral",
                     "span": {
                       "start": 17,
-                      "end": 24,
-                      "ctxt": 0
+                      "end": 24
                     },
                     "value": "hello",
                     "raw": "\"hello\""
