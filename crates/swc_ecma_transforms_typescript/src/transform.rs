@@ -1003,12 +1003,9 @@ impl Transform {
         // NOTE: This is not correct!
         // However, all unresolved_span are used in TsImportExportAssignConfig::Classic
         // which is deprecated and not used in real world.
-        let unresolved_span = DUMMY_SP.apply_mark(self.unresolved_mark);
-        let cjs_require = quote_ident!(unresolved_span, "require");
-        let cjs_exports = quote_ident!(unresolved_span, "exports");
-        let unresolved_ctxt = SyntaxContext::empty().apply_mark(self.top_level_mark);
-        let cjs_require = quote_ident!(unresolved_ctxt, "require");
-        let cjs_exports = quote_ident!(unresolved_ctxt, "exports");
+        let top_level_ctxt = self.top_level_ctxt;
+        let cjs_require = quote_ident!(top_level_ctxt, "require");
+        let cjs_exports = quote_ident!(top_level_ctxt, "exports");
 
         let mut cjs_export_assign = None;
 
@@ -1016,8 +1013,7 @@ impl Transform {
             match &mut module_item {
                 ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(decl)) if !decl.is_type_only => {
                     debug_assert_ne!(
-                        decl.id.span.ctxt(),
-                        self.unresolved_ctxt,
+                        decl.id.ctxt, self.unresolved_ctxt,
                         "TsImportEquals has top-level context and it should not be identical to \
                          the unresolved mark"
                     );
@@ -1166,7 +1162,7 @@ impl Transform {
                                 expr.make_assign_to(
                                     op!("="),
                                     member_expr!(
-                                        unresolved_ctxt,
+                                        top_level_ctxt,
                                         Default::default(),
                                         module.exports
                                     )
