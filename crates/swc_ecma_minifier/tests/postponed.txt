@@ -111,7 +111,6 @@ pure_funcs/unary/input.js
 pure_getters/collapse_vars_1_true/input.js
 pure_getters/collapse_vars_2_true/input.js
 pure_getters/impure_getter_2/input.js
-pure_getters/issue_2265_1/input.js
 pure_getters/issue_2265_3/input.js
 pure_getters/issue_2313_6/input.js
 pure_getters/issue_2838/input.js
