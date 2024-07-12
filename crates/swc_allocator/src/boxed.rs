@@ -7,4 +7,5 @@ use crate::alloc::SwcAlloc;
 /// # Representation
 ///
 /// The last bit is 1 if the box is allocated with a custom allocator.
+#[repr(transparent)]
 pub struct Box<T: ?Sized>(allocator_api2::boxed::Box<T, SwcAlloc>);
