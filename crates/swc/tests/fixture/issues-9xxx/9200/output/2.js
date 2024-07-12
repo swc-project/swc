@@ -12,7 +12,7 @@ for(var a = [
 for(var a = {
     b: b in c
 } in {});
-for(var a = (x = (b in c))=>{} in {});
+for(var a = (x = b in c)=>{} in {});
 for(var a = class extends (b in c) {
 } in {});
 for(var a = function(x = b in c) {} in {});
@@ -30,7 +30,7 @@ for(var a = [
 for(var a = {
     b: b in c
 };;);
-for(var a = (x = (b in c))=>{};;);
+for(var a = (x = b in c)=>{};;);
 for(var a = class extends (b in c) {
 };;);
 for(var a = function(x = b in c) {};;);
