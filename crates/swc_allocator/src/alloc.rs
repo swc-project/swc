@@ -1,20 +1,72 @@
+use std::{alloc::Layout, ptr::NonNull};
+
 use scoped_tls::scoped_thread_local;
 
 use crate::Allocator;
 
 scoped_thread_local!(pub(crate) static ALLOC: Allocator);
 
-fn with_allocator(f: impl FnOnce(&dyn allocator_api2::alloc::Allocator)) {
+/// `true` is passed to `f` if the box is allocated with a custom allocator.
+fn with_allocator<T>(f: impl FnOnce(&dyn allocator_api2::alloc::Allocator, bool) -> T) -> T {
     if ALLOC.is_set() {
         ALLOC.with(|a| {
             //
-            f(&&**a as &dyn allocator_api2::alloc::Allocator)
-        });
+            f(&&**a as &dyn allocator_api2::alloc::Allocator, true)
+        })
     } else {
-        f(&allocator_api2::alloc::Global);
+        f(&allocator_api2::alloc::Global, false)
     }
 }
 
 pub(crate) struct SwcAlloc;
 
-impl allocator_api2::alloc::Allocator for SwcAlloc {}
+unsafe impl allocator_api2::alloc::Allocator for SwcAlloc {
+    fn allocate(&self, layout: Layout) -> Result<NonNull<[u8]>, allocator_api2::alloc::AllocError> {
+        with_allocator(|a, _custom| a.allocate(layout))
+    }
+
+    fn allocate_zeroed(
+        &self,
+        layout: Layout,
+    ) -> Result<NonNull<[u8]>, allocator_api2::alloc::AllocError> {
+        with_allocator(|a, _custom| a.allocate_zeroed(layout))
+    }
+
+    unsafe fn deallocate(&self, ptr: NonNull<u8>, layout: Layout) {
+        with_allocator(|a, _custom| a.deallocate(ptr, layout))
+    }
+
+    unsafe fn grow(
+        &self,
+        ptr: NonNull<u8>,
+        old_layout: Layout,
+        new_layout: Layout,
+    ) -> Result<NonNull<[u8]>, allocator_api2::alloc::AllocError> {
+        with_allocator(|a, _custom| a.grow(ptr, old_layout, new_layout))
+    }
+
+    unsafe fn grow_zeroed(
+        &self,
+        ptr: NonNull<u8>,
+        old_layout: Layout,
+        new_layout: Layout,
+    ) -> Result<NonNull<[u8]>, allocator_api2::alloc::AllocError> {
+        with_allocator(|a, _custom| a.grow_zeroed(ptr, old_layout, new_layout))
+    }
+
+    unsafe fn shrink(
+        &self,
+        ptr: NonNull<u8>,
+        old_layout: Layout,
+        new_layout: Layout,
+    ) -> Result<NonNull<[u8]>, allocator_api2::alloc::AllocError> {
+        with_allocator(|a, _custom| a.shrink(ptr, old_layout, new_layout))
+    }
+
+    fn by_ref(&self) -> &Self
+    where
+        Self: Sized,
+    {
+        self
+    }
+}
