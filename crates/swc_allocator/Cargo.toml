@@ -16,3 +16,5 @@ bumpalo = { workspace = true, features = [
     "collections",
 ] }
 scoped-tls = { workspace = true }
+serde = { workspace = true }
+serde_derive = { workspace = true }
