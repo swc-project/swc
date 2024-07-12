@@ -1205,7 +1205,7 @@ fn make_ref_ident_for_array(
 }
 
 fn make_ref_prop_expr(ref_ident: &Ident, prop: Box<Expr>, mut computed: bool) -> Expr {
-    computed |= matches!(*prop, Expr::Lit(Lit::Num(..)) | Expr::Lit(Lit::Str(..)));
+    computed |= !matches!(*prop, Expr::Ident(..));
 
     MemberExpr {
         span: DUMMY_SP,
