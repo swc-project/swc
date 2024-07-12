@@ -2,7 +2,7 @@
 //!
 //! API designed after [`oxc_allocator`](https://github.com/oxc-project/oxc/tree/725571aad193ec6ba779c820baeb4a7774533ed7/crates/oxc_allocator/src).
 
-use alloc::ALLOC;
+use alloc::{SwcAlloc, ALLOC};
 use std::ops::{Deref, DerefMut};
 
 use bumpalo::Bump;
@@ -46,23 +46,11 @@ impl DerefMut for Allocator {
     }
 }
 
-#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[repr(transparent)]
-pub struct Vec<'alloc, T>(bumpalo::collections::Vec<'alloc, T>);
+pub struct Vec<T>(allocator_api2::vec::Vec<T, SwcAlloc>);
 
-impl<'alloc, T> Vec<'alloc, T> {
-    #[inline(always)]
-    pub fn new(alloc: &'alloc Allocator) -> Self {
-        Self(bumpalo::collections::Vec::new_in(alloc))
-    }
-
-    #[inline(always)]
-    pub fn with_capacity(alloc: &'alloc Allocator, capacity: usize) -> Self {
-        Self(bumpalo::collections::Vec::with_capacity_in(capacity, alloc))
-    }
-}
-
-impl<'alloc, T> Deref for Vec<'alloc, T> {
+impl<T> Deref for Vec<T> {
     type Target = [T];
 
     fn deref(&self) -> &[T] {
@@ -70,14 +58,14 @@ impl<'alloc, T> Deref for Vec<'alloc, T> {
     }
 }
 
-impl<'alloc, T> DerefMut for Vec<'alloc, T> {
+impl<T> DerefMut for Vec<T> {
     fn deref_mut(&mut self) -> &mut [T] {
         &mut self.0
     }
 }
 
-impl<'alloc, T> IntoIterator for Vec<'alloc, T> {
-    type IntoIter = bumpalo::collections::vec::IntoIter<'alloc, T>;
+impl<T> IntoIterator for Vec<T> {
+    type IntoIter = allocator_api2::vec::IntoIter<T, SwcAlloc>;
     type Item = T;
 
     fn into_iter(self) -> Self::IntoIter {
