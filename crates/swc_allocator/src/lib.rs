@@ -65,6 +65,12 @@ impl<T> DerefMut for Vec<T> {
     }
 }
 
+impl<T> Default for Vec<T> {
+    fn default() -> Self {
+        Self(allocator_api2::vec::Vec::new_in(SwcAlloc::default()))
+    }
+}
+
 impl<T> IntoIterator for Vec<T> {
     type IntoIter = allocator_api2::vec::IntoIter<T, SwcAlloc>;
     type Item = T;
