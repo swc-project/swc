@@ -7,6 +7,10 @@ on:
   pull_request:
     types: ["opened", "reopened", "synchronize"]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.sha }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 env:
   CI: 1
   CARGO_INCREMENTAL: 0
@@ -89,12 +93,12 @@ jobs:
 
       - uses: ./.github/actions/setup-node
 
-      - name: Setup rust toolchain, cache and cargo-codspeed binary
-        uses: moonrepo/setup-rust@v0
+      - name: Install cargo-codspeed
+        uses: baptiste0928/cargo-install@v2.2.0
         with:
-          channel: stable
-          cache-target: release
-          bins: cargo-codspeed
+          crate: cargo-codspeed
+          version: "2.6.0"
+          locked: true
 
       - name: Build the benchmark target(s)
         run: cargo codspeed build --workspace --exclude swc_plugin_runner
