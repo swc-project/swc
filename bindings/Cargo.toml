@@ -16,12 +16,11 @@ resolver = "2"
 # lto = "fat"
 
 # debug = true
-opt-level = 'z'
+# opt-level = 'z'
 
 # Strip debug symbols
 strip = "symbols"
 
-codegen-units = 1
 
 [profile.dev.package."*"]
 debug-assertions = false
