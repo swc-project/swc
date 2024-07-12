@@ -371,9 +371,7 @@ impl VisitMut for Fixer<'_> {
 
         self.ctx = Context::ForcedExpr;
 
-        let in_for_stmt_head = mem::replace(&mut self.in_for_stmt_head, false);
         node.args.visit_mut_with(self);
-        self.in_for_stmt_head = in_for_stmt_head;
 
         self.ctx = ctx;
     }
@@ -629,7 +627,6 @@ impl VisitMut for Fixer<'_> {
         self.in_opt_chain = in_opt_chain;
 
         self.ctx = Context::ForcedExpr;
-
         node.args.visit_mut_with(self);
 
         self.ctx = ctx;
