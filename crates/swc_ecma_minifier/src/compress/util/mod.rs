@@ -511,18 +511,16 @@ pub(crate) fn eval_as_number(expr_ctx: &ExprCtx, e: &Expr) -> Option<f64> {
                             if args.len() != 2 {
                                 return None;
                             }
-                            let first = eval_as_number(expr_ctx, &args[0].expr)?;
-                            let second = eval_as_number(expr_ctx, &args[1].expr)?;
+                            let base = eval_as_number(expr_ctx, &args[0].expr)?;
+                            let exponent = eval_as_number(expr_ctx, &args[1].expr)?;
 
-                            if second == 0.0 {
-                                return Some(1.0);
-                            }
-
-                            if first.is_nan() || second.is_nan() {
+                            // https://tc39.es/ecma262/multipage/ecmascript-data-types-and-values.html#sec-numeric-types-number-exponentiate
+                            // https://github.com/rust-lang/rust/issues/60468
+                            if exponent.is_nan() {
                                 return Some(f64::NAN);
                             }
 
-                            return Some(first.powf(second));
+                            return Some(base.powf(exponent));
                         }
 
                         _ => {}
