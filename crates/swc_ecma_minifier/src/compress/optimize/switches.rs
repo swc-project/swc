@@ -86,7 +86,14 @@ impl Optimizer<'_> {
 
             if !may_match_other_than_exact {
                 // remove default if there's an exact match
-                cases.retain(|case| case.test.is_some());
+                cases.retain(|case| {
+                    if case.test.is_some() {
+                        true
+                    } else {
+                        var_ids.extend(case.cons.extract_var_ids());
+                        false
+                    }
+                });
             }
 
             if cases.len() == 2 {
