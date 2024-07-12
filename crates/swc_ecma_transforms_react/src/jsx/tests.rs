@@ -13,7 +13,6 @@ use swc_ecma_transforms_compat::{
     es2015::{arrow, classes},
     es3::property_literals,
 };
-use swc_ecma_transforms_module::common_js::common_js;
 use swc_ecma_transforms_testing::{parse_options, test, test_fixture, FixtureTestConfig, Tester};
 use swc_ecma_visit::FoldWith;
 use testing::NormalizedOutput;
@@ -871,15 +870,7 @@ test!(
     }),
     |t| {
         let top_level_mark = Mark::fresh(Mark::root());
-        chain!(
-            tr(t, Default::default(), top_level_mark),
-            common_js(
-                top_level_mark,
-                Default::default(),
-                Default::default(),
-                Some(t.comments.clone())
-            )
-        )
+        tr(t, Default::default(), top_level_mark)
     },
     issue_351,
     "import React from 'react';
@@ -905,15 +896,7 @@ test!(
     }),
     |t| {
         let top_level_mark = Mark::fresh(Mark::root());
-        chain!(
-            tr(t, Default::default(), top_level_mark),
-            common_js(
-                Mark::fresh(Mark::root()),
-                Default::default(),
-                Default::default(),
-                Some(t.comments.clone())
-            )
-        )
+        tr(t, Default::default(), top_level_mark)
     },
     issue_517,
     "import React from 'react';
