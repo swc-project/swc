@@ -17,6 +17,9 @@
 - **(es/minifier)** Fix case matching ([#9208](https://github.com/swc-project/swc/issues/9208)) ([f81fa6e](https://github.com/swc-project/swc/commit/f81fa6e06335745ff6ab5f7956cecc38116b1343))
 
 
+- **(es/minifier)** Fix compress pow `NaN` ([#9210](https://github.com/swc-project/swc/issues/9210)) ([2b361e6](https://github.com/swc-project/swc/commit/2b361e679a7c973177c44029dc85867f5261e902))
+
+
 - **(es/modules)** Fix lint issue ([#9206](https://github.com/swc-project/swc/issues/9206)) ([efb8636](https://github.com/swc-project/swc/commit/efb86368343e7d9909fec21cae8824edac5008e2))
 
 
@@ -1369,9 +1372,6 @@
 
 
 - **(es/minifier)** Correctly escape more characters ([#8490](https://github.com/swc-project/swc/issues/8490)) ([f7c4934](https://github.com/swc-project/swc/commit/f7c4934e591bc14bc965cb28bc6b9ca1d8ac1350))
-
-
-- **(es/parser)** Correctly parse the keyword ([#8483](https://github.com/swc-project/swc/issues/8483)) ([740e6f3](https://github.com/swc-project/swc/commit/740e6f390a8a5327cc320c9582dbe8afbc8b5a27))
 
 ### Documentation
 
