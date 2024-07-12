@@ -702,6 +702,16 @@ where
 
         self.emit_leading_comments_of_span(num.span(), false)?;
 
+        // Handle infinity
+        if num.value.is_infinite() && num.raw.is_none() {
+            if num.value.is_sign_negative() {
+                self.wr.write_str_lit(num.span, "-")?;
+            }
+            self.wr.write_str_lit(num.span, "Infinity")?;
+
+            return Ok(false);
+        }
+
         let mut striped_raw = None;
         let mut value = String::default();
 
@@ -742,16 +752,6 @@ where
                     self.wr.write_str_lit(DUMMY_SP, &value)?;
                 }
             }
-        }
-        
-        // Handle infinity
-        if num.value.is_infinite() {
-            if num.value.is_sign_negative() {
-                self.wr.write_str_lit(num.span, "-")?;
-            }
-            self.wr.write_str_lit(num.span, "Infinity")?;
-
-            return Ok(false);
         }
 
         // fast return
