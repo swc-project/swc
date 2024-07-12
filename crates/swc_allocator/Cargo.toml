@@ -15,6 +15,7 @@ bumpalo = { workspace = true, features = [
     "boxed",
     "collections",
 ] }
+ptr_meta = { workspace = true }
 rkyv = { workspace = true }
 scoped-tls = { workspace = true }
 serde = { workspace = true }
