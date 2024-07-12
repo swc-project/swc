@@ -2,8 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 64,
-    "ctxt": 0
+    "end": 64
   },
   "mode": "quirks",
   "children": [
@@ -11,8 +10,7 @@
       "type": "Element",
       "span": {
         "start": 1,
-        "end": 11,
-        "ctxt": 0
+        "end": 11
       },
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -21,8 +19,7 @@
           "type": "Attribute",
           "span": {
             "start": 7,
-            "end": 10,
-            "ctxt": 0
+            "end": 10
           },
           "namespace": null,
           "prefix": null,
@@ -37,8 +34,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -48,8 +44,7 @@
               "type": "Element",
               "span": {
                 "start": 11,
-                "end": 64,
-                "ctxt": 0
+                "end": 64
               },
               "tagName": "template",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -59,16 +54,14 @@
                 "type": "DocumentFragment",
                 "span": {
                   "start": 11,
-                  "end": 64,
-                  "ctxt": 0
+                  "end": 64
                 },
                 "children": [
                   {
                     "type": "Element",
                     "span": {
                       "start": 21,
-                      "end": 26,
-                      "ctxt": 0
+                      "end": 26
                     },
                     "tagName": "col",
                     "namespace": "http://www.w3.org/1999/xhtml",
@@ -81,8 +74,7 @@
                     "type": "Element",
                     "span": {
                       "start": 42,
-                      "end": 47,
-                      "ctxt": 0
+                      "end": 47
                     },
                     "tagName": "col",
                     "namespace": "http://www.w3.org/1999/xhtml",
@@ -103,8 +95,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",

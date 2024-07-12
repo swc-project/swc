@@ -2,16 +2,14 @@
   "type": "Module",
   "span": {
     "start": 37,
-    "end": 103,
-    "ctxt": 0
+    "end": 103
   },
   "body": [
     {
       "type": "TsImportEqualsDeclaration",
       "span": {
         "start": 37,
-        "end": 63,
-        "ctxt": 0
+        "end": 63
       },
       "isExport": false,
       "isTypeOnly": false,
@@ -19,9 +17,9 @@
         "type": "Identifier",
         "span": {
           "start": 44,
-          "end": 45,
-          "ctxt": 0
+          "end": 45
         },
+        "ctxt": 0,
         "value": "i",
         "optional": false
       },
@@ -29,15 +27,13 @@
         "type": "TsExternalModuleReference",
         "span": {
           "start": 48,
-          "end": 62,
-          "ctxt": 0
+          "end": 62
         },
         "expression": {
           "type": "StringLiteral",
           "span": {
             "start": 56,
-            "end": 61,
-            "ctxt": 0
+            "end": 61
           },
           "value": "mod",
           "raw": "\"mod\""
@@ -48,8 +44,7 @@
       "type": "TsModuleDeclaration",
       "span": {
         "start": 76,
-        "end": 91,
-        "ctxt": 0
+        "end": 91
       },
       "declare": false,
       "global": false,
@@ -57,9 +52,9 @@
         "type": "Identifier",
         "span": {
           "start": 86,
-          "end": 87,
-          "ctxt": 0
+          "end": 87
         },
+        "ctxt": 0,
         "value": "N",
         "optional": false
       },
@@ -67,8 +62,7 @@
         "type": "TsModuleBlock",
         "span": {
           "start": 88,
-          "end": 91,
-          "ctxt": 0
+          "end": 91
         },
         "body": []
       }
@@ -77,16 +71,15 @@
       "type": "TsExportAssignment",
       "span": {
         "start": 92,
-        "end": 103,
-        "ctxt": 0
+        "end": 103
       },
       "expression": {
         "type": "Identifier",
         "span": {
           "start": 101,
-          "end": 102,
-          "ctxt": 0
+          "end": 102
         },
+        "ctxt": 0,
         "value": "N",
         "optional": false
       }

@@ -1,38 +1,38 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..35#0,
+            span: 1..35,
             value: "Namespace provided by the browser.",
         },
         tags: [
             TagItem {
-                span: 1..9#0,
+                span: 1..9,
                 tag_name: Text {
-                    span: 1..9#0,
+                    span: 1..9,
                     value: "external",
                 },
                 tag: External(
                     ExternalTag {
-                        span: 1..9#0,
+                        span: 1..9,
                         name: Text {
-                            span: 1..15#0,
+                            span: 1..15,
                             value: "XMLHttpRequest",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 1..4#0,
+                span: 1..4,
                 tag_name: Text {
-                    span: 1..4#0,
+                    span: 1..4,
                     value: "see",
                 },
                 tag: See(
                     SeeTag {
-                        span: 1..4#0,
+                        span: 1..4,
                         text: Text {
-                            span: 1..48#0,
+                            span: 1..48,
                             value: "https://developer.mozilla.org/en/xmlhttprequest",
                         },
                     },
@@ -41,30 +41,30 @@
         ],
     },
     JsDoc {
-        span: 135..135#0,
+        span: 135..135,
         description: Text {
-            span: 135..210#0,
+            span: 135..210,
             value: "Extends the built in XMLHttpRequest to send data encoded with a secret key.",
         },
         tags: [
             TagItem {
-                span: 135..140#0,
+                span: 135..140,
                 tag_name: Text {
-                    span: 135..140#0,
+                    span: 135..140,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 135..140#0,
+                        span: 135..140,
                         ty: Some(
                             Text {
-                                span: 135..151#0,
+                                span: 135..151,
                                 value: "EncryptedRequest",
                             },
                         ),
                         name: Some(
                             Text {
-                                span: 135..167#0,
+                                span: 135..167,
                                 value: "@extends external:XMLHttpRequest",
                             },
                         ),

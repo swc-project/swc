@@ -2,23 +2,20 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 98,
-    "ctxt": 0
+    "end": 98
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
         "start": 1,
-        "end": 27,
-        "ctxt": 0
+        "end": 27
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 2,
-          "end": 8,
-          "ctxt": 0
+          "end": 8
         },
         "value": "import",
         "raw": "import"
@@ -27,15 +24,13 @@
         "type": "ImportPrelude",
         "span": {
           "start": 9,
-          "end": 26,
-          "ctxt": 0
+          "end": 26
         },
         "href": {
           "type": "String",
           "span": {
             "start": 9,
-            "end": 18,
-            "ctxt": 0
+            "end": 18
           },
           "value": "foo.css",
           "raw": "\"foo.css\""
@@ -44,15 +39,13 @@
           "type": "Function",
           "span": {
             "start": 19,
-            "end": 26,
-            "ctxt": 0
+            "end": 26
           },
           "name": {
             "type": "Ident",
             "span": {
               "start": 19,
-              "end": 24,
-              "ctxt": 0
+              "end": 24
             },
             "value": "layer",
             "raw": "layer"
@@ -67,15 +60,13 @@
       "type": "AtRule",
       "span": {
         "start": 28,
-        "end": 63,
-        "ctxt": 0
+        "end": 63
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 29,
-          "end": 35,
-          "ctxt": 0
+          "end": 35
         },
         "value": "import",
         "raw": "import"
@@ -84,15 +75,13 @@
         "type": "ImportPrelude",
         "span": {
           "start": 36,
-          "end": 62,
-          "ctxt": 0
+          "end": 62
         },
         "href": {
           "type": "String",
           "span": {
             "start": 36,
-            "end": 45,
-            "ctxt": 0
+            "end": 45
           },
           "value": "foo.css",
           "raw": "\"foo.css\""
@@ -101,15 +90,13 @@
           "type": "Function",
           "span": {
             "start": 46,
-            "end": 62,
-            "ctxt": 0
+            "end": 62
           },
           "name": {
             "type": "Ident",
             "span": {
               "start": 46,
-              "end": 51,
-              "ctxt": 0
+              "end": 51
             },
             "value": "layer",
             "raw": "layer"
@@ -119,8 +106,7 @@
               "type": "PreservedToken",
               "span": {
                 "start": 52,
-                "end": 61,
-                "ctxt": 0
+                "end": 61
               },
               "token": {
                 "String": {
@@ -139,15 +125,13 @@
       "type": "AtRule",
       "span": {
         "start": 64,
-        "end": 98,
-        "ctxt": 0
+        "end": 98
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 65,
-          "end": 71,
-          "ctxt": 0
+          "end": 71
         },
         "value": "import",
         "raw": "import"
@@ -156,15 +140,13 @@
         "type": "ImportPrelude",
         "span": {
           "start": 72,
-          "end": 97,
-          "ctxt": 0
+          "end": 97
         },
         "href": {
           "type": "String",
           "span": {
             "start": 72,
-            "end": 81,
-            "ctxt": 0
+            "end": 81
           },
           "value": "foo.css",
           "raw": "\"foo.css\""
@@ -173,15 +155,13 @@
           "type": "Function",
           "span": {
             "start": 82,
-            "end": 97,
-            "ctxt": 0
+            "end": 97
           },
           "name": {
             "type": "Ident",
             "span": {
               "start": 82,
-              "end": 87,
-              "ctxt": 0
+              "end": 87
             },
             "value": "layer",
             "raw": "layer"
@@ -191,8 +171,7 @@
               "type": "PreservedToken",
               "span": {
                 "start": 88,
-                "end": 91,
-                "ctxt": 0
+                "end": 91
               },
               "token": {
                 "Ident": {
@@ -205,8 +184,7 @@
               "type": "PreservedToken",
               "span": {
                 "start": 91,
-                "end": 92,
-                "ctxt": 0
+                "end": 92
               },
               "token": "Comma"
             },
@@ -214,8 +192,7 @@
               "type": "PreservedToken",
               "span": {
                 "start": 92,
-                "end": 93,
-                "ctxt": 0
+                "end": 93
               },
               "token": {
                 "WhiteSpace": {
@@ -227,8 +204,7 @@
               "type": "PreservedToken",
               "span": {
                 "start": 93,
-                "end": 96,
-                "ctxt": 0
+                "end": 96
               },
               "token": {
                 "Ident": {

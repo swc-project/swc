@@ -2,8 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 289,
-    "ctxt": 0
+    "end": 289
   },
   "mode": "quirks",
   "children": [
@@ -11,8 +10,7 @@
       "type": "Element",
       "span": {
         "start": 1,
-        "end": 289,
-        "ctxt": 0
+        "end": 289
       },
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -22,8 +20,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -36,8 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -47,8 +43,7 @@
               "type": "Element",
               "span": {
                 "start": 8,
-                "end": 41,
-                "ctxt": 0
+                "end": 41
               },
               "tagName": "font",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -57,8 +52,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 14,
-                    "end": 23,
-                    "ctxt": 0
+                    "end": 23
                   },
                   "namespace": null,
                   "prefix": null,
@@ -73,8 +67,7 @@
                   "type": "Element",
                   "span": {
                     "start": 24,
-                    "end": 41,
-                    "ctxt": 0
+                    "end": 41
                   },
                   "tagName": "i",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -84,8 +77,7 @@
                       "type": "Text",
                       "span": {
                         "start": 27,
-                        "end": 41,
-                        "ctxt": 0
+                        "end": 41
                       },
                       "data": "Italic and Red",
                       "raw": "Italic and Red"
@@ -102,8 +94,7 @@
               "type": "Element",
               "span": {
                 "start": 24,
-                "end": 100,
-                "ctxt": 0
+                "end": 100
               },
               "tagName": "i",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -113,8 +104,7 @@
                   "type": "Element",
                   "span": {
                     "start": 41,
-                    "end": 83,
-                    "ctxt": 0
+                    "end": 83
                   },
                   "tagName": "p",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -124,8 +114,7 @@
                       "type": "Element",
                       "span": {
                         "start": 44,
-                        "end": 66,
-                        "ctxt": 0
+                        "end": 66
                       },
                       "tagName": "font",
                       "namespace": "http://www.w3.org/1999/xhtml",
@@ -134,8 +123,7 @@
                           "type": "Attribute",
                           "span": {
                             "start": 14,
-                            "end": 23,
-                            "ctxt": 0
+                            "end": 23
                           },
                           "namespace": null,
                           "prefix": null,
@@ -150,8 +138,7 @@
                           "type": "Text",
                           "span": {
                             "start": 44,
-                            "end": 59,
-                            "ctxt": 0
+                            "end": 59
                           },
                           "data": "Italic and Red ",
                           "raw": "Italic and Red "
@@ -164,8 +151,7 @@
                       "type": "Text",
                       "span": {
                         "start": 66,
-                        "end": 79,
-                        "ctxt": 0
+                        "end": 79
                       },
                       "data": " Just italic.",
                       "raw": " Just italic."
@@ -178,8 +164,7 @@
                   "type": "Text",
                   "span": {
                     "start": 83,
-                    "end": 96,
-                    "ctxt": 0
+                    "end": 96
                   },
                   "data": " Italic only.",
                   "raw": " Italic only."
@@ -192,8 +177,7 @@
               "type": "Text",
               "span": {
                 "start": 100,
-                "end": 107,
-                "ctxt": 0
+                "end": 107
               },
               "data": " Plain\n",
               "raw": " Plain\n"
@@ -202,8 +186,7 @@
               "type": "Element",
               "span": {
                 "start": 107,
-                "end": 174,
-                "ctxt": 0
+                "end": 174
               },
               "tagName": "p",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -213,8 +196,7 @@
                   "type": "Text",
                   "span": {
                     "start": 110,
-                    "end": 131,
-                    "ctxt": 0
+                    "end": 131
                   },
                   "data": "I should not be red. ",
                   "raw": "I should not be red. "
@@ -223,8 +205,7 @@
                   "type": "Element",
                   "span": {
                     "start": 131,
-                    "end": 170,
-                    "ctxt": 0
+                    "end": 170
                   },
                   "tagName": "font",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -233,8 +214,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 137,
-                        "end": 146,
-                        "ctxt": 0
+                        "end": 146
                       },
                       "namespace": null,
                       "prefix": null,
@@ -249,8 +229,7 @@
                       "type": "Text",
                       "span": {
                         "start": 147,
-                        "end": 152,
-                        "ctxt": 0
+                        "end": 152
                       },
                       "data": "Red. ",
                       "raw": "Red. "
@@ -259,8 +238,7 @@
                       "type": "Element",
                       "span": {
                         "start": 152,
-                        "end": 170,
-                        "ctxt": 0
+                        "end": 170
                       },
                       "tagName": "i",
                       "namespace": "http://www.w3.org/1999/xhtml",
@@ -270,8 +248,7 @@
                           "type": "Text",
                           "span": {
                             "start": 155,
-                            "end": 170,
-                            "ctxt": 0
+                            "end": 170
                           },
                           "data": "Italic and red.",
                           "raw": "Italic and red."
@@ -292,8 +269,7 @@
               "type": "Element",
               "span": {
                 "start": 131,
-                "end": 175,
-                "ctxt": 0
+                "end": 175
               },
               "tagName": "font",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -302,8 +278,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 137,
-                    "end": 146,
-                    "ctxt": 0
+                    "end": 146
                   },
                   "namespace": null,
                   "prefix": null,
@@ -318,8 +293,7 @@
                   "type": "Element",
                   "span": {
                     "start": 152,
-                    "end": 175,
-                    "ctxt": 0
+                    "end": 175
                   },
                   "tagName": "i",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -329,8 +303,7 @@
                       "type": "Text",
                       "span": {
                         "start": 174,
-                        "end": 175,
-                        "ctxt": 0
+                        "end": 175
                       },
                       "data": "\n",
                       "raw": "\n"
@@ -347,8 +320,7 @@
               "type": "Element",
               "span": {
                 "start": 175,
-                "end": 235,
-                "ctxt": 0
+                "end": 235
               },
               "tagName": "p",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -358,8 +330,7 @@
                   "type": "Element",
                   "span": {
                     "start": 178,
-                    "end": 210,
-                    "ctxt": 0
+                    "end": 210
                   },
                   "tagName": "font",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -368,8 +339,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 137,
-                        "end": 146,
-                        "ctxt": 0
+                        "end": 146
                       },
                       "namespace": null,
                       "prefix": null,
@@ -384,8 +354,7 @@
                       "type": "Element",
                       "span": {
                         "start": 178,
-                        "end": 198,
-                        "ctxt": 0
+                        "end": 198
                       },
                       "tagName": "i",
                       "namespace": "http://www.w3.org/1999/xhtml",
@@ -395,8 +364,7 @@
                           "type": "Text",
                           "span": {
                             "start": 178,
-                            "end": 194,
-                            "ctxt": 0
+                            "end": 194
                           },
                           "data": "Italic and red. ",
                           "raw": "Italic and red. "
@@ -409,8 +377,7 @@
                       "type": "Text",
                       "span": {
                         "start": 198,
-                        "end": 203,
-                        "ctxt": 0
+                        "end": 203
                       },
                       "data": " Red.",
                       "raw": " Red."
@@ -423,8 +390,7 @@
                   "type": "Text",
                   "span": {
                     "start": 210,
-                    "end": 231,
-                    "ctxt": 0
+                    "end": 231
                   },
                   "data": " I should not be red.",
                   "raw": " I should not be red."
@@ -437,8 +403,7 @@
               "type": "Text",
               "span": {
                 "start": 235,
-                "end": 236,
-                "ctxt": 0
+                "end": 236
               },
               "data": "\n",
               "raw": "\n"
@@ -447,8 +412,7 @@
               "type": "Element",
               "span": {
                 "start": 236,
-                "end": 266,
-                "ctxt": 0
+                "end": 266
               },
               "tagName": "b",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -458,8 +422,7 @@
                   "type": "Text",
                   "span": {
                     "start": 239,
-                    "end": 244,
-                    "ctxt": 0
+                    "end": 244
                   },
                   "data": "Bold ",
                   "raw": "Bold "
@@ -468,8 +431,7 @@
                   "type": "Element",
                   "span": {
                     "start": 244,
-                    "end": 262,
-                    "ctxt": 0
+                    "end": 262
                   },
                   "tagName": "i",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -479,8 +441,7 @@
                       "type": "Text",
                       "span": {
                         "start": 247,
-                        "end": 262,
-                        "ctxt": 0
+                        "end": 262
                       },
                       "data": "Bold and italic",
                       "raw": "Bold and italic"
@@ -497,8 +458,7 @@
               "type": "Element",
               "span": {
                 "start": 244,
-                "end": 283,
-                "ctxt": 0
+                "end": 283
               },
               "tagName": "i",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -508,8 +468,7 @@
                   "type": "Text",
                   "span": {
                     "start": 266,
-                    "end": 279,
-                    "ctxt": 0
+                    "end": 279
                   },
                   "data": " Only Italic ",
                   "raw": " Only Italic "
@@ -522,8 +481,7 @@
               "type": "Text",
               "span": {
                 "start": 283,
-                "end": 289,
-                "ctxt": 0
+                "end": 289
               },
               "data": " Plain",
               "raw": " Plain"

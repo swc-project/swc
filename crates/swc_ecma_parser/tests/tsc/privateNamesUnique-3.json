@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 21,
-    "end": 440,
-    "ctxt": 0
+    "end": 440
   },
   "body": [
     {
@@ -12,51 +11,40 @@
         "type": "Identifier",
         "span": {
           "start": 27,
-          "end": 28,
-          "ctxt": 0
+          "end": 28
         },
+        "ctxt": 0,
         "value": "A",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 21,
-        "end": 297,
-        "ctxt": 0
+        "end": 297
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "PrivateProperty",
           "span": {
             "start": 35,
-            "end": 44,
-            "ctxt": 0
+            "end": 44
           },
+          "ctxt": 0,
           "key": {
             "type": "PrivateName",
             "span": {
               "start": 35,
-              "end": 39,
-              "ctxt": 0
+              "end": 39
             },
-            "id": {
-              "type": "Identifier",
-              "span": {
-                "start": 36,
-                "end": 39,
-                "ctxt": 0
-              },
-              "value": "foo",
-              "optional": false
-            }
+            "value": "foo"
           },
           "value": {
             "type": "NumericLiteral",
             "span": {
               "start": 42,
-              "end": 43,
-              "ctxt": 0
+              "end": 43
             },
             "value": 1.0,
             "raw": "1"
@@ -74,33 +62,22 @@
           "type": "PrivateProperty",
           "span": {
             "start": 49,
-            "end": 68,
-            "ctxt": 0
+            "end": 68
           },
+          "ctxt": 0,
           "key": {
             "type": "PrivateName",
             "span": {
               "start": 56,
-              "end": 60,
-              "ctxt": 0
+              "end": 60
             },
-            "id": {
-              "type": "Identifier",
-              "span": {
-                "start": 57,
-                "end": 60,
-                "ctxt": 0
-              },
-              "value": "foo",
-              "optional": false
-            }
+            "value": "foo"
           },
           "value": {
             "type": "BooleanLiteral",
             "span": {
               "start": 63,
-              "end": 67,
-              "ctxt": 0
+              "end": 67
             },
             "value": true
           },
@@ -126,51 +103,40 @@
         "type": "Identifier",
         "span": {
           "start": 304,
-          "end": 305,
-          "ctxt": 0
+          "end": 305
         },
+        "ctxt": 0,
         "value": "B",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 298,
-        "end": 440,
-        "ctxt": 0
+        "end": 440
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "PrivateProperty",
           "span": {
             "start": 312,
-            "end": 331,
-            "ctxt": 0
+            "end": 331
           },
+          "ctxt": 0,
           "key": {
             "type": "PrivateName",
             "span": {
               "start": 319,
-              "end": 323,
-              "ctxt": 0
+              "end": 323
             },
-            "id": {
-              "type": "Identifier",
-              "span": {
-                "start": 320,
-                "end": 323,
-                "ctxt": 0
-              },
-              "value": "foo",
-              "optional": false
-            }
+            "value": "foo"
           },
           "value": {
             "type": "BooleanLiteral",
             "span": {
               "start": 326,
-              "end": 330,
-              "ctxt": 0
+              "end": 330
             },
             "value": true
           },
@@ -187,18 +153,15 @@
           "type": "ClassMethod",
           "span": {
             "start": 336,
-            "end": 438,
-            "ctxt": 0
+            "end": 438
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 336,
-              "end": 340,
-              "ctxt": 0
+              "end": 340
             },
-            "value": "test",
-            "optional": false
+            "value": "test"
           },
           "function": {
             "params": [
@@ -206,40 +169,37 @@
                 "type": "Parameter",
                 "span": {
                   "start": 341,
-                  "end": 345,
-                  "ctxt": 0
+                  "end": 345
                 },
                 "decorators": [],
                 "pat": {
                   "type": "Identifier",
                   "span": {
                     "start": 341,
-                    "end": 342,
-                    "ctxt": 0
+                    "end": 342
                   },
+                  "ctxt": 0,
                   "value": "x",
                   "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
                       "start": 342,
-                      "end": 345,
-                      "ctxt": 0
+                      "end": 345
                     },
                     "typeAnnotation": {
                       "type": "TsTypeReference",
                       "span": {
                         "start": 344,
-                        "end": 345,
-                        "ctxt": 0
+                        "end": 345
                       },
                       "typeName": {
                         "type": "Identifier",
                         "span": {
                           "start": 344,
-                          "end": 345,
-                          "ctxt": 0
+                          "end": 345
                         },
+                        "ctxt": 0,
                         "value": "B",
                         "optional": false
                       },
@@ -252,38 +212,36 @@
             "decorators": [],
             "span": {
               "start": 336,
-              "end": 438,
-              "ctxt": 0
+              "end": 438
             },
+            "ctxt": 0,
             "body": {
               "type": "BlockStatement",
               "span": {
                 "start": 347,
-                "end": 438,
-                "ctxt": 0
+                "end": 438
               },
+              "ctxt": 0,
               "stmts": [
                 {
                   "type": "ExpressionStatement",
                   "span": {
                     "start": 357,
-                    "end": 364,
-                    "ctxt": 0
+                    "end": 364
                   },
                   "expression": {
                     "type": "MemberExpression",
                     "span": {
                       "start": 357,
-                      "end": 363,
-                      "ctxt": 0
+                      "end": 363
                     },
                     "object": {
                       "type": "Identifier",
                       "span": {
                         "start": 357,
-                        "end": 358,
-                        "ctxt": 0
+                        "end": 358
                       },
+                      "ctxt": 0,
                       "value": "x",
                       "optional": false
                     },
@@ -291,19 +249,9 @@
                       "type": "PrivateName",
                       "span": {
                         "start": 359,
-                        "end": 363,
-                        "ctxt": 0
+                        "end": 363
                       },
-                      "id": {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 360,
-                          "end": 363,
-                          "ctxt": 0
-                        },
-                        "value": "foo",
-                        "optional": false
-                      }
+                      "value": "foo"
                     }
                   }
                 }

@@ -2,16 +2,14 @@
   "type": "DocumentFragment",
   "span": {
     "start": 1,
-    "end": 50,
-    "ctxt": 0
+    "end": 50
   },
   "children": [
     {
       "type": "Text",
       "span": {
         "start": 1,
-        "end": 50,
-        "ctxt": 0
+        "end": 50
       },
       "data": "textarea content with <em>pseudo</em> <foo>markup",
       "raw": "textarea content with <em>pseudo</em> <foo>markup"

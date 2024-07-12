@@ -68,7 +68,7 @@ impl Visit for Analyzer<'_> {
     fn visit_block_stmt(&mut self, _: &BlockStmt) {}
 
     fn visit_var_decl(&mut self, n: &VarDecl) {
-        if n.span.ctxt != self.injected_ctxt || n.kind != VarDeclKind::Const {
+        if n.ctxt != self.injected_ctxt || n.kind != VarDeclKind::Const {
             return;
         }
 
@@ -115,13 +115,13 @@ impl VisitMut for Inliner {
             Prop::Shorthand(i) => {
                 let orig = i.clone();
                 i.visit_mut_with(self);
-                if i.span.ctxt == orig.span.ctxt {
+                if i.ctxt == orig.ctxt {
                     return;
                 }
                 if i.sym != orig.sym {
                     *n = Prop::KeyValue(KeyValueProp {
-                        key: PropName::Ident(orig),
-                        value: Box::new(Expr::Ident(i.clone())),
+                        key: PropName::Ident(orig.into()),
+                        value: i.clone().into(),
                     });
                 }
             }
@@ -148,7 +148,7 @@ impl VisitMut for Inliner {
 
         match n {
             Stmt::Decl(Decl::Var(var)) if var.decls.is_empty() => {
-                *n = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                *n = EmptyStmt { span: DUMMY_SP }.into();
             }
             _ => {}
         }

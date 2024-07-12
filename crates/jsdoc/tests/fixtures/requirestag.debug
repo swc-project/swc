@@ -1,25 +1,25 @@
 [
     JsDoc {
-        span: 1..13#0,
+        span: 1..13,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..9#0,
+                span: 1..9,
                 tag_name: Text {
-                    span: 1..9#0,
+                    span: 1..9,
                     value: "requires",
                 },
                 tag: Requires(
                     RequiresTag {
-                        span: 1..9#0,
+                        span: 1..9,
                         name_path: NamePath {
-                            span: 1..13#0,
+                            span: 1..13,
                             components: [
                                 Text {
-                                    span: 1..7#0,
+                                    span: 1..7,
                                     value: "module",
                                 },
                             ],
@@ -30,26 +30,26 @@
         ],
     },
     JsDoc {
-        span: 60..87#0,
+        span: 60..87,
         description: Text {
-            span: 60..60#0,
+            span: 60..60,
             value: "",
         },
         tags: [
             TagItem {
-                span: 60..68#0,
+                span: 60..68,
                 tag_name: Text {
-                    span: 60..68#0,
+                    span: 60..68,
                     value: "requires",
                 },
                 tag: Requires(
                     RequiresTag {
-                        span: 60..68#0,
+                        span: 60..68,
                         name_path: NamePath {
-                            span: 60..104#0,
+                            span: 60..104,
                             components: [
                                 Text {
-                                    span: 60..63#0,
+                                    span: 60..63,
                                     value: "foo",
                                 },
                             ],
@@ -58,19 +58,19 @@
                 ),
             },
             TagItem {
-                span: 60..68#0,
+                span: 60..68,
                 tag_name: Text {
-                    span: 60..68#0,
+                    span: 60..68,
                     value: "requires",
                 },
                 tag: Requires(
                     RequiresTag {
-                        span: 60..68#0,
+                        span: 60..68,
                         name_path: NamePath {
-                            span: 60..87#0,
+                            span: 60..87,
                             components: [
                                 Text {
-                                    span: 60..63#0,
+                                    span: 60..63,
                                     value: "Pez",
                                 },
                             ],
@@ -81,26 +81,26 @@
         ],
     },
     JsDoc {
-        span: 148..148#0,
+        span: 148..148,
         description: Text {
-            span: 148..148#0,
+            span: 148..148,
             value: "",
         },
         tags: [
             TagItem {
-                span: 148..156#0,
+                span: 148..156,
                 tag_name: Text {
-                    span: 148..156#0,
+                    span: 148..156,
                     value: "requires",
                 },
                 tag: Requires(
                     RequiresTag {
-                        span: 148..156#0,
+                        span: 148..156,
                         name_path: NamePath {
-                            span: 148..248#0,
+                            span: 148..248,
                             components: [
                                 Text {
-                                    span: 148..148#0,
+                                    span: 148..148,
                                     value: "",
                                 },
                             ],
@@ -109,35 +109,35 @@
                 ),
             },
             TagItem {
-                span: 148..152#0,
+                span: 148..152,
                 tag_name: Text {
-                    span: 148..152#0,
+                    span: 148..152,
                     value: "link",
                 },
                 tag: Unknown(
                     UnknownTag {
-                        span: 148..152#0,
+                        span: 148..152,
                         extras: Text {
-                            span: 148..160#0,
+                            span: 148..160,
                             value: "module:zest}",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 148..156#0,
+                span: 148..156,
                 tag_name: Text {
-                    span: 148..156#0,
+                    span: 148..156,
                     value: "requires",
                 },
                 tag: Requires(
                     RequiresTag {
-                        span: 148..156#0,
+                        span: 148..156,
                         name_path: NamePath {
-                            span: 148..215#0,
+                            span: 148..215,
                             components: [
                                 Text {
-                                    span: 148..148#0,
+                                    span: 148..148,
                                     value: "",
                                 },
                             ],
@@ -146,35 +146,35 @@
                 ),
             },
             TagItem {
-                span: 148..157#0,
+                span: 148..157,
                 tag_name: Text {
-                    span: 148..157#0,
+                    span: 148..157,
                     value: "linkplain",
                 },
                 tag: Unknown(
                     UnknownTag {
-                        span: 148..157#0,
+                        span: 148..157,
                         extras: Text {
-                            span: 148..160#0,
+                            span: 148..160,
                             value: "module:zing}",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 148..156#0,
+                span: 148..156,
                 tag_name: Text {
-                    span: 148..156#0,
+                    span: 148..156,
                     value: "requires",
                 },
                 tag: Requires(
                     RequiresTag {
-                        span: 148..156#0,
+                        span: 148..156,
                         name_path: NamePath {
-                            span: 148..177#0,
+                            span: 148..177,
                             components: [
                                 Text {
-                                    span: 148..148#0,
+                                    span: 148..148,
                                     value: "",
                                 },
                             ],
@@ -183,16 +183,16 @@
                 ),
             },
             TagItem {
-                span: 148..158#0,
+                span: 148..158,
                 tag_name: Text {
-                    span: 148..158#0,
+                    span: 148..158,
                     value: "linkstupid",
                 },
                 tag: Unknown(
                     UnknownTag {
-                        span: 148..158#0,
+                        span: 148..158,
                         extras: Text {
-                            span: 148..163#0,
+                            span: 148..163,
                             value: "module:pizzazz}",
                         },
                     },

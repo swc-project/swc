@@ -1,23 +1,23 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..29#0,
+            span: 1..29,
             value: "Asynchronous function.\n *\n *",
         },
         tags: [
             TagItem {
-                span: 1..9#0,
+                span: 1..9,
                 tag_name: Text {
-                    span: 1..9#0,
+                    span: 1..9,
                     value: "function",
                 },
                 tag: Function(
                     FunctionTag {
-                        span: 1..9#0,
+                        span: 1..9,
                         name: Some(
                             Text {
-                                span: 1..4#0,
+                                span: 1..4,
                                 value: "foo",
                             },
                         ),
@@ -25,14 +25,14 @@
                 ),
             },
             TagItem {
-                span: 1..6#0,
+                span: 1..6,
                 tag_name: Text {
-                    span: 1..6#0,
+                    span: 1..6,
                     value: "async",
                 },
                 tag: Async(
                     AsyncTag {
-                        span: 1..6#0,
+                        span: 1..6,
                     },
                 ),
             },

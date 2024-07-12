@@ -13,7 +13,7 @@ use swc_common::{
 use swc_compiler_base::PrintArgs;
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::Syntax;
-use swc_ecma_transforms::{fixer, hygiene, resolver, typescript};
+use swc_ecma_transforms::{fixer, resolver, typescript};
 use swc_ecma_visit::FoldWith;
 
 static SOURCE: &str = include_str!("assets/Observable.ts");
@@ -26,7 +26,7 @@ fn mk() -> swc::Compiler {
 
 fn parse(c: &swc::Compiler) -> (Arc<SourceFile>, Program) {
     let fm = c.cm.new_source_file(
-        FileName::Real("rxjs/src/internal/Observable.ts".into()),
+        FileName::Real("rxjs/src/internal/Observable.ts".into()).into(),
         SOURCE.to_string(),
     );
     let handler = Handler::with_emitter_writer(Box::new(io::stderr()), Some(c.cm.clone()));
@@ -58,10 +58,10 @@ fn as_es(c: &swc::Compiler) -> Program {
 
 fn base_tr_group(c: &mut Criterion) {
     c.bench_function("es/full/base/fixer", base_tr_fixer);
-    c.bench_function(
-        "es/full/base/resolver_and_hygiene",
-        base_tr_resolver_and_hygiene,
-    );
+    // c.bench_function(
+    //     "es/full/base/resolver_and_hygiene",
+    //     base_tr_resolver_and_hygiene,
+    // );
 }
 
 fn base_tr_fixer(b: &mut Bencher) {
@@ -80,24 +80,25 @@ fn base_tr_fixer(b: &mut Bencher) {
     });
 }
 
-fn base_tr_resolver_and_hygiene(b: &mut Bencher) {
-    let c = mk();
-    GLOBALS.set(&Default::default(), || {
-        let module = as_es(&c);
+// fn base_tr_resolver_and_hygiene(b: &mut Bencher) {
+//     let c = mk();
+//     GLOBALS.set(&Default::default(), || {
+//         let module = as_es(&c);
 
-        b.iter(|| {
-            GLOBALS.set(&Default::default(), || {
-                let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
-                black_box(c.run_transform(&handler, true, || {
-                    module
-                        .clone()
-                        .fold_with(&mut resolver(Mark::new(), Mark::new(), false))
-                        .fold_with(&mut hygiene())
-                }))
-            })
-        });
-    })
-}
+//         b.iter(|| {
+//             GLOBALS.set(&Default::default(), || {
+//                 let handler =
+// Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
+//                 black_box(c.run_transform(&handler, true, || {
+//                     module
+//                         .clone()
+//                         .fold_with(&mut resolver(Mark::new(), Mark::new(),
+// false))                         .fold_with(&mut hygiene())
+//                 }))
+//             })
+//         });
+//     })
+// }
 
 /// This benchmark exists to know exact execution time of each pass.
 
@@ -153,7 +154,7 @@ fn bench_full(b: &mut Bencher, opts: &Options) {
                 let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
 
                 let fm = c.cm.new_source_file(
-                    FileName::Real("rxjs/src/internal/Observable.ts".into()),
+                    FileName::Real("rxjs/src/internal/Observable.ts".into()).into(),
                     SOURCE.to_string(),
                 );
                 let _ = c.process_js_file(fm, &handler, opts).unwrap();

@@ -281,7 +281,7 @@ where
     #[cold]
     fn emit_error(&mut self, kind: ErrorKind) {
         self.errors.push(Error::new(
-            Span::new(self.cur_pos, self.input.cur_pos(), Default::default()),
+            Span::new(self.cur_pos, self.input.cur_pos()),
             kind,
         ));
     }
@@ -290,7 +290,7 @@ where
     fn emit_token(&mut self, token: Token) {
         let cur_pos = self.input.cur_pos();
 
-        let span = Span::new(self.last_token_pos, cur_pos, Default::default());
+        let span = Span::new(self.last_token_pos, cur_pos);
 
         self.last_token_pos = cur_pos;
         self.pending_tokens.push_back(TokenAndSpan { span, token });
@@ -778,8 +778,7 @@ where
 
                     let name: JsWord = buf.clone().into();
                     let raw_name = Atom::new(sub_buf.clone());
-                    let span =
-                        Span::new(attribute_start_position, self.cur_pos, Default::default());
+                    let span = Span::new(attribute_start_position, self.cur_pos);
 
                     if self.attributes_validator.contains(&name) {
                         self.errors
@@ -896,8 +895,7 @@ where
                         sub_buf.clear();
                     }
 
-                    last.span =
-                        Span::new(attribute_start_position, self.cur_pos, Default::default());
+                    last.span = Span::new(attribute_start_position, self.cur_pos);
                 }
             }
         }

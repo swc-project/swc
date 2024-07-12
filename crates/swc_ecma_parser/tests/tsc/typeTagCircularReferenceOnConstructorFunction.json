@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 107,
-    "end": 153,
-    "ctxt": 0
+    "end": 153
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 116,
-          "end": 123,
-          "ctxt": 0
+          "end": 123
         },
+        "ctxt": 0,
         "value": "MyClass",
         "optional": false
       },
@@ -23,16 +22,16 @@
       "decorators": [],
       "span": {
         "start": 107,
-        "end": 129,
-        "ctxt": 0
+        "end": 129
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 126,
-          "end": 129,
-          "ctxt": 0
+          "end": 129
         },
+        "ctxt": 0,
         "stmts": []
       },
       "generator": false,
@@ -44,31 +43,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 130,
-        "end": 153,
-        "ctxt": 0
+        "end": 153
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
           "start": 130,
-          "end": 152,
-          "ctxt": 0
+          "end": 152
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
             "start": 130,
-            "end": 147,
-            "ctxt": 0
+            "end": 147
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 130,
-              "end": 137,
-              "ctxt": 0
+              "end": 137
             },
+            "ctxt": 0,
             "value": "MyClass",
             "optional": false
           },
@@ -76,19 +72,16 @@
             "type": "Identifier",
             "span": {
               "start": 138,
-              "end": 147,
-              "ctxt": 0
+              "end": 147
             },
-            "value": "prototype",
-            "optional": false
+            "value": "prototype"
           }
         },
         "right": {
           "type": "ObjectExpression",
           "span": {
             "start": 150,
-            "end": 152,
-            "ctxt": 0
+            "end": 152
           },
           "properties": []
         }

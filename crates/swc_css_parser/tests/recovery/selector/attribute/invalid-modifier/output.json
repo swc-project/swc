@@ -2,38 +2,33 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 21,
-    "ctxt": 0
+    "end": 21
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
         "start": 1,
-        "end": 21,
-        "ctxt": 0
+        "end": 21
       },
       "prelude": {
         "type": "ListOfComponentValues",
         "span": {
           "start": 1,
-          "end": 19,
-          "ctxt": 0
+          "end": 19
         },
         "children": [
           {
             "type": "SimpleBlock",
             "span": {
               "start": 1,
-              "end": 18,
-              "ctxt": 0
+              "end": 18
             },
             "name": {
               "type": "PreservedToken",
               "span": {
                 "start": 1,
-                "end": 2,
-                "ctxt": 0
+                "end": 2
               },
               "token": "LBracket"
             },
@@ -42,8 +37,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 2,
-                  "end": 6,
-                  "ctxt": 0
+                  "end": 6
                 },
                 "token": {
                   "Ident": {
@@ -56,8 +50,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 6,
-                  "end": 7,
-                  "ctxt": 0
+                  "end": 7
                 },
                 "token": {
                   "Delim": {
@@ -69,8 +62,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 7,
-                  "end": 13,
-                  "ctxt": 0
+                  "end": 13
                 },
                 "token": {
                   "String": {
@@ -83,8 +75,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 13,
-                  "end": 14,
-                  "ctxt": 0
+                  "end": 14
                 },
                 "token": {
                   "WhiteSpace": {
@@ -96,8 +87,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 14,
-                  "end": 17,
-                  "ctxt": 0
+                  "end": 17
                 },
                 "token": {
                   "String": {
@@ -112,8 +102,7 @@
             "type": "PreservedToken",
             "span": {
               "start": 18,
-              "end": 19,
-              "ctxt": 0
+              "end": 19
             },
             "token": {
               "WhiteSpace": {
@@ -127,15 +116,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 19,
-          "end": 21,
-          "ctxt": 0
+          "end": 21
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 19,
-            "end": 20,
-            "ctxt": 0
+            "end": 20
           },
           "token": "LBrace"
         },

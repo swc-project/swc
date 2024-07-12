@@ -308,7 +308,6 @@ fn illegal_language_mode_directive1() {
                     Span {
                         lo: BytePos(21),
                         hi: BytePos(34),
-                        ctxt: swc_common::SyntaxContext::empty()
                     },
                     crate::parser::SyntaxError::IllegalLanguageModeDirective
                 )]
@@ -333,7 +332,6 @@ fn illegal_language_mode_directive2() {
                     Span {
                         lo: BytePos(22),
                         hi: BytePos(35),
-                        ctxt: swc_common::SyntaxContext::empty()
                     },
                     crate::parser::SyntaxError::IllegalLanguageModeDirective
                 )]

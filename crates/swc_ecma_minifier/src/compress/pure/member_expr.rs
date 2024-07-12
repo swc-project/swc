@@ -2,7 +2,7 @@ use phf::phf_set;
 use swc_atoms::{Atom, JsWord};
 use swc_common::Spanned;
 use swc_ecma_ast::{
-    ArrayLit, Expr, ExprOrSpread, Ident, Lit, MemberExpr, MemberProp, ObjectLit, Prop,
+    ArrayLit, Expr, ExprOrSpread, IdentName, Lit, MemberExpr, MemberProp, ObjectLit, Prop,
     PropOrSpread, SeqExpr, Str,
 };
 use swc_ecma_utils::{prop_name_eq, ExprExt, Known};
@@ -269,7 +269,7 @@ impl Pure<'_> {
         }
 
         let op = match prop {
-            MemberProp::Ident(Ident { sym, .. }) => {
+            MemberProp::Ident(IdentName { sym, .. }) => {
                 if self.ctx.is_callee {
                     return None;
                 }
@@ -322,7 +322,7 @@ impl Pure<'_> {
                 let mut exprs: Vec<Box<Expr>> = exprs.drain(..(exprs.len() - 1)).collect();
                 exprs.push(Box::new(replacement));
 
-                Some(Expr::Seq(SeqExpr { span: *span, exprs }))
+                Some(SeqExpr { span: *span, exprs }.into())
             }
 
             Expr::Lit(Lit::Str(Str { value, span, .. })) => {
@@ -381,20 +381,20 @@ impl Pure<'_> {
                         Some(if exprs.is_empty() {
                             // No side effects, replacement is:
                             // (0, void 0)
-                            Expr::Seq(SeqExpr {
+                            SeqExpr {
                                 span: *span,
                                 exprs: vec![0.into(), Expr::undefined(*span)]
-                            })
+                            }.into()
                         } else {
                             // Side effects exist, replacement is:
                             // (x(), y(), void 0)
                             // Where `x()` and `y()` are side effects.
                             exprs.push(Expr::undefined(*span));
 
-                            Expr::Seq(SeqExpr {
+                            SeqExpr {
                                 span: *span,
                                 exprs
-                            })
+                            }.into()
                         })
                     }
 
@@ -429,9 +429,9 @@ impl Pure<'_> {
 
                         Some(if is_known_symbol {
                             // [x(), y()].push
-                            Expr::Member(MemberExpr {
+                            MemberExpr {
                                 span: *span,
-                                obj: Box::new(Expr::Array(ArrayLit {
+                                obj: ArrayLit {
                                     span: *span,
                                     elems: exprs
                                         .into_iter()
@@ -440,29 +440,30 @@ impl Pure<'_> {
                                             expr: elem,
                                         }))
                                         .collect()
-                                })),
+                                }.into(),
                                 prop: prop.clone(),
-                            })
+                            }.into()
                         } else {
-                            let val = Expr::undefined(*span);
+                            let val = Expr::undefined(
+                                *span);
 
                             if exprs.is_empty() {
                                 // No side effects, replacement is:
                                 // (0, void 0)
-                                Expr::Seq(SeqExpr {
+                                SeqExpr {
                                     span: val.span(),
                                     exprs: vec![0.into(), val]
-                                })
+                                }.into()
                             } else {
                                 // Side effects exist, replacement is:
                                 // (x(), y(), void 0)
                                 // Where `x()` and `y()` are side effects.
                                 exprs.push(val);
 
-                                Expr::Seq(SeqExpr {
+                                SeqExpr {
                                     span: *span,
                                     exprs
-                                })
+                                }.into()
                             }
                         })
                     }
@@ -522,22 +523,24 @@ impl Pure<'_> {
                 }
 
                 // Can be optimized fully or partially
-                Some(self.expr_ctx.preserve_effects(
+                Some(*self.expr_ctx.preserve_effects(
                     *span,
                     if is_known_symbol {
                         // Valid key, e.g. "hasOwnProperty". Replacement:
                         // (foo(), bar(), {}.hasOwnProperty)
-                        Expr::Member(MemberExpr {
+                        MemberExpr {
                             span: *span,
-                            obj: Box::new(Expr::Object(ObjectLit {
+                            obj: ObjectLit {
                                 span: *span,
                                 props: vec![],
-                            })),
-                            prop: MemberProp::Ident(Ident::new(key, *span)),
-                        })
+                            }
+                            .into(),
+                            prop: MemberProp::Ident(IdentName::new(key, *span)),
+                        }
+                        .into()
                     } else {
                         // Invalid key. Replace with side effects plus `undefined`.
-                        *Expr::undefined(*span)
+                        Expr::undefined(*span)
                     },
                     props.drain(..).map(|x| match x {
                         PropOrSpread::Prop(prop) => match *prop {

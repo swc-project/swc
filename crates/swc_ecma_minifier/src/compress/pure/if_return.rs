@@ -114,13 +114,17 @@ impl Pure<'_> {
                 s.cons = if cons.len() == 1 && is_fine_for_if_cons(&cons[0]) {
                     Box::new(cons.into_iter().next().unwrap())
                 } else {
-                    Box::new(Stmt::Block(BlockStmt {
-                        span: DUMMY_SP,
-                        stmts: cons,
-                    }))
+                    Box::new(
+                        BlockStmt {
+                            span: DUMMY_SP,
+                            stmts: cons,
+                            ..Default::default()
+                        }
+                        .into(),
+                    )
                 };
 
-                new.push(Stmt::If(s))
+                new.push(s.into())
             }
             _ => {
                 unreachable!()
@@ -149,10 +153,14 @@ impl Pure<'_> {
             match &mut **alt_of_alt {
                 Stmt::Block(..) => {}
                 Stmt::Expr(..) => {
-                    *alt_of_alt = Box::new(Stmt::Block(BlockStmt {
-                        span: DUMMY_SP,
-                        stmts: vec![*alt_of_alt.take()],
-                    }));
+                    *alt_of_alt = Box::new(
+                        BlockStmt {
+                            span: DUMMY_SP,
+                            stmts: vec![*alt_of_alt.take()],
+                            ..Default::default()
+                        }
+                        .into(),
+                    );
                 }
                 _ => {
                     return;
@@ -166,12 +174,13 @@ impl Pure<'_> {
                 Stmt::Block(alt_of_alt) => {
                     prepend_stmt(
                         &mut alt_of_alt.stmts,
-                        Stmt::If(IfStmt {
+                        IfStmt {
                             span: *span_of_alt,
                             test: test_of_alt.take(),
                             cons: cons_of_alt.take(),
                             alt: None,
-                        }),
+                        }
+                        .into(),
                     );
                 }
 

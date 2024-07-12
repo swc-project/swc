@@ -2,8 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 668,
-    "ctxt": 0
+    "end": 668
   },
   "mode": "no-quirks",
   "children": [
@@ -11,8 +10,7 @@
       "type": "DocumentType",
       "span": {
         "start": 1,
-        "end": 99,
-        "ctxt": 0
+        "end": 99
       },
       "name": "html",
       "publicId": "-//W3C//DTD HTML 4.01//EN",
@@ -23,8 +21,7 @@
       "type": "Element",
       "span": {
         "start": 100,
-        "end": 668,
-        "ctxt": 0
+        "end": 668
       },
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -34,8 +31,7 @@
           "type": "Element",
           "span": {
             "start": 107,
-            "end": 229,
-            "ctxt": 0
+            "end": 229
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -45,8 +41,7 @@
               "type": "Text",
               "span": {
                 "start": 113,
-                "end": 118,
-                "ctxt": 0
+                "end": 118
               },
               "data": "\n    ",
               "raw": "\n    "
@@ -55,8 +50,7 @@
               "type": "Element",
               "span": {
                 "start": 118,
-                "end": 185,
-                "ctxt": 0
+                "end": 185
               },
               "tagName": "meta",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -65,8 +59,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 124,
-                    "end": 149,
-                    "ctxt": 0
+                    "end": 149
                   },
                   "namespace": null,
                   "prefix": null,
@@ -79,8 +72,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 150,
-                    "end": 184,
-                    "ctxt": 0
+                    "end": 184
                   },
                   "namespace": null,
                   "prefix": null,
@@ -98,8 +90,7 @@
               "type": "Text",
               "span": {
                 "start": 185,
-                "end": 190,
-                "ctxt": 0
+                "end": 190
               },
               "data": "\n    ",
               "raw": "\n    "
@@ -108,8 +99,7 @@
               "type": "Element",
               "span": {
                 "start": 190,
-                "end": 221,
-                "ctxt": 0
+                "end": 221
               },
               "tagName": "title",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -119,8 +109,7 @@
                   "type": "Text",
                   "span": {
                     "start": 197,
-                    "end": 213,
-                    "ctxt": 0
+                    "end": 213
                   },
                   "data": "Тег PLAINTEXT",
                   "raw": "Тег PLAINTEXT"
@@ -133,8 +122,7 @@
               "type": "Text",
               "span": {
                 "start": 221,
-                "end": 222,
-                "ctxt": 0
+                "end": 222
               },
               "data": "\n",
               "raw": "\n"
@@ -147,8 +135,7 @@
           "type": "Text",
           "span": {
             "start": 229,
-            "end": 230,
-            "ctxt": 0
+            "end": 230
           },
           "data": "\n",
           "raw": "\n"
@@ -157,8 +144,7 @@
           "type": "Element",
           "span": {
             "start": 230,
-            "end": 668,
-            "ctxt": 0
+            "end": 668
           },
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -168,8 +154,7 @@
               "type": "Text",
               "span": {
                 "start": 236,
-                "end": 237,
-                "ctxt": 0
+                "end": 237
               },
               "data": "\n",
               "raw": "\n"
@@ -178,8 +163,7 @@
               "type": "Element",
               "span": {
                 "start": 237,
-                "end": 275,
-                "ctxt": 0
+                "end": 275
               },
               "tagName": "p",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -189,8 +173,7 @@
                   "type": "Text",
                   "span": {
                     "start": 240,
-                    "end": 271,
-                    "ctxt": 0
+                    "end": 271
                   },
                   "data": "Пример программы",
                   "raw": "Пример программы"
@@ -203,8 +186,7 @@
               "type": "Text",
               "span": {
                 "start": 275,
-                "end": 276,
-                "ctxt": 0
+                "end": 276
               },
               "data": "\n",
               "raw": "\n"
@@ -213,8 +195,7 @@
               "type": "Element",
               "span": {
                 "start": 276,
-                "end": 668,
-                "ctxt": 0
+                "end": 668
               },
               "tagName": "plaintext",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -224,8 +205,7 @@
                   "type": "Text",
                   "span": {
                     "start": 287,
-                    "end": 668,
-                    "ctxt": 0
+                    "end": 668
                   },
                   "data": "\n    <h1>Демонстрация метода Подборского</h1>\n    while (<>) {\n    $org=$_;\n    s/\\\\[\"']//g;\n    s/\\/\\/[^:].*//;\n    s/\\/\\*.*\\*\\///g;\n    if ($comment == 1) {\n    if (s/.*\\*\\///) {\n    $comment = 0;\n    }\n    else {\n    next;\n    }\n    }\n    if (s/\\/\\*.*//) {\n    $comment = 1;\n    }\n    if (/^\\s*#/) {\n    next;\n    }\n    }</plaintext>\n</body>\n</html>",
                   "raw": "\n    <h1>Демонстрация метода Подборского</h1>\n    while (<>) {\n    $org=$_;\n    s/\\\\[\"']//g;\n    s/\\/\\/[^:].*//;\n    s/\\/\\*.*\\*\\///g;\n    if ($comment == 1) {\n    if (s/.*\\*\\///) {\n    $comment = 0;\n    }\n    else {\n    next;\n    }\n    }\n    if (s/\\/\\*.*//) {\n    $comment = 1;\n    }\n    if (/^\\s*#/) {\n    next;\n    }\n    }</plaintext>\n</body>\n</html>"

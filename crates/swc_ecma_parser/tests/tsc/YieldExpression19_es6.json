@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 17,
-    "end": 105,
-    "ctxt": 0
+    "end": 105
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 26,
-          "end": 29,
-          "ctxt": 0
+          "end": 29
         },
+        "ctxt": 0,
         "value": "foo",
         "optional": false
       },
@@ -23,16 +22,16 @@
       "decorators": [],
       "span": {
         "start": 17,
-        "end": 105,
-        "ctxt": 0
+        "end": 105
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 32,
-          "end": 105,
-          "ctxt": 0
+          "end": 105
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "FunctionDeclaration",
@@ -40,9 +39,9 @@
               "type": "Identifier",
               "span": {
                 "start": 45,
-                "end": 48,
-                "ctxt": 0
+                "end": 48
               },
+              "ctxt": 0,
               "value": "bar",
               "optional": false
             },
@@ -51,16 +50,16 @@
             "decorators": [],
             "span": {
               "start": 36,
-              "end": 103,
-              "ctxt": 0
+              "end": 103
             },
+            "ctxt": 0,
             "body": {
               "type": "BlockStatement",
               "span": {
                 "start": 51,
-                "end": 103,
-                "ctxt": 0
+                "end": 103
               },
+              "ctxt": 0,
               "stmts": [
                 {
                   "type": "FunctionDeclaration",
@@ -68,9 +67,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 67,
-                      "end": 71,
-                      "ctxt": 0
+                      "end": 71
                     },
+                    "ctxt": 0,
                     "value": "quux",
                     "optional": false
                   },
@@ -79,45 +78,42 @@
                   "decorators": [],
                   "span": {
                     "start": 57,
-                    "end": 99,
-                    "ctxt": 0
+                    "end": 99
                   },
+                  "ctxt": 0,
                   "body": {
                     "type": "BlockStatement",
                     "span": {
                       "start": 74,
-                      "end": 99,
-                      "ctxt": 0
+                      "end": 99
                     },
+                    "ctxt": 0,
                     "stmts": [
                       {
                         "type": "ExpressionStatement",
                         "span": {
                           "start": 82,
-                          "end": 93,
-                          "ctxt": 0
+                          "end": 93
                         },
                         "expression": {
                           "type": "YieldExpression",
                           "span": {
                             "start": 82,
-                            "end": 92,
-                            "ctxt": 0
+                            "end": 92
                           },
                           "argument": {
                             "type": "ParenthesisExpression",
                             "span": {
                               "start": 87,
-                              "end": 92,
-                              "ctxt": 0
+                              "end": 92
                             },
                             "expression": {
                               "type": "Identifier",
                               "span": {
                                 "start": 88,
-                                "end": 91,
-                                "ctxt": 0
+                                "end": 91
                               },
+                              "ctxt": 0,
                               "value": "foo",
                               "optional": false
                             }

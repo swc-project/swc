@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 29,
-    "ctxt": 0
+    "end": 29
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 1,
-        "end": 29,
-        "ctxt": 0
+        "end": 29
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 5,
-            "end": 28,
-            "ctxt": 0
+            "end": 28
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 5,
-              "end": 6,
-              "ctxt": 0
+              "end": 6
             },
+            "ctxt": 0,
             "value": "v",
             "optional": false,
             "typeAnnotation": null
@@ -38,8 +36,7 @@
             "type": "ArrayExpression",
             "span": {
               "start": 9,
-              "end": 28,
-              "ctxt": 0
+              "end": 28
             },
             "elements": [
               null,
@@ -50,8 +47,7 @@
                   "type": "NumericLiteral",
                   "span": {
                     "start": 12,
-                    "end": 13,
-                    "ctxt": 0
+                    "end": 13
                   },
                   "value": 1.0,
                   "raw": "1"
@@ -63,8 +59,7 @@
                   "type": "NumericLiteral",
                   "span": {
                     "start": 14,
-                    "end": 15,
-                    "ctxt": 0
+                    "end": 15
                   },
                   "value": 1.0,
                   "raw": "1"
@@ -77,8 +72,7 @@
                   "type": "NumericLiteral",
                   "span": {
                     "start": 17,
-                    "end": 18,
-                    "ctxt": 0
+                    "end": 18
                   },
                   "value": 1.0,
                   "raw": "1"
@@ -91,8 +85,7 @@
                   "type": "NumericLiteral",
                   "span": {
                     "start": 20,
-                    "end": 21,
-                    "ctxt": 0
+                    "end": 21
                   },
                   "value": 1.0,
                   "raw": "1"
@@ -104,8 +97,7 @@
                   "type": "NumericLiteral",
                   "span": {
                     "start": 22,
-                    "end": 23,
-                    "ctxt": 0
+                    "end": 23
                   },
                   "value": 1.0,
                   "raw": "1"
@@ -118,8 +110,7 @@
                   "type": "NumericLiteral",
                   "span": {
                     "start": 25,
-                    "end": 26,
-                    "ctxt": 0
+                    "end": 26
                   },
                   "value": 1.0,
                   "raw": "1"

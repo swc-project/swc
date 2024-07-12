@@ -2,31 +2,29 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 19,
-    "ctxt": 0
+    "end": 19
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 19,
-        "ctxt": 0
+        "end": 19
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 1,
-          "end": 19,
-          "ctxt": 0
+          "end": 19
         },
+        "ctxt": 0,
         "callee": {
           "type": "Identifier",
           "span": {
             "start": 1,
-            "end": 3,
-            "ctxt": 0
+            "end": 3
           },
+          "ctxt": 0,
           "value": "fn",
           "optional": false
         },
@@ -37,17 +35,16 @@
               "type": "BinaryExpression",
               "span": {
                 "start": 4,
-                "end": 9,
-                "ctxt": 0
+                "end": 9
               },
               "operator": "<",
               "left": {
                 "type": "Identifier",
                 "span": {
                   "start": 4,
-                  "end": 5,
-                  "ctxt": 0
+                  "end": 5
                 },
+                "ctxt": 0,
                 "value": "x",
                 "optional": false
               },
@@ -55,9 +52,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 8,
-                  "end": 9,
-                  "ctxt": 0
+                  "end": 9
                 },
+                "ctxt": 0,
                 "value": "y",
                 "optional": false
               }
@@ -69,17 +66,16 @@
               "type": "BinaryExpression",
               "span": {
                 "start": 11,
-                "end": 18,
-                "ctxt": 0
+                "end": 18
               },
               "operator": ">=",
               "left": {
                 "type": "Identifier",
                 "span": {
                   "start": 11,
-                  "end": 12,
-                  "ctxt": 0
+                  "end": 12
                 },
+                "ctxt": 0,
                 "value": "x",
                 "optional": false
               },
@@ -87,9 +83,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 16,
-                  "end": 18,
-                  "ctxt": 0
+                  "end": 18
                 },
+                "ctxt": 0,
                 "value": "y1",
                 "optional": false
               }

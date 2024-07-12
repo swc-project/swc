@@ -2,23 +2,20 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 84,
-    "ctxt": 0
+    "end": 84
   },
   "body": [
     {
       "type": "ExportDefaultExpression",
       "span": {
         "start": 1,
-        "end": 49,
-        "ctxt": 0
+        "end": 49
       },
       "expression": {
         "type": "ObjectExpression",
         "span": {
           "start": 16,
-          "end": 48,
-          "ctxt": 0
+          "end": 48
         },
         "properties": [
           {
@@ -27,18 +24,15 @@
               "type": "Identifier",
               "span": {
                 "start": 22,
-                "end": 26,
-                "ctxt": 0
+                "end": 26
               },
-              "value": "uhoh",
-              "optional": false
+              "value": "uhoh"
             },
             "value": {
               "type": "StringLiteral",
               "span": {
                 "start": 28,
-                "end": 45,
-                "ctxt": 0
+                "end": 45
               },
               "value": "another default",
               "raw": "\"another default\""
@@ -51,8 +45,7 @@
       "type": "ExportDefaultDeclaration",
       "span": {
         "start": 51,
-        "end": 84,
-        "ctxt": 0
+        "end": 84
       },
       "decl": {
         "type": "FunctionExpression",
@@ -60,9 +53,9 @@
           "type": "Identifier",
           "span": {
             "start": 75,
-            "end": 78,
-            "ctxt": 0
+            "end": 78
           },
+          "ctxt": 0,
           "value": "Foo",
           "optional": false
         },
@@ -70,16 +63,16 @@
         "decorators": [],
         "span": {
           "start": 66,
-          "end": 84,
-          "ctxt": 0
+          "end": 84
         },
+        "ctxt": 0,
         "body": {
           "type": "BlockStatement",
           "span": {
             "start": 81,
-            "end": 84,
-            "ctxt": 0
+            "end": 84
           },
+          "ctxt": 0,
           "stmts": []
         },
         "generator": false,

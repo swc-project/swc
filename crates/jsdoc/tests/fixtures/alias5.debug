@@ -1,20 +1,20 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..25#0,
+            span: 1..25,
             value: "Toaster singleton.\n *\n *",
         },
         tags: [
             TagItem {
-                span: 1..6#0,
+                span: 1..6,
                 tag_name: Text {
-                    span: 1..6#0,
+                    span: 1..6,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 1..6#0,
+                        span: 1..6,
                         ty: None,
                         name: None,
                     },
@@ -23,26 +23,26 @@
         ],
     },
     JsDoc {
-        span: 129..194#0,
+        span: 129..194,
         description: Text {
-            span: 129..157#0,
+            span: 129..157,
             value: "Toast an item.\n     *\n     *",
         },
         tags: [
             TagItem {
-                span: 129..134#0,
+                span: 129..134,
                 tag_name: Text {
-                    span: 129..134#0,
+                    span: 129..134,
                     value: "alias",
                 },
                 tag: Alias(
                     AliasTag {
-                        span: 129..134#0,
+                        span: 129..134,
                         name_path: NamePath {
-                            span: 129..194#0,
+                            span: 129..194,
                             components: [
                                 Text {
-                                    span: 129..136#0,
+                                    span: 129..136,
                                     value: "Toaster",
                                 },
                             ],
@@ -53,26 +53,26 @@
         ],
     },
     JsDoc {
-        span: 306..306#0,
+        span: 306..306,
         description: Text {
-            span: 306..338#0,
+            span: 306..338,
             value: "Clean the toaster.\n     *\n     *",
         },
         tags: [
             TagItem {
-                span: 306..311#0,
+                span: 306..311,
                 tag_name: Text {
-                    span: 306..311#0,
+                    span: 306..311,
                     value: "alias",
                 },
                 tag: Alias(
                     AliasTag {
-                        span: 306..311#0,
+                        span: 306..311,
                         name_path: NamePath {
-                            span: 306..353#0,
+                            span: 306..353,
                             components: [
                                 Text {
-                                    span: 306..311#0,
+                                    span: 306..311,
                                     value: "clean",
                                 },
                             ],
@@ -81,19 +81,19 @@
                 ),
             },
             TagItem {
-                span: 306..314#0,
+                span: 306..314,
                 tag_name: Text {
-                    span: 306..314#0,
+                    span: 306..314,
                     value: "memberof",
                 },
                 tag: MemberOf(
                     MemberOfTag {
-                        span: 306..314#0,
+                        span: 306..314,
                         parent_name_path: NamePath {
-                            span: 306..328#0,
+                            span: 306..328,
                             components: [
                                 Text {
-                                    span: 306..313#0,
+                                    span: 306..313,
                                     value: "Toaster",
                                 },
                             ],
@@ -102,40 +102,40 @@
                 ),
             },
             TagItem {
-                span: 306..314#0,
+                span: 306..314,
                 tag_name: Text {
-                    span: 306..314#0,
+                    span: 306..314,
                     value: "instance",
                 },
                 tag: Instance(
                     InstanceTag {
-                        span: 306..314#0,
+                        span: 306..314,
                     },
                 ),
             },
         ],
     },
     JsDoc {
-        span: 480..553#0,
+        span: 480..553,
         description: Text {
-            span: 480..527#0,
+            span: 480..527,
             value: "Get the Toaster instance.\n         *\n         *",
         },
         tags: [
             TagItem {
-                span: 480..485#0,
+                span: 480..485,
                 tag_name: Text {
-                    span: 480..485#0,
+                    span: 480..485,
                     value: "alias",
                 },
                 tag: Alias(
                     AliasTag {
-                        span: 480..485#0,
+                        span: 480..485,
                         name_path: NamePath {
-                            span: 480..553#0,
+                            span: 480..553,
                             components: [
                                 Text {
-                                    span: 480..487#0,
+                                    span: 480..487,
                                     value: "Toaster",
                                 },
                             ],

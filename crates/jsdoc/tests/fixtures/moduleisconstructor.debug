@@ -1,26 +1,26 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..29#0,
+            span: 1..29,
             value: "Describe the module here.\n *",
         },
         tags: [
             TagItem {
-                span: 1..7#0,
+                span: 1..7,
                 tag_name: Text {
-                    span: 1..7#0,
+                    span: 1..7,
                     value: "module",
                 },
                 tag: Module(
                     ModuleTag {
-                        span: 1..7#0,
+                        span: 1..7,
                         name: Text {
-                            span: 1..7#0,
+                            span: 1..7,
                             value: "config",
                         },
                         ty: Text {
-                            span: 1..9#0,
+                            span: 1..9,
                             value: "mymodule",
                         },
                     },
@@ -29,46 +29,46 @@
         ],
     },
     JsDoc {
-        span: 66..66#0,
+        span: 66..66,
         description: Text {
-            span: 66..99#0,
+            span: 66..99,
             value: "Create a new configuration.\n *\n *",
         },
         tags: [
             TagItem {
-                span: 66..75#0,
+                span: 66..75,
                 tag_name: Text {
-                    span: 66..75#0,
+                    span: 66..75,
                     value: "classdesc",
                 },
                 tag: ClassDesc(
                     JSDocClassDescTag {
-                        span: 66..75#0,
+                        span: 66..75,
                         desc: Text {
-                            span: 66..90#0,
+                            span: 66..90,
                             value: "Describe the class here.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 66..71#0,
+                span: 66..71,
                 tag_name: Text {
-                    span: 66..71#0,
+                    span: 66..71,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 66..71#0,
+                        span: 66..71,
                         ty: Some(
                             Text {
-                                span: 66..97#0,
+                                span: 66..97,
                                 value: "* @alias module:mymodule/config",
                             },
                         ),
                         name: Some(
                             Text {
-                                span: 66..86#0,
+                                span: 66..86,
                                 value: "* @param {string} id",
                             },
                         ),
@@ -78,37 +78,37 @@
         ],
     },
     JsDoc {
-        span: 237..237#0,
+        span: 237..237,
         description: Text {
-            span: 237..249#0,
+            span: 237..249,
             value: "Document me.",
         },
         tags: [],
     },
     JsDoc {
-        span: 277..277#0,
+        span: 277..277,
         description: Text {
-            span: 277..308#0,
+            span: 277..308,
             value: "Get the configuration ID.\n *\n *",
         },
         tags: [
             TagItem {
-                span: 277..283#0,
+                span: 277..283,
                 tag_name: Text {
-                    span: 277..283#0,
+                    span: 277..283,
                     value: "return",
                 },
                 tag: Return(
                     ReturnTag {
-                        span: 277..283#0,
+                        span: 277..283,
                         ty: Some(
                             Text {
-                                span: 277..285#0,
+                                span: 277..285,
                                 value: "{string}",
                             },
                         ),
                         description: Text {
-                            span: 277..298#0,
+                            span: 277..298,
                             value: "The configuration ID.",
                         },
                     },

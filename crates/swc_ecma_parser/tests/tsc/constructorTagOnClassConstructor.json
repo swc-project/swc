@@ -2,16 +2,14 @@
   "type": "Module",
   "span": {
     "start": 80,
-    "end": 204,
-    "ctxt": 0
+    "end": 204
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
         "start": 80,
-        "end": 102,
-        "ctxt": 0
+        "end": 102
       },
       "declaration": {
         "type": "ClassDeclaration",
@@ -19,18 +17,18 @@
           "type": "Identifier",
           "span": {
             "start": 93,
-            "end": 98,
-            "ctxt": 0
+            "end": 98
           },
+          "ctxt": 0,
           "value": "Alpha",
           "optional": false
         },
         "declare": false,
         "span": {
           "start": 87,
-          "end": 102,
-          "ctxt": 0
+          "end": 102
         },
+        "ctxt": 0,
         "decorators": [],
         "body": [],
         "superClass": null,
@@ -44,8 +42,7 @@
       "type": "ExportDeclaration",
       "span": {
         "start": 103,
-        "end": 176,
-        "ctxt": 0
+        "end": 176
       },
       "declaration": {
         "type": "ClassDeclaration",
@@ -53,45 +50,43 @@
           "type": "Identifier",
           "span": {
             "start": 116,
-            "end": 120,
-            "ctxt": 0
+            "end": 120
           },
+          "ctxt": 0,
           "value": "Beta",
           "optional": false
         },
         "declare": false,
         "span": {
           "start": 110,
-          "end": 176,
-          "ctxt": 0
+          "end": 176
         },
+        "ctxt": 0,
         "decorators": [],
         "body": [
           {
             "type": "Constructor",
             "span": {
               "start": 155,
-              "end": 174,
-              "ctxt": 0
+              "end": 174
             },
+            "ctxt": 0,
             "key": {
               "type": "Identifier",
               "span": {
                 "start": 155,
-                "end": 166,
-                "ctxt": 0
+                "end": 166
               },
-              "value": "constructor",
-              "optional": false
+              "value": "constructor"
             },
             "params": [],
             "body": {
               "type": "BlockStatement",
               "span": {
                 "start": 169,
-                "end": 174,
-                "ctxt": 0
+                "end": 174
               },
+              "ctxt": 0,
               "stmts": []
             },
             "accessibility": null,
@@ -109,9 +104,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 178,
-        "end": 204,
-        "ctxt": 0
+        "end": 204
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -119,16 +114,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 184,
-            "end": 203,
-            "ctxt": 0
+            "end": 203
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 184,
-              "end": 187,
-              "ctxt": 0
+              "end": 187
             },
+            "ctxt": 0,
             "value": "arr",
             "optional": false,
             "typeAnnotation": null
@@ -137,8 +131,7 @@
             "type": "ArrayExpression",
             "span": {
               "start": 190,
-              "end": 203,
-              "ctxt": 0
+              "end": 203
             },
             "elements": [
               {
@@ -147,9 +140,9 @@
                   "type": "Identifier",
                   "span": {
                     "start": 191,
-                    "end": 196,
-                    "ctxt": 0
+                    "end": 196
                   },
+                  "ctxt": 0,
                   "value": "Alpha",
                   "optional": false
                 }
@@ -160,9 +153,9 @@
                   "type": "Identifier",
                   "span": {
                     "start": 198,
-                    "end": 202,
-                    "ctxt": 0
+                    "end": 202
                   },
+                  "ctxt": 0,
                   "value": "Beta",
                   "optional": false
                 }

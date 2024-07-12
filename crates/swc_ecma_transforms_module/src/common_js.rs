@@ -1,5 +1,6 @@
 use swc_common::{
-    collections::AHashSet, comments::Comments, util::take::Take, FileName, Mark, Span, DUMMY_SP,
+    collections::AHashSet, comments::Comments, util::take::Take, FileName, Mark, Span,
+    SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
@@ -174,8 +175,12 @@ where
                 export_assign
                     .make_assign_to(
                         op!("="),
-                        member_expr!(DUMMY_SP.apply_mark(self.unresolved_mark), module.exports)
-                            .into(),
+                        member_expr!(
+                            SyntaxContext::empty().apply_mark(self.unresolved_mark),
+                            Default::default(),
+                            module.exports
+                        )
+                        .into(),
                     )
                     .into_stmt()
                     .into(),
@@ -222,13 +227,13 @@ where
                     }
                 });
 
-                let require_span = import_span.apply_mark(self.unresolved_mark);
+                let unresolved_ctxt = SyntaxContext::empty().apply_mark(self.unresolved_mark);
 
                 *n = cjs_dynamic_import(
                     *span,
                     self.pure_span(),
                     args.take(),
-                    quote_ident!(require_span, "require"),
+                    quote_ident!(unresolved_ctxt, *import_span, "require"),
                     self.config.import_interop(),
                     self.support_arrow,
                     is_lit_path,
@@ -244,7 +249,10 @@ where
             {
                 obj.visit_mut_with(self);
 
-                let require = quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "require");
+                let require = quote_ident!(
+                    SyntaxContext::empty().apply_mark(self.unresolved_mark),
+                    "require"
+                );
                 *n = cjs_import_meta_url(*span, require, self.unresolved_mark);
             }
             _ => n.visit_mut_children_with(self),
@@ -309,7 +317,7 @@ where
                 // require("mod");
                 let import_expr =
                     self.resolver
-                        .make_require_call(self.unresolved_mark, src, src_span);
+                        .make_require_call(self.unresolved_mark, src, src_span.0);
 
                 // _export_star(require("mod"), exports);
                 let import_expr = if link_flag.export_star() {
@@ -340,17 +348,11 @@ where
 
                 if decl_mod_ident {
                     let stmt = if is_lazy {
-                        Stmt::Decl(Decl::Fn(lazy_require(
-                            import_expr,
-                            mod_ident,
-                            self.const_var_kind,
-                        )))
+                        lazy_require(import_expr, mod_ident, self.const_var_kind).into()
                     } else {
-                        Stmt::Decl(
-                            import_expr
-                                .into_var_decl(self.const_var_kind, mod_ident.into())
-                                .into(),
-                        )
+                        import_expr
+                            .into_var_decl(self.const_var_kind, mod_ident.into())
+                            .into()
                     };
 
                     stmts.push(stmt);
@@ -429,7 +431,7 @@ where
                     let assign_expr = AssignExpr {
                         span,
                         op: op!("="),
-                        left: self.exports().make_member(id).into(),
+                        left: self.exports().make_member(id.into()).into(),
                         right: Box::new(require),
                     };
 
@@ -439,7 +441,7 @@ where
                     let mut var_decl = require.into_var_decl(self.const_var_kind, id.into());
                     var_decl.span = span;
 
-                    Stmt::Decl(var_decl.into())
+                    var_decl.into()
                 }
                 .into()
             }
@@ -448,7 +450,10 @@ where
     }
 
     fn exports(&self) -> Ident {
-        quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "exports")
+        quote_ident!(
+            SyntaxContext::empty().apply_mark(self.unresolved_mark),
+            "exports"
+        )
     }
 
     /// emit [cjs-module-lexer](https://github.com/nodejs/cjs-module-lexer) friendly exports list
@@ -463,10 +468,10 @@ where
                 let expr: Expr = 0.into();
 
                 let (key, export_item) = &export_id_list[0];
-                let prop = prop_name(key, DUMMY_SP).into();
+                let prop = prop_name(key, Default::default()).into();
                 let export_binding = MemberExpr {
                     obj: Box::new(self.exports().into()),
-                    span: export_item.export_name_span(),
+                    span: export_item.export_name_span().0,
                     prop,
                 };
                 let expr = expr.make_assign_to(op!("="), export_binding.into());
@@ -482,7 +487,7 @@ where
             _ => {
                 let props = export_id_list
                     .iter()
-                    .map(|(key, ..)| prop_name(key, DUMMY_SP))
+                    .map(|(key, ..)| prop_name(key, Default::default()))
                     .map(|key| KeyValueProp {
                         key: key.into(),
                         // `cjs-module-lexer` only support identifier as value
@@ -500,7 +505,12 @@ where
                 }
                 .make_assign_to(
                     op!("="),
-                    member_expr!(DUMMY_SP.apply_mark(self.unresolved_mark), module.exports).into(),
+                    member_expr!(
+                        SyntaxContext::empty().apply_mark(self.unresolved_mark),
+                        Default::default(),
+                        module.exports
+                    )
+                    .into(),
                 );
 
                 let expr = BinExpr {
@@ -527,7 +537,7 @@ where
                     self.resolver
                         .make_require_call(self.unresolved_mark, src.clone(), DUMMY_SP);
 
-                Expr::Ident(quote_ident!("__export")).as_call(DUMMY_SP, vec![import_expr.as_arg()])
+                quote_ident!("__export").as_call(DUMMY_SP, vec![import_expr.as_arg()])
             })
             .reduce(|left, right| {
                 BinExpr {
@@ -586,7 +596,7 @@ pub(crate) fn cjs_dynamic_import(
         (args, vec![p.clone().into()], vec![p.as_arg()])
     };
 
-    let then = member_expr!(DUMMY_SP, Promise.resolve)
+    let then = member_expr!(Default::default(), Default::default(), Promise.resolve)
         // TODO: handle import assert
         .as_call(DUMMY_SP, resolve_args)
         .make_member(quote_ident!("then"));
@@ -619,7 +629,11 @@ fn cjs_import_meta_url(span: Span, require: Ident, unresolved_mark: Mark) -> Exp
         .make_member(quote_ident!("pathToFileURL"))
         .as_call(
             DUMMY_SP,
-            vec![quote_ident!(DUMMY_SP.apply_mark(unresolved_mark), "__filename").as_arg()],
+            vec![quote_ident!(
+                SyntaxContext::empty().apply_mark(unresolved_mark),
+                "__filename"
+            )
+            .as_arg()],
         )
         .make_member(quote_ident!("toString"))
         .as_call(span, Default::default())
@@ -656,11 +670,11 @@ pub fn lazy_require(expr: Expr, mod_ident: Ident, var_kind: VarDeclKind) -> FnDe
             body: Some(BlockStmt {
                 span: DUMMY_SP,
                 stmts: vec![data_stmt, overwrite_stmt, return_stmt],
+                ..Default::default()
             }),
             is_generator: false,
             is_async: false,
-            type_params: None,
-            return_type: None,
+            ..Default::default()
         }
         .into(),
     }

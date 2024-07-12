@@ -535,11 +535,13 @@ evaluate/or/input.js
 evaluate/positive_zero/input.js
 evaluate/pow/input.js
 evaluate/pow_mixed/input.js
+evaluate/pow_nan/input.js
 evaluate/pow_sequence/input.js
 evaluate/pow_sequence_with_constants_and_parens/input.js
 evaluate/pow_sequence_with_parens/input.js
 evaluate/pow_sequence_with_parens_evaluated/input.js
 evaluate/pow_sequence_with_parens_exact/input.js
+evaluate/pow_spec/input.js
 evaluate/pow_with_number_constants/input.js
 evaluate/pow_with_right_side_evaluating_to_unary/input.js
 evaluate/prop_function/input.js
@@ -1245,6 +1247,7 @@ pure_getters/collapse_vars_2_strict/input.js
 pure_getters/impure_getter_1/input.js
 pure_getters/issue_2110_1/input.js
 pure_getters/issue_2110_2/input.js
+pure_getters/issue_2265_1/input.js
 pure_getters/issue_2265_2/input.js
 pure_getters/issue_2265_4/input.js
 pure_getters/issue_2313_1/input.js

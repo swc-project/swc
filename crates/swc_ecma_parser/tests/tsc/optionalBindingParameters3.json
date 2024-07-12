@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 158,
-    "end": 184,
-    "ctxt": 0
+    "end": 184
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 167,
-          "end": 168,
-          "ctxt": 0
+          "end": 168
         },
+        "ctxt": 0,
         "value": "f",
         "optional": false
       },
@@ -24,32 +23,29 @@
           "type": "Parameter",
           "span": {
             "start": 169,
-            "end": 180,
-            "ctxt": 0
+            "end": 180
           },
           "decorators": [],
           "pat": {
             "type": "ObjectPattern",
             "span": {
               "start": 169,
-              "end": 180,
-              "ctxt": 0
+              "end": 180
             },
             "properties": [
               {
                 "type": "AssignmentPatternProperty",
                 "span": {
                   "start": 171,
-                  "end": 178,
-                  "ctxt": 0
+                  "end": 178
                 },
                 "key": {
                   "type": "Identifier",
                   "span": {
                     "start": 171,
-                    "end": 172,
-                    "ctxt": 0
+                    "end": 172
                   },
+                  "ctxt": 0,
                   "value": "a",
                   "optional": false,
                   "typeAnnotation": null
@@ -58,8 +54,7 @@
                   "type": "StringLiteral",
                   "span": {
                     "start": 175,
-                    "end": 178,
-                    "ctxt": 0
+                    "end": 178
                   },
                   "value": "a",
                   "raw": "\"a\""
@@ -74,16 +69,16 @@
       "decorators": [],
       "span": {
         "start": 158,
-        "end": 184,
-        "ctxt": 0
+        "end": 184
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 182,
-          "end": 184,
-          "ctxt": 0
+          "end": 184
         },
+        "ctxt": 0,
         "stmts": []
       },
       "generator": false,

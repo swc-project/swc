@@ -2,24 +2,21 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 11,
-    "ctxt": 0
+    "end": 11
   },
   "rules": [
     {
       "type": "ListOfComponentValues",
       "span": {
         "start": 1,
-        "end": 11,
-        "ctxt": 0
+        "end": 11
       },
       "children": [
         {
           "type": "PreservedToken",
           "span": {
             "start": 1,
-            "end": 2,
-            "ctxt": 0
+            "end": 2
           },
           "token": {
             "Delim": {
@@ -31,8 +28,7 @@
           "type": "PreservedToken",
           "span": {
             "start": 2,
-            "end": 3,
-            "ctxt": 0
+            "end": 3
           },
           "token": {
             "Delim": {
@@ -44,8 +40,7 @@
           "type": "PreservedToken",
           "span": {
             "start": 3,
-            "end": 4,
-            "ctxt": 0
+            "end": 4
           },
           "token": {
             "WhiteSpace": {
@@ -57,8 +52,7 @@
           "type": "PreservedToken",
           "span": {
             "start": 4,
-            "end": 11,
-            "ctxt": 0
+            "end": 11
           },
           "token": {
             "Ident": {

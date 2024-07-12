@@ -2,8 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 39,
-    "ctxt": 0
+    "end": 39
   },
   "mode": "quirks",
   "children": [
@@ -11,8 +10,7 @@
       "type": "Element",
       "span": {
         "start": 1,
-        "end": 39,
-        "ctxt": 0
+        "end": 39
       },
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -22,8 +20,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -36,8 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -47,8 +43,7 @@
               "type": "Element",
               "span": {
                 "start": 7,
-                "end": 25,
-                "ctxt": 0
+                "end": 25
               },
               "tagName": "ruby",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -58,8 +53,7 @@
                   "type": "Text",
                   "span": {
                     "start": 13,
-                    "end": 14,
-                    "ctxt": 0
+                    "end": 14
                   },
                   "data": "a",
                   "raw": "a"
@@ -68,8 +62,7 @@
                   "type": "Element",
                   "span": {
                     "start": 14,
-                    "end": 25,
-                    "ctxt": 0
+                    "end": 25
                   },
                   "tagName": "rt",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -79,8 +72,7 @@
                       "type": "Text",
                       "span": {
                         "start": 18,
-                        "end": 19,
-                        "ctxt": 0
+                        "end": 19
                       },
                       "data": "b",
                       "raw": "b"
@@ -89,8 +81,7 @@
                       "type": "Element",
                       "span": {
                         "start": 19,
-                        "end": 25,
-                        "ctxt": 0
+                        "end": 25
                       },
                       "tagName": "span",
                       "namespace": "http://www.w3.org/1999/xhtml",

@@ -35,11 +35,12 @@ impl Optimizer<'_> {
 
         if let Expr::Fn(..) = callee {
             report_change!("negate_iife: Negating iife");
-            *e = Expr::Unary(UnaryExpr {
+            *e = UnaryExpr {
                 span: DUMMY_SP,
                 op: op!("!"),
                 arg: Box::new(e.take()),
-            });
+            }
+            .into();
         }
     }
 
@@ -66,11 +67,12 @@ impl Optimizer<'_> {
         match callee {
             Expr::Fn(..) => {
                 report_change!("negate_iife: Swapping cons and alt");
-                cond.test = Box::new(Expr::Unary(UnaryExpr {
+                cond.test = UnaryExpr {
                     span: DUMMY_SP,
                     op: op!("!"),
                     arg: cond.test.take(),
-                }));
+                }
+                .into();
                 swap(&mut cond.cons, &mut cond.alt);
                 true
             }
@@ -95,12 +97,13 @@ impl Optimizer<'_> {
             }) = &mut **arg
             {
                 if let Expr::Fn(..) = &**callee {
-                    cond.test = Box::new(Expr::Call(CallExpr {
+                    cond.test = CallExpr {
                         span: *call_span,
                         callee: callee.take().as_callee(),
                         args: args.take(),
-                        type_args: Default::default(),
-                    }));
+                        ..Default::default()
+                    }
+                    .into();
                     swap(&mut cond.cons, &mut cond.alt);
                 }
             }
@@ -216,21 +219,21 @@ impl Optimizer<'_> {
                                 trace_op!(
                                     "iife: Trying to inline argument ({}{:?})",
                                     param.id.sym,
-                                    param.id.span.ctxt
+                                    param.id.ctxt
                                 );
                                 vars.insert(param.to_id(), arg.clone());
                             } else {
                                 trace_op!(
                                     "iife: Trying to inline argument ({}{:?}) (not inlinable)",
                                     param.id.sym,
-                                    param.id.span.ctxt
+                                    param.id.ctxt
                                 );
                             }
                         } else {
                             trace_op!(
                                 "iife: Trying to inline argument ({}{:?}) (undefined)",
                                 param.id.sym,
-                                param.id.span.ctxt
+                                param.id.ctxt
                             );
 
                             vars.insert(param.to_id(), Expr::undefined(param.span()));
@@ -263,7 +266,7 @@ impl Optimizer<'_> {
 
                                 vars.insert(
                                     param_id.to_id(),
-                                    Box::new(Expr::Array(ArrayLit {
+                                    ArrayLit {
                                         span: param_id.span,
                                         elems: e
                                             .args
@@ -271,7 +274,8 @@ impl Optimizer<'_> {
                                             .skip(idx)
                                             .map(|arg| Some(arg.clone()))
                                             .collect(),
-                                    })),
+                                    }
+                                    .into(),
                                 );
                                 param.take();
                             }
@@ -455,7 +459,7 @@ impl Optimizer<'_> {
 
         trace_op!("iife: Checking noinline");
 
-        if self.has_noinline(call.span) {
+        if self.has_noinline(call.ctxt) {
             log_abort!("iife: Has no inline mark");
             return;
         }
@@ -547,6 +551,7 @@ impl Optimizer<'_> {
                                     kind: VarDeclKind::Let,
                                     declare: Default::default(),
                                     decls: vars,
+                                    ..Default::default()
                                 }
                                 .into(),
                             )
@@ -783,10 +788,7 @@ impl Optimizer<'_> {
                 {
                     for decl in &var.decls {
                         match &decl.name {
-                            Pat::Ident(BindingIdent {
-                                id: Ident { sym, .. },
-                                ..
-                            }) if &**sym == "arguments" => return false,
+                            Pat::Ident(id) if id.sym == "arguments" => return false,
                             Pat::Ident(id) => {
                                 if self.vars.has_pending_inline_for(&id.to_id()) {
                                     log_abort!(
@@ -901,7 +903,7 @@ impl Optimizer<'_> {
 
             vars.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(param.clone().into()),
+                name: param.clone().into(),
                 init: if self.ctx.executed_multiple_time && no_arg {
                     Some(Expr::undefined(DUMMY_SP))
                 } else {
@@ -951,6 +953,7 @@ impl Optimizer<'_> {
                     kind: VarDeclKind::Var,
                     declare: Default::default(),
                     decls: vars,
+                    ..Default::default()
                 }
                 .into(),
             );
@@ -971,12 +974,15 @@ impl Optimizer<'_> {
                                 }
                             }
 
-                            exprs.push(Box::new(Expr::Assign(AssignExpr {
-                                span: DUMMY_SP,
-                                op: op!("="),
-                                left: decl.name.clone().try_into().unwrap(),
-                                right: decl.init.take().unwrap(),
-                            })))
+                            exprs.push(
+                                AssignExpr {
+                                    span: DUMMY_SP,
+                                    op: op!("="),
+                                    left: decl.name.clone().try_into().unwrap(),
+                                    right: decl.init.take().unwrap(),
+                                }
+                                .into(),
+                            )
                         }
                     }
 
@@ -993,12 +999,12 @@ impl Optimizer<'_> {
                     exprs.push(Box::new(val));
 
                     let mut e = SeqExpr {
-                        span: DUMMY_SP.apply_mark(self.marks.synthesized_seq),
+                        span: DUMMY_SP,
                         exprs,
                     };
                     self.merge_sequences_in_seq_expr(&mut e);
 
-                    let mut e = Expr::Seq(e);
+                    let mut e = e.into();
                     self.normalize_expr(&mut e);
                     return Some(e);
                 }
@@ -1007,22 +1013,23 @@ impl Optimizer<'_> {
         }
 
         if let Some(last) = exprs.last_mut() {
-            *last = Box::new(Expr::Unary(UnaryExpr {
+            *last = UnaryExpr {
                 span: DUMMY_SP,
                 op: op!("void"),
                 arg: last.take(),
-            }));
+            }
+            .into();
         } else {
             return Some(*Expr::undefined(body.span));
         }
 
         let mut e = SeqExpr {
-            span: DUMMY_SP.apply_mark(self.marks.synthesized_seq),
+            span: DUMMY_SP,
             exprs,
         };
         self.merge_sequences_in_seq_expr(&mut e);
 
-        let mut e = Expr::Seq(e);
+        let mut e = e.into();
         self.normalize_expr(&mut e);
         Some(e)
     }
@@ -1103,8 +1110,8 @@ impl Optimizer<'_> {
 
 fn find_scope<'a>(data: &'a ProgramData, callee: &Expr) -> Option<&'a ScopeData> {
     match callee {
-        Expr::Arrow(callee) => data.scopes.get(&callee.span.ctxt),
-        Expr::Fn(callee) => data.scopes.get(&callee.function.span.ctxt),
+        Expr::Arrow(callee) => data.scopes.get(&callee.ctxt),
+        Expr::Fn(callee) => data.scopes.get(&callee.function.ctxt),
         _ => None,
     }
 }

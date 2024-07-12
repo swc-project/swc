@@ -1,20 +1,20 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..6#0,
+                span: 1..6,
                 tag_name: Text {
-                    span: 1..6#0,
+                    span: 1..6,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 1..6#0,
+                        span: 1..6,
                         ty: None,
                         name: None,
                     },
@@ -23,39 +23,39 @@
         ],
     },
     JsDoc {
-        span: 48..48#0,
+        span: 48..48,
         description: Text {
-            span: 48..71#0,
+            span: 48..71,
             value: "Throw a snowball.\n *\n *",
         },
         tags: [
             TagItem {
-                span: 48..53#0,
+                span: 48..53,
                 tag_name: Text {
-                    span: 48..53#0,
+                    span: 48..53,
                     value: "fires",
                 },
                 tag: Unknown(
                     UnknownTag {
-                        span: 48..53#0,
+                        span: 48..53,
                         extras: Text {
-                            span: 48..61#0,
+                            span: 48..61,
                             value: "Hurl#snowball",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 48..53#0,
+                span: 48..53,
                 tag_name: Text {
-                    span: 48..53#0,
+                    span: 48..53,
                     value: "fires",
                 },
                 tag: Unknown(
                     UnknownTag {
-                        span: 48..53#0,
+                        span: 48..53,
                         extras: Text {
-                            span: 48..64#0,
+                            span: 48..64,
                             value: "Hurl#event:brick",
                         },
                     },
@@ -64,23 +64,23 @@
         ],
     },
     JsDoc {
-        span: 175..175#0,
+        span: 175..175,
         description: Text {
-            span: 175..175#0,
+            span: 175..175,
             value: "",
         },
         tags: [
             TagItem {
-                span: 175..180#0,
+                span: 175..180,
                 tag_name: Text {
-                    span: 175..180#0,
+                    span: 175..180,
                     value: "event",
                 },
                 tag: Unknown(
                     UnknownTag {
-                        span: 175..180#0,
+                        span: 175..180,
                         extras: Text {
-                            span: 175..188#0,
+                            span: 175..188,
                             value: "Hurl#snowball",
                         },
                     },
@@ -89,23 +89,23 @@
         ],
     },
     JsDoc {
-        span: 250..250#0,
+        span: 250..250,
         description: Text {
-            span: 250..279#0,
+            span: 250..279,
             value: "Throw a football match.\n *\n *",
         },
         tags: [
             TagItem {
-                span: 250..255#0,
+                span: 250..255,
                 tag_name: Text {
-                    span: 250..255#0,
+                    span: 250..255,
                     value: "emits",
                 },
                 tag: Unknown(
                     UnknownTag {
-                        span: 250..255#0,
+                        span: 250..255,
                         extras: Text {
-                            span: 250..268#0,
+                            span: 250..268,
                             value: "Hurl#footballMatch",
                         },
                     },
@@ -114,23 +114,23 @@
         ],
     },
     JsDoc {
-        span: 366..366#0,
+        span: 366..366,
         description: Text {
-            span: 366..366#0,
+            span: 366..366,
             value: "",
         },
         tags: [
             TagItem {
-                span: 366..371#0,
+                span: 366..371,
                 tag_name: Text {
-                    span: 366..371#0,
+                    span: 366..371,
                     value: "event",
                 },
                 tag: Unknown(
                     UnknownTag {
-                        span: 366..371#0,
+                        span: 366..371,
                         extras: Text {
-                            span: 366..384#0,
+                            span: 366..384,
                             value: "Hurl#footballMatch",
                         },
                     },

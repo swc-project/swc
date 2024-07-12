@@ -19,4 +19,4 @@ plugin  = ["swc_cli_impl/plugin"]
 
 [dependencies]
 anyhow       = "1.0.66"
-swc_cli_impl = "0.14.0"
+swc_cli_impl = "0.15.0"

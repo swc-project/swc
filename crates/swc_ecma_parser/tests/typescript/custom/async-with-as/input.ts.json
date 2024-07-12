@@ -2,38 +2,34 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 117,
-    "ctxt": 0
+    "end": 117
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 16,
-        "ctxt": 0
+        "end": 16
       },
       "expression": {
         "type": "ParenthesisExpression",
         "span": {
           "start": 1,
-          "end": 15,
-          "ctxt": 0
+          "end": 15
         },
         "expression": {
           "type": "TsAsExpression",
           "span": {
             "start": 2,
-            "end": 14,
-            "ctxt": 0
+            "end": 14
           },
           "expression": {
             "type": "Identifier",
             "span": {
               "start": 2,
-              "end": 7,
-              "ctxt": 0
+              "end": 7
             },
+            "ctxt": 0,
             "value": "async",
             "optional": false
           },
@@ -41,8 +37,7 @@
             "type": "TsKeywordType",
             "span": {
               "start": 11,
-              "end": 14,
-              "ctxt": 0
+              "end": 14
             },
             "kind": "any"
           }
@@ -53,37 +48,33 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 17,
-        "end": 43,
-        "ctxt": 0
+        "end": 43
       },
       "expression": {
         "type": "ParenthesisExpression",
         "span": {
           "start": 17,
-          "end": 42,
-          "ctxt": 0
+          "end": 42
         },
         "expression": {
           "type": "TsAsExpression",
           "span": {
             "start": 18,
-            "end": 41,
-            "ctxt": 0
+            "end": 41
           },
           "expression": {
             "type": "TsAsExpression",
             "span": {
               "start": 18,
-              "end": 32,
-              "ctxt": 0
+              "end": 32
             },
             "expression": {
               "type": "Identifier",
               "span": {
                 "start": 18,
-                "end": 23,
-                "ctxt": 0
+                "end": 23
               },
+              "ctxt": 0,
               "value": "async",
               "optional": false
             },
@@ -91,16 +82,15 @@
               "type": "TsTypeReference",
               "span": {
                 "start": 27,
-                "end": 32,
-                "ctxt": 0
+                "end": 32
               },
               "typeName": {
                 "type": "Identifier",
                 "span": {
                   "start": 27,
-                  "end": 32,
-                  "ctxt": 0
+                  "end": 32
                 },
+                "ctxt": 0,
                 "value": "async",
                 "optional": false
               },
@@ -111,16 +101,15 @@
             "type": "TsTypeReference",
             "span": {
               "start": 36,
-              "end": 41,
-              "ctxt": 0
+              "end": 41
             },
             "typeName": {
               "type": "Identifier",
               "span": {
                 "start": 36,
-                "end": 41,
-                "ctxt": 0
+                "end": 41
               },
+              "ctxt": 0,
               "value": "async",
               "optional": false
             },
@@ -133,23 +122,21 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 44,
-        "end": 57,
-        "ctxt": 0
+        "end": 57
       },
       "expression": {
         "type": "TsAsExpression",
         "span": {
           "start": 44,
-          "end": 56,
-          "ctxt": 0
+          "end": 56
         },
         "expression": {
           "type": "Identifier",
           "span": {
             "start": 44,
-            "end": 49,
-            "ctxt": 0
+            "end": 49
           },
+          "ctxt": 0,
           "value": "async",
           "optional": false
         },
@@ -157,8 +144,7 @@
           "type": "TsKeywordType",
           "span": {
             "start": 53,
-            "end": 56,
-            "ctxt": 0
+            "end": 56
           },
           "kind": "any"
         }
@@ -168,30 +154,27 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 58,
-        "end": 82,
-        "ctxt": 0
+        "end": 82
       },
       "expression": {
         "type": "TsAsExpression",
         "span": {
           "start": 58,
-          "end": 81,
-          "ctxt": 0
+          "end": 81
         },
         "expression": {
           "type": "TsAsExpression",
           "span": {
             "start": 58,
-            "end": 72,
-            "ctxt": 0
+            "end": 72
           },
           "expression": {
             "type": "Identifier",
             "span": {
               "start": 58,
-              "end": 63,
-              "ctxt": 0
+              "end": 63
             },
+            "ctxt": 0,
             "value": "async",
             "optional": false
           },
@@ -199,16 +182,15 @@
             "type": "TsTypeReference",
             "span": {
               "start": 67,
-              "end": 72,
-              "ctxt": 0
+              "end": 72
             },
             "typeName": {
               "type": "Identifier",
               "span": {
                 "start": 67,
-                "end": 72,
-                "ctxt": 0
+                "end": 72
               },
+              "ctxt": 0,
               "value": "async",
               "optional": false
             },
@@ -219,16 +201,15 @@
           "type": "TsTypeReference",
           "span": {
             "start": 76,
-            "end": 81,
-            "ctxt": 0
+            "end": 81
           },
           "typeName": {
             "type": "Identifier",
             "span": {
               "start": 76,
-              "end": 81,
-              "ctxt": 0
+              "end": 81
             },
+            "ctxt": 0,
             "value": "async",
             "optional": false
           },
@@ -240,31 +221,29 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 84,
-        "end": 101,
-        "ctxt": 0
+        "end": 101
       },
       "expression": {
         "type": "ParenthesisExpression",
         "span": {
           "start": 84,
-          "end": 100,
-          "ctxt": 0
+          "end": 100
         },
         "expression": {
           "type": "ArrowFunctionExpression",
           "span": {
             "start": 85,
-            "end": 99,
-            "ctxt": 0
+            "end": 99
           },
+          "ctxt": 0,
           "params": [
             {
               "type": "Identifier",
               "span": {
                 "start": 91,
-                "end": 93,
-                "ctxt": 0
+                "end": 93
               },
+              "ctxt": 0,
               "value": "as",
               "optional": false,
               "typeAnnotation": null
@@ -274,9 +253,9 @@
             "type": "BlockStatement",
             "span": {
               "start": 97,
-              "end": 99,
-              "ctxt": 0
+              "end": 99
             },
+            "ctxt": 0,
             "stmts": []
           },
           "async": true,
@@ -290,24 +269,23 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 102,
-        "end": 117,
-        "ctxt": 0
+        "end": 117
       },
       "expression": {
         "type": "ArrowFunctionExpression",
         "span": {
           "start": 102,
-          "end": 116,
-          "ctxt": 0
+          "end": 116
         },
+        "ctxt": 0,
         "params": [
           {
             "type": "Identifier",
             "span": {
               "start": 108,
-              "end": 110,
-              "ctxt": 0
+              "end": 110
             },
+            "ctxt": 0,
             "value": "as",
             "optional": false,
             "typeAnnotation": null
@@ -317,9 +295,9 @@
           "type": "BlockStatement",
           "span": {
             "start": 114,
-            "end": 116,
-            "ctxt": 0
+            "end": 116
           },
+          "ctxt": 0,
           "stmts": []
         },
         "async": true,

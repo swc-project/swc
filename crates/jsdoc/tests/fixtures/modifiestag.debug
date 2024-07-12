@@ -1,22 +1,22 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..24#0,
+            span: 1..24,
             value: "My mutator function.\n *",
         },
         tags: [
             TagItem {
-                span: 1..9#0,
+                span: 1..9,
                 tag_name: Text {
-                    span: 1..9#0,
+                    span: 1..9,
                     value: "modifies",
                 },
                 tag: Unknown(
                     UnknownTag {
-                        span: 1..9#0,
+                        span: 1..9,
                         extras: Text {
-                            span: 1..12#0,
+                            span: 1..12,
                             value: "{(foo|bar)}",
                         },
                     },

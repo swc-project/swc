@@ -2,16 +2,14 @@
   "type": "DocumentFragment",
   "span": {
     "start": 1,
-    "end": 21,
-    "ctxt": 0
+    "end": 21
   },
   "children": [
     {
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 0,
-        "ctxt": 0
+        "end": 0
       },
       "tagName": "head",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -24,8 +22,7 @@
       "type": "Element",
       "span": {
         "start": 1,
-        "end": 21,
-        "ctxt": 0
+        "end": 21
       },
       "tagName": "body",
       "namespace": "http://www.w3.org/1999/xhtml",

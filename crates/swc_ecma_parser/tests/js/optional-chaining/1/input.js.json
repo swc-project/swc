@@ -2,84 +2,75 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 15,
-    "ctxt": 0
+    "end": 15
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 15,
-        "ctxt": 0
+        "end": 15
       },
       "expression": {
         "type": "OptionalChainingExpression",
         "span": {
           "start": 1,
-          "end": 15,
-          "ctxt": 0
+          "end": 15
         },
         "optional": false,
         "base": {
           "type": "CallExpression",
           "span": {
             "start": 1,
-            "end": 15,
-            "ctxt": 0
+            "end": 15
           },
+          "ctxt": 0,
           "callee": {
             "type": "OptionalChainingExpression",
             "span": {
               "start": 1,
-              "end": 13,
-              "ctxt": 0
+              "end": 13
             },
             "optional": true,
             "base": {
               "type": "MemberExpression",
               "span": {
                 "start": 1,
-                "end": 13,
-                "ctxt": 0
+                "end": 13
               },
               "object": {
                 "type": "OptionalChainingExpression",
                 "span": {
                   "start": 1,
-                  "end": 10,
-                  "ctxt": 0
+                  "end": 10
                 },
                 "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
                     "start": 1,
-                    "end": 10,
-                    "ctxt": 0
+                    "end": 10
                   },
                   "object": {
                     "type": "OptionalChainingExpression",
                     "span": {
                       "start": 1,
-                      "end": 7,
-                      "ctxt": 0
+                      "end": 7
                     },
                     "optional": true,
                     "base": {
                       "type": "MemberExpression",
                       "span": {
                         "start": 1,
-                        "end": 7,
-                        "ctxt": 0
+                        "end": 7
                       },
                       "object": {
                         "type": "Identifier",
                         "span": {
                           "start": 1,
-                          "end": 4,
-                          "ctxt": 0
+                          "end": 4
                         },
+                        "ctxt": 0,
                         "value": "obj",
                         "optional": false
                       },
@@ -87,11 +78,9 @@
                         "type": "Identifier",
                         "span": {
                           "start": 6,
-                          "end": 7,
-                          "ctxt": 0
+                          "end": 7
                         },
-                        "value": "a",
-                        "optional": false
+                        "value": "a"
                       }
                     }
                   },
@@ -99,11 +88,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 9,
-                      "end": 10,
-                      "ctxt": 0
+                      "end": 10
                     },
-                    "value": "b",
-                    "optional": false
+                    "value": "b"
                   }
                 }
               },
@@ -111,11 +98,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 12,
-                  "end": 13,
-                  "ctxt": 0
+                  "end": 13
                 },
-                "value": "c",
-                "optional": false
+                "value": "c"
               }
             }
           },

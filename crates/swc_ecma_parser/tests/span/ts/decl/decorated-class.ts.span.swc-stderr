@@ -354,12 +354,6 @@
  5 |     constructor(private commentService: CommentService) { }
    :     ^^^^^^^^^^^
    `----
-  x Ident
-   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:5:1]
- 4 | export class CommentController {
- 5 |     constructor(private commentService: CommentService) { }
-   :     ^^^^^^^^^^^
-   `----
   x ParamOrTsParamProp
    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:5:1]
  4 | export class CommentController {
@@ -447,13 +441,6 @@
  15 | `->     }
     `----
   x PropName
-    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:9:1]
-  8 |     @Put(COMMENT_UPDATE_ENDPOINT)
-  9 |     public updateComment(
-    :            ^^^^^^^^^^^^^
- 10 |         @Param('id') id: string,
-    `----
-  x Ident
     ,-[$DIR/tests/span/ts/decl/decorated-class.ts:9:1]
   8 |     @Put(COMMENT_UPDATE_ENDPOINT)
   9 |     public updateComment(
@@ -991,20 +978,6 @@
     :                ^^^^
  15 |     }
     `----
-  x Ident
-    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:14:1]
- 13 |     ) {
- 14 |         return this.commentService.update(id, updateCommentDto, user.id);
-    :                     ^^^^^^^^^^^^^^
- 15 |     }
-    `----
-  x Ident
-    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:14:1]
- 13 |     ) {
- 14 |         return this.commentService.update(id, updateCommentDto, user.id);
-    :                                    ^^^^^^
- 15 |     }
-    `----
   x ExprOrSpread
     ,-[$DIR/tests/span/ts/decl/decorated-class.ts:14:1]
  13 |     ) {
@@ -1082,13 +1055,6 @@
     :                                                                 ^^^^
  15 |     }
     `----
-  x Ident
-    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:14:1]
- 13 |     ) {
- 14 |         return this.commentService.update(id, updateCommentDto, user.id);
-    :                                                                      ^^
- 15 |     }
-    `----
   x ClassMember
     ,-[$DIR/tests/span/ts/decl/decorated-class.ts:17:1]
  16 |     
@@ -1110,13 +1076,6 @@
  22 |     }
     `----
   x PropName
-    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:19:1]
- 18 |     @Delete(COMMENT_DELETE_ENDPOINT)
- 19 |     public deleteComment(@Param('id') id: string, @User() user: UserType) {
-    :            ^^^^^^^^^^^^^
- 20 |         return this.commentService.delete(id, user.id);
-    `----
-  x Ident
     ,-[$DIR/tests/span/ts/decl/decorated-class.ts:19:1]
  18 |     @Delete(COMMENT_DELETE_ENDPOINT)
  19 |     public deleteComment(@Param('id') id: string, @User() user: UserType) {
@@ -1554,20 +1513,6 @@
     :                ^^^^
  21 |     }
     `----
-  x Ident
-    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:20:1]
- 19 |     public deleteComment(@Param('id') id: string, @User() user: UserType) {
- 20 |         return this.commentService.delete(id, user.id);
-    :                     ^^^^^^^^^^^^^^
- 21 |     }
-    `----
-  x Ident
-    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:20:1]
- 19 |     public deleteComment(@Param('id') id: string, @User() user: UserType) {
- 20 |         return this.commentService.delete(id, user.id);
-    :                                    ^^^^^^
- 21 |     }
-    `----
   x ExprOrSpread
     ,-[$DIR/tests/span/ts/decl/decorated-class.ts:20:1]
  19 |     public deleteComment(@Param('id') id: string, @User() user: UserType) {
@@ -1622,12 +1567,5 @@
  19 |     public deleteComment(@Param('id') id: string, @User() user: UserType) {
  20 |         return this.commentService.delete(id, user.id);
     :                                               ^^^^
- 21 |     }
-    `----
-  x Ident
-    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:20:1]
- 19 |     public deleteComment(@Param('id') id: string, @User() user: UserType) {
- 20 |         return this.commentService.delete(id, user.id);
-    :                                                    ^^
  21 |     }
     `----

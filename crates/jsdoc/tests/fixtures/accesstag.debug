@@ -1,20 +1,20 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..12#0,
+                span: 1..12,
                 tag_name: Text {
-                    span: 1..12#0,
+                    span: 1..12,
                     value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 1..12#0,
+                        span: 1..12,
                         ty: None,
                         name: None,
                     },
@@ -23,23 +23,23 @@
         ],
     },
     JsDoc {
-        span: 46..46#0,
+        span: 46..46,
         description: Text {
-            span: 46..46#0,
+            span: 46..46,
             value: "",
         },
         tags: [
             TagItem {
-                span: 46..52#0,
+                span: 46..52,
                 tag_name: Text {
-                    span: 46..52#0,
+                    span: 46..52,
                     value: "access",
                 },
                 tag: Access(
                     AccessTag {
-                        span: 46..52#0,
+                        span: 46..52,
                         access: Text {
-                            span: 46..53#0,
+                            span: 46..53,
                             value: "private",
                         },
                     },
@@ -48,23 +48,23 @@
         ],
     },
     JsDoc {
-        span: 91..91#0,
+        span: 91..91,
         description: Text {
-            span: 91..91#0,
+            span: 91..91,
             value: "",
         },
         tags: [
             TagItem {
-                span: 91..97#0,
+                span: 91..97,
                 tag_name: Text {
-                    span: 91..97#0,
+                    span: 91..97,
                     value: "access",
                 },
                 tag: Access(
                     AccessTag {
-                        span: 91..97#0,
+                        span: 91..97,
                         access: Text {
-                            span: 91..100#0,
+                            span: 91..100,
                             value: "protected",
                         },
                     },
@@ -73,23 +73,23 @@
         ],
     },
     JsDoc {
-        span: 140..140#0,
+        span: 140..140,
         description: Text {
-            span: 140..140#0,
+            span: 140..140,
             value: "",
         },
         tags: [
             TagItem {
-                span: 140..146#0,
+                span: 140..146,
                 tag_name: Text {
-                    span: 140..146#0,
+                    span: 140..146,
                     value: "access",
                 },
                 tag: Access(
                     AccessTag {
-                        span: 140..146#0,
+                        span: 140..146,
                         access: Text {
-                            span: 140..146#0,
+                            span: 140..146,
                             value: "public",
                         },
                     },
@@ -98,29 +98,29 @@
         ],
     },
     JsDoc {
-        span: 186..186#0,
+        span: 186..186,
         description: Text {
-            span: 186..193#0,
+            span: 186..193,
             value: "nothing",
         },
         tags: [],
     },
     JsDoc {
-        span: 238..238#0,
+        span: 238..238,
         description: Text {
-            span: 238..238#0,
+            span: 238..238,
             value: "",
         },
         tags: [
             TagItem {
-                span: 238..249#0,
+                span: 238..249,
                 tag_name: Text {
-                    span: 238..249#0,
+                    span: 238..249,
                     value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 238..249#0,
+                        span: 238..249,
                         ty: None,
                         name: None,
                     },
@@ -129,21 +129,21 @@
         ],
     },
     JsDoc {
-        span: 0..288#0,
+        span: 0..288,
         description: Text {
-            span: 288..288#0,
+            span: 288..288,
             value: "",
         },
         tags: [
             TagItem {
-                span: 288..295#0,
+                span: 288..295,
                 tag_name: Text {
-                    span: 288..295#0,
+                    span: 288..295,
                     value: "private",
                 },
                 tag: Private(
                     PrivateTag {
-                        span: 288..295#0,
+                        span: 288..295,
                         ty: None,
                     },
                 ),
@@ -151,21 +151,21 @@
         ],
     },
     JsDoc {
-        span: 0..326#0,
+        span: 0..326,
         description: Text {
-            span: 326..326#0,
+            span: 326..326,
             value: "",
         },
         tags: [
             TagItem {
-                span: 326..335#0,
+                span: 326..335,
                 tag_name: Text {
-                    span: 326..335#0,
+                    span: 326..335,
                     value: "protected",
                 },
                 tag: Protected(
                     ProtectedTag {
-                        span: 326..335#0,
+                        span: 326..335,
                         ty: None,
                     },
                 ),
@@ -173,30 +173,30 @@
         ],
     },
     JsDoc {
-        span: 368..368#0,
+        span: 368..368,
         description: Text {
-            span: 368..368#0,
+            span: 368..368,
             value: "",
         },
         tags: [
             TagItem {
-                span: 368..374#0,
+                span: 368..374,
                 tag_name: Text {
-                    span: 368..374#0,
+                    span: 368..374,
                     value: "public",
                 },
                 tag: Public(
                     PublicTag {
-                        span: 368..374#0,
+                        span: 368..374,
                     },
                 ),
             },
         ],
     },
     JsDoc {
-        span: 407..407#0,
+        span: 407..407,
         description: Text {
-            span: 407..414#0,
+            span: 407..414,
             value: "nothing",
         },
         tags: [],

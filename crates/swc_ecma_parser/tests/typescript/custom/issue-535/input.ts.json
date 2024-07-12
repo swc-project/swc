@@ -2,23 +2,20 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 65,
-    "ctxt": 0
+    "end": 65
   },
   "body": [
     {
       "type": "ExportAllDeclaration",
       "span": {
         "start": 1,
-        "end": 23,
-        "ctxt": 0
+        "end": 23
       },
       "source": {
         "type": "StringLiteral",
         "span": {
           "start": 15,
-          "end": 21,
-          "ctxt": 0
+          "end": 21
         },
         "value": "test",
         "raw": "\"test\""
@@ -30,16 +27,14 @@
       "type": "ImportDeclaration",
       "span": {
         "start": 24,
-        "end": 39,
-        "ctxt": 0
+        "end": 39
       },
       "specifiers": [],
       "source": {
         "type": "StringLiteral",
         "span": {
           "start": 31,
-          "end": 37,
-          "ctxt": 0
+          "end": 37
         },
         "value": "test",
         "raw": "\"test\""
@@ -52,24 +47,22 @@
       "type": "ImportDeclaration",
       "span": {
         "start": 40,
-        "end": 65,
-        "ctxt": 0
+        "end": 65
       },
       "specifiers": [
         {
           "type": "ImportDefaultSpecifier",
           "span": {
             "start": 47,
-            "end": 51,
-            "ctxt": 0
+            "end": 51
           },
           "local": {
             "type": "Identifier",
             "span": {
               "start": 47,
-              "end": 51,
-              "ctxt": 0
+              "end": 51
             },
+            "ctxt": 0,
             "value": "Test",
             "optional": false
           }
@@ -79,8 +72,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 57,
-          "end": 63,
-          "ctxt": 0
+          "end": 63
         },
         "value": "test",
         "raw": "\"test\""

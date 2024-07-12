@@ -180,9 +180,10 @@ fn fixture(input: PathBuf) {
     .unwrap();
 }
 
+#[track_caller]
 fn assert_mangled(src: &str, expected: &str, opts: MangleOptions) {
     testing::run_test2(false, |cm, handler| {
-        let fm = cm.new_source_file(FileName::Anon, src.into());
+        let fm = cm.new_source_file(FileName::Anon.into(), src.into());
 
         let p = parse_fm(&handler, fm)?;
 
@@ -311,11 +312,11 @@ class Class2 {
     #hello2 = 2;
 }";
 
-    let expected = "class s {
-    #s = 1;
+    let expected = "class l {
+    #l = 1;
 }
-class a {
-    #a = 2;
+class s {
+    #s = 2;
 }";
 
     assert_mangled(
@@ -338,10 +339,10 @@ class Class2 {
     #hello2 = 2;
 }";
 
-    let expected = "class s {
+    let expected = "class l {
     #hello1 = 1;
 }
-class a {
+class s {
     #hello2 = 2;
 }";
 

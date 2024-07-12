@@ -10,8 +10,8 @@ use swc_common::{
 };
 use swc_ecma_ast::{
     ArrowExpr, BindingIdent, Class, ClassDecl, ClassMethod, ClassProp, EsVersion, ExportAll,
-    ExportDecl, ExportSpecifier, FnDecl, Ident, ImportDecl, ImportSpecifier, NamedExport, Param,
-    Pat, Program, TsAsExpr, TsConstAssertion, TsEnumDecl, TsExportAssignment, TsImportEqualsDecl,
+    ExportDecl, ExportSpecifier, FnDecl, ImportDecl, ImportSpecifier, NamedExport, Param, Pat,
+    Program, TsAsExpr, TsConstAssertion, TsEnumDecl, TsExportAssignment, TsImportEqualsDecl,
     TsIndexSignature, TsInstantiation, TsInterfaceDecl, TsModuleDecl, TsModuleName,
     TsNamespaceDecl, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn,
     TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation, VarDecl,
@@ -52,7 +52,7 @@ pub fn operate(
         .filename
         .map_or(FileName::Anon, |f| FileName::Real(f.into()));
 
-    let fm = cm.new_source_file(filename, input);
+    let fm = cm.new_source_file(filename.into(), input);
 
     let syntax = Syntax::Typescript(options.parser);
     let target = EsVersion::latest();
@@ -292,8 +292,7 @@ impl Visit for TsStrip {
             // https://github.com/swc-project/swc/issues/8856
             // let optional_mark = self.get_next_token(n.id.span_hi());
 
-            let optional_mark =
-                self.get_next_token(n.id.span_lo() + BytePos(n.id.sym.len() as u32));
+            let optional_mark = self.get_next_token(n.span_lo() + BytePos(n.sym.len() as u32));
             debug_assert_eq!(optional_mark.token, Token::QuestionMark);
 
             self.add_replacement(optional_mark.span);
@@ -523,10 +522,7 @@ impl Visit for TsStrip {
         if let Some(p) = n.first().filter(|param| {
             matches!(
                 &param.pat,
-                Pat::Ident(BindingIdent {
-                    id: Ident { sym, .. },
-                    ..
-                }) if &**sym == "this"
+                Pat::Ident(id) if id.sym == "this"
             )
         }) {
             let mut span = p.span;
@@ -678,5 +674,5 @@ impl U8Helper for u8 {
 }
 
 fn span(lo: BytePos, hi: BytePos) -> Span {
-    Span::new(lo, hi, Default::default())
+    Span::new(lo, hi)
 }

@@ -4,6 +4,7 @@
 #![allow(clippy::mutable_key_type)]
 
 use serde::{Deserialize, Serialize};
+use swc_common::{Span, SyntaxContext};
 
 pub use self::{amd::amd, common_js::common_js, system_js::system_js, umd::umd};
 
@@ -26,3 +27,5 @@ pub struct EsModuleConfig {
     #[serde(default)]
     pub resolve_fully: bool,
 }
+
+type SpanCtx = (Span, SyntaxContext);

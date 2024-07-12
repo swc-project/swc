@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 37,
-    "end": 98,
-    "ctxt": 0
+    "end": 98
   },
   "body": [
     {
@@ -12,51 +11,40 @@
         "type": "Identifier",
         "span": {
           "start": 43,
-          "end": 44,
-          "ctxt": 0
+          "end": 44
         },
+        "ctxt": 0,
         "value": "A",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 37,
-        "end": 98,
-        "ctxt": 0
+        "end": 98
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "PrivateProperty",
           "span": {
             "start": 49,
-            "end": 58,
-            "ctxt": 0
+            "end": 58
           },
+          "ctxt": 0,
           "key": {
             "type": "PrivateName",
             "span": {
               "start": 49,
-              "end": 53,
-              "ctxt": 0
+              "end": 53
             },
-            "id": {
-              "type": "Identifier",
-              "span": {
-                "start": 50,
-                "end": 53,
-                "ctxt": 0
-              },
-              "value": "foo",
-              "optional": false
-            }
+            "value": "foo"
           },
           "value": {
             "type": "NumericLiteral",
             "span": {
               "start": 56,
-              "end": 57,
-              "ctxt": 0
+              "end": 57
             },
             "value": 1.0,
             "raw": "1"
@@ -74,33 +62,30 @@
           "type": "ClassProperty",
           "span": {
             "start": 61,
-            "end": 83,
-            "ctxt": 0
+            "end": 83
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 68,
-              "end": 72,
-              "ctxt": 0
+              "end": 72
             },
-            "value": "inst",
-            "optional": false
+            "value": "inst"
           },
           "value": {
             "type": "NewExpression",
             "span": {
               "start": 75,
-              "end": 82,
-              "ctxt": 0
+              "end": 82
             },
+            "ctxt": 0,
             "callee": {
               "type": "Identifier",
               "span": {
                 "start": 79,
-                "end": 80,
-                "ctxt": 0
+                "end": 80
               },
+              "ctxt": 0,
               "value": "A",
               "optional": false
             },
@@ -122,33 +107,22 @@
           "type": "PrivateProperty",
           "span": {
             "start": 86,
-            "end": 96,
-            "ctxt": 0
+            "end": 96
           },
+          "ctxt": 0,
           "key": {
             "type": "PrivateName",
             "span": {
               "start": 86,
-              "end": 91,
-              "ctxt": 0
+              "end": 91
             },
-            "id": {
-              "type": "Identifier",
-              "span": {
-                "start": 87,
-                "end": 91,
-                "ctxt": 0
-              },
-              "value": "prop",
-              "optional": false
-            }
+            "value": "prop"
           },
           "value": {
             "type": "NumericLiteral",
             "span": {
               "start": 94,
-              "end": 95,
-              "ctxt": 0
+              "end": 95
             },
             "value": 2.0,
             "raw": "2"

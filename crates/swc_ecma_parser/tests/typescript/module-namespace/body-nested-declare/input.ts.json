@@ -2,16 +2,14 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 73,
-    "ctxt": 0
+    "end": 73
   },
   "body": [
     {
       "type": "TsModuleDeclaration",
       "span": {
         "start": 1,
-        "end": 73,
-        "ctxt": 0
+        "end": 73
       },
       "declare": true,
       "global": false,
@@ -19,9 +17,9 @@
         "type": "Identifier",
         "span": {
           "start": 19,
-          "end": 20,
-          "ctxt": 0
+          "end": 20
         },
+        "ctxt": 0,
         "value": "A",
         "optional": false
       },
@@ -29,16 +27,14 @@
         "type": "TsModuleBlock",
         "span": {
           "start": 21,
-          "end": 73,
-          "ctxt": 0
+          "end": 73
         },
         "body": [
           {
             "type": "TsModuleDeclaration",
             "span": {
               "start": 27,
-              "end": 71,
-              "ctxt": 0
+              "end": 71
             },
             "declare": false,
             "global": false,
@@ -46,9 +42,9 @@
               "type": "Identifier",
               "span": {
                 "start": 37,
-                "end": 38,
-                "ctxt": 0
+                "end": 38
               },
+              "ctxt": 0,
               "value": "B",
               "optional": false
             },
@@ -56,17 +52,16 @@
               "type": "TsModuleBlock",
               "span": {
                 "start": 39,
-                "end": 71,
-                "ctxt": 0
+                "end": 71
               },
               "body": [
                 {
                   "type": "VariableDeclaration",
                   "span": {
                     "start": 49,
-                    "end": 65,
-                    "ctxt": 0
+                    "end": 65
                   },
+                  "ctxt": 0,
                   "kind": "const",
                   "declare": false,
                   "declarations": [
@@ -74,31 +69,28 @@
                       "type": "VariableDeclarator",
                       "span": {
                         "start": 55,
-                        "end": 64,
-                        "ctxt": 0
+                        "end": 64
                       },
                       "id": {
                         "type": "Identifier",
                         "span": {
                           "start": 55,
-                          "end": 56,
-                          "ctxt": 0
+                          "end": 56
                         },
+                        "ctxt": 0,
                         "value": "x",
                         "optional": false,
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
                             "start": 56,
-                            "end": 64,
-                            "ctxt": 0
+                            "end": 64
                           },
                           "typeAnnotation": {
                             "type": "TsKeywordType",
                             "span": {
                               "start": 58,
-                              "end": 64,
-                              "ctxt": 0
+                              "end": 64
                             },
                             "kind": "number"
                           }

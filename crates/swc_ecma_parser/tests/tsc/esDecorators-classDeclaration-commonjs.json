@@ -2,17 +2,16 @@
   "type": "Module",
   "span": {
     "start": 42,
-    "end": 132,
-    "ctxt": 0
+    "end": 132
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 42,
-        "end": 64,
-        "ctxt": 0
+        "end": 64
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": true,
       "declarations": [
@@ -20,31 +19,28 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 54,
-            "end": 63,
-            "ctxt": 0
+            "end": 63
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 54,
-              "end": 58,
-              "ctxt": 0
+              "end": 58
             },
+            "ctxt": 0,
             "value": "deco",
             "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 58,
-                "end": 63,
-                "ctxt": 0
+                "end": 63
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 60,
-                  "end": 63,
-                  "ctxt": 0
+                  "end": 63
                 },
                 "kind": "any"
               }
@@ -59,8 +55,7 @@
       "type": "ExportDeclaration",
       "span": {
         "start": 72,
-        "end": 116,
-        "ctxt": 0
+        "end": 116
       },
       "declaration": {
         "type": "ClassDeclaration",
@@ -68,33 +63,32 @@
           "type": "Identifier",
           "span": {
             "start": 85,
-            "end": 92,
-            "ctxt": 0
+            "end": 92
           },
+          "ctxt": 0,
           "value": "Example",
           "optional": false
         },
         "declare": false,
         "span": {
           "start": 79,
-          "end": 116,
-          "ctxt": 0
+          "end": 116
         },
+        "ctxt": 0,
         "decorators": [
           {
             "type": "Decorator",
             "span": {
               "start": 66,
-              "end": 71,
-              "ctxt": 0
+              "end": 71
             },
             "expression": {
               "type": "Identifier",
               "span": {
                 "start": 67,
-                "end": 71,
-                "ctxt": 0
+                "end": 71
               },
+              "ctxt": 0,
               "value": "deco",
               "optional": false
             }
@@ -105,34 +99,31 @@
             "type": "ClassMethod",
             "span": {
               "start": 99,
-              "end": 114,
-              "ctxt": 0
+              "end": 114
             },
             "key": {
               "type": "Identifier",
               "span": {
                 "start": 106,
-                "end": 109,
-                "ctxt": 0
+                "end": 109
               },
-              "value": "foo",
-              "optional": false
+              "value": "foo"
             },
             "function": {
               "params": [],
               "decorators": [],
               "span": {
                 "start": 99,
-                "end": 114,
-                "ctxt": 0
+                "end": 114
               },
+              "ctxt": 0,
               "body": {
                 "type": "BlockStatement",
                 "span": {
                   "start": 112,
-                  "end": 114,
-                  "ctxt": 0
+                  "end": 114
                 },
+                "ctxt": 0,
                 "stmts": []
               },
               "generator": false,
@@ -159,30 +150,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 118,
-        "end": 132,
-        "ctxt": 0
+        "end": 132
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 118,
-          "end": 131,
-          "ctxt": 0
+          "end": 131
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 118,
-            "end": 129,
-            "ctxt": 0
+            "end": 129
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 118,
-              "end": 125,
-              "ctxt": 0
+              "end": 125
             },
+            "ctxt": 0,
             "value": "Example",
             "optional": false
           },
@@ -190,11 +179,9 @@
             "type": "Identifier",
             "span": {
               "start": 126,
-              "end": 129,
-              "ctxt": 0
+              "end": 129
             },
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           }
         },
         "arguments": [],

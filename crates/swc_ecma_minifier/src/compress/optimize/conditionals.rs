@@ -1,6 +1,6 @@
 use std::mem::swap;
 
-use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::ExprRefExt;
 use swc_ecma_transforms_optimization::debug_assert_valid;
@@ -66,24 +66,26 @@ impl Optimizer<'_> {
         if !cond.cons.may_have_side_effects(&self.expr_ctx) {
             self.changed = true;
             report_change!("conditionals: `cond ? useless : alt` => `cond || alt`");
-            *e = Expr::Bin(BinExpr {
+            *e = BinExpr {
                 span: cond.span,
                 op: op!("||"),
                 left: cond.test.take(),
                 right: cond.alt.take(),
-            });
+            }
+            .into();
             return;
         }
 
         if !cond.alt.may_have_side_effects(&self.expr_ctx) {
             self.changed = true;
             report_change!("conditionals: `cond ? cons : useless` => `cond && cons`");
-            *e = Expr::Bin(BinExpr {
+            *e = BinExpr {
                 span: cond.span,
                 op: op!("&&"),
                 left: cond.test.take(),
                 right: cond.cons.take(),
-            });
+            }
+            .into();
         }
     }
 
@@ -119,7 +121,7 @@ impl Optimizer<'_> {
                     (
                         Some(Stmt::If(l @ IfStmt { alt: None, .. })),
                         Some(Stmt::If(r @ IfStmt { alt: None, .. })),
-                    ) => l.cons.eq_ignore_span(&r.cons),
+                    ) => SyntaxContext::within_ignored_ctxt(|| l.cons.eq_ignore_span(&r.cons)),
                     _ => false,
                 });
         if !has_work {
@@ -141,15 +143,18 @@ impl Optimizer<'_> {
                             match &mut cur {
                                 Some(cur_if) => {
                                     // If cons is same, we merge conditions.
-                                    if cur_if.cons.eq_ignore_span(&stmt.cons) {
-                                        cur_if.test = Box::new(Expr::Bin(BinExpr {
+                                    if SyntaxContext::within_ignored_ctxt(|| {
+                                        cur_if.cons.eq_ignore_span(&stmt.cons)
+                                    }) {
+                                        cur_if.test = BinExpr {
                                             span: DUMMY_SP,
                                             left: cur_if.test.take(),
                                             op: op!("||"),
                                             right: stmt.test.take(),
-                                        }));
+                                        }
+                                        .into();
                                     } else {
-                                        new.extend(cur.take().map(Stmt::If).map(T::from_stmt));
+                                        new.extend(cur.take().map(Stmt::If).map(T::from));
 
                                         cur = Some(stmt);
                                     }
@@ -160,21 +165,21 @@ impl Optimizer<'_> {
                             }
                         }
                         _ => {
-                            new.extend(cur.take().map(Stmt::If).map(T::from_stmt));
+                            new.extend(cur.take().map(Stmt::If).map(T::from));
 
-                            new.push(T::from_stmt(stmt));
+                            new.push(T::from(stmt));
                         }
                     }
                 }
                 Err(item) => {
-                    new.extend(cur.take().map(Stmt::If).map(T::from_stmt));
+                    new.extend(cur.take().map(Stmt::If).map(T::from));
 
                     new.push(item);
                 }
             }
         }
 
-        new.extend(cur.map(Stmt::If).map(T::from_stmt));
+        new.extend(cur.map(Stmt::If).map(T::from));
 
         *stmts = new;
     }
@@ -209,10 +214,11 @@ impl Optimizer<'_> {
 
         if let Stmt::Empty(..) = &*stmt.cons {
             if (self.options.conditionals || self.options.unused) && stmt.alt.is_none() {
-                *s = Stmt::Expr(ExprStmt {
+                *s = ExprStmt {
                     span: stmt.span,
                     expr: stmt.test.take(),
-                });
+                }
+                .into();
                 self.changed = true;
                 report_change!("conditionals: `if (foo);` => `foo` ");
                 return;
@@ -242,32 +248,36 @@ impl Optimizer<'_> {
                 }) => {
                     report_change!("Optimizing `if (!foo); else bar();` as `foo && bar();`");
 
-                    let mut expr = Box::new(Expr::Bin(BinExpr {
+                    let mut expr = BinExpr {
                         span: DUMMY_SP,
                         left: arg.take(),
                         op: op!("&&"),
                         right: Box::new(alt.take()),
-                    }));
+                    }
+                    .into();
                     self.compress_logical_exprs_as_bang_bang(&mut expr, true);
-                    *s = Stmt::Expr(ExprStmt {
+                    *s = ExprStmt {
                         span: stmt.span,
-                        expr,
-                    });
+                        expr: expr.into(),
+                    }
+                    .into();
                 }
                 _ => {
                     report_change!("Optimizing `if (foo); else bar();` as `foo || bar();`");
 
-                    let mut expr = Box::new(Expr::Bin(BinExpr {
+                    let mut expr = BinExpr {
                         span: DUMMY_SP,
                         left: stmt.test.take(),
                         op: op!("||"),
                         right: Box::new(alt.take()),
-                    }));
+                    }
+                    .into();
                     self.compress_logical_exprs_as_bang_bang(&mut expr, false);
-                    *s = Stmt::Expr(ExprStmt {
+                    *s = ExprStmt {
                         span: stmt.span,
-                        expr,
-                    });
+                        expr: expr.into(),
+                    }
+                    .into();
                 }
             }
             return;
@@ -285,10 +295,11 @@ impl Optimizer<'_> {
 
             self.changed = true;
             report_change!("conditionals: Merging cons and alt as only one argument differs");
-            *s = Stmt::Expr(ExprStmt {
+            *s = ExprStmt {
                 span: stmt.span,
                 expr: Box::new(v),
-            });
+            }
+            .into();
             return;
         }
 
@@ -299,15 +310,17 @@ impl Optimizer<'_> {
                  not compressable)"
             );
             self.changed = true;
-            *s = Stmt::Expr(ExprStmt {
+            *s = ExprStmt {
                 span: stmt.span,
-                expr: Box::new(Expr::Cond(CondExpr {
+                expr: CondExpr {
                     span: DUMMY_SP,
                     test: stmt.test.take(),
                     cons: Box::new(cons.take()),
                     alt: Box::new(alt.take()),
-                })),
-            })
+                }
+                .into(),
+            }
+            .into()
         }
     }
 
@@ -335,12 +348,13 @@ impl Optimizer<'_> {
         if cond.test.is_ident() && cond.test.eq_ignore_span(&cond.cons) {
             report_change!("Compressing `x ? x : y` as `x || y`");
             self.changed = true;
-            *e = Expr::Bin(BinExpr {
+            *e = BinExpr {
                 span: cond.span,
                 op: op!("||"),
                 left: cond.test.take(),
                 right: cond.alt.take(),
-            });
+            }
+            .into();
         }
     }
 
@@ -356,10 +370,13 @@ impl Optimizer<'_> {
 
         if cons.eq_ignore_span(alt) && !matches!(&*cons, Expr::Yield(..) | Expr::Fn(..)) {
             report_change!("conditionals: cons is same as alt");
-            return Some(Expr::Seq(SeqExpr {
-                span: DUMMY_SP,
-                exprs: vec![test.take(), Box::new(cons.take())],
-            }));
+            return Some(
+                SeqExpr {
+                    span: DUMMY_SP,
+                    exprs: vec![test.take(), Box::new(cons.take())],
+                }
+                .into(),
+            );
         }
 
         match (cons, alt) {
@@ -416,12 +433,13 @@ impl Optimizer<'_> {
                                 // Inject conditional.
                                 new_args.push(ExprOrSpread {
                                     spread: None,
-                                    expr: Box::new(Expr::Cond(CondExpr {
+                                    expr: CondExpr {
                                         span: arg.expr.span(),
                                         test: test.take(),
                                         cons: arg.expr,
                                         alt: alt.args[idx].expr.take(),
-                                    })),
+                                    }
+                                    .into(),
                                 })
                             } else {
                                 //
@@ -429,12 +447,15 @@ impl Optimizer<'_> {
                             }
                         }
 
-                        return Some(Expr::Call(CallExpr {
-                            span: test.span(),
-                            callee: cons_callee.clone().as_callee(),
-                            args: new_args,
-                            type_args: Default::default(),
-                        }));
+                        return Some(
+                            CallExpr {
+                                span: test.span(),
+                                callee: cons_callee.clone().as_callee(),
+                                args: new_args,
+                                ..Default::default()
+                            }
+                            .into(),
+                        );
                     }
                 }
 
@@ -464,22 +485,28 @@ impl Optimizer<'_> {
                         "Compressing if into cond as there's no side effect and the number of \
                          arguments is 1"
                     );
-                    return Some(Expr::Call(CallExpr {
-                        span: DUMMY_SP,
-                        callee: cons.callee.take(),
-                        args,
-                        type_args: Default::default(),
-                    }));
+                    return Some(
+                        CallExpr {
+                            span: DUMMY_SP,
+                            callee: cons.callee.take(),
+                            args,
+                            ..Default::default()
+                        }
+                        .into(),
+                    );
                 }
 
                 if !side_effect_free && is_for_if_stmt {
                     report_change!("Compressing if into cond while preserving side effects");
-                    return Some(Expr::Cond(CondExpr {
-                        span: DUMMY_SP,
-                        test: test.take(),
-                        cons: Box::new(Expr::Call(cons.take())),
-                        alt: Box::new(Expr::Call(alt.take())),
-                    }));
+                    return Some(
+                        CondExpr {
+                            span: DUMMY_SP,
+                            test: test.take(),
+                            cons: cons.take().into(),
+                            alt: alt.take().into(),
+                        }
+                        .into(),
+                    );
                 }
 
                 None
@@ -530,12 +557,15 @@ impl Optimizer<'_> {
                         "Compressing if statement into a conditional expression of `new` as \
                          there's no side effect and the number of arguments is 1"
                     );
-                    return Some(Expr::New(NewExpr {
-                        span: DUMMY_SP,
-                        callee: cons.callee.take(),
-                        args: Some(args),
-                        type_args: Default::default(),
-                    }));
+                    return Some(
+                        NewExpr {
+                            span: DUMMY_SP,
+                            callee: cons.callee.take(),
+                            args: Some(args),
+                            ..Default::default()
+                        }
+                        .into(),
+                    );
                 }
 
                 None
@@ -550,33 +580,41 @@ impl Optimizer<'_> {
                 }
 
                 report_change!("Merging assignments in cons and alt of if statement");
-                Some(Expr::Assign(AssignExpr {
-                    span: DUMMY_SP,
-                    op: cons.op,
-                    left: cons.left.take(),
-                    right: Box::new(Expr::Cond(CondExpr {
+                Some(
+                    AssignExpr {
                         span: DUMMY_SP,
-                        test: test.take(),
-                        cons: cons.right.take(),
-                        alt: alt.right.take(),
-                    })),
-                }))
+                        op: cons.op,
+                        left: cons.left.take(),
+                        right: CondExpr {
+                            span: DUMMY_SP,
+                            test: test.take(),
+                            cons: cons.right.take(),
+                            alt: alt.right.take(),
+                        }
+                        .into(),
+                    }
+                    .into(),
+                )
             }
 
             // a ? b ? c() : d() : d() => a && b ? c() : d()
             (Expr::Cond(cons), alt) if (*cons.alt).eq_ignore_span(&*alt) => {
                 report_change!("conditionals: a ? b ? c() : d() : d() => a && b ? c() : d()");
-                Some(Expr::Cond(CondExpr {
-                    span: DUMMY_SP,
-                    test: Box::new(Expr::Bin(BinExpr {
+                Some(
+                    CondExpr {
                         span: DUMMY_SP,
-                        left: test.take(),
-                        op: op!("&&"),
-                        right: cons.test.take(),
-                    })),
-                    cons: cons.cons.take(),
-                    alt: cons.alt.take(),
-                }))
+                        test: BinExpr {
+                            span: DUMMY_SP,
+                            left: test.take(),
+                            op: op!("&&"),
+                            right: cons.test.take(),
+                        }
+                        .into(),
+                        cons: cons.cons.take(),
+                        alt: cons.alt.take(),
+                    }
+                    .into(),
+                )
             }
 
             // z ? "fuji" : (condition(), "fuji");
@@ -587,16 +625,20 @@ impl Optimizer<'_> {
                 report_change!("conditionals: Reducing seq expr in alt");
                 //
                 alt.exprs.pop();
-                let first = Box::new(Expr::Bin(BinExpr {
+                let first = BinExpr {
                     span: DUMMY_SP,
                     left: test.take(),
                     op: op!("||"),
                     right: Expr::from_exprs(alt.exprs.take()),
-                }));
-                Some(Expr::Seq(SeqExpr {
-                    span: DUMMY_SP,
-                    exprs: vec![first, Box::new(cons.take())],
-                }))
+                }
+                .into();
+                Some(
+                    SeqExpr {
+                        span: DUMMY_SP,
+                        exprs: vec![first, Box::new(cons.take())],
+                    }
+                    .into(),
+                )
             }
 
             // z ? (condition(), "fuji") : "fuji"
@@ -607,16 +649,20 @@ impl Optimizer<'_> {
                 report_change!("conditionals: Reducing seq expr in cons");
                 //
                 cons.exprs.pop();
-                let first = Box::new(Expr::Bin(BinExpr {
+                let first = BinExpr {
                     span: DUMMY_SP,
                     left: test.take(),
                     op: op!("&&"),
                     right: Expr::from_exprs(cons.exprs.take()),
-                }));
-                Some(Expr::Seq(SeqExpr {
-                    span: DUMMY_SP,
-                    exprs: vec![first, Box::new(alt.take())],
-                }))
+                }
+                .into();
+                Some(
+                    SeqExpr {
+                        span: DUMMY_SP,
+                        exprs: vec![first, Box::new(alt.take())],
+                    }
+                    .into(),
+                )
             }
 
             (Expr::Seq(left), Expr::Seq(right)) => {
@@ -655,10 +701,13 @@ impl Optimizer<'_> {
                     }))];
                     seq.append(&mut left.exprs);
 
-                    Some(Expr::Seq(SeqExpr {
-                        span: DUMMY_SP,
-                        exprs: seq,
-                    }))
+                    Some(
+                        SeqExpr {
+                            span: DUMMY_SP,
+                            exprs: seq,
+                        }
+                        .into(),
+                    )
                 } else if idx == right_len {
                     self.changed = true;
                     report_change!("conditionals: Reducing similar seq expr in alt");
@@ -675,10 +724,13 @@ impl Optimizer<'_> {
                     }))];
                     seq.append(&mut right.exprs);
 
-                    Some(Expr::Seq(SeqExpr {
-                        span: DUMMY_SP,
-                        exprs: seq,
-                    }))
+                    Some(
+                        SeqExpr {
+                            span: DUMMY_SP,
+                            exprs: seq,
+                        }
+                        .into(),
+                    )
                 } else {
                     self.changed = true;
                     report_change!("conditionals: Reducing similar seq expr");
@@ -693,10 +745,13 @@ impl Optimizer<'_> {
                     }))];
                     seq.append(&mut common);
 
-                    Some(Expr::Seq(SeqExpr {
-                        span: DUMMY_SP,
-                        exprs: seq,
-                    }))
+                    Some(
+                        SeqExpr {
+                            span: DUMMY_SP,
+                            exprs: seq,
+                        }
+                        .into(),
+                    )
                 }
             }
 
@@ -761,13 +816,17 @@ impl Optimizer<'_> {
                 s.alt = Some(if alt.len() == 1 {
                     Box::new(alt.into_iter().next().unwrap())
                 } else {
-                    Box::new(Stmt::Block(BlockStmt {
-                        span: DUMMY_SP,
-                        stmts: alt,
-                    }))
+                    Box::new(
+                        BlockStmt {
+                            span: DUMMY_SP,
+                            stmts: alt,
+                            ..Default::default()
+                        }
+                        .into(),
+                    )
                 });
 
-                new.push(Stmt::If(s))
+                new.push(s.into())
             }
             _ => {
                 unreachable!()
@@ -824,16 +883,19 @@ impl Optimizer<'_> {
                             swap(&mut cons, &mut alt);
                         }
 
-                        new_stmts.push(T::from_stmt(Stmt::If(IfStmt {
-                            span,
-                            test,
-                            cons,
-                            alt: None,
-                        })));
-                        new_stmts.push(T::from_stmt(*alt));
+                        new_stmts.push(T::from(
+                            IfStmt {
+                                span,
+                                test,
+                                cons,
+                                alt: None,
+                            }
+                            .into(),
+                        ));
+                        new_stmts.push(T::from(*alt));
                     }
                     _ => {
-                        new_stmts.push(T::from_stmt(stmt));
+                        new_stmts.push(T::from(stmt));
                     }
                 },
                 Err(stmt) => new_stmts.push(stmt),

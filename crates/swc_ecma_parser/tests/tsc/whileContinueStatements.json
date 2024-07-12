@@ -2,23 +2,20 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 547,
-    "ctxt": 0
+    "end": 547
   },
   "body": [
     {
       "type": "WhileStatement",
       "span": {
         "start": 1,
-        "end": 30,
-        "ctxt": 0
+        "end": 30
       },
       "test": {
         "type": "BooleanLiteral",
         "span": {
           "start": 7,
-          "end": 11,
-          "ctxt": 0
+          "end": 11
         },
         "value": true
       },
@@ -26,16 +23,15 @@
         "type": "BlockStatement",
         "span": {
           "start": 13,
-          "end": 30,
-          "ctxt": 0
+          "end": 30
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ContinueStatement",
             "span": {
               "start": 19,
-              "end": 28,
-              "ctxt": 0
+              "end": 28
             },
             "label": null
           }
@@ -46,15 +42,13 @@
       "type": "WhileStatement",
       "span": {
         "start": 33,
-        "end": 89,
-        "ctxt": 0
+        "end": 89
       },
       "test": {
         "type": "BooleanLiteral",
         "span": {
           "start": 40,
-          "end": 44,
-          "ctxt": 0
+          "end": 44
         },
         "value": true
       },
@@ -62,23 +56,21 @@
         "type": "BlockStatement",
         "span": {
           "start": 46,
-          "end": 89,
-          "ctxt": 0
+          "end": 89
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "IfStatement",
             "span": {
               "start": 52,
-              "end": 87,
-              "ctxt": 0
+              "end": 87
             },
             "test": {
               "type": "BooleanLiteral",
               "span": {
                 "start": 56,
-                "end": 60,
-                "ctxt": 0
+                "end": 60
               },
               "value": true
             },
@@ -86,16 +78,15 @@
               "type": "BlockStatement",
               "span": {
                 "start": 62,
-                "end": 87,
-                "ctxt": 0
+                "end": 87
               },
+              "ctxt": 0,
               "stmts": [
                 {
                   "type": "ContinueStatement",
                   "span": {
                     "start": 72,
-                    "end": 81,
-                    "ctxt": 0
+                    "end": 81
                   },
                   "label": null
                 }
@@ -110,16 +101,15 @@
       "type": "LabeledStatement",
       "span": {
         "start": 91,
-        "end": 131,
-        "ctxt": 0
+        "end": 131
       },
       "label": {
         "type": "Identifier",
         "span": {
           "start": 91,
-          "end": 94,
-          "ctxt": 0
+          "end": 94
         },
+        "ctxt": 0,
         "value": "ONE",
         "optional": false
       },
@@ -127,15 +117,13 @@
         "type": "WhileStatement",
         "span": {
           "start": 97,
-          "end": 131,
-          "ctxt": 0
+          "end": 131
         },
         "test": {
           "type": "BooleanLiteral",
           "span": {
             "start": 104,
-            "end": 108,
-            "ctxt": 0
+            "end": 108
           },
           "value": true
         },
@@ -143,24 +131,23 @@
           "type": "BlockStatement",
           "span": {
             "start": 110,
-            "end": 131,
-            "ctxt": 0
+            "end": 131
           },
+          "ctxt": 0,
           "stmts": [
             {
               "type": "ContinueStatement",
               "span": {
                 "start": 116,
-                "end": 129,
-                "ctxt": 0
+                "end": 129
               },
               "label": {
                 "type": "Identifier",
                 "span": {
                   "start": 125,
-                  "end": 128,
-                  "ctxt": 0
+                  "end": 128
                 },
+                "ctxt": 0,
                 "value": "ONE",
                 "optional": false
               }
@@ -173,16 +160,15 @@
       "type": "LabeledStatement",
       "span": {
         "start": 133,
-        "end": 181,
-        "ctxt": 0
+        "end": 181
       },
       "label": {
         "type": "Identifier",
         "span": {
           "start": 133,
-          "end": 136,
-          "ctxt": 0
+          "end": 136
         },
+        "ctxt": 0,
         "value": "TWO",
         "optional": false
       },
@@ -190,16 +176,15 @@
         "type": "LabeledStatement",
         "span": {
           "start": 138,
-          "end": 181,
-          "ctxt": 0
+          "end": 181
         },
         "label": {
           "type": "Identifier",
           "span": {
             "start": 138,
-            "end": 143,
-            "ctxt": 0
+            "end": 143
           },
+          "ctxt": 0,
           "value": "THREE",
           "optional": false
         },
@@ -207,15 +192,13 @@
           "type": "WhileStatement",
           "span": {
             "start": 145,
-            "end": 181,
-            "ctxt": 0
+            "end": 181
           },
           "test": {
             "type": "BooleanLiteral",
             "span": {
               "start": 152,
-              "end": 156,
-              "ctxt": 0
+              "end": 156
             },
             "value": true
           },
@@ -223,24 +206,23 @@
             "type": "BlockStatement",
             "span": {
               "start": 158,
-              "end": 181,
-              "ctxt": 0
+              "end": 181
             },
+            "ctxt": 0,
             "stmts": [
               {
                 "type": "ContinueStatement",
                 "span": {
                   "start": 164,
-                  "end": 179,
-                  "ctxt": 0
+                  "end": 179
                 },
                 "label": {
                   "type": "Identifier",
                   "span": {
                     "start": 173,
-                    "end": 178,
-                    "ctxt": 0
+                    "end": 178
                   },
+                  "ctxt": 0,
                   "value": "THREE",
                   "optional": false
                 }
@@ -254,16 +236,15 @@
       "type": "LabeledStatement",
       "span": {
         "start": 183,
-        "end": 263,
-        "ctxt": 0
+        "end": 263
       },
       "label": {
         "type": "Identifier",
         "span": {
           "start": 183,
-          "end": 187,
-          "ctxt": 0
+          "end": 187
         },
+        "ctxt": 0,
         "value": "FOUR",
         "optional": false
       },
@@ -271,15 +252,13 @@
         "type": "WhileStatement",
         "span": {
           "start": 189,
-          "end": 263,
-          "ctxt": 0
+          "end": 263
         },
         "test": {
           "type": "BooleanLiteral",
           "span": {
             "start": 196,
-            "end": 200,
-            "ctxt": 0
+            "end": 200
           },
           "value": true
         },
@@ -287,24 +266,23 @@
           "type": "BlockStatement",
           "span": {
             "start": 202,
-            "end": 263,
-            "ctxt": 0
+            "end": 263
           },
+          "ctxt": 0,
           "stmts": [
             {
               "type": "LabeledStatement",
               "span": {
                 "start": 208,
-                "end": 261,
-                "ctxt": 0
+                "end": 261
               },
               "label": {
                 "type": "Identifier",
                 "span": {
                   "start": 208,
-                  "end": 212,
-                  "ctxt": 0
+                  "end": 212
                 },
+                "ctxt": 0,
                 "value": "FIVE",
                 "optional": false
               },
@@ -312,15 +290,13 @@
                 "type": "WhileStatement",
                 "span": {
                   "start": 218,
-                  "end": 261,
-                  "ctxt": 0
+                  "end": 261
                 },
                 "test": {
                   "type": "BooleanLiteral",
                   "span": {
                     "start": 225,
-                    "end": 229,
-                    "ctxt": 0
+                    "end": 229
                   },
                   "value": true
                 },
@@ -328,24 +304,23 @@
                   "type": "BlockStatement",
                   "span": {
                     "start": 231,
-                    "end": 261,
-                    "ctxt": 0
+                    "end": 261
                   },
+                  "ctxt": 0,
                   "stmts": [
                     {
                       "type": "ContinueStatement",
                       "span": {
                         "start": 241,
-                        "end": 255,
-                        "ctxt": 0
+                        "end": 255
                       },
                       "label": {
                         "type": "Identifier",
                         "span": {
                           "start": 250,
-                          "end": 254,
-                          "ctxt": 0
+                          "end": 254
                         },
+                        "ctxt": 0,
                         "value": "FOUR",
                         "optional": false
                       }
@@ -362,15 +337,13 @@
       "type": "WhileStatement",
       "span": {
         "start": 265,
-        "end": 329,
-        "ctxt": 0
+        "end": 329
       },
       "test": {
         "type": "BooleanLiteral",
         "span": {
           "start": 272,
-          "end": 276,
-          "ctxt": 0
+          "end": 276
         },
         "value": true
       },
@@ -378,24 +351,23 @@
         "type": "BlockStatement",
         "span": {
           "start": 278,
-          "end": 329,
-          "ctxt": 0
+          "end": 329
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "LabeledStatement",
             "span": {
               "start": 284,
-              "end": 327,
-              "ctxt": 0
+              "end": 327
             },
             "label": {
               "type": "Identifier",
               "span": {
                 "start": 284,
-                "end": 287,
-                "ctxt": 0
+                "end": 287
               },
+              "ctxt": 0,
               "value": "SIX",
               "optional": false
             },
@@ -403,15 +375,13 @@
               "type": "WhileStatement",
               "span": {
                 "start": 293,
-                "end": 327,
-                "ctxt": 0
+                "end": 327
               },
               "test": {
                 "type": "BooleanLiteral",
                 "span": {
                   "start": 300,
-                  "end": 304,
-                  "ctxt": 0
+                  "end": 304
                 },
                 "value": true
               },
@@ -419,16 +389,15 @@
                 "type": "ContinueStatement",
                 "span": {
                   "start": 314,
-                  "end": 327,
-                  "ctxt": 0
+                  "end": 327
                 },
                 "label": {
                   "type": "Identifier",
                   "span": {
                     "start": 323,
-                    "end": 326,
-                    "ctxt": 0
+                    "end": 326
                   },
+                  "ctxt": 0,
                   "value": "SIX",
                   "optional": false
                 }
@@ -442,16 +411,15 @@
       "type": "LabeledStatement",
       "span": {
         "start": 331,
-        "end": 416,
-        "ctxt": 0
+        "end": 416
       },
       "label": {
         "type": "Identifier",
         "span": {
           "start": 331,
-          "end": 336,
-          "ctxt": 0
+          "end": 336
         },
+        "ctxt": 0,
         "value": "SEVEN",
         "optional": false
       },
@@ -459,15 +427,13 @@
         "type": "WhileStatement",
         "span": {
           "start": 338,
-          "end": 416,
-          "ctxt": 0
+          "end": 416
         },
         "test": {
           "type": "BooleanLiteral",
           "span": {
             "start": 345,
-            "end": 349,
-            "ctxt": 0
+            "end": 349
           },
           "value": true
         },
@@ -475,15 +441,13 @@
           "type": "WhileStatement",
           "span": {
             "start": 355,
-            "end": 416,
-            "ctxt": 0
+            "end": 416
           },
           "test": {
             "type": "BooleanLiteral",
             "span": {
               "start": 362,
-              "end": 366,
-              "ctxt": 0
+              "end": 366
             },
             "value": true
           },
@@ -491,15 +455,13 @@
             "type": "WhileStatement",
             "span": {
               "start": 376,
-              "end": 416,
-              "ctxt": 0
+              "end": 416
             },
             "test": {
               "type": "BooleanLiteral",
               "span": {
                 "start": 383,
-                "end": 387,
-                "ctxt": 0
+                "end": 387
               },
               "value": true
             },
@@ -507,16 +469,15 @@
               "type": "ContinueStatement",
               "span": {
                 "start": 401,
-                "end": 416,
-                "ctxt": 0
+                "end": 416
               },
               "label": {
                 "type": "Identifier",
                 "span": {
                   "start": 410,
-                  "end": 415,
-                  "ctxt": 0
+                  "end": 415
                 },
+                "ctxt": 0,
                 "value": "SEVEN",
                 "optional": false
               }
@@ -529,16 +490,15 @@
       "type": "LabeledStatement",
       "span": {
         "start": 418,
-        "end": 490,
-        "ctxt": 0
+        "end": 490
       },
       "label": {
         "type": "Identifier",
         "span": {
           "start": 418,
-          "end": 423,
-          "ctxt": 0
+          "end": 423
         },
+        "ctxt": 0,
         "value": "EIGHT",
         "optional": false
       },
@@ -546,15 +506,13 @@
         "type": "WhileStatement",
         "span": {
           "start": 425,
-          "end": 490,
-          "ctxt": 0
+          "end": 490
         },
         "test": {
           "type": "BooleanLiteral",
           "span": {
             "start": 432,
-            "end": 436,
-            "ctxt": 0
+            "end": 436
           },
           "value": true
         },
@@ -562,17 +520,17 @@
           "type": "BlockStatement",
           "span": {
             "start": 438,
-            "end": 490,
-            "ctxt": 0
+            "end": 490
           },
+          "ctxt": 0,
           "stmts": [
             {
               "type": "VariableDeclaration",
               "span": {
                 "start": 444,
-                "end": 468,
-                "ctxt": 0
+                "end": 468
               },
+              "ctxt": 0,
               "kind": "var",
               "declare": false,
               "declarations": [
@@ -580,16 +538,15 @@
                   "type": "VariableDeclarator",
                   "span": {
                     "start": 448,
-                    "end": 468,
-                    "ctxt": 0
+                    "end": 468
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
                       "start": 448,
-                      "end": 450,
-                      "ctxt": 0
+                      "end": 450
                     },
+                    "ctxt": 0,
                     "value": "fn",
                     "optional": false,
                     "typeAnnotation": null
@@ -601,16 +558,16 @@
                     "decorators": [],
                     "span": {
                       "start": 453,
-                      "end": 468,
-                      "ctxt": 0
+                      "end": 468
                     },
+                    "ctxt": 0,
                     "body": {
                       "type": "BlockStatement",
                       "span": {
                         "start": 465,
-                        "end": 468,
-                        "ctxt": 0
+                        "end": 468
                       },
+                      "ctxt": 0,
                       "stmts": []
                     },
                     "generator": false,
@@ -626,16 +583,15 @@
               "type": "ContinueStatement",
               "span": {
                 "start": 473,
-                "end": 488,
-                "ctxt": 0
+                "end": 488
               },
               "label": {
                 "type": "Identifier",
                 "span": {
                   "start": 482,
-                  "end": 487,
-                  "ctxt": 0
+                  "end": 487
                 },
+                "ctxt": 0,
                 "value": "EIGHT",
                 "optional": false
               }
@@ -648,16 +604,15 @@
       "type": "LabeledStatement",
       "span": {
         "start": 492,
-        "end": 547,
-        "ctxt": 0
+        "end": 547
       },
       "label": {
         "type": "Identifier",
         "span": {
           "start": 492,
-          "end": 496,
-          "ctxt": 0
+          "end": 496
         },
+        "ctxt": 0,
         "value": "NINE",
         "optional": false
       },
@@ -665,15 +620,13 @@
         "type": "WhileStatement",
         "span": {
           "start": 498,
-          "end": 547,
-          "ctxt": 0
+          "end": 547
         },
         "test": {
           "type": "BooleanLiteral",
           "span": {
             "start": 505,
-            "end": 509,
-            "ctxt": 0
+            "end": 509
           },
           "value": true
         },
@@ -681,23 +634,21 @@
           "type": "BlockStatement",
           "span": {
             "start": 511,
-            "end": 547,
-            "ctxt": 0
+            "end": 547
           },
+          "ctxt": 0,
           "stmts": [
             {
               "type": "IfStatement",
               "span": {
                 "start": 517,
-                "end": 545,
-                "ctxt": 0
+                "end": 545
               },
               "test": {
                 "type": "BooleanLiteral",
                 "span": {
                   "start": 521,
-                  "end": 525,
-                  "ctxt": 0
+                  "end": 525
                 },
                 "value": true
               },
@@ -705,24 +656,23 @@
                 "type": "BlockStatement",
                 "span": {
                   "start": 527,
-                  "end": 545,
-                  "ctxt": 0
+                  "end": 545
                 },
+                "ctxt": 0,
                 "stmts": [
                   {
                     "type": "ContinueStatement",
                     "span": {
                       "start": 529,
-                      "end": 543,
-                      "ctxt": 0
+                      "end": 543
                     },
                     "label": {
                       "type": "Identifier",
                       "span": {
                         "start": 538,
-                        "end": 542,
-                        "ctxt": 0
+                        "end": 542
                       },
+                      "ctxt": 0,
                       "value": "NINE",
                       "optional": false
                     }

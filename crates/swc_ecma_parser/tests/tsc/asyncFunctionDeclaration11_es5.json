@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 69,
-    "end": 110,
-    "ctxt": 0
+    "end": 110
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 84,
-          "end": 89,
-          "ctxt": 0
+          "end": 89
         },
+        "ctxt": 0,
         "value": "await",
         "optional": false
       },
@@ -23,16 +22,16 @@
       "decorators": [],
       "span": {
         "start": 69,
-        "end": 110,
-        "ctxt": 0
+        "end": 110
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 107,
-          "end": 110,
-          "ctxt": 0
+          "end": 110
         },
+        "ctxt": 0,
         "stmts": []
       },
       "generator": false,
@@ -42,23 +41,21 @@
         "type": "TsTypeAnnotation",
         "span": {
           "start": 91,
-          "end": 106,
-          "ctxt": 0
+          "end": 106
         },
         "typeAnnotation": {
           "type": "TsTypeReference",
           "span": {
             "start": 93,
-            "end": 106,
-            "ctxt": 0
+            "end": 106
           },
           "typeName": {
             "type": "Identifier",
             "span": {
               "start": 93,
-              "end": 100,
-              "ctxt": 0
+              "end": 100
             },
+            "ctxt": 0,
             "value": "Promise",
             "optional": false
           },
@@ -66,16 +63,14 @@
             "type": "TsTypeParameterInstantiation",
             "span": {
               "start": 100,
-              "end": 106,
-              "ctxt": 0
+              "end": 106
             },
             "params": [
               {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 101,
-                  "end": 105,
-                  "ctxt": 0
+                  "end": 105
                 },
                 "kind": "void"
               }

@@ -361,8 +361,8 @@ impl Fold for Normalizer {
 
         match stmt {
             Stmt::Expr(ExprStmt { span, expr }) => match *expr {
-                Expr::Paren(ParenExpr { expr, .. }) => Stmt::Expr(ExprStmt { span, expr }),
-                _ => Stmt::Expr(ExprStmt { span, expr }),
+                Expr::Paren(ParenExpr { expr, .. }) => ExprStmt { span, expr }.into(),
+                _ => ExprStmt { span, expr }.into(),
             },
             _ => stmt,
         }
@@ -382,8 +382,6 @@ where
     T: FoldWith<Normalizer> + VisitMutWith<DropSpan>,
 {
     let mut node = node.fold_with(&mut Normalizer);
-    node.visit_mut_with(&mut DropSpan {
-        preserve_ctxt: false,
-    });
+    node.visit_mut_with(&mut DropSpan);
     node
 }

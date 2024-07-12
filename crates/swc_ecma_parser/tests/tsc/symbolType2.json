@@ -2,39 +2,35 @@
   "type": "Script",
   "span": {
     "start": 16,
-    "end": 74,
-    "ctxt": 0
+    "end": 74
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 16,
-        "end": 48,
-        "ctxt": 0
+        "end": 48
       },
       "expression": {
         "type": "BinaryExpression",
         "span": {
           "start": 16,
-          "end": 47,
-          "ctxt": 0
+          "end": 47
         },
         "operator": "in",
         "left": {
           "type": "MemberExpression",
           "span": {
             "start": 16,
-            "end": 41,
-            "ctxt": 0
+            "end": 41
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 16,
-              "end": 22,
-              "ctxt": 0
+              "end": 22
             },
+            "ctxt": 0,
             "value": "Symbol",
             "optional": false
           },
@@ -42,19 +38,16 @@
             "type": "Identifier",
             "span": {
               "start": 23,
-              "end": 41,
-              "ctxt": 0
+              "end": 41
             },
-            "value": "isConcatSpreadable",
-            "optional": false
+            "value": "isConcatSpreadable"
           }
         },
         "right": {
           "type": "ObjectExpression",
           "span": {
             "start": 45,
-            "end": 47,
-            "ctxt": 0
+            "end": 47
           },
           "properties": []
         }
@@ -64,23 +57,20 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 49,
-        "end": 74,
-        "ctxt": 0
+        "end": 74
       },
       "expression": {
         "type": "BinaryExpression",
         "span": {
           "start": 49,
-          "end": 73,
-          "ctxt": 0
+          "end": 73
         },
         "operator": "in",
         "left": {
           "type": "StringLiteral",
           "span": {
             "start": 49,
-            "end": 51,
-            "ctxt": 0
+            "end": 51
           },
           "value": "",
           "raw": "\"\""
@@ -89,16 +79,15 @@
           "type": "MemberExpression",
           "span": {
             "start": 55,
-            "end": 73,
-            "ctxt": 0
+            "end": 73
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 55,
-              "end": 61,
-              "ctxt": 0
+              "end": 61
             },
+            "ctxt": 0,
             "value": "Symbol",
             "optional": false
           },
@@ -106,11 +95,9 @@
             "type": "Identifier",
             "span": {
               "start": 62,
-              "end": 73,
-              "ctxt": 0
+              "end": 73
             },
-            "value": "toPrimitive",
-            "optional": false
+            "value": "toPrimitive"
           }
         }
       }

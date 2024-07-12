@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 41,
-    "ctxt": 0
+    "end": 41
   },
   "body": [
     {
@@ -12,33 +11,31 @@
         "type": "Identifier",
         "span": {
           "start": 7,
-          "end": 8,
-          "ctxt": 0
+          "end": 8
         },
+        "ctxt": 0,
         "value": "C",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 1,
-        "end": 41,
-        "ctxt": 0
+        "end": 41
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassMethod",
           "span": {
             "start": 15,
-            "end": 23,
-            "ctxt": 0
+            "end": 23
           },
           "key": {
             "type": "StringLiteral",
             "span": {
               "start": 15,
-              "end": 20,
-              "ctxt": 0
+              "end": 20
             },
             "value": "foo",
             "raw": "\"foo\""
@@ -48,9 +45,9 @@
             "decorators": [],
             "span": {
               "start": 15,
-              "end": 23,
-              "ctxt": 0
+              "end": 23
             },
+            "ctxt": 0,
             "body": null,
             "generator": false,
             "async": false,
@@ -68,15 +65,13 @@
           "type": "ClassMethod",
           "span": {
             "start": 28,
-            "end": 39,
-            "ctxt": 0
+            "end": 39
           },
           "key": {
             "type": "StringLiteral",
             "span": {
               "start": 28,
-              "end": 33,
-              "ctxt": 0
+              "end": 33
             },
             "value": "bar",
             "raw": "\"bar\""
@@ -86,16 +81,16 @@
             "decorators": [],
             "span": {
               "start": 28,
-              "end": 39,
-              "ctxt": 0
+              "end": 39
             },
+            "ctxt": 0,
             "body": {
               "type": "BlockStatement",
               "span": {
                 "start": 36,
-                "end": 39,
-                "ctxt": 0
+                "end": 39
               },
+              "ctxt": 0,
               "stmts": []
             },
             "generator": false,

@@ -2,16 +2,14 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 70,
-    "ctxt": 0
+    "end": 70
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
         "start": 1,
-        "end": 70,
-        "ctxt": 0
+        "end": 70
       },
       "declaration": {
         "type": "ClassDeclaration",
@@ -19,61 +17,57 @@
           "type": "Identifier",
           "span": {
             "start": 22,
-            "end": 31,
-            "ctxt": 0
+            "end": 31
           },
+          "ctxt": 0,
           "value": "EventInit",
           "optional": false
         },
         "declare": true,
         "span": {
           "start": 8,
-          "end": 70,
-          "ctxt": 0
+          "end": 70
         },
+        "ctxt": 0,
         "decorators": [],
         "body": [
           {
             "type": "Constructor",
             "span": {
               "start": 38,
-              "end": 68,
-              "ctxt": 0
+              "end": 68
             },
+            "ctxt": 0,
             "key": {
               "type": "Identifier",
               "span": {
                 "start": 38,
-                "end": 49,
-                "ctxt": 0
+                "end": 49
               },
-              "value": "constructor",
-              "optional": false
+              "value": "constructor"
             },
             "params": [
               {
                 "type": "Parameter",
                 "span": {
                   "start": 50,
-                  "end": 66,
-                  "ctxt": 0
+                  "end": 66
                 },
                 "decorators": [],
                 "pat": {
                   "type": "ArrayPattern",
                   "span": {
                     "start": 50,
-                    "end": 66,
-                    "ctxt": 0
+                    "end": 66
                   },
                   "elements": [
                     {
                       "type": "Identifier",
                       "span": {
                         "start": 52,
-                        "end": 53,
-                        "ctxt": 0
+                        "end": 53
                       },
+                      "ctxt": 0,
                       "value": "t",
                       "optional": false,
                       "typeAnnotation": null
@@ -84,22 +78,19 @@
                     "type": "TsTypeAnnotation",
                     "span": {
                       "start": 56,
-                      "end": 66,
-                      "ctxt": 0
+                      "end": 66
                     },
                     "typeAnnotation": {
                       "type": "TsArrayType",
                       "span": {
                         "start": 58,
-                        "end": 66,
-                        "ctxt": 0
+                        "end": 66
                       },
                       "elemType": {
                         "type": "TsKeywordType",
                         "span": {
                           "start": 58,
-                          "end": 64,
-                          "ctxt": 0
+                          "end": 64
                         },
                         "kind": "string"
                       }

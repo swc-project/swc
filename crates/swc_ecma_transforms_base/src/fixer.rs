@@ -478,13 +478,16 @@ impl VisitMut for Fixer<'_> {
         if !s.is_await {
             match &s.left {
                 ForHead::Pat(p)
-                    if matches!(&**p, Pat::Ident(BindingIdent {
+                    if match &**p {
+                        Pat::Ident(BindingIdent {
                             id: Ident { sym, .. },
                             ..
-                        }) if &**sym == "async") =>
+                        }) => &**sym == "async",
+                        _ => false,
+                    } =>
                 {
-                    let expr = Expr::Ident(p.clone().expect_ident().id);
-                    s.left = ForHead::Pat(Box::new(Pat::Expr(Box::new(expr))));
+                    let expr: Pat = p.clone().expect_ident().into();
+                    s.left = ForHead::Pat(expr.into());
                 }
                 _ => (),
             }
@@ -519,10 +522,14 @@ impl VisitMut for Fixer<'_> {
         node.visit_mut_children_with(self);
 
         if will_eat_else_token(&node.cons) {
-            node.cons = Box::new(Stmt::Block(BlockStmt {
-                span: node.cons.span(),
-                stmts: vec![*node.cons.take()],
-            }));
+            node.cons = Box::new(
+                BlockStmt {
+                    span: node.cons.span(),
+                    stmts: vec![*node.cons.take()],
+                    ..Default::default()
+                }
+                .into(),
+            );
         }
     }
 
@@ -874,7 +881,7 @@ impl Fixer<'_> {
                     }
                 }
 
-                let mut expr = Expr::Seq(SeqExpr { span: *span, exprs });
+                let mut expr = SeqExpr { span: *span, exprs }.into();
 
                 if let Context::ForcedExpr = self.ctx {
                     self.wrap(&mut expr);
@@ -981,7 +988,7 @@ impl Fixer<'_> {
         };
 
         let expr = Box::new(e.take());
-        *e = Expr::Paren(ParenExpr { expr, span });
+        *e = ParenExpr { expr, span }.into();
     }
 
     /// Removes paren
@@ -1067,7 +1074,7 @@ fn ignore_return_value(expr: Box<Expr>, has_padding_value: &mut bool) -> Option<
 
             match exprs.len() {
                 0 | 1 => exprs.pop(),
-                _ => Some(Box::new(Expr::Seq(SeqExpr { span, exprs }))),
+                _ => Some(SeqExpr { span, exprs }.into()),
             }
         }
         Expr::Unary(UnaryExpr {

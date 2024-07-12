@@ -1,26 +1,26 @@
 [
     JsDoc {
-        span: 0..1#0,
+        span: 0..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..7#0,
+                span: 1..7,
                 tag_name: Text {
-                    span: 1..7#0,
+                    span: 1..7,
                     value: "member",
                 },
                 tag: Member(
                     MemberTag {
-                        span: 1..7#0,
+                        span: 1..7,
                         ty: Text {
-                            span: 1..1#0,
+                            span: 1..1,
                             value: "",
                         },
                         name: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                     },
@@ -29,27 +29,27 @@
         ],
     },
     JsDoc {
-        span: 0..24#0,
+        span: 0..24,
         description: Text {
-            span: 24..24#0,
+            span: 24..24,
             value: "",
         },
         tags: [
             TagItem {
-                span: 24..27#0,
+                span: 24..27,
                 tag_name: Text {
-                    span: 24..27#0,
+                    span: 24..27,
                     value: "var",
                 },
                 tag: Member(
                     MemberTag {
-                        span: 24..27#0,
+                        span: 24..27,
                         ty: Text {
-                            span: 24..30#0,
+                            span: 24..30,
                             value: "foobar",
                         },
                         name: Text {
-                            span: 24..24#0,
+                            span: 24..24,
                             value: "",
                         },
                     },
@@ -58,27 +58,27 @@
         ],
     },
     JsDoc {
-        span: 43..47#0,
+        span: 43..47,
         description: Text {
-            span: 43..43#0,
+            span: 43..43,
             value: "",
         },
         tags: [
             TagItem {
-                span: 43..46#0,
+                span: 43..46,
                 tag_name: Text {
-                    span: 43..46#0,
+                    span: 43..46,
                     value: "var",
                 },
                 tag: Member(
                     MemberTag {
-                        span: 43..46#0,
+                        span: 43..46,
                         ty: Text {
-                            span: 43..43#0,
+                            span: 43..43,
                             value: "",
                         },
                         name: Text {
-                            span: 43..49#0,
+                            span: 43..49,
                             value: "string",
                         },
                     },
@@ -87,27 +87,27 @@
         ],
     },
     JsDoc {
-        span: 69..69#0,
+        span: 69..69,
         description: Text {
-            span: 69..69#0,
+            span: 69..69,
             value: "",
         },
         tags: [
             TagItem {
-                span: 69..75#0,
+                span: 69..75,
                 tag_name: Text {
-                    span: 69..75#0,
+                    span: 69..75,
                     value: "member",
                 },
                 tag: Member(
                     MemberTag {
-                        span: 69..75#0,
+                        span: 69..75,
                         ty: Text {
-                            span: 69..69#0,
+                            span: 69..69,
                             value: "",
                         },
                         name: Text {
-                            span: 69..75#0,
+                            span: 69..75,
                             value: "Object",
                         },
                     },

@@ -2,39 +2,34 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 551,
-    "ctxt": 0
+    "end": 551
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
         "start": 1,
-        "end": 550,
-        "ctxt": 0
+        "end": 550
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 1,
-          "end": 3,
-          "ctxt": 0
+          "end": 3
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
               "start": 1,
-              "end": 3,
-              "ctxt": 0
+              "end": 3
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
                   "start": 1,
-                  "end": 3,
-                  "ctxt": 0
+                  "end": 3
                 },
                 "nestingSelector": null,
                 "typeSelector": null,
@@ -43,15 +38,13 @@
                     "type": "ClassSelector",
                     "span": {
                       "start": 1,
-                      "end": 3,
-                      "ctxt": 0
+                      "end": 3
                     },
                     "text": {
                       "type": "Ident",
                       "span": {
                         "start": 2,
-                        "end": 3,
-                        "ctxt": 0
+                        "end": 3
                       },
                       "value": "a",
                       "raw": "a"
@@ -67,15 +60,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 4,
-          "end": 550,
-          "ctxt": 0
+          "end": 550
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 4,
-            "end": 5,
-            "ctxt": 0
+            "end": 5
           },
           "token": "LBrace"
         },
@@ -84,15 +75,13 @@
             "type": "Declaration",
             "span": {
               "start": 10,
-              "end": 25,
-              "ctxt": 0
+              "end": 25
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 10,
-                "end": 14,
-                "ctxt": 0
+                "end": 14
               },
               "value": "prop",
               "raw": "prop"
@@ -102,8 +91,7 @@
                 "type": "Ident",
                 "span": {
                   "start": 16,
-                  "end": 25,
-                  "ctxt": 0
+                  "end": 25
                 },
                 "value": "important",
                 "raw": "important"
@@ -115,15 +103,13 @@
             "type": "Declaration",
             "span": {
               "start": 31,
-              "end": 51,
-              "ctxt": 0
+              "end": 51
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 31,
-                "end": 36,
-                "ctxt": 0
+                "end": 36
               },
               "value": "color",
               "raw": "color"
@@ -133,8 +119,7 @@
                 "type": "Ident",
                 "span": {
                   "start": 38,
-                  "end": 41,
-                  "ctxt": 0
+                  "end": 41
                 },
                 "value": "red",
                 "raw": "red"
@@ -143,8 +128,7 @@
                 "type": "Ident",
                 "span": {
                   "start": 42,
-                  "end": 51,
-                  "ctxt": 0
+                  "end": 51
                 },
                 "value": "important",
                 "raw": "important"
@@ -156,15 +140,13 @@
             "type": "Declaration",
             "span": {
               "start": 57,
-              "end": 77,
-              "ctxt": 0
+              "end": 77
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 57,
-                "end": 62,
-                "ctxt": 0
+                "end": 62
               },
               "value": "width",
               "raw": "width"
@@ -174,15 +156,13 @@
                 "type": "Length",
                 "span": {
                   "start": 64,
-                  "end": 67,
-                  "ctxt": 0
+                  "end": 67
                 },
                 "value": {
                   "type": "Number",
                   "span": {
                     "start": 64,
-                    "end": 65,
-                    "ctxt": 0
+                    "end": 65
                   },
                   "value": 1.0,
                   "raw": "1"
@@ -191,8 +171,7 @@
                   "type": "Ident",
                   "span": {
                     "start": 65,
-                    "end": 67,
-                    "ctxt": 0
+                    "end": 67
                   },
                   "value": "px",
                   "raw": "px"
@@ -203,15 +182,13 @@
               "type": "ImportantFlag",
               "span": {
                 "start": 67,
-                "end": 77,
-                "ctxt": 0
+                "end": 77
               },
               "value": {
                 "type": "Ident",
                 "span": {
                   "start": 68,
-                  "end": 77,
-                  "ctxt": 0
+                  "end": 77
                 },
                 "value": "important",
                 "raw": "important"
@@ -222,15 +199,13 @@
             "type": "Declaration",
             "span": {
               "start": 83,
-              "end": 103,
-              "ctxt": 0
+              "end": 103
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 83,
-                "end": 88,
-                "ctxt": 0
+                "end": 88
               },
               "value": "color",
               "raw": "color"
@@ -240,8 +215,7 @@
                 "type": "Ident",
                 "span": {
                   "start": 90,
-                  "end": 93,
-                  "ctxt": 0
+                  "end": 93
                 },
                 "value": "red",
                 "raw": "red"
@@ -251,15 +225,13 @@
               "type": "ImportantFlag",
               "span": {
                 "start": 93,
-                "end": 103,
-                "ctxt": 0
+                "end": 103
               },
               "value": {
                 "type": "Ident",
                 "span": {
                   "start": 94,
-                  "end": 103,
-                  "ctxt": 0
+                  "end": 103
                 },
                 "value": "important",
                 "raw": "important"
@@ -270,15 +242,13 @@
             "type": "Declaration",
             "span": {
               "start": 109,
-              "end": 130,
-              "ctxt": 0
+              "end": 130
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 109,
-                "end": 114,
-                "ctxt": 0
+                "end": 114
               },
               "value": "color",
               "raw": "color"
@@ -288,8 +258,7 @@
                 "type": "Ident",
                 "span": {
                   "start": 116,
-                  "end": 119,
-                  "ctxt": 0
+                  "end": 119
                 },
                 "value": "red",
                 "raw": "red"
@@ -299,15 +268,13 @@
               "type": "ImportantFlag",
               "span": {
                 "start": 120,
-                "end": 130,
-                "ctxt": 0
+                "end": 130
               },
               "value": {
                 "type": "Ident",
                 "span": {
                   "start": 121,
-                  "end": 130,
-                  "ctxt": 0
+                  "end": 130
                 },
                 "value": "important",
                 "raw": "important"
@@ -318,15 +285,13 @@
             "type": "Declaration",
             "span": {
               "start": 136,
-              "end": 158,
-              "ctxt": 0
+              "end": 158
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 136,
-                "end": 141,
-                "ctxt": 0
+                "end": 141
               },
               "value": "color",
               "raw": "color"
@@ -336,8 +301,7 @@
                 "type": "Ident",
                 "span": {
                   "start": 143,
-                  "end": 146,
-                  "ctxt": 0
+                  "end": 146
                 },
                 "value": "red",
                 "raw": "red"
@@ -347,15 +311,13 @@
               "type": "ImportantFlag",
               "span": {
                 "start": 148,
-                "end": 158,
-                "ctxt": 0
+                "end": 158
               },
               "value": {
                 "type": "Ident",
                 "span": {
                   "start": 149,
-                  "end": 158,
-                  "ctxt": 0
+                  "end": 158
                 },
                 "value": "important",
                 "raw": "important"
@@ -366,15 +328,13 @@
             "type": "Declaration",
             "span": {
               "start": 164,
-              "end": 191,
-              "ctxt": 0
+              "end": 191
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 164,
-                "end": 169,
-                "ctxt": 0
+                "end": 169
               },
               "value": "color",
               "raw": "color"
@@ -384,8 +344,7 @@
                 "type": "Ident",
                 "span": {
                   "start": 171,
-                  "end": 174,
-                  "ctxt": 0
+                  "end": 174
                 },
                 "value": "red",
                 "raw": "red"
@@ -395,15 +354,13 @@
               "type": "ImportantFlag",
               "span": {
                 "start": 175,
-                "end": 188,
-                "ctxt": 0
+                "end": 188
               },
               "value": {
                 "type": "Ident",
                 "span": {
                   "start": 179,
-                  "end": 188,
-                  "ctxt": 0
+                  "end": 188
                 },
                 "value": "important",
                 "raw": "important"
@@ -414,15 +371,13 @@
             "type": "Declaration",
             "span": {
               "start": 197,
-              "end": 219,
-              "ctxt": 0
+              "end": 219
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 197,
-                "end": 202,
-                "ctxt": 0
+                "end": 202
               },
               "value": "color",
               "raw": "color"
@@ -432,8 +387,7 @@
                 "type": "Ident",
                 "span": {
                   "start": 204,
-                  "end": 208,
-                  "ctxt": 0
+                  "end": 208
                 },
                 "value": "blue",
                 "raw": "blue"
@@ -443,15 +397,13 @@
               "type": "ImportantFlag",
               "span": {
                 "start": 209,
-                "end": 219,
-                "ctxt": 0
+                "end": 219
               },
               "value": {
                 "type": "Ident",
                 "span": {
                   "start": 210,
-                  "end": 219,
-                  "ctxt": 0
+                  "end": 219
                 },
                 "value": "important",
                 "raw": "IMPORTANT"
@@ -462,15 +414,13 @@
             "type": "Declaration",
             "span": {
               "start": 225,
-              "end": 254,
-              "ctxt": 0
+              "end": 254
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 225,
-                "end": 230,
-                "ctxt": 0
+                "end": 230
               },
               "value": "color",
               "raw": "color"
@@ -480,8 +430,7 @@
                 "type": "Ident",
                 "span": {
                   "start": 232,
-                  "end": 237,
-                  "ctxt": 0
+                  "end": 237
                 },
                 "value": "white",
                 "raw": "white"
@@ -491,15 +440,13 @@
               "type": "ImportantFlag",
               "span": {
                 "start": 238,
-                "end": 251,
-                "ctxt": 0
+                "end": 251
               },
               "value": {
                 "type": "Ident",
                 "span": {
                   "start": 242,
-                  "end": 251,
-                  "ctxt": 0
+                  "end": 251
                 },
                 "value": "important",
                 "raw": "IMPORTANT"
@@ -510,15 +457,13 @@
             "type": "Declaration",
             "span": {
               "start": 260,
-              "end": 294,
-              "ctxt": 0
+              "end": 294
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 260,
-                "end": 266,
-                "ctxt": 0
+                "end": 266
               },
               "value": "margin",
               "raw": "margin"
@@ -528,15 +473,13 @@
                 "type": "Length",
                 "span": {
                   "start": 268,
-                  "end": 272,
-                  "ctxt": 0
+                  "end": 272
                 },
                 "value": {
                   "type": "Number",
                   "span": {
                     "start": 268,
-                    "end": 270,
-                    "ctxt": 0
+                    "end": 270
                   },
                   "value": 10.0,
                   "raw": "10"
@@ -545,8 +488,7 @@
                   "type": "Ident",
                   "span": {
                     "start": 270,
-                    "end": 272,
-                    "ctxt": 0
+                    "end": 272
                   },
                   "value": "px",
                   "raw": "px"
@@ -557,15 +499,13 @@
               "type": "ImportantFlag",
               "span": {
                 "start": 278,
-                "end": 294,
-                "ctxt": 0
+                "end": 294
               },
               "value": {
                 "type": "Ident",
                 "span": {
                   "start": 285,
-                  "end": 294,
-                  "ctxt": 0
+                  "end": 294
                 },
                 "value": "important",
                 "raw": "important"
@@ -576,15 +516,13 @@
             "type": "Declaration",
             "span": {
               "start": 300,
-              "end": 343,
-              "ctxt": 0
+              "end": 343
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 300,
-                "end": 307,
-                "ctxt": 0
+                "end": 307
               },
               "value": "padding",
               "raw": "padding"
@@ -594,15 +532,13 @@
                 "type": "Length",
                 "span": {
                   "start": 309,
-                  "end": 313,
-                  "ctxt": 0
+                  "end": 313
                 },
                 "value": {
                   "type": "Number",
                   "span": {
                     "start": 309,
-                    "end": 311,
-                    "ctxt": 0
+                    "end": 311
                   },
                   "value": 20.0,
                   "raw": "20"
@@ -611,8 +547,7 @@
                   "type": "Ident",
                   "span": {
                     "start": 311,
-                    "end": 313,
-                    "ctxt": 0
+                    "end": 313
                   },
                   "value": "px",
                   "raw": "px"
@@ -623,15 +558,13 @@
               "type": "ImportantFlag",
               "span": {
                 "start": 318,
-                "end": 343,
-                "ctxt": 0
+                "end": 343
               },
               "value": {
                 "type": "Ident",
                 "span": {
                   "start": 334,
-                  "end": 343,
-                  "ctxt": 0
+                  "end": 343
                 },
                 "value": "important",
                 "raw": "important"
@@ -642,15 +575,13 @@
             "type": "Declaration",
             "span": {
               "start": 349,
-              "end": 385,
-              "ctxt": 0
+              "end": 385
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 349,
-                "end": 354,
-                "ctxt": 0
+                "end": 354
               },
               "value": "width",
               "raw": "width"
@@ -660,15 +591,13 @@
                 "type": "Length",
                 "span": {
                   "start": 356,
-                  "end": 361,
-                  "ctxt": 0
+                  "end": 361
                 },
                 "value": {
                   "type": "Number",
                   "span": {
                     "start": 356,
-                    "end": 359,
-                    "ctxt": 0
+                    "end": 359
                   },
                   "value": 100.0,
                   "raw": "100"
@@ -677,8 +606,7 @@
                   "type": "Ident",
                   "span": {
                     "start": 359,
-                    "end": 361,
-                    "ctxt": 0
+                    "end": 361
                   },
                   "value": "px",
                   "raw": "px"
@@ -689,15 +617,13 @@
               "type": "ImportantFlag",
               "span": {
                 "start": 362,
-                "end": 385,
-                "ctxt": 0
+                "end": 385
               },
               "value": {
                 "type": "Ident",
                 "span": {
                   "start": 376,
-                  "end": 385,
-                  "ctxt": 0
+                  "end": 385
                 },
                 "value": "important",
                 "raw": "important"
@@ -708,15 +634,13 @@
             "type": "Declaration",
             "span": {
               "start": 391,
-              "end": 426,
-              "ctxt": 0
+              "end": 426
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 391,
-                "end": 397,
-                "ctxt": 0
+                "end": 397
               },
               "value": "height",
               "raw": "height"
@@ -726,15 +650,13 @@
                 "type": "Length",
                 "span": {
                   "start": 399,
-                  "end": 404,
-                  "ctxt": 0
+                  "end": 404
                 },
                 "value": {
                   "type": "Number",
                   "span": {
                     "start": 399,
-                    "end": 402,
-                    "ctxt": 0
+                    "end": 402
                   },
                   "value": 100.0,
                   "raw": "100"
@@ -743,8 +665,7 @@
                   "type": "Ident",
                   "span": {
                     "start": 402,
-                    "end": 404,
-                    "ctxt": 0
+                    "end": 404
                   },
                   "value": "px",
                   "raw": "px"
@@ -754,8 +675,7 @@
                 "type": "Ident",
                 "span": {
                   "start": 417,
-                  "end": 426,
-                  "ctxt": 0
+                  "end": 426
                 },
                 "value": "important",
                 "raw": "important"
@@ -767,15 +687,13 @@
             "type": "Declaration",
             "span": {
               "start": 432,
-              "end": 456,
-              "ctxt": 0
+              "end": 456
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 432,
-                "end": 439,
-                "ctxt": 0
+                "end": 439
               },
               "value": "z-index",
               "raw": "z-index"
@@ -785,8 +703,7 @@
                 "type": "Integer",
                 "span": {
                   "start": 441,
-                  "end": 442,
-                  "ctxt": 0
+                  "end": 442
                 },
                 "value": 1,
                 "raw": "1"
@@ -795,8 +712,7 @@
                 "type": "String",
                 "span": {
                   "start": 443,
-                  "end": 445,
-                  "ctxt": 0
+                  "end": 445
                 },
                 "value": "",
                 "raw": "\"\""
@@ -806,15 +722,13 @@
               "type": "ImportantFlag",
               "span": {
                 "start": 445,
-                "end": 456,
-                "ctxt": 0
+                "end": 456
               },
               "value": {
                 "type": "Ident",
                 "span": {
                   "start": 447,
-                  "end": 456,
-                  "ctxt": 0
+                  "end": 456
                 },
                 "value": "important",
                 "raw": "important"
@@ -825,15 +739,13 @@
             "type": "Declaration",
             "span": {
               "start": 462,
-              "end": 493,
-              "ctxt": 0
+              "end": 493
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 462,
-                "end": 469,
-                "ctxt": 0
+                "end": 469
               },
               "value": "padding",
               "raw": "padding"
@@ -843,15 +755,13 @@
                 "type": "Length",
                 "span": {
                   "start": 471,
-                  "end": 474,
-                  "ctxt": 0
+                  "end": 474
                 },
                 "value": {
                   "type": "Number",
                   "span": {
                     "start": 471,
-                    "end": 472,
-                    "ctxt": 0
+                    "end": 472
                   },
                   "value": 1.0,
                   "raw": "1"
@@ -860,8 +770,7 @@
                   "type": "Ident",
                   "span": {
                     "start": 472,
-                    "end": 474,
-                    "ctxt": 0
+                    "end": 474
                   },
                   "value": "px",
                   "raw": "px"
@@ -872,15 +781,13 @@
               "type": "ImportantFlag",
               "span": {
                 "start": 483,
-                "end": 493,
-                "ctxt": 0
+                "end": 493
               },
               "value": {
                 "type": "Ident",
                 "span": {
                   "start": 484,
-                  "end": 493,
-                  "ctxt": 0
+                  "end": 493
                 },
                 "value": "important",
                 "raw": "important"
@@ -891,15 +798,13 @@
             "type": "Declaration",
             "span": {
               "start": 499,
-              "end": 519,
-              "ctxt": 0
+              "end": 519
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 499,
-                "end": 503,
-                "ctxt": 0
+                "end": 503
               },
               "value": "prop",
               "raw": "prop"
@@ -909,8 +814,7 @@
                 "type": "Ident",
                 "span": {
                   "start": 505,
-                  "end": 508,
-                  "ctxt": 0
+                  "end": 508
                 },
                 "value": "red",
                 "raw": "red"
@@ -920,15 +824,13 @@
               "type": "ImportantFlag",
               "span": {
                 "start": 509,
-                "end": 519,
-                "ctxt": 0
+                "end": 519
               },
               "value": {
                 "type": "Ident",
                 "span": {
                   "start": 510,
-                  "end": 519,
-                  "ctxt": 0
+                  "end": 519
                 },
                 "value": "important",
                 "raw": "iMpOrTaNt"
@@ -939,15 +841,13 @@
             "type": "Declaration",
             "span": {
               "start": 525,
-              "end": 547,
-              "ctxt": 0
+              "end": 547
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 525,
-                "end": 530,
-                "ctxt": 0
+                "end": 530
               },
               "value": "color",
               "raw": "color"
@@ -957,8 +857,7 @@
                 "type": "Ident",
                 "span": {
                   "start": 532,
-                  "end": 535,
-                  "ctxt": 0
+                  "end": 535
                 },
                 "value": "red",
                 "raw": "red"
@@ -968,15 +867,13 @@
               "type": "ImportantFlag",
               "span": {
                 "start": 536,
-                "end": 547,
-                "ctxt": 0
+                "end": 547
               },
               "value": {
                 "type": "Ident",
                 "span": {
                   "start": 537,
-                  "end": 547,
-                  "ctxt": 0
+                  "end": 547
                 },
                 "value": "important",
                 "raw": "imp\\ortant"

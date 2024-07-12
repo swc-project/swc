@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 2,
-    "end": 298,
-    "ctxt": 0
+    "end": 298
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 11,
-          "end": 13,
-          "ctxt": 0
+          "end": 13
         },
+        "ctxt": 0,
         "value": "fn",
         "optional": false
       },
@@ -23,48 +22,46 @@
       "decorators": [],
       "span": {
         "start": 2,
-        "end": 298,
-        "ctxt": 0
+        "end": 298
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 16,
-          "end": 298,
-          "ctxt": 0
+          "end": 298
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "TryStatement",
             "span": {
               "start": 22,
-              "end": 39,
-              "ctxt": 0
+              "end": 39
             },
             "block": {
               "type": "BlockStatement",
               "span": {
                 "start": 26,
-                "end": 29,
-                "ctxt": 0
+                "end": 29
               },
+              "ctxt": 0,
               "stmts": []
             },
             "handler": {
               "type": "CatchClause",
               "span": {
                 "start": 30,
-                "end": 39,
-                "ctxt": 0
+                "end": 39
               },
               "param": null,
               "body": {
                 "type": "BlockStatement",
                 "span": {
                   "start": 36,
-                  "end": 39,
-                  "ctxt": 0
+                  "end": 39
                 },
+                "ctxt": 0,
                 "stmts": []
               }
             },
@@ -74,97 +71,91 @@
             "type": "TryStatement",
             "span": {
               "start": 45,
-              "end": 158,
-              "ctxt": 0
+              "end": 158
             },
             "block": {
               "type": "BlockStatement",
               "span": {
                 "start": 49,
-                "end": 52,
-                "ctxt": 0
+                "end": 52
               },
+              "ctxt": 0,
               "stmts": []
             },
             "handler": {
               "type": "CatchClause",
               "span": {
                 "start": 53,
-                "end": 158,
-                "ctxt": 0
+                "end": 158
               },
               "param": null,
               "body": {
                 "type": "BlockStatement",
                 "span": {
                   "start": 59,
-                  "end": 158,
-                  "ctxt": 0
+                  "end": 158
                 },
+                "ctxt": 0,
                 "stmts": [
                   {
                     "type": "TryStatement",
                     "span": {
                       "start": 70,
-                      "end": 126,
-                      "ctxt": 0
+                      "end": 126
                     },
                     "block": {
                       "type": "BlockStatement",
                       "span": {
                         "start": 74,
-                        "end": 77,
-                        "ctxt": 0
+                        "end": 77
                       },
+                      "ctxt": 0,
                       "stmts": []
                     },
                     "handler": {
                       "type": "CatchClause",
                       "span": {
                         "start": 78,
-                        "end": 126,
-                        "ctxt": 0
+                        "end": 126
                       },
                       "param": null,
                       "body": {
                         "type": "BlockStatement",
                         "span": {
                           "start": 84,
-                          "end": 126,
-                          "ctxt": 0
+                          "end": 126
                         },
+                        "ctxt": 0,
                         "stmts": [
                           {
                             "type": "TryStatement",
                             "span": {
                               "start": 99,
-                              "end": 116,
-                              "ctxt": 0
+                              "end": 116
                             },
                             "block": {
                               "type": "BlockStatement",
                               "span": {
                                 "start": 103,
-                                "end": 106,
-                                "ctxt": 0
+                                "end": 106
                               },
+                              "ctxt": 0,
                               "stmts": []
                             },
                             "handler": {
                               "type": "CatchClause",
                               "span": {
                                 "start": 107,
-                                "end": 116,
-                                "ctxt": 0
+                                "end": 116
                               },
                               "param": null,
                               "body": {
                                 "type": "BlockStatement",
                                 "span": {
                                   "start": 113,
-                                  "end": 116,
-                                  "ctxt": 0
+                                  "end": 116
                                 },
+                                "ctxt": 0,
                                 "stmts": []
                               }
                             },
@@ -179,33 +170,31 @@
                     "type": "TryStatement",
                     "span": {
                       "start": 135,
-                      "end": 152,
-                      "ctxt": 0
+                      "end": 152
                     },
                     "block": {
                       "type": "BlockStatement",
                       "span": {
                         "start": 139,
-                        "end": 142,
-                        "ctxt": 0
+                        "end": 142
                       },
+                      "ctxt": 0,
                       "stmts": []
                     },
                     "handler": {
                       "type": "CatchClause",
                       "span": {
                         "start": 143,
-                        "end": 152,
-                        "ctxt": 0
+                        "end": 152
                       },
                       "param": null,
                       "body": {
                         "type": "BlockStatement",
                         "span": {
                           "start": 149,
-                          "end": 152,
-                          "ctxt": 0
+                          "end": 152
                         },
+                        "ctxt": 0,
                         "stmts": []
                       }
                     },
@@ -220,32 +209,30 @@
             "type": "TryStatement",
             "span": {
               "start": 164,
-              "end": 197,
-              "ctxt": 0
+              "end": 197
             },
             "block": {
               "type": "BlockStatement",
               "span": {
                 "start": 168,
-                "end": 171,
-                "ctxt": 0
+                "end": 171
               },
+              "ctxt": 0,
               "stmts": []
             },
             "handler": {
               "type": "CatchClause",
               "span": {
                 "start": 172,
-                "end": 197,
-                "ctxt": 0
+                "end": 197
               },
               "param": {
                 "type": "Identifier",
                 "span": {
                   "start": 179,
-                  "end": 180,
-                  "ctxt": 0
+                  "end": 180
                 },
+                "ctxt": 0,
                 "value": "x",
                 "optional": false,
                 "typeAnnotation": null
@@ -254,17 +241,17 @@
                 "type": "BlockStatement",
                 "span": {
                   "start": 182,
-                  "end": 197,
-                  "ctxt": 0
+                  "end": 197
                 },
+                "ctxt": 0,
                 "stmts": [
                   {
                     "type": "VariableDeclaration",
                     "span": {
                       "start": 184,
-                      "end": 195,
-                      "ctxt": 0
+                      "end": 195
                     },
+                    "ctxt": 0,
                     "kind": "var",
                     "declare": false,
                     "declarations": [
@@ -272,31 +259,28 @@
                         "type": "VariableDeclarator",
                         "span": {
                           "start": 188,
-                          "end": 194,
-                          "ctxt": 0
+                          "end": 194
                         },
                         "id": {
                           "type": "Identifier",
                           "span": {
                             "start": 188,
-                            "end": 189,
-                            "ctxt": 0
+                            "end": 189
                           },
+                          "ctxt": 0,
                           "value": "x",
                           "optional": false,
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
                               "start": 189,
-                              "end": 194,
-                              "ctxt": 0
+                              "end": 194
                             },
                             "typeAnnotation": {
                               "type": "TsKeywordType",
                               "span": {
                                 "start": 191,
-                                "end": 194,
-                                "ctxt": 0
+                                "end": 194
                               },
                               "kind": "any"
                             }
@@ -316,16 +300,15 @@
             "type": "TryStatement",
             "span": {
               "start": 203,
-              "end": 222,
-              "ctxt": 0
+              "end": 222
             },
             "block": {
               "type": "BlockStatement",
               "span": {
                 "start": 207,
-                "end": 210,
-                "ctxt": 0
+                "end": 210
               },
+              "ctxt": 0,
               "stmts": []
             },
             "handler": null,
@@ -333,9 +316,9 @@
               "type": "BlockStatement",
               "span": {
                 "start": 219,
-                "end": 222,
-                "ctxt": 0
+                "end": 222
               },
+              "ctxt": 0,
               "stmts": []
             }
           },
@@ -343,33 +326,31 @@
             "type": "TryStatement",
             "span": {
               "start": 228,
-              "end": 257,
-              "ctxt": 0
+              "end": 257
             },
             "block": {
               "type": "BlockStatement",
               "span": {
                 "start": 232,
-                "end": 235,
-                "ctxt": 0
+                "end": 235
               },
+              "ctxt": 0,
               "stmts": []
             },
             "handler": {
               "type": "CatchClause",
               "span": {
                 "start": 236,
-                "end": 245,
-                "ctxt": 0
+                "end": 245
               },
               "param": null,
               "body": {
                 "type": "BlockStatement",
                 "span": {
                   "start": 242,
-                  "end": 245,
-                  "ctxt": 0
+                  "end": 245
                 },
+                "ctxt": 0,
                 "stmts": []
               }
             },
@@ -377,9 +358,9 @@
               "type": "BlockStatement",
               "span": {
                 "start": 254,
-                "end": 257,
-                "ctxt": 0
+                "end": 257
               },
+              "ctxt": 0,
               "stmts": []
             }
           },
@@ -387,32 +368,30 @@
             "type": "TryStatement",
             "span": {
               "start": 263,
-              "end": 296,
-              "ctxt": 0
+              "end": 296
             },
             "block": {
               "type": "BlockStatement",
               "span": {
                 "start": 267,
-                "end": 270,
-                "ctxt": 0
+                "end": 270
               },
+              "ctxt": 0,
               "stmts": []
             },
             "handler": {
               "type": "CatchClause",
               "span": {
                 "start": 271,
-                "end": 284,
-                "ctxt": 0
+                "end": 284
               },
               "param": {
                 "type": "Identifier",
                 "span": {
                   "start": 278,
-                  "end": 279,
-                  "ctxt": 0
+                  "end": 279
                 },
+                "ctxt": 0,
                 "value": "z",
                 "optional": false,
                 "typeAnnotation": null
@@ -421,9 +400,9 @@
                 "type": "BlockStatement",
                 "span": {
                   "start": 281,
-                  "end": 284,
-                  "ctxt": 0
+                  "end": 284
                 },
+                "ctxt": 0,
                 "stmts": []
               }
             },
@@ -431,9 +410,9 @@
               "type": "BlockStatement",
               "span": {
                 "start": 293,
-                "end": 296,
-                "ctxt": 0
+                "end": 296
               },
+              "ctxt": 0,
               "stmts": []
             }
           }

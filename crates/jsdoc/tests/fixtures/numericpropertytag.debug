@@ -1,24 +1,24 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..10#0,
+                span: 1..10,
                 tag_name: Text {
-                    span: 1..10#0,
+                    span: 1..10,
                     value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {
-                        span: 1..10#0,
+                        span: 1..10,
                         ty: None,
                         name: Some(
                             Text {
-                                span: 1..37#0,
+                                span: 1..37,
                                 value: "@property {String} 1 The number one.",
                             },
                         ),
@@ -26,62 +26,62 @@
                 ),
             },
             TagItem {
-                span: 1..9#0,
+                span: 1..9,
                 tag_name: Text {
-                    span: 1..9#0,
+                    span: 1..9,
                     value: "property",
                 },
                 tag: Property(
                     PropertyTag {
-                        span: 1..9#0,
+                        span: 1..9,
                         name_path: NamePath {
-                            span: 1..62#0,
+                            span: 1..62,
                             components: [
                                 Text {
-                                    span: 1..1#0,
+                                    span: 1..1,
                                     value: "",
                                 },
                             ],
                         },
                         ty: Some(
                             Text {
-                                span: 1..9#0,
+                                span: 1..9,
                                 value: "{String}",
                             },
                         ),
                         desc: Text {
-                            span: 1..18#0,
+                            span: 1..18,
                             value: "2 The number two.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 1..9#0,
+                span: 1..9,
                 tag_name: Text {
-                    span: 1..9#0,
+                    span: 1..9,
                     value: "property",
                 },
                 tag: Property(
                     PropertyTag {
-                        span: 1..9#0,
+                        span: 1..9,
                         name_path: NamePath {
-                            span: 1..22#0,
+                            span: 1..22,
                             components: [
                                 Text {
-                                    span: 1..1#0,
+                                    span: 1..1,
                                     value: "",
                                 },
                             ],
                         },
                         ty: Some(
                             Text {
-                                span: 1..9#0,
+                                span: 1..9,
                                 value: "{String}",
                             },
                         ),
                         desc: Text {
-                            span: 1..20#0,
+                            span: 1..20,
                             value: "3 The number three.",
                         },
                     },

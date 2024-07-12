@@ -70,19 +70,21 @@ impl VisitMut for NewTarget {
                 Ctx::Constructor => *e = this_ctor(*span),
                 Ctx::Method => *e = *Expr::undefined(DUMMY_SP),
                 Ctx::Function(i) => {
-                    *e = Expr::Cond(CondExpr {
+                    *e = CondExpr {
                         span: *span,
                         // this instanceof Foo
-                        test: Box::new(Expr::Bin(BinExpr {
+                        test: BinExpr {
                             span: DUMMY_SP,
                             op: op!("instanceof"),
                             left: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
                             right: Box::new(Expr::Ident(i.clone())),
-                        })),
+                        }
+                        .into(),
                         cons: Box::new(this_ctor(DUMMY_SP)),
                         // void 0
                         alt: Expr::undefined(DUMMY_SP),
-                    })
+                    }
+                    .into()
                 }
             }
         }

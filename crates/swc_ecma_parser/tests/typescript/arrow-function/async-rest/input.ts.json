@@ -2,44 +2,40 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 35,
-    "ctxt": 0
+    "end": 35
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 35,
-        "ctxt": 0
+        "end": 35
       },
       "expression": {
         "type": "ArrowFunctionExpression",
         "span": {
           "start": 1,
-          "end": 35,
-          "ctxt": 0
+          "end": 35
         },
+        "ctxt": 0,
         "params": [
           {
             "type": "RestElement",
             "span": {
               "start": 8,
-              "end": 22,
-              "ctxt": 0
+              "end": 22
             },
             "rest": {
               "start": 8,
-              "end": 11,
-              "ctxt": 0
+              "end": 11
             },
             "argument": {
               "type": "Identifier",
               "span": {
                 "start": 11,
-                "end": 15,
-                "ctxt": 0
+                "end": 15
               },
+              "ctxt": 0,
               "value": "args",
               "optional": false,
               "typeAnnotation": null
@@ -48,22 +44,19 @@
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 15,
-                "end": 22,
-                "ctxt": 0
+                "end": 22
               },
               "typeAnnotation": {
                 "type": "TsArrayType",
                 "span": {
                   "start": 17,
-                  "end": 22,
-                  "ctxt": 0
+                  "end": 22
                 },
                 "elemType": {
                   "type": "TsKeywordType",
                   "span": {
                     "start": 17,
-                    "end": 20,
-                    "ctxt": 0
+                    "end": 20
                   },
                   "kind": "any"
                 }
@@ -75,9 +68,9 @@
           "type": "BlockStatement",
           "span": {
             "start": 33,
-            "end": 35,
-            "ctxt": 0
+            "end": 35
           },
+          "ctxt": 0,
           "stmts": []
         },
         "async": true,
@@ -87,15 +80,13 @@
           "type": "TsTypeAnnotation",
           "span": {
             "start": 24,
-            "end": 29,
-            "ctxt": 0
+            "end": 29
           },
           "typeAnnotation": {
             "type": "TsKeywordType",
             "span": {
               "start": 26,
-              "end": 29,
-              "ctxt": 0
+              "end": 29
             },
             "kind": "any"
           }

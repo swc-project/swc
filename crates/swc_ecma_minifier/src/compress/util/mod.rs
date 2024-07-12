@@ -165,11 +165,12 @@ fn negate_inner(
     } else {
         report_change!("negate: e => !e");
 
-        *e = Expr::Unary(UnaryExpr {
+        *e = UnaryExpr {
             span: DUMMY_SP,
             op: op!("!"),
             arg,
-        });
+        }
+        .into();
 
         dump_change_detail!("Negated `{}` as `{}`", start_str, dump(&*e, false));
 
@@ -511,10 +512,16 @@ pub(crate) fn eval_as_number(expr_ctx: &ExprCtx, e: &Expr) -> Option<f64> {
                             if args.len() != 2 {
                                 return None;
                             }
-                            let first = eval_as_number(expr_ctx, &args[0].expr)?;
-                            let second = eval_as_number(expr_ctx, &args[1].expr)?;
+                            let base = eval_as_number(expr_ctx, &args[0].expr)?;
+                            let exponent = eval_as_number(expr_ctx, &args[1].expr)?;
 
-                            return Some(first.powf(second));
+                            // https://tc39.es/ecma262/multipage/ecmascript-data-types-and-values.html#sec-numeric-types-number-exponentiate
+                            // https://github.com/rust-lang/rust/issues/60468
+                            if exponent.is_nan() {
+                                return Some(f64::NAN);
+                            }
+
+                            return Some(base.powf(exponent));
                         }
 
                         _ => {}
@@ -657,7 +664,7 @@ impl UnreachableHandler {
         let mut v = Self::default();
         s.visit_mut_with(&mut v);
         if v.vars.is_empty() {
-            *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+            *s = EmptyStmt { span: DUMMY_SP }.into();
         } else {
             *s = VarDecl {
                 span: DUMMY_SP,
@@ -675,6 +682,7 @@ impl UnreachableHandler {
                         definite: false,
                     })
                     .collect(),
+                ..Default::default()
             }
             .into()
         }

@@ -1,22 +1,22 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..18#0,
+            span: 1..18,
             value: "Blah Blah Blah\n *",
         },
         tags: [
             TagItem {
-                span: 1..5#0,
+                span: 1..5,
                 tag_name: Text {
-                    span: 1..5#0,
+                    span: 1..5,
                     value: "desc",
                 },
                 tag: Description(
                     DescriptionTag {
-                        span: 1..5#0,
+                        span: 1..5,
                         text: Text {
-                            span: 1..15#0,
+                            span: 1..15,
                             value: "halb halb halb",
                         },
                     },
@@ -25,23 +25,23 @@
         ],
     },
     JsDoc {
-        span: 56..64#0,
+        span: 56..64,
         description: Text {
-            span: 56..56#0,
+            span: 56..56,
             value: "",
         },
         tags: [
             TagItem {
-                span: 56..67#0,
+                span: 56..67,
                 tag_name: Text {
-                    span: 56..67#0,
+                    span: 56..67,
                     value: "description",
                 },
                 tag: Description(
                     DescriptionTag {
-                        span: 56..67#0,
+                        span: 56..67,
                         text: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                     },

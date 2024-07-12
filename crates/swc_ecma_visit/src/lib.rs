@@ -10,7 +10,7 @@ use std::{borrow::Cow, fmt::Debug};
 
 use num_bigint::BigInt as BigIntValue;
 use swc_atoms::Atom;
-use swc_common::{pass::CompilerPass, Span, DUMMY_SP};
+use swc_common::{pass::CompilerPass, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_visit::{define, AndThen, Repeat, Repeated};
 
@@ -772,6 +772,7 @@ define!({
 
     pub struct Class {
         pub span: Span,
+        pub ctxt: SyntaxContext,
         pub decorators: Vec<Decorator>,
         pub body: Vec<ClassMember>,
         pub super_class: Option<Box<Expr>>,
@@ -810,6 +811,7 @@ define!({
     }
     pub struct PrivateProp {
         pub span: Span,
+        pub ctxt: SyntaxContext,
         pub key: PrivateName,
         pub value: Option<Box<Expr>>,
         pub type_ann: Option<Box<TsTypeAnn>>,
@@ -845,6 +847,7 @@ define!({
     }
     pub struct Constructor {
         pub span: Span,
+        pub ctxt: SyntaxContext,
         pub key: PropName,
         pub params: Vec<ParamOrTsParamProp>,
         pub body: Option<BlockStmt>,
@@ -886,6 +889,7 @@ define!({
     }
     pub struct VarDecl {
         pub span: Span,
+        pub ctxt: SyntaxContext,
         pub kind: VarDeclKind,
         pub declare: bool,
         pub decls: Vec<VarDeclarator>,
@@ -997,7 +1001,7 @@ define!({
         pub prop: MemberProp,
     }
     pub enum MemberProp {
-        Ident(Ident),
+        Ident(IdentName),
         PrivateName(PrivateName),
         Computed(ComputedPropName),
     }
@@ -1007,7 +1011,7 @@ define!({
         pub prop: SuperProp,
     }
     pub enum SuperProp {
-        Ident(Ident),
+        Ident(IdentName),
         Computed(ComputedPropName),
     }
     pub struct CondExpr {
@@ -1018,12 +1022,14 @@ define!({
     }
     pub struct CallExpr {
         pub span: Span,
+        pub ctxt: SyntaxContext,
         pub callee: Callee,
         pub args: Vec<ExprOrSpread>,
         pub type_args: Option<Box<TsTypeParamInstantiation>>,
     }
     pub struct NewExpr {
         pub span: Span,
+        pub ctxt: SyntaxContext,
         pub callee: Box<Expr>,
         pub args: Option<Vec<ExprOrSpread>>,
         pub type_args: Option<Box<TsTypeParamInstantiation>>,
@@ -1034,6 +1040,7 @@ define!({
     }
     pub struct ArrowExpr {
         pub span: Span,
+        pub ctxt: SyntaxContext,
         pub params: Vec<Pat>,
         pub body: Box<BlockStmtOrExpr>,
         pub is_async: bool,
@@ -1065,6 +1072,7 @@ define!({
     }
     pub struct TaggedTpl {
         pub span: Span,
+        pub ctxt: SyntaxContext,
         pub tag: Box<Expr>,
         pub type_params: Option<Box<TsTypeParamInstantiation>>,
         pub tpl: Box<Tpl>,
@@ -1136,6 +1144,7 @@ define!({
     }
     pub struct OptCall {
         pub span: Span,
+        pub ctxt: SyntaxContext,
         pub callee: Box<Expr>,
         pub args: Vec<ExprOrSpread>,
         pub type_args: Option<Box<TsTypeParamInstantiation>>,
@@ -1144,6 +1153,7 @@ define!({
         pub params: Vec<Param>,
         pub decorators: Vec<Decorator>,
         pub span: Span,
+        pub ctxt: SyntaxContext,
         pub body: Option<BlockStmt>,
         pub is_generator: bool,
         pub is_async: bool,
@@ -1167,13 +1177,19 @@ define!({
 
     pub struct Ident {
         pub span: Span,
+        pub ctxt: SyntaxContext,
         pub sym: Atom,
         pub optional: bool,
     }
 
+    pub struct IdentName {
+        pub span: Span,
+        pub sym: Atom,
+    }
+
     pub struct PrivateName {
         pub span: Span,
-        pub id: Ident,
+        pub name: Atom,
     }
 
     pub enum JSXObject {
@@ -1181,12 +1197,14 @@ define!({
         Ident(Ident),
     }
     pub struct JSXMemberExpr {
+        pub span: Span,
         pub obj: JSXObject,
-        pub prop: Ident,
+        pub prop: IdentName,
     }
     pub struct JSXNamespacedName {
-        pub ns: Ident,
-        pub name: Ident,
+        pub span: Span,
+        pub ns: IdentName,
+        pub name: IdentName,
     }
     pub struct JSXEmptyExpr {
         pub span: Span,
@@ -1229,7 +1247,7 @@ define!({
         pub value: Option<JSXAttrValue>,
     }
     pub enum JSXAttrName {
-        Ident(Ident),
+        Ident(IdentName),
         JSXNamespacedName(JSXNamespacedName),
     }
     pub enum JSXAttrValue {
@@ -1535,6 +1553,7 @@ define!({
         pub value: Box<Expr>,
     }
     pub struct AssignProp {
+        pub span: Span,
         pub key: Ident,
         pub value: Box<Expr>,
     }
@@ -1556,7 +1575,7 @@ define!({
         pub function: Box<Function>,
     }
     pub enum PropName {
-        Ident(Ident),
+        Ident(IdentName),
         Str(Str),
         Num(Number),
         BigInt(BigInt),
@@ -1568,6 +1587,7 @@ define!({
     }
     pub struct BlockStmt {
         pub span: Span,
+        pub ctxt: SyntaxContext,
         pub stmts: Vec<Stmt>,
     }
     pub enum Stmt {
@@ -1727,8 +1747,9 @@ define!({
         Assign(AssignPat),
     }
     pub struct TsQualifiedName {
+        pub span: Span,
         pub left: TsEntityName,
-        pub right: Ident,
+        pub right: IdentName,
     }
     pub enum TsEntityName {
         TsQualifiedName(Box<TsQualifiedName>),

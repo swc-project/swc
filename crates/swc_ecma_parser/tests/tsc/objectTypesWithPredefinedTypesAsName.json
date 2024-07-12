@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 60,
-    "end": 176,
-    "ctxt": 0
+    "end": 176
   },
   "body": [
     {
@@ -12,18 +11,18 @@
         "type": "Identifier",
         "span": {
           "start": 66,
-          "end": 69,
-          "ctxt": 0
+          "end": 69
         },
+        "ctxt": 0,
         "value": "any",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 60,
-        "end": 73,
-        "ctxt": 0
+        "end": 73
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [],
       "superClass": null,
@@ -38,18 +37,18 @@
         "type": "Identifier",
         "span": {
           "start": 81,
-          "end": 87,
-          "ctxt": 0
+          "end": 87
         },
+        "ctxt": 0,
         "value": "number",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 75,
-        "end": 91,
-        "ctxt": 0
+        "end": 91
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [],
       "superClass": null,
@@ -64,18 +63,18 @@
         "type": "Identifier",
         "span": {
           "start": 99,
-          "end": 106,
-          "ctxt": 0
+          "end": 106
         },
+        "ctxt": 0,
         "value": "boolean",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 93,
-        "end": 110,
-        "ctxt": 0
+        "end": 110
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [],
       "superClass": null,
@@ -90,18 +89,18 @@
         "type": "Identifier",
         "span": {
           "start": 117,
-          "end": 121,
-          "ctxt": 0
+          "end": 121
         },
+        "ctxt": 0,
         "value": "bool",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 111,
-        "end": 125,
-        "ctxt": 0
+        "end": 125
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [],
       "superClass": null,
@@ -116,18 +115,18 @@
         "type": "Identifier",
         "span": {
           "start": 166,
-          "end": 172,
-          "ctxt": 0
+          "end": 172
         },
+        "ctxt": 0,
         "value": "string",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 160,
-        "end": 176,
-        "ctxt": 0
+        "end": 176
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [],
       "superClass": null,

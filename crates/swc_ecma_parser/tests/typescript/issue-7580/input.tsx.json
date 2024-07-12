@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 119,
-    "ctxt": 0
+    "end": 119
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 1,
-        "end": 119,
-        "ctxt": 0
+        "end": 119
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 7,
-            "end": 118,
-            "ctxt": 0
+            "end": 118
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 7,
-              "end": 14,
-              "ctxt": 0
+              "end": 14
             },
+            "ctxt": 0,
             "value": "example",
             "optional": false,
             "typeAnnotation": null
@@ -38,31 +36,29 @@
             "type": "ArrowFunctionExpression",
             "span": {
               "start": 17,
-              "end": 118,
-              "ctxt": 0
+              "end": 118
             },
+            "ctxt": 0,
             "params": [],
             "body": {
               "type": "BlockStatement",
               "span": {
                 "start": 23,
-                "end": 118,
-                "ctxt": 0
+                "end": 118
               },
+              "ctxt": 0,
               "stmts": [
                 {
                   "type": "ReturnStatement",
                   "span": {
                     "start": 29,
-                    "end": 114,
-                    "ctxt": 0
+                    "end": 114
                   },
                   "argument": {
                     "type": "ObjectExpression",
                     "span": {
                       "start": 36,
-                      "end": 113,
-                      "ctxt": 0
+                      "end": 113
                     },
                     "properties": [
                       {
@@ -71,26 +67,24 @@
                           "type": "Identifier",
                           "span": {
                             "start": 44,
-                            "end": 48,
-                            "ctxt": 0
+                            "end": 48
                           },
-                          "value": "func",
-                          "optional": false
+                          "value": "func"
                         },
                         "value": {
                           "type": "CallExpression",
                           "span": {
                             "start": 50,
-                            "end": 107,
-                            "ctxt": 0
+                            "end": 107
                           },
+                          "ctxt": 0,
                           "callee": {
                             "type": "Identifier",
                             "span": {
                               "start": 50,
-                              "end": 58,
-                              "ctxt": 0
+                              "end": 58
                             },
+                            "ctxt": 0,
                             "value": "callback",
                             "optional": false
                           },
@@ -101,17 +95,17 @@
                                 "type": "ArrowFunctionExpression",
                                 "span": {
                                   "start": 91,
-                                  "end": 106,
-                                  "ctxt": 0
+                                  "end": 106
                                 },
+                                "ctxt": 0,
                                 "params": [
                                   {
                                     "type": "Identifier",
                                     "span": {
                                       "start": 91,
-                                      "end": 98,
-                                      "ctxt": 0
+                                      "end": 98
                                     },
+                                    "ctxt": 0,
                                     "value": "options",
                                     "optional": false,
                                     "typeAnnotation": null
@@ -121,8 +115,7 @@
                                   "type": "NullLiteral",
                                   "span": {
                                     "start": 102,
-                                    "end": 106,
-                                    "ctxt": 0
+                                    "end": 106
                                   }
                                 },
                                 "async": false,
@@ -136,24 +129,22 @@
                             "type": "TsTypeParameterInstantiation",
                             "span": {
                               "start": 58,
-                              "end": 90,
-                              "ctxt": 0
+                              "end": 90
                             },
                             "params": [
                               {
                                 "type": "TsTypeQuery",
                                 "span": {
                                   "start": 59,
-                                  "end": 89,
-                                  "ctxt": 0
+                                  "end": 89
                                 },
                                 "exprName": {
                                   "type": "Identifier",
                                   "span": {
                                     "start": 66,
-                                    "end": 75,
-                                    "ctxt": 0
+                                    "end": 75
                                   },
+                                  "ctxt": 0,
                                   "value": "something",
                                   "optional": false
                                 },
@@ -161,24 +152,22 @@
                                   "type": "TsTypeParameterInstantiation",
                                   "span": {
                                     "start": 75,
-                                    "end": 89,
-                                    "ctxt": 0
+                                    "end": 89
                                   },
                                   "params": [
                                     {
                                       "type": "TsTypeReference",
                                       "span": {
                                         "start": 76,
-                                        "end": 81,
-                                        "ctxt": 0
+                                        "end": 81
                                       },
                                       "typeName": {
                                         "type": "Identifier",
                                         "span": {
                                           "start": 76,
-                                          "end": 81,
-                                          "ctxt": 0
+                                          "end": 81
                                         },
+                                        "ctxt": 0,
                                         "value": "Type1",
                                         "optional": false
                                       },
@@ -188,16 +177,15 @@
                                       "type": "TsTypeReference",
                                       "span": {
                                         "start": 83,
-                                        "end": 88,
-                                        "ctxt": 0
+                                        "end": 88
                                       },
                                       "typeName": {
                                         "type": "Identifier",
                                         "span": {
                                           "start": 83,
-                                          "end": 88,
-                                          "ctxt": 0
+                                          "end": 88
                                         },
+                                        "ctxt": 0,
                                         "value": "Type2",
                                         "optional": false
                                       },

@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 16,
-    "end": 52,
-    "ctxt": 0
+    "end": 52
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 26,
-          "end": 28,
-          "ctxt": 0
+          "end": 28
         },
+        "ctxt": 0,
         "value": "g1",
         "optional": false
       },
@@ -23,16 +22,16 @@
       "decorators": [],
       "span": {
         "start": 16,
-        "end": 52,
-        "ctxt": 0
+        "end": 52
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 49,
-          "end": 52,
-          "ctxt": 0
+          "end": 52
         },
+        "ctxt": 0,
         "stmts": []
       },
       "generator": true,
@@ -42,23 +41,21 @@
         "type": "TsTypeAnnotation",
         "span": {
           "start": 30,
-          "end": 48,
-          "ctxt": 0
+          "end": 48
         },
         "typeAnnotation": {
           "type": "TsTypeReference",
           "span": {
             "start": 32,
-            "end": 48,
-            "ctxt": 0
+            "end": 48
           },
           "typeName": {
             "type": "Identifier",
             "span": {
               "start": 32,
-              "end": 40,
-              "ctxt": 0
+              "end": 40
             },
+            "ctxt": 0,
             "value": "Iterable",
             "optional": false
           },
@@ -66,16 +63,14 @@
             "type": "TsTypeParameterInstantiation",
             "span": {
               "start": 40,
-              "end": 48,
-              "ctxt": 0
+              "end": 48
             },
             "params": [
               {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 41,
-                  "end": 47,
-                  "ctxt": 0
+                  "end": 47
                 },
                 "kind": "string"
               }

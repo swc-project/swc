@@ -2,25 +2,23 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 187,
-    "ctxt": 0
+    "end": 187
   },
   "body": [
     {
       "type": "TsTypeAliasDeclaration",
       "span": {
         "start": 1,
-        "end": 29,
-        "ctxt": 0
+        "end": 29
       },
       "declare": false,
       "id": {
         "type": "Identifier",
         "span": {
           "start": 6,
-          "end": 13,
-          "ctxt": 0
+          "end": 13
         },
+        "ctxt": 0,
         "value": "MyAlias",
         "optional": false
       },
@@ -29,15 +27,13 @@
         "type": "TsLiteralType",
         "span": {
           "start": 16,
-          "end": 28,
-          "ctxt": 0
+          "end": 28
         },
         "literal": {
           "type": "TemplateLiteral",
           "span": {
             "start": 16,
-            "end": 28,
-            "ctxt": 0
+            "end": 28
           },
           "types": [],
           "quasis": [
@@ -45,8 +41,7 @@
               "type": "TemplateElement",
               "span": {
                 "start": 17,
-                "end": 27,
-                "ctxt": 0
+                "end": 27
               },
               "tail": true,
               "cooked": "some-value",
@@ -60,17 +55,16 @@
       "type": "TsTypeAliasDeclaration",
       "span": {
         "start": 30,
-        "end": 74,
-        "ctxt": 0
+        "end": 74
       },
       "declare": false,
       "id": {
         "type": "Identifier",
         "span": {
           "start": 35,
-          "end": 45,
-          "ctxt": 0
+          "end": 45
         },
+        "ctxt": 0,
         "value": "OtherAlias",
         "optional": false
       },
@@ -79,23 +73,20 @@
         "type": "TsUnionType",
         "span": {
           "start": 52,
-          "end": 73,
-          "ctxt": 0
+          "end": 73
         },
         "types": [
           {
             "type": "TsLiteralType",
             "span": {
               "start": 54,
-              "end": 60,
-              "ctxt": 0
+              "end": 60
             },
             "literal": {
               "type": "TemplateLiteral",
               "span": {
                 "start": 54,
-                "end": 60,
-                "ctxt": 0
+                "end": 60
               },
               "types": [],
               "quasis": [
@@ -103,8 +94,7 @@
                   "type": "TemplateElement",
                   "span": {
                     "start": 55,
-                    "end": 59,
-                    "ctxt": 0
+                    "end": 59
                   },
                   "tail": true,
                   "cooked": "some",
@@ -117,15 +107,13 @@
             "type": "TsLiteralType",
             "span": {
               "start": 67,
-              "end": 73,
-              "ctxt": 0
+              "end": 73
             },
             "literal": {
               "type": "TemplateLiteral",
               "span": {
                 "start": 67,
-                "end": 73,
-                "ctxt": 0
+                "end": 73
               },
               "types": [],
               "quasis": [
@@ -133,8 +121,7 @@
                   "type": "TemplateElement",
                   "span": {
                     "start": 68,
-                    "end": 72,
-                    "ctxt": 0
+                    "end": 72
                   },
                   "tail": true,
                   "cooked": "text",
@@ -150,17 +137,16 @@
       "type": "TsTypeAliasDeclaration",
       "span": {
         "start": 75,
-        "end": 107,
-        "ctxt": 0
+        "end": 107
       },
       "declare": false,
       "id": {
         "type": "Identifier",
         "span": {
           "start": 80,
-          "end": 89,
-          "ctxt": 0
+          "end": 89
         },
+        "ctxt": 0,
         "value": "MultiLine",
         "optional": false
       },
@@ -169,15 +155,13 @@
         "type": "TsLiteralType",
         "span": {
           "start": 92,
-          "end": 106,
-          "ctxt": 0
+          "end": 106
         },
         "literal": {
           "type": "TemplateLiteral",
           "span": {
             "start": 92,
-            "end": 106,
-            "ctxt": 0
+            "end": 106
           },
           "types": [],
           "quasis": [
@@ -185,8 +169,7 @@
               "type": "TemplateElement",
               "span": {
                 "start": 93,
-                "end": 105,
-                "ctxt": 0
+                "end": 105
               },
               "tail": true,
               "cooked": "\nsome value\n",
@@ -200,17 +183,16 @@
       "type": "TsTypeAliasDeclaration",
       "span": {
         "start": 108,
-        "end": 144,
-        "ctxt": 0
+        "end": 144
       },
       "declare": false,
       "id": {
         "type": "Identifier",
         "span": {
           "start": 113,
-          "end": 122,
-          "ctxt": 0
+          "end": 122
         },
+        "ctxt": 0,
         "value": "WithTypes",
         "optional": false
       },
@@ -219,23 +201,20 @@
         "type": "TsLiteralType",
         "span": {
           "start": 125,
-          "end": 143,
-          "ctxt": 0
+          "end": 143
         },
         "literal": {
           "type": "TemplateLiteral",
           "span": {
             "start": 125,
-            "end": 143,
-            "ctxt": 0
+            "end": 143
           },
           "types": [
             {
               "type": "TsKeywordType",
               "span": {
                 "start": 135,
-                "end": 141,
-                "ctxt": 0
+                "end": 141
               },
               "kind": "string"
             }
@@ -245,8 +224,7 @@
               "type": "TemplateElement",
               "span": {
                 "start": 126,
-                "end": 133,
-                "ctxt": 0
+                "end": 133
               },
               "tail": false,
               "cooked": "with-a-",
@@ -256,8 +234,7 @@
               "type": "TemplateElement",
               "span": {
                 "start": 142,
-                "end": 142,
-                "ctxt": 0
+                "end": 142
               },
               "tail": true,
               "cooked": "",
@@ -271,17 +248,16 @@
       "type": "TsTypeAliasDeclaration",
       "span": {
         "start": 145,
-        "end": 187,
-        "ctxt": 0
+        "end": 187
       },
       "declare": false,
       "id": {
         "type": "Identifier",
         "span": {
           "start": 150,
-          "end": 160,
-          "ctxt": 0
+          "end": 160
         },
+        "ctxt": 0,
         "value": "WithTypes2",
         "optional": false
       },
@@ -290,31 +266,28 @@
         "type": "TsLiteralType",
         "span": {
           "start": 163,
-          "end": 186,
-          "ctxt": 0
+          "end": 186
         },
         "literal": {
           "type": "TemplateLiteral",
           "span": {
             "start": 163,
-            "end": 186,
-            "ctxt": 0
+            "end": 186
           },
           "types": [
             {
               "type": "TsTypeReference",
               "span": {
                 "start": 173,
-                "end": 180,
-                "ctxt": 0
+                "end": 180
               },
               "typeName": {
                 "type": "Identifier",
                 "span": {
                   "start": 173,
-                  "end": 180,
-                  "ctxt": 0
+                  "end": 180
                 },
+                "ctxt": 0,
                 "value": "MyAlias",
                 "optional": false
               },
@@ -326,8 +299,7 @@
               "type": "TemplateElement",
               "span": {
                 "start": 164,
-                "end": 171,
-                "ctxt": 0
+                "end": 171
               },
               "tail": false,
               "cooked": "with-a-",
@@ -337,8 +309,7 @@
               "type": "TemplateElement",
               "span": {
                 "start": 181,
-                "end": 185,
-                "ctxt": 0
+                "end": 185
               },
               "tail": true,
               "cooked": "-end",

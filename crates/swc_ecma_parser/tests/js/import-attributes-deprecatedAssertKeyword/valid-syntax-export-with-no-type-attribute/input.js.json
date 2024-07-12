@@ -2,32 +2,29 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 60,
-    "ctxt": 0
+    "end": 60
   },
   "body": [
     {
       "type": "ExportNamedDeclaration",
       "span": {
         "start": 1,
-        "end": 60,
-        "ctxt": 0
+        "end": 60
       },
       "specifiers": [
         {
           "type": "ExportSpecifier",
           "span": {
             "start": 10,
-            "end": 17,
-            "ctxt": 0
+            "end": 17
           },
           "orig": {
             "type": "Identifier",
             "span": {
               "start": 10,
-              "end": 17,
-              "ctxt": 0
+              "end": 17
             },
+            "ctxt": 0,
             "value": "default",
             "optional": false
           },
@@ -39,8 +36,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 25,
-          "end": 35,
-          "ctxt": 0
+          "end": 35
         },
         "value": "foo.json",
         "raw": "\"foo.json\""
@@ -50,8 +46,7 @@
         "type": "ObjectExpression",
         "span": {
           "start": 43,
-          "end": 59,
-          "ctxt": 0
+          "end": 59
         },
         "properties": [
           {
@@ -60,18 +55,15 @@
               "type": "Identifier",
               "span": {
                 "start": 45,
-                "end": 49,
-                "ctxt": 0
+                "end": 49
               },
-              "value": "lazy",
-              "optional": false
+              "value": "lazy"
             },
             "value": {
               "type": "StringLiteral",
               "span": {
                 "start": 51,
-                "end": 57,
-                "ctxt": 0
+                "end": 57
               },
               "value": "true",
               "raw": "\"true\""

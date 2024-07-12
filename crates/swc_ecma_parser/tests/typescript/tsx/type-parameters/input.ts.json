@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 33,
-    "ctxt": 0
+    "end": 33
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 10,
-          "end": 11,
-          "ctxt": 0
+          "end": 11
         },
+        "ctxt": 0,
         "value": "f",
         "optional": false
       },
@@ -23,16 +22,16 @@
       "decorators": [],
       "span": {
         "start": 1,
-        "end": 33,
-        "ctxt": 0
+        "end": 33
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 31,
-          "end": 33,
-          "ctxt": 0
+          "end": 33
         },
+        "ctxt": 0,
         "stmts": []
       },
       "generator": false,
@@ -42,39 +41,35 @@
         "type": "TsTypeAnnotation",
         "span": {
           "start": 13,
-          "end": 30,
-          "ctxt": 0
+          "end": 30
         },
         "typeAnnotation": {
           "type": "TsFunctionType",
           "span": {
             "start": 15,
-            "end": 30,
-            "ctxt": 0
+            "end": 30
           },
           "params": [],
           "typeParams": {
             "type": "TsTypeParameterDeclaration",
             "span": {
               "start": 15,
-              "end": 18,
-              "ctxt": 0
+              "end": 18
             },
             "parameters": [
               {
                 "type": "TsTypeParameter",
                 "span": {
                   "start": 16,
-                  "end": 17,
-                  "ctxt": 0
+                  "end": 17
                 },
                 "name": {
                   "type": "Identifier",
                   "span": {
                     "start": 16,
-                    "end": 17,
-                    "ctxt": 0
+                    "end": 17
                   },
+                  "ctxt": 0,
                   "value": "T",
                   "optional": false
                 },
@@ -90,15 +85,13 @@
             "type": "TsTypeAnnotation",
             "span": {
               "start": 21,
-              "end": 30,
-              "ctxt": 0
+              "end": 30
             },
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
                 "start": 24,
-                "end": 30,
-                "ctxt": 0
+                "end": 30
               },
               "kind": "number"
             }

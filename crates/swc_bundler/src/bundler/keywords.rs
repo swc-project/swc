@@ -35,7 +35,8 @@ impl VisitMut for KeywordRenamer {
 
     fn visit_mut_binding_ident(&mut self, n: &mut BindingIdent) {
         if let Some(new) = self.renamed(&n.id) {
-            n.id = new;
+            n.ctxt = new.ctxt;
+            n.sym = new.sym;
         }
     }
 
@@ -90,17 +91,18 @@ impl VisitMut for KeywordRenamer {
                     Some(default) => {
                         *n = ObjectPatProp::KeyValue(KeyValuePatProp {
                             key: PropName::Ident(pat.key.take().into()),
-                            value: Box::new(Pat::Assign(AssignPat {
+                            value: AssignPat {
                                 span: pat.span,
-                                left: Box::new(Pat::Ident(renamed.into())),
+                                left: Box::new(renamed.into()),
                                 right: default.take(),
-                            })),
+                            }
+                            .into(),
                         });
                     }
                     None => {
                         *n = ObjectPatProp::KeyValue(KeyValuePatProp {
                             key: PropName::Ident(pat.key.take().into()),
-                            value: Box::new(Pat::Ident(renamed.into())),
+                            value: renamed.into(),
                         })
                     }
                 }
@@ -132,8 +134,8 @@ impl VisitMut for KeywordRenamer {
             Prop::Shorthand(i) => {
                 if let Some(renamed) = self.renamed(i) {
                     *n = Prop::KeyValue(KeyValueProp {
-                        key: PropName::Ident(i.clone()),
-                        value: Box::new(Expr::Ident(renamed)),
+                        key: PropName::Ident(i.clone().into()),
+                        value: renamed.into(),
                     });
                 }
             }

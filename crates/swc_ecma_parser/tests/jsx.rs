@@ -123,9 +123,9 @@ impl Fold for Normalizer {
 
         if let Pat::Expr(expr) = node {
             match *expr {
-                Expr::Ident(i) => return Pat::Ident(i.into()),
+                Expr::Ident(i) => return i.into(),
                 _ => {
-                    node = Pat::Expr(expr);
+                    node = expr.into();
                 }
             }
         }

@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 42,
-    "end": 200,
-    "ctxt": 0
+    "end": 200
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 59,
-          "end": 76,
-          "ctxt": 0
+          "end": 76
         },
+        "ctxt": 0,
         "value": "someOtherFunction",
         "optional": false
       },
@@ -24,32 +23,29 @@
           "type": "Parameter",
           "span": {
             "start": 77,
-            "end": 83,
-            "ctxt": 0
+            "end": 83
           },
           "decorators": [],
           "pat": {
             "type": "Identifier",
             "span": {
               "start": 77,
-              "end": 78,
-              "ctxt": 0
+              "end": 78
             },
+            "ctxt": 0,
             "value": "i",
             "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 78,
-                "end": 83,
-                "ctxt": 0
+                "end": 83
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 80,
-                  "end": 83,
-                  "ctxt": 0
+                  "end": 83
                 },
                 "kind": "any"
               }
@@ -60,9 +56,9 @@
       "decorators": [],
       "span": {
         "start": 42,
-        "end": 100,
-        "ctxt": 0
+        "end": 100
       },
+      "ctxt": 0,
       "body": null,
       "generator": false,
       "async": false,
@@ -71,23 +67,21 @@
         "type": "TsTypeAnnotation",
         "span": {
           "start": 84,
-          "end": 99,
-          "ctxt": 0
+          "end": 99
         },
         "typeAnnotation": {
           "type": "TsTypeReference",
           "span": {
             "start": 86,
-            "end": 99,
-            "ctxt": 0
+            "end": 99
           },
           "typeName": {
             "type": "Identifier",
             "span": {
               "start": 86,
-              "end": 93,
-              "ctxt": 0
+              "end": 93
             },
+            "ctxt": 0,
             "value": "Promise",
             "optional": false
           },
@@ -95,16 +89,14 @@
             "type": "TsTypeParameterInstantiation",
             "span": {
               "start": 93,
-              "end": 99,
-              "ctxt": 0
+              "end": 99
             },
             "params": [
               {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 94,
-                  "end": 98,
-                  "ctxt": 0
+                  "end": 98
                 },
                 "kind": "void"
               }
@@ -117,9 +109,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 101,
-        "end": 148,
-        "ctxt": 0
+        "end": 148
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -127,16 +119,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 107,
-            "end": 148,
-            "ctxt": 0
+            "end": 148
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 107,
-              "end": 108,
-              "ctxt": 0
+              "end": 108
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false,
             "typeAnnotation": null
@@ -145,17 +136,17 @@
             "type": "ArrowFunctionExpression",
             "span": {
               "start": 111,
-              "end": 148,
-              "ctxt": 0
+              "end": 148
             },
+            "ctxt": 0,
             "params": [
               {
                 "type": "Identifier",
                 "span": {
                   "start": 117,
-                  "end": 118,
-                  "ctxt": 0
+                  "end": 118
                 },
+                "ctxt": 0,
                 "value": "i",
                 "optional": false,
                 "typeAnnotation": null
@@ -165,23 +156,22 @@
               "type": "AwaitExpression",
               "span": {
                 "start": 122,
-                "end": 148,
-                "ctxt": 0
+                "end": 148
               },
               "argument": {
                 "type": "CallExpression",
                 "span": {
                   "start": 128,
-                  "end": 148,
-                  "ctxt": 0
+                  "end": 148
                 },
+                "ctxt": 0,
                 "callee": {
                   "type": "Identifier",
                   "span": {
                     "start": 128,
-                    "end": 145,
-                    "ctxt": 0
+                    "end": 145
                   },
+                  "ctxt": 0,
                   "value": "someOtherFunction",
                   "optional": false
                 },
@@ -192,9 +182,9 @@
                       "type": "Identifier",
                       "span": {
                         "start": 146,
-                        "end": 147,
-                        "ctxt": 0
+                        "end": 147
                       },
+                      "ctxt": 0,
                       "value": "i",
                       "optional": false
                     }
@@ -216,9 +206,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 149,
-        "end": 200,
-        "ctxt": 0
+        "end": 200
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -226,16 +216,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 155,
-            "end": 199,
-            "ctxt": 0
+            "end": 199
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 155,
-              "end": 157,
-              "ctxt": 0
+              "end": 157
             },
+            "ctxt": 0,
             "value": "x1",
             "optional": false,
             "typeAnnotation": null
@@ -244,17 +233,17 @@
             "type": "ArrowFunctionExpression",
             "span": {
               "start": 160,
-              "end": 199,
-              "ctxt": 0
+              "end": 199
             },
+            "ctxt": 0,
             "params": [
               {
                 "type": "Identifier",
                 "span": {
                   "start": 167,
-                  "end": 168,
-                  "ctxt": 0
+                  "end": 168
                 },
+                "ctxt": 0,
                 "value": "i",
                 "optional": false,
                 "typeAnnotation": null
@@ -264,23 +253,22 @@
               "type": "AwaitExpression",
               "span": {
                 "start": 173,
-                "end": 199,
-                "ctxt": 0
+                "end": 199
               },
               "argument": {
                 "type": "CallExpression",
                 "span": {
                   "start": 179,
-                  "end": 199,
-                  "ctxt": 0
+                  "end": 199
                 },
+                "ctxt": 0,
                 "callee": {
                   "type": "Identifier",
                   "span": {
                     "start": 179,
-                    "end": 196,
-                    "ctxt": 0
+                    "end": 196
                   },
+                  "ctxt": 0,
                   "value": "someOtherFunction",
                   "optional": false
                 },
@@ -291,9 +279,9 @@
                       "type": "Identifier",
                       "span": {
                         "start": 197,
-                        "end": 198,
-                        "ctxt": 0
+                        "end": 198
                       },
+                      "ctxt": 0,
                       "value": "i",
                       "optional": false
                     }

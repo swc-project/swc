@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 155,
-    "end": 271,
-    "ctxt": 0
+    "end": 271
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 164,
-          "end": 165,
-          "ctxt": 0
+          "end": 165
         },
+        "ctxt": 0,
         "value": "f",
         "optional": false
       },
@@ -24,17 +23,16 @@
           "type": "Parameter",
           "span": {
             "start": 166,
-            "end": 170,
-            "ctxt": 0
+            "end": 170
           },
           "decorators": [],
           "pat": {
             "type": "Identifier",
             "span": {
               "start": 166,
-              "end": 170,
-              "ctxt": 0
+              "end": 170
             },
+            "ctxt": 0,
             "value": "args",
             "optional": false,
             "typeAnnotation": null
@@ -44,17 +42,16 @@
           "type": "Parameter",
           "span": {
             "start": 172,
-            "end": 177,
-            "ctxt": 0
+            "end": 177
           },
           "decorators": [],
           "pat": {
             "type": "Identifier",
             "span": {
               "start": 172,
-              "end": 177,
-              "ctxt": 0
+              "end": 177
             },
+            "ctxt": 0,
             "value": "bwarg",
             "optional": false,
             "typeAnnotation": null
@@ -64,16 +61,16 @@
       "decorators": [],
       "span": {
         "start": 155,
-        "end": 182,
-        "ctxt": 0
+        "end": 182
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 179,
-          "end": 182,
-          "ctxt": 0
+          "end": 182
         },
+        "ctxt": 0,
         "stmts": []
       },
       "generator": false,
@@ -87,9 +84,9 @@
         "type": "Identifier",
         "span": {
           "start": 253,
-          "end": 254,
-          "ctxt": 0
+          "end": 254
         },
+        "ctxt": 0,
         "value": "g",
         "optional": false
       },
@@ -99,32 +96,29 @@
           "type": "Parameter",
           "span": {
             "start": 255,
-            "end": 266,
-            "ctxt": 0
+            "end": 266
           },
           "decorators": [],
           "pat": {
             "type": "Identifier",
             "span": {
               "start": 255,
-              "end": 258,
-              "ctxt": 0
+              "end": 258
             },
+            "ctxt": 0,
             "value": "arg",
             "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 258,
-                "end": 266,
-                "ctxt": 0
+                "end": 266
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 260,
-                  "end": 266,
-                  "ctxt": 0
+                  "end": 266
                 },
                 "kind": "string"
               }
@@ -135,16 +129,16 @@
       "decorators": [],
       "span": {
         "start": 244,
-        "end": 271,
-        "ctxt": 0
+        "end": 271
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 268,
-          "end": 271,
-          "ctxt": 0
+          "end": 271
         },
+        "ctxt": 0,
         "stmts": []
       },
       "generator": false,

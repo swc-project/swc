@@ -13,11 +13,12 @@ impl ToCode for swc_ecma_ast::Ident {
         }
 
         let sym_value = self.sym.to_code(cx);
-        parse_quote!(swc_core::ecma::ast::Ident::new(
+        parse_quote!(swc_core::ecma::ast::Ident::new_no_ctxt(
             #sym_value,
             swc_core::common::DUMMY_SP,
         ))
     }
 }
 
-impl_struct!(PrivateName, [span, id]);
+impl_struct!(IdentName, [span, sym]);
+impl_struct!(PrivateName, [span, name]);

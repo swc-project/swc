@@ -49,22 +49,24 @@ impl Optimizer<'_> {
                         "length" => {
                             report_change!("evaluate: function.length");
 
-                            *e = Expr::Lit(Lit::Num(Number {
+                            *e = Lit::Num(Number {
                                 span: *span,
                                 value: metadata.len as _,
                                 raw: None,
-                            }));
+                            })
+                            .into();
                             self.changed = true;
                         }
 
                         "name" => {
                             report_change!("evaluate: function.name");
 
-                            *e = Expr::Lit(Lit::Str(Str {
+                            *e = Lit::Str(Str {
                                 span: *span,
                                 value: obj.sym.clone(),
                                 raw: None,
-                            }));
+                            })
+                            .into();
                             self.changed = true;
                         }
 
@@ -113,20 +115,23 @@ impl Optimizer<'_> {
             Expr::Ident(Ident { span, sym, .. }) if &**sym == "Infinity" => {
                 report_change!("evaluate: `Infinity` -> `1 / 0`");
                 self.changed = true;
-                *e = Expr::Bin(BinExpr {
+                *e = BinExpr {
                     span: *span,
                     op: op!("/"),
-                    left: Box::new(Expr::Lit(Lit::Num(Number {
+                    left: Lit::Num(Number {
                         span: DUMMY_SP,
                         value: 1.0,
                         raw: None,
-                    }))),
-                    right: Box::new(Expr::Lit(Lit::Num(Number {
+                    })
+                    .into(),
+                    right: Lit::Num(Number {
                         span: DUMMY_SP,
                         value: 0.0,
                         raw: None,
-                    }))),
-                });
+                    })
+                    .into(),
+                }
+                .into();
             }
 
             _ => {}
@@ -187,11 +192,12 @@ impl Optimizer<'_> {
                                 exp.value
                             );
 
-                            *e = Expr::Lit(Lit::Regex(Regex {
+                            *e = Lit::Regex(Regex {
                                 span,
                                 exp: exp.value.as_ref().into(),
                                 flags: atom!(""),
-                            }));
+                            })
+                            .into();
                         }
                     }
                     _ => {
@@ -205,11 +211,12 @@ impl Optimizer<'_> {
                                 flags.value
                             );
 
-                            *e = Expr::Lit(Lit::Regex(Regex {
+                            *e = Lit::Regex(Regex {
                                 span,
                                 exp: exp.value.as_ref().into(),
                                 flags: flags.value.as_ref().into(),
-                            }));
+                            })
+                            .into();
                         }
                     }
                 }
@@ -242,11 +249,12 @@ impl Optimizer<'_> {
 
                                 let value = v.to_string();
 
-                                *e = Expr::Lit(Lit::Str(Str {
+                                *e = Lit::Str(Str {
                                     span: e.span(),
                                     raw: None,
                                     value: value.into(),
-                                }));
+                                })
+                                .into();
                             }
                         }
                     }
@@ -272,28 +280,30 @@ impl Optimizer<'_> {
                                     Prop::Shorthand(p) => {
                                         keys.push(Some(ExprOrSpread {
                                             spread: None,
-                                            expr: Box::new(Expr::Lit(Lit::Str(Str {
+                                            expr: Lit::Str(Str {
                                                 span: p.span,
                                                 raw: None,
                                                 value: p.sym.clone(),
-                                            }))),
+                                            })
+                                            .into(),
                                         }));
                                     }
                                     Prop::KeyValue(p) => match &p.key {
                                         PropName::Ident(key) => {
                                             keys.push(Some(ExprOrSpread {
                                                 spread: None,
-                                                expr: Box::new(Expr::Lit(Lit::Str(Str {
+                                                expr: Lit::Str(Str {
                                                     span: key.span,
                                                     raw: None,
                                                     value: key.sym.clone(),
-                                                }))),
+                                                })
+                                                .into(),
                                             }));
                                         }
                                         PropName::Str(key) => {
                                             keys.push(Some(ExprOrSpread {
                                                 spread: None,
-                                                expr: Box::new(Expr::Lit(Lit::Str(key.clone()))),
+                                                expr: Lit::Str(key.clone()).into(),
                                             }));
                                         }
                                         _ => return,
@@ -303,7 +313,7 @@ impl Optimizer<'_> {
                             }
                         }
 
-                        *e = Expr::Array(ArrayLit { span, elems: keys })
+                        *e = ArrayLit { span, elems: keys }.into()
                     }
                 }
 
@@ -335,11 +345,22 @@ impl Optimizer<'_> {
                 self.changed = true;
                 report_change!("evaluate: Evaluated an expression as `{}`", value);
 
-                *e = Expr::Lit(Lit::Num(Number {
+                if value.is_nan() {
+                    *e = Ident::new(
+                        "NaN".into(),
+                        e.span(),
+                        SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
+                    )
+                    .into();
+                    return;
+                }
+
+                *e = Lit::Num(Number {
                     span: e.span(),
                     value,
                     raw: None,
-                }));
+                })
+                .into();
                 return;
             }
         }
@@ -355,18 +376,19 @@ impl Optimizer<'_> {
                         report_change!("evaluate: Evaluated `{:?} ** {:?}`", l, r);
 
                         if l.is_nan() || r.is_nan() {
-                            *e = Expr::Ident(Ident::new(
+                            *e = Ident::new(
                                 "NaN".into(),
-                                bin.span.with_ctxt(
-                                    SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
-                                ),
-                            ));
+                                bin.span,
+                                SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
+                            )
+                            .into();
                         } else {
-                            *e = Expr::Lit(Lit::Num(Number {
+                            *e = Lit::Num(Number {
                                 span: bin.span,
                                 value: l.powf(r),
                                 raw: None,
-                            }));
+                            })
+                            .into();
                         };
                     }
                 }
@@ -402,12 +424,12 @@ impl Optimizer<'_> {
                             report_change!("evaluate: `0 / 0` => `NaN`");
 
                             // Sign does not matter for NaN
-                            *e = Expr::Ident(Ident::new(
+                            *e = Ident::new(
                                 "NaN".into(),
-                                bin.span.with_ctxt(
-                                    SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
-                                ),
-                            ));
+                                bin.span,
+                                SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
+                            )
+                            .into();
                         }
                         (FpCategory::Normal, FpCategory::Zero) => {
                             self.changed = true;
@@ -415,19 +437,14 @@ impl Optimizer<'_> {
 
                             // Sign does not matter for NaN
                             *e = if ln.is_sign_positive() == rn.is_sign_positive() {
-                                Expr::Ident(Ident::new(
-                                    "Infinity".into(),
-                                    bin.span.with_ctxt(SyntaxContext::empty()),
-                                ))
+                                Ident::new_no_ctxt("Infinity".into(), bin.span).into()
                             } else {
-                                Expr::Unary(UnaryExpr {
+                                UnaryExpr {
                                     span: bin.span,
                                     op: op!(unary, "-"),
-                                    arg: Box::new(Expr::Ident(Ident::new(
-                                        "Infinity".into(),
-                                        bin.span.with_ctxt(SyntaxContext::empty()),
-                                    ))),
-                                })
+                                    arg: Ident::new_no_ctxt("Infinity".into(), bin.span).into(),
+                                }
+                                .into()
                             };
                         }
                         _ => {}

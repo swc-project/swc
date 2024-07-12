@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 17,
-    "end": 59,
-    "ctxt": 0
+    "end": 59
   },
   "body": [
     {
@@ -12,81 +11,75 @@
         "type": "Identifier",
         "span": {
           "start": 23,
-          "end": 24,
-          "ctxt": 0
+          "end": 24
         },
+        "ctxt": 0,
         "value": "C",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 17,
-        "end": 59,
-        "ctxt": 0
+        "end": 59
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassMethod",
           "span": {
             "start": 29,
-            "end": 57,
-            "ctxt": 0
+            "end": 57
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 30,
-              "end": 33,
-              "ctxt": 0
+              "end": 33
             },
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "function": {
             "params": [],
             "decorators": [],
             "span": {
               "start": 29,
-              "end": 57,
-              "ctxt": 0
+              "end": 57
             },
+            "ctxt": 0,
             "body": {
               "type": "BlockStatement",
               "span": {
                 "start": 36,
-                "end": 57,
-                "ctxt": 0
+                "end": 57
               },
+              "ctxt": 0,
               "stmts": [
                 {
                   "type": "ExpressionStatement",
                   "span": {
                     "start": 42,
-                    "end": 53,
-                    "ctxt": 0
+                    "end": 53
                   },
                   "expression": {
                     "type": "YieldExpression",
                     "span": {
                       "start": 42,
-                      "end": 52,
-                      "ctxt": 0
+                      "end": 52
                     },
                     "argument": {
                       "type": "ParenthesisExpression",
                       "span": {
                         "start": 47,
-                        "end": 52,
-                        "ctxt": 0
+                        "end": 52
                       },
                       "expression": {
                         "type": "Identifier",
                         "span": {
                           "start": 48,
-                          "end": 51,
-                          "ctxt": 0
+                          "end": 51
                         },
+                        "ctxt": 0,
                         "value": "foo",
                         "optional": false
                       }

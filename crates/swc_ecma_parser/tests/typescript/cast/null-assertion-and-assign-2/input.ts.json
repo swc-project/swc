@@ -2,39 +2,35 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 8,
-    "ctxt": 0
+    "end": 8
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 8,
-        "ctxt": 0
+        "end": 8
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
           "start": 1,
-          "end": 8,
-          "ctxt": 0
+          "end": 8
         },
         "operator": "*=",
         "left": {
           "type": "TsNonNullExpression",
           "span": {
             "start": 1,
-            "end": 3,
-            "ctxt": 0
+            "end": 3
           },
           "expression": {
             "type": "Identifier",
             "span": {
               "start": 1,
-              "end": 2,
-              "ctxt": 0
+              "end": 2
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false
           }
@@ -43,8 +39,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 7,
-            "end": 8,
-            "ctxt": 0
+            "end": 8
           },
           "value": 1.0,
           "raw": "1"

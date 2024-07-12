@@ -2,32 +2,29 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 61,
-    "ctxt": 0
+    "end": 61
   },
   "body": [
     {
       "type": "ImportDeclaration",
       "span": {
         "start": 1,
-        "end": 30,
-        "ctxt": 0
+        "end": 30
       },
       "specifiers": [
         {
           "type": "ImportDefaultSpecifier",
           "span": {
             "start": 8,
-            "end": 12,
-            "ctxt": 0
+            "end": 12
           },
           "local": {
             "type": "Identifier",
             "span": {
               "start": 8,
-              "end": 12,
-              "ctxt": 0
+              "end": 12
             },
+            "ctxt": 0,
             "value": "path",
             "optional": false
           }
@@ -37,8 +34,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 18,
-          "end": 29,
-          "ctxt": 0
+          "end": 29
         },
         "value": "node:path",
         "raw": "\"node:path\""
@@ -51,30 +47,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 32,
-        "end": 61,
-        "ctxt": 0
+        "end": 61
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 32,
-          "end": 60,
-          "ctxt": 0
+          "end": 60
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 32,
-            "end": 43,
-            "ctxt": 0
+            "end": 43
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 32,
-              "end": 39,
-              "ctxt": 0
+              "end": 39
             },
+            "ctxt": 0,
             "value": "console",
             "optional": false
           },
@@ -82,11 +76,9 @@
             "type": "Identifier",
             "span": {
               "start": 40,
-              "end": 43,
-              "ctxt": 0
+              "end": 43
             },
-            "value": "log",
-            "optional": false
+            "value": "log"
           }
         },
         "arguments": [
@@ -96,8 +88,7 @@
               "type": "StringLiteral",
               "span": {
                 "start": 44,
-                "end": 59,
-                "ctxt": 0
+                "end": 59
               },
               "value": "hello, world!",
               "raw": "\"hello, world!\""

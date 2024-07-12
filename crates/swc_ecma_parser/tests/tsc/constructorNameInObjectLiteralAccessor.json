@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 20,
-    "end": 98,
-    "ctxt": 0
+    "end": 98
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 20,
-        "end": 98,
-        "ctxt": 0
+        "end": 98
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 26,
-            "end": 98,
-            "ctxt": 0
+            "end": 98
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 26,
-              "end": 28,
-              "ctxt": 0
+              "end": 28
             },
+            "ctxt": 0,
             "value": "c1",
             "optional": false,
             "typeAnnotation": null
@@ -38,42 +36,37 @@
             "type": "ObjectExpression",
             "span": {
               "start": 31,
-              "end": 98,
-              "ctxt": 0
+              "end": 98
             },
             "properties": [
               {
                 "type": "GetterProperty",
                 "span": {
                   "start": 37,
-                  "end": 65,
-                  "ctxt": 0
+                  "end": 65
                 },
                 "key": {
                   "type": "Identifier",
                   "span": {
                     "start": 41,
-                    "end": 52,
-                    "ctxt": 0
+                    "end": 52
                   },
-                  "value": "constructor",
-                  "optional": false
+                  "value": "constructor"
                 },
                 "typeAnnotation": null,
                 "body": {
                   "type": "BlockStatement",
                   "span": {
                     "start": 55,
-                    "end": 65,
-                    "ctxt": 0
+                    "end": 65
                   },
+                  "ctxt": 0,
                   "stmts": [
                     {
                       "type": "ReturnStatement",
                       "span": {
                         "start": 57,
-                        "end": 63,
-                        "ctxt": 0
+                        "end": 63
                       },
                       "argument": null
                     }
@@ -84,27 +77,24 @@
                 "type": "SetterProperty",
                 "span": {
                   "start": 71,
-                  "end": 96,
-                  "ctxt": 0
+                  "end": 96
                 },
                 "key": {
                   "type": "Identifier",
                   "span": {
                     "start": 75,
-                    "end": 86,
-                    "ctxt": 0
+                    "end": 86
                   },
-                  "value": "constructor",
-                  "optional": false
+                  "value": "constructor"
                 },
                 "thisParam": null,
                 "param": {
                   "type": "Identifier",
                   "span": {
                     "start": 87,
-                    "end": 92,
-                    "ctxt": 0
+                    "end": 92
                   },
+                  "ctxt": 0,
                   "value": "value",
                   "optional": false,
                   "typeAnnotation": null
@@ -113,9 +103,9 @@
                   "type": "BlockStatement",
                   "span": {
                     "start": 94,
-                    "end": 96,
-                    "ctxt": 0
+                    "end": 96
                   },
+                  "ctxt": 0,
                   "stmts": []
                 }
               }

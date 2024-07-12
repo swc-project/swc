@@ -28,9 +28,9 @@ sha1      = { workspace = true }
 
 string_enum                = { version = "0.4.4", path = "../string_enum" }
 swc_atoms                  = { version = "0.6.5", path = "../swc_atoms" }
-swc_common                 = { version = "0.34.0", path = "../swc_common" }
+swc_common                 = { version = "0.35.0", path = "../swc_common" }
 swc_config                 = { version = "0.1.13", path = "../swc_config" }
-swc_ecma_ast               = { version = "0.115.0", path = "../swc_ecma_ast" }
+swc_ecma_ast               = { version = "0.116.0", path = "../swc_ecma_ast" }
 swc_ecma_parser            = { version = "0.147.0", path = "../swc_ecma_parser" }
 swc_ecma_transforms_base   = { version = "0.141.0", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_macros = { version = "0.5.5", path = "../swc_ecma_transforms_macros" }
@@ -40,6 +40,5 @@ swc_ecma_visit             = { version = "0.102.0", path = "../swc_ecma_visit" }
 [dev-dependencies]
 swc_ecma_codegen            = { version = "0.152.0", path = "../swc_ecma_codegen/" }
 swc_ecma_transforms_compat  = { version = "0.167.0", path = "../swc_ecma_transforms_compat/" }
-swc_ecma_transforms_module  = { version = "0.184.0", path = "../swc_ecma_transforms_module" }
 swc_ecma_transforms_testing = { version = "0.144.0", path = "../swc_ecma_transforms_testing" }
-testing                     = { version = "0.36.0", path = "../testing" }
+testing                     = { version = "0.37.0", path = "../testing" }

@@ -1,22 +1,22 @@
 [
     JsDoc {
-        span: 16..25#0,
+        span: 16..25,
         description: Text {
-            span: 16..16#0,
+            span: 16..16,
             value: "",
         },
         tags: [
             TagItem {
-                span: 16..23#0,
+                span: 16..23,
                 tag_name: Text {
-                    span: 16..23#0,
+                    span: 16..23,
                     value: "exports",
                 },
                 tag: Exports(
                     ExportsTag {
-                        span: 16..23#0,
+                        span: 16..23,
                         module_name: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                     },
@@ -25,29 +25,29 @@
         ],
     },
     JsDoc {
-        span: 65..65#0,
+        span: 65..65,
         description: Text {
-            span: 65..90#0,
+            span: 65..90,
             value: "A property of the module.",
         },
         tags: [],
     },
     JsDoc {
-        span: 124..124#0,
+        span: 124..124,
         description: Text {
-            span: 124..124#0,
+            span: 124..124,
             value: "",
         },
         tags: [
             TagItem {
-                span: 124..135#0,
+                span: 124..135,
                 tag_name: Text {
-                    span: 124..135#0,
+                    span: 124..135,
                     value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 124..135#0,
+                        span: 124..135,
                         ty: None,
                         name: None,
                     },
@@ -56,17 +56,17 @@
         ],
     },
     JsDoc {
-        span: 186..186#0,
+        span: 186..186,
         description: Text {
-            span: 186..210#0,
+            span: 186..210,
             value: "A property of the class.",
         },
         tags: [],
     },
     JsDoc {
-        span: 244..244#0,
+        span: 244..244,
         description: Text {
-            span: 244..264#0,
+            span: 244..264,
             value: "Iron the turtleneck.",
         },
         tags: [],

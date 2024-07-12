@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 27,
-    "ctxt": 0
+    "end": 27
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 1,
-        "end": 27,
-        "ctxt": 0
+        "end": 27
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 5,
-            "end": 26,
-            "ctxt": 0
+            "end": 26
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 5,
-              "end": 6,
-              "ctxt": 0
+              "end": 6
             },
+            "ctxt": 0,
             "value": "v",
             "optional": false,
             "typeAnnotation": null
@@ -38,35 +36,31 @@
             "type": "ObjectExpression",
             "span": {
               "start": 9,
-              "end": 26,
-              "ctxt": 0
+              "end": 26
             },
             "properties": [
               {
                 "type": "GetterProperty",
                 "span": {
                   "start": 11,
-                  "end": 24,
-                  "ctxt": 0
+                  "end": 24
                 },
                 "key": {
                   "type": "Identifier",
                   "span": {
                     "start": 15,
-                    "end": 18,
-                    "ctxt": 0
+                    "end": 18
                   },
-                  "value": "Foo",
-                  "optional": false
+                  "value": "Foo"
                 },
                 "typeAnnotation": null,
                 "body": {
                   "type": "BlockStatement",
                   "span": {
                     "start": 21,
-                    "end": 24,
-                    "ctxt": 0
+                    "end": 24
                   },
+                  "ctxt": 0,
                   "stmts": []
                 }
               }

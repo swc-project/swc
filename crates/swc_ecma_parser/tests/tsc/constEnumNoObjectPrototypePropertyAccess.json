@@ -2,16 +2,14 @@
   "type": "Script",
   "span": {
     "start": 93,
-    "end": 340,
-    "ctxt": 0
+    "end": 340
   },
   "body": [
     {
       "type": "TsEnumDeclaration",
       "span": {
         "start": 93,
-        "end": 112,
-        "ctxt": 0
+        "end": 112
       },
       "declare": false,
       "isConst": true,
@@ -19,9 +17,9 @@
         "type": "Identifier",
         "span": {
           "start": 104,
-          "end": 109,
-          "ctxt": 0
+          "end": 109
         },
+        "ctxt": 0,
         "value": "Bebra",
         "optional": false
       },
@@ -31,30 +29,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 114,
-        "end": 144,
-        "ctxt": 0
+        "end": 144
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 114,
-          "end": 144,
-          "ctxt": 0
+          "end": 144
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 114,
-            "end": 125,
-            "ctxt": 0
+            "end": 125
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 114,
-              "end": 121,
-              "ctxt": 0
+              "end": 121
             },
+            "ctxt": 0,
             "value": "console",
             "optional": false
           },
@@ -62,11 +58,9 @@
             "type": "Identifier",
             "span": {
               "start": 122,
-              "end": 125,
-              "ctxt": 0
+              "end": 125
             },
-            "value": "log",
-            "optional": false
+            "value": "log"
           }
         },
         "arguments": [
@@ -76,16 +70,15 @@
               "type": "MemberExpression",
               "span": {
                 "start": 126,
-                "end": 143,
-                "ctxt": 0
+                "end": 143
               },
               "object": {
                 "type": "Identifier",
                 "span": {
                   "start": 126,
-                  "end": 131,
-                  "ctxt": 0
+                  "end": 131
                 },
+                "ctxt": 0,
                 "value": "Bebra",
                 "optional": false
               },
@@ -93,11 +86,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 132,
-                  "end": 143,
-                  "ctxt": 0
+                  "end": 143
                 },
-                "value": "constructor",
-                "optional": false
+                "value": "constructor"
               }
             }
           }
@@ -109,30 +100,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 145,
-        "end": 178,
-        "ctxt": 0
+        "end": 178
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 145,
-          "end": 178,
-          "ctxt": 0
+          "end": 178
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 145,
-            "end": 156,
-            "ctxt": 0
+            "end": 156
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 145,
-              "end": 152,
-              "ctxt": 0
+              "end": 152
             },
+            "ctxt": 0,
             "value": "console",
             "optional": false
           },
@@ -140,11 +129,9 @@
             "type": "Identifier",
             "span": {
               "start": 153,
-              "end": 156,
-              "ctxt": 0
+              "end": 156
             },
-            "value": "log",
-            "optional": false
+            "value": "log"
           }
         },
         "arguments": [
@@ -154,16 +141,15 @@
               "type": "MemberExpression",
               "span": {
                 "start": 157,
-                "end": 177,
-                "ctxt": 0
+                "end": 177
               },
               "object": {
                 "type": "Identifier",
                 "span": {
                   "start": 157,
-                  "end": 162,
-                  "ctxt": 0
+                  "end": 162
                 },
+                "ctxt": 0,
                 "value": "Bebra",
                 "optional": false
               },
@@ -171,11 +157,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 163,
-                  "end": 177,
-                  "ctxt": 0
+                  "end": 177
                 },
-                "value": "hasOwnProperty",
-                "optional": false
+                "value": "hasOwnProperty"
               }
             }
           }
@@ -187,30 +171,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 179,
-        "end": 211,
-        "ctxt": 0
+        "end": 211
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 179,
-          "end": 211,
-          "ctxt": 0
+          "end": 211
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 179,
-            "end": 190,
-            "ctxt": 0
+            "end": 190
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 179,
-              "end": 186,
-              "ctxt": 0
+              "end": 186
             },
+            "ctxt": 0,
             "value": "console",
             "optional": false
           },
@@ -218,11 +200,9 @@
             "type": "Identifier",
             "span": {
               "start": 187,
-              "end": 190,
-              "ctxt": 0
+              "end": 190
             },
-            "value": "log",
-            "optional": false
+            "value": "log"
           }
         },
         "arguments": [
@@ -232,16 +212,15 @@
               "type": "MemberExpression",
               "span": {
                 "start": 191,
-                "end": 210,
-                "ctxt": 0
+                "end": 210
               },
               "object": {
                 "type": "Identifier",
                 "span": {
                   "start": 191,
-                  "end": 196,
-                  "ctxt": 0
+                  "end": 196
                 },
+                "ctxt": 0,
                 "value": "Bebra",
                 "optional": false
               },
@@ -249,11 +228,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 197,
-                  "end": 210,
-                  "ctxt": 0
+                  "end": 210
                 },
-                "value": "isPrototypeOf",
-                "optional": false
+                "value": "isPrototypeOf"
               }
             }
           }
@@ -265,30 +242,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 212,
-        "end": 251,
-        "ctxt": 0
+        "end": 251
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 212,
-          "end": 251,
-          "ctxt": 0
+          "end": 251
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 212,
-            "end": 223,
-            "ctxt": 0
+            "end": 223
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 212,
-              "end": 219,
-              "ctxt": 0
+              "end": 219
             },
+            "ctxt": 0,
             "value": "console",
             "optional": false
           },
@@ -296,11 +271,9 @@
             "type": "Identifier",
             "span": {
               "start": 220,
-              "end": 223,
-              "ctxt": 0
+              "end": 223
             },
-            "value": "log",
-            "optional": false
+            "value": "log"
           }
         },
         "arguments": [
@@ -310,16 +283,15 @@
               "type": "MemberExpression",
               "span": {
                 "start": 224,
-                "end": 250,
-                "ctxt": 0
+                "end": 250
               },
               "object": {
                 "type": "Identifier",
                 "span": {
                   "start": 224,
-                  "end": 229,
-                  "ctxt": 0
+                  "end": 229
                 },
+                "ctxt": 0,
                 "value": "Bebra",
                 "optional": false
               },
@@ -327,11 +299,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 230,
-                  "end": 250,
-                  "ctxt": 0
+                  "end": 250
                 },
-                "value": "propertyIsEnumerable",
-                "optional": false
+                "value": "propertyIsEnumerable"
               }
             }
           }
@@ -343,30 +313,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 252,
-        "end": 285,
-        "ctxt": 0
+        "end": 285
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 252,
-          "end": 285,
-          "ctxt": 0
+          "end": 285
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 252,
-            "end": 263,
-            "ctxt": 0
+            "end": 263
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 252,
-              "end": 259,
-              "ctxt": 0
+              "end": 259
             },
+            "ctxt": 0,
             "value": "console",
             "optional": false
           },
@@ -374,11 +342,9 @@
             "type": "Identifier",
             "span": {
               "start": 260,
-              "end": 263,
-              "ctxt": 0
+              "end": 263
             },
-            "value": "log",
-            "optional": false
+            "value": "log"
           }
         },
         "arguments": [
@@ -388,16 +354,15 @@
               "type": "MemberExpression",
               "span": {
                 "start": 264,
-                "end": 284,
-                "ctxt": 0
+                "end": 284
               },
               "object": {
                 "type": "Identifier",
                 "span": {
                   "start": 264,
-                  "end": 269,
-                  "ctxt": 0
+                  "end": 269
                 },
+                "ctxt": 0,
                 "value": "Bebra",
                 "optional": false
               },
@@ -405,11 +370,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 270,
-                  "end": 284,
-                  "ctxt": 0
+                  "end": 284
                 },
-                "value": "toLocaleString",
-                "optional": false
+                "value": "toLocaleString"
               }
             }
           }
@@ -421,30 +384,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 286,
-        "end": 313,
-        "ctxt": 0
+        "end": 313
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 286,
-          "end": 313,
-          "ctxt": 0
+          "end": 313
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 286,
-            "end": 297,
-            "ctxt": 0
+            "end": 297
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 286,
-              "end": 293,
-              "ctxt": 0
+              "end": 293
             },
+            "ctxt": 0,
             "value": "console",
             "optional": false
           },
@@ -452,11 +413,9 @@
             "type": "Identifier",
             "span": {
               "start": 294,
-              "end": 297,
-              "ctxt": 0
+              "end": 297
             },
-            "value": "log",
-            "optional": false
+            "value": "log"
           }
         },
         "arguments": [
@@ -466,16 +425,15 @@
               "type": "MemberExpression",
               "span": {
                 "start": 298,
-                "end": 312,
-                "ctxt": 0
+                "end": 312
               },
               "object": {
                 "type": "Identifier",
                 "span": {
                   "start": 298,
-                  "end": 303,
-                  "ctxt": 0
+                  "end": 303
                 },
+                "ctxt": 0,
                 "value": "Bebra",
                 "optional": false
               },
@@ -483,11 +441,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 304,
-                  "end": 312,
-                  "ctxt": 0
+                  "end": 312
                 },
-                "value": "toString",
-                "optional": false
+                "value": "toString"
               }
             }
           }
@@ -499,30 +455,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 314,
-        "end": 340,
-        "ctxt": 0
+        "end": 340
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 314,
-          "end": 340,
-          "ctxt": 0
+          "end": 340
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 314,
-            "end": 325,
-            "ctxt": 0
+            "end": 325
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 314,
-              "end": 321,
-              "ctxt": 0
+              "end": 321
             },
+            "ctxt": 0,
             "value": "console",
             "optional": false
           },
@@ -530,11 +484,9 @@
             "type": "Identifier",
             "span": {
               "start": 322,
-              "end": 325,
-              "ctxt": 0
+              "end": 325
             },
-            "value": "log",
-            "optional": false
+            "value": "log"
           }
         },
         "arguments": [
@@ -544,16 +496,15 @@
               "type": "MemberExpression",
               "span": {
                 "start": 326,
-                "end": 339,
-                "ctxt": 0
+                "end": 339
               },
               "object": {
                 "type": "Identifier",
                 "span": {
                   "start": 326,
-                  "end": 331,
-                  "ctxt": 0
+                  "end": 331
                 },
+                "ctxt": 0,
                 "value": "Bebra",
                 "optional": false
               },
@@ -561,11 +512,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 332,
-                  "end": 339,
-                  "ctxt": 0
+                  "end": 339
                 },
-                "value": "valueOf",
-                "optional": false
+                "value": "valueOf"
               }
             }
           }

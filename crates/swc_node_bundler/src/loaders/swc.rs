@@ -71,11 +71,12 @@ impl SwcLoader {
         for (k, v) in envs_map {
             m.insert(
                 k,
-                Expr::Lit(Lit::Str(Str {
+                Lit::Str(Str {
                     span: DUMMY_SP,
                     raw: None,
                     value: v,
-                })),
+                })
+                .into(),
             );
         }
 
@@ -92,7 +93,7 @@ impl SwcLoader {
                 let fm = self
                     .compiler
                     .cm
-                    .new_source_file(name.clone(), "".to_string());
+                    .new_source_file(name.clone().into(), "".to_string());
                 return Ok(ModuleData {
                     fm,
                     module: Module {
@@ -110,7 +111,7 @@ impl SwcLoader {
                 let fm = self
                     .compiler
                     .cm
-                    .new_source_file(name.clone(), "module.exports = {}".to_string());
+                    .new_source_file(name.clone().into(), "module.exports = {}".to_string());
 
                 let module = parse_file_as_module(
                     &fm,

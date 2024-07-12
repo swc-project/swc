@@ -2,24 +2,22 @@
   "type": "Module",
   "span": {
     "start": 116,
-    "end": 231,
-    "ctxt": 0
+    "end": 231
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
         "start": 116,
-        "end": 168,
-        "ctxt": 0
+        "end": 168
       },
       "declaration": {
         "type": "VariableDeclaration",
         "span": {
           "start": 123,
-          "end": 168,
-          "ctxt": 0
+          "end": 168
         },
+        "ctxt": 0,
         "kind": "const",
         "declare": false,
         "declarations": [
@@ -27,16 +25,15 @@
             "type": "VariableDeclarator",
             "span": {
               "start": 129,
-              "end": 167,
-              "ctxt": 0
+              "end": 167
             },
             "id": {
               "type": "Identifier",
               "span": {
                 "start": 129,
-                "end": 135,
-                "ctxt": 0
+                "end": 135
               },
+              "ctxt": 0,
               "value": "colors",
               "optional": false,
               "typeAnnotation": null
@@ -45,8 +42,7 @@
               "type": "ObjectExpression",
               "span": {
                 "start": 138,
-                "end": 167,
-                "ctxt": 0
+                "end": 167
               },
               "properties": [
                 {
@@ -55,18 +51,15 @@
                     "type": "Identifier",
                     "span": {
                       "start": 144,
-                      "end": 153,
-                      "ctxt": 0
+                      "end": 153
                     },
-                    "value": "royalBlue",
-                    "optional": false
+                    "value": "royalBlue"
                   },
                   "value": {
                     "type": "StringLiteral",
                     "span": {
                       "start": 155,
-                      "end": 164,
-                      "ctxt": 0
+                      "end": 164
                     },
                     "value": "#6400e4",
                     "raw": "\"#6400e4\""
@@ -83,16 +76,15 @@
       "type": "ExportDeclaration",
       "span": {
         "start": 170,
-        "end": 231,
-        "ctxt": 0
+        "end": 231
       },
       "declaration": {
         "type": "VariableDeclaration",
         "span": {
           "start": 177,
-          "end": 231,
-          "ctxt": 0
+          "end": 231
         },
+        "ctxt": 0,
         "kind": "const",
         "declare": false,
         "declarations": [
@@ -100,16 +92,15 @@
             "type": "VariableDeclarator",
             "span": {
               "start": 183,
-              "end": 230,
-              "ctxt": 0
+              "end": 230
             },
             "id": {
               "type": "Identifier",
               "span": {
                 "start": 183,
-                "end": 194,
-                "ctxt": 0
+                "end": 194
               },
+              "ctxt": 0,
               "value": "brandColors",
               "optional": false,
               "typeAnnotation": null
@@ -118,8 +109,7 @@
               "type": "ObjectExpression",
               "span": {
                 "start": 197,
-                "end": 230,
-                "ctxt": 0
+                "end": 230
               },
               "properties": [
                 {
@@ -128,26 +118,23 @@
                     "type": "Identifier",
                     "span": {
                       "start": 203,
-                      "end": 209,
-                      "ctxt": 0
+                      "end": 209
                     },
-                    "value": "purple",
-                    "optional": false
+                    "value": "purple"
                   },
                   "value": {
                     "type": "MemberExpression",
                     "span": {
                       "start": 211,
-                      "end": 227,
-                      "ctxt": 0
+                      "end": 227
                     },
                     "object": {
                       "type": "Identifier",
                       "span": {
                         "start": 211,
-                        "end": 217,
-                        "ctxt": 0
+                        "end": 217
                       },
+                      "ctxt": 0,
                       "value": "colors",
                       "optional": false
                     },
@@ -155,11 +142,9 @@
                       "type": "Identifier",
                       "span": {
                         "start": 218,
-                        "end": 227,
-                        "ctxt": 0
+                        "end": 227
                       },
-                      "value": "royalBlue",
-                      "optional": false
+                      "value": "royalBlue"
                     }
                   }
                 }

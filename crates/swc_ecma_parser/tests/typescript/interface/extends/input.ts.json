@@ -2,24 +2,22 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 30,
-    "ctxt": 0
+    "end": 30
   },
   "body": [
     {
       "type": "TsInterfaceDeclaration",
       "span": {
         "start": 1,
-        "end": 30,
-        "ctxt": 0
+        "end": 30
       },
       "id": {
         "type": "Identifier",
         "span": {
           "start": 11,
-          "end": 12,
-          "ctxt": 0
+          "end": 12
         },
+        "ctxt": 0,
         "value": "I",
         "optional": false
       },
@@ -30,23 +28,21 @@
           "type": "TsExpressionWithTypeArguments",
           "span": {
             "start": 21,
-            "end": 27,
-            "ctxt": 0
+            "end": 27
           },
           "expression": {
             "type": "MemberExpression",
             "span": {
               "start": 21,
-              "end": 24,
-              "ctxt": 0
+              "end": 24
             },
             "object": {
               "type": "Identifier",
               "span": {
                 "start": 21,
-                "end": 22,
-                "ctxt": 0
+                "end": 22
               },
+              "ctxt": 0,
               "value": "X",
               "optional": false
             },
@@ -54,35 +50,31 @@
               "type": "Identifier",
               "span": {
                 "start": 23,
-                "end": 24,
-                "ctxt": 0
+                "end": 24
               },
-              "value": "Y",
-              "optional": false
+              "value": "Y"
             }
           },
           "typeArguments": {
             "type": "TsTypeParameterInstantiation",
             "span": {
               "start": 24,
-              "end": 27,
-              "ctxt": 0
+              "end": 27
             },
             "params": [
               {
                 "type": "TsTypeReference",
                 "span": {
                   "start": 25,
-                  "end": 26,
-                  "ctxt": 0
+                  "end": 26
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
                     "start": 25,
-                    "end": 26,
-                    "ctxt": 0
+                    "end": 26
                   },
+                  "ctxt": 0,
                   "value": "Z",
                   "optional": false
                 },
@@ -96,8 +88,7 @@
         "type": "TsInterfaceBody",
         "span": {
           "start": 28,
-          "end": 30,
-          "ctxt": 0
+          "end": 30
         },
         "body": []
       }

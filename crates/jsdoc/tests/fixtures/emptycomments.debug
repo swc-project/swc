@@ -1,48 +1,48 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [],
     },
     JsDoc {
-        span: 29..29#0,
+        span: 29..29,
         description: Text {
-            span: 29..29#0,
+            span: 29..29,
             value: "",
         },
         tags: [],
     },
     JsDoc {
-        span: 127..127#0,
+        span: 127..127,
         description: Text {
-            span: 127..129#0,
+            span: 127..129,
             value: "\t ",
         },
         tags: [],
     },
     JsDoc {
-        span: 228..228#0,
+        span: 228..228,
         description: Text {
-            span: 228..232#0,
+            span: 228..232,
             value: "\t\t\t ",
         },
         tags: [],
     },
     JsDoc {
-        span: 321..321#0,
+        span: 321..321,
         description: Text {
-            span: 321..321#0,
+            span: 321..321,
             value: "",
         },
         tags: [],
     },
     JsDoc {
-        span: 416..416#0,
+        span: 416..416,
         description: Text {
-            span: 416..416#0,
+            span: 416..416,
             value: "",
         },
         tags: [],

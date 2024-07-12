@@ -2,25 +2,23 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 49,
-    "ctxt": 0
+    "end": 49
   },
   "body": [
     {
       "type": "TsTypeAliasDeclaration",
       "span": {
         "start": 1,
-        "end": 49,
-        "ctxt": 0
+        "end": 49
       },
       "declare": false,
       "id": {
         "type": "Identifier",
         "span": {
           "start": 6,
-          "end": 13,
-          "ctxt": 0
+          "end": 13
         },
+        "ctxt": 0,
         "value": "Element",
         "optional": false
       },
@@ -28,24 +26,22 @@
         "type": "TsTypeParameterDeclaration",
         "span": {
           "start": 13,
-          "end": 16,
-          "ctxt": 0
+          "end": 16
         },
         "parameters": [
           {
             "type": "TsTypeParameter",
             "span": {
               "start": 14,
-              "end": 15,
-              "ctxt": 0
+              "end": 15
             },
             "name": {
               "type": "Identifier",
               "span": {
                 "start": 14,
-                "end": 15,
-                "ctxt": 0
+                "end": 15
               },
+              "ctxt": 0,
               "value": "T",
               "optional": false
             },
@@ -61,23 +57,21 @@
         "type": "TsConditionalType",
         "span": {
           "start": 19,
-          "end": 48,
-          "ctxt": 0
+          "end": 48
         },
         "checkType": {
           "type": "TsTypeReference",
           "span": {
             "start": 19,
-            "end": 20,
-            "ctxt": 0
+            "end": 20
           },
           "typeName": {
             "type": "Identifier",
             "span": {
               "start": 19,
-              "end": 20,
-              "ctxt": 0
+              "end": 20
             },
+            "ctxt": 0,
             "value": "T",
             "optional": false
           },
@@ -87,37 +81,33 @@
           "type": "TsArrayType",
           "span": {
             "start": 29,
-            "end": 40,
-            "ctxt": 0
+            "end": 40
           },
           "elemType": {
             "type": "TsParenthesizedType",
             "span": {
               "start": 29,
-              "end": 38,
-              "ctxt": 0
+              "end": 38
             },
             "typeAnnotation": {
               "type": "TsInferType",
               "span": {
                 "start": 30,
-                "end": 37,
-                "ctxt": 0
+                "end": 37
               },
               "typeParam": {
                 "type": "TsTypeParameter",
                 "span": {
                   "start": 36,
-                  "end": 37,
-                  "ctxt": 0
+                  "end": 37
                 },
                 "name": {
                   "type": "Identifier",
                   "span": {
                     "start": 36,
-                    "end": 37,
-                    "ctxt": 0
+                    "end": 37
                   },
+                  "ctxt": 0,
                   "value": "U",
                   "optional": false
                 },
@@ -134,16 +124,15 @@
           "type": "TsTypeReference",
           "span": {
             "start": 43,
-            "end": 44,
-            "ctxt": 0
+            "end": 44
           },
           "typeName": {
             "type": "Identifier",
             "span": {
               "start": 43,
-              "end": 44,
-              "ctxt": 0
+              "end": 44
             },
+            "ctxt": 0,
             "value": "U",
             "optional": false
           },
@@ -153,16 +142,15 @@
           "type": "TsTypeReference",
           "span": {
             "start": 47,
-            "end": 48,
-            "ctxt": 0
+            "end": 48
           },
           "typeName": {
             "type": "Identifier",
             "span": {
               "start": 47,
-              "end": 48,
-              "ctxt": 0
+              "end": 48
             },
+            "ctxt": 0,
             "value": "T",
             "optional": false
           },

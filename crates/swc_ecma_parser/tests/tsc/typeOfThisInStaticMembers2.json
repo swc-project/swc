@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 87,
-    "ctxt": 0
+    "end": 87
   },
   "body": [
     {
@@ -12,43 +11,39 @@
         "type": "Identifier",
         "span": {
           "start": 7,
-          "end": 8,
-          "ctxt": 0
+          "end": 8
         },
+        "ctxt": 0,
         "value": "C",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 1,
-        "end": 41,
-        "ctxt": 0
+        "end": 41
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassProperty",
           "span": {
             "start": 15,
-            "end": 33,
-            "ctxt": 0
+            "end": 33
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 22,
-              "end": 25,
-              "ctxt": 0
+              "end": 25
             },
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "value": {
             "type": "ThisExpression",
             "span": {
               "start": 28,
-              "end": 32,
-              "ctxt": 0
+              "end": 32
             }
           },
           "typeAnnotation": null,
@@ -75,43 +70,39 @@
         "type": "Identifier",
         "span": {
           "start": 49,
-          "end": 51,
-          "ctxt": 0
+          "end": 51
         },
+        "ctxt": 0,
         "value": "C2",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 43,
-        "end": 87,
-        "ctxt": 0
+        "end": 87
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassProperty",
           "span": {
             "start": 61,
-            "end": 79,
-            "ctxt": 0
+            "end": 79
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 68,
-              "end": 71,
-              "ctxt": 0
+              "end": 71
             },
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "value": {
             "type": "ThisExpression",
             "span": {
               "start": 74,
-              "end": 78,
-              "ctxt": 0
+              "end": 78
             }
           },
           "typeAnnotation": null,
@@ -132,24 +123,22 @@
         "type": "TsTypeParameterDeclaration",
         "span": {
           "start": 51,
-          "end": 54,
-          "ctxt": 0
+          "end": 54
         },
         "parameters": [
           {
             "type": "TsTypeParameter",
             "span": {
               "start": 52,
-              "end": 53,
-              "ctxt": 0
+              "end": 53
             },
             "name": {
               "type": "Identifier",
               "span": {
                 "start": 52,
-                "end": 53,
-                "ctxt": 0
+                "end": 53
               },
+              "ctxt": 0,
               "value": "T",
               "optional": false
             },

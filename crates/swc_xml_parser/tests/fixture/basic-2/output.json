@@ -2,16 +2,14 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 1605,
-    "ctxt": 0
+    "end": 1605
   },
   "children": [
     {
       "type": "ProcessingInstruction",
       "span": {
         "start": 1,
-        "end": 22,
-        "ctxt": 0
+        "end": 22
       },
       "target": "xml",
       "data": "version=\"1.0\""
@@ -20,8 +18,7 @@
       "type": "Element",
       "span": {
         "start": 23,
-        "end": 1605,
-        "ctxt": 0
+        "end": 1605
       },
       "tagName": "any_name",
       "attributes": [
@@ -29,8 +26,7 @@
           "type": "Attribute",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "namespace": null,
           "prefix": null,
@@ -45,8 +41,7 @@
           "type": "Text",
           "span": {
             "start": 69,
-            "end": 74,
-            "ctxt": 0
+            "end": 74
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -55,8 +50,7 @@
           "type": "Element",
           "span": {
             "start": 74,
-            "end": 880,
-            "ctxt": 0
+            "end": 880
           },
           "tagName": "person",
           "attributes": [
@@ -64,8 +58,7 @@
               "type": "Attribute",
               "span": {
                 "start": 0,
-                "end": 0,
-                "ctxt": 0
+                "end": 0
               },
               "namespace": null,
               "prefix": null,
@@ -80,8 +73,7 @@
               "type": "Text",
               "span": {
                 "start": 91,
-                "end": 100,
-                "ctxt": 0
+                "end": 100
               },
               "data": "\n        ",
               "raw": "\n        "
@@ -90,8 +82,7 @@
               "type": "Element",
               "span": {
                 "start": 100,
-                "end": 128,
-                "ctxt": 0
+                "end": 128
               },
               "tagName": "phone",
               "attributes": [],
@@ -100,8 +91,7 @@
                   "type": "Text",
                   "span": {
                     "start": 107,
-                    "end": 120,
-                    "ctxt": 0
+                    "end": 120
                   },
                   "data": "+122233344550",
                   "raw": "+122233344550"
@@ -112,8 +102,7 @@
               "type": "Text",
               "span": {
                 "start": 128,
-                "end": 137,
-                "ctxt": 0
+                "end": 137
               },
               "data": "\n        ",
               "raw": "\n        "
@@ -122,8 +111,7 @@
               "type": "Element",
               "span": {
                 "start": 137,
-                "end": 154,
-                "ctxt": 0
+                "end": 154
               },
               "tagName": "name",
               "attributes": [],
@@ -132,8 +120,7 @@
                   "type": "Text",
                   "span": {
                     "start": 143,
-                    "end": 147,
-                    "ctxt": 0
+                    "end": 147
                   },
                   "data": "Jack",
                   "raw": "Jack"
@@ -144,8 +131,7 @@
               "type": "Text",
               "span": {
                 "start": 154,
-                "end": 163,
-                "ctxt": 0
+                "end": 163
               },
               "data": "\n        ",
               "raw": "\n        "
@@ -154,8 +140,7 @@
               "type": "Element",
               "span": {
                 "start": 163,
-                "end": 191,
-                "ctxt": 0
+                "end": 191
               },
               "tagName": "phone",
               "attributes": [],
@@ -164,8 +149,7 @@
                   "type": "Text",
                   "span": {
                     "start": 170,
-                    "end": 183,
-                    "ctxt": 0
+                    "end": 183
                   },
                   "data": "+122233344551",
                   "raw": "+122233344551"
@@ -176,8 +160,7 @@
               "type": "Text",
               "span": {
                 "start": 191,
-                "end": 200,
-                "ctxt": 0
+                "end": 200
               },
               "data": "\n        ",
               "raw": "\n        "
@@ -186,8 +169,7 @@
               "type": "Element",
               "span": {
                 "start": 200,
-                "end": 213,
-                "ctxt": 0
+                "end": 213
               },
               "tagName": "age",
               "attributes": [],
@@ -196,8 +178,7 @@
                   "type": "Text",
                   "span": {
                     "start": 205,
-                    "end": 207,
-                    "ctxt": 0
+                    "end": 207
                   },
                   "data": "33",
                   "raw": "33"
@@ -208,8 +189,7 @@
               "type": "Text",
               "span": {
                 "start": 213,
-                "end": 222,
-                "ctxt": 0
+                "end": 222
               },
               "data": "\n        ",
               "raw": "\n        "
@@ -218,8 +198,7 @@
               "type": "Element",
               "span": {
                 "start": 222,
-                "end": 245,
-                "ctxt": 0
+                "end": 245
               },
               "tagName": "emptyNode",
               "attributes": [],
@@ -229,8 +208,7 @@
               "type": "Text",
               "span": {
                 "start": 245,
-                "end": 254,
-                "ctxt": 0
+                "end": 254
               },
               "data": "\n        ",
               "raw": "\n        "
@@ -239,8 +217,7 @@
               "type": "Element",
               "span": {
                 "start": 254,
-                "end": 286,
-                "ctxt": 0
+                "end": 286
               },
               "tagName": "booleanNode",
               "attributes": [],
@@ -249,8 +226,7 @@
                   "type": "Text",
                   "span": {
                     "start": 267,
-                    "end": 272,
-                    "ctxt": 0
+                    "end": 272
                   },
                   "data": "false",
                   "raw": "false"
@@ -261,8 +237,7 @@
               "type": "Text",
               "span": {
                 "start": 286,
-                "end": 295,
-                "ctxt": 0
+                "end": 295
               },
               "data": "\n        ",
               "raw": "\n        "
@@ -271,8 +246,7 @@
               "type": "Element",
               "span": {
                 "start": 295,
-                "end": 326,
-                "ctxt": 0
+                "end": 326
               },
               "tagName": "booleanNode",
               "attributes": [],
@@ -281,8 +255,7 @@
                   "type": "Text",
                   "span": {
                     "start": 308,
-                    "end": 312,
-                    "ctxt": 0
+                    "end": 312
                   },
                   "data": "true",
                   "raw": "true"
@@ -293,8 +266,7 @@
               "type": "Text",
               "span": {
                 "start": 326,
-                "end": 335,
-                "ctxt": 0
+                "end": 335
               },
               "data": "\n        ",
               "raw": "\n        "
@@ -303,8 +275,7 @@
               "type": "Element",
               "span": {
                 "start": 335,
-                "end": 350,
-                "ctxt": 0
+                "end": 350
               },
               "tagName": "selfclosing",
               "attributes": [],
@@ -314,8 +285,7 @@
               "type": "Text",
               "span": {
                 "start": 350,
-                "end": 359,
-                "ctxt": 0
+                "end": 359
               },
               "data": "\n        ",
               "raw": "\n        "
@@ -324,8 +294,7 @@
               "type": "Element",
               "span": {
                 "start": 359,
-                "end": 387,
-                "ctxt": 0
+                "end": 387
               },
               "tagName": "selfclosing",
               "attributes": [
@@ -333,8 +302,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 0,
-                    "end": 0,
-                    "ctxt": 0
+                    "end": 0
                   },
                   "namespace": null,
                   "prefix": null,
@@ -350,8 +318,7 @@
               "type": "Text",
               "span": {
                 "start": 387,
-                "end": 396,
-                "ctxt": 0
+                "end": 396
               },
               "data": "\n        ",
               "raw": "\n        "
@@ -360,8 +327,7 @@
               "type": "Element",
               "span": {
                 "start": 396,
-                "end": 446,
-                "ctxt": 0
+                "end": 446
               },
               "tagName": "married",
               "attributes": [
@@ -369,8 +335,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 0,
-                    "end": 0,
-                    "ctxt": 0
+                    "end": 0
                   },
                   "namespace": null,
                   "prefix": null,
@@ -383,8 +348,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 0,
-                    "end": 0,
-                    "ctxt": 0
+                    "end": 0
                   },
                   "namespace": null,
                   "prefix": null,
@@ -399,8 +363,7 @@
                   "type": "Text",
                   "span": {
                     "start": 433,
-                    "end": 436,
-                    "ctxt": 0
+                    "end": 436
                   },
                   "data": "Yes",
                   "raw": "Yes"
@@ -411,8 +374,7 @@
               "type": "Text",
               "span": {
                 "start": 446,
-                "end": 455,
-                "ctxt": 0
+                "end": 455
               },
               "data": "\n        ",
               "raw": "\n        "
@@ -421,8 +383,7 @@
               "type": "Element",
               "span": {
                 "start": 455,
-                "end": 507,
-                "ctxt": 0
+                "end": 507
               },
               "tagName": "birthday",
               "attributes": [],
@@ -431,8 +392,7 @@
                   "type": "Text",
                   "span": {
                     "start": 465,
-                    "end": 496,
-                    "ctxt": 0
+                    "end": 496
                   },
                   "data": "Wed, 28 Mar 1979 12:13:14 +0300",
                   "raw": "Wed, 28 Mar 1979 12:13:14 +0300"
@@ -443,8 +403,7 @@
               "type": "Text",
               "span": {
                 "start": 507,
-                "end": 516,
-                "ctxt": 0
+                "end": 516
               },
               "data": "\n        ",
               "raw": "\n        "
@@ -453,8 +412,7 @@
               "type": "Element",
               "span": {
                 "start": 516,
-                "end": 686,
-                "ctxt": 0
+                "end": 686
               },
               "tagName": "address",
               "attributes": [],
@@ -463,8 +421,7 @@
                   "type": "Text",
                   "span": {
                     "start": 525,
-                    "end": 538,
-                    "ctxt": 0
+                    "end": 538
                   },
                   "data": "\n            ",
                   "raw": "\n            "
@@ -473,8 +430,7 @@
                   "type": "Element",
                   "span": {
                     "start": 538,
-                    "end": 559,
-                    "ctxt": 0
+                    "end": 559
                   },
                   "tagName": "city",
                   "attributes": [],
@@ -483,8 +439,7 @@
                       "type": "Text",
                       "span": {
                         "start": 544,
-                        "end": 552,
-                        "ctxt": 0
+                        "end": 552
                       },
                       "data": "New York",
                       "raw": "New York"
@@ -495,8 +450,7 @@
                   "type": "Text",
                   "span": {
                     "start": 559,
-                    "end": 572,
-                    "ctxt": 0
+                    "end": 572
                   },
                   "data": "\n            ",
                   "raw": "\n            "
@@ -505,8 +459,7 @@
                   "type": "Element",
                   "span": {
                     "start": 572,
-                    "end": 597,
-                    "ctxt": 0
+                    "end": 597
                   },
                   "tagName": "street",
                   "attributes": [],
@@ -515,8 +468,7 @@
                       "type": "Text",
                       "span": {
                         "start": 580,
-                        "end": 588,
-                        "ctxt": 0
+                        "end": 588
                       },
                       "data": "Park Ave",
                       "raw": "Park Ave"
@@ -527,8 +479,7 @@
                   "type": "Text",
                   "span": {
                     "start": 597,
-                    "end": 610,
-                    "ctxt": 0
+                    "end": 610
                   },
                   "data": "\n            ",
                   "raw": "\n            "
@@ -537,8 +488,7 @@
                   "type": "Element",
                   "span": {
                     "start": 610,
-                    "end": 636,
-                    "ctxt": 0
+                    "end": 636
                   },
                   "tagName": "buildingNo",
                   "attributes": [],
@@ -547,8 +497,7 @@
                       "type": "Text",
                       "span": {
                         "start": 622,
-                        "end": 623,
-                        "ctxt": 0
+                        "end": 623
                       },
                       "data": "1",
                       "raw": "1"
@@ -559,8 +508,7 @@
                   "type": "Text",
                   "span": {
                     "start": 636,
-                    "end": 649,
-                    "ctxt": 0
+                    "end": 649
                   },
                   "data": "\n            ",
                   "raw": "\n            "
@@ -569,8 +517,7 @@
                   "type": "Element",
                   "span": {
                     "start": 649,
-                    "end": 667,
-                    "ctxt": 0
+                    "end": 667
                   },
                   "tagName": "flatNo",
                   "attributes": [],
@@ -579,8 +526,7 @@
                       "type": "Text",
                       "span": {
                         "start": 657,
-                        "end": 658,
-                        "ctxt": 0
+                        "end": 658
                       },
                       "data": "1",
                       "raw": "1"
@@ -591,8 +537,7 @@
                   "type": "Text",
                   "span": {
                     "start": 667,
-                    "end": 676,
-                    "ctxt": 0
+                    "end": 676
                   },
                   "data": "\n        ",
                   "raw": "\n        "
@@ -603,8 +548,7 @@
               "type": "Text",
               "span": {
                 "start": 686,
-                "end": 695,
-                "ctxt": 0
+                "end": 695
               },
               "data": "\n        ",
               "raw": "\n        "
@@ -613,8 +557,7 @@
               "type": "Element",
               "span": {
                 "start": 695,
-                "end": 866,
-                "ctxt": 0
+                "end": 866
               },
               "tagName": "address",
               "attributes": [],
@@ -623,8 +566,7 @@
                   "type": "Text",
                   "span": {
                     "start": 704,
-                    "end": 717,
-                    "ctxt": 0
+                    "end": 717
                   },
                   "data": "\n            ",
                   "raw": "\n            "
@@ -633,8 +575,7 @@
                   "type": "Element",
                   "span": {
                     "start": 717,
-                    "end": 736,
-                    "ctxt": 0
+                    "end": 736
                   },
                   "tagName": "city",
                   "attributes": [],
@@ -643,8 +584,7 @@
                       "type": "Text",
                       "span": {
                         "start": 723,
-                        "end": 729,
-                        "ctxt": 0
+                        "end": 729
                       },
                       "data": "Boston",
                       "raw": "Boston"
@@ -655,8 +595,7 @@
                   "type": "Text",
                   "span": {
                     "start": 736,
-                    "end": 749,
-                    "ctxt": 0
+                    "end": 749
                   },
                   "data": "\n            ",
                   "raw": "\n            "
@@ -665,8 +604,7 @@
                   "type": "Element",
                   "span": {
                     "start": 749,
-                    "end": 775,
-                    "ctxt": 0
+                    "end": 775
                   },
                   "tagName": "street",
                   "attributes": [],
@@ -675,8 +613,7 @@
                       "type": "Text",
                       "span": {
                         "start": 757,
-                        "end": 766,
-                        "ctxt": 0
+                        "end": 766
                       },
                       "data": "Centre St",
                       "raw": "Centre St"
@@ -687,8 +624,7 @@
                   "type": "Text",
                   "span": {
                     "start": 775,
-                    "end": 788,
-                    "ctxt": 0
+                    "end": 788
                   },
                   "data": "\n            ",
                   "raw": "\n            "
@@ -697,8 +633,7 @@
                   "type": "Element",
                   "span": {
                     "start": 788,
-                    "end": 815,
-                    "ctxt": 0
+                    "end": 815
                   },
                   "tagName": "buildingNo",
                   "attributes": [],
@@ -707,8 +642,7 @@
                       "type": "Text",
                       "span": {
                         "start": 800,
-                        "end": 802,
-                        "ctxt": 0
+                        "end": 802
                       },
                       "data": "33",
                       "raw": "33"
@@ -719,8 +653,7 @@
                   "type": "Text",
                   "span": {
                     "start": 815,
-                    "end": 828,
-                    "ctxt": 0
+                    "end": 828
                   },
                   "data": "\n            ",
                   "raw": "\n            "
@@ -729,8 +662,7 @@
                   "type": "Element",
                   "span": {
                     "start": 828,
-                    "end": 847,
-                    "ctxt": 0
+                    "end": 847
                   },
                   "tagName": "flatNo",
                   "attributes": [],
@@ -739,8 +671,7 @@
                       "type": "Text",
                       "span": {
                         "start": 836,
-                        "end": 838,
-                        "ctxt": 0
+                        "end": 838
                       },
                       "data": "24",
                       "raw": "24"
@@ -751,8 +682,7 @@
                   "type": "Text",
                   "span": {
                     "start": 847,
-                    "end": 856,
-                    "ctxt": 0
+                    "end": 856
                   },
                   "data": "\n        ",
                   "raw": "\n        "
@@ -763,8 +693,7 @@
               "type": "Text",
               "span": {
                 "start": 866,
-                "end": 871,
-                "ctxt": 0
+                "end": 871
               },
               "data": "\n    ",
               "raw": "\n    "
@@ -775,8 +704,7 @@
           "type": "Text",
           "span": {
             "start": 880,
-            "end": 885,
-            "ctxt": 0
+            "end": 885
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -785,8 +713,7 @@
           "type": "Element",
           "span": {
             "start": 885,
-            "end": 1593,
-            "ctxt": 0
+            "end": 1593
           },
           "tagName": "person",
           "attributes": [
@@ -794,8 +721,7 @@
               "type": "Attribute",
               "span": {
                 "start": 0,
-                "end": 0,
-                "ctxt": 0
+                "end": 0
               },
               "namespace": null,
               "prefix": null,
@@ -810,8 +736,7 @@
               "type": "Text",
               "span": {
                 "start": 902,
-                "end": 911,
-                "ctxt": 0
+                "end": 911
               },
               "data": "\n        ",
               "raw": "\n        "
@@ -820,8 +745,7 @@
               "type": "Element",
               "span": {
                 "start": 911,
-                "end": 939,
-                "ctxt": 0
+                "end": 939
               },
               "tagName": "phone",
               "attributes": [],
@@ -830,8 +754,7 @@
                   "type": "Text",
                   "span": {
                     "start": 918,
-                    "end": 931,
-                    "ctxt": 0
+                    "end": 931
                   },
                   "data": "+122233344553",
                   "raw": "+122233344553"
@@ -842,8 +765,7 @@
               "type": "Text",
               "span": {
                 "start": 939,
-                "end": 948,
-                "ctxt": 0
+                "end": 948
               },
               "data": "\n        ",
               "raw": "\n        "
@@ -852,8 +774,7 @@
               "type": "Element",
               "span": {
                 "start": 948,
-                "end": 966,
-                "ctxt": 0
+                "end": 966
               },
               "tagName": "name",
               "attributes": [],
@@ -862,8 +783,7 @@
                   "type": "Text",
                   "span": {
                     "start": 954,
-                    "end": 959,
-                    "ctxt": 0
+                    "end": 959
                   },
                   "data": "Boris",
                   "raw": "Boris"
@@ -874,8 +794,7 @@
               "type": "Text",
               "span": {
                 "start": 966,
-                "end": 975,
-                "ctxt": 0
+                "end": 975
               },
               "data": "\n        ",
               "raw": "\n        "
@@ -884,8 +803,7 @@
               "type": "Element",
               "span": {
                 "start": 975,
-                "end": 1003,
-                "ctxt": 0
+                "end": 1003
               },
               "tagName": "phone",
               "attributes": [],
@@ -894,8 +812,7 @@
                   "type": "Text",
                   "span": {
                     "start": 982,
-                    "end": 995,
-                    "ctxt": 0
+                    "end": 995
                   },
                   "data": "+122233344554",
                   "raw": "+122233344554"
@@ -906,8 +823,7 @@
               "type": "Text",
               "span": {
                 "start": 1003,
-                "end": 1012,
-                "ctxt": 0
+                "end": 1012
               },
               "data": "\n        ",
               "raw": "\n        "
@@ -916,8 +832,7 @@
               "type": "Element",
               "span": {
                 "start": 1012,
-                "end": 1025,
-                "ctxt": 0
+                "end": 1025
               },
               "tagName": "age",
               "attributes": [],
@@ -926,8 +841,7 @@
                   "type": "Text",
                   "span": {
                     "start": 1017,
-                    "end": 1019,
-                    "ctxt": 0
+                    "end": 1019
                   },
                   "data": "34",
                   "raw": "34"
@@ -938,8 +852,7 @@
               "type": "Text",
               "span": {
                 "start": 1025,
-                "end": 1026,
-                "ctxt": 0
+                "end": 1026
               },
               "data": "\n",
               "raw": "\n"
@@ -948,8 +861,7 @@
               "type": "Comment",
               "span": {
                 "start": 1026,
-                "end": 1128,
-                "ctxt": 0
+                "end": 1128
               },
               "data": "    TODO    <married ns:firstTime=\"Yes\"><![CDATA[<some>Jack</some>]]><![CDATA[Jack]]></married>",
               "raw": "<!--    TODO    <married ns:firstTime=\"Yes\"><![CDATA[<some>Jack</some>]]><![CDATA[Jack]]></married>-->"
@@ -958,8 +870,7 @@
               "type": "Text",
               "span": {
                 "start": 1128,
-                "end": 1137,
-                "ctxt": 0
+                "end": 1137
               },
               "data": "\n        ",
               "raw": "\n        "
@@ -968,8 +879,7 @@
               "type": "Element",
               "span": {
                 "start": 1137,
-                "end": 1189,
-                "ctxt": 0
+                "end": 1189
               },
               "tagName": "birthday",
               "attributes": [],
@@ -978,8 +888,7 @@
                   "type": "Text",
                   "span": {
                     "start": 1147,
-                    "end": 1178,
-                    "ctxt": 0
+                    "end": 1178
                   },
                   "data": "Mon, 31 Aug 1970 02:03:04 +0300",
                   "raw": "Mon, 31 Aug 1970 02:03:04 +0300"
@@ -990,8 +899,7 @@
               "type": "Text",
               "span": {
                 "start": 1189,
-                "end": 1198,
-                "ctxt": 0
+                "end": 1198
               },
               "data": "\n        ",
               "raw": "\n        "
@@ -1000,8 +908,7 @@
               "type": "Element",
               "span": {
                 "start": 1198,
-                "end": 1405,
-                "ctxt": 0
+                "end": 1405
               },
               "tagName": "ns:address",
               "attributes": [],
@@ -1010,8 +917,7 @@
                   "type": "Text",
                   "span": {
                     "start": 1210,
-                    "end": 1211,
-                    "ctxt": 0
+                    "end": 1211
                   },
                   "data": "\n",
                   "raw": "\n"
@@ -1020,8 +926,7 @@
                   "type": "Comment",
                   "span": {
                     "start": 1211,
-                    "end": 1276,
-                    "ctxt": 0
+                    "end": 1276
                   },
                   "data": "    TODO        <city><![CDATA[<some>Jack</some>]]></city>",
                   "raw": "<!--    TODO        <city><![CDATA[<some>Jack</some>]]></city>-->"
@@ -1030,8 +935,7 @@
                   "type": "Text",
                   "span": {
                     "start": 1276,
-                    "end": 1289,
-                    "ctxt": 0
+                    "end": 1289
                   },
                   "data": "\n            ",
                   "raw": "\n            "
@@ -1040,8 +944,7 @@
                   "type": "Element",
                   "span": {
                     "start": 1289,
-                    "end": 1313,
-                    "ctxt": 0
+                    "end": 1313
                   },
                   "tagName": "street",
                   "attributes": [],
@@ -1050,8 +953,7 @@
                       "type": "Text",
                       "span": {
                         "start": 1297,
-                        "end": 1304,
-                        "ctxt": 0
+                        "end": 1304
                       },
                       "data": "Kahovka",
                       "raw": "Kahovka"
@@ -1062,8 +964,7 @@
                   "type": "Text",
                   "span": {
                     "start": 1313,
-                    "end": 1326,
-                    "ctxt": 0
+                    "end": 1326
                   },
                   "data": "\n            ",
                   "raw": "\n            "
@@ -1072,8 +973,7 @@
                   "type": "Element",
                   "span": {
                     "start": 1326,
-                    "end": 1352,
-                    "ctxt": 0
+                    "end": 1352
                   },
                   "tagName": "buildingNo",
                   "attributes": [],
@@ -1082,8 +982,7 @@
                       "type": "Text",
                       "span": {
                         "start": 1338,
-                        "end": 1339,
-                        "ctxt": 0
+                        "end": 1339
                       },
                       "data": "1",
                       "raw": "1"
@@ -1094,8 +993,7 @@
                   "type": "Text",
                   "span": {
                     "start": 1352,
-                    "end": 1365,
-                    "ctxt": 0
+                    "end": 1365
                   },
                   "data": "\n            ",
                   "raw": "\n            "
@@ -1104,8 +1002,7 @@
                   "type": "Element",
                   "span": {
                     "start": 1365,
-                    "end": 1383,
-                    "ctxt": 0
+                    "end": 1383
                   },
                   "tagName": "flatNo",
                   "attributes": [],
@@ -1114,8 +1011,7 @@
                       "type": "Text",
                       "span": {
                         "start": 1373,
-                        "end": 1374,
-                        "ctxt": 0
+                        "end": 1374
                       },
                       "data": "2",
                       "raw": "2"
@@ -1126,8 +1022,7 @@
                   "type": "Text",
                   "span": {
                     "start": 1383,
-                    "end": 1392,
-                    "ctxt": 0
+                    "end": 1392
                   },
                   "data": "\n        ",
                   "raw": "\n        "
@@ -1138,8 +1033,7 @@
               "type": "Text",
               "span": {
                 "start": 1405,
-                "end": 1414,
-                "ctxt": 0
+                "end": 1414
               },
               "data": "\n        ",
               "raw": "\n        "
@@ -1148,8 +1042,7 @@
               "type": "Element",
               "span": {
                 "start": 1414,
-                "end": 1579,
-                "ctxt": 0
+                "end": 1579
               },
               "tagName": "address",
               "attributes": [],
@@ -1158,8 +1051,7 @@
                   "type": "Text",
                   "span": {
                     "start": 1423,
-                    "end": 1436,
-                    "ctxt": 0
+                    "end": 1436
                   },
                   "data": "\n            ",
                   "raw": "\n            "
@@ -1168,8 +1060,7 @@
                   "type": "Element",
                   "span": {
                     "start": 1436,
-                    "end": 1453,
-                    "ctxt": 0
+                    "end": 1453
                   },
                   "tagName": "city",
                   "attributes": [],
@@ -1178,8 +1069,7 @@
                       "type": "Text",
                       "span": {
                         "start": 1442,
-                        "end": 1446,
-                        "ctxt": 0
+                        "end": 1446
                       },
                       "data": "Tula",
                       "raw": "Tula"
@@ -1190,8 +1080,7 @@
                   "type": "Text",
                   "span": {
                     "start": 1453,
-                    "end": 1466,
-                    "ctxt": 0
+                    "end": 1466
                   },
                   "data": "\n            ",
                   "raw": "\n            "
@@ -1200,8 +1089,7 @@
                   "type": "Element",
                   "span": {
                     "start": 1466,
-                    "end": 1489,
-                    "ctxt": 0
+                    "end": 1489
                   },
                   "tagName": "street",
                   "attributes": [],
@@ -1210,8 +1098,7 @@
                       "type": "Text",
                       "span": {
                         "start": 1474,
-                        "end": 1480,
-                        "ctxt": 0
+                        "end": 1480
                       },
                       "data": "Lenina",
                       "raw": "Lenina"
@@ -1222,8 +1109,7 @@
                   "type": "Text",
                   "span": {
                     "start": 1489,
-                    "end": 1502,
-                    "ctxt": 0
+                    "end": 1502
                   },
                   "data": "\n            ",
                   "raw": "\n            "
@@ -1232,8 +1118,7 @@
                   "type": "Element",
                   "span": {
                     "start": 1502,
-                    "end": 1528,
-                    "ctxt": 0
+                    "end": 1528
                   },
                   "tagName": "buildingNo",
                   "attributes": [],
@@ -1242,8 +1127,7 @@
                       "type": "Text",
                       "span": {
                         "start": 1514,
-                        "end": 1515,
-                        "ctxt": 0
+                        "end": 1515
                       },
                       "data": "3",
                       "raw": "3"
@@ -1254,8 +1138,7 @@
                   "type": "Text",
                   "span": {
                     "start": 1528,
-                    "end": 1541,
-                    "ctxt": 0
+                    "end": 1541
                   },
                   "data": "\n            ",
                   "raw": "\n            "
@@ -1264,8 +1147,7 @@
                   "type": "Element",
                   "span": {
                     "start": 1541,
-                    "end": 1560,
-                    "ctxt": 0
+                    "end": 1560
                   },
                   "tagName": "flatNo",
                   "attributes": [],
@@ -1274,8 +1156,7 @@
                       "type": "Text",
                       "span": {
                         "start": 1549,
-                        "end": 1551,
-                        "ctxt": 0
+                        "end": 1551
                       },
                       "data": "78",
                       "raw": "78"
@@ -1286,8 +1167,7 @@
                   "type": "Text",
                   "span": {
                     "start": 1560,
-                    "end": 1569,
-                    "ctxt": 0
+                    "end": 1569
                   },
                   "data": "\n        ",
                   "raw": "\n        "
@@ -1298,8 +1178,7 @@
               "type": "Text",
               "span": {
                 "start": 1579,
-                "end": 1584,
-                "ctxt": 0
+                "end": 1584
               },
               "data": "\n    ",
               "raw": "\n    "
@@ -1310,8 +1189,7 @@
           "type": "Text",
           "span": {
             "start": 1593,
-            "end": 1594,
-            "ctxt": 0
+            "end": 1594
           },
           "data": "\n",
           "raw": "\n"

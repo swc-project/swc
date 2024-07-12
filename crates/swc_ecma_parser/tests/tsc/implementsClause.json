@@ -2,31 +2,28 @@
   "type": "Module",
   "span": {
     "start": 24,
-    "end": 328,
-    "ctxt": 0
+    "end": 328
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
         "start": 24,
-        "end": 53,
-        "ctxt": 0
+        "end": 53
       },
       "declaration": {
         "type": "TsInterfaceDeclaration",
         "span": {
           "start": 31,
-          "end": 53,
-          "ctxt": 0
+          "end": 53
         },
         "id": {
           "type": "Identifier",
           "span": {
             "start": 41,
-            "end": 50,
-            "ctxt": 0
+            "end": 50
           },
+          "ctxt": 0,
           "value": "Component",
           "optional": false
         },
@@ -37,8 +34,7 @@
           "type": "TsInterfaceBody",
           "span": {
             "start": 51,
-            "end": 53,
-            "ctxt": 0
+            "end": 53
           },
           "body": []
         }
@@ -48,24 +44,22 @@
       "type": "ImportDeclaration",
       "span": {
         "start": 75,
-        "end": 113,
-        "ctxt": 0
+        "end": 113
       },
       "specifiers": [
         {
           "type": "ImportNamespaceSpecifier",
           "span": {
             "start": 87,
-            "end": 97,
-            "ctxt": 0
+            "end": 97
           },
           "local": {
             "type": "Identifier",
             "span": {
               "start": 92,
-              "end": 97,
-              "ctxt": 0
+              "end": 97
             },
+            "ctxt": 0,
             "value": "types",
             "optional": false
           }
@@ -75,8 +69,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 103,
-          "end": 112,
-          "ctxt": 0
+          "end": 112
         },
         "value": "./types",
         "raw": "'./types'"
@@ -89,24 +82,22 @@
       "type": "ExportNamedDeclaration",
       "span": {
         "start": 114,
-        "end": 131,
-        "ctxt": 0
+        "end": 131
       },
       "specifiers": [
         {
           "type": "ExportSpecifier",
           "span": {
             "start": 123,
-            "end": 128,
-            "ctxt": 0
+            "end": 128
           },
           "orig": {
             "type": "Identifier",
             "span": {
               "start": 123,
-              "end": 128,
-              "ctxt": 0
+              "end": 128
             },
+            "ctxt": 0,
             "value": "types",
             "optional": false
           },
@@ -122,24 +113,22 @@
       "type": "ImportDeclaration",
       "span": {
         "start": 156,
-        "end": 194,
-        "ctxt": 0
+        "end": 194
       },
       "specifiers": [
         {
           "type": "ImportNamespaceSpecifier",
           "span": {
             "start": 168,
-            "end": 178,
-            "ctxt": 0
+            "end": 178
           },
           "local": {
             "type": "Identifier",
             "span": {
               "start": 173,
-              "end": 178,
-              "ctxt": 0
+              "end": 178
             },
+            "ctxt": 0,
             "value": "types",
             "optional": false
           }
@@ -149,8 +138,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 184,
-          "end": 193,
-          "ctxt": 0
+          "end": 193
         },
         "value": "./types",
         "raw": "'./types'"
@@ -163,24 +151,22 @@
       "type": "ImportDeclaration",
       "span": {
         "start": 195,
-        "end": 235,
-        "ctxt": 0
+        "end": 235
       },
       "specifiers": [
         {
           "type": "ImportNamespaceSpecifier",
           "span": {
             "start": 202,
-            "end": 222,
-            "ctxt": 0
+            "end": 222
           },
           "local": {
             "type": "Identifier",
             "span": {
               "start": 207,
-              "end": 222,
-              "ctxt": 0
+              "end": 222
             },
+            "ctxt": 0,
             "value": "nestedNamespace",
             "optional": false
           }
@@ -190,8 +176,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 228,
-          "end": 234,
-          "ctxt": 0
+          "end": 234
         },
         "value": "./ns",
         "raw": "'./ns'"
@@ -206,18 +191,18 @@
         "type": "Identifier",
         "span": {
           "start": 243,
-          "end": 244,
-          "ctxt": 0
+          "end": 244
         },
+        "ctxt": 0,
         "value": "C",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 237,
-        "end": 274,
-        "ctxt": 0
+        "end": 274
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [],
       "superClass": null,
@@ -229,23 +214,21 @@
           "type": "TsExpressionWithTypeArguments",
           "span": {
             "start": 256,
-            "end": 271,
-            "ctxt": 0
+            "end": 271
           },
           "expression": {
             "type": "MemberExpression",
             "span": {
               "start": 256,
-              "end": 271,
-              "ctxt": 0
+              "end": 271
             },
             "object": {
               "type": "Identifier",
               "span": {
                 "start": 256,
-                "end": 261,
-                "ctxt": 0
+                "end": 261
               },
+              "ctxt": 0,
               "value": "types",
               "optional": false
             },
@@ -253,11 +236,9 @@
               "type": "Identifier",
               "span": {
                 "start": 262,
-                "end": 271,
-                "ctxt": 0
+                "end": 271
               },
-              "value": "Component",
-              "optional": false
+              "value": "Component"
             }
           },
           "typeArguments": null
@@ -270,18 +251,18 @@
         "type": "Identifier",
         "span": {
           "start": 281,
-          "end": 282,
-          "ctxt": 0
+          "end": 282
         },
+        "ctxt": 0,
         "value": "D",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 275,
-        "end": 328,
-        "ctxt": 0
+        "end": 328
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [],
       "superClass": null,
@@ -293,30 +274,27 @@
           "type": "TsExpressionWithTypeArguments",
           "span": {
             "start": 294,
-            "end": 325,
-            "ctxt": 0
+            "end": 325
           },
           "expression": {
             "type": "MemberExpression",
             "span": {
               "start": 294,
-              "end": 325,
-              "ctxt": 0
+              "end": 325
             },
             "object": {
               "type": "MemberExpression",
               "span": {
                 "start": 294,
-                "end": 315,
-                "ctxt": 0
+                "end": 315
               },
               "object": {
                 "type": "Identifier",
                 "span": {
                   "start": 294,
-                  "end": 309,
-                  "ctxt": 0
+                  "end": 309
                 },
+                "ctxt": 0,
                 "value": "nestedNamespace",
                 "optional": false
               },
@@ -324,22 +302,18 @@
                 "type": "Identifier",
                 "span": {
                   "start": 310,
-                  "end": 315,
-                  "ctxt": 0
+                  "end": 315
                 },
-                "value": "types",
-                "optional": false
+                "value": "types"
               }
             },
             "property": {
               "type": "Identifier",
               "span": {
                 "start": 316,
-                "end": 325,
-                "ctxt": 0
+                "end": 325
               },
-              "value": "Component",
-              "optional": false
+              "value": "Component"
             }
           },
           "typeArguments": null

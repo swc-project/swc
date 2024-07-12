@@ -21,11 +21,11 @@ regex       = { workspace = true }
 serde       = { workspace = true, features = ["derive"] }
 
 swc_atoms = { version = "0.6.5", path = "../swc_atoms" }
-swc_common = { version = "0.34.0", path = "../swc_common", features = [
+swc_common = { version = "0.35.0", path = "../swc_common", features = [
   "concurrent",
 ] }
 swc_config = { version = "0.1.13", path = "../swc_config" }
-swc_ecma_ast = { version = "0.115.0", path = "../swc_ecma_ast", features = [
+swc_ecma_ast = { version = "0.116.0", path = "../swc_ecma_ast", features = [
   "serde",
 ] }
 swc_ecma_utils = { version = "0.131.0", path = "../swc_ecma_utils" }
@@ -35,7 +35,7 @@ swc_ecma_visit = { version = "0.102.0", path = "../swc_ecma_visit" }
 swc_ecma_codegen         = { version = "0.152.0", path = "../swc_ecma_codegen" }
 swc_ecma_parser          = { version = "0.147.0", path = "../swc_ecma_parser" }
 swc_ecma_transforms_base = { version = "0.141.0", path = "../swc_ecma_transforms_base" }
-testing                  = { version = "0.36.0", path = "../testing" }
+testing                  = { version = "0.37.0", path = "../testing" }
 
 [features]
 non_critical_lints = []

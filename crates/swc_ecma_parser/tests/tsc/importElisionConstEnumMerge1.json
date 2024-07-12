@@ -2,23 +2,20 @@
   "type": "Module",
   "span": {
     "start": 23,
-    "end": 245,
-    "ctxt": 0
+    "end": 245
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
         "start": 23,
-        "end": 60,
-        "ctxt": 0
+        "end": 60
       },
       "declaration": {
         "type": "TsEnumDeclaration",
         "span": {
           "start": 30,
-          "end": 60,
-          "ctxt": 0
+          "end": 60
         },
         "declare": false,
         "isConst": true,
@@ -26,9 +23,9 @@
           "type": "Identifier",
           "span": {
             "start": 41,
-            "end": 45,
-            "ctxt": 0
+            "end": 45
           },
+          "ctxt": 0,
           "value": "Enum",
           "optional": false
         },
@@ -37,16 +34,15 @@
             "type": "TsEnumMember",
             "span": {
               "start": 50,
-              "end": 57,
-              "ctxt": 0
+              "end": 57
             },
             "id": {
               "type": "Identifier",
               "span": {
                 "start": 50,
-                "end": 53,
-                "ctxt": 0
+                "end": 53
               },
+              "ctxt": 0,
               "value": "One",
               "optional": false
             },
@@ -54,8 +50,7 @@
               "type": "NumericLiteral",
               "span": {
                 "start": 56,
-                "end": 57,
-                "ctxt": 0
+                "end": 57
               },
               "value": 1.0,
               "raw": "1"
@@ -68,24 +63,22 @@
       "type": "ImportDeclaration",
       "span": {
         "start": 85,
-        "end": 115,
-        "ctxt": 0
+        "end": 115
       },
       "specifiers": [
         {
           "type": "ImportSpecifier",
           "span": {
             "start": 94,
-            "end": 98,
-            "ctxt": 0
+            "end": 98
           },
           "local": {
             "type": "Identifier",
             "span": {
               "start": 94,
-              "end": 98,
-              "ctxt": 0
+              "end": 98
             },
+            "ctxt": 0,
             "value": "Enum",
             "optional": false
           },
@@ -97,8 +90,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 106,
-          "end": 114,
-          "ctxt": 0
+          "end": 114
         },
         "value": "./enum",
         "raw": "\"./enum\""
@@ -111,8 +103,7 @@
       "type": "TsModuleDeclaration",
       "span": {
         "start": 116,
-        "end": 162,
-        "ctxt": 0
+        "end": 162
       },
       "declare": false,
       "global": false,
@@ -120,9 +111,9 @@
         "type": "Identifier",
         "span": {
           "start": 126,
-          "end": 130,
-          "ctxt": 0
+          "end": 130
         },
+        "ctxt": 0,
         "value": "Enum",
         "optional": false
       },
@@ -130,32 +121,29 @@
         "type": "TsModuleBlock",
         "span": {
           "start": 131,
-          "end": 162,
-          "ctxt": 0
+          "end": 162
         },
         "body": [
           {
             "type": "ExportDeclaration",
             "span": {
               "start": 135,
-              "end": 160,
-              "ctxt": 0
+              "end": 160
             },
             "declaration": {
               "type": "TsTypeAliasDeclaration",
               "span": {
                 "start": 142,
-                "end": 160,
-                "ctxt": 0
+                "end": 160
               },
               "declare": false,
               "id": {
                 "type": "Identifier",
                 "span": {
                   "start": 147,
-                  "end": 150,
-                  "ctxt": 0
+                  "end": 150
                 },
+                "ctxt": 0,
                 "value": "Foo",
                 "optional": false
               },
@@ -164,8 +152,7 @@
                 "type": "TsKeywordType",
                 "span": {
                   "start": 153,
-                  "end": 159,
-                  "ctxt": 0
+                  "end": 159
                 },
                 "kind": "number"
               }
@@ -178,24 +165,22 @@
       "type": "ExportNamedDeclaration",
       "span": {
         "start": 163,
-        "end": 179,
-        "ctxt": 0
+        "end": 179
       },
       "specifiers": [
         {
           "type": "ExportSpecifier",
           "span": {
             "start": 172,
-            "end": 176,
-            "ctxt": 0
+            "end": 176
           },
           "orig": {
             "type": "Identifier",
             "span": {
               "start": 172,
-              "end": 176,
-              "ctxt": 0
+              "end": 176
             },
+            "ctxt": 0,
             "value": "Enum",
             "optional": false
           },
@@ -211,24 +196,22 @@
       "type": "ImportDeclaration",
       "span": {
         "start": 204,
-        "end": 235,
-        "ctxt": 0
+        "end": 235
       },
       "specifiers": [
         {
           "type": "ImportSpecifier",
           "span": {
             "start": 213,
-            "end": 217,
-            "ctxt": 0
+            "end": 217
           },
           "local": {
             "type": "Identifier",
             "span": {
               "start": 213,
-              "end": 217,
-              "ctxt": 0
+              "end": 217
             },
+            "ctxt": 0,
             "value": "Enum",
             "optional": false
           },
@@ -240,8 +223,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 225,
-          "end": 234,
-          "ctxt": 0
+          "end": 234
         },
         "value": "./merge",
         "raw": "\"./merge\""
@@ -254,23 +236,21 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 236,
-        "end": 245,
-        "ctxt": 0
+        "end": 245
       },
       "expression": {
         "type": "MemberExpression",
         "span": {
           "start": 236,
-          "end": 244,
-          "ctxt": 0
+          "end": 244
         },
         "object": {
           "type": "Identifier",
           "span": {
             "start": 236,
-            "end": 240,
-            "ctxt": 0
+            "end": 240
           },
+          "ctxt": 0,
           "value": "Enum",
           "optional": false
         },
@@ -278,11 +258,9 @@
           "type": "Identifier",
           "span": {
             "start": 241,
-            "end": 244,
-            "ctxt": 0
+            "end": 244
           },
-          "value": "One",
-          "optional": false
+          "value": "One"
         }
       }
     }

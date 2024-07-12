@@ -2,23 +2,20 @@
   "type": "Script",
   "span": {
     "start": 80,
-    "end": 171,
-    "ctxt": 0
+    "end": 171
   },
   "body": [
     {
       "type": "IfStatement",
       "span": {
         "start": 80,
-        "end": 171,
-        "ctxt": 0
+        "end": 171
       },
       "test": {
         "type": "BooleanLiteral",
         "span": {
           "start": 84,
-          "end": 89,
-          "ctxt": 0
+          "end": 89
         },
         "value": false
       },
@@ -26,17 +23,17 @@
         "type": "BlockStatement",
         "span": {
           "start": 91,
-          "end": 171,
-          "ctxt": 0
+          "end": 171
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "VariableDeclaration",
             "span": {
               "start": 138,
-              "end": 169,
-              "ctxt": 0
+              "end": 169
             },
+            "ctxt": 0,
             "kind": "const",
             "declare": false,
             "declarations": [
@@ -44,16 +41,15 @@
                 "type": "VariableDeclarator",
                 "span": {
                   "start": 144,
-                  "end": 168,
-                  "ctxt": 0
+                  "end": 168
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
                     "start": 144,
-                    "end": 145,
-                    "ctxt": 0
+                    "end": 145
                   },
+                  "ctxt": 0,
                   "value": "x",
                   "optional": false,
                   "typeAnnotation": null
@@ -66,17 +62,16 @@
                       "type": "Parameter",
                       "span": {
                         "start": 158,
-                        "end": 159,
-                        "ctxt": 0
+                        "end": 159
                       },
                       "decorators": [],
                       "pat": {
                         "type": "Identifier",
                         "span": {
                           "start": 158,
-                          "end": 159,
-                          "ctxt": 0
+                          "end": 159
                         },
+                        "ctxt": 0,
                         "value": "s",
                         "optional": false,
                         "typeAnnotation": null
@@ -86,16 +81,16 @@
                   "decorators": [],
                   "span": {
                     "start": 148,
-                    "end": 168,
-                    "ctxt": 0
+                    "end": 168
                   },
+                  "ctxt": 0,
                   "body": {
                     "type": "BlockStatement",
                     "span": {
                       "start": 161,
-                      "end": 168,
-                      "ctxt": 0
+                      "end": 168
                     },
+                    "ctxt": 0,
                     "stmts": []
                   },
                   "generator": false,

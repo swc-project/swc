@@ -2,24 +2,22 @@
   "type": "Module",
   "span": {
     "start": 40,
-    "end": 330,
-    "ctxt": 0
+    "end": 330
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
         "start": 40,
-        "end": 64,
-        "ctxt": 0
+        "end": 64
       },
       "declaration": {
         "type": "VariableDeclaration",
         "span": {
           "start": 47,
-          "end": 64,
-          "ctxt": 0
+          "end": 64
         },
+        "ctxt": 0,
         "kind": "const",
         "declare": false,
         "declarations": [
@@ -27,16 +25,15 @@
             "type": "VariableDeclarator",
             "span": {
               "start": 53,
-              "end": 63,
-              "ctxt": 0
+              "end": 63
             },
             "id": {
               "type": "Identifier",
               "span": {
                 "start": 53,
-                "end": 59,
-                "ctxt": 0
+                "end": 59
               },
+              "ctxt": 0,
               "value": "COFFEE",
               "optional": false,
               "typeAnnotation": null
@@ -45,8 +42,7 @@
               "type": "NumericLiteral",
               "span": {
                 "start": 62,
-                "end": 63,
-                "ctxt": 0
+                "end": 63
               },
               "value": 0.0,
               "raw": "0"
@@ -60,16 +56,15 @@
       "type": "ExportDeclaration",
       "span": {
         "start": 65,
-        "end": 86,
-        "ctxt": 0
+        "end": 86
       },
       "declaration": {
         "type": "VariableDeclaration",
         "span": {
           "start": 72,
-          "end": 86,
-          "ctxt": 0
+          "end": 86
         },
+        "ctxt": 0,
         "kind": "const",
         "declare": false,
         "declarations": [
@@ -77,16 +72,15 @@
             "type": "VariableDeclarator",
             "span": {
               "start": 78,
-              "end": 85,
-              "ctxt": 0
+              "end": 85
             },
             "id": {
               "type": "Identifier",
               "span": {
                 "start": 78,
-                "end": 81,
-                "ctxt": 0
+                "end": 81
               },
+              "ctxt": 0,
               "value": "TEA",
               "optional": false,
               "typeAnnotation": null
@@ -95,8 +89,7 @@
               "type": "NumericLiteral",
               "span": {
                 "start": 84,
-                "end": 85,
-                "ctxt": 0
+                "end": 85
               },
               "value": 1.0,
               "raw": "1"
@@ -110,24 +103,22 @@
       "type": "ExportDeclaration",
       "span": {
         "start": 112,
-        "end": 138,
-        "ctxt": 0
+        "end": 138
       },
       "declaration": {
         "type": "TsTypeAliasDeclaration",
         "span": {
           "start": 119,
-          "end": 138,
-          "ctxt": 0
+          "end": 138
         },
         "declare": false,
         "id": {
           "type": "Identifier",
           "span": {
             "start": 124,
-            "end": 129,
-            "ctxt": 0
+            "end": 129
           },
+          "ctxt": 0,
           "value": "Drink",
           "optional": false
         },
@@ -136,23 +127,20 @@
           "type": "TsUnionType",
           "span": {
             "start": 132,
-            "end": 137,
-            "ctxt": 0
+            "end": 137
           },
           "types": [
             {
               "type": "TsLiteralType",
               "span": {
                 "start": 132,
-                "end": 133,
-                "ctxt": 0
+                "end": 133
               },
               "literal": {
                 "type": "NumericLiteral",
                 "span": {
                   "start": 132,
-                  "end": 133,
-                  "ctxt": 0
+                  "end": 133
                 },
                 "value": 0.0,
                 "raw": "0"
@@ -162,15 +150,13 @@
               "type": "TsLiteralType",
               "span": {
                 "start": 136,
-                "end": 137,
-                "ctxt": 0
+                "end": 137
               },
               "literal": {
                 "type": "NumericLiteral",
                 "span": {
                   "start": 136,
-                  "end": 137,
-                  "ctxt": 0
+                  "end": 137
                 },
                 "value": 1.0,
                 "raw": "1"
@@ -184,24 +170,22 @@
       "type": "ExportNamedDeclaration",
       "span": {
         "start": 139,
-        "end": 176,
-        "ctxt": 0
+        "end": 176
       },
       "specifiers": [
         {
           "type": "ExportNamespaceSpecifier",
           "span": {
             "start": 146,
-            "end": 156,
-            "ctxt": 0
+            "end": 156
           },
           "name": {
             "type": "Identifier",
             "span": {
               "start": 151,
-              "end": 156,
-              "ctxt": 0
+              "end": 156
             },
+            "ctxt": 0,
             "value": "Drink",
             "optional": false
           }
@@ -211,8 +195,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 162,
-          "end": 175,
-          "ctxt": 0
+          "end": 175
         },
         "value": "./constants",
         "raw": "\"./constants\""
@@ -224,24 +207,22 @@
       "type": "ImportDeclaration",
       "span": {
         "start": 202,
-        "end": 234,
-        "ctxt": 0
+        "end": 234
       },
       "specifiers": [
         {
           "type": "ImportSpecifier",
           "span": {
             "start": 211,
-            "end": 216,
-            "ctxt": 0
+            "end": 216
           },
           "local": {
             "type": "Identifier",
             "span": {
               "start": 211,
-              "end": 216,
-              "ctxt": 0
+              "end": 216
             },
+            "ctxt": 0,
             "value": "Drink",
             "optional": false
           },
@@ -253,8 +234,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 224,
-          "end": 233,
-          "ctxt": 0
+          "end": 233
         },
         "value": "./drink",
         "raw": "\"./drink\""
@@ -267,9 +247,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 303,
-        "end": 330,
-        "ctxt": 0
+        "end": 330
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -277,39 +257,36 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 309,
-            "end": 329,
-            "ctxt": 0
+            "end": 329
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 309,
-              "end": 310,
-              "ctxt": 0
+              "end": 310
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 310,
-                "end": 317,
-                "ctxt": 0
+                "end": 317
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
                   "start": 312,
-                  "end": 317,
-                  "ctxt": 0
+                  "end": 317
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
                     "start": 312,
-                    "end": 317,
-                    "ctxt": 0
+                    "end": 317
                   },
+                  "ctxt": 0,
                   "value": "Drink",
                   "optional": false
                 },
@@ -321,16 +298,15 @@
             "type": "MemberExpression",
             "span": {
               "start": 320,
-              "end": 329,
-              "ctxt": 0
+              "end": 329
             },
             "object": {
               "type": "Identifier",
               "span": {
                 "start": 320,
-                "end": 325,
-                "ctxt": 0
+                "end": 325
               },
+              "ctxt": 0,
               "value": "Drink",
               "optional": false
             },
@@ -338,11 +314,9 @@
               "type": "Identifier",
               "span": {
                 "start": 326,
-                "end": 329,
-                "ctxt": 0
+                "end": 329
               },
-              "value": "TEA",
-              "optional": false
+              "value": "TEA"
             }
           },
           "definite": false

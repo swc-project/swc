@@ -2,61 +2,55 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 9,
-    "ctxt": 0
+    "end": 9
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 9,
-        "ctxt": 0
+        "end": 9
       },
       "expression": {
         "type": "OptionalChainingExpression",
         "span": {
           "start": 1,
-          "end": 9,
-          "ctxt": 0
+          "end": 9
         },
         "optional": false,
         "base": {
           "type": "CallExpression",
           "span": {
             "start": 1,
-            "end": 9,
-            "ctxt": 0
+            "end": 9
           },
+          "ctxt": 0,
           "callee": {
             "type": "OptionalChainingExpression",
             "span": {
               "start": 1,
-              "end": 7,
-              "ctxt": 0
+              "end": 7
             },
             "optional": true,
             "base": {
               "type": "MemberExpression",
               "span": {
                 "start": 1,
-                "end": 7,
-                "ctxt": 0
+                "end": 7
               },
               "object": {
                 "type": "MemberExpression",
                 "span": {
                   "start": 1,
-                  "end": 4,
-                  "ctxt": 0
+                  "end": 4
                 },
                 "object": {
                   "type": "Identifier",
                   "span": {
                     "start": 1,
-                    "end": 2,
-                    "ctxt": 0
+                    "end": 2
                   },
+                  "ctxt": 0,
                   "value": "a",
                   "optional": false
                 },
@@ -64,22 +58,18 @@
                   "type": "Identifier",
                   "span": {
                     "start": 3,
-                    "end": 4,
-                    "ctxt": 0
+                    "end": 4
                   },
-                  "value": "b",
-                  "optional": false
+                  "value": "b"
                 }
               },
               "property": {
                 "type": "Identifier",
                 "span": {
                   "start": 6,
-                  "end": 7,
-                  "ctxt": 0
+                  "end": 7
                 },
-                "value": "c",
-                "optional": false
+                "value": "c"
               }
             }
           },

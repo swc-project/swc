@@ -21,7 +21,7 @@ fn marker(markers: &[(&str, Mark)]) -> Marker {
 impl Fold for Marker {
     fn fold_ident(&mut self, mut ident: Ident) -> Ident {
         if let Some(mark) = self.map.get(&ident.sym) {
-            ident.span = ident.span.apply_mark(*mark);
+            ident.ctxt = ident.ctxt.apply_mark(*mark);
         }
 
         ident
@@ -46,7 +46,7 @@ impl OnceMarker {
 impl Fold for OnceMarker {
     fn fold_ident(&mut self, mut ident: Ident) -> Ident {
         if let Some(marks) = self.map.get_mut(&ident.sym) {
-            ident.span = ident.span.apply_mark(marks.remove(0));
+            ident.ctxt = ident.ctxt.apply_mark(marks.remove(0));
         }
 
         ident
@@ -413,14 +413,13 @@ fn mark_root() {
             Ok(vec![
                 tester.parse_stmt("actual1.js", "var foo = 'bar';")?,
                 Stmt::Decl(Decl::Fn(FnDecl {
-                    ident: quote_ident!("Foo"),
+                    ident: quote_ident!("Foo").into(),
                     function: Box::new(Function {
                         span: DUMMY_SP,
                         is_async: false,
                         is_generator: false,
                         decorators: vec![],
                         body: Some(BlockStmt {
-                            span: DUMMY_SP,
                             stmts: vec![
                                 tester
                                     .parse_stmt("actual2.js", "var foo = 'foo';")?
@@ -430,10 +429,10 @@ fn mark_root() {
                                     "_define_property(this, 'bar', foo);",
                                 )?,
                             ],
+                            ..Default::default()
                         }),
                         params: vec![],
-                        type_params: Default::default(),
-                        return_type: Default::default(),
+                        ..Default::default()
                     }),
 
                     declare: false,
@@ -500,17 +499,17 @@ fn fn_args() {
             let mark2 = Mark::fresh(Mark::root());
 
             Ok(vec![Stmt::Decl(Decl::Fn(FnDecl {
-                ident: quote_ident!("Foo"),
+                ident: quote_ident!("Foo").into(),
                 function: Box::new(Function {
                     span: DUMMY_SP,
                     is_async: false,
                     is_generator: false,
                     decorators: vec![],
                     body: Some(BlockStmt {
-                        span: DUMMY_SP,
                         stmts: vec![tester
                             .parse_stmt("actual1.js", "_define_property(this, 'force', force);")?
                             .fold_with(&mut marker(&[("force", mark2)]))],
+                        ..Default::default()
                     }),
                     params: vec![Param {
                         span: DUMMY_SP,
@@ -518,8 +517,7 @@ fn fn_args() {
                         pat: quote_ident!("force").into(),
                     }
                     .fold_with(&mut marker(&[("force", mark1)]))],
-                    type_params: Default::default(),
-                    return_type: Default::default(),
+                    ..Default::default()
                 }),
 
                 declare: false,
@@ -541,14 +539,13 @@ fn block_in_fn() {
             let mark2 = Mark::fresh(mark1);
 
             Ok(vec![Stmt::Decl(Decl::Fn(FnDecl {
-                ident: quote_ident!("Foo"),
+                ident: quote_ident!("Foo").into(),
                 function: Box::new(Function {
                     span: DUMMY_SP,
                     is_async: false,
                     is_generator: false,
                     decorators: vec![],
                     body: Some(BlockStmt {
-                        span: DUMMY_SP,
                         stmts: vec![
                             tester
                                 .parse_stmt("actual1.js", "var bar;")?
@@ -557,10 +554,10 @@ fn block_in_fn() {
                                 .parse_stmt("actual2.js", "{ var bar; }")?
                                 .fold_with(&mut marker(&[("bar", mark2)])),
                         ],
+                        ..Default::default()
                     }),
                     params: vec![],
-                    type_params: Default::default(),
-                    return_type: Default::default(),
+                    ..Default::default()
                 }),
 
                 declare: false,
@@ -594,14 +591,13 @@ fn flat_in_fn() {
             let mark2 = Mark::fresh(mark1);
 
             Ok(vec![Stmt::Decl(Decl::Fn(FnDecl {
-                ident: quote_ident!("Foo"),
+                ident: quote_ident!("Foo").into(),
                 function: Box::new(Function {
                     span: DUMMY_SP,
                     is_async: false,
                     is_generator: false,
                     decorators: vec![],
                     body: Some(BlockStmt {
-                        span: DUMMY_SP,
                         stmts: vec![
                             tester
                                 .parse_stmt("actual1.js", "var bar;")?
@@ -610,10 +606,10 @@ fn flat_in_fn() {
                                 .parse_stmt("actual2.js", "var bar;")?
                                 .fold_with(&mut marker(&[("bar", mark2)])),
                         ],
+                        ..Default::default()
                     }),
                     params: vec![],
-                    type_params: Default::default(),
-                    return_type: Default::default(),
+                    ..Default::default()
                 }),
 
                 declare: false,
@@ -636,30 +632,38 @@ fn params_in_fn() {
             let mark2 = Mark::fresh(Mark::root());
 
             Ok(vec![Stmt::Decl(Decl::Fn(FnDecl {
-                ident: quote_ident!("Foo"),
+                ident: quote_ident!("Foo").into(),
                 function: Box::new(Function {
                     span: DUMMY_SP,
                     is_async: false,
                     is_generator: false,
                     decorators: vec![],
                     body: Some(BlockStmt {
-                        span: DUMMY_SP,
-                        stmts: vec![],
+                        ..Default::default()
                     }),
                     params: vec![
                         Param {
                             span: DUMMY_SP,
                             decorators: Default::default(),
-                            pat: Ident::new("param".into(), DUMMY_SP.apply_mark(mark1)).into(),
+                            pat: Ident::new(
+                                "param".into(),
+                                DUMMY_SP,
+                                SyntaxContext::empty().apply_mark(mark1),
+                            )
+                            .into(),
                         },
                         Param {
                             span: DUMMY_SP,
                             decorators: Default::default(),
-                            pat: Ident::new("param".into(), DUMMY_SP.apply_mark(mark2)).into(),
+                            pat: Ident::new(
+                                "param".into(),
+                                DUMMY_SP,
+                                SyntaxContext::empty().apply_mark(mark2),
+                            )
+                            .into(),
                         },
                     ],
-                    type_params: Default::default(),
-                    return_type: Default::default(),
+                    ..Default::default()
                 }),
 
                 declare: false,

@@ -2,23 +2,20 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 45,
-    "ctxt": 0
+    "end": 45
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
         "start": 1,
-        "end": 45,
-        "ctxt": 0
+        "end": 45
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 2,
-          "end": 10,
-          "ctxt": 0
+          "end": 10
         },
         "value": "document",
         "raw": "document"
@@ -27,23 +24,20 @@
         "type": "DocumentPrelude",
         "span": {
           "start": 11,
-          "end": 43,
-          "ctxt": 0
+          "end": 43
         },
         "matchingFunctions": [
           {
             "type": "Function",
             "span": {
               "start": 11,
-              "end": 42,
-              "ctxt": 0
+              "end": 42
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 11,
-                "end": 17,
-                "ctxt": 0
+                "end": 17
               },
               "value": "domain",
               "raw": "domain"
@@ -53,8 +47,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 18,
-                  "end": 22,
-                  "ctxt": 0
+                  "end": 22
                 },
                 "token": {
                   "Ident": {
@@ -67,8 +60,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 22,
-                  "end": 23,
-                  "ctxt": 0
+                  "end": 23
                 },
                 "token": "Colon"
               },
@@ -76,8 +68,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 23,
-                  "end": 24,
-                  "ctxt": 0
+                  "end": 24
                 },
                 "token": {
                   "Delim": {
@@ -89,8 +80,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 24,
-                  "end": 25,
-                  "ctxt": 0
+                  "end": 25
                 },
                 "token": {
                   "Delim": {
@@ -102,8 +92,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 25,
-                  "end": 28,
-                  "ctxt": 0
+                  "end": 28
                 },
                 "token": {
                   "Ident": {
@@ -116,8 +105,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 28,
-                  "end": 29,
-                  "ctxt": 0
+                  "end": 29
                 },
                 "token": {
                   "Delim": {
@@ -129,8 +117,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 29,
-                  "end": 36,
-                  "ctxt": 0
+                  "end": 36
                 },
                 "token": {
                   "Ident": {
@@ -143,8 +130,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 36,
-                  "end": 37,
-                  "ctxt": 0
+                  "end": 37
                 },
                 "token": {
                   "Delim": {
@@ -156,8 +142,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 37,
-                  "end": 40,
-                  "ctxt": 0
+                  "end": 40
                 },
                 "token": {
                   "Ident": {
@@ -170,8 +155,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 40,
-                  "end": 41,
-                  "ctxt": 0
+                  "end": 41
                 },
                 "token": {
                   "Delim": {
@@ -187,15 +171,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 43,
-          "end": 45,
-          "ctxt": 0
+          "end": 45
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 43,
-            "end": 44,
-            "ctxt": 0
+            "end": 44
           },
           "token": "LBrace"
         },

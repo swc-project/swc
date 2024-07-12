@@ -2,30 +2,26 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 50,
-    "ctxt": 0
+    "end": 50
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 50,
-        "ctxt": 0
+        "end": 50
       },
       "expression": {
         "type": "JSXFragment",
         "span": {
           "start": 1,
-          "end": 50,
-          "ctxt": 0
+          "end": 50
         },
         "opening": {
           "type": "JSXOpeningFragment",
           "span": {
             "start": 1,
-            "end": 3,
-            "ctxt": 0
+            "end": 3
           }
         },
         "children": [
@@ -33,8 +29,7 @@
             "type": "JSXText",
             "span": {
               "start": 3,
-              "end": 6,
-              "ctxt": 0
+              "end": 6
             },
             "value": "\n  ",
             "raw": "\n  "
@@ -43,15 +38,13 @@
             "type": "JSXFragment",
             "span": {
               "start": 6,
-              "end": 46,
-              "ctxt": 0
+              "end": 46
             },
             "opening": {
               "type": "JSXOpeningFragment",
               "span": {
                 "start": 6,
-                "end": 8,
-                "ctxt": 0
+                "end": 8
               }
             },
             "children": [
@@ -59,8 +52,7 @@
                 "type": "JSXText",
                 "span": {
                   "start": 8,
-                  "end": 13,
-                  "ctxt": 0
+                  "end": 13
                 },
                 "value": "\n    ",
                 "raw": "\n    "
@@ -69,15 +61,13 @@
                 "type": "JSXFragment",
                 "span": {
                   "start": 13,
-                  "end": 40,
-                  "ctxt": 0
+                  "end": 40
                 },
                 "opening": {
                   "type": "JSXOpeningFragment",
                   "span": {
                     "start": 13,
-                    "end": 15,
-                    "ctxt": 0
+                    "end": 15
                   }
                 },
                 "children": [
@@ -85,8 +75,7 @@
                     "type": "JSXText",
                     "span": {
                       "start": 15,
-                      "end": 37,
-                      "ctxt": 0
+                      "end": 37
                     },
                     "value": "\n      super deep\n    ",
                     "raw": "\n      super deep\n    "
@@ -96,8 +85,7 @@
                   "type": "JSXClosingFragment",
                   "span": {
                     "start": 37,
-                    "end": 40,
-                    "ctxt": 0
+                    "end": 40
                   }
                 }
               },
@@ -105,8 +93,7 @@
                 "type": "JSXText",
                 "span": {
                   "start": 40,
-                  "end": 43,
-                  "ctxt": 0
+                  "end": 43
                 },
                 "value": "\n  ",
                 "raw": "\n  "
@@ -116,8 +103,7 @@
               "type": "JSXClosingFragment",
               "span": {
                 "start": 43,
-                "end": 46,
-                "ctxt": 0
+                "end": 46
               }
             }
           },
@@ -125,8 +111,7 @@
             "type": "JSXText",
             "span": {
               "start": 46,
-              "end": 47,
-              "ctxt": 0
+              "end": 47
             },
             "value": "\n",
             "raw": "\n"
@@ -136,8 +121,7 @@
           "type": "JSXClosingFragment",
           "span": {
             "start": 47,
-            "end": 50,
-            "ctxt": 0
+            "end": 50
           }
         }
       }
