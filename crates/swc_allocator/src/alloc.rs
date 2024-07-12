@@ -6,7 +6,7 @@ use crate::Allocator;
 
 scoped_thread_local!(pub(crate) static ALLOC: Allocator);
 
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Default)]
 pub struct SwcAlloc {
     pub(crate) is_custom: bool,
 }

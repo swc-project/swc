@@ -42,3 +42,27 @@ impl<T: ?Sized> DerefMut for Box<T> {
         &mut self.0
     }
 }
+
+impl<T> serde::Serialize for Box<T>
+where
+    T: serde::Serialize,
+{
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        self.0.serialize(serializer)
+    }
+}
+
+impl<'de, T> serde::Deserialize<'de> for Box<T>
+where
+    T: serde::Deserialize<'de>,
+{
+    fn deserialize<D>(deserializer: D) -> Result<Box<T>, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        Ok(Box(allocator_api2::boxed::Box::deserialize(deserializer)?))
+    }
+}

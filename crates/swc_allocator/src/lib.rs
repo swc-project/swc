@@ -6,6 +6,7 @@ use alloc::{SwcAlloc, ALLOC};
 use std::ops::{Deref, DerefMut};
 
 use bumpalo::Bump;
+use serde_derive::{Deserialize, Serialize};
 
 mod alloc;
 pub mod boxed;
@@ -46,7 +47,7 @@ impl DerefMut for Allocator {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
 #[repr(transparent)]
 pub struct Vec<T>(allocator_api2::vec::Vec<T, SwcAlloc>);
 
