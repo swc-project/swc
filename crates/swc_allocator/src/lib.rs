@@ -6,6 +6,7 @@ use alloc::{SwcAlloc, ALLOC};
 use std::ops::{Deref, DerefMut};
 
 use bumpalo::Bump;
+use rkyv::vec::{ArchivedVec, VecResolver};
 use serde_derive::{Deserialize, Serialize};
 
 mod alloc;
@@ -80,50 +81,14 @@ impl<T> IntoIterator for Vec<T> {
     }
 }
 
-#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub struct String<'alloc>(bumpalo::collections::String<'alloc>);
+impl<T> rkyv::Archive for Vec<T>
+where
+    T: rkyv::Archive,
+{
+    type Archived = rkyv::vec::ArchivedVec<T::Archived>;
+    type Resolver = rkyv::vec::VecResolver;
 
-impl<'alloc> String<'alloc> {
-    #[inline(always)]
-    pub fn new(alloc: &'alloc Allocator) -> Self {
-        Self(bumpalo::collections::String::new_in(alloc))
-    }
-
-    #[inline(always)]
-    pub fn with_capacity(alloc: &'alloc Allocator, capacity: usize) -> Self {
-        Self(bumpalo::collections::String::with_capacity_in(
-            capacity, alloc,
-        ))
-    }
-}
-
-impl Deref for String<'_> {
-    type Target = str;
-
-    fn deref(&self) -> &str {
-        &self.0
-    }
-}
-
-impl DerefMut for String<'_> {
-    fn deref_mut(&mut self) -> &mut str {
-        &mut self.0
-    }
-}
-
-#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub enum CowStr<'alloc> {
-    Borrowed(&'alloc str),
-    Owned(String<'alloc>),
-}
-
-impl Deref for CowStr<'_> {
-    type Target = str;
-
-    fn deref(&self) -> &str {
-        match self {
-            CowStr::Borrowed(s) => s,
-            CowStr::Owned(s) => s,
-        }
+    unsafe fn resolve(&self, pos: usize, resolver: Self::Resolver, out: *mut Self::Archived) {
+        rkyv::vec::ArchivedVec::resolve_from_slice(self, pos, resolver, out);
     }
 }

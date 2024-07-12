@@ -1,5 +1,7 @@
 use std::ops::{Deref, DerefMut};
 
+use rkyv::Archived;
+
 use crate::alloc::{SwcAlloc, ALLOC};
 
 /// A special `Box` which has size of [`std::boxed::Box`] but **may** be
@@ -64,5 +66,17 @@ where
         D: serde::Deserializer<'de>,
     {
         Ok(Box(allocator_api2::boxed::Box::deserialize(deserializer)?))
+    }
+}
+
+impl<T> rkyv::Archive for Box<T>
+where
+    T: rkyv::Archive,
+{
+    type Archived = Archived<T>;
+    type Resolver = <T as rkyv::Archive>::Resolver;
+
+    unsafe fn resolve(&self, pos: usize, resolver: Self::Resolver, out: *mut Self::Archived) {
+        self.0.resolve(pos, resolver, out as *mut Archived<T>);
     }
 }
