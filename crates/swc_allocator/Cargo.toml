@@ -9,5 +9,10 @@ repository    = { workspace = true }
 version       = "0.1.1"
 
 [dependencies]
-bumpalo    = { workspace = true, features = ["boxed", "collections"] }
+allocator-api2 = { workspace = true }
+bumpalo = { workspace = true, features = [
+    "allocator-api2",
+    "boxed",
+    "collections",
+] }
 scoped-tls = { workspace = true }

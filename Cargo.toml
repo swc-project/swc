@@ -137,6 +137,7 @@ resolver = "2"
   wasm-bindgen-futures      = "0.4.41"
   wasmer                    = { version = "4.2.5", default-features = false }
   wasmer-wasix              = { version = "0.18.0", default-features = false }
+allocator-api2 = "0.2.18"
 
 [profile.release]
 # lto = true
