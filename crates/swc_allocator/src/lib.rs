@@ -36,31 +36,6 @@ impl DerefMut for Allocator {
 
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[repr(transparent)]
-pub struct Box<'alloc, T>(bumpalo::boxed::Box<'alloc, T>);
-
-impl<'alloc, T> Box<'alloc, T> {
-    #[inline(always)]
-    pub fn new(alloc: &'alloc Allocator, value: T) -> Self {
-        Self(bumpalo::boxed::Box::new_in(value, alloc))
-    }
-}
-
-impl<'alloc, T> Deref for Box<'alloc, T> {
-    type Target = T;
-
-    fn deref(&self) -> &T {
-        &self.0
-    }
-}
-
-impl<'alloc, T> DerefMut for Box<'alloc, T> {
-    fn deref_mut(&mut self) -> &mut T {
-        &mut self.0
-    }
-}
-
-#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
-#[repr(transparent)]
 pub struct Vec<'alloc, T>(bumpalo::collections::Vec<'alloc, T>);
 
 impl<'alloc, T> Vec<'alloc, T> {
