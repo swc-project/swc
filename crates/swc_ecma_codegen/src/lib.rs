@@ -719,7 +719,7 @@ where
 
         if self.cfg.minify {
             if num.value.is_infinite() && num.raw.is_some() {
-                value = num.value.to_string();
+                value = num.raw.clone().unwrap().to_string();
             } else {
                 value = minify_number(num.value);
             }
