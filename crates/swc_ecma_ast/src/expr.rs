@@ -169,7 +169,7 @@ pub enum Expr {
     Invalid(Invalid),
 }
 
-bridge_from!(Box<Expr>, Box<JSXElement>, JSXElement);
+bridge_from!(Expr, Box<JSXElement>, JSXElement);
 
 // Memory layout depends on the version of rustc.
 // #[cfg(target_pointer_width = "64")]
@@ -468,7 +468,6 @@ boxed_expr!(ParenExpr);
 boxed_expr!(JSXMemberExpr);
 boxed_expr!(JSXNamespacedName);
 boxed_expr!(JSXEmptyExpr);
-boxed_expr!(Box<JSXElement>);
 boxed_expr!(JSXFragment);
 boxed_expr!(TsTypeAssertion);
 boxed_expr!(TsSatisfiesExpr);
