@@ -9,6 +9,12 @@ use crate::{alloc::SwcAlloc, boxed::Box};
 #[repr(transparent)]
 pub struct Vec<T>(allocator_api2::vec::Vec<T, SwcAlloc>);
 
+impl<T> Vec<T> {
+    pub fn new() -> Self {
+        Default::default()
+    }
+}
+
 impl<T> Deref for Vec<T> {
     type Target = allocator_api2::vec::Vec<T, SwcAlloc>;
 
