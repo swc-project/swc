@@ -7,5 +7,5 @@
  3 |   }export function Button(props) {
    :                    ^^^|^^
    :                       `-- `Button` redefined here
- 3 |   return <button {...props} />;
+ 4 |   return <button {...props} />;
    `----

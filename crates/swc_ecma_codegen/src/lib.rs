@@ -718,7 +718,12 @@ where
         srcmap!(self, num, true);
 
         if self.cfg.minify {
-            value = minify_number(num.value);
+            if num.value.is_infinite() && num.raw.is_some() {
+                value = num.value.to_string();
+            } else {
+                value = minify_number(num.value);
+            }
+
             self.wr.write_str_lit(DUMMY_SP, &value)?;
         } else {
             match &num.raw {
