@@ -63,10 +63,8 @@ export function ast_grep() {
                 report_export_mismatch(tree.filename(), match);
             }
 
-            const export_as_lodash_length = `export { ${func_name} as _ }`.length;
-
             const export_start = match.range().start.index;
-            const export_end = export_start + export_as_lodash_length;
+            const export_end = match.range().end.index;
             source.update(
                 export_start,
                 export_end,
