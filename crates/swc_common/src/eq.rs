@@ -63,7 +63,7 @@ where
     }
 }
 
-impl<T> EqIgnoreSpan for swc_allocator::Vec<T>
+impl<T> EqIgnoreSpan for swc_allocator::vec::Vec<T>
 where
     T: EqIgnoreSpan,
 {

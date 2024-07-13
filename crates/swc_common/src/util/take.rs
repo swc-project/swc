@@ -64,8 +64,8 @@ where
     }
 }
 
-impl<T> Take for swc_allocator::Vec<T> {
+impl<T> Take for swc_allocator::vec::Vec<T> {
     fn dummy() -> Self {
-        swc_allocator::Vec::default()
+        Default::default()
     }
 }
