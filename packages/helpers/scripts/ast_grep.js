@@ -70,20 +70,6 @@ export function ast_grep() {
                 export_end,
                 `exports._ = exports.${func_name} = ${func_name};`,
             );
-
-            match
-                .findAll({
-                    rule: {
-                        pattern: func_name,
-                        kind: "identifier",
-                        inside: { kind: "assignment_expression", field: "left" },
-                    },
-                })
-                .forEach((match) => {
-                    const range = match.range();
-
-                    source.prependLeft(range.start.index, `exports._ = exports.${func_name} = `);
-                });
         } else {
             report_noexport(tree.filename(tree.filename()));
         }
