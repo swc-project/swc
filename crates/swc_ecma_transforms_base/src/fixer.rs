@@ -805,6 +805,14 @@ impl Fixer<'_> {
         let mut has_padding_value = false;
         match e {
             Expr::Bin(BinExpr { op: op!("in"), .. }) if self.in_for_stmt_head => {
+                // TODO:
+                // if the in expression is in a parentheses, we should not wrap it with a
+                // parentheses again. But the parentheses is added later,
+                // so we don't have enough information to detect it at this moment.
+                // Example:
+                // for(var a = 1 + (2 || b in c) in {});
+                //                 |~~~~~~~~~~~|
+                // this parentheses is removed by unwrap_expr and added again later
                 self.wrap(e);
             }
 
