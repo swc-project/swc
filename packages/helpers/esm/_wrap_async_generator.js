@@ -1,4 +1,4 @@
-import { _async_generator } from "./_async_generator.js";
+import { _ as _async_generator } from "./_async_generator.js";
 
 function _wrap_async_generator(fn) {
     return function() {

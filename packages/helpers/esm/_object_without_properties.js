@@ -1,4 +1,4 @@
-import { _object_without_properties_loose } from "./_object_without_properties_loose.js";
+import { _ as _object_without_properties_loose } from "./_object_without_properties_loose.js";
 
 function _object_without_properties(source, excluded) {
     if (source == null) return {};

@@ -1,4 +1,4 @@
-import { _super_prop_base } from "./_super_prop_base.js";
+import { _ as _super_prop_base } from "./_super_prop_base.js";
 
 function _get(target, property, receiver) {
     if (typeof Reflect !== "undefined" && Reflect.get) _get = Reflect.get;

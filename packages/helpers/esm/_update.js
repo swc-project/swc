@@ -1,5 +1,5 @@
-import { _get } from "./_get.js";
-import { _set } from "./_set.js";
+import { _ as _get } from "./_get.js";
+import { _ as _set } from "./_set.js";
 
 function _update(target, property, receiver, isStrict) {
     return {

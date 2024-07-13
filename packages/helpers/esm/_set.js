@@ -1,5 +1,5 @@
-import { _define_property } from "./_define_property.js";
-import { _super_prop_base } from "./_super_prop_base.js";
+import { _ as _define_property } from "./_define_property.js";
+import { _ as _super_prop_base } from "./_super_prop_base.js";
 
 function set(target, property, value, receiver) {
     if (typeof Reflect !== "undefined" && Reflect.set) set = Reflect.set;

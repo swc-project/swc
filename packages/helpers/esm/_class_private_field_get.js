@@ -1,5 +1,5 @@
-import { _class_apply_descriptor_get } from "./_class_apply_descriptor_get.js";
-import { _class_extract_field_descriptor } from "./_class_extract_field_descriptor.js";
+import { _ as _class_apply_descriptor_get } from "./_class_apply_descriptor_get.js";
+import { _ as _class_extract_field_descriptor } from "./_class_extract_field_descriptor.js";
 
 function _class_private_field_get(receiver, privateMap) {
     var descriptor = _class_extract_field_descriptor(receiver, privateMap, "get");

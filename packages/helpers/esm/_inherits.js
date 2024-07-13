@@ -1,4 +1,4 @@
-import { _set_prototype_of } from "./_set_prototype_of.js";
+import { _ as _set_prototype_of } from "./_set_prototype_of.js";
 
 function _inherits(subClass, superClass) {
     if (typeof superClass !== "function" && superClass !== null) {

@@ -1,7 +1,7 @@
-import { _construct } from "./_construct.js";
-import { _get_prototype_of } from "./_get_prototype_of.js";
-import { _is_native_function } from "./_is_native_function.js";
-import { _set_prototype_of } from "./_set_prototype_of.js";
+import { _ as _construct } from "./_construct.js";
+import { _ as _get_prototype_of } from "./_get_prototype_of.js";
+import { _ as _is_native_function } from "./_is_native_function.js";
+import { _ as _set_prototype_of } from "./_set_prototype_of.js";
 
 function _wrap_native_super(Class) {
     var _cache = typeof Map === "function" ? new Map() : undefined;

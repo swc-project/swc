@@ -1,4 +1,4 @@
-import { _define_property } from "./_define_property.js";
+import { _ as _define_property } from "./_define_property.js";
 
 function _object_spread(target) {
     for (var i = 1; i < arguments.length; i++) {
