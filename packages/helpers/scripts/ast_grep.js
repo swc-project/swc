@@ -8,8 +8,6 @@ import { root } from "./utils.js";
  * @typedef {import("@ast-grep/napi").SgNode} SgNode
  */
 
-const export_lentgh = "export".length;
-
 export function ast_grep() {
     const task_queue = [];
 
@@ -65,8 +63,10 @@ export function ast_grep() {
                 report_export_mismatch(tree.filename(), match);
             }
 
+            const export_as_lodash_length = `export { ${func_name} as _ }`.length;
+
             const export_start = match.range().start.index;
-            const export_end = export_start + export_lentgh;
+            const export_end = export_start + export_as_lodash_length;
             source.update(
                 export_start,
                 export_end,
@@ -86,19 +86,6 @@ export function ast_grep() {
 
                     source.prependLeft(range.start.index, `exports._ = exports.${func_name} = `);
                 });
-
-            const export_shortname = `export { ${func_name} as _ }`;
-
-            const export_alias = tree.root().find(export_shortname);
-
-            if (!export_alias) {
-                task_queue.push(
-                    fs.appendFile(tree.filename(), export_shortname, "utf-8"),
-                );
-            } else {
-                const range = export_alias.range();
-                source.remove(range.start.index, range.end.index);
-            }
         } else {
             report_noexport(tree.filename(tree.filename()));
         }
