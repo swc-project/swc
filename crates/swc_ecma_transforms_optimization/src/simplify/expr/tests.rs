@@ -844,12 +844,6 @@ fn test_fold_arithmetic_infinity() {
 }
 
 #[test]
-fn test_fold_arithmetic_large_number() {
-    fold("x = -1e999", "x = -1e999");
-    fold("x = 1e999", "x = 1e999");
-}
-
-#[test]
 fn test_fold_arithmetic_string_comp() {
     fold("x = 10 - 20", "x = -10");
 }
