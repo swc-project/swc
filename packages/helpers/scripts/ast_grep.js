@@ -21,21 +21,16 @@ export function ast_grep() {
         source.prepend(`"use strict";\n\n`);
 
         if (filename.startsWith("_ts")) {
-            const match = tree.root().find(`export { $NAME as _, $NAME as $ALIAS } from "tslib"`);
+            const match = tree.root().find(`export { $NAME as _ } from "tslib"`);
             if (match) {
                 const name = match.getMatch("NAME").text();
-                const alias = match.getMatch("ALIAS").text();
-
-                if (alias !== filename) {
-                    report_ts_mismatch(tree.filename(), match);
-                }
 
                 const range = match.range();
 
                 source.update(
                     range.start.index,
                     range.end.index,
-                    `exports._ = exports.${alias} = require("tslib").${name};`,
+                    `exports._ = require("tslib").${name};`,
                 );
                 task_queue.push(
                     fs.writeFile(root("cjs", `${filename}.cjs`), source.toString(), {
@@ -147,38 +142,6 @@ export function ast_grep() {
     task_queue.push(task);
 
     return task_queue;
-}
-
-/**
- * @param {string} filename
- * @param {SgNode} match
- */
-function report_ts_mismatch(filename, match) {
-    const range = match.getMatch("ALIAS").range();
-
-    errors.push(
-        [
-            `${chalk.bold.red("error")}: mismatch exported function name.`,
-            "",
-            `${chalk.blue("-->")} ${filename}:${match.range().start.line + 1}`,
-            "",
-            match.text(),
-            chalk.red(
-                [
-                    " ".repeat(range.start.column),
-                    "^".repeat(range.end.column - range.start.column),
-                ]
-                    .join(""),
-            ),
-            `${
-                chalk.bold(
-                    "note:",
-                )
-            } The exported name should be the same as the filename.`,
-            "",
-        ]
-            .join("\n"),
-    );
 }
 
 /**
