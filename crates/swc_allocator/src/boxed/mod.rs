@@ -1,6 +1,7 @@
 use std::ops::{Deref, DerefMut};
 
-use rkyv::Archived;
+mod rkyv;
+mod serde;
 
 use crate::alloc::SwcAlloc;
 
@@ -36,6 +37,10 @@ impl<T: ?Sized> Box<T> {
             SwcAlloc::default(),
         ))
     }
+
+    pub fn as_ref(&self) -> &T {
+        &self.0
+    }
 }
 
 impl<T: ?Sized> Deref for Box<T> {
@@ -49,41 +54,5 @@ impl<T: ?Sized> Deref for Box<T> {
 impl<T: ?Sized> DerefMut for Box<T> {
     fn deref_mut(&mut self) -> &mut T {
         &mut self.0
-    }
-}
-
-impl<T> serde::Serialize for Box<T>
-where
-    T: serde::Serialize,
-{
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        self.0.serialize(serializer)
-    }
-}
-
-impl<'de, T> serde::Deserialize<'de> for Box<T>
-where
-    T: serde::Deserialize<'de>,
-{
-    fn deserialize<D>(deserializer: D) -> Result<Box<T>, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        Ok(Box(allocator_api2::boxed::Box::deserialize(deserializer)?))
-    }
-}
-
-impl<T> rkyv::Archive for Box<T>
-where
-    T: rkyv::Archive,
-{
-    type Archived = Archived<T>;
-    type Resolver = <T as rkyv::Archive>::Resolver;
-
-    unsafe fn resolve(&self, pos: usize, resolver: Self::Resolver, out: *mut Self::Archived) {
-        self.0.resolve(pos, resolver, out as *mut Archived<T>);
     }
 }
