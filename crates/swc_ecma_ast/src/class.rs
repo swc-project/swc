@@ -1,5 +1,5 @@
 use is_macro::Is;
-use swc_allocator::{boxed::Box, Vec};
+use swc_allocator::{boxed::Box, vec::Vec};
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, SyntaxContext, DUMMY_SP};
 
 use crate::{
