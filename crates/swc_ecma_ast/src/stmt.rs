@@ -24,11 +24,7 @@ pub struct BlockStmt {
 
 impl Take for BlockStmt {
     fn dummy() -> Self {
-        BlockStmt {
-            span: DUMMY_SP,
-            stmts: vec![],
-            ctxt: Default::default(),
-        }
+        Default::default()
     }
 }
 
