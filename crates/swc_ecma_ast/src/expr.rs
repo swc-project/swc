@@ -529,7 +529,7 @@ impl ObjectLit {
     ///
     /// Returns [None] if this is not a valid for `with` of [crate::ImportDecl].
     pub fn as_import_with(&self) -> Option<ImportWith> {
-        let mut values = vec![];
+        let mut values = Vec::default();
         for prop in &self.props {
             match prop {
                 PropOrSpread::Spread(..) => return None,
@@ -1402,7 +1402,7 @@ impl TryFrom<Box<Pat>> for AssignTarget {
     type Error = Box<Pat>;
 
     fn try_from(p: Box<Pat>) -> Result<Self, Self::Error> {
-        (*p).try_into().map_err(Box::new)
+        p.unbox().try_into().map_err(Box::new)
     }
 }
 
