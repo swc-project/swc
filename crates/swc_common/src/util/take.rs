@@ -54,3 +54,18 @@ impl Take for Span {
         DUMMY_SP
     }
 }
+
+impl<T> Take for swc_allocator::boxed::Box<T>
+where
+    T: Take,
+{
+    fn dummy() -> Self {
+        swc_allocator::boxed::Box::new(T::dummy())
+    }
+}
+
+impl<T> Take for swc_allocator::Vec<T> {
+    fn dummy() -> Self {
+        swc_allocator::Vec::default()
+    }
+}
