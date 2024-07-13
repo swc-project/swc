@@ -437,7 +437,7 @@ bridge_expr_from!(ClassExpr, Class);
 
 macro_rules! boxed_expr {
     ($T:ty) => {
-        bridge_from!(Box<Expr>, Expr, $T);
+        bridge_into!(Box<Expr>, Expr, $T);
     };
 }
 
