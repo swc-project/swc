@@ -23,6 +23,20 @@ impl<T> From<T> for Box<T> {
     }
 }
 
+pub trait IntoBox<T>: Sized {
+    fn boxed(self) -> Box<T>;
+}
+
+impl<T, V> IntoBox<T> for V
+where
+    V: Into<T>,
+{
+    #[inline(always)]
+    fn boxed(self) -> Box<T> {
+        Box::new(self.into())
+    }
+}
+
 impl<T> Default for Box<T>
 where
     T: Default,
