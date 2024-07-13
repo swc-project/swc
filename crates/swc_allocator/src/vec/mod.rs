@@ -55,6 +55,14 @@ impl<'a, T> IntoIterator for &'a mut Vec<T> {
     }
 }
 
+impl<T> FromIterator<T> for Vec<T> {
+    fn from_iter<I: IntoIterator<Item = T>>(iter: I) -> Self {
+        let mut vec = Vec::default();
+        vec.extend(iter);
+        vec
+    }
+}
+
 impl<T> From<Box<[T]>> for Vec<T> {
     fn from(v: Box<[T]>) -> Self {
         Self(allocator_api2::vec::Vec::from(v.0))
