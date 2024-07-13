@@ -54,7 +54,7 @@ export function ast_grep() {
         const match = tree.root().find({
             rule: {
                 kind: "export_statement",
-                pattern: "export function $FUNC($$$){$$$}",
+                pattern: "export { $FUNC as _ }",
             },
         });
 
@@ -87,7 +87,7 @@ export function ast_grep() {
                     source.prependLeft(range.start.index, `exports._ = exports.${func_name} = `);
                 });
 
-            const export_shortname = `export { ${func_name} as _}`;
+            const export_shortname = `export { ${func_name} as _ }`;
 
             const export_alias = tree.root().find(export_shortname);
 
@@ -106,7 +106,7 @@ export function ast_grep() {
         // rewrite import
         tree
             .root()
-            .findAll({ rule: { pattern: `import { $BINDING } from "$SOURCE"` } })
+            .findAll({ rule: { pattern: `import { _ as $BINDING } from "$SOURCE"` } })
             .forEach((match) => {
                 const import_binding = match.getMatch("BINDING").text();
                 const import_source = match.getMatch("SOURCE").text();
