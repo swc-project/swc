@@ -1,7 +1,6 @@
 use rkyv::{
     boxed::{ArchivedBox, BoxResolver},
-    Archive, ArchivePointee, ArchiveUnsized, Archived, Deserialize, DeserializeUnsized, Fallible,
-    Serialize, SerializeUnsized,
+    Archive, ArchiveUnsized, Fallible, Serialize, SerializeUnsized,
 };
 
 use super::Box;

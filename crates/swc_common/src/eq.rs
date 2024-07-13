@@ -63,6 +63,19 @@ where
     }
 }
 
+impl<T> EqIgnoreSpan for swc_allocator::Vec<T>
+where
+    T: EqIgnoreSpan,
+{
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.len() == other.len()
+            && self
+                .iter()
+                .zip(other.iter())
+                .all(|(a, b)| a.eq_ignore_span(b))
+    }
+}
+
 /// Derive with `#[derive(TypeEq)]`.
 pub trait TypeEq {
     /// **Note**: This method should return `true` for non-type values.
@@ -171,6 +184,26 @@ macro_rules! deref {
 }
 
 deref!(Box, Rc, Arc);
+
+impl<N> EqIgnoreSpan for swc_allocator::boxed::Box<N>
+where
+    N: EqIgnoreSpan,
+{
+    #[inline]
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        (**self).eq_ignore_span(&**other)
+    }
+}
+
+impl<N> TypeEq for swc_allocator::boxed::Box<N>
+where
+    N: TypeEq,
+{
+    #[inline]
+    fn type_eq(&self, other: &Self) -> bool {
+        (**self).type_eq(&**other)
+    }
+}
 
 impl<'a, N> EqIgnoreSpan for &'a N
 where
