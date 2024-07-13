@@ -168,7 +168,9 @@ impl VisitMut for Fixer<'_> {
     }
 
     fn visit_mut_assign_pat(&mut self, node: &mut AssignPat) {
+        let in_for_stmt_head = mem::replace(&mut self.in_for_stmt_head, false);
         node.visit_mut_children_with(self);
+        self.in_for_stmt_head = in_for_stmt_head;
 
         if let Expr::Seq(..) = &*node.right {
             self.wrap(&mut node.right);
@@ -180,7 +182,9 @@ impl VisitMut for Fixer<'_> {
 
         let old = self.ctx;
         self.ctx = Context::ForcedExpr;
+        let in_for_stmt_head = mem::replace(&mut self.in_for_stmt_head, false);
         node.value.visit_mut_with(self);
+        self.in_for_stmt_head = in_for_stmt_head;
         self.ctx = old;
     }
 
