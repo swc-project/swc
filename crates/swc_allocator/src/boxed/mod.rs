@@ -37,8 +37,10 @@ impl<T: ?Sized> Box<T> {
             SwcAlloc::default(),
         ))
     }
+}
 
-    pub fn as_ref(&self) -> &T {
+impl<T: ?Sized> AsRef<T> for Box<T> {
+    fn as_ref(&self) -> &T {
         &self.0
     }
 }
