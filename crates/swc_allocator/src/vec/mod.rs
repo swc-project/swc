@@ -10,15 +10,15 @@ use crate::{alloc::SwcAlloc, boxed::Box};
 pub struct Vec<T>(allocator_api2::vec::Vec<T, SwcAlloc>);
 
 impl<T> Deref for Vec<T> {
-    type Target = [T];
+    type Target = allocator_api2::vec::Vec<T, SwcAlloc>;
 
-    fn deref(&self) -> &[T] {
+    fn deref(&self) -> &Self::Target {
         &self.0
     }
 }
 
 impl<T> DerefMut for Vec<T> {
-    fn deref_mut(&mut self) -> &mut [T] {
+    fn deref_mut(&mut self) -> &mut Self::Target {
         &mut self.0
     }
 }
