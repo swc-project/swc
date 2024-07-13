@@ -719,8 +719,12 @@ where
 
         dbg!(&num);
         if self.cfg.minify {
-            value = minify_number(num.value);
-            self.wr.write_str_lit(DUMMY_SP, &value)?;
+            if num.value.is_infinite() && num.raw.is_some() {
+                self.wr.write_str_lit(DUMMY_SP, &num.raw.clone().unwrap())?;
+            } else {
+                value = minify_number(num.value);
+                self.wr.write_str_lit(DUMMY_SP, &value)?;
+            }
         } else {
             match &num.raw {
                 Some(raw) => {
