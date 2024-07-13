@@ -1503,7 +1503,8 @@ impl TryFrom<Box<Expr>> for SimpleAssignTarget {
     type Error = Box<Expr>;
 
     fn try_from(e: Box<Expr>) -> Result<Self, Self::Error> {
-        Ok(match *e {
+        let e = e.unbox();
+        Ok(match e {
             Expr::Ident(i) => SimpleAssignTarget::Ident(i.into()),
             Expr::Member(m) => SimpleAssignTarget::Member(m),
             Expr::SuperProp(s) => SimpleAssignTarget::SuperProp(s),
@@ -1514,7 +1515,7 @@ impl TryFrom<Box<Expr>> for SimpleAssignTarget {
             Expr::TsNonNull(n) => SimpleAssignTarget::TsNonNull(n),
             Expr::TsTypeAssertion(a) => SimpleAssignTarget::TsTypeAssertion(a),
             Expr::TsInstantiation(a) => SimpleAssignTarget::TsInstantiation(a),
-            _ => return Err(e),
+            _ => return Err(Box::new(e)),
         })
     }
 }
