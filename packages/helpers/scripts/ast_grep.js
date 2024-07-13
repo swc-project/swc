@@ -70,6 +70,8 @@ export function ast_grep() {
                 `exports._ = ${func_name};`,
             );
 
+            // since we match the { export x as _ } pattern,
+            // we need to find the assignment expression from the root
             tree
                 .root()
                 .findAll({
