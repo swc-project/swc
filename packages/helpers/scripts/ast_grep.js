@@ -68,7 +68,7 @@ export function ast_grep() {
             source.update(
                 export_start,
                 export_end,
-                `exports._ = exports.${func_name} = ${func_name};`,
+                `exports._ = ${func_name};`,
             );
         } else {
             report_noexport(tree.filename(tree.filename()));
