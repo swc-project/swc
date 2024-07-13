@@ -14,6 +14,9 @@
 - **(es/compat)** Add support for destructuring with BigInts ([#9215](https://github.com/swc-project/swc/issues/9215)) ([2cc7028](https://github.com/swc-project/swc/commit/2cc70287e0c5d87e0134990e629dad2bf544d867))
 
 
+- **(es/fixer)** Wrap `in` expr in for-in head ([#9209](https://github.com/swc-project/swc/issues/9209)) ([5cd837f](https://github.com/swc-project/swc/commit/5cd837f39a68d28bbc02a21b715d6153fda78a8a))
+
+
 - **(es/minifier)** Fix case matching ([#9208](https://github.com/swc-project/swc/issues/9208)) ([f81fa6e](https://github.com/swc-project/swc/commit/f81fa6e06335745ff6ab5f7956cecc38116b1343))
 
 
@@ -36,6 +39,9 @@
 
 
 - **(allocator)** Mention `oxc_allocator` ([be99ce0](https://github.com/swc-project/swc/commit/be99ce0a570c41b3fd471c5d609bd63c25740b36))
+
+
+- **(es/minifier)** Add contributing section ([e22f3ba](https://github.com/swc-project/swc/commit/e22f3ba9adf21eac057eab29284333b1631258b3))
 
 ### Features
 
@@ -81,6 +87,9 @@
 
 
 - **(es)** Use `Into` and `From` for AST construction ([#9201](https://github.com/swc-project/swc/issues/9201)) ([0960b23](https://github.com/swc-project/swc/commit/0960b23c045658ca2d8e8d0c2636141fca108bca))
+
+
+- **(es/helpers)** Remove unnecessary exports ([#9225](https://github.com/swc-project/swc/issues/9225)) ([69719c2](https://github.com/swc-project/swc/commit/69719c2acb6f0eaacd4e3f7739ce8f9ae5d95e76))
 
 ### Testing
 
