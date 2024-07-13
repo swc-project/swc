@@ -214,18 +214,6 @@ macro_rules! bridge_from {
     };
 }
 
-macro_rules! bridge_into {
-    ($dst:ty, $bridge:ty, $src:ty) => {
-        impl Into<$dst> for $src {
-            #[cfg_attr(not(debug_assertions), inline(always))]
-            fn into(self) -> $dst {
-                let src: $bridge = self.into();
-                src.into()
-            }
-        }
-    };
-}
-
 macro_rules! bridge_expr_from {
     ($bridge:ty, $src:ty) => {
         bridge_from!(crate::Expr, $bridge, $src);

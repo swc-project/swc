@@ -1,5 +1,8 @@
 use is_macro::Is;
-use swc_allocator::{boxed::Box, vec::Vec};
+use swc_allocator::{
+    boxed::{Box, IntoBox},
+    vec::Vec,
+};
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 use crate::{
@@ -133,15 +136,15 @@ impl From<PropName> for MemberProp {
             PropName::Computed(p) => MemberProp::Computed(p),
             PropName::Str(p) => MemberProp::Computed(ComputedPropName {
                 span: DUMMY_SP,
-                expr: p.into(),
+                expr: p.boxed(),
             }),
             PropName::Num(p) => MemberProp::Computed(ComputedPropName {
                 span: DUMMY_SP,
-                expr: p.into(),
+                expr: p.boxed(),
             }),
             PropName::BigInt(p) => MemberProp::Computed(ComputedPropName {
                 span: DUMMY_SP,
-                expr: p.into(),
+                expr: p.boxed(),
             }),
         }
     }
