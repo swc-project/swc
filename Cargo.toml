@@ -40,6 +40,7 @@ resolver = "2"
 
   Inflector                 = "0.11.4"
   ahash                     = "0.8.8"
+  allocator-api2            = "0.2.18"
   ansi_term                 = "0.12.1"
   anyhow                    = "1.0.81"
   arbitrary                 = "1"
@@ -95,6 +96,7 @@ resolver = "2"
   phf                       = "0.11.2"
   pretty_assertions         = "1.3"
   proc-macro2               = "1.0.24"
+  ptr_meta                  = "0.1.4"
   quote                     = "1.0.7"
   rayon                     = "1.7.0"
   regex                     = "1.5.4"
@@ -137,8 +139,6 @@ resolver = "2"
   wasm-bindgen-futures      = "0.4.41"
   wasmer                    = { version = "4.2.5", default-features = false }
   wasmer-wasix              = { version = "0.18.0", default-features = false }
-allocator-api2 = "0.2.18"
-ptr_meta = "0.2.0"
 
 [profile.release]
 # lto = true
