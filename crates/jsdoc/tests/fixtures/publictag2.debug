@@ -1,20 +1,20 @@
 [
     JsDoc {
-        span: 1..11#0,
+        span: 1..11,
         description: Text {
-            span: 1..23#0,
+            span: 1..23,
             value: "Public variable.\n *\n *",
         },
         tags: [
             TagItem {
-                span: 1..7#0,
+                span: 1..7,
                 tag_name: Text {
-                    span: 1..7#0,
+                    span: 1..7,
                     value: "public",
                 },
                 tag: Public(
                     PublicTag {
-                        span: 1..7#0,
+                        span: 1..7,
                     },
                 ),
             },

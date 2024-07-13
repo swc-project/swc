@@ -1,9 +1,9 @@
 use indexmap::IndexSet;
 use preset_env_base::{version::should_enable, Versions};
-use swc_atoms::{js_word, JsWord};
-use swc_common::{collections::ARandomState, DUMMY_SP};
+use swc_atoms::JsWord;
+use swc_common::collections::ARandomState;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit::{standard_only_visit, Visit, VisitWith};
 
 pub(crate) use self::entry::Entry;
 use self::{
@@ -124,7 +124,7 @@ impl UsageVisitor {
 
 /// Detects usage of types
 impl Visit for UsageVisitor {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_ident(&mut self, node: &Ident) {
         node.visit_children_with(self);
@@ -144,7 +144,7 @@ impl Visit for UsageVisitor {
                 self.visit_object_pat_props(init, &o.props)
             }
         } else if let Pat::Object(ref o) = d.name {
-            self.visit_object_pat_props(&Expr::Ident(Ident::new(js_word!(""), DUMMY_SP)), &o.props)
+            self.visit_object_pat_props(&Ident::default().into(), &o.props)
         }
     }
 

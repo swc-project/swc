@@ -1,7 +1,7 @@
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_utils::{quote_ident, ExprFactory};
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, standard_only_visit_mut, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 /// Compile ES2015 sticky regex to an ES5 RegExp constructor
@@ -34,19 +34,20 @@ impl Parallel for StickyRegex {
 
 #[swc_trace]
 impl VisitMut for StickyRegex {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
 
         if let Expr::Lit(Lit::Regex(Regex { exp, flags, span })) = e {
             if flags.contains('y') {
-                *e = Expr::New(NewExpr {
+                *e = NewExpr {
                     span: *span,
-                    callee: Box::new(quote_ident!(*span, "RegExp").into()),
+                    callee: Box::new(quote_ident!(Default::default(), *span, "RegExp").into()),
                     args: Some(vec![exp.clone().as_arg(), flags.clone().as_arg()]),
-                    type_args: Default::default(),
-                })
+                    ..Default::default()
+                }
+                .into()
             }
         }
     }

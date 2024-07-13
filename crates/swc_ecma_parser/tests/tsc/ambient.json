@@ -2,16 +2,14 @@
   "type": "Module",
   "span": {
     "start": 21,
-    "end": 178,
-    "ctxt": 0
+    "end": 178
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
         "start": 21,
-        "end": 50,
-        "ctxt": 0
+        "end": 50
       },
       "declaration": {
         "type": "ClassDeclaration",
@@ -19,51 +17,46 @@
           "type": "Identifier",
           "span": {
             "start": 34,
-            "end": 35,
-            "ctxt": 0
+            "end": 35
           },
+          "ctxt": 0,
           "value": "A",
           "optional": false
         },
         "declare": false,
         "span": {
           "start": 28,
-          "end": 50,
-          "ctxt": 0
+          "end": 50
         },
+        "ctxt": 0,
         "decorators": [],
         "body": [
           {
             "type": "ClassProperty",
             "span": {
               "start": 38,
-              "end": 48,
-              "ctxt": 0
+              "end": 48
             },
             "key": {
               "type": "Identifier",
               "span": {
                 "start": 38,
-                "end": 39,
-                "ctxt": 0
+                "end": 39
               },
-              "value": "a",
-              "optional": false
+              "value": "a"
             },
             "value": null,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 40,
-                "end": 48,
-                "ctxt": 0
+                "end": 48
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 42,
-                  "end": 48,
-                  "ctxt": 0
+                  "end": 48
                 },
                 "kind": "string"
               }
@@ -90,24 +83,22 @@
       "type": "ImportDeclaration",
       "span": {
         "start": 72,
-        "end": 101,
-        "ctxt": 0
+        "end": 101
       },
       "specifiers": [
         {
           "type": "ImportSpecifier",
           "span": {
             "start": 86,
-            "end": 87,
-            "ctxt": 0
+            "end": 87
           },
           "local": {
             "type": "Identifier",
             "span": {
               "start": 86,
-              "end": 87,
-              "ctxt": 0
+              "end": 87
             },
+            "ctxt": 0,
             "value": "A",
             "optional": false
           },
@@ -119,8 +110,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 95,
-          "end": 100,
-          "ctxt": 0
+          "end": 100
         },
         "value": "./a",
         "raw": "'./a'"
@@ -135,27 +125,27 @@
         "type": "Identifier",
         "span": {
           "start": 116,
-          "end": 117,
-          "ctxt": 0
+          "end": 117
         },
+        "ctxt": 0,
         "value": "B",
         "optional": false
       },
       "declare": true,
       "span": {
         "start": 102,
-        "end": 130,
-        "ctxt": 0
+        "end": 130
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [],
       "superClass": {
         "type": "Identifier",
         "span": {
           "start": 126,
-          "end": 127,
-          "ctxt": 0
+          "end": 127
         },
+        "ctxt": 0,
         "value": "A",
         "optional": false
       },
@@ -168,8 +158,7 @@
       "type": "TsModuleDeclaration",
       "span": {
         "start": 131,
-        "end": 178,
-        "ctxt": 0
+        "end": 178
       },
       "declare": true,
       "global": false,
@@ -177,9 +166,9 @@
         "type": "Identifier",
         "span": {
           "start": 149,
-          "end": 151,
-          "ctxt": 0
+          "end": 151
         },
+        "ctxt": 0,
         "value": "ns",
         "optional": false
       },
@@ -187,8 +176,7 @@
         "type": "TsModuleBlock",
         "span": {
           "start": 152,
-          "end": 178,
-          "ctxt": 0
+          "end": 178
         },
         "body": [
           {
@@ -197,27 +185,27 @@
               "type": "Identifier",
               "span": {
                 "start": 162,
-                "end": 163,
-                "ctxt": 0
+                "end": 163
               },
+              "ctxt": 0,
               "value": "C",
               "optional": false
             },
             "declare": false,
             "span": {
               "start": 156,
-              "end": 176,
-              "ctxt": 0
+              "end": 176
             },
+            "ctxt": 0,
             "decorators": [],
             "body": [],
             "superClass": {
               "type": "Identifier",
               "span": {
                 "start": 172,
-                "end": 173,
-                "ctxt": 0
+                "end": 173
               },
+              "ctxt": 0,
               "value": "A",
               "optional": false
             },

@@ -2,39 +2,36 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 65,
-    "ctxt": 0
+    "end": 65
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 9,
-        "ctxt": 0
+        "end": 9
       },
       "expression": {
         "type": "OptionalChainingExpression",
         "span": {
           "start": 1,
-          "end": 9,
-          "ctxt": 0
+          "end": 9
         },
         "optional": true,
         "base": {
           "type": "CallExpression",
           "span": {
             "start": 1,
-            "end": 9,
-            "ctxt": 0
+            "end": 9
           },
+          "ctxt": 0,
           "callee": {
             "type": "Identifier",
             "span": {
               "start": 1,
-              "end": 5,
-              "ctxt": 0
+              "end": 5
             },
+            "ctxt": 0,
             "value": "func",
             "optional": false
           },
@@ -47,31 +44,29 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 11,
-        "end": 23,
-        "ctxt": 0
+        "end": 23
       },
       "expression": {
         "type": "OptionalChainingExpression",
         "span": {
           "start": 11,
-          "end": 23,
-          "ctxt": 0
+          "end": 23
         },
         "optional": true,
         "base": {
           "type": "CallExpression",
           "span": {
             "start": 11,
-            "end": 23,
-            "ctxt": 0
+            "end": 23
           },
+          "ctxt": 0,
           "callee": {
             "type": "Identifier",
             "span": {
               "start": 11,
-              "end": 15,
-              "ctxt": 0
+              "end": 15
             },
+            "ctxt": 0,
             "value": "func",
             "optional": false
           },
@@ -82,9 +77,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 18,
-                  "end": 19,
-                  "ctxt": 0
+                  "end": 19
                 },
+                "ctxt": 0,
                 "value": "a",
                 "optional": false
               }
@@ -95,9 +90,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 21,
-                  "end": 22,
-                  "ctxt": 0
+                  "end": 22
                 },
+                "ctxt": 0,
                 "value": "b",
                 "optional": false
               }
@@ -111,46 +106,42 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 25,
-        "end": 36,
-        "ctxt": 0
+        "end": 36
       },
       "expression": {
         "type": "OptionalChainingExpression",
         "span": {
           "start": 25,
-          "end": 36,
-          "ctxt": 0
+          "end": 36
         },
         "optional": true,
         "base": {
           "type": "CallExpression",
           "span": {
             "start": 25,
-            "end": 36,
-            "ctxt": 0
+            "end": 36
           },
+          "ctxt": 0,
           "callee": {
             "type": "OptionalChainingExpression",
             "span": {
               "start": 25,
-              "end": 32,
-              "ctxt": 0
+              "end": 32
             },
             "optional": true,
             "base": {
               "type": "MemberExpression",
               "span": {
                 "start": 25,
-                "end": 32,
-                "ctxt": 0
+                "end": 32
               },
               "object": {
                 "type": "Identifier",
                 "span": {
                   "start": 25,
-                  "end": 26,
-                  "ctxt": 0
+                  "end": 26
                 },
+                "ctxt": 0,
                 "value": "a",
                 "optional": false
               },
@@ -158,11 +149,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 28,
-                  "end": 32,
-                  "ctxt": 0
+                  "end": 32
                 },
-                "value": "func",
-                "optional": false
+                "value": "func"
               }
             }
           },
@@ -175,46 +164,42 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 38,
-        "end": 53,
-        "ctxt": 0
+        "end": 53
       },
       "expression": {
         "type": "OptionalChainingExpression",
         "span": {
           "start": 38,
-          "end": 53,
-          "ctxt": 0
+          "end": 53
         },
         "optional": true,
         "base": {
           "type": "CallExpression",
           "span": {
             "start": 38,
-            "end": 53,
-            "ctxt": 0
+            "end": 53
           },
+          "ctxt": 0,
           "callee": {
             "type": "OptionalChainingExpression",
             "span": {
               "start": 38,
-              "end": 45,
-              "ctxt": 0
+              "end": 45
             },
             "optional": true,
             "base": {
               "type": "MemberExpression",
               "span": {
                 "start": 38,
-                "end": 45,
-                "ctxt": 0
+                "end": 45
               },
               "object": {
                 "type": "Identifier",
                 "span": {
                   "start": 38,
-                  "end": 39,
-                  "ctxt": 0
+                  "end": 39
                 },
+                "ctxt": 0,
                 "value": "a",
                 "optional": false
               },
@@ -222,11 +207,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 41,
-                  "end": 45,
-                  "ctxt": 0
+                  "end": 45
                 },
-                "value": "func",
-                "optional": false
+                "value": "func"
               }
             }
           },
@@ -237,9 +220,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 48,
-                  "end": 49,
-                  "ctxt": 0
+                  "end": 49
                 },
+                "ctxt": 0,
                 "value": "a",
                 "optional": false
               }
@@ -250,9 +233,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 51,
-                  "end": 52,
-                  "ctxt": 0
+                  "end": 52
                 },
+                "ctxt": 0,
                 "value": "b",
                 "optional": false
               }
@@ -266,38 +249,35 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 55,
-        "end": 65,
-        "ctxt": 0
+        "end": 65
       },
       "expression": {
         "type": "OptionalChainingExpression",
         "span": {
           "start": 55,
-          "end": 65,
-          "ctxt": 0
+          "end": 65
         },
         "optional": true,
         "base": {
           "type": "CallExpression",
           "span": {
             "start": 55,
-            "end": 65,
-            "ctxt": 0
+            "end": 65
           },
+          "ctxt": 0,
           "callee": {
             "type": "MemberExpression",
             "span": {
               "start": 55,
-              "end": 61,
-              "ctxt": 0
+              "end": 61
             },
             "object": {
               "type": "Identifier",
               "span": {
                 "start": 55,
-                "end": 56,
-                "ctxt": 0
+                "end": 56
               },
+              "ctxt": 0,
               "value": "a",
               "optional": false
             },
@@ -305,11 +285,9 @@
               "type": "Identifier",
               "span": {
                 "start": 57,
-                "end": 61,
-                "ctxt": 0
+                "end": 61
               },
-              "value": "func",
-              "optional": false
+              "value": "func"
             }
           },
           "arguments": [],

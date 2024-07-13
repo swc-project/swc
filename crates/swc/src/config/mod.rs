@@ -732,6 +732,7 @@ impl Options {
                             ),
                         },
                         comments.map(|v| v as _),
+                        unresolved_mark,
                         top_level_mark
                     ),
                     syntax.typescript()
@@ -1545,7 +1546,7 @@ impl GlobalPassOption {
         type ValuesMap = Arc<AHashMap<JsWord, Expr>>;
 
         fn expr(cm: &SourceMap, handler: &Handler, src: String) -> Box<Expr> {
-            let fm = cm.new_source_file(FileName::Anon, src);
+            let fm = cm.new_source_file(FileName::Anon.into(), src);
 
             let mut errors = vec![];
             let expr = parse_file_as_expr(

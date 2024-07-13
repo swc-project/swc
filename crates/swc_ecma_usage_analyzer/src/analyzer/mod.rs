@@ -1,7 +1,7 @@
 use swc_common::{collections::AHashMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, ExprCtx, ExprExt, IsEmpty, StmtExt};
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit::{standard_only_visit, Visit, VisitWith};
 use swc_timer::timer;
 
 pub use self::ctx::Ctx;
@@ -215,7 +215,7 @@ impl<S> Visit for UsageAnalyzer<S>
 where
     S: Storage,
 {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_array_lit(&mut self, n: &ArrayLit) {
         let ctx = Ctx {
@@ -227,7 +227,7 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
-        self.with_child(n.span.ctxt, ScopeKind::Fn, |child| {
+        self.with_child(n.ctxt, ScopeKind::Fn, |child| {
             {
                 let ctx = Ctx {
                     in_pat_of_param: true,
@@ -271,14 +271,17 @@ where
                 }
             }
             AssignTarget::Simple(e) => {
-                self.report_assign_expr_if_ident(e.as_ident().map(|v| &v.id), is_op_assign);
+                self.report_assign_expr_if_ident(
+                    e.as_ident().map(Ident::from).as_ref(),
+                    is_op_assign,
+                );
                 self.mark_mutation_if_member(e.as_member())
             }
         };
 
         if n.op == op!("=") {
             let left = match &n.left {
-                AssignTarget::Simple(left) => left.leftmost().map(Ident::to_id),
+                AssignTarget::Simple(left) => left.leftmost().as_deref().map(Ident::to_id),
                 AssignTarget::Pat(..) => None,
             };
 
@@ -360,12 +363,12 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_binding_ident(&mut self, n: &BindingIdent) {
-        self.visit_pat_id(&n.id);
+        self.visit_pat_id(&Ident::from(n));
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_block_stmt(&mut self, n: &BlockStmt) {
-        self.with_child(n.span.ctxt, ScopeKind::Block, |child| {
+        self.with_child(n.ctxt, ScopeKind::Block, |child| {
             n.visit_children_with(child);
         });
     }
@@ -375,7 +378,7 @@ where
         let inline_prevented = self.ctx.inline_prevented
             || self
                 .marks
-                .map(|marks| n.span.has_mark(marks.noinline))
+                .map(|marks| n.ctxt.has_mark(marks.noinline))
                 .unwrap_or_default();
 
         {
@@ -507,7 +510,7 @@ where
             n.super_class.visit_with(&mut *self.with_ctx(ctx));
         }
 
-        self.with_child(n.span.ctxt, ScopeKind::Fn, |child| n.body.visit_with(child))
+        self.with_child(n.ctxt, ScopeKind::Fn, |child| n.body.visit_with(child))
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
@@ -530,7 +533,7 @@ where
     fn visit_class_method(&mut self, n: &ClassMethod) {
         n.function.decorators.visit_with(self);
 
-        self.with_child(n.function.span.ctxt, ScopeKind::Fn, |a| {
+        self.with_child(n.function.ctxt, ScopeKind::Fn, |a| {
             n.key.visit_with(a);
             {
                 let ctx = Ctx {
@@ -580,7 +583,7 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_constructor(&mut self, n: &Constructor) {
-        self.with_child(n.span.ctxt, ScopeKind::Fn, |child| {
+        self.with_child(n.ctxt, ScopeKind::Fn, |child| {
             {
                 let ctx = Ctx {
                     in_pat_of_param: true,
@@ -777,7 +780,7 @@ where
     fn visit_for_in_stmt(&mut self, n: &ForInStmt) {
         n.right.visit_with(self);
 
-        self.with_child(n.span.ctxt, ScopeKind::Block, |child| {
+        self.with_child(SyntaxContext::empty(), ScopeKind::Block, |child| {
             let head_ctx = Ctx {
                 in_left_of_for_loop: true,
                 ..child.ctx
@@ -804,7 +807,7 @@ where
     fn visit_for_of_stmt(&mut self, n: &ForOfStmt) {
         n.right.visit_with(self);
 
-        self.with_child(n.span.ctxt, ScopeKind::Block, |child| {
+        self.with_child(SyntaxContext::empty(), ScopeKind::Block, |child| {
             let head_ctx = Ctx {
                 in_left_of_for_loop: true,
                 ..child.ctx
@@ -843,24 +846,10 @@ where
     fn visit_function(&mut self, n: &Function) {
         n.decorators.visit_with(self);
 
-        let is_standalone = self
-            .marks
-            .map(|marks| n.span.has_mark(marks.standalone))
-            .unwrap_or_default();
-
-        // We don't dig into standalone function, as it does not share any variable with
-        // outer scope.
-        if self.ctx.skip_standalone && is_standalone {
-            return;
-        }
-
-        let ctx = Ctx {
-            skip_standalone: self.ctx.skip_standalone || is_standalone,
-            ..self.ctx
-        };
+        let ctx = Ctx { ..self.ctx };
 
         self.with_ctx(ctx)
-            .with_child(n.span.ctxt, ScopeKind::Fn, |child| {
+            .with_child(n.ctxt, ScopeKind::Fn, |child| {
                 n.params.visit_with(child);
 
                 match &n.body {
@@ -876,7 +865,7 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_getter_prop(&mut self, n: &GetterProp) {
-        self.with_child(n.span.ctxt, ScopeKind::Fn, |a| {
+        self.with_child(SyntaxContext::empty(), ScopeKind::Fn, |a| {
             n.key.visit_with(a);
 
             n.body.visit_with(a);
@@ -946,7 +935,7 @@ where
     fn visit_method_prop(&mut self, n: &MethodProp) {
         n.function.decorators.visit_with(self);
 
-        self.with_child(n.function.span.ctxt, ScopeKind::Fn, |a| {
+        self.with_child(n.function.ctxt, ScopeKind::Fn, |a| {
             n.key.visit_with(a);
             {
                 let ctx = Ctx {
@@ -962,7 +951,6 @@ where
 
     fn visit_module(&mut self, n: &Module) {
         let ctx = Ctx {
-            skip_standalone: true,
             is_top_level: true,
             ..self.ctx
         };
@@ -1035,7 +1023,7 @@ where
     fn visit_private_method(&mut self, n: &PrivateMethod) {
         n.function.decorators.visit_with(self);
 
-        self.with_child(n.function.span.ctxt, ScopeKind::Fn, |a| {
+        self.with_child(n.function.ctxt, ScopeKind::Fn, |a| {
             n.key.visit_with(a);
             {
                 let ctx = Ctx {
@@ -1074,7 +1062,6 @@ where
 
     fn visit_script(&mut self, n: &Script) {
         let ctx = Ctx {
-            skip_standalone: true,
             is_top_level: true,
             ..self.ctx
         };
@@ -1083,7 +1070,7 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_setter_prop(&mut self, n: &SetterProp) {
-        self.with_child(n.span.ctxt, ScopeKind::Fn, |a| {
+        self.with_child(SyntaxContext::empty(), ScopeKind::Fn, |a| {
             n.key.visit_with(a);
             {
                 let ctx = Ctx {
@@ -1261,16 +1248,10 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, e)))]
     fn visit_var_declarator(&mut self, e: &VarDeclarator) {
-        let prevent_inline = matches!(
-            &e.name,
-            Pat::Ident(BindingIdent {
-                id: Ident {
-                    sym: arguments,
-                    ..
-                },
+        let prevent_inline = matches!(&e.name, Pat::Ident(BindingIdent {
+                id: Ident { sym: arguments, .. },
                 ..
-            }) if &**arguments == "arguments"
-        );
+            }) if (&**arguments == "arguments"));
         {
             let ctx = Ctx {
                 inline_prevented: self.ctx.inline_prevented || prevent_inline,
@@ -1523,7 +1504,7 @@ fn is_safe_to_access_prop(e: &Expr) -> bool {
 
 fn call_may_mutate(expr: &Expr, expr_ctx: &ExprCtx) -> bool {
     fn is_global_fn_wont_mutate(s: &Ident, unresolved: SyntaxContext) -> bool {
-        s.span.ctxt == unresolved
+        s.ctxt == unresolved
             && matches!(
                 &*s.sym,
                 "JSON"

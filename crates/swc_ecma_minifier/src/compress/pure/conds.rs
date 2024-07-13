@@ -30,12 +30,13 @@ impl Pure<'_> {
                 self.negate_twice(&mut cond.test, false);
 
                 self.changed = true;
-                *e = Expr::Bin(BinExpr {
+                *e = BinExpr {
                     span: cond.span,
                     op: op!("||"),
                     left: cond.test.take(),
                     right: cond.alt.take(),
-                });
+                }
+                .into();
                 return;
             }
 
@@ -46,12 +47,13 @@ impl Pure<'_> {
                 self.changed = true;
                 self.negate(&mut cond.test, false, false);
 
-                *e = Expr::Bin(BinExpr {
+                *e = BinExpr {
                     span: cond.span,
                     op: op!("&&"),
                     left: cond.test.take(),
                     right: cond.alt.take(),
-                });
+                }
+                .into();
                 return;
             }
         }
@@ -66,12 +68,13 @@ impl Pure<'_> {
                 // Negate twice to convert `test` to boolean.
                 self.negate_twice(&mut cond.test, false);
 
-                *e = Expr::Bin(BinExpr {
+                *e = BinExpr {
                     span: cond.span,
                     op: op!("&&"),
                     left: cond.test.take(),
                     right: cond.cons.take(),
-                });
+                }
+                .into();
                 return;
             }
 
@@ -81,12 +84,13 @@ impl Pure<'_> {
 
                 self.negate(&mut cond.test, false, false);
 
-                *e = Expr::Bin(BinExpr {
+                *e = BinExpr {
                     span: cond.span,
                     op: op!("||"),
                     left: cond.test.take(),
                     right: cond.cons.take(),
-                });
+                }
+                .into();
             }
         }
     }
@@ -110,17 +114,19 @@ impl Pure<'_> {
                 report_change!("conditionals: `x ? y || z : z` => `x || y && z`");
                 self.changed = true;
 
-                *e = Expr::Bin(BinExpr {
+                *e = BinExpr {
                     span: cond.span,
                     op: op!("||"),
-                    left: Box::new(Expr::Bin(BinExpr {
+                    left: BinExpr {
                         span: cons_span,
                         op: op!("&&"),
                         left: cond.test.take(),
                         right: cons.left.take(),
-                    })),
+                    }
+                    .into(),
                     right: cons.right.take(),
-                });
+                }
+                .into();
             }
             _ => {}
         }

@@ -2,16 +2,14 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 25,
-    "ctxt": 0
+    "end": 25
   },
   "body": [
     {
       "type": "ForStatement",
       "span": {
         "start": 1,
-        "end": 25,
-        "ctxt": 0
+        "end": 25
       },
       "init": null,
       "test": null,
@@ -20,16 +18,15 @@
         "type": "BlockStatement",
         "span": {
           "start": 10,
-          "end": 25,
-          "ctxt": 0
+          "end": 25
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ContinueStatement",
             "span": {
               "start": 14,
-              "end": 23,
-              "ctxt": 0
+              "end": 23
             },
             "label": null
           }

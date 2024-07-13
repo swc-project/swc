@@ -2,16 +2,14 @@
   "type": "Script",
   "span": {
     "start": 22,
-    "end": 103,
-    "ctxt": 0
+    "end": 103
   },
   "body": [
     {
       "type": "TsModuleDeclaration",
       "span": {
         "start": 22,
-        "end": 103,
-        "ctxt": 0
+        "end": 103
       },
       "declare": false,
       "global": false,
@@ -19,9 +17,9 @@
         "type": "Identifier",
         "span": {
           "start": 29,
-          "end": 30,
-          "ctxt": 0
+          "end": 30
         },
+        "ctxt": 0,
         "value": "M",
         "optional": false
       },
@@ -29,24 +27,22 @@
         "type": "TsModuleBlock",
         "span": {
           "start": 31,
-          "end": 103,
-          "ctxt": 0
+          "end": 103
         },
         "body": [
           {
             "type": "TsInterfaceDeclaration",
             "span": {
               "start": 37,
-              "end": 52,
-              "ctxt": 0
+              "end": 52
             },
             "id": {
               "type": "Identifier",
               "span": {
                 "start": 47,
-                "end": 48,
-                "ctxt": 0
+                "end": 48
               },
+              "ctxt": 0,
               "value": "I",
               "optional": false
             },
@@ -57,8 +53,7 @@
               "type": "TsInterfaceBody",
               "span": {
                 "start": 49,
-                "end": 52,
-                "ctxt": 0
+                "end": 52
               },
               "body": []
             }
@@ -67,8 +62,7 @@
             "type": "ExportDeclaration",
             "span": {
               "start": 57,
-              "end": 101,
-              "ctxt": 0
+              "end": 101
             },
             "declaration": {
               "type": "ClassDeclaration",
@@ -76,59 +70,54 @@
                 "type": "Identifier",
                 "span": {
                   "start": 70,
-                  "end": 71,
-                  "ctxt": 0
+                  "end": 71
                 },
+                "ctxt": 0,
                 "value": "C",
                 "optional": false
               },
               "declare": false,
               "span": {
                 "start": 64,
-                "end": 101,
-                "ctxt": 0
+                "end": 101
               },
+              "ctxt": 0,
               "decorators": [],
               "body": [
                 {
                   "type": "ClassProperty",
                   "span": {
                     "start": 82,
-                    "end": 95,
-                    "ctxt": 0
+                    "end": 95
                   },
                   "key": {
                     "type": "Identifier",
                     "span": {
                       "start": 90,
-                      "end": 91,
-                      "ctxt": 0
+                      "end": 91
                     },
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   },
                   "value": null,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
                       "start": 91,
-                      "end": 94,
-                      "ctxt": 0
+                      "end": 94
                     },
                     "typeAnnotation": {
                       "type": "TsTypeReference",
                       "span": {
                         "start": 93,
-                        "end": 94,
-                        "ctxt": 0
+                        "end": 94
                       },
                       "typeName": {
                         "type": "Identifier",
                         "span": {
                           "start": 93,
-                          "end": 94,
-                          "ctxt": 0
+                          "end": 94
                         },
+                        "ctxt": 0,
                         "value": "I",
                         "optional": false
                       },

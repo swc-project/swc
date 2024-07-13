@@ -21,22 +21,25 @@ impl Pure<'_> {
             function,
         }) = e
         {
-            if contains_this_expr(&function.body) || function.is_generator {
+            if function.params.iter().any(contains_this_expr)
+                || contains_this_expr(&function.body)
+                || function.is_generator
+            {
                 return;
             }
 
             self.changed = true;
             report_change!("unsafe_arrows: Fn expr => arrow");
 
-            *e = Expr::Arrow(ArrowExpr {
+            *e = ArrowExpr {
                 span: function.span,
                 params: function.params.take().into_iter().map(|p| p.pat).collect(),
                 body: Box::new(BlockStmtOrExpr::BlockStmt(function.body.take().unwrap())),
                 is_async: function.is_async,
                 is_generator: function.is_generator,
-                type_params: Default::default(),
-                return_type: Default::default(),
-            });
+                ..Default::default()
+            }
+            .into();
         }
     }
 
@@ -65,6 +68,7 @@ impl Pure<'_> {
             if m.function.is_generator
                 || contains_arguments(&m.function.body)
                 || contains_super(&m.function.body)
+                || m.function.params.iter().any(contains_this_expr)
             {
                 return;
             }
@@ -95,7 +99,7 @@ impl Pure<'_> {
 
                     *p = Prop::KeyValue(KeyValueProp {
                         key: m.key.take(),
-                        value: Box::new(Expr::Arrow(ArrowExpr {
+                        value: ArrowExpr {
                             span: m_span,
                             params: m
                                 .function
@@ -107,9 +111,9 @@ impl Pure<'_> {
                             body: Box::new(BlockStmtOrExpr::Expr(arg)),
                             is_async: m.function.is_async,
                             is_generator: m.function.is_generator,
-                            type_params: Default::default(),
-                            return_type: Default::default(),
-                        })),
+                            ..Default::default()
+                        }
+                        .into(),
                     });
                     return;
                 }
@@ -146,13 +150,11 @@ impl Pure<'_> {
                                     pat,
                                 })
                                 .collect(),
-                            decorators: Default::default(),
                             span: m.span,
                             body: m.body.take().block_stmt(),
                             is_generator: m.is_generator,
                             is_async: m.is_async,
-                            type_params: Default::default(),
-                            return_type: Default::default(),
+                            ..Default::default()
                         }),
                     });
                 }

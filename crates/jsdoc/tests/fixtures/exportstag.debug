@@ -1,38 +1,38 @@
 [
     JsDoc {
-        span: 25..25#0,
+        span: 25..25,
         description: Text {
-            span: 25..55#0,
+            span: 25..55,
             value: "A module representing a shirt.",
         },
         tags: [
             TagItem {
-                span: 25..32#0,
+                span: 25..32,
                 tag_name: Text {
-                    span: 25..32#0,
+                    span: 25..32,
                     value: "exports",
                 },
                 tag: Exports(
                     ExportsTag {
-                        span: 25..32#0,
+                        span: 25..32,
                         module_name: Text {
-                            span: 25..33#0,
+                            span: 25..33,
                             value: "my/shirt",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 25..32#0,
+                span: 25..32,
                 tag_name: Text {
-                    span: 25..32#0,
+                    span: 25..32,
                     value: "version",
                 },
                 tag: Version(
                     VersionTag {
-                        span: 25..32#0,
+                        span: 25..32,
                         value: Text {
-                            span: 25..28#0,
+                            span: 25..28,
                             value: "1.0",
                         },
                     },
@@ -41,29 +41,29 @@
         ],
     },
     JsDoc {
-        span: 150..150#0,
+        span: 150..150,
         description: Text {
-            span: 150..175#0,
+            span: 150..175,
             value: "A property of the module.",
         },
         tags: [],
     },
     JsDoc {
-        span: 216..216#0,
+        span: 216..216,
         description: Text {
-            span: 216..216#0,
+            span: 216..216,
             value: "",
         },
         tags: [
             TagItem {
-                span: 216..227#0,
+                span: 216..227,
                 tag_name: Text {
-                    span: 216..227#0,
+                    span: 216..227,
                     value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 216..227#0,
+                        span: 216..227,
                         ty: None,
                         name: None,
                     },
@@ -72,9 +72,9 @@
         ],
     },
     JsDoc {
-        span: 285..285#0,
+        span: 285..285,
         description: Text {
-            span: 285..309#0,
+            span: 285..309,
             value: "A property of the class.",
         },
         tags: [],

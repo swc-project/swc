@@ -15,10 +15,11 @@ pub mod super_field;
 /// Child.__proto__ || Object.getPrototypeOf(Child)
 /// ```
 pub fn get_prototype_of(obj: Box<Expr>) -> Box<Expr> {
-    Box::new(Expr::Call(CallExpr {
+    CallExpr {
         span: DUMMY_SP,
         callee: helper!(get_prototype_of),
         args: vec![obj.as_arg()],
-        type_args: Default::default(),
-    }))
+        ..Default::default()
+    }
+    .into()
 }

@@ -3,7 +3,7 @@ use swc_ecma_ast::*;
 use swc_ecma_parser::parse_file_as_expr;
 use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_utils::ExprCtx;
-use swc_ecma_visit::{noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith};
+use swc_ecma_visit::{standard_only_visit_mut, FoldWith, VisitMut, VisitMutWith};
 use tracing::{info, warn};
 
 use super::negate_cost;
@@ -11,7 +11,7 @@ use crate::{compress::util::negate, debug::dump};
 
 struct UnwrapParen;
 impl VisitMut for UnwrapParen {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
@@ -24,7 +24,7 @@ impl VisitMut for UnwrapParen {
 
 fn assert_negate_cost(s: &str, in_bool_ctx: bool, is_ret_val_ignored: bool, expected: isize) {
     testing::run_test2(false, |cm, handler| {
-        let fm = cm.new_source_file(FileName::Anon, s.to_string());
+        let fm = cm.new_source_file(FileName::Anon.into(), s.to_string());
 
         let mut e = parse_file_as_expr(
             &fm,

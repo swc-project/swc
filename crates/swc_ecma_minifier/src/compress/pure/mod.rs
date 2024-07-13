@@ -7,7 +7,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_usage_analyzer::marks::Marks;
 use swc_ecma_utils::ExprCtx;
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{standard_only_visit_mut, VisitMut, VisitMutWith, VisitWith};
 #[cfg(feature = "debug")]
 use tracing::{debug, span, Level};
 
@@ -254,7 +254,7 @@ impl Pure<'_> {
 }
 
 impl VisitMut for Pure<'_> {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_assign_expr(&mut self, e: &mut AssignExpr) {
         {
@@ -419,7 +419,7 @@ impl VisitMut for Pure<'_> {
 
         if let Expr::Seq(seq) = e {
             if seq.exprs.is_empty() {
-                *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                *e = Invalid { span: DUMMY_SP }.into();
                 return;
             }
             if seq.exprs.len() == 1 {
@@ -891,7 +891,7 @@ impl VisitMut for Pure<'_> {
 
         match s {
             Stmt::Expr(ExprStmt { expr, .. }) if expr.is_invalid() => {
-                *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                *s = EmptyStmt { span: DUMMY_SP }.into();
                 return;
             }
             _ => {}
@@ -911,7 +911,7 @@ impl VisitMut for Pure<'_> {
         if self.options.drop_debugger {
             if let Stmt::Debugger(..) = s {
                 self.changed = true;
-                *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                *s = EmptyStmt { span: DUMMY_SP }.into();
                 report_change!("drop_debugger: Dropped a debugger statement");
                 return;
             }
@@ -935,7 +935,7 @@ impl VisitMut for Pure<'_> {
 
         if let Stmt::Expr(es) = s {
             if es.expr.is_invalid() {
-                *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                *s = EmptyStmt { span: DUMMY_SP }.into();
                 return;
             }
         }

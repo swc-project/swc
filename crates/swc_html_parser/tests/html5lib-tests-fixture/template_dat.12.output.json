@@ -2,8 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 40,
-    "ctxt": 0
+    "end": 40
   },
   "mode": "quirks",
   "children": [
@@ -11,8 +10,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 0,
-        "ctxt": 0
+        "end": 0
       },
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -22,8 +20,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -36,8 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -47,8 +43,7 @@
               "type": "Element",
               "span": {
                 "start": 1,
-                "end": 40,
-                "ctxt": 0
+                "end": 40
               },
               "tagName": "table",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -58,8 +53,7 @@
                   "type": "Text",
                   "span": {
                     "start": 8,
-                    "end": 11,
-                    "ctxt": 0
+                    "end": 11
                   },
                   "data": "   ",
                   "raw": "   "
@@ -68,8 +62,7 @@
                   "type": "Element",
                   "span": {
                     "start": 11,
-                    "end": 32,
-                    "ctxt": 0
+                    "end": 32
                   },
                   "tagName": "template",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -79,8 +72,7 @@
                     "type": "DocumentFragment",
                     "span": {
                       "start": 11,
-                      "end": 32,
-                      "ctxt": 0
+                      "end": 32
                     },
                     "children": []
                   },

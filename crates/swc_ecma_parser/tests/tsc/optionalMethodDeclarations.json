@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 135,
-    "end": 198,
-    "ctxt": 0
+    "end": 198
   },
   "body": [
     {
@@ -12,52 +11,49 @@
         "type": "Identifier",
         "span": {
           "start": 141,
-          "end": 142,
-          "ctxt": 0
+          "end": 142
         },
+        "ctxt": 0,
         "value": "C",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 135,
-        "end": 198,
-        "ctxt": 0
+        "end": 198
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassMethod",
           "span": {
             "start": 184,
-            "end": 196,
-            "ctxt": 0
+            "end": 196
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 184,
-              "end": 190,
-              "ctxt": 0
+              "end": 190
             },
-            "value": "method",
-            "optional": true
+            "value": "method"
           },
           "function": {
             "params": [],
             "decorators": [],
             "span": {
               "start": 184,
-              "end": 196,
-              "ctxt": 0
+              "end": 196
             },
+            "ctxt": 0,
             "body": {
               "type": "BlockStatement",
               "span": {
                 "start": 194,
-                "end": 196,
-                "ctxt": 0
+                "end": 196
               },
+              "ctxt": 0,
               "stmts": []
             },
             "generator": false,

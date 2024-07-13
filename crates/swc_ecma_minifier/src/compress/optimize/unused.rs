@@ -4,7 +4,7 @@ use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::util::is_global_var_with_pure_property_access;
 use swc_ecma_utils::{contains_ident_ref, contains_this_expr, ExprExt};
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit::{standard_only_visit, Visit, VisitWith};
 
 use super::Optimizer;
 #[cfg(feature = "debug")]
@@ -184,7 +184,7 @@ impl Optimizer<'_> {
                 report_change!(
                     "unused: Dropping a variable '{}{:?}' because it is not used",
                     i.sym,
-                    i.span.ctxt
+                    i.ctxt
                 );
                 // This will remove variable.
                 i.take();
@@ -206,7 +206,7 @@ impl Optimizer<'_> {
                         if let Some(VarDeclKind::Const | VarDeclKind::Let) = self.ctx.var_kind {
                             *e = Null { span: DUMMY_SP }.into();
                         } else {
-                            *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                            *e = Invalid { span: DUMMY_SP }.into();
                         }
                     }
                 }
@@ -230,7 +230,7 @@ impl Optimizer<'_> {
 
         match e {
             Expr::Ident(e) => {
-                if e.span.ctxt.outer() == self.marks.unresolved_mark {
+                if e.ctxt.outer() == self.marks.unresolved_mark {
                     if is_global_var_with_pure_property_access(&e.sym) {
                         return false;
                     }
@@ -483,25 +483,28 @@ impl Optimizer<'_> {
                     report_change!(
                         "unused: Dropping a decl '{}{:?}' because it is not used",
                         ident.sym,
-                        ident.span.ctxt
+                        ident.ctxt
                     );
                     // This will remove the declaration.
                     let class = decl.take().class().unwrap();
                     let mut side_effects = extract_class_side_effect(&self.expr_ctx, *class.class);
 
                     if !side_effects.is_empty() {
-                        self.prepend_stmts.push(Stmt::Expr(ExprStmt {
-                            span: DUMMY_SP,
-                            expr: if side_effects.len() > 1 {
-                                SeqExpr {
-                                    span: DUMMY_SP,
-                                    exprs: side_effects,
-                                }
-                                .into()
-                            } else {
-                                side_effects.remove(0)
-                            },
-                        }))
+                        self.prepend_stmts.push(
+                            ExprStmt {
+                                span: DUMMY_SP,
+                                expr: if side_effects.len() > 1 {
+                                    SeqExpr {
+                                        span: DUMMY_SP,
+                                        exprs: side_effects,
+                                    }
+                                    .into()
+                                } else {
+                                    side_effects.remove(0)
+                                },
+                            }
+                            .into(),
+                        )
                     }
                 }
             }
@@ -531,7 +534,7 @@ impl Optimizer<'_> {
                     report_change!(
                         "unused: Dropping a decl '{}{:?}' because it is not used",
                         ident.sym,
-                        ident.span.ctxt
+                        ident.ctxt
                     );
                     // This will remove the declaration.
                     decl.take();
@@ -572,7 +575,7 @@ impl Optimizer<'_> {
                     report_change!(
                         "unused: Dropping an update '{}{:?}' because it is not used",
                         arg.sym,
-                        arg.span.ctxt
+                        arg.ctxt
                     );
                     // This will remove the update.
                     e.take();
@@ -612,7 +615,7 @@ impl Optimizer<'_> {
                     report_change!(
                         "unused: Dropping an op-assign '{}{:?}' because it is not used",
                         left.id.sym,
-                        left.id.span.ctxt
+                        left.id.ctxt
                     );
                     // This will remove the op-assign.
                     *e = *assign.right.take();
@@ -673,14 +676,15 @@ impl Optimizer<'_> {
                     report_change!(
                         "unused: Dropping assignment to var '{}{:?}', which is never used",
                         i.id.sym,
-                        i.id.span.ctxt
+                        i.id.ctxt
                     );
                     self.changed = true;
                     if self.ctx.is_this_aware_callee {
-                        *e = Expr::Seq(SeqExpr {
+                        *e = SeqExpr {
                             span: DUMMY_SP,
                             exprs: vec![0.into(), assign.right.take()],
-                        })
+                        }
+                        .into()
                     } else {
                         *e = *assign.right.take();
                     }
@@ -938,7 +942,7 @@ struct ThisPropertyVisitor {
 }
 
 impl Visit for ThisPropertyVisitor {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_assign_expr(&mut self, e: &AssignExpr) {
         if self.should_abort {

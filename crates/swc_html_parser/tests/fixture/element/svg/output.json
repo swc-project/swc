@@ -2,8 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 4709,
-    "ctxt": 0
+    "end": 4709
   },
   "mode": "no-quirks",
   "children": [
@@ -11,8 +10,7 @@
       "type": "DocumentType",
       "span": {
         "start": 1,
-        "end": 16,
-        "ctxt": 0
+        "end": 16
       },
       "name": "html",
       "publicId": null,
@@ -23,8 +21,7 @@
       "type": "Element",
       "span": {
         "start": 16,
-        "end": 4709,
-        "ctxt": 0
+        "end": 4709
       },
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -33,8 +30,7 @@
           "type": "Attribute",
           "span": {
             "start": 22,
-            "end": 58,
-            "ctxt": 0
+            "end": 58
           },
           "namespace": null,
           "prefix": null,
@@ -49,8 +45,7 @@
           "type": "Element",
           "span": {
             "start": 60,
-            "end": 489,
-            "ctxt": 0
+            "end": 489
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -60,8 +55,7 @@
               "type": "Text",
               "span": {
                 "start": 66,
-                "end": 71,
-                "ctxt": 0
+                "end": 71
               },
               "data": "\n    ",
               "raw": "\n    "
@@ -70,8 +64,7 @@
               "type": "Element",
               "span": {
                 "start": 71,
-                "end": 100,
-                "ctxt": 0
+                "end": 100
               },
               "tagName": "title",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -81,8 +74,7 @@
                   "type": "Text",
                   "span": {
                     "start": 78,
-                    "end": 92,
-                    "ctxt": 0
+                    "end": 92
                   },
                   "data": "XTech SVG Demo",
                   "raw": "XTech SVG Demo"
@@ -95,8 +87,7 @@
               "type": "Text",
               "span": {
                 "start": 100,
-                "end": 105,
-                "ctxt": 0
+                "end": 105
               },
               "data": "\n    ",
               "raw": "\n    "
@@ -105,8 +96,7 @@
               "type": "Element",
               "span": {
                 "start": 105,
-                "end": 333,
-                "ctxt": 0
+                "end": 333
               },
               "tagName": "style",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -116,8 +106,7 @@
                   "type": "Text",
                   "span": {
                     "start": 112,
-                    "end": 325,
-                    "ctxt": 0
+                    "end": 325
                   },
                   "data": "\n        stop.begin { stop-color:yellow; }\n        stop.end { stop-color:green; }\n        body.invalid stop.end { stop-color:red; }\n        #err { display:none; }\n        body.invalid #err { display:inline; }\n    ",
                   "raw": "\n        stop.begin { stop-color:yellow; }\n        stop.end { stop-color:green; }\n        body.invalid stop.end { stop-color:red; }\n        #err { display:none; }\n        body.invalid #err { display:inline; }\n    "
@@ -130,8 +119,7 @@
               "type": "Text",
               "span": {
                 "start": 333,
-                "end": 338,
-                "ctxt": 0
+                "end": 338
               },
               "data": "\n    ",
               "raw": "\n    "
@@ -140,8 +128,7 @@
               "type": "Element",
               "span": {
                 "start": 338,
-                "end": 481,
-                "ctxt": 0
+                "end": 481
               },
               "tagName": "script",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -151,8 +138,7 @@
                   "type": "Text",
                   "span": {
                     "start": 346,
-                    "end": 472,
-                    "ctxt": 0
+                    "end": 472
                   },
                   "data": "\n        function signalError() {\n            document.getElementById('body').setAttribute(\"class\", \"invalid\");\n        }\n    ",
                   "raw": "\n        function signalError() {\n            document.getElementById('body').setAttribute(\"class\", \"invalid\");\n        }\n    "
@@ -165,8 +151,7 @@
               "type": "Text",
               "span": {
                 "start": 481,
-                "end": 482,
-                "ctxt": 0
+                "end": 482
               },
               "data": "\n",
               "raw": "\n"
@@ -179,8 +164,7 @@
           "type": "Text",
           "span": {
             "start": 489,
-            "end": 490,
-            "ctxt": 0
+            "end": 490
           },
           "data": "\n",
           "raw": "\n"
@@ -189,8 +173,7 @@
           "type": "Element",
           "span": {
             "start": 490,
-            "end": 4702,
-            "ctxt": 0
+            "end": 4702
           },
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -199,8 +182,7 @@
               "type": "Attribute",
               "span": {
                 "start": 496,
-                "end": 505,
-                "ctxt": 0
+                "end": 505
               },
               "namespace": null,
               "prefix": null,
@@ -213,8 +195,7 @@
               "type": "Attribute",
               "span": {
                 "start": 512,
-                "end": 613,
-                "ctxt": 0
+                "end": 613
               },
               "namespace": null,
               "prefix": null,
@@ -229,8 +210,7 @@
               "type": "Text",
               "span": {
                 "start": 614,
-                "end": 615,
-                "ctxt": 0
+                "end": 615
               },
               "data": "\n",
               "raw": "\n"
@@ -239,8 +219,7 @@
               "type": "Element",
               "span": {
                 "start": 615,
-                "end": 927,
-                "ctxt": 0
+                "end": 927
               },
               "tagName": "form",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -250,8 +229,7 @@
                   "type": "Text",
                   "span": {
                     "start": 621,
-                    "end": 626,
-                    "ctxt": 0
+                    "end": 626
                   },
                   "data": "\n    ",
                   "raw": "\n    "
@@ -260,8 +238,7 @@
                   "type": "Element",
                   "span": {
                     "start": 626,
-                    "end": 919,
-                    "ctxt": 0
+                    "end": 919
                   },
                   "tagName": "fieldset",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -271,8 +248,7 @@
                       "type": "Text",
                       "span": {
                         "start": 636,
-                        "end": 645,
-                        "ctxt": 0
+                        "end": 645
                       },
                       "data": "\n        ",
                       "raw": "\n        "
@@ -281,8 +257,7 @@
                       "type": "Element",
                       "span": {
                         "start": 645,
-                        "end": 671,
-                        "ctxt": 0
+                        "end": 671
                       },
                       "tagName": "legend",
                       "namespace": "http://www.w3.org/1999/xhtml",
@@ -292,8 +267,7 @@
                           "type": "Text",
                           "span": {
                             "start": 653,
-                            "end": 662,
-                            "ctxt": 0
+                            "end": 662
                           },
                           "data": "HTML Form",
                           "raw": "HTML Form"
@@ -306,8 +280,7 @@
                       "type": "Text",
                       "span": {
                         "start": 671,
-                        "end": 680,
-                        "ctxt": 0
+                        "end": 680
                       },
                       "data": "\n        ",
                       "raw": "\n        "
@@ -316,8 +289,7 @@
                       "type": "Element",
                       "span": {
                         "start": 680,
-                        "end": 821,
-                        "ctxt": 0
+                        "end": 821
                       },
                       "tagName": "p",
                       "namespace": "http://www.w3.org/1999/xhtml",
@@ -327,8 +299,7 @@
                           "type": "Element",
                           "span": {
                             "start": 683,
-                            "end": 733,
-                            "ctxt": 0
+                            "end": 733
                           },
                           "tagName": "label",
                           "namespace": "http://www.w3.org/1999/xhtml",
@@ -338,8 +309,7 @@
                               "type": "Text",
                               "span": {
                                 "start": 690,
-                                "end": 725,
-                                "ctxt": 0
+                                "end": 725
                               },
                               "data": "Введите что-нибудь:",
                               "raw": "Введите что-нибудь:"
@@ -352,8 +322,7 @@
                           "type": "Text",
                           "span": {
                             "start": 733,
-                            "end": 746,
-                            "ctxt": 0
+                            "end": 746
                           },
                           "data": "\n            ",
                           "raw": "\n            "
@@ -362,8 +331,7 @@
                           "type": "Element",
                           "span": {
                             "start": 746,
-                            "end": 766,
-                            "ctxt": 0
+                            "end": 766
                           },
                           "tagName": "input",
                           "namespace": "http://www.w3.org/1999/xhtml",
@@ -372,8 +340,7 @@
                               "type": "Attribute",
                               "span": {
                                 "start": 753,
-                                "end": 764,
-                                "ctxt": 0
+                                "end": 764
                               },
                               "namespace": null,
                               "prefix": null,
@@ -391,8 +358,7 @@
                           "type": "Text",
                           "span": {
                             "start": 766,
-                            "end": 779,
-                            "ctxt": 0
+                            "end": 779
                           },
                           "data": "\n            ",
                           "raw": "\n            "
@@ -401,8 +367,7 @@
                           "type": "Element",
                           "span": {
                             "start": 779,
-                            "end": 817,
-                            "ctxt": 0
+                            "end": 817
                           },
                           "tagName": "span",
                           "namespace": "http://www.w3.org/1999/xhtml",
@@ -411,8 +376,7 @@
                               "type": "Attribute",
                               "span": {
                                 "start": 785,
-                                "end": 793,
-                                "ctxt": 0
+                                "end": 793
                               },
                               "namespace": null,
                               "prefix": null,
@@ -427,8 +391,7 @@
                               "type": "Text",
                               "span": {
                                 "start": 794,
-                                "end": 810,
-                                "ctxt": 0
+                                "end": 810
                               },
                               "data": "Incorrect value!",
                               "raw": "Incorrect value!"
@@ -445,8 +408,7 @@
                       "type": "Text",
                       "span": {
                         "start": 821,
-                        "end": 830,
-                        "ctxt": 0
+                        "end": 830
                       },
                       "data": "\n        ",
                       "raw": "\n        "
@@ -455,8 +417,7 @@
                       "type": "Element",
                       "span": {
                         "start": 830,
-                        "end": 903,
-                        "ctxt": 0
+                        "end": 903
                       },
                       "tagName": "p",
                       "namespace": "http://www.w3.org/1999/xhtml",
@@ -466,8 +427,7 @@
                           "type": "Element",
                           "span": {
                             "start": 833,
-                            "end": 899,
-                            "ctxt": 0
+                            "end": 899
                           },
                           "tagName": "input",
                           "namespace": "http://www.w3.org/1999/xhtml",
@@ -476,8 +436,7 @@
                               "type": "Attribute",
                               "span": {
                                 "start": 840,
-                                "end": 853,
-                                "ctxt": 0
+                                "end": 853
                               },
                               "namespace": null,
                               "prefix": null,
@@ -490,8 +449,7 @@
                               "type": "Attribute",
                               "span": {
                                 "start": 854,
-                                "end": 871,
-                                "ctxt": 0
+                                "end": 871
                               },
                               "namespace": null,
                               "prefix": null,
@@ -504,8 +462,7 @@
                               "type": "Attribute",
                               "span": {
                                 "start": 872,
-                                "end": 896,
-                                "ctxt": 0
+                                "end": 896
                               },
                               "namespace": null,
                               "prefix": null,
@@ -527,8 +484,7 @@
                       "type": "Text",
                       "span": {
                         "start": 903,
-                        "end": 908,
-                        "ctxt": 0
+                        "end": 908
                       },
                       "data": "\n    ",
                       "raw": "\n    "
@@ -541,8 +497,7 @@
                   "type": "Text",
                   "span": {
                     "start": 919,
-                    "end": 920,
-                    "ctxt": 0
+                    "end": 920
                   },
                   "data": "\n",
                   "raw": "\n"
@@ -555,8 +510,7 @@
               "type": "Text",
               "span": {
                 "start": 927,
-                "end": 929,
-                "ctxt": 0
+                "end": 929
               },
               "data": "\n\n",
               "raw": "\n\n"
@@ -565,8 +519,7 @@
               "type": "Element",
               "span": {
                 "start": 929,
-                "end": 1442,
-                "ctxt": 0
+                "end": 1442
               },
               "tagName": "svg",
               "namespace": "http://www.w3.org/2000/svg",
@@ -575,8 +528,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 934,
-                    "end": 968,
-                    "ctxt": 0
+                    "end": 968
                   },
                   "namespace": "http://www.w3.org/2000/xmlns/",
                   "prefix": null,
@@ -589,8 +541,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 969,
-                    "end": 982,
-                    "ctxt": 0
+                    "end": 982
                   },
                   "namespace": null,
                   "prefix": null,
@@ -603,8 +554,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 988,
-                    "end": 1009,
-                    "ctxt": 0
+                    "end": 1009
                   },
                   "namespace": null,
                   "prefix": null,
@@ -617,8 +567,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 1010,
-                    "end": 1046,
-                    "ctxt": 0
+                    "end": 1046
                   },
                   "namespace": null,
                   "prefix": null,
@@ -631,8 +580,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 1052,
-                    "end": 1130,
-                    "ctxt": 0
+                    "end": 1130
                   },
                   "namespace": null,
                   "prefix": null,
@@ -645,8 +593,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 1131,
-                    "end": 1149,
-                    "ctxt": 0
+                    "end": 1149
                   },
                   "namespace": null,
                   "prefix": null,
@@ -661,8 +608,7 @@
                   "type": "Text",
                   "span": {
                     "start": 1150,
-                    "end": 1155,
-                    "ctxt": 0
+                    "end": 1155
                   },
                   "data": "\n    ",
                   "raw": "\n    "
@@ -671,8 +617,7 @@
                   "type": "Element",
                   "span": {
                     "start": 1155,
-                    "end": 1291,
-                    "ctxt": 0
+                    "end": 1291
                   },
                   "tagName": "linearGradient",
                   "namespace": "http://www.w3.org/2000/svg",
@@ -681,8 +626,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 1171,
-                        "end": 1184,
-                        "ctxt": 0
+                        "end": 1184
                       },
                       "namespace": null,
                       "prefix": null,
@@ -697,8 +641,7 @@
                       "type": "Text",
                       "span": {
                         "start": 1185,
-                        "end": 1194,
-                        "ctxt": 0
+                        "end": 1194
                       },
                       "data": "\n        ",
                       "raw": "\n        "
@@ -707,8 +650,7 @@
                       "type": "Element",
                       "span": {
                         "start": 1194,
-                        "end": 1227,
-                        "ctxt": 0
+                        "end": 1227
                       },
                       "tagName": "stop",
                       "namespace": "http://www.w3.org/2000/svg",
@@ -717,8 +659,7 @@
                           "type": "Attribute",
                           "span": {
                             "start": 1200,
-                            "end": 1213,
-                            "ctxt": 0
+                            "end": 1213
                           },
                           "namespace": null,
                           "prefix": null,
@@ -731,8 +672,7 @@
                           "type": "Attribute",
                           "span": {
                             "start": 1214,
-                            "end": 1225,
-                            "ctxt": 0
+                            "end": 1225
                           },
                           "namespace": null,
                           "prefix": null,
@@ -750,8 +690,7 @@
                       "type": "Text",
                       "span": {
                         "start": 1227,
-                        "end": 1236,
-                        "ctxt": 0
+                        "end": 1236
                       },
                       "data": "\n        ",
                       "raw": "\n        "
@@ -760,8 +699,7 @@
                       "type": "Element",
                       "span": {
                         "start": 1236,
-                        "end": 1269,
-                        "ctxt": 0
+                        "end": 1269
                       },
                       "tagName": "stop",
                       "namespace": "http://www.w3.org/2000/svg",
@@ -770,8 +708,7 @@
                           "type": "Attribute",
                           "span": {
                             "start": 1242,
-                            "end": 1253,
-                            "ctxt": 0
+                            "end": 1253
                           },
                           "namespace": null,
                           "prefix": null,
@@ -784,8 +721,7 @@
                           "type": "Attribute",
                           "span": {
                             "start": 1254,
-                            "end": 1267,
-                            "ctxt": 0
+                            "end": 1267
                           },
                           "namespace": null,
                           "prefix": null,
@@ -803,8 +739,7 @@
                       "type": "Text",
                       "span": {
                         "start": 1269,
-                        "end": 1274,
-                        "ctxt": 0
+                        "end": 1274
                       },
                       "data": "\n    ",
                       "raw": "\n    "
@@ -817,8 +752,7 @@
                   "type": "Text",
                   "span": {
                     "start": 1291,
-                    "end": 1296,
-                    "ctxt": 0
+                    "end": 1296
                   },
                   "data": "\n    ",
                   "raw": "\n    "
@@ -827,8 +761,7 @@
                   "type": "Element",
                   "span": {
                     "start": 1296,
-                    "end": 1369,
-                    "ctxt": 0
+                    "end": 1369
                   },
                   "tagName": "rect",
                   "namespace": "http://www.w3.org/2000/svg",
@@ -837,8 +770,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 1302,
-                        "end": 1307,
-                        "ctxt": 0
+                        "end": 1307
                       },
                       "namespace": null,
                       "prefix": null,
@@ -851,8 +783,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 1308,
-                        "end": 1313,
-                        "ctxt": 0
+                        "end": 1313
                       },
                       "namespace": null,
                       "prefix": null,
@@ -865,8 +796,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 1314,
-                        "end": 1325,
-                        "ctxt": 0
+                        "end": 1325
                       },
                       "namespace": null,
                       "prefix": null,
@@ -879,8 +809,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 1326,
-                        "end": 1338,
-                        "ctxt": 0
+                        "end": 1338
                       },
                       "namespace": null,
                       "prefix": null,
@@ -893,8 +822,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 1339,
-                        "end": 1366,
-                        "ctxt": 0
+                        "end": 1366
                       },
                       "namespace": null,
                       "prefix": null,
@@ -912,8 +840,7 @@
                   "type": "Text",
                   "span": {
                     "start": 1369,
-                    "end": 1374,
-                    "ctxt": 0
+                    "end": 1374
                   },
                   "data": "\n    ",
                   "raw": "\n    "
@@ -922,8 +849,7 @@
                   "type": "Element",
                   "span": {
                     "start": 1374,
-                    "end": 1435,
-                    "ctxt": 0
+                    "end": 1435
                   },
                   "tagName": "circle",
                   "namespace": "http://www.w3.org/2000/svg",
@@ -932,8 +858,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 1382,
-                        "end": 1389,
-                        "ctxt": 0
+                        "end": 1389
                       },
                       "namespace": null,
                       "prefix": null,
@@ -946,8 +871,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 1390,
-                        "end": 1397,
-                        "ctxt": 0
+                        "end": 1397
                       },
                       "namespace": null,
                       "prefix": null,
@@ -960,8 +884,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 1398,
-                        "end": 1404,
-                        "ctxt": 0
+                        "end": 1404
                       },
                       "namespace": null,
                       "prefix": null,
@@ -974,8 +897,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 1405,
-                        "end": 1432,
-                        "ctxt": 0
+                        "end": 1432
                       },
                       "namespace": null,
                       "prefix": null,
@@ -993,8 +915,7 @@
                   "type": "Text",
                   "span": {
                     "start": 1435,
-                    "end": 1436,
-                    "ctxt": 0
+                    "end": 1436
                   },
                   "data": "\n",
                   "raw": "\n"
@@ -1007,8 +928,7 @@
               "type": "Text",
               "span": {
                 "start": 1442,
-                "end": 1444,
-                "ctxt": 0
+                "end": 1444
               },
               "data": "\n\n",
               "raw": "\n\n"
@@ -1017,8 +937,7 @@
               "type": "Element",
               "span": {
                 "start": 1444,
-                "end": 1953,
-                "ctxt": 0
+                "end": 1953
               },
               "tagName": "svg",
               "namespace": "http://www.w3.org/2000/svg",
@@ -1027,8 +946,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 1449,
-                    "end": 1470,
-                    "ctxt": 0
+                    "end": 1470
                   },
                   "namespace": null,
                   "prefix": null,
@@ -1041,8 +959,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 1471,
-                    "end": 1505,
-                    "ctxt": 0
+                    "end": 1505
                   },
                   "namespace": "http://www.w3.org/2000/xmlns/",
                   "prefix": null,
@@ -1057,8 +974,7 @@
                   "type": "Text",
                   "span": {
                     "start": 1506,
-                    "end": 1511,
-                    "ctxt": 0
+                    "end": 1511
                   },
                   "data": "\n    ",
                   "raw": "\n    "
@@ -1067,8 +983,7 @@
                   "type": "Element",
                   "span": {
                     "start": 1511,
-                    "end": 1631,
-                    "ctxt": 0
+                    "end": 1631
                   },
                   "tagName": "filter",
                   "namespace": "http://www.w3.org/2000/svg",
@@ -1077,8 +992,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 1519,
-                        "end": 1530,
-                        "ctxt": 0
+                        "end": 1530
                       },
                       "namespace": null,
                       "prefix": null,
@@ -1091,8 +1005,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 1531,
-                        "end": 1536,
-                        "ctxt": 0
+                        "end": 1536
                       },
                       "namespace": null,
                       "prefix": null,
@@ -1105,8 +1018,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 1537,
-                        "end": 1542,
-                        "ctxt": 0
+                        "end": 1542
                       },
                       "namespace": null,
                       "prefix": null,
@@ -1119,8 +1031,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 1543,
-                        "end": 1555,
-                        "ctxt": 0
+                        "end": 1555
                       },
                       "namespace": null,
                       "prefix": null,
@@ -1133,8 +1044,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 1556,
-                        "end": 1569,
-                        "ctxt": 0
+                        "end": 1569
                       },
                       "namespace": null,
                       "prefix": null,
@@ -1149,8 +1059,7 @@
                       "type": "Text",
                       "span": {
                         "start": 1570,
-                        "end": 1579,
-                        "ctxt": 0
+                        "end": 1579
                       },
                       "data": "\n        ",
                       "raw": "\n        "
@@ -1159,8 +1068,7 @@
                       "type": "Element",
                       "span": {
                         "start": 1579,
-                        "end": 1617,
-                        "ctxt": 0
+                        "end": 1617
                       },
                       "tagName": "feTurbulence",
                       "namespace": "http://www.w3.org/2000/svg",
@@ -1169,8 +1077,7 @@
                           "type": "Attribute",
                           "span": {
                             "start": 1593,
-                            "end": 1614,
-                            "ctxt": 0
+                            "end": 1614
                           },
                           "namespace": null,
                           "prefix": null,
@@ -1188,8 +1095,7 @@
                       "type": "Text",
                       "span": {
                         "start": 1617,
-                        "end": 1622,
-                        "ctxt": 0
+                        "end": 1622
                       },
                       "data": "\n    ",
                       "raw": "\n    "
@@ -1202,8 +1108,7 @@
                   "type": "Text",
                   "span": {
                     "start": 1631,
-                    "end": 1636,
-                    "ctxt": 0
+                    "end": 1636
                   },
                   "data": "\n    ",
                   "raw": "\n    "
@@ -1212,8 +1117,7 @@
                   "type": "Element",
                   "span": {
                     "start": 1636,
-                    "end": 1755,
-                    "ctxt": 0
+                    "end": 1755
                   },
                   "tagName": "filter",
                   "namespace": "http://www.w3.org/2000/svg",
@@ -1222,8 +1126,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 1644,
-                        "end": 1655,
-                        "ctxt": 0
+                        "end": 1655
                       },
                       "namespace": null,
                       "prefix": null,
@@ -1236,8 +1139,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 1656,
-                        "end": 1661,
-                        "ctxt": 0
+                        "end": 1661
                       },
                       "namespace": null,
                       "prefix": null,
@@ -1250,8 +1152,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 1662,
-                        "end": 1667,
-                        "ctxt": 0
+                        "end": 1667
                       },
                       "namespace": null,
                       "prefix": null,
@@ -1264,8 +1165,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 1668,
-                        "end": 1680,
-                        "ctxt": 0
+                        "end": 1680
                       },
                       "namespace": null,
                       "prefix": null,
@@ -1278,8 +1178,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 1681,
-                        "end": 1694,
-                        "ctxt": 0
+                        "end": 1694
                       },
                       "namespace": null,
                       "prefix": null,
@@ -1294,8 +1193,7 @@
                       "type": "Text",
                       "span": {
                         "start": 1695,
-                        "end": 1704,
-                        "ctxt": 0
+                        "end": 1704
                       },
                       "data": "\n        ",
                       "raw": "\n        "
@@ -1304,8 +1202,7 @@
                       "type": "Element",
                       "span": {
                         "start": 1704,
-                        "end": 1741,
-                        "ctxt": 0
+                        "end": 1741
                       },
                       "tagName": "feTurbulence",
                       "namespace": "http://www.w3.org/2000/svg",
@@ -1314,8 +1211,7 @@
                           "type": "Attribute",
                           "span": {
                             "start": 1718,
-                            "end": 1738,
-                            "ctxt": 0
+                            "end": 1738
                           },
                           "namespace": null,
                           "prefix": null,
@@ -1333,8 +1229,7 @@
                       "type": "Text",
                       "span": {
                         "start": 1741,
-                        "end": 1746,
-                        "ctxt": 0
+                        "end": 1746
                       },
                       "data": "\n    ",
                       "raw": "\n    "
@@ -1347,8 +1242,7 @@
                   "type": "Text",
                   "span": {
                     "start": 1755,
-                    "end": 1761,
-                    "ctxt": 0
+                    "end": 1761
                   },
                   "data": "\n\n    ",
                   "raw": "\n\n    "
@@ -1357,8 +1251,7 @@
                   "type": "Element",
                   "span": {
                     "start": 1761,
-                    "end": 1836,
-                    "ctxt": 0
+                    "end": 1836
                   },
                   "tagName": "rect",
                   "namespace": "http://www.w3.org/2000/svg",
@@ -1367,8 +1260,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 1767,
-                        "end": 1772,
-                        "ctxt": 0
+                        "end": 1772
                       },
                       "namespace": null,
                       "prefix": null,
@@ -1381,8 +1273,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 1773,
-                        "end": 1778,
-                        "ctxt": 0
+                        "end": 1778
                       },
                       "namespace": null,
                       "prefix": null,
@@ -1395,8 +1286,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 1779,
-                        "end": 1790,
-                        "ctxt": 0
+                        "end": 1790
                       },
                       "namespace": null,
                       "prefix": null,
@@ -1409,8 +1299,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 1791,
-                        "end": 1803,
-                        "ctxt": 0
+                        "end": 1803
                       },
                       "namespace": null,
                       "prefix": null,
@@ -1423,8 +1312,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 1804,
-                        "end": 1833,
-                        "ctxt": 0
+                        "end": 1833
                       },
                       "namespace": null,
                       "prefix": null,
@@ -1442,8 +1330,7 @@
                   "type": "Text",
                   "span": {
                     "start": 1836,
-                    "end": 1841,
-                    "ctxt": 0
+                    "end": 1841
                   },
                   "data": "\n    ",
                   "raw": "\n    "
@@ -1452,8 +1339,7 @@
                   "type": "Element",
                   "span": {
                     "start": 1841,
-                    "end": 1946,
-                    "ctxt": 0
+                    "end": 1946
                   },
                   "tagName": "rect",
                   "namespace": "http://www.w3.org/2000/svg",
@@ -1462,8 +1348,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 1847,
-                        "end": 1852,
-                        "ctxt": 0
+                        "end": 1852
                       },
                       "namespace": null,
                       "prefix": null,
@@ -1476,8 +1361,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 1853,
-                        "end": 1858,
-                        "ctxt": 0
+                        "end": 1858
                       },
                       "namespace": null,
                       "prefix": null,
@@ -1490,8 +1374,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 1859,
-                        "end": 1870,
-                        "ctxt": 0
+                        "end": 1870
                       },
                       "namespace": null,
                       "prefix": null,
@@ -1504,8 +1387,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 1871,
-                        "end": 1883,
-                        "ctxt": 0
+                        "end": 1883
                       },
                       "namespace": null,
                       "prefix": null,
@@ -1518,8 +1400,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 1884,
-                        "end": 1943,
-                        "ctxt": 0
+                        "end": 1943
                       },
                       "namespace": null,
                       "prefix": null,
@@ -1537,8 +1418,7 @@
                   "type": "Text",
                   "span": {
                     "start": 1946,
-                    "end": 1947,
-                    "ctxt": 0
+                    "end": 1947
                   },
                   "data": "\n",
                   "raw": "\n"
@@ -1551,8 +1431,7 @@
               "type": "Text",
               "span": {
                 "start": 1953,
-                "end": 1955,
-                "ctxt": 0
+                "end": 1955
               },
               "data": "\n\n",
               "raw": "\n\n"
@@ -1561,8 +1440,7 @@
               "type": "Element",
               "span": {
                 "start": 1955,
-                "end": 2084,
-                "ctxt": 0
+                "end": 2084
               },
               "tagName": "svg",
               "namespace": "http://www.w3.org/2000/svg",
@@ -1571,8 +1449,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 1960,
-                    "end": 1981,
-                    "ctxt": 0
+                    "end": 1981
                   },
                   "namespace": null,
                   "prefix": null,
@@ -1585,8 +1462,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 1982,
-                    "end": 2016,
-                    "ctxt": 0
+                    "end": 2016
                   },
                   "namespace": "http://www.w3.org/2000/xmlns/",
                   "prefix": null,
@@ -1601,8 +1477,7 @@
                   "type": "Text",
                   "span": {
                     "start": 2017,
-                    "end": 2022,
-                    "ctxt": 0
+                    "end": 2022
                   },
                   "data": "\n    ",
                   "raw": "\n    "
@@ -1611,8 +1486,7 @@
                   "type": "Element",
                   "span": {
                     "start": 2022,
-                    "end": 2077,
-                    "ctxt": 0
+                    "end": 2077
                   },
                   "tagName": "text",
                   "namespace": "http://www.w3.org/2000/svg",
@@ -1621,8 +1495,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 2028,
-                        "end": 2044,
-                        "ctxt": 0
+                        "end": 2044
                       },
                       "namespace": "http://www.w3.org/XML/1998/namespace",
                       "prefix": "xml",
@@ -1637,8 +1510,7 @@
                       "type": "Text",
                       "span": {
                         "start": 2045,
-                        "end": 2070,
-                        "ctxt": 0
+                        "end": 2070
                       },
                       "data": "This is some English text",
                       "raw": "This is some English text"
@@ -1651,8 +1523,7 @@
                   "type": "Text",
                   "span": {
                     "start": 2077,
-                    "end": 2078,
-                    "ctxt": 0
+                    "end": 2078
                   },
                   "data": "\n",
                   "raw": "\n"
@@ -1665,8 +1536,7 @@
               "type": "Text",
               "span": {
                 "start": 2084,
-                "end": 2086,
-                "ctxt": 0
+                "end": 2086
               },
               "data": "\n\n",
               "raw": "\n\n"
@@ -1675,8 +1545,7 @@
               "type": "Element",
               "span": {
                 "start": 2086,
-                "end": 2412,
-                "ctxt": 0
+                "end": 2412
               },
               "tagName": "svg",
               "namespace": "http://www.w3.org/2000/svg",
@@ -1685,8 +1554,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 2091,
-                    "end": 2104,
-                    "ctxt": 0
+                    "end": 2104
                   },
                   "namespace": null,
                   "prefix": null,
@@ -1699,8 +1567,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 2110,
-                    "end": 2144,
-                    "ctxt": 0
+                    "end": 2144
                   },
                   "namespace": "http://www.w3.org/2000/xmlns/",
                   "prefix": null,
@@ -1713,8 +1580,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 2145,
-                    "end": 2187,
-                    "ctxt": 0
+                    "end": 2187
                   },
                   "namespace": "http://www.w3.org/2000/xmlns/",
                   "prefix": "xmlns",
@@ -1727,8 +1593,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 2193,
-                    "end": 2204,
-                    "ctxt": 0
+                    "end": 2204
                   },
                   "namespace": null,
                   "prefix": null,
@@ -1741,8 +1606,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 2205,
-                    "end": 2217,
-                    "ctxt": 0
+                    "end": 2217
                   },
                   "namespace": null,
                   "prefix": null,
@@ -1757,8 +1621,7 @@
                   "type": "Text",
                   "span": {
                     "start": 2218,
-                    "end": 2223,
-                    "ctxt": 0
+                    "end": 2223
                   },
                   "data": "\n    ",
                   "raw": "\n    "
@@ -1767,8 +1630,7 @@
                   "type": "Element",
                   "span": {
                     "start": 2223,
-                    "end": 2405,
-                    "ctxt": 0
+                    "end": 2405
                   },
                   "tagName": "image",
                   "namespace": "http://www.w3.org/2000/svg",
@@ -1777,8 +1639,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 2230,
-                        "end": 2236,
-                        "ctxt": 0
+                        "end": 2236
                       },
                       "namespace": null,
                       "prefix": null,
@@ -1791,8 +1652,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 2237,
-                        "end": 2244,
-                        "ctxt": 0
+                        "end": 2244
                       },
                       "namespace": null,
                       "prefix": null,
@@ -1805,8 +1665,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 2245,
-                        "end": 2256,
-                        "ctxt": 0
+                        "end": 2256
                       },
                       "namespace": null,
                       "prefix": null,
@@ -1819,8 +1678,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 2257,
-                        "end": 2269,
-                        "ctxt": 0
+                        "end": 2269
                       },
                       "namespace": null,
                       "prefix": null,
@@ -1833,8 +1691,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 2270,
-                        "end": 2292,
-                        "ctxt": 0
+                        "end": 2292
                       },
                       "namespace": null,
                       "prefix": null,
@@ -1847,8 +1704,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 2304,
-                        "end": 2403,
-                        "ctxt": 0
+                        "end": 2403
                       },
                       "namespace": "http://www.w3.org/1999/xlink",
                       "prefix": "xlink",
@@ -1866,8 +1722,7 @@
                   "type": "Text",
                   "span": {
                     "start": 2405,
-                    "end": 2406,
-                    "ctxt": 0
+                    "end": 2406
                   },
                   "data": "\n",
                   "raw": "\n"
@@ -1880,8 +1735,7 @@
               "type": "Text",
               "span": {
                 "start": 2412,
-                "end": 2414,
-                "ctxt": 0
+                "end": 2414
               },
               "data": "\n\n",
               "raw": "\n\n"
@@ -1890,8 +1744,7 @@
               "type": "Element",
               "span": {
                 "start": 2414,
-                "end": 2609,
-                "ctxt": 0
+                "end": 2609
               },
               "tagName": "svg",
               "namespace": "http://www.w3.org/2000/svg",
@@ -1900,8 +1753,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 2419,
-                    "end": 2439,
-                    "ctxt": 0
+                    "end": 2439
                   },
                   "namespace": null,
                   "prefix": null,
@@ -1914,8 +1766,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 2440,
-                    "end": 2474,
-                    "ctxt": 0
+                    "end": 2474
                   },
                   "namespace": "http://www.w3.org/2000/xmlns/",
                   "prefix": null,
@@ -1930,8 +1781,7 @@
                   "type": "Text",
                   "span": {
                     "start": 2475,
-                    "end": 2480,
-                    "ctxt": 0
+                    "end": 2480
                   },
                   "data": "\n    ",
                   "raw": "\n    "
@@ -1940,8 +1790,7 @@
                   "type": "Element",
                   "span": {
                     "start": 2480,
-                    "end": 2537,
-                    "ctxt": 0
+                    "end": 2537
                   },
                   "tagName": "text",
                   "namespace": "http://www.w3.org/2000/svg",
@@ -1950,8 +1799,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 2486,
-                        "end": 2492,
-                        "ctxt": 0
+                        "end": 2492
                       },
                       "namespace": null,
                       "prefix": null,
@@ -1964,8 +1812,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 2493,
-                        "end": 2512,
-                        "ctxt": 0
+                        "end": 2512
                       },
                       "namespace": "http://www.w3.org/XML/1998/namespace",
                       "prefix": "xml",
@@ -1980,8 +1827,7 @@
                       "type": "Text",
                       "span": {
                         "start": 2513,
-                        "end": 2530,
-                        "ctxt": 0
+                        "end": 2530
                       },
                       "data": "Default   spacing",
                       "raw": "Default   spacing"
@@ -1994,8 +1840,7 @@
                   "type": "Text",
                   "span": {
                     "start": 2537,
-                    "end": 2542,
-                    "ctxt": 0
+                    "end": 2542
                   },
                   "data": "\n    ",
                   "raw": "\n    "
@@ -2004,8 +1849,7 @@
                   "type": "Element",
                   "span": {
                     "start": 2542,
-                    "end": 2602,
-                    "ctxt": 0
+                    "end": 2602
                   },
                   "tagName": "text",
                   "namespace": "http://www.w3.org/2000/svg",
@@ -2014,8 +1858,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 2548,
-                        "end": 2554,
-                        "ctxt": 0
+                        "end": 2554
                       },
                       "namespace": null,
                       "prefix": null,
@@ -2028,8 +1871,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 2555,
-                        "end": 2575,
-                        "ctxt": 0
+                        "end": 2575
                       },
                       "namespace": "http://www.w3.org/XML/1998/namespace",
                       "prefix": "xml",
@@ -2044,8 +1886,7 @@
                       "type": "Text",
                       "span": {
                         "start": 2576,
-                        "end": 2595,
-                        "ctxt": 0
+                        "end": 2595
                       },
                       "data": "Preserved   spacing",
                       "raw": "Preserved   spacing"
@@ -2058,8 +1899,7 @@
                   "type": "Text",
                   "span": {
                     "start": 2602,
-                    "end": 2603,
-                    "ctxt": 0
+                    "end": 2603
                   },
                   "data": "\n",
                   "raw": "\n"
@@ -2072,8 +1912,7 @@
               "type": "Text",
               "span": {
                 "start": 2609,
-                "end": 2611,
-                "ctxt": 0
+                "end": 2611
               },
               "data": "\n\n",
               "raw": "\n\n"
@@ -2082,8 +1921,7 @@
               "type": "Element",
               "span": {
                 "start": 2611,
-                "end": 2924,
-                "ctxt": 0
+                "end": 2924
               },
               "tagName": "svg",
               "namespace": "http://www.w3.org/2000/svg",
@@ -2092,8 +1930,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 2616,
-                    "end": 2637,
-                    "ctxt": 0
+                    "end": 2637
                   },
                   "namespace": null,
                   "prefix": null,
@@ -2106,8 +1943,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 2638,
-                    "end": 2672,
-                    "ctxt": 0
+                    "end": 2672
                   },
                   "namespace": "http://www.w3.org/2000/xmlns/",
                   "prefix": null,
@@ -2122,8 +1958,7 @@
                   "type": "Text",
                   "span": {
                     "start": 2673,
-                    "end": 2678,
-                    "ctxt": 0
+                    "end": 2678
                   },
                   "data": "\n    ",
                   "raw": "\n    "
@@ -2132,8 +1967,7 @@
                   "type": "Element",
                   "span": {
                     "start": 2678,
-                    "end": 2733,
-                    "ctxt": 0
+                    "end": 2733
                   },
                   "tagName": "text",
                   "namespace": "http://www.w3.org/2000/svg",
@@ -2142,8 +1976,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 2684,
-                        "end": 2700,
-                        "ctxt": 0
+                        "end": 2700
                       },
                       "namespace": "http://www.w3.org/XML/1998/namespace",
                       "prefix": "xml",
@@ -2158,8 +1991,7 @@
                       "type": "Text",
                       "span": {
                         "start": 2701,
-                        "end": 2726,
-                        "ctxt": 0
+                        "end": 2726
                       },
                       "data": "This is some English text",
                       "raw": "This is some English text"
@@ -2172,8 +2004,7 @@
                   "type": "Text",
                   "span": {
                     "start": 2733,
-                    "end": 2738,
-                    "ctxt": 0
+                    "end": 2738
                   },
                   "data": "\n    ",
                   "raw": "\n    "
@@ -2182,8 +2013,7 @@
                   "type": "Element",
                   "span": {
                     "start": 2738,
-                    "end": 2917,
-                    "ctxt": 0
+                    "end": 2917
                   },
                   "tagName": "a",
                   "namespace": "http://www.w3.org/2000/svg",
@@ -2192,8 +2022,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 2741,
-                        "end": 2779,
-                        "ctxt": 0
+                        "end": 2779
                       },
                       "namespace": "http://www.w3.org/1999/xlink",
                       "prefix": "xlink",
@@ -2206,8 +2035,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 2780,
-                        "end": 2854,
-                        "ctxt": 0
+                        "end": 2854
                       },
                       "namespace": "http://www.w3.org/1999/xlink",
                       "prefix": "xlink",
@@ -2222,8 +2050,7 @@
                       "type": "Text",
                       "span": {
                         "start": 2855,
-                        "end": 2864,
-                        "ctxt": 0
+                        "end": 2864
                       },
                       "data": "\n        ",
                       "raw": "\n        "
@@ -2232,8 +2059,7 @@
                       "type": "Element",
                       "span": {
                         "start": 2864,
-                        "end": 2908,
-                        "ctxt": 0
+                        "end": 2908
                       },
                       "tagName": "text",
                       "namespace": "http://www.w3.org/2000/svg",
@@ -2242,8 +2068,7 @@
                           "type": "Attribute",
                           "span": {
                             "start": 2870,
-                            "end": 2876,
-                            "ctxt": 0
+                            "end": 2876
                           },
                           "namespace": null,
                           "prefix": null,
@@ -2256,8 +2081,7 @@
                           "type": "Attribute",
                           "span": {
                             "start": 2877,
-                            "end": 2883,
-                            "ctxt": 0
+                            "end": 2883
                           },
                           "namespace": null,
                           "prefix": null,
@@ -2272,8 +2096,7 @@
                           "type": "Text",
                           "span": {
                             "start": 2885,
-                            "end": 2901,
-                            "ctxt": 0
+                            "end": 2901
                           },
                           "data": "An example link.",
                           "raw": "An example link."
@@ -2286,8 +2109,7 @@
                       "type": "Text",
                       "span": {
                         "start": 2908,
-                        "end": 2913,
-                        "ctxt": 0
+                        "end": 2913
                       },
                       "data": "\n    ",
                       "raw": "\n    "
@@ -2300,8 +2122,7 @@
                   "type": "Text",
                   "span": {
                     "start": 2917,
-                    "end": 2918,
-                    "ctxt": 0
+                    "end": 2918
                   },
                   "data": "\n",
                   "raw": "\n"
@@ -2314,8 +2135,7 @@
               "type": "Text",
               "span": {
                 "start": 2924,
-                "end": 2926,
-                "ctxt": 0
+                "end": 2926
               },
               "data": "\n\n",
               "raw": "\n\n"
@@ -2324,8 +2144,7 @@
               "type": "Element",
               "span": {
                 "start": 2926,
-                "end": 3838,
-                "ctxt": 0
+                "end": 3838
               },
               "tagName": "svg",
               "namespace": "http://www.w3.org/2000/svg",
@@ -2334,8 +2153,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 2931,
-                    "end": 2952,
-                    "ctxt": 0
+                    "end": 2952
                   },
                   "namespace": null,
                   "prefix": null,
@@ -2348,8 +2166,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 2953,
-                    "end": 2987,
-                    "ctxt": 0
+                    "end": 2987
                   },
                   "namespace": "http://www.w3.org/2000/xmlns/",
                   "prefix": null,
@@ -2364,8 +2181,7 @@
                   "type": "Text",
                   "span": {
                     "start": 2988,
-                    "end": 2993,
-                    "ctxt": 0
+                    "end": 2993
                   },
                   "data": "\n    ",
                   "raw": "\n    "
@@ -2374,8 +2190,7 @@
                   "type": "Element",
                   "span": {
                     "start": 2993,
-                    "end": 3147,
-                    "ctxt": 0
+                    "end": 3147
                   },
                   "tagName": "style",
                   "namespace": "http://www.w3.org/2000/svg",
@@ -2385,8 +2200,7 @@
                       "type": "Text",
                       "span": {
                         "start": 3000,
-                        "end": 3139,
-                        "ctxt": 0
+                        "end": 3139
                       },
                       "data": "\n        div {\n            color: white;\n            font: 18px serif;\n            height: 100%;\n            overflow: auto;\n        }\n    ",
                       "raw": "\n        div {\n            color: white;\n            font: 18px serif;\n            height: 100%;\n            overflow: auto;\n        }\n    "
@@ -2399,8 +2213,7 @@
                   "type": "Text",
                   "span": {
                     "start": 3147,
-                    "end": 3153,
-                    "ctxt": 0
+                    "end": 3153
                   },
                   "data": "\n\n    ",
                   "raw": "\n\n    "
@@ -2409,8 +2222,7 @@
                   "type": "Element",
                   "span": {
                     "start": 3153,
-                    "end": 3199,
-                    "ctxt": 0
+                    "end": 3199
                   },
                   "tagName": "polygon",
                   "namespace": "http://www.w3.org/2000/svg",
@@ -2419,8 +2231,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 3162,
-                        "end": 3196,
-                        "ctxt": 0
+                        "end": 3196
                       },
                       "namespace": null,
                       "prefix": null,
@@ -2438,8 +2249,7 @@
                   "type": "Text",
                   "span": {
                     "start": 3199,
-                    "end": 3205,
-                    "ctxt": 0
+                    "end": 3205
                   },
                   "data": "\n\n    ",
                   "raw": "\n\n    "
@@ -2448,8 +2258,7 @@
                   "type": "Comment",
                   "span": {
                     "start": 3205,
-                    "end": 3255,
-                    "ctxt": 0
+                    "end": 3255
                   },
                   "data": " Common use case: embed HTML text into SVG ",
                   "raw": "<!-- Common use case: embed HTML text into SVG -->"
@@ -2458,8 +2267,7 @@
                   "type": "Text",
                   "span": {
                     "start": 3255,
-                    "end": 3260,
-                    "ctxt": 0
+                    "end": 3260
                   },
                   "data": "\n    ",
                   "raw": "\n    "
@@ -2468,8 +2276,7 @@
                   "type": "Element",
                   "span": {
                     "start": 3260,
-                    "end": 3831,
-                    "ctxt": 0
+                    "end": 3831
                   },
                   "tagName": "foreignObject",
                   "namespace": "http://www.w3.org/2000/svg",
@@ -2478,8 +2285,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 3275,
-                        "end": 3281,
-                        "ctxt": 0
+                        "end": 3281
                       },
                       "namespace": null,
                       "prefix": null,
@@ -2492,8 +2298,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 3282,
-                        "end": 3288,
-                        "ctxt": 0
+                        "end": 3288
                       },
                       "namespace": null,
                       "prefix": null,
@@ -2506,8 +2311,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 3289,
-                        "end": 3300,
-                        "ctxt": 0
+                        "end": 3300
                       },
                       "namespace": null,
                       "prefix": null,
@@ -2520,8 +2324,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 3301,
-                        "end": 3313,
-                        "ctxt": 0
+                        "end": 3313
                       },
                       "namespace": null,
                       "prefix": null,
@@ -2536,8 +2339,7 @@
                       "type": "Text",
                       "span": {
                         "start": 3314,
-                        "end": 3323,
-                        "ctxt": 0
+                        "end": 3323
                       },
                       "data": "\n        ",
                       "raw": "\n        "
@@ -2546,8 +2348,7 @@
                       "type": "Comment",
                       "span": {
                         "start": 3323,
-                        "end": 3513,
-                        "ctxt": 0
+                        "end": 3513
                       },
                       "data": "\n          In the context of SVG embedded in an HTML document, the XHTML\n          namespace could be omitted, but it is mandatory in the\n          context of an SVG document\n        ",
                       "raw": "<!--\n          In the context of SVG embedded in an HTML document, the XHTML\n          namespace could be omitted, but it is mandatory in the\n          context of an SVG document\n        -->"
@@ -2556,8 +2357,7 @@
                       "type": "Text",
                       "span": {
                         "start": 3513,
-                        "end": 3522,
-                        "ctxt": 0
+                        "end": 3522
                       },
                       "data": "\n        ",
                       "raw": "\n        "
@@ -2566,8 +2366,7 @@
                       "type": "Element",
                       "span": {
                         "start": 3522,
-                        "end": 3810,
-                        "ctxt": 0
+                        "end": 3810
                       },
                       "tagName": "div",
                       "namespace": "http://www.w3.org/1999/xhtml",
@@ -2576,8 +2375,7 @@
                           "type": "Attribute",
                           "span": {
                             "start": 3527,
-                            "end": 3563,
-                            "ctxt": 0
+                            "end": 3563
                           },
                           "namespace": null,
                           "prefix": null,
@@ -2592,8 +2390,7 @@
                           "type": "Text",
                           "span": {
                             "start": 3564,
-                            "end": 3804,
-                            "ctxt": 0
+                            "end": 3804
                           },
                           "data": "\n            Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n            Sed mollis mollis mi ut ultricies. Nullam magna ipsum,\n            porta vel dui convallis, rutrum imperdiet eros. Aliquam\n            erat volutpat.\n        ",
                           "raw": "\n            Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n            Sed mollis mollis mi ut ultricies. Nullam magna ipsum,\n            porta vel dui convallis, rutrum imperdiet eros. Aliquam\n            erat volutpat.\n        "
@@ -2606,8 +2403,7 @@
                       "type": "Text",
                       "span": {
                         "start": 3810,
-                        "end": 3815,
-                        "ctxt": 0
+                        "end": 3815
                       },
                       "data": "\n    ",
                       "raw": "\n    "
@@ -2620,8 +2416,7 @@
                   "type": "Text",
                   "span": {
                     "start": 3831,
-                    "end": 3832,
-                    "ctxt": 0
+                    "end": 3832
                   },
                   "data": "\n",
                   "raw": "\n"
@@ -2634,8 +2429,7 @@
               "type": "Text",
               "span": {
                 "start": 3838,
-                "end": 3840,
-                "ctxt": 0
+                "end": 3840
               },
               "data": "\n\n",
               "raw": "\n\n"
@@ -2644,8 +2438,7 @@
               "type": "Element",
               "span": {
                 "start": 3840,
-                "end": 4692,
-                "ctxt": 0
+                "end": 4692
               },
               "tagName": "svg",
               "namespace": "http://www.w3.org/2000/svg",
@@ -2654,8 +2447,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 3845,
-                    "end": 3868,
-                    "ctxt": 0
+                    "end": 3868
                   },
                   "namespace": null,
                   "prefix": null,
@@ -2668,8 +2460,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 3869,
-                    "end": 3882,
-                    "ctxt": 0
+                    "end": 3882
                   },
                   "namespace": null,
                   "prefix": null,
@@ -2682,8 +2473,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 3883,
-                    "end": 3897,
-                    "ctxt": 0
+                    "end": 3897
                   },
                   "namespace": null,
                   "prefix": null,
@@ -2696,8 +2486,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 3898,
-                    "end": 3919,
-                    "ctxt": 0
+                    "end": 3919
                   },
                   "namespace": null,
                   "prefix": null,
@@ -2712,8 +2501,7 @@
                   "type": "Text",
                   "span": {
                     "start": 3920,
-                    "end": 3925,
-                    "ctxt": 0
+                    "end": 3925
                   },
                   "data": "\n    ",
                   "raw": "\n    "
@@ -2722,8 +2510,7 @@
                   "type": "Element",
                   "span": {
                     "start": 3925,
-                    "end": 4685,
-                    "ctxt": 0
+                    "end": 4685
                   },
                   "tagName": "g",
                   "namespace": "http://www.w3.org/2000/svg",
@@ -2732,8 +2519,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 3928,
-                        "end": 3956,
-                        "ctxt": 0
+                        "end": 3956
                       },
                       "namespace": null,
                       "prefix": null,
@@ -2748,8 +2534,7 @@
                       "type": "Text",
                       "span": {
                         "start": 3957,
-                        "end": 3966,
-                        "ctxt": 0
+                        "end": 3966
                       },
                       "data": "\n        ",
                       "raw": "\n        "
@@ -2758,8 +2543,7 @@
                       "type": "Element",
                       "span": {
                         "start": 3966,
-                        "end": 4110,
-                        "ctxt": 0
+                        "end": 4110
                       },
                       "tagName": "path",
                       "namespace": "http://www.w3.org/2000/svg",
@@ -2768,8 +2552,7 @@
                           "type": "Attribute",
                           "span": {
                             "start": 3972,
-                            "end": 4061,
-                            "ctxt": 0
+                            "end": 4061
                           },
                           "namespace": null,
                           "prefix": null,
@@ -2782,8 +2565,7 @@
                           "type": "Attribute",
                           "span": {
                             "start": 4076,
-                            "end": 4087,
-                            "ctxt": 0
+                            "end": 4087
                           },
                           "namespace": null,
                           "prefix": null,
@@ -2796,8 +2578,7 @@
                           "type": "Attribute",
                           "span": {
                             "start": 4088,
-                            "end": 4102,
-                            "ctxt": 0
+                            "end": 4102
                           },
                           "namespace": null,
                           "prefix": null,
@@ -2815,8 +2596,7 @@
                       "type": "Text",
                       "span": {
                         "start": 4110,
-                        "end": 4119,
-                        "ctxt": 0
+                        "end": 4119
                       },
                       "data": "\n        ",
                       "raw": "\n        "
@@ -2825,8 +2605,7 @@
                       "type": "Element",
                       "span": {
                         "start": 4119,
-                        "end": 4162,
-                        "ctxt": 0
+                        "end": 4162
                       },
                       "tagName": "text",
                       "namespace": "http://www.w3.org/2000/svg",
@@ -2835,8 +2614,7 @@
                           "type": "Attribute",
                           "span": {
                             "start": 4125,
-                            "end": 4153,
-                            "ctxt": 0
+                            "end": 4153
                           },
                           "namespace": null,
                           "prefix": null,
@@ -2851,8 +2629,7 @@
                           "type": "Text",
                           "span": {
                             "start": 4154,
-                            "end": 4155,
-                            "ctxt": 0
+                            "end": 4155
                           },
                           "data": "1",
                           "raw": "1"
@@ -2865,8 +2642,7 @@
                       "type": "Text",
                       "span": {
                         "start": 4162,
-                        "end": 4171,
-                        "ctxt": 0
+                        "end": 4171
                       },
                       "data": "\n        ",
                       "raw": "\n        "
@@ -2875,8 +2651,7 @@
                       "type": "Element",
                       "span": {
                         "start": 4171,
-                        "end": 4676,
-                        "ctxt": 0
+                        "end": 4676
                       },
                       "tagName": "switch",
                       "namespace": "http://www.w3.org/2000/svg",
@@ -2885,8 +2660,7 @@
                           "type": "Attribute",
                           "span": {
                             "start": 4179,
-                            "end": 4208,
-                            "ctxt": 0
+                            "end": 4208
                           },
                           "namespace": null,
                           "prefix": null,
@@ -2901,8 +2675,7 @@
                           "type": "Text",
                           "span": {
                             "start": 4209,
-                            "end": 4222,
-                            "ctxt": 0
+                            "end": 4222
                           },
                           "data": "\n            ",
                           "raw": "\n            "
@@ -2911,8 +2684,7 @@
                           "type": "Element",
                           "span": {
                             "start": 4222,
-                            "end": 4619,
-                            "ctxt": 0
+                            "end": 4619
                           },
                           "tagName": "foreignObject",
                           "namespace": "http://www.w3.org/2000/svg",
@@ -2921,8 +2693,7 @@
                               "type": "Attribute",
                               "span": {
                                 "start": 4237,
-                                "end": 4248,
-                                "ctxt": 0
+                                "end": 4248
                               },
                               "namespace": null,
                               "prefix": null,
@@ -2935,8 +2706,7 @@
                               "type": "Attribute",
                               "span": {
                                 "start": 4249,
-                                "end": 4260,
-                                "ctxt": 0
+                                "end": 4260
                               },
                               "namespace": null,
                               "prefix": null,
@@ -2949,8 +2719,7 @@
                               "type": "Attribute",
                               "span": {
                                 "start": 4288,
-                                "end": 4343,
-                                "ctxt": 0
+                                "end": 4343
                               },
                               "namespace": null,
                               "prefix": null,
@@ -2965,8 +2734,7 @@
                               "type": "Text",
                               "span": {
                                 "start": 4344,
-                                "end": 4361,
-                                "ctxt": 0
+                                "end": 4361
                               },
                               "data": "\n                ",
                               "raw": "\n                "
@@ -2975,8 +2743,7 @@
                               "type": "Element",
                               "span": {
                                 "start": 4361,
-                                "end": 4590,
-                                "ctxt": 0
+                                "end": 4590
                               },
                               "tagName": "math",
                               "namespace": "http://www.w3.org/1998/Math/MathML",
@@ -2986,8 +2753,7 @@
                                   "type": "Text",
                                   "span": {
                                     "start": 4367,
-                                    "end": 4388,
-                                    "ctxt": 0
+                                    "end": 4388
                                   },
                                   "data": "\n                    ",
                                   "raw": "\n                    "
@@ -2996,8 +2762,7 @@
                                   "type": "Element",
                                   "span": {
                                     "start": 4388,
-                                    "end": 4566,
-                                    "ctxt": 0
+                                    "end": 4566
                                   },
                                   "tagName": "msqrt",
                                   "namespace": "http://www.w3.org/1998/Math/MathML",
@@ -3007,8 +2772,7 @@
                                       "type": "Text",
                                       "span": {
                                         "start": 4395,
-                                        "end": 4420,
-                                        "ctxt": 0
+                                        "end": 4420
                                       },
                                       "data": "\n                        ",
                                       "raw": "\n                        "
@@ -3017,8 +2781,7 @@
                                       "type": "Element",
                                       "span": {
                                         "start": 4420,
-                                        "end": 4430,
-                                        "ctxt": 0
+                                        "end": 4430
                                       },
                                       "tagName": "mn",
                                       "namespace": "http://www.w3.org/1998/Math/MathML",
@@ -3028,8 +2791,7 @@
                                           "type": "Text",
                                           "span": {
                                             "start": 4424,
-                                            "end": 4425,
-                                            "ctxt": 0
+                                            "end": 4425
                                           },
                                           "data": "2",
                                           "raw": "2"
@@ -3042,8 +2804,7 @@
                                       "type": "Text",
                                       "span": {
                                         "start": 4430,
-                                        "end": 4455,
-                                        "ctxt": 0
+                                        "end": 4455
                                       },
                                       "data": "\n                        ",
                                       "raw": "\n                        "
@@ -3052,8 +2813,7 @@
                                       "type": "Element",
                                       "span": {
                                         "start": 4455,
-                                        "end": 4465,
-                                        "ctxt": 0
+                                        "end": 4465
                                       },
                                       "tagName": "mi",
                                       "namespace": "http://www.w3.org/1998/Math/MathML",
@@ -3063,8 +2823,7 @@
                                           "type": "Text",
                                           "span": {
                                             "start": 4459,
-                                            "end": 4460,
-                                            "ctxt": 0
+                                            "end": 4460
                                           },
                                           "data": "r",
                                           "raw": "r"
@@ -3077,8 +2836,7 @@
                                       "type": "Text",
                                       "span": {
                                         "start": 4465,
-                                        "end": 4490,
-                                        "ctxt": 0
+                                        "end": 4490
                                       },
                                       "data": "\n                        ",
                                       "raw": "\n                        "
@@ -3087,8 +2845,7 @@
                                       "type": "Element",
                                       "span": {
                                         "start": 4490,
-                                        "end": 4502,
-                                        "ctxt": 0
+                                        "end": 4502
                                       },
                                       "tagName": "mo",
                                       "namespace": "http://www.w3.org/1998/Math/MathML",
@@ -3098,8 +2855,7 @@
                                           "type": "Text",
                                           "span": {
                                             "start": 4494,
-                                            "end": 4497,
-                                            "ctxt": 0
+                                            "end": 4497
                                           },
                                           "data": "−",
                                           "raw": "−"
@@ -3112,8 +2868,7 @@
                                       "type": "Text",
                                       "span": {
                                         "start": 4502,
-                                        "end": 4527,
-                                        "ctxt": 0
+                                        "end": 4527
                                       },
                                       "data": "\n                        ",
                                       "raw": "\n                        "
@@ -3122,8 +2877,7 @@
                                       "type": "Element",
                                       "span": {
                                         "start": 4527,
-                                        "end": 4537,
-                                        "ctxt": 0
+                                        "end": 4537
                                       },
                                       "tagName": "mn",
                                       "namespace": "http://www.w3.org/1998/Math/MathML",
@@ -3133,8 +2887,7 @@
                                           "type": "Text",
                                           "span": {
                                             "start": 4531,
-                                            "end": 4532,
-                                            "ctxt": 0
+                                            "end": 4532
                                           },
                                           "data": "1",
                                           "raw": "1"
@@ -3147,8 +2900,7 @@
                                       "type": "Text",
                                       "span": {
                                         "start": 4537,
-                                        "end": 4558,
-                                        "ctxt": 0
+                                        "end": 4558
                                       },
                                       "data": "\n                    ",
                                       "raw": "\n                    "
@@ -3161,8 +2913,7 @@
                                   "type": "Text",
                                   "span": {
                                     "start": 4566,
-                                    "end": 4583,
-                                    "ctxt": 0
+                                    "end": 4583
                                   },
                                   "data": "\n                ",
                                   "raw": "\n                "
@@ -3175,8 +2926,7 @@
                               "type": "Text",
                               "span": {
                                 "start": 4590,
-                                "end": 4603,
-                                "ctxt": 0
+                                "end": 4603
                               },
                               "data": "\n            ",
                               "raw": "\n            "
@@ -3189,8 +2939,7 @@
                           "type": "Text",
                           "span": {
                             "start": 4619,
-                            "end": 4632,
-                            "ctxt": 0
+                            "end": 4632
                           },
                           "data": "\n            ",
                           "raw": "\n            "
@@ -3199,8 +2948,7 @@
                           "type": "Element",
                           "span": {
                             "start": 4632,
-                            "end": 4658,
-                            "ctxt": 0
+                            "end": 4658
                           },
                           "tagName": "text",
                           "namespace": "http://www.w3.org/2000/svg",
@@ -3210,8 +2958,7 @@
                               "type": "Text",
                               "span": {
                                 "start": 4638,
-                                "end": 4651,
-                                "ctxt": 0
+                                "end": 4651
                               },
                               "data": "\\sqrt{2r - 1}",
                               "raw": "\\sqrt{2r - 1}"
@@ -3224,8 +2971,7 @@
                           "type": "Text",
                           "span": {
                             "start": 4658,
-                            "end": 4667,
-                            "ctxt": 0
+                            "end": 4667
                           },
                           "data": "\n        ",
                           "raw": "\n        "
@@ -3238,8 +2984,7 @@
                       "type": "Text",
                       "span": {
                         "start": 4676,
-                        "end": 4681,
-                        "ctxt": 0
+                        "end": 4681
                       },
                       "data": "\n    ",
                       "raw": "\n    "
@@ -3252,8 +2997,7 @@
                   "type": "Text",
                   "span": {
                     "start": 4685,
-                    "end": 4686,
-                    "ctxt": 0
+                    "end": 4686
                   },
                   "data": "\n",
                   "raw": "\n"
@@ -3266,8 +3010,7 @@
               "type": "Text",
               "span": {
                 "start": 4692,
-                "end": 4702,
-                "ctxt": 0
+                "end": 4702
               },
               "data": "\n\n\n",
               "raw": "\n\n\n"

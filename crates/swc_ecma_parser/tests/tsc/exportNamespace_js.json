@@ -2,16 +2,14 @@
   "type": "Module",
   "span": {
     "start": 95,
-    "end": 206,
-    "ctxt": 0
+    "end": 206
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
         "start": 95,
-        "end": 112,
-        "ctxt": 0
+        "end": 112
       },
       "declaration": {
         "type": "ClassDeclaration",
@@ -19,18 +17,18 @@
           "type": "Identifier",
           "span": {
             "start": 108,
-            "end": 109,
-            "ctxt": 0
+            "end": 109
           },
+          "ctxt": 0,
           "value": "A",
           "optional": false
         },
         "declare": false,
         "span": {
           "start": 102,
-          "end": 112,
-          "ctxt": 0
+          "end": 112
         },
+        "ctxt": 0,
         "decorators": [],
         "body": [],
         "superClass": null,
@@ -44,15 +42,13 @@
       "type": "ExportAllDeclaration",
       "span": {
         "start": 133,
-        "end": 158,
-        "ctxt": 0
+        "end": 158
       },
       "source": {
         "type": "StringLiteral",
         "span": {
           "start": 152,
-          "end": 157,
-          "ctxt": 0
+          "end": 157
         },
         "value": "./a",
         "raw": "'./a'"
@@ -64,24 +60,22 @@
       "type": "ImportDeclaration",
       "span": {
         "start": 179,
-        "end": 203,
-        "ctxt": 0
+        "end": 203
       },
       "specifiers": [
         {
           "type": "ImportSpecifier",
           "span": {
             "start": 188,
-            "end": 189,
-            "ctxt": 0
+            "end": 189
           },
           "local": {
             "type": "Identifier",
             "span": {
               "start": 188,
-              "end": 189,
-              "ctxt": 0
+              "end": 189
             },
+            "ctxt": 0,
             "value": "A",
             "optional": false
           },
@@ -93,8 +87,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 197,
-          "end": 202,
-          "ctxt": 0
+          "end": 202
         },
         "value": "./b",
         "raw": "'./b'"
@@ -107,16 +100,15 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 204,
-        "end": 206,
-        "ctxt": 0
+        "end": 206
       },
       "expression": {
         "type": "Identifier",
         "span": {
           "start": 204,
-          "end": 205,
-          "ctxt": 0
+          "end": 205
         },
+        "ctxt": 0,
         "value": "A",
         "optional": false
       }

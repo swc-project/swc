@@ -6,7 +6,7 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{ParVisitMut, Parallel};
 use swc_ecma_utils::{collect_decls, parallel::cpu_count, NodeIgnoringSpan};
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, standard_only_visit_mut, Fold, VisitMut, VisitMutWith};
 
 /// The key will be compared using [EqIgnoreSpan::eq_ignore_span], and matched
 /// expressions will be replaced with the value.
@@ -63,11 +63,11 @@ impl Parallel for InlineGlobals {
 }
 
 impl VisitMut for InlineGlobals {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
-        if let Expr::Ident(Ident { ref sym, span, .. }) = expr {
-            if self.bindings.contains(&(sym.clone(), span.ctxt)) {
+        if let Expr::Ident(Ident { ref sym, ctxt, .. }) = expr {
+            if self.bindings.contains(&(sym.clone(), *ctxt)) {
                 return;
             }
         }
@@ -100,21 +100,22 @@ impl VisitMut for InlineGlobals {
             }) => {
                 if let Expr::Ident(Ident {
                     ref sym,
-                    span: arg_span,
+                    ctxt: arg_ctxt,
                     ..
                 }) = &**arg
                 {
-                    if self.bindings.contains(&(sym.clone(), arg_span.ctxt)) {
+                    if self.bindings.contains(&(sym.clone(), *arg_ctxt)) {
                         return;
                     }
 
                     // It's ok because we don't recurse into member expressions.
                     if let Some(value) = self.typeofs.get(sym).cloned() {
-                        *expr = Expr::Lit(Lit::Str(Str {
+                        *expr = Lit::Str(Str {
                             span: *span,
                             raw: None,
                             value,
-                        }));
+                        })
+                        .into();
                     }
                 }
             }
@@ -135,7 +136,7 @@ impl VisitMut for InlineGlobals {
                                 }
                             }
 
-                            MemberProp::Ident(Ident { sym, .. }) => {
+                            MemberProp::Ident(IdentName { sym, .. }) => {
                                 if let Some(env) = self.envs.get(sym) {
                                     *expr = env.clone();
                                 }
@@ -168,7 +169,7 @@ impl VisitMut for InlineGlobals {
             if let Some(mut value) = self.globals.get(&i.sym).cloned().map(Box::new) {
                 value.visit_mut_with(self);
                 *p = Prop::KeyValue(KeyValueProp {
-                    key: PropName::Ident(i.clone()),
+                    key: PropName::Ident(i.clone().into()),
                     value,
                 });
             }
@@ -221,9 +222,7 @@ mod tests {
 
             let mut v = tester
                 .apply_transform(
-                    as_folder(DropSpan {
-                        preserve_ctxt: false,
-                    }),
+                    as_folder(DropSpan),
                     "global.js",
                     ::swc_ecma_parser::Syntax::default(),
                     &v,

@@ -2,24 +2,22 @@
   "type": "Script",
   "span": {
     "start": 30,
-    "end": 84,
-    "ctxt": 0
+    "end": 84
   },
   "body": [
     {
       "type": "LabeledStatement",
       "span": {
         "start": 30,
-        "end": 84,
-        "ctxt": 0
+        "end": 84
       },
       "label": {
         "type": "Identifier",
         "span": {
           "start": 30,
-          "end": 37,
-          "ctxt": 0
+          "end": 37
         },
+        "ctxt": 0,
         "value": "target1",
         "optional": false
       },
@@ -27,16 +25,15 @@
         "type": "LabeledStatement",
         "span": {
           "start": 39,
-          "end": 84,
-          "ctxt": 0
+          "end": 84
         },
         "label": {
           "type": "Identifier",
           "span": {
             "start": 39,
-            "end": 46,
-            "ctxt": 0
+            "end": 46
           },
+          "ctxt": 0,
           "value": "target2",
           "optional": false
         },
@@ -44,15 +41,13 @@
           "type": "WhileStatement",
           "span": {
             "start": 48,
-            "end": 84,
-            "ctxt": 0
+            "end": 84
           },
           "test": {
             "type": "BooleanLiteral",
             "span": {
               "start": 55,
-              "end": 59,
-              "ctxt": 0
+              "end": 59
             },
             "value": true
           },
@@ -60,24 +55,23 @@
             "type": "BlockStatement",
             "span": {
               "start": 61,
-              "end": 84,
-              "ctxt": 0
+              "end": 84
             },
+            "ctxt": 0,
             "stmts": [
               {
                 "type": "ContinueStatement",
                 "span": {
                   "start": 65,
-                  "end": 82,
-                  "ctxt": 0
+                  "end": 82
                 },
                 "label": {
                   "type": "Identifier",
                   "span": {
                     "start": 74,
-                    "end": 81,
-                    "ctxt": 0
+                    "end": 81
                   },
+                  "ctxt": 0,
                   "value": "target2",
                   "optional": false
                 }

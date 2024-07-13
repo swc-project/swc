@@ -21,7 +21,7 @@ fn mk() -> swc::Compiler {
 
 fn parse(c: &swc::Compiler, src: &str) -> (Arc<SourceFile>, Program) {
     let fm = c.cm.new_source_file(
-        FileName::Real("rxjs/src/internal/observable/dom/AjaxObservable.ts".into()),
+        FileName::Real("rxjs/src/internal/observable/dom/AjaxObservable.ts".into()).into(),
         src.to_string(),
     );
 
@@ -54,7 +54,7 @@ fn babelify_only(b: &mut Bencher) {
 
             module
                 .fold_with(&mut resolver(unresolved_mark, top_level_mark, true))
-                .fold_with(&mut typescript::strip(top_level_mark))
+                .fold_with(&mut typescript::strip(unresolved_mark, top_level_mark))
                 .fold_with(&mut es2020(Default::default(), unresolved_mark))
         });
 

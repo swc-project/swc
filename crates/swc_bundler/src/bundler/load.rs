@@ -11,7 +11,7 @@ use swc_ecma_ast::{
 };
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, FoldWith, Visit, VisitMut, VisitMutWith, VisitWith,
+    noop_visit_type, standard_only_visit_mut, FoldWith, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 
 use super::{export::Exports, helpers::Helpers, Bundler};
@@ -364,7 +364,7 @@ where
                         }
                         ImportSpecifier::Default(s) => specifiers.push(Specifier::Specific {
                             local: s.local.into(),
-                            alias: Some(Id::new("default".into(), s.span.ctxt())),
+                            alias: Some(Id::new("default".into(), SyntaxContext::empty())),
                         }),
                         ImportSpecifier::Namespace(s) => {
                             specifiers.push(Specifier::Namespace {
@@ -486,9 +486,9 @@ impl Visit for Es6ModuleDetector {
 #[derive(Clone, Copy)]
 struct ClearMark;
 impl VisitMut for ClearMark {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_ident(&mut self, ident: &mut Ident) {
-        ident.span.ctxt = SyntaxContext::empty();
+        ident.ctxt = SyntaxContext::empty();
     }
 }

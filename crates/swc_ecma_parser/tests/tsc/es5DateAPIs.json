@@ -2,38 +2,35 @@
   "type": "Script",
   "span": {
     "start": 15,
-    "end": 30,
-    "ctxt": 0
+    "end": 30
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 15,
-        "end": 30,
-        "ctxt": 0
+        "end": 30
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 15,
-          "end": 29,
-          "ctxt": 0
+          "end": 29
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 15,
-            "end": 23,
-            "ctxt": 0
+            "end": 23
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 15,
-              "end": 19,
-              "ctxt": 0
+              "end": 19
             },
+            "ctxt": 0,
             "value": "Date",
             "optional": false
           },
@@ -41,11 +38,9 @@
             "type": "Identifier",
             "span": {
               "start": 20,
-              "end": 23,
-              "ctxt": 0
+              "end": 23
             },
-            "value": "UTC",
-            "optional": false
+            "value": "UTC"
           }
         },
         "arguments": [
@@ -55,8 +50,7 @@
               "type": "NumericLiteral",
               "span": {
                 "start": 24,
-                "end": 28,
-                "ctxt": 0
+                "end": 28
               },
               "value": 2017.0,
               "raw": "2017"

@@ -53,11 +53,6 @@
  1 | console.log(((((((a)))))))
    : ^^^^^^^
    `----
-  x Ident
-   ,-[$DIR/tests/span/js/expr/paren.js:1:1]
- 1 | console.log(((((((a)))))))
-   :         ^^^
-   `----
   x ExprOrSpread
    ,-[$DIR/tests/span/js/expr/paren.js:1:1]
  1 | console.log(((((((a)))))))

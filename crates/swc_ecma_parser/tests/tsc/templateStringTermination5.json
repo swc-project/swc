@@ -2,23 +2,20 @@
   "type": "Script",
   "span": {
     "start": 2,
-    "end": 10,
-    "ctxt": 0
+    "end": 10
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 2,
-        "end": 10,
-        "ctxt": 0
+        "end": 10
       },
       "expression": {
         "type": "TemplateLiteral",
         "span": {
           "start": 2,
-          "end": 10,
-          "ctxt": 0
+          "end": 10
         },
         "expressions": [],
         "quasis": [
@@ -26,8 +23,7 @@
             "type": "TemplateElement",
             "span": {
               "start": 3,
-              "end": 9,
-              "ctxt": 0
+              "end": 9
             },
             "tail": true,
             "cooked": "\\\\\\",

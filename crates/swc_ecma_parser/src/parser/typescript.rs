@@ -2,7 +2,7 @@ use std::fmt::Write;
 
 use either::Either;
 use swc_atoms::js_word;
-use swc_common::{Spanned, SyntaxContext};
+use swc_common::Spanned;
 
 use super::*;
 use crate::{lexer::TokenContexts, parser::class_and_fn::IsSimpleParameterList, token::Keyword};
@@ -186,6 +186,7 @@ impl<I: Tokens> Parser<I> {
     fn parse_ts_entity_name(&mut self, allow_reserved_words: bool) -> PResult<TsEntityName> {
         debug_assert!(self.input.syntax().typescript());
         trace_cur!(self, parse_ts_entity_name);
+        let start = cur_pos!(self);
 
         let init = self.parse_ident_name()?;
         if &*init.sym == "void" {
@@ -193,14 +194,11 @@ impl<I: Tokens> Parser<I> {
             let dot_span = span!(self, dot_start);
             self.emit_err(dot_span, SyntaxError::TS1005)
         }
-        let mut entity = TsEntityName::Ident(init);
+        let mut entity = TsEntityName::Ident(init.into());
         while eat!(self, '.') {
             let dot_start = cur_pos!(self);
             if !is!(self, '#') && !is!(self, IdentName) {
-                self.emit_err(
-                    Span::new(dot_start, dot_start, Default::default()),
-                    SyntaxError::TS1003,
-                );
+                self.emit_err(Span::new(dot_start, dot_start), SyntaxError::TS1003);
                 return Ok(entity);
             }
 
@@ -208,9 +206,10 @@ impl<I: Tokens> Parser<I> {
             let right = if allow_reserved_words {
                 self.parse_ident_name()?
             } else {
-                self.parse_ident(false, false)?
+                self.parse_ident(false, false)?.into()
             };
-            entity = TsEntityName::TsQualifiedName(Box::new(TsQualifiedName { left, right }));
+            let span = span!(self, start);
+            entity = TsEntityName::TsQualifiedName(Box::new(TsQualifiedName { span, left, right }));
         }
 
         Ok(entity)
@@ -433,7 +432,7 @@ impl<I: Tokens> Parser<I> {
             };
         }
 
-        let name = self.in_type().parse_ident_name()?;
+        let name = self.in_type().parse_ident_name()?.into();
         let constraint = self.eat_then_parse_ts_type(&tok!("extends"))?;
         let default = self.eat_then_parse_ts_type(&tok!('='))?;
 
@@ -528,7 +527,7 @@ impl<I: Tokens> Parser<I> {
             let node = Box::new(TsType::TsTypePredicate(TsTypePredicate {
                 span: span!(p, type_pred_start),
                 asserts: has_type_pred_asserts,
-                param_name: TsThisTypeOrIdent::Ident(type_pred_var),
+                param_name: TsThisTypeOrIdent::Ident(type_pred_var.into()),
                 type_ann,
             }));
 
@@ -762,9 +761,12 @@ impl<I: Tokens> Parser<I> {
 
                 expect!(self, ']');
 
-                TsEnumMemberId::Ident(Ident::new(js_word!(""), span!(self, start)))
+                TsEnumMemberId::Ident(Ident::new_no_ctxt(js_word!(""), span!(self, start)))
             }
-            _ => self.parse_ident_name().map(TsEnumMemberId::from)?,
+            _ => self
+                .parse_ident_name()
+                .map(Ident::from)
+                .map(TsEnumMemberId::from)?,
         };
 
         let init = if eat!(self, '=') {
@@ -775,10 +777,7 @@ impl<I: Tokens> Parser<I> {
             let start = cur_pos!(self);
             bump!(self);
             store!(self, ',');
-            self.emit_err(
-                Span::new(start, start, SyntaxContext::empty()),
-                SyntaxError::TS1005,
-            );
+            self.emit_err(Span::new(start, start), SyntaxError::TS1005);
             None
         };
 
@@ -807,7 +806,7 @@ impl<I: Tokens> Parser<I> {
             span: span!(self, start),
             declare: false,
             is_const,
-            id,
+            id: id.into(),
             members,
         }))
     }
@@ -860,7 +859,7 @@ impl<I: Tokens> Parser<I> {
         Ok(Box::new(TsModuleDecl {
             span: span!(self, start),
             declare: false,
-            id: TsModuleName::Ident(id),
+            id: TsModuleName::Ident(id.into()),
             body: Some(body),
             global: false,
         }))
@@ -875,7 +874,7 @@ impl<I: Tokens> Parser<I> {
 
         let (global, id) = if is!(self, "global") {
             let id = self.parse_ident_name()?;
-            (true, TsModuleName::Ident(id))
+            (true, TsModuleName::Ident(id.into()))
         } else if matches!(*cur!(self, true), Token::Str { .. }) {
             let id = self.parse_lit().map(|lit| match lit {
                 Lit::Str(s) => TsModuleName::Str(s),
@@ -1028,7 +1027,7 @@ impl<I: Tokens> Parser<I> {
         // Note: TS uses parseLeftHandSideExpressionOrHigher,
         // then has grammar errors later if it's not an EntityName.
 
-        let ident = Box::new(Expr::Ident(self.parse_ident_name()?));
+        let ident = self.parse_ident_name()?.into();
         let expr = self.parse_subscripts(Callee::Expr(ident), true, true)?;
         if !matches!(
             &*expr,
@@ -1105,7 +1104,7 @@ impl<I: Tokens> Parser<I> {
         Ok(Box::new(TsInterfaceDecl {
             span: span!(self, start),
             declare: false,
-            id,
+            id: id.into(),
             type_params,
             extends,
             body,
@@ -1126,7 +1125,7 @@ impl<I: Tokens> Parser<I> {
         Ok(Box::new(TsTypeAliasDecl {
             declare: false,
             span: span!(self, start),
-            id,
+            id: id.into(),
             type_params,
             type_ann,
         }))
@@ -1345,13 +1344,13 @@ impl<I: Tokens> Parser<I> {
         let type_ann_start = cur_pos!(self);
 
         if eat!(self, ',') {
-            self.emit_err(id.id.span, SyntaxError::TS1096);
+            self.emit_err(id.span, SyntaxError::TS1096);
         } else {
             expect!(self, ':');
         }
 
         let type_ann = self.parse_ts_type_ann(/* eat_colon */ false, type_ann_start)?;
-        id.id.span = span!(self, ident_start);
+        id.span = span!(self, ident_start);
         id.type_ann = Some(type_ann);
 
         expect!(self, ']');
@@ -1391,9 +1390,9 @@ impl<I: Tokens> Parser<I> {
                         Either::Left(e) => {
                             p.emit_err(e.span(), SyntaxError::PrivateNameInInterface);
 
-                            Box::new(Expr::PrivateName(e))
+                            e.into()
                         }
-                        Either::Right(e) => Box::new(Expr::Ident(e)),
+                        Either::Right(e) => e.into(),
                     }),
                 };
 
@@ -1610,7 +1609,7 @@ impl<I: Tokens> Parser<I> {
 
         Ok(TsTypeParam {
             span: span!(self, start),
-            name,
+            name: name.into(),
             is_in: false,
             is_out: false,
             is_const: false,
@@ -1729,7 +1728,7 @@ impl<I: Tokens> Parser<I> {
                 None
             };
 
-            let mut ident = p.parse_ident_name()?;
+            let mut ident = p.parse_ident_name().map(Ident::from)?;
             if eat!(p, '?') {
                 ident.optional = true;
                 ident.span = ident.span.with_hi(p.input.prev_span().hi);
@@ -1737,14 +1736,15 @@ impl<I: Tokens> Parser<I> {
             expect!(p, ':');
 
             Ok(Some(if let Some(dot3_token) = rest {
-                Pat::Rest(RestPat {
+                RestPat {
                     span: span!(p, start),
                     dot3_token,
-                    arg: Box::new(Pat::Ident(ident.into())),
+                    arg: ident.into(),
                     type_ann: None,
-                })
+                }
+                .into()
             } else {
-                Pat::Ident(ident.into())
+                ident.into()
             }))
         })
     }
@@ -2260,7 +2260,7 @@ impl<I: Tokens> Parser<I> {
         });
         let type_param = TsTypeParam {
             span: type_param_name.span(),
-            name: type_param_name,
+            name: type_param_name.into(),
             is_in: false,
             is_out: false,
             is_const: false,
@@ -2388,7 +2388,7 @@ impl<I: Tokens> Parser<I> {
                 return p
                     .parse_fn_decl(decorators)
                     .map(|decl| match decl {
-                        Decl::Fn(f) => Decl::Fn(FnDecl {
+                        Decl::Fn(f) => FnDecl {
                             declare: true,
                             function: Box::new(Function {
                                 span: Span {
@@ -2398,7 +2398,8 @@ impl<I: Tokens> Parser<I> {
                                 ..*f.function
                             }),
                             ..f
-                        }),
+                        }
+                        .into(),
                         _ => decl,
                     })
                     .map(Some);
@@ -2408,7 +2409,7 @@ impl<I: Tokens> Parser<I> {
                 return p
                     .parse_class_decl(start, start, decorators, false)
                     .map(|decl| match decl {
-                        Decl::Class(c) => Decl::Class(ClassDecl {
+                        Decl::Class(c) => ClassDecl {
                             declare: true,
                             class: Box::new(Class {
                                 span: Span {
@@ -2418,7 +2419,8 @@ impl<I: Tokens> Parser<I> {
                                 ..*c.class
                             }),
                             ..c
-                        }),
+                        }
+                        .into(),
                         _ => decl,
                     })
                     .map(Some);
@@ -2648,6 +2650,7 @@ impl<I: Tokens> Parser<I> {
                 type_params: Some(type_params),
                 params,
                 return_type,
+                ..Default::default()
             }))
         })
     }
@@ -2838,21 +2841,21 @@ mod tests {
             span: DUMMY_SP,
             shebang: None,
             body: {
-                let first =
-                    ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(Box::new(TsTypeAliasDecl {
+                let first = TsTypeAliasDecl {
+                    span: DUMMY_SP,
+                    declare: false,
+                    id: Ident::new_no_ctxt("test".into(), DUMMY_SP),
+                    type_params: None,
+                    type_ann: Box::new(TsType::TsLitType(TsLitType {
                         span: DUMMY_SP,
-                        declare: false,
-                        id: Ident::new("test".into(), DUMMY_SP),
-                        type_params: None,
-                        type_ann: Box::new(TsType::TsLitType(TsLitType {
+                        lit: TsLit::Number(Number {
                             span: DUMMY_SP,
-                            lit: TsLit::Number(Number {
-                                span: DUMMY_SP,
-                                value: -1.0,
-                                raw: Some("-1".into()),
-                            }),
-                        })),
-                    }))));
+                            value: -1.0,
+                            raw: Some("-1".into()),
+                        }),
+                    })),
+                }
+                .into();
                 vec![first]
             },
         };
@@ -2872,13 +2875,13 @@ mod tests {
             span: DUMMY_SP,
             shebang: None,
             body: {
-                let second = ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                let second = VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Const,
                     declare: false,
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(Ident::new("t".into(), DUMMY_SP).into()),
+                        name: Pat::Ident(Ident::new_no_ctxt("t".into(), DUMMY_SP).into()),
                         init: Some(Box::new(Expr::Unary(UnaryExpr {
                             span: DUMMY_SP,
                             op: op!(unary, "-"),
@@ -2890,7 +2893,9 @@ mod tests {
                         }))),
                         definite: false,
                     }],
-                }))));
+                    ..Default::default()
+                }
+                .into();
                 vec![second]
             },
         };

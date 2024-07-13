@@ -1,23 +1,23 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..39#0,
+            span: 1..39,
             value: "Virtual doclet for an interface.\n *\n *",
         },
         tags: [
             TagItem {
-                span: 1..10#0,
+                span: 1..10,
                 tag_name: Text {
-                    span: 1..10#0,
+                    span: 1..10,
                     value: "interface",
                 },
                 tag: Interface(
                     InterfaceTag {
-                        span: 1..10#0,
+                        span: 1..10,
                         name: Some(
                             Text {
-                                span: 1..17#0,
+                                span: 1..17,
                                 value: "VirtualInterface",
                             },
                         ),

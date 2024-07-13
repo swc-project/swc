@@ -55,7 +55,7 @@ impl Spanned for BytePos {
     /// Creates a new single-byte span.
     #[inline(always)]
     fn span(&self) -> Span {
-        Span::new(*self, *self, Default::default())
+        Span::new(*self, *self)
     }
 }
 

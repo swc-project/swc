@@ -4,7 +4,7 @@ use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_utils::{alias_ident_for, prepend_stmt};
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, standard_only_visit_mut, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 pub fn logical_assignments() -> impl Fold + VisitMut {
@@ -58,7 +58,7 @@ impl Parallel for Operators {
 
 #[swc_trace]
 impl VisitMut for Operators {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
@@ -111,13 +111,14 @@ impl VisitMut for Operators {
                             });
 
                             (
-                                Box::new(Expr::Assign(AssignExpr {
+                                AssignExpr {
                                     span: DUMMY_SP,
                                     op: op!("="),
                                     left: alias.clone().into(),
                                     right: obj.into(),
-                                })),
-                                Box::new(Expr::Ident(alias)),
+                                }
+                                .into(),
+                                alias.into(),
                             )
                         }
                     };
@@ -131,16 +132,18 @@ impl VisitMut for Operators {
                     };
 
                     (
-                        Box::new(Expr::Member(MemberExpr {
+                        MemberExpr {
                             span: DUMMY_SP,
                             obj: left_obj,
                             prop: left_prop,
-                        })),
-                        Box::new(Expr::Member(MemberExpr {
+                        }
+                        .into(),
+                        MemberExpr {
                             span: DUMMY_SP,
                             obj: right_obj,
                             prop: right_prop,
-                        })),
+                        }
+                        .into(),
                     )
                 }
                 _ => {
@@ -149,12 +152,13 @@ impl VisitMut for Operators {
                 }
             };
 
-            let right = Box::new(Expr::Assign(AssignExpr {
+            let right = AssignExpr {
                 span: DUMMY_SP,
                 op: op!("="),
                 left: r_assign_target.try_into().unwrap(),
                 right: right.take(),
-            }));
+            }
+            .into();
 
             let op = match *op {
                 op!("??=") => op!("??"),
@@ -163,12 +167,13 @@ impl VisitMut for Operators {
                 _ => unreachable!(),
             };
 
-            *e = Expr::Bin(BinExpr {
+            *e = BinExpr {
                 span: *span,
                 op,
                 left: left_expr,
                 right,
-            });
+            }
+            .into();
         }
     }
 
@@ -187,10 +192,9 @@ impl VisitMut for Operators {
             prepend_stmt(
                 n,
                 VarDecl {
-                    span: DUMMY_SP,
                     kind: VarDeclKind::Var,
-                    declare: false,
                     decls: vars,
+                    ..Default::default()
                 }
                 .into(),
             )
@@ -206,10 +210,9 @@ impl VisitMut for Operators {
             prepend_stmt(
                 n,
                 VarDecl {
-                    span: DUMMY_SP,
                     kind: VarDeclKind::Var,
-                    declare: false,
                     decls: vars,
+                    ..Default::default()
                 }
                 .into(),
             )

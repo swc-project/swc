@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 239,
-    "end": 485,
-    "ctxt": 0
+    "end": 485
   },
   "body": [
     {
@@ -12,36 +11,33 @@
         "type": "Identifier",
         "span": {
           "start": 245,
-          "end": 246,
-          "ctxt": 0
+          "end": 246
         },
+        "ctxt": 0,
         "value": "C",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 239,
-        "end": 485,
-        "ctxt": 0
+        "end": 485
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassProperty",
           "span": {
             "start": 298,
-            "end": 325,
-            "ctxt": 0
+            "end": 325
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 305,
-              "end": 324,
-              "ctxt": 0
+              "end": 324
             },
-            "value": "readwriteStaticType",
-            "optional": false
+            "value": "readwriteStaticType"
           },
           "value": null,
           "typeAnnotation": null,
@@ -59,18 +55,15 @@
           "type": "ClassProperty",
           "span": {
             "start": 392,
-            "end": 412,
-            "ctxt": 0
+            "end": 412
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 399,
-              "end": 411,
-              "ctxt": 0
+              "end": 411
             },
-            "value": "readonlyType",
-            "optional": false
+            "value": "readonlyType"
           },
           "value": null,
           "typeAnnotation": null,
@@ -88,18 +81,15 @@
           "type": "ClassProperty",
           "span": {
             "start": 462,
-            "end": 483,
-            "ctxt": 0
+            "end": 483
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 469,
-              "end": 482,
-              "ctxt": 0
+              "end": 482
             },
-            "value": "readwriteType",
-            "optional": false
+            "value": "readwriteType"
           },
           "value": null,
           "typeAnnotation": null,

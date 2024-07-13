@@ -2,32 +2,29 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 32,
-    "ctxt": 0
+    "end": 32
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 15,
-        "ctxt": 0
+        "end": 15
       },
       "expression": {
         "type": "ParenthesisExpression",
         "span": {
           "start": 1,
-          "end": 14,
-          "ctxt": 0
+          "end": 14
         },
         "expression": {
           "type": "ClassExpression",
           "identifier": null,
           "span": {
             "start": 2,
-            "end": 13,
-            "ctxt": 0
+            "end": 13
           },
+          "ctxt": 0,
           "decorators": [],
           "body": [],
           "superClass": null,
@@ -36,24 +33,22 @@
             "type": "TsTypeParameterDeclaration",
             "span": {
               "start": 7,
-              "end": 10,
-              "ctxt": 0
+              "end": 10
             },
             "parameters": [
               {
                 "type": "TsTypeParameter",
                 "span": {
                   "start": 8,
-                  "end": 9,
-                  "ctxt": 0
+                  "end": 9
                 },
                 "name": {
                   "type": "Identifier",
                   "span": {
                     "start": 8,
-                    "end": 9,
-                    "ctxt": 0
+                    "end": 9
                   },
+                  "ctxt": 0,
                   "value": "T",
                   "optional": false
                 },
@@ -74,15 +69,13 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 16,
-        "end": 32,
-        "ctxt": 0
+        "end": 32
       },
       "expression": {
         "type": "ParenthesisExpression",
         "span": {
           "start": 16,
-          "end": 31,
-          "ctxt": 0
+          "end": 31
         },
         "expression": {
           "type": "ClassExpression",
@@ -90,17 +83,17 @@
             "type": "Identifier",
             "span": {
               "start": 23,
-              "end": 24,
-              "ctxt": 0
+              "end": 24
             },
+            "ctxt": 0,
             "value": "C",
             "optional": false
           },
           "span": {
             "start": 17,
-            "end": 30,
-            "ctxt": 0
+            "end": 30
           },
+          "ctxt": 0,
           "decorators": [],
           "body": [],
           "superClass": null,
@@ -109,24 +102,22 @@
             "type": "TsTypeParameterDeclaration",
             "span": {
               "start": 24,
-              "end": 27,
-              "ctxt": 0
+              "end": 27
             },
             "parameters": [
               {
                 "type": "TsTypeParameter",
                 "span": {
                   "start": 25,
-                  "end": 26,
-                  "ctxt": 0
+                  "end": 26
                 },
                 "name": {
                   "type": "Identifier",
                   "span": {
                     "start": 25,
-                    "end": 26,
-                    "ctxt": 0
+                    "end": 26
                   },
+                  "ctxt": 0,
                   "value": "T",
                   "optional": false
                 },

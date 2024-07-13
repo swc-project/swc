@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 21,
-    "end": 64,
-    "ctxt": 0
+    "end": 64
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 21,
-        "end": 31,
-        "ctxt": 0
+        "end": 31
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 25,
-            "end": 30,
-            "ctxt": 0
+            "end": 30
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 25,
-              "end": 30,
-              "ctxt": 0
+              "end": 30
             },
+            "ctxt": 0,
             "value": "async",
             "optional": false,
             "typeAnnotation": null
@@ -43,16 +41,15 @@
       "type": "ForInStatement",
       "span": {
         "start": 32,
-        "end": 64,
-        "ctxt": 0
+        "end": 64
       },
       "left": {
         "type": "Identifier",
         "span": {
           "start": 37,
-          "end": 42,
-          "ctxt": 0
+          "end": 42
         },
+        "ctxt": 0,
         "value": "async",
         "optional": false,
         "typeAnnotation": null
@@ -61,8 +58,7 @@
         "type": "ObjectExpression",
         "span": {
           "start": 46,
-          "end": 60,
-          "ctxt": 0
+          "end": 60
         },
         "properties": [
           {
@@ -71,18 +67,15 @@
               "type": "Identifier",
               "span": {
                 "start": 48,
-                "end": 49,
-                "ctxt": 0
+                "end": 49
               },
-              "value": "a",
-              "optional": false
+              "value": "a"
             },
             "value": {
               "type": "NumericLiteral",
               "span": {
                 "start": 51,
-                "end": 52,
-                "ctxt": 0
+                "end": 52
               },
               "value": 1.0,
               "raw": "1"
@@ -94,18 +87,15 @@
               "type": "Identifier",
               "span": {
                 "start": 54,
-                "end": 55,
-                "ctxt": 0
+                "end": 55
               },
-              "value": "b",
-              "optional": false
+              "value": "b"
             },
             "value": {
               "type": "NumericLiteral",
               "span": {
                 "start": 57,
-                "end": 58,
-                "ctxt": 0
+                "end": 58
               },
               "value": 2.0,
               "raw": "2"
@@ -117,9 +107,9 @@
         "type": "BlockStatement",
         "span": {
           "start": 62,
-          "end": 64,
-          "ctxt": 0
+          "end": 64
         },
+        "ctxt": 0,
         "stmts": []
       }
     }

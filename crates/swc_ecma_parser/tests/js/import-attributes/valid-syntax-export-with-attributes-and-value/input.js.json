@@ -2,31 +2,27 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 63,
-    "ctxt": 0
+    "end": 63
   },
   "body": [
     {
       "type": "ExportNamedDeclaration",
       "span": {
         "start": 1,
-        "end": 59,
-        "ctxt": 0
+        "end": 59
       },
       "specifiers": [
         {
           "type": "ExportSpecifier",
           "span": {
             "start": 10,
-            "end": 24,
-            "ctxt": 0
+            "end": 24
           },
           "orig": {
             "type": "StringLiteral",
             "span": {
               "start": 10,
-              "end": 19,
-              "ctxt": 0
+              "end": 19
             },
             "value": "default",
             "raw": "\"default\""
@@ -35,9 +31,9 @@
             "type": "Identifier",
             "span": {
               "start": 23,
-              "end": 24,
-              "ctxt": 0
+              "end": 24
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false
           },
@@ -48,8 +44,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 32,
-          "end": 37,
-          "ctxt": 0
+          "end": 37
         },
         "value": "foo",
         "raw": "\"foo\""
@@ -59,8 +54,7 @@
         "type": "ObjectExpression",
         "span": {
           "start": 43,
-          "end": 59,
-          "ctxt": 0
+          "end": 59
         },
         "properties": [
           {
@@ -69,18 +63,15 @@
               "type": "Identifier",
               "span": {
                 "start": 45,
-                "end": 49,
-                "ctxt": 0
+                "end": 49
               },
-              "value": "type",
-              "optional": false
+              "value": "type"
             },
             "value": {
               "type": "StringLiteral",
               "span": {
                 "start": 51,
-                "end": 57,
-                "ctxt": 0
+                "end": 57
               },
               "value": "json",
               "raw": "\"json\""
@@ -93,15 +84,13 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 60,
-        "end": 63,
-        "ctxt": 0
+        "end": 63
       },
       "expression": {
         "type": "ArrayExpression",
         "span": {
           "start": 60,
-          "end": 63,
-          "ctxt": 0
+          "end": 63
         },
         "elements": [
           {
@@ -110,8 +99,7 @@
               "type": "NumericLiteral",
               "span": {
                 "start": 61,
-                "end": 62,
-                "ctxt": 0
+                "end": 62
               },
               "value": 0.0,
               "raw": "0"

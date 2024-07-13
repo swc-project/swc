@@ -175,7 +175,7 @@ impl SourceMap {
 
     pub fn load_file(&self, path: &Path) -> io::Result<Lrc<SourceFile>> {
         let src = self.file_loader.read_file(path)?;
-        let filename = path.to_owned().into();
+        let filename = Lrc::new(path.to_path_buf().into());
         Ok(self.new_source_file(filename, src))
     }
 
@@ -202,7 +202,7 @@ impl SourceMap {
 
     /// Creates a new source_file.
     /// This does not ensure that only one SourceFile exists per file name.
-    pub fn new_source_file(&self, filename: FileName, mut src: String) -> Lrc<SourceFile> {
+    pub fn new_source_file(&self, filename: Lrc<FileName>, mut src: String) -> Lrc<SourceFile> {
         remove_bom(&mut src);
 
         self.new_source_file_from(filename, Lrc::new(src))
@@ -212,7 +212,11 @@ impl SourceMap {
     /// This does not ensure that only one SourceFile exists per file name.
     ///
     /// `src` should not have UTF8 BOM
-    pub fn new_source_file_from(&self, filename: FileName, src: Lrc<String>) -> Lrc<SourceFile> {
+    pub fn new_source_file_from(
+        &self,
+        filename: Lrc<FileName>,
+        src: Lrc<String>,
+    ) -> Lrc<SourceFile> {
         // The path is used to determine the directory for loading submodules and
         // include files, so it must be before remapping.
         // Note that filename may not be a valid path, eg it may be `<anon>` etc,
@@ -220,12 +224,12 @@ impl SourceMap {
         // be empty, so the working directory will be used.
         let unmapped_path = filename.clone();
 
-        let (filename, was_remapped) = match filename {
+        let (filename, was_remapped) = match &*filename {
             FileName::Real(filename) => {
                 let (filename, was_remapped) = self.path_mapping.map_prefix(filename);
-                (FileName::Real(filename), was_remapped)
+                (Lrc::new(FileName::Real(filename)), was_remapped)
             }
-            other => (other, false),
+            _ => (filename, false),
         };
 
         // We hold lock at here to prevent panic
@@ -239,7 +243,7 @@ impl SourceMap {
             was_remapped,
             unmapped_path,
             src,
-            Pos::from_usize(start_pos),
+            SmallPos::from_usize(start_pos),
         ));
 
         {
@@ -425,11 +429,6 @@ impl SourceMap {
     ///    * the lhs span needs to end on the same line the rhs span begins
     ///    * the lhs span must start at or before the rhs span
     pub fn merge_spans(&self, sp_lhs: Span, sp_rhs: Span) -> Option<Span> {
-        // make sure we're at the same expansion id
-        if sp_lhs.ctxt() != sp_rhs.ctxt() {
-            return None;
-        }
-
         let lhs_end = match self.lookup_line(sp_lhs.hi()) {
             Ok(x) => x,
             Err(_) => return None,
@@ -469,11 +468,11 @@ impl SourceMap {
         )
     }
 
-    pub fn span_to_filename(&self, sp: Span) -> FileName {
+    pub fn span_to_filename(&self, sp: Span) -> Lrc<FileName> {
         self.lookup_char_pos(sp.lo()).file.name.clone()
     }
 
-    pub fn span_to_unmapped_path(&self, sp: Span) -> FileName {
+    pub fn span_to_unmapped_path(&self, sp: Span) -> Lrc<FileName> {
         self.lookup_char_pos(sp.lo())
             .file
             .unmapped_path
@@ -865,7 +864,7 @@ impl SourceMap {
             .unwrap_or(start_of_next_point);
 
         let end_of_next_point = BytePos(cmp::max(sp.lo().0 + 1, end_of_next_point));
-        Span::new(BytePos(start_of_next_point), end_of_next_point, sp.ctxt())
+        Span::new(BytePos(start_of_next_point), end_of_next_point)
     }
 
     /// Finds the width of a character, either before or after the provided
@@ -956,7 +955,7 @@ impl SourceMap {
 
     pub fn get_source_file(&self, filename: &FileName) -> Option<Lrc<SourceFile>> {
         for sf in self.files.borrow().source_files.iter() {
-            if *filename == sf.name {
+            if *filename == *sf.name {
                 return Some(sf.clone());
             }
         }
@@ -1404,7 +1403,7 @@ impl SourceMapper for SourceMap {
         self.span_to_string(sp)
     }
 
-    fn span_to_filename(&self, sp: Span) -> FileName {
+    fn span_to_filename(&self, sp: Span) -> Lrc<FileName> {
         self.span_to_filename(sp)
     }
 
@@ -1445,7 +1444,7 @@ impl FilePathMapping {
     /// Applies any path prefix substitution as defined by the mapping.
     /// The return value is the remapped path and a boolean indicating whether
     /// the path was affected by the mapping.
-    pub fn map_prefix(&self, path: PathBuf) -> (PathBuf, bool) {
+    pub fn map_prefix(&self, path: &Path) -> (PathBuf, bool) {
         // NOTE: We are iterating over the mapping entries from last to first
         //       because entries specified later on the command line should
         //       take precedence.
@@ -1455,7 +1454,7 @@ impl FilePathMapping {
             }
         }
 
-        (path, false)
+        (path.to_path_buf(), false)
     }
 }
 
@@ -1543,12 +1542,12 @@ mod tests {
     fn init_source_map() -> SourceMap {
         let sm = SourceMap::new(FilePathMapping::empty());
         sm.new_source_file(
-            PathBuf::from("blork.rs").into(),
+            Lrc::new(PathBuf::from("blork.rs").into()),
             "first line.\nsecond line".to_string(),
         );
-        sm.new_source_file(PathBuf::from("empty.rs").into(), String::new());
+        sm.new_source_file(Lrc::new(PathBuf::from("empty.rs").into()), String::new());
         sm.new_source_file(
-            PathBuf::from("blork2.rs").into(),
+            Lrc::new(PathBuf::from("blork2.rs").into()),
             "first line.\nsecond line".to_string(),
         );
         sm
@@ -1560,15 +1559,15 @@ mod tests {
         let sm = init_source_map();
 
         let srcfbp1 = sm.lookup_byte_offset(BytePos(24));
-        assert_eq!(srcfbp1.sf.name, PathBuf::from("blork.rs").into());
+        assert_eq!(*srcfbp1.sf.name, PathBuf::from("blork.rs").into());
         assert_eq!(srcfbp1.pos, BytePos(23));
 
         let srcfbp1 = sm.lookup_byte_offset(BytePos(25));
-        assert_eq!(srcfbp1.sf.name, PathBuf::from("empty.rs").into());
+        assert_eq!(*srcfbp1.sf.name, PathBuf::from("empty.rs").into());
         assert_eq!(srcfbp1.pos, BytePos(0));
 
         let srcfbp2 = sm.lookup_byte_offset(BytePos(26));
-        assert_eq!(srcfbp2.sf.name, PathBuf::from("blork2.rs").into());
+        assert_eq!(*srcfbp2.sf.name, PathBuf::from("blork2.rs").into());
         assert_eq!(srcfbp2.pos, BytePos(0));
     }
 
@@ -1590,12 +1589,12 @@ mod tests {
         let sm = init_source_map();
 
         let loc1 = sm.lookup_char_pos(BytePos(23));
-        assert_eq!(loc1.file.name, PathBuf::from("blork.rs").into());
+        assert_eq!(*loc1.file.name, PathBuf::from("blork.rs").into());
         assert_eq!(loc1.line, 2);
         assert_eq!(loc1.col, CharPos(10));
 
         let loc2 = sm.lookup_char_pos(BytePos(26));
-        assert_eq!(loc2.file.name, PathBuf::from("blork2.rs").into());
+        assert_eq!(*loc2.file.name, PathBuf::from("blork2.rs").into());
         assert_eq!(loc2.line, 1);
         assert_eq!(loc2.col, CharPos(0));
     }
@@ -1604,11 +1603,11 @@ mod tests {
         let sm = SourceMap::new(FilePathMapping::empty());
         // € is a three byte utf8 char.
         sm.new_source_file(
-            PathBuf::from("blork.rs").into(),
+            Lrc::new(PathBuf::from("blork.rs").into()),
             "fir€st €€€€ line.\nsecond line".to_string(),
         );
         sm.new_source_file(
-            PathBuf::from("blork2.rs").into(),
+            Lrc::new(PathBuf::from("blork2.rs").into()),
             "first line€€.\n€ second line".to_string(),
         );
         sm
@@ -1636,10 +1635,10 @@ mod tests {
     fn t7() {
         // Test span_to_lines for a span ending at the end of source_file
         let sm = init_source_map();
-        let span = Span::new(BytePos(13), BytePos(24), NO_EXPANSION);
+        let span = Span::new(BytePos(13), BytePos(24));
         let file_lines = sm.span_to_lines(span).unwrap();
 
-        assert_eq!(file_lines.file.name, PathBuf::from("blork.rs").into());
+        assert_eq!(*file_lines.file.name, PathBuf::from("blork.rs").into());
         assert_eq!(file_lines.lines.len(), 1);
         assert_eq!(file_lines.lines[0].line_index, 1);
     }
@@ -1659,7 +1658,7 @@ mod tests {
                 (x + 1) as u32
             })
             .unwrap_or(left_index);
-        Span::new(BytePos(left_index), BytePos(right_index + 1), NO_EXPANSION)
+        Span::new(BytePos(left_index), BytePos(right_index + 1))
     }
 
     /// Test span_to_snippet and span_to_lines for a span converting 3
@@ -1670,7 +1669,7 @@ mod tests {
         let inputtext = "aaaaa\nbbbbBB\nCCC\nDDDDDddddd\neee\n";
         let selection = "     \n    ~~\n~~~\n~~~~~     \n   \n";
         sm.new_source_file(
-            Path::new("blork.rs").to_owned().into(),
+            Lrc::new(Path::new("blork.rs").to_path_buf().into()),
             inputtext.to_string(),
         );
         let span = span_from_selection(inputtext, selection);
@@ -1705,7 +1704,7 @@ mod tests {
     fn t8() {
         // Test span_to_snippet for a span ending at the end of source_file
         let sm = init_source_map();
-        let span = Span::new(BytePos(13), BytePos(24), NO_EXPANSION);
+        let span = Span::new(BytePos(13), BytePos(24));
         let snippet = sm.span_to_snippet(span);
 
         assert_eq!(snippet, Ok("second line".to_string()));
@@ -1715,7 +1714,7 @@ mod tests {
     fn t9() {
         // Test span_to_str for a span ending at the end of source_file
         let sm = init_source_map();
-        let span = Span::new(BytePos(13), BytePos(24), NO_EXPANSION);
+        let span = Span::new(BytePos(13), BytePos(24));
         let sstr = sm.span_to_string(span);
 
         assert_eq!(sstr, "blork.rs:2:1: 2:12");
@@ -1725,11 +1724,11 @@ mod tests {
     fn t10() {
         // Test span_to_lines for a span of empty file
         let sm = SourceMap::new(FilePathMapping::empty());
-        sm.new_source_file(PathBuf::from("blork.rs").into(), "".to_string());
-        let span = Span::new(BytePos(1), BytePos(1), NO_EXPANSION);
+        sm.new_source_file(Lrc::new(PathBuf::from("blork.rs").into()), "".to_string());
+        let span = Span::new(BytePos(1), BytePos(1));
         let file_lines = sm.span_to_lines(span).unwrap();
 
-        assert_eq!(file_lines.file.name, PathBuf::from("blork.rs").into());
+        assert_eq!(*file_lines.file.name, PathBuf::from("blork.rs").into());
         assert_eq!(file_lines.lines.len(), 0);
     }
 
@@ -1741,7 +1740,7 @@ mod tests {
         let selection1 = "     ~~\n      \n";
         let selection2 = "       \n   ~~~\n";
         sm.new_source_file(
-            Path::new("blork.rs").to_owned().into(),
+            Lrc::new(Path::new("blork.rs").to_owned().into()),
             inputtext.to_owned(),
         );
         let span1 = span_from_selection(inputtext, selection1);
@@ -1754,7 +1753,10 @@ mod tests {
     fn calc_utf16_offset() {
         let input = "t¢e∆s💩t";
         let sm = SourceMap::new(FilePathMapping::empty());
-        let file = sm.new_source_file(PathBuf::from("blork.rs").into(), input.to_string());
+        let file = sm.new_source_file(
+            Lrc::new(PathBuf::from("blork.rs").into()),
+            input.to_string(),
+        );
 
         let mut state = ByteToCharPosState::default();
         let mut bpos = file.start_pos;
@@ -1782,7 +1784,10 @@ mod tests {
     fn bytepos_to_charpos() {
         let input = "t¢e∆s💩t";
         let sm = SourceMap::new(FilePathMapping::empty());
-        let file = sm.new_source_file(PathBuf::from("blork.rs").into(), input.to_string());
+        let file = sm.new_source_file(
+            Lrc::new(PathBuf::from("blork.rs").into()),
+            input.to_string(),
+        );
 
         let mut bpos = file.start_pos;
         let mut cpos = CharPos(0);

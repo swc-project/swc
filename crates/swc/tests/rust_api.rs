@@ -6,12 +6,12 @@ use swc_common::{comments::SingleThreadedComments, FileName};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{EsSyntax, Syntax, TsSyntax};
 use swc_ecma_transforms::pass::noop;
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut};
+use swc_ecma_visit::{as_folder, standard_only_visit_mut, VisitMut};
 
 struct PanicOnVisit;
 
 impl VisitMut for PanicOnVisit {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_number(&mut self, n: &mut Number) {
         panic!("Expected {:?}", n.value)
@@ -26,7 +26,7 @@ fn test_visit_mut() {
         let c = Compiler::new(cm.clone());
 
         let fm = cm.new_source_file(
-            FileName::Anon,
+            FileName::Anon.into(),
             "
                 console.log(5 as const)
             "
@@ -66,7 +66,7 @@ fn shopify_1_check_filename() {
         let c = Compiler::new(cm.clone());
 
         let fm = cm.new_source_file(
-            FileName::Anon,
+            FileName::Anon.into(),
             "
             import React from 'react';
             import { useI18n } from '@shopify/react-i18n';
@@ -165,7 +165,7 @@ fn shopify_2_same_opt() {
         };
 
         let fm = cm.new_source_file(
-            FileName::Real("/Users/kdy1/projects/example-swcify/src/App/App.tsx".into()),
+            FileName::Real("/Users/kdy1/projects/example-swcify/src/App/App.tsx".into()).into(),
             "
             import React from 'react';
             import { useI18n } from '@shopify/react-i18n';
@@ -233,7 +233,7 @@ fn shopify_3_reduce_defaults() {
         };
 
         let fm = cm.new_source_file(
-            FileName::Real("/Users/kdy1/projects/example-swcify/src/App/App.tsx".into()),
+            FileName::Real("/Users/kdy1/projects/example-swcify/src/App/App.tsx".into()).into(),
             "
             import React from 'react';
             import { useI18n } from '@shopify/react-i18n';
@@ -296,7 +296,7 @@ fn shopify_4_reduce_more() {
         };
 
         let fm = cm.new_source_file(
-            FileName::Real("/Users/kdy1/projects/example-swcify/src/App/App.tsx".into()),
+            FileName::Real("/Users/kdy1/projects/example-swcify/src/App/App.tsx".into()).into(),
             "
             import React from 'react';
             import { useI18n } from '@shopify/react-i18n';

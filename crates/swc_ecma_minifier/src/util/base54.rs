@@ -8,7 +8,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
-use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
+use swc_ecma_visit::{standard_only_visit, visit_obj_and_computed, Visit, VisitWith};
 
 #[derive(Clone, Copy)]
 
@@ -40,8 +40,8 @@ impl SourceMapper for DummySourceMap {
         String::new()
     }
 
-    fn span_to_filename(&self, _: Span) -> FileName {
-        FileName::Anon
+    fn span_to_filename(&self, _: Span) -> Lrc<FileName> {
+        FileName::Anon.into()
     }
 
     fn merge_spans(&self, _: Span, _: Span) -> Option<Span> {
@@ -296,12 +296,12 @@ struct CharFreqAnalyzer<'a> {
 }
 
 impl Visit for CharFreqAnalyzer<'_> {
-    noop_visit_type!();
+    standard_only_visit!();
 
     visit_obj_and_computed!();
 
     fn visit_ident(&mut self, i: &Ident) {
-        if i.sym != "arguments" && i.span.ctxt == self.unresolved_ctxt {
+        if i.sym != "arguments" && i.ctxt == self.unresolved_ctxt {
             return;
         }
 

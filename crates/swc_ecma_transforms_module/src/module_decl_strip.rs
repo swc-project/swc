@@ -3,13 +3,13 @@ use swc_atoms::JsWord;
 use swc_common::{
     collections::{AHashMap, AHashSet},
     util::take::Take,
-    Span,
+    Mark, Span, SyntaxContext,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_pat_ids, ident::IdentLike, private_ident, quote_ident, ExprFactory};
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_utils::{find_pat_ids, private_ident, quote_ident, ExprFactory};
+use swc_ecma_visit::{standard_only_visit_mut, VisitMut, VisitMutWith};
 
-use crate::module_ref_rewriter::ImportMap;
+use crate::{module_ref_rewriter::ImportMap, SpanCtx};
 
 /// key: module path
 pub type Link = IndexMap<JsWord, LinkItem>;
@@ -52,7 +52,7 @@ impl ModuleDeclStrip {
 }
 
 impl VisitMut for ModuleDeclStrip {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         let mut list = Vec::with_capacity(n.len());
@@ -70,23 +70,17 @@ impl VisitMut for ModuleDeclStrip {
                     match module_decl {
                         ModuleDecl::Import(..) => continue,
                         ModuleDecl::ExportDecl(ExportDecl { decl, .. }) => {
-                            list.push(Stmt::Decl(decl).into());
+                            list.push(decl.into());
                         }
                         ModuleDecl::ExportNamed(..) => continue,
                         ModuleDecl::ExportDefaultDecl(ExportDefaultDecl { decl, .. }) => match decl
                         {
-                            DefaultDecl::Class(class_expr) => list.extend(
-                                class_expr
-                                    .as_class_decl()
-                                    .map(|decl| Stmt::Decl(Decl::Class(decl)))
-                                    .map(From::from),
-                            ),
-                            DefaultDecl::Fn(fn_expr) => list.extend(
-                                fn_expr
-                                    .as_fn_decl()
-                                    .map(|decl| Stmt::Decl(Decl::Fn(decl)))
-                                    .map(From::from),
-                            ),
+                            DefaultDecl::Class(class_expr) => {
+                                list.extend(class_expr.as_class_decl().map(From::from))
+                            }
+                            DefaultDecl::Fn(fn_expr) => {
+                                list.extend(fn_expr.as_fn_decl().map(From::from))
+                            }
                             DefaultDecl::TsInterfaceDecl(_) => continue,
                         },
                         ModuleDecl::ExportDefaultExpr(..) => {
@@ -139,7 +133,7 @@ impl VisitMut for ModuleDeclStrip {
             Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
                 self.export.insert(
                     ident.sym.clone(),
-                    ExportItem::new(ident.span, ident.clone()),
+                    ExportItem::new((ident.span, ident.ctxt), ident.clone()),
                 );
             }
 
@@ -147,7 +141,7 @@ impl VisitMut for ModuleDeclStrip {
                 self.export.extend(
                     find_pat_ids::<_, Ident>(&v.decls)
                         .into_iter()
-                        .map(|id| (id.sym.clone(), ExportItem::new(id.span, id))),
+                        .map(|id| (id.sym.clone(), ExportItem::new((id.span, id.ctxt), id))),
                 );
             }
             _ => {}
@@ -193,13 +187,20 @@ impl VisitMut for ModuleDeclStrip {
 
                     if let Some(exported) = exported {
                         let (export_name, export_name_span) = match exported {
-                            ModuleExportName::Ident(Ident { span, sym, .. }) => (sym, span),
-                            ModuleExportName::Str(Str { span, value, .. }) => (value, span),
+                            ModuleExportName::Ident(Ident {
+                                ctxt, span, sym, ..
+                            }) => (sym, (span, ctxt)),
+                            ModuleExportName::Str(Str { span, value, .. }) => {
+                                (value, (span, Default::default()))
+                            }
                         };
 
                         (export_name, ExportItem::new(export_name_span, orig))
                     } else {
-                        (orig.sym.clone(), ExportItem::new(orig.span, orig))
+                        (
+                            orig.sym.clone(),
+                            ExportItem::new((orig.span, orig.ctxt), orig),
+                        )
                     }
                 }
             }))
@@ -227,8 +228,10 @@ impl VisitMut for ModuleDeclStrip {
                     .get_or_insert_with(|| private_ident!(n.span, "_default"))
                     .clone();
 
-                self.export
-                    .insert("default".into(), ExportItem::new(n.span, ident));
+                self.export.insert(
+                    "default".into(),
+                    ExportItem::new((n.span, Default::default()), ident),
+                );
             }
             DefaultDecl::Fn(fn_expr) => {
                 let ident = fn_expr
@@ -236,8 +239,10 @@ impl VisitMut for ModuleDeclStrip {
                     .get_or_insert_with(|| private_ident!(n.span, "_default"))
                     .clone();
 
-                self.export
-                    .insert("default".into(), ExportItem::new(n.span, ident));
+                self.export.insert(
+                    "default".into(),
+                    ExportItem::new((n.span, Default::default()), ident),
+                );
             }
             DefaultDecl::TsInterfaceDecl(_) => {}
         }
@@ -255,15 +260,17 @@ impl VisitMut for ModuleDeclStrip {
     fn visit_mut_export_default_expr(&mut self, n: &mut ExportDefaultExpr) {
         let ident = private_ident!(n.span, "_default");
 
-        self.export
-            .insert("default".into(), ExportItem::new(n.span, ident.clone()));
+        self.export.insert(
+            "default".into(),
+            ExportItem::new((n.span, Default::default()), ident.clone()),
+        );
 
-        self.export_default = Some(Stmt::Decl(
+        self.export_default = Some(
             n.expr
                 .take()
                 .into_var_decl(self.const_var_kind, ident.into())
                 .into(),
-        ));
+        );
     }
 
     /// ```javascript
@@ -310,8 +317,10 @@ impl VisitMut for ModuleDeclStrip {
         }) = module_ref
         {
             if *is_export {
-                self.export
-                    .insert(id.sym.clone(), ExportItem::new(id.span, id.clone()));
+                self.export.insert(
+                    id.sym.clone(),
+                    ExportItem::new((id.span, id.ctxt), id.clone()),
+                );
             }
 
             self.link
@@ -364,8 +373,8 @@ pub enum LinkSpecifier {
     /// ```
     /// Note: orig will never be `default`
     ExportNamed {
-        orig: (JsWord, Span),
-        exported: Option<(JsWord, Span)>,
+        orig: (JsWord, SpanCtx),
+        exported: Option<(JsWord, SpanCtx)>,
     },
 
     /// ```javascript
@@ -374,13 +383,13 @@ pub enum LinkSpecifier {
     /// export { default as foo } from "mod";
     /// ```
     /// (default_span, local_sym, local_span)
-    ExportDefaultAs(Span, JsWord, Span),
+    ExportDefaultAs(SpanCtx, JsWord, SpanCtx),
 
     /// ```javascript
     /// export * as foo from "mod";
     /// export * as "bar" from "mod";
     /// ```
-    ExportStarAs(JsWord, Span),
+    ExportStarAs(JsWord, SpanCtx),
 
     /// ```javascript
     /// export * from "mod";
@@ -443,11 +452,15 @@ impl From<ExportSpecifier> for LinkSpecifier {
                         span, value: sym, ..
                     }),
                 ..
-            }) => Self::ExportStarAs(sym, span),
+            }) => Self::ExportStarAs(sym, (span, SyntaxContext::empty())),
 
             ExportSpecifier::Default(ExportDefaultSpecifier { exported }) => {
                 // https://github.com/tc39/proposal-export-default-from
-                Self::ExportDefaultAs(exported.span, exported.sym, exported.span)
+                Self::ExportDefaultAs(
+                    (exported.span, exported.ctxt),
+                    exported.sym,
+                    (exported.span, exported.ctxt),
+                )
             }
 
             ExportSpecifier::Named(ExportNamedSpecifier {
@@ -460,14 +473,14 @@ impl From<ExportSpecifier> for LinkSpecifier {
                     ModuleExportName::Ident(Ident { span, sym, .. })
                     | ModuleExportName::Str(Str {
                         span, value: sym, ..
-                    }) => (sym, span.private()),
+                    }) => (sym, (span, SyntaxContext::empty().apply_mark(Mark::new()))),
                 };
 
                 let exported = exported.map(|exported| match exported {
                     ModuleExportName::Ident(Ident { span, sym, .. })
                     | ModuleExportName::Str(Str {
                         span, value: sym, ..
-                    }) => (sym, span.private()),
+                    }) => (sym, (span, SyntaxContext::empty().apply_mark(Mark::new()))),
                 });
 
                 match (&*orig.0, orig.1) {
@@ -485,7 +498,7 @@ impl From<ExportSpecifier> for LinkSpecifier {
 }
 
 #[derive(Debug, Default)]
-pub struct LinkItem(pub Span, pub AHashSet<LinkSpecifier>, pub LinkFlag);
+pub struct LinkItem(pub SpanCtx, pub AHashSet<LinkSpecifier>, pub LinkFlag);
 
 use bitflags::bitflags;
 
@@ -600,8 +613,8 @@ impl Extend<LinkSpecifier> for LinkItem {
 
 impl LinkItem {
     fn mut_dummy_span(&mut self, span: Span) -> &mut Self {
-        if self.0.is_dummy() {
-            self.0 = span;
+        if self.0 .0.is_dummy() {
+            self.0 .0 = span;
         }
 
         self
@@ -675,14 +688,17 @@ impl LinkSpecifierReducer for AHashSet<LinkSpecifier> {
                 // ```
 
                 // foo -> mod.foo
-                import_map.insert(orig.to_id(), (mod_ident.clone(), Some(orig.0.clone())));
+                import_map.insert(
+                    (orig.0.clone(), orig.1 .1),
+                    (mod_ident.clone(), Some(orig.0.clone())),
+                );
 
                 let (export_name, export_name_span) = exported.unwrap_or_else(|| orig.clone());
 
                 // bar -> foo
                 export_obj_prop_list.push((
                     export_name,
-                    ExportItem::new(export_name_span, quote_ident!(orig.1, orig.0)),
+                    ExportItem::new(export_name_span, quote_ident!(orig.1 .1, orig.1 .0, orig.0)),
                 ))
             }
             LinkSpecifier::ExportDefaultAs(_, key, span) => {
@@ -697,12 +713,14 @@ impl LinkSpecifierReducer for AHashSet<LinkSpecifier> {
 
                 // foo -> mod.default
                 import_map.insert(
-                    (key.clone(), span).to_id(),
+                    (key.clone(), span.1),
                     (mod_ident.clone(), Some("default".into())),
                 );
 
-                export_obj_prop_list
-                    .push((key.clone(), ExportItem::new(span, quote_ident!(span, key))));
+                export_obj_prop_list.push((
+                    key.clone(),
+                    ExportItem::new(span, quote_ident!(span.1, span.0, key)),
+                ));
             }
             LinkSpecifier::ExportStarAs(key, span) => {
                 *ref_to_mod_ident = true;
@@ -727,14 +745,14 @@ impl LinkSpecifierReducer for AHashSet<LinkSpecifier> {
 }
 
 #[derive(Debug)]
-pub struct ExportItem(Span, Ident);
+pub struct ExportItem(SpanCtx, Ident);
 
 impl ExportItem {
-    pub fn new(export_name_span: Span, local_ident: Ident) -> Self {
+    pub fn new(export_name_span: SpanCtx, local_ident: Ident) -> Self {
         Self(export_name_span, local_ident)
     }
 
-    pub fn export_name_span(&self) -> Span {
+    pub fn export_name_span(&self) -> SpanCtx {
         self.0
     }
 

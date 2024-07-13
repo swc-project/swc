@@ -53,7 +53,7 @@ impl NoObjCalls {
     }
 
     fn check(&self, span: Span, ident: &Ident) {
-        if ident.span.ctxt != self.unresolved_ctxt {
+        if ident.ctxt != self.unresolved_ctxt {
             return;
         }
 

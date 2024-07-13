@@ -16,7 +16,7 @@ fn parse(
         ..Default::default()
     });
     let source_map = Lrc::new(SourceMap::default());
-    let source_file = source_map.new_source_file(FileName::Anon, src.into());
+    let source_file = source_map.new_source_file(FileName::Anon.into(), src.into());
 
     let comments = Lrc::new(SingleThreadedComments::default());
     let module = {

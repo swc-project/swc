@@ -2,23 +2,20 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 29,
-    "ctxt": 0
+    "end": 29
   },
   "body": [
     {
       "type": "WhileStatement",
       "span": {
         "start": 1,
-        "end": 29,
-        "ctxt": 0
+        "end": 29
       },
       "test": {
         "type": "BooleanLiteral",
         "span": {
           "start": 8,
-          "end": 12,
-          "ctxt": 0
+          "end": 12
         },
         "value": true
       },
@@ -26,16 +23,15 @@
         "type": "BlockStatement",
         "span": {
           "start": 14,
-          "end": 29,
-          "ctxt": 0
+          "end": 29
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ContinueStatement",
             "span": {
               "start": 18,
-              "end": 27,
-              "ctxt": 0
+              "end": 27
             },
             "label": null
           }

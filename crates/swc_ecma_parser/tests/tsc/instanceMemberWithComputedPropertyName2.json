@@ -2,23 +2,20 @@
   "type": "Script",
   "span": {
     "start": 110,
-    "end": 165,
-    "ctxt": 0
+    "end": 165
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 110,
-        "end": 123,
-        "ctxt": 0
+        "end": 123
       },
       "expression": {
         "type": "StringLiteral",
         "span": {
           "start": 110,
-          "end": 122,
-          "ctxt": 0
+          "end": 122
         },
         "value": "use strict",
         "raw": "\"use strict\""
@@ -28,9 +25,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 124,
-        "end": 136,
-        "ctxt": 0
+        "end": 136
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -38,16 +35,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 130,
-            "end": 135,
-            "ctxt": 0
+            "end": 135
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 130,
-              "end": 131,
-              "ctxt": 0
+              "end": 131
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false,
             "typeAnnotation": null
@@ -56,8 +52,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 134,
-              "end": 135,
-              "ctxt": 0
+              "end": 135
             },
             "value": 1.0,
             "raw": "1"
@@ -72,41 +67,39 @@
         "type": "Identifier",
         "span": {
           "start": 143,
-          "end": 144,
-          "ctxt": 0
+          "end": 144
         },
+        "ctxt": 0,
         "value": "C",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 137,
-        "end": 165,
-        "ctxt": 0
+        "end": 165
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassProperty",
           "span": {
             "start": 151,
-            "end": 163,
-            "ctxt": 0
+            "end": 163
           },
           "key": {
             "type": "Computed",
             "span": {
               "start": 151,
-              "end": 154,
-              "ctxt": 0
+              "end": 154
             },
             "expression": {
               "type": "Identifier",
               "span": {
                 "start": 152,
-                "end": 153,
-                "ctxt": 0
+                "end": 153
               },
+              "ctxt": 0,
               "value": "x",
               "optional": false
             }
@@ -116,15 +109,13 @@
             "type": "TsTypeAnnotation",
             "span": {
               "start": 154,
-              "end": 162,
-              "ctxt": 0
+              "end": 162
             },
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
                 "start": 156,
-                "end": 162,
-                "ctxt": 0
+                "end": 162
               },
               "kind": "string"
             }

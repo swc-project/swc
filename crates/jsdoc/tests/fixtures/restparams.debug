@@ -1,29 +1,29 @@
 [
     JsDoc {
-        span: 16..16#0,
+        span: 16..16,
         description: Text {
-            span: 16..59#0,
+            span: 16..59,
             value: "Set the list of users who are admins.\n *\n *",
         },
         tags: [
             TagItem {
-                span: 16..21#0,
+                span: 16..21,
                 tag_name: Text {
-                    span: 16..21#0,
+                    span: 16..21,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 16..21#0,
+                        span: 16..21,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 16..22#0,
+                                span: 16..22,
                                 value: "{User}",
                             },
                         ),
                         desc: Text {
-                            span: 16..64#0,
+                            span: 16..64,
                             value: "users - The users who will receive admin rights.",
                         },
                     },
@@ -32,53 +32,53 @@
         ],
     },
     JsDoc {
-        span: 167..167#0,
+        span: 167..167,
         description: Text {
-            span: 167..219#0,
+            span: 167..219,
             value: "Set the list of users who can access a widget.\n *\n *",
         },
         tags: [
             TagItem {
-                span: 167..172#0,
+                span: 167..172,
                 tag_name: Text {
-                    span: 167..172#0,
+                    span: 167..172,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 167..172#0,
+                        span: 167..172,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 167..175#0,
+                                span: 167..175,
                                 value: "{Widget}",
                             },
                         ),
                         desc: Text {
-                            span: 167..187#0,
+                            span: 167..187,
                             value: "widget - The widget.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 167..172#0,
+                span: 167..172,
                 tag_name: Text {
-                    span: 167..172#0,
+                    span: 167..172,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 167..172#0,
+                        span: 167..172,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 167..173#0,
+                                span: 167..173,
                                 value: "{User}",
                             },
                         ),
                         desc: Text {
-                            span: 167..230#0,
+                            span: 167..230,
                             value: "users - The users who will receive rights to access the widget.",
                         },
                     },
@@ -87,30 +87,30 @@
         ],
     },
     JsDoc {
-        span: 396..396#0,
+        span: 396..396,
         description: Text {
-            span: 396..441#0,
+            span: 396..441,
             value: "Set the list of users who are managers.\n *\n *",
         },
         tags: [
             TagItem {
-                span: 396..401#0,
+                span: 396..401,
                 tag_name: Text {
-                    span: 396..401#0,
+                    span: 396..401,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 396..401#0,
+                        span: 396..401,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 396..402#0,
+                                span: 396..402,
                                 value: "{User}",
                             },
                         ),
                         desc: Text {
-                            span: 396..431#0,
+                            span: 396..431,
                             value: "users - The users who are managers.",
                         },
                     },

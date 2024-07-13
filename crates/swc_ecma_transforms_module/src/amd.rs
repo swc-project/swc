@@ -5,14 +5,14 @@ use swc_atoms::JsWord;
 use swc_common::{
     comments::{CommentKind, Comments},
     util::take::Take,
-    FileName, Mark, Span, DUMMY_SP,
+    FileName, Mark, Span, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
 use swc_ecma_utils::{
     member_expr, private_ident, quote_ident, quote_str, ExprFactory, FunctionFactory, IsDirective,
 };
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, standard_only_visit_mut, Fold, VisitMut, VisitMutWith};
 
 pub use super::util::Config as InnerConfig;
 use crate::{
@@ -24,6 +24,7 @@ use crate::{
         define_es_module, emit_export_stmts, local_name_for_src, use_strict, ImportInterop,
         VecStmtLike,
     },
+    SpanCtx,
 };
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -62,7 +63,10 @@ where
         },
 
         dep_list: Default::default(),
-        require: quote_ident!(DUMMY_SP.apply_mark(unresolved_mark), "require"),
+        require: quote_ident!(
+            SyntaxContext::empty().apply_mark(unresolved_mark),
+            "require"
+        ),
         exports: None,
         module: None,
         found_import_meta: false,
@@ -97,7 +101,10 @@ where
         },
 
         dep_list: Default::default(),
-        require: quote_ident!(DUMMY_SP.apply_mark(unresolved_mark), "require"),
+        require: quote_ident!(
+            SyntaxContext::empty().apply_mark(unresolved_mark),
+            "require"
+        ),
         exports: None,
         module: None,
         found_import_meta: false,
@@ -117,7 +124,7 @@ where
     support_arrow: bool,
     const_var_kind: VarDeclKind,
 
-    dep_list: Vec<(Ident, JsWord, Span)>,
+    dep_list: Vec<(Ident, JsWord, SpanCtx)>,
     require: Ident,
     exports: Option<Ident>,
     module: Option<Ident>,
@@ -128,7 +135,7 @@ impl<C> VisitMut for Amd<C>
 where
     C: Comments,
 {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_module(&mut self, n: &mut Module) {
         if self.module_id.is_none() {
@@ -231,7 +238,7 @@ where
                     Resolver::Default => src_path,
                 };
 
-                elems.push(Some(quote_str!(src_span, src_path).as_arg()));
+                elems.push(Some(quote_str!(src_span.0, src_path).as_arg()));
                 params.push(ident.into());
             });
 
@@ -253,24 +260,24 @@ where
                 decorators: Default::default(),
                 span: DUMMY_SP,
                 body: Some(BlockStmt {
-                    span: DUMMY_SP,
                     stmts,
+                    ..Default::default()
                 }),
                 is_generator: false,
                 is_async: false,
-                type_params: None,
-                return_type: None,
+                ..Default::default()
             }
             .into_fn_expr(None)
             .as_arg(),
         );
 
-        n.body = vec![
-            quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "define")
-                .as_call(DUMMY_SP, amd_call_args)
-                .into_stmt()
-                .into(),
-        ];
+        n.body = vec![quote_ident!(
+            SyntaxContext::empty().apply_mark(self.unresolved_mark),
+            "define"
+        )
+        .as_call(DUMMY_SP, amd_call_args)
+        .into_stmt()
+        .into()];
     }
 
     fn visit_mut_script(&mut self, _: &mut Script) {
@@ -301,7 +308,7 @@ where
                 });
 
                 let mut require = self.require.clone();
-                require.span = import_span.apply_mark(require.span.ctxt().outer());
+                require.span = *import_span;
 
                 *n = amd_dynamic_import(
                     *span,
@@ -536,7 +543,7 @@ pub(crate) fn amd_dynamic_import(
         span,
         callee: Box::new(quote_ident!("Promise").into()),
         args: Some(vec![promise_executer.as_arg()]),
-        type_args: None,
+        ..Default::default()
     }
     .into()
 }
@@ -545,14 +552,16 @@ pub(crate) fn amd_dynamic_import(
 fn amd_import_meta_url(span: Span, module: Ident) -> Expr {
     MemberExpr {
         span,
-        obj: Box::new(Expr::New(quote_ident!("URL").into_new_expr(
-            DUMMY_SP,
-            Some(vec![
-                module.make_member(quote_ident!("uri")).as_arg(),
-                member_expr!(DUMMY_SP, document.baseURI).as_arg(),
-            ]),
-        ))),
-        prop: quote_ident!("href").into(),
+        obj: quote_ident!("URL")
+            .into_new_expr(
+                DUMMY_SP,
+                Some(vec![
+                    module.make_member(quote_ident!("uri")).as_arg(),
+                    member_expr!(Default::default(), DUMMY_SP, document.baseURI).as_arg(),
+                ]),
+            )
+            .into(),
+        prop: MemberProp::Ident("href".into()),
     }
     .into()
 }

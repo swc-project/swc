@@ -2,39 +2,34 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 13,
-    "ctxt": 0
+    "end": 13
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
         "start": 1,
-        "end": 13,
-        "ctxt": 0
+        "end": 13
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 1,
-          "end": 10,
-          "ctxt": 0
+          "end": 10
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
               "start": 1,
-              "end": 10,
-              "ctxt": 0
+              "end": 10
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
                   "start": 1,
-                  "end": 10,
-                  "ctxt": 0
+                  "end": 10
                 },
                 "nestingSelector": null,
                 "typeSelector": null,
@@ -43,23 +38,20 @@
                     "type": "AttributeSelector",
                     "span": {
                       "start": 1,
-                      "end": 10,
-                      "ctxt": 0
+                      "end": 10
                     },
                     "name": {
                       "type": "WqName",
                       "span": {
                         "start": 2,
-                        "end": 3,
-                        "ctxt": 0
+                        "end": 3
                       },
                       "prefix": null,
                       "value": {
                         "type": "Ident",
                         "span": {
                           "start": 2,
-                          "end": 3,
-                          "ctxt": 0
+                          "end": 3
                         },
                         "value": "b",
                         "raw": "b"
@@ -69,8 +61,7 @@
                       "type": "AttributeSelectorMatcher",
                       "span": {
                         "start": 3,
-                        "end": 4,
-                        "ctxt": 0
+                        "end": 4
                       },
                       "value": "="
                     },
@@ -78,8 +69,7 @@
                       "type": "String",
                       "span": {
                         "start": 4,
-                        "end": 9,
-                        "ctxt": 0
+                        "end": 9
                       },
                       "value": "c d",
                       "raw": "\"c d\""
@@ -96,15 +86,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 11,
-          "end": 13,
-          "ctxt": 0
+          "end": 13
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 11,
-            "end": 12,
-            "ctxt": 0
+            "end": 12
           },
           "token": "LBrace"
         },

@@ -17,7 +17,7 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_parser::parse_file_as_expr;
 use swc_ecma_utils::drop_span;
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, standard_only_visit_mut, Fold, VisitMut, VisitMutWith};
 
 pub fn const_modules(
     cm: Lrc<SourceMap>,
@@ -47,7 +47,7 @@ fn parse_option(cm: &SourceMap, name: &str, src: String) -> Arc<Expr> {
     static CACHE: Lazy<DashMap<String, Arc<Expr>, ARandomState>> = Lazy::new(DashMap::default);
 
     let fm = cm.new_source_file(
-        FileName::Internal(format!("<const-module-{}.js>", name)),
+        FileName::Internal(format!("<const-module-{}.js>", name)).into(),
         src,
     );
     if let Some(expr) = CACHE.get(&**fm.src) {
@@ -93,7 +93,7 @@ struct Scope {
 }
 
 impl VisitMut for ConstModules {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         *n = n.take().move_flat_map(|item| match item {
@@ -141,7 +141,7 @@ impl VisitMut for ConstModules {
 
                     None
                 } else {
-                    Some(ModuleItem::ModuleDecl(ModuleDecl::Import(import)))
+                    Some(import.into())
                 }
             }
             _ => Some(item),

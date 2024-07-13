@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 35,
-    "ctxt": 0
+    "end": 35
   },
   "body": [
     {
@@ -12,40 +11,39 @@
         "type": "Identifier",
         "span": {
           "start": 28,
-          "end": 32,
-          "ctxt": 0
+          "end": 32
         },
+        "ctxt": 0,
         "value": "Test",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 1,
-        "end": 35,
-        "ctxt": 0
+        "end": 35
       },
+      "ctxt": 0,
       "decorators": [
         {
           "type": "Decorator",
           "span": {
             "start": 1,
-            "end": 21,
-            "ctxt": 0
+            "end": 21
           },
           "expression": {
             "type": "CallExpression",
             "span": {
               "start": 2,
-              "end": 21,
-              "ctxt": 0
+              "end": 21
             },
+            "ctxt": 0,
             "callee": {
               "type": "Identifier",
               "span": {
                 "start": 2,
-                "end": 11,
-                "ctxt": 0
+                "end": 11
               },
+              "ctxt": 0,
               "value": "decorator",
               "optional": false
             },
@@ -54,16 +52,14 @@
               "type": "TsTypeParameterInstantiation",
               "span": {
                 "start": 11,
-                "end": 19,
-                "ctxt": 0
+                "end": 19
               },
               "params": [
                 {
                   "type": "TsKeywordType",
                   "span": {
                     "start": 12,
-                    "end": 18,
-                    "ctxt": 0
+                    "end": 18
                   },
                   "kind": "string"
                 }

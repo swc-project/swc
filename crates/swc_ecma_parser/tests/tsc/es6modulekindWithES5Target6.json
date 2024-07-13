@@ -2,16 +2,14 @@
   "type": "Module",
   "span": {
     "start": 37,
-    "end": 137,
-    "ctxt": 0
+    "end": 137
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
         "start": 37,
-        "end": 66,
-        "ctxt": 0
+        "end": 66
       },
       "declaration": {
         "type": "FunctionDeclaration",
@@ -19,9 +17,9 @@
           "type": "Identifier",
           "span": {
             "start": 53,
-            "end": 55,
-            "ctxt": 0
+            "end": 55
           },
+          "ctxt": 0,
           "value": "f1",
           "optional": false
         },
@@ -31,24 +29,22 @@
             "type": "Parameter",
             "span": {
               "start": 56,
-              "end": 61,
-              "ctxt": 0
+              "end": 61
             },
             "decorators": [],
             "pat": {
               "type": "AssignmentPattern",
               "span": {
                 "start": 56,
-                "end": 61,
-                "ctxt": 0
+                "end": 61
               },
               "left": {
                 "type": "Identifier",
                 "span": {
                   "start": 56,
-                  "end": 57,
-                  "ctxt": 0
+                  "end": 57
                 },
+                "ctxt": 0,
                 "value": "d",
                 "optional": false,
                 "typeAnnotation": null
@@ -57,8 +53,7 @@
                 "type": "NumericLiteral",
                 "span": {
                   "start": 60,
-                  "end": 61,
-                  "ctxt": 0
+                  "end": 61
                 },
                 "value": 0.0,
                 "raw": "0"
@@ -69,16 +64,16 @@
         "decorators": [],
         "span": {
           "start": 44,
-          "end": 66,
-          "ctxt": 0
+          "end": 66
         },
+        "ctxt": 0,
         "body": {
           "type": "BlockStatement",
           "span": {
             "start": 63,
-            "end": 66,
-            "ctxt": 0
+            "end": 66
           },
+          "ctxt": 0,
           "stmts": []
         },
         "generator": false,
@@ -91,8 +86,7 @@
       "type": "ExportDeclaration",
       "span": {
         "start": 68,
-        "end": 98,
-        "ctxt": 0
+        "end": 98
       },
       "declaration": {
         "type": "FunctionDeclaration",
@@ -100,9 +94,9 @@
           "type": "Identifier",
           "span": {
             "start": 84,
-            "end": 86,
-            "ctxt": 0
+            "end": 86
           },
+          "ctxt": 0,
           "value": "f2",
           "optional": false
         },
@@ -112,29 +106,26 @@
             "type": "Parameter",
             "span": {
               "start": 87,
-              "end": 93,
-              "ctxt": 0
+              "end": 93
             },
             "decorators": [],
             "pat": {
               "type": "RestElement",
               "span": {
                 "start": 87,
-                "end": 93,
-                "ctxt": 0
+                "end": 93
               },
               "rest": {
                 "start": 87,
-                "end": 90,
-                "ctxt": 0
+                "end": 90
               },
               "argument": {
                 "type": "Identifier",
                 "span": {
                   "start": 90,
-                  "end": 93,
-                  "ctxt": 0
+                  "end": 93
                 },
+                "ctxt": 0,
                 "value": "arg",
                 "optional": false,
                 "typeAnnotation": null
@@ -146,16 +137,16 @@
         "decorators": [],
         "span": {
           "start": 75,
-          "end": 98,
-          "ctxt": 0
+          "end": 98
         },
+        "ctxt": 0,
         "body": {
           "type": "BlockStatement",
           "span": {
             "start": 95,
-            "end": 98,
-            "ctxt": 0
+            "end": 98
           },
+          "ctxt": 0,
           "stmts": []
         },
         "generator": false,
@@ -168,8 +159,7 @@
       "type": "ExportDefaultDeclaration",
       "span": {
         "start": 100,
-        "end": 137,
-        "ctxt": 0
+        "end": 137
       },
       "decl": {
         "type": "FunctionExpression",
@@ -177,9 +167,9 @@
           "type": "Identifier",
           "span": {
             "start": 124,
-            "end": 126,
-            "ctxt": 0
+            "end": 126
           },
+          "ctxt": 0,
           "value": "f3",
           "optional": false
         },
@@ -188,24 +178,22 @@
             "type": "Parameter",
             "span": {
               "start": 127,
-              "end": 132,
-              "ctxt": 0
+              "end": 132
             },
             "decorators": [],
             "pat": {
               "type": "AssignmentPattern",
               "span": {
                 "start": 127,
-                "end": 132,
-                "ctxt": 0
+                "end": 132
               },
               "left": {
                 "type": "Identifier",
                 "span": {
                   "start": 127,
-                  "end": 128,
-                  "ctxt": 0
+                  "end": 128
                 },
+                "ctxt": 0,
                 "value": "d",
                 "optional": false,
                 "typeAnnotation": null
@@ -214,8 +202,7 @@
                 "type": "NumericLiteral",
                 "span": {
                   "start": 131,
-                  "end": 132,
-                  "ctxt": 0
+                  "end": 132
                 },
                 "value": 0.0,
                 "raw": "0"
@@ -226,16 +213,16 @@
         "decorators": [],
         "span": {
           "start": 115,
-          "end": 137,
-          "ctxt": 0
+          "end": 137
         },
+        "ctxt": 0,
         "body": {
           "type": "BlockStatement",
           "span": {
             "start": 134,
-            "end": 137,
-            "ctxt": 0
+            "end": 137
           },
+          "ctxt": 0,
           "stmts": []
         },
         "generator": false,

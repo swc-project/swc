@@ -16,7 +16,7 @@ use swc_ecma_utils::{
     ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, visit_mut_obj_and_computed, Fold, VisitMut, VisitMutWith,
+    as_folder, standard_only_visit_mut, visit_mut_obj_and_computed, Fold, VisitMut, VisitMutWith,
 };
 use swc_trace_macro::swc_trace;
 
@@ -181,6 +181,7 @@ impl BlockScoping {
                 body => BlockStmt {
                     span: DUMMY_SP,
                     stmts: vec![body.take()],
+                    ..Default::default()
                 },
             };
 
@@ -221,7 +222,7 @@ impl BlockScoping {
                                 Param {
                                     span: DUMMY_SP,
                                     decorators: Default::default(),
-                                    pat: Ident::new(i.0.clone(), DUMMY_SP.with_ctxt(ctxt)).into(),
+                                    pat: Ident::new(i.0.clone(), DUMMY_SP, ctxt).into(),
                                 }
                             })
                             .collect(),
@@ -229,8 +230,7 @@ impl BlockScoping {
                         body: Some(body_stmt),
                         is_generator: flow_helper.has_yield,
                         is_async: flow_helper.has_await,
-                        type_params: None,
-                        return_type: None,
+                        ..Default::default()
                     }
                     .into(),
                 ),
@@ -243,9 +243,9 @@ impl BlockScoping {
                 args: args
                     .iter()
                     .cloned()
-                    .map(|i| Ident::new(i.0, DUMMY_SP.with_ctxt(i.1)).as_arg())
+                    .map(|i| Ident::new(i.0, DUMMY_SP, i.1).as_arg())
                     .collect(),
-                type_args: None,
+                ..Default::default()
             }
             .into();
 
@@ -267,10 +267,11 @@ impl BlockScoping {
             }
 
             if !inits.is_empty() {
-                call = Expr::Seq(SeqExpr {
+                call = SeqExpr {
                     span: DUMMY_SP,
                     exprs: inits.into_iter().chain(once(Box::new(call))).collect(),
-                })
+                }
+                .into()
             }
 
             if flow_helper.has_return || flow_helper.has_break || !flow_helper.label.is_empty() {
@@ -281,13 +282,13 @@ impl BlockScoping {
                     VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
-                        declare: false,
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
                             name: ret.clone().into(),
                             init: Some(Box::new(call.take())),
                             definite: false,
                         }],
+                        ..Default::default()
                     }
                     .into(),
                 ];
@@ -297,7 +298,7 @@ impl BlockScoping {
                     stmts.push(
                         IfStmt {
                             span: DUMMY_SP,
-                            test: Box::new(Expr::Bin(BinExpr {
+                            test: BinExpr {
                                 span: DUMMY_SP,
                                 op: op!("==="),
                                 left: {
@@ -308,17 +309,21 @@ impl BlockScoping {
                                         span: Default::default(),
                                         callee,
                                         args: vec![ret.clone().as_arg()],
-                                        type_args: None,
+                                        ..Default::default()
                                     }
                                     .into()
                                 },
                                 //"object"
                                 right: "object".into(),
-                            })),
-                            cons: Box::new(Stmt::Return(ReturnStmt {
-                                span: DUMMY_SP,
-                                arg: Some(ret.clone().make_member(quote_ident!("v")).into()),
-                            })),
+                            }
+                            .into(),
+                            cons: Box::new(
+                                ReturnStmt {
+                                    span: DUMMY_SP,
+                                    arg: Some(ret.clone().make_member(quote_ident!("v")).into()),
+                                }
+                                .into(),
+                            ),
                             alt: None,
                         }
                         .into(),
@@ -330,10 +335,10 @@ impl BlockScoping {
                         IfStmt {
                             span: DUMMY_SP,
                             test: ret.clone().make_eq(quote_str!("break")).into(),
-                            cons: Stmt::Break(BreakStmt {
+                            cons: BreakStmt {
                                 span: DUMMY_SP,
                                 label: None,
-                            })
+                            }
                             .into(),
                             alt: None,
                         }
@@ -374,6 +379,7 @@ impl BlockScoping {
                     BlockStmt {
                         span: DUMMY_SP,
                         stmts,
+                        ..Default::default()
                     }
                     .into(),
                 );
@@ -401,10 +407,14 @@ impl BlockScoping {
     /// which fixes https://github.com/swc-project/swc/issues/6573
     fn blockify_for_stmt_body(&self, body: &mut Box<Stmt>) -> bool {
         if !body.is_block() {
-            *body = Box::new(Stmt::Block(BlockStmt {
-                span: Default::default(),
-                stmts: vec![*body.take()],
-            }));
+            *body = Box::new(
+                BlockStmt {
+                    span: Default::default(),
+                    stmts: vec![*body.take()],
+                    ..Default::default()
+                }
+                .into(),
+            );
             true
         } else {
             false
@@ -425,7 +435,7 @@ impl BlockScoping {
 
 #[swc_trace]
 impl VisitMut for BlockScoping {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
         n.params.visit_mut_with(self);
@@ -611,12 +621,13 @@ impl BlockScoping {
         if !self.vars.is_empty() {
             prepend_stmt(
                 stmts,
-                T::from_stmt(
+                T::from(
                     VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
                         declare: false,
                         decls: take(&mut self.vars),
+                        ..Default::default()
                     }
                     .into(),
                 ),
@@ -674,7 +685,7 @@ impl<'a> FlowHelper<'a> {
 
 #[swc_trace]
 impl VisitMut for FlowHelper<'_> {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     /// noop
     fn visit_mut_arrow_expr(&mut self, _n: &mut ArrowExpr) {}
@@ -762,7 +773,7 @@ impl VisitMut for FlowHelper<'_> {
                     "continue".into()
                 };
 
-                *node = Stmt::Return(ReturnStmt {
+                *node = ReturnStmt {
                     span,
                     arg: Some(
                         Lit::Str(Str {
@@ -772,7 +783,8 @@ impl VisitMut for FlowHelper<'_> {
                         })
                         .into(),
                     ),
-                });
+                }
+                .into();
             }
             Stmt::Break(BreakStmt { label, .. }) => {
                 if (self.in_switch_case || self.in_nested_loop) && !self.has_outer_label(label) {
@@ -787,35 +799,45 @@ impl VisitMut for FlowHelper<'_> {
                     self.has_break = true;
                     "break".into()
                 };
-                *node = Stmt::Return(ReturnStmt {
+                *node = ReturnStmt {
                     span,
-                    arg: Some(Box::new(Expr::Lit(Lit::Str(Str {
-                        span,
-                        value,
-                        raw: None,
-                    })))),
-                });
+                    arg: Some(
+                        Lit::Str(Str {
+                            span,
+                            value,
+                            raw: None,
+                        })
+                        .into(),
+                    ),
+                }
+                .into();
             }
             Stmt::Return(s) => {
                 self.has_return = true;
                 s.visit_mut_with(self);
 
-                *node = Stmt::Return(ReturnStmt {
+                *node = ReturnStmt {
                     span,
-                    arg: Some(Box::new(Expr::Object(ObjectLit {
-                        span,
-                        props: vec![PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                            key: PropName::Ident(Ident::new("v".into(), DUMMY_SP)),
-                            value: s.arg.take().unwrap_or_else(|| {
-                                Box::new(Expr::Unary(UnaryExpr {
-                                    span: DUMMY_SP,
-                                    op: op!("void"),
-                                    arg: Expr::undefined(DUMMY_SP),
-                                }))
-                            }),
-                        })))],
-                    }))),
-                });
+                    arg: Some(
+                        ObjectLit {
+                            span,
+                            props: vec![PropOrSpread::Prop(Box::new(Prop::KeyValue(
+                                KeyValueProp {
+                                    key: PropName::Ident(IdentName::new("v".into(), DUMMY_SP)),
+                                    value: s.arg.take().unwrap_or_else(|| {
+                                        Box::new(Expr::Unary(UnaryExpr {
+                                            span: DUMMY_SP,
+                                            op: op!("void"),
+                                            arg: Expr::undefined(DUMMY_SP),
+                                        }))
+                                    }),
+                                },
+                            )))],
+                        }
+                        .into(),
+                    ),
+                }
+                .into();
             }
             _ => node.visit_mut_children_with(self),
         }
@@ -866,28 +888,29 @@ impl MutationHandler<'_> {
         let mut exprs = Vec::with_capacity(self.map.len() + 1);
 
         for (id, ctxt) in &*self.map {
-            exprs.push(Box::new(Expr::Assign(AssignExpr {
-                span: DUMMY_SP,
-                left: Ident::new(id.0.clone(), DUMMY_SP.with_ctxt(id.1)).into(),
-                op: op!("="),
-                right: Box::new(Expr::Ident(Ident::new(
-                    id.0.clone(),
-                    DUMMY_SP.with_ctxt(*ctxt),
-                ))),
-            })));
+            exprs.push(
+                AssignExpr {
+                    span: DUMMY_SP,
+                    left: Ident::new(id.0.clone(), DUMMY_SP, id.1).into(),
+                    op: op!("="),
+                    right: Box::new(Ident::new(id.0.clone(), DUMMY_SP, *ctxt).into()),
+                }
+                .into(),
+            );
         }
         exprs.push(orig.unwrap_or_else(|| Expr::undefined(DUMMY_SP)));
 
-        Expr::Seq(SeqExpr {
+        SeqExpr {
             span: DUMMY_SP,
             exprs,
-        })
+        }
+        .into()
     }
 }
 
 #[swc_trace]
 impl VisitMut for MutationHandler<'_> {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     visit_mut_obj_and_computed!();
 
@@ -911,7 +934,7 @@ impl VisitMut for MutationHandler<'_> {
 
     fn visit_mut_ident(&mut self, n: &mut Ident) {
         if let Some(&ctxt) = self.map.get(&n.to_id()) {
-            n.span = n.span.with_ctxt(ctxt)
+            n.ctxt = ctxt;
         }
     }
 

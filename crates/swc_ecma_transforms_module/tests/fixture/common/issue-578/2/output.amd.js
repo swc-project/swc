@@ -1,8 +1,7 @@
 define([
     "require",
-    "exports",
-    "./dep.js"
-], function(require, exports, _dep) {
+    "exports"
+], function(require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -12,7 +11,7 @@ define([
             this.props = properties;
         }
         call() {
-            const { myFunction  } = this.props;
+            const { myFunction } = this.props;
             if (myFunction) {
                 myFunction();
             } else {

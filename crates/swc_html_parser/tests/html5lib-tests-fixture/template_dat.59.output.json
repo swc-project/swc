@@ -2,8 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 52,
-    "ctxt": 0
+    "end": 52
   },
   "mode": "quirks",
   "children": [
@@ -11,8 +10,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 0,
-        "ctxt": 0
+        "end": 0
       },
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -22,8 +20,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -36,8 +33,7 @@
           "type": "Element",
           "span": {
             "start": 1,
-            "end": 52,
-            "ctxt": 0
+            "end": 52
           },
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -47,8 +43,7 @@
               "type": "Element",
               "span": {
                 "start": 7,
-                "end": 52,
-                "ctxt": 0
+                "end": 52
               },
               "tagName": "template",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -58,16 +53,14 @@
                 "type": "DocumentFragment",
                 "span": {
                   "start": 7,
-                  "end": 52,
-                  "ctxt": 0
+                  "end": 52
                 },
                 "children": [
                   {
                     "type": "Element",
                     "span": {
                       "start": 17,
-                      "end": 32,
-                      "ctxt": 0
+                      "end": 32
                     },
                     "tagName": "style",
                     "namespace": "http://www.w3.org/1999/xhtml",
@@ -80,8 +73,7 @@
                     "type": "Element",
                     "span": {
                       "start": 32,
-                      "end": 41,
-                      "ctxt": 0
+                      "end": 41
                     },
                     "tagName": "td",
                     "namespace": "http://www.w3.org/1999/xhtml",

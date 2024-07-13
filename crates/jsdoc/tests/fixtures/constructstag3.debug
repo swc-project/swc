@@ -1,20 +1,20 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..34#0,
+            span: 1..34,
             value: "A class that represents a person.",
         },
         tags: [
             TagItem {
-                span: 1..6#0,
+                span: 1..6,
                 tag_name: Text {
-                    span: 1..6#0,
+                    span: 1..6,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 1..6#0,
+                        span: 1..6,
                         ty: None,
                         name: None,
                     },
@@ -23,46 +23,46 @@
         ],
     },
     JsDoc {
-        span: 91..91#0,
+        span: 91..91,
         description: Text {
-            span: 91..91#0,
+            span: 91..91,
             value: "",
         },
         tags: [
             TagItem {
-                span: 91..101#0,
+                span: 91..101,
                 tag_name: Text {
-                    span: 91..101#0,
+                    span: 91..101,
                     value: "constructs",
                 },
                 tag: Constructs(
                     ConstructsTag {
-                        span: 91..101#0,
+                        span: 91..101,
                         name: Text {
-                            span: 91..97#0,
+                            span: 91..97,
                             value: "Person",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 91..96#0,
+                span: 91..96,
                 tag_name: Text {
-                    span: 91..96#0,
+                    span: 91..96,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 91..96#0,
+                        span: 91..96,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 91..99#0,
+                                span: 91..99,
                                 value: "{string}",
                             },
                         ),
                         desc: Text {
-                            span: 91..95#0,
+                            span: 91..95,
                             value: "name",
                         },
                     },
@@ -71,34 +71,34 @@
         ],
     },
     JsDoc {
-        span: 201..201#0,
+        span: 201..201,
         description: Text {
-            span: 201..224#0,
+            span: 201..224,
             value: "The name of the person.",
         },
         tags: [],
     },
     JsDoc {
-        span: 270..270#0,
+        span: 270..270,
         description: Text {
-            span: 270..270#0,
+            span: 270..270,
             value: "",
         },
         tags: [
             TagItem {
-                span: 270..278#0,
+                span: 270..278,
                 tag_name: Text {
-                    span: 270..278#0,
+                    span: 270..278,
                     value: "memberof",
                 },
                 tag: MemberOf(
                     MemberOfTag {
-                        span: 270..278#0,
+                        span: 270..278,
                         parent_name_path: NamePath {
-                            span: 270..308#0,
+                            span: 270..308,
                             components: [
                                 Text {
-                                    span: 270..276#0,
+                                    span: 270..276,
                                     value: "Person",
                                 },
                             ],
@@ -107,23 +107,23 @@
                 ),
             },
             TagItem {
-                span: 270..275#0,
+                span: 270..275,
                 tag_name: Text {
-                    span: 270..275#0,
+                    span: 270..275,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 270..275#0,
+                        span: 270..275,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 270..278#0,
+                                span: 270..278,
                                 value: "{string}",
                             },
                         ),
                         desc: Text {
-                            span: 270..277#0,
+                            span: 270..277,
                             value: "message",
                         },
                     },
@@ -132,9 +132,9 @@
         ],
     },
     JsDoc {
-        span: 378..378#0,
+        span: 378..378,
         description: Text {
-            span: 378..399#0,
+            span: 378..399,
             value: "The person's message.",
         },
         tags: [],

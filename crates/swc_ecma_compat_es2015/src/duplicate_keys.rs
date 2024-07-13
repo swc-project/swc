@@ -3,7 +3,7 @@ use swc_common::{collections::AHashSet, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_utils::quote_str;
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, standard_only_visit_mut, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 pub fn duplicate_keys() -> impl Fold + VisitMut {
@@ -22,7 +22,7 @@ impl Parallel for DuplicateKeys {
 
 #[swc_trace]
 impl VisitMut for DuplicateKeys {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         expr.visit_mut_children_with(self);
@@ -42,7 +42,7 @@ struct PropFolder {
 
 #[swc_trace]
 impl VisitMut for PropFolder {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     /// Noop
     fn visit_mut_expr(&mut self, _: &mut Expr) {}
@@ -59,7 +59,7 @@ impl VisitMut for PropFolder {
                             span: ident.span,
                             expr: quote_str!(ident.sym.clone()).into(),
                         }),
-                        value: Box::new(Expr::Ident(ident.clone())),
+                        value: ident.clone().into(),
                     })
                 }
             }
@@ -90,7 +90,7 @@ struct PropNameFolder<'a> {
 
 #[swc_trace]
 impl<'a> VisitMut for PropNameFolder<'a> {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_expr(&mut self, _: &mut Expr) {}
 
@@ -102,11 +102,12 @@ impl<'a> VisitMut for PropNameFolder<'a> {
                 if !self.props.insert(ident.sym.clone()) {
                     *name = PropName::Computed(ComputedPropName {
                         span,
-                        expr: Box::new(Expr::Lit(Lit::Str(Str {
+                        expr: Lit::Str(Str {
                             span,
                             raw: None,
                             value: ident.sym.clone(),
-                        }))),
+                        })
+                        .into(),
                     })
                 }
             }

@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 76,
-    "end": 173,
-    "ctxt": 0
+    "end": 173
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 76,
-        "end": 115,
-        "ctxt": 0
+        "end": 115
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 80,
-            "end": 114,
-            "ctxt": 0
+            "end": 114
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 80,
-              "end": 92,
-              "ctxt": 0
+              "end": 92
             },
+            "ctxt": 0,
             "value": "middlewarify",
             "optional": false,
             "typeAnnotation": null
@@ -38,24 +36,22 @@
             "type": "AssignmentExpression",
             "span": {
               "start": 95,
-              "end": 114,
-              "ctxt": 0
+              "end": 114
             },
             "operator": "=",
             "left": {
               "type": "MemberExpression",
               "span": {
                 "start": 95,
-                "end": 109,
-                "ctxt": 0
+                "end": 109
               },
               "object": {
                 "type": "Identifier",
                 "span": {
                   "start": 95,
-                  "end": 101,
-                  "ctxt": 0
+                  "end": 101
                 },
+                "ctxt": 0,
                 "value": "module",
                 "optional": false
               },
@@ -63,19 +59,16 @@
                 "type": "Identifier",
                 "span": {
                   "start": 102,
-                  "end": 109,
-                  "ctxt": 0
+                  "end": 109
                 },
-                "value": "exports",
-                "optional": false
+                "value": "exports"
               }
             },
             "right": {
               "type": "ObjectExpression",
               "span": {
                 "start": 112,
-                "end": 114,
-                "ctxt": 0
+                "end": 114
               },
               "properties": []
             }
@@ -88,31 +81,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 130,
-        "end": 173,
-        "ctxt": 0
+        "end": 173
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
           "start": 130,
-          "end": 172,
-          "ctxt": 0
+          "end": 172
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
             "start": 130,
-            "end": 147,
-            "ctxt": 0
+            "end": 147
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 130,
-              "end": 142,
-              "ctxt": 0
+              "end": 142
             },
+            "ctxt": 0,
             "value": "middlewarify",
             "optional": false
           },
@@ -120,19 +110,16 @@
             "type": "Identifier",
             "span": {
               "start": 143,
-              "end": 147,
-              "ctxt": 0
+              "end": 147
             },
-            "value": "Type",
-            "optional": false
+            "value": "Type"
           }
         },
         "right": {
           "type": "ObjectExpression",
           "span": {
             "start": 150,
-            "end": 172,
-            "ctxt": 0
+            "end": 172
           },
           "properties": [
             {
@@ -141,18 +128,15 @@
                 "type": "Identifier",
                 "span": {
                   "start": 154,
-                  "end": 160,
-                  "ctxt": 0
+                  "end": 160
                 },
-                "value": "BEFORE",
-                "optional": false
+                "value": "BEFORE"
               },
               "value": {
                 "type": "StringLiteral",
                 "span": {
                   "start": 162,
-                  "end": 170,
-                  "ctxt": 0
+                  "end": 170
                 },
                 "value": "before",
                 "raw": "'before'"

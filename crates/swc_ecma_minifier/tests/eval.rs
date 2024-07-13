@@ -10,12 +10,12 @@ use swc_ecma_minifier::{
 };
 use swc_ecma_parser::{parse_file_as_expr, parse_file_as_module, EsSyntax, Syntax};
 use swc_ecma_transforms_base::resolver;
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{standard_only_visit_mut, VisitMut, VisitMutWith};
 use testing::{assert_eq, DebugUsingDisplay};
 
 fn eval(module: &str, expr: &str) -> Option<String> {
     testing::run_test2(false, |cm, _handler| {
-        let fm = cm.new_source_file(FileName::Anon, module.to_string());
+        let fm = cm.new_source_file(FileName::Anon.into(), module.to_string());
         let marks = Marks::new();
 
         let module_ast = parse_file_as_module(
@@ -28,7 +28,7 @@ fn eval(module: &str, expr: &str) -> Option<String> {
         .unwrap();
 
         let expr_ast = {
-            let fm = cm.new_source_file(FileName::Anon, expr.to_string());
+            let fm = cm.new_source_file(FileName::Anon.into(), expr.to_string());
             parse_file_as_expr(
                 &fm,
                 Default::default(),
@@ -83,7 +83,7 @@ impl PartialInliner {
         F: FnOnce(Lrc<SourceMap>, Module, &mut PartialInliner),
     {
         testing::run_test2(false, |cm, _handler| {
-            let fm = cm.new_source_file(FileName::Anon, src.to_string());
+            let fm = cm.new_source_file(FileName::Anon.into(), src.to_string());
             let marks = Marks::new();
 
             let mut module = parse_file_as_module(
@@ -117,7 +117,7 @@ impl PartialInliner {
             module.visit_mut_with(inliner);
 
             let expected_module = {
-                let fm = cm.new_source_file(FileName::Anon, expected.to_string());
+                let fm = cm.new_source_file(FileName::Anon.into(), expected.to_string());
 
                 parse_file_as_module(
                     &fm,
@@ -169,7 +169,7 @@ impl PartialInliner {
 }
 
 impl VisitMut for PartialInliner {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);

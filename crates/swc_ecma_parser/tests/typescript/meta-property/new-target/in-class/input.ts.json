@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 160,
-    "ctxt": 0
+    "end": 160
   },
   "body": [
     {
@@ -12,59 +11,55 @@
         "type": "Identifier",
         "span": {
           "start": 7,
-          "end": 9,
-          "ctxt": 0
+          "end": 9
         },
+        "ctxt": 0,
         "value": "C1",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 1,
-        "end": 59,
-        "ctxt": 0
+        "end": 59
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "Constructor",
           "span": {
             "start": 16,
-            "end": 57,
-            "ctxt": 0
+            "end": 57
           },
+          "ctxt": 0,
           "key": {
             "type": "Identifier",
             "span": {
               "start": 16,
-              "end": 27,
-              "ctxt": 0
+              "end": 27
             },
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
             "type": "BlockStatement",
             "span": {
               "start": 30,
-              "end": 57,
-              "ctxt": 0
+              "end": 57
             },
+            "ctxt": 0,
             "stmts": [
               {
                 "type": "ExpressionStatement",
                 "span": {
                   "start": 40,
-                  "end": 51,
-                  "ctxt": 0
+                  "end": 51
                 },
                 "expression": {
                   "type": "MetaProperty",
                   "span": {
                     "start": 40,
-                    "end": 50,
-                    "ctxt": 0
+                    "end": 50
                   },
                   "kind": "new.target"
                 }
@@ -87,53 +82,51 @@
         "type": "Identifier",
         "span": {
           "start": 67,
-          "end": 69,
-          "ctxt": 0
+          "end": 69
         },
+        "ctxt": 0,
         "value": "C2",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 61,
-        "end": 160,
-        "ctxt": 0
+        "end": 160
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "Constructor",
           "span": {
             "start": 76,
-            "end": 158,
-            "ctxt": 0
+            "end": 158
           },
+          "ctxt": 0,
           "key": {
             "type": "Identifier",
             "span": {
               "start": 76,
-              "end": 87,
-              "ctxt": 0
+              "end": 87
             },
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
             "type": "BlockStatement",
             "span": {
               "start": 90,
-              "end": 158,
-              "ctxt": 0
+              "end": 158
             },
+            "ctxt": 0,
             "stmts": [
               {
                 "type": "VariableDeclaration",
                 "span": {
                   "start": 100,
-                  "end": 152,
-                  "ctxt": 0
+                  "end": 152
                 },
+                "ctxt": 0,
                 "kind": "const",
                 "declare": false,
                 "declarations": [
@@ -141,16 +134,15 @@
                     "type": "VariableDeclarator",
                     "span": {
                       "start": 106,
-                      "end": 151,
-                      "ctxt": 0
+                      "end": 151
                     },
                     "id": {
                       "type": "Identifier",
                       "span": {
                         "start": 106,
-                        "end": 107,
-                        "ctxt": 0
+                        "end": 107
                       },
+                      "ctxt": 0,
                       "value": "a",
                       "optional": false,
                       "typeAnnotation": null
@@ -159,31 +151,29 @@
                       "type": "ArrowFunctionExpression",
                       "span": {
                         "start": 110,
-                        "end": 151,
-                        "ctxt": 0
+                        "end": 151
                       },
+                      "ctxt": 0,
                       "params": [],
                       "body": {
                         "type": "BlockStatement",
                         "span": {
                           "start": 116,
-                          "end": 151,
-                          "ctxt": 0
+                          "end": 151
                         },
+                        "ctxt": 0,
                         "stmts": [
                           {
                             "type": "ExpressionStatement",
                             "span": {
                               "start": 130,
-                              "end": 141,
-                              "ctxt": 0
+                              "end": 141
                             },
                             "expression": {
                               "type": "MetaProperty",
                               "span": {
                                 "start": 130,
-                                "end": 140,
-                                "ctxt": 0
+                                "end": 140
                               },
                               "kind": "new.target"
                             }

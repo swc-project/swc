@@ -2,62 +2,54 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 68,
-    "ctxt": 0
+    "end": 68
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
         "start": 1,
-        "end": 68,
-        "ctxt": 0
+        "end": 68
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 1,
-          "end": 56,
-          "ctxt": 0
+          "end": 56
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
               "start": 1,
-              "end": 56,
-              "ctxt": 0
+              "end": 56
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
                   "start": 1,
-                  "end": 56,
-                  "ctxt": 0
+                  "end": 56
                 },
                 "nestingSelector": null,
                 "typeSelector": {
                   "type": "TagNameSelector",
                   "span": {
                     "start": 1,
-                    "end": 4,
-                    "ctxt": 0
+                    "end": 4
                   },
                   "name": {
                     "type": "WqName",
                     "span": {
                       "start": 1,
-                      "end": 4,
-                      "ctxt": 0
+                      "end": 4
                     },
                     "prefix": null,
                     "value": {
                       "type": "Ident",
                       "span": {
                         "start": 1,
-                        "end": 4,
-                        "ctxt": 0
+                        "end": 4
                       },
                       "value": "div",
                       "raw": "div"
@@ -69,15 +61,13 @@
                     "type": "PseudoElementSelector",
                     "span": {
                       "start": 4,
-                      "end": 12,
-                      "ctxt": 0
+                      "end": 12
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
                         "start": 6,
-                        "end": 12,
-                        "ctxt": 0
+                        "end": 12
                       },
                       "value": "before",
                       "raw": "before"
@@ -88,15 +78,13 @@
                     "type": "PseudoElementSelector",
                     "span": {
                       "start": 12,
-                      "end": 19,
-                      "ctxt": 0
+                      "end": 19
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
                         "start": 14,
-                        "end": 19,
-                        "ctxt": 0
+                        "end": 19
                       },
                       "value": "after",
                       "raw": "after"
@@ -107,15 +95,13 @@
                     "type": "PseudoElementSelector",
                     "span": {
                       "start": 19,
-                      "end": 30,
-                      "ctxt": 0
+                      "end": 30
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
                         "start": 21,
-                        "end": 30,
-                        "ctxt": 0
+                        "end": 30
                       },
                       "value": "selection",
                       "raw": "selection"
@@ -126,15 +112,13 @@
                     "type": "PseudoElementSelector",
                     "span": {
                       "start": 30,
-                      "end": 42,
-                      "ctxt": 0
+                      "end": 42
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
                         "start": 32,
-                        "end": 42,
-                        "ctxt": 0
+                        "end": 42
                       },
                       "value": "first-line",
                       "raw": "first-line"
@@ -145,15 +129,13 @@
                     "type": "PseudoElementSelector",
                     "span": {
                       "start": 42,
-                      "end": 56,
-                      "ctxt": 0
+                      "end": 56
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
                         "start": 44,
-                        "end": 56,
-                        "ctxt": 0
+                        "end": 56
                       },
                       "value": "first-letter",
                       "raw": "first-letter"
@@ -170,15 +152,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 57,
-          "end": 68,
-          "ctxt": 0
+          "end": 68
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 57,
-            "end": 58,
-            "ctxt": 0
+            "end": 58
           },
           "token": "LBrace"
         },
@@ -187,15 +167,13 @@
             "type": "Declaration",
             "span": {
               "start": 58,
-              "end": 67,
-              "ctxt": 0
+              "end": 67
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 58,
-                "end": 63,
-                "ctxt": 0
+                "end": 63
               },
               "value": "color",
               "raw": "color"
@@ -205,8 +183,7 @@
                 "type": "Ident",
                 "span": {
                   "start": 64,
-                  "end": 67,
-                  "ctxt": 0
+                  "end": 67
                 },
                 "value": "red",
                 "raw": "red"

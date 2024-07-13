@@ -1,5 +1,4 @@
 use swc_atoms::js_word;
-use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 
 use super::Pure;
@@ -10,7 +9,7 @@ impl Pure<'_> {
         &mut self,
         obj: Option<&Expr>,
         c: &mut ComputedPropName,
-    ) -> Option<Ident> {
+    ) -> Option<IdentName> {
         if !self.options.props {
             return None;
         }
@@ -32,10 +31,9 @@ impl Pure<'_> {
                     "properties: Computed member => member expr with identifier as a prop"
                 );
 
-                Some(Ident {
-                    span: s.span.with_ctxt(SyntaxContext::empty()),
+                Some(IdentName {
+                    span: s.span,
                     sym: s.value.clone(),
-                    optional: false,
                 })
             }
 
@@ -61,10 +59,7 @@ impl Pure<'_> {
                         || s.value.is_reserved_in_es3()
                         || is_valid_identifier(&s.value, false)
                     {
-                        *p = PropName::Ident(Ident::new(
-                            s.value.clone(),
-                            s.span.with_ctxt(SyntaxContext::empty()),
-                        ));
+                        *p = PropName::Ident(IdentName::new(s.value.clone(), s.span));
                     } else {
                         *p = PropName::Str(s.clone());
                     }
@@ -87,10 +82,9 @@ impl Pure<'_> {
             {
                 self.changed = true;
                 report_change!("misc: Optimizing string property name");
-                *name = PropName::Ident(Ident {
+                *name = PropName::Ident(IdentName {
                     span: s.span,
                     sym: s.value.clone(),
-                    optional: false,
                 });
                 return;
             }
@@ -112,7 +106,7 @@ impl Pure<'_> {
     pub(super) fn handle_known_computed_member_expr(
         &mut self,
         c: &mut ComputedPropName,
-    ) -> Option<Ident> {
+    ) -> Option<IdentName> {
         if !self.options.props || !self.options.evaluate {
             return None;
         }
@@ -129,10 +123,7 @@ impl Pure<'_> {
 
                 self.changed = true;
 
-                Some(Ident::new(
-                    s.value.clone(),
-                    s.span.with_ctxt(SyntaxContext::empty()),
-                ))
+                Some(IdentName::new(s.value.clone(), s.span))
             }
             _ => None,
         }

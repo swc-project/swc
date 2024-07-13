@@ -2,8 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 11224,
-    "ctxt": 0
+    "end": 11224
   },
   "mode": "quirks",
   "children": [
@@ -11,8 +10,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 0,
-        "ctxt": 0
+        "end": 0
       },
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -22,8 +20,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -36,8 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -47,8 +43,7 @@
               "type": "Element",
               "span": {
                 "start": 1,
-                "end": 11223,
-                "ctxt": 0
+                "end": 11223
               },
               "tagName": "img",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -57,8 +52,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 6,
-                    "end": 1401,
-                    "ctxt": 0
+                    "end": 1401
                   },
                   "namespace": null,
                   "prefix": null,
@@ -71,8 +65,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 1401,
-                    "end": 10924,
-                    "ctxt": 0
+                    "end": 10924
                   },
                   "namespace": null,
                   "prefix": null,
@@ -85,8 +78,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 10925,
-                    "end": 10940,
-                    "ctxt": 0
+                    "end": 10940
                   },
                   "namespace": null,
                   "prefix": null,
@@ -99,8 +91,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 10941,
-                    "end": 11222,
-                    "ctxt": 0
+                    "end": 11222
                   },
                   "namespace": null,
                   "prefix": null,
@@ -118,8 +109,7 @@
               "type": "Text",
               "span": {
                 "start": 11223,
-                "end": 11224,
-                "ctxt": 0
+                "end": 11224
               },
               "data": "\n",
               "raw": "\n"

@@ -9,25 +9,25 @@ use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene};
 pub use swc_ecma_transforms_optimization::{debug_assert_valid, AssertValid};
 use swc_ecma_utils::{drop_span, DropSpan};
-use swc_ecma_visit::{noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith};
+use swc_ecma_visit::{standard_only_visit_mut, FoldWith, VisitMut, VisitMutWith};
 use tracing::debug;
 
 pub(crate) struct Debugger {}
 
 impl VisitMut for Debugger {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_ident(&mut self, n: &mut Ident) {
         if !cfg!(feature = "debug") {
             return;
         }
 
-        if n.span.ctxt == SyntaxContext::empty() {
+        if n.ctxt == SyntaxContext::empty() {
             return;
         }
 
-        n.sym = format!("{}{:?}", n.sym, n.span.ctxt).into();
-        n.span.ctxt = SyntaxContext::empty();
+        n.sym = format!("{}{:?}", n.sym, n.ctxt).into();
+        n.ctxt = SyntaxContext::empty();
     }
 }
 

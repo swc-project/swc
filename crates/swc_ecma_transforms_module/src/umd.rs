@@ -1,14 +1,15 @@
 use anyhow::Context;
 use swc_atoms::JsWord;
 use swc_common::{
-    comments::Comments, sync::Lrc, util::take::Take, FileName, Mark, SourceMap, Span, DUMMY_SP,
+    comments::Comments, sync::Lrc, util::take::Take, FileName, Mark, SourceMap, Span,
+    SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
 use swc_ecma_utils::{
     is_valid_prop_ident, private_ident, quote_ident, quote_str, ExprFactory, IsDirective,
 };
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, standard_only_visit_mut, Fold, VisitMut, VisitMutWith};
 
 use self::config::BuiltConfig;
 pub use self::config::Config;
@@ -21,6 +22,7 @@ use crate::{
         define_es_module, emit_export_stmts, local_name_for_src, use_strict, ImportInterop,
         VecStmtLike,
     },
+    SpanCtx,
 };
 
 mod config;
@@ -96,7 +98,7 @@ where
 
     const_var_kind: VarDeclKind,
 
-    dep_list: Vec<(Ident, JsWord, Span)>,
+    dep_list: Vec<(Ident, JsWord, SpanCtx)>,
 
     exports: Option<Ident>,
 }
@@ -105,7 +107,7 @@ impl<C> VisitMut for Umd<C>
 where
     C: Comments,
 {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_module(&mut self, module: &mut Module) {
         let module_items = &mut module.body;
@@ -183,13 +185,12 @@ where
             decorators: Default::default(),
             span: DUMMY_SP,
             body: Some(BlockStmt {
-                span: DUMMY_SP,
                 stmts,
+                ..Default::default()
             }),
             is_generator: false,
             is_async: false,
-            type_params: None,
-            return_type: None,
+            ..Default::default()
         }
         .into();
 
@@ -369,12 +370,27 @@ where
         }
 
         // define unresolved ref
-        let module = quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "module");
+        let module = quote_ident!(
+            SyntaxContext::empty().apply_mark(self.unresolved_mark),
+            "module"
+        );
 
-        let require = quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "require");
-        let define = quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "define");
-        let global_this = quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "globalThis");
-        let js_self = quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "self");
+        let require = quote_ident!(
+            SyntaxContext::empty().apply_mark(self.unresolved_mark),
+            "require"
+        );
+        let define = quote_ident!(
+            SyntaxContext::empty().apply_mark(self.unresolved_mark),
+            "define"
+        );
+        let global_this = quote_ident!(
+            SyntaxContext::empty().apply_mark(self.unresolved_mark),
+            "globalThis"
+        );
+        let js_self = quote_ident!(
+            SyntaxContext::empty().apply_mark(self.unresolved_mark),
+            "self"
+        );
 
         // adapter arguments
         let global = private_ident!("global");
@@ -392,15 +408,15 @@ where
         if !is_export_assign && self.exports.is_some() {
             let filename = self.cm.span_to_filename(module_span);
             let exported_name = self.config.determine_export_name(filename);
-            let global_lib = global.clone().make_member(exported_name);
+            let global_lib = global.clone().make_member(exported_name.into());
 
             cjs_args.push(quote_ident!("exports").as_arg());
             amd_dep_list.push(Some(quote_str!("exports").as_arg()));
             browser_args.push(
-                Expr::Object(ObjectLit {
+                ObjectLit {
                     span: DUMMY_SP,
                     props: Default::default(),
-                })
+                }
                 .make_assign_to(op!("="), global_lib.into())
                 .as_arg(),
             );
@@ -424,11 +440,11 @@ where
                         .clone()
                         .as_call(
                             DUMMY_SP,
-                            vec![quote_str!(src_span, src_path.clone()).as_arg()],
+                            vec![quote_str!(src_span.0, src_path.clone()).as_arg()],
                         )
                         .as_arg(),
                 );
-                amd_dep_list.push(Some(quote_str!(src_span, src_path.clone()).as_arg()));
+                amd_dep_list.push(Some(quote_str!(src_span.0, src_path.clone()).as_arg()));
 
                 let global_dep = {
                     let dep_name = self.config.global_name(&src_path);
@@ -501,17 +517,16 @@ where
                 )),
             }
             .into()],
+            ..Default::default()
         };
 
         let adapter_fn_expr = Function {
             params: vec![global.into(), factory.into()],
-            decorators: Default::default(),
             span: DUMMY_SP,
             body: Some(adapter_body),
             is_generator: false,
             is_async: false,
-            type_params: None,
-            return_type: None,
+            ..Default::default()
         }
         .into();
 

@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 16,
-    "end": 58,
-    "ctxt": 0
+    "end": 58
   },
   "body": [
     {
@@ -12,41 +11,39 @@
         "type": "Identifier",
         "span": {
           "start": 30,
-          "end": 31,
-          "ctxt": 0
+          "end": 31
         },
+        "ctxt": 0,
         "value": "C",
         "optional": false
       },
       "declare": true,
       "span": {
         "start": 16,
-        "end": 58,
-        "ctxt": 0
+        "end": 58
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassMethod",
           "span": {
             "start": 38,
-            "end": 55,
-            "ctxt": 0
+            "end": 55
           },
           "key": {
             "type": "Computed",
             "span": {
               "start": 42,
-              "end": 45,
-              "ctxt": 0
+              "end": 45
             },
             "expression": {
               "type": "Identifier",
               "span": {
                 "start": 43,
-                "end": 44,
-                "ctxt": 0
+                "end": 44
               },
+              "ctxt": 0,
               "value": "e",
               "optional": false
             }
@@ -56,9 +53,9 @@
             "decorators": [],
             "span": {
               "start": 38,
-              "end": 55,
-              "ctxt": 0
+              "end": 55
             },
+            "ctxt": 0,
             "body": null,
             "generator": false,
             "async": false,
@@ -67,15 +64,13 @@
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 47,
-                "end": 55,
-                "ctxt": 0
+                "end": 55
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 49,
-                  "end": 55,
-                  "ctxt": 0
+                  "end": 55
                 },
                 "kind": "number"
               }

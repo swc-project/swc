@@ -3,7 +3,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{ParExplode, Parallel};
 use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{member_expr, private_ident, ExprFactory};
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, standard_only_visit_mut, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 /// `@babel/plugin-transform-exponentiation-operator`
@@ -54,6 +54,7 @@ impl ParExplode for Exponentiation {
                     kind: VarDeclKind::Var,
                     decls: self.vars.take(),
                     declare: false,
+                    ..Default::default()
                 }
                 .into(),
             );
@@ -68,6 +69,7 @@ impl ParExplode for Exponentiation {
                     kind: VarDeclKind::Var,
                     decls: self.vars.take(),
                     declare: false,
+                    ..Default::default()
                 }
                 .into(),
             );
@@ -78,7 +80,7 @@ impl ParExplode for Exponentiation {
 #[swc_trace]
 #[parallel(explode)]
 impl VisitMut for Exponentiation {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
@@ -91,7 +93,7 @@ impl VisitMut for Exponentiation {
                 right,
             }) => {
                 let lhs: Ident = match left {
-                    _ if left.as_ident().is_some() => left.as_ident().unwrap().clone(),
+                    _ if left.as_ident().is_some() => left.as_ident().unwrap().clone().into(),
 
                     // unimplemented
                     AssignTarget::Simple(ref e) => {
@@ -107,12 +109,13 @@ impl VisitMut for Exponentiation {
                     }
 
                     left => {
-                        *e = Expr::Assign(AssignExpr {
+                        *e = AssignExpr {
                             span: *span,
                             left: left.take(),
                             op: op!("="),
                             right: right.take(),
-                        });
+                        }
+                        .into();
                         return;
                     }
                 };
@@ -136,13 +139,14 @@ impl VisitMut for Exponentiation {
 #[tracing::instrument(level = "info", skip_all)]
 fn mk_call(span: Span, left: Box<Expr>, right: Box<Expr>) -> Expr {
     // Math.pow()
-    Expr::Call(CallExpr {
+    CallExpr {
         span,
-        callee: member_expr!(span, Math.pow).as_callee(),
+        callee: member_expr!(Default::default(), span, Math.pow).as_callee(),
 
         args: vec![left.as_arg(), right.as_arg()],
-        type_args: Default::default(),
-    })
+        ..Default::default()
+    }
+    .into()
 }
 
 #[cfg(test)]

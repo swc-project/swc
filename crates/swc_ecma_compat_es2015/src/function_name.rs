@@ -2,7 +2,7 @@ use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_utils::{private_ident, IdentUsageFinder};
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, standard_only_visit_mut, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 /// `@babel/plugin-transform-function-name`
@@ -52,7 +52,7 @@ fn prepare(i: Ident) -> Ident {
 
 #[swc_trace]
 impl VisitMut for FnName {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_assign_expr(&mut self, expr: &mut AssignExpr) {
         expr.visit_mut_children_with(self);
@@ -63,7 +63,7 @@ impl VisitMut for FnName {
 
         if let Some(ident) = expr.left.as_ident_mut() {
             let mut folder = Rename {
-                name: Some(ident.clone()),
+                name: Some(Ident::from(&*ident)),
             };
 
             expr.right.visit_mut_with(&mut folder);
@@ -76,12 +76,13 @@ impl VisitMut for FnName {
         if let Expr::Fn(expr @ FnExpr { ident: None, .. }) = &mut *p.value {
             //
             p.value = if let PropName::Ident(ref i) = p.key {
-                Box::new(Expr::Fn(FnExpr {
-                    ident: Some(prepare(i.clone())),
+                FnExpr {
+                    ident: Some(prepare(i.clone().into())),
                     ..expr.take()
-                }))
+                }
+                .into()
             } else {
-                Box::new(Expr::Fn(expr.take()))
+                expr.take().into()
             };
         };
     }
@@ -91,7 +92,7 @@ impl VisitMut for FnName {
 
         if let Pat::Ident(ref mut ident) = decl.name {
             let mut folder = Rename {
-                name: Some(prepare(ident.id.clone())),
+                name: Some(prepare(Ident::from(&*ident))),
             };
             decl.init.visit_mut_with(&mut folder);
         }
@@ -134,7 +135,7 @@ macro_rules! noop {
 }
 
 impl VisitMut for Rename {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     impl_for!(visit_mut_fn_expr, FnExpr);
 

@@ -2,8 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 10,
-    "ctxt": 0
+    "end": 10
   },
   "mode": "quirks",
   "children": [
@@ -11,8 +10,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 0,
-        "ctxt": 0
+        "end": 0
       },
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -22,8 +20,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -33,8 +30,7 @@
               "type": "Element",
               "span": {
                 "start": 1,
-                "end": 10,
-                "ctxt": 0
+                "end": 10
               },
               "tagName": "script",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -44,8 +40,7 @@
                   "type": "Text",
                   "span": {
                     "start": 9,
-                    "end": 10,
-                    "ctxt": 0
+                    "end": 10
                   },
                   "data": "a",
                   "raw": "a"
@@ -62,8 +57,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",

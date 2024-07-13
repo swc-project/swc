@@ -19,7 +19,7 @@ fn node_modules() {
     let provider = TestProvider::default();
 
     run_test2(false, |cm, _| {
-        let fm = cm.new_source_file(FileName::Real("foo".into()), "".into());
+        let fm = cm.new_source_file(FileName::Real("foo".into()).into(), "".into());
 
         let resolved = provider
             .resolve_import(&fm.name, "core-js")

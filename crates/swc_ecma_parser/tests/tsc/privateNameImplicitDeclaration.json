@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 103,
-    "end": 187,
-    "ctxt": 0
+    "end": 187
   },
   "body": [
     {
@@ -12,85 +11,70 @@
         "type": "Identifier",
         "span": {
           "start": 109,
-          "end": 110,
-          "ctxt": 0
+          "end": 110
         },
+        "ctxt": 0,
         "value": "C",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 103,
-        "end": 187,
-        "ctxt": 0
+        "end": 187
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "Constructor",
           "span": {
             "start": 117,
-            "end": 185,
-            "ctxt": 0
+            "end": 185
           },
+          "ctxt": 0,
           "key": {
             "type": "Identifier",
             "span": {
               "start": 117,
-              "end": 128,
-              "ctxt": 0
+              "end": 128
             },
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
             "type": "BlockStatement",
             "span": {
               "start": 131,
-              "end": 185,
-              "ctxt": 0
+              "end": 185
             },
+            "ctxt": 0,
             "stmts": [
               {
                 "type": "ExpressionStatement",
                 "span": {
                   "start": 171,
-                  "end": 179,
-                  "ctxt": 0
+                  "end": 179
                 },
                 "expression": {
                   "type": "MemberExpression",
                   "span": {
                     "start": 171,
-                    "end": 178,
-                    "ctxt": 0
+                    "end": 178
                   },
                   "object": {
                     "type": "ThisExpression",
                     "span": {
                       "start": 171,
-                      "end": 175,
-                      "ctxt": 0
+                      "end": 175
                     }
                   },
                   "property": {
                     "type": "PrivateName",
                     "span": {
                       "start": 176,
-                      "end": 178,
-                      "ctxt": 0
+                      "end": 178
                     },
-                    "id": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 177,
-                        "end": 178,
-                        "ctxt": 0
-                      },
-                      "value": "x",
-                      "optional": false
-                    }
+                    "value": "x"
                   }
                 }
               }

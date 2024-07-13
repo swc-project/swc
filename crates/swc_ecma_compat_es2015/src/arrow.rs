@@ -6,7 +6,9 @@ use swc_ecma_utils::{
     function::{init_this, FnEnvHoister},
     prepend_stmt,
 };
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, InjectVars, VisitMut, VisitMutWith};
+use swc_ecma_visit::{
+    as_folder, standard_only_visit_mut, Fold, InjectVars, VisitMut, VisitMutWith,
+};
 use swc_trace_macro::swc_trace;
 
 /// Compile ES2015 arrow functions to ES5
@@ -72,7 +74,7 @@ struct Arrow {
 
 #[swc_trace]
 impl VisitMut for Arrow {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_class(&mut self, c: &mut Class) {
         if c.super_class.is_some() {
@@ -85,7 +87,7 @@ impl VisitMut for Arrow {
     fn visit_mut_constructor(&mut self, c: &mut Constructor) {
         c.params.visit_mut_children_with(self);
 
-        if let Some(BlockStmt { span: _, stmts }) = &mut c.body {
+        if let Some(BlockStmt { span: _, stmts, .. }) = &mut c.body {
             let old_rep = self.hoister.take();
 
             stmts.visit_mut_children_with(self);
@@ -154,10 +156,10 @@ impl VisitMut for Arrow {
                                 span: DUMMY_SP,
                                 arg: Some(expr.take()),
                             })],
+                            ..Default::default()
                         },
                     }),
-                    type_params: Default::default(),
-                    return_type: Default::default(),
+                    ..Default::default()
                 }
                 .into();
 
@@ -203,7 +205,7 @@ impl VisitMut for Arrow {
         let decl = self.hoister.take().to_stmt();
 
         if let Some(stmt) = decl {
-            prepend_stmt(stmts, ModuleItem::Stmt(stmt));
+            prepend_stmt(stmts, stmt.into());
         }
     }
 

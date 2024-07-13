@@ -2,16 +2,14 @@
   "type": "Module",
   "span": {
     "start": 113,
-    "end": 308,
-    "ctxt": 0
+    "end": 308
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
         "start": 113,
-        "end": 200,
-        "ctxt": 0
+        "end": 200
       },
       "declaration": {
         "type": "ClassDeclaration",
@@ -19,66 +17,61 @@
           "type": "Identifier",
           "span": {
             "start": 126,
-            "end": 127,
-            "ctxt": 0
+            "end": 127
           },
+          "ctxt": 0,
           "value": "A",
           "optional": false
         },
         "declare": false,
         "span": {
           "start": 120,
-          "end": 200,
-          "ctxt": 0
+          "end": 200
         },
+        "ctxt": 0,
         "decorators": [],
         "body": [
           {
             "type": "ClassMethod",
             "span": {
               "start": 161,
-              "end": 198,
-              "ctxt": 0
+              "end": 198
             },
             "key": {
               "type": "Identifier",
               "span": {
                 "start": 161,
-                "end": 167,
-                "ctxt": 0
+                "end": 167
               },
-              "value": "method",
-              "optional": false
+              "value": "method"
             },
             "function": {
               "params": [],
               "decorators": [],
               "span": {
                 "start": 161,
-                "end": 198,
-                "ctxt": 0
+                "end": 198
               },
+              "ctxt": 0,
               "body": {
                 "type": "BlockStatement",
                 "span": {
                   "start": 170,
-                  "end": 198,
-                  "ctxt": 0
+                  "end": 198
                 },
+                "ctxt": 0,
                 "stmts": [
                   {
                     "type": "ReturnStatement",
                     "span": {
                       "start": 180,
-                      "end": 192,
-                      "ctxt": 0
+                      "end": 192
                     },
                     "argument": {
                       "type": "ThisExpression",
                       "span": {
                         "start": 187,
-                        "end": 191,
-                        "ctxt": 0
+                        "end": 191
                       }
                     }
                   }
@@ -108,8 +101,7 @@
       "type": "ExportDefaultDeclaration",
       "span": {
         "start": 201,
-        "end": 308,
-        "ctxt": 0
+        "end": 308
       },
       "decl": {
         "type": "ClassExpression",
@@ -117,51 +109,48 @@
           "type": "Identifier",
           "span": {
             "start": 222,
-            "end": 226,
-            "ctxt": 0
+            "end": 226
           },
+          "ctxt": 0,
           "value": "Base",
           "optional": false
         },
         "span": {
           "start": 216,
-          "end": 308,
-          "ctxt": 0
+          "end": 308
         },
+        "ctxt": 0,
         "decorators": [],
         "body": [
           {
             "type": "ClassMethod",
             "span": {
               "start": 294,
-              "end": 306,
-              "ctxt": 0
+              "end": 306
             },
             "key": {
               "type": "Identifier",
               "span": {
                 "start": 294,
-                "end": 300,
-                "ctxt": 0
+                "end": 300
               },
-              "value": "verify",
-              "optional": false
+              "value": "verify"
             },
             "function": {
               "params": [],
               "decorators": [],
               "span": {
                 "start": 294,
-                "end": 306,
-                "ctxt": 0
+                "end": 306
               },
+              "ctxt": 0,
               "body": {
                 "type": "BlockStatement",
                 "span": {
                   "start": 303,
-                  "end": 306,
-                  "ctxt": 0
+                  "end": 306
                 },
+                "ctxt": 0,
                 "stmts": []
               },
               "generator": false,
@@ -181,9 +170,9 @@
           "type": "Identifier",
           "span": {
             "start": 235,
-            "end": 236,
-            "ctxt": 0
+            "end": 236
           },
+          "ctxt": 0,
           "value": "A",
           "optional": false
         },

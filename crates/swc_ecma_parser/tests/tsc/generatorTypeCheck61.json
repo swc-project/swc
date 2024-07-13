@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 50,
-    "end": 99,
-    "ctxt": 0
+    "end": 99
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 61,
-          "end": 62,
-          "ctxt": 0
+          "end": 62
         },
+        "ctxt": 0,
         "value": "g",
         "optional": false
       },
@@ -23,16 +22,16 @@
       "decorators": [],
       "span": {
         "start": 50,
-        "end": 99,
-        "ctxt": 0
+        "end": 99
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 65,
-          "end": 99,
-          "ctxt": 0
+          "end": 99
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ClassDeclaration",
@@ -40,39 +39,36 @@
               "type": "Identifier",
               "span": {
                 "start": 92,
-                "end": 93,
-                "ctxt": 0
+                "end": 93
               },
+              "ctxt": 0,
               "value": "C",
               "optional": false
             },
             "declare": false,
             "span": {
               "start": 71,
-              "end": 96,
-              "ctxt": 0
+              "end": 96
             },
+            "ctxt": 0,
             "decorators": [
               {
                 "type": "Decorator",
                 "span": {
                   "start": 71,
-                  "end": 81,
-                  "ctxt": 0
+                  "end": 81
                 },
                 "expression": {
                   "type": "YieldExpression",
                   "span": {
                     "start": 73,
-                    "end": 80,
-                    "ctxt": 0
+                    "end": 80
                   },
                   "argument": {
                     "type": "NumericLiteral",
                     "span": {
                       "start": 79,
-                      "end": 80,
-                      "ctxt": 0
+                      "end": 80
                     },
                     "value": 0.0,
                     "raw": "0"
@@ -92,8 +88,7 @@
             "type": "EmptyStatement",
             "span": {
               "start": 96,
-              "end": 97,
-              "ctxt": 0
+              "end": 97
             }
           }
         ]

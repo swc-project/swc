@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 17,
-    "end": 40,
-    "ctxt": 0
+    "end": 40
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 17,
-        "end": 40,
-        "ctxt": 0
+        "end": 40
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 21,
-            "end": 39,
-            "ctxt": 0
+            "end": 39
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 21,
-              "end": 22,
-              "ctxt": 0
+              "end": 22
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false,
             "typeAnnotation": null
@@ -38,23 +36,20 @@
             "type": "ParenthesisExpression",
             "span": {
               "start": 25,
-              "end": 39,
-              "ctxt": 0
+              "end": 39
             },
             "expression": {
               "type": "TemplateLiteral",
               "span": {
                 "start": 26,
-                "end": 38,
-                "ctxt": 0
+                "end": 38
               },
               "expressions": [
                 {
                   "type": "NumericLiteral",
                   "span": {
                     "start": 32,
-                    "end": 33,
-                    "ctxt": 0
+                    "end": 33
                   },
                   "value": 0.0,
                   "raw": "0"
@@ -65,8 +60,7 @@
                   "type": "TemplateElement",
                   "span": {
                     "start": 27,
-                    "end": 30,
-                    "ctxt": 0
+                    "end": 30
                   },
                   "tail": false,
                   "cooked": "abc",
@@ -76,8 +70,7 @@
                   "type": "TemplateElement",
                   "span": {
                     "start": 34,
-                    "end": 37,
-                    "ctxt": 0
+                    "end": 37
                   },
                   "tail": true,
                   "cooked": "abc",

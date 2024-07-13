@@ -4,8 +4,9 @@
 use swc_common::{
     source_map::{
         DistinctSources, FileLinesResult, MalformedSourceMapPositions, PartialFileLinesResult,
-        PartialLoc, Pos, SpanSnippetError,
+        PartialLoc, SmallPos, SpanSnippetError,
     },
+    sync::Lrc,
     BytePos, FileName, Loc, SourceFileAndBytePos, SourceMapper, Span,
 };
 use swc_common::{sync::OnceCell, CharPos, FileLines, SourceFile};
@@ -27,34 +28,16 @@ extern "C" {
     fn __merge_spans_proxy(
         lhs_lo: u32,
         lhs_hi: u32,
-        lhs_ctxt: u32,
         rhs_lo: u32,
         rhs_hi: u32,
-        rhs_ctxt: u32,
         allocated_ptr: u32,
     ) -> u32;
-    fn __span_to_string_proxy(
-        span_lo: u32,
-        span_hi: u32,
-        span_ctxt: u32,
-        allocated_ret_ptr: u32,
-    ) -> u32;
-    fn __span_to_filename_proxy(
-        span_lo: u32,
-        span_hi: u32,
-        span_ctxt: u32,
-        allocated_ret_ptr: u32,
-    ) -> u32;
-    fn __span_to_source_proxy(
-        span_lo: u32,
-        span_hi: u32,
-        span_ctxt: u32,
-        allocated_ret_ptr: u32,
-    ) -> u32;
+    fn __span_to_string_proxy(span_lo: u32, span_hi: u32, allocated_ret_ptr: u32) -> u32;
+    fn __span_to_filename_proxy(span_lo: u32, span_hi: u32, allocated_ret_ptr: u32) -> u32;
+    fn __span_to_source_proxy(span_lo: u32, span_hi: u32, allocated_ret_ptr: u32) -> u32;
     fn __span_to_lines_proxy(
         span_lo: u32,
         span_hi: u32,
-        span_ctxt: u32,
         should_request_source_file: i32,
         allocated_ret_ptr: u32,
     ) -> u32;
@@ -85,7 +68,7 @@ impl PluginSourceMapProxy {
         {
             let src: Result<String, Box<SpanSnippetError>> =
                 read_returned_result_from_host(|serialized_ptr| unsafe {
-                    __span_to_source_proxy(sp.lo.0, sp.hi.0, sp.ctxt.as_u32(), serialized_ptr)
+                    __span_to_source_proxy(sp.lo.0, sp.hi.0, serialized_ptr)
                 })
                 .expect("Host should return source code");
 
@@ -157,7 +140,6 @@ impl SourceMapper for PluginSourceMapProxy {
                     __span_to_lines_proxy(
                         sp.lo.0,
                         sp.hi.0,
-                        sp.ctxt.as_u32(),
                         should_request_source_file,
                         serialized_ptr,
                     )
@@ -191,7 +173,7 @@ impl SourceMapper for PluginSourceMapProxy {
     fn span_to_string(&self, sp: Span) -> String {
         #[cfg(target_arch = "wasm32")]
         return read_returned_result_from_host(|serialized_ptr| unsafe {
-            __span_to_string_proxy(sp.lo.0, sp.hi.0, sp.ctxt.as_u32(), serialized_ptr)
+            __span_to_string_proxy(sp.lo.0, sp.hi.0, serialized_ptr)
         })
         .expect("Host should return String");
 
@@ -199,12 +181,14 @@ impl SourceMapper for PluginSourceMapProxy {
         unimplemented!("Sourcemap proxy cannot be called in this context")
     }
 
-    fn span_to_filename(&self, sp: Span) -> FileName {
+    fn span_to_filename(&self, sp: Span) -> Lrc<FileName> {
         #[cfg(target_arch = "wasm32")]
-        return read_returned_result_from_host(|serialized_ptr| unsafe {
-            __span_to_filename_proxy(sp.lo.0, sp.hi.0, sp.ctxt.as_u32(), serialized_ptr)
-        })
-        .expect("Host should return Filename");
+        return Lrc::new(
+            read_returned_result_from_host(|serialized_ptr| unsafe {
+                __span_to_filename_proxy(sp.lo.0, sp.hi.0, serialized_ptr)
+            })
+            .expect("Host should return Filename"),
+        );
 
         #[cfg(not(target_arch = "wasm32"))]
         unimplemented!("Sourcemap proxy cannot be called in this context")
@@ -227,7 +211,6 @@ impl SourceMapper for PluginSourceMapProxy {
             let span = Span {
                 lo: BytePos(0),
                 hi: BytePos(0),
-                ctxt: swc_common::SyntaxContext::empty(),
             };
 
             let serialized = swc_common::plugin::serialized::PluginSerializedBytes::try_serialize(
@@ -236,15 +219,8 @@ impl SourceMapper for PluginSourceMapProxy {
             .expect("Should be serializable");
             let (ptr, len) = serialized.as_ptr();
 
-            let ret = __merge_spans_proxy(
-                sp_lhs.lo.0,
-                sp_lhs.hi.0,
-                sp_lhs.ctxt.as_u32(),
-                sp_rhs.lo.0,
-                sp_rhs.hi.0,
-                sp_rhs.ctxt.as_u32(),
-                ptr as _,
-            );
+            let ret =
+                __merge_spans_proxy(sp_lhs.lo.0, sp_lhs.hi.0, sp_rhs.lo.0, sp_rhs.hi.0, ptr as _);
 
             return if ret == 1 { Some(span) } else { None };
         };

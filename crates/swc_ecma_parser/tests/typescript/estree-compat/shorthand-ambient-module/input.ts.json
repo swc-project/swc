@@ -2,16 +2,14 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 33,
-    "ctxt": 0
+    "end": 33
   },
   "body": [
     {
       "type": "TsModuleDeclaration",
       "span": {
         "start": 1,
-        "end": 33,
-        "ctxt": 0
+        "end": 33
       },
       "declare": true,
       "global": false,
@@ -19,8 +17,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 16,
-          "end": 32,
-          "ctxt": 0
+          "end": 32
         },
         "value": "hot-new-module",
         "raw": "\"hot-new-module\""

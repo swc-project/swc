@@ -1,29 +1,29 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..6#0,
+                span: 1..6,
                 tag_name: Text {
-                    span: 1..6#0,
+                    span: 1..6,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 1..6#0,
+                        span: 1..6,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 1..26#0,
+                                span: 1..26,
                                 value: "{ String | Array<String>}",
                             },
                         ),
                         desc: Text {
-                            span: 1..51#0,
+                            span: 1..51,
                             value: "targetName    The name (or names) of what to find.",
                         },
                     },
@@ -32,30 +32,30 @@
         ],
     },
     JsDoc {
-        span: 127..127#0,
+        span: 127..127,
         description: Text {
-            span: 127..127#0,
+            span: 127..127,
             value: "",
         },
         tags: [
             TagItem {
-                span: 127..132#0,
+                span: 127..132,
                 tag_name: Text {
-                    span: 127..132#0,
+                    span: 127..132,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 127..132#0,
+                        span: 127..132,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 127..137#0,
+                                span: 127..137,
                                 value: "{function}",
                             },
                         ),
                         desc: Text {
-                            span: 127..135#0,
+                            span: 127..135,
                             value: "callback",
                         },
                     },
@@ -64,30 +64,30 @@
         ],
     },
     JsDoc {
-        span: 193..193#0,
+        span: 193..193,
         description: Text {
-            span: 193..193#0,
+            span: 193..193,
             value: "",
         },
         tags: [
             TagItem {
-                span: 193..198#0,
+                span: 193..198,
                 tag_name: Text {
-                    span: 193..198#0,
+                    span: 193..198,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 193..198#0,
+                        span: 193..198,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 193..203#0,
+                                span: 193..203,
                                 value: "{function}",
                             },
                         ),
                         desc: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                     },
@@ -96,35 +96,35 @@
         ],
     },
     JsDoc {
-        span: 252..252#0,
+        span: 252..252,
         description: Text {
-            span: 252..252#0,
+            span: 252..252,
             value: "",
         },
         tags: [
             TagItem {
-                span: 252..257#0,
+                span: 252..257,
                 tag_name: Text {
-                    span: 252..257#0,
+                    span: 252..257,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 252..257#0,
+                        span: 252..257,
                         name: Some(
                             Text {
-                                span: 252..255#0,
+                                span: 252..255,
                                 value: "The",
                             },
                         ),
                         ty: Some(
                             Text {
-                                span: 252..254#0,
+                                span: 252..254,
                                 value: "id",
                             },
                         ),
                         desc: Text {
-                            span: 252..270#0,
+                            span: 252..270,
                             value: "id of the element.",
                         },
                     },
@@ -133,25 +133,25 @@
         ],
     },
     JsDoc {
-        span: 324..324#0,
+        span: 324..324,
         description: Text {
-            span: 324..324#0,
+            span: 324..324,
             value: "",
         },
         tags: [
             TagItem {
-                span: 324..329#0,
+                span: 324..329,
                 tag_name: Text {
-                    span: 324..329#0,
+                    span: 324..329,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 324..329#0,
+                        span: 324..329,
                         name: None,
                         ty: None,
                         desc: Text {
-                            span: 324..347#0,
+                            span: 324..347,
                             value: ". Two or more elements.",
                         },
                     },
@@ -160,30 +160,30 @@
         ],
     },
     JsDoc {
-        span: 391..391#0,
+        span: 391..391,
         description: Text {
-            span: 391..391#0,
+            span: 391..391,
             value: "",
         },
         tags: [
             TagItem {
-                span: 391..396#0,
+                span: 391..396,
                 tag_name: Text {
-                    span: 391..396#0,
+                    span: 391..396,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 391..396#0,
+                        span: 391..396,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 391..400#0,
+                                span: 391..400,
                                 value: "delimiter",
                             },
                         ),
                         desc: Text {
-                            span: 391..408#0,
+                            span: 391..408,
                             value: "What to split on.",
                         },
                     },
@@ -192,25 +192,25 @@
         ],
     },
     JsDoc {
-        span: 469..469#0,
+        span: 469..469,
         description: Text {
-            span: 469..469#0,
+            span: 469..469,
             value: "",
         },
         tags: [
             TagItem {
-                span: 469..474#0,
+                span: 469..474,
                 tag_name: Text {
-                    span: 469..474#0,
+                    span: 469..474,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 469..474#0,
+                        span: 469..474,
                         name: None,
                         ty: None,
                         desc: Text {
-                            span: 469..500#0,
+                            span: 469..500,
                             value: "If true make the commit atomic.",
                         },
                     },
@@ -219,30 +219,30 @@
         ],
     },
     JsDoc {
-        span: 549..549#0,
+        span: 549..549,
         description: Text {
-            span: 549..549#0,
+            span: 549..549,
             value: "",
         },
         tags: [
             TagItem {
-                span: 549..554#0,
+                span: 549..554,
                 tag_name: Text {
-                    span: 549..554#0,
+                    span: 549..554,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 549..554#0,
+                        span: 549..554,
                         name: Some(
                             Text {
-                                span: 549..554#0,
+                                span: 549..554,
                                 value: "async",
                             },
                         ),
                         ty: None,
                         desc: Text {
-                            span: 549..583#0,
+                            span: 549..583,
                             value: "true] - whether to be asynchronous",
                         },
                     },
@@ -251,21 +251,21 @@
         ],
     },
     JsDoc {
-        span: 638..638#0,
+        span: 638..638,
         description: Text {
-            span: 638..638#0,
+            span: 638..638,
             value: "",
         },
         tags: [
             TagItem {
-                span: 638..643#0,
+                span: 638..643,
                 tag_name: Text {
-                    span: 638..643#0,
+                    span: 638..643,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 638..643#0,
+                        span: 638..643,
                         ty: None,
                         name: None,
                     },
@@ -274,53 +274,53 @@
         ],
     },
     JsDoc {
-        span: 675..675#0,
+        span: 675..675,
         description: Text {
-            span: 675..675#0,
+            span: 675..675,
             value: "",
         },
         tags: [
             TagItem {
-                span: 675..680#0,
+                span: 675..680,
                 tag_name: Text {
-                    span: 675..680#0,
+                    span: 675..680,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 675..680#0,
+                        span: 675..680,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 675..683#0,
+                                span: 675..683,
                                 value: "{string}",
                             },
                         ),
                         desc: Text {
-                            span: 675..686#0,
+                            span: 675..686,
                             value: "- Hostname.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 675..680#0,
+                span: 675..680,
                 tag_name: Text {
-                    span: 675..680#0,
+                    span: 675..680,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 675..680#0,
+                        span: 675..680,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 675..683#0,
+                                span: 675..683,
                                 value: "{number}",
                             },
                         ),
                         desc: Text {
-                            span: 675..689#0,
+                            span: 675..689,
                             value: "- Port number.",
                         },
                     },

@@ -110,7 +110,7 @@ impl Load for Loader {
                 let src = load_url(url.clone())?;
 
                 self.cm
-                    .new_source_file(FileName::Custom(url.to_string()), src)
+                    .new_source_file(FileName::Custom(url.to_string()).into(), src)
             }
             _ => unreachable!(),
         };
@@ -141,7 +141,7 @@ impl Load for Loader {
                     emit_metadata: Default::default(),
                     use_define_for_class_fields: false,
                 }))
-                .fold_with(&mut strip(top_level_mark))
+                .fold_with(&mut strip(unresolved_mark, top_level_mark))
                 .fold_with(&mut react::<SingleThreadedComments>(
                     self.cm.clone(),
                     None,

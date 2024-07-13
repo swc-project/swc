@@ -2,16 +2,14 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 80,
-    "ctxt": 0
+    "end": 80
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
         "start": 1,
-        "end": 80,
-        "ctxt": 0
+        "end": 80
       },
       "declaration": {
         "type": "ClassDeclaration",
@@ -19,58 +17,54 @@
           "type": "Identifier",
           "span": {
             "start": 14,
-            "end": 29,
-            "ctxt": 0
+            "end": 29
           },
+          "ctxt": 0,
           "value": "MultipartReader",
           "optional": false
         },
         "declare": false,
         "span": {
           "start": 8,
-          "end": 80,
-          "ctxt": 0
+          "end": 80
         },
+        "ctxt": 0,
         "decorators": [],
         "body": [
           {
             "type": "ClassProperty",
             "span": {
               "start": 36,
-              "end": 78,
-              "ctxt": 0
+              "end": 78
             },
             "key": {
               "type": "Identifier",
               "span": {
                 "start": 45,
-                "end": 52,
-                "ctxt": 0
+                "end": 52
               },
-              "value": "newLine",
-              "optional": false
+              "value": "newLine"
             },
             "value": {
               "type": "CallExpression",
               "span": {
                 "start": 55,
-                "end": 77,
-                "ctxt": 0
+                "end": 77
               },
+              "ctxt": 0,
               "callee": {
                 "type": "MemberExpression",
                 "span": {
                   "start": 55,
-                  "end": 69,
-                  "ctxt": 0
+                  "end": 69
                 },
                 "object": {
                   "type": "Identifier",
                   "span": {
                     "start": 55,
-                    "end": 62,
-                    "ctxt": 0
+                    "end": 62
                   },
+                  "ctxt": 0,
                   "value": "encoder",
                   "optional": false
                 },
@@ -78,11 +72,9 @@
                   "type": "Identifier",
                   "span": {
                     "start": 63,
-                    "end": 69,
-                    "ctxt": 0
+                    "end": 69
                   },
-                  "value": "encode",
-                  "optional": false
+                  "value": "encode"
                 }
               },
               "arguments": [
@@ -92,8 +84,7 @@
                     "type": "StringLiteral",
                     "span": {
                       "start": 70,
-                      "end": 76,
-                      "ctxt": 0
+                      "end": 76
                     },
                     "value": "\r\n",
                     "raw": "\"\\r\\n\""

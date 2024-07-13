@@ -2,7 +2,7 @@
 
 use swc_common::{collections::AHashMap, util::take::Take};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, standard_only_visit_mut, Fold, VisitMut, VisitMutWith};
 
 /// This pass is kind of inliner, but it's far faster.
 pub fn constant_propagation() -> impl 'static + Fold + VisitMut {
@@ -38,7 +38,7 @@ impl<'a> Scope<'a> {
 }
 
 impl VisitMut for ConstPropagation<'_> {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     /// No-op
     fn visit_mut_assign_expr(&mut self, _: &mut AssignExpr) {}
@@ -62,7 +62,7 @@ impl VisitMut for ConstPropagation<'_> {
         match &n.exported {
             Some(ModuleExportName::Ident(exported)) => match &n.orig {
                 ModuleExportName::Ident(orig) => {
-                    if exported.sym == orig.sym && exported.span.ctxt == orig.span.ctxt {
+                    if exported.sym == orig.sym && exported.ctxt == orig.ctxt {
                         n.exported = None;
                     }
                 }
@@ -102,7 +102,7 @@ impl VisitMut for ConstPropagation<'_> {
         if let Prop::Shorthand(i) = p {
             if let Some(expr) = self.scope.find_var(&i.to_id()) {
                 *p = Prop::KeyValue(KeyValueProp {
-                    key: PropName::Ident(i.take()),
+                    key: PropName::Ident(i.take().into()),
                     value: expr.clone(),
                 });
             }
@@ -124,7 +124,7 @@ impl VisitMut for ConstPropagation<'_> {
                             }
 
                             Expr::Ident(init)
-                                if name.id.span.is_dummy()
+                                if name.span.is_dummy()
                                     || var.span.is_dummy()
                                     || init.span.is_dummy() =>
                             {
@@ -132,9 +132,7 @@ impl VisitMut for ConstPropagation<'_> {
                                 if let Some(value) = self.scope.vars.get(&init.to_id()).cloned() {
                                     self.scope.vars.insert(name.to_id(), value);
                                 } else {
-                                    self.scope
-                                        .vars
-                                        .insert(name.to_id(), Box::new(Expr::Ident(init.clone())));
+                                    self.scope.vars.insert(name.to_id(), init.clone().into());
                                 }
                             }
                             _ => {}

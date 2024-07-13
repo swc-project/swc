@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs", "src/**/*.js"]
 license       = "Apache-2.0"
 name          = "swc_ecma_transforms_base"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.140.3"
+version       = "0.141.0"
 
 [lib]
 bench = false
@@ -29,21 +29,21 @@ smallvec          = { workspace = true }
 tracing           = { workspace = true }
 
 swc_atoms       = { version = "0.6.5", path = "../swc_atoms" }
-swc_common      = { version = "0.34.0", path = "../swc_common" }
-swc_ecma_ast    = { version = "0.115.0", path = "../swc_ecma_ast" }
-swc_ecma_parser = { version = "0.146.6", path = "../swc_ecma_parser" }
-swc_ecma_utils  = { version = "0.130.1", path = "../swc_ecma_utils" }
-swc_ecma_visit  = { version = "0.101.0", path = "../swc_ecma_visit" }
+swc_common      = { version = "0.35.0", path = "../swc_common" }
+swc_ecma_ast    = { version = "0.116.0", path = "../swc_ecma_ast" }
+swc_ecma_parser = { version = "0.147.0", path = "../swc_ecma_parser" }
+swc_ecma_utils  = { version = "0.131.0", path = "../swc_ecma_utils" }
+swc_ecma_visit  = { version = "0.102.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
 criterion                 = { workspace = true }
 rayon                     = { workspace = true }
 
-swc_ecma_codegen           = { version = "0.151.1", path = "../swc_ecma_codegen" }
+swc_ecma_codegen           = { version = "0.152.0", path = "../swc_ecma_codegen" }
 swc_ecma_transforms_macros = { version = "0.5.5", path = "../swc_ecma_transforms_macros" }
 swc_malloc                 = { version = "0.5.10", path = "../swc_malloc" }
-testing                    = { version = "0.36.0", path = "../testing" }
+testing                    = { version = "0.37.0", path = "../testing" }
 
 [[bench]]
 harness = false

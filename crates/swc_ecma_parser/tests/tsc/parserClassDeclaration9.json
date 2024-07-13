@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 22,
-    "ctxt": 0
+    "end": 22
   },
   "body": [
     {
@@ -12,45 +11,42 @@
         "type": "Identifier",
         "span": {
           "start": 7,
-          "end": 8,
-          "ctxt": 0
+          "end": 8
         },
+        "ctxt": 0,
         "value": "C",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 1,
-        "end": 22,
-        "ctxt": 0
+        "end": 22
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassMethod",
           "span": {
             "start": 14,
-            "end": 20,
-            "ctxt": 0
+            "end": 20
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 14,
-              "end": 17,
-              "ctxt": 0
+              "end": 17
             },
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "function": {
             "params": [],
             "decorators": [],
             "span": {
               "start": 14,
-              "end": 20,
-              "ctxt": 0
+              "end": 20
             },
+            "ctxt": 0,
             "body": null,
             "generator": false,
             "async": false,

@@ -2,24 +2,22 @@
   "type": "Script",
   "span": {
     "start": 16,
-    "end": 56,
-    "ctxt": 0
+    "end": 56
   },
   "body": [
     {
       "type": "TsInterfaceDeclaration",
       "span": {
         "start": 16,
-        "end": 56,
-        "ctxt": 0
+        "end": 56
       },
       "id": {
         "type": "Identifier",
         "span": {
           "start": 26,
-          "end": 27,
-          "ctxt": 0
+          "end": 27
         },
+        "ctxt": 0,
         "value": "I",
         "optional": false
       },
@@ -30,8 +28,7 @@
         "type": "TsInterfaceBody",
         "span": {
           "start": 28,
-          "end": 56,
-          "ctxt": 0
+          "end": 56
         },
         "body": [
           {
@@ -41,24 +38,22 @@
                 "type": "Identifier",
                 "span": {
                   "start": 35,
-                  "end": 44,
-                  "ctxt": 0
+                  "end": 44
                 },
+                "ctxt": 0,
                 "value": "s",
                 "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
                     "start": 36,
-                    "end": 44,
-                    "ctxt": 0
+                    "end": 44
                   },
                   "typeAnnotation": {
                     "type": "TsKeywordType",
                     "span": {
                       "start": 38,
-                      "end": 44,
-                      "ctxt": 0
+                      "end": 44
                     },
                     "kind": "symbol"
                   }
@@ -69,15 +64,13 @@
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 45,
-                "end": 53,
-                "ctxt": 0
+                "end": 53
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 47,
-                  "end": 53,
-                  "ctxt": 0
+                  "end": 53
                 },
                 "kind": "string"
               }
@@ -86,8 +79,7 @@
             "static": false,
             "span": {
               "start": 34,
-              "end": 54,
-              "ctxt": 0
+              "end": 54
             }
           }
         ]

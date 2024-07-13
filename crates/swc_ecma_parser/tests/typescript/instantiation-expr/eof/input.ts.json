@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 13,
-    "ctxt": 0
+    "end": 13
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 1,
-        "end": 13,
-        "ctxt": 0
+        "end": 13
       },
+      "ctxt": 0,
       "kind": "let",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 5,
-            "end": 13,
-            "ctxt": 0
+            "end": 13
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 5,
-              "end": 6,
-              "ctxt": 0
+              "end": 6
             },
+            "ctxt": 0,
             "value": "v",
             "optional": false,
             "typeAnnotation": null
@@ -38,16 +36,15 @@
             "type": "TsInstantiation",
             "span": {
               "start": 9,
-              "end": 13,
-              "ctxt": 0
+              "end": 13
             },
             "expression": {
               "type": "Identifier",
               "span": {
                 "start": 9,
-                "end": 10,
-                "ctxt": 0
+                "end": 10
               },
+              "ctxt": 0,
               "value": "f",
               "optional": false
             },
@@ -55,24 +52,22 @@
               "type": "TsTypeParameterInstantiation",
               "span": {
                 "start": 10,
-                "end": 13,
-                "ctxt": 0
+                "end": 13
               },
               "params": [
                 {
                   "type": "TsTypeReference",
                   "span": {
                     "start": 11,
-                    "end": 12,
-                    "ctxt": 0
+                    "end": 12
                   },
                   "typeName": {
                     "type": "Identifier",
                     "span": {
                       "start": 11,
-                      "end": 12,
-                      "ctxt": 0
+                      "end": 12
                     },
+                    "ctxt": 0,
                     "value": "x",
                     "optional": false
                   },

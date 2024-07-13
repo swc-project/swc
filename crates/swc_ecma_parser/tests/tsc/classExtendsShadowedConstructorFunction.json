@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 155,
-    "ctxt": 0
+    "end": 155
   },
   "body": [
     {
@@ -12,51 +11,46 @@
         "type": "Identifier",
         "span": {
           "start": 7,
-          "end": 8,
-          "ctxt": 0
+          "end": 8
         },
+        "ctxt": 0,
         "value": "C",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 1,
-        "end": 25,
-        "ctxt": 0
+        "end": 25
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassProperty",
           "span": {
             "start": 11,
-            "end": 23,
-            "ctxt": 0
+            "end": 23
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 11,
-              "end": 14,
-              "ctxt": 0
+              "end": 14
             },
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "value": null,
           "typeAnnotation": {
             "type": "TsTypeAnnotation",
             "span": {
               "start": 14,
-              "end": 22,
-              "ctxt": 0
+              "end": 22
             },
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
                 "start": 16,
-                "end": 22,
-                "ctxt": 0
+                "end": 22
               },
               "kind": "string"
             }
@@ -82,8 +76,7 @@
       "type": "TsModuleDeclaration",
       "span": {
         "start": 27,
-        "end": 155,
-        "ctxt": 0
+        "end": 155
       },
       "declare": false,
       "global": false,
@@ -91,9 +84,9 @@
         "type": "Identifier",
         "span": {
           "start": 34,
-          "end": 35,
-          "ctxt": 0
+          "end": 35
         },
+        "ctxt": 0,
         "value": "M",
         "optional": false
       },
@@ -101,17 +94,16 @@
         "type": "TsModuleBlock",
         "span": {
           "start": 36,
-          "end": 155,
-          "ctxt": 0
+          "end": 155
         },
         "body": [
           {
             "type": "VariableDeclaration",
             "span": {
               "start": 42,
-              "end": 52,
-              "ctxt": 0
+              "end": 52
             },
+            "ctxt": 0,
             "kind": "var",
             "declare": false,
             "declarations": [
@@ -119,16 +111,15 @@
                 "type": "VariableDeclarator",
                 "span": {
                   "start": 46,
-                  "end": 51,
-                  "ctxt": 0
+                  "end": 51
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
                     "start": 46,
-                    "end": 47,
-                    "ctxt": 0
+                    "end": 47
                   },
+                  "ctxt": 0,
                   "value": "C",
                   "optional": false,
                   "typeAnnotation": null
@@ -137,8 +128,7 @@
                   "type": "NumericLiteral",
                   "span": {
                     "start": 50,
-                    "end": 51,
-                    "ctxt": 0
+                    "end": 51
                   },
                   "value": 1.0,
                   "raw": "1"
@@ -153,51 +143,46 @@
               "type": "Identifier",
               "span": {
                 "start": 63,
-                "end": 64,
-                "ctxt": 0
+                "end": 64
               },
+              "ctxt": 0,
               "value": "D",
               "optional": false
             },
             "declare": false,
             "span": {
               "start": 57,
-              "end": 153,
-              "ctxt": 0
+              "end": 153
             },
+            "ctxt": 0,
             "decorators": [],
             "body": [
               {
                 "type": "ClassProperty",
                 "span": {
                   "start": 135,
-                  "end": 147,
-                  "ctxt": 0
+                  "end": 147
                 },
                 "key": {
                   "type": "Identifier",
                   "span": {
                     "start": 135,
-                    "end": 138,
-                    "ctxt": 0
+                    "end": 138
                   },
-                  "value": "bar",
-                  "optional": false
+                  "value": "bar"
                 },
                 "value": null,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
                     "start": 138,
-                    "end": 146,
-                    "ctxt": 0
+                    "end": 146
                   },
                   "typeAnnotation": {
                     "type": "TsKeywordType",
                     "span": {
                       "start": 140,
-                      "end": 146,
-                      "ctxt": 0
+                      "end": 146
                     },
                     "kind": "string"
                   }
@@ -217,9 +202,9 @@
               "type": "Identifier",
               "span": {
                 "start": 73,
-                "end": 74,
-                "ctxt": 0
+                "end": 74
               },
+              "ctxt": 0,
               "value": "C",
               "optional": false
             },

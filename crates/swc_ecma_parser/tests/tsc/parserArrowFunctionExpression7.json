@@ -2,30 +2,26 @@
   "type": "Script",
   "span": {
     "start": 20,
-    "end": 59,
-    "ctxt": 0
+    "end": 59
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 20,
-        "end": 59,
-        "ctxt": 0
+        "end": 59
       },
       "expression": {
         "type": "ParenthesisExpression",
         "span": {
           "start": 20,
-          "end": 58,
-          "ctxt": 0
+          "end": 58
         },
         "expression": {
           "type": "ObjectExpression",
           "span": {
             "start": 21,
-            "end": 57,
-            "ctxt": 0
+            "end": 57
           },
           "properties": [
             {
@@ -34,33 +30,30 @@
                 "type": "Identifier",
                 "span": {
                   "start": 30,
-                  "end": 31,
-                  "ctxt": 0
+                  "end": 31
                 },
-                "value": "m",
-                "optional": false
+                "value": "m"
               },
               "params": [],
               "decorators": [],
               "span": {
                 "start": 24,
-                "end": 55,
-                "ctxt": 0
+                "end": 55
               },
+              "ctxt": 0,
               "body": {
                 "type": "BlockStatement",
                 "span": {
                   "start": 34,
-                  "end": 55,
-                  "ctxt": 0
+                  "end": 55
                 },
+                "ctxt": 0,
                 "stmts": [
                   {
                     "type": "ForStatement",
                     "span": {
                       "start": 38,
-                      "end": 52,
-                      "ctxt": 0
+                      "end": 52
                     },
                     "init": null,
                     "test": null,
@@ -69,9 +62,9 @@
                       "type": "BlockStatement",
                       "span": {
                         "start": 47,
-                        "end": 52,
-                        "ctxt": 0
+                        "end": 52
                       },
+                      "ctxt": 0,
                       "stmts": []
                     }
                   }

@@ -3,7 +3,7 @@ use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_utils::{calc_literal_cost, member_expr, ExprFactory};
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, standard_only_visit_mut, Fold, VisitMut, VisitMutWith};
 
 /// Transform to optimize performance of literals.
 ///
@@ -52,7 +52,7 @@ impl Default for JsonParse {
 }
 
 impl VisitMut for JsonParse {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     /// Handles parent expressions before child expressions.
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
@@ -69,17 +69,18 @@ impl VisitMut for JsonParse {
                             unreachable!("failed to serialize serde_json::Value as json: {}", err)
                         });
 
-                    *expr = Expr::Call(CallExpr {
+                    *expr = CallExpr {
                         span: expr.span(),
-                        callee: member_expr!(DUMMY_SP, JSON.parse).as_callee(),
+                        callee: member_expr!(Default::default(), DUMMY_SP, JSON.parse).as_callee(),
                         args: vec![Lit::Str(Str {
                             span: DUMMY_SP,
                             raw: None,
                             value: value.into(),
                         })
                         .as_arg()],
-                        type_args: Default::default(),
-                    });
+                        ..Default::default()
+                    }
+                    .into();
                     return;
                 }
 

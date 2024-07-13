@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 80,
-    "ctxt": 0
+    "end": 80
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 1,
-        "end": 34,
-        "ctxt": 0
+        "end": 34
       },
+      "ctxt": 0,
       "kind": "let",
       "declare": false,
       "declarations": [
@@ -20,39 +19,35 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 5,
-            "end": 33,
-            "ctxt": 0
+            "end": 33
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 5,
-              "end": 6,
-              "ctxt": 0
+              "end": 6
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 6,
-                "end": 33,
-                "ctxt": 0
+                "end": 33
               },
               "typeAnnotation": {
                 "type": "TsUnionType",
                 "span": {
                   "start": 8,
-                  "end": 33,
-                  "ctxt": 0
+                  "end": 33
                 },
                 "types": [
                   {
                     "type": "TsKeywordType",
                     "span": {
                       "start": 8,
-                      "end": 14,
-                      "ctxt": 0
+                      "end": 14
                     },
                     "kind": "string"
                   },
@@ -60,8 +55,7 @@
                     "type": "TsKeywordType",
                     "span": {
                       "start": 17,
-                      "end": 23,
-                      "ctxt": 0
+                      "end": 23
                     },
                     "kind": "number"
                   },
@@ -69,8 +63,7 @@
                     "type": "TsKeywordType",
                     "span": {
                       "start": 26,
-                      "end": 33,
-                      "ctxt": 0
+                      "end": 33
                     },
                     "kind": "boolean"
                   }
@@ -87,9 +80,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 35,
-        "end": 53,
-        "ctxt": 0
+        "end": 53
       },
+      "ctxt": 0,
       "kind": "let",
       "declare": false,
       "declarations": [
@@ -97,31 +90,28 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 39,
-            "end": 52,
-            "ctxt": 0
+            "end": 52
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 39,
-              "end": 43,
-              "ctxt": 0
+              "end": 43
             },
+            "ctxt": 0,
             "value": "cond",
             "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 43,
-                "end": 52,
-                "ctxt": 0
+                "end": 52
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 45,
-                  "end": 52,
-                  "ctxt": 0
+                  "end": 52
                 },
                 "kind": "boolean"
               }
@@ -136,23 +126,21 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 55,
-        "end": 77,
-        "ctxt": 0
+        "end": 77
       },
       "expression": {
         "type": "ConditionalExpression",
         "span": {
           "start": 55,
-          "end": 76,
-          "ctxt": 0
+          "end": 76
         },
         "test": {
           "type": "Identifier",
           "span": {
             "start": 55,
-            "end": 59,
-            "ctxt": 0
+            "end": 59
           },
+          "ctxt": 0,
           "value": "cond",
           "optional": false
         },
@@ -160,17 +148,16 @@
           "type": "AssignmentExpression",
           "span": {
             "start": 62,
-            "end": 68,
-            "ctxt": 0
+            "end": 68
           },
           "operator": "=",
           "left": {
             "type": "Identifier",
             "span": {
               "start": 62,
-              "end": 63,
-              "ctxt": 0
+              "end": 63
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false,
             "typeAnnotation": null
@@ -179,8 +166,7 @@
             "type": "StringLiteral",
             "span": {
               "start": 66,
-              "end": 68,
-              "ctxt": 0
+              "end": 68
             },
             "value": "",
             "raw": "\"\""
@@ -190,17 +176,16 @@
           "type": "AssignmentExpression",
           "span": {
             "start": 71,
-            "end": 76,
-            "ctxt": 0
+            "end": 76
           },
           "operator": "=",
           "left": {
             "type": "Identifier",
             "span": {
               "start": 71,
-              "end": 72,
-              "ctxt": 0
+              "end": 72
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false,
             "typeAnnotation": null
@@ -209,8 +194,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 75,
-              "end": 76,
-              "ctxt": 0
+              "end": 76
             },
             "value": 3.0,
             "raw": "3"
@@ -222,16 +206,15 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 78,
-        "end": 80,
-        "ctxt": 0
+        "end": 80
       },
       "expression": {
         "type": "Identifier",
         "span": {
           "start": 78,
-          "end": 79,
-          "ctxt": 0
+          "end": 79
         },
+        "ctxt": 0,
         "value": "x",
         "optional": false
       }

@@ -1,25 +1,25 @@
 [
     JsDoc {
-        span: 0..24#0,
+        span: 0..24,
         description: Text {
-            span: 24..24#0,
+            span: 24..24,
             value: "",
         },
         tags: [
             TagItem {
-                span: 24..29#0,
+                span: 24..29,
                 tag_name: Text {
-                    span: 24..29#0,
+                    span: 24..29,
                     value: "lends",
                 },
                 tag: Lends(
                     LendsTag {
-                        span: 24..29#0,
+                        span: 24..29,
                         name: NamePath {
-                            span: 0..24#0,
+                            span: 0..24,
                             components: [
                                 Text {
-                                    span: 24..24#0,
+                                    span: 24..24,
                                     value: "",
                                 },
                             ],
@@ -30,29 +30,29 @@
         ],
     },
     JsDoc {
-        span: 49..49#0,
+        span: 49..49,
         description: Text {
-            span: 49..60#0,
+            span: 49..60,
             value: "document me",
         },
         tags: [],
     },
     JsDoc {
-        span: 0..109#0,
+        span: 0..109,
         description: Text {
-            span: 109..109#0,
+            span: 109..109,
             value: "",
         },
         tags: [
             TagItem {
-                span: 109..118#0,
+                span: 109..118,
                 tag_name: Text {
-                    span: 109..118#0,
+                    span: 109..118,
                     value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {
-                        span: 109..118#0,
+                        span: 109..118,
                         ty: None,
                         name: None,
                     },
@@ -61,9 +61,9 @@
         ],
     },
     JsDoc {
-        span: 159..159#0,
+        span: 159..159,
         description: Text {
-            span: 159..170#0,
+            span: 159..170,
             value: "document me",
         },
         tags: [],

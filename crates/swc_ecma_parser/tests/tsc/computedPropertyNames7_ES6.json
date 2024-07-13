@@ -2,16 +2,14 @@
   "type": "Script",
   "span": {
     "start": 17,
-    "end": 68,
-    "ctxt": 0
+    "end": 68
   },
   "body": [
     {
       "type": "TsEnumDeclaration",
       "span": {
         "start": 17,
-        "end": 38,
-        "ctxt": 0
+        "end": 38
       },
       "declare": false,
       "isConst": false,
@@ -19,9 +17,9 @@
         "type": "Identifier",
         "span": {
           "start": 22,
-          "end": 23,
-          "ctxt": 0
+          "end": 23
         },
+        "ctxt": 0,
         "value": "E",
         "optional": false
       },
@@ -30,16 +28,15 @@
           "type": "TsEnumMember",
           "span": {
             "start": 30,
-            "end": 36,
-            "ctxt": 0
+            "end": 36
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 30,
-              "end": 36,
-              "ctxt": 0
+              "end": 36
             },
+            "ctxt": 0,
             "value": "member",
             "optional": false
           },
@@ -51,9 +48,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 39,
-        "end": 68,
-        "ctxt": 0
+        "end": 68
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -61,16 +58,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 43,
-            "end": 68,
-            "ctxt": 0
+            "end": 68
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 43,
-              "end": 44,
-              "ctxt": 0
+              "end": 44
             },
+            "ctxt": 0,
             "value": "v",
             "optional": false,
             "typeAnnotation": null
@@ -79,8 +75,7 @@
             "type": "ObjectExpression",
             "span": {
               "start": 47,
-              "end": 68,
-              "ctxt": 0
+              "end": 68
             },
             "properties": [
               {
@@ -89,23 +84,21 @@
                   "type": "Computed",
                   "span": {
                     "start": 53,
-                    "end": 63,
-                    "ctxt": 0
+                    "end": 63
                   },
                   "expression": {
                     "type": "MemberExpression",
                     "span": {
                       "start": 54,
-                      "end": 62,
-                      "ctxt": 0
+                      "end": 62
                     },
                     "object": {
                       "type": "Identifier",
                       "span": {
                         "start": 54,
-                        "end": 55,
-                        "ctxt": 0
+                        "end": 55
                       },
+                      "ctxt": 0,
                       "value": "E",
                       "optional": false
                     },
@@ -113,11 +106,9 @@
                       "type": "Identifier",
                       "span": {
                         "start": 56,
-                        "end": 62,
-                        "ctxt": 0
+                        "end": 62
                       },
-                      "value": "member",
-                      "optional": false
+                      "value": "member"
                     }
                   }
                 },
@@ -125,8 +116,7 @@
                   "type": "NumericLiteral",
                   "span": {
                     "start": 65,
-                    "end": 66,
-                    "ctxt": 0
+                    "end": 66
                   },
                   "value": 0.0,
                   "raw": "0"

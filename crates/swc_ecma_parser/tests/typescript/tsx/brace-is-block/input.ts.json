@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 100,
-    "end": 128,
-    "ctxt": 0
+    "end": 128
   },
   "body": [
     {
@@ -12,27 +11,27 @@
         "type": "Identifier",
         "span": {
           "start": 106,
-          "end": 107,
-          "ctxt": 0
+          "end": 107
         },
+        "ctxt": 0,
         "value": "C",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 100,
-        "end": 123,
-        "ctxt": 0
+        "end": 123
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [],
       "superClass": {
         "type": "Identifier",
         "span": {
           "start": 116,
-          "end": 117,
-          "ctxt": 0
+          "end": 117
         },
+        "ctxt": 0,
         "value": "D",
         "optional": false
       },
@@ -42,24 +41,22 @@
         "type": "TsTypeParameterInstantiation",
         "span": {
           "start": 117,
-          "end": 120,
-          "ctxt": 0
+          "end": 120
         },
         "params": [
           {
             "type": "TsTypeReference",
             "span": {
               "start": 118,
-              "end": 119,
-              "ctxt": 0
+              "end": 119
             },
             "typeName": {
               "type": "Identifier",
               "span": {
                 "start": 118,
-                "end": 119,
-                "ctxt": 0
+                "end": 119
               },
+              "ctxt": 0,
               "value": "T",
               "optional": false
             },
@@ -73,15 +70,13 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 124,
-        "end": 128,
-        "ctxt": 0
+        "end": 128
       },
       "expression": {
         "type": "JSXElement",
         "span": {
           "start": 124,
-          "end": 128,
-          "ctxt": 0
+          "end": 128
         },
         "opening": {
           "type": "JSXOpeningElement",
@@ -89,16 +84,15 @@
             "type": "Identifier",
             "span": {
               "start": 125,
-              "end": 126,
-              "ctxt": 0
+              "end": 126
             },
+            "ctxt": 0,
             "value": "C",
             "optional": false
           },
           "span": {
             "start": 124,
-            "end": 128,
-            "ctxt": 0
+            "end": 128
           },
           "attributes": [],
           "selfClosing": true,

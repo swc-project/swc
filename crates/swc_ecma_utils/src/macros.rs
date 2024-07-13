@@ -5,19 +5,32 @@ macro_rules! private_ident {
         private_ident!($crate::swc_common::DUMMY_SP, $s)
     };
     ($span:expr, $s:expr) => {{
-        let mark = $crate::swc_common::Mark::fresh($crate::swc_common::Mark::root());
-        let span = $span.apply_mark(mark);
-        $crate::swc_ecma_ast::Ident::new($s.into(), span)
+        let mark = $crate::swc_common::Mark::new();
+        let ctxt = $crate::swc_common::SyntaxContext::empty().apply_mark(mark);
+        $crate::swc_ecma_ast::Ident::new($s.into(), $span, ctxt)
     }};
 }
 
+/// As we have multiple identifier types, the expected usage is
+/// `quote_ident!("foo").into()`.
 #[macro_export]
 macro_rules! quote_ident {
-    ($s:expr) => {
-        quote_ident!($crate::swc_common::DUMMY_SP, $s)
-    };
-    ($span:expr, $s:expr) => {{
-        $crate::swc_ecma_ast::Ident::new($s.into(), $span)
+    ($s:expr) => {{
+        let sym: $crate::swc_atoms::Atom = $s.into();
+        let id: $crate::swc_ecma_ast::IdentName = sym.into();
+
+        id
+    }};
+    ($ctxt:expr, $s:expr) => {{
+        let sym: $crate::swc_atoms::Atom = $s.into();
+        let id: $crate::swc_ecma_ast::Ident =
+            $crate::swc_ecma_ast::Ident::new(sym, DUMMY_SP, $ctxt);
+
+        id
+    }};
+
+    ($ctxt:expr, $span:expr, $s:expr) => {{
+        $crate::swc_ecma_ast::Ident::new($s.into(), $span, $ctxt)
     }};
 }
 
@@ -57,20 +70,21 @@ macro_rules! quote_expr {
 /// Returns Box<[Expr](swc_ecma_ast::Expr)>.
 #[macro_export]
 macro_rules! member_expr {
-    ($span:expr, $first:ident) => {{
+    ($ctxt:expr, $span:expr, $first:ident) => {{
         use $crate::swc_ecma_ast::Expr;
-        Box::new(Expr::Ident($crate::quote_ident!($span, stringify!($first))))
+        Box::new(Expr::Ident($crate::quote_ident!($ctxt, $span, stringify!($first))))
     }};
 
-    ($span:expr, $first:ident . $($rest:tt)+) => {{
-        let obj = member_expr!($span, $first);
+    ($ctxt:expr, $span:expr, $first:ident . $($rest:tt)+) => {{
+        let obj = member_expr!($ctxt, $span, $first);
 
         member_expr!(@EXT, $span, obj, $($rest)* )
     }};
 
     (@EXT, $span:expr, $obj:expr, $first:ident . $($rest:tt)* ) => {{
         use $crate::swc_ecma_ast::MemberProp;
-        let prop = MemberProp::Ident($crate::quote_ident!($span, stringify!($first)));
+        use $crate::swc_ecma_ast::IdentName;
+        let prop = MemberProp::Ident(IdentName::new(stringify!($first).into(), $span));
 
         member_expr!(@EXT, $span, Box::new(Expr::Member(MemberExpr{
             span: $crate::swc_common::DUMMY_SP,
@@ -81,7 +95,7 @@ macro_rules! member_expr {
 
     (@EXT, $span:expr, $obj:expr,  $first:ident) => {{
         use $crate::swc_ecma_ast::*;
-        let prop = MemberProp::Ident($crate::quote_ident!($span, stringify!($first)));
+        let prop = MemberProp::Ident(IdentName::new(stringify!($first).into(), $span));
 
         MemberExpr{
             span: $crate::swc_common::DUMMY_SP,
@@ -100,7 +114,12 @@ mod tests {
 
     #[test]
     fn quote_member_expr() {
-        let expr: Box<Expr> = drop_span(member_expr!(span, Function.prototype.bind)).into();
+        let expr: Box<Expr> = drop_span(member_expr!(
+            Default::default(),
+            Default::default(),
+            Function.prototype.bind
+        ))
+        .into();
 
         assert_eq!(
             expr,
@@ -108,10 +127,10 @@ mod tests {
                 span,
                 obj: Box::new(Expr::Member(MemberExpr {
                     span,
-                    obj: member_expr!(span, Function),
-                    prop: MemberProp::Ident(quote_ident!(span, "prototype")),
+                    obj: member_expr!(Default::default(), Default::default(), Function),
+                    prop: MemberProp::Ident("prototype".into()),
                 })),
-                prop: MemberProp::Ident(quote_ident!(span, "bind")),
+                prop: MemberProp::Ident("bind".into()),
             }))
         );
     }

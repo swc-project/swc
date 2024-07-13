@@ -30,7 +30,7 @@ use crate::{
     collections::AHashSet,
     rustc_data_structures::stable_hasher::StableHasher,
     sync::{Lock, LockCell, Lrc},
-    syntax_pos::{BytePos, FileLinesResult, FileName, Loc, MultiSpan, Span, NO_EXPANSION},
+    syntax_pos::{BytePos, FileLinesResult, FileName, Loc, MultiSpan, Span},
     SpanSnippetError,
 };
 
@@ -149,7 +149,7 @@ pub trait SourceMapper: crate::sync::Send + crate::sync::Sync {
     fn lookup_char_pos(&self, pos: BytePos) -> Loc;
     fn span_to_lines(&self, sp: Span) -> FileLinesResult;
     fn span_to_string(&self, sp: Span) -> String;
-    fn span_to_filename(&self, sp: Span) -> FileName;
+    fn span_to_filename(&self, sp: Span) -> Lrc<FileName>;
     fn merge_spans(&self, sp_lhs: Span, sp_rhs: Span) -> Option<Span>;
     fn call_span_if_macro(&self, sp: Span) -> Span;
     fn doctest_offset_line(&self, line: usize) -> usize;
@@ -160,7 +160,7 @@ impl CodeSuggestion {
     /// Returns the assembled code suggestions and whether they should be shown
     /// with an underline.
     pub fn splice_lines(&self, cm: &SourceMapperDyn) -> Vec<(String, Vec<SubstitutionPart>)> {
-        use crate::syntax_pos::{CharPos, Pos};
+        use crate::syntax_pos::{CharPos, SmallPos};
 
         fn push_trailing(
             buf: &mut String,
@@ -206,7 +206,7 @@ impl CodeSuggestion {
                     .map(|part| part.span.hi())
                     .min()
                     .unwrap();
-                let bounding_span = Span::new(lo, hi, NO_EXPANSION);
+                let bounding_span = Span::new(lo, hi);
                 let lines = cm.span_to_lines(bounding_span).unwrap();
                 assert!(!lines.lines.is_empty());
 

@@ -2,16 +2,14 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 900,
-    "ctxt": 0
+    "end": 900
   },
   "children": [
     {
       "type": "Element",
       "span": {
         "start": 1,
-        "end": 900,
-        "ctxt": 0
+        "end": 900
       },
       "tagName": "root",
       "attributes": [],
@@ -20,8 +18,7 @@
           "type": "Text",
           "span": {
             "start": 7,
-            "end": 12,
-            "ctxt": 0
+            "end": 12
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -30,8 +27,7 @@
           "type": "Element",
           "span": {
             "start": 12,
-            "end": 24,
-            "ctxt": 0
+            "end": 24
           },
           "tagName": "foo",
           "attributes": [
@@ -39,8 +35,7 @@
               "type": "Attribute",
               "span": {
                 "start": 0,
-                "end": 0,
-                "ctxt": 0
+                "end": 0
               },
               "namespace": null,
               "prefix": null,
@@ -56,8 +51,7 @@
           "type": "Text",
           "span": {
             "start": 24,
-            "end": 29,
-            "ctxt": 0
+            "end": 29
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -66,8 +60,7 @@
           "type": "Element",
           "span": {
             "start": 29,
-            "end": 53,
-            "ctxt": 0
+            "end": 53
           },
           "tagName": "foo",
           "attributes": [
@@ -75,8 +68,7 @@
               "type": "Attribute",
               "span": {
                 "start": 0,
-                "end": 0,
-                "ctxt": 0
+                "end": 0
               },
               "namespace": null,
               "prefix": null,
@@ -91,8 +83,7 @@
               "type": "Text",
               "span": {
                 "start": 43,
-                "end": 47,
-                "ctxt": 0
+                "end": 47
               },
               "data": "test",
               "raw": "test"
@@ -103,8 +94,7 @@
           "type": "Text",
           "span": {
             "start": 53,
-            "end": 58,
-            "ctxt": 0
+            "end": 58
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -113,8 +103,7 @@
           "type": "Element",
           "span": {
             "start": 58,
-            "end": 88,
-            "ctxt": 0
+            "end": 88
           },
           "tagName": "foo",
           "attributes": [
@@ -122,8 +111,7 @@
               "type": "Attribute",
               "span": {
                 "start": 0,
-                "end": 0,
-                "ctxt": 0
+                "end": 0
               },
               "namespace": null,
               "prefix": null,
@@ -136,8 +124,7 @@
               "type": "Attribute",
               "span": {
                 "start": 0,
-                "end": 0,
-                "ctxt": 0
+                "end": 0
               },
               "namespace": null,
               "prefix": null,
@@ -153,8 +140,7 @@
           "type": "Text",
           "span": {
             "start": 88,
-            "end": 93,
-            "ctxt": 0
+            "end": 93
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -163,8 +149,7 @@
           "type": "Element",
           "span": {
             "start": 93,
-            "end": 132,
-            "ctxt": 0
+            "end": 132
           },
           "tagName": "foo",
           "attributes": [
@@ -172,8 +157,7 @@
               "type": "Attribute",
               "span": {
                 "start": 0,
-                "end": 0,
-                "ctxt": 0
+                "end": 0
               },
               "namespace": null,
               "prefix": null,
@@ -186,8 +170,7 @@
               "type": "Attribute",
               "span": {
                 "start": 0,
-                "end": 0,
-                "ctxt": 0
+                "end": 0
               },
               "namespace": null,
               "prefix": null,
@@ -202,8 +185,7 @@
               "type": "Text",
               "span": {
                 "start": 122,
-                "end": 126,
-                "ctxt": 0
+                "end": 126
               },
               "data": "test",
               "raw": "test"
@@ -214,8 +196,7 @@
           "type": "Text",
           "span": {
             "start": 132,
-            "end": 137,
-            "ctxt": 0
+            "end": 137
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -224,8 +205,7 @@
           "type": "Element",
           "span": {
             "start": 137,
-            "end": 165,
-            "ctxt": 0
+            "end": 165
           },
           "tagName": "foo",
           "attributes": [
@@ -233,8 +213,7 @@
               "type": "Attribute",
               "span": {
                 "start": 0,
-                "end": 0,
-                "ctxt": 0
+                "end": 0
               },
               "namespace": null,
               "prefix": null,
@@ -249,8 +228,7 @@
               "type": "Text",
               "span": {
                 "start": 155,
-                "end": 159,
-                "ctxt": 0
+                "end": 159
               },
               "data": "test",
               "raw": "test"
@@ -261,8 +239,7 @@
           "type": "Text",
           "span": {
             "start": 165,
-            "end": 170,
-            "ctxt": 0
+            "end": 170
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -271,8 +248,7 @@
           "type": "Element",
           "span": {
             "start": 170,
-            "end": 217,
-            "ctxt": 0
+            "end": 217
           },
           "tagName": "foo",
           "attributes": [
@@ -280,8 +256,7 @@
               "type": "Attribute",
               "span": {
                 "start": 0,
-                "end": 0,
-                "ctxt": 0
+                "end": 0
               },
               "namespace": null,
               "prefix": null,
@@ -294,8 +269,7 @@
               "type": "Attribute",
               "span": {
                 "start": 0,
-                "end": 0,
-                "ctxt": 0
+                "end": 0
               },
               "namespace": null,
               "prefix": null,
@@ -310,8 +284,7 @@
               "type": "Text",
               "span": {
                 "start": 207,
-                "end": 211,
-                "ctxt": 0
+                "end": 211
               },
               "data": "test",
               "raw": "test"
@@ -322,8 +295,7 @@
           "type": "Text",
           "span": {
             "start": 217,
-            "end": 222,
-            "ctxt": 0
+            "end": 222
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -332,8 +304,7 @@
           "type": "Element",
           "span": {
             "start": 222,
-            "end": 252,
-            "ctxt": 0
+            "end": 252
           },
           "tagName": "foo",
           "attributes": [
@@ -341,8 +312,7 @@
               "type": "Attribute",
               "span": {
                 "start": 229,
-                "end": 230,
-                "ctxt": 0
+                "end": 230
               },
               "namespace": null,
               "prefix": null,
@@ -358,8 +328,7 @@
           "type": "Text",
           "span": {
             "start": 252,
-            "end": 257,
-            "ctxt": 0
+            "end": 257
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -368,8 +337,7 @@
           "type": "Element",
           "span": {
             "start": 257,
-            "end": 275,
-            "ctxt": 0
+            "end": 275
           },
           "tagName": "foo",
           "attributes": [
@@ -377,8 +345,7 @@
               "type": "Attribute",
               "span": {
                 "start": 0,
-                "end": 0,
-                "ctxt": 0
+                "end": 0
               },
               "namespace": null,
               "prefix": null,
@@ -394,8 +361,7 @@
           "type": "Text",
           "span": {
             "start": 275,
-            "end": 280,
-            "ctxt": 0
+            "end": 280
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -404,8 +370,7 @@
           "type": "Element",
           "span": {
             "start": 280,
-            "end": 299,
-            "ctxt": 0
+            "end": 299
           },
           "tagName": "foo",
           "attributes": [
@@ -413,8 +378,7 @@
               "type": "Attribute",
               "span": {
                 "start": 0,
-                "end": 0,
-                "ctxt": 0
+                "end": 0
               },
               "namespace": null,
               "prefix": null,
@@ -430,8 +394,7 @@
           "type": "Text",
           "span": {
             "start": 299,
-            "end": 304,
-            "ctxt": 0
+            "end": 304
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -440,8 +403,7 @@
           "type": "Element",
           "span": {
             "start": 304,
-            "end": 322,
-            "ctxt": 0
+            "end": 322
           },
           "tagName": "foo",
           "attributes": [
@@ -449,8 +411,7 @@
               "type": "Attribute",
               "span": {
                 "start": 0,
-                "end": 0,
-                "ctxt": 0
+                "end": 0
               },
               "namespace": null,
               "prefix": null,
@@ -466,8 +427,7 @@
           "type": "Text",
           "span": {
             "start": 322,
-            "end": 327,
-            "ctxt": 0
+            "end": 327
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -476,8 +436,7 @@
           "type": "Element",
           "span": {
             "start": 327,
-            "end": 346,
-            "ctxt": 0
+            "end": 346
           },
           "tagName": "foo",
           "attributes": [
@@ -485,8 +444,7 @@
               "type": "Attribute",
               "span": {
                 "start": 0,
-                "end": 0,
-                "ctxt": 0
+                "end": 0
               },
               "namespace": null,
               "prefix": null,
@@ -502,8 +460,7 @@
           "type": "Text",
           "span": {
             "start": 346,
-            "end": 351,
-            "ctxt": 0
+            "end": 351
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -512,8 +469,7 @@
           "type": "Element",
           "span": {
             "start": 351,
-            "end": 393,
-            "ctxt": 0
+            "end": 393
           },
           "tagName": "MyElement",
           "attributes": [
@@ -521,8 +477,7 @@
               "type": "Attribute",
               "span": {
                 "start": 0,
-                "end": 0,
-                "ctxt": 0
+                "end": 0
               },
               "namespace": null,
               "prefix": null,
@@ -538,8 +493,7 @@
           "type": "Text",
           "span": {
             "start": 393,
-            "end": 398,
-            "ctxt": 0
+            "end": 398
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -548,8 +502,7 @@
           "type": "Element",
           "span": {
             "start": 398,
-            "end": 444,
-            "ctxt": 0
+            "end": 444
           },
           "tagName": "MyElement",
           "attributes": [
@@ -557,8 +510,7 @@
               "type": "Attribute",
               "span": {
                 "start": 0,
-                "end": 0,
-                "ctxt": 0
+                "end": 0
               },
               "namespace": null,
               "prefix": null,
@@ -574,8 +526,7 @@
           "type": "Text",
           "span": {
             "start": 444,
-            "end": 449,
-            "ctxt": 0
+            "end": 449
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -584,8 +535,7 @@
           "type": "Element",
           "span": {
             "start": 449,
-            "end": 541,
-            "ctxt": 0
+            "end": 541
           },
           "tagName": "MyElement",
           "attributes": [
@@ -593,8 +543,7 @@
               "type": "Attribute",
               "span": {
                 "start": 0,
-                "end": 0,
-                "ctxt": 0
+                "end": 0
               },
               "namespace": null,
               "prefix": null,
@@ -607,8 +556,7 @@
               "type": "Attribute",
               "span": {
                 "start": 0,
-                "end": 0,
-                "ctxt": 0
+                "end": 0
               },
               "namespace": null,
               "prefix": null,
@@ -623,8 +571,7 @@
               "type": "Text",
               "span": {
                 "start": 526,
-                "end": 529,
-                "ctxt": 0
+                "end": 529
               },
               "data": "...",
               "raw": "..."
@@ -635,8 +582,7 @@
           "type": "Text",
           "span": {
             "start": 541,
-            "end": 546,
-            "ctxt": 0
+            "end": 546
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -645,8 +591,7 @@
           "type": "Element",
           "span": {
             "start": 546,
-            "end": 596,
-            "ctxt": 0
+            "end": 596
           },
           "tagName": "foo",
           "attributes": [
@@ -654,8 +599,7 @@
               "type": "Attribute",
               "span": {
                 "start": 0,
-                "end": 0,
-                "ctxt": 0
+                "end": 0
               },
               "namespace": null,
               "prefix": null,
@@ -671,8 +615,7 @@
           "type": "Text",
           "span": {
             "start": 596,
-            "end": 601,
-            "ctxt": 0
+            "end": 601
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -681,8 +624,7 @@
           "type": "Element",
           "span": {
             "start": 601,
-            "end": 647,
-            "ctxt": 0
+            "end": 647
           },
           "tagName": "foo",
           "attributes": [
@@ -690,8 +632,7 @@
               "type": "Attribute",
               "span": {
                 "start": 0,
-                "end": 0,
-                "ctxt": 0
+                "end": 0
               },
               "namespace": null,
               "prefix": null,
@@ -707,8 +648,7 @@
           "type": "Text",
           "span": {
             "start": 647,
-            "end": 652,
-            "ctxt": 0
+            "end": 652
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -717,8 +657,7 @@
           "type": "Element",
           "span": {
             "start": 652,
-            "end": 698,
-            "ctxt": 0
+            "end": 698
           },
           "tagName": "foo",
           "attributes": [
@@ -726,8 +665,7 @@
               "type": "Attribute",
               "span": {
                 "start": 0,
-                "end": 0,
-                "ctxt": 0
+                "end": 0
               },
               "namespace": null,
               "prefix": null,
@@ -743,8 +681,7 @@
           "type": "Text",
           "span": {
             "start": 698,
-            "end": 703,
-            "ctxt": 0
+            "end": 703
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -753,8 +690,7 @@
           "type": "Element",
           "span": {
             "start": 703,
-            "end": 743,
-            "ctxt": 0
+            "end": 743
           },
           "tagName": "foo",
           "attributes": [
@@ -762,8 +698,7 @@
               "type": "Attribute",
               "span": {
                 "start": 0,
-                "end": 0,
-                "ctxt": 0
+                "end": 0
               },
               "namespace": null,
               "prefix": null,
@@ -779,8 +714,7 @@
           "type": "Text",
           "span": {
             "start": 743,
-            "end": 748,
-            "ctxt": 0
+            "end": 748
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -789,8 +723,7 @@
           "type": "Element",
           "span": {
             "start": 748,
-            "end": 798,
-            "ctxt": 0
+            "end": 798
           },
           "tagName": "foo",
           "attributes": [
@@ -798,8 +731,7 @@
               "type": "Attribute",
               "span": {
                 "start": 0,
-                "end": 0,
-                "ctxt": 0
+                "end": 0
               },
               "namespace": null,
               "prefix": null,
@@ -815,8 +747,7 @@
           "type": "Text",
           "span": {
             "start": 798,
-            "end": 803,
-            "ctxt": 0
+            "end": 803
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -825,8 +756,7 @@
           "type": "Element",
           "span": {
             "start": 803,
-            "end": 851,
-            "ctxt": 0
+            "end": 851
           },
           "tagName": "foo",
           "attributes": [
@@ -834,8 +764,7 @@
               "type": "Attribute",
               "span": {
                 "start": 0,
-                "end": 0,
-                "ctxt": 0
+                "end": 0
               },
               "namespace": null,
               "prefix": null,
@@ -851,8 +780,7 @@
           "type": "Text",
           "span": {
             "start": 851,
-            "end": 856,
-            "ctxt": 0
+            "end": 856
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -861,8 +789,7 @@
           "type": "Element",
           "span": {
             "start": 856,
-            "end": 892,
-            "ctxt": 0
+            "end": 892
           },
           "tagName": "foo",
           "attributes": [
@@ -870,8 +797,7 @@
               "type": "Attribute",
               "span": {
                 "start": 0,
-                "end": 0,
-                "ctxt": 0
+                "end": 0
               },
               "namespace": null,
               "prefix": null,
@@ -884,8 +810,7 @@
               "type": "Attribute",
               "span": {
                 "start": 0,
-                "end": 0,
-                "ctxt": 0
+                "end": 0
               },
               "namespace": null,
               "prefix": null,
@@ -901,8 +826,7 @@
           "type": "Text",
           "span": {
             "start": 892,
-            "end": 893,
-            "ctxt": 0
+            "end": 893
           },
           "data": "\n",
           "raw": "\n"

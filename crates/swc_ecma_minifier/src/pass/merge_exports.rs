@@ -1,6 +1,6 @@
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{standard_only_visit_mut, VisitMut, VisitMutWith};
 
 use crate::maybe_par;
 
@@ -16,7 +16,7 @@ struct Merger {
 }
 
 impl VisitMut for Merger {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         let was_module = maybe_par!(
@@ -42,28 +42,30 @@ impl VisitMut for Merger {
         });
 
         if !self.specifiers.is_empty() {
-            stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+            stmts.push(
                 NamedExport {
                     src: None,
                     specifiers: self.specifiers.take(),
                     span: DUMMY_SP,
                     type_only: Default::default(),
                     with: Default::default(),
-                },
-            )));
+                }
+                .into(),
+            );
         }
 
         // export {}, to preserve module semantics
         if was_module && stmts.iter().all(|s| matches!(s, ModuleItem::Stmt(..))) {
-            stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+            stmts.push(
                 NamedExport {
                     src: None,
                     specifiers: Default::default(),
                     span: DUMMY_SP,
                     type_only: Default::default(),
                     with: Default::default(),
-                },
-            )));
+                }
+                .into(),
+            );
         }
     }
 

@@ -2,8 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 97,
-    "ctxt": 0
+    "end": 97
   },
   "mode": "quirks",
   "children": [
@@ -11,8 +10,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 0,
-        "ctxt": 0
+        "end": 0
       },
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -22,8 +20,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -36,8 +33,7 @@
           "type": "Element",
           "span": {
             "start": 1,
-            "end": 97,
-            "ctxt": 0
+            "end": 97
           },
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -47,8 +43,7 @@
               "type": "Element",
               "span": {
                 "start": 7,
-                "end": 97,
-                "ctxt": 0
+                "end": 97
               },
               "tagName": "template",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -58,16 +53,14 @@
                 "type": "DocumentFragment",
                 "span": {
                   "start": 7,
-                  "end": 97,
-                  "ctxt": 0
+                  "end": 97
                 },
                 "children": [
                   {
                     "type": "Element",
                     "span": {
                       "start": 17,
-                      "end": 32,
-                      "ctxt": 0
+                      "end": 32
                     },
                     "tagName": "thead",
                     "namespace": "http://www.w3.org/1999/xhtml",
@@ -80,8 +73,7 @@
                     "type": "Element",
                     "span": {
                       "start": 32,
-                      "end": 62,
-                      "ctxt": 0
+                      "end": 62
                     },
                     "tagName": "template",
                     "namespace": "http://www.w3.org/1999/xhtml",
@@ -91,16 +83,14 @@
                       "type": "DocumentFragment",
                       "span": {
                         "start": 32,
-                        "end": 62,
-                        "ctxt": 0
+                        "end": 62
                       },
                       "children": [
                         {
                           "type": "Element",
                           "span": {
                             "start": 42,
-                            "end": 51,
-                            "ctxt": 0
+                            "end": 51
                           },
                           "tagName": "tr",
                           "namespace": "http://www.w3.org/1999/xhtml",
@@ -117,8 +107,7 @@
                     "type": "Element",
                     "span": {
                       "start": 0,
-                      "end": 0,
-                      "ctxt": 0
+                      "end": 0
                     },
                     "tagName": "tbody",
                     "namespace": "http://www.w3.org/1999/xhtml",
@@ -128,8 +117,7 @@
                         "type": "Element",
                         "span": {
                           "start": 62,
-                          "end": 71,
-                          "ctxt": 0
+                          "end": 71
                         },
                         "tagName": "tr",
                         "namespace": "http://www.w3.org/1999/xhtml",
@@ -146,8 +134,7 @@
                     "type": "Element",
                     "span": {
                       "start": 71,
-                      "end": 86,
-                      "ctxt": 0
+                      "end": 86
                     },
                     "tagName": "tfoot",
                     "namespace": "http://www.w3.org/1999/xhtml",

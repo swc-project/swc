@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 100,
-    "ctxt": 0
+    "end": 100
   },
   "body": [
     {
@@ -12,67 +11,63 @@
         "type": "Identifier",
         "span": {
           "start": 7,
-          "end": 8,
-          "ctxt": 0
+          "end": 8
         },
+        "ctxt": 0,
         "value": "T",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 1,
-        "end": 100,
-        "ctxt": 0
+        "end": 100
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassMethod",
           "span": {
             "start": 15,
-            "end": 32,
-            "ctxt": 0
+            "end": 32
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 15,
-              "end": 16,
-              "ctxt": 0
+              "end": 16
             },
-            "value": "f",
-            "optional": false
+            "value": "f"
           },
           "function": {
             "params": [],
             "decorators": [],
             "span": {
               "start": 15,
-              "end": 32,
-              "ctxt": 0
+              "end": 32
             },
+            "ctxt": 0,
             "body": {
               "type": "BlockStatement",
               "span": {
                 "start": 19,
-                "end": 32,
-                "ctxt": 0
+                "end": 32
               },
+              "ctxt": 0,
               "stmts": [
                 {
                   "type": "ExpressionStatement",
                   "span": {
                     "start": 21,
-                    "end": 30,
-                    "ctxt": 0
+                    "end": 30
                   },
                   "expression": {
                     "type": "Identifier",
                     "span": {
                       "start": 21,
-                      "end": 30,
-                      "ctxt": 0
+                      "end": 30
                     },
+                    "ctxt": 0,
                     "value": "arguments",
                     "optional": false
                   }
@@ -95,76 +90,69 @@
           "type": "ClassProperty",
           "span": {
             "start": 38,
-            "end": 98,
-            "ctxt": 0
+            "end": 98
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 45,
-              "end": 46,
-              "ctxt": 0
+              "end": 46
             },
-            "value": "f",
-            "optional": false
+            "value": "f"
           },
           "value": {
             "type": "ClassExpression",
             "identifier": null,
             "span": {
               "start": 49,
-              "end": 98,
-              "ctxt": 0
+              "end": 98
             },
+            "ctxt": 0,
             "decorators": [],
             "body": [
               {
                 "type": "ClassMethod",
                 "span": {
                   "start": 75,
-                  "end": 92,
-                  "ctxt": 0
+                  "end": 92
                 },
                 "key": {
                   "type": "Identifier",
                   "span": {
                     "start": 75,
-                    "end": 76,
-                    "ctxt": 0
+                    "end": 76
                   },
-                  "value": "x",
-                  "optional": false
+                  "value": "x"
                 },
                 "function": {
                   "params": [],
                   "decorators": [],
                   "span": {
                     "start": 75,
-                    "end": 92,
-                    "ctxt": 0
+                    "end": 92
                   },
+                  "ctxt": 0,
                   "body": {
                     "type": "BlockStatement",
                     "span": {
                       "start": 79,
-                      "end": 92,
-                      "ctxt": 0
+                      "end": 92
                     },
+                    "ctxt": 0,
                     "stmts": [
                       {
                         "type": "ExpressionStatement",
                         "span": {
                           "start": 81,
-                          "end": 90,
-                          "ctxt": 0
+                          "end": 90
                         },
                         "expression": {
                           "type": "Identifier",
                           "span": {
                             "start": 81,
-                            "end": 90,
-                            "ctxt": 0
+                            "end": 90
                           },
+                          "ctxt": 0,
                           "value": "arguments",
                           "optional": false
                         }
@@ -188,9 +176,9 @@
               "type": "Identifier",
               "span": {
                 "start": 63,
-                "end": 64,
-                "ctxt": 0
+                "end": 64
               },
+              "ctxt": 0,
               "value": "T",
               "optional": false
             },

@@ -8,7 +8,7 @@ use swc_ecma_utils::{ExprCtx, ExprExt, IdentUsageFinder, Value};
 #[cfg(feature = "debug")]
 use swc_ecma_visit::{as_folder, FoldWith};
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
+    standard_only_visit, standard_only_visit_mut, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 
 #[cfg(feature = "debug")]
@@ -165,11 +165,12 @@ fn negate_inner(
     } else {
         report_change!("negate: e => !e");
 
-        *e = Expr::Unary(UnaryExpr {
+        *e = UnaryExpr {
             span: DUMMY_SP,
             op: op!("!"),
             arg,
-        });
+        }
+        .into();
 
         dump_change_detail!("Negated `{}` as `{}`", start_str, dump(&*e, false));
 
@@ -511,10 +512,16 @@ pub(crate) fn eval_as_number(expr_ctx: &ExprCtx, e: &Expr) -> Option<f64> {
                             if args.len() != 2 {
                                 return None;
                             }
-                            let first = eval_as_number(expr_ctx, &args[0].expr)?;
-                            let second = eval_as_number(expr_ctx, &args[1].expr)?;
+                            let base = eval_as_number(expr_ctx, &args[0].expr)?;
+                            let exponent = eval_as_number(expr_ctx, &args[1].expr)?;
 
-                            return Some(first.powf(second));
+                            // https://tc39.es/ecma262/multipage/ecmascript-data-types-and-values.html#sec-numeric-types-number-exponentiate
+                            // https://github.com/rust-lang/rust/issues/60468
+                            if exponent.is_nan() {
+                                return Some(f64::NAN);
+                            }
+
+                            return Some(base.powf(exponent));
                         }
 
                         _ => {}
@@ -566,7 +573,7 @@ impl<F> VisitMut for ExprReplacer<F>
 where
     F: FnMut(&mut Expr),
 {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
@@ -657,7 +664,7 @@ impl UnreachableHandler {
         let mut v = Self::default();
         s.visit_mut_with(&mut v);
         if v.vars.is_empty() {
-            *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+            *s = EmptyStmt { span: DUMMY_SP }.into();
         } else {
             *s = VarDecl {
                 span: DUMMY_SP,
@@ -675,6 +682,7 @@ impl UnreachableHandler {
                         definite: false,
                     })
                     .collect(),
+                ..Default::default()
             }
             .into()
         }
@@ -684,7 +692,7 @@ impl UnreachableHandler {
 }
 
 impl VisitMut for UnreachableHandler {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}
 
@@ -734,7 +742,7 @@ pub struct SuperFinder {
 }
 
 impl Visit for SuperFinder {
-    noop_visit_type!();
+    standard_only_visit!();
 
     /// Don't recurse into constructor
     fn visit_constructor(&mut self, _: &Constructor) {}

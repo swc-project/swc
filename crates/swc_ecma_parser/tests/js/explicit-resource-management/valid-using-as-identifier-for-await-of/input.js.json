@@ -2,25 +2,23 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 25,
-    "ctxt": 0
+    "end": 25
   },
   "body": [
     {
       "type": "ForOfStatement",
       "span": {
         "start": 1,
-        "end": 25,
-        "ctxt": 0
+        "end": 25
       },
       "await": true,
       "left": {
         "type": "Identifier",
         "span": {
           "start": 12,
-          "end": 17,
-          "ctxt": 0
+          "end": 17
         },
+        "ctxt": 0,
         "value": "using",
         "optional": false,
         "typeAnnotation": null
@@ -29,9 +27,9 @@
         "type": "Identifier",
         "span": {
           "start": 21,
-          "end": 23,
-          "ctxt": 0
+          "end": 23
         },
+        "ctxt": 0,
         "value": "of",
         "optional": false
       },
@@ -39,8 +37,7 @@
         "type": "EmptyStatement",
         "span": {
           "start": 24,
-          "end": 25,
-          "ctxt": 0
+          "end": 25
         }
       }
     }

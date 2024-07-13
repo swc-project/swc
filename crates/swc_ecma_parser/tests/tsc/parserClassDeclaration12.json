@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 52,
-    "ctxt": 0
+    "end": 52
   },
   "body": [
     {
@@ -12,36 +11,34 @@
         "type": "Identifier",
         "span": {
           "start": 7,
-          "end": 8,
-          "ctxt": 0
+          "end": 8
         },
+        "ctxt": 0,
         "value": "C",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 1,
-        "end": 52,
-        "ctxt": 0
+        "end": 52
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "Constructor",
           "span": {
             "start": 14,
-            "end": 28,
-            "ctxt": 0
+            "end": 28
           },
+          "ctxt": 0,
           "key": {
             "type": "Identifier",
             "span": {
               "start": 14,
-              "end": 25,
-              "ctxt": 0
+              "end": 25
             },
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": null,
@@ -52,35 +49,32 @@
           "type": "Constructor",
           "span": {
             "start": 32,
-            "end": 50,
-            "ctxt": 0
+            "end": 50
           },
+          "ctxt": 0,
           "key": {
             "type": "Identifier",
             "span": {
               "start": 32,
-              "end": 43,
-              "ctxt": 0
+              "end": 43
             },
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
               "type": "Parameter",
               "span": {
                 "start": 44,
-                "end": 45,
-                "ctxt": 0
+                "end": 45
               },
               "decorators": [],
               "pat": {
                 "type": "Identifier",
                 "span": {
                   "start": 44,
-                  "end": 45,
-                  "ctxt": 0
+                  "end": 45
                 },
+                "ctxt": 0,
                 "value": "a",
                 "optional": false,
                 "typeAnnotation": null
@@ -91,9 +85,9 @@
             "type": "BlockStatement",
             "span": {
               "start": 47,
-              "end": 50,
-              "ctxt": 0
+              "end": 50
             },
+            "ctxt": 0,
             "stmts": []
           },
           "accessibility": null,

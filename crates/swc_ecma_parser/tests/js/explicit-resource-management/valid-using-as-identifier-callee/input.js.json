@@ -2,31 +2,29 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 11,
-    "ctxt": 0
+    "end": 11
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 11,
-        "ctxt": 0
+        "end": 11
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 1,
-          "end": 10,
-          "ctxt": 0
+          "end": 10
         },
+        "ctxt": 0,
         "callee": {
           "type": "Identifier",
           "span": {
             "start": 1,
-            "end": 6,
-            "ctxt": 0
+            "end": 6
           },
+          "ctxt": 0,
           "value": "using",
           "optional": false
         },
@@ -37,9 +35,9 @@
               "type": "Identifier",
               "span": {
                 "start": 8,
-                "end": 9,
-                "ctxt": 0
+                "end": 9
               },
+              "ctxt": 0,
               "value": "x",
               "optional": false
             }

@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 17,
-    "end": 47,
-    "ctxt": 0
+    "end": 47
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 17,
-        "end": 47,
-        "ctxt": 0
+        "end": 47
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 21,
-            "end": 46,
-            "ctxt": 0
+            "end": 46
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 21,
-              "end": 22,
-              "ctxt": 0
+              "end": 22
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false,
             "typeAnnotation": null
@@ -38,23 +36,20 @@
             "type": "TsTypeAssertion",
             "span": {
               "start": 25,
-              "end": 46,
-              "ctxt": 0
+              "end": 46
             },
             "expression": {
               "type": "TemplateLiteral",
               "span": {
                 "start": 30,
-                "end": 46,
-                "ctxt": 0
+                "end": 46
               },
               "expressions": [
                 {
                   "type": "NumericLiteral",
                   "span": {
                     "start": 37,
-                    "end": 40,
-                    "ctxt": 0
+                    "end": 40
                   },
                   "value": 123.0,
                   "raw": "123"
@@ -65,8 +60,7 @@
                   "type": "TemplateElement",
                   "span": {
                     "start": 31,
-                    "end": 34,
-                    "ctxt": 0
+                    "end": 34
                   },
                   "tail": false,
                   "cooked": "abc",
@@ -76,8 +70,7 @@
                   "type": "TemplateElement",
                   "span": {
                     "start": 42,
-                    "end": 45,
-                    "ctxt": 0
+                    "end": 45
                   },
                   "tail": true,
                   "cooked": "def",
@@ -89,8 +82,7 @@
               "type": "TsKeywordType",
               "span": {
                 "start": 26,
-                "end": 29,
-                "ctxt": 0
+                "end": 29
               },
               "kind": "any"
             }

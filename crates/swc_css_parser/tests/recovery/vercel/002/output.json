@@ -2,39 +2,34 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 389,
-    "ctxt": 0
+    "end": 389
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
         "start": 1,
-        "end": 388,
-        "ctxt": 0
+        "end": 388
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 1,
-          "end": 7,
-          "ctxt": 0
+          "end": 7
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
               "start": 1,
-              "end": 7,
-              "ctxt": 0
+              "end": 7
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
                   "start": 1,
-                  "end": 7,
-                  "ctxt": 0
+                  "end": 7
                 },
                 "nestingSelector": null,
                 "typeSelector": null,
@@ -43,15 +38,13 @@
                     "type": "ClassSelector",
                     "span": {
                       "start": 1,
-                      "end": 7,
-                      "ctxt": 0
+                      "end": 7
                     },
                     "text": {
                       "type": "Ident",
                       "span": {
                         "start": 2,
-                        "end": 7,
-                        "ctxt": 0
+                        "end": 7
                       },
                       "value": "slide",
                       "raw": "slide"
@@ -67,15 +60,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 8,
-          "end": 388,
-          "ctxt": 0
+          "end": 388
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 8,
-            "end": 9,
-            "ctxt": 0
+            "end": 9
           },
           "token": "LBrace"
         },
@@ -84,15 +75,13 @@
             "type": "Declaration",
             "span": {
               "start": 14,
-              "end": 50,
-              "ctxt": 0
+              "end": 50
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 14,
-                "end": 19,
-                "ctxt": 0
+                "end": 19
               },
               "value": "width",
               "raw": "width"
@@ -102,8 +91,7 @@
                 "type": "Ident",
                 "span": {
                   "start": 21,
-                  "end": 50,
-                  "ctxt": 0
+                  "end": 50
                 },
                 "value": "__styled-jsx-placeholder__7px",
                 "raw": "__styled-jsx-placeholder__7px"
@@ -115,15 +103,13 @@
             "type": "Declaration",
             "span": {
               "start": 56,
-              "end": 93,
-              "ctxt": 0
+              "end": 93
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 56,
-                "end": 62,
-                "ctxt": 0
+                "end": 62
               },
               "value": "height",
               "raw": "height"
@@ -133,8 +119,7 @@
                 "type": "Ident",
                 "span": {
                   "start": 64,
-                  "end": 93,
-                  "ctxt": 0
+                  "end": 93
                 },
                 "value": "__styled-jsx-placeholder__7px",
                 "raw": "__styled-jsx-placeholder__7px"
@@ -146,15 +131,13 @@
             "type": "Declaration",
             "span": {
               "start": 99,
-              "end": 176,
-              "ctxt": 0
+              "end": 176
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 99,
-                "end": 105,
-                "ctxt": 0
+                "end": 105
               },
               "value": "margin",
               "raw": "margin"
@@ -164,8 +147,7 @@
                 "type": "Integer",
                 "span": {
                   "start": 107,
-                  "end": 108,
-                  "ctxt": 0
+                  "end": 108
                 },
                 "value": 0,
                 "raw": "0"
@@ -174,15 +156,13 @@
                 "type": "Function",
                 "span": {
                   "start": 109,
-                  "end": 176,
-                  "ctxt": 0
+                  "end": 176
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 109,
-                    "end": 113,
-                    "ctxt": 0
+                    "end": 113
                   },
                   "value": "calc",
                   "raw": "calc"
@@ -192,8 +172,7 @@
                     "type": "PreservedToken",
                     "span": {
                       "start": 114,
-                      "end": 143,
-                      "ctxt": 0
+                      "end": 143
                     },
                     "token": {
                       "Ident": {
@@ -206,8 +185,7 @@
                     "type": "PreservedToken",
                     "span": {
                       "start": 143,
-                      "end": 144,
-                      "ctxt": 0
+                      "end": 144
                     },
                     "token": {
                       "WhiteSpace": {
@@ -219,8 +197,7 @@
                     "type": "PreservedToken",
                     "span": {
                       "start": 144,
-                      "end": 145,
-                      "ctxt": 0
+                      "end": 145
                     },
                     "token": {
                       "Delim": {
@@ -232,8 +209,7 @@
                     "type": "PreservedToken",
                     "span": {
                       "start": 145,
-                      "end": 146,
-                      "ctxt": 0
+                      "end": 146
                     },
                     "token": {
                       "WhiteSpace": {
@@ -245,8 +221,7 @@
                     "type": "PreservedToken",
                     "span": {
                       "start": 146,
-                      "end": 175,
-                      "ctxt": 0
+                      "end": 175
                     },
                     "token": {
                       "Ident": {
@@ -264,15 +239,13 @@
             "type": "Declaration",
             "span": {
               "start": 182,
-              "end": 200,
-              "ctxt": 0
+              "end": 200
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 182,
-                "end": 195,
-                "ctxt": 0
+                "end": 195
               },
               "value": "border-radius",
               "raw": "border-radius"
@@ -282,15 +255,13 @@
                 "type": "Length",
                 "span": {
                   "start": 197,
-                  "end": 200,
-                  "ctxt": 0
+                  "end": 200
                 },
                 "value": {
                   "type": "Number",
                   "span": {
                     "start": 197,
-                    "end": 198,
-                    "ctxt": 0
+                    "end": 198
                   },
                   "value": 7.0,
                   "raw": "7"
@@ -299,8 +270,7 @@
                   "type": "Ident",
                   "span": {
                     "start": 198,
-                    "end": 200,
-                    "ctxt": 0
+                    "end": 200
                   },
                   "value": "px",
                   "raw": "px"
@@ -313,15 +283,13 @@
             "type": "Declaration",
             "span": {
               "start": 206,
-              "end": 288,
-              "ctxt": 0
+              "end": 288
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 206,
-                "end": 216,
-                "ctxt": 0
+                "end": 216
               },
               "value": "box-shadow",
               "raw": "box-shadow"
@@ -331,8 +299,7 @@
                 "type": "Integer",
                 "span": {
                   "start": 218,
-                  "end": 219,
-                  "ctxt": 0
+                  "end": 219
                 },
                 "value": 0,
                 "raw": "0"
@@ -341,15 +308,13 @@
                 "type": "Length",
                 "span": {
                   "start": 220,
-                  "end": 224,
-                  "ctxt": 0
+                  "end": 224
                 },
                 "value": {
                   "type": "Number",
                   "span": {
                     "start": 220,
-                    "end": 222,
-                    "ctxt": 0
+                    "end": 222
                   },
                   "value": 10.0,
                   "raw": "10"
@@ -358,8 +323,7 @@
                   "type": "Ident",
                   "span": {
                     "start": 222,
-                    "end": 224,
-                    "ctxt": 0
+                    "end": 224
                   },
                   "value": "px",
                   "raw": "px"
@@ -369,15 +333,13 @@
                 "type": "Length",
                 "span": {
                   "start": 225,
-                  "end": 229,
-                  "ctxt": 0
+                  "end": 229
                 },
                 "value": {
                   "type": "Number",
                   "span": {
                     "start": 225,
-                    "end": 227,
-                    "ctxt": 0
+                    "end": 227
                   },
                   "value": 20.0,
                   "raw": "20"
@@ -386,8 +348,7 @@
                   "type": "Ident",
                   "span": {
                     "start": 227,
-                    "end": 229,
-                    "ctxt": 0
+                    "end": 229
                   },
                   "value": "px",
                   "raw": "px"
@@ -397,15 +358,13 @@
                 "type": "Function",
                 "span": {
                   "start": 230,
-                  "end": 249,
-                  "ctxt": 0
+                  "end": 249
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 230,
-                    "end": 234,
-                    "ctxt": 0
+                    "end": 234
                   },
                   "value": "rgba",
                   "raw": "rgba"
@@ -415,8 +374,7 @@
                     "type": "Number",
                     "span": {
                       "start": 235,
-                      "end": 236,
-                      "ctxt": 0
+                      "end": 236
                     },
                     "value": 0.0,
                     "raw": "0"
@@ -425,8 +383,7 @@
                     "type": "Delimiter",
                     "span": {
                       "start": 236,
-                      "end": 237,
-                      "ctxt": 0
+                      "end": 237
                     },
                     "value": ","
                   },
@@ -434,8 +391,7 @@
                     "type": "Number",
                     "span": {
                       "start": 238,
-                      "end": 239,
-                      "ctxt": 0
+                      "end": 239
                     },
                     "value": 0.0,
                     "raw": "0"
@@ -444,8 +400,7 @@
                     "type": "Delimiter",
                     "span": {
                       "start": 239,
-                      "end": 240,
-                      "ctxt": 0
+                      "end": 240
                     },
                     "value": ","
                   },
@@ -453,8 +408,7 @@
                     "type": "Number",
                     "span": {
                       "start": 241,
-                      "end": 242,
-                      "ctxt": 0
+                      "end": 242
                     },
                     "value": 0.0,
                     "raw": "0"
@@ -463,8 +417,7 @@
                     "type": "Delimiter",
                     "span": {
                       "start": 242,
-                      "end": 243,
-                      "ctxt": 0
+                      "end": 243
                     },
                     "value": ","
                   },
@@ -472,8 +425,7 @@
                     "type": "Number",
                     "span": {
                       "start": 244,
-                      "end": 248,
-                      "ctxt": 0
+                      "end": 248
                     },
                     "value": 0.08,
                     "raw": "0.08"
@@ -484,8 +436,7 @@
                 "type": "Delimiter",
                 "span": {
                   "start": 249,
-                  "end": 250,
-                  "ctxt": 0
+                  "end": 250
                 },
                 "value": ","
               },
@@ -493,8 +444,7 @@
                 "type": "Integer",
                 "span": {
                   "start": 259,
-                  "end": 260,
-                  "ctxt": 0
+                  "end": 260
                 },
                 "value": 0,
                 "raw": "0"
@@ -503,15 +453,13 @@
                 "type": "Length",
                 "span": {
                   "start": 261,
-                  "end": 264,
-                  "ctxt": 0
+                  "end": 264
                 },
                 "value": {
                   "type": "Number",
                   "span": {
                     "start": 261,
-                    "end": 262,
-                    "ctxt": 0
+                    "end": 262
                   },
                   "value": 5.0,
                   "raw": "5"
@@ -520,8 +468,7 @@
                   "type": "Ident",
                   "span": {
                     "start": 262,
-                    "end": 264,
-                    "ctxt": 0
+                    "end": 264
                   },
                   "value": "px",
                   "raw": "px"
@@ -531,15 +478,13 @@
                 "type": "Length",
                 "span": {
                   "start": 265,
-                  "end": 269,
-                  "ctxt": 0
+                  "end": 269
                 },
                 "value": {
                   "type": "Number",
                   "span": {
                     "start": 265,
-                    "end": 267,
-                    "ctxt": 0
+                    "end": 267
                   },
                   "value": 12.0,
                   "raw": "12"
@@ -548,8 +493,7 @@
                   "type": "Ident",
                   "span": {
                     "start": 267,
-                    "end": 269,
-                    "ctxt": 0
+                    "end": 269
                   },
                   "value": "px",
                   "raw": "px"
@@ -559,15 +503,13 @@
                 "type": "Function",
                 "span": {
                   "start": 270,
-                  "end": 288,
-                  "ctxt": 0
+                  "end": 288
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 270,
-                    "end": 274,
-                    "ctxt": 0
+                    "end": 274
                   },
                   "value": "rgba",
                   "raw": "rgba"
@@ -577,8 +519,7 @@
                     "type": "Number",
                     "span": {
                       "start": 275,
-                      "end": 276,
-                      "ctxt": 0
+                      "end": 276
                     },
                     "value": 0.0,
                     "raw": "0"
@@ -587,8 +528,7 @@
                     "type": "Delimiter",
                     "span": {
                       "start": 276,
-                      "end": 277,
-                      "ctxt": 0
+                      "end": 277
                     },
                     "value": ","
                   },
@@ -596,8 +536,7 @@
                     "type": "Number",
                     "span": {
                       "start": 278,
-                      "end": 279,
-                      "ctxt": 0
+                      "end": 279
                     },
                     "value": 0.0,
                     "raw": "0"
@@ -606,8 +545,7 @@
                     "type": "Delimiter",
                     "span": {
                       "start": 279,
-                      "end": 280,
-                      "ctxt": 0
+                      "end": 280
                     },
                     "value": ","
                   },
@@ -615,8 +553,7 @@
                     "type": "Number",
                     "span": {
                       "start": 281,
-                      "end": 282,
-                      "ctxt": 0
+                      "end": 282
                     },
                     "value": 0.0,
                     "raw": "0"
@@ -625,8 +562,7 @@
                     "type": "Delimiter",
                     "span": {
                       "start": 282,
-                      "end": 283,
-                      "ctxt": 0
+                      "end": 283
                     },
                     "value": ","
                   },
@@ -634,8 +570,7 @@
                     "type": "Number",
                     "span": {
                       "start": 284,
-                      "end": 287,
-                      "ctxt": 0
+                      "end": 287
                     },
                     "value": 0.1,
                     "raw": "0.1"
@@ -649,15 +584,13 @@
             "type": "Declaration",
             "span": {
               "start": 294,
-              "end": 319,
-              "ctxt": 0
+              "end": 319
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 294,
-                "end": 304,
-                "ctxt": 0
+                "end": 304
               },
               "value": "transition",
               "raw": "transition"
@@ -667,8 +600,7 @@
                 "type": "Ident",
                 "span": {
                   "start": 306,
-                  "end": 309,
-                  "ctxt": 0
+                  "end": 309
                 },
                 "value": "all",
                 "raw": "all"
@@ -677,15 +609,13 @@
                 "type": "Time",
                 "span": {
                   "start": 310,
-                  "end": 314,
-                  "ctxt": 0
+                  "end": 314
                 },
                 "value": {
                   "type": "Number",
                   "span": {
                     "start": 310,
-                    "end": 313,
-                    "ctxt": 0
+                    "end": 313
                   },
                   "value": 0.5,
                   "raw": "0.5"
@@ -694,8 +624,7 @@
                   "type": "Ident",
                   "span": {
                     "start": 313,
-                    "end": 314,
-                    "ctxt": 0
+                    "end": 314
                   },
                   "value": "s",
                   "raw": "s"
@@ -705,8 +634,7 @@
                 "type": "Ident",
                 "span": {
                   "start": 315,
-                  "end": 319,
-                  "ctxt": 0
+                  "end": 319
                 },
                 "value": "ease",
                 "raw": "ease"
@@ -718,15 +646,13 @@
             "type": "Declaration",
             "span": {
               "start": 325,
-              "end": 340,
-              "ctxt": 0
+              "end": 340
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 325,
-                "end": 331,
-                "ctxt": 0
+                "end": 331
               },
               "value": "cursor",
               "raw": "cursor"
@@ -736,8 +662,7 @@
                 "type": "Ident",
                 "span": {
                   "start": 333,
-                  "end": 340,
-                  "ctxt": 0
+                  "end": 340
                 },
                 "value": "pointer",
                 "raw": "pointer"
@@ -749,15 +674,13 @@
             "type": "Declaration",
             "span": {
               "start": 346,
-              "end": 362,
-              "ctxt": 0
+              "end": 362
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 346,
-                "end": 354,
-                "ctxt": 0
+                "end": 354
               },
               "value": "overflow",
               "raw": "overflow"
@@ -767,8 +690,7 @@
                 "type": "Ident",
                 "span": {
                   "start": 356,
-                  "end": 362,
-                  "ctxt": 0
+                  "end": 362
                 },
                 "value": "hidden",
                 "raw": "hidden"
@@ -780,15 +702,13 @@
             "type": "Declaration",
             "span": {
               "start": 368,
-              "end": 385,
-              "ctxt": 0
+              "end": 385
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 368,
-                "end": 378,
-                "ctxt": 0
+                "end": 378
               },
               "value": "background",
               "raw": "background"
@@ -798,8 +718,7 @@
                 "type": "Ident",
                 "span": {
                   "start": 380,
-                  "end": 385,
-                  "ctxt": 0
+                  "end": 385
                 },
                 "value": "white",
                 "raw": "white"

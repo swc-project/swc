@@ -1,20 +1,20 @@
 [
     JsDoc {
-        span: 16..16#0,
+        span: 16..16,
         description: Text {
-            span: 16..16#0,
+            span: 16..16,
             value: "",
         },
         tags: [
             TagItem {
-                span: 16..21#0,
+                span: 16..21,
                 tag_name: Text {
-                    span: 16..21#0,
+                    span: 16..21,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 16..21#0,
+                        span: 16..21,
                         ty: None,
                         name: None,
                     },
@@ -23,9 +23,9 @@
         ],
     },
     JsDoc {
-        span: 94..94#0,
+        span: 94..94,
         description: Text {
-            span: 94..109#0,
+            span: 94..109,
             value: "Render content.",
         },
         tags: [],

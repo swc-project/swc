@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 17,
-    "end": 134,
-    "ctxt": 0
+    "end": 134
   },
   "body": [
     {
@@ -12,52 +11,49 @@
         "type": "Identifier",
         "span": {
           "start": 23,
-          "end": 29,
-          "ctxt": 0
+          "end": 29
         },
+        "ctxt": 0,
         "value": "Parent",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 17,
-        "end": 51,
-        "ctxt": 0
+        "end": 51
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassMethod",
           "span": {
             "start": 36,
-            "end": 49,
-            "ctxt": 0
+            "end": 49
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 36,
-              "end": 39,
-              "ctxt": 0
+              "end": 39
             },
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "function": {
             "params": [],
             "decorators": [],
             "span": {
               "start": 36,
-              "end": 49,
-              "ctxt": 0
+              "end": 49
             },
+            "ctxt": 0,
             "body": {
               "type": "BlockStatement",
               "span": {
                 "start": 42,
-                "end": 49,
-                "ctxt": 0
+                "end": 49
               },
+              "ctxt": 0,
               "stmts": []
             },
             "generator": false,
@@ -85,60 +81,57 @@
         "type": "Identifier",
         "span": {
           "start": 59,
-          "end": 62,
-          "ctxt": 0
+          "end": 62
         },
+        "ctxt": 0,
         "value": "Foo",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 53,
-        "end": 134,
-        "ctxt": 0
+        "end": 134
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassMethod",
           "span": {
             "start": 84,
-            "end": 132,
-            "ctxt": 0
+            "end": 132
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 84,
-              "end": 87,
-              "ctxt": 0
+              "end": 87
             },
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "function": {
             "params": [],
             "decorators": [],
             "span": {
               "start": 84,
-              "end": 132,
-              "ctxt": 0
+              "end": 132
             },
+            "ctxt": 0,
             "body": {
               "type": "BlockStatement",
               "span": {
                 "start": 90,
-                "end": 132,
-                "ctxt": 0
+                "end": 132
               },
+              "ctxt": 0,
               "stmts": [
                 {
                   "type": "VariableDeclaration",
                   "span": {
                     "start": 100,
-                    "end": 126,
-                    "ctxt": 0
+                    "end": 126
                   },
+                  "ctxt": 0,
                   "kind": "var",
                   "declare": false,
                   "declarations": [
@@ -146,16 +139,15 @@
                       "type": "VariableDeclarator",
                       "span": {
                         "start": 104,
-                        "end": 125,
-                        "ctxt": 0
+                        "end": 125
                       },
                       "id": {
                         "type": "Identifier",
                         "span": {
                           "start": 104,
-                          "end": 105,
-                          "ctxt": 0
+                          "end": 105
                         },
+                        "ctxt": 0,
                         "value": "x",
                         "optional": false,
                         "typeAnnotation": null
@@ -164,41 +156,37 @@
                         "type": "ArrowFunctionExpression",
                         "span": {
                           "start": 108,
-                          "end": 125,
-                          "ctxt": 0
+                          "end": 125
                         },
+                        "ctxt": 0,
                         "params": [],
                         "body": {
                           "type": "CallExpression",
                           "span": {
                             "start": 114,
-                            "end": 125,
-                            "ctxt": 0
+                            "end": 125
                           },
+                          "ctxt": 0,
                           "callee": {
                             "type": "SuperPropExpression",
                             "span": {
                               "start": 114,
-                              "end": 123,
-                              "ctxt": 0
+                              "end": 123
                             },
                             "obj": {
                               "type": "Super",
                               "span": {
                                 "start": 114,
-                                "end": 119,
-                                "ctxt": 0
+                                "end": 119
                               }
                             },
                             "property": {
                               "type": "Identifier",
                               "span": {
                                 "start": 120,
-                                "end": 123,
-                                "ctxt": 0
+                                "end": 123
                               },
-                              "value": "foo",
-                              "optional": false
+                              "value": "foo"
                             }
                           },
                           "arguments": [],
@@ -232,9 +220,9 @@
         "type": "Identifier",
         "span": {
           "start": 71,
-          "end": 77,
-          "ctxt": 0
+          "end": 77
         },
+        "ctxt": 0,
         "value": "Parent",
         "optional": false
       },

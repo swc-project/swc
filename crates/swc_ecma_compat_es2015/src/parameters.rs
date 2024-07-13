@@ -10,7 +10,7 @@ use swc_ecma_utils::{
     function::{init_this, FnEnvHoister},
     member_expr, prepend_stmt, prepend_stmts, private_ident, quote_ident, ExprFactory,
 };
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, standard_only_visit_mut, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 use tracing::trace;
 
@@ -114,7 +114,7 @@ impl Params {
                         let decl = VarDeclarator {
                             span,
                             name: param.pat,
-                            init: Some(Box::new(Expr::Ident(binding))),
+                            init: Some(binding.into()),
                             definite: false,
                         };
                         if self.c.ignore_function_length {
@@ -124,6 +124,7 @@ impl Params {
                                     kind: VarDeclKind::Let,
                                     decls: vec![decl],
                                     declare: false,
+                                    ..Default::default()
                                 }
                                 .into(),
                             )
@@ -140,22 +141,28 @@ impl Params {
                         decls.push(VarDeclarator {
                             span,
                             name: *left,
-                            init: Some(Box::new(Expr::Cond(CondExpr {
-                                span,
-                                test: Box::new(Expr::Bin(BinExpr {
-                                    left: Box::new(check_arg_len(i)),
-                                    op: op!("&&"),
-                                    right: Box::new(Expr::Bin(BinExpr {
-                                        left: make_arg_nth(i).into(),
-                                        op: op!("!=="),
-                                        right: Expr::undefined(DUMMY_SP),
-                                        span: DUMMY_SP,
-                                    })),
+                            init: Some(
+                                CondExpr {
                                     span,
-                                })),
-                                cons: make_arg_nth(i).into(),
-                                alt: right,
-                            }))),
+                                    test: Box::new(
+                                        BinExpr {
+                                            left: Box::new(check_arg_len(i)),
+                                            op: op!("&&"),
+                                            right: Box::new(Expr::Bin(BinExpr {
+                                                left: make_arg_nth(i).into(),
+                                                op: op!("!=="),
+                                                right: Expr::undefined(DUMMY_SP),
+                                                span: DUMMY_SP,
+                                            })),
+                                            span,
+                                        }
+                                        .into(),
+                                    ),
+                                    cons: make_arg_nth(i).into(),
+                                    alt: right,
+                                }
+                                .into(),
+                            ),
                             definite: false,
                         })
                     } else if let Pat::Ident(ident) = left.as_ref() {
@@ -164,25 +171,30 @@ impl Params {
                             pat: ident.clone().into(),
                             decorators: Vec::new(),
                         });
-                        loose_stmt.push(Stmt::If(IfStmt {
-                            span,
-                            test: Box::new(Expr::Bin(BinExpr {
-                                span: DUMMY_SP,
-                                left: Box::new(Expr::Ident(ident.id.clone())),
-                                op: op!("==="),
-                                right: Expr::undefined(DUMMY_SP),
-                            })),
-                            cons: Box::new(Stmt::Expr(ExprStmt {
+                        loose_stmt.push(
+                            IfStmt {
                                 span,
-                                expr: Box::new(Expr::Assign(AssignExpr {
+                                test: BinExpr {
+                                    span: DUMMY_SP,
+                                    left: Box::new(Ident::from(ident).into()),
+                                    op: op!("==="),
+                                    right: Expr::undefined(DUMMY_SP),
+                                }
+                                .into(),
+                                cons: Box::new(Stmt::Expr(ExprStmt {
                                     span,
-                                    left: left.try_into().unwrap(),
-                                    op: op!("="),
-                                    right,
+                                    expr: AssignExpr {
+                                        span,
+                                        left: left.try_into().unwrap(),
+                                        op: op!("="),
+                                        right,
+                                    }
+                                    .into(),
                                 })),
-                            })),
-                            alt: None,
-                        }))
+                                alt: None,
+                            }
+                            .into(),
+                        )
                     } else {
                         let binding = private_ident!(span, "param");
                         params.push(Param {
@@ -211,6 +223,7 @@ impl Params {
                                     definite: false,
                                 }],
                                 declare: false,
+                                ..Default::default()
                             }
                             .into(),
                         )
@@ -228,13 +241,16 @@ impl Params {
                     // TODO: Optimize (use `arguments` instead of rest argument)
 
                     let mark = Mark::fresh(Mark::root());
-                    let idx_ident = quote_ident!(span.apply_mark(mark), "_key");
-                    let len_ident = quote_ident!(span.apply_mark(mark), "_len");
+                    let idx_ident =
+                        quote_ident!(SyntaxContext::empty().apply_mark(mark), span, "_key");
+                    let len_ident =
+                        quote_ident!(SyntaxContext::empty().apply_mark(mark), span, "_len");
 
                     let arg = match *arg {
-                        Pat::Ident(ident) => ident.id,
+                        Pat::Ident(ident) => ident.into(),
                         arg => {
-                            let tmp_ident = quote_ident!(span.apply_mark(mark), "_tmp");
+                            let tmp_ident =
+                                quote_ident!(SyntaxContext::empty().apply_mark(mark), span, "_tmp");
                             decls_after_unpack.push(VarDeclarator {
                                 span: DUMMY_SP,
                                 name: arg,
@@ -253,133 +269,158 @@ impl Params {
                             // `len - $i`
                             let bin: Expr = BinExpr {
                                 span,
-                                left: Box::new(Expr::Ident(ident.clone())),
+                                left: ident.clone().into(),
                                 op: op!(bin, "-"),
-                                right: Box::new(Expr::Lit(Lit::Num(Number {
+                                right: Lit::Num(Number {
                                     span,
                                     value: i as f64,
                                     raw: None,
-                                }))),
+                                })
+                                .into(),
                             }
                             .into();
                             if !min_zero {
                                 return bin;
                             }
 
-                            Expr::Cond(CondExpr {
+                            CondExpr {
                                 span,
                                 test: Box::new(
                                     BinExpr {
                                         span,
                                         left: Box::new(len_ident.clone().into()),
                                         op: op!(">"),
-                                        right: Box::new(Expr::Lit(Lit::Num(Number {
+                                        right: Lit::Num(Number {
                                             span,
                                             value: i as _,
                                             raw: None,
-                                        }))),
+                                        })
+                                        .into(),
                                     }
                                     .into(),
                                 ),
                                 cons: Box::new(bin),
                                 alt: 0.into(),
-                            })
+                            }
+                            .into()
                         }
                     };
 
-                    unpack_rest = Some(Stmt::For(ForStmt {
-                        span,
-                        init: Some(
-                            VarDecl {
-                                kind: VarDeclKind::Var,
-                                span,
-                                decls: vec![
-                                    // _len = arguments.length - i
-                                    VarDeclarator {
-                                        span,
-                                        name: len_ident.clone().into(),
-                                        init: Some(member_expr!(span, arguments.length).into()),
-                                        definite: false,
-                                    },
-                                    // a1 = new Array(_len - $i)
-                                    VarDeclarator {
-                                        span,
-                                        name: arg.clone().into(),
-                                        init: Some(Box::new(Expr::New(NewExpr {
+                    unpack_rest = Some(
+                        ForStmt {
+                            span,
+                            init: Some(
+                                VarDecl {
+                                    kind: VarDeclKind::Var,
+                                    span,
+                                    decls: vec![
+                                        // _len = arguments.length - i
+                                        VarDeclarator {
                                             span,
-                                            callee: Box::new(
-                                                quote_ident!(
-                                                    DUMMY_SP.with_ctxt(self.unresolved_ctxt),
-                                                    "Array"
+                                            name: len_ident.clone().into(),
+                                            init: Some(
+                                                member_expr!(
+                                                    Default::default(),
+                                                    span,
+                                                    arguments.length
                                                 )
                                                 .into(),
                                             ),
-                                            args: Some(vec![{
-                                                // `len` or  `len - $i`
-                                                make_minus_i(&len_ident, true).as_arg()
-                                            }]),
-                                            type_args: Default::default(),
-                                        }))),
-                                        definite: false,
-                                    },
-                                    // _key = 0
-                                    VarDeclarator {
-                                        span,
-                                        name: idx_ident.clone().into(),
-                                        init: Some(Box::new(Expr::Lit(Lit::Num(Number {
+                                            definite: false,
+                                        },
+                                        // a1 = new Array(_len - $i)
+                                        VarDeclarator {
                                             span,
-                                            value: i as f64,
-                                            raw: None,
-                                        })))),
-                                        definite: false,
-                                    },
-                                ],
-                                declare: false,
-                            }
-                            .into(),
-                        ),
-                        // `_key < _len`
-                        test: Some(Box::new(Expr::Bin(BinExpr {
-                            span,
-                            left: Box::new(idx_ident.clone().into()),
-                            op: op!("<"),
-                            right: Box::new(len_ident.clone().into()),
-                        }))),
-                        // _key++
-                        update: Some(Box::new(Expr::Update(UpdateExpr {
-                            span,
-                            op: op!("++"),
-                            prefix: false,
-                            arg: Box::new(idx_ident.clone().into()),
-                        }))),
-                        body: Box::new(Stmt::Block(BlockStmt {
-                            span: DUMMY_SP,
-                            stmts: vec![{
-                                let prop = Box::new(Expr::Ident(idx_ident.clone()));
-                                // a1[_key - i] = arguments[_key];
-
-                                AssignExpr {
-                                    span,
-                                    left: arg
-                                        .computed_member(make_minus_i(&idx_ident, false))
-                                        .into(),
-                                    op: op!("="),
-                                    right: Box::new(
-                                        MemberExpr {
-                                            span: DUMMY_SP,
-                                            obj: Box::new(quote_ident!(span, "arguments").into()),
-                                            prop: MemberProp::Computed(ComputedPropName {
+                                            name: arg.clone().into(),
+                                            init: Some(Box::new(Expr::New(NewExpr {
                                                 span,
-                                                expr: prop,
-                                            }),
-                                        }
-                                        .into(),
-                                    ),
+                                                callee: Box::new(
+                                                    quote_ident!(self.unresolved_ctxt, "Array")
+                                                        .into(),
+                                                ),
+                                                args: Some(vec![{
+                                                    // `len` or  `len - $i`
+                                                    make_minus_i(&len_ident, true).as_arg()
+                                                }]),
+                                                ..Default::default()
+                                            }))),
+                                            definite: false,
+                                        },
+                                        // _key = 0
+                                        VarDeclarator {
+                                            span,
+                                            name: idx_ident.clone().into(),
+                                            init: Some(Box::new(Expr::Lit(Lit::Num(Number {
+                                                span,
+                                                value: i as f64,
+                                                raw: None,
+                                            })))),
+                                            definite: false,
+                                        },
+                                    ],
+                                    declare: false,
+                                    ..Default::default()
                                 }
-                                .into_stmt()
-                            }],
-                        })),
-                    }))
+                                .into(),
+                            ),
+                            // `_key < _len`
+                            test: Some(
+                                BinExpr {
+                                    span,
+                                    left: Box::new(idx_ident.clone().into()),
+                                    op: op!("<"),
+                                    right: Box::new(len_ident.clone().into()),
+                                }
+                                .into(),
+                            ),
+                            // _key++
+                            update: Some(
+                                UpdateExpr {
+                                    span,
+                                    op: op!("++"),
+                                    prefix: false,
+                                    arg: Box::new(idx_ident.clone().into()),
+                                }
+                                .into(),
+                            ),
+                            body: Box::new(Stmt::Block(BlockStmt {
+                                span: DUMMY_SP,
+                                stmts: vec![{
+                                    let prop = Box::new(Expr::Ident(idx_ident.clone()));
+                                    // a1[_key - i] = arguments[_key];
+
+                                    AssignExpr {
+                                        span,
+                                        left: arg
+                                            .computed_member(make_minus_i(&idx_ident, false))
+                                            .into(),
+                                        op: op!("="),
+                                        right: Box::new(
+                                            MemberExpr {
+                                                span: DUMMY_SP,
+                                                obj: Box::new(
+                                                    quote_ident!(
+                                                        Default::default(),
+                                                        span,
+                                                        "arguments"
+                                                    )
+                                                    .into(),
+                                                ),
+                                                prop: MemberProp::Computed(ComputedPropName {
+                                                    span,
+                                                    expr: prop,
+                                                }),
+                                            }
+                                            .into(),
+                                        ),
+                                    }
+                                    .into_stmt()
+                                }],
+                                ..Default::default()
+                            })),
+                        }
+                        .into(),
+                    )
                 }
                 _ => unreachable!(),
             }
@@ -394,6 +435,7 @@ impl Params {
                     kind: VarDeclKind::Let,
                     decls,
                     declare: false,
+                    ..Default::default()
                 }
                 .into(),
             )
@@ -406,6 +448,7 @@ impl Params {
                     kind: VarDeclKind::Let,
                     decls: decls_after_unpack,
                     declare: false,
+                    ..Default::default()
                 }
                 .into(),
             );
@@ -423,7 +466,7 @@ impl Params {
 
 #[swc_trace]
 impl VisitMut for Params {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     // generally speaking, there won't be class field in here, but Safari 14.1
     // still has bugs in parameters
@@ -482,13 +525,17 @@ impl VisitMut for Params {
             if let BlockStmtOrExpr::Expr(v) = body {
                 let mut stmts = vec![];
                 prepend_stmt(&mut stmts, decls);
-                stmts.push(Stmt::Return(ReturnStmt {
-                    span: DUMMY_SP,
-                    arg: Some(v.take()),
-                }));
+                stmts.push(
+                    ReturnStmt {
+                        span: DUMMY_SP,
+                        arg: Some(v.take()),
+                    }
+                    .into(),
+                );
                 *body = BlockStmtOrExpr::BlockStmt(BlockStmt {
                     span: DUMMY_SP,
                     stmts,
+                    ..Default::default()
                 });
             }
         }
@@ -526,7 +573,7 @@ impl VisitMut for Params {
         trace!("visit_mut_constructor(parmas.len() = {})", f.params.len());
         f.params.visit_mut_with(self);
 
-        if let Some(BlockStmt { span: _, stmts }) = &mut f.body {
+        if let Some(BlockStmt { stmts, .. }) = &mut f.body {
             let old_rep = self.hoister.take();
 
             stmts.visit_mut_children_with(self);
@@ -596,11 +643,11 @@ impl VisitMut for Params {
                 let mut body = match *f.body.take() {
                     BlockStmtOrExpr::BlockStmt(block) => block,
                     BlockStmtOrExpr::Expr(expr) => BlockStmt {
-                        span: DUMMY_SP,
                         stmts: vec![Stmt::Return(ReturnStmt {
                             span: DUMMY_SP,
                             arg: Some(expr),
                         })],
+                        ..Default::default()
                     },
                 };
 
@@ -614,12 +661,11 @@ impl VisitMut for Params {
                         body: Some(body),
                         is_generator: f.is_generator,
                         is_async: f.is_async,
-                        type_params: Default::default(),
-                        return_type: Default::default(),
+                        ..Default::default()
                     }
                     .into();
                     *e = match (self.in_prop, local_vars) {
-                        (true, Some(var_decl)) => Expr::Arrow(ArrowExpr {
+                        (true, Some(var_decl)) => ArrowExpr {
                             span: f.span,
                             params: Vec::new(),
                             is_async: false,
@@ -633,10 +679,10 @@ impl VisitMut for Params {
                                         arg: Some(Box::new(func)),
                                     }),
                                 ],
+                                ..Default::default()
                             })),
-                            type_params: Default::default(),
-                            return_type: Default::default(),
-                        })
+                            ..Default::default()
+                        }
                         .as_iife()
                         .into(),
                         _ => func,
@@ -660,7 +706,7 @@ impl VisitMut for Params {
                     Box::new(BlockStmtOrExpr::BlockStmt(body))
                 };
 
-                *e = Expr::Arrow(ArrowExpr {
+                *e = ArrowExpr {
                     params: params.into_iter().map(|param| param.pat).collect(),
                     body,
                     span: f.span,
@@ -668,7 +714,9 @@ impl VisitMut for Params {
                     is_generator: f.is_generator,
                     type_params: f.type_params.take(),
                     return_type: f.return_type.take(),
-                });
+                    ..Default::default()
+                }
+                .into();
             }
             _ => e.visit_mut_children_with(self),
         }
@@ -750,7 +798,7 @@ impl VisitMut for Params {
         let decl = self.hoister.take().to_stmt();
 
         if let Some(stmt) = decl {
-            prepend_stmt(stmts, ModuleItem::Stmt(stmt));
+            prepend_stmt(stmts, stmt.into());
         }
     }
 
@@ -768,25 +816,27 @@ impl VisitMut for Params {
 }
 
 fn make_arg_nth(n: usize) -> MemberExpr {
-    Expr::Ident(Ident::new("arguments".into(), DUMMY_SP)).computed_member(n)
+    Ident::new_no_ctxt("arguments".into(), DUMMY_SP).computed_member(n)
 }
 
 fn check_arg_len(n: usize) -> Expr {
-    Expr::Bin(BinExpr {
-        left: Expr::Ident(Ident::new("arguments".into(), DUMMY_SP))
-            .make_member(Ident::new("length".into(), DUMMY_SP))
+    BinExpr {
+        left: Expr::Ident(Ident::new_no_ctxt("arguments".into(), DUMMY_SP))
+            .make_member(IdentName::new("length".into(), DUMMY_SP))
             .into(),
         op: op!(">"),
         right: n.into(),
         span: DUMMY_SP,
-    })
+    }
+    .into()
 }
 
 fn check_arg_len_or_undef(n: usize) -> Expr {
-    Expr::Cond(CondExpr {
+    CondExpr {
         test: Box::new(check_arg_len(n)),
         cons: make_arg_nth(n).into(),
         alt: Expr::undefined(DUMMY_SP),
         span: DUMMY_SP,
-    })
+    }
+    .into()
 }

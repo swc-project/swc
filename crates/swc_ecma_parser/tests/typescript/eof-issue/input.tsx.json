@@ -2,24 +2,22 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 30,
-    "ctxt": 0
+    "end": 30
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
         "start": 1,
-        "end": 30,
-        "ctxt": 0
+        "end": 30
       },
       "declaration": {
         "type": "VariableDeclaration",
         "span": {
           "start": 8,
-          "end": 30,
-          "ctxt": 0
+          "end": 30
         },
+        "ctxt": 0,
         "kind": "const",
         "declare": false,
         "declarations": [
@@ -27,16 +25,15 @@
             "type": "VariableDeclarator",
             "span": {
               "start": 14,
-              "end": 30,
-              "ctxt": 0
+              "end": 30
             },
             "id": {
               "type": "Identifier",
               "span": {
                 "start": 14,
-                "end": 21,
-                "ctxt": 0
+                "end": 21
               },
+              "ctxt": 0,
               "value": "Divider",
               "optional": false,
               "typeAnnotation": null
@@ -45,8 +42,7 @@
               "type": "JSXElement",
               "span": {
                 "start": 24,
-                "end": 30,
-                "ctxt": 0
+                "end": 30
               },
               "opening": {
                 "type": "JSXOpeningElement",
@@ -54,16 +50,15 @@
                   "type": "Identifier",
                   "span": {
                     "start": 25,
-                    "end": 28,
-                    "ctxt": 0
+                    "end": 28
                   },
+                  "ctxt": 0,
                   "value": "div",
                   "optional": false
                 },
                 "span": {
                   "start": 24,
-                  "end": 30,
-                  "ctxt": 0
+                  "end": 30
                 },
                 "attributes": [],
                 "selfClosing": true,

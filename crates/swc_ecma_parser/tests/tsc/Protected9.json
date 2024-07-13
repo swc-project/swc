@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 44,
-    "ctxt": 0
+    "end": 44
   },
   "body": [
     {
@@ -12,44 +11,41 @@
         "type": "Identifier",
         "span": {
           "start": 7,
-          "end": 8,
-          "ctxt": 0
+          "end": 8
         },
+        "ctxt": 0,
         "value": "C",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 1,
-        "end": 44,
-        "ctxt": 0
+        "end": 44
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "Constructor",
           "span": {
             "start": 14,
-            "end": 42,
-            "ctxt": 0
+            "end": 42
           },
+          "ctxt": 0,
           "key": {
             "type": "Identifier",
             "span": {
               "start": 14,
-              "end": 25,
-              "ctxt": 0
+              "end": 25
             },
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
               "type": "TsParameterProperty",
               "span": {
                 "start": 26,
-                "end": 37,
-                "ctxt": 0
+                "end": 37
               },
               "decorators": [],
               "accessibility": "protected",
@@ -59,9 +55,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 36,
-                  "end": 37,
-                  "ctxt": 0
+                  "end": 37
                 },
+                "ctxt": 0,
                 "value": "p",
                 "optional": false,
                 "typeAnnotation": null
@@ -72,9 +68,9 @@
             "type": "BlockStatement",
             "span": {
               "start": 39,
-              "end": 42,
-              "ctxt": 0
+              "end": 42
             },
+            "ctxt": 0,
             "stmts": []
           },
           "accessibility": null,

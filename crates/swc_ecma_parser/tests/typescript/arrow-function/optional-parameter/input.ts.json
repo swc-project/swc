@@ -2,47 +2,43 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 24,
-    "ctxt": 0
+    "end": 24
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 24,
-        "ctxt": 0
+        "end": 24
       },
       "expression": {
         "type": "ArrowFunctionExpression",
         "span": {
           "start": 1,
-          "end": 23,
-          "ctxt": 0
+          "end": 23
         },
+        "ctxt": 0,
         "params": [
           {
             "type": "Identifier",
             "span": {
               "start": 2,
-              "end": 12,
-              "ctxt": 0
+              "end": 12
             },
+            "ctxt": 0,
             "value": "x",
             "optional": true,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 4,
-                "end": 12,
-                "ctxt": 0
+                "end": 12
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 6,
-                  "end": 12,
-                  "ctxt": 0
+                  "end": 12
                 },
                 "kind": "number"
               }
@@ -53,9 +49,9 @@
           "type": "Identifier",
           "span": {
             "start": 22,
-            "end": 23,
-            "ctxt": 0
+            "end": 23
           },
+          "ctxt": 0,
           "value": "x",
           "optional": false
         },
@@ -66,15 +62,13 @@
           "type": "TsTypeAnnotation",
           "span": {
             "start": 13,
-            "end": 18,
-            "ctxt": 0
+            "end": 18
           },
           "typeAnnotation": {
             "type": "TsKeywordType",
             "span": {
               "start": 15,
-              "end": 18,
-              "ctxt": 0
+              "end": 18
             },
             "kind": "any"
           }

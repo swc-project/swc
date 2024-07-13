@@ -1,7 +1,10 @@
 ///<amd-module name='NamedModule'/>
 "use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 class Foo {
-    x: number;
+    x;
     constructor(){
         this.x = 5;
     }

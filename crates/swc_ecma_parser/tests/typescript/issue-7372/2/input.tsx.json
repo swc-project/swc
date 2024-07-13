@@ -2,24 +2,22 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 7,
-    "ctxt": 0
+    "end": 7
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 7,
-        "ctxt": 0
+        "end": 7
       },
       "expression": {
         "type": "Identifier",
         "span": {
           "start": 1,
-          "end": 7,
-          "ctxt": 0
+          "end": 7
         },
+        "ctxt": 0,
         "value": "module",
         "optional": false
       }

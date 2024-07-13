@@ -6,7 +6,7 @@ use swc_ecma_utils::{
     constructor::inject_after_super, default_constructor, is_literal, is_simple_pure_expr,
     private_ident, prop_name_to_member_prop, ExprFactory, ModuleItemLike, StmtLike,
 };
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, standard_only_visit_mut, Fold, VisitMut, VisitMutWith};
 
 /// # What does this module do?
 ///
@@ -93,7 +93,7 @@ struct ClassFieldsUseSet {
 }
 
 impl VisitMut for ClassFieldsUseSet {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         self.visit_mut_stmts_like(n);
@@ -144,6 +144,7 @@ impl ClassFieldsUseSet {
                         kind: VarDeclKind::Let,
                         declare: false,
                         decls: var_decls,
+                        ..Default::default()
                     }
                     .into(),
                 ))
@@ -163,7 +164,7 @@ struct FieldsHandler {
 }
 
 impl VisitMut for FieldsHandler {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_class(&mut self, _: &mut Class) {
         // skip inner classes
@@ -204,6 +205,7 @@ impl VisitMut for FieldsHandler {
                                 body: BlockStmt {
                                     span: DUMMY_SP,
                                     stmts: vec![init_expr.into_stmt()],
+                                    ..Default::default()
                                 },
                             }
                             .into();
@@ -266,7 +268,7 @@ struct ComputedFieldsHandler {
 }
 
 impl VisitMut for ComputedFieldsHandler {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_class_prop(&mut self, n: &mut ClassProp) {
         match &mut n.key {
@@ -274,7 +276,7 @@ impl VisitMut for ComputedFieldsHandler {
                 if !is_literal(expr) && !is_simple_pure_expr(expr, self.pure_getters) =>
             {
                 let ref_key = private_ident!("prop");
-                let mut computed_expr = Box::new(Expr::Ident(ref_key.clone()));
+                let mut computed_expr = ref_key.clone().into();
 
                 mem::swap(expr, &mut computed_expr);
 
@@ -312,6 +314,7 @@ impl VisitMut for ComputedFieldsHandler {
                     body: BlockStmt {
                         span: DUMMY_SP,
                         stmts: self.static_init_blocks.take(),
+                        ..Default::default()
                     },
                 }
                 .into(),

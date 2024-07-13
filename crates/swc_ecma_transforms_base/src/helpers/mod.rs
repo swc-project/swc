@@ -24,7 +24,10 @@ macro_rules! enable_helper {
 fn parse(code: &str) -> Vec<Stmt> {
     let cm = SourceMap::new(FilePathMapping::empty());
 
-    let fm = cm.new_source_file(FileName::Custom(stringify!($name).into()), code.into());
+    let fm = cm.new_source_file(
+        FileName::Custom(stringify!($name).into()).into(),
+        code.into(),
+    );
     swc_ecma_parser::parse_file_as_script(
         &fm,
         Default::default(),
@@ -33,9 +36,7 @@ fn parse(code: &str) -> Vec<Stmt> {
         &mut vec![],
     )
     .map(|mut script| {
-        script.body.visit_mut_with(&mut DropSpan {
-            preserve_ctxt: false,
-        });
+        script.body.visit_mut_with(&mut DropSpan);
         script.body
     })
     .map_err(|e| {
@@ -70,12 +71,10 @@ macro_rules! add_import_to {
     ($buf:expr, $name:ident, $b:expr, $mark:expr) => {{
         let enable = $b.load(Ordering::Relaxed);
         if enable {
+            let ctxt = SyntaxContext::empty().apply_mark($mark);
             let s = ImportSpecifier::Named(ImportNamedSpecifier {
                 span: DUMMY_SP,
-                local: Ident::new(
-                    concat!("_", stringify!($name)).into(),
-                    DUMMY_SP.apply_mark($mark),
-                ),
+                local: Ident::new(concat!("_", stringify!($name)).into(), DUMMY_SP, ctxt),
                 imported: Some(quote_ident!("_").into()),
                 is_type_only: false,
             });
@@ -435,10 +434,11 @@ impl InjectHelpers {
     fn build_reqire(&self, name: &str, mark: Mark) -> Stmt {
         let c = CallExpr {
             span: DUMMY_SP,
-            callee: Expr::Ident(Ident {
-                span: DUMMY_SP.apply_mark(self.global_mark),
+            callee: Expr::from(Ident {
+                span: DUMMY_SP,
+                ctxt: SyntaxContext::empty().apply_mark(self.global_mark),
                 sym: "require".into(),
-                optional: false,
+                ..Default::default()
             })
             .as_callee(),
             args: vec![Str {
@@ -447,37 +447,32 @@ impl InjectHelpers {
                 raw: None,
             }
             .as_arg()],
-            type_args: None,
+            ..Default::default()
         };
-        let decl = Decl::Var(
-            VarDecl {
+        let ctxt = SyntaxContext::empty().apply_mark(mark);
+        VarDecl {
+            kind: VarDeclKind::Var,
+            decls: vec![VarDeclarator {
                 span: DUMMY_SP,
-                kind: VarDeclKind::Var,
-                declare: false,
-                decls: vec![VarDeclarator {
-                    span: DUMMY_SP,
-                    name: Pat::Ident(
-                        Ident::new(format!("_{}", name).into(), DUMMY_SP.apply_mark(mark)).into(),
-                    ),
-                    init: Some(c.into()),
-                    definite: false,
-                }],
-            }
-            .into(),
-        );
-        Stmt::Decl(decl)
+                name: Pat::Ident(Ident::new(format!("_{}", name).into(), DUMMY_SP, ctxt).into()),
+                init: Some(c.into()),
+                definite: false,
+            }],
+            ..Default::default()
+        }
+        .into()
     }
 
     fn map_helper_ref_ident(&mut self, ref_ident: &Ident) -> Option<Expr> {
         self.helper_ctxt
-            .filter(|ctxt| ctxt == &ref_ident.span.ctxt)
+            .filter(|ctxt| ctxt == &ref_ident.ctxt)
             .map(|_| {
                 let ident = ref_ident.clone().without_loc();
 
                 MemberExpr {
                     span: ref_ident.span,
                     obj: Box::new(ident.into()),
-                    prop: quote_ident!("_").into(),
+                    prop: MemberProp::Ident("_".into()),
                 }
                 .into()
             })
@@ -554,7 +549,7 @@ impl VisitMut for Marker {
     }
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
-        i.span.ctxt = self.decls.get(&i.sym).copied().unwrap_or(self.base);
+        i.ctxt = self.decls.get(&i.sym).copied().unwrap_or(self.base);
     }
 
     fn visit_mut_member_prop(&mut self, p: &mut MemberProp) {
@@ -565,7 +560,7 @@ impl VisitMut for Marker {
 
     fn visit_mut_param(&mut self, n: &mut Param) {
         if let Pat::Ident(i) = &n.pat {
-            self.decls.insert(i.id.sym.clone(), self.decl_ctxt);
+            self.decls.insert(i.sym.clone(), self.decl_ctxt);
         }
 
         n.visit_mut_children_with(self);
@@ -585,14 +580,14 @@ impl VisitMut for Marker {
 
     fn visit_mut_var_declarator(&mut self, v: &mut VarDeclarator) {
         if let Pat::Ident(i) = &mut v.name {
-            if &*i.id.sym == "id" || &*i.id.sym == "resource" {
-                i.id.span.ctxt = self.base;
-                self.decls.insert(i.id.sym.clone(), self.base);
+            if &*i.sym == "id" || &*i.sym == "resource" {
+                i.ctxt = self.base;
+                self.decls.insert(i.sym.clone(), self.base);
                 return;
             }
 
-            if !i.id.sym.starts_with("__") {
-                self.decls.insert(i.id.sym.clone(), self.decl_ctxt);
+            if !i.sym.starts_with("__") {
+                self.decls.insert(i.sym.clone(), self.decl_ctxt);
             }
         }
 
@@ -614,9 +609,7 @@ mod tests {
         crate::tests::Tester::run(|tester| {
             HELPERS.set(&Helpers::new(true), || {
                 let expected = tester.apply_transform(
-                    as_folder(DropSpan {
-                        preserve_ctxt: false,
-                    }),
+                    as_folder(DropSpan),
                     "output.js",
                     Default::default(),
                     "import { _ as _throw } from \"@swc/helpers/_/_throw\";

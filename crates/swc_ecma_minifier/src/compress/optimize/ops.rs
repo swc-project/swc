@@ -119,10 +119,13 @@ impl Optimizer<'_> {
         let flag = n.op == op!("!=");
         let mut make_lit_bool = |value: bool| {
             self.changed = true;
-            Some(Expr::Lit(Lit::Bool(Bool {
-                span: n.span,
-                value: flag ^ value,
-            })))
+            Some(
+                Lit::Bool(Bool {
+                    span: n.span,
+                    value: flag ^ value,
+                })
+                .into(),
+            )
         };
         match (n.left.get_type().opt()?, n.right.get_type().opt()?) {
             // Abort if types differ, or one of them is unknown.
@@ -222,7 +225,7 @@ impl Optimizer<'_> {
             Expr::Bin(BinExpr {
                 left, op, right, ..
             }) => match &**right {
-                Expr::Ident(r) if lhs.sym == r.sym && lhs.span.ctxt == r.span.ctxt => {
+                Expr::Ident(r) if lhs.sym == r.sym && lhs.ctxt == r.ctxt => {
                     // We need this check because a function call like below can change value of
                     // operand.
                     //
@@ -358,32 +361,35 @@ impl Optimizer<'_> {
                             "Converting typeof of variable to literal as we know the value"
                         );
                         self.changed = true;
-                        *e = Expr::Lit(Lit::Str(Str {
+                        *e = Lit::Str(Str {
                             span: *span,
                             raw: None,
                             value,
-                        }));
+                        })
+                        .into();
                     }
                 }
 
                 Expr::Arrow(..) | Expr::Fn(..) => {
                     report_change!("Converting typeof to 'function' as we know the value");
                     self.changed = true;
-                    *e = Expr::Lit(Lit::Str(Str {
+                    *e = Lit::Str(Str {
                         span: *span,
                         raw: None,
                         value: "function".into(),
-                    }));
+                    })
+                    .into();
                 }
 
                 Expr::Array(..) | Expr::Object(..) => {
                     report_change!("Converting typeof to 'object' as we know the value");
                     self.changed = true;
-                    *e = Expr::Lit(Lit::Str(Str {
+                    *e = Lit::Str(Str {
                         span: *span,
                         raw: None,
                         value: "object".into(),
-                    }));
+                    })
+                    .into();
                 }
                 _ => {}
             }

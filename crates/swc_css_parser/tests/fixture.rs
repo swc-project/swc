@@ -94,7 +94,7 @@ fn stylesheet_test_tokens(input: PathBuf, config: ParserConfig) {
             errors.extend(lexer.take_errors());
 
             Tokens {
-                span: Span::new(fm.start_pos, fm.end_pos, Default::default()),
+                span: Span::new(fm.start_pos, fm.end_pos),
                 tokens,
             }
         };
@@ -220,7 +220,7 @@ fn stylesheet_recovery_test_tokens(input: PathBuf, config: ParserConfig) {
             lexer_errors.extend(lexer.take_errors());
 
             Tokens {
-                span: Span::new(fm.start_pos, fm.end_pos, Default::default()),
+                span: Span::new(fm.start_pos, fm.end_pos),
                 tokens,
             }
         };

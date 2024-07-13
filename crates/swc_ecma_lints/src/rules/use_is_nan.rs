@@ -93,7 +93,7 @@ impl UseIsNan {
                 obj, prop, span, ..
             }) => {
                 if let Expr::Ident(obj) = obj.as_ref() {
-                    if obj.span.ctxt != self.unresolved_ctxt {
+                    if obj.ctxt != self.unresolved_ctxt {
                         return;
                     }
 

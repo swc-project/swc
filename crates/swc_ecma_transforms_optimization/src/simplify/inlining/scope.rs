@@ -586,7 +586,7 @@ impl<'a> Scope<'a> {
 
         for (_, v) in self.bindings.iter() {
             if let Some(Expr::Ident(i)) = v.value.borrow().as_ref() {
-                if i.sym == id.0 && i.span.ctxt() == id.1 {
+                if i.sym == id.0 && i.ctxt == id.1 {
                     v.inline_prevented.set(true);
                 }
             }

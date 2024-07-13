@@ -2,7 +2,7 @@ use swc_common::{util::take::Take, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_compat_es2015::arrow;
 use swc_ecma_utils::prepend_stmt;
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, InjectVars};
+use swc_ecma_visit::{standard_only_fold, Fold, FoldWith, InjectVars};
 use swc_trace_macro::swc_trace;
 
 /// Safari 10.3 had an issue where async arrow function expressions within any
@@ -26,7 +26,7 @@ struct AsyncArrowsInClass {
 /// TODO: VisitMut
 #[swc_trace]
 impl Fold for AsyncArrowsInClass {
-    noop_fold_type!();
+    standard_only_fold!();
 
     fn fold_class_method(&mut self, n: ClassMethod) -> ClassMethod {
         self.in_class_method = true;
@@ -73,6 +73,7 @@ impl Fold for AsyncArrowsInClass {
                     kind: VarDeclKind::Var,
                     declare: false,
                     decls: self.vars.take(),
+                    ..Default::default()
                 }
                 .into(),
             );
@@ -91,6 +92,7 @@ impl Fold for AsyncArrowsInClass {
                     kind: VarDeclKind::Var,
                     declare: false,
                     decls: self.vars.take(),
+                    ..Default::default()
                 }
                 .into(),
             );

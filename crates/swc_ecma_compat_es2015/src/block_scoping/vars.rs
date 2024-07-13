@@ -6,7 +6,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{rename::remap, scope::ScopeKind};
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{standard_only_visit_mut, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 pub(super) fn block_scoped_vars() -> impl VisitMut {
@@ -236,7 +236,7 @@ impl ParentScope<'_> {
 
 #[swc_trace]
 impl VisitMut for BlockScopedVars {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
         self.with_scope(ScopeKind::Fn, |v| {

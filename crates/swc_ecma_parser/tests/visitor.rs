@@ -15,7 +15,10 @@ impl VisitAll for Issue1967 {
 #[should_panic = "intended"]
 fn issue_1967() {
     testing::run_test2(false, |cm, _handler| {
-        let fm = cm.new_source_file(FileName::Anon, "function foo(){ return 'I'; }".to_string());
+        let fm = cm.new_source_file(
+            FileName::Anon.into(),
+            "function foo(){ return 'I'; }".to_string(),
+        );
         let lexer = Lexer::new(
             Default::default(),
             EsVersion::latest(),

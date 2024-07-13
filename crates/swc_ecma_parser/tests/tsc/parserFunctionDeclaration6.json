@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 47,
-    "ctxt": 0
+    "end": 47
   },
   "body": [
     {
       "type": "BlockStatement",
       "span": {
         "start": 1,
-        "end": 47,
-        "ctxt": 0
+        "end": 47
       },
+      "ctxt": 0,
       "stmts": [
         {
           "type": "FunctionDeclaration",
@@ -20,9 +19,9 @@
             "type": "Identifier",
             "span": {
               "start": 16,
-              "end": 19,
-              "ctxt": 0
+              "end": 19
             },
+            "ctxt": 0,
             "value": "foo",
             "optional": false
           },
@@ -31,9 +30,9 @@
           "decorators": [],
           "span": {
             "start": 7,
-            "end": 22,
-            "ctxt": 0
+            "end": 22
           },
+          "ctxt": 0,
           "body": null,
           "generator": false,
           "async": false,
@@ -46,9 +45,9 @@
             "type": "Identifier",
             "span": {
               "start": 36,
-              "end": 39,
-              "ctxt": 0
+              "end": 39
             },
+            "ctxt": 0,
             "value": "bar",
             "optional": false
           },
@@ -57,16 +56,16 @@
           "decorators": [],
           "span": {
             "start": 27,
-            "end": 45,
-            "ctxt": 0
+            "end": 45
           },
+          "ctxt": 0,
           "body": {
             "type": "BlockStatement",
             "span": {
               "start": 42,
-              "end": 45,
-              "ctxt": 0
+              "end": 45
             },
+            "ctxt": 0,
             "stmts": []
           },
           "generator": false,

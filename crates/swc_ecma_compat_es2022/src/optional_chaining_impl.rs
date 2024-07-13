@@ -3,7 +3,7 @@ use std::mem;
 use swc_common::{util::take::Take, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{alias_ident_for, prepend_stmt, quote_ident, ExprFactory, StmtLike};
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{standard_only_visit_mut, VisitMut, VisitMutWith};
 
 /// Not a public API and may break any time. Don't use it directly.
 pub fn optional_chaining_impl(c: Config, unresolved_mark: Mark) -> OptionalChaining {
@@ -35,7 +35,7 @@ pub struct Config {
 }
 
 impl VisitMut for OptionalChaining {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_block_stmt_or_expr(&mut self, expr: &mut BlockStmtOrExpr) {
         if let BlockStmtOrExpr::Expr(e) = expr {
@@ -45,6 +45,7 @@ impl VisitMut for OptionalChaining {
                     span: DUMMY_SP,
                     arg: Some(e.take()),
                 })],
+                ..Default::default()
             };
             stmt.visit_mut_with(self);
 
@@ -106,34 +107,34 @@ impl VisitMut for OptionalChaining {
         if !self.vars.is_empty() {
             let stmts = vec![
                 Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                    span: DUMMY_SP,
-                    declare: false,
                     kind: VarDeclKind::Var,
                     decls: mem::take(&mut self.vars),
+                    ..Default::default()
                 }))),
                 Stmt::Return(ReturnStmt {
                     span: DUMMY_SP,
                     arg: Some(a.right.take()),
                 }),
             ];
-            a.right = Box::new(Expr::Call(CallExpr {
+            a.right = CallExpr {
                 span: DUMMY_SP,
-                callee: Expr::Arrow(ArrowExpr {
+                callee: ArrowExpr {
                     span: DUMMY_SP,
                     params: vec![],
                     body: Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
                         span: DUMMY_SP,
                         stmts,
+                        ..Default::default()
                     })),
                     is_async: false,
                     is_generator: false,
-                    type_params: Default::default(),
-                    return_type: Default::default(),
-                })
+                    ..Default::default()
+                }
                 .as_callee(),
                 args: vec![],
-                type_args: Default::default(),
-            }));
+                ..Default::default()
+            }
+            .into();
         }
 
         self.vars = uninit;
@@ -158,7 +159,7 @@ enum Memo {
 impl Memo {
     fn into_expr(self) -> Expr {
         match self {
-            Memo::Cache(i) => Expr::Ident(i),
+            Memo::Cache(i) => i.into(),
             Memo::Raw(e) => *e,
         }
     }
@@ -259,12 +260,12 @@ impl OptionalChaining {
                 Gathering::Call(mut c) => {
                     c.callee = current.as_callee();
                     ctx = None;
-                    Expr::Call(c)
+                    c.into()
                 }
                 Gathering::Member(mut m) => {
                     m.obj = Box::new(current);
                     ctx = None;
-                    Expr::Member(m)
+                    m.into()
                 }
                 Gathering::OptCall(mut c, memo) => {
                     let mut call = false;
@@ -278,12 +279,13 @@ impl OptionalChaining {
 
                                 match &this {
                                     Memo::Cache(i) => {
-                                        m.obj = Box::new(Expr::Assign(AssignExpr {
+                                        m.obj = AssignExpr {
                                             span: DUMMY_SP,
                                             op: op!("="),
                                             left: i.clone().into(),
                                             right: m.obj.take(),
-                                        }));
+                                        }
+                                        .into();
                                         this
                                     }
                                     Memo::Raw(_) => this,
@@ -316,7 +318,7 @@ impl OptionalChaining {
                         memo.into_expr().as_callee()
                     };
                     ctx = None;
-                    Expr::Call(c)
+                    c.into()
                 }
                 Gathering::OptMember(mut m, memo) => {
                     committed_cond.push(CondExpr {
@@ -331,24 +333,25 @@ impl OptionalChaining {
                     });
                     ctx = Some(memo.clone());
                     m.obj = memo.into_expr().into();
-                    Expr::Member(m)
+                    m.into()
                 }
             };
         }
 
         // At this point, `current` is the right-most expression `_a_b.c` in `a?.b?.c`
         if is_delete {
-            current = Expr::Unary(UnaryExpr {
+            current = UnaryExpr {
                 span: DUMMY_SP,
                 op: op!("delete"),
                 arg: Box::new(current),
-            });
+            }
+            .into();
         }
 
         // We now need to reverse iterate the conditionals to construct out tree.
         for mut cond in committed_cond.into_iter().rev() {
             cond.alt = Box::new(current);
-            current = Expr::Cond(cond)
+            current = cond.into()
         }
         current
     }
@@ -365,7 +368,7 @@ impl OptionalChaining {
         }
 
         match expr {
-            Expr::Ident(i) if i.span.ctxt != self.unresolved_ctxt => false,
+            Expr::Ident(i) if i.ctxt != self.unresolved_ctxt => false,
             _ => {
                 if is_call && self.c.pure_getter {
                     !is_simple_member(expr)
@@ -404,12 +407,13 @@ impl OptionalChaining {
         if !self.vars.is_empty() {
             prepend_stmt(
                 stmts,
-                T::from_stmt(
+                T::from(
                     VarDecl {
                         span: DUMMY_SP,
                         declare: false,
                         kind: VarDeclKind::Var,
                         decls: mem::take(&mut self.vars),
+                        ..Default::default()
                     }
                     .into(),
                 ),
@@ -422,47 +426,52 @@ impl OptionalChaining {
 
 fn init_and_eq_null_or_undefined(i: &Memo, init: Expr, no_document_all: bool) -> Box<Expr> {
     let lhs = match i {
-        Memo::Cache(i) => Box::new(Expr::Assign(AssignExpr {
+        Memo::Cache(i) => AssignExpr {
             span: DUMMY_SP,
             op: op!("="),
             left: i.clone().into(),
             right: Box::new(init),
-        })),
+        }
+        .into(),
         Memo::Raw(e) => e.to_owned(),
     };
 
     if no_document_all {
-        return Box::new(Expr::Bin(BinExpr {
+        return BinExpr {
             span: DUMMY_SP,
             left: lhs,
             op: op!("=="),
-            right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
-        }));
+            right: Box::new(Lit::Null(Null { span: DUMMY_SP }).into()),
+        }
+        .into();
     }
 
-    let null_cmp = Box::new(Expr::Bin(BinExpr {
+    let null_cmp = BinExpr {
         span: DUMMY_SP,
         left: lhs,
         op: op!("==="),
-        right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
-    }));
+        right: Box::new(Lit::Null(Null { span: DUMMY_SP }).into()),
+    }
+    .into();
 
     let left_expr = match i {
         Memo::Cache(i) => Box::new(i.clone().into()),
         Memo::Raw(e) => e.to_owned(),
     };
 
-    let void_cmp = Box::new(Expr::Bin(BinExpr {
+    let void_cmp = BinExpr {
         span: DUMMY_SP,
         left: left_expr,
         op: op!("==="),
         right: Expr::undefined(DUMMY_SP),
-    }));
+    }
+    .into();
 
-    Box::new(Expr::Bin(BinExpr {
+    BinExpr {
         span: DUMMY_SP,
         left: null_cmp,
         op: op!("||"),
         right: void_cmp,
-    }))
+    }
+    .into()
 }

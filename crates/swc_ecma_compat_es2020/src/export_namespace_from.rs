@@ -1,7 +1,7 @@
 use swc_atoms::JsWord;
 use swc_ecma_ast::*;
 use swc_ecma_utils::private_ident;
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut};
+use swc_ecma_visit::{as_folder, standard_only_visit_mut, Fold, VisitMut};
 use swc_trace_macro::swc_trace;
 
 pub fn export_namespace_from() -> impl Fold + VisitMut {
@@ -12,7 +12,7 @@ struct ExportNamespaceFrom;
 
 #[swc_trace]
 impl VisitMut for ExportNamespaceFrom {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
         let count = items
@@ -74,35 +74,40 @@ impl VisitMut for ExportNamespaceFrom {
                         }
                     }
 
-                    stmts.push(ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
-                        span,
-                        specifiers: import_specifiers,
-                        src: src.clone(),
-                        type_only: false,
-                        with: with.clone(),
-                        phase: Default::default(),
-                    })));
+                    stmts.push(
+                        ImportDecl {
+                            span,
+                            specifiers: import_specifiers,
+                            src: src.clone(),
+                            type_only: false,
+                            with: with.clone(),
+                            phase: Default::default(),
+                        }
+                        .into(),
+                    );
 
-                    stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                    stmts.push(
                         NamedExport {
                             span,
                             specifiers: export_specifiers,
                             src: None,
                             type_only: false,
                             with: None,
-                        },
-                    )));
+                        }
+                        .into(),
+                    );
 
                     if !origin_specifiers.is_empty() {
-                        stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                        stmts.push(
                             NamedExport {
                                 span,
                                 specifiers: origin_specifiers,
                                 src: Some(src),
                                 type_only: false,
                                 with,
-                            },
-                        )));
+                            }
+                            .into(),
+                        );
                     }
                 }
                 _ => {

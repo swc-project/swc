@@ -2,25 +2,23 @@
   "type": "Script",
   "span": {
     "start": 20,
-    "end": 74,
-    "ctxt": 0
+    "end": 74
   },
   "body": [
     {
       "type": "ForOfStatement",
       "span": {
         "start": 20,
-        "end": 74,
-        "ctxt": 0
+        "end": 74
       },
       "await": false,
       "left": {
         "type": "VariableDeclaration",
         "span": {
           "start": 25,
-          "end": 30,
-          "ctxt": 0
+          "end": 30
         },
+        "ctxt": 0,
         "kind": "var",
         "declare": false,
         "declarations": [
@@ -28,16 +26,15 @@
             "type": "VariableDeclarator",
             "span": {
               "start": 29,
-              "end": 30,
-              "ctxt": 0
+              "end": 30
             },
             "id": {
               "type": "Identifier",
               "span": {
                 "start": 29,
-                "end": 30,
-                "ctxt": 0
+                "end": 30
               },
+              "ctxt": 0,
               "value": "v",
               "optional": false,
               "typeAnnotation": null
@@ -51,8 +48,7 @@
         "type": "ArrayExpression",
         "span": {
           "start": 34,
-          "end": 49,
-          "ctxt": 0
+          "end": 49
         },
         "elements": [
           {
@@ -61,8 +57,7 @@
               "type": "StringLiteral",
               "span": {
                 "start": 35,
-                "end": 38,
-                "ctxt": 0
+                "end": 38
               },
               "value": "a",
               "raw": "'a'"
@@ -74,8 +69,7 @@
               "type": "StringLiteral",
               "span": {
                 "start": 40,
-                "end": 43,
-                "ctxt": 0
+                "end": 43
               },
               "value": "b",
               "raw": "'b'"
@@ -87,8 +81,7 @@
               "type": "StringLiteral",
               "span": {
                 "start": 45,
-                "end": 48,
-                "ctxt": 0
+                "end": 48
               },
               "value": "c",
               "raw": "'c'"
@@ -100,38 +93,36 @@
         "type": "BlockStatement",
         "span": {
           "start": 51,
-          "end": 74,
-          "ctxt": 0
+          "end": 74
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 57,
-              "end": 72,
-              "ctxt": 0
+              "end": 72
             },
             "expression": {
               "type": "CallExpression",
               "span": {
                 "start": 57,
-                "end": 71,
-                "ctxt": 0
+                "end": 71
               },
+              "ctxt": 0,
               "callee": {
                 "type": "MemberExpression",
                 "span": {
                   "start": 57,
-                  "end": 68,
-                  "ctxt": 0
+                  "end": 68
                 },
                 "object": {
                   "type": "Identifier",
                   "span": {
                     "start": 57,
-                    "end": 64,
-                    "ctxt": 0
+                    "end": 64
                   },
+                  "ctxt": 0,
                   "value": "console",
                   "optional": false
                 },
@@ -139,11 +130,9 @@
                   "type": "Identifier",
                   "span": {
                     "start": 65,
-                    "end": 68,
-                    "ctxt": 0
+                    "end": 68
                   },
-                  "value": "log",
-                  "optional": false
+                  "value": "log"
                 }
               },
               "arguments": [
@@ -153,9 +142,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 69,
-                      "end": 70,
-                      "ctxt": 0
+                      "end": 70
                     },
+                    "ctxt": 0,
                     "value": "v",
                     "optional": false
                   }

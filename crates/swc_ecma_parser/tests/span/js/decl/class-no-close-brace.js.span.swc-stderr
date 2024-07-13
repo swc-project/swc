@@ -57,12 +57,6 @@
  3 |   method() {}
    :   ^^^^^^
    `----
-  x Ident
-   ,-[$DIR/tests/span/js/decl/class-no-close-brace.js:3:1]
- 2 | 
- 3 |   method() {}
-   :   ^^^^^^
-   `----
   x Function
    ,-[$DIR/tests/span/js/decl/class-no-close-brace.js:3:1]
  2 | 

@@ -2,32 +2,29 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 87,
-    "ctxt": 0
+    "end": 87
   },
   "body": [
     {
       "type": "ImportDeclaration",
       "span": {
         "start": 1,
-        "end": 27,
-        "ctxt": 0
+        "end": 27
       },
       "specifiers": [
         {
           "type": "ImportDefaultSpecifier",
           "span": {
             "start": 8,
-            "end": 13,
-            "ctxt": 0
+            "end": 13
           },
           "local": {
             "type": "Identifier",
             "span": {
               "start": 8,
-              "end": 13,
-              "ctxt": 0
+              "end": 13
             },
+            "ctxt": 0,
             "value": "React",
             "optional": false
           }
@@ -37,8 +34,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 19,
-          "end": 26,
-          "ctxt": 0
+          "end": 26
         },
         "value": "react",
         "raw": "\"react\""
@@ -51,9 +47,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 28,
-        "end": 87,
-        "ctxt": 0
+        "end": 87
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -61,16 +57,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 34,
-            "end": 86,
-            "ctxt": 0
+            "end": 86
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 34,
-              "end": 38,
-              "ctxt": 0
+              "end": 38
             },
+            "ctxt": 0,
             "value": "comp",
             "optional": false,
             "typeAnnotation": null
@@ -79,16 +74,15 @@
             "type": "ArrowFunctionExpression",
             "span": {
               "start": 41,
-              "end": 86,
-              "ctxt": 0
+              "end": 86
             },
+            "ctxt": 0,
             "params": [],
             "body": {
               "type": "JSXElement",
               "span": {
                 "start": 47,
-                "end": 86,
-                "ctxt": 0
+                "end": 86
               },
               "opening": {
                 "type": "JSXOpeningElement",
@@ -96,41 +90,36 @@
                   "type": "Identifier",
                   "span": {
                     "start": 48,
-                    "end": 61,
-                    "ctxt": 0
+                    "end": 61
                   },
+                  "ctxt": 0,
                   "value": "amp-something",
                   "optional": false
                 },
                 "span": {
                   "start": 47,
-                  "end": 86,
-                  "ctxt": 0
+                  "end": 86
                 },
                 "attributes": [
                   {
                     "type": "JSXAttribute",
                     "span": {
                       "start": 62,
-                      "end": 83,
-                      "ctxt": 0
+                      "end": 83
                     },
                     "name": {
                       "type": "Identifier",
                       "span": {
                         "start": 62,
-                        "end": 71,
-                        "ctxt": 0
+                        "end": 71
                       },
-                      "value": "className",
-                      "optional": false
+                      "value": "className"
                     },
                     "value": {
                       "type": "StringLiteral",
                       "span": {
                         "start": 72,
-                        "end": 83,
-                        "ctxt": 0
+                        "end": 83
                       },
                       "value": "something",
                       "raw": "\"something\""

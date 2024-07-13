@@ -2,62 +2,54 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 41,
-    "ctxt": 0
+    "end": 41
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
         "start": 1,
-        "end": 40,
-        "ctxt": 0
+        "end": 40
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 1,
-          "end": 10,
-          "ctxt": 0
+          "end": 10
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
               "start": 1,
-              "end": 10,
-              "ctxt": 0
+              "end": 10
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
                   "start": 1,
-                  "end": 10,
-                  "ctxt": 0
+                  "end": 10
                 },
                 "nestingSelector": null,
                 "typeSelector": {
                   "type": "TagNameSelector",
                   "span": {
                     "start": 1,
-                    "end": 2,
-                    "ctxt": 0
+                    "end": 2
                   },
                   "name": {
                     "type": "WqName",
                     "span": {
                       "start": 1,
-                      "end": 2,
-                      "ctxt": 0
+                      "end": 2
                     },
                     "prefix": null,
                     "value": {
                       "type": "Ident",
                       "span": {
                         "start": 1,
-                        "end": 2,
-                        "ctxt": 0
+                        "end": 2
                       },
                       "value": "p",
                       "raw": "p"
@@ -69,15 +61,13 @@
                     "type": "PseudoElementSelector",
                     "span": {
                       "start": 2,
-                      "end": 10,
-                      "ctxt": 0
+                      "end": 10
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
                         "start": 4,
-                        "end": 10,
-                        "ctxt": 0
+                        "end": 10
                       },
                       "value": "before",
                       "raw": "before"
@@ -94,15 +84,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 11,
-          "end": 40,
-          "ctxt": 0
+          "end": 40
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 11,
-            "end": 12,
-            "ctxt": 0
+            "end": 12
           },
           "token": "LBrace"
         },
@@ -111,15 +99,13 @@
             "type": "Declaration",
             "span": {
               "start": 17,
-              "end": 39,
-              "ctxt": 0
+              "end": 39
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 17,
-                "end": 24,
-                "ctxt": 0
+                "end": 24
               },
               "value": "content",
               "raw": "content"
@@ -129,8 +115,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 26,
-                  "end": 30,
-                  "ctxt": 0
+                  "end": 30
                 },
                 "token": {
                   "BadString": {
@@ -142,8 +127,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 30,
-                  "end": 35,
-                  "ctxt": 0
+                  "end": 35
                 },
                 "token": {
                   "WhiteSpace": {
@@ -155,8 +139,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 35,
-                  "end": 36,
-                  "ctxt": 0
+                  "end": 36
                 },
                 "token": {
                   "Ident": {
@@ -169,8 +152,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 36,
-                  "end": 38,
-                  "ctxt": 0
+                  "end": 38
                 },
                 "token": {
                   "BadString": {

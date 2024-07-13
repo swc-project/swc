@@ -67,13 +67,6 @@
    :     ^^^^
  3 |     static #bar = 2;
    `----
-  x Ident
-   ,-[$DIR/tests/span/js/decl/private-prop.js:2:1]
- 1 | class Foo {
- 2 |     #foo = 1;
-   :      ^^^
- 3 |     static #bar = 2;
-   `----
   x Expr
    ,-[$DIR/tests/span/js/decl/private-prop.js:2:1]
  1 | class Foo {
@@ -114,13 +107,6 @@
  2 |     #foo = 1;
  3 |     static #bar = 2;
    :            ^^^^
- 4 | }
-   `----
-  x Ident
-   ,-[$DIR/tests/span/js/decl/private-prop.js:3:1]
- 2 |     #foo = 1;
- 3 |     static #bar = 2;
-   :             ^^^
  4 | }
    `----
   x Expr

@@ -2,16 +2,14 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 40,
-    "ctxt": 0
+    "end": 40
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
         "start": 1,
-        "end": 40,
-        "ctxt": 0
+        "end": 40
       },
       "declaration": {
         "type": "FunctionDeclaration",
@@ -19,9 +17,9 @@
           "type": "Identifier",
           "span": {
             "start": 25,
-            "end": 29,
-            "ctxt": 0
+            "end": 29
           },
+          "ctxt": 0,
           "value": "test",
           "optional": false
         },
@@ -30,9 +28,9 @@
         "decorators": [],
         "span": {
           "start": 8,
-          "end": 40,
-          "ctxt": 0
+          "end": 40
         },
+        "ctxt": 0,
         "body": null,
         "generator": false,
         "async": false,
@@ -41,15 +39,13 @@
           "type": "TsTypeAnnotation",
           "span": {
             "start": 31,
-            "end": 39,
-            "ctxt": 0
+            "end": 39
           },
           "typeAnnotation": {
             "type": "TsKeywordType",
             "span": {
               "start": 33,
-              "end": 39,
-              "ctxt": 0
+              "end": 39
             },
             "kind": "string"
           }

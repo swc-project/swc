@@ -73,7 +73,7 @@ pub fn extract_arg_val(unresolved_ctxt: SyntaxContext, expr: &Expr) -> ArgValue 
                             return ArgValue::Other;
                         }
 
-                        if obj.span.ctxt != unresolved_ctxt {
+                        if obj.ctxt != unresolved_ctxt {
                             return ArgValue::Other;
                         }
 

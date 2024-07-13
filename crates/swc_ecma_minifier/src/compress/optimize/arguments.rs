@@ -3,7 +3,7 @@ use std::iter::repeat_with;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, is_valid_prop_ident, private_ident};
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{standard_only_visit_mut, VisitMut, VisitMutWith};
 
 use super::Optimizer;
 use crate::compress::optimize::is_left_access_to_arguments;
@@ -31,10 +31,9 @@ impl Optimizer<'_> {
 
                         self.changed = true;
                         report_change!("arguments: Optimizing computed access to arguments");
-                        *prop = MemberProp::Ident(Ident {
+                        *prop = MemberProp::Ident(IdentName {
                             span: s.span,
                             sym: s.take().value,
-                            optional: false,
                         })
                     }
                 }
@@ -53,10 +52,9 @@ impl Optimizer<'_> {
 
                         self.changed = true;
                         report_change!("arguments: Optimizing computed access to arguments");
-                        *prop = SuperProp::Ident(Ident {
+                        *prop = SuperProp::Ident(IdentName {
                             span: s.span,
                             sym: s.take().value,
-                            optional: false,
                         })
                     }
                 }
@@ -137,7 +135,7 @@ impl ArgReplacer<'_> {
                 let p = Param {
                     span: DUMMY_SP,
                     decorators: Default::default(),
-                    pat: Pat::Ident(private_ident!(format!("argument_{}", start)).into()),
+                    pat: private_ident!(format!("argument_{}", start)).into(),
                 };
                 start += 1;
                 p
@@ -148,7 +146,7 @@ impl ArgReplacer<'_> {
 }
 
 impl VisitMut for ArgReplacer<'_> {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     /// Noop.
     fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}
@@ -193,7 +191,7 @@ impl VisitMut for ArgReplacer<'_> {
                                         "arguments: Replacing access to arguments to normal \
                                          reference"
                                     );
-                                    *n = Expr::Ident(i.id.clone());
+                                    *n = i.id.clone().into();
                                 }
                             }
                         }
@@ -215,7 +213,7 @@ impl VisitMut for ArgReplacer<'_> {
                                          reference"
                                     );
                                     self.changed = true;
-                                    *n = Expr::Ident(i.id.clone());
+                                    *n = i.id.clone().into();
                                 }
                             }
                         }

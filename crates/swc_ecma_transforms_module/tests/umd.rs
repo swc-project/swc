@@ -5,6 +5,7 @@ use swc_ecma_parser::{Syntax, TsSyntax};
 use swc_ecma_transforms_base::{feature::FeatureFlag, resolver};
 use swc_ecma_transforms_module::umd::{umd, Config};
 use swc_ecma_transforms_testing::{test_fixture, Tester};
+use swc_ecma_transforms_typescript::typescript;
 use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
@@ -23,6 +24,7 @@ fn tr(tester: &mut Tester<'_>, config: Config, typescript: bool) -> impl Fold {
 
     chain!(
         resolver(unresolved_mark, top_level_mark, typescript),
+        typescript::typescript(Default::default(), unresolved_mark, top_level_mark),
         umd(
             tester.cm.clone(),
             unresolved_mark,

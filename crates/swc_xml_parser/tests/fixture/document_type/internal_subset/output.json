@@ -2,16 +2,14 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 473,
-    "ctxt": 0
+    "end": 473
   },
   "children": [
     {
       "type": "ProcessingInstruction",
       "span": {
         "start": 1,
-        "end": 56,
-        "ctxt": 0
+        "end": 56
       },
       "target": "xml",
       "data": "version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\""
@@ -20,8 +18,7 @@
       "type": "DocumentType",
       "span": {
         "start": 57,
-        "end": 312,
-        "ctxt": 0
+        "end": 312
       },
       "name": "people_list",
       "publicId": null,
@@ -32,8 +29,7 @@
       "type": "Element",
       "span": {
         "start": 313,
-        "end": 473,
-        "ctxt": 0
+        "end": 473
       },
       "tagName": "people_list",
       "attributes": [],
@@ -42,8 +38,7 @@
           "type": "Text",
           "span": {
             "start": 326,
-            "end": 331,
-            "ctxt": 0
+            "end": 331
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -52,8 +47,7 @@
           "type": "Element",
           "span": {
             "start": 331,
-            "end": 458,
-            "ctxt": 0
+            "end": 458
           },
           "tagName": "person",
           "attributes": [],
@@ -62,8 +56,7 @@
               "type": "Text",
               "span": {
                 "start": 339,
-                "end": 348,
-                "ctxt": 0
+                "end": 348
               },
               "data": "\n        ",
               "raw": "\n        "
@@ -72,8 +65,7 @@
               "type": "Element",
               "span": {
                 "start": 348,
-                "end": 372,
-                "ctxt": 0
+                "end": 372
               },
               "tagName": "name",
               "attributes": [],
@@ -82,8 +74,7 @@
                   "type": "Text",
                   "span": {
                     "start": 354,
-                    "end": 365,
-                    "ctxt": 0
+                    "end": 365
                   },
                   "data": "Fred Bloggs",
                   "raw": "Fred Bloggs"
@@ -94,8 +85,7 @@
               "type": "Text",
               "span": {
                 "start": 372,
-                "end": 381,
-                "ctxt": 0
+                "end": 381
               },
               "data": "\n        ",
               "raw": "\n        "
@@ -104,8 +94,7 @@
               "type": "Element",
               "span": {
                 "start": 381,
-                "end": 414,
-                "ctxt": 0
+                "end": 414
               },
               "tagName": "birthdate",
               "attributes": [],
@@ -114,8 +103,7 @@
                   "type": "Text",
                   "span": {
                     "start": 392,
-                    "end": 402,
-                    "ctxt": 0
+                    "end": 402
                   },
                   "data": "2008-11-27",
                   "raw": "2008-11-27"
@@ -126,8 +114,7 @@
               "type": "Text",
               "span": {
                 "start": 414,
-                "end": 423,
-                "ctxt": 0
+                "end": 423
               },
               "data": "\n        ",
               "raw": "\n        "
@@ -136,8 +123,7 @@
               "type": "Element",
               "span": {
                 "start": 423,
-                "end": 444,
-                "ctxt": 0
+                "end": 444
               },
               "tagName": "gender",
               "attributes": [],
@@ -146,8 +132,7 @@
                   "type": "Text",
                   "span": {
                     "start": 431,
-                    "end": 435,
-                    "ctxt": 0
+                    "end": 435
                   },
                   "data": "Male",
                   "raw": "Male"
@@ -158,8 +143,7 @@
               "type": "Text",
               "span": {
                 "start": 444,
-                "end": 449,
-                "ctxt": 0
+                "end": 449
               },
               "data": "\n    ",
               "raw": "\n    "
@@ -170,8 +154,7 @@
           "type": "Text",
           "span": {
             "start": 458,
-            "end": 459,
-            "ctxt": 0
+            "end": 459
           },
           "data": "\n",
           "raw": "\n"

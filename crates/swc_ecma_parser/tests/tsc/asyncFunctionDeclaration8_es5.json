@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 69,
-    "end": 93,
-    "ctxt": 0
+    "end": 93
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 69,
-        "end": 93,
-        "ctxt": 0
+        "end": 93
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 73,
-            "end": 93,
-            "ctxt": 0
+            "end": 93
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 73,
-              "end": 74,
-              "ctxt": 0
+              "end": 74
             },
+            "ctxt": 0,
             "value": "v",
             "optional": false,
             "typeAnnotation": null
@@ -38,8 +36,7 @@
             "type": "ObjectExpression",
             "span": {
               "start": 77,
-              "end": 93,
-              "ctxt": 0
+              "end": 93
             },
             "properties": [
               {
@@ -48,16 +45,15 @@
                   "type": "Computed",
                   "span": {
                     "start": 79,
-                    "end": 86,
-                    "ctxt": 0
+                    "end": 86
                   },
                   "expression": {
                     "type": "Identifier",
                     "span": {
                       "start": 80,
-                      "end": 85,
-                      "ctxt": 0
+                      "end": 85
                     },
+                    "ctxt": 0,
                     "value": "await",
                     "optional": false
                   }
@@ -66,9 +62,9 @@
                   "type": "Identifier",
                   "span": {
                     "start": 88,
-                    "end": 91,
-                    "ctxt": 0
+                    "end": 91
                   },
+                  "ctxt": 0,
                   "value": "foo",
                   "optional": false
                 }

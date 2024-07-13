@@ -45,10 +45,11 @@ pub trait ExprFactory: Into<Box<Expr>> {
     /// Creates an expression statement with `self`.
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn into_stmt(self) -> Stmt {
-        Stmt::Expr(ExprStmt {
+        ExprStmt {
             span: DUMMY_SP,
             expr: self.into(),
-        })
+        }
+        .into()
     }
 
     /// Creates a statement whcih return `self`.
@@ -70,8 +71,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
         CallExpr {
             span: DUMMY_SP,
             callee: self.as_callee(),
-            args: Default::default(),
-            type_args: Default::default(),
+            ..Default::default()
         }
     }
 
@@ -80,13 +80,9 @@ pub trait ExprFactory: Into<Box<Expr>> {
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn into_lazy_arrow(self, params: Vec<Pat>) -> ArrowExpr {
         ArrowExpr {
-            span: DUMMY_SP,
             params,
             body: Box::new(BlockStmtOrExpr::Expr(self.into())),
-            is_async: false,
-            is_generator: false,
-            type_params: None,
-            return_type: None,
+            ..Default::default()
         }
     }
 
@@ -101,11 +97,9 @@ pub trait ExprFactory: Into<Box<Expr>> {
             body: Some(BlockStmt {
                 span: DUMMY_SP,
                 stmts: vec![self.into_return_stmt().into()],
+                ..Default::default()
             }),
-            is_generator: false,
-            is_async: false,
-            type_params: None,
-            return_type: None,
+            ..Default::default()
         }
     }
 
@@ -132,10 +126,9 @@ pub trait ExprFactory: Into<Box<Expr>> {
         };
 
         VarDecl {
-            span: DUMMY_SP,
             kind,
-            declare: false,
             decls: vec![var_declarator],
+            ..Default::default()
         }
     }
 
@@ -145,42 +138,46 @@ pub trait ExprFactory: Into<Box<Expr>> {
             span,
             callee: self.into(),
             args,
-            type_args: None,
+            ..Default::default()
         }
     }
 
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn apply(self, span: Span, this: Box<Expr>, args: Vec<ExprOrSpread>) -> Expr {
-        let apply = self.make_member(Ident::new("apply".into(), span));
+        let apply = self.make_member(IdentName::new("apply".into(), span));
 
-        Expr::Call(CallExpr {
+        CallExpr {
             span,
             callee: apply.as_callee(),
             args: iter::once(this.as_arg()).chain(args).collect(),
-            type_args: None,
-        })
+
+            ..Default::default()
+        }
+        .into()
     }
 
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn call_fn(self, span: Span, args: Vec<ExprOrSpread>) -> Expr {
-        Expr::Call(CallExpr {
+        CallExpr {
             span,
             args,
             callee: self
-                .make_member(Ident::new("call".into(), span))
+                .make_member(IdentName::new("call".into(), span))
                 .as_callee(),
-            type_args: None,
-        })
+            ..Default::default()
+        }
+        .into()
     }
 
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn as_call(self, span: Span, args: Vec<ExprOrSpread>) -> Expr {
-        Expr::Call(CallExpr {
+        CallExpr {
             span,
             args,
             callee: self.as_callee(),
-            type_args: None,
-        })
+            ..Default::default()
+        }
+        .into()
     }
 
     #[cfg_attr(not(debug_assertions), inline(always))]
@@ -217,7 +214,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
     fn wrap_with_paren(self) -> Expr {
         let expr = self.into();
         let span = expr.span();
-        Expr::Paren(ParenExpr { expr, span })
+        ParenExpr { expr, span }.into()
     }
 
     /// Creates a binary expr `$self === `
@@ -237,12 +234,13 @@ pub trait ExprFactory: Into<Box<Expr>> {
     {
         let right = Box::new(right.into());
 
-        Expr::Bin(BinExpr {
+        BinExpr {
             span: DUMMY_SP,
             left: self.into(),
             op,
             right,
-        })
+        }
+        .into()
     }
 
     /// Creates a assign expr `$lhs $op $self`
@@ -250,23 +248,21 @@ pub trait ExprFactory: Into<Box<Expr>> {
     fn make_assign_to(self, op: AssignOp, left: AssignTarget) -> Expr {
         let right = self.into();
 
-        Expr::Assign(AssignExpr {
+        AssignExpr {
             span: DUMMY_SP,
             left,
             op,
             right,
-        })
+        }
+        .into()
     }
 
     #[cfg_attr(not(debug_assertions), inline(always))]
-    fn make_member<T>(self, prop: T) -> MemberExpr
-    where
-        T: Into<Ident>,
-    {
+    fn make_member(self, prop: IdentName) -> MemberExpr {
         MemberExpr {
             obj: self.into(),
             span: DUMMY_SP,
-            prop: MemberProp::Ident(prop.into()),
+            prop: MemberProp::Ident(prop),
         }
     }
 

@@ -1,7 +1,7 @@
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::IdentUsageFinder;
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, standard_only_visit_mut, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 pub fn block_scoped_functions() -> impl Fold + VisitMut {
@@ -13,7 +13,7 @@ struct BlockScopedFns;
 
 #[swc_trace]
 impl VisitMut for BlockScopedFns {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_function(&mut self, n: &mut Function) {
         let Some(body) = &mut n.body else { return };
@@ -40,7 +40,7 @@ impl VisitMut for BlockScopedFns {
 
             if let Stmt::Decl(Decl::Fn(decl)) = stmt {
                 if IdentUsageFinder::find(&decl.ident.to_id(), &decl.function) {
-                    extra_stmts.push(Stmt::Decl(Decl::Fn(decl)));
+                    extra_stmts.push(decl.into());
                     continue;
                 }
                 stmts.push(
@@ -56,7 +56,7 @@ impl VisitMut for BlockScopedFns {
                             }))),
                             definite: false,
                         }],
-                        declare: false,
+                        ..Default::default()
                     }
                     .into(),
                 )

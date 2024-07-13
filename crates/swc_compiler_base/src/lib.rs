@@ -20,7 +20,7 @@ use swc_common::{
 };
 use swc_config::config_types::BoolOr;
 pub use swc_config::IsModule;
-use swc_ecma_ast::{EsVersion, Ident, Program};
+use swc_ecma_ast::{EsVersion, Ident, IdentName, Program};
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter, Node};
 use swc_ecma_minifier::js::JsMinifyCommentOption;
 use swc_ecma_parser::{parse_file_as_module, parse_file_as_program, parse_file_as_script, Syntax};
@@ -407,6 +407,10 @@ impl Visit for IdentCollector {
     noop_visit_type!();
 
     fn visit_ident(&mut self, ident: &Ident) {
+        self.names.insert(ident.span.lo, ident.sym.clone());
+    }
+
+    fn visit_ident_name(&mut self, ident: &IdentName) {
         self.names.insert(ident.span.lo, ident.sym.clone());
     }
 }

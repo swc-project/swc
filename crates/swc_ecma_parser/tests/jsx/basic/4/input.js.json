@@ -2,23 +2,20 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 41,
-    "ctxt": 0
+    "end": 41
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 41,
-        "ctxt": 0
+        "end": 41
       },
       "expression": {
         "type": "JSXElement",
         "span": {
           "start": 1,
-          "end": 41,
-          "ctxt": 0
+          "end": 41
         },
         "opening": {
           "type": "JSXOpeningElement",
@@ -26,48 +23,42 @@
             "type": "Identifier",
             "span": {
               "start": 2,
-              "end": 3,
-              "ctxt": 0
+              "end": 3
             },
+            "ctxt": 0,
             "value": "a",
             "optional": false
           },
           "span": {
             "start": 1,
-            "end": 41,
-            "ctxt": 0
+            "end": 41
           },
           "attributes": [
             {
               "type": "JSXAttribute",
               "span": {
                 "start": 4,
-                "end": 11,
-                "ctxt": 0
+                "end": 11
               },
               "name": {
                 "type": "Identifier",
                 "span": {
                   "start": 4,
-                  "end": 5,
-                  "ctxt": 0
+                  "end": 5
                 },
-                "value": "b",
-                "optional": false
+                "value": "b"
               },
               "value": {
                 "type": "JSXExpressionContainer",
                 "span": {
                   "start": 6,
-                  "end": 11,
-                  "ctxt": 0
+                  "end": 11
                 },
                 "expression": {
                   "type": "StringLiteral",
                   "span": {
                     "start": 7,
-                    "end": 10,
-                    "ctxt": 0
+                    "end": 10
                   },
                   "value": " ",
                   "raw": "\" \""
@@ -78,25 +69,21 @@
               "type": "JSXAttribute",
               "span": {
                 "start": 12,
-                "end": 17,
-                "ctxt": 0
+                "end": 17
               },
               "name": {
                 "type": "Identifier",
                 "span": {
                   "start": 12,
-                  "end": 13,
-                  "ctxt": 0
+                  "end": 13
                 },
-                "value": "c",
-                "optional": false
+                "value": "c"
               },
               "value": {
                 "type": "StringLiteral",
                 "span": {
                   "start": 14,
-                  "end": 17,
-                  "ctxt": 0
+                  "end": 17
                 },
                 "value": " ",
                 "raw": "\" \""
@@ -106,25 +93,21 @@
               "type": "JSXAttribute",
               "span": {
                 "start": 18,
-                "end": 27,
-                "ctxt": 0
+                "end": 27
               },
               "name": {
                 "type": "Identifier",
                 "span": {
                   "start": 18,
-                  "end": 19,
-                  "ctxt": 0
+                  "end": 19
                 },
-                "value": "d",
-                "optional": false
+                "value": "d"
               },
               "value": {
                 "type": "StringLiteral",
                 "span": {
                   "start": 20,
-                  "end": 27,
-                  "ctxt": 0
+                  "end": 27
                 },
                 "value": "&",
                 "raw": "\"&amp;\""
@@ -134,25 +117,21 @@
               "type": "JSXAttribute",
               "span": {
                 "start": 28,
-                "end": 38,
-                "ctxt": 0
+                "end": 38
               },
               "name": {
                 "type": "Identifier",
                 "span": {
                   "start": 28,
-                  "end": 29,
-                  "ctxt": 0
+                  "end": 29
                 },
-                "value": "e",
-                "optional": false
+                "value": "e"
               },
               "value": {
                 "type": "StringLiteral",
                 "span": {
                   "start": 30,
-                  "end": 38,
-                  "ctxt": 0
+                  "end": 38
                 },
                 "value": "&ampr;",
                 "raw": "\"&ampr;\""

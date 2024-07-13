@@ -1,9 +1,9 @@
 use swc_common::chain;
 use swc_ecma_transforms_base::resolver;
-use swc_ecma_transforms_module::common_js::common_js;
 use swc_ecma_transforms_testing::{test, Tester};
 
 use super::*;
+use crate::jsx;
 
 fn tr(t: &mut Tester) -> impl Fold {
     let unresolved_mark = Mark::new();
@@ -556,12 +556,13 @@ test!(
                 Some(t.comments.clone()),
                 top_level_mark
             ),
-            common_js(
-                unresolved_mark,
+            jsx(
+                t.cm.clone(),
+                Some(t.comments.clone()),
                 Default::default(),
-                Default::default(),
-                Some(t.comments.clone())
-            )
+                top_level_mark,
+                unresolved_mark
+            ),
         )
     },
     include_hook_signature_in_commonjs,

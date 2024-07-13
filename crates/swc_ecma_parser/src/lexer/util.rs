@@ -6,7 +6,7 @@ use std::char;
 
 use swc_common::{
     comments::{Comment, CommentKind},
-    BytePos, Span, SyntaxContext,
+    BytePos, Span,
 };
 use swc_ecma_ast::Ident;
 use tracing::warn;
@@ -31,11 +31,7 @@ impl<'a> Lexer<'a> {
                 start.0, end.0
             )
         }
-        Span {
-            lo: start,
-            hi: end,
-            ctxt: SyntaxContext::empty(),
-        }
+        Span { lo: start, hi: end }
     }
 
     #[inline(always)]
@@ -91,7 +87,7 @@ impl<'a> Lexer<'a> {
     #[inline(never)]
     pub(super) fn error<T>(&mut self, start: BytePos, kind: SyntaxError) -> LexResult<T> {
         let span = self.span(start);
-        self.error_span(Span::new(span.lo, span.hi, span.ctxt), kind)
+        self.error_span(span, kind)
     }
 
     #[cold]
@@ -104,7 +100,7 @@ impl<'a> Lexer<'a> {
     #[inline(never)]
     pub(super) fn emit_error(&mut self, start: BytePos, kind: SyntaxError) {
         let span = self.span(start);
-        self.emit_error_span(Span::new(span.lo, span.hi, span.ctxt), kind)
+        self.emit_error_span(span, kind)
     }
 
     #[cold]
@@ -123,7 +119,7 @@ impl<'a> Lexer<'a> {
     #[inline(never)]
     pub(super) fn emit_strict_mode_error(&mut self, start: BytePos, kind: SyntaxError) {
         let span = self.span(start);
-        self.emit_strict_mode_error_span(Span::new(span.lo, span.hi, span.ctxt), kind)
+        self.emit_strict_mode_error_span(span, kind)
     }
 
     #[cold]
@@ -143,7 +139,7 @@ impl<'a> Lexer<'a> {
     #[inline(never)]
     pub(super) fn emit_module_mode_error(&mut self, start: BytePos, kind: SyntaxError) {
         let span = self.span(start);
-        self.emit_module_mode_error_span(Span::new(span.lo, span.hi, span.ctxt), kind)
+        self.emit_module_mode_error_span(span, kind)
     }
 
     /// Some codes are valid in a strict mode script  but invalid in module
@@ -227,7 +223,7 @@ impl<'a> Lexer<'a> {
             };
             let cmt = Comment {
                 kind: CommentKind::Line,
-                span: Span::new(start, end, SyntaxContext::empty()),
+                span: Span::new(start, end),
                 text: self.atoms.atom(s),
             };
 
@@ -313,7 +309,7 @@ impl<'a> Lexer<'a> {
             let s = &src[..src.len() - 2];
             let cmt = Comment {
                 kind: CommentKind::Block,
-                span: Span::new(start, end, SyntaxContext::empty()),
+                span: Span::new(start, end),
                 text: self.atoms.atom(s),
             };
 

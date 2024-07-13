@@ -1,20 +1,20 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..12#0,
+                span: 1..12,
                 tag_name: Text {
-                    span: 1..12#0,
+                    span: 1..12,
                     value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 1..12#0,
+                        span: 1..12,
                         ty: None,
                         name: None,
                     },
@@ -23,26 +23,26 @@
         ],
     },
     JsDoc {
-        span: 76..81#0,
+        span: 76..81,
         description: Text {
-            span: 76..76#0,
+            span: 76..76,
             value: "",
         },
         tags: [
             TagItem {
-                span: 76..80#0,
+                span: 76..80,
                 tag_name: Text {
-                    span: 76..80#0,
+                    span: 76..80,
                     value: "this",
                 },
                 tag: This(
                     ThisTag {
-                        span: 76..80#0,
+                        span: 76..80,
                         name_path: NamePath {
-                            span: 76..81#0,
+                            span: 76..81,
                             components: [
                                 Text {
-                                    span: 76..76#0,
+                                    span: 76..76,
                                     value: "",
                                 },
                             ],
@@ -53,34 +53,34 @@
         ],
     },
     JsDoc {
-        span: 124..124#0,
+        span: 124..124,
         description: Text {
-            span: 124..135#0,
+            span: 124..135,
             value: "document me",
         },
         tags: [],
     },
     JsDoc {
-        span: 168..179#0,
+        span: 168..179,
         description: Text {
-            span: 168..168#0,
+            span: 168..168,
             value: "",
         },
         tags: [
             TagItem {
-                span: 168..172#0,
+                span: 168..172,
                 tag_name: Text {
-                    span: 168..172#0,
+                    span: 168..172,
                     value: "this",
                 },
                 tag: This(
                     ThisTag {
-                        span: 168..172#0,
+                        span: 168..172,
                         name_path: NamePath {
-                            span: 168..179#0,
+                            span: 168..179,
                             components: [
                                 Text {
-                                    span: 168..168#0,
+                                    span: 168..168,
                                     value: "",
                                 },
                             ],

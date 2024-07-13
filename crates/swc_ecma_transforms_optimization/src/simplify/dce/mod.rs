@@ -19,7 +19,8 @@ use swc_ecma_utils::{
     collect_decls, find_pat_ids, ExprCtx, ExprExt, IsEmpty, ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
+    as_folder, standard_only_visit, standard_only_visit_mut, Fold, Visit, VisitMut, VisitMutWith,
+    VisitWith,
 };
 use swc_fast_graph::digraph::FastDiGraphMap;
 use tracing::{debug, span, Level};
@@ -355,7 +356,7 @@ impl Analyzer<'_> {
 }
 
 impl Visit for Analyzer<'_> {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_callee(&mut self, n: &Callee) {
         n.visit_children_with(self);
@@ -523,7 +524,7 @@ impl Visit for Analyzer<'_> {
 
         if !self.in_var_decl {
             if let Pat::Ident(i) = p {
-                self.add(i.id.to_id(), true);
+                self.add(i.to_id(), true);
             }
         }
     }
@@ -658,7 +659,7 @@ impl TreeShaker {
 }
 
 impl VisitMut for TreeShaker {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
         n.visit_mut_children_with(self);
@@ -919,7 +920,7 @@ impl VisitMut for TreeShaker {
                 {
                     debug!("Dropping an import because it's not used");
                     self.changed = true;
-                    *n = ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }));
+                    *n = EmptyStmt { span: DUMMY_SP }.into();
                 }
             }
             _ => {
@@ -970,20 +971,21 @@ impl VisitMut for TreeShaker {
                 self.changed = true;
 
                 if exprs.is_empty() {
-                    *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                    *s = EmptyStmt { span: DUMMY_SP }.into();
                     return;
                 } else {
-                    *s = Stmt::Expr(ExprStmt {
+                    *s = ExprStmt {
                         span,
                         expr: Expr::from_exprs(exprs),
-                    });
+                    }
+                    .into();
                 }
             }
         }
 
         if let Stmt::Decl(Decl::Var(v)) = s {
             if v.decls.is_empty() {
-                *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                *s = EmptyStmt { span: DUMMY_SP }.into();
             }
         }
 
@@ -1030,10 +1032,10 @@ impl VisitMut for TreeShaker {
             };
 
             if can_drop
-                && self.can_drop_binding(i.id.to_id(), self.var_decl_kind == Some(VarDeclKind::Var))
+                && self.can_drop_binding(i.to_id(), self.var_decl_kind == Some(VarDeclKind::Var))
             {
                 self.changed = true;
-                debug!("Dropping {} because it's not used", i.id);
+                debug!("Dropping {} because it's not used", i);
                 v.name.take();
             }
         }

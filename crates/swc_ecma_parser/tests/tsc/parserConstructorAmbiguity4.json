@@ -2,46 +2,42 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 19,
-    "ctxt": 0
+    "end": 19
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 19,
-        "ctxt": 0
+        "end": 19
       },
       "expression": {
         "type": "ConditionalExpression",
         "span": {
           "start": 1,
-          "end": 19,
-          "ctxt": 0
+          "end": 19
         },
         "test": {
           "type": "BinaryExpression",
           "span": {
             "start": 1,
-            "end": 11,
-            "ctxt": 0
+            "end": 11
           },
           "operator": "<",
           "left": {
             "type": "NewExpression",
             "span": {
               "start": 1,
-              "end": 9,
-              "ctxt": 0
+              "end": 9
             },
+            "ctxt": 0,
             "callee": {
               "type": "Identifier",
               "span": {
                 "start": 5,
-                "end": 9,
-                "ctxt": 0
+                "end": 9
               },
+              "ctxt": 0,
               "value": "Date",
               "optional": false
             },
@@ -52,9 +48,9 @@
             "type": "Identifier",
             "span": {
               "start": 10,
-              "end": 11,
-              "ctxt": 0
+              "end": 11
             },
+            "ctxt": 0,
             "value": "A",
             "optional": false
           }
@@ -63,9 +59,9 @@
           "type": "Identifier",
           "span": {
             "start": 14,
-            "end": 15,
-            "ctxt": 0
+            "end": 15
           },
+          "ctxt": 0,
           "value": "B",
           "optional": false
         },
@@ -73,9 +69,9 @@
           "type": "Identifier",
           "span": {
             "start": 18,
-            "end": 19,
-            "ctxt": 0
+            "end": 19
           },
+          "ctxt": 0,
           "value": "C",
           "optional": false
         }

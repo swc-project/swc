@@ -1,39 +1,39 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..10#0,
+                span: 1..10,
                 tag_name: Text {
-                    span: 1..10#0,
+                    span: 1..10,
                     value: "classdesc",
                 },
                 tag: ClassDesc(
                     JSDocClassDescTag {
-                        span: 1..10#0,
+                        span: 1..10,
                         desc: Text {
-                            span: 1..19#0,
+                            span: 1..19,
                             value: "Toaster singleton.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 1..6#0,
+                span: 1..6,
                 tag_name: Text {
-                    span: 1..6#0,
+                    span: 1..6,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 1..6#0,
+                        span: 1..6,
                         ty: Some(
                             Text {
-                                span: 1..19#0,
+                                span: 1..19,
                                 value: "* @hideconstructor",
                             },
                         ),
@@ -44,26 +44,26 @@
         ],
     },
     JsDoc {
-        span: 157..157#0,
+        span: 157..157,
         description: Text {
-            span: 157..185#0,
+            span: 157..185,
             value: "Toast an item.\n     *\n     *",
         },
         tags: [
             TagItem {
-                span: 157..162#0,
+                span: 157..162,
                 tag_name: Text {
-                    span: 157..162#0,
+                    span: 157..162,
                     value: "alias",
                 },
                 tag: Alias(
                     AliasTag {
-                        span: 157..162#0,
+                        span: 157..162,
                         name_path: NamePath {
-                            span: 157..305#0,
+                            span: 157..305,
                             components: [
                                 Text {
-                                    span: 157..162#0,
+                                    span: 157..162,
                                     value: "toast",
                                 },
                             ],
@@ -72,19 +72,19 @@
                 ),
             },
             TagItem {
-                span: 157..165#0,
+                span: 157..165,
                 tag_name: Text {
-                    span: 157..165#0,
+                    span: 157..165,
                     value: "memberof",
                 },
                 tag: MemberOf(
                     MemberOfTag {
-                        span: 157..165#0,
+                        span: 157..165,
                         parent_name_path: NamePath {
-                            span: 157..280#0,
+                            span: 157..280,
                             components: [
                                 Text {
-                                    span: 157..164#0,
+                                    span: 157..164,
                                     value: "Toaster",
                                 },
                             ],
@@ -93,57 +93,57 @@
                 ),
             },
             TagItem {
-                span: 157..165#0,
+                span: 157..165,
                 tag_name: Text {
-                    span: 157..165#0,
+                    span: 157..165,
                     value: "instance",
                 },
                 tag: Instance(
                     InstanceTag {
-                        span: 157..165#0,
+                        span: 157..165,
                     },
                 ),
             },
             TagItem {
-                span: 157..162#0,
+                span: 157..162,
                 tag_name: Text {
-                    span: 157..162#0,
+                    span: 157..162,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 157..162#0,
+                        span: 157..162,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 157..170#0,
+                                span: 157..170,
                                 value: "{BreadyThing}",
                             },
                         ),
                         desc: Text {
-                            span: 157..182#0,
+                            span: 157..182,
                             value: "item - The item to toast.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 157..163#0,
+                span: 157..163,
                 tag_name: Text {
-                    span: 157..163#0,
+                    span: 157..163,
                     value: "return",
                 },
                 tag: Return(
                     ReturnTag {
-                        span: 157..163#0,
+                        span: 157..163,
                         ty: Some(
                             Text {
-                                span: 157..164#0,
+                                span: 157..164,
                                 value: "{Toast}",
                             },
                         ),
                         description: Text {
-                            span: 157..180#0,
+                            span: 157..180,
                             value: "A toasted bready thing.",
                         },
                     },
@@ -152,26 +152,26 @@
         ],
     },
     JsDoc {
-        span: 432..505#0,
+        span: 432..505,
         description: Text {
-            span: 432..479#0,
+            span: 432..479,
             value: "Get the Toaster instance.\n         *\n         *",
         },
         tags: [
             TagItem {
-                span: 432..437#0,
+                span: 432..437,
                 tag_name: Text {
-                    span: 432..437#0,
+                    span: 432..437,
                     value: "alias",
                 },
                 tag: Alias(
                     AliasTag {
-                        span: 432..437#0,
+                        span: 432..437,
                         name_path: NamePath {
-                            span: 432..505#0,
+                            span: 432..505,
                             components: [
                                 Text {
-                                    span: 432..439#0,
+                                    span: 432..439,
                                     value: "Toaster",
                                 },
                             ],
@@ -182,81 +182,81 @@
         ],
     },
     JsDoc {
-        span: 812..812#0,
+        span: 812..812,
         description: Text {
-            span: 812..834#0,
+            span: 812..834,
             value: "Waffle iron singleton.",
         },
         tags: [],
     },
     JsDoc {
-        span: 892..892#0,
+        span: 892..892,
         description: Text {
-            span: 892..929#0,
+            span: 892..929,
             value: "Create the waffle iron.\n     *\n     *",
         },
         tags: [
             TagItem {
-                span: 892..907#0,
+                span: 892..907,
                 tag_name: Text {
-                    span: 892..907#0,
+                    span: 892..907,
                     value: "hideconstructor",
                 },
                 tag: HideConstructor(
                     HideConstructorTag {
-                        span: 892..907#0,
+                        span: 892..907,
                     },
                 ),
             },
         ],
     },
     JsDoc {
-        span: 1070..1070#0,
+        span: 1070..1070,
         description: Text {
-            span: 1070..1106#0,
+            span: 1070..1106,
             value: "Cook a waffle.\n         *\n         *",
         },
         tags: [
             TagItem {
-                span: 1070..1075#0,
+                span: 1070..1075,
                 tag_name: Text {
-                    span: 1070..1075#0,
+                    span: 1070..1075,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 1070..1075#0,
+                        span: 1070..1075,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 1070..1078#0,
+                                span: 1070..1078,
                                 value: "{Batter}",
                             },
                         ),
                         desc: Text {
-                            span: 1070..1097#0,
+                            span: 1070..1097,
                             value: "batter - The waffle batter.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 1070..1076#0,
+                span: 1070..1076,
                 tag_name: Text {
-                    span: 1070..1076#0,
+                    span: 1070..1076,
                     value: "return",
                 },
                 tag: Return(
                     ReturnTag {
-                        span: 1070..1076#0,
+                        span: 1070..1076,
                         ty: Some(
                             Text {
-                                span: 1070..1078#0,
+                                span: 1070..1078,
                                 value: "{Waffle}",
                             },
                         ),
                         description: Text {
-                            span: 1070..1088#0,
+                            span: 1070..1088,
                             value: "The cooked waffle.",
                         },
                     },
@@ -265,29 +265,29 @@
         ],
     },
     JsDoc {
-        span: 1309..1309#0,
+        span: 1309..1309,
         description: Text {
-            span: 1309..1351#0,
+            span: 1309..1351,
             value: "Get the WaffleIron instance.\n     *\n     *",
         },
         tags: [
             TagItem {
-                span: 1309..1315#0,
+                span: 1309..1315,
                 tag_name: Text {
-                    span: 1309..1315#0,
+                    span: 1309..1315,
                     value: "return",
                 },
                 tag: Return(
                     ReturnTag {
-                        span: 1309..1315#0,
+                        span: 1309..1315,
                         ty: Some(
                             Text {
-                                span: 1309..1321#0,
+                                span: 1309..1321,
                                 value: "{WaffleIron}",
                             },
                         ),
                         description: Text {
-                            span: 1309..1333#0,
+                            span: 1309..1333,
                             value: "The WaffleIron instance.",
                         },
                     },

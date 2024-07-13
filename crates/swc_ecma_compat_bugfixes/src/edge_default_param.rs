@@ -1,5 +1,5 @@
 use swc_ecma_ast::*;
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, standard_only_visit_mut, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 /// Converts destructured parameters with default values to non-shorthand
@@ -16,7 +16,7 @@ struct EdgeDefaultParam {
 
 #[swc_trace]
 impl VisitMut for EdgeDefaultParam {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
         self.in_arrow = true;
@@ -44,11 +44,12 @@ impl VisitMut for EdgeDefaultParam {
             {
                 let prop = ObjectPatProp::KeyValue(KeyValuePatProp {
                     key: PropName::Ident(key.clone().into()),
-                    value: Box::new(Pat::Assign(AssignPat {
+                    value: AssignPat {
                         span: *span,
                         left: key.clone().into(),
                         right: value.clone(),
-                    })),
+                    }
+                    .into(),
                 });
 
                 n.props[idx] = prop;

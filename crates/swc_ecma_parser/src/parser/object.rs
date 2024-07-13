@@ -77,7 +77,7 @@ impl<I: Tokens> Parser<I> {
                     _ => unreachable!(),
                 },
                 Word(..) => match bump!(p) {
-                    Word(w) => PropName::Ident(Ident::new(w.into(), span!(p, start))),
+                    Word(w) => PropName::Ident(IdentName::new(w.into(), span!(p, start))),
                     _ => unreachable!(),
                 },
                 tok!('[') => {
@@ -134,7 +134,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
         if let Some(trailing_comma) = trailing_comma {
             self.state.trailing_commas.insert(span.lo, trailing_comma);
         }
-        Ok(Box::new(Expr::Object(ObjectLit { span, props })))
+        Ok(ObjectLit { span, props }.into())
     }
 
     /// spec: 'PropertyDefinition'
@@ -192,9 +192,10 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
             self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
             return Ok(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                 key,
-                value: Box::new(Expr::Invalid(Invalid {
+                value: Invalid {
                     span: span!(self, start),
-                })),
+                }
+                .into(),
             }))));
         }
         //
@@ -250,8 +251,10 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
 
             if eat!(self, '=') {
                 let value = self.include_in_expr(true).parse_assignment_expr()?;
+                let span = span!(self, start);
                 return Ok(PropOrSpread::Prop(Box::new(Prop::Assign(AssignProp {
-                    key: ident,
+                    span,
+                    key: ident.into(),
                     value,
                 }))));
             }
@@ -371,7 +374,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                                                         SyntaxError::SetterParam,
                                                     );
 
-                                                    Pat::Invalid(Invalid { span: DUMMY_SP })
+                                                    Invalid { span: DUMMY_SP }.into()
                                                 }),
                                         );
 
@@ -452,12 +455,13 @@ impl<I: Tokens> ParseObject<Pat> for Parser<I> {
 
         let optional = (self.input.syntax().dts() || self.ctx().in_declare) && eat!(self, '?');
 
-        Ok(Pat::Object(ObjectPat {
+        Ok(ObjectPat {
             span,
             props,
             optional,
             type_ann: None,
-        }))
+        }
+        .into())
     }
 
     /// Production 'BindingProperty'

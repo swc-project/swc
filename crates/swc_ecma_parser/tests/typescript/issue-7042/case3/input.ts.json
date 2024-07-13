@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 77,
-    "ctxt": 0
+    "end": 77
   },
   "body": [
     {
@@ -12,66 +11,61 @@
         "type": "Identifier",
         "span": {
           "start": 7,
-          "end": 16,
-          "ctxt": 0
+          "end": 16
         },
+        "ctxt": 0,
         "value": "SomeClass",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 1,
-        "end": 77,
-        "ctxt": 0
+        "end": 77
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassMethod",
           "span": {
             "start": 23,
-            "end": 75,
-            "ctxt": 0
+            "end": 75
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 30,
-              "end": 38,
-              "ctxt": 0
+              "end": 38
             },
-            "value": "accessor",
-            "optional": false
+            "value": "accessor"
           },
           "function": {
             "params": [],
             "decorators": [],
             "span": {
               "start": 23,
-              "end": 75,
-              "ctxt": 0
+              "end": 75
             },
+            "ctxt": 0,
             "body": {
               "type": "BlockStatement",
               "span": {
                 "start": 41,
-                "end": 75,
-                "ctxt": 0
+                "end": 75
               },
+              "ctxt": 0,
               "stmts": [
                 {
                   "type": "ReturnStatement",
                   "span": {
                     "start": 51,
-                    "end": 69,
-                    "ctxt": 0
+                    "end": 69
                   },
                   "argument": {
                     "type": "StringLiteral",
                     "span": {
                       "start": 58,
-                      "end": 68,
-                      "ctxt": 0
+                      "end": 68
                     },
                     "value": "accessor",
                     "raw": "'accessor'"

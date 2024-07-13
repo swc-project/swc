@@ -2,7 +2,9 @@ use std::iter;
 
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
+use swc_ecma_visit::{
+    standard_only_fold, standard_only_visit_mut, Fold, FoldWith, VisitMut, VisitMutWith,
+};
 
 use crate::{prepend_stmts, ExprFactory};
 
@@ -17,8 +19,7 @@ pub fn inject_after_super(c: &mut Constructor, mut exprs: Vec<Box<Expr>>) {
     if !folder.injected {
         if c.body.is_none() {
             c.body = Some(BlockStmt {
-                span: DUMMY_SP,
-                stmts: vec![],
+                ..Default::default()
             });
         }
         // there was no super() call
@@ -35,7 +36,7 @@ struct Injector<'a> {
 }
 
 impl<'a> Fold for Injector<'a> {
-    noop_fold_type!();
+    standard_only_fold!();
 
     fn fold_class(&mut self, c: Class) -> Class {
         c
@@ -89,7 +90,7 @@ impl<'a> Fold for Injector<'a> {
                 self.injected |= folder.injected;
 
                 buf.extend(folder.injected_tmp.map(|ident| {
-                    Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                    VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
                         decls: vec![VarDeclarator {
@@ -98,8 +99,9 @@ impl<'a> Fold for Injector<'a> {
                             init: None,
                             definite: false,
                         }],
-                        declare: false,
-                    })))
+                        ..Default::default()
+                    }
+                    .into()
                 }));
                 buf.push(stmt);
             }
@@ -117,7 +119,7 @@ struct ExprInjector<'a> {
 }
 
 impl VisitMut for ExprInjector<'_> {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_class(&mut self, c: &mut Class) {
         c.super_class.visit_mut_with(self);
@@ -141,20 +143,24 @@ impl VisitMut for ExprInjector<'_> {
             self.injected = true;
             let e = expr.take();
 
-            *expr = Expr::Seq(SeqExpr {
+            *expr = SeqExpr {
                 span: DUMMY_SP,
-                exprs: iter::once(Box::new(Expr::Assign(AssignExpr {
-                    span: DUMMY_SP,
-                    left: self.injected_tmp.as_ref().cloned().unwrap().into(),
-                    op: op!("="),
-                    right: Box::new(e),
-                })))
+                exprs: iter::once(
+                    AssignExpr {
+                        span: DUMMY_SP,
+                        left: self.injected_tmp.as_ref().cloned().unwrap().into(),
+                        op: op!("="),
+                        right: Box::new(e),
+                    }
+                    .into(),
+                )
                 .chain(self.exprs.clone())
-                .chain(iter::once(Box::new(Expr::Ident(
-                    self.injected_tmp.as_ref().cloned().unwrap(),
-                ))))
+                .chain(iter::once(
+                    self.injected_tmp.as_ref().cloned().unwrap().into(),
+                ))
                 .collect(),
-            })
+            }
+            .into()
         }
     }
 

@@ -2,16 +2,14 @@
   "type": "Module",
   "span": {
     "start": 55,
-    "end": 135,
-    "ctxt": 0
+    "end": 135
   },
   "body": [
     {
       "type": "ExportDefaultDeclaration",
       "span": {
         "start": 55,
-        "end": 82,
-        "ctxt": 0
+        "end": 82
       },
       "decl": {
         "type": "ClassExpression",
@@ -19,17 +17,17 @@
           "type": "Identifier",
           "span": {
             "start": 76,
-            "end": 79,
-            "ctxt": 0
+            "end": 79
           },
+          "ctxt": 0,
           "value": "Foo",
           "optional": false
         },
         "span": {
           "start": 70,
-          "end": 82,
-          "ctxt": 0
+          "end": 82
         },
+        "ctxt": 0,
         "decorators": [],
         "body": [],
         "superClass": null,
@@ -43,8 +41,7 @@
       "type": "ExportDefaultDeclaration",
       "span": {
         "start": 103,
-        "end": 135,
-        "ctxt": 0
+        "end": 135
       },
       "decl": {
         "type": "FunctionExpression",
@@ -52,9 +49,9 @@
           "type": "Identifier",
           "span": {
             "start": 127,
-            "end": 130,
-            "ctxt": 0
+            "end": 130
           },
+          "ctxt": 0,
           "value": "foo",
           "optional": false
         },
@@ -62,16 +59,16 @@
         "decorators": [],
         "span": {
           "start": 118,
-          "end": 135,
-          "ctxt": 0
+          "end": 135
         },
+        "ctxt": 0,
         "body": {
           "type": "BlockStatement",
           "span": {
             "start": 133,
-            "end": 135,
-            "ctxt": 0
+            "end": 135
           },
+          "ctxt": 0,
           "stmts": []
         },
         "generator": false,

@@ -54,7 +54,7 @@ impl<'a> Scope<'a> {
             w.decls
                 .entry(i.sym.clone())
                 .or_default()
-                .insert(i.span.ctxt);
+                .insert(i.ctxt);
 
             cur = scope.parent;
         }
@@ -80,13 +80,13 @@ macro_rules! scoped {
             v.cur.data.into_inner()
         };
 
-        let old = $v.all.scopes.insert($n.span.ctxt, data);
-        debug_assert!(old.is_none(), "{:?}", $n.span.ctxt);
+        let old = $v.all.scopes.insert($n.ctxt, data);
+        debug_assert!(old.is_none(), "{:?}", $n.ctxt);
     };
 }
 
 impl Visit for VarAnalyzer<'_> {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
         scoped!(self, n);

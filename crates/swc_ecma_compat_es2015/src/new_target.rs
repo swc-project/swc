@@ -5,7 +5,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{should_work, Check};
 use swc_ecma_utils::{private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith,
+    as_folder, standard_only_visit, standard_only_visit_mut, Fold, Visit, VisitMut, VisitMutWith,
 };
 use swc_trace_macro::swc_trace;
 
@@ -37,7 +37,7 @@ impl NewTarget {
 
 #[swc_trace]
 impl VisitMut for NewTarget {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_class_method(&mut self, c: &mut ClassMethod) {
         c.key.visit_mut_with(self);
@@ -70,19 +70,21 @@ impl VisitMut for NewTarget {
                 Ctx::Constructor => *e = this_ctor(*span),
                 Ctx::Method => *e = *Expr::undefined(DUMMY_SP),
                 Ctx::Function(i) => {
-                    *e = Expr::Cond(CondExpr {
+                    *e = CondExpr {
                         span: *span,
                         // this instanceof Foo
-                        test: Box::new(Expr::Bin(BinExpr {
+                        test: BinExpr {
                             span: DUMMY_SP,
                             op: op!("instanceof"),
                             left: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
                             right: Box::new(Expr::Ident(i.clone())),
-                        })),
+                        }
+                        .into(),
                         cons: Box::new(this_ctor(DUMMY_SP)),
                         // void 0
                         alt: Expr::undefined(DUMMY_SP),
-                    })
+                    }
+                    .into()
                 }
             }
         }
@@ -147,7 +149,7 @@ struct ShouldWork {
 }
 
 impl Visit for ShouldWork {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_meta_prop_expr(&mut self, n: &MetaPropExpr) {
         if let MetaPropExpr {

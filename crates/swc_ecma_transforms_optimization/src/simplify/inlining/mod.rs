@@ -8,8 +8,8 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{pass::RepeatedJsPass, scope::IdentType};
 use swc_ecma_utils::{contains_this_expr, find_pat_ids};
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, visit_obj_and_computed, Visit, VisitMut,
-    VisitMutWith, VisitWith,
+    as_folder, standard_only_visit, standard_only_visit_mut, visit_obj_and_computed, Visit,
+    VisitMut, VisitMutWith, VisitWith,
 };
 use tracing::{span, Level};
 
@@ -103,7 +103,7 @@ impl Inlining<'_> {
 }
 
 impl VisitMut for Inlining<'_> {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_arrow_expr(&mut self, node: &mut ArrowExpr) {
         self.visit_with_child(ScopeKind::Fn { named: false }, node)
@@ -504,7 +504,7 @@ impl VisitMut for Inlining<'_> {
                 PatFoldingMode::Param => {
                     self.declare(
                         i.to_id(),
-                        Some(Cow::Owned(Expr::Ident(i.id.clone()))),
+                        Some(Cow::Owned(Ident::from(i).into())),
                         false,
                         VarType::Param,
                     );
@@ -512,7 +512,7 @@ impl VisitMut for Inlining<'_> {
                 PatFoldingMode::CatchParam => {
                     self.declare(
                         i.to_id(),
-                        Some(Cow::Owned(Expr::Ident(i.id.clone()))),
+                        Some(Cow::Owned(Ident::from(i).into())),
                         false,
                         VarType::Var(VarDeclKind::Var),
                     );
@@ -649,9 +649,7 @@ impl VisitMut for Inlining<'_> {
 
                         tracing::trace!("Trying to optimize variable declaration: {:?}", id);
 
-                        if self
-                            .scope
-                            .is_inline_prevented(&Expr::Ident(name.id.clone()))
+                        if self.scope.is_inline_prevented(&Ident::from(name).into())
                             || !self.scope.has_same_this(&id, node.init.as_deref())
                         {
                             tracing::trace!("Inline is prevented for {:?}", id);
@@ -666,7 +664,7 @@ impl VisitMut for Inlining<'_> {
                             if let Expr::Ident(ri) = &**init {
                                 self.declare(
                                     name.to_id(),
-                                    Some(Cow::Owned(Expr::Ident(ri.clone()))),
+                                    Some(Cow::Owned(ri.clone().into())),
                                     false,
                                     kind,
                                 );
@@ -690,10 +688,7 @@ impl VisitMut for Inlining<'_> {
                             Some(e) if e.is_lit() || e.is_ident() => Some(e),
                             Some(e) => {
                                 let e = *e;
-                                if self
-                                    .scope
-                                    .is_inline_prevented(&Expr::Ident(name.id.clone()))
-                                {
+                                if self.scope.is_inline_prevented(&Ident::from(name).into()) {
                                     node.init = Some(Box::new(e));
                                     return;
                                 }
@@ -744,7 +739,7 @@ struct IdentListVisitor<'a, 'b> {
 }
 
 impl Visit for IdentListVisitor<'_, '_> {
-    noop_visit_type!();
+    standard_only_visit!();
 
     visit_obj_and_computed!();
 
@@ -759,7 +754,7 @@ struct WriteVisitor<'a, 'b> {
 }
 
 impl Visit for WriteVisitor<'_, '_> {
-    noop_visit_type!();
+    standard_only_visit!();
 
     visit_obj_and_computed!();
 

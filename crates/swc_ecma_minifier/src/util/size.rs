@@ -205,7 +205,7 @@ impl SizeWithCtxt for Expr {
 
 impl SizeWithCtxt for Ident {
     fn size(&self, unresolved: SyntaxContext) -> usize {
-        if self.span.ctxt == unresolved {
+        if self.ctxt == unresolved {
             self.sym.len()
         } else {
             1
@@ -283,7 +283,7 @@ impl SizeWithCtxt for SimpleAssignTarget {
     fn size(&self, unresolved: SyntaxContext) -> usize {
         match self {
             SimpleAssignTarget::Ident(e) => {
-                if e.span.ctxt == unresolved {
+                if e.ctxt == unresolved {
                     e.sym.len()
                 } else {
                     1

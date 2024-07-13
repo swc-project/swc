@@ -2,23 +2,20 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 61,
-    "ctxt": 0
+    "end": 61
   },
   "body": [
     {
       "type": "ExportDefaultExpression",
       "span": {
         "start": 1,
-        "end": 30,
-        "ctxt": 0
+        "end": 30
       },
       "expression": {
         "type": "ObjectExpression",
         "span": {
           "start": 16,
-          "end": 30,
-          "ctxt": 0
+          "end": 30
         },
         "properties": [
           {
@@ -27,18 +24,15 @@
               "type": "Identifier",
               "span": {
                 "start": 22,
-                "end": 25,
-                "ctxt": 0
+                "end": 25
               },
-              "value": "lol",
-              "optional": false
+              "value": "lol"
             },
             "value": {
               "type": "NumericLiteral",
               "span": {
                 "start": 27,
-                "end": 28,
-                "ctxt": 0
+                "end": 28
               },
               "value": 1.0,
               "raw": "1"
@@ -51,15 +45,13 @@
       "type": "ExportDefaultExpression",
       "span": {
         "start": 32,
-        "end": 61,
-        "ctxt": 0
+        "end": 61
       },
       "expression": {
         "type": "ObjectExpression",
         "span": {
           "start": 47,
-          "end": 61,
-          "ctxt": 0
+          "end": 61
         },
         "properties": [
           {
@@ -68,18 +60,15 @@
               "type": "Identifier",
               "span": {
                 "start": 53,
-                "end": 56,
-                "ctxt": 0
+                "end": 56
               },
-              "value": "lol",
-              "optional": false
+              "value": "lol"
             },
             "value": {
               "type": "NumericLiteral",
               "span": {
                 "start": 58,
-                "end": 59,
-                "ctxt": 0
+                "end": 59
               },
               "value": 2.0,
               "raw": "2"

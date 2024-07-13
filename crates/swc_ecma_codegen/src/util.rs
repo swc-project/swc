@@ -99,7 +99,7 @@ macro_rules! alpha_num_const {
     };
 }
 
-alpha_num_const!(true, Ident, SuperPropExpr, TsTypeAssertion);
+alpha_num_const!(true, BindingIdent, Ident, SuperPropExpr, TsTypeAssertion);
 alpha_num_const!(false, ArrayPat, ObjectPat, Invalid, ParenExpr);
 
 impl StartsWithAlphaNum for MemberExpr {

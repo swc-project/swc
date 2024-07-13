@@ -2,16 +2,14 @@
   "type": "Module",
   "span": {
     "start": 34,
-    "end": 243,
-    "ctxt": 0
+    "end": 243
   },
   "body": [
     {
       "type": "TsModuleDeclaration",
       "span": {
         "start": 34,
-        "end": 55,
-        "ctxt": 0
+        "end": 55
       },
       "declare": true,
       "global": false,
@@ -19,8 +17,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 49,
-          "end": 54,
-          "ctxt": 0
+          "end": 54
         },
         "value": "foo",
         "raw": "\"foo\""
@@ -31,8 +28,7 @@
       "type": "TsModuleDeclaration",
       "span": {
         "start": 90,
-        "end": 111,
-        "ctxt": 0
+        "end": 111
       },
       "declare": true,
       "global": false,
@@ -40,8 +36,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 105,
-          "end": 110,
-          "ctxt": 0
+          "end": 110
         },
         "value": "foo",
         "raw": "\"foo\""
@@ -52,24 +47,22 @@
       "type": "ImportDeclaration",
       "span": {
         "start": 221,
-        "end": 243,
-        "ctxt": 0
+        "end": 243
       },
       "specifiers": [
         {
           "type": "ImportDefaultSpecifier",
           "span": {
             "start": 228,
-            "end": 231,
-            "ctxt": 0
+            "end": 231
           },
           "local": {
             "type": "Identifier",
             "span": {
               "start": 228,
-              "end": 231,
-              "ctxt": 0
+              "end": 231
             },
+            "ctxt": 0,
             "value": "foo",
             "optional": false
           }
@@ -79,8 +72,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 237,
-          "end": 242,
-          "ctxt": 0
+          "end": 242
         },
         "value": "foo",
         "raw": "\"foo\""

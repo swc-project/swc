@@ -68,7 +68,7 @@ fn main() {
         let module = module.fold_with(&mut resolver(unresolved_mark, top_level_mark, true));
 
         // Remove typescript types
-        let module = module.fold_with(&mut strip(top_level_mark));
+        let module = module.fold_with(&mut strip(unresolved_mark, top_level_mark));
 
         // Fix up any identifiers with the same name, but different contexts
         let module = module.fold_with(&mut hygiene());

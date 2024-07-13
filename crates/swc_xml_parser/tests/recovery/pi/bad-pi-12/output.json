@@ -2,16 +2,14 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 14,
-    "ctxt": 0
+    "end": 14
   },
   "children": [
     {
       "type": "Element",
       "span": {
         "start": 1,
-        "end": 7,
-        "ctxt": 0
+        "end": 7
       },
       "tagName": "root",
       "attributes": [],
@@ -20,8 +18,7 @@
           "type": "Text",
           "span": {
             "start": 7,
-            "end": 12,
-            "ctxt": 0
+            "end": 12
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -30,8 +27,7 @@
           "type": "ProcessingInstruction",
           "span": {
             "start": 12,
-            "end": 14,
-            "ctxt": 0
+            "end": 14
           },
           "target": "",
           "data": ""

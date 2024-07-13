@@ -2,38 +2,33 @@
   "type": "Script",
   "span": {
     "start": 17,
-    "end": 35,
-    "ctxt": 0
+    "end": 35
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 17,
-        "end": 35,
-        "ctxt": 0
+        "end": 35
       },
       "expression": {
         "type": "MemberExpression",
         "span": {
           "start": 17,
-          "end": 34,
-          "ctxt": 0
+          "end": 34
         },
         "object": {
           "type": "TemplateLiteral",
           "span": {
             "start": 17,
-            "end": 29,
-            "ctxt": 0
+            "end": 29
           },
           "expressions": [
             {
               "type": "NumericLiteral",
               "span": {
                 "start": 23,
-                "end": 24,
-                "ctxt": 0
+                "end": 24
               },
               "value": 0.0,
               "raw": "0"
@@ -44,8 +39,7 @@
               "type": "TemplateElement",
               "span": {
                 "start": 18,
-                "end": 21,
-                "ctxt": 0
+                "end": 21
               },
               "tail": false,
               "cooked": "abc",
@@ -55,8 +49,7 @@
               "type": "TemplateElement",
               "span": {
                 "start": 25,
-                "end": 28,
-                "ctxt": 0
+                "end": 28
               },
               "tail": true,
               "cooked": "abc",
@@ -68,15 +61,13 @@
           "type": "Computed",
           "span": {
             "start": 29,
-            "end": 34,
-            "ctxt": 0
+            "end": 34
           },
           "expression": {
             "type": "TemplateLiteral",
             "span": {
               "start": 30,
-              "end": 33,
-              "ctxt": 0
+              "end": 33
             },
             "expressions": [],
             "quasis": [
@@ -84,8 +75,7 @@
                 "type": "TemplateElement",
                 "span": {
                   "start": 31,
-                  "end": 32,
-                  "ctxt": 0
+                  "end": 32
                 },
                 "tail": true,
                 "cooked": "0",

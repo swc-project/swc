@@ -1,38 +1,38 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..31#0,
+            span: 1..31,
             value: "The built in string object.\n *",
         },
         tags: [
             TagItem {
-                span: 1..9#0,
+                span: 1..9,
                 tag_name: Text {
-                    span: 1..9#0,
+                    span: 1..9,
                     value: "external",
                 },
                 tag: External(
                     ExternalTag {
-                        span: 1..9#0,
+                        span: 1..9,
                         name: Text {
-                            span: 1..9#0,
+                            span: 1..9,
                             value: "{String}",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 1..4#0,
+                span: 1..4,
                 tag_name: Text {
-                    span: 1..4#0,
+                    span: 1..4,
                     value: "see",
                 },
                 tag: See(
                     SeeTag {
-                        span: 1..4#0,
+                        span: 1..4,
                         text: Text {
-                            span: 1..91#0,
+                            span: 1..91,
                             value: "{@link https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String String}",
                         },
                     },
@@ -41,24 +41,24 @@
         ],
     },
     JsDoc {
-        span: 162..162#0,
+        span: 162..162,
         description: Text {
-            span: 162..206#0,
+            span: 162..206,
             value: "Adds a new method to the built-in string.\n *",
         },
         tags: [
             TagItem {
-                span: 162..170#0,
+                span: 162..170,
                 tag_name: Text {
-                    span: 162..170#0,
+                    span: 162..170,
                     value: "function",
                 },
                 tag: Function(
                     FunctionTag {
-                        span: 162..170#0,
+                        span: 162..170,
                         name: Some(
                             Text {
-                                span: 162..183#0,
+                                span: 162..183,
                                 value: "external:String#rot13",
                             },
                         ),
@@ -66,16 +66,16 @@
                 ),
             },
             TagItem {
-                span: 162..169#0,
+                span: 162..169,
                 tag_name: Text {
-                    span: 162..169#0,
+                    span: 162..169,
                     value: "example",
                 },
                 tag: Example(
                     ExampleTag {
-                        span: 162..169#0,
+                        span: 162..169,
                         text: Text {
-                            span: 162..258#0,
+                            span: 162..258,
                             value: "* var greeting = new String('hello world');\n * console.log( greeting.rot13() ); // uryyb jbeyq\n ",
                         },
                     },
@@ -84,23 +84,23 @@
         ],
     },
     JsDoc {
-        span: 359..359#0,
+        span: 359..359,
         description: Text {
-            span: 359..359#0,
+            span: 359..359,
             value: "",
         },
         tags: [
             TagItem {
-                span: 359..367#0,
+                span: 359..367,
                 tag_name: Text {
-                    span: 359..367#0,
+                    span: 359..367,
                     value: "external",
                 },
                 tag: External(
                     ExternalTag {
-                        span: 359..367#0,
+                        span: 359..367,
                         name: Text {
-                            span: 359..374#0,
+                            span: 359..374,
                             value: "{\"foo.bar.baz\"}",
                         },
                     },
@@ -109,24 +109,24 @@
         ],
     },
     JsDoc {
-        span: 398..398#0,
+        span: 398..398,
         description: Text {
-            span: 398..411#0,
+            span: 398..411,
             value: "Blah blah\n  *",
         },
         tags: [
             TagItem {
-                span: 398..406#0,
+                span: 398..406,
                 tag_name: Text {
-                    span: 398..406#0,
+                    span: 398..406,
                     value: "function",
                 },
                 tag: Function(
                     FunctionTag {
-                        span: 398..406#0,
+                        span: 398..406,
                         name: Some(
                             Text {
-                                span: 398..425#0,
+                                span: 398..425,
                                 value: "external:\"foo.bar.baz\"#blah",
                             },
                         ),

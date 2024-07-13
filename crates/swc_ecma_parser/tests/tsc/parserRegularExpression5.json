@@ -2,24 +2,22 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 46,
-    "ctxt": 0
+    "end": 46
   },
   "body": [
     {
       "type": "IfStatement",
       "span": {
         "start": 1,
-        "end": 46,
-        "ctxt": 0
+        "end": 46
       },
       "test": {
         "type": "Identifier",
         "span": {
           "start": 5,
-          "end": 6,
-          "ctxt": 0
+          "end": 6
         },
+        "ctxt": 0,
         "value": "a",
         "optional": false
       },
@@ -27,29 +25,26 @@
         "type": "ExpressionStatement",
         "span": {
           "start": 8,
-          "end": 46,
-          "ctxt": 0
+          "end": 46
         },
         "expression": {
           "type": "CallExpression",
           "span": {
             "start": 8,
-            "end": 45,
-            "ctxt": 0
+            "end": 45
           },
+          "ctxt": 0,
           "callee": {
             "type": "MemberExpression",
             "span": {
               "start": 8,
-              "end": 37,
-              "ctxt": 0
+              "end": 37
             },
             "object": {
               "type": "RegExpLiteral",
               "span": {
                 "start": 8,
-                "end": 31,
-                "ctxt": 0
+                "end": 31
               },
               "pattern": " (\\\\ ? | & ) rct = j ",
               "flags": ""
@@ -58,11 +53,9 @@
               "type": "Identifier",
               "span": {
                 "start": 33,
-                "end": 37,
-                "ctxt": 0
+                "end": 37
               },
-              "value": "test",
-              "optional": false
+              "value": "test"
             }
           },
           "arguments": [
@@ -72,16 +65,15 @@
                 "type": "MemberExpression",
                 "span": {
                   "start": 38,
-                  "end": 44,
-                  "ctxt": 0
+                  "end": 44
                 },
                 "object": {
                   "type": "Identifier",
                   "span": {
                     "start": 38,
-                    "end": 39,
-                    "ctxt": 0
+                    "end": 39
                   },
+                  "ctxt": 0,
                   "value": "c",
                   "optional": false
                 },
@@ -89,11 +81,9 @@
                   "type": "Identifier",
                   "span": {
                     "start": 40,
-                    "end": 44,
-                    "ctxt": 0
+                    "end": 44
                   },
-                  "value": "href",
-                  "optional": false
+                  "value": "href"
                 }
               }
             }

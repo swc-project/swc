@@ -1,26 +1,26 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..7#0,
+                span: 1..7,
                 tag_name: Text {
-                    span: 1..7#0,
+                    span: 1..7,
                     value: "module",
                 },
                 tag: Module(
                     ModuleTag {
-                        span: 1..7#0,
+                        span: 1..7,
                         name: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                         ty: Text {
-                            span: 1..5#0,
+                            span: 1..5,
                             value: "mixy",
                         },
                     },
@@ -29,23 +29,23 @@
         ],
     },
     JsDoc {
-        span: 36..36#0,
+        span: 36..36,
         description: Text {
-            span: 36..48#0,
+            span: 36..48,
             value: "Object A.\n *",
         },
         tags: [
             TagItem {
-                span: 36..41#0,
+                span: 36..41,
                 tag_name: Text {
-                    span: 36..41#0,
+                    span: 36..41,
                     value: "mixin",
                 },
                 tag: Mixin(
                     MixinTag {
-                        span: 36..41#0,
+                        span: 36..41,
                         name: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                     },
@@ -54,31 +54,31 @@
         ],
     },
     JsDoc {
-        span: 91..91#0,
+        span: 91..91,
         description: Text {
-            span: 91..103#0,
+            span: 91..103,
             value: "Some method.",
         },
         tags: [],
     },
     JsDoc {
-        span: 141..141#0,
+        span: 141..141,
         description: Text {
-            span: 141..169#0,
+            span: 141..169,
             value: "Object B. Mixes Object A.\n *",
         },
         tags: [
             TagItem {
-                span: 141..146#0,
+                span: 141..146,
                 tag_name: Text {
-                    span: 141..146#0,
+                    span: 141..146,
                     value: "mixin",
                 },
                 tag: Mixin(
                     MixinTag {
-                        span: 141..146#0,
+                        span: 141..146,
                         name: Text {
-                            span: 141..169#0,
+                            span: 141..169,
                             value: "* @mixes module:mixy.ObjectA",
                         },
                     },
@@ -87,23 +87,23 @@
         ],
     },
     JsDoc {
-        span: 241..241#0,
+        span: 241..241,
         description: Text {
-            span: 241..293#0,
+            span: 241..293,
             value: "Object C. Mixes Object B and adds its own method.\n *",
         },
         tags: [
             TagItem {
-                span: 241..246#0,
+                span: 241..246,
                 tag_name: Text {
-                    span: 241..246#0,
+                    span: 241..246,
                     value: "mixin",
                 },
                 tag: Mixin(
                     MixinTag {
-                        span: 241..246#0,
+                        span: 241..246,
                         name: Text {
-                            span: 241..269#0,
+                            span: 241..269,
                             value: "* @mixes module:mixy.ObjectB",
                         },
                     },
@@ -112,24 +112,24 @@
         ],
     },
     JsDoc {
-        span: 366..366#0,
+        span: 366..366,
         description: Text {
-            span: 366..451#0,
+            span: 366..451,
             value: "Super-sweet method that's named in the comment, making this a virtual comment.\n     *",
         },
         tags: [
             TagItem {
-                span: 366..374#0,
+                span: 366..374,
                 tag_name: Text {
-                    span: 366..374#0,
+                    span: 366..374,
                     value: "function",
                 },
                 tag: Function(
                     FunctionTag {
-                        span: 366..374#0,
+                        span: 366..374,
                         name: Some(
                             Text {
-                                span: 366..396#0,
+                                span: 366..396,
                                 value: "module:mixy.ObjectC.superSweet",
                             },
                         ),
@@ -139,40 +139,40 @@
         ],
     },
     JsDoc {
-        span: 546..546#0,
+        span: 546..546,
         description: Text {
-            span: 546..585#0,
+            span: 546..585,
             value: "Class that mixes Object A, so it gets {",
         },
         tags: [
             TagItem {
-                span: 546..550#0,
+                span: 546..550,
                 tag_name: Text {
-                    span: 546..550#0,
+                    span: 546..550,
                     value: "link",
                 },
                 tag: Unknown(
                     UnknownTag {
-                        span: 546..550#0,
+                        span: 546..550,
                         extras: Text {
-                            span: 546..573#0,
+                            span: 546..573,
                             value: "module:mixy.ClassA#method}.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 546..551#0,
+                span: 546..551,
                 tag_name: Text {
-                    span: 546..551#0,
+                    span: 546..551,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 546..551#0,
+                        span: 546..551,
                         ty: Some(
                             Text {
-                                span: 546..574#0,
+                                span: 546..574,
                                 value: "* @mixes module:mixy.ObjectA",
                             },
                         ),
@@ -183,31 +183,31 @@
         ],
     },
     JsDoc {
-        span: 703..703#0,
+        span: 703..703,
         description: Text {
-            span: 703..714#0,
+            span: 703..714,
             value: "Do a thing.",
         },
         tags: [],
     },
     JsDoc {
-        span: 777..857#0,
+        span: 777..857,
         description: Text {
-            span: 777..816#0,
+            span: 777..816,
             value: "Class that mixes Object C, so it gets {",
         },
         tags: [
             TagItem {
-                span: 777..781#0,
+                span: 777..781,
                 tag_name: Text {
-                    span: 777..781#0,
+                    span: 777..781,
                     value: "link",
                 },
                 tag: Unknown(
                     UnknownTag {
-                        span: 777..781#0,
+                        span: 777..781,
                         extras: Text {
-                            span: 777..807#0,
+                            span: 777..807,
                             value: "module:mixy.ClassB#method} and",
                         },
                     },

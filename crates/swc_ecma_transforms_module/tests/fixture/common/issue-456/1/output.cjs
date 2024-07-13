@@ -5,7 +5,6 @@ Object.defineProperty(exports, "foo", {
         return foo;
     }
 });
-const _path = require("path");
 const foo = function() {
     function e(t) {}
     return A(e, {}), e;

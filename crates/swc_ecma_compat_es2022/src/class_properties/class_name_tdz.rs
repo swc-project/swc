@@ -2,7 +2,7 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::ExprFactory;
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{standard_only_visit_mut, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 pub(super) struct ClassNameTdzFolder<'a> {
@@ -11,7 +11,7 @@ pub(super) struct ClassNameTdzFolder<'a> {
 
 #[swc_trace]
 impl<'a> VisitMut for ClassNameTdzFolder<'a> {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         match expr {
@@ -19,7 +19,7 @@ impl<'a> VisitMut for ClassNameTdzFolder<'a> {
                 //
 
                 if i.sym == self.class_name.sym {
-                    *expr = Expr::Seq(SeqExpr {
+                    *expr = SeqExpr {
                         span: DUMMY_SP,
                         exprs: vec![
                             Box::new(Expr::Call(CallExpr {
@@ -32,11 +32,12 @@ impl<'a> VisitMut for ClassNameTdzFolder<'a> {
                                 }
                                 .as_arg()],
 
-                                type_args: Default::default(),
+                                ..Default::default()
                             })),
                             Box::new(Expr::Ident(i.clone())),
                         ],
-                    });
+                    }
+                    .into();
                 }
             }
 

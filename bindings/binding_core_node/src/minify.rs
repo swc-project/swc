@@ -34,7 +34,7 @@ enum MinifyTarget {
 impl MinifyTarget {
     fn to_file(&self, cm: Lrc<SourceMap>) -> Lrc<SourceFile> {
         match self {
-            MinifyTarget::Single(code) => cm.new_source_file(FileName::Anon, code.clone()),
+            MinifyTarget::Single(code) => cm.new_source_file(FileName::Anon.into(), code.clone()),
             MinifyTarget::Map(codes) => {
                 assert_eq!(
                     codes.len(),
@@ -44,7 +44,7 @@ impl MinifyTarget {
 
                 let (filename, code) = codes.iter().next().unwrap();
 
-                cm.new_source_file(FileName::Real(filename.clone().into()), code.clone())
+                cm.new_source_file(FileName::Real(filename.clone().into()).into(), code.clone())
             }
         }
     }

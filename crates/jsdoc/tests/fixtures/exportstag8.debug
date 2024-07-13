@@ -1,22 +1,22 @@
 [
     JsDoc {
-        span: 16..32#0,
+        span: 16..32,
         description: Text {
-            span: 16..16#0,
+            span: 16..16,
             value: "",
         },
         tags: [
             TagItem {
-                span: 16..23#0,
+                span: 16..23,
                 tag_name: Text {
-                    span: 16..23#0,
+                    span: 16..23,
                     value: "exports",
                 },
                 tag: Exports(
                     ExportsTag {
-                        span: 16..23#0,
+                        span: 16..23,
                         module_name: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                     },

@@ -2,39 +2,34 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 22,
-    "ctxt": 0
+    "end": 22
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 22,
-        "ctxt": 0
+        "end": 22
       },
       "expression": {
         "type": "BinaryExpression",
         "span": {
           "start": 1,
-          "end": 21,
-          "ctxt": 0
+          "end": 21
         },
         "operator": "/",
         "left": {
           "type": "BinaryExpression",
           "span": {
             "start": 1,
-            "end": 13,
-            "ctxt": 0
+            "end": 13
           },
           "operator": "/",
           "left": {
             "type": "NumericLiteral",
             "span": {
               "start": 1,
-              "end": 2,
-              "ctxt": 0
+              "end": 2
             },
             "value": 1.0,
             "raw": "1"
@@ -43,9 +38,9 @@
             "type": "Identifier",
             "span": {
               "start": 4,
-              "end": 13,
-              "ctxt": 0
+              "end": 13
             },
+            "ctxt": 0,
             "value": "notregexp",
             "optional": false
           }
@@ -54,23 +49,22 @@
           "type": "CallExpression",
           "span": {
             "start": 14,
-            "end": 21,
-            "ctxt": 0
+            "end": 21
           },
+          "ctxt": 0,
           "callee": {
             "type": "MemberExpression",
             "span": {
               "start": 14,
-              "end": 19,
-              "ctxt": 0
+              "end": 19
             },
             "object": {
               "type": "Identifier",
               "span": {
                 "start": 14,
-                "end": 15,
-                "ctxt": 0
+                "end": 15
               },
+              "ctxt": 0,
               "value": "a",
               "optional": false
             },
@@ -78,11 +72,9 @@
               "type": "Identifier",
               "span": {
                 "start": 16,
-                "end": 19,
-                "ctxt": 0
+                "end": 19
               },
-              "value": "foo",
-              "optional": false
+              "value": "foo"
             }
           },
           "arguments": [],

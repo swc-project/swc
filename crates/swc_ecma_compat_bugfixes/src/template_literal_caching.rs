@@ -1,7 +1,7 @@
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prepend_stmt, private_ident, ExprFactory};
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_ecma_visit::{standard_only_fold, Fold, FoldWith};
 use swc_trace_macro::swc_trace;
 
 // Converts destructured parameters with default values to non-shorthand syntax.
@@ -41,12 +41,16 @@ impl TemplateLiteralCaching {
 
     fn create_var_decl(&mut self) -> Option<Stmt> {
         if !self.decls.is_empty() {
-            return Some(Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Let,
-                declare: false,
-                decls: self.decls.clone(),
-            }))));
+            return Some(
+                VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Let,
+                    declare: false,
+                    decls: self.decls.clone(),
+                    ..Default::default()
+                }
+                .into(),
+            );
         }
         None
     }
@@ -55,7 +59,7 @@ impl TemplateLiteralCaching {
 /// TODO: VisitMut
 #[swc_trace]
 impl Fold for TemplateLiteralCaching {
-    noop_fold_type!();
+    standard_only_fold!();
 
     fn fold_expr(&mut self, n: Expr) -> Expr {
         let n = n.fold_children_with(self);
@@ -69,15 +73,17 @@ impl Fold for TemplateLiteralCaching {
                     self.helper_ident = Some(helper_ident.clone());
                     self.create_binding(
                         helper_ident,
-                        Some(Expr::Arrow(ArrowExpr {
-                            span: DUMMY_SP,
-                            params: vec![t.clone().into()],
-                            body: Box::new(BlockStmtOrExpr::Expr(Box::new(Expr::Ident(t)))),
-                            is_async: false,
-                            is_generator: false,
-                            type_params: None,
-                            return_type: None,
-                        })),
+                        Some(
+                            ArrowExpr {
+                                span: DUMMY_SP,
+                                params: vec![t.clone().into()],
+                                body: Box::new(BlockStmtOrExpr::Expr(t.into())),
+                                is_async: false,
+                                is_generator: false,
+                                ..Default::default()
+                            }
+                            .into(),
+                        ),
                     )
                 }
 
@@ -88,44 +94,47 @@ impl Fold for TemplateLiteralCaching {
                 // the same shape.   identity`a${0}`
                 let template = TaggedTpl {
                     span: DUMMY_SP,
-                    tag: Box::new(Expr::Ident(helper_ident.clone())),
+                    tag: helper_ident.clone().into(),
                     tpl: Box::new(Tpl {
                         span: DUMMY_SP,
                         quasis: n.tpl.quasis,
                         exprs: n.tpl.exprs.iter().map(|_| 0.0.into()).collect(),
                     }),
-                    type_params: None,
+                    ..Default::default()
                 };
 
                 // Install an inline cache at the callsite using the global variable:
                 //   _t || (_t = identity`a${0}`)
                 let t = private_ident!("t");
                 self.create_binding(t.clone(), None);
-                let inline_cache = Expr::Bin(BinExpr {
+                let inline_cache: Expr = BinExpr {
                     span: DUMMY_SP,
                     op: op!("||"),
-                    left: Box::new(Expr::Ident(t.clone())),
-                    right: Box::new(Expr::Assign(AssignExpr {
+                    left: t.clone().into(),
+                    right: AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
                         left: t.into(),
                         right: Box::new(Expr::TaggedTpl(template)),
-                    })),
-                });
+                    }
+                    .into(),
+                }
+                .into();
 
                 // The original tag function becomes a plain function call.
                 // The expressions omitted from the cached Strings tag are
                 // directly applied as arguments.
                 //   tag(_t || (_t = Object`a${0}`), 'hello')
-                Expr::Call(CallExpr {
+                CallExpr {
                     span: DUMMY_SP,
                     callee: n.tag.as_callee(),
                     args: vec![inline_cache.as_arg()]
                         .into_iter()
                         .chain(n.tpl.exprs.into_iter().map(|expr| expr.as_arg()))
                         .collect(),
-                    type_args: None,
-                })
+                    ..Default::default()
+                }
+                .into()
             }
             _ => n,
         }
@@ -134,7 +143,7 @@ impl Fold for TemplateLiteralCaching {
     fn fold_module(&mut self, n: Module) -> Module {
         let mut body = n.body.fold_children_with(self);
         if let Some(var) = self.create_var_decl() {
-            prepend_stmt(&mut body, ModuleItem::Stmt(var))
+            prepend_stmt(&mut body, var.into())
         }
 
         Module { body, ..n }

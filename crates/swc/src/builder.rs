@@ -22,7 +22,7 @@ use swc_ecma_transforms::{
     pass::Optional,
     resolver, Assumptions,
 };
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, standard_only_visit_mut, VisitMut, VisitMutWith};
 
 use crate::config::{CompiledPaths, GlobalPassOption, JsMinifyOptions, ModuleConfig};
 
@@ -382,7 +382,7 @@ struct MinifierPass<'a> {
 }
 
 impl VisitMut for MinifierPass<'_> {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_module(&mut self, m: &mut Module) {
         if let Some(options) = &self.options {

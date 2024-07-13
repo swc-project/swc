@@ -9,7 +9,7 @@ use swc_ecma_visit::{Fold, FoldWith};
 static SOURCE: &str = include_str!("assets/AjaxObservable.ts");
 
 fn module(cm: Lrc<SourceMap>) -> Program {
-    let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
+    let fm = cm.new_source_file(FileName::Anon.into(), SOURCE.into());
     let lexer = Lexer::new(
         Syntax::Typescript(Default::default()),
         Default::default(),
@@ -35,7 +35,7 @@ where
         let top_level_mark = Mark::fresh(Mark::root());
         let module = module
             .fold_with(&mut resolver(unresolved_mark, top_level_mark, true))
-            .fold_with(&mut strip(top_level_mark));
+            .fold_with(&mut strip(unresolved_mark, top_level_mark));
 
         b.iter(|| {
             let module = module.clone();
@@ -78,13 +78,13 @@ fn common_typescript(b: &mut Bencher) {
         let top_level_mark = Mark::fresh(Mark::root());
         let module = module
             .fold_with(&mut resolver(unresolved_mark, top_level_mark, true))
-            .fold_with(&mut strip(top_level_mark));
+            .fold_with(&mut strip(unresolved_mark, top_level_mark));
 
         b.iter(|| {
             let module = module.clone();
 
             helpers::HELPERS.set(&Default::default(), || {
-                black_box(module.fold_with(&mut strip(top_level_mark)));
+                black_box(module.fold_with(&mut strip(unresolved_mark, top_level_mark)));
             });
         });
 

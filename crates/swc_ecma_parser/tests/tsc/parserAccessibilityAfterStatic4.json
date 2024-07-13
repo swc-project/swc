@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 39,
-    "ctxt": 0
+    "end": 39
   },
   "body": [
     {
@@ -12,51 +11,46 @@
         "type": "Identifier",
         "span": {
           "start": 7,
-          "end": 12,
-          "ctxt": 0
+          "end": 12
         },
+        "ctxt": 0,
         "value": "Outer",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 1,
-        "end": 39,
-        "ctxt": 0
+        "end": 39
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassProperty",
           "span": {
             "start": 15,
-            "end": 37,
-            "ctxt": 0
+            "end": 37
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 22,
-              "end": 28,
-              "ctxt": 0
+              "end": 28
             },
-            "value": "public",
-            "optional": false
+            "value": "public"
           },
           "value": null,
           "typeAnnotation": {
             "type": "TsTypeAnnotation",
             "span": {
               "start": 28,
-              "end": 36,
-              "ctxt": 0
+              "end": 36
             },
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
                 "start": 30,
-                "end": 36,
-                "ctxt": 0
+                "end": 36
               },
               "kind": "number"
             }

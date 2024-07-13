@@ -12,7 +12,8 @@ use swc_ecma_utils::{
     ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
+    as_folder, standard_only_visit, standard_only_visit_mut, Fold, Visit, VisitMut, VisitMutWith,
+    VisitWith,
 };
 use swc_trace_macro::swc_trace;
 
@@ -94,59 +95,54 @@ struct ClassExtra {
 
 #[swc_trace]
 impl ClassExtra {
-    fn prepend_with<T: StmtLike + From<Stmt>>(self, stmts: &mut Vec<T>) {
+    fn prepend_with<T: StmtLike>(self, stmts: &mut Vec<T>) {
         if !self.vars.is_empty() {
             prepend_stmt(
                 stmts,
-                Stmt::from(VarDecl {
+                T::from(Stmt::from(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     decls: self.vars,
-                    declare: false,
-                })
-                .into(),
+                    ..Default::default()
+                })),
             )
         }
 
         if !self.lets.is_empty() {
             prepend_stmt(
                 stmts,
-                Stmt::from(VarDecl {
+                T::from(Stmt::from(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Let,
                     decls: self.lets,
-                    declare: false,
-                })
-                .into(),
+                    ..Default::default()
+                })),
             )
         }
 
         stmts.extend(self.stmts.into_iter().map(|stmt| stmt.into()))
     }
 
-    fn merge_with<T: StmtLike + From<Stmt>>(self, stmts: &mut Vec<T>, class: T) {
+    fn merge_with<T: StmtLike>(self, stmts: &mut Vec<T>, class: T) {
         if !self.vars.is_empty() {
-            stmts.push(
-                Stmt::from(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    decls: self.vars,
-                    declare: false,
-                })
-                .into(),
-            )
+            stmts.push(T::from(Stmt::from(VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Var,
+                decls: self.vars,
+                ..Default::default()
+            })))
         }
 
         if !self.lets.is_empty() {
-            stmts.push(
-                Stmt::from(VarDecl {
+            stmts.push(T::from(
+                VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Let,
                     decls: self.lets,
-                    declare: false,
-                })
+                    ..Default::default()
+                }
                 .into(),
-            )
+            ));
         }
 
         stmts.push(class);
@@ -164,7 +160,7 @@ impl Take for ClassExtra {
 #[swc_trace]
 #[fast_path(ShouldWork)]
 impl<C: Comments> VisitMut for ClassProperties<C> {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         self.visit_mut_stmt_like(n);
@@ -190,16 +186,20 @@ impl<C: Comments> VisitMut for ClassProperties<C> {
                 let ident = ident.unwrap_or_else(|| private_ident!("_class"));
                 let (decl, extra) = self.visit_mut_class_as_decl(ident.clone(), class);
 
-                extra.merge_with(&mut stmts, Stmt::Decl(Decl::Class(decl)));
+                extra.merge_with(&mut stmts, decl.into());
 
-                stmts.push(Stmt::Return(ReturnStmt {
-                    span: DUMMY_SP,
-                    arg: Some(Box::new(Expr::Ident(ident))),
-                }));
+                stmts.push(
+                    ReturnStmt {
+                        span: DUMMY_SP,
+                        arg: Some(ident.into()),
+                    }
+                    .into(),
+                );
 
                 *body = BlockStmtOrExpr::BlockStmt(BlockStmt {
                     span: DUMMY_SP,
                     stmts,
+                    ..Default::default()
                 });
             }
             _ => body.visit_mut_children_with(self),
@@ -219,10 +219,11 @@ impl<C: Comments> VisitMut for ClassProperties<C> {
             let (decl, ClassExtra { lets, vars, stmts }) =
                 self.visit_mut_class_as_decl(ident.clone(), class.take());
 
-            let class = Expr::Class(ClassExpr {
+            let class = ClassExpr {
                 ident: orig_ident.clone(),
                 class: decl.class,
-            });
+            }
+            .into();
             if vars.is_empty() && lets.is_empty() && stmts.is_empty() {
                 *expr = class;
                 return;
@@ -317,10 +318,11 @@ impl<C: Comments> VisitMut for ClassProperties<C> {
                 exprs.push(Box::new(ident.into()))
             }
 
-            *expr = Expr::Seq(SeqExpr {
+            *expr = SeqExpr {
                 span: DUMMY_SP,
                 exprs,
-            })
+            }
+            .into()
         } else {
             expr.visit_mut_children_with(self);
         };
@@ -350,13 +352,10 @@ impl<C: Comments> ClassProperties<C> {
                                 let (decl, extra) =
                                     self.visit_mut_class_as_decl(ident.clone(), class);
 
-                                extra.merge_with(
-                                    &mut buf,
-                                    T::from_stmt(Stmt::Decl(Decl::Class(decl))),
-                                );
+                                extra.merge_with(&mut buf, T::from(decl.into()));
 
                                 buf.push(
-                                    match T::try_from_module_decl(ModuleDecl::ExportNamed(
+                                    match T::try_from_module_decl(
                                         NamedExport {
                                             span,
                                             specifiers: vec![ExportNamedSpecifier {
@@ -371,8 +370,9 @@ impl<C: Comments> ClassProperties<C> {
                                             src: None,
                                             type_only: false,
                                             with: None,
-                                        },
-                                    )) {
+                                        }
+                                        .into(),
+                                    ) {
                                         Ok(t) => t,
                                         Err(..) => unreachable!(),
                                     },
@@ -391,12 +391,13 @@ impl<C: Comments> ClassProperties<C> {
                                 let (decl, extra) = self.visit_mut_class_as_decl(ident, class);
                                 extra.merge_with(
                                     &mut buf,
-                                    match T::try_from_module_decl(ModuleDecl::ExportDecl(
+                                    match T::try_from_module_decl(
                                         ExportDecl {
                                             span,
-                                            decl: Decl::Class(decl),
-                                        },
-                                    )) {
+                                            decl: decl.into(),
+                                        }
+                                        .into(),
+                                    ) {
                                         Ok(t) => t,
                                         Err(..) => unreachable!(),
                                     },
@@ -422,11 +423,11 @@ impl<C: Comments> ClassProperties<C> {
                             declare: false,
                         })) => {
                             let (decl, extra) = self.visit_mut_class_as_decl(ident, class);
-                            extra.merge_with(&mut buf, T::from_stmt(Stmt::Decl(Decl::Class(decl))))
+                            extra.merge_with(&mut buf, T::from(decl.into()))
                         }
                         _ => {
                             stmt.visit_mut_children_with(self);
-                            buf.push(T::from_stmt(stmt))
+                            buf.push(T::from(stmt))
                         }
                     }
                 }
@@ -454,12 +455,12 @@ impl<C: Comments> ClassProperties<C> {
                 for member in class.body.iter() {
                     match member {
                         ClassMember::PrivateMethod(method) => {
-                            if let Some(kind) = private_map.get_mut(&method.key.id.sym) {
+                            if let Some(kind) = private_map.get_mut(&method.key.name) {
                                 if dup_private_method(kind, method) {
                                     let error =
-                                        format!("duplicate private name #{}.", method.key.id.sym);
+                                        format!("duplicate private name #{}.", method.key.name);
                                     HANDLER.with(|handler| {
-                                        handler.struct_span_err(method.key.id.span, &error).emit()
+                                        handler.struct_span_err(method.key.span, &error).emit()
                                     });
                                 } else {
                                     match method.kind {
@@ -470,7 +471,7 @@ impl<C: Comments> ClassProperties<C> {
                                 }
                             } else {
                                 private_map.insert(
-                                    method.key.id.sym.clone(),
+                                    method.key.name.clone(),
                                     PrivateKind {
                                         is_method: true,
                                         is_static: method.is_static,
@@ -482,14 +483,14 @@ impl<C: Comments> ClassProperties<C> {
                         }
 
                         ClassMember::PrivateProp(prop) => {
-                            if private_map.contains_key(&prop.key.id.sym) {
-                                let error = format!("duplicate private name #{}.", prop.key.id.sym);
+                            if private_map.contains_key(&prop.key.name) {
+                                let error = format!("duplicate private name #{}.", prop.key.name);
                                 HANDLER.with(|handler| {
-                                    handler.struct_span_err(prop.key.id.span, &error).emit()
+                                    handler.struct_span_err(prop.key.span, &error).emit()
                                 });
                             } else {
                                 private_map.insert(
-                                    prop.key.id.sym.clone(),
+                                    prop.key.name.clone(),
                                     PrivateKind {
                                         is_method: false,
                                         is_static: prop.is_static,
@@ -577,7 +578,7 @@ impl<C: Comments> ClassProperties<C> {
                             // string.
                             PropName::Computed(ComputedPropName {
                                 span: c_span,
-                                expr: Box::new(Expr::Ident(ident)),
+                                expr: ident.into(),
                             })
                         }
                         _ => method.key,
@@ -627,7 +628,7 @@ impl<C: Comments> ClassProperties<C> {
                                     definite: false,
                                 });
                             }
-                            *key.expr = Expr::from(ident);
+                            *key.expr = ident.into();
                         }
                         _ => (),
                     };
@@ -656,12 +657,13 @@ impl<C: Comments> ClassProperties<C> {
                                     definite: false,
                                 });
                                 let span = super_class.span();
-                                **super_class = Expr::Assign(AssignExpr {
+                                **super_class = AssignExpr {
                                     span,
                                     op: op!("="),
                                     left: ident.into(),
                                     right: super_class.take(),
-                                })
+                                }
+                                .into()
                             }
                         }
 
@@ -698,9 +700,10 @@ impl<C: Comments> ClassProperties<C> {
                     let prop_span = prop.span();
 
                     let ident = Ident::new(
-                        format!("_{}", prop.key.id.sym).into(),
+                        format!("_{}", prop.key.name).into(),
                         // We use `self.mark` for private variables.
-                        prop.key.span.apply_mark(self.private.cur_mark()),
+                        prop.key.span,
+                        SyntaxContext::empty().apply_mark(self.private.cur_mark()),
                     );
 
                     if let Some(value) = &mut prop.value {
@@ -740,7 +743,7 @@ impl<C: Comments> ClassProperties<C> {
 
                     let value = prop.value.unwrap_or_else(|| Expr::undefined(prop_span));
 
-                    if prop.is_static && prop.span.has_mark(self.c.static_blocks_mark) {
+                    if prop.is_static && prop.ctxt.has_mark(self.c.static_blocks_mark) {
                         let init = MemberInit::StaticBlock(value);
                         extra_inits.push(init);
                         continue;
@@ -763,24 +766,30 @@ impl<C: Comments> ClassProperties<C> {
                             span: DUMMY_SP,
                             definite: false,
                             name: ident.clone().into(),
-                            init: Some(Box::new(Expr::from(CallExpr {
-                                span,
-                                callee: helper!(class_private_field_loose_key),
-                                args: vec![ident.sym.as_arg()],
-                                type_args: Default::default(),
-                            }))),
+                            init: Some(
+                                CallExpr {
+                                    span,
+                                    callee: helper!(class_private_field_loose_key),
+                                    args: vec![ident.sym.as_arg()],
+                                    ..Default::default()
+                                }
+                                .into(),
+                            ),
                         });
                     } else if !prop.is_static {
                         vars.push(VarDeclarator {
                             span: DUMMY_SP,
                             definite: false,
                             name: ident.into(),
-                            init: Some(Box::new(Expr::from(NewExpr {
-                                span,
-                                callee: Box::new(Expr::Ident(quote_ident!("WeakMap"))),
-                                args: Some(Default::default()),
-                                type_args: Default::default(),
-                            }))),
+                            init: Some(
+                                NewExpr {
+                                    span,
+                                    callee: Box::new(quote_ident!("WeakMap").into()),
+                                    args: Some(Default::default()),
+                                    ..Default::default()
+                                }
+                                .into(),
+                            ),
                         });
                     };
                     if prop.is_static {
@@ -800,26 +809,25 @@ impl<C: Comments> ClassProperties<C> {
 
                     let fn_name = Ident::new(
                         match method.kind {
-                            MethodKind::Getter => format!("get_{}", method.key.id.sym).into(),
-                            MethodKind::Setter => format!("set_{}", method.key.id.sym).into(),
+                            MethodKind::Getter => format!("get_{}", method.key.name).into(),
+                            MethodKind::Setter => format!("set_{}", method.key.name).into(),
                             MethodKind::Method => {
-                                if method.key.id.is_reserved_in_any() {
-                                    format!("__{}", method.key.id.sym).into()
+                                if method.key.name.is_reserved_in_any() {
+                                    format!("__{}", method.key.name).into()
                                 } else {
-                                    method.key.id.sym.clone()
+                                    method.key.name.clone()
                                 }
                             }
                         },
-                        method
-                            .span
-                            .with_ctxt(SyntaxContext::empty())
-                            .apply_mark(self.private.cur_mark()),
+                        method.span,
+                        SyntaxContext::empty().apply_mark(self.private.cur_mark()),
                     );
 
                     let weak_coll_var = Ident::new(
-                        format!("_{}", method.key.id.sym).into(),
+                        format!("_{}", method.key.name).into(),
                         // We use `self.mark` for private variables.
-                        method.key.span.apply_mark(self.private.cur_mark()),
+                        method.key.span,
+                        SyntaxContext::empty().apply_mark(self.private.cur_mark()),
                     );
                     method.function.visit_with(&mut UsedNameCollector {
                         used_names: &mut used_names,
@@ -868,7 +876,7 @@ impl<C: Comments> ClassProperties<C> {
                                     },
                                 }));
                             if inserted && self.c.private_as_properties {
-                                Some(Ident::dummy())
+                                Some(IdentName::default())
                             } else {
                                 None
                             }
@@ -893,7 +901,7 @@ impl<C: Comments> ClassProperties<C> {
                                     name: weak_coll_var.clone(),
                                     fn_name: fn_name.clone(),
                                 }));
-                                Some(Ident::dummy())
+                                Some(Default::default())
                             } else {
                                 None
                             }
@@ -913,19 +921,21 @@ impl<C: Comments> ClassProperties<C> {
                             definite: false,
                             name: weak_coll_var.clone().into(),
                             init: Some(Box::new(if self.c.private_as_properties {
-                                Expr::from(CallExpr {
+                                CallExpr {
                                     span,
                                     callee: helper!(class_private_field_loose_key),
                                     args: vec![weak_coll_var.sym.as_arg()],
-                                    type_args: Default::default(),
-                                })
+                                    ..Default::default()
+                                }
+                                .into()
                             } else {
-                                Expr::New(NewExpr {
+                                NewExpr {
                                     span,
-                                    callee: Box::new(Expr::Ident(extra)),
+                                    callee: extra.into(),
                                     args: Some(Default::default()),
-                                    type_args: Default::default(),
-                                })
+                                    ..Default::default()
+                                }
+                                .into()
                             })),
                         })
                     };
@@ -944,11 +954,14 @@ impl<C: Comments> ClassProperties<C> {
                         in_pat: false,
                     });
 
-                    private_method_fn_decls.push(Stmt::Decl(Decl::Fn(FnDecl {
-                        ident: fn_name,
-                        function: method.function,
-                        declare: false,
-                    })))
+                    private_method_fn_decls.push(
+                        FnDecl {
+                            ident: fn_name,
+                            function: method.function,
+                            declare: false,
+                        }
+                        .into(),
+                    )
                 }
 
                 ClassMember::StaticBlock(..) => {
@@ -1068,7 +1081,7 @@ struct ShouldWork {
 
 #[swc_trace]
 impl Visit for ShouldWork {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_class_method(&mut self, _: &ClassMethod) {
         self.found = true;
@@ -1103,7 +1116,7 @@ struct SuperVisitor {
 }
 
 impl Visit for SuperVisitor {
-    noop_visit_type!();
+    standard_only_visit!();
 
     /// Don't recurse into constructor
     fn visit_constructor(&mut self, _: &Constructor) {}

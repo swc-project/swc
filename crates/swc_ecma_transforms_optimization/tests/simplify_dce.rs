@@ -382,7 +382,7 @@ test!(
                 use_define_for_class_fields: false,
             }),
             resolver(unresolved_mark, top_level_mark, false),
-            strip(top_level_mark),
+            strip(unresolved_mark, top_level_mark),
             tr()
         )
     },
@@ -414,7 +414,7 @@ test!(
                 use_define_for_class_fields: false,
             }),
             resolver(unresolved_mark, top_level_mark, false),
-            strip(top_level_mark),
+            strip(unresolved_mark, top_level_mark),
             tr()
         )
     },
@@ -439,7 +439,7 @@ test!(
     issue_1150_1,
     "
 class A {
-    constructor(o: AOptions = {}) {
+    constructor(o = {}) {
         const {
             a = defaultA,
             c,
@@ -471,7 +471,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
-            strip(top_level_mark),
+            strip(unresolved_mark, top_level_mark),
             class_properties(
                 Some(t.comments.clone()),
                 class_properties::Config {
@@ -511,7 +511,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
-            strip(top_level_mark),
+            strip(unresolved_mark, top_level_mark),
             class_properties(
                 Some(t.comments.clone()),
                 class_properties::Config {
@@ -565,7 +565,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
-            strip(top_level_mark),
+            strip(unresolved_mark, top_level_mark),
             tr(),
         )
     },
@@ -594,7 +594,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
-            strip(top_level_mark),
+            strip(unresolved_mark, top_level_mark),
             class_properties(
                 Some(t.comments.clone()),
                 class_properties::Config {

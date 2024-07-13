@@ -2,8 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 101,
-    "ctxt": 0
+    "end": 101
   },
   "mode": "no-quirks",
   "children": [
@@ -11,8 +10,7 @@
       "type": "DocumentType",
       "span": {
         "start": 1,
-        "end": 15,
-        "ctxt": 0
+        "end": 15
       },
       "name": "html",
       "publicId": null,
@@ -23,8 +21,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 0,
-        "ctxt": 0
+        "end": 0
       },
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -34,8 +31,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -48,8 +44,7 @@
           "type": "Element",
           "span": {
             "start": 17,
-            "end": 101,
-            "ctxt": 0
+            "end": 101
           },
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -59,8 +54,7 @@
               "type": "Text",
               "span": {
                 "start": 23,
-                "end": 24,
-                "ctxt": 0
+                "end": 24
               },
               "data": " ",
               "raw": " "
@@ -69,8 +63,7 @@
               "type": "Element",
               "span": {
                 "start": 24,
-                "end": 51,
-                "ctxt": 0
+                "end": 51
               },
               "tagName": "p",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -80,8 +73,7 @@
                   "type": "Text",
                   "span": {
                     "start": 27,
-                    "end": 47,
-                    "ctxt": 0
+                    "end": 47
                   },
                   "data": "This is a paragraph.",
                   "raw": "This is a paragraph."
@@ -94,8 +86,7 @@
               "type": "Text",
               "span": {
                 "start": 51,
-                "end": 52,
-                "ctxt": 0
+                "end": 52
               },
               "data": " ",
               "raw": " "
@@ -104,8 +95,7 @@
               "type": "Element",
               "span": {
                 "start": 52,
-                "end": 85,
-                "ctxt": 0
+                "end": 85
               },
               "tagName": "p",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -115,8 +105,7 @@
                   "type": "Text",
                   "span": {
                     "start": 55,
-                    "end": 81,
-                    "ctxt": 0
+                    "end": 81
                   },
                   "data": "This is another paragraph.",
                   "raw": "This is another paragraph."
@@ -129,8 +118,7 @@
               "type": "Text",
               "span": {
                 "start": 85,
-                "end": 86,
-                "ctxt": 0
+                "end": 86
               },
               "data": " ",
               "raw": " "
@@ -139,8 +127,7 @@
               "type": "Element",
               "span": {
                 "start": 86,
-                "end": 101,
-                "ctxt": 0
+                "end": 101
               },
               "tagName": "div",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -150,8 +137,7 @@
                   "type": "Text",
                   "span": {
                     "start": 91,
-                    "end": 95,
-                    "ctxt": 0
+                    "end": 95
                   },
                   "data": "test",
                   "raw": "test"

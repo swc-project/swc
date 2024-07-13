@@ -2,8 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 54,
-    "ctxt": 0
+    "end": 54
   },
   "mode": "quirks",
   "children": [
@@ -11,8 +10,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 0,
-        "ctxt": 0
+        "end": 0
       },
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -22,8 +20,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -36,8 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -47,8 +43,7 @@
               "type": "Element",
               "span": {
                 "start": 1,
-                "end": 54,
-                "ctxt": 0
+                "end": 54
               },
               "tagName": "div",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -58,8 +53,7 @@
                   "type": "Element",
                   "span": {
                     "start": 6,
-                    "end": 54,
-                    "ctxt": 0
+                    "end": 54
                   },
                   "tagName": "svg",
                   "namespace": "http://www.w3.org/2000/svg",
@@ -69,8 +63,7 @@
                       "type": "Element",
                       "span": {
                         "start": 11,
-                        "end": 54,
-                        "ctxt": 0
+                        "end": 54
                       },
                       "tagName": "path",
                       "namespace": "http://www.w3.org/2000/svg",
@@ -80,8 +73,7 @@
                           "type": "Element",
                           "span": {
                             "start": 17,
-                            "end": 54,
-                            "ctxt": 0
+                            "end": 54
                           },
                           "tagName": "foreignObject",
                           "namespace": "http://www.w3.org/2000/svg",
@@ -91,8 +83,7 @@
                               "type": "Element",
                               "span": {
                                 "start": 32,
-                                "end": 35,
-                                "ctxt": 0
+                                "end": 35
                               },
                               "tagName": "p",
                               "namespace": "http://www.w3.org/1999/xhtml",
@@ -105,8 +96,7 @@
                               "type": "Element",
                               "span": {
                                 "start": 51,
-                                "end": 54,
-                                "ctxt": 0
+                                "end": 54
                               },
                               "tagName": "p",
                               "namespace": "http://www.w3.org/1999/xhtml",

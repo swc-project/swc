@@ -2,53 +2,49 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 33,
-    "ctxt": 0
+    "end": 33
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 13,
-        "ctxt": 0
+        "end": 13
       },
       "expression": {
         "type": "JSXElement",
         "span": {
           "start": 1,
-          "end": 12,
-          "ctxt": 0
+          "end": 12
         },
         "opening": {
           "type": "JSXOpeningElement",
           "name": {
             "type": "JSXNamespacedName",
+            "span": {
+              "start": 2,
+              "end": 9
+            },
             "namespace": {
               "type": "Identifier",
               "span": {
                 "start": 2,
-                "end": 5,
-                "ctxt": 0
+                "end": 5
               },
-              "value": "Foo",
-              "optional": false
+              "value": "Foo"
             },
             "name": {
               "type": "Identifier",
               "span": {
                 "start": 6,
-                "end": 9,
-                "ctxt": 0
+                "end": 9
               },
-              "value": "Bar",
-              "optional": false
+              "value": "Bar"
             }
           },
           "span": {
             "start": 1,
-            "end": 12,
-            "ctxt": 0
+            "end": 12
           },
           "attributes": [],
           "selfClosing": true,
@@ -62,45 +58,42 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 14,
-        "end": 33,
-        "ctxt": 0
+        "end": 33
       },
       "expression": {
         "type": "JSXElement",
         "span": {
           "start": 14,
-          "end": 33,
-          "ctxt": 0
+          "end": 33
         },
         "opening": {
           "type": "JSXOpeningElement",
           "name": {
             "type": "JSXNamespacedName",
+            "span": {
+              "start": 15,
+              "end": 22
+            },
             "namespace": {
               "type": "Identifier",
               "span": {
                 "start": 15,
-                "end": 18,
-                "ctxt": 0
+                "end": 18
               },
-              "value": "Foo",
-              "optional": false
+              "value": "Foo"
             },
             "name": {
               "type": "Identifier",
               "span": {
                 "start": 19,
-                "end": 22,
-                "ctxt": 0
+                "end": 22
               },
-              "value": "Bar",
-              "optional": false
+              "value": "Bar"
             }
           },
           "span": {
             "start": 14,
-            "end": 23,
-            "ctxt": 0
+            "end": 23
           },
           "attributes": [],
           "selfClosing": false,
@@ -111,30 +104,29 @@
           "type": "JSXClosingElement",
           "span": {
             "start": 23,
-            "end": 33,
-            "ctxt": 0
+            "end": 33
           },
           "name": {
             "type": "JSXNamespacedName",
+            "span": {
+              "start": 25,
+              "end": 32
+            },
             "namespace": {
               "type": "Identifier",
               "span": {
                 "start": 25,
-                "end": 28,
-                "ctxt": 0
+                "end": 28
               },
-              "value": "Foo",
-              "optional": false
+              "value": "Foo"
             },
             "name": {
               "type": "Identifier",
               "span": {
                 "start": 29,
-                "end": 32,
-                "ctxt": 0
+                "end": 32
               },
-              "value": "Bar",
-              "optional": false
+              "value": "Bar"
             }
           }
         }
