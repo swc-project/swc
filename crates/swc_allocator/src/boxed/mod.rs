@@ -54,6 +54,12 @@ impl<T: ?Sized> AsRef<T> for Box<T> {
     }
 }
 
+impl<T: ?Sized> AsMut<T> for Box<T> {
+    fn as_mut(&mut self) -> &mut T {
+        &mut self.0
+    }
+}
+
 impl<T: ?Sized> Deref for Box<T> {
     type Target = T;
 
