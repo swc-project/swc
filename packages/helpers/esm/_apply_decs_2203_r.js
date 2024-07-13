@@ -18,7 +18,7 @@
   CLASS = 10; // only used in assertValidReturnValue
 */
 
-export function _apply_decs_2203_r(targetClass, memberDecs, classDecs, parentClass) {
+function _apply_decs_2203_r(targetClass, memberDecs, classDecs, parentClass) {
     function createAddInitializerMethod(initializers, decoratorFinishedRef) {
         return function addInitializer(initializer) {
             assertNotFinished(decoratorFinishedRef, "addInitializer");

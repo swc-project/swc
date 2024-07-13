@@ -1,4 +1,4 @@
-export function _is_native_reflect_construct() {
+function _is_native_reflect_construct() {
     if (typeof Reflect === "undefined" || !Reflect.construct) return false;
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;

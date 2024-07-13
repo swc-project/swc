@@ -1,4 +1,4 @@
-export function _identity(x) {
+function _identity(x) {
     return x;
 }
 
