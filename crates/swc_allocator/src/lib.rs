@@ -121,7 +121,7 @@ where
     fn deserialize(&self, deserializer: &mut D) -> Result<Vec<T>, D::Error> {
         unsafe {
             let data_address =
-                (&**self).deserialize_unsized(deserializer, |layout| std::alloc::alloc(layout))?;
+                (**self).deserialize_unsized(deserializer, |layout| std::alloc::alloc(layout))?;
             let metadata = self.as_slice().deserialize_metadata(deserializer)?;
             let ptr = ptr_meta::from_raw_parts_mut(data_address, metadata);
             Ok(Box::<[T]>::from_raw(ptr).into())
