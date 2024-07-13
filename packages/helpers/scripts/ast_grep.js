@@ -63,13 +63,27 @@ export function ast_grep() {
                 report_export_mismatch(tree.filename(), match);
             }
 
-            const export_start = match.range().start.index;
-            const export_end = match.range().end.index;
+            const range = match.range();
             source.update(
-                export_start,
-                export_end,
+                range.start.index,
+                range.end.index,
                 `exports._ = ${func_name};`,
             );
+
+            tree
+                .root()
+                .findAll({
+                    rule: {
+                        pattern: func_name,
+                        kind: "identifier",
+                        inside: { kind: "assignment_expression", field: "left" },
+                    },
+                })
+                .forEach((match) => {
+                    const range = match.range();
+
+                    source.prependLeft(range.start.index, `exports._ = `);
+                });
         } else {
             report_noexport(tree.filename(tree.filename()));
         }
