@@ -1,3 +1,3 @@
 function* a() {
-    yield Infinity;
+    yield 2e308;
 }
