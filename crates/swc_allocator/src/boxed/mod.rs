@@ -16,6 +16,13 @@ use crate::alloc::SwcAlloc;
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Box<T: ?Sized>(pub(crate) allocator_api2::boxed::Box<T, SwcAlloc>);
 
+impl<T> From<T> for Box<T> {
+    #[inline(always)]
+    fn from(v: T) -> Self {
+        Box::new(v)
+    }
+}
+
 impl<T> Default for Box<T>
 where
     T: Default,
