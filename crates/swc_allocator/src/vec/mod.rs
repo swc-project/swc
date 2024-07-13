@@ -37,6 +37,23 @@ impl<T> IntoIterator for Vec<T> {
         self.0.into_iter()
     }
 }
+impl<'a, T> IntoIterator for &'a Vec<T> {
+    type IntoIter = std::slice::Iter<'a, T>;
+    type Item = &'a T;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.iter()
+    }
+}
+
+impl<'a, T> IntoIterator for &'a mut Vec<T> {
+    type IntoIter = std::slice::IterMut<'a, T>;
+    type Item = &'a mut T;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.iter_mut()
+    }
+}
 
 impl<T> From<Box<[T]>> for Vec<T> {
     fn from(v: Box<[T]>) -> Self {
