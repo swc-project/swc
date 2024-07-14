@@ -29,9 +29,9 @@ fn bench_alloc(c: &mut Criterion) {
         b.iter(|| {
             let allocator = Allocator::default();
 
-            let mut vec = swc_allocator::vec::Vec::new();
-
             allocator.scope(|| {
+                let mut vec = swc_allocator::vec::Vec::new();
+
                 for i in 0..times {
                     let item: swc_allocator::boxed::Box<usize> =
                         black_box(swc_allocator::boxed::Box::new(black_box(i)));
