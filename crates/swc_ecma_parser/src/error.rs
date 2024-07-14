@@ -8,7 +8,7 @@ use swc_common::{
     Span, Spanned,
 };
 
-use crate::token::Token;
+use crate::token::{Token, Word};
 
 /// Note: this struct is 8 bytes.
 #[derive(Debug, Clone, PartialEq)]
@@ -83,7 +83,7 @@ pub enum SyntaxError {
     UnterminatedStrLit,
     ExpectedUnicodeEscape,
     EscapeInReservedWord {
-        word: JsWord,
+        word: Word,
     },
     UnterminatedRegExp,
     UnterminatedTpl,
@@ -327,7 +327,8 @@ impl SyntaxError {
             SyntaxError::UnterminatedStrLit => "Unterminated string constant".into(),
             SyntaxError::ExpectedUnicodeEscape => "Expected unicode escape".into(),
             SyntaxError::EscapeInReservedWord { ref word } => {
-                format!("Unexpected escape sequence in reserved word: {}", word).into()
+                let jsword: JsWord = word.clone().into();
+                format!("Unexpected escape sequence in reserved word: {}", jsword).into()
             }
             SyntaxError::UnterminatedRegExp => "Unterminated regexp literal".into(),
             SyntaxError::UnterminatedTpl => "Unterminated template".into(),

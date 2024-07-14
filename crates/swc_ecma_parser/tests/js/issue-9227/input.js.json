@@ -1,0 +1,70 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 27
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1,
+        "end": 27
+      },
+      "ctxt": 0,
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 5,
+            "end": 27
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 5,
+              "end": 8
+            },
+            "ctxt": 0,
+            "value": "obj",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 11,
+              "end": 27
+            },
+            "properties": [
+              {
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 13,
+                    "end": 21
+                  },
+                  "value": "var"
+                },
+                "value": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 23,
+                    "end": 25
+                  },
+                  "value": 42.0,
+                  "raw": "42"
+                }
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}
