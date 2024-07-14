@@ -3,11 +3,11 @@ use std::ops::{Deref, DerefMut};
 use rkyv::{vec::ArchivedVec, DeserializeUnsized};
 use serde_derive::{Deserialize, Serialize};
 
-use crate::{alloc::SwcAlloc, boxed::Box};
+use crate::{alloc::CachedAlloc, boxed::Box};
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
 #[repr(transparent)]
-pub struct Vec<T>(allocator_api2::vec::Vec<T, SwcAlloc>);
+pub struct Vec<T>(allocator_api2::vec::Vec<T, CachedAlloc>);
 
 impl<T> Vec<T> {
     pub fn new() -> Self {
@@ -16,7 +16,7 @@ impl<T> Vec<T> {
 }
 
 impl<T> Deref for Vec<T> {
-    type Target = allocator_api2::vec::Vec<T, SwcAlloc>;
+    type Target = allocator_api2::vec::Vec<T, CachedAlloc>;
 
     fn deref(&self) -> &Self::Target {
         &self.0
@@ -31,12 +31,12 @@ impl<T> DerefMut for Vec<T> {
 
 impl<T> Default for Vec<T> {
     fn default() -> Self {
-        Self(allocator_api2::vec::Vec::new_in(SwcAlloc::default()))
+        Self(allocator_api2::vec::Vec::new_in(CachedAlloc::default()))
     }
 }
 
 impl<T> IntoIterator for Vec<T> {
-    type IntoIter = allocator_api2::vec::IntoIter<T, SwcAlloc>;
+    type IntoIter = allocator_api2::vec::IntoIter<T, CachedAlloc>;
     type Item = T;
 
     fn into_iter(self) -> Self::IntoIter {

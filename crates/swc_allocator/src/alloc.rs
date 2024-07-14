@@ -6,12 +6,14 @@ use crate::Allocator;
 
 scoped_thread_local!(pub(crate) static ALLOC: Allocator);
 
+pub(crate) struct SwcAlloc {}
+
 #[derive(Clone, Copy)]
-pub struct SwcAlloc {
+pub struct CachedAlloc {
     pub(crate) is_custom: bool,
 }
 
-impl Default for SwcAlloc {
+impl Default for CachedAlloc {
     fn default() -> Self {
         Self {
             is_custom: ALLOC.is_set(),
@@ -19,7 +21,7 @@ impl Default for SwcAlloc {
     }
 }
 
-impl SwcAlloc {
+impl CachedAlloc {
     /// `true` is passed to `f` if the box is allocated with a custom allocator.
     fn with_allocator<T>(&self, f: impl FnOnce(&dyn allocator_api2::alloc::Allocator) -> T) -> T {
         if self.is_custom {
@@ -33,7 +35,7 @@ impl SwcAlloc {
     }
 }
 
-unsafe impl allocator_api2::alloc::Allocator for SwcAlloc {
+unsafe impl allocator_api2::alloc::Allocator for CachedAlloc {
     fn allocate(&self, layout: Layout) -> Result<NonNull<[u8]>, allocator_api2::alloc::AllocError> {
         self.with_allocator(|a| a.allocate(layout))
     }
