@@ -49,10 +49,7 @@ where
 impl<T> Box<T> {
     #[inline(always)]
     pub fn new(value: T) -> Self {
-        Self(allocator_api2::boxed::Box::new_in(
-            value,
-            CachedAlloc::default(),
-        ))
+        Self(allocator_api2::boxed::Box::new_in(value, SwcAlloc))
     }
 
     pub fn unbox(self) -> T {

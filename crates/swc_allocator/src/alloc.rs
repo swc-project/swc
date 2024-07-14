@@ -1,5 +1,6 @@
 use std::{alloc::Layout, ptr::NonNull};
 
+use allocator_api2::alloc::Global;
 use scoped_tls::scoped_thread_local;
 
 use crate::Allocator;
@@ -26,20 +27,61 @@ impl SwcAlloc {
     }
 }
 
+/// Set the last bit to 1
+fn mark_ptr_as_arena_mode(ptr: NonNull<[u8]>) -> NonNull<[u8]> {
+    let ptr = ptr.as_ptr() as *mut () as usize | 1;
+    unsafe { NonNull::new_unchecked(ptr as *mut [u8]) }
+}
+
+fn is_ptr_in_arena_mode(ptr: NonNull<u8>) -> bool {
+    let ptr = ptr.as_ptr() as usize;
+    ptr & 1 == 1
+}
+
 unsafe impl allocator_api2::alloc::Allocator for SwcAlloc {
     fn allocate(&self, layout: Layout) -> Result<NonNull<[u8]>, allocator_api2::alloc::AllocError> {
-        self.with_allocator(|a| a.allocate(layout))
+        self.with_allocator(|a, is_arena_mode| {
+            let ptr = a.allocate(layout)?;
+
+            if is_arena_mode {
+                Ok(mark_ptr_as_arena_mode(ptr))
+            } else {
+                Ok(ptr)
+            }
+        })
     }
 
     fn allocate_zeroed(
         &self,
         layout: Layout,
     ) -> Result<NonNull<[u8]>, allocator_api2::alloc::AllocError> {
-        self.with_allocator(|a| a.allocate_zeroed(layout))
+        self.with_allocator(|a, is_arena_mode| {
+            let ptr = a.allocate_zeroed(layout)?;
+
+            if is_arena_mode {
+                Ok(mark_ptr_as_arena_mode(ptr))
+            } else {
+                Ok(ptr)
+            }
+        })
     }
 
     unsafe fn deallocate(&self, ptr: NonNull<u8>, layout: Layout) {
-        self.with_allocator(|a| a.deallocate(ptr, layout))
+        if is_ptr_in_arena_mode(ptr) {
+            debug_assert!(
+                ALLOC.is_set(),
+                "Deallocating a pointer allocated with arena mode with a non-arena mode allocator"
+            );
+
+            ALLOC.with(|alloc| {
+                unsafe {
+                    // Safety: We are in unsafe fn
+                    (&**alloc).deallocate(ptr, layout)
+                }
+            })
+        } else {
+            Global.deallocate(ptr, layout)
+        }
     }
 
     unsafe fn grow(
@@ -48,7 +90,15 @@ unsafe impl allocator_api2::alloc::Allocator for SwcAlloc {
         old_layout: Layout,
         new_layout: Layout,
     ) -> Result<NonNull<[u8]>, allocator_api2::alloc::AllocError> {
-        self.with_allocator(|a| a.grow(ptr, old_layout, new_layout))
+        self.with_allocator(|a, is_arena_mode| {
+            let ptr = a.grow(ptr, old_layout, new_layout)?;
+
+            if is_arena_mode {
+                Ok(mark_ptr_as_arena_mode(ptr))
+            } else {
+                Ok(ptr)
+            }
+        })
     }
 
     unsafe fn grow_zeroed(
@@ -57,7 +107,22 @@ unsafe impl allocator_api2::alloc::Allocator for SwcAlloc {
         old_layout: Layout,
         new_layout: Layout,
     ) -> Result<NonNull<[u8]>, allocator_api2::alloc::AllocError> {
-        self.with_allocator(|a| a.grow_zeroed(ptr, old_layout, new_layout))
+        self.with_allocator(|a, is_arena_mode| {
+            if cfg!(debug_assertions) && is_ptr_in_arena_mode(ptr) {
+                debug_assert!(
+                    is_arena_mode,
+                    "Growing a pointer allocated with arena mode with a non-arena mode allocator"
+                );
+            }
+
+            let ptr = a.grow_zeroed(ptr, old_layout, new_layout)?;
+
+            if is_arena_mode {
+                Ok(mark_ptr_as_arena_mode(ptr))
+            } else {
+                Ok(ptr)
+            }
+        })
     }
 
     unsafe fn shrink(
@@ -66,7 +131,22 @@ unsafe impl allocator_api2::alloc::Allocator for SwcAlloc {
         old_layout: Layout,
         new_layout: Layout,
     ) -> Result<NonNull<[u8]>, allocator_api2::alloc::AllocError> {
-        self.with_allocator(|a| a.shrink(ptr, old_layout, new_layout))
+        self.with_allocator(|a, is_arena_mode| {
+            if cfg!(debug_assertions) && is_ptr_in_arena_mode(ptr) {
+                debug_assert!(
+                    is_arena_mode,
+                    "Shrinking a pointer allocated with arena mode with a non-arena mode allocator"
+                );
+            }
+
+            let ptr = a.shrink(ptr, old_layout, new_layout)?;
+
+            if is_arena_mode {
+                Ok(mark_ptr_as_arena_mode(ptr))
+            } else {
+                Ok(ptr)
+            }
+        })
     }
 
     fn by_ref(&self) -> &Self
