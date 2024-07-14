@@ -32,6 +32,13 @@ impl<T> From<T> for Box<T> {
     }
 }
 
+impl<T: ?Sized> From<allocator_api2::boxed::Box<T, SwcAlloc>> for Box<T> {
+    #[inline(always)]
+    fn from(v: allocator_api2::boxed::Box<T, SwcAlloc>) -> Self {
+        Box(v)
+    }
+}
+
 impl<T> Default for Box<T>
 where
     T: Default,
