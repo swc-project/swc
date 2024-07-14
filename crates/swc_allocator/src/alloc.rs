@@ -3,13 +3,21 @@ use std::{alloc::Layout, ptr::NonNull};
 use allocator_api2::alloc::Global;
 use scoped_tls::scoped_thread_local;
 
-use crate::Allocator;
+use crate::{FastAlloc, MemorySpace};
 
-scoped_thread_local!(pub(crate) static ALLOC: Allocator);
+scoped_thread_local!(pub(crate) static ALLOC: MemorySpace);
 
 #[derive(Debug, Clone, Copy)]
 pub struct SwcAlloc {
-    is_arena_mode: bool,
+    pub(crate) is_arena_mode: bool,
+}
+
+impl Default for FastAlloc {
+    fn default() -> Self {
+        Self {
+            is_arena_mode: ALLOC.is_set(),
+        }
+    }
 }
 
 impl Default for SwcAlloc {

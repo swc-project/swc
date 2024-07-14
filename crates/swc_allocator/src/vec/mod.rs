@@ -3,7 +3,7 @@ use std::ops::{Deref, DerefMut};
 #[cfg(feature = "rkyv")]
 mod rkyv;
 
-use crate::{alloc::SwcAlloc, boxed::Box};
+use crate::{alloc::SwcAlloc, boxed::Box, FastAlloc};
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[repr(transparent)]
@@ -241,5 +241,18 @@ impl<T> From<Vec<T>> for Box<[T]> {
 impl<T> Extend<T> for Vec<T> {
     fn extend<I: IntoIterator<Item = T>>(&mut self, iter: I) {
         self.0.extend(iter)
+    }
+}
+
+impl FastAlloc {
+    pub fn vec<T>(self) -> Vec<T> {
+        Vec(allocator_api2::vec::Vec::new_in(self.swc_alloc()))
+    }
+
+    pub fn vec_with_capacity<T>(self, capacity: usize) -> Vec<T> {
+        Vec(allocator_api2::vec::Vec::with_capacity_in(
+            capacity,
+            self.swc_alloc(),
+        ))
     }
 }

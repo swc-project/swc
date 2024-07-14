@@ -7,7 +7,7 @@ use std::{
     pin::Pin,
 };
 
-use crate::alloc::SwcAlloc;
+use crate::{alloc::SwcAlloc, FastAlloc};
 
 #[cfg(feature = "rkyv")]
 mod rkyv;
@@ -625,5 +625,11 @@ where
 {
     fn len(&self) -> usize {
         self.0.len()
+    }
+}
+
+impl FastAlloc {
+    pub fn alloc<T>(self, t: T) -> Box<T> {
+        Box(allocator_api2::boxed::Box::new_in(t, self.swc_alloc()))
     }
 }
