@@ -1,9 +1,9 @@
 use std::ops::{Deref, DerefMut};
 
+use crate::alloc::SwcAlloc;
+
 mod rkyv;
 mod serde;
-
-use crate::alloc::CachedAlloc;
 
 /// A special `Box` which has size of [`std::boxed::Box`] but **may** be
 /// allocated with a custom allocator.
@@ -14,7 +14,7 @@ use crate::alloc::CachedAlloc;
 /// The last bit is 1 if the box is allocated with a custom allocator.
 #[repr(transparent)]
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub struct Box<T: ?Sized>(pub(crate) allocator_api2::boxed::Box<T, CachedAlloc>);
+pub struct Box<T: ?Sized>(pub(crate) allocator_api2::boxed::Box<T, SwcAlloc>);
 
 impl<T> From<T> for Box<T> {
     #[inline(always)]
@@ -64,7 +64,7 @@ impl<T: ?Sized> Box<T> {
     pub unsafe fn from_raw(raw: *mut T) -> Self {
         Self(allocator_api2::boxed::Box::from_raw_in(
             raw,
-            CachedAlloc::default(),
+            SwcAlloc::default(),
         ))
     }
 }

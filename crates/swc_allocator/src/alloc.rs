@@ -6,36 +6,27 @@ use crate::Allocator;
 
 scoped_thread_local!(pub(crate) static ALLOC: Allocator);
 
-pub(crate) struct SwcAlloc {}
+#[derive(Debug, Clone, Copy, Default)]
+pub struct SwcAlloc;
 
-#[derive(Clone, Copy)]
-pub struct CachedAlloc {
-    pub(crate) is_custom: bool,
-}
-
-impl Default for CachedAlloc {
-    fn default() -> Self {
-        Self {
-            is_custom: ALLOC.is_set(),
-        }
-    }
-}
-
-impl CachedAlloc {
+impl SwcAlloc {
     /// `true` is passed to `f` if the box is allocated with a custom allocator.
-    fn with_allocator<T>(&self, f: impl FnOnce(&dyn allocator_api2::alloc::Allocator) -> T) -> T {
-        if self.is_custom {
+    fn with_allocator<T>(
+        &self,
+        f: impl FnOnce(&dyn allocator_api2::alloc::Allocator, bool) -> T,
+    ) -> T {
+        if ALLOC.is_set() {
             ALLOC.with(|a| {
                 //
-                f(&&**a as &dyn allocator_api2::alloc::Allocator)
+                f(&&**a as &dyn allocator_api2::alloc::Allocator, true)
             })
         } else {
-            f(&allocator_api2::alloc::Global)
+            f(&allocator_api2::alloc::Global, false)
         }
     }
 }
 
-unsafe impl allocator_api2::alloc::Allocator for CachedAlloc {
+unsafe impl allocator_api2::alloc::Allocator for SwcAlloc {
     fn allocate(&self, layout: Layout) -> Result<NonNull<[u8]>, allocator_api2::alloc::AllocError> {
         self.with_allocator(|a| a.allocate(layout))
     }
