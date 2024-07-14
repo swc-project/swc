@@ -8,15 +8,15 @@ const repoRootDir = path.resolve(scriptDir, '../../');
 const testsYmlPath = path.resolve(repoRootDir, 'tests.yml');
 const testsYml = parse(await fs.readFile(testsYmlPath, 'utf8'));
 
-console.log("Script dir:", scriptDir);
-console.log(`Using tests.yml at ${testsYmlPath}`);
+process.stderr.write(`Script dir: ${scriptDir}\n`);
+process.stderr.write(`Using tests.yml at ${testsYmlPath}\n`);
 
 const rawMetadata = await $`cargo metadata --format-version=1 --all-features --no-deps`;
 const metadata = JSON.parse(rawMetadata.stdout);
 const packages = metadata.packages.map(p => p.name).filter(name => name !== 'xtask');
 
-console.log('Crates: ', packages)
-console.log('Test config: ', testsYml)
+process.stderr.write(`Crates: ${packages}\n`)
+process.stderr.write(`Test config: ${testsYml}\n`)
 
 const settings = [];
 
@@ -43,4 +43,3 @@ for (const pkg of packages) {
 
 const output = JSON.stringify(settings)
 console.log(output)
-await $`echo settings='${output}' >> $GITHUB_OUTPUT`;
