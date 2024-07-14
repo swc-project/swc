@@ -185,7 +185,7 @@ jobs:
 
       - name: List crates
         id: list-tests
-        run: echo "settings=$(./scripts/cargo/get-test-matrix.sh)" >> $GITHUB_OUTPUT
+        run: echo "settings=$(./scripts/github/get-test-matrix.sh)" >> $GITHUB_OUTPUT
 
   cargo-test:
     name: Test - ${{ matrix.settings.crate }} - ${{ matrix.settings.os }}
