@@ -8,5 +8,19 @@ name          = "swc_allocator"
 repository    = { workspace = true }
 version       = "0.1.1"
 
+[features]
+rkyv  = ["dep:rkyv"]
+serde = ["dep:serde", "dep:serde_derive"]
+
 [dependencies]
-bumpalo = { workspace = true, features = ["boxed", "collections"] }
+allocator-api2 = { workspace = true, features = ["serde"] }
+bumpalo = { workspace = true, features = [
+    "allocator-api2",
+    "boxed",
+    "collections",
+] }
+ptr_meta = { workspace = true }
+rkyv = { workspace = true, optional = true }
+scoped-tls = { workspace = true }
+serde = { workspace = true, optional = true }
+serde_derive = { workspace = true, optional = true }

@@ -63,6 +63,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "allocator-api2"
+version = "0.2.18"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5c6cb57a04249c6480766f7f7cef5467412af1490f8d1e243141daddada3264f"
+dependencies = [
+ "serde",
+]
+
+[[package]]
 name = "android-tzdata"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -406,6 +415,9 @@ name = "bumpalo"
 version = "3.16.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "79296716171880943b8470b5f8d03aa55eb2e645a4874bdbb28adb49162e012c"
+dependencies = [
+ "allocator-api2",
+]
 
 [[package]]
 name = "bytecheck"
@@ -3688,7 +3700,13 @@ dependencies = [
 name = "swc_allocator"
 version = "0.1.1"
 dependencies = [
+ "allocator-api2",
  "bumpalo",
+ "ptr_meta",
+ "rkyv",
+ "scoped-tls",
+ "serde",
+ "serde_derive",
 ]
 
 [[package]]
@@ -3810,6 +3828,7 @@ dependencies = [
  "serde_json",
  "siphasher",
  "sourcemap",
+ "swc_allocator",
  "swc_atoms",
  "swc_eq_ignore_macros",
  "swc_visit",
