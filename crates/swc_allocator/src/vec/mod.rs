@@ -86,3 +86,9 @@ impl<T> From<Vec<T>> for Box<[T]> {
         Box(v.0.into())
     }
 }
+
+impl<T> Extend<T> for Vec<T> {
+    fn extend<I: IntoIterator<Item = T>>(&mut self, iter: I) {
+        self.0.extend(iter)
+    }
+}

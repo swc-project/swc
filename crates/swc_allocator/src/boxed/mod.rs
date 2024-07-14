@@ -1,7 +1,8 @@
 use std::{
     borrow::{Borrow, BorrowMut},
-    fmt::{Debug, Display, Formatter},
-    io::BufRead,
+    fmt::{self, Debug, Display, Formatter},
+    io::{self, BufRead, Read, Seek},
+    iter::FusedIterator,
     ops::{Deref, DerefMut},
     path::Path,
     pin::Pin,
@@ -544,5 +545,90 @@ where
         P: FnMut(&Self::Item) -> bool,
     {
         self.0.rfind(predicate)
+    }
+}
+
+impl<T: ?Sized> fmt::Pointer for Box<T> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        fmt::Pointer::fmt(&self.0, f)
+    }
+}
+
+impl<T: ?Sized> Read for Box<T>
+where
+    T: Read,
+{
+    fn read(&mut self, buf: &mut [u8]) -> std::io::Result<usize> {
+        self.0.read(buf)
+    }
+
+    fn read_to_end(&mut self, buf: &mut Vec<u8>) -> std::io::Result<usize> {
+        self.0.read_to_end(buf)
+    }
+
+    fn read_to_string(&mut self, buf: &mut String) -> std::io::Result<usize> {
+        self.0.read_to_string(buf)
+    }
+
+    fn read_exact(&mut self, buf: &mut [u8]) -> std::io::Result<()> {
+        self.0.read_exact(buf)
+    }
+}
+
+impl<T: ?Sized> Seek for Box<T>
+where
+    T: Seek,
+{
+    fn seek(&mut self, pos: std::io::SeekFrom) -> std::io::Result<u64> {
+        self.0.seek(pos)
+    }
+}
+
+impl<T: ?Sized> fmt::Write for Box<T>
+where
+    T: fmt::Write,
+{
+    fn write_str(&mut self, s: &str) -> fmt::Result {
+        self.0.write_str(s)
+    }
+
+    fn write_char(&mut self, c: char) -> fmt::Result {
+        self.0.write_char(c)
+    }
+
+    fn write_fmt(&mut self, args: fmt::Arguments) -> fmt::Result {
+        self.0.write_fmt(args)
+    }
+}
+
+impl<T: ?Sized> io::Write for Box<T>
+where
+    T: io::Write,
+{
+    fn write(&mut self, buf: &[u8]) -> io::Result<usize> {
+        self.0.write(buf)
+    }
+
+    fn flush(&mut self) -> io::Result<()> {
+        self.0.flush()
+    }
+
+    fn write_all(&mut self, buf: &[u8]) -> io::Result<()> {
+        self.0.write_all(buf)
+    }
+
+    fn write_fmt(&mut self, fmt: fmt::Arguments) -> io::Result<()> {
+        self.0.write_fmt(fmt)
+    }
+}
+
+impl<T> FusedIterator for Box<T> where T: FusedIterator {}
+
+impl<T> ExactSizeIterator for Box<T>
+where
+    T: ExactSizeIterator,
+{
+    fn len(&self) -> usize {
+        self.0.len()
     }
 }
