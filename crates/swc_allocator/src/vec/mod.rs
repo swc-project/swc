@@ -2,8 +2,6 @@ use std::ops::{Deref, DerefMut};
 
 #[cfg(feature = "rkyv")]
 mod rkyv;
-#[cfg(feature = "serde")]
-mod serde;
 
 use crate::{alloc::SwcAlloc, boxed::Box};
 
