@@ -3698,7 +3698,7 @@ dependencies = [
 
 [[package]]
 name = "swc_allocator"
-version = "0.1.1"
+version = "0.1.2"
 dependencies = [
  "allocator-api2",
  "bumpalo",
