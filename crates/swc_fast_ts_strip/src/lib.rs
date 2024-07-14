@@ -1,7 +1,7 @@
 use std::{cell::RefCell, rc::Rc};
 
 use anyhow::Error;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use swc_common::{
     comments::SingleThreadedComments,
     errors::{Handler, HANDLER},
@@ -51,6 +51,12 @@ fn default_ts_syntax() -> TsSyntax {
         decorators: true,
         ..Default::default()
     }
+}
+
+#[derive(Debug, Serialize)]
+pub struct TransformOutput {
+    pub code: String,
+    pub map: Option<String>,
 }
 
 pub fn operate(
@@ -109,80 +115,88 @@ pub fn operate(
     }
 
     drop(parser);
-    let mut tokens = RefCell::into_inner(Rc::try_unwrap(tokens).unwrap());
 
-    tokens.sort_by_key(|t| t.span);
+    match options.mode {
+        Mode::StripOnly => {
+            let mut tokens = RefCell::into_inner(Rc::try_unwrap(tokens).unwrap());
 
-    // Strip typescript types
-    let mut ts_strip = TsStrip::new(fm.src.clone(), tokens);
-    program.visit_with(&mut ts_strip);
+            tokens.sort_by_key(|t| t.span);
 
-    let replacements = ts_strip.replacements;
-    let overwrites = ts_strip.overwrites;
+            // Strip typescript types
+            let mut ts_strip = TsStrip::new(fm.src.clone(), tokens);
+            program.visit_with(&mut ts_strip);
 
-    if replacements.is_empty() && overwrites.is_empty() {
-        return Ok(fm.src.to_string());
-    }
+            let replacements = ts_strip.replacements;
+            let overwrites = ts_strip.overwrites;
 
-    let source = fm.src.clone();
-    let mut code = fm.src.to_string().into_bytes();
+            if replacements.is_empty() && overwrites.is_empty() {
+                return Ok(fm.src.to_string());
+            }
 
-    for r in replacements {
-        let (start, end) = (r.0 .0 as usize - 1, r.1 .0 as usize - 1);
+            let source = fm.src.clone();
+            let mut code = fm.src.to_string().into_bytes();
 
-        for (i, c) in source[start..end].char_indices() {
-            let i = start + i;
-            match c {
-                // https://262.ecma-international.org/#sec-white-space
-                '\u{0009}' | '\u{0000B}' | '\u{000C}' | '\u{FEFF}' => continue,
-                // Space_Separator
-                '\u{0020}' | '\u{00A0}' | '\u{1680}' | '\u{2000}' | '\u{2001}' | '\u{2002}'
-                | '\u{2003}' | '\u{2004}' | '\u{2005}' | '\u{2006}' | '\u{2007}' | '\u{2008}'
-                | '\u{2009}' | '\u{200A}' | '\u{202F}' | '\u{205F}' | '\u{3000}' => continue,
-                // https://262.ecma-international.org/#sec-line-terminators
-                '\u{000A}' | '\u{000D}' | '\u{2028}' | '\u{2029}' => continue,
-                _ => match c.len_utf8() {
-                    1 => {
-                        // Space 0020
-                        code[i] = 0x20;
+            for r in replacements {
+                let (start, end) = (r.0 .0 as usize - 1, r.1 .0 as usize - 1);
+
+                for (i, c) in source[start..end].char_indices() {
+                    let i = start + i;
+                    match c {
+                        // https://262.ecma-international.org/#sec-white-space
+                        '\u{0009}' | '\u{0000B}' | '\u{000C}' | '\u{FEFF}' => continue,
+                        // Space_Separator
+                        '\u{0020}' | '\u{00A0}' | '\u{1680}' | '\u{2000}' | '\u{2001}'
+                        | '\u{2002}' | '\u{2003}' | '\u{2004}' | '\u{2005}' | '\u{2006}'
+                        | '\u{2007}' | '\u{2008}' | '\u{2009}' | '\u{200A}' | '\u{202F}'
+                        | '\u{205F}' | '\u{3000}' => continue,
+                        // https://262.ecma-international.org/#sec-line-terminators
+                        '\u{000A}' | '\u{000D}' | '\u{2028}' | '\u{2029}' => continue,
+                        _ => match c.len_utf8() {
+                            1 => {
+                                // Space 0020
+                                code[i] = 0x20;
+                            }
+                            2 => {
+                                // No-Break Space 00A0
+                                code[i] = 0xc2;
+                                code[i + 1] = 0xa0;
+                            }
+                            3 => {
+                                // En Space 2002
+                                code[i] = 0xe2;
+                                code[i + 1] = 0x80;
+                                code[i + 2] = 0x82;
+                            }
+                            4 => {
+                                // We do not have a 4-byte space character in the Unicode standard.
+
+                                // Space 0020
+                                code[i] = 0x20;
+                                // ZWNBSP FEFF
+                                code[i + 1] = 0xef;
+                                code[i + 2] = 0xbb;
+                                code[i + 3] = 0xbf;
+                            }
+                            _ => unreachable!(),
+                        },
                     }
-                    2 => {
-                        // No-Break Space 00A0
-                        code[i] = 0xc2;
-                        code[i + 1] = 0xa0;
-                    }
-                    3 => {
-                        // En Space 2002
-                        code[i] = 0xe2;
-                        code[i + 1] = 0x80;
-                        code[i + 2] = 0x82;
-                    }
-                    4 => {
-                        // We do not have a 4-byte space character in the Unicode standard.
+                }
+            }
 
-                        // Space 0020
-                        code[i] = 0x20;
-                        // ZWNBSP FEFF
-                        code[i + 1] = 0xef;
-                        code[i + 2] = 0xbb;
-                        code[i + 3] = 0xbf;
-                    }
-                    _ => unreachable!(),
-                },
+            for (i, v) in overwrites {
+                code[i.0 as usize - 1] = v;
+            }
+
+            if cfg!(debug_assertions) {
+                String::from_utf8(code).map_err(|_| anyhow::anyhow!("failed to convert to utf-8"))
+            } else {
+                // SAFETY: We've already validated that the source is valid utf-8
+                // and our operations are limited to character-level string replacements.
+                unsafe { Ok(String::from_utf8_unchecked(code)) }
             }
         }
-    }
 
-    for (i, v) in overwrites {
-        code[i.0 as usize - 1] = v;
-    }
-
-    if cfg!(debug_assertions) {
-        String::from_utf8(code).map_err(|_| anyhow::anyhow!("failed to convert to utf-8"))
-    } else {
-        // SAFETY: We've already validated that the source is valid utf-8
-        // and our operations are limited to character-level string replacements.
-        unsafe { Ok(String::from_utf8_unchecked(code)) }
+        Mode::Transform => {}
     }
 }
 
