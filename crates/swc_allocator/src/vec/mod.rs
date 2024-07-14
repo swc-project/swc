@@ -20,7 +20,8 @@ impl<T> Vec<T> {
 
     pub fn with_capacity(capacity: usize) -> Self {
         Self(allocator_api2::vec::Vec::with_capacity_in(
-            capacity, SwcAlloc,
+            capacity,
+            SwcAlloc::default(),
         ))
     }
 
@@ -163,7 +164,10 @@ impl<T> Vec<T> {
     /// ```
     pub unsafe fn from_raw_parts(ptr: *mut T, length: usize, capacity: usize) -> Self {
         Self(allocator_api2::vec::Vec::from_raw_parts_in(
-            ptr, length, capacity, SwcAlloc,
+            ptr,
+            length,
+            capacity,
+            SwcAlloc::default(),
         ))
     }
 }
@@ -184,7 +188,7 @@ impl<T> DerefMut for Vec<T> {
 
 impl<T> Default for Vec<T> {
     fn default() -> Self {
-        Self(allocator_api2::vec::Vec::new_in(SwcAlloc))
+        Self(allocator_api2::vec::Vec::new_in(SwcAlloc::default()))
     }
 }
 
