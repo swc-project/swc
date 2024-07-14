@@ -1,6 +1,7 @@
 os:
   windows:
     - swc
+    - swc_allocator
     - swc_cli
     - swc_common
     - swc_css_codegen
@@ -18,6 +19,7 @@ os:
     - swc_plugin_runner
     - swc_plugin_testing
   macos:
+    - swc_allocator
     - swc_plugin_runner
 
 # host:
@@ -27,6 +29,8 @@ check:
   swc:
     # plugin feature is verified by other tasks
     - "cargo hack check --feature-powerset --no-dev-deps --exclude-features debug --exclude-features plugin --exclude-features plugin_transform_schema_v1 --exclude-features plugin_transform_schema_vtest --exclude-features plugin_transform_host_js"
+  swc_allocator:
+    - "cargo hack check"
   swc_bundler:
     - "cargo hack check --feature-powerset --no-dev-deps"
   swc_common:
