@@ -33,6 +33,17 @@ pub struct Options {
 
     #[serde(default = "default_ts_syntax")]
     pub parser: TsSyntax,
+
+    #[serde(default)]
+    pub mode: Mode,
+}
+
+#[derive(Debug, Default, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum Mode {
+    #[default]
+    StripOnly,
+    Transform,
 }
 
 fn default_ts_syntax() -> TsSyntax {
