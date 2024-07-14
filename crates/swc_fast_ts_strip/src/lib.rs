@@ -1,12 +1,13 @@
 use std::{cell::RefCell, rc::Rc};
 
-use anyhow::Error;
-use serde::Deserialize;
+use anyhow::{Context, Error};
+use serde::{Deserialize, Serialize};
 use swc_common::{
     comments::SingleThreadedComments,
     errors::{Handler, HANDLER},
+    source_map::DefaultSourceMapGenConfig,
     sync::Lrc,
-    BytePos, FileName, SourceMap, Span, Spanned,
+    BytePos, FileName, Mark, SourceMap, Span, Spanned,
 };
 use swc_ecma_ast::{
     ArrowExpr, BindingIdent, Class, ClassDecl, ClassMethod, ClassProp, EsVersion, ExportAll,
@@ -21,9 +22,11 @@ use swc_ecma_parser::{
     token::{IdentLike, KnownIdent, Token, TokenAndSpan, Word},
     Capturing, Parser, StringInput, Syntax, TsSyntax,
 };
-use swc_ecma_visit::{Visit, VisitWith};
+use swc_ecma_transforms_base::{fixer::fixer, helpers::inject_helpers, hygiene::hygiene, resolver};
+use swc_ecma_transforms_typescript::typescript;
+use swc_ecma_visit::{Visit, VisitMutWith, VisitWith};
 
-#[derive(Deserialize)]
+#[derive(Default, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Options {
     #[serde(default)]
@@ -33,6 +36,23 @@ pub struct Options {
 
     #[serde(default = "default_ts_syntax")]
     pub parser: TsSyntax,
+
+    #[serde(default)]
+    pub mode: Mode,
+
+    #[serde(default)]
+    pub transform: Option<typescript::Config>,
+
+    #[serde(default)]
+    pub source_map: bool,
+}
+
+#[derive(Debug, Default, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum Mode {
+    #[default]
+    StripOnly,
+    Transform,
 }
 
 fn default_ts_syntax() -> TsSyntax {
@@ -42,12 +62,18 @@ fn default_ts_syntax() -> TsSyntax {
     }
 }
 
+#[derive(Debug, Serialize)]
+pub struct TransformOutput {
+    pub code: String,
+    pub map: Option<String>,
+}
+
 pub fn operate(
     cm: &Lrc<SourceMap>,
     handler: &Handler,
     input: String,
     options: Options,
-) -> Result<String, Error> {
+) -> Result<TransformOutput, Error> {
     let filename = options
         .filename
         .map_or(FileName::Anon, |f| FileName::Real(f.into()));
@@ -76,7 +102,7 @@ pub fn operate(
     };
     let errors = parser.take_errors();
 
-    let program = match program {
+    let mut program = match program {
         Ok(program) => program,
         Err(err) => {
             err.into_diagnostic(handler).emit();
@@ -98,80 +124,159 @@ pub fn operate(
     }
 
     drop(parser);
-    let mut tokens = RefCell::into_inner(Rc::try_unwrap(tokens).unwrap());
 
-    tokens.sort_by_key(|t| t.span);
+    match options.mode {
+        Mode::StripOnly => {
+            let mut tokens = RefCell::into_inner(Rc::try_unwrap(tokens).unwrap());
 
-    // Strip typescript types
-    let mut ts_strip = TsStrip::new(fm.src.clone(), tokens);
-    program.visit_with(&mut ts_strip);
+            tokens.sort_by_key(|t| t.span);
 
-    let replacements = ts_strip.replacements;
-    let overwrites = ts_strip.overwrites;
+            // Strip typescript types
+            let mut ts_strip = TsStrip::new(fm.src.clone(), tokens);
+            program.visit_with(&mut ts_strip);
 
-    if replacements.is_empty() && overwrites.is_empty() {
-        return Ok(fm.src.to_string());
-    }
+            let replacements = ts_strip.replacements;
+            let overwrites = ts_strip.overwrites;
 
-    let source = fm.src.clone();
-    let mut code = fm.src.to_string().into_bytes();
+            if replacements.is_empty() && overwrites.is_empty() {
+                return Ok(TransformOutput {
+                    code: fm.src.to_string(),
+                    map: Default::default(),
+                });
+            }
 
-    for r in replacements {
-        let (start, end) = (r.0 .0 as usize - 1, r.1 .0 as usize - 1);
+            let source = fm.src.clone();
+            let mut code = fm.src.to_string().into_bytes();
 
-        for (i, c) in source[start..end].char_indices() {
-            let i = start + i;
-            match c {
-                // https://262.ecma-international.org/#sec-white-space
-                '\u{0009}' | '\u{0000B}' | '\u{000C}' | '\u{FEFF}' => continue,
-                // Space_Separator
-                '\u{0020}' | '\u{00A0}' | '\u{1680}' | '\u{2000}' | '\u{2001}' | '\u{2002}'
-                | '\u{2003}' | '\u{2004}' | '\u{2005}' | '\u{2006}' | '\u{2007}' | '\u{2008}'
-                | '\u{2009}' | '\u{200A}' | '\u{202F}' | '\u{205F}' | '\u{3000}' => continue,
-                // https://262.ecma-international.org/#sec-line-terminators
-                '\u{000A}' | '\u{000D}' | '\u{2028}' | '\u{2029}' => continue,
-                _ => match c.len_utf8() {
-                    1 => {
-                        // Space 0020
-                        code[i] = 0x20;
+            for r in replacements {
+                let (start, end) = (r.0 .0 as usize - 1, r.1 .0 as usize - 1);
+
+                for (i, c) in source[start..end].char_indices() {
+                    let i = start + i;
+                    match c {
+                        // https://262.ecma-international.org/#sec-white-space
+                        '\u{0009}' | '\u{0000B}' | '\u{000C}' | '\u{FEFF}' => continue,
+                        // Space_Separator
+                        '\u{0020}' | '\u{00A0}' | '\u{1680}' | '\u{2000}' | '\u{2001}'
+                        | '\u{2002}' | '\u{2003}' | '\u{2004}' | '\u{2005}' | '\u{2006}'
+                        | '\u{2007}' | '\u{2008}' | '\u{2009}' | '\u{200A}' | '\u{202F}'
+                        | '\u{205F}' | '\u{3000}' => continue,
+                        // https://262.ecma-international.org/#sec-line-terminators
+                        '\u{000A}' | '\u{000D}' | '\u{2028}' | '\u{2029}' => continue,
+                        _ => match c.len_utf8() {
+                            1 => {
+                                // Space 0020
+                                code[i] = 0x20;
+                            }
+                            2 => {
+                                // No-Break Space 00A0
+                                code[i] = 0xc2;
+                                code[i + 1] = 0xa0;
+                            }
+                            3 => {
+                                // En Space 2002
+                                code[i] = 0xe2;
+                                code[i + 1] = 0x80;
+                                code[i + 2] = 0x82;
+                            }
+                            4 => {
+                                // We do not have a 4-byte space character in the Unicode standard.
+
+                                // Space 0020
+                                code[i] = 0x20;
+                                // ZWNBSP FEFF
+                                code[i + 1] = 0xef;
+                                code[i + 2] = 0xbb;
+                                code[i + 3] = 0xbf;
+                            }
+                            _ => unreachable!(),
+                        },
                     }
-                    2 => {
-                        // No-Break Space 00A0
-                        code[i] = 0xc2;
-                        code[i + 1] = 0xa0;
-                    }
-                    3 => {
-                        // En Space 2002
-                        code[i] = 0xe2;
-                        code[i + 1] = 0x80;
-                        code[i + 2] = 0x82;
-                    }
-                    4 => {
-                        // We do not have a 4-byte space character in the Unicode standard.
+                }
+            }
 
-                        // Space 0020
-                        code[i] = 0x20;
-                        // ZWNBSP FEFF
-                        code[i + 1] = 0xef;
-                        code[i + 2] = 0xbb;
-                        code[i + 3] = 0xbf;
-                    }
-                    _ => unreachable!(),
-                },
+            for (i, v) in overwrites {
+                code[i.0 as usize - 1] = v;
+            }
+
+            let code = if cfg!(debug_assertions) {
+                String::from_utf8(code)
+                    .map_err(|_| anyhow::anyhow!("failed to convert to utf-8"))?
+            } else {
+                // SAFETY: We've already validated that the source is valid utf-8
+                // and our operations are limited to character-level string replacements.
+                unsafe { String::from_utf8_unchecked(code) }
+            };
+
+            Ok(TransformOutput {
+                code,
+                map: Default::default(),
+            })
+        }
+
+        Mode::Transform => {
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
+
+            program.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, true));
+
+            program.visit_mut_with(&mut typescript::typescript(
+                options.transform.unwrap_or_default(),
+                unresolved_mark,
+                top_level_mark,
+            ));
+
+            program.visit_mut_with(&mut inject_helpers(unresolved_mark));
+
+            program.visit_mut_with(&mut hygiene());
+
+            program.visit_mut_with(&mut fixer(Some(&comments)));
+
+            let mut src = vec![];
+            let mut src_map_buf = if options.source_map {
+                Some(vec![])
+            } else {
+                None
+            };
+
+            {
+                let mut emitter = swc_ecma_codegen::Emitter {
+                    cfg: swc_ecma_codegen::Config::default(),
+                    comments: if options.source_map {
+                        Some(&comments)
+                    } else {
+                        None
+                    },
+                    cm: cm.clone(),
+                    wr: swc_ecma_codegen::text_writer::JsWriter::new(
+                        cm.clone(),
+                        "\n",
+                        &mut src,
+                        src_map_buf.as_mut(),
+                    ),
+                };
+
+                emitter.emit_program(&program).unwrap();
+
+                let map = src_map_buf
+                    .map(|map| {
+                        let map =
+                            cm.build_source_map_with_config(&map, None, DefaultSourceMapGenConfig);
+
+                        let mut s = vec![];
+                        map.to_writer(&mut s)
+                            .context("failed to write source map")?;
+
+                        String::from_utf8(s).context("source map was not utf8")
+                    })
+                    .transpose()?;
+
+                Ok(TransformOutput {
+                    code: String::from_utf8(src).context("generated code was not utf-8")?,
+                    map,
+                })
             }
         }
-    }
-
-    for (i, v) in overwrites {
-        code[i.0 as usize - 1] = v;
-    }
-
-    if cfg!(debug_assertions) {
-        String::from_utf8(code).map_err(|_| anyhow::anyhow!("failed to convert to utf-8"))
-    } else {
-        // SAFETY: We've already validated that the source is valid utf-8
-        // and our operations are limited to character-level string replacements.
-        unsafe { Ok(String::from_utf8_unchecked(code)) }
     }
 }
 

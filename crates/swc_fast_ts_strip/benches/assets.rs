@@ -14,9 +14,7 @@ fn fast_typescript(b: &mut Bencher) {
                 handler,
                 black_box(SOURCE.to_string()),
                 Options {
-                    module: None,
-                    filename: None,
-                    parser: Default::default(),
+                    ..Default::default()
                 },
             ))
             .unwrap();

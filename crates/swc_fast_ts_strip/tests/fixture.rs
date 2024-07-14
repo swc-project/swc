@@ -10,7 +10,9 @@ fn test(input: PathBuf) {
     let output_file = input.with_extension("js");
 
     testing::run_test(false, |cm, handler| {
-        let code = operate(&cm, handler, input_code, opts()).expect("should not return Err()");
+        let code = operate(&cm, handler, input_code, opts())
+            .expect("should not return Err()")
+            .code;
 
         NormalizedOutput::new_raw(code)
             .compare_to_file(output_file)
@@ -44,5 +46,6 @@ fn opts() -> Options {
             decorators: true,
             ..Default::default()
         },
+        ..Default::default()
     }
 }
