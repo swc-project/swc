@@ -26,11 +26,11 @@ fn bench_alloc(c: &mut Criterion) {
         })
     }
 
-    c.bench_function("common/allocator/alloc/no-scope/1000_000_000", |b| {
-        direct_alloc(b, 1000 * 1000 * 1000)
+    c.bench_function("common/allocator/alloc/no-scope/1000", |b| {
+        direct_alloc(b, 1000)
     });
-    c.bench_function("common/allocator/alloc/scoped/1000_000_000", |b| {
-        direct_alloc_in_scope(b, 1000 * 1000 * 1000)
+    c.bench_function("common/allocator/alloc/scoped/1000", |b| {
+        direct_alloc_in_scope(b, 1000)
     });
 }
 
