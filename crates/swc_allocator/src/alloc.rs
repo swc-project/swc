@@ -13,17 +13,16 @@ pub struct SwcAllocator(MemorySpace);
 impl SwcAllocator {
     /// Invokes `f` in a scope where the allocations are done in this allocator.
     #[inline(always)]
-    pub fn scope<F, R>(&self, f: F) -> R
+    pub fn scope<'a, F, R>(&'a self, f: F) -> R
     where
         F: FnOnce() -> R,
     {
-        ALLOC.set(
-            unsafe {
-                // Safery: We are using a scoped API
-                transmute::<&SwcAllocator, &&'static SwcAllocator>(&self)
-            },
-            f,
-        )
+        let s = unsafe {
+            // Safery: We are using a scoped API
+            transmute::<&'a SwcAllocator, &'static SwcAllocator>(self)
+        };
+
+        ALLOC.set(&s, f)
     }
 }
 
