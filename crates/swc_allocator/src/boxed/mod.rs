@@ -1,4 +1,7 @@
-use std::ops::{Deref, DerefMut};
+use std::{
+    ops::{Deref, DerefMut},
+    pin::Pin,
+};
 
 use crate::alloc::SwcAlloc;
 
@@ -25,20 +28,6 @@ impl<T> From<T> for Box<T> {
     }
 }
 
-pub trait IntoBox<T>: Sized {
-    fn boxed(self) -> Box<T>;
-}
-
-impl<T, V> IntoBox<T> for V
-where
-    V: Into<T>,
-{
-    #[inline(always)]
-    fn boxed(self) -> Box<T> {
-        Box::new(self.into())
-    }
-}
-
 impl<T> Default for Box<T>
 where
     T: Default,
@@ -49,19 +38,154 @@ where
 }
 
 impl<T> Box<T> {
+    /// Allocates a new box with `value`.
+    ///
+    /// See [`std::boxed::Box::new`].
     #[inline(always)]
     pub fn new(value: T) -> Self {
         Self(allocator_api2::boxed::Box::new_in(value, SwcAlloc))
     }
 
+    /// Moves the value out of the box.
     pub fn unbox(self) -> T {
         allocator_api2::boxed::Box::into_inner(self.0)
     }
 }
 
 impl<T: ?Sized> Box<T> {
+    /// Constructs a box from a raw pointer.
+    ///
+    /// After calling this function, the raw pointer is owned by the
+    /// resulting `Box`. Specifically, the `Box` destructor will call
+    /// the destructor of `T` and free the allocated memory. For this
+    /// to be safe, the memory must have been allocated in accordance
+    /// with the [memory layout] used by `Box` .
+    ///
+    /// # Safety
+    ///
+    /// This function is unsafe because improper use may lead to
+    /// memory problems. For example, a double-free may occur if the
+    /// function is called twice on the same raw pointer.
+    ///
+    /// The safety conditions are described in the [memory layout] section.
+    ///
+    /// # Examples
+    ///
+    /// Recreate a `Box` which was previously converted to a raw pointer
+    /// using [`Box::into_raw`]:
+    /// ```
+    /// let x = Box::new(5);
+    /// let ptr = Box::into_raw(x);
+    /// let x = unsafe { Box::from_raw(ptr) };
+    /// ```
+    /// Manually create a `Box` from scratch by using the global allocator:
+    /// ```
+    /// use std::alloc::{alloc, Layout};
+    ///
+    /// unsafe {
+    ///     let ptr = alloc(Layout::new::<i32>()) as *mut i32;
+    ///     // In general .write is required to avoid attempting to destruct
+    ///     // the (uninitialized) previous contents of `ptr`, though for this
+    ///     // simple example `*ptr = 5` would have worked as well.
+    ///     ptr.write(5);
+    ///     let x = Box::from_raw(ptr);
+    /// }
+    /// ```
+    ///
+    /// [memory layout]: self#memory-layout
+    /// [`Layout`]: crate::Layout
     pub unsafe fn from_raw(raw: *mut T) -> Self {
         Self(allocator_api2::boxed::Box::from_raw_in(raw, SwcAlloc))
+    }
+
+    /// Consumes the `Box`, returning a wrapped raw pointer.
+    ///
+    /// The pointer will be properly aligned and non-null.
+    ///
+    /// After calling this function, the caller is responsible for the
+    /// memory previously managed by the `Box`. In particular, the
+    /// caller should properly destroy `T` and release the memory, taking
+    /// into account the [memory layout] used by `Box`. The easiest way to
+    /// do this is to convert the raw pointer back into a `Box` with the
+    /// [`Box::from_raw`] function, allowing the `Box` destructor to perform
+    /// the cleanup.
+    ///
+    /// Note: this is an associated function, which means that you have
+    /// to call it as `Box::into_raw(b)` instead of `b.into_raw()`. This
+    /// is so that there is no conflict with a method on the inner type.
+    ///
+    /// # Examples
+    /// Converting the raw pointer back into a `Box` with [`Box::from_raw`]
+    /// for automatic cleanup:
+    /// ```
+    /// let x = Box::new(String::from("Hello"));
+    /// let ptr = Box::into_raw(x);
+    /// let x = unsafe { Box::from_raw(ptr) };
+    /// ```
+    /// Manual cleanup by explicitly running the destructor and deallocating
+    /// the memory:
+    /// ```
+    /// use std::alloc::{dealloc, Layout};
+    /// use std::ptr;
+    ///
+    /// let x = Box::new(String::from("Hello"));
+    /// let ptr = Box::into_raw(x);
+    /// unsafe {
+    ///     ptr::drop_in_place(ptr);
+    ///     dealloc(ptr as *mut u8, Layout::new::<String>());
+    /// }
+    /// ```
+    /// Note: This is equivalent to the following:
+    /// ```
+    /// let x = Box::new(String::from("Hello"));
+    /// let ptr = Box::into_raw(x);
+    /// unsafe {
+    ///     drop(Box::from_raw(ptr));
+    /// }
+    /// ```
+    ///
+    /// [memory layout]: self#memory-layout
+    pub fn into_raw(b: Self) -> *mut T {
+        allocator_api2::boxed::Box::into_raw(b.0)
+    }
+
+    /// Converts a `Box<T>` into a `Pin<Box<T>>`. If `T` does not implement
+    /// [`Unpin`], then `*boxed` will be pinned in memory and unable to be
+    /// moved.
+    ///
+    /// This conversion does not allocate on the heap and happens in place.
+    ///
+    /// This is also available via [`From`].
+    ///
+    /// Constructing and pinning a `Box` with
+    /// <code>Box::into_pin([Box::new]\(x))</code> can also be written more
+    /// concisely using <code>[Box::pin]\(x)</code>. This `into_pin` method
+    /// is useful if you already have a `Box<T>`, or you are constructing a
+    /// (pinned) `Box` in a different way than with [`Box::new`].
+    ///
+    /// # Notes
+    ///
+    /// It's not recommended that crates add an impl like `From<Box<T>> for
+    /// Pin<T>`, as it'll introduce an ambiguity when calling `Pin::from`.
+    /// A demonstration of such a poor impl is shown below.
+    ///
+    /// ```compile_fail
+    /// # use std::pin::Pin;
+    /// struct Foo; // A type defined in this crate.
+    /// impl From<Box<()>> for Pin<Foo> {
+    ///     fn from(_: Box<()>) -> Pin<Foo> {
+    ///         Pin::new(Foo)
+    ///     }
+    /// }
+    ///
+    /// let foo = Box::new(());
+    /// let bar = Pin::from(foo);
+    /// ```
+    pub fn into_pin(boxed: Self) -> Pin<Self> {
+        // It's not possible to move or replace the insides of a `Pin<Box<T>>`
+        // when `T: !Unpin`, so it's safe to pin it directly without any
+        // additional requirements.
+        unsafe { Pin::new_unchecked(boxed) }
     }
 }
 
