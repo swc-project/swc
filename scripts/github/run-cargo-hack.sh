@@ -8,7 +8,7 @@ crate=$1
 echo "Running cargo hack for crate $crate"
 
 # yq query syntax is weird, so we have to use jq
-json_str="$(yq -o=json $SCRIPT_DIR/tests.yml)"
+json_str="$(yq -o=json $SCRIPT_DIR/../../tests.yml)"
 
 
 if echo $json_str | jq -e ".check.\"$crate\"" > /dev/null; then
