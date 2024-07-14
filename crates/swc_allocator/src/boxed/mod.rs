@@ -2,7 +2,9 @@ use std::ops::{Deref, DerefMut};
 
 use crate::alloc::SwcAlloc;
 
+#[cfg(feature = "rkyv")]
 mod rkyv;
+#[cfg(feature = "serde")]
 mod serde;
 
 /// A special `Box` which has size of [`std::boxed::Box`] but **may** be
