@@ -211,6 +211,15 @@ jobs:
           - crate: swc_atoms
             os: ubuntu-latest
             runner: ubuntu-latest
+          - crate: swc_allocator
+            os: ubuntu-latest
+            runner: ubuntu-latest
+          - crate: swc_allocator
+            os: ubuntu-latest
+            runner: windows-latest
+          - crate: swc_allocator
+            os: macos-latest
+            runner: ubuntu-latest
           - crate: swc_bundler
             os: ubuntu-latest
             runner: ubuntu-latest
