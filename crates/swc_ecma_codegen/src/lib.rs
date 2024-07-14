@@ -719,7 +719,7 @@ where
 
         if self.cfg.minify {
             if num.value.is_infinite() && num.raw.is_some() {
-                self.wr.write_str_lit(DUMMY_SP, &num.raw.clone().unwrap())?;
+                self.wr.write_str_lit(DUMMY_SP, num.raw.as_ref().unwrap())?;
             } else {
                 value = minify_number(num.value);
                 self.wr.write_str_lit(DUMMY_SP, &value)?;
@@ -732,7 +732,7 @@ where
                         slice == b"0b" || slice == b"0o" || slice == b"0B" || slice == b"0O"
                     } {
                         if num.value.is_infinite() && num.raw.is_some() {
-                            self.wr.write_str_lit(DUMMY_SP, &num.raw.clone().unwrap())?;
+                            self.wr.write_str_lit(DUMMY_SP, num.raw.as_ref().unwrap())?;
                         } else {
                             value = num.value.to_string();
                             self.wr.write_str_lit(DUMMY_SP, &value)?;
