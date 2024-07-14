@@ -178,10 +178,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
+      - uses: ./.github/actions/setup-node
 
       - name: List crates
         id: list-tests
