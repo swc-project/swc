@@ -24,3 +24,8 @@ rkyv = { workspace = true, optional = true }
 scoped-tls = { workspace = true }
 serde = { workspace = true, optional = true }
 serde_derive = { workspace = true, optional = true }
+
+
+[[bench]]
+harness = false
+name    = "bench"
