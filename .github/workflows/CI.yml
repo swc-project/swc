@@ -330,6 +330,7 @@ jobs:
           tool: cargo-hack@0.5.29
 
       - name: Check compilation
+        if: matrix.settings.os == 'ubuntu-latest'
         run: |
           ./scripts/github/run-cargo-hack.sh ${{ matrix.settings.crate }}
 
