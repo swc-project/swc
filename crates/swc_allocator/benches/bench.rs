@@ -70,21 +70,21 @@ fn bench_alloc(c: &mut Criterion) {
         })
     }
 
-    c.bench_function("common/allocator/alloc/std/100000", |b| {
-        direct_alloc_std(b, 100000)
+    c.bench_function("common/allocator/alloc/std/1000000", |b| {
+        direct_alloc_std(b, 1000000)
     });
-    c.bench_function("common/allocator/alloc/no-scope/100000", |b| {
-        direct_alloc_no_scope(b, 100000)
+    c.bench_function("common/allocator/alloc/no-scope/1000000", |b| {
+        direct_alloc_no_scope(b, 1000000)
     });
-    c.bench_function("common/allocator/alloc/scoped/100000", |b| {
-        direct_alloc_scoped(b, 100000)
+    c.bench_function("common/allocator/alloc/scoped/1000000", |b| {
+        direct_alloc_scoped(b, 1000000)
     });
 
-    c.bench_function("common/allocator/alloc/cached-no-scope/100000", |b| {
-        fast_alloc_no_scope(b, 100000)
+    c.bench_function("common/allocator/alloc/cached-no-scope/1000000", |b| {
+        fast_alloc_no_scope(b, 1000000)
     });
-    c.bench_function("common/allocator/alloc/cached-scoped/100000", |b| {
-        fast_alloc_scoped(b, 100000)
+    c.bench_function("common/allocator/alloc/cached-scoped/1000000", |b| {
+        fast_alloc_scoped(b, 1000000)
     });
 }
 
