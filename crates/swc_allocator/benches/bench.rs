@@ -12,7 +12,7 @@ fn bench_alloc(c: &mut Criterion) {
         })
     }
 
-    c.bench_function("common/allocator/alloc/1000", |b| {
+    c.bench_function("common/allocator/alloc/1000_000_000", |b| {
         direct_alloc(b, 1000 * 1000 * 1000)
     });
 }
