@@ -4,12 +4,11 @@
 
 #![allow(clippy::needless_doctest_main)]
 
-use alloc::SwcAllocator;
 use std::ops::{Deref, DerefMut};
 
 use bumpalo::Bump;
 
-use crate::alloc::ALLOC;
+pub use crate::alloc::SwcAllocator;
 
 mod alloc;
 pub mod boxed;
@@ -21,7 +20,7 @@ pub struct FastAlloc {
 }
 
 #[derive(Default)]
-pub struct MemorySpace {
+struct MemorySpace {
     alloc: Bump,
 }
 
