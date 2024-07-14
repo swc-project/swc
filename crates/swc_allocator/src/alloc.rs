@@ -33,6 +33,10 @@ fn mark_ptr_as_arena_mode(ptr: NonNull<[u8]>) -> NonNull<[u8]> {
 
     raw_ptr = (raw_ptr as usize | 1) as *mut ();
 
+    debug_assert!(is_ptr_in_arena_mode(unsafe {
+        NonNull::new_unchecked(raw_ptr as *mut u8)
+    }));
+
     unsafe {
         // Safety:
         NonNull::new_unchecked(ptr_meta::from_raw_parts_mut(raw_ptr, metadata))
