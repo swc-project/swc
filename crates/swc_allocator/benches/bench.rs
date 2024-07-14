@@ -1,7 +1,7 @@
 extern crate swc_malloc;
 
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
-use swc_allocator::{FastAlloc, MemorySpace};
+use swc_allocator::{FastAlloc, SwcAllocator};
 
 fn bench_alloc(c: &mut Criterion) {
     fn direct_alloc_std(b: &mut Bencher, times: usize) {
@@ -40,7 +40,7 @@ fn bench_alloc(c: &mut Criterion) {
 
     fn direct_alloc_scoped(b: &mut Bencher, times: usize) {
         b.iter(|| {
-            let allocator = MemorySpace::default();
+            let allocator = SwcAllocator::default();
 
             allocator.scope(|| {
                 let mut vec = swc_allocator::vec::Vec::new();
@@ -56,7 +56,7 @@ fn bench_alloc(c: &mut Criterion) {
 
     fn fast_alloc_scoped(b: &mut Bencher, times: usize) {
         b.iter(|| {
-            MemorySpace::default().scope(|| {
+            SwcAllocator::default().scope(|| {
                 let allocator = FastAlloc::default();
 
                 let mut vec = allocator.vec();

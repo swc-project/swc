@@ -4,44 +4,24 @@
 
 #![allow(clippy::needless_doctest_main)]
 
-use alloc::SwcAlloc;
 use std::ops::{Deref, DerefMut};
 
 use bumpalo::Bump;
 
-use crate::alloc::ALLOC;
+pub use crate::alloc::SwcAllocator;
 
 mod alloc;
 pub mod boxed;
 pub mod vec;
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone)]
 pub struct FastAlloc {
-    is_arena_mode: bool,
-}
-
-impl FastAlloc {
-    fn swc_alloc(self) -> SwcAlloc {
-        SwcAlloc {
-            is_arena_mode: self.is_arena_mode,
-        }
-    }
+    alloc: Option<&'static SwcAllocator>,
 }
 
 #[derive(Default)]
-pub struct MemorySpace {
+struct MemorySpace {
     alloc: Bump,
-}
-
-impl MemorySpace {
-    /// Invokes `f` in a scope where the allocations are done in this allocator.
-    #[inline(always)]
-    pub fn scope<F, R>(&self, f: F) -> R
-    where
-        F: FnOnce() -> R,
-    {
-        ALLOC.set(self, f)
-    }
 }
 
 impl From<Bump> for MemorySpace {

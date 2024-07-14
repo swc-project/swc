@@ -7,7 +7,7 @@ use std::{
     pin::Pin,
 };
 
-use crate::{alloc::SwcAlloc, FastAlloc};
+use crate::FastAlloc;
 
 #[cfg(feature = "rkyv")]
 mod rkyv;
@@ -23,7 +23,7 @@ mod serde;
 /// The last bit is 1 if the box is allocated with a custom allocator.
 #[repr(transparent)]
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub struct Box<T: ?Sized>(pub(crate) allocator_api2::boxed::Box<T, SwcAlloc>);
+pub struct Box<T: ?Sized>(pub(crate) allocator_api2::boxed::Box<T, FastAlloc>);
 
 impl<T> From<T> for Box<T> {
     #[inline(always)]
@@ -32,9 +32,9 @@ impl<T> From<T> for Box<T> {
     }
 }
 
-impl<T: ?Sized> From<allocator_api2::boxed::Box<T, SwcAlloc>> for Box<T> {
+impl<T: ?Sized> From<allocator_api2::boxed::Box<T, FastAlloc>> for Box<T> {
     #[inline(always)]
-    fn from(v: allocator_api2::boxed::Box<T, SwcAlloc>) -> Self {
+    fn from(v: allocator_api2::boxed::Box<T, FastAlloc>) -> Self {
         Box(v)
     }
 }
@@ -56,7 +56,7 @@ impl<T> Box<T> {
     pub fn new(value: T) -> Self {
         Self(allocator_api2::boxed::Box::new_in(
             value,
-            SwcAlloc::default(),
+            FastAlloc::default(),
         ))
     }
 
@@ -111,7 +111,7 @@ impl<T: ?Sized> Box<T> {
     pub unsafe fn from_raw(raw: *mut T) -> Self {
         Self(allocator_api2::boxed::Box::from_raw_in(
             raw,
-            SwcAlloc::default(),
+            FastAlloc::default(),
         ))
     }
 
@@ -629,7 +629,7 @@ where
 }
 
 impl FastAlloc {
-    pub fn alloc<T>(self, t: T) -> Box<T> {
-        Box(allocator_api2::boxed::Box::new_in(t, self.swc_alloc()))
+    pub fn alloc<T>(&self, t: T) -> Box<T> {
+        Box(allocator_api2::boxed::Box::new_in(t, self.clone()))
     }
 }

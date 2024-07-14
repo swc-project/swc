@@ -1,5 +1,5 @@
 use criterion::black_box;
-use swc_allocator::MemorySpace;
+use swc_allocator::SwcAllocator;
 
 #[test]
 fn direct_alloc_std() {
@@ -22,7 +22,7 @@ fn direct_alloc_no_scope() {
 
 #[test]
 fn direct_alloc_in_scope() {
-    let allocator = MemorySpace::default();
+    let allocator = SwcAllocator::default();
 
     allocator.scope(|| {
         let mut vec = swc_allocator::vec::Vec::new();
