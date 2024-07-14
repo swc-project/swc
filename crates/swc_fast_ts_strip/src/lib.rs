@@ -64,7 +64,7 @@ pub fn operate(
     handler: &Handler,
     input: String,
     options: Options,
-) -> Result<String, Error> {
+) -> Result<TransformOutput, Error> {
     let filename = options
         .filename
         .map_or(FileName::Anon, |f| FileName::Real(f.into()));
@@ -130,7 +130,10 @@ pub fn operate(
             let overwrites = ts_strip.overwrites;
 
             if replacements.is_empty() && overwrites.is_empty() {
-                return Ok(fm.src.to_string());
+                return Ok(TransformOutput {
+                    code: fm.src.to_string(),
+                    map: Default::default(),
+                });
             }
 
             let source = fm.src.clone();
@@ -187,13 +190,19 @@ pub fn operate(
                 code[i.0 as usize - 1] = v;
             }
 
-            if cfg!(debug_assertions) {
-                String::from_utf8(code).map_err(|_| anyhow::anyhow!("failed to convert to utf-8"))
+            let code = if cfg!(debug_assertions) {
+                String::from_utf8(code)
+                    .map_err(|_| anyhow::anyhow!("failed to convert to utf-8"))?
             } else {
                 // SAFETY: We've already validated that the source is valid utf-8
                 // and our operations are limited to character-level string replacements.
-                unsafe { Ok(String::from_utf8_unchecked(code)) }
-            }
+                unsafe { String::from_utf8_unchecked(code) }
+            };
+
+            Ok(TransformOutput {
+                code,
+                map: Default::default(),
+            })
         }
 
         Mode::Transform => {}
