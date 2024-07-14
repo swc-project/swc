@@ -182,7 +182,7 @@ jobs:
 
       - name: List crates
         id: list-tests
-        run: echo "settings=$(npx zx ./scripts/github/get-test-matrix.mjs) >> $GITHUB_OUTPUT"
+        run: echo "settings=$(npx zx ./scripts/github/get-test-matrix.mjs)" >> $GITHUB_OUTPUT
 
   cargo-test:
     name: Test - ${{ matrix.settings.crate }} - ${{ matrix.settings.os }}
