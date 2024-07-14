@@ -46,4 +46,4 @@ for (const pkg of packages) {
 
 const output = JSON.stringify(settings)
 console.log(output)
-await `echo ${output} >> $GITHUB_OUTPUT`;
+await `echo settings='${output}' >> $GITHUB_OUTPUT`;
