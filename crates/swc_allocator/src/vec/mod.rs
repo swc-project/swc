@@ -3,7 +3,7 @@ use std::ops::{Deref, DerefMut};
 #[cfg(feature = "rkyv")]
 mod rkyv;
 
-use crate::{alloc::SwcAlloc, boxed::Box, FastAlloc};
+use crate::{boxed::Box, FastAlloc};
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[repr(transparent)]
@@ -11,7 +11,7 @@ use crate::{alloc::SwcAlloc, boxed::Box, FastAlloc};
     feature = "serde",
     derive(serde_derive::Serialize, serde_derive::Deserialize)
 )]
-pub struct Vec<T>(allocator_api2::vec::Vec<T, SwcAlloc>);
+pub struct Vec<T>(allocator_api2::vec::Vec<T, FastAlloc>);
 
 impl<T> Vec<T> {
     pub fn new() -> Self {
@@ -21,7 +21,7 @@ impl<T> Vec<T> {
     pub fn with_capacity(capacity: usize) -> Self {
         Self(allocator_api2::vec::Vec::with_capacity_in(
             capacity,
-            SwcAlloc::default(),
+            FastAlloc::default(),
         ))
     }
 
@@ -167,13 +167,13 @@ impl<T> Vec<T> {
             ptr,
             length,
             capacity,
-            SwcAlloc::default(),
+            FastAlloc::default(),
         ))
     }
 }
 
 impl<T> Deref for Vec<T> {
-    type Target = allocator_api2::vec::Vec<T, SwcAlloc>;
+    type Target = allocator_api2::vec::Vec<T, FastAlloc>;
 
     fn deref(&self) -> &Self::Target {
         &self.0
@@ -188,12 +188,12 @@ impl<T> DerefMut for Vec<T> {
 
 impl<T> Default for Vec<T> {
     fn default() -> Self {
-        Self(allocator_api2::vec::Vec::new_in(SwcAlloc::default()))
+        Self(allocator_api2::vec::Vec::new_in(FastAlloc::default()))
     }
 }
 
 impl<T> IntoIterator for Vec<T> {
-    type IntoIter = allocator_api2::vec::IntoIter<T, SwcAlloc>;
+    type IntoIter = allocator_api2::vec::IntoIter<T, FastAlloc>;
     type Item = T;
 
     fn into_iter(self) -> Self::IntoIter {
@@ -245,14 +245,14 @@ impl<T> Extend<T> for Vec<T> {
 }
 
 impl FastAlloc {
-    pub fn vec<T>(self) -> Vec<T> {
-        Vec(allocator_api2::vec::Vec::new_in(self.swc_alloc()))
+    pub fn vec<T>(&self) -> Vec<T> {
+        Vec(allocator_api2::vec::Vec::new_in(self.clone()))
     }
 
-    pub fn vec_with_capacity<T>(self, capacity: usize) -> Vec<T> {
+    pub fn vec_with_capacity<T>(&self, capacity: usize) -> Vec<T> {
         Vec(allocator_api2::vec::Vec::with_capacity_in(
             capacity,
-            self.swc_alloc(),
+            self.clone(),
         ))
     }
 }
