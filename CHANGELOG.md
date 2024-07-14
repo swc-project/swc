@@ -56,6 +56,9 @@
 - **(allocator)** Implement `SwcAlloc` ([#9232](https://github.com/swc-project/swc/issues/9232)) ([e343eb6](https://github.com/swc-project/swc/commit/e343eb6de2747086f9873c6444964500e40b4936))
 
 
+- **(es/typescript)** Add `transform` mode back to fast TS strip ([#9237](https://github.com/swc-project/swc/issues/9237)) ([8231e3c](https://github.com/swc-project/swc/commit/8231e3cd4f72ad120735f6a21d9616e98d61eed1))
+
+
 - **(es/utils)** Support for arrays using `cast_to_number` ([#9212](https://github.com/swc-project/swc/issues/9212)) ([2aef14d](https://github.com/swc-project/swc/commit/2aef14d34d22df41bd6f421633eadc50826217cc))
 
 ### Miscellaneous Tasks
@@ -1382,9 +1385,6 @@
 
 ### Bug Fixes
 
-
-
-- **(es)** Fix plugin template & restore `test!` as `test_inline!` ([#8508](https://github.com/swc-project/swc/issues/8508)) ([10449e0](https://github.com/swc-project/swc/commit/10449e08d9459af2c313eb7146005bcff016d169))
 
 
 - **(plugin)** Set `swc_common::errors::HANDLER` while invoking plugins ([#8511](https://github.com/swc-project/swc/issues/8511)) ([ba753f1](https://github.com/swc-project/swc/commit/ba753f12885c4c3062afa5782dc7f6652981a659))
