@@ -16,7 +16,7 @@ pub mod vec;
 
 #[derive(Clone)]
 pub struct FastAlloc {
-    alloc: Option<SwcAllocator>,
+    alloc: Option<&'static SwcAllocator>,
 }
 
 #[derive(Default)]

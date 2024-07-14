@@ -1,15 +1,14 @@
-use std::{alloc::Layout, ptr::NonNull};
+use std::{alloc::Layout, mem::transmute, ptr::NonNull};
 
 use allocator_api2::alloc::Global;
 use scoped_tls::scoped_thread_local;
-use triomphe::Arc;
 
 use crate::{FastAlloc, MemorySpace};
 
-scoped_thread_local!(pub(crate) static ALLOC: SwcAllocator);
+scoped_thread_local!(pub(crate) static ALLOC: &'static SwcAllocator);
 
-#[derive(Clone, Default)]
-pub struct SwcAllocator(Arc<MemorySpace>);
+#[derive(Default)]
+pub struct SwcAllocator(MemorySpace);
 
 impl SwcAllocator {
     /// Invokes `f` in a scope where the allocations are done in this allocator.
@@ -18,7 +17,13 @@ impl SwcAllocator {
     where
         F: FnOnce() -> R,
     {
-        ALLOC.set(self, f)
+        ALLOC.set(
+            unsafe {
+                // Safery: We are using a scoped API
+                transmute::<&_, &'static _>(self)
+            },
+            f,
+        )
     }
 }
 
@@ -26,7 +31,7 @@ impl Default for FastAlloc {
     fn default() -> Self {
         Self {
             alloc: if ALLOC.is_set() {
-                Some(ALLOC.with(|v| v.clone()))
+                Some(ALLOC.with(|v| *v))
             } else {
                 None
             },
@@ -41,7 +46,7 @@ impl FastAlloc {
         f: impl FnOnce(&dyn allocator_api2::alloc::Allocator, bool) -> T,
     ) -> T {
         if let Some(arena) = &self.alloc {
-            f((&&**arena.0) as &dyn allocator_api2::alloc::Allocator, true)
+            f((&&*arena.0) as &dyn allocator_api2::alloc::Allocator, true)
         } else {
             f(&allocator_api2::alloc::Global, false)
         }
