@@ -90,15 +90,18 @@ unsafe impl allocator_api2::alloc::Allocator for SwcAlloc {
         old_layout: Layout,
         new_layout: Layout,
     ) -> Result<NonNull<[u8]>, allocator_api2::alloc::AllocError> {
-        self.with_allocator(|a, is_arena_mode| {
-            let ptr = a.grow(ptr, old_layout, new_layout)?;
+        if is_ptr_in_arena_mode(ptr) {
+            debug_assert!(
+                ALLOC.is_set(),
+                "Growing a pointer allocated with arena mode with a non-arena mode allocator"
+            );
 
-            if is_arena_mode {
-                Ok(mark_ptr_as_arena_mode(ptr))
-            } else {
-                Ok(ptr)
-            }
-        })
+            ALLOC.with(|alloc| {
+                return (&**alloc).grow(ptr, old_layout, new_layout);
+            })
+        } else {
+            Global.grow(ptr, old_layout, new_layout)
+        }
     }
 
     unsafe fn grow_zeroed(
@@ -107,22 +110,18 @@ unsafe impl allocator_api2::alloc::Allocator for SwcAlloc {
         old_layout: Layout,
         new_layout: Layout,
     ) -> Result<NonNull<[u8]>, allocator_api2::alloc::AllocError> {
-        self.with_allocator(|a, is_arena_mode| {
-            if cfg!(debug_assertions) && is_ptr_in_arena_mode(ptr) {
-                debug_assert!(
-                    is_arena_mode,
-                    "Growing a pointer allocated with arena mode with a non-arena mode allocator"
-                );
-            }
+        if is_ptr_in_arena_mode(ptr) {
+            debug_assert!(
+                ALLOC.is_set(),
+                "Growing a pointer allocated with arena mode with a non-arena mode allocator"
+            );
 
-            let ptr = a.grow_zeroed(ptr, old_layout, new_layout)?;
-
-            if is_arena_mode {
-                Ok(mark_ptr_as_arena_mode(ptr))
-            } else {
-                Ok(ptr)
-            }
-        })
+            ALLOC.with(|alloc| {
+                return (&**alloc).grow_zeroed(ptr, old_layout, new_layout);
+            })
+        } else {
+            Global.grow_zeroed(ptr, old_layout, new_layout)
+        }
     }
 
     unsafe fn shrink(
@@ -131,22 +130,18 @@ unsafe impl allocator_api2::alloc::Allocator for SwcAlloc {
         old_layout: Layout,
         new_layout: Layout,
     ) -> Result<NonNull<[u8]>, allocator_api2::alloc::AllocError> {
-        self.with_allocator(|a, is_arena_mode| {
-            if cfg!(debug_assertions) && is_ptr_in_arena_mode(ptr) {
-                debug_assert!(
-                    is_arena_mode,
-                    "Shrinking a pointer allocated with arena mode with a non-arena mode allocator"
-                );
-            }
+        if is_ptr_in_arena_mode(ptr) {
+            debug_assert!(
+                ALLOC.is_set(),
+                "Shrinking a pointer allocated with arena mode with a non-arena mode allocator"
+            );
 
-            let ptr = a.shrink(ptr, old_layout, new_layout)?;
-
-            if is_arena_mode {
-                Ok(mark_ptr_as_arena_mode(ptr))
-            } else {
-                Ok(ptr)
-            }
-        })
+            ALLOC.with(|alloc| {
+                return (&**alloc).shrink(ptr, old_layout, new_layout);
+            })
+        } else {
+            Global.shrink(ptr, old_layout, new_layout)
+        }
     }
 
     fn by_ref(&self) -> &Self
