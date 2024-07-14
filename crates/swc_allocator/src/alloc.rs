@@ -20,7 +20,7 @@ impl SwcAllocator {
         ALLOC.set(
             unsafe {
                 // Safery: We are using a scoped API
-                transmute::<&_, &'static _>(self)
+                transmute::<&SwcAllocator, &&'static SwcAllocator>(&self)
             },
             f,
         )
