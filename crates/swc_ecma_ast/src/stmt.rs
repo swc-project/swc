@@ -1,4 +1,5 @@
 use is_macro::Is;
+use swc_allocator::{boxed::Box, vec::Vec};
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, SyntaxContext, DUMMY_SP};
 
 use crate::{
@@ -23,11 +24,7 @@ pub struct BlockStmt {
 
 impl Take for BlockStmt {
     fn dummy() -> Self {
-        BlockStmt {
-            span: DUMMY_SP,
-            stmts: vec![],
-            ctxt: Default::default(),
-        }
+        Default::default()
     }
 }
 

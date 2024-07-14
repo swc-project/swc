@@ -3,6 +3,7 @@ use std::{borrow::Cow, mem::transmute};
 
 use is_macro::Is;
 use string_enum::StringEnum;
+use swc_allocator::{boxed::Box, vec::Vec};
 use swc_atoms::Atom;
 use swc_common::{
     ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, SyntaxContext, DUMMY_SP,
@@ -168,7 +169,7 @@ pub enum Expr {
     Invalid(Invalid),
 }
 
-bridge_from!(Box<Expr>, Box<JSXElement>, JSXElement);
+bridge_from!(Expr, Box<JSXElement>, JSXElement);
 
 // Memory layout depends on the version of rustc.
 // #[cfg(target_pointer_width = "64")]
@@ -467,7 +468,6 @@ boxed_expr!(ParenExpr);
 boxed_expr!(JSXMemberExpr);
 boxed_expr!(JSXNamespacedName);
 boxed_expr!(JSXEmptyExpr);
-boxed_expr!(Box<JSXElement>);
 boxed_expr!(JSXFragment);
 boxed_expr!(TsTypeAssertion);
 boxed_expr!(TsSatisfiesExpr);
@@ -528,7 +528,7 @@ impl ObjectLit {
     ///
     /// Returns [None] if this is not a valid for `with` of [crate::ImportDecl].
     pub fn as_import_with(&self) -> Option<ImportWith> {
-        let mut values = vec![];
+        let mut values = Vec::default();
         for prop in &self.props {
             match prop {
                 PropOrSpread::Spread(..) => return None,
@@ -1401,7 +1401,7 @@ impl TryFrom<Box<Pat>> for AssignTarget {
     type Error = Box<Pat>;
 
     fn try_from(p: Box<Pat>) -> Result<Self, Self::Error> {
-        (*p).try_into().map_err(Box::new)
+        p.unbox().try_into().map_err(Box::new)
     }
 }
 
@@ -1502,7 +1502,8 @@ impl TryFrom<Box<Expr>> for SimpleAssignTarget {
     type Error = Box<Expr>;
 
     fn try_from(e: Box<Expr>) -> Result<Self, Self::Error> {
-        Ok(match *e {
+        let e = e.unbox();
+        Ok(match e {
             Expr::Ident(i) => SimpleAssignTarget::Ident(i.into()),
             Expr::Member(m) => SimpleAssignTarget::Member(m),
             Expr::SuperProp(s) => SimpleAssignTarget::SuperProp(s),
@@ -1513,7 +1514,7 @@ impl TryFrom<Box<Expr>> for SimpleAssignTarget {
             Expr::TsNonNull(n) => SimpleAssignTarget::TsNonNull(n),
             Expr::TsTypeAssertion(a) => SimpleAssignTarget::TsTypeAssertion(a),
             Expr::TsInstantiation(a) => SimpleAssignTarget::TsInstantiation(a),
-            _ => return Err(e),
+            _ => return Err(Box::new(e)),
         })
     }
 }

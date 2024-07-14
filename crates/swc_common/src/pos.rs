@@ -190,3 +190,12 @@ where
         }
     }
 }
+
+impl<T> Spanned for swc_allocator::boxed::Box<T>
+where
+    T: Spanned,
+{
+    fn span(&self) -> Span {
+        self.as_ref().span()
+    }
+}

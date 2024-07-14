@@ -1,4 +1,5 @@
 use is_macro::Is;
+use swc_allocator::{boxed::Box, vec::Vec};
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 use crate::{
@@ -71,7 +72,7 @@ bridge_pat_from!(BindingIdent, Id);
 macro_rules! pat_to_other {
     ($T:ty) => {
         bridge_from!(crate::Param, crate::Pat, $T);
-        bridge_from!(Box<crate::Pat>, crate::Pat, $T);
+        // bridge_into!(Box<crate::Pat>, crate::Pat, $T);
     };
 }
 

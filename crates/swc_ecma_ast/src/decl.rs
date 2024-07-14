@@ -1,5 +1,6 @@
 use is_macro::Is;
 use string_enum::StringEnum;
+use swc_allocator::{boxed::Box, vec::Vec};
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, SyntaxContext, DUMMY_SP};
 
 use crate::{
@@ -70,8 +71,6 @@ decl_from!(
 macro_rules! decl_from_boxed {
     ($($variant_ty:ty),*) => {
         $(
-            bridge_from!(Box<crate::Stmt>, Decl, $variant_ty);
-            bridge_from!(Box<crate::Stmt>, Decl, Box<$variant_ty>);
             bridge_from!(crate::Stmt, Decl, Box<$variant_ty>);
             bridge_from!(crate::ModuleItem, crate::Stmt, Box<$variant_ty>);
         )*
