@@ -1,7 +1,7 @@
 extern crate swc_malloc;
 
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
-use swc_allocator::Allocator;
+use swc_allocator::{FastAlloc, MemorySpace};
 
 fn bench_alloc(c: &mut Criterion) {
     fn direct_alloc_std(b: &mut Bencher, times: usize) {
@@ -25,9 +25,22 @@ fn bench_alloc(c: &mut Criterion) {
         })
     }
 
-    fn direct_alloc_in_scope(b: &mut Bencher, times: usize) {
+    fn fast_alloc_no_scope(b: &mut Bencher, times: usize) {
         b.iter(|| {
-            let allocator = Allocator::default();
+            let allocator = FastAlloc::default();
+
+            let mut vec = allocator.vec();
+            for i in 0..times {
+                let item: swc_allocator::boxed::Box<usize> =
+                    black_box(allocator.alloc(black_box(i)));
+                vec.push(item);
+            }
+        })
+    }
+
+    fn direct_alloc_scoped(b: &mut Bencher, times: usize) {
+        b.iter(|| {
+            let allocator = MemorySpace::default();
 
             allocator.scope(|| {
                 let mut vec = swc_allocator::vec::Vec::new();
@@ -41,6 +54,22 @@ fn bench_alloc(c: &mut Criterion) {
         })
     }
 
+    fn fast_alloc_scoped(b: &mut Bencher, times: usize) {
+        b.iter(|| {
+            MemorySpace::default().scope(|| {
+                let allocator = FastAlloc::default();
+
+                let mut vec = allocator.vec();
+
+                for i in 0..times {
+                    let item: swc_allocator::boxed::Box<usize> =
+                        black_box(allocator.alloc(black_box(i)));
+                    vec.push(item);
+                }
+            });
+        })
+    }
+
     c.bench_function("common/allocator/alloc/std/100000", |b| {
         direct_alloc_std(b, 100000)
     });
@@ -48,7 +77,14 @@ fn bench_alloc(c: &mut Criterion) {
         direct_alloc_no_scope(b, 100000)
     });
     c.bench_function("common/allocator/alloc/scoped/100000", |b| {
-        direct_alloc_in_scope(b, 100000)
+        direct_alloc_scoped(b, 100000)
+    });
+
+    c.bench_function("common/allocator/alloc/cached-no-scope/100000", |b| {
+        fast_alloc_no_scope(b, 100000)
+    });
+    c.bench_function("common/allocator/alloc/cached-scoped/100000", |b| {
+        fast_alloc_scoped(b, 100000)
     });
 }
 
