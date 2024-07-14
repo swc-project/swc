@@ -80,3 +80,9 @@ impl<T> From<Box<[T]>> for Vec<T> {
         Self(allocator_api2::vec::Vec::from(v.0))
     }
 }
+
+impl<T> From<Vec<T>> for Box<[T]> {
+    fn from(v: Vec<T>) -> Self {
+        Box(v.0.into())
+    }
+}

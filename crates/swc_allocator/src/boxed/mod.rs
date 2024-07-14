@@ -1,9 +1,13 @@
 use std::{
+    borrow::{Borrow, BorrowMut},
+    fmt::{Debug, Display, Formatter},
+    io::BufRead,
     ops::{Deref, DerefMut},
+    path::Path,
     pin::Pin,
 };
 
-use crate::alloc::SwcAlloc;
+use crate::{alloc::SwcAlloc, vec::Vec};
 
 #[cfg(feature = "rkyv")]
 mod rkyv;
@@ -18,7 +22,7 @@ mod serde;
 ///
 /// The last bit is 1 if the box is allocated with a custom allocator.
 #[repr(transparent)]
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Box<T: ?Sized>(pub(crate) allocator_api2::boxed::Box<T, SwcAlloc>);
 
 impl<T> From<T> for Box<T> {
@@ -201,6 +205,18 @@ impl<T: ?Sized> AsMut<T> for Box<T> {
     }
 }
 
+impl<T: ?Sized> Borrow<T> for Box<T> {
+    fn borrow(&self) -> &T {
+        &self.0
+    }
+}
+
+impl<T: ?Sized> BorrowMut<T> for Box<T> {
+    fn borrow_mut(&mut self) -> &mut T {
+        &mut self.0
+    }
+}
+
 impl<T: ?Sized> Deref for Box<T> {
     type Target = T;
 
@@ -212,5 +228,321 @@ impl<T: ?Sized> Deref for Box<T> {
 impl<T: ?Sized> DerefMut for Box<T> {
     fn deref_mut(&mut self) -> &mut T {
         &mut self.0
+    }
+}
+
+impl<T: ?Sized + BufRead> BufRead for Box<T> {
+    fn fill_buf(&mut self) -> std::io::Result<&[u8]> {
+        self.0.fill_buf()
+    }
+
+    fn consume(&mut self, amt: usize) {
+        self.0.consume(amt)
+    }
+}
+
+impl<T: ?Sized> Debug for Box<T>
+where
+    T: Debug,
+{
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        Debug::fmt(&self.0, f)
+    }
+}
+
+impl<T: ?Sized> Display for Box<T>
+where
+    T: Display,
+{
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        Display::fmt(&self.0, f)
+    }
+}
+
+impl<T: ?Sized> Iterator for Box<T>
+where
+    T: Iterator,
+{
+    type Item = T::Item;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        self.0.next()
+    }
+
+    fn size_hint(&self) -> (usize, Option<usize>) {
+        self.0.size_hint()
+    }
+
+    fn count(self) -> usize {
+        self.0.count()
+    }
+
+    fn last(self) -> Option<Self::Item> {
+        self.0.last()
+    }
+
+    fn nth(&mut self, n: usize) -> Option<Self::Item> {
+        self.0.nth(n)
+    }
+
+    fn all<F>(&mut self, f: F) -> bool
+    where
+        F: FnMut(Self::Item) -> bool,
+    {
+        self.0.all(f)
+    }
+
+    fn any<F>(&mut self, f: F) -> bool
+    where
+        F: FnMut(Self::Item) -> bool,
+    {
+        self.0.any(f)
+    }
+
+    fn find<P>(&mut self, predicate: P) -> Option<Self::Item>
+    where
+        P: FnMut(&Self::Item) -> bool,
+    {
+        self.0.find(predicate)
+    }
+
+    fn position<P>(&mut self, predicate: P) -> Option<usize>
+    where
+        P: FnMut(Self::Item) -> bool,
+    {
+        self.0.position(predicate)
+    }
+
+    fn max(self) -> Option<Self::Item>
+    where
+        Self::Item: Ord,
+    {
+        self.0.max()
+    }
+
+    fn min(self) -> Option<Self::Item>
+    where
+        Self::Item: Ord,
+    {
+        self.0.min()
+    }
+
+    fn by_ref(&mut self) -> &mut Self {
+        self.0.by_ref();
+        self
+    }
+
+    fn collect<B>(self) -> B
+    where
+        B: std::iter::FromIterator<Self::Item>,
+    {
+        self.0.collect()
+    }
+
+    fn fold<B, F>(self, init: B, f: F) -> B
+    where
+        F: FnMut(B, Self::Item) -> B,
+    {
+        self.0.fold(init, f)
+    }
+
+    fn for_each<F>(self, f: F)
+    where
+        Self: Sized,
+        F: FnMut(Self::Item),
+    {
+        self.0.for_each(f)
+    }
+
+    fn partition<B, F>(self, f: F) -> (B, B)
+    where
+        Self: Sized,
+        B: Default + Extend<Self::Item>,
+        F: FnMut(&Self::Item) -> bool,
+    {
+        self.0.partition(f)
+    }
+
+    fn reduce<F>(mut self, f: F) -> Option<Self::Item>
+    where
+        Self: Sized,
+        F: FnMut(Self::Item, Self::Item) -> Self::Item,
+    {
+        let first = self.next()?;
+        Some(self.fold(first, f))
+    }
+
+    fn find_map<B, F>(&mut self, f: F) -> Option<B>
+    where
+        Self: Sized,
+        F: FnMut(Self::Item) -> Option<B>,
+    {
+        self.0.find_map(f)
+    }
+
+    fn rposition<P>(&mut self, predicate: P) -> Option<usize>
+    where
+        P: FnMut(Self::Item) -> bool,
+        Self: Sized + ExactSizeIterator + DoubleEndedIterator,
+    {
+        self.0.rposition(predicate)
+    }
+
+    fn max_by_key<B: Ord, F>(self, f: F) -> Option<Self::Item>
+    where
+        Self: Sized,
+        F: FnMut(&Self::Item) -> B,
+    {
+        self.0.max_by_key(f)
+    }
+
+    fn max_by<F>(self, compare: F) -> Option<Self::Item>
+    where
+        Self: Sized,
+        F: FnMut(&Self::Item, &Self::Item) -> std::cmp::Ordering,
+    {
+        self.0.max_by(compare)
+    }
+
+    fn min_by_key<B: Ord, F>(self, f: F) -> Option<Self::Item>
+    where
+        Self: Sized,
+        F: FnMut(&Self::Item) -> B,
+    {
+        self.0.min_by_key(f)
+    }
+
+    fn min_by<F>(self, compare: F) -> Option<Self::Item>
+    where
+        Self: Sized,
+        F: FnMut(&Self::Item, &Self::Item) -> std::cmp::Ordering,
+    {
+        self.0.min_by(compare)
+    }
+
+    fn unzip<A, B, FromA, FromB>(self) -> (FromA, FromB)
+    where
+        FromA: Default + Extend<A>,
+        FromB: Default + Extend<B>,
+        Self: Sized + Iterator<Item = (A, B)>,
+    {
+        self.0.unzip()
+    }
+
+    fn sum<S>(self) -> S
+    where
+        Self: Sized,
+        S: std::iter::Sum<Self::Item>,
+    {
+        self.0.sum()
+    }
+
+    fn product<P>(self) -> P
+    where
+        Self: Sized,
+        P: std::iter::Product<Self::Item>,
+    {
+        self.0.product()
+    }
+
+    fn cmp<I>(self, other: I) -> std::cmp::Ordering
+    where
+        I: IntoIterator<Item = Self::Item>,
+        Self::Item: Ord,
+        Self: Sized,
+    {
+        self.0.cmp(other)
+    }
+
+    fn partial_cmp<I>(self, other: I) -> Option<std::cmp::Ordering>
+    where
+        I: IntoIterator,
+        Self::Item: PartialOrd<I::Item>,
+        Self: Sized,
+    {
+        self.0.partial_cmp(other)
+    }
+
+    fn eq<I>(self, other: I) -> bool
+    where
+        I: IntoIterator,
+        Self::Item: PartialEq<I::Item>,
+        Self: Sized,
+    {
+        self.0.eq(other)
+    }
+
+    fn ne<I>(self, other: I) -> bool
+    where
+        I: IntoIterator,
+        Self::Item: PartialEq<I::Item>,
+        Self: Sized,
+    {
+        self.0.ne(other)
+    }
+
+    fn lt<I>(self, other: I) -> bool
+    where
+        I: IntoIterator,
+        Self::Item: PartialOrd<I::Item>,
+        Self: Sized,
+    {
+        self.0.lt(other)
+    }
+
+    fn le<I>(self, other: I) -> bool
+    where
+        I: IntoIterator,
+        Self::Item: PartialOrd<I::Item>,
+        Self: Sized,
+    {
+        self.0.le(other)
+    }
+
+    fn gt<I>(self, other: I) -> bool
+    where
+        I: IntoIterator,
+        Self::Item: PartialOrd<I::Item>,
+        Self: Sized,
+    {
+        self.0.gt(other)
+    }
+
+    fn ge<I>(self, other: I) -> bool
+    where
+        I: IntoIterator,
+        Self::Item: PartialOrd<I::Item>,
+        Self: Sized,
+    {
+        self.0.ge(other)
+    }
+}
+
+impl<T: ?Sized> DoubleEndedIterator for Box<T>
+where
+    T: DoubleEndedIterator,
+{
+    fn next_back(&mut self) -> Option<Self::Item> {
+        self.0.next_back()
+    }
+
+    fn nth_back(&mut self, n: usize) -> Option<Self::Item> {
+        self.0.nth_back(n)
+    }
+
+    fn rfold<B, F>(self, init: B, f: F) -> B
+    where
+        Self: Sized,
+        F: FnMut(B, Self::Item) -> B,
+    {
+        self.0.rfold(init, f)
+    }
+
+    fn rfind<P>(&mut self, predicate: P) -> Option<Self::Item>
+    where
+        Self: Sized,
+        P: FnMut(&Self::Item) -> bool,
+    {
+        self.0.rfind(predicate)
     }
 }
