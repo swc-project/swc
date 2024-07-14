@@ -3,12 +3,30 @@ use std::{alloc::Layout, ptr::NonNull};
 use allocator_api2::alloc::Global;
 use scoped_tls::scoped_thread_local;
 
-use crate::Allocator;
+use crate::{FastAlloc, MemorySpace};
 
-scoped_thread_local!(pub(crate) static ALLOC: Allocator);
+scoped_thread_local!(pub(crate) static ALLOC: MemorySpace);
 
-#[derive(Debug, Clone, Copy, Default)]
-pub struct SwcAlloc;
+#[derive(Debug, Clone, Copy)]
+pub struct SwcAlloc {
+    pub(crate) is_arena_mode: bool,
+}
+
+impl Default for FastAlloc {
+    fn default() -> Self {
+        Self {
+            is_arena_mode: ALLOC.is_set(),
+        }
+    }
+}
+
+impl Default for SwcAlloc {
+    fn default() -> Self {
+        SwcAlloc {
+            is_arena_mode: ALLOC.is_set(),
+        }
+    }
+}
 
 impl SwcAlloc {
     /// `true` is passed to `f` if the box is allocated with a custom allocator.
@@ -16,7 +34,7 @@ impl SwcAlloc {
         &self,
         f: impl FnOnce(&dyn allocator_api2::alloc::Allocator, bool) -> T,
     ) -> T {
-        if ALLOC.is_set() {
+        if self.is_arena_mode {
             ALLOC.with(|a| {
                 //
                 f(&&**a as &dyn allocator_api2::alloc::Allocator, true)
@@ -27,21 +45,8 @@ impl SwcAlloc {
     }
 }
 
-/// Set the last bit to 1
 fn mark_ptr_as_arena_mode(ptr: NonNull<[u8]>) -> NonNull<[u8]> {
-    let (mut raw_ptr, metadata) = ptr_meta::PtrExt::to_raw_parts(ptr.as_ptr());
-
-    raw_ptr = (raw_ptr as usize | 1) as *mut ();
-
-    unsafe {
-        // Safety:
-        NonNull::new_unchecked(ptr_meta::from_raw_parts_mut(raw_ptr, metadata))
-    }
-}
-
-fn is_ptr_in_arena_mode(ptr: NonNull<u8>) -> bool {
-    let ptr = ptr.as_ptr() as usize;
-    ptr & 1 == 1
+    ptr
 }
 
 unsafe impl allocator_api2::alloc::Allocator for SwcAlloc {
@@ -73,7 +78,7 @@ unsafe impl allocator_api2::alloc::Allocator for SwcAlloc {
     }
 
     unsafe fn deallocate(&self, ptr: NonNull<u8>, layout: Layout) {
-        if is_ptr_in_arena_mode(ptr) {
+        if self.is_arena_mode {
             debug_assert!(
                 ALLOC.is_set(),
                 "Deallocating a pointer allocated with arena mode with a non-arena mode allocator"
@@ -96,7 +101,7 @@ unsafe impl allocator_api2::alloc::Allocator for SwcAlloc {
         old_layout: Layout,
         new_layout: Layout,
     ) -> Result<NonNull<[u8]>, allocator_api2::alloc::AllocError> {
-        if is_ptr_in_arena_mode(ptr) {
+        if self.is_arena_mode {
             debug_assert!(
                 ALLOC.is_set(),
                 "Growing a pointer allocated with arena mode with a non-arena mode allocator"
@@ -114,7 +119,7 @@ unsafe impl allocator_api2::alloc::Allocator for SwcAlloc {
         old_layout: Layout,
         new_layout: Layout,
     ) -> Result<NonNull<[u8]>, allocator_api2::alloc::AllocError> {
-        if is_ptr_in_arena_mode(ptr) {
+        if self.is_arena_mode {
             debug_assert!(
                 ALLOC.is_set(),
                 "Growing a pointer allocated with arena mode with a non-arena mode allocator"
@@ -132,7 +137,7 @@ unsafe impl allocator_api2::alloc::Allocator for SwcAlloc {
         old_layout: Layout,
         new_layout: Layout,
     ) -> Result<NonNull<[u8]>, allocator_api2::alloc::AllocError> {
-        if is_ptr_in_arena_mode(ptr) {
+        if self.is_arena_mode {
             debug_assert!(
                 ALLOC.is_set(),
                 "Shrinking a pointer allocated with arena mode with a non-arena mode allocator"

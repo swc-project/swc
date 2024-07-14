@@ -7,7 +7,7 @@ use std::{
     pin::Pin,
 };
 
-use crate::alloc::SwcAlloc;
+use crate::{alloc::SwcAlloc, FastAlloc};
 
 #[cfg(feature = "rkyv")]
 mod rkyv;
@@ -54,7 +54,10 @@ impl<T> Box<T> {
     /// See [`std::boxed::Box::new`].
     #[inline(always)]
     pub fn new(value: T) -> Self {
-        Self(allocator_api2::boxed::Box::new_in(value, SwcAlloc))
+        Self(allocator_api2::boxed::Box::new_in(
+            value,
+            SwcAlloc::default(),
+        ))
     }
 
     /// Moves the value out of the box.
@@ -106,7 +109,10 @@ impl<T: ?Sized> Box<T> {
     /// [memory layout]: self#memory-layout
     /// [`Layout`]: crate::Layout
     pub unsafe fn from_raw(raw: *mut T) -> Self {
-        Self(allocator_api2::boxed::Box::from_raw_in(raw, SwcAlloc))
+        Self(allocator_api2::boxed::Box::from_raw_in(
+            raw,
+            SwcAlloc::default(),
+        ))
     }
 
     /// Consumes the `Box`, returning a wrapped raw pointer.
@@ -619,5 +625,11 @@ where
 {
     fn len(&self) -> usize {
         self.0.len()
+    }
+}
+
+impl FastAlloc {
+    pub fn alloc<T>(self, t: T) -> Box<T> {
+        Box(allocator_api2::boxed::Box::new_in(t, self.swc_alloc()))
     }
 }

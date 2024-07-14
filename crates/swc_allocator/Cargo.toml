@@ -24,3 +24,15 @@ rkyv = { workspace = true, optional = true }
 scoped-tls = { workspace = true }
 serde = { workspace = true, optional = true }
 serde_derive = { workspace = true, optional = true }
+
+
+[dev-dependencies]
+criterion = { workspace = true }
+
+codspeed-criterion-compat = { workspace = true }
+swc_malloc                = { version = "0.5.10", path = "../swc_malloc" }
+
+
+[[bench]]
+harness = false
+name    = "bench"
