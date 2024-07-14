@@ -1,5 +1,8 @@
 use rkyv::{vec::ArchivedVec, DeserializeUnsized};
 
+use super::Vec;
+use crate::boxed::Box;
+
 impl<T> rkyv::Archive for Vec<T>
 where
     T: rkyv::Archive,
