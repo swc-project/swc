@@ -185,7 +185,7 @@ jobs:
 
       - name: List crates
         id: list-tests
-        run: npx zx ./scripts/github/get-test-matrix.js
+        run: npx zx ./scripts/github/get-test-matrix.mjs
 
   cargo-test:
     name: Test - ${{ matrix.settings.crate }} - ${{ matrix.settings.os }}
