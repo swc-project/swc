@@ -3702,11 +3702,14 @@ version = "0.1.1"
 dependencies = [
  "allocator-api2",
  "bumpalo",
+ "codspeed-criterion-compat",
+ "criterion",
  "ptr_meta",
  "rkyv",
  "scoped-tls",
  "serde",
  "serde_derive",
+ "swc_malloc",
 ]
 
 [[package]]
