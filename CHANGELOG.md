@@ -50,6 +50,9 @@
 - **(allocator)** Initialize package ([#9195](https://github.com/swc-project/swc/issues/9195)) ([f3681cb](https://github.com/swc-project/swc/commit/f3681cb34009824725d39d25b0cbf787ec1e8bd8))
 
 
+- **(allocator)** Implement `SwcAlloc` ([#9232](https://github.com/swc-project/swc/issues/9232)) ([e343eb6](https://github.com/swc-project/swc/commit/e343eb6de2747086f9873c6444964500e40b4936))
+
+
 - **(es/utils)** Support for arrays using `cast_to_number` ([#9212](https://github.com/swc-project/swc/issues/9212)) ([2aef14d](https://github.com/swc-project/swc/commit/2aef14d34d22df41bd6f421633eadc50826217cc))
 
 ### Miscellaneous Tasks
