@@ -29,8 +29,14 @@ impl SwcAlloc {
 
 /// Set the last bit to 1
 fn mark_ptr_as_arena_mode(ptr: NonNull<[u8]>) -> NonNull<[u8]> {
-    let ptr = ptr.as_ptr() as *mut () as usize | 1;
-    unsafe { NonNull::new_unchecked(ptr as *mut [u8]) }
+    let (mut raw_ptr, metadata) = ptr_meta::PtrExt::to_raw_parts(ptr.as_ptr());
+
+    raw_ptr = (raw_ptr as usize | 1) as *mut ();
+
+    unsafe {
+        // Safety:
+        NonNull::new_unchecked(ptr_meta::from_raw_parts_mut(raw_ptr, metadata))
+    }
 }
 
 fn is_ptr_in_arena_mode(ptr: NonNull<u8>) -> bool {
@@ -96,9 +102,7 @@ unsafe impl allocator_api2::alloc::Allocator for SwcAlloc {
                 "Growing a pointer allocated with arena mode with a non-arena mode allocator"
             );
 
-            ALLOC.with(|alloc| {
-                return (&**alloc).grow(ptr, old_layout, new_layout);
-            })
+            ALLOC.with(|alloc| (&**alloc).grow(ptr, old_layout, new_layout))
         } else {
             Global.grow(ptr, old_layout, new_layout)
         }
@@ -116,9 +120,7 @@ unsafe impl allocator_api2::alloc::Allocator for SwcAlloc {
                 "Growing a pointer allocated with arena mode with a non-arena mode allocator"
             );
 
-            ALLOC.with(|alloc| {
-                return (&**alloc).grow_zeroed(ptr, old_layout, new_layout);
-            })
+            ALLOC.with(|alloc| (&**alloc).grow_zeroed(ptr, old_layout, new_layout))
         } else {
             Global.grow_zeroed(ptr, old_layout, new_layout)
         }
@@ -136,9 +138,7 @@ unsafe impl allocator_api2::alloc::Allocator for SwcAlloc {
                 "Shrinking a pointer allocated with arena mode with a non-arena mode allocator"
             );
 
-            ALLOC.with(|alloc| {
-                return (&**alloc).shrink(ptr, old_layout, new_layout);
-            })
+            ALLOC.with(|alloc| (&**alloc).shrink(ptr, old_layout, new_layout))
         } else {
             Global.shrink(ptr, old_layout, new_layout)
         }

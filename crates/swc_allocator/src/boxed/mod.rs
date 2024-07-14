@@ -59,10 +59,7 @@ impl<T> Box<T> {
 
 impl<T: ?Sized> Box<T> {
     pub unsafe fn from_raw(raw: *mut T) -> Self {
-        Self(allocator_api2::boxed::Box::from_raw_in(
-            raw,
-            SwcAlloc::default(),
-        ))
+        Self(allocator_api2::boxed::Box::from_raw_in(raw, SwcAlloc))
     }
 }
 

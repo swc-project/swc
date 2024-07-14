@@ -31,7 +31,7 @@ impl<T> DerefMut for Vec<T> {
 
 impl<T> Default for Vec<T> {
     fn default() -> Self {
-        Self(allocator_api2::vec::Vec::new_in(SwcAlloc::default()))
+        Self(allocator_api2::vec::Vec::new_in(SwcAlloc))
     }
 }
 
