@@ -1,12 +1,13 @@
 use std::{cell::RefCell, rc::Rc};
 
-use anyhow::Error;
+use anyhow::{Context, Error};
 use serde::{Deserialize, Serialize};
 use swc_common::{
     comments::SingleThreadedComments,
     errors::{Handler, HANDLER},
+    source_map::DefaultSourceMapGenConfig,
     sync::Lrc,
-    BytePos, FileName, SourceMap, Span, Spanned,
+    BytePos, FileName, Mark, SourceMap, Span, Spanned,
 };
 use swc_ecma_ast::{
     ArrowExpr, BindingIdent, Class, ClassDecl, ClassMethod, ClassProp, EsVersion, ExportAll,
@@ -21,9 +22,11 @@ use swc_ecma_parser::{
     token::{IdentLike, KnownIdent, Token, TokenAndSpan, Word},
     Capturing, Parser, StringInput, Syntax, TsSyntax,
 };
-use swc_ecma_visit::{Visit, VisitWith};
+use swc_ecma_transforms_base::{fixer::fixer, helpers::inject_helpers, hygiene::hygiene, resolver};
+use swc_ecma_transforms_typescript::typescript;
+use swc_ecma_visit::{Visit, VisitMutWith, VisitWith};
 
-#[derive(Deserialize)]
+#[derive(Default, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Options {
     #[serde(default)]
@@ -36,6 +39,12 @@ pub struct Options {
 
     #[serde(default)]
     pub mode: Mode,
+
+    #[serde(default)]
+    pub transform: Option<typescript::Config>,
+
+    #[serde(default)]
+    pub source_map: bool,
 }
 
 #[derive(Debug, Default, Deserialize)]
@@ -93,7 +102,7 @@ pub fn operate(
     };
     let errors = parser.take_errors();
 
-    let program = match program {
+    let mut program = match program {
         Ok(program) => program,
         Err(err) => {
             err.into_diagnostic(handler).emit();
@@ -205,7 +214,69 @@ pub fn operate(
             })
         }
 
-        Mode::Transform => {}
+        Mode::Transform => {
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
+
+            program.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, true));
+
+            program.visit_mut_with(&mut typescript::typescript(
+                options.transform.unwrap_or_default(),
+                unresolved_mark,
+                top_level_mark,
+            ));
+
+            program.visit_mut_with(&mut inject_helpers(unresolved_mark));
+
+            program.visit_mut_with(&mut hygiene());
+
+            program.visit_mut_with(&mut fixer(Some(&comments)));
+
+            let mut src = vec![];
+            let mut src_map_buf = if options.source_map {
+                Some(vec![])
+            } else {
+                None
+            };
+
+            {
+                let mut emitter = swc_ecma_codegen::Emitter {
+                    cfg: swc_ecma_codegen::Config::default(),
+                    comments: if options.source_map {
+                        Some(&comments)
+                    } else {
+                        None
+                    },
+                    cm: cm.clone(),
+                    wr: swc_ecma_codegen::text_writer::JsWriter::new(
+                        cm.clone(),
+                        "\n",
+                        &mut src,
+                        src_map_buf.as_mut(),
+                    ),
+                };
+
+                emitter.emit_program(&program).unwrap();
+
+                let map = src_map_buf
+                    .map(|map| {
+                        let map =
+                            cm.build_source_map_with_config(&map, None, DefaultSourceMapGenConfig);
+
+                        let mut s = vec![];
+                        map.to_writer(&mut s)
+                            .context("failed to write source map")?;
+
+                        String::from_utf8(s).context("source map was not utf8")
+                    })
+                    .transpose()?;
+
+                Ok(TransformOutput {
+                    code: String::from_utf8(src).context("generated code was not utf-8")?,
+                    map,
+                })
+            }
+        }
     }
 }
 
