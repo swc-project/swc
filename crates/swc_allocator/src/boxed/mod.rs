@@ -4,11 +4,10 @@ use std::{
     io::{self, BufRead, Read, Seek},
     iter::FusedIterator,
     ops::{Deref, DerefMut},
-    path::Path,
     pin::Pin,
 };
 
-use crate::{alloc::SwcAlloc, vec::Vec};
+use crate::alloc::SwcAlloc;
 
 #[cfg(feature = "rkyv")]
 mod rkyv;
@@ -381,14 +380,6 @@ where
         self.0.find_map(f)
     }
 
-    fn rposition<P>(&mut self, predicate: P) -> Option<usize>
-    where
-        P: FnMut(Self::Item) -> bool,
-        Self: Sized + ExactSizeIterator + DoubleEndedIterator,
-    {
-        self.0.rposition(predicate)
-    }
-
     fn max_by_key<B: Ord, F>(self, f: F) -> Option<Self::Item>
     where
         Self: Sized,
@@ -419,15 +410,6 @@ where
         F: FnMut(&Self::Item, &Self::Item) -> std::cmp::Ordering,
     {
         self.0.min_by(compare)
-    }
-
-    fn unzip<A, B, FromA, FromB>(self) -> (FromA, FromB)
-    where
-        FromA: Default + Extend<A>,
-        FromB: Default + Extend<B>,
-        Self: Sized + Iterator<Item = (A, B)>,
-    {
-        self.0.unzip()
     }
 
     fn sum<S>(self) -> S
@@ -562,7 +544,7 @@ where
         self.0.read(buf)
     }
 
-    fn read_to_end(&mut self, buf: &mut Vec<u8>) -> std::io::Result<usize> {
+    fn read_to_end(&mut self, buf: &mut std::vec::Vec<u8>) -> std::io::Result<usize> {
         self.0.read_to_end(buf)
     }
 
@@ -622,11 +604,11 @@ where
     }
 }
 
-impl<T> FusedIterator for Box<T> where T: FusedIterator {}
+impl<T> FusedIterator for Box<T> where T: ?Sized + FusedIterator {}
 
 impl<T> ExactSizeIterator for Box<T>
 where
-    T: ExactSizeIterator,
+    T: ?Sized + ExactSizeIterator,
 {
     fn len(&self) -> usize {
         self.0.len()
