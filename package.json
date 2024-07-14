@@ -68,7 +68,8 @@
         "swc-plugin-coverage-instrument": "^0.0.12",
         "terser": "^5.7.1",
         "ts-node": "^10.5.0",
-        "typescript": "^5.3.3"
+        "typescript": "^5.3.3",
+        "zx": "^8.1.4"
     },
     "lint-staged": {
         "*.toml": [
