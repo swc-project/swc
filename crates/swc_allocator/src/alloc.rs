@@ -34,7 +34,7 @@ impl SwcAlloc {
         &self,
         f: impl FnOnce(&dyn allocator_api2::alloc::Allocator, bool) -> T,
     ) -> T {
-        if ALLOC.is_set() {
+        if self.is_arena_mode {
             ALLOC.with(|a| {
                 //
                 f(&&**a as &dyn allocator_api2::alloc::Allocator, true)
