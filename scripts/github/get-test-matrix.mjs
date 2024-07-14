@@ -23,14 +23,12 @@ const settings = [];
 for (const pkg of packages) {
     settings.push({
         crate: pkg,
-        runner: 'ubunut-latest',
         os: 'ubuntu-latest',
     });
 
     if (testsYml.os?.windows?.includes(pkg)) {
         settings.push({
             crate: pkg,
-            runner: 'windows-latest',
             os: 'windows-latest',
         });
     }
@@ -38,7 +36,6 @@ for (const pkg of packages) {
     if (testsYml.os?.macos?.includes(pkg)) {
         settings.push({
             crate: pkg,
-            runner: 'macos-latest',
             os: 'macos-latest',
         });
     }

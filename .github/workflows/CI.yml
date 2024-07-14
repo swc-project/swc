@@ -186,7 +186,7 @@ jobs:
 
   cargo-test:
     name: Test - ${{ matrix.settings.crate }} - ${{ matrix.settings.os }}
-    runs-on: ${{ matrix.settings.runner }}
+    runs-on: ${{ matrix.settings.os }}
     needs:
       - list-cargo-tests
     strategy:
