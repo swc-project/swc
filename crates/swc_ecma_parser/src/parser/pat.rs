@@ -536,7 +536,7 @@ impl<I: Tokens> Parser<I> {
                     // be reparsed as an AssignmentPattern.
                 }
 
-                _ => match *expr {
+                _ => match &*expr {
                     // It is a Syntax Error if the LeftHandSideExpression is
                     // CoverParenthesizedExpressionAndArrowParameterList:(Expression) and
                     // Expression derives a phrase that would produce a Syntax Error according
@@ -545,7 +545,7 @@ impl<I: Tokens> Parser<I> {
                     Expr::Paren(..) => {
                         return Ok(expr.into());
                     }
-                    Expr::Ident(i) => return Ok(i.into()),
+                    Expr::Ident(i) => return Ok(i.clone().into()),
                     _ => {
                         return Ok(expr.into());
                     }
@@ -576,8 +576,9 @@ impl<I: Tokens> Parser<I> {
                     if !expr.is_valid_simple_assignment_target(self.ctx().strict) {
                         self.emit_err(span, SyntaxError::NotSimpleAssign)
                     }
-                    match *expr {
-                        Expr::Ident(i) => return Ok(i.into()),
+
+                    match &*expr {
+                        Expr::Ident(i) => return Ok(i.clone().into()),
                         _ => {
                             return Ok(expr.into());
                         }
@@ -591,7 +592,8 @@ impl<I: Tokens> Parser<I> {
             }
         }
 
-        match *expr {
+        let expr = expr.unbox();
+        match expr {
             Expr::Paren(..) => {
                 self.emit_err(span, SyntaxError::InvalidPat);
                 Ok(Invalid { span }.into())
@@ -631,7 +633,7 @@ impl<I: Tokens> Parser<I> {
                         .map(|(idx, prop)| {
                             let span = prop.span();
                             match prop {
-                                PropOrSpread::Prop(prop) => match *prop {
+                                PropOrSpread::Prop(prop) => match prop.unbox() {
                                     Prop::Shorthand(id) => {
                                         Ok(ObjectPatProp::Assign(AssignPatProp {
                                             span: id.span(),

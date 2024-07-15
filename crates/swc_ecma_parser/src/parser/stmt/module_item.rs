@@ -860,7 +860,7 @@ impl<I: Tokens> Parser<I> {
             && !self.input.had_line_break_before_cur()
             && (eat!(self, "assert") || eat!(self, "with"))
         {
-            match *self.parse_object::<Box<Expr>>()? {
+            match self.parse_object::<Box<Expr>>()?.unbox() {
                 Expr::Object(v) => Some(Box::new(v)),
                 _ => unreachable!(),
             }
