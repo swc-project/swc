@@ -22,7 +22,7 @@ serde-wasm-bindgen   = "0.4.5"
 serde_json           = "1.0.120"
 swc_common           = "0.35.0"
 swc_error_reporters  = "0.19.0"
-swc_fast_ts_strip    = "0.2.0"
+swc_fast_ts_strip    = "0.2.1"
 tracing              = { version = "0.1.37", features = ["max_level_off"] }
 wasm-bindgen         = { version = "0.2.82", features = ["enable-interning"] }
 wasm-bindgen-futures = { version = "0.4.41" }

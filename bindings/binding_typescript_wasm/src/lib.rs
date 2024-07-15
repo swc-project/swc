@@ -1,7 +1,7 @@
 use anyhow::Error;
 use swc_common::{errors::ColorConfig, sync::Lrc, SourceMap, GLOBALS};
 use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
-use swc_fast_ts_strip::Options;
+use swc_fast_ts_strip::{Options, TransformOutput};
 use wasm_bindgen::prelude::*;
 use wasm_bindgen_futures::{
     future_to_promise,
@@ -34,7 +34,7 @@ pub fn transform_sync(input: JsString, options: JsValue) -> Result<JsValue, JsVa
     Ok(serde_wasm_bindgen::to_value(&result)?)
 }
 
-fn operate(input: String, options: Options) -> Result<String, Error> {
+fn operate(input: String, options: Options) -> Result<TransformOutput, Error> {
     let cm = Lrc::new(SourceMap::default());
 
     try_with_handler(
