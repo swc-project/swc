@@ -19,8 +19,8 @@
 //! [crate::vec::Vec] very fast.
 //!
 //! In this mode, you need to be careful while using [crate::boxed::Box] and
-//! [crate::vec::Vec]. Be sure to use same [Allocator] for allocation and
-//! deallocation.
+//! [crate::vec::Vec]. You should ensure that [Allocator] outlives all
+//! [crate::boxed::Box] and [crate::vec::Vec] created in the scope.
 //!
 //! Recommened way to use this mode is to wrap the whole operations in
 //! a call to [Allocator::scope].
