@@ -121,11 +121,6 @@ unsafe impl allocator_api2::alloc::Allocator for FastAlloc {
     unsafe fn deallocate(&self, ptr: NonNull<u8>, layout: Layout) {
         #[cfg(feature = "scoped")]
         if self.alloc.is_some() {
-            debug_assert!(
-                ALLOC.get().is_some(),
-                "Deallocating a pointer allocated with arena mode with a non-arena mode allocator"
-            );
-
             self.with_allocator(|alloc, _| alloc.deallocate(ptr, layout));
             return;
         }
