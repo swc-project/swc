@@ -8,6 +8,11 @@ name          = "swc_allocator"
 repository    = { workspace = true }
 version       = "0.1.3"
 
+  [package.metadata.docs.rs]
+  all-features = true
+  rustdoc-args = ["--cfg", "docsrs"]
+
+
 [features]
 rkyv   = ["dep:rkyv"]
 scoped = []
@@ -16,9 +21,9 @@ serde  = ["dep:serde", "dep:serde_derive"]
 [dependencies]
 allocator-api2 = { workspace = true, features = ["serde"] }
 bumpalo = { workspace = true, features = [
-    "allocator-api2",
-    "boxed",
-    "collections",
+  "allocator-api2",
+  "boxed",
+  "collections",
 ] }
 ptr_meta = { workspace = true }
 rkyv = { workspace = true, optional = true }
