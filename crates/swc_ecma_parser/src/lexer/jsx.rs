@@ -73,7 +73,7 @@ impl<'a> Lexer<'a> {
                     self.emit_error(
                         cur_pos,
                         SyntaxError::UnexpectedTokenWithSuggestions {
-                            candidate_list: vec!["`{'>'}`", "`&gt;`"],
+                            candidate_list: swc_allocator::vec!["`{'>'}`", "`&gt;`"],
                         },
                     );
                     unsafe {

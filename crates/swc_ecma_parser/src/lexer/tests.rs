@@ -2,6 +2,7 @@ extern crate test;
 
 use std::{ops::Range, str};
 
+use swc_allocator::boxed::Box;
 use swc_atoms::Atom;
 use swc_common::{BytePos, Span};
 use swc_ecma_ast::{AssignOp, AssignOp::*};

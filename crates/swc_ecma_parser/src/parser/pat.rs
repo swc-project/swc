@@ -633,32 +633,40 @@ impl<I: Tokens> Parser<I> {
                         .map(|(idx, prop)| {
                             let span = prop.span();
                             match prop {
-                                PropOrSpread::Prop(prop) => match prop.unbox() {
-                                    Prop::Shorthand(id) => {
-                                        Ok(ObjectPatProp::Assign(AssignPatProp {
-                                            span: id.span(),
-                                            key: id.into(),
-                                            value: None,
-                                        }))
+                                PropOrSpread::Prop(prop) => {
+                                    let prop = prop.unbox();
+
+                                    match prop {
+                                        Prop::Shorthand(id) => {
+                                            Ok(ObjectPatProp::Assign(AssignPatProp {
+                                                span: id.span(),
+                                                key: id.into(),
+                                                value: None,
+                                            }))
+                                        }
+                                        Prop::KeyValue(kv_prop) => {
+                                            Ok(ObjectPatProp::KeyValue(KeyValuePatProp {
+                                                key: kv_prop.key,
+                                                value: Box::new(self.reparse_expr_as_pat(
+                                                    pat_ty.element(),
+                                                    kv_prop.value,
+                                                )?),
+                                            }))
+                                        }
+                                        Prop::Assign(assign_prop) => {
+                                            Ok(ObjectPatProp::Assign(AssignPatProp {
+                                                span,
+                                                key: assign_prop.key.into(),
+                                                value: Some(assign_prop.value),
+                                            }))
+                                        }
+                                        _ => syntax_error!(
+                                            self,
+                                            prop.span(),
+                                            SyntaxError::InvalidPat
+                                        ),
                                     }
-                                    Prop::KeyValue(kv_prop) => {
-                                        Ok(ObjectPatProp::KeyValue(KeyValuePatProp {
-                                            key: kv_prop.key,
-                                            value: Box::new(self.reparse_expr_as_pat(
-                                                pat_ty.element(),
-                                                kv_prop.value,
-                                            )?),
-                                        }))
-                                    }
-                                    Prop::Assign(assign_prop) => {
-                                        Ok(ObjectPatProp::Assign(AssignPatProp {
-                                            span,
-                                            key: assign_prop.key.into(),
-                                            value: Some(assign_prop.value),
-                                        }))
-                                    }
-                                    _ => syntax_error!(self, prop.span(), SyntaxError::InvalidPat),
-                                },
+                                }
 
                                 PropOrSpread::Spread(SpreadElement { dot3_token, expr }) => {
                                     if idx != len - 1 {
@@ -674,7 +682,7 @@ impl<I: Tokens> Parser<I> {
 
                                     let element_pat_ty = pat_ty.element();
                                     let pat = if let PatType::BindingElement = element_pat_ty {
-                                        if let Expr::Ident(i) = *expr {
+                                        if let Expr::Ident(i) = expr.unbox() {
                                             i.into()
                                         } else {
                                             self.emit_err(span, SyntaxError::DotsWithoutIdentifier);

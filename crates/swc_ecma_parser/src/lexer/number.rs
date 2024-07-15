@@ -808,7 +808,7 @@ mod tests {
                 assert_eq!(expected, value);
             } else if let Ok(vec) = vec {
                 assert_ne!(
-                    vec![Token::Num {
+                    swc_allocator::vec![Token::Num {
                         value: expected,
                         raw: expected.to_string().into()
                     }],

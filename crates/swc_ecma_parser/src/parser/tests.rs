@@ -1,3 +1,4 @@
+use swc_allocator::{vec, vec::Vec};
 use swc_common::comments::SingleThreadedComments;
 
 use super::*;
