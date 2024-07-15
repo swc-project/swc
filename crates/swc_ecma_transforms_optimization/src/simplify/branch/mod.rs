@@ -1,4 +1,4 @@
-use std::{borrow::Cow, cmp::min, iter::once, mem::take};
+use std::{borrow::Cow, iter::once, mem::take};
 
 use swc_common::{
     pass::{CompilerPass, Repeated},
@@ -74,32 +74,6 @@ impl Parallel for Remover {
 
 impl VisitMut for Remover {
     standard_only_visit_mut!();
-
-    fn visit_mut_array_pat(&mut self, p: &mut ArrayPat) {
-        p.visit_mut_children_with(self);
-
-        let mut preserved = None;
-        let len = p.elems.len();
-        for (i, p) in p.elems.iter().enumerate() {
-            let can_be_removed = match p {
-                Some(Pat::Array(ref p)) if p.elems.is_empty() => true,
-                Some(Pat::Object(ref p)) if p.props.is_empty() => true,
-                _ => false,
-            };
-
-            if !can_be_removed {
-                preserved = Some(min(i + 1, len))
-            }
-        }
-
-        if let Some(i) = preserved {
-            if cfg!(feature = "debug") {
-                debug!("Removing elements of an array pattern");
-            }
-
-            p.elems.drain(i..);
-        }
-    }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
