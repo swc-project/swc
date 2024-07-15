@@ -95,29 +95,29 @@ fn bench_emitter(b: &mut Bencher, s: &str) {
         }
 
         b.iter(|| {
-            Allocator::default().scope(|| {
-                let mut src_map_buf = Vec::new();
+            let alloc = Allocator::default();
+            let _guard = unsafe { alloc.guard() };
+            let mut src_map_buf = Vec::new();
 
-                let mut buf = Vec::new();
-                {
-                    let mut emitter = Emitter {
-                        cfg: Default::default(),
-                        comments: None,
-                        cm: cm.clone(),
-                        wr: swc_ecma_codegen::text_writer::JsWriter::new(
-                            cm.clone(),
-                            "\n",
-                            &mut buf,
-                            Some(&mut src_map_buf),
-                        ),
-                    };
+            let mut buf = Vec::new();
+            {
+                let mut emitter = Emitter {
+                    cfg: Default::default(),
+                    comments: None,
+                    cm: cm.clone(),
+                    wr: swc_ecma_codegen::text_writer::JsWriter::new(
+                        cm.clone(),
+                        "\n",
+                        &mut buf,
+                        Some(&mut src_map_buf),
+                    ),
+                };
 
-                    let _ = emitter.emit_module(&module);
-                }
-                black_box(buf);
-                let srcmap = cm.build_source_map(&src_map_buf);
-                black_box(srcmap);
-            })
+                let _ = emitter.emit_module(&module);
+            }
+            black_box(buf);
+            let srcmap = cm.build_source_map(&src_map_buf);
+            black_box(srcmap);
         });
         Ok(())
     });
