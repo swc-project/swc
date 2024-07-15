@@ -38,6 +38,8 @@ doctest = false
 ## but changes internal logics to perform differently. These flag should be turned on in combination with
 ## actual features. Refer build.rs for more details.
 
+scoped-alloc = ["swc_allocator/scoped"]
+
 # swc_common/ahash
 common_ahash = ["swc_common/ahash"]
 
