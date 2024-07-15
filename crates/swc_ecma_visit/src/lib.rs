@@ -9,6 +9,7 @@ pub extern crate swc_ecma_ast;
 use std::{borrow::Cow, fmt::Debug};
 
 use num_bigint::BigInt as BigIntValue;
+use swc_allocator::{boxed::Box, vec::Vec};
 use swc_atoms::Atom;
 use swc_common::{pass::CompilerPass, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
