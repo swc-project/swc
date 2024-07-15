@@ -70,7 +70,7 @@ impl IntoIterator for Char {
         CharIter(match char::from_u32(self.0) {
             Some(c) => smallvec![c],
             None => {
-                let mut buf = smallvec![];
+                let mut buf = smallVec::new();
 
                 let high = self.0 & 0xffff0000 >> 16;
 
@@ -913,7 +913,7 @@ impl<'a> Lexer<'a> {
     fn read_unicode_escape(&mut self) -> LexResult<Vec<Char>> {
         debug_assert_eq!(self.cur(), Some('u'));
 
-        let mut chars = vec![];
+        let mut chars = Vec::new();
         let mut is_curly = false;
 
         self.bump(); // 'u'

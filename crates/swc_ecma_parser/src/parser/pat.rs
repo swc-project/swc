@@ -1,6 +1,7 @@
 //! 13.3.3 Destructuring Binding Patterns
 use std::iter;
 
+use swc_allocator::{boxed::Box, vec::Vec};
 use swc_common::Spanned;
 
 use super::{util::ExprExt, *};
@@ -92,7 +93,7 @@ impl<I: Tokens> Parser<I> {
 
         assert_and_bump!(self, '[');
 
-        let mut elems = vec![];
+        let mut elems = Vec::new();
         let mut comma = 0;
         let mut rest_span = Span::default();
 
@@ -282,7 +283,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     pub(super) fn parse_constructor_params(&mut self) -> PResult<Vec<ParamOrTsParamProp>> {
-        let mut params = vec![];
+        let mut params = Vec::new();
         let mut rest_span = Span::default();
 
         while !eof!(self) && !is!(self, ')') {
@@ -397,7 +398,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     pub(super) fn parse_formal_params(&mut self) -> PResult<Vec<Param>> {
-        let mut params = vec![];
+        let mut params = Vec::new();
         let mut rest_span = Span::default();
 
         while !eof!(self) && !is!(self, ')') {
@@ -707,7 +708,7 @@ impl<I: Tokens> Parser<I> {
                 if exprs.is_empty() {
                     return Ok(ArrayPat {
                         span,
-                        elems: vec![],
+                        elems: Vec::new(),
                         optional: false,
                         type_ann: None,
                     }
@@ -819,7 +820,7 @@ impl<I: Tokens> Parser<I> {
 
         let len = exprs.len();
         if len == 0 {
-            return Ok(vec![]);
+            return Ok(Vec::new());
         }
 
         let mut params = Vec::with_capacity(len);

@@ -1,3 +1,4 @@
+use swc_allocator::{boxed::Box, vec::Vec};
 use swc_common::Spanned;
 use typed_arena::Arena;
 
@@ -631,7 +632,7 @@ impl<'a, I: Tokens> Parser<I> {
         let discriminant = self.include_in_expr(true).parse_expr()?;
         expect!(self, ')');
 
-        let mut cases = vec![];
+        let mut cases = Vec::new();
         let mut span_of_previous_default = None;
 
         expect!(self, '{');
@@ -642,7 +643,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         self.with_ctx(ctx).parse_with(|p| {
             while is_one_of!(p, "case", "default") {
-                let mut cons = vec![];
+                let mut cons = Vec::new();
                 let is_case = is!(p, "case");
                 let case_start = cur_pos!(p);
                 bump!(p);
@@ -808,7 +809,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         assert_and_bump!(self, "using");
 
-        let mut decls = vec![];
+        let mut decls = Vec::new();
         let mut first = true;
         while first || eat!(self, ',') {
             if first {
@@ -894,7 +895,7 @@ impl<'a, I: Tokens> Parser<I> {
                         span: span!(self, start),
                         kind,
                         declare: false,
-                        decls: vec![],
+                        decls: Vec::new(),
                         ..Default::default()
                     }));
                 }
@@ -903,7 +904,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
-        let mut decls = vec![];
+        let mut decls = Vec::new();
         let mut first = true;
         while first || eat!(self, ',') {
             if first {
@@ -1138,7 +1139,7 @@ impl<'a, I: Tokens> Parser<I> {
         self.with_ctx(ctx).parse_with(|p| {
             let start = l.span.lo();
 
-            let mut errors = vec![];
+            let mut errors = Vec::new();
             for lb in &p.state.labels {
                 if l.sym == *lb {
                     errors.push(Error::new(
@@ -1150,7 +1151,7 @@ impl<'a, I: Tokens> Parser<I> {
             p.state.labels.push(l.sym.clone());
 
             let body = Box::new(if is!(p, "function") {
-                let f = p.parse_fn_decl(vec![])?;
+                let f = p.parse_fn_decl(Vec::new())?;
                 if let Decl::Fn(FnDecl { function, .. }) = &f {
                     if p.ctx().strict {
                         p.emit_err(function.span, SyntaxError::LabelledFunctionInStrict)
@@ -1667,7 +1668,7 @@ mod tests {
                         }
                     ],
                     super_class: None,
-                    body: vec![],
+                    body: Vec::new(),
                     is_abstract: false,
                     ..Default::default()
                 }),

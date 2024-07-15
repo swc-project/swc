@@ -1,6 +1,7 @@
 use std::fmt::Write;
 
 use either::Either;
+use swc_allocator::{boxed::Box, vec::Vec};
 use swc_atoms::js_word;
 use swc_common::Spanned;
 
@@ -80,7 +81,7 @@ impl<I: Tokens> Parser<I> {
     {
         debug_assert!(self.input.syntax().typescript());
 
-        let mut buf = vec![];
+        let mut buf = Vec::new();
         while !self.is_ts_list_terminator(kind)? {
             // Skipping "parseListElement" from the TS source since that's just for error
             // handling.
@@ -116,7 +117,7 @@ impl<I: Tokens> Parser<I> {
     {
         debug_assert!(self.input.syntax().typescript());
 
-        let mut buf = vec![];
+        let mut buf = Vec::new();
 
         loop {
             trace_cur!(self, parse_ts_delimited_list_inner__element);
@@ -1079,7 +1080,7 @@ impl<I: Tokens> Parser<I> {
         let extends = if eat!(self, "extends") {
             self.parse_ts_heritage_clause()?
         } else {
-            vec![]
+            Vec::new()
         };
 
         // Recover from
@@ -1902,7 +1903,7 @@ impl<I: Tokens> Parser<I> {
 
         trace_cur!(self, parse_tpl_elements);
 
-        let mut types = vec![];
+        let mut types = Vec::new();
 
         let cur_elem = self.parse_tpl_element(false)?;
         let mut is_tail = cur_elem.tail;
@@ -1931,7 +1932,7 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().typescript());
 
         let params = self.parse_formal_params()?;
-        let mut list = vec![];
+        let mut list = Vec::new();
 
         for param in params {
             let item = match param.pat {

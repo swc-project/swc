@@ -1,3 +1,5 @@
+use swc_allocator::{boxed::Box, vec::Vec};
+
 use super::*;
 
 impl<I: Tokens> Parser<I> {
@@ -69,7 +71,7 @@ impl<I: Tokens> Parser<I> {
             return Ok(ImportDecl {
                 span: span!(self, start),
                 src,
-                specifiers: vec![],
+                specifiers: Vec::new(),
                 type_only: false,
                 with,
                 phase: Default::default(),
@@ -79,7 +81,7 @@ impl<I: Tokens> Parser<I> {
 
         let mut type_only = false;
         let mut phase = ImportPhase::Evaluation;
-        let mut specifiers = vec![];
+        let mut specifiers = Vec::new();
 
         'import_maybe_ident: {
             if is!(self, BindingIdent) {
@@ -611,7 +613,7 @@ impl<I: Tokens> Parser<I> {
                 .into());
             }
 
-            let mut specifiers = vec![];
+            let mut specifiers = Vec::new();
 
             let mut has_default = false;
             let mut has_ns = false;
