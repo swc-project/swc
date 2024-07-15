@@ -13,8 +13,8 @@ use swc_ecma_transforms_base::{
     perf::{cpu_count, Parallel, ParallelExt},
 };
 use swc_ecma_utils::{
-    is_literal, prop_name_eq, to_int32, BoolType, ExprCtx, ExprExt, NullType, NumberType,
-    ObjectType, StringType, SymbolType, UndefinedType, Value,
+    is_literal, number::JsNumber, prop_name_eq, to_int32, BoolType, ExprCtx, ExprExt, NullType,
+    NumberType, ObjectType, StringType, SymbolType, UndefinedType, Value,
 };
 use swc_ecma_visit::{as_folder, standard_only_visit_mut, VisitMut, VisitMutWith};
 use Value::{Known, Unknown};
@@ -1024,7 +1024,10 @@ impl SimplifyExpr {
                 }
 
                 if let (Known(lv), Known(rv)) = (lv, rv) {
-                    return try_replace!(lv.powf(rv));
+                    let lv: JsNumber = lv.into();
+                    let rv: JsNumber = rv.into();
+                    let result: f64 = lv.pow(rv).into();
+                    return try_replace!(result);
                 }
 
                 return Unknown;
