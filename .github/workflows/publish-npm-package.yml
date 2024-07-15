@@ -641,7 +641,7 @@ jobs:
           sed -i -e 's/"name": "@swc\/${{ matrix.settings.crate }}"/"name": "${{ matrix.settings.npm }}"/g' pkg/package.json
 
       - name: Publish
-        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+        if: ${{ !inputs.skipBuild }}
         run: |
           npm config set provenance true
           echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
