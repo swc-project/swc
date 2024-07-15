@@ -29,6 +29,7 @@
 #![cfg_attr(docsrs, feature(doc_cfg))]
 #![deny(missing_docs)]
 #![allow(clippy::derivable_impls)]
+#![feature(fundamental, fn_ptr_trait, with_negative_coherence)]
 
 pub use crate::alloc::Allocator;
 
