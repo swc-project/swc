@@ -2397,7 +2397,7 @@ impl<I: Tokens> Parser<I> {
                                     lo: declare_start,
                                     ..f.function.span
                                 },
-                                ..*f.function
+                                ..f.function.unbox()
                             }),
                             ..f
                         }

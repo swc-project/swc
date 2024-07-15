@@ -1,7 +1,7 @@
 //! 13.3.3 Destructuring Binding Patterns
 use std::iter;
 
-use swc_allocator::{boxed::Box, vec, vec::Vec};
+use swc_allocator::{boxed::Box, vec::Vec};
 use swc_common::Spanned;
 
 use super::{util::ExprExt, *};

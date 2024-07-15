@@ -1,5 +1,6 @@
 //! Parser for object literal.
 
+use swc_allocator::{boxed::Box, vec, vec::Vec};
 use swc_common::{Spanned, DUMMY_SP};
 
 use super::*;
@@ -301,7 +302,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                                 false,
                                 false,
                             )
-                            .map(|v| *v)
+                            .map(|v| v.unbox())
                             .map(
                                 |Function {
                                      body, return_type, ..
@@ -353,7 +354,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                                     false,
                                     false,
                                 )
-                                .map(|v| *v)
+                                .map(|v| v.unbox())
                                 .map(
                                     |Function {
                                          mut params, body, ..

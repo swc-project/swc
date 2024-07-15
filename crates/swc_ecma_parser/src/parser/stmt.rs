@@ -390,16 +390,16 @@ impl<'a, I: Tokens> Parser<I> {
         // simply start parsing an expression, and afterwards, if the
         // next token is a colon and the expression was a simple
         // Identifier node, we switch to interpreting it as a label.
-        let expr = self.include_in_expr(true).parse_expr()?;
+        let expr = self.include_in_expr(true).parse_expr()?.unbox();
 
-        let expr = match *expr {
+        let expr = match expr {
             Expr::Ident(ident) => {
                 if eat!(self, ':') {
                     return self.parse_labelled_stmt(ident);
                 }
                 ident.into()
             }
-            _ => self.verify_expr(expr)?,
+            _ => self.verify_expr(expr.into())?,
         };
         if let Expr::Ident(ref ident) = *expr {
             if &*ident.sym == "interface" && self.input.had_line_break_before_cur() {
