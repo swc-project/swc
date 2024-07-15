@@ -22,7 +22,12 @@ use swc_ecma_parser::{
     token::{IdentLike, KnownIdent, Token, TokenAndSpan, Word},
     Capturing, Parser, StringInput, Syntax, TsSyntax,
 };
-use swc_ecma_transforms_base::{fixer::fixer, helpers::inject_helpers, hygiene::hygiene, resolver};
+use swc_ecma_transforms_base::{
+    fixer::fixer,
+    helpers::{inject_helpers, Helpers, HELPERS},
+    hygiene::hygiene,
+    resolver,
+};
 use swc_ecma_transforms_typescript::typescript;
 use swc_ecma_visit::{Visit, VisitMutWith, VisitWith};
 
@@ -218,19 +223,21 @@ pub fn operate(
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
-            program.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, true));
+            HELPERS.set(&Helpers::new(false), || {
+                program.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, true));
 
-            program.visit_mut_with(&mut typescript::typescript(
-                options.transform.unwrap_or_default(),
-                unresolved_mark,
-                top_level_mark,
-            ));
+                program.visit_mut_with(&mut typescript::typescript(
+                    options.transform.unwrap_or_default(),
+                    unresolved_mark,
+                    top_level_mark,
+                ));
 
-            program.visit_mut_with(&mut inject_helpers(unresolved_mark));
+                program.visit_mut_with(&mut inject_helpers(unresolved_mark));
 
-            program.visit_mut_with(&mut hygiene());
+                program.visit_mut_with(&mut hygiene());
 
-            program.visit_mut_with(&mut fixer(Some(&comments)));
+                program.visit_mut_with(&mut fixer(Some(&comments)));
+            });
 
             let mut src = vec![];
             let mut src_map_buf = if options.source_map {
