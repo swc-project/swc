@@ -4,6 +4,7 @@ use std::{cell::RefCell, char, iter::FusedIterator, mem::transmute, rc::Rc};
 
 use either::Either::{Left, Right};
 use smallvec::{smallvec, SmallVec};
+use swc_allocator::{vec, vec::Vec};
 use swc_atoms::{Atom, AtomStoreCell};
 use swc_common::{comments::Comments, input::StringInput, BytePos, Span};
 use swc_ecma_ast::{op, AssignOp, EsVersion, Ident};

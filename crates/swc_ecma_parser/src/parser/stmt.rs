@@ -1,6 +1,5 @@
 use swc_allocator::{boxed::Box, vec, vec::Vec};
 use swc_common::Spanned;
-use typed_arena::Arena;
 
 use super::{pat::PatType, *};
 use crate::error::SyntaxError;

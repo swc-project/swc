@@ -7,6 +7,7 @@ use std::borrow::Cow;
 use either::Either;
 use num_bigint::BigInt as BigIntValue;
 use num_traits::{Num as NumTrait, ToPrimitive};
+use swc_allocator::boxed::Box;
 use tracing::trace;
 
 use super::*;

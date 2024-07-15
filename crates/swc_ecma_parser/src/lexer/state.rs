@@ -1,6 +1,7 @@
 use std::mem::take;
 
 use smallvec::{smallvec, SmallVec};
+use swc_allocator::{boxed::Box, vec, vec::Vec};
 use swc_common::{BytePos, Span};
 use tracing::trace;
 
