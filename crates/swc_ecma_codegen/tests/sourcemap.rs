@@ -3,6 +3,7 @@ use std::{fs::read_to_string, path::PathBuf};
 use base64::prelude::{Engine, BASE64_STANDARD};
 use rustc_hash::FxHashSet;
 use sourcemap::SourceMap;
+use swc_allocator::vec::Vec;
 use swc_common::{comments::SingleThreadedComments, source_map::SourceMapGenConfig};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
@@ -315,7 +316,7 @@ fn identity(entry: PathBuf) {
             Some(&comments),
         );
         let mut parser: Parser<Lexer> = Parser::new_from(lexer);
-        let mut src_map = vec![];
+        let mut src_map = Vec::new();
 
         {
             let mut wr = Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
