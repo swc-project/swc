@@ -72,6 +72,7 @@ impl FastAlloc {
 
     /// `true` is passed to `f` if the box is allocated with a custom allocator.
     #[cfg(not(feature = "scoped"))]
+    #[inline(always)]
     fn with_allocator<T>(&self, f: impl FnOnce(allocator_api2::alloc::Global, bool) -> T) -> T {
         f(allocator_api2::alloc::Global, false)
     }
@@ -82,6 +83,7 @@ fn mark_ptr_as_arena_mode(ptr: NonNull<[u8]>) -> NonNull<[u8]> {
 }
 
 unsafe impl allocator_api2::alloc::Allocator for FastAlloc {
+    #[inline]
     fn allocate(&self, layout: Layout) -> Result<NonNull<[u8]>, allocator_api2::alloc::AllocError> {
         self.with_allocator(|a, is_arena_mode| {
             let ptr = a.allocate(layout)?;
@@ -94,6 +96,7 @@ unsafe impl allocator_api2::alloc::Allocator for FastAlloc {
         })
     }
 
+    #[inline]
     fn allocate_zeroed(
         &self,
         layout: Layout,
@@ -109,6 +112,7 @@ unsafe impl allocator_api2::alloc::Allocator for FastAlloc {
         })
     }
 
+    #[inline]
     unsafe fn deallocate(&self, ptr: NonNull<u8>, layout: Layout) {
         #[cfg(feature = "scoped")]
         if self.alloc.is_some() {
@@ -124,6 +128,7 @@ unsafe impl allocator_api2::alloc::Allocator for FastAlloc {
         Global.deallocate(ptr, layout)
     }
 
+    #[inline]
     unsafe fn grow(
         &self,
         ptr: NonNull<u8>,
@@ -141,6 +146,7 @@ unsafe impl allocator_api2::alloc::Allocator for FastAlloc {
         })
     }
 
+    #[inline]
     unsafe fn grow_zeroed(
         &self,
         ptr: NonNull<u8>,
@@ -158,6 +164,7 @@ unsafe impl allocator_api2::alloc::Allocator for FastAlloc {
         })
     }
 
+    #[inline]
     unsafe fn shrink(
         &self,
         ptr: NonNull<u8>,
@@ -175,6 +182,7 @@ unsafe impl allocator_api2::alloc::Allocator for FastAlloc {
         })
     }
 
+    #[inline(always)]
     fn by_ref(&self) -> &Self
     where
         Self: Sized,
