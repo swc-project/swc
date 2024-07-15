@@ -381,6 +381,7 @@ swc_transform_common             = { optional = true, version = "0.1.0", path = 
 swc_typescript                   = { optional = true, version = "0.2.0", path = "../swc_typescript" }
 testing                          = { optional = true, version = "0.37.0", path = "../testing" }
 # TODO: eventually swc_plugin_runner needs to remove default features
+swc_allocator     = { version = "0.1.2", path = "../swc_allocator" }
 swc_plugin_runner = { optional = true, version = "0.110.0", path = "../swc_plugin_runner", default-features = false }
 
 [build-dependencies]
