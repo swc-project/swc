@@ -9,7 +9,6 @@ use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
 #[allow(unused)]
 use serde::{Deserialize, Serialize};
-use swc_allocator::vec::Vec;
 use swc_atoms::JsWord;
 use swc_common::{
     collections::AHashMap,
@@ -172,7 +171,7 @@ where
 {
     let _timer = timer!("Compiler::print");
 
-    let mut src_map_buf = Vec::new();
+    let mut src_map_buf = swc_allocator::vec::Vec::new();
 
     let src = {
         let mut buf = Vec::new();
