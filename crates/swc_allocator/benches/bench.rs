@@ -1,7 +1,7 @@
 extern crate swc_malloc;
 
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
-use swc_allocator::{FastAlloc, SwcAllocator};
+use swc_allocator::{boxed::Box as SwcBox, vec::Vec as SwcVec, Allocator, FastAlloc};
 
 fn bench_alloc(c: &mut Criterion) {
     fn direct_alloc_std(b: &mut Bencher, times: usize) {
@@ -16,10 +16,9 @@ fn bench_alloc(c: &mut Criterion) {
 
     fn direct_alloc_no_scope(b: &mut Bencher, times: usize) {
         b.iter(|| {
-            let mut vec = swc_allocator::vec::Vec::new();
+            let mut vec = SwcVec::new();
             for i in 0..times {
-                let item: swc_allocator::boxed::Box<usize> =
-                    black_box(swc_allocator::boxed::Box::new(black_box(i)));
+                let item: SwcBox<usize> = black_box(SwcBox::new(black_box(i)));
                 vec.push(item);
             }
         })
@@ -27,12 +26,11 @@ fn bench_alloc(c: &mut Criterion) {
 
     fn fast_alloc_no_scope(b: &mut Bencher, times: usize) {
         b.iter(|| {
-            let allocator = FastAlloc::default();
+            let alloc = FastAlloc::default();
 
-            let mut vec = allocator.vec();
+            let mut vec = SwcVec::new_in(alloc);
             for i in 0..times {
-                let item: swc_allocator::boxed::Box<usize> =
-                    black_box(allocator.alloc(black_box(i)));
+                let item: SwcBox<usize> = black_box(SwcBox::new_in(black_box(i), alloc));
                 vec.push(item);
             }
         })
@@ -40,14 +38,13 @@ fn bench_alloc(c: &mut Criterion) {
 
     fn direct_alloc_scoped(b: &mut Bencher, times: usize) {
         b.iter(|| {
-            let allocator = SwcAllocator::default();
+            let allocator = Allocator::default();
 
             allocator.scope(|| {
-                let mut vec = swc_allocator::vec::Vec::new();
+                let mut vec = SwcVec::new();
 
                 for i in 0..times {
-                    let item: swc_allocator::boxed::Box<usize> =
-                        black_box(swc_allocator::boxed::Box::new(black_box(i)));
+                    let item: SwcBox<usize> = black_box(SwcBox::new(black_box(i)));
                     vec.push(item);
                 }
             });
@@ -56,14 +53,13 @@ fn bench_alloc(c: &mut Criterion) {
 
     fn fast_alloc_scoped(b: &mut Bencher, times: usize) {
         b.iter(|| {
-            SwcAllocator::default().scope(|| {
-                let allocator = FastAlloc::default();
+            Allocator::default().scope(|| {
+                let alloc = FastAlloc::default();
 
-                let mut vec = allocator.vec();
+                let mut vec = SwcVec::new_in(alloc);
 
                 for i in 0..times {
-                    let item: swc_allocator::boxed::Box<usize> =
-                        black_box(allocator.alloc(black_box(i)));
+                    let item: SwcBox<usize> = black_box(SwcBox::new_in(black_box(i), alloc));
                     vec.push(item);
                 }
             });
