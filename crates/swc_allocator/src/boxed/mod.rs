@@ -16,6 +16,7 @@ mod rkyv;
 #[cfg(feature = "serde")]
 mod serde;
 
+/// Faster alterantive for [`std::boxed::Box`].
 #[repr(transparent)]
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Box<T: ?Sized>(pub(crate) allocator_api2::boxed::Box<T, FastAlloc>);

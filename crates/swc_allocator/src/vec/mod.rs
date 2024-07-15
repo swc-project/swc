@@ -7,6 +7,7 @@ mod rkyv;
 
 use crate::{boxed::Box, FastAlloc};
 
+/// Faster version of [`std::vec::Vec`].
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[repr(transparent)]
 #[cfg_attr(
