@@ -1,6 +1,9 @@
 //! Faster vec type.
 
-use std::ops::{Deref, DerefMut};
+use std::{
+    fmt, io,
+    ops::{Deref, DerefMut},
+};
 
 #[cfg(feature = "rkyv")]
 mod rkyv;
@@ -347,5 +350,34 @@ impl<T> From<Vec<T>> for Box<[T]> {
 impl<T> Extend<T> for Vec<T> {
     fn extend<I: IntoIterator<Item = T>>(&mut self, iter: I) {
         self.0.extend(iter)
+    }
+}
+
+impl io::Write for Vec<u8> {
+    fn write(&mut self, buf: &[u8]) -> io::Result<usize> {
+        io::Write::write(&mut self.0, buf)
+    }
+
+    fn flush(&mut self) -> io::Result<()> {
+        io::Write::flush(&mut self.0)
+    }
+
+    fn write_all(&mut self, buf: &[u8]) -> io::Result<()> {
+        io::Write::write_all(&mut self.0, buf)
+    }
+
+    fn write_vectored(&mut self, bufs: &[io::IoSlice<'_>]) -> io::Result<usize> {
+        io::Write::write_vectored(&mut self.0, bufs)
+    }
+
+    fn write_fmt(&mut self, fmt: fmt::Arguments<'_>) -> io::Result<()> {
+        io::Write::write_fmt(&mut self.0, fmt)
+    }
+
+    fn by_ref(&mut self) -> &mut Self
+    where
+        Self: Sized,
+    {
+        self
     }
 }

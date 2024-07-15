@@ -21,27 +21,33 @@ pub struct Allocator {
     alloc: Bump,
 }
 
+pub struct AllocGuard {
+    orig: Option<&'static Allocator>,
+}
+
+impl Drop for AllocGuard {
+    fn drop(&mut self) {
+        ALLOC.set(self.orig.take());
+    }
+}
+
 impl Allocator {
-    /// Invokes `f` in a scope where the allocations are done in this allocator.
+    /// Creates a RAII guard that enables optimized allocation.
     ///
     /// # Safety
     ///
-    /// [Allocator] must be dropped after dropping all [crate::boxed::Box] and
-    /// [crate::vec::Vec] created in the scope.
-    #[inline(always)]
-    pub fn scope<'a, F, R>(&'a self, f: F) -> R
-    where
-        F: FnOnce() -> R,
-    {
+    /// [Allocator] must outlive [crate::boxed::Box] and [crate::vec::Vec]
+    /// created while the guard is active.
+    pub unsafe fn guard(&self) -> AllocGuard {
+        let orig = ALLOC.get();
+
         let s = unsafe {
             // Safery: We are using a scoped API
-            transmute::<&'a Allocator, &'static Allocator>(self)
+            transmute::<&Allocator, &'static Allocator>(self)
         };
 
         ALLOC.set(Some(s));
-        let ret = f();
-        ALLOC.set(None);
-        ret
+        AllocGuard { orig }
     }
 }
 

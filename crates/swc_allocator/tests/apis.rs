@@ -23,14 +23,13 @@ fn direct_alloc_no_scope() {
 #[test]
 fn direct_alloc_in_scope() {
     let allocator = Allocator::default();
+    let _guard = unsafe { allocator.guard() };
 
-    allocator.scope(|| {
-        let mut vec = swc_allocator::vec::Vec::new();
+    let mut vec = swc_allocator::vec::Vec::new();
 
-        for i in 0..1000 {
-            let item: swc_allocator::boxed::Box<usize> =
-                black_box(swc_allocator::boxed::Box::new(black_box(i)));
-            vec.push(item);
-        }
-    });
+    for i in 0..1000 {
+        let item: swc_allocator::boxed::Box<usize> =
+            black_box(swc_allocator::boxed::Box::new(black_box(i)));
+        vec.push(item);
+    }
 }
