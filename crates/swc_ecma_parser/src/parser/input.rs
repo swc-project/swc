@@ -2,6 +2,7 @@ use std::{cell::RefCell, mem, mem::take, rc::Rc};
 
 use debug_unreachable::debug_unreachable;
 use lexer::TokenContexts;
+use swc_allocator::vec::Vec;
 use swc_common::{BytePos, Span};
 
 use super::Parser;
