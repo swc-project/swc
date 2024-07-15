@@ -32,7 +32,7 @@ is-macro      = { workspace = true }
 once_cell     = { workspace = true }
 parking_lot   = { workspace = true }
 petgraph      = { workspace = true }
-radix_fmt     = "1"
+radix_fmt     = { workspace = true }
 rayon         = { workspace = true, optional = true }
 relative-path = { workspace = true }
 tracing       = { workspace = true }
@@ -53,7 +53,7 @@ swc_graph_analyzer               = { version = "0.24.0", path = "../swc_graph_an
 [dev-dependencies]
 hex        = { workspace = true }
 ntest      = { workspace = true }
-path-clean = "=0.1.0"
+path-clean = "1.0.1"
 reqwest    = { workspace = true, features = ["blocking"] }
 sha1       = { workspace = true }
 tempfile   = { workspace = true }
