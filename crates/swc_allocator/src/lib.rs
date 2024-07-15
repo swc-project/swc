@@ -11,7 +11,8 @@ mod alloc;
 pub mod boxed;
 pub mod vec;
 
-/// Fast allocator.
+/// Fast allocator, effectively working as a cache.
+///
 ///
 ///
 /// # Misc
