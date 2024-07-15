@@ -57,7 +57,7 @@ fn parse_and_gen(entry: &Path) {
     .expect("failed to process a module");
 }
 
-/// Usage: ./scripts/instruements path/to/input/file
+/// Usage: ./scripts/instruments path/to/input/file
 fn main() {
     let main_file = env::args().nth(1).unwrap();
 
