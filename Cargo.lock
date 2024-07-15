@@ -3897,6 +3897,7 @@ dependencies = [
  "binding_macros",
  "once_cell",
  "swc",
+ "swc_allocator",
  "swc_atoms",
  "swc_bundler",
  "swc_cached",
