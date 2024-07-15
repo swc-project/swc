@@ -3,6 +3,7 @@ use std::{borrow::Cow, mem::transmute};
 
 use is_macro::Is;
 use string_enum::StringEnum;
+use swc_allocator::{boxed::Box, vec::Vec};
 use swc_atoms::Atom;
 use swc_common::{
     ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, SyntaxContext, DUMMY_SP,
