@@ -1036,8 +1036,9 @@ impl<I: Tokens> Parser<I> {
         ) {
             self.emit_err(span!(self, start), SyntaxError::TS2499);
         }
+        let expr = expr.unbox();
 
-        match *expr {
+        match expr {
             Expr::TsInstantiation(v) => Ok(TsExprWithTypeArgs {
                 span: v.span,
                 expr: v.expr,
@@ -1052,7 +1053,7 @@ impl<I: Tokens> Parser<I> {
 
                 Ok(TsExprWithTypeArgs {
                     span: span!(self, start),
-                    expr,
+                    expr: Box::new(expr),
                     type_args,
                 })
             }
@@ -2135,7 +2136,7 @@ impl<I: Tokens> Parser<I> {
 
                         TsLit::BigInt(BigInt {
                             span,
-                            value: Box::new(-*value),
+                            value: Box::new(-value.unbox()),
                             raw: Some(new_raw.into()),
                         })
                     }
@@ -2417,7 +2418,7 @@ impl<I: Tokens> Parser<I> {
                                     lo: declare_start,
                                     ..c.class.span
                                 },
-                                ..*c.class
+                                ..c.class.unbox()
                             }),
                             ..c
                         }
@@ -2440,7 +2441,7 @@ impl<I: Tokens> Parser<I> {
                             lo: declare_start,
                             ..decl.span
                         },
-                        ..*decl
+                        ..decl.unbox()
                     })
                     .map(Box::new)
                     .map(From::from)
@@ -2455,7 +2456,7 @@ impl<I: Tokens> Parser<I> {
                             lo: declare_start,
                             ..decl.span
                         },
-                        ..*decl
+                        ..decl.unbox()
                     })
                     .map(Box::new)
                     .map(From::from)
@@ -2824,6 +2825,7 @@ fn make_decl_declare(mut decl: Decl) -> Decl {
 
 #[cfg(test)]
 mod tests {
+    use swc_allocator::{boxed::Box, vec, vec::Vec};
     use swc_common::DUMMY_SP;
     use swc_ecma_ast::*;
     use swc_ecma_visit::assert_eq_ignore_span;
