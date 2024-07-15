@@ -23,6 +23,11 @@ pub struct Allocator {
 
 impl Allocator {
     /// Invokes `f` in a scope where the allocations are done in this allocator.
+    ///
+    /// # Safety
+    ///
+    /// [Allocator] must be dropped after dropping all [crate::boxed::Box] and
+    /// [crate::vec::Vec] created in the scope.
     #[inline(always)]
     pub fn scope<'a, F, R>(&'a self, f: F) -> R
     where
@@ -116,11 +121,6 @@ unsafe impl allocator_api2::alloc::Allocator for FastAlloc {
     unsafe fn deallocate(&self, ptr: NonNull<u8>, layout: Layout) {
         #[cfg(feature = "scoped")]
         if self.alloc.is_some() {
-            debug_assert!(
-                ALLOC.get().is_some(),
-                "Deallocating a pointer allocated with arena mode with a non-arena mode allocator"
-            );
-
             self.with_allocator(|alloc, _| alloc.deallocate(ptr, layout));
             return;
         }
