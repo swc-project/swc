@@ -105,7 +105,7 @@ impl<T> Vec<T> {
     /// * `capacity` needs to be the capacity that the pointer was allocated
     ///   with.
     /// * The allocated size in bytes must be no larger than `isize::MAX`. See
-    ///   the safety documentation of [`pointer::offset`].
+    ///   the safety documentation of [`std::pointer::offset`].
     ///
     /// These requirements are always upheld by any `ptr` that has been
     /// allocated via `Vec<T>`. Other allocation sources are allowed if the
