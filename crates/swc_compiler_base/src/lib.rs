@@ -171,10 +171,10 @@ where
 {
     let _timer = timer!("Compiler::print");
 
-    let mut src_map_buf = vec![];
+    let mut src_map_buf = swc_allocator::vec::Vec::new();
 
     let src = {
-        let mut buf = vec![];
+        let mut buf = Vec::new();
         {
             let mut w = swc_ecma_codegen::text_writer::JsWriter::new(
                 cm.clone(),
