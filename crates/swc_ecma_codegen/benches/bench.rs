@@ -1,6 +1,7 @@
 extern crate swc_malloc;
 
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
+use swc_allocator::vec::Vec;
 use swc_common::FileName;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{Parser, StringInput, Syntax};
@@ -84,7 +85,7 @@ fn bench_emitter(b: &mut Bencher, s: &str) {
         let fm = cm.new_source_file(FileName::Anon.into(), s.into());
         let mut parser = Parser::new(Syntax::default(), StringInput::from(&*fm), None);
 
-        let mut src_map_buf = vec![];
+        let mut src_map_buf = Vec::new();
         let module = parser
             .parse_module()
             .map_err(|e| e.into_diagnostic(handler).emit())
@@ -95,7 +96,7 @@ fn bench_emitter(b: &mut Bencher, s: &str) {
         }
 
         b.iter(|| {
-            let mut buf = vec![];
+            let mut buf = Vec::new();
             {
                 let mut emitter = Emitter {
                     cfg: Default::default(),
