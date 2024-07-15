@@ -1,3 +1,5 @@
+//! Faster vec type.
+
 use std::ops::{Deref, DerefMut};
 
 #[cfg(feature = "rkyv")]

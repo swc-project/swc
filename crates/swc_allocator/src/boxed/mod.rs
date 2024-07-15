@@ -1,3 +1,5 @@
+//! Faster box type.
+
 use std::{
     borrow::{Borrow, BorrowMut},
     fmt::{self, Debug, Display, Formatter},
