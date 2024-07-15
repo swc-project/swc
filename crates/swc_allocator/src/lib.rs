@@ -11,6 +11,16 @@ mod alloc;
 pub mod boxed;
 pub mod vec;
 
+/// Fast allocator.
+///
+///
+/// # Misc
+///
+/// It implements [`allocator_api2::alloc::Allocator`]. So it can be used as the
+/// second argument for [`allocator_api2::boxed::Box`] and
+/// [`allocator_api2::vec::Vec`]. But you should prefer using
+/// [`crate::boxed::Box`] and [`crate::vec::Vec`], which is a wrapper around the
+/// original types.
 #[derive(Clone, Copy)]
 pub struct FastAlloc {
     alloc: Option<&'static Allocator>,
