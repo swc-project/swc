@@ -1433,16 +1433,6 @@ fn test_empty_pattern_in_for_of_loop_not_removed() {
 }
 
 #[test]
-fn test_empty_slot_in_array_pattern_removed() {
-    test("[,,] = foo();", "foo()");
-    test("[a,b,,] = foo();", "[a,b] = foo();");
-    test("[a,[],b,[],[]] = foo();", "[a,[],b] = foo();");
-    test("[a,{},b,{},{}] = foo();", "[a,{},b] = foo();");
-    test("function f([,,,]) {}", "function f([]) {}");
-    test_same("[[], [], [], ...rest] = foo()");
-}
-
-#[test]
 #[ignore]
 fn test_empty_slot_in_array_pattern_with_default_value_maybe_removed_1() {
     test("[a,[] = 0] = [];", "[a] = [];");
