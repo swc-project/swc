@@ -31,6 +31,9 @@
 #![allow(clippy::derivable_impls)]
 #![feature(fundamental, fn_ptr_trait, with_negative_coherence)]
 
+/// NOT A PUBLIC API.
+#[doc(hidden)]
+pub extern crate allocator_api2;
 pub use crate::alloc::Allocator;
 
 mod alloc;
