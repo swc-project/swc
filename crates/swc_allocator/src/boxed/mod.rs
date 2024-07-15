@@ -16,13 +16,6 @@ mod rkyv;
 #[cfg(feature = "serde")]
 mod serde;
 
-/// A special `Box` which has size of [`std::boxed::Box`] but **may** be
-/// allocated with a custom allocator.
-///
-///
-/// # Representation
-///
-/// The last bit is 1 if the box is allocated with a custom allocator.
 #[repr(transparent)]
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Box<T: ?Sized>(pub(crate) allocator_api2::boxed::Box<T, FastAlloc>);
@@ -51,11 +44,33 @@ where
 }
 
 impl<T> Box<T> {
+    /// Allocates memory on the heap and then places `x` into it.
+    ///
+    /// This doesn't actually allocate if `T` is zero-sized.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// let five = Box::new(5);
+    /// ```
     #[inline(always)]
     pub fn new(value: T) -> Self {
         Self::new_in(value, Default::default())
     }
 
+    /// Allocates memory in the given allocator then places `x` into it.
+    ///
+    /// This doesn't actually allocate if `T` is zero-sized.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// #![feature(allocator_api)]
+    ///
+    /// use std::alloc::System;
+    ///
+    /// let five = Box::new_in(5, System);
+    /// ```
     #[inline(always)]
     pub fn new_in(value: T, alloc: FastAlloc) -> Self {
         Self(allocator_api2::boxed::Box::new_in(value, alloc))
