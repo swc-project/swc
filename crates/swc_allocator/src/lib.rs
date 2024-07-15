@@ -11,7 +11,7 @@ mod alloc;
 pub mod boxed;
 pub mod vec;
 
-#[derive(Clone)]
+#[derive(Clone, Copy)]
 pub struct FastAlloc {
     alloc: Option<&'static SwcAllocator>,
 }
