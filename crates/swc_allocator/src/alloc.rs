@@ -1,4 +1,4 @@
-use std::{alloc::Layout, cell::Cell, mem::transmute, ptr::NonNull};
+use std::{alloc::Layout, cell::Cell, ptr::NonNull};
 
 use allocator_api2::alloc::Global;
 
@@ -12,6 +12,8 @@ thread_local! {
 pub struct SwcAllocator(MemorySpace);
 
 impl SwcAllocator {
+    #[cfg(any(docsrs, feature = "scoped"))]
+    #[cfg_attr(docsrs, doc(cfg(feature = "scoped")))]
     /// Invokes `f` in a scope where the allocations are done in this allocator.
     #[inline(always)]
     pub fn scope<'a, F, R>(&'a self, f: F) -> R
@@ -20,7 +22,7 @@ impl SwcAllocator {
     {
         let s = unsafe {
             // Safery: We are using a scoped API
-            transmute::<&'a SwcAllocator, &'static SwcAllocator>(self)
+            std::mem::transmute::<&'a SwcAllocator, &'static SwcAllocator>(self)
         };
 
         ALLOC.set(Some(s));
