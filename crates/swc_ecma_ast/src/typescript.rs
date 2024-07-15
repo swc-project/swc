@@ -11,6 +11,7 @@ use serde::{
     Deserialize, Deserializer, Serialize,
 };
 use string_enum::StringEnum;
+use swc_allocator::{boxed::Box, vec::Vec};
 use swc_atoms::Atom;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 

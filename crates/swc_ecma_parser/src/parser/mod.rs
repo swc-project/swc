@@ -3,6 +3,7 @@
 
 use std::ops::{Deref, DerefMut};
 
+use swc_allocator::{boxed::Box, vec::Vec};
 use swc_atoms::{Atom, JsWord};
 use swc_common::{collections::AHashMap, comments::Comments, input::StringInput, BytePos, Span};
 use swc_ecma_ast::*;
