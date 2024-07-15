@@ -14,7 +14,7 @@ use crate::{boxed::Box, FastAlloc};
 #[macro_export]
 macro_rules! vec {
     ($($tt:tt)*) => {{
-        $crate::vec::Vec::from($crate::allocator_api2::vec![$($tt)*])
+        $crate::vec::Vec::from($crate::allocator_api2::vec![in $crate::FastAlloc::default(), $($tt)*])
     }};
 }
 
@@ -26,6 +26,12 @@ macro_rules! vec {
     derive(serde_derive::Serialize, serde_derive::Deserialize)
 )]
 pub struct Vec<T>(allocator_api2::vec::Vec<T, FastAlloc>);
+
+impl<T> From<allocator_api2::vec::Vec<T, FastAlloc>> for Vec<T> {
+    fn from(v: allocator_api2::vec::Vec<T, FastAlloc>) -> Self {
+        Self(v)
+    }
+}
 
 impl<T> Vec<T> {
     /// Constructs a new, empty `Vec<T>`.
