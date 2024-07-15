@@ -87,7 +87,7 @@ impl JsNumber {
             return JsNumber(f64::NAN);
         }
 
-        if f64::abs(self.0) == 1f64 && rhs.0.is_infinite() {
+        if self.0.abs() == 1f64 && rhs.0.is_infinite() {
             return JsNumber(f64::NAN);
         }
 
@@ -116,7 +116,7 @@ impl std::ops::Shr<JsNumber> for JsNumber {
 // JsNumber >>> JsNumber
 impl JsNumber {
     pub fn unsigned_shr(self, rhs: JsNumber) -> JsNumber {
-        JsNumber((self.0 as u32).wrapping_shr(rhs.0.trunc() as u32) as f64)
+        JsNumber((self.0.trunc() as u32).wrapping_shr(rhs.0.trunc() as u32) as f64)
     }
 }
 
