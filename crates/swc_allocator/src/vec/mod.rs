@@ -17,18 +17,148 @@ use crate::{boxed::Box, FastAlloc};
 pub struct Vec<T>(allocator_api2::vec::Vec<T, FastAlloc>);
 
 impl<T> Vec<T> {
+    /// Constructs a new, empty `Vec<T>`.
+    ///
+    /// The vector will not allocate until elements are pushed onto it.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # #![allow(unused_mut)]
+    /// let mut vec: Vec<i32> = Vec::new();
+    /// ```
+    ///
+    /// Note: This is slower than using [Self::new_in] with cached [FastAlloc].
     pub fn new() -> Self {
         Self::new_in(Default::default())
     }
 
+    /// Constructs a new, empty `Vec<T, A>`.
+    ///
+    /// The vector will not allocate until elements are pushed onto it.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use std::alloc::System;
+    ///
+    /// # #[allow(unused_mut)]
+    /// let mut vec: Vec<i32, _> = Vec::new_in(System);
+    /// ```
     pub fn new_in(alloc: FastAlloc) -> Self {
         Self(allocator_api2::vec::Vec::new_in(alloc))
     }
 
+    /// Constructs a new, empty `Vec<T>` with at least the specified capacity.
+    ///
+    /// The vector will be able to hold at least `capacity` elements without
+    /// reallocating. This method is allowed to allocate for more elements than
+    /// `capacity`. If `capacity` is 0, the vector will not allocate.
+    ///
+    /// It is important to note that although the returned vector has the
+    /// minimum *capacity* specified, the vector will have a zero *length*. For
+    /// an explanation of the difference between length and capacity, see
+    /// *[Capacity and reallocation]*.
+    ///
+    /// If it is important to know the exact allocated capacity of a `Vec`,
+    /// always use the [`capacity`] method after construction.
+    ///
+    /// For `Vec<T>` where `T` is a zero-sized type, there will be no allocation
+    /// and the capacity will always be `usize::MAX`.
+    ///
+    /// [Capacity and reallocation]: #capacity-and-reallocation
+    /// [`capacity`]: Vec::capacity
+    ///
+    /// # Panics
+    ///
+    /// Panics if the new capacity exceeds `isize::MAX` bytes.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// let mut vec = Vec::with_capacity(10);
+    ///
+    /// // The vector contains no items, even though it has capacity for more
+    /// assert_eq!(vec.len(), 0);
+    /// assert!(vec.capacity() >= 10);
+    ///
+    /// // These are all done without reallocating...
+    /// for i in 0..10 {
+    ///     vec.push(i);
+    /// }
+    /// assert_eq!(vec.len(), 10);
+    /// assert!(vec.capacity() >= 10);
+    ///
+    /// // ...but this may make the vector reallocate
+    /// vec.push(11);
+    /// assert_eq!(vec.len(), 11);
+    /// assert!(vec.capacity() >= 11);
+    ///
+    /// // A vector of a zero-sized type will always over-allocate, since no
+    /// // allocation is necessary
+    /// let vec_units = Vec::<()>::with_capacity(10);
+    /// assert_eq!(vec_units.capacity(), usize::MAX);
+    /// ```
+    ///
+    /// Note: This is slower than using [Self::with_capacity_in] with cached
+    /// [FastAlloc].
     pub fn with_capacity(capacity: usize) -> Self {
         Self::with_capacity_in(capacity, Default::default())
     }
 
+    /// Constructs a new, empty `Vec<T, A>` with at least the specified capacity
+    /// with the provided allocator.
+    ///
+    /// The vector will be able to hold at least `capacity` elements without
+    /// reallocating. This method is allowed to allocate for more elements than
+    /// `capacity`. If `capacity` is 0, the vector will not allocate.
+    ///
+    /// It is important to note that although the returned vector has the
+    /// minimum *capacity* specified, the vector will have a zero *length*. For
+    /// an explanation of the difference between length and capacity, see
+    /// *[Capacity and reallocation]*.
+    ///
+    /// If it is important to know the exact allocated capacity of a `Vec`,
+    /// always use the [`capacity`] method after construction.
+    ///
+    /// For `Vec<T, A>` where `T` is a zero-sized type, there will be no
+    /// allocation and the capacity will always be `usize::MAX`.
+    ///
+    /// [Capacity and reallocation]: #capacity-and-reallocation
+    /// [`capacity`]: Vec::capacity
+    ///
+    /// # Panics
+    ///
+    /// Panics if the new capacity exceeds `isize::MAX` bytes.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use std::alloc::System;
+    ///
+    /// let mut vec = Vec::with_capacity_in(10, System);
+    ///
+    /// // The vector contains no items, even though it has capacity for more
+    /// assert_eq!(vec.len(), 0);
+    /// assert_eq!(vec.capacity(), 10);
+    ///
+    /// // These are all done without reallocating...
+    /// for i in 0..10 {
+    ///     vec.push(i);
+    /// }
+    /// assert_eq!(vec.len(), 10);
+    /// assert_eq!(vec.capacity(), 10);
+    ///
+    /// // ...but this may make the vector reallocate
+    /// vec.push(11);
+    /// assert_eq!(vec.len(), 11);
+    /// assert!(vec.capacity() >= 11);
+    ///
+    /// // A vector of a zero-sized type will always over-allocate, since no
+    /// // allocation is necessary
+    /// let vec_units = Vec::<(), System>::with_capacity_in(10, System);
+    /// assert_eq!(vec_units.capacity(), usize::MAX);
+    /// ```
     pub fn with_capacity_in(capacity: usize, alloc: FastAlloc) -> Self {
         Self(allocator_api2::vec::Vec::with_capacity_in(capacity, alloc))
     }

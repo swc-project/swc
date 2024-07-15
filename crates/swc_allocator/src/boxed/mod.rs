@@ -54,6 +54,8 @@ impl<T> Box<T> {
     /// ```
     /// let five = Box::new(5);
     /// ```
+    ///
+    /// Note: This is slower than using [Self::new_in] with cached [FastAlloc].
     #[inline(always)]
     pub fn new(value: T) -> Self {
         Self::new_in(value, Default::default())
