@@ -102,7 +102,7 @@ For running all tests, take the following steps:
 
 4. Install deno
 
-    See [official install guide of deno](https://deno.land/manual/getting_started/installation) to install it.
+    See [official install guide of deno](https://docs.deno.com/runtime/manual/getting_started/installation/) to install it.
 
 5. Add wasm32-wasi target
 
