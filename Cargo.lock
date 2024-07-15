@@ -476,20 +476,6 @@ dependencies = [
 
 [[package]]
 name = "cargo_metadata"
-version = "0.15.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "eee4243f1f26fc7a42710e7439c149e2b10b05472f88090acce52632f231a73a"
-dependencies = [
- "camino",
- "cargo-platform",
- "semver 1.0.21",
- "serde",
- "serde_json",
- "thiserror",
-]
-
-[[package]]
-name = "cargo_metadata"
 version = "0.18.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2d886547e41f740c616ae73108f6eb70afe6d940c7bc697cb30f13daec073037"
@@ -3727,7 +3713,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.231.0"
+version = "0.231.1"
 dependencies = [
  "anyhow",
  "crc",
@@ -3738,7 +3724,7 @@ dependencies = [
  "ntest",
  "once_cell",
  "parking_lot",
- "path-clean 0.1.0",
+ "path-clean 1.0.1",
  "petgraph",
  "radix_fmt",
  "rayon",
@@ -3891,7 +3877,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.97.5"
+version = "0.97.6"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4431,7 +4417,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.198.1"
+version = "0.198.2"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4682,14 +4668,14 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.184.0"
+version = "0.184.1"
 dependencies = [
  "Inflector",
  "anyhow",
  "bitflags 2.5.0",
  "indexmap 2.2.6",
  "is-macro",
- "path-clean 0.1.0",
+ "path-clean 1.0.1",
  "pathdiff",
  "regex",
  "serde",
@@ -5520,10 +5506,10 @@ checksum = "3369f5ac52d5eb6ab48c6b4ffdc8efbcad6b89c765749064ba298f2c68a16a76"
 
 [[package]]
 name = "testing"
-version = "0.37.0"
+version = "0.37.1"
 dependencies = [
  "ansi_term",
- "cargo_metadata 0.15.4",
+ "cargo_metadata",
  "difference",
  "once_cell",
  "pretty_assertions",
@@ -6027,7 +6013,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e27d6bdd219887a9eadd19e1c34f32e47fa332301184935c6d9bca26f3cca525"
 dependencies = [
  "anyhow",
- "cargo_metadata 0.18.1",
+ "cargo_metadata",
  "regex",
  "rustversion",
 ]
@@ -6913,7 +6899,7 @@ name = "xtask"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "cargo_metadata 0.18.1",
+ "cargo_metadata",
  "chrono",
  "clap 4.4.18",
  "semver 1.0.21",

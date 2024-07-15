@@ -8,7 +8,7 @@ use testing::NormalizedOutput;
 fn test(input: PathBuf) {
     let input_code = std::fs::read_to_string(&input).unwrap();
     let output_file = input.with_extension("js");
-    let transform_output_file = input.with_file_name("output.transform.js");
+    let transform_output_file = input.with_extension("transform.js");
 
     testing::run_test(false, |cm, handler| {
         let code = operate(&cm, handler, input_code.clone(), opts(Mode::StripOnly))

@@ -30,7 +30,7 @@ ptr_meta = { workspace = true }
 rkyv = { workspace = true, optional = true }
 serde = { workspace = true, optional = true }
 serde_derive = { workspace = true, optional = true }
-triomphe = "0.1.13"
+triomphe = { workspace = true }
 
 
 [dev-dependencies]
