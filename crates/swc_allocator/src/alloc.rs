@@ -1,15 +1,23 @@
-use std::{alloc::Layout, cell::Cell, ptr::NonNull};
+use std::{
+    alloc::Layout,
+    cell::Cell,
+    ops::{Deref, DerefMut},
+    ptr::NonNull,
+};
 
 use allocator_api2::alloc::Global;
+use bumpalo::Bump;
 
-use crate::{FastAlloc, MemorySpace};
+use crate::FastAlloc;
 
 thread_local! {
   static ALLOC: Cell<Option<&'static SwcAllocator>> = const { Cell::new(None) };
 }
 
 #[derive(Default)]
-pub struct SwcAllocator(MemorySpace);
+pub struct SwcAllocator {
+    alloc: Bump,
+}
 
 impl SwcAllocator {
     #[cfg(any(docsrs, feature = "scoped"))]
@@ -51,7 +59,10 @@ impl FastAlloc {
         f: impl FnOnce(&dyn allocator_api2::alloc::Allocator, bool) -> T,
     ) -> T {
         if let Some(arena) = &self.alloc {
-            f((&&*arena.0) as &dyn allocator_api2::alloc::Allocator, true)
+            f(
+                (&&arena.alloc) as &dyn allocator_api2::alloc::Allocator,
+                true,
+            )
         } else {
             f(&allocator_api2::alloc::Global, false)
         }
@@ -159,5 +170,25 @@ unsafe impl allocator_api2::alloc::Allocator for FastAlloc {
         Self: Sized,
     {
         self
+    }
+}
+
+impl From<Bump> for SwcAllocator {
+    fn from(alloc: Bump) -> Self {
+        Self { alloc }
+    }
+}
+
+impl Deref for SwcAllocator {
+    type Target = Bump;
+
+    fn deref(&self) -> &Bump {
+        &self.alloc
+    }
+}
+
+impl DerefMut for SwcAllocator {
+    fn deref_mut(&mut self) -> &mut Bump {
+        &mut self.alloc
     }
 }

@@ -5,10 +5,6 @@
 #![allow(clippy::needless_doctest_main)]
 #![cfg_attr(docsrs, feature(doc_cfg))]
 
-use std::ops::{Deref, DerefMut};
-
-use bumpalo::Bump;
-
 pub use crate::alloc::SwcAllocator;
 
 mod alloc;
@@ -18,29 +14,4 @@ pub mod vec;
 #[derive(Clone)]
 pub struct FastAlloc {
     alloc: Option<&'static SwcAllocator>,
-}
-
-#[derive(Default)]
-struct MemorySpace {
-    alloc: Bump,
-}
-
-impl From<Bump> for MemorySpace {
-    fn from(alloc: Bump) -> Self {
-        Self { alloc }
-    }
-}
-
-impl Deref for MemorySpace {
-    type Target = Bump;
-
-    fn deref(&self) -> &Bump {
-        &self.alloc
-    }
-}
-
-impl DerefMut for MemorySpace {
-    fn deref_mut(&mut self) -> &mut Bump {
-        &mut self.alloc
-    }
 }
