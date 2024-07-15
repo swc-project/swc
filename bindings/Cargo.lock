@@ -62,6 +62,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "allocator-api2"
+version = "0.2.18"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5c6cb57a04249c6480766f7f7cef5467412af1490f8d1e243141daddada3264f"
+dependencies = [
+ "serde",
+]
+
+[[package]]
 name = "android-tzdata"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -231,7 +240,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.7.0-nightly-20240714.1"
+version = "1.7.0-nightly-20240715.1"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -291,7 +300,7 @@ dependencies = [
 
 [[package]]
 name = "binding_minifier_wasm"
-version = "1.7.0-nightly-20240714.1"
+version = "1.7.0-nightly-20240715.1"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -304,7 +313,7 @@ dependencies = [
 
 [[package]]
 name = "binding_typescript_wasm"
-version = "1.7.0-nightly-20240714.1"
+version = "1.7.0-nightly-20240715.1"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -386,9 +395,12 @@ dependencies = [
 
 [[package]]
 name = "bumpalo"
-version = "3.12.0"
+version = "3.16.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0d261e256854913907f67ed06efbc3338dfe6179796deefc1ff763fc1aee5535"
+checksum = "79296716171880943b8470b5f8d03aa55eb2e645a4874bdbb28adb49162e012c"
+dependencies = [
+ "allocator-api2",
+]
 
 [[package]]
 name = "bytecheck"
@@ -2930,6 +2942,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_allocator"
+version = "0.1.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1b5d267cfca0cc12aed5f22cdebb963d3e6f0d5b7625068b8608131a796018cf"
+dependencies = [
+ "allocator-api2",
+ "bumpalo",
+ "ptr_meta",
+ "triomphe",
+]
+
+[[package]]
 name = "swc_atoms"
 version = "0.6.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2991,7 +3015,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.91.319"
+version = "0.91.320"
 dependencies = [
  "anyhow",
  "swc_cli_impl",
@@ -3108,12 +3132,13 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.97.2"
+version = "0.97.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f382c4167ad363df090ae6cdea5a5b2b4d6e172d485b1e229632e6b83ec3a585"
+checksum = "277ca965d6845d8747c3ed82a1ae74ef65ad3be20df7c32486829d085cb4b98e"
 dependencies = [
  "binding_macros",
  "swc",
+ "swc_allocator",
  "swc_atoms",
  "swc_bundler",
  "swc_common",
@@ -3155,9 +3180,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.152.0"
+version = "0.152.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "84bbb1ae51db45adf2e24c6417e16ffbe4332023155f4ca055ece227d1798a72"
+checksum = "5987634c4d593a4b67e8a8c5f983f0d93cbd81bd3d5364db029f1e87bf5ddc56"
 dependencies = [
  "memchr",
  "num-bigint",
@@ -3652,9 +3677,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.202.0"
+version = "0.202.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9f4f9476335c736ad23ffb97b30e9fda8fd29c0b1e0229f89dc368d92e2de9fb"
+checksum = "2bd9d75b06e42313a2be787d73a5bffe3f9875f6a9d47917bc84bfebf2e09086"
 dependencies = [
  "dashmap",
  "indexmap 2.2.6",
@@ -4410,9 +4435,9 @@ dependencies = [
 
 [[package]]
 name = "triomphe"
-version = "0.1.11"
+version = "0.1.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "859eb650cfee7434994602c3a68b25d77ad9e68c8a6cd491616ef86661382eb3"
+checksum = "e6631e42e10b40c0690bf92f404ebcfe6e1fdb480391d15f17cc8e96eeed5369"
 dependencies = [
  "serde",
  "stable_deref_trait",
