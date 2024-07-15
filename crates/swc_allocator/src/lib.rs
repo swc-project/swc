@@ -76,8 +76,9 @@ impl FastAlloc {
             alloc: None,
         }
     }
+}
+
 /// Creates a `Vec<T>` from a list of elements.
-/// Creates a new instance of [crate::vec::Vec]
 #[macro_export]
 macro_rules! vec {
     () => (
