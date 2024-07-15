@@ -61,3 +61,15 @@ pub struct FastAlloc {
     #[cfg(feature = "scoped")]
     alloc: Option<&'static Allocator>,
 }
+
+impl FastAlloc {
+    /// [crate::boxed::Box] or [crate::vec::Vec] created with this instance is
+    /// managed by the global allocator and it can outlive the
+    /// [crate::Allocator] instance used for [Allocator::scope].
+    pub fn global() -> Self {
+        Self {
+            #[cfg(feature = "scoped")]
+            alloc: None,
+        }
+    }
+}
