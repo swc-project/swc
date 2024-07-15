@@ -39,30 +39,30 @@ fn bench_alloc(c: &mut Criterion) {
     fn direct_alloc_scoped(b: &mut Bencher, times: usize) {
         b.iter(|| {
             let allocator = Allocator::default();
+            let _guard = unsafe { allocator.guard() };
 
-            allocator.scope(|| {
-                let mut vec = SwcVec::new();
+            let mut vec = SwcVec::new();
 
-                for i in 0..times {
-                    let item: SwcBox<usize> = black_box(SwcBox::new(black_box(i)));
-                    vec.push(item);
-                }
-            });
+            for i in 0..times {
+                let item: SwcBox<usize> = black_box(SwcBox::new(black_box(i)));
+                vec.push(item);
+            }
         })
     }
 
     fn fast_alloc_scoped(b: &mut Bencher, times: usize) {
         b.iter(|| {
-            Allocator::default().scope(|| {
-                let alloc = FastAlloc::default();
+            let alloc = Allocator::default();
+            let _guard = unsafe { alloc.guard() };
 
-                let mut vec = SwcVec::new_in(alloc);
+            let alloc = FastAlloc::default();
 
-                for i in 0..times {
-                    let item: SwcBox<usize> = black_box(SwcBox::new_in(black_box(i), alloc));
-                    vec.push(item);
-                }
-            });
+            let mut vec = SwcVec::new_in(alloc);
+
+            for i in 0..times {
+                let item: SwcBox<usize> = black_box(SwcBox::new_in(black_box(i), alloc));
+                vec.push(item);
+            }
         })
     }
 
