@@ -21,11 +21,13 @@ pub struct Allocator {
     alloc: Bump,
 }
 
-pub struct AllocGuard {
+pub struct AllocGuard<'a> {
     orig: Option<&'static Allocator>,
+
+    _ref: &'a Allocator,
 }
 
-impl Drop for AllocGuard {
+impl Drop for AllocGuard<'_> {
     fn drop(&mut self) {
         ALLOC.set(self.orig.take());
     }
@@ -47,7 +49,7 @@ impl Allocator {
         };
 
         ALLOC.set(Some(s));
-        AllocGuard { orig }
+        AllocGuard { orig, _ref: self }
     }
 }
 

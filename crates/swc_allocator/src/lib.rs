@@ -34,6 +34,7 @@
 /// NOT A PUBLIC API.
 #[doc(hidden)]
 pub extern crate allocator_api2;
+
 pub use crate::alloc::Allocator;
 
 mod alloc;
