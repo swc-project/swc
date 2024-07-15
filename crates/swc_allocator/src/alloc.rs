@@ -15,6 +15,7 @@ thread_local! {
   static ALLOC: Cell<Option<&'static Allocator>> = const { Cell::new(None) };
 }
 
+/// The actual storage for [FastAlloc].
 #[derive(Default)]
 pub struct Allocator {
     alloc: Bump,
