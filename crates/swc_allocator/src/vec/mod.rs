@@ -37,14 +37,7 @@ impl<T> Vec<T> {
     ///
     /// The vector will not allocate until elements are pushed onto it.
     ///
-    /// # Examples
-    ///
-    /// ```
-    /// use std::alloc::System;
-    ///
-    /// # #[allow(unused_mut)]
-    /// let mut vec: Vec<i32, _> = Vec::new_in(System);
-    /// ```
+    /// See [std::vec::Vec::new_in] for more information.
     pub fn new_in(alloc: FastAlloc) -> Self {
         Self(allocator_api2::vec::Vec::new_in(alloc))
     }
@@ -131,34 +124,7 @@ impl<T> Vec<T> {
     ///
     /// Panics if the new capacity exceeds `isize::MAX` bytes.
     ///
-    /// # Examples
-    ///
-    /// ```
-    /// use std::alloc::System;
-    ///
-    /// let mut vec = Vec::with_capacity_in(10, System);
-    ///
-    /// // The vector contains no items, even though it has capacity for more
-    /// assert_eq!(vec.len(), 0);
-    /// assert_eq!(vec.capacity(), 10);
-    ///
-    /// // These are all done without reallocating...
-    /// for i in 0..10 {
-    ///     vec.push(i);
-    /// }
-    /// assert_eq!(vec.len(), 10);
-    /// assert_eq!(vec.capacity(), 10);
-    ///
-    /// // ...but this may make the vector reallocate
-    /// vec.push(11);
-    /// assert_eq!(vec.len(), 11);
-    /// assert!(vec.capacity() >= 11);
-    ///
-    /// // A vector of a zero-sized type will always over-allocate, since no
-    /// // allocation is necessary
-    /// let vec_units = Vec::<(), System>::with_capacity_in(10, System);
-    /// assert_eq!(vec_units.capacity(), usize::MAX);
-    /// ```
+    /// See [std::vec::Vec::with_capacity_in] for more information.
     pub fn with_capacity_in(capacity: usize, alloc: FastAlloc) -> Self {
         Self(allocator_api2::vec::Vec::with_capacity_in(capacity, alloc))
     }
