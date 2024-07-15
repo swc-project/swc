@@ -13,7 +13,7 @@ bench = false
 
 [dependencies]
 ansi_term          = { workspace = true }
-cargo_metadata     = "0.18.1"
+cargo_metadata     = { workspace = true }
 difference         = { workspace = true }
 once_cell          = { workspace = true }
 pretty_assertions  = { workspace = true }
