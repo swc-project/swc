@@ -231,8 +231,8 @@ impl<I: Tokens> Parser<I> {
     }
 
     fn parse_super_class(&mut self) -> PResult<(Box<Expr>, Option<Box<TsTypeParamInstantiation>>)> {
-        let super_class = self.parse_lhs_expr()?;
-        match *super_class {
+        let super_class = self.parse_lhs_expr()?.unbox();
+        match super_class {
             Expr::TsInstantiation(TsInstantiation {
                 expr, type_args, ..
             }) => Ok((expr, Some(type_args))),
@@ -242,9 +242,9 @@ impl<I: Tokens> Parser<I> {
                 // may not include `TsExprWithTypeArgs`
                 // but it's a super class with type params, for example, in JSX.
                 if self.syntax().typescript() && is!(self, '<') {
-                    Ok((super_class, self.parse_ts_type_args().map(Some)?))
+                    Ok((super_class.into(), self.parse_ts_type_args().map(Some)?))
                 } else {
-                    Ok((super_class, None))
+                    Ok((super_class.into(), None))
                 }
             }
         }
@@ -797,7 +797,7 @@ impl<I: Tokens> Parser<I> {
                         let type_params = self.try_parse_ts_type_params(false, true)?;
 
                         if let Some(type_params) = type_params {
-                            for param in type_params.params {
+                            for param in &type_params.params {
                                 self.emit_err(param.span(), SyntaxError::TS1092);
                             }
                         }

@@ -844,8 +844,8 @@ impl<I: Tokens> Parser<I> {
             let inner = self.parse_ts_module_or_ns_decl(inner_start)?;
             let inner = TsNamespaceDecl {
                 span: inner.span,
-                id: match inner.id {
-                    TsModuleName::Ident(i) => i,
+                id: match &inner.id {
+                    TsModuleName::Ident(i) => i.clone(),
                     _ => unreachable!(),
                 },
                 body: Box::new(inner.body.unwrap()),

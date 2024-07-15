@@ -127,6 +127,7 @@
 use error::Error;
 use lexer::Lexer;
 use serde::{Deserialize, Serialize};
+use swc_allocator::{boxed::Box, vec::Vec};
 use swc_common::{comments::Comments, input::SourceFileInput, SourceFile};
 use swc_ecma_ast::*;
 

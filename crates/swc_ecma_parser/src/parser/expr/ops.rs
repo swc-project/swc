@@ -1,5 +1,5 @@
 //! Parser for unary operations and binary operations.
-use swc_allocator::{boxed::Box, vec::Vec};
+use swc_allocator::boxed::Box;
 use tracing::trace;
 
 use super::*;
