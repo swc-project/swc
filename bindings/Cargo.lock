@@ -3828,15 +3828,18 @@ dependencies = [
 
 [[package]]
 name = "swc_fast_ts_strip"
-version = "0.2.0"
+version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6fa68aa0e8b9a36759139523f2980d17e86b5afeef1441b0c4db0cf220dd8ec1"
+checksum = "9fc53e8aa24cc7ec9491807672a56d4b3dd4ae8f1df072c9971025ecd4b07ab1"
 dependencies = [
  "anyhow",
  "serde",
  "swc_common",
  "swc_ecma_ast",
+ "swc_ecma_codegen",
  "swc_ecma_parser",
+ "swc_ecma_transforms_base",
+ "swc_ecma_transforms_typescript",
  "swc_ecma_visit",
 ]
 

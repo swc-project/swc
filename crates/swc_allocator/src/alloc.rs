@@ -1,16 +1,27 @@
-use std::{alloc::Layout, mem::transmute, ptr::NonNull};
+use std::{
+    alloc::Layout,
+    cell::Cell,
+    mem::transmute,
+    ops::{Deref, DerefMut},
+    ptr::NonNull,
+};
 
 use allocator_api2::alloc::Global;
-use scoped_tls::scoped_thread_local;
+use bumpalo::Bump;
 
-use crate::{FastAlloc, MemorySpace};
+use crate::FastAlloc;
 
-scoped_thread_local!(pub(crate) static ALLOC: &'static SwcAllocator);
+thread_local! {
+  static ALLOC: Cell<Option<&'static Allocator>> = const { Cell::new(None) };
+}
 
+/// The actual storage for [FastAlloc].
 #[derive(Default)]
-pub struct SwcAllocator(MemorySpace);
+pub struct Allocator {
+    alloc: Bump,
+}
 
-impl SwcAllocator {
+impl Allocator {
     /// Invokes `f` in a scope where the allocations are done in this allocator.
     #[inline(always)]
     pub fn scope<'a, F, R>(&'a self, f: F) -> R
@@ -19,18 +30,21 @@ impl SwcAllocator {
     {
         let s = unsafe {
             // Safery: We are using a scoped API
-            transmute::<&'a SwcAllocator, &'static SwcAllocator>(self)
+            transmute::<&'a Allocator, &'static Allocator>(self)
         };
 
-        ALLOC.set(&s, f)
+        ALLOC.set(Some(s));
+        let ret = f();
+        ALLOC.set(None);
+        ret
     }
 }
 
 impl Default for FastAlloc {
     fn default() -> Self {
         Self {
-            alloc: if ALLOC.is_set() {
-                Some(ALLOC.with(|v| *v))
+            alloc: if let Some(v) = ALLOC.get() {
+                Some(v)
             } else {
                 None
             },
@@ -45,7 +59,10 @@ impl FastAlloc {
         f: impl FnOnce(&dyn allocator_api2::alloc::Allocator, bool) -> T,
     ) -> T {
         if let Some(arena) = &self.alloc {
-            f((&&*arena.0) as &dyn allocator_api2::alloc::Allocator, true)
+            f(
+                (&&arena.alloc) as &dyn allocator_api2::alloc::Allocator,
+                true,
+            )
         } else {
             f(&allocator_api2::alloc::Global, false)
         }
@@ -87,7 +104,7 @@ unsafe impl allocator_api2::alloc::Allocator for FastAlloc {
     unsafe fn deallocate(&self, ptr: NonNull<u8>, layout: Layout) {
         if self.alloc.is_some() {
             debug_assert!(
-                ALLOC.is_set(),
+                ALLOC.get().is_some(),
                 "Deallocating a pointer allocated with arena mode with a non-arena mode allocator"
             );
 
@@ -153,5 +170,25 @@ unsafe impl allocator_api2::alloc::Allocator for FastAlloc {
         Self: Sized,
     {
         self
+    }
+}
+
+impl From<Bump> for Allocator {
+    fn from(alloc: Bump) -> Self {
+        Self { alloc }
+    }
+}
+
+impl Deref for Allocator {
+    type Target = Bump;
+
+    fn deref(&self) -> &Bump {
+        &self.alloc
+    }
+}
+
+impl DerefMut for Allocator {
+    fn deref_mut(&mut self) -> &mut Bump {
+        &mut self.alloc
     }
 }

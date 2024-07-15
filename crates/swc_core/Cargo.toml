@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_core"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.97.2"
+version       = "0.97.4"
   [package.metadata.docs.rs]
   features = [
     "allocator_node",
@@ -37,6 +37,8 @@ doctest = false
 ## Flags to opt into certain optimizations. In most cases this won't expose new interfaces,
 ## but changes internal logics to perform differently. These flag should be turned on in combination with
 ## actual features. Refer build.rs for more details.
+
+scoped-alloc = ["swc_allocator/scoped"]
 
 # swc_common/ahash
 common_ahash = ["swc_common/ahash"]
@@ -381,6 +383,7 @@ swc_transform_common             = { optional = true, version = "0.1.0", path = 
 swc_typescript                   = { optional = true, version = "0.2.0", path = "../swc_typescript" }
 testing                          = { optional = true, version = "0.37.0", path = "../testing" }
 # TODO: eventually swc_plugin_runner needs to remove default features
+swc_allocator     = { version = "0.1.2", path = "../swc_allocator" }
 swc_plugin_runner = { optional = true, version = "0.110.0", path = "../swc_plugin_runner", default-features = false }
 
 [build-dependencies]

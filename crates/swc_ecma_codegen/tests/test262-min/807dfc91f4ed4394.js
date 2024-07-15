@@ -1,1 +1,1 @@
-function*a(){yield Infinity}
+function*a(){yield 2e308}

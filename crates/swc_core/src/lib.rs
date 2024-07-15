@@ -1,5 +1,7 @@
 #![cfg_attr(docsrs, feature(doc_cfg))]
 
+pub extern crate swc_allocator as alloc;
+
 #[cfg(feature = "swc_atoms")]
 #[cfg_attr(docsrs, doc(cfg(feature = "swc_atoms")))]
 pub use swc_atoms as atoms;

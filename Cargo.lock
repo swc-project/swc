@@ -3698,7 +3698,7 @@ dependencies = [
 
 [[package]]
 name = "swc_allocator"
-version = "0.1.2"
+version = "0.1.4"
 dependencies = [
  "allocator-api2",
  "bumpalo",
@@ -3706,7 +3706,6 @@ dependencies = [
  "criterion",
  "ptr_meta",
  "rkyv",
- "scoped-tls",
  "serde",
  "serde_derive",
  "swc_malloc",
@@ -3892,12 +3891,13 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.97.2"
+version = "0.97.4"
 dependencies = [
  "anyhow",
  "binding_macros",
  "once_cell",
  "swc",
+ "swc_allocator",
  "swc_atoms",
  "swc_bundler",
  "swc_cached",
@@ -4153,7 +4153,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.152.0"
+version = "0.152.1"
 dependencies = [
  "base64",
  "codspeed-criterion-compat",
@@ -4974,7 +4974,7 @@ dependencies = [
 
 [[package]]
 name = "swc_fast_ts_strip"
-version = "0.2.0"
+version = "0.2.1"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",

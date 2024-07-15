@@ -703,7 +703,7 @@ where
         self.emit_leading_comments_of_span(num.span(), false)?;
 
         // Handle infinity
-        if num.value.is_infinite() {
+        if num.value.is_infinite() && num.raw.is_none() {
             if num.value.is_sign_negative() {
                 self.wr.write_str_lit(num.span, "-")?;
             }
@@ -718,8 +718,12 @@ where
         srcmap!(self, num, true);
 
         if self.cfg.minify {
-            value = minify_number(num.value);
-            self.wr.write_str_lit(DUMMY_SP, &value)?;
+            if num.value.is_infinite() && num.raw.is_some() {
+                self.wr.write_str_lit(DUMMY_SP, num.raw.as_ref().unwrap())?;
+            } else {
+                value = minify_number(num.value);
+                self.wr.write_str_lit(DUMMY_SP, &value)?;
+            }
         } else {
             match &num.raw {
                 Some(raw) => {
@@ -727,8 +731,12 @@ where
                         let slice = &raw.as_bytes()[..2];
                         slice == b"0b" || slice == b"0o" || slice == b"0B" || slice == b"0O"
                     } {
-                        value = num.value.to_string();
-                        self.wr.write_str_lit(DUMMY_SP, &value)?;
+                        if num.value.is_infinite() && num.raw.is_some() {
+                            self.wr.write_str_lit(DUMMY_SP, num.raw.as_ref().unwrap())?;
+                        } else {
+                            value = num.value.to_string();
+                            self.wr.write_str_lit(DUMMY_SP, &value)?;
+                        }
                     } else if raw.len() > 2
                         && self.cfg.target < EsVersion::Es2021
                         && raw.contains('_')

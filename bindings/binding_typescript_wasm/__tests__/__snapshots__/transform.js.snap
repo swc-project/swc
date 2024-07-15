@@ -1,53 +1,82 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`transform in strip-only mode should remove declare enum 1`] = `"                   "`;
+exports[`transform in strip-only mode should remove declare enum 1`] = `
+{
+  "code": "                   ",
+  "map": undefined,
+}
+`;
 
 exports[`transform in strip-only mode should remove declare enum 2`] = `
-"                  
+{
+  "code": "                  
                      
-                 "
+                 ",
+  "map": undefined,
+}
 `;
 
 exports[`transform in strip-only mode should remove declare enum 3`] = `
-"                  
+{
+  "code": "                  
                           
                       
-                     "
+                     ",
+  "map": undefined,
+}
 `;
 
 exports[`transform in strip-only mode should strip complex expressions 1`] = `
-"const foo = {
+{
+  "code": "const foo = {
                         foo: 1          ,
                         bar: "bar"                 ,
                     }                 ;
-                    const bar = "bar";"
+                    const bar = "bar";",
+  "map": undefined,
+}
 `;
 
 exports[`transform in strip-only mode should strip nonnull assertions 1`] = `
-"const foo = 1 ;
-                    const bar = "bar";"
+{
+  "code": "const foo = 1 ;
+                    const bar = "bar";",
+  "map": undefined,
+}
 `;
 
 exports[`transform in strip-only mode should strip satisfies 1`] = `
-"const foo = 1                 ;
-                    const bar = "bar";"
+{
+  "code": "const foo = 1                 ;
+                    const bar = "bar";",
+  "map": undefined,
+}
 `;
 
 exports[`transform in strip-only mode should strip type annotations 1`] = `
-"const foo = 1;
-                    const bar      = "bar";"
+{
+  "code": "const foo = 1;
+                    const bar      = "bar";",
+  "map": undefined,
+}
 `;
 
 exports[`transform in strip-only mode should strip type assertions 1`] = `
-"const foo = 1          ;
-                    const bar = "bar";"
+{
+  "code": "const foo = 1          ;
+                    const bar = "bar";",
+  "map": undefined,
+}
 `;
 
 exports[`transform in strip-only mode should strip type declarations 1`] = `
-"const foo = 1;
+{
+  "code": "const foo = 1;
                                       
                                       
-                    const bar      = "bar";"
+                    const bar      = "bar";",
+  "map": undefined,
+}
 `;
 
 exports[`transform in strip-only mode should throw an error when it encounters a module 1`] = `
@@ -78,8 +107,11 @@ exports[`transform in strip-only mode should throw an error when it encounters a
 `;
 
 exports[`transform should strip types 1`] = `
-"
+{
+  "code": "
         export const foo         = 1;
                           
-    "
+    ",
+  "map": undefined,
+}
 `;

@@ -1,3 +1,5 @@
+//! Faster box type.
+
 use std::{
     borrow::{Borrow, BorrowMut},
     fmt::{self, Debug, Display, Formatter},
@@ -14,13 +16,7 @@ mod rkyv;
 #[cfg(feature = "serde")]
 mod serde;
 
-/// A special `Box` which has size of [`std::boxed::Box`] but **may** be
-/// allocated with a custom allocator.
-///
-///
-/// # Representation
-///
-/// The last bit is 1 if the box is allocated with a custom allocator.
+/// Faster alterantive for [`std::boxed::Box`].
 #[repr(transparent)]
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Box<T: ?Sized>(pub(crate) allocator_api2::boxed::Box<T, FastAlloc>);
@@ -49,15 +45,38 @@ where
 }
 
 impl<T> Box<T> {
-    /// Allocates a new box with `value`.
+    /// Allocates memory on the heap and then places `x` into it.
     ///
-    /// See [`std::boxed::Box::new`].
+    /// This doesn't actually allocate if `T` is zero-sized.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// let five = Box::new(5);
+    /// ```
+    ///
+    /// Note: This is slower than using [Self::new_in] with cached [FastAlloc].
     #[inline(always)]
     pub fn new(value: T) -> Self {
-        Self(allocator_api2::boxed::Box::new_in(
-            value,
-            FastAlloc::default(),
-        ))
+        Self::new_in(value, Default::default())
+    }
+
+    /// Allocates memory in the given allocator then places `x` into it.
+    ///
+    /// This doesn't actually allocate if `T` is zero-sized.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// #![feature(allocator_api)]
+    ///
+    /// use std::alloc::System;
+    ///
+    /// let five = Box::new_in(5, System);
+    /// ```
+    #[inline(always)]
+    pub fn new_in(value: T, alloc: FastAlloc) -> Self {
+        Self(allocator_api2::boxed::Box::new_in(value, alloc))
     }
 
     /// Moves the value out of the box.
@@ -625,11 +644,5 @@ where
 {
     fn len(&self) -> usize {
         self.0.len()
-    }
-}
-
-impl FastAlloc {
-    pub fn alloc<T>(&self, t: T) -> Box<T> {
-        Box(allocator_api2::boxed::Box::new_in(t, self.clone()))
     }
 }
