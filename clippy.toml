@@ -22,5 +22,5 @@ ignore-interior-mutability = [
   "swc_atoms::JsWord",
   "swc_ecma_ast::Id",
 ]
-msrv = "1.71"
+msrv = "1.73"
 type-complexity-threshold = 25000

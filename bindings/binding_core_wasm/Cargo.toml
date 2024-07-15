@@ -6,7 +6,7 @@ license     = "Apache-2.0"
 name        = "binding_core_wasm"
 publish     = false
 repository  = "https://github.com/swc-project/swc.git"
-version     = "1.6.13"
+version     = "1.7.0-nightly-20240714.1"
 
 [lib]
 bench      = false
@@ -35,7 +35,7 @@ anyhow = "1.0.66"
 getrandom = { version = "0.2.10", features = ["js"] }
 serde = { version = "1", features = ["derive"] }
 serde-wasm-bindgen = "0.4.5"
-swc_core = { version = "0.97.0", features = [
+swc_core = { version = "0.97.2", features = [
   "ecma_ast_serde",
   "ecma_codegen",
   "binding_macro_wasm",

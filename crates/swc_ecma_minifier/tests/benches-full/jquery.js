@@ -3125,9 +3125,9 @@
         for(!function(props, specialEasing) {
             var index, name, easing, value, hooks;
             // camelCase, specialEasing and expand cssHook pass
-            for(index in props)if (easing = specialEasing[name = camelCase(index)], Array.isArray(value = props[index]) && (easing = value[1], value = props[index] = value[0]), index !== name && (props[name] = value, delete props[index]), (hooks = jQuery.cssHooks[name]) && ("expand" in hooks)) // Not quite $.extend, this won't overwrite existing keys.
+            for(index in props)if (easing = specialEasing[name = camelCase(index)], Array.isArray(value = props[index]) && (easing = value[1], value = props[index] = value[0]), index !== name && (props[name] = value, delete props[index]), (hooks = jQuery.cssHooks[name]) && "expand" in hooks) // Not quite $.extend, this won't overwrite existing keys.
             // Reusing 'index' because we have the correct "name"
-            for(index in value = hooks.expand(value), delete props[name], value)(index in props) || (props[index] = value[index], specialEasing[index] = easing);
+            for(index in value = hooks.expand(value), delete props[name], value)index in props || (props[index] = value[index], specialEasing[index] = easing);
             else specialEasing[name] = easing;
         }(props, animation.opts.specialEasing); index < length; index++)if (result = Animation.prefilters[index].call(animation, elem, props, animation.opts)) return isFunction(result.stop) && (jQuery._queueHooks(animation.elem, animation.opts.queue).stop = result.stop.bind(result)), result;
         return jQuery.map(props, createTween, animation), isFunction(animation.opts.start) && animation.opts.start.call(elem, animation), // Attach callbacks from options

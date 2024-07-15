@@ -8201,14 +8201,14 @@
                 for(var RegExpWrapper = function(pattern, flags) {
                     var rawFlags, dotAll, sticky, handled, result, state, thisIsRegExp = this instanceof RegExpWrapper, patternIsRegExp = isRegExp(pattern), flagsAreUndefined = void 0 === flags, groups = [], rawPattern = pattern;
                     if (!thisIsRegExp && patternIsRegExp && flagsAreUndefined && pattern.constructor === RegExpWrapper) return pattern;
-                    if ((patternIsRegExp || pattern instanceof RegExpWrapper) && (pattern = pattern.source, flagsAreUndefined && (flags = ("flags" in rawPattern) ? rawPattern.flags : getFlags.call(rawPattern))), pattern = void 0 === pattern ? "" : toString1(pattern), flags = void 0 === flags ? "" : toString1(flags), rawPattern = pattern, UNSUPPORTED_DOT_ALL && ("dotAll" in re1) && (dotAll = !!flags && flags.indexOf("s") > -1) && (flags = flags.replace(/s/g, "")), rawFlags = flags, UNSUPPORTED_Y && ("sticky" in re1) && (sticky = !!flags && flags.indexOf("y") > -1) && (flags = flags.replace(/y/g, "")), UNSUPPORTED_NCG && (pattern = (handled = handleNCG(pattern))[0], groups = handled[1]), result = inheritIfRequired(NativeRegExp(pattern, flags), thisIsRegExp ? this : RegExpPrototype, RegExpWrapper), (dotAll || sticky || groups.length) && (state = enforceInternalState(result), dotAll && (state.dotAll = !0, state.raw = RegExpWrapper(handleDotAll(pattern), rawFlags)), sticky && (state.sticky = !0), groups.length && (state.groups = groups)), pattern !== rawPattern) try {
+                    if ((patternIsRegExp || pattern instanceof RegExpWrapper) && (pattern = pattern.source, flagsAreUndefined && (flags = "flags" in rawPattern ? rawPattern.flags : getFlags.call(rawPattern))), pattern = void 0 === pattern ? "" : toString1(pattern), flags = void 0 === flags ? "" : toString1(flags), rawPattern = pattern, UNSUPPORTED_DOT_ALL && "dotAll" in re1 && (dotAll = !!flags && flags.indexOf("s") > -1) && (flags = flags.replace(/s/g, "")), rawFlags = flags, UNSUPPORTED_Y && "sticky" in re1 && (sticky = !!flags && flags.indexOf("y") > -1) && (flags = flags.replace(/y/g, "")), UNSUPPORTED_NCG && (pattern = (handled = handleNCG(pattern))[0], groups = handled[1]), result = inheritIfRequired(NativeRegExp(pattern, flags), thisIsRegExp ? this : RegExpPrototype, RegExpWrapper), (dotAll || sticky || groups.length) && (state = enforceInternalState(result), dotAll && (state.dotAll = !0, state.raw = RegExpWrapper(handleDotAll(pattern), rawFlags)), sticky && (state.sticky = !0), groups.length && (state.groups = groups)), pattern !== rawPattern) try {
                         // fails in old engines, but we have no alternatives for unsupported regex syntax
                         createNonEnumerableProperty(result, "source", "" === rawPattern ? "(?:)" : rawPattern);
                     } catch (error) {
                     /* empty */ }
                     return result;
                 }, proxy = function(key) {
-                    (key in RegExpWrapper) || defineProperty(RegExpWrapper, key, {
+                    key in RegExpWrapper || defineProperty(RegExpWrapper, key, {
                         configurable: !0,
                         get: function() {
                             return NativeRegExp[key];
