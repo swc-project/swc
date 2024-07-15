@@ -3713,7 +3713,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.231.0"
+version = "0.231.1"
 dependencies = [
  "anyhow",
  "crc",
@@ -3877,7 +3877,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.97.5"
+version = "0.97.6"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4417,7 +4417,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.198.1"
+version = "0.198.2"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4668,7 +4668,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.184.0"
+version = "0.184.1"
 dependencies = [
  "Inflector",
  "anyhow",
@@ -5506,7 +5506,7 @@ checksum = "3369f5ac52d5eb6ab48c6b4ffdc8efbcad6b89c765749064ba298f2c68a16a76"
 
 [[package]]
 name = "testing"
-version = "0.37.0"
+version = "0.37.1"
 dependencies = [
  "ansi_term",
  "cargo_metadata",
