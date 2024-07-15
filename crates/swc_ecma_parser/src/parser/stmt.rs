@@ -1,4 +1,4 @@
-use swc_allocator::{boxed::Box, vec::Vec};
+use swc_allocator::{boxed::Box, vec, vec::Vec};
 use swc_common::Spanned;
 use typed_arena::Arena;
 
@@ -26,7 +26,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let old_ctx = self.ctx();
 
-        let stmts = Arena::new();
+        let stmts = vec![];
         while {
             if self.input.cur().is_none() && end.is_some() {
                 let eof_text = self.input.dump_cur();
@@ -60,7 +60,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             }
 
-            stmts.alloc(stmt);
+            stmts.push(stmt);
         }
 
         if self.input.cur().is_some() && end.is_some() {
@@ -69,7 +69,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         self.set_ctx(old_ctx);
 
-        Ok(stmts.into_vec())
+        Ok(stmts)
     }
 
     /// Parse a statement but not a declaration.

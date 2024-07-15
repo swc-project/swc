@@ -1,5 +1,6 @@
 use either::Either;
 use smartstring::{LazyCompact, SmartString};
+use swc_allocator::vec;
 
 use super::*;
 
