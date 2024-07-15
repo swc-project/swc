@@ -1,4 +1,5 @@
 use is_macro::Is;
+use swc_allocator::boxed::Box;
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 use crate::{
