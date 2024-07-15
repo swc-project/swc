@@ -4712,7 +4712,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.202.0"
+version = "0.202.1"
 dependencies = [
  "dashmap",
  "indexmap 2.2.6",
