@@ -9,7 +9,7 @@ use std::{
     pin::Pin,
 };
 
-use crate::FastAlloc;
+use crate::{vec::Vec, FastAlloc};
 
 #[cfg(feature = "rkyv")]
 mod rkyv;
@@ -647,5 +647,12 @@ where
 {
     fn len(&self) -> usize {
         self.0.len()
+    }
+}
+
+impl<T> Box<[T]> {
+    /// Converts a boxed slice into a `Vec`.
+    pub fn into_vec(self) -> Vec<T> {
+        allocator_api2::boxed::Box::<[T], FastAlloc>::into_vec(self.0).into()
     }
 }

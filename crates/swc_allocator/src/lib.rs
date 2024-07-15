@@ -77,15 +77,21 @@ impl FastAlloc {
         }
     }
 /// Creates a `Vec<T>` from a list of elements.
+/// Creates a new instance of [crate::vec::Vec]
 #[macro_export]
 macro_rules! vec {
-    () => {{
+    () => (
         $crate::vec::Vec::new()
-    }};
-
-    ($($tt:tt)*) => {{
-        let alloc= $crate::FastAlloc::default();
-        let v: $crate::allocator_api2::vec::Vec<_, $crate::FastAlloc> = $crate::allocator_api2::vec![in alloc; $($tt)*];
-        $crate::vec::Vec::from(v)
-    }};
+    );
+    ($elem:expr; $n:expr) => (
+        $crate::vec::from_elem_in($elem, $n, $crate::FastAlloc::default())
+    );
+    ($($x:expr),+ $(,)?) => (
+        $crate::boxed::Box::<[_]>::into_vec(
+            $crate::boxed::Box::slice(
+                $crate::boxed::Box::new([$($x),+])
+            ),
+            $crate::FastAlloc::default()
+        )
+    );
 }
