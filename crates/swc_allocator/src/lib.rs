@@ -90,8 +90,7 @@ macro_rules! vec {
         $crate::boxed::Box::<[_]>::into_vec(
             $crate::boxed::Box::slice(
                 $crate::boxed::Box::new([$($x),+])
-            ),
-            $crate::FastAlloc::default()
+            )
         )
     );
 }
