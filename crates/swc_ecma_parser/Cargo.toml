@@ -18,11 +18,13 @@ bench = false
 
 [features]
 # Used for debugging
-debug         = ["tracing-spans"]
-default       = ["typescript", "stacker"]
+debug = ["tracing-spans"]
+default = ["typescript", "stacker"]
 tracing-spans = []
-typescript    = []
-verify        = ["swc_ecma_visit"]
+typescript = []
+verify = [
+  #"swc_ecma_visit"
+]
 
 [dependencies]
 either                = { workspace = true }
@@ -36,11 +38,11 @@ smartstring           = { workspace = true }
 tracing               = { workspace = true }
 typed-arena           = { workspace = true }
 
-swc_allocator  = { version = "0.1.4", path = "../swc_allocator", default-features = false }
-swc_atoms      = { version = "0.6.5", path = "../swc_atoms" }
-swc_common     = { version = "0.35.0", path = "../swc_common" }
-swc_ecma_ast   = { version = "0.116.0", path = "../swc_ecma_ast" }
-swc_ecma_visit = { version = "0.102.0", path = "../swc_ecma_visit", optional = true }
+swc_allocator = { version = "0.1.4", path = "../swc_allocator", default-features = false }
+swc_atoms     = { version = "0.6.5", path = "../swc_atoms" }
+swc_common    = { version = "0.35.0", path = "../swc_common" }
+swc_ecma_ast  = { version = "0.116.0", path = "../swc_ecma_ast" }
+# swc_ecma_visit = { version = "0.102.0", path = "../swc_ecma_visit", optional = true }
 
 [target.'cfg(not(any(target_arch = "wasm32", target_arch = "arm")))'.dependencies]
 stacker = { version = "0.1.15", optional = true }
@@ -55,9 +57,9 @@ codspeed-criterion-compat = { workspace = true }
 swc_ecma_ast = { version = "0.116.0", path = "../swc_ecma_ast", features = [
   "serde-impl",
 ] }
-swc_ecma_visit = { version = "0.102.0", path = "../swc_ecma_visit" }
+# swc_ecma_visit = { version = "0.102.0", path = "../swc_ecma_visit" }
 swc_malloc = { version = "0.5.10", path = "../swc_malloc" }
-testing = { version = "0.37.0", path = "../testing" }
+testing    = { version = "0.37.0", path = "../testing" }
 
 [[example]]
 name = "lexer"
