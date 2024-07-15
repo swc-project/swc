@@ -279,12 +279,14 @@ impl<T> Vec<T> {
 impl<T> Deref for Vec<T> {
     type Target = allocator_api2::vec::Vec<T, FastAlloc>;
 
+    #[inline(always)]
     fn deref(&self) -> &Self::Target {
         &self.0
     }
 }
 
 impl<T> DerefMut for Vec<T> {
+    #[inline(always)]
     fn deref_mut(&mut self) -> &mut Self::Target {
         &mut self.0
     }

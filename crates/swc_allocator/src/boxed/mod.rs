@@ -252,12 +252,14 @@ impl<T: ?Sized> BorrowMut<T> for Box<T> {
 impl<T: ?Sized> Deref for Box<T> {
     type Target = T;
 
+    #[inline(always)]
     fn deref(&self) -> &T {
         &self.0
     }
 }
 
 impl<T: ?Sized> DerefMut for Box<T> {
+    #[inline(always)]
     fn deref_mut(&mut self) -> &mut T {
         &mut self.0
     }
