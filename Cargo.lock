@@ -3841,6 +3841,7 @@ dependencies = [
  "serde",
  "serde_json",
  "sourcemap",
+ "swc_allocator",
  "swc_atoms",
  "swc_common",
  "swc_config",
