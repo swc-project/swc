@@ -1,5 +1,5 @@
 use either::Either;
-use swc_allocator::{boxed::Box, vec::Vec};
+use swc_allocator::{boxed::Box, vec, vec::Vec};
 use swc_common::{ast_node, util::take::Take, Spanned};
 
 use super::{pat::PatType, util::ExprExt, *};

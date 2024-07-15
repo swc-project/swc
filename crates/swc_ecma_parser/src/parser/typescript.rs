@@ -1,7 +1,7 @@
 use std::fmt::Write;
 
 use either::Either;
-use swc_allocator::{boxed::Box, vec::Vec};
+use swc_allocator::{boxed::Box, vec, vec::Vec};
 use swc_atoms::js_word;
 use swc_common::Spanned;
 
@@ -841,11 +841,11 @@ impl<I: Tokens> Parser<I> {
         let id = self.parse_ident_name()?;
         let body: TsNamespaceBody = if eat!(self, '.') {
             let inner_start = cur_pos!(self);
-            let inner = self.parse_ts_module_or_ns_decl(inner_start)?;
+            let inner = self.parse_ts_module_or_ns_decl(inner_start)?.unbox();
             let inner = TsNamespaceDecl {
                 span: inner.span,
-                id: match &inner.id {
-                    TsModuleName::Ident(i) => i.clone(),
+                id: match inner.id {
+                    TsModuleName::Ident(i) => i,
                     _ => unreachable!(),
                 },
                 body: Box::new(inner.body.unwrap()),

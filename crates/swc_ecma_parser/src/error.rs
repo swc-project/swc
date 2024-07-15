@@ -2,6 +2,7 @@
 
 use std::{borrow::Cow, fmt::Debug};
 
+use swc_allocator::{boxed::Box, vec::Vec};
 use swc_atoms::JsWord;
 use swc_common::{
     errors::{DiagnosticBuilder, Handler},
@@ -35,7 +36,7 @@ impl Error {
     }
 
     pub fn into_kind(self) -> SyntaxError {
-        self.error.1
+        self.error.unbox().1
     }
 }
 
@@ -765,7 +766,7 @@ impl SyntaxError {
 impl Error {
     #[cold]
     #[inline(never)]
-    pub fn into_diagnostic(self, handler: &Handler) -> DiagnosticBuilder {
+    pub fn into_diagnostic<'a>(&self, handler: &'a Handler) -> DiagnosticBuilder<'a> {
         if let SyntaxError::WithLabel { inner, note, span } = self.error.1 {
             let mut db = inner.into_diagnostic(handler);
             db.span_label(span, note);
@@ -774,7 +775,7 @@ impl Error {
 
         let span = self.span();
 
-        let kind = self.into_kind();
+        let kind = self.kind();
         let msg = kind.msg();
 
         let mut db = handler.struct_span_err(span, &msg);
@@ -782,12 +783,12 @@ impl Error {
         match kind {
             SyntaxError::ExpectedSemiForExprStmt { expr } => {
                 db.span_label(
-                    expr,
+                    *expr,
                     "This is the expression part of an expression statement",
                 );
             }
             SyntaxError::MultipleDefault { previous } => {
-                db.span_label(previous, "previous default case is declared at here");
+                db.span_label(*previous, "previous default case is declared at here");
             }
             _ => {}
         }
