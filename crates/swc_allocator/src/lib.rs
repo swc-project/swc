@@ -4,6 +4,7 @@
 
 #![allow(clippy::needless_doctest_main)]
 #![cfg_attr(docsrs, feature(doc_cfg))]
+#![deny(missing_docs)]
 
 pub use crate::alloc::Allocator;
 
@@ -12,6 +13,15 @@ pub mod boxed;
 pub mod vec;
 
 /// Fast allocator, effectively working as a cache.
+///
+/// This type implements [Default] and [Copy]. This type is intended to stored
+/// in a variable or a field in a struct before allocating code, and used as the
+/// seocnd argument in [crate::boxed::Box::new_in] and
+/// [crate::vec::Vec::new_in].
+///
+/// [crate::boxed::Box::new] and [crate::vec::Vec::new] are slower than using
+/// this field because they use [FastAlloc::default] internally, which is slower
+/// than store [FastAlloc] in a variable.
 ///
 ///
 ///
