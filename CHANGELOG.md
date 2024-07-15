@@ -43,6 +43,9 @@
 
 - **(es/typescript)** Handle unicode for fast ts strip ([#9202](https://github.com/swc-project/swc/issues/9202)) ([096bfe3](https://github.com/swc-project/swc/commit/096bfe375147bb5b663ec26f8c2bdb977ee527db))
 
+
+- **(es/typescript)** Fix `transform` mode ([#9243](https://github.com/swc-project/swc/issues/9243)) ([0e79a5b](https://github.com/swc-project/swc/commit/0e79a5b428c811c46c69f7f4a84fcff31c98db67))
+
 ### Documentation
 
 
@@ -1374,9 +1377,6 @@
 
 ### Testing
 
-
-
-- **(es/codegen)** Add tests for `@ctrl/tinycolor` ([#8518](https://github.com/swc-project/swc/issues/8518)) ([1c4eb1f](https://github.com/swc-project/swc/commit/1c4eb1f54fbecef8f955172cba725c27eb4e2b7e))
 
 
 - **(es/codegen)** Add a JS test for ascii-only mode ([#8519](https://github.com/swc-project/swc/issues/8519)) ([974c6a0](https://github.com/swc-project/swc/commit/974c6a0036c5ef3e3d12c81c7310758046ff0a0d))
