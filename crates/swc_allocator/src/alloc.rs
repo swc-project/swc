@@ -55,11 +55,11 @@ impl Default for FastAlloc {
 
 impl FastAlloc {
     /// `true` is passed to `f` if the box is allocated with a custom allocator.
+    #[cfg(feature = "scoped")]
     fn with_allocator<T>(
         &self,
         f: impl FnOnce(&dyn allocator_api2::alloc::Allocator, bool) -> T,
     ) -> T {
-        #[cfg(feature = "scoped")]
         if let Some(arena) = &self.alloc {
             return f(
                 (&&arena.alloc) as &dyn allocator_api2::alloc::Allocator,
@@ -68,6 +68,12 @@ impl FastAlloc {
         }
 
         f(&allocator_api2::alloc::Global, false)
+    }
+
+    /// `true` is passed to `f` if the box is allocated with a custom allocator.
+    #[cfg(not(feature = "scoped"))]
+    fn with_allocator<T>(&self, f: impl FnOnce(allocator_api2::alloc::Global, bool) -> T) -> T {
+        f(allocator_api2::alloc::Global, false)
     }
 }
 
