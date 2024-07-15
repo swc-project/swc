@@ -12,7 +12,7 @@ version     = "0.1.0"
 
 [dependencies]
 anyhow         = { workspace = true }
-cargo_metadata = "0.18.0"
+cargo_metadata = "0.18.1"
 chrono         = { workspace = true }
 clap           = { version = "4.4.6", features = ["derive"] }
 semver         = { workspace = true }
