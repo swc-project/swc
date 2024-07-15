@@ -3706,7 +3706,6 @@ dependencies = [
  "criterion",
  "ptr_meta",
  "rkyv",
- "scoped-tls",
  "serde",
  "serde_derive",
  "swc_malloc",
