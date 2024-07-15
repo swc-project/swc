@@ -5,6 +5,7 @@
 #![allow(clippy::needless_doctest_main)]
 #![cfg_attr(docsrs, feature(doc_cfg))]
 #![deny(missing_docs)]
+#![allow(clippy::derivable_impls)]
 
 pub use crate::alloc::Allocator;
 
@@ -34,5 +35,6 @@ pub mod vec;
 /// original types.
 #[derive(Clone, Copy)]
 pub struct FastAlloc {
+    #[cfg(feature = "scoped")]
     alloc: Option<&'static Allocator>,
 }
