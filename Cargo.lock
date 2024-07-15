@@ -3698,7 +3698,7 @@ dependencies = [
 
 [[package]]
 name = "swc_allocator"
-version = "0.1.2"
+version = "0.1.3"
 dependencies = [
  "allocator-api2",
  "bumpalo",
@@ -3891,7 +3891,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.97.2"
+version = "0.97.3"
 dependencies = [
  "anyhow",
  "binding_macros",
