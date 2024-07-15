@@ -61,11 +61,10 @@ impl FastAlloc {
     ) -> T {
         #[cfg(feature = "scoped")]
         if let Some(arena) = &self.alloc {
-            f(
+            return f(
                 (&&arena.alloc) as &dyn allocator_api2::alloc::Allocator,
                 true,
             );
-            return;
         }
 
         f(&allocator_api2::alloc::Global, false)
