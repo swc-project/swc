@@ -40,5 +40,6 @@ swc_malloc                = { version = "0.5.10", path = "../swc_malloc" }
 
 
 [[bench]]
-harness = false
-name    = "bench"
+features = ["scoped"]
+harness  = false
+name     = "bench"
