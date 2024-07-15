@@ -1643,7 +1643,9 @@ impl<I: Tokens> Parser<I> {
             None
         };
 
-        if let Expr::New(ne @ NewExpr { args: None, .. }) = *callee {
+        let callee = callee.unbox();
+
+        if let Expr::New(ne @ NewExpr { args: None, .. }) = callee {
             // If this is parsed using 'NewExpression' rule, just return it.
             // Because it's not left-recursive.
             if type_args.is_some() {
@@ -1671,7 +1673,7 @@ impl<I: Tokens> Parser<I> {
                     }),
                     true,
                 ),
-                _ => (Callee::Expr(callee), false),
+                _ => (Callee::Expr(callee.into()), false),
             };
             let args = self.parse_args(is_import)?;
 
@@ -1708,7 +1710,7 @@ impl<I: Tokens> Parser<I> {
 
         // This is parsed using production 'NewExpression', which contains
         // 'MemberExpression'
-        Ok(callee)
+        Ok(callee.into())
     }
 
     pub(super) fn parse_for_head_prefix(&mut self) -> PResult<Box<Expr>> {

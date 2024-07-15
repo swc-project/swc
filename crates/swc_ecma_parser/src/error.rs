@@ -767,9 +767,9 @@ impl Error {
     #[cold]
     #[inline(never)]
     pub fn into_diagnostic<'a>(&self, handler: &'a Handler) -> DiagnosticBuilder<'a> {
-        if let SyntaxError::WithLabel { inner, note, span } = self.error.1 {
+        if let SyntaxError::WithLabel { inner, note, span } = &self.error.1 {
             let mut db = inner.into_diagnostic(handler);
-            db.span_label(span, note);
+            db.span_label(*span, *note);
             return db;
         }
 
