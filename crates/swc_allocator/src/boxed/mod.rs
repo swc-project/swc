@@ -135,6 +135,56 @@ impl<T: ?Sized> Box<T> {
         ))
     }
 
+    /// Constructs a box from a raw pointer in the given allocator.
+    ///
+    /// After calling this function, the raw pointer is owned by the
+    /// resulting `Box`. Specifically, the `Box` destructor will call
+    /// the destructor of `T` and free the allocated memory. For this
+    /// to be safe, the memory must have been allocated in accordance
+    /// with the [memory layout] used by `Box` .
+    ///
+    /// # Safety
+    ///
+    /// This function is unsafe because improper use may lead to
+    /// memory problems. For example, a double-free may occur if the
+    /// function is called twice on the same raw pointer.
+    ///
+    ///
+    /// # Examples
+    ///
+    /// Recreate a `Box` which was previously converted to a raw pointer
+    /// using [`Box::into_raw_with_allocator`]:
+    /// ```
+    /// use std::alloc::System;
+    /// # use allocator_api2::boxed::Box;
+    ///
+    /// let x = Box::new_in(5, System);
+    /// let (ptr, alloc) = Box::into_raw_with_allocator(x);
+    /// let x = unsafe { Box::from_raw_in(ptr, alloc) };
+    /// ```
+    /// Manually create a `Box` from scratch by using the system allocator:
+    /// ```
+    /// use allocator_api2::alloc::{Allocator, Layout, System};
+    /// # use allocator_api2::boxed::Box;
+    ///
+    /// unsafe {
+    ///     let ptr = System.allocate(Layout::new::<i32>())?.as_ptr().cast::<i32>();
+    ///     // In general .write is required to avoid attempting to destruct
+    ///     // the (uninitialized) previous contents of `ptr`, though for this
+    ///     // simple example `*ptr = 5` would have worked as well.
+    ///     ptr.write(5);
+    ///     let x = Box::from_raw_in(ptr, System);
+    /// }
+    /// # Ok::<(), allocator_api2::alloc::AllocError>(())
+    /// ```
+    ///
+    /// [memory layout]: self#memory-layout
+    /// [`Layout`]: crate::Layout
+    #[inline(always)]
+    pub const unsafe fn from_raw_in(raw: *mut T, alloc: FastAlloc) -> Self {
+        Box(allocator_api2::boxed::Box::from_raw_in(raw, alloc))
+    }
+
     /// Consumes the `Box`, returning a wrapped raw pointer.
     ///
     /// The pointer will be properly aligned and non-null.
@@ -654,5 +704,18 @@ impl<T> Box<[T]> {
     /// Converts a boxed slice into a `Vec`.
     pub fn into_vec(self) -> Vec<T> {
         allocator_api2::boxed::Box::<[T], FastAlloc>::into_vec(self.0).into()
+    }
+}
+
+impl<T, const N: usize> Box<[T; N]> {
+    /// Converts a boxed slice into a `Vec`.
+    #[inline(always)]
+    pub fn slice(b: Self) -> Box<[T]> {
+        Box(allocator_api2::boxed::Box::slice(b.0))
+    }
+
+    /// Converts a boxed slice into a `Vec`.
+    pub fn into_vec(self) -> Vec<T> {
+        allocator_api2::boxed::Box::<[T; N], FastAlloc>::into_vec(self.0).into()
     }
 }
