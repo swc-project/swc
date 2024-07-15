@@ -4870,6 +4870,7 @@ dependencies = [
  "new_debug_unreachable",
  "num-bigint",
  "serde",
+ "swc_allocator",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
