@@ -15,14 +15,19 @@ pub struct Vec<T>(allocator_api2::vec::Vec<T, FastAlloc>);
 
 impl<T> Vec<T> {
     pub fn new() -> Self {
-        Default::default()
+        Self::new_in(Default::default())
+    }
+
+    pub fn new_in(alloc: FastAlloc) -> Self {
+        Self(allocator_api2::vec::Vec::new_in(alloc))
     }
 
     pub fn with_capacity(capacity: usize) -> Self {
-        Self(allocator_api2::vec::Vec::with_capacity_in(
-            capacity,
-            FastAlloc::default(),
-        ))
+        Self::with_capacity_in(capacity, Default::default())
+    }
+
+    pub fn with_capacity_in(capacity: usize, alloc: FastAlloc) -> Self {
+        Self(allocator_api2::vec::Vec::with_capacity_in(capacity, alloc))
     }
 
     /// Converts the vector into [`Box<[T]>`][owned slice].
@@ -241,18 +246,5 @@ impl<T> From<Vec<T>> for Box<[T]> {
 impl<T> Extend<T> for Vec<T> {
     fn extend<I: IntoIterator<Item = T>>(&mut self, iter: I) {
         self.0.extend(iter)
-    }
-}
-
-impl FastAlloc {
-    pub fn vec<T>(&self) -> Vec<T> {
-        Vec(allocator_api2::vec::Vec::new_in(self.clone()))
-    }
-
-    pub fn vec_with_capacity<T>(&self, capacity: usize) -> Vec<T> {
-        Vec(allocator_api2::vec::Vec::with_capacity_in(
-            capacity,
-            self.clone(),
-        ))
     }
 }

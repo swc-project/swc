@@ -49,15 +49,14 @@ where
 }
 
 impl<T> Box<T> {
-    /// Allocates a new box with `value`.
-    ///
-    /// See [`std::boxed::Box::new`].
     #[inline(always)]
     pub fn new(value: T) -> Self {
-        Self(allocator_api2::boxed::Box::new_in(
-            value,
-            FastAlloc::default(),
-        ))
+        Self::new_in(value, Default::default())
+    }
+
+    #[inline(always)]
+    pub fn new_in(value: T, alloc: FastAlloc) -> Self {
+        Self(allocator_api2::boxed::Box::new_in(value, alloc))
     }
 
     /// Moves the value out of the box.
@@ -625,11 +624,5 @@ where
 {
     fn len(&self) -> usize {
         self.0.len()
-    }
-}
-
-impl FastAlloc {
-    pub fn alloc<T>(&self, t: T) -> Box<T> {
-        Box(allocator_api2::boxed::Box::new_in(t, self.clone()))
     }
 }

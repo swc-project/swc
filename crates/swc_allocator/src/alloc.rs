@@ -1,6 +1,7 @@
 use std::{
     alloc::Layout,
     cell::Cell,
+    mem::transmute,
     ops::{Deref, DerefMut},
     ptr::NonNull,
 };
@@ -20,8 +21,6 @@ pub struct Allocator {
 }
 
 impl Allocator {
-    #[cfg(any(docsrs, feature = "scoped"))]
-    #[cfg_attr(docsrs, doc(cfg(feature = "scoped")))]
     /// Invokes `f` in a scope where the allocations are done in this allocator.
     #[inline(always)]
     pub fn scope<'a, F, R>(&'a self, f: F) -> R
@@ -30,7 +29,7 @@ impl Allocator {
     {
         let s = unsafe {
             // Safery: We are using a scoped API
-            std::mem::transmute::<&'a Allocator, &'static Allocator>(self)
+            transmute::<&'a Allocator, &'static Allocator>(self)
         };
 
         ALLOC.set(Some(s));
