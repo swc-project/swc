@@ -10,18 +10,6 @@ mod rkyv;
 
 use crate::{boxed::Box, FastAlloc};
 
-/// Creates a `Vec<T>` from a list of elements.
-#[macro_export]
-macro_rules! vec {
-    () => {{
-        $crate::vec::Vec::new()
-    }};
-
-    ($($tt:tt)*) => {{
-        $crate::vec::Vec::from($crate::allocator_api2::vec![in $crate::FastAlloc::default(); $($tt)*])
-    }};
-}
-
 /// Faster version of [`std::vec::Vec`].
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[repr(transparent)]
