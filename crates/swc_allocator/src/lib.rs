@@ -5,7 +5,7 @@
 #![allow(clippy::needless_doctest_main)]
 #![cfg_attr(docsrs, feature(doc_cfg))]
 
-pub use crate::alloc::SwcAllocator;
+pub use crate::alloc::Allocator;
 
 mod alloc;
 pub mod boxed;
@@ -13,5 +13,5 @@ pub mod vec;
 
 #[derive(Clone, Copy)]
 pub struct FastAlloc {
-    alloc: Option<&'static SwcAllocator>,
+    alloc: Option<&'static Allocator>,
 }

@@ -11,15 +11,15 @@ use bumpalo::Bump;
 use crate::FastAlloc;
 
 thread_local! {
-  static ALLOC: Cell<Option<&'static SwcAllocator>> = const { Cell::new(None) };
+  static ALLOC: Cell<Option<&'static Allocator>> = const { Cell::new(None) };
 }
 
 #[derive(Default)]
-pub struct SwcAllocator {
+pub struct Allocator {
     alloc: Bump,
 }
 
-impl SwcAllocator {
+impl Allocator {
     #[cfg(any(docsrs, feature = "scoped"))]
     #[cfg_attr(docsrs, doc(cfg(feature = "scoped")))]
     /// Invokes `f` in a scope where the allocations are done in this allocator.
@@ -30,7 +30,7 @@ impl SwcAllocator {
     {
         let s = unsafe {
             // Safery: We are using a scoped API
-            std::mem::transmute::<&'a SwcAllocator, &'static SwcAllocator>(self)
+            std::mem::transmute::<&'a Allocator, &'static Allocator>(self)
         };
 
         ALLOC.set(Some(s));
@@ -173,13 +173,13 @@ unsafe impl allocator_api2::alloc::Allocator for FastAlloc {
     }
 }
 
-impl From<Bump> for SwcAllocator {
+impl From<Bump> for Allocator {
     fn from(alloc: Bump) -> Self {
         Self { alloc }
     }
 }
 
-impl Deref for SwcAllocator {
+impl Deref for Allocator {
     type Target = Bump;
 
     fn deref(&self) -> &Bump {
@@ -187,7 +187,7 @@ impl Deref for SwcAllocator {
     }
 }
 
-impl DerefMut for SwcAllocator {
+impl DerefMut for Allocator {
     fn deref_mut(&mut self) -> &mut Bump {
         &mut self.alloc
     }
