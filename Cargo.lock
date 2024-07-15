@@ -4153,7 +4153,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.152.0"
+version = "0.152.1"
 dependencies = [
  "base64",
  "codspeed-criterion-compat",
