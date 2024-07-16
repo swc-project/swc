@@ -35,6 +35,7 @@
 #[doc(hidden)]
 pub extern crate allocator_api2;
 
+use crate::alloc::Alloc;
 pub use crate::alloc::Allocator;
 
 mod alloc;
@@ -64,7 +65,7 @@ pub mod vec;
 #[derive(Clone, Copy)]
 pub struct FastAlloc {
     #[cfg(feature = "scoped")]
-    alloc: Option<&'static Allocator>,
+    alloc: Option<Alloc>,
 }
 
 impl FastAlloc {

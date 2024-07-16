@@ -3,6 +3,7 @@ use std::{
     cell::Cell,
     mem::transmute,
     ops::{Deref, DerefMut},
+    pin::Pin,
     ptr::NonNull,
 };
 
@@ -11,8 +12,10 @@ use bumpalo::Bump;
 
 use crate::FastAlloc;
 
+pub(crate) type Alloc = Pin<&'static Allocator>;
+
 thread_local! {
-  static ALLOC: Cell<Option<&'static Allocator>> = const { Cell::new(None) };
+  static ALLOC: Cell<Option<Alloc>> = const { Cell::new(None) };
 }
 
 /// The actual storage for [FastAlloc].
@@ -22,7 +25,7 @@ pub struct Allocator {
 }
 
 pub struct AllocGuard<'a> {
-    orig: Option<&'static Allocator>,
+    orig: Option<Alloc>,
 
     _ref: &'a Allocator,
 }
@@ -43,9 +46,10 @@ impl Allocator {
     pub unsafe fn guard(&self) -> AllocGuard {
         let orig = ALLOC.get();
 
+        let pin: Pin<&Allocator> = Pin::new(self);
         let s = unsafe {
             // Safery: Guard holds &self, so it cannot be moved nor dropped.
-            transmute::<&Allocator, &'static Allocator>(self)
+            transmute::<Pin<&Allocator>, Pin<&'static Allocator>>(pin)
         };
 
         ALLOC.set(Some(s));
