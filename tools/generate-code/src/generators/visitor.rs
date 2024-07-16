@@ -1,4 +1,4 @@
-use syn::File;
+use syn::{File, Item};
 
 pub fn generate(files: &[File]) -> File {
     let mut output = File {
@@ -8,7 +8,15 @@ pub fn generate(files: &[File]) -> File {
     };
 
     for file in files {
-        output.items.extend(file.items.clone());
+        for item in &file.items {
+            match item {
+                Item::Struct(_) | Item::Enum(_) => {
+                    output.items.push(item.clone());
+                }
+
+                _ => {}
+            }
+        }
     }
 
     output
