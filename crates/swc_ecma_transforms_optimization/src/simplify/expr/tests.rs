@@ -673,6 +673,11 @@ fn test_issue_9256() {
     fold("5e-324 << 5e-324", "0");
     fold("5e-324 << 0", "0");
     fold("0 << 5e-324", "0");
+
+    // Wasn't broken prior, used to ensure overflows are handled correctly
+    fold("1 << 31", "-2147483648");
+    fold("-8 >> 2", "-2");
+    fold("-8 >>> 2", "1073741822");
 }
 
 #[test]

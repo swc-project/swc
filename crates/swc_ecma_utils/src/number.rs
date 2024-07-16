@@ -61,7 +61,13 @@ impl ToJsUint32 for f64 {
         const TWO_32: f64 = u32::MAX as f64 + 1.0; // 2^32
 
         let pos_int = self.signum() * self.abs().floor();
-        (pos_int % TWO_32) as u32
+        let result = pos_int % TWO_32;
+        // Extra step: since `x as u32` doesn't overflow, we have to add if result is negative
+        (if result < 0.0 {
+            result + TWO_32
+        } else {
+            result
+        }) as u32
     }
 }
 
@@ -92,6 +98,6 @@ mod tests {
         assert_eq!(f64::MIN.to_js_uint32(), 0);
         assert_eq!(f64::MAX.to_js_uint32(), 0);
 
-        assert_eq!(5.2.to_js_uint32(), 5);
+        assert_eq!((-8.0).to_js_uint32(), 4294967288);
     }
 }
