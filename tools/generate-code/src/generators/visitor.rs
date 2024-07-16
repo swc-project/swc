@@ -615,6 +615,7 @@ fn define_fields(node_types: &[&Item]) -> Vec<Item> {
         }
 
         items.push(parse_quote!(
+            #[cfg(feature = "path")]
             pub mod fields {
                 #(#defs)*
             }
