@@ -297,20 +297,31 @@ impl Generator {
                 Span::call_site(),
             );
 
+            let visit_with_doc = doc(&format!(
+                "Calls `visitor.{}` with `self`.",
+                visit_method_name
+            ));
+
             items.push(parse_quote!(
-            #(#attrs)*
-            impl<V: ?Sized + #visitor_trait_name> #trait_name<V> for #type_name {
-                fn #visit_with_name(#receiver, visitor: &mut V #ast_path_param) #return_type {
-                    visitor.#visit_method_name(self #ast_path_arg)
-                }
+                #(#attrs)*
+                impl<V: ?Sized + #visitor_trait_name> #trait_name<V> for #type_name {
+                    #visit_with_doc
+                    fn #visit_with_name(#receiver, visitor: &mut V #ast_path_param) #return_type {
+                        visitor.#visit_method_name(self #ast_path_arg)
+                    }
 
-                fn #visit_with_children_name(#receiver, visitor: &mut V #ast_path_param) #return_type {
+                    fn #visit_with_children_name(#receiver, visitor: &mut V #ast_path_param) #return_type {
 
+                    }
                 }
-            }
-        ));
+            )
+        );
         }
 
         items
     }
+}
+
+fn doc(s: &str) -> Attribute {
+    parse_quote!(#[doc = #s])
 }
