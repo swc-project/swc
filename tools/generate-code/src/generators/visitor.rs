@@ -100,6 +100,17 @@ struct Generator {
 }
 
 impl Generator {
+    fn method_lifetime(&self) -> TokenStream {
+        match self.kind {
+            TraitKind::Visit => match self.variant {
+                Variant::Normal => quote!(),
+                Variant::AstPath => quote!(<'ast: 'r, 'r>),
+            },
+            TraitKind::VisitMut => quote!(),
+            TraitKind::Fold => quote!(),
+        }
+    }
+
     fn parameter_type_token(&self, ty: TokenStream) -> TokenStream {
         match self.kind {
             TraitKind::Visit => match self.variant {
@@ -248,6 +259,7 @@ impl Generator {
         let mut visit_with_trait_methods: Vec<TraitItem> = vec![];
 
         {
+            let lifetime = self.method_lifetime();
             let ast_path_extra = self.param_extra_token();
             let return_type = self.return_type_token(quote!(Self));
             let receiver = self.parameter_type_token(quote!(self));
@@ -271,12 +283,12 @@ impl Generator {
 
             visit_with_trait_methods.push(parse_quote!(
                 /// Calls a visitor method (visitor.fold_xxx) with self.
-                fn #visit_with_name(#receiver, visitor: &mut V #ast_path_extra) #return_type;
+                fn #visit_with_name #lifetime (#receiver, visitor: &mut V #ast_path_extra) #return_type;
             ));
 
             visit_with_trait_methods.push(parse_quote!(
             /// Visit children nodes of `self`` with `visitor`.
-            fn #visit_with_children_name(#receiver, visitor: &mut V #ast_path_extra) #return_type;
+            fn #visit_with_children_name #lifetime (#receiver, visitor: &mut V #ast_path_extra) #return_type;
         ));
         }
 
@@ -306,6 +318,7 @@ impl Generator {
                 _ => continue,
             };
 
+            let lifetime = self.method_lifetime();
             let ast_path_arg = self.arg_extra_token();
             let ast_path_param = self.param_extra_token();
             let return_type = self.return_type_token(quote!(Self));
@@ -371,11 +384,11 @@ impl Generator {
                 #(#attrs)*
                 impl<V: ?Sized + #visitor_trait_name> #trait_name<V> for #type_name {
                     #visit_with_doc
-                    fn #visit_with_name(#receiver, visitor: &mut V #ast_path_param) #return_type {
+                    fn #visit_with_name #lifetime (#receiver, visitor: &mut V #ast_path_param) #return_type {
                         <V as #visitor_trait_name>::#visit_method_name(visitor, self #ast_path_arg)
                     }
 
-                    fn #visit_with_children_name(#receiver, visitor: &mut V #ast_path_param) #return_type {
+                    fn #visit_with_children_name #lifetime (#receiver, visitor: &mut V #ast_path_param) #return_type {
                         #default_body
                     }
                 }
