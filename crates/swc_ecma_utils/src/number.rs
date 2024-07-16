@@ -36,40 +36,17 @@ impl std::ops::Deref for JsNumber {
 impl JsNumber {
     // https://tc39.es/ecma262/#sec-toint32
     fn as_int32(&self) -> i32 {
-        if !self.0.is_finite() || self.0 == 0.0 {
-            return 0;
-        }
-
-        const TWO_32: f64 = u32::MAX as f64 + 1.0; // 2^32
-        const TWO_31: f64 = i32::MAX as f64 + 1.0; // 2^31
-
-        let pos_int = self.signum() * self.abs().floor();
-        let int32_bit = pos_int % TWO_32;
-
-        (if int32_bit >= TWO_31 {
-            int32_bit - TWO_32
-        } else {
-            int32_bit
-        }) as i32
+        self.as_uint32() as i32
     }
 
     // https://tc39.es/ecma262/#sec-touint32
     fn as_uint32(&self) -> u32 {
-        if !self.0.is_finite() || self.0 == 0.0 {
+        if !self.0.is_finite() {
             return 0;
         }
 
-        const TWO_32: f64 = u32::MAX as f64 + 1.0; // 2^32
-
-        let pos_int = self.signum() * self.abs().floor();
-        let result = pos_int % TWO_32;
-        // Extra step: since `x as u32` doesn't overflow, we have to add if result is
-        // negative
-        (if result < 0.0 {
-            result + TWO_32
-        } else {
-            result
-        }) as u32
+        // pow(2, 32) = 4294967296
+        self.0.trunc().rem_euclid(4294967296.0) as u32
     }
 }
 
