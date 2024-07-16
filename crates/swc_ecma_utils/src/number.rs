@@ -62,7 +62,8 @@ impl ToJsUint32 for f64 {
 
         let pos_int = self.signum() * self.abs().floor();
         let result = pos_int % TWO_32;
-        // Extra step: since `x as u32` doesn't overflow, we have to add if result is negative
+        // Extra step: since `x as u32` doesn't overflow, we have to add if result is
+        // negative
         (if result < 0.0 {
             result + TWO_32
         } else {
