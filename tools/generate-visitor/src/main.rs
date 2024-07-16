@@ -38,7 +38,16 @@ fn main() -> Result<()> {
         })
         .collect::<Result<Vec<_>>>()?;
 
+    let all_types = inputs.iter().flat_map(get_type_defs).collect::<Vec<_>>();
+
     Ok(())
+}
+
+fn get_type_defs(file: &syn::File) -> Vec<&syn::Item> {
+    file.items
+        .iter()
+        .filter(|item| matches!(item, syn::Item::Struct(_) | syn::Item::Enum(_)))
+        .collect()
 }
 
 fn parse_rust_file(file: &Path) -> Result<syn::File> {
