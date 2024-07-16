@@ -2,7 +2,8 @@ use inflector::Inflector;
 use proc_macro2::{Span, TokenStream};
 use quote::quote;
 use syn::{
-    parse_quote, Arm, Attribute, Expr, Fields, File, Ident, Item, Lit, LitInt, Stmt, TraitItem,
+    parse_quote, Arm, Attribute, Expr, Field, Fields, File, Ident, Item, Lit, LitInt, Stmt,
+    TraitItem,
 };
 
 pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
@@ -500,6 +501,20 @@ fn doc(s: &str) -> Attribute {
     parse_quote!(#[doc = #s])
 }
 
+fn field_variant(type_name: &Ident, field: &Field) -> Option<TokenStream> {
+    if let Some(name) = &field.ident {
+        let field_name = field.ident.as_ref().unwrap();
+        let variant_name = Ident::new(&field_name.to_string().to_pascal_case(), Span::call_site());
+        let variant_doc = doc(&format!("Represents [`{type_name}::{field_name}`]"));
+        return Some(quote!(
+            #variant_doc
+            #variant_name
+        ));
+    }
+
+    None
+}
+
 fn define_fields(node_types: &[&Item]) -> Vec<Item> {
     let mut items = Vec::<Item>::new();
 
@@ -515,16 +530,44 @@ fn define_fields(node_types: &[&Item]) -> Vec<Item> {
 
             let enum_name = Ident::new(&format!("{type_name}Field"), Span::call_site());
 
+            let mut variants = vec![];
+
+            match ty {
+                Item::Enum(data) => {
+                    for variant in &data.variants {
+                        let orig_ident = &variant.ident;
+                        let variant_name = Ident::new(
+                            &variant.ident.to_string().to_pascal_case(),
+                            Span::call_site(),
+                        );
+
+                        let variant_doc = doc(&format!("Represents [`{type_name}::{orig_ident}`]"));
+                        variants.push(quote!(
+                            #variant_doc
+                            #variant_name
+                        ));
+                    }
+                }
+                Item::Struct(data) => {
+                    for field in &data.fields {
+                        variants.extend(field_variant(&type_name, field));
+                    }
+                }
+                _ => continue,
+            }
+
             defs.push(parse_quote!(
                 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
                 pub enum #enum_name {
-
+                    #(#variants),*
                 }
             ))
         }
 
         items.push(parse_quote!(
-            pub mod fields {}
+            pub mod fields {
+                #(#defs)*
+            }
         ));
     }
 
