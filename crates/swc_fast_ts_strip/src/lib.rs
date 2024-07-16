@@ -241,7 +241,7 @@ pub fn operate(
 
             let mut src = vec![];
             let mut src_map_buf = if options.source_map {
-                Some(vec![])
+                Some(swc_allocator::vec::Vec::new())
             } else {
                 None
             };

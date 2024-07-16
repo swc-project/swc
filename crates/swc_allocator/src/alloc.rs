@@ -21,22 +21,33 @@ pub struct Allocator {
     alloc: Bump,
 }
 
+pub struct AllocGuard {
+    orig: Option<&'static Allocator>,
+}
+
+impl Drop for AllocGuard {
+    fn drop(&mut self) {
+        ALLOC.set(self.orig.take());
+    }
+}
+
 impl Allocator {
-    /// Invokes `f` in a scope where the allocations are done in this allocator.
-    #[inline(always)]
-    pub fn scope<'a, F, R>(&'a self, f: F) -> R
-    where
-        F: FnOnce() -> R,
-    {
+    /// Creates a RAII guard that enables optimized allocation.
+    ///
+    /// # Safety
+    ///
+    /// [Allocator] must outlive [crate::boxed::Box] and [crate::vec::Vec]
+    /// created while the guard is active.
+    pub unsafe fn guard(&self) -> AllocGuard {
+        let orig = ALLOC.get();
+
         let s = unsafe {
             // Safery: We are using a scoped API
-            transmute::<&'a Allocator, &'static Allocator>(self)
+            transmute::<&Allocator, &'static Allocator>(self)
         };
 
         ALLOC.set(Some(s));
-        let ret = f();
-        ALLOC.set(None);
-        ret
+        AllocGuard { orig }
     }
 }
 
@@ -116,11 +127,6 @@ unsafe impl allocator_api2::alloc::Allocator for FastAlloc {
     unsafe fn deallocate(&self, ptr: NonNull<u8>, layout: Layout) {
         #[cfg(feature = "scoped")]
         if self.alloc.is_some() {
-            debug_assert!(
-                ALLOC.get().is_some(),
-                "Deallocating a pointer allocated with arena mode with a non-arena mode allocator"
-            );
-
             self.with_allocator(|alloc, _| alloc.deallocate(ptr, layout));
             return;
         }

@@ -1,5 +1,6 @@
 use std::path::PathBuf;
 
+use swc_allocator::vec::Vec;
 use swc_common::{comments::SingleThreadedComments, FileName, SourceMap};
 use swc_ecma_parser;
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
@@ -44,11 +45,11 @@ impl Builder {
     where
         F: for<'aa> FnOnce(&mut Emitter<'aa, Box<(dyn WriteJs + 'aa)>, SourceMap>),
     {
-        let mut buf = vec![];
+        let mut buf = Vec::new();
 
         self.with(src, &mut buf, op);
 
-        String::from_utf8(buf).unwrap()
+        String::from_utf8_lossy(&buf).into_owned()
     }
 }
 

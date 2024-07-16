@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_allocator"
 repository    = { workspace = true }
-version       = "0.1.5"
+version       = "0.1.6"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -14,9 +14,10 @@ version       = "0.1.5"
 
 
 [features]
-rkyv   = ["dep:rkyv"]
-scoped = []
-serde  = ["dep:serde", "dep:serde_derive"]
+default = ["scoped"]
+rkyv    = ["dep:rkyv"]
+scoped  = []
+serde   = ["dep:serde", "dep:serde_derive"]
 
 [dependencies]
 allocator-api2 = { workspace = true, features = ["serde"] }
