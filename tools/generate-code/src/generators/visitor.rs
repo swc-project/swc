@@ -449,14 +449,14 @@ impl Generator {
 
                 match self.kind {
                     TraitKind::Visit | TraitKind::VisitMut => {
-                        parse_quote!(#path(#(#bindings),*) => {
+                        parse_quote!(#path { #(#bindings),* }=> {
                             #(#stmts)*
                         })
                     }
                     TraitKind::Fold => {
                         let reconstruct = reconstruct.unwrap();
 
-                        parse_quote!(#path(#(#bindings),*) => {
+                        parse_quote!(#path { #(#bindings),* } => {
                             #(#stmts)*
 
                             #path(#(#reconstruct),*)
@@ -465,7 +465,7 @@ impl Generator {
                 }
             }
             Fields::Unit => {
-                return parse_quote!(#path => {});
+                parse_quote!(#path => {},)
             }
         }
     }
