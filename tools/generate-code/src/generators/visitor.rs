@@ -55,6 +55,23 @@ enum Variant {
     AstPath,
 }
 
+fn parameter_type_token(kind: TraitKind, ty: TokenStream) -> TokenStream {
+    match kind {
+        TraitKind::Visit => quote!(&#ty),
+        TraitKind::VisitMut => quote!(&mut #ty),
+        TraitKind::Fold => ty,
+    }
+}
+
+/// This includes `->`
+fn return_type_token(kind: TraitKind, ty: TokenStream) -> TokenStream {
+    match kind {
+        TraitKind::Visit => quote!(),
+        TraitKind::VisitMut => quote!(),
+        TraitKind::Fold => quote!(-> #ty),
+    }
+}
+
 fn param_extra_token(kind: TraitKind, variant: Variant) -> TokenStream {
     match variant {
         Variant::Normal => quote!(),
@@ -119,13 +136,14 @@ fn declare_visit_trait(kind: TraitKind, variant: Variant, node_types: &[&Item]) 
 }
 
 fn declare_visit_with_trait(kind: TraitKind, variant: Variant, node_types: &[&Item]) -> Vec<Item> {
-    let visitor_trait_name = trait_name(kind, variant, true);
+    let visitor_trait_name = trait_name(kind, variant, false);
     let trait_name = trait_name(kind, variant, true);
     let attrs = base_trait_attrs(kind, variant);
     let mut visit_with_trait_methods: Vec<TraitItem> = vec![];
 
     {
         let ast_path_extra = param_extra_token(kind, variant);
+        let return_type = return_type_token(kind, quote!(Self));
 
         let visit_with_name = Ident::new(
             &format!(
@@ -154,12 +172,12 @@ fn declare_visit_with_trait(kind: TraitKind, variant: Variant, node_types: &[&It
 
         visit_with_trait_methods.push(parse_quote!(
             /// Calls a visitor method (visitor.fold_xxx) with self.
-            fn #visit_with_name(&mut self, visitor: &mut V #ast_path_extra);
+            fn #visit_with_name(&mut self, visitor: &mut V #ast_path_extra) #return_type;
         ));
 
         visit_with_trait_methods.push(parse_quote!(
             /// Visit children nodes of `self`` with `visitor`.
-            fn #visit_with_children_name(&mut self, visitor: &mut V #ast_path_extra);
+            fn #visit_with_children_name(&mut self, visitor: &mut V #ast_path_extra) #return_type;
         ));
     }
 
