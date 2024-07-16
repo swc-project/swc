@@ -51,6 +51,8 @@ fn main() -> Result<()> {
 
     eprintln!("Generated visitor code in file: {:?}", output);
 
+    run_cargo_fmt(&output)?;
+
     Ok(())
 }
 
@@ -67,4 +69,19 @@ fn collect_input_files(input_dir: &Path) -> Result<Vec<PathBuf>> {
         .filter(|entry| entry.file_type().is_file())
         .map(|entry| entry.path().to_path_buf())
         .collect())
+}
+
+fn run_cargo_fmt(file: &Path) -> Result<()> {
+    let status = std::process::Command::new("cargo")
+        .arg("fmt")
+        .arg("--")
+        .arg(file)
+        .status()
+        .context("failed to run cargo fmt")?;
+
+    if !status.success() {
+        anyhow::bail!("cargo fmt failed with status: {:?}", status);
+    }
+
+    Ok(())
 }
