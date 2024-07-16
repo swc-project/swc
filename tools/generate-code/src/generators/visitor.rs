@@ -103,6 +103,13 @@ impl Generator {
         }
     }
 
+    fn arg_extra_token(&self) -> TokenStream {
+        match self.variant {
+            Variant::Normal => quote!(),
+            Variant::AstPath => quote!(, ast_path),
+        }
+    }
+
     fn param_extra_token(&self) -> TokenStream {
         match self.variant {
             Variant::Normal => quote!(),
@@ -178,7 +185,7 @@ impl Generator {
             );
 
             trait_methods.push(parse_quote!(
-                /// Visit a node of type `#type_name`.
+                /// Visit a node of type.
                 fn #visit_method_name(&mut self, node: #type_name #ast_path_params) #return_type;
             ));
         }
@@ -256,7 +263,8 @@ impl Generator {
                 _ => continue,
             };
 
-            let ast_path_extra = self.param_extra_token();
+            let ast_path_arg = self.arg_extra_token();
+            let ast_path_param = self.param_extra_token();
             let return_type = self.return_type_token(quote!(Self));
 
             let visit_with_name = Ident::new(
@@ -276,14 +284,24 @@ impl Generator {
                 Span::call_site(),
             );
 
+            let visit_method_name = Ident::new(
+                &format!(
+                    "{}_{}{}",
+                    self.kind.method_prefix(),
+                    type_name.to_string().to_snake_case(),
+                    self.variant.method_suffix()
+                ),
+                Span::call_site(),
+            );
+
             items.push(parse_quote!(
             #(#attrs)*
-            impl #trait_name<V: ?Sized + #visitor_trait_name> for #type_name {
-                fn #visit_with_name(&mut self, visitor: &mut V #ast_path_extra) #return_type {
-
+            impl<V: ?Sized + #visitor_trait_name> #trait_name<V> for #type_name {
+                fn #visit_with_name(&mut self, visitor: &mut V #ast_path_param) #return_type {
+                    visitor.#visit_method_name(self #ast_path_arg)
                 }
 
-                fn #visit_with_children_name(&mut self, visitor: &mut V #ast_path_extra) #return_type {
+                fn #visit_with_children_name(&mut self, visitor: &mut V #ast_path_param) #return_type {
 
                 }
             }
