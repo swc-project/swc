@@ -11335,3 +11335,13 @@ fn issue_9184() {
 "#,
     );
 }
+
+#[test]
+fn issue_9184_2() {
+    run_default_exec_test(
+        r#"
+        let pi= Math.random() < -1 ? "foo": "bar";
+        console.log(`(${`${pi}`} - ${`\\*${pi}`})`)
+"#,
+    );
+}
