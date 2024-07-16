@@ -30,18 +30,32 @@ enum TraitKind {
     Fold,
 }
 
+impl TraitKind {
+    pub fn method_prefix(self) -> &'static str {
+        match self {
+            TraitKind::Visit => "visit",
+            TraitKind::VisitMut => "visit_mut",
+            TraitKind::Fold => "fold",
+        }
+    }
+
+    pub fn trait_prefix(self) -> &'static str {
+        match self {
+            TraitKind::Visit => "Visit",
+            TraitKind::VisitMut => "VisitMut",
+            TraitKind::Fold => "Fold",
+        }
+    }
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum Variant {
     Normal,
     AstPath,
 }
 
-fn visit_trait_name(kind: TraitKind, variant: Variant, with: bool) -> Ident {
-    let name = match kind {
-        TraitKind::Visit => "Visit",
-        TraitKind::VisitMut => "VisitMut",
-        TraitKind::Fold => "Fold",
-    };
+fn trait_name(kind: TraitKind, variant: Variant, with: bool) -> Ident {
+    let name = kind.trait_prefix();
 
     let name = if with {
         format!("{}With", name)
@@ -51,7 +65,7 @@ fn visit_trait_name(kind: TraitKind, variant: Variant, with: bool) -> Ident {
 
     match variant {
         Variant::Normal => Ident::new(&name, Span::call_site()),
-        Variant::AstPath => Ident::new(&format!("{}Path", name), Span::call_site()),
+        Variant::AstPath => Ident::new(&format!("{}AstPath", name), Span::call_site()),
     }
 }
 
@@ -66,14 +80,29 @@ fn base_trait_attrs(kind: TraitKind, variant: Variant) -> Vec<Attribute> {
     attrs
 }
 
+fn visit_method_name(kind: TraitKind, variant: Variant, with: bool) -> Ident {
+    let name = kind.method_prefix();
+
+    let name = if with {
+        format!("{}_with", name)
+    } else {
+        name.to_string()
+    };
+
+    if variant == Variant::AstPath {
+        Ident::new(&format!("{}_ast_path", name), Span::call_site())
+    } else {
+        Ident::new(&name, Span::call_site())
+    }
+}
+
 fn declare_visit_trait(kind: TraitKind, variant: Variant, node_types: &[&Item]) -> Item {
-    let trait_name = visit_trait_name(kind, variant, false);
+    let trait_name = trait_name(kind, variant, false);
     let attrs = base_trait_attrs(kind, variant);
     let mut trait_methods: Vec<TraitItem> = vec![];
 
     parse_quote! {
         /// A visitor trait for traversing the AST.
-        ///
         #(#attrs)*
         pub trait #trait_name {
             #(#trait_methods)*
@@ -82,17 +111,46 @@ fn declare_visit_trait(kind: TraitKind, variant: Variant, node_types: &[&Item]) 
 }
 
 fn declare_visit_with_trait(kind: TraitKind, variant: Variant, node_types: &[&Item]) -> Vec<Item> {
-    let trait_name = visit_trait_name(kind, variant, true);
+    let visitor_trait_name = trait_name(kind, variant, true);
+    let trait_name = trait_name(kind, variant, true);
     let attrs = base_trait_attrs(kind, variant);
-    let mut trait_methods: Vec<TraitItem> = vec![];
+    let mut visit_with_trait_methods: Vec<TraitItem> = vec![];
+
+    {
+        let visit_with_name = format!(
+            "{}_with{}",
+            kind.method_prefix(),
+            if variant == Variant::AstPath {
+                "_ast_path"
+            } else {
+                ""
+            }
+        );
+        let visit_with_children_name = format!(
+            "{}_children_with{}",
+            kind.method_prefix(),
+            if variant == Variant::AstPath {
+                "_ast_path"
+            } else {
+                ""
+            }
+        );
+
+        visit_with_trait_methods.push(parse_quote!(
+            /// Calls a visitor method (visitor.fold_xxx) with self.
+            fn #visit_with_name(&mut self, visitor: &mut V);
+
+            /// Visit children nodes of `self`` with `visitor`.
+            fn #visit_with_name(&mut self, visitor: &mut V);
+        ));
+    }
 
     let mut items: Vec<Item> = vec![];
     items.push(parse_quote!(
-        /// A visitor trait for traversing the AST.
-        ///
+        /// A trait implemented for types that can be visited using a visitor.
         #(#attrs)*
-        pub trait #trait_name {
-            #(#trait_methods)*
+        pub trait #trait_name<V: ?Sized + #visitor_trait_name> {
+            #(#visit_with_trait_methods)*
         }
     ));
 
