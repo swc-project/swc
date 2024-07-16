@@ -127,7 +127,7 @@ impl Pure<'_> {
         for idx in 0..(tpl.quasis.len() + tpl.exprs.len()) {
             if idx % 2 == 0 {
                 let q = tpl.quasis[idx / 2].take();
-                
+
                 cur_cooked_str.push_str(&Str::from_tpl_raw(&q.raw));
                 cur_raw_str.push_str(&q.raw);
             } else {
