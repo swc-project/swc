@@ -660,6 +660,22 @@ fn test_fold_bitwise_op2() {
 }
 
 #[test]
+fn test_issue_9256() {
+    // Returns -2 prior to fix (Number.MAX_VALUE)
+    fold("1.7976931348623157e+308 << 1", "0");
+
+    // Isn't changed prior to fix
+    fold("1.7976931348623157e+308 << 1.7976931348623157e+308", "0");
+    fold("1.7976931348623157e+308 >> 1.7976931348623157e+308", "0");
+
+    // Panics prior to fix (Number.MIN_VALUE)
+    fold("5e-324 >> 5e-324", "0");
+    fold("5e-324 << 5e-324", "0");
+    fold("5e-324 << 0", "0");
+    fold("0 << 5e-324", "0");
+}
+
+#[test]
 #[ignore]
 fn test_folding_mix_types_early() {
     fold_same("x = x + '2'");
