@@ -38,6 +38,16 @@ pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
         }
     }
 
+    output.items.push(parse_quote!(
+        #[cfg(feature = "path")]
+        pub type AstKindPath = swc_visit::AstKindPath<AstParentKind>;
+    ));
+    output.items.push(parse_quote!(
+        #[cfg(feature = "path")]
+        pub type AstNodePath<'ast> = swc_visit::AstNodePath<AstParentNodeRef<'ast>>;
+    ));
+    output.items.push(define_fields(node_types));
+
     output
 }
 
@@ -488,4 +498,35 @@ impl Generator {
 
 fn doc(s: &str) -> Attribute {
     parse_quote!(#[doc = #s])
+}
+
+fn define_fields(node_types: &[&Item]) -> Vec<Item> {
+    let mut items = Vec::<Item>::new();
+
+    {
+        let mut defs = Vec::<Item>::new();
+
+        for ty in node_types {
+            let type_name = match ty {
+                Item::Enum(data) => data.ident.clone(),
+                Item::Struct(data) => data.ident.clone(),
+                _ => continue,
+            };
+
+            let enum_name = Ident::new(&format!("{type_name}Field"), Span::call_site());
+
+            defs.push(parse_quote!(
+                #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+                pub enum #enum_name {
+
+                }
+            ))
+        }
+
+        items.push(parse_quote!(
+            pub mod fields {}
+        ));
+    }
+
+    items
 }
