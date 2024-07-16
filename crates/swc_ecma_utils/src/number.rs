@@ -10,7 +10,7 @@ impl ToJsString for f64 {
     }
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub struct JsNumber(f64);
 
 impl From<f64> for JsNumber {
@@ -30,6 +30,26 @@ impl std::ops::Deref for JsNumber {
 
     fn deref(&self) -> &Self::Target {
         &self.0
+    }
+}
+
+impl JsNumber {
+    // https://tc39.es/ecma262/#sec-toint32
+    fn as_int32(&self) -> i32 {
+        if !self.0.is_finite() {
+            return 0;
+        }
+
+        self.as_int32()
+    }
+
+    // https://tc39.es/ecma262/#sec-touint32
+    fn as_uint32(&self) -> u32 {
+        if !self.0.is_finite() {
+            return 0;
+        }
+
+        self.0.trunc() as u32
     }
 }
 
@@ -96,54 +116,60 @@ impl JsNumber {
 }
 
 // JsNumber << JsNumber
+// https://tc39.es/ecma262/#sec-numeric-types-number-leftShift
 impl std::ops::Shl<JsNumber> for JsNumber {
     type Output = JsNumber;
 
     fn shl(self, rhs: JsNumber) -> Self::Output {
-        JsNumber((self.0.trunc() as i32).wrapping_shl(rhs.0.trunc() as u32) as f64)
+        JsNumber(self.as_int32().wrapping_shl(rhs.as_uint32()) as f64)
     }
 }
 
 // JsNumber >> JsNumber
+// https://tc39.es/ecma262/#sec-numeric-types-number-signedRightShift
 impl std::ops::Shr<JsNumber> for JsNumber {
     type Output = JsNumber;
 
     fn shr(self, rhs: JsNumber) -> Self::Output {
-        JsNumber((self.0.trunc() as i32).wrapping_shr(rhs.0.trunc() as u32) as f64)
+        JsNumber((self.as_int32()).wrapping_shr(rhs.as_uint32()) as f64)
     }
 }
 
 // JsNumber >>> JsNumber
+// https://tc39.es/ecma262/#sec-numeric-types-number-unsignedRightShift
 impl JsNumber {
     pub fn unsigned_shr(self, rhs: JsNumber) -> JsNumber {
-        JsNumber((self.0.trunc() as u32).wrapping_shr(rhs.0.trunc() as u32) as f64)
+        JsNumber((self.as_uint32()).wrapping_shr(rhs.as_uint32()) as f64)
     }
 }
 
 // JsNumber | JsNumber
+// https://tc39.es/ecma262/#sec-numberbitwiseop
 impl std::ops::BitOr<JsNumber> for JsNumber {
     type Output = JsNumber;
 
     fn bitor(self, rhs: JsNumber) -> Self::Output {
-        JsNumber((self.0.trunc() as i32 | rhs.0.trunc() as i32) as f64)
+        JsNumber((self.as_int32() | rhs.as_int32()) as f64)
     }
 }
 
 // JsNumber & JsNumber
+// https://tc39.es/ecma262/#sec-numberbitwiseop
 impl std::ops::BitAnd<JsNumber> for JsNumber {
     type Output = JsNumber;
 
     fn bitand(self, rhs: JsNumber) -> Self::Output {
-        JsNumber((self.0.trunc() as i32 & rhs.0.trunc() as i32) as f64)
+        JsNumber((self.as_int32() & rhs.as_int32()) as f64)
     }
 }
 
 // JsNumber ^ JsNumber
+// https://tc39.es/ecma262/#sec-numberbitwiseop
 impl std::ops::BitXor<JsNumber> for JsNumber {
     type Output = JsNumber;
 
     fn bitxor(self, rhs: JsNumber) -> Self::Output {
-        JsNumber((self.0.trunc() as i32 ^ rhs.0.trunc() as i32) as f64)
+        JsNumber((self.as_int32() ^ rhs.as_int32()) as f64)
     }
 }
 
@@ -161,6 +187,50 @@ impl std::ops::Not for JsNumber {
     type Output = JsNumber;
 
     fn not(self) -> Self::Output {
-        JsNumber(!(self.0.trunc() as i32) as f64)
+        JsNumber(!(self.as_int32()) as f64)
+    }
+}
+
+#[cfg(test)]
+mod test_js_number {
+    use super::*;
+
+    #[test]
+    fn test_as_int32() {
+        assert_eq!(JsNumber(f64::NAN).as_int32(), 0);
+        assert_eq!(JsNumber(0.0).as_int32(), 0);
+        assert_eq!(JsNumber(-0.0).as_int32(), 0);
+        assert_eq!(JsNumber(f64::INFINITY).as_int32(), 0);
+        assert_eq!(JsNumber(f64::NEG_INFINITY).as_int32(), 0);
+    }
+
+    #[test]
+    fn test_as_uint32() {
+        assert_eq!(JsNumber(f64::NAN).as_uint32(), 0);
+        assert_eq!(JsNumber(0.0).as_uint32(), 0);
+        assert_eq!(JsNumber(-0.0).as_uint32(), 0);
+        assert_eq!(JsNumber(f64::INFINITY).as_uint32(), 0);
+        assert_eq!(JsNumber(f64::NEG_INFINITY).as_uint32(), 0);
+    }
+
+    #[test]
+    fn test_add() {
+        assert_eq!(JsNumber(1.0) + JsNumber(2.0), JsNumber(3.0));
+
+        assert!((JsNumber(1.0) + JsNumber(f64::NAN)).is_nan());
+        assert!((JsNumber(f64::NAN) + JsNumber(1.0)).is_nan());
+        assert!((JsNumber(f64::NAN) + JsNumber(f64::NAN)).is_nan());
+        assert!((JsNumber(f64::INFINITY) + JsNumber(f64::NEG_INFINITY)).is_nan());
+        assert!((JsNumber(f64::NEG_INFINITY) + JsNumber(f64::INFINITY)).is_nan());
+
+        assert_eq!(
+            JsNumber(f64::INFINITY) + JsNumber(1.0),
+            JsNumber(f64::INFINITY)
+        );
+        assert_eq!(
+            JsNumber(f64::NEG_INFINITY) + JsNumber(1.0),
+            JsNumber(f64::NEG_INFINITY)
+        );
+        assert_eq!(JsNumber(-0.0) + JsNumber(0.0), JsNumber(-0.0));
     }
 }
