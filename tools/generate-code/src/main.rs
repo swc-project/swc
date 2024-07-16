@@ -2,7 +2,8 @@ use std::path::{Path, PathBuf};
 
 use anyhow::{Context, Result};
 use clap::Parser;
-use syn::Item;
+use proc_macro2::Span;
+use syn::{Ident, Item};
 use types::qualify_types;
 
 mod generators;
@@ -25,6 +26,8 @@ fn main() -> Result<()> {
         output,
     } = CliArgs::parse();
 
+    let crate_name = input_dir.file_name().unwrap().to_str().unwrap();
+
     input_dir = input_dir
         .canonicalize()
         .context("faield to canonicalize input directory")?
@@ -46,7 +49,8 @@ fn main() -> Result<()> {
 
     let all_type_defs = inputs.iter().flat_map(get_type_defs).collect::<Vec<_>>();
 
-    let file = generators::visitor::generate(&all_type_defs);
+    let file =
+        generators::visitor::generate(&Ident::new(crate_name, Span::call_site()), &all_type_defs);
 
     let output_content = quote::quote!(#file).to_string();
 
