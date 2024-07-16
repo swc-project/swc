@@ -1503,6 +1503,7 @@ dependencies = [
  "clap 4.5.9",
  "quote",
  "syn 2.0.55",
+ "walkdir",
 ]
 
 [[package]]
