@@ -40,7 +40,7 @@ impl JsNumber {
             return 0;
         }
 
-        self.as_int32()
+        self.0.trunc() as i32
     }
 
     // https://tc39.es/ecma262/#sec-touint32
