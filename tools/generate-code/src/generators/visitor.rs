@@ -2,8 +2,8 @@ use inflector::Inflector;
 use proc_macro2::{Span, TokenStream};
 use quote::quote;
 use syn::{
-    parse_quote, Arm, Attribute, Expr, ExprMatch, Fields, File, Ident, Item, ItemTrait, Path,
-    TraitItem, Visibility,
+    parse_quote, punctuated::Punctuated, Arm, Attribute, Expr, ExprMatch, Fields, File, Ident,
+    Item, ItemTrait, Path, Stmt, Token, TraitItem, Visibility,
 };
 
 pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
@@ -364,7 +364,73 @@ impl Generator {
         items
     }
 
-    fn default_visit_body(&self, path: TokenStream, fields: &Fields) -> Arm {}
+    fn default_visit_body(&self, path: TokenStream, fields: &Fields) -> Arm {
+        let ast_path_arg = self.arg_extra_token();
+        let visit_with_children_name = Ident::new(
+            &format!(
+                "{}_children_with{}",
+                self.kind.method_prefix(),
+                self.variant.method_suffix()
+            ),
+            Span::call_site(),
+        );
+
+        match fields {
+            Fields::Named(n) => {
+                let mut stmts: Vec<Stmt> = vec![];
+                let mut fields = vec![];
+                let mut reconstruct = match self.kind {
+                    TraitKind::Visit | TraitKind::VisitMut => None,
+                    TraitKind::Fold => Some(Vec::<TokenStream>::new()),
+                };
+
+                for field in &n.named {
+                    let field_name = field.ident.as_ref().unwrap();
+                    let field_ty = &field.ty;
+
+                    fields.push(field_name.clone());
+
+                    if let Some(reconstructor) = &mut reconstruct {
+                        stmts.push(parse_quote!(
+                            let #field_name = self.#field_name.#visit_with_children_name(visitor #ast_path_arg);
+                        ));
+
+                        reconstructor.push(parse_quote!(#field_name: self.#field_name));
+                    } else {
+                        stmts.push(parse_quote!(
+                            self.#field_name.#visit_with_children_name(visitor #ast_path_arg);
+                        ));
+                    }
+                }
+
+                match self.kind {
+                    TraitKind::Visit | TraitKind::VisitMut => {
+                        parse_quote!(#path { #(#fields),* } => {
+                            #(#stmts)*
+                        })
+                    }
+                    TraitKind::Fold => {
+                        let reconstruct = reconstruct.unwrap();
+
+                        parse_quote!(#path { #(#fields),* } => {
+                            #(#stmts)*
+
+                            #path {
+                                #(#reconstruct),*
+                            }
+                        })
+                    }
+                }
+            }
+            Fields::Unnamed(u) => match self.kind {
+                TraitKind::Visit | TraitKind::VisitMut => {}
+                TraitKind::Fold => {}
+            },
+            Fields::Unit => {
+                return parse_quote!(#path => {});
+            }
+        }
+    }
 }
 
 fn doc(s: &str) -> Attribute {
