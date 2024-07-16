@@ -36,11 +36,7 @@ impl std::ops::Deref for JsNumber {
 impl JsNumber {
     // https://tc39.es/ecma262/#sec-toint32
     fn as_int32(&self) -> i32 {
-        if !self.0.is_finite() {
-            return 0;
-        }
-
-        self.0.trunc() as i32
+        self.as_uint32() as i32
     }
 
     // https://tc39.es/ecma262/#sec-touint32
@@ -49,7 +45,8 @@ impl JsNumber {
             return 0;
         }
 
-        self.0.trunc() as u32
+        // pow(2, 32) = 4294967296
+        self.0.trunc().rem_euclid(4294967296.0) as u32
     }
 }
 
@@ -211,6 +208,7 @@ mod test_js_number {
         assert_eq!(JsNumber(-0.0).as_uint32(), 0);
         assert_eq!(JsNumber(f64::INFINITY).as_uint32(), 0);
         assert_eq!(JsNumber(f64::NEG_INFINITY).as_uint32(), 0);
+        assert_eq!(JsNumber(-8.0).as_uint32(), 4294967288);
     }
 
     #[test]

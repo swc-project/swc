@@ -633,13 +633,6 @@ impl SimplifyExpr {
 
             // Bit shift operations
             op!("<<") | op!(">>") | op!(">>>") => {
-                /// Uses a method for treating a double as 32bits that is
-                /// equivalent to how JavaScript would convert a
-                /// number before applying a bit operation.
-                fn js_convert_double_to_bits(d: f64) -> i32 {
-                    ((d.floor() as i64) & 0xffff_ffff) as i32
-                }
-
                 fn try_fold_shift(
                     ctx: &ExprCtx,
                     op: BinaryOp,
@@ -654,38 +647,12 @@ impl SimplifyExpr {
                         (Known(lv), Known(rv)) => (lv, rv),
                         _ => unreachable!(),
                     };
-
-                    // only the lower 5 bits are used when shifting, so don't do anything
-                    // if the shift amount is outside [0,32)
-                    if !(0.0..32.0).contains(&rv) {
-                        return Unknown;
-                    }
-
-                    let rv_int = rv as i32;
-                    if rv_int as f64 != rv {
-                        unimplemented!("error reporting: FRACTIONAL_BITWISE_OPERAND")
-                        // report(FRACTIONAL_BITWISE_OPERAND, right.span());
-                        // return n;
-                    }
-
-                    if lv.floor() != lv {
-                        unimplemented!("error reporting: FRACTIONAL_BITWISE_OPERAND")
-                        // report(FRACTIONAL_BITWISE_OPERAND, left.span());
-                        // return n;
-                    }
-
-                    let bits = js_convert_double_to_bits(lv);
+                    let (lv, rv) = (JsNumber::from(lv), JsNumber::from(rv));
 
                     Known(match op {
-                        op!("<<") => (bits << rv_int) as f64,
-                        op!(">>") => (bits >> rv_int) as f64,
-                        op!(">>>") => {
-                            let res = bits as u32 >> rv_int as u32;
-                            // JavaScript always treats the result of >>> as unsigned.
-                            // We must force Java to do the same here.
-                            // unimplemented!(">>> (Zerofill rshift)")
-                            res as f64
-                        }
+                        op!("<<") => *(lv << rv),
+                        op!(">>") => *(lv >> rv),
+                        op!(">>>") => *(lv.unsigned_shr(rv)),
 
                         _ => unreachable!("Unknown bit operator {:?}", op),
                     })
