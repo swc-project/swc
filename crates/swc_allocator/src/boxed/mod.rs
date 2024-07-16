@@ -7,6 +7,7 @@ use std::{
     iter::FusedIterator,
     ops::{Deref, DerefMut},
     pin::Pin,
+    ptr,
 };
 
 use crate::{vec::Vec, FastAlloc};
@@ -82,7 +83,9 @@ impl<T> Box<T> {
 
     /// Moves the value out of the box.
     pub fn unbox(self) -> T {
-        allocator_api2::boxed::Box::into_inner(self.0)
+        let raw = allocator_api2::boxed::Box::into_raw(self.0);
+
+        unsafe { ptr::read(raw) }
     }
 }
 

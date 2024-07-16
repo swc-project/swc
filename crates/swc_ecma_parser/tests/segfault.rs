@@ -1,7 +1,6 @@
 extern crate swc_malloc;
 
 use codspeed_criterion_compat::black_box;
-use swc_allocator::Allocator;
 use swc_common::{comments::SingleThreadedComments, FileName};
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 
@@ -9,8 +8,6 @@ fn bench_module(syntax: Syntax, src: &'static str) {
     let _ = ::testing::run_test(false, |cm, _| {
         let comments = SingleThreadedComments::default();
         let fm = cm.new_source_file(FileName::Anon.into(), src.into());
-
-        let allocator = Allocator::default();
 
         let _ = black_box({
             let lexer = Lexer::new(
