@@ -160,6 +160,7 @@ impl Generator {
     }
 
     fn declare_visit_trait(&self, node_types: &[&Item]) -> Item {
+        let with_trait_name = self.trait_name(true);
         let trait_name = self.trait_name(false);
         let attrs = self.base_trait_attrs();
         let mut trait_methods: Vec<TraitItem> = vec![];
@@ -184,9 +185,24 @@ impl Generator {
                 ),
                 Span::call_site(),
             );
+            let visit_with_children_name = Ident::new(
+                &format!(
+                    "{}_children_with{}",
+                    self.kind.method_prefix(),
+                    self.variant.method_suffix()
+                ),
+                Span::call_site(),
+            );
+
+            let method_doc = doc(&format!(
+                "Visit a node of type `{}`.\n\nBy default, this method calls \
+                 [`{type_name}::{visit_with_children_name}`]. If you want to recurse, you need to \
+                 call it manually.",
+                type_name
+            ));
 
             trait_methods.push(parse_quote!(
-                /// Visit a node of type.
+                #method_doc
                 fn #visit_method_name(&mut self, node: #type_param #ast_path_params) #return_type;
             ));
         }
