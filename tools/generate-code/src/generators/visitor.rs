@@ -193,6 +193,7 @@ impl Generator {
     }
 
     fn declare_visit_trait(&self, node_types: &[&Item]) -> Item {
+        let lifetime = self.method_lifetime();
         let ast_path_arg = self.arg_extra_token();
         let ast_path_params = self.param_extra_token();
         let with_trait_name = self.trait_name(true);
@@ -237,7 +238,7 @@ impl Generator {
 
             trait_methods.push(parse_quote!(
                 #method_doc
-                fn #visit_method_name(&mut self, node: #type_param #ast_path_params) #return_type {
+                fn #visit_method_name #lifetime (&mut self, node: #type_param #ast_path_params) #return_type {
                     <#type_name as #with_trait_name>::#visit_with_children_name(node, self #ast_path_arg)
                 }
             ));
