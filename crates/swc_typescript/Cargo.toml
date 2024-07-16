@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_typescript"
 repository    = { workspace = true }
-version       = "0.2.0"
+version       = "0.3.0"
 
 [dependencies]
 thiserror = { workspace = true }
@@ -17,6 +17,6 @@ swc_ecma_ast = { version = "0.116.0", path = "../swc_ecma_ast" }
 
 
 [dev-dependencies]
-swc_ecma_codegen = { version = "0.152.0", path = "../swc_ecma_codegen" }
+swc_ecma_codegen = { version = "0.153.0", path = "../swc_ecma_codegen" }
 swc_ecma_parser  = { version = "0.147.0", path = "../swc_ecma_parser" }
 testing          = { version = "0.37.0", path = "../testing" }
