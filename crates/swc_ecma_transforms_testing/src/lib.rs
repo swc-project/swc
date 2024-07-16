@@ -168,12 +168,12 @@ impl<'a> Tester<'a> {
         name: &str,
         syntax: Syntax,
         src: &str,
-    ) -> Result<Module, ()> {
+    ) -> Result<Program, ()> {
         let fm = self
             .cm
             .new_source_file(FileName::Real(name.into()).into(), src.into());
 
-        let module = {
+        let program = {
             let mut p = Parser::new_from(Lexer::new(
                 syntax,
                 EsVersion::latest(),
@@ -181,7 +181,7 @@ impl<'a> Tester<'a> {
                 Some(&self.comments),
             ));
             let res = p
-                .parse_module()
+                .parse_program()
                 .map_err(|e| e.into_diagnostic(self.handler).emit());
 
             for e in p.take_errors() {
@@ -191,13 +191,11 @@ impl<'a> Tester<'a> {
             res?
         };
 
-        let module = Program::Module(module).fold_with(&mut tr);
-
-        Ok(module.expect_module())
+        Ok(program.fold_with(&mut tr))
     }
 
-    pub fn print(&mut self, module: &Module, comments: &Rc<SingleThreadedComments>) -> String {
-        to_code_default(self.cm.clone(), Some(comments), module)
+    pub fn print(&mut self, program: &Program, comments: &Rc<SingleThreadedComments>) -> String {
+        to_code_default(self.cm.clone(), Some(comments), program)
     }
 }
 
@@ -350,9 +348,9 @@ where
     let expected = output;
 
     let expected_src = Tester::run(|tester| {
-        let expected_module = tester.apply_transform(noop(), "expected.js", syntax, expected)?;
+        let expected_program = tester.apply_transform(noop(), "expected.js", syntax, expected)?;
 
-        let expected_src = tester.print(&expected_module, &Default::default());
+        let expected_src = tester.print(&expected_program, &Default::default());
 
         println!(
             "----- {} -----\n{}",
@@ -518,12 +516,12 @@ where
     Tester::run(|tester| {
         let tr = make_tr(tr, tester);
 
-        let module = tester.apply_transform(tr, "input.js", syntax, input)?;
+        let program = tester.apply_transform(tr, "input.js", syntax, input)?;
 
         match ::std::env::var("PRINT_HYGIENE") {
             Ok(ref s) if s == "1" => {
                 let hygiene_src = tester.print(
-                    &module.clone().fold_with(&mut HygieneVisualizer),
+                    &program.clone().fold_with(&mut HygieneVisualizer),
                     &tester.comments.clone(),
                 );
                 println!("----- Hygiene -----\n{}", hygiene_src);
@@ -531,14 +529,14 @@ where
             _ => {}
         }
 
-        let mut module = module
+        let mut program = program
             .fold_with(&mut hygiene::hygiene())
             .fold_with(&mut fixer::fixer(Some(&tester.comments)));
 
-        let src_without_helpers = tester.print(&module, &tester.comments.clone());
-        module = module.fold_with(&mut inject_helpers(Mark::fresh(Mark::root())));
+        let src_without_helpers = tester.print(&program, &tester.comments.clone());
+        program = program.fold_with(&mut inject_helpers(Mark::fresh(Mark::root())));
 
-        let transformed_src = tester.print(&module, &tester.comments.clone());
+        let transformed_src = tester.print(&program, &tester.comments.clone());
 
         println!(
             "\t>>>>> Orig <<<<<\n{}\n\t>>>>> Code <<<<<\n{}",
@@ -566,7 +564,7 @@ where
     Tester::run(|tester| {
         let tr = make_tr(tr, tester);
 
-        let module = tester.apply_transform(
+        let program = tester.apply_transform(
             tr,
             "input.js",
             syntax,
@@ -580,7 +578,7 @@ where
         match ::std::env::var("PRINT_HYGIENE") {
             Ok(ref s) if s == "1" => {
                 let hygiene_src = tester.print(
-                    &module.clone().fold_with(&mut HygieneVisualizer),
+                    &program.clone().fold_with(&mut HygieneVisualizer),
                     &tester.comments.clone(),
                 );
                 println!("----- Hygiene -----\n{}", hygiene_src);
@@ -588,14 +586,14 @@ where
             _ => {}
         }
 
-        let mut module = module
+        let mut program = program
             .fold_with(&mut hygiene::hygiene())
             .fold_with(&mut fixer::fixer(Some(&tester.comments)));
 
-        let src_without_helpers = tester.print(&module, &tester.comments.clone());
-        module = module.fold_with(&mut inject_helpers(Mark::fresh(Mark::root())));
+        let src_without_helpers = tester.print(&program, &tester.comments.clone());
+        program = program.fold_with(&mut inject_helpers(Mark::fresh(Mark::root())));
 
-        let src = tester.print(&module, &tester.comments.clone());
+        let src = tester.print(&program, &tester.comments.clone());
 
         println!(
             "\t>>>>> {} <<<<<\n{}\n\t>>>>> {} <<<<<\n{}",
@@ -853,9 +851,9 @@ fn test_fixture_inner<'a>(
     let expected = expected.unwrap_or_default();
 
     let expected_src = Tester::run(|tester| {
-        let expected_module = tester.apply_transform(noop(), "expected.js", syntax, &expected)?;
+        let expected_program = tester.apply_transform(noop(), "expected.js", syntax, &expected)?;
 
-        let expected_src = tester.print(&expected_module, &tester.comments.clone());
+        let expected_src = tester.print(&expected_program, &tester.comments.clone());
 
         println!(
             "----- {} -----\n{}",
