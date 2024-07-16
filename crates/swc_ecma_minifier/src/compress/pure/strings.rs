@@ -127,8 +127,8 @@ impl Pure<'_> {
         for idx in 0..(tpl.quasis.len() + tpl.exprs.len()) {
             if idx % 2 == 0 {
                 let q = tpl.quasis[idx / 2].take();
-
-                cur_cooked_str.push_str(q.cooked.as_deref().unwrap_or(&*q.raw));
+                
+                cur_cooked_str.push_str(&Str::from_tpl_raw(&q.raw));
                 cur_raw_str.push_str(&q.raw);
             } else {
                 let mut e = tpl.exprs[idx / 2].take();
@@ -143,7 +143,7 @@ impl Pure<'_> {
                             if idx % 2 == 0 {
                                 let q = e.quasis[idx / 2].take();
 
-                                cur_cooked_str.push_str(q.cooked.as_deref().unwrap_or(&*q.raw));
+                                cur_cooked_str.push_str(Str::from_tpl_raw(&q.raw).as_ref());
                                 cur_raw_str.push_str(&q.raw);
                             } else {
                                 let cooked = Atom::from(&*cur_cooked_str);
