@@ -4193,7 +4193,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_common"
-version = "0.8.0"
+version = "0.9.0"
 dependencies = [
  "swc_common",
  "swc_ecma_ast",
@@ -4364,7 +4364,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ext_transforms"
-version = "0.117.0"
+version = "0.118.0"
 dependencies = [
  "phf",
  "swc_atoms",
@@ -4831,7 +4831,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_usage_analyzer"
-version = "0.27.0"
+version = "0.28.0"
 dependencies = [
  "indexmap 2.2.6",
  "rustc-hash",
@@ -4846,7 +4846,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.131.0"
+version = "0.132.0"
 dependencies = [
  "indexmap 2.2.6",
  "num_cpus",
