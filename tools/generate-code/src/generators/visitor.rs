@@ -2,8 +2,7 @@ use inflector::Inflector;
 use proc_macro2::{Span, TokenStream};
 use quote::quote;
 use syn::{
-    parse_quote, punctuated::Punctuated, Arm, Attribute, Expr, ExprMatch, Fields, File, Ident,
-    Item, ItemTrait, Lit, LitInt, Path, Stmt, Token, TraitItem, Visibility,
+    parse_quote, Arm, Attribute, Expr, Fields, File, Ident, Item, Lit, LitInt, Stmt, TraitItem,
 };
 
 pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
