@@ -18,6 +18,10 @@ pub fn generate(node_types: &[&Item]) -> File {
             output
                 .items
                 .extend(declare_visit_with_trait(kind, variant, node_types));
+
+            output
+                .items
+                .extend(implement_visit_with_for_types(kind, variant, node_types));
         }
     }
 
@@ -189,6 +193,35 @@ fn declare_visit_with_trait(kind: TraitKind, variant: Variant, node_types: &[&It
             #(#visit_with_trait_methods)*
         }
     ));
+
+    items
+}
+
+fn implement_visit_with_for_types(
+    kind: TraitKind,
+    variant: Variant,
+    node_types: &[&Item],
+) -> Vec<Item> {
+    let visitor_trait_name = trait_name(kind, variant, false);
+    let trait_name = trait_name(kind, variant, true);
+    let attrs = base_trait_attrs(kind, variant);
+
+    let mut items: Vec<Item> = vec![];
+
+    for node_type in node_types {
+        let type_name = match node_type {
+            Item::Enum(data) => data.ident.clone(),
+            Item::Struct(data) => data.ident.clone(),
+            _ => continue,
+        };
+
+        items.push(parse_quote!(
+            #(#attrs)*
+            impl #trait_name<V: ?Sized + #visitor_trait_name> for #type_name {
+
+            }
+        ));
+    }
 
     items
 }
