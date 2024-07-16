@@ -509,7 +509,7 @@ fn field_variant(type_name: &Ident, field: &Field) -> Option<TokenStream> {
         if let Some(ty) = extract_vec(&field.ty) {
             return Some(quote!(
                 #variant_doc
-                #variant_name
+                #variant_name(usize)
             ));
         }
 
