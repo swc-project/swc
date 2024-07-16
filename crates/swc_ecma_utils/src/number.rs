@@ -81,7 +81,7 @@ mod tests {
 
         assert_eq!(5.2.to_js_int32(), 5);
     }
-    
+
     #[test]
     fn test_to_js_uint32() {
         assert_eq!(f64::NAN.to_js_uint32(), 0);
