@@ -46,7 +46,7 @@ pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
         #[cfg(feature = "path")]
         pub type AstNodePath<'ast> = swc_visit::AstNodePath<AstParentNodeRef<'ast>>;
     ));
-    output.items.push(define_fields(node_types));
+    output.items.extend(define_fields(node_types));
 
     output
 }
