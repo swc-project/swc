@@ -11333,5 +11333,5 @@ fn issue_9184() {
         let pi= Math.random() >1.1 ? "foo": "bar";
         console.log(`(${`${pi}`} - ${`\\*${pi}`})`)
 "#,
-    ); 
+    );
 }
