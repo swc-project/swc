@@ -1499,6 +1499,7 @@ dependencies = [
 name = "generate-code"
 version = "0.1.0"
 dependencies = [
+ "Inflector",
  "anyhow",
  "clap 4.5.9",
  "proc-macro2",
