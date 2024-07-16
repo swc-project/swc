@@ -368,14 +368,8 @@ impl Generator {
 
     fn default_visit_body(&self, path: TokenStream, fields: &Fields) -> Arm {
         let ast_path_arg = self.arg_extra_token();
-        let visit_with_name = Ident::new(
-            &format!(
-                "{}_with{}",
-                self.kind.method_prefix(),
-                self.variant.method_suffix()
-            ),
-            Span::call_site(),
-        );
+
+        let visitor_trait_name = self.trait_name(false);
         let visit_with_children_name = Ident::new(
             &format!(
                 "{}_children_with{}",
@@ -402,13 +396,13 @@ impl Generator {
 
                     if let Some(reconstructor) = &mut reconstruct {
                         stmts.push(parse_quote!(
-                            let #field_name = <#ty as #visit_with_name>::#visit_with_children_name(#field_name, visitor #ast_path_arg);
+                            let #field_name = <#ty as #visitor_trait_name>::#visit_with_children_name(#field_name, visitor #ast_path_arg);
                         ));
 
                         reconstructor.push(parse_quote!(#field_name));
                     } else {
                         stmts.push(parse_quote!(
-                            <#ty as #visit_with_name>::#visit_with_children_name(#field_name, visitor #ast_path_arg);
+                            <#ty as #visitor_trait_name>::#visit_with_children_name(#field_name, visitor #ast_path_arg);
                         ));
                     }
                 }
@@ -448,13 +442,13 @@ impl Generator {
 
                     if let Some(reconstructor) = &mut reconstruct {
                         stmts.push(parse_quote!(
-                            let #field_name = <#ty as #visit_with_name>::#visit_with_children_name(#field_name, visitor #ast_path_arg);
+                            let #field_name = <#ty as #visitor_trait_name>::#visit_with_children_name(#field_name, visitor #ast_path_arg);
                         ));
 
                         reconstructor.push(parse_quote!(#binding_idx: self.#field_name));
                     } else {
                         stmts.push(parse_quote!(
-                            <#ty as #visit_with_name>::#visit_with_children_name(#field_name, visitor #ast_path_arg);
+                            <#ty as #visitor_trait_name>::#visit_with_children_name(#field_name, visitor #ast_path_arg);
                         ));
                     }
                 }
