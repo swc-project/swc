@@ -231,12 +231,12 @@ mod tests {
 
             let v = match v {
                 Program::Module(mut m) => m.body.pop().and_then(|x| x.into_stmt().ok()),
-                Program::Script(mut s) => s.body.pop()
+                Program::Script(mut s) => s.body.pop(),
             };
             assert!(v.is_some());
             let v = match v.unwrap() {
                 Stmt::Expr(ExprStmt { expr, .. }) => *expr,
-                _ => unreachable!()
+                _ => unreachable!(),
             };
 
             m.insert((*k).into(), v);
