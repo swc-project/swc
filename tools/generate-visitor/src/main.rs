@@ -31,7 +31,20 @@ fn main() -> Result<()> {
 
     eprintln!("Generating visitor in directory: {:?}", output);
 
+    let inputs = input_files
+        .iter()
+        .map(|file| {
+            parse_rust_file(file).with_context(|| format!("failed to parse file: {:?}", file))
+        })
+        .collect::<Result<Vec<_>>>()?;
+
     Ok(())
+}
+
+fn parse_rust_file(file: &Path) -> Result<syn::File> {
+    let content = std::fs::read_to_string(file).context("failed to read the input file")?;
+    let syntax = syn::parse_file(&content).context("failed to parse the input file using syn")?;
+    Ok(syntax)
 }
 
 fn collect_input_files(input_dir: &Path) -> Result<Vec<PathBuf>> {
