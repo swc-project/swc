@@ -3,6 +3,8 @@ use std::path::{Path, PathBuf};
 use anyhow::{Context, Result};
 use clap::Parser;
 
+mod generators;
+
 #[derive(Debug, Parser)]
 struct CliArgs {
     /// The directory containing the crate to generate the visitor for.
@@ -38,16 +40,13 @@ fn main() -> Result<()> {
         })
         .collect::<Result<Vec<_>>>()?;
 
-    let all_types = inputs.iter().flat_map(get_type_defs).collect::<Vec<_>>();
+    let file = generators::visitor::generate(&inputs);
+
+    let output_content = quote::quote!(#file).to_string();
+
+    std::fs::write(&output, output_content).context("failed to write the output file")?;
 
     Ok(())
-}
-
-fn get_type_defs(file: &syn::File) -> Vec<&syn::Item> {
-    file.items
-        .iter()
-        .filter(|item| matches!(item, syn::Item::Struct(_) | syn::Item::Enum(_)))
-        .collect()
 }
 
 fn parse_rust_file(file: &Path) -> Result<syn::File> {
