@@ -621,14 +621,14 @@ impl Transform {
         enum_id: &Id,
         default_init: &TsEnumRecordValue,
         record: &TsEnumRecord,
-        top_level_mark: Mark,
+        unresolved_mark: Mark,
     ) -> TsEnumRecordValue {
         member
             .init
             .map(|expr| {
                 EnumValueComputer {
                     enum_id,
-                    top_level_mark,
+                    unresolved_mark,
                     record,
                 }
                 .compute(expr)
