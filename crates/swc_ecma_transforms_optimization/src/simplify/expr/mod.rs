@@ -13,10 +13,6 @@ use swc_ecma_transforms_base::{
     perf::{cpu_count, Parallel, ParallelExt},
 };
 use swc_ecma_utils::{
-    is_literal,
-    number::{ToJsInt32, ToJsUint32},
-    prop_name_eq, to_int32, BoolType, ExprCtx, ExprExt, NullType, NumberType, ObjectType,
-    StringType, SymbolType, UndefinedType, Value,
     is_literal, number::JsNumber, prop_name_eq, to_int32, BoolType, ExprCtx, ExprExt, NullType,
     NumberType, ObjectType, StringType, SymbolType, UndefinedType, Value,
 };
@@ -651,29 +647,12 @@ impl SimplifyExpr {
                         (Known(lv), Known(rv)) => (lv, rv),
                         _ => unreachable!(),
                     };
+                    let (lv, rv) = (JsNumber::from(lv), JsNumber::from(rv));
 
                     Known(match op {
-                        op!("<<") => {
-                            // https://262.ecma-international.org/5.1/#sec-11.7.1
-                            let lnum = lv.to_js_int32();
-                            let rnum = rv.to_js_uint32();
-
-                            (lnum << (rnum & 0x1f)) as f64
-                        }
-                        op!(">>") => {
-                            // https://262.ecma-international.org/5.1/#sec-11.7.2
-                            let lnum = lv.to_js_int32();
-                            let rnum = rv.to_js_uint32();
-
-                            (lnum >> (rnum & 0x1f)) as f64
-                        }
-                        op!(">>>") => {
-                            // https://262.ecma-international.org/5.1/#sec-11.7.3
-                            let lnum = lv.to_js_uint32();
-                            let rnum = rv.to_js_uint32();
-
-                            (lnum >> (rnum & 0x1f)) as f64
-                        }
+                        op!("<<") => *(lv << rv),
+                        op!(">>") => *(lv >> rv),
+                        op!(">>>") => *(lv.unsigned_shr(rv)),
 
                         _ => unreachable!("Unknown bit operator {:?}", op),
                     })

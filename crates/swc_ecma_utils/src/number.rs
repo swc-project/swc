@@ -10,65 +10,6 @@ impl ToJsString for f64 {
     }
 }
 
-/// Implements [ToInt32] as defined in ECMAScript Section 9.5.
-///
-/// [ToInt32]: https://262.ecma-international.org/5.1/#sec-9.5
-pub trait ToJsInt32 {
-    /// Converts `self` into a signed 32-bit integer as defined in
-    /// ECMAScript Section 9.5, [ToInt32].
-    ///
-    /// [ToInt32]: https://262.ecma-international.org/5.1/#sec-9.5
-    fn to_js_int32(&self) -> i32;
-}
-
-impl ToJsInt32 for f64 {
-    fn to_js_int32(&self) -> i32 {
-        if self.is_nan() || self.is_infinite() || *self == 0.0 {
-            return 0;
-        }
-
-        const TWO_32: f64 = u32::MAX as f64 + 1.0; // 2^32
-        const TWO_31: f64 = i32::MAX as f64 + 1.0; // 2^31
-
-        let pos_int = self.signum() * self.abs().floor();
-        let int32_bit = pos_int % TWO_32;
-
-        (if int32_bit >= TWO_31 {
-            int32_bit - TWO_32
-        } else {
-            int32_bit
-        }) as i32
-    }
-}
-
-/// Implements [ToUint32] as defined in ECMAScript Section 9.6.
-///
-/// [ToUint32]: https://262.ecma-international.org/5.1/#sec-9.6
-pub trait ToJsUint32 {
-    /// Converts `self` into an unsigned 32-bit integer as defined in
-    /// ECMAScript Section 9.6, [ToUint32].
-    ///
-    /// [ToUint32]: https://262.ecma-international.org/5.1/#sec-9.6
-    fn to_js_uint32(&self) -> u32;
-}
-
-impl ToJsUint32 for f64 {
-    fn to_js_uint32(&self) -> u32 {
-        if self.is_nan() || self.is_infinite() || *self == 0.0 {
-            return 0;
-        }
-
-        const TWO_32: f64 = u32::MAX as f64 + 1.0; // 2^32
-
-        let pos_int = self.signum() * self.abs().floor();
-        let result = pos_int % TWO_32;
-        // Extra step: since `x as u32` doesn't overflow, we have to add if result is
-        // negative
-        (if result < 0.0 {
-            result + TWO_32
-        } else {
-            result
-        }) as u32
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct JsNumber(f64);
 
@@ -95,20 +36,40 @@ impl std::ops::Deref for JsNumber {
 impl JsNumber {
     // https://tc39.es/ecma262/#sec-toint32
     fn as_int32(&self) -> i32 {
-        if !self.0.is_finite() {
+        if !self.0.is_finite() || self.0 == 0.0 {
             return 0;
         }
 
-        self.0.trunc() as i32
+        const TWO_32: f64 = u32::MAX as f64 + 1.0; // 2^32
+        const TWO_31: f64 = i32::MAX as f64 + 1.0; // 2^31
+
+        let pos_int = self.signum() * self.abs().floor();
+        let int32_bit = pos_int % TWO_32;
+
+        (if int32_bit >= TWO_31 {
+            int32_bit - TWO_32
+        } else {
+            int32_bit
+        }) as i32
     }
 
     // https://tc39.es/ecma262/#sec-touint32
     fn as_uint32(&self) -> u32 {
-        if !self.0.is_finite() {
+        if !self.0.is_finite() || self.0 == 0.0 {
             return 0;
         }
 
-        self.0.trunc() as u32
+        const TWO_32: f64 = u32::MAX as f64 + 1.0; // 2^32
+
+        let pos_int = self.signum() * self.abs().floor();
+        let result = pos_int % TWO_32;
+        // Extra step: since `x as u32` doesn't overflow, we have to add if result is
+        // negative
+        (if result < 0.0 {
+            result + TWO_32
+        } else {
+            result
+        }) as u32
     }
 }
 
@@ -251,33 +212,6 @@ impl std::ops::Not for JsNumber {
 }
 
 #[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_to_js_int32() {
-        assert_eq!(f64::NAN.to_js_int32(), 0);
-        assert_eq!(f64::INFINITY.to_js_int32(), 0);
-        assert_eq!(f64::NEG_INFINITY.to_js_int32(), 0);
-        assert_eq!(0.0.to_js_int32(), 0);
-
-        assert_eq!(f64::MIN.to_js_int32(), 0);
-        assert_eq!(f64::MAX.to_js_int32(), 0);
-
-        assert_eq!(5.2.to_js_int32(), 5);
-    }
-
-    #[test]
-    fn test_to_js_uint32() {
-        assert_eq!(f64::NAN.to_js_uint32(), 0);
-        assert_eq!(f64::INFINITY.to_js_uint32(), 0);
-        assert_eq!(f64::NEG_INFINITY.to_js_uint32(), 0);
-        assert_eq!(0.0.to_js_uint32(), 0);
-
-        assert_eq!(f64::MIN.to_js_uint32(), 0);
-        assert_eq!(f64::MAX.to_js_uint32(), 0);
-
-        assert_eq!((-8.0).to_js_uint32(), 4294967288);
 mod test_js_number {
     use super::*;
 
@@ -297,6 +231,7 @@ mod test_js_number {
         assert_eq!(JsNumber(-0.0).as_uint32(), 0);
         assert_eq!(JsNumber(f64::INFINITY).as_uint32(), 0);
         assert_eq!(JsNumber(f64::NEG_INFINITY).as_uint32(), 0);
+        assert_eq!(JsNumber::from(-8.0).as_uint32(), 4294967288);
     }
 
     #[test]
