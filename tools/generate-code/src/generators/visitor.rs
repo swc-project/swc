@@ -163,6 +163,8 @@ impl Generator {
     }
 
     fn declare_visit_trait(&self, node_types: &[&Item]) -> Item {
+        let ast_path_arg = self.arg_extra_token();
+        let ast_path_params = self.param_extra_token();
         let with_trait_name = self.trait_name(true);
         let trait_name = self.trait_name(false);
         let attrs = self.base_trait_attrs();
@@ -175,7 +177,6 @@ impl Generator {
                 _ => continue,
             };
 
-            let ast_path_params = self.param_extra_token();
             let return_type = self.return_type_token(quote!(#type_name));
             let type_param = self.parameter_type_token(quote!(#type_name));
 
@@ -207,7 +208,7 @@ impl Generator {
             trait_methods.push(parse_quote!(
                 #method_doc
                 fn #visit_method_name(&mut self, node: #type_param #ast_path_params) #return_type {
-                    <#type_name as #with_trait_name>::#visit_with_children_name(node, self)
+                    <#type_name as #with_trait_name>::#visit_with_children_name(node, self #ast_path_arg)
                 }
             ));
         }
