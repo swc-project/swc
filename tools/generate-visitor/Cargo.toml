@@ -9,5 +9,5 @@ version    = "0.1.0"
 anyhow  = { workspace = true }
 clap    = { version = "4.5.9", features = ["derive"] }
 quote   = { workspace = true }
-syn     = { workspace = true }
+syn     = { workspace = true, features = ["full"] }
 walkdir = { workspace = true }
