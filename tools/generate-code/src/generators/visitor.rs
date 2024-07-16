@@ -207,7 +207,7 @@ impl Generator {
             trait_methods.push(parse_quote!(
                 #method_doc
                 fn #visit_method_name(&mut self, node: #type_param #ast_path_params) #return_type {
-                    node.#visit_with_children_name(self)
+                    <#type_name as #with_trait_name>::#visit_with_children_name(node, self)
                 }
             ));
         }
