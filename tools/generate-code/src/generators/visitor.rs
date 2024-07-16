@@ -1,4 +1,5 @@
-use syn::{File, Item};
+use proc_macro2::Span;
+use syn::{parse_quote, Attribute, File, Ident, Item, ItemTrait, TraitItem, Visibility};
 
 pub fn generate(node_types: &[&Item]) -> File {
     let mut output = File {
@@ -7,13 +8,15 @@ pub fn generate(node_types: &[&Item]) -> File {
         items: Vec::new(),
     };
 
-    for &item in node_types {
-        match item {
-            Item::Struct(_) | Item::Enum(_) => {
-                output.items.push(item.clone());
-            }
+    for &kind in [TraitKind::Visit, TraitKind::VisitMut, TraitKind::Fold].iter() {
+        for &variant in [Variant::Normal, Variant::AstPath].iter() {
+            output
+                .items
+                .push(declare_visit_trait(kind, variant, node_types));
 
-            _ => {}
+            output
+                .items
+                .extend(declare_visit_with_trait(kind, variant, node_types));
         }
     }
 
@@ -33,4 +36,65 @@ enum Variant {
     AstPath,
 }
 
-fn declare_trait(kind: TraitKind, variant: Variant, node_types: &[&Item]) -> Item {}
+fn visit_trait_name(kind: TraitKind, variant: Variant, with: bool) -> Ident {
+    let name = match kind {
+        TraitKind::Visit => "Visit",
+        TraitKind::VisitMut => "VisitMut",
+        TraitKind::Fold => "Fold",
+    };
+
+    let name = if with {
+        format!("{}With", name)
+    } else {
+        name.to_string()
+    };
+
+    match variant {
+        Variant::Normal => Ident::new(&name, Span::call_site()),
+        Variant::AstPath => Ident::new(&format!("{}Path", name), Span::call_site()),
+    }
+}
+
+fn base_trait_attrs(kind: TraitKind, variant: Variant) -> Vec<Attribute> {
+    let mut attrs = vec![];
+
+    if variant == Variant::AstPath {
+        attrs.push(parse_quote!(#[cfg(any(docsrs, feature = "path"))]));
+        attrs.push(parse_quote!(#[cfg_attr(docsrs, doc(cfg(feature = "path")))]));
+    }
+
+    attrs
+}
+
+fn declare_visit_trait(kind: TraitKind, variant: Variant, node_types: &[&Item]) -> Item {
+    let trait_name = visit_trait_name(kind, variant, false);
+    let attrs = base_trait_attrs(kind, variant);
+    let mut trait_methods: Vec<TraitItem> = vec![];
+
+    parse_quote! {
+        /// A visitor trait for traversing the AST.
+        ///
+        #(#attrs)*
+        pub trait #trait_name {
+            #(#trait_methods)*
+        }
+    }
+}
+
+fn declare_visit_with_trait(kind: TraitKind, variant: Variant, node_types: &[&Item]) -> Vec<Item> {
+    let trait_name = visit_trait_name(kind, variant, true);
+    let attrs = base_trait_attrs(kind, variant);
+    let mut trait_methods: Vec<TraitItem> = vec![];
+
+    let mut items: Vec<Item> = vec![];
+    items.push(parse_quote!(
+        /// A visitor trait for traversing the AST.
+        ///
+        #(#attrs)*
+        pub trait #trait_name {
+            #(#trait_methods)*
+        }
+    ));
+
+    items
+}
