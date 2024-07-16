@@ -2,6 +2,7 @@ use std::path::{Path, PathBuf};
 
 use anyhow::{Context, Result};
 use clap::Parser;
+use types::qualify_types;
 
 mod generators;
 mod types;
@@ -39,6 +40,7 @@ fn main() -> Result<()> {
         .map(|file| {
             parse_rust_file(file).with_context(|| format!("failed to parse file: {:?}", file))
         })
+        .map(qualify_types)
         .collect::<Result<Vec<_>>>()?;
 
     let file = generators::visitor::generate(&inputs);
