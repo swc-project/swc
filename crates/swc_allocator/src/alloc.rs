@@ -44,7 +44,7 @@ impl Allocator {
         let orig = ALLOC.get();
 
         let s = unsafe {
-            // Safery: We are using a scoped API
+            // Safery: Guard holds &self, so it cannot be moved nor dropped.
             transmute::<&Allocator, &'static Allocator>(self)
         };
 
