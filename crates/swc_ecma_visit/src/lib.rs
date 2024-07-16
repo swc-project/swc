@@ -14,6 +14,9 @@ use swc_common::{pass::CompilerPass, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_visit::{define, AndThen, Repeat, Repeated};
 
+pub use crate::generated::*;
+mod generated;
+
 impl<A, B> Fold for AndThen<A, B>
 where
     A: Fold,
