@@ -26,6 +26,7 @@ members = [
   "crates/swc_transform_common",
   "crates/swc_typescript",
   "crates/swc_fast_ts_strip",
+  "tools/generate-visitor",
 ]
 resolver = "2"
 
