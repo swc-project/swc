@@ -231,7 +231,7 @@ mod test_js_number {
         assert_eq!(JsNumber(-0.0).as_uint32(), 0);
         assert_eq!(JsNumber(f64::INFINITY).as_uint32(), 0);
         assert_eq!(JsNumber(f64::NEG_INFINITY).as_uint32(), 0);
-        assert_eq!(JsNumber::from(-8.0).as_uint32(), 4294967288);
+        assert_eq!(JsNumber(-8.0).as_uint32(), 4294967288);
     }
 
     #[test]
