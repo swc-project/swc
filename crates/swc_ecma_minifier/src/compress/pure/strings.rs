@@ -121,13 +121,13 @@ impl Pure<'_> {
             quasis: Default::default(),
             exprs: Default::default(),
         };
-        let mut cur_str_value = String::new();
+        let mut cur_cooked_str = String::new();
 
         for idx in 0..(tpl.quasis.len() + tpl.exprs.len()) {
             if idx % 2 == 0 {
                 let q = tpl.quasis[idx / 2].take();
 
-                cur_str_value.push_str(q.cooked.as_deref().unwrap_or(&*q.raw));
+                cur_cooked_str.push_str(q.cooked.as_deref().unwrap_or(&*q.raw));
             } else {
                 let mut e = tpl.exprs[idx / 2].take();
                 self.eval_nested_tpl(&mut e);
@@ -141,16 +141,17 @@ impl Pure<'_> {
                             if idx % 2 == 0 {
                                 let q = e.quasis[idx / 2].take();
 
-                                cur_str_value.push_str(q.cooked.as_deref().unwrap_or(&*q.raw));
+                                cur_cooked_str.push_str(q.cooked.as_deref().unwrap_or(&*q.raw));
                             } else {
-                                let s = Atom::from(&*cur_str_value);
-                                cur_str_value.clear();
+                                let cooked = Atom::from(&*cur_cooked_str);
+                                let raw = Atom::from(convert_str_value_to_tpl_raw(&cooked));
+                                cur_cooked_str.clear();
 
                                 new_tpl.quasis.push(TplElement {
                                     span: DUMMY_SP,
                                     tail: false,
-                                    cooked: Some(s.clone()),
-                                    raw: s,
+                                    cooked: Some(cooked),
+                                    raw,
                                 });
 
                                 let e = e.exprs[idx / 2].take();
@@ -160,14 +161,15 @@ impl Pure<'_> {
                         }
                     }
                     _ => {
-                        let s = Atom::from(&*cur_str_value);
-                        cur_str_value.clear();
+                        let cooked = Atom::from(&*cur_cooked_str);
+                        let raw = Atom::from(convert_str_value_to_tpl_raw(&cooked));
+                        cur_cooked_str.clear();
 
                         new_tpl.quasis.push(TplElement {
                             span: DUMMY_SP,
                             tail: false,
-                            cooked: Some(s.clone()),
-                            raw: s,
+                            cooked: Some(cooked),
+                            raw,
                         });
 
                         new_tpl.exprs.push(e);
@@ -176,12 +178,13 @@ impl Pure<'_> {
             }
         }
 
-        let s = Atom::from(&*cur_str_value);
+        let cooked = Atom::from(&*cur_cooked_str);
+        let raw = Atom::from(convert_str_value_to_tpl_raw(&cooked));
         new_tpl.quasis.push(TplElement {
             span: DUMMY_SP,
             tail: false,
-            cooked: Some(s.clone()),
-            raw: s,
+            cooked: Some(cooked),
+            raw,
         });
 
         *e = new_tpl.into();
