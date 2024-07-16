@@ -4,6 +4,7 @@ use anyhow::{Context, Result};
 use clap::Parser;
 
 mod generators;
+mod types;
 
 #[derive(Debug, Parser)]
 struct CliArgs {
@@ -45,6 +46,8 @@ fn main() -> Result<()> {
     let output_content = quote::quote!(#file).to_string();
 
     std::fs::write(&output, output_content).context("failed to write the output file")?;
+
+    eprintln!("Generated visitor code in file: {:?}", output);
 
     Ok(())
 }
