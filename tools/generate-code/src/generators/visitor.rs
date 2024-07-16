@@ -74,10 +74,11 @@ enum Variant {
 }
 
 impl Variant {
-    pub fn method_suffix(self) -> &'static str {
-        match self {
-            Variant::Normal => "",
-            Variant::AstPath => "_ast_path",
+    pub fn method_suffix(self, is_visitor_method: bool) -> &'static str {
+        if self == Variant::Normal || is_visitor_method {
+            ""
+        } else {
+            "_ast_path"
         }
     }
 }
@@ -185,7 +186,7 @@ impl Generator {
                     "{}_{}{}",
                     self.kind.method_prefix(),
                     type_name.to_string().to_snake_case(),
-                    self.variant.method_suffix()
+                    self.variant.method_suffix(true)
                 ),
                 Span::call_site(),
             );
@@ -193,7 +194,7 @@ impl Generator {
                 &format!(
                     "{}_children_with{}",
                     self.kind.method_prefix(),
-                    self.variant.method_suffix()
+                    self.variant.method_suffix(false)
                 ),
                 Span::call_site(),
             );
@@ -237,7 +238,7 @@ impl Generator {
                 &format!(
                     "{}_with{}",
                     self.kind.method_prefix(),
-                    self.variant.method_suffix()
+                    self.variant.method_suffix(false)
                 ),
                 Span::call_site(),
             );
@@ -245,7 +246,7 @@ impl Generator {
                 &format!(
                     "{}_children_with{}",
                     self.kind.method_prefix(),
-                    self.variant.method_suffix()
+                    self.variant.method_suffix(false)
                 ),
                 Span::call_site(),
             );
@@ -296,7 +297,7 @@ impl Generator {
                 &format!(
                     "{}_with{}",
                     self.kind.method_prefix(),
-                    self.variant.method_suffix()
+                    self.variant.method_suffix(false)
                 ),
                 Span::call_site(),
             );
@@ -304,7 +305,7 @@ impl Generator {
                 &format!(
                     "{}_children_with{}",
                     self.kind.method_prefix(),
-                    self.variant.method_suffix()
+                    self.variant.method_suffix(false)
                 ),
                 Span::call_site(),
             );
@@ -314,7 +315,7 @@ impl Generator {
                     "{}_{}{}",
                     self.kind.method_prefix(),
                     type_name.to_string().to_snake_case(),
-                    self.variant.method_suffix()
+                    self.variant.method_suffix(true)
                 ),
                 Span::call_site(),
             );
@@ -375,7 +376,7 @@ impl Generator {
             &format!(
                 "{}_children_with{}",
                 self.kind.method_prefix(),
-                self.variant.method_suffix()
+                self.variant.method_suffix(false)
             ),
             Span::call_site(),
         );

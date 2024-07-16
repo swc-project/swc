@@ -1,6 +1,5 @@
 use std::collections::HashMap;
 
-use proc_macro2::Span;
 use syn::{
     parse_quote,
     visit_mut::{visit_file_mut, VisitMut},
