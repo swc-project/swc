@@ -1496,7 +1496,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "generate-visitor"
+name = "generate-code"
 version = "0.1.0"
 dependencies = [
  "anyhow",
