@@ -117,31 +117,39 @@ fn declare_visit_with_trait(kind: TraitKind, variant: Variant, node_types: &[&It
     let mut visit_with_trait_methods: Vec<TraitItem> = vec![];
 
     {
-        let visit_with_name = format!(
-            "{}_with{}",
-            kind.method_prefix(),
-            if variant == Variant::AstPath {
-                "_ast_path"
-            } else {
-                ""
-            }
+        let visit_with_name = Ident::new(
+            &format!(
+                "{}_with{}",
+                kind.method_prefix(),
+                if variant == Variant::AstPath {
+                    "_ast_path"
+                } else {
+                    ""
+                }
+            ),
+            Span::call_site(),
         );
-        let visit_with_children_name = format!(
-            "{}_children_with{}",
-            kind.method_prefix(),
-            if variant == Variant::AstPath {
-                "_ast_path"
-            } else {
-                ""
-            }
+        let visit_with_children_name = Ident::new(
+            &format!(
+                "{}_children_with{}",
+                kind.method_prefix(),
+                if variant == Variant::AstPath {
+                    "_ast_path"
+                } else {
+                    ""
+                }
+            ),
+            Span::call_site(),
         );
 
         visit_with_trait_methods.push(parse_quote!(
             /// Calls a visitor method (visitor.fold_xxx) with self.
             fn #visit_with_name(&mut self, visitor: &mut V);
+        ));
 
+        visit_with_trait_methods.push(parse_quote!(
             /// Visit children nodes of `self`` with `visitor`.
-            fn #visit_with_name(&mut self, visitor: &mut V);
+            fn #visit_with_children_name(&mut self, visitor: &mut V);
         ));
     }
 
