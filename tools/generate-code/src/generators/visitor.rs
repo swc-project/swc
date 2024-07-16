@@ -3,7 +3,7 @@ use proc_macro2::{Span, TokenStream};
 use quote::quote;
 use syn::{
     parse_quote, punctuated::Punctuated, Arm, Attribute, Expr, ExprMatch, Fields, File, Ident,
-    Item, ItemTrait, Path, Stmt, Token, TraitItem, Visibility,
+    Item, ItemTrait, Lit, LitInt, Path, Stmt, Token, TraitItem, Visibility,
 };
 
 pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
@@ -432,7 +432,8 @@ impl Generator {
 
                 for (idx, field) in u.unnamed.iter().enumerate() {
                     let field_name = Ident::new(&format!("_{}", idx), Span::call_site());
-                    bindings.push(parse_quote!(#idx: #field_name));
+                    let binding_idx = Lit::Int(LitInt::new(&idx.to_string(), Span::call_site()));
+                    bindings.push(parse_quote!(#binding_idx: #field_name));
 
                     if let Some(reconstructor) = &mut reconstruct {
                         stmts.push(parse_quote!(
@@ -459,7 +460,7 @@ impl Generator {
                         parse_quote!(#path { #(#bindings),* } => {
                             #(#stmts)*
 
-                            #path(#(#reconstruct),*)
+                            #path{#(#reconstruct),*}
                         })
                     }
                 }
