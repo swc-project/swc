@@ -1,6 +1,6 @@
 [package]
 edition    = "2021"
-name       = "generate-visitor"
+name       = "generate-code"
 publish    = false
 repository = { workspace = true }
 version    = "0.1.0"
