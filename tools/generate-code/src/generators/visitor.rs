@@ -173,6 +173,7 @@ impl Generator {
 
             let ast_path_params = self.param_extra_token();
             let return_type = self.return_type_token(quote!(#type_name));
+            let type_param = self.parameter_type_token(quote!(#type_name));
 
             let visit_method_name = Ident::new(
                 &format!(
@@ -186,7 +187,7 @@ impl Generator {
 
             trait_methods.push(parse_quote!(
                 /// Visit a node of type.
-                fn #visit_method_name(&mut self, node: #type_name #ast_path_params) #return_type;
+                fn #visit_method_name(&mut self, node: #type_param #ast_path_params) #return_type;
             ));
         }
 
@@ -267,6 +268,7 @@ impl Generator {
             let ast_path_param = self.param_extra_token();
             let return_type = self.return_type_token(quote!(Self));
 
+            let receiver = self.parameter_type_token(quote!(self));
             let visit_with_name = Ident::new(
                 &format!(
                     "{}_with{}",
@@ -297,11 +299,11 @@ impl Generator {
             items.push(parse_quote!(
             #(#attrs)*
             impl<V: ?Sized + #visitor_trait_name> #trait_name<V> for #type_name {
-                fn #visit_with_name(&mut self, visitor: &mut V #ast_path_param) #return_type {
+                fn #visit_with_name(#receiver, visitor: &mut V #ast_path_param) #return_type {
                     visitor.#visit_method_name(self #ast_path_arg)
                 }
 
-                fn #visit_with_children_name(&mut self, visitor: &mut V #ast_path_param) #return_type {
+                fn #visit_with_children_name(#receiver, visitor: &mut V #ast_path_param) #return_type {
 
                 }
             }
