@@ -91,7 +91,10 @@ struct Generator {
 impl Generator {
     fn parameter_type_token(&self, ty: TokenStream) -> TokenStream {
         match self.kind {
-            TraitKind::Visit => quote!(&#ty),
+            TraitKind::Visit => match self.variant {
+                Variant::Normal => quote!(&#ty),
+                Variant::AstPath => quote!(&'ast #ty),
+            },
             TraitKind::VisitMut => quote!(&mut #ty),
             TraitKind::Fold => ty,
         }
