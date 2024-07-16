@@ -2,6 +2,7 @@ use std::path::{Path, PathBuf};
 
 use anyhow::{Context, Result};
 use clap::Parser;
+use syn::Item;
 use types::qualify_types;
 
 mod generators;
@@ -43,7 +44,9 @@ fn main() -> Result<()> {
         .map(|res| res.map(qualify_types))
         .collect::<Result<Vec<_>>>()?;
 
-    let file = generators::visitor::generate(&inputs);
+    let all_type_defs = inputs.iter().flat_map(get_type_defs).collect::<Vec<_>>();
+
+    let file = generators::visitor::generate(&all_type_defs);
 
     let output_content = quote::quote!(#file).to_string();
 
@@ -54,6 +57,20 @@ fn main() -> Result<()> {
     run_cargo_fmt(&output)?;
 
     Ok(())
+}
+
+fn get_type_defs(file: &syn::File) -> Vec<&Item> {
+    let mut type_defs = Vec::new();
+    for item in &file.items {
+        match item {
+            Item::Struct(_) | Item::Enum(_) => {
+                type_defs.push(item);
+            }
+
+            _ => {}
+        }
+    }
+    type_defs
 }
 
 fn parse_rust_file(file: &Path) -> Result<syn::File> {
