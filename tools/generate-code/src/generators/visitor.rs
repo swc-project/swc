@@ -1,7 +1,10 @@
 use inflector::Inflector;
 use proc_macro2::{Span, TokenStream};
 use quote::quote;
-use syn::{parse_quote, Attribute, File, Ident, Item, ItemTrait, TraitItem, Visibility};
+use syn::{
+    parse_quote, Arm, Attribute, Expr, ExprMatch, Fields, File, Ident, Item, ItemTrait, Path,
+    TraitItem, Visibility,
+};
 
 pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
     let mut output = File {
@@ -318,6 +321,30 @@ impl Generator {
                 visit_method_name
             ));
 
+            let default_body: Expr = match node_type {
+                Item::Enum(data) => {
+                    let name = &data.ident;
+                    let mut match_arms = vec![];
+
+                    for v in &data.variants {
+                        let variant_name = &v.ident;
+
+                        match_arms
+                            .push(self.default_visit_body(quote!(#name::#variant_name), &v.fields));
+                    }
+
+                    parse_quote!(match self { #(#match_arms)* })
+                }
+                Item::Struct(data) => {
+                    let name = &data.ident;
+
+                    let arm = self.default_visit_body(quote!(#name), &data.fields);
+
+                    parse_quote!(match self { #arm })
+                }
+                _ => continue,
+            };
+
             items.push(parse_quote!(
                 #(#attrs)*
                 impl<V: ?Sized + #visitor_trait_name> #trait_name<V> for #type_name {
@@ -327,7 +354,7 @@ impl Generator {
                     }
 
                     fn #visit_with_children_name(#receiver, visitor: &mut V #ast_path_param) #return_type {
-
+                        #default_body
                     }
                 }
             )
@@ -336,6 +363,8 @@ impl Generator {
 
         items
     }
+
+    fn default_visit_body(&self, path: TokenStream, fields: &Fields) -> Arm {}
 }
 
 fn doc(s: &str) -> Attribute {
