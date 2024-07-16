@@ -59,6 +59,15 @@ enum Variant {
     AstPath,
 }
 
+impl Variant {
+    pub fn method_suffix(self) -> &'static str {
+        match self {
+            Variant::Normal => "",
+            Variant::AstPath => "_ast_path",
+        }
+    }
+}
+
 fn parameter_type_token(kind: TraitKind, ty: TokenStream) -> TokenStream {
     match kind {
         TraitKind::Visit => quote!(&#ty),
@@ -150,26 +159,14 @@ fn declare_visit_with_trait(kind: TraitKind, variant: Variant, node_types: &[&It
         let return_type = return_type_token(kind, quote!(Self));
 
         let visit_with_name = Ident::new(
-            &format!(
-                "{}_with{}",
-                kind.method_prefix(),
-                if variant == Variant::AstPath {
-                    "_ast_path"
-                } else {
-                    ""
-                }
-            ),
+            &format!("{}_with{}", kind.method_prefix(), variant.method_suffix()),
             Span::call_site(),
         );
         let visit_with_children_name = Ident::new(
             &format!(
                 "{}_children_with{}",
                 kind.method_prefix(),
-                if variant == Variant::AstPath {
-                    "_ast_path"
-                } else {
-                    ""
-                }
+                variant.method_suffix()
             ),
             Span::call_site(),
         );
@@ -215,10 +212,28 @@ fn implement_visit_with_for_types(
             _ => continue,
         };
 
+        let ast_path_extra = param_extra_token(kind, variant);
+        let return_type = return_type_token(kind, quote!(Self));
+
+        let visit_with_name = Ident::new(
+            &format!("{}_with{}", kind.method_prefix(), variant.method_suffix()),
+            Span::call_site(),
+        );
+        let visit_with_children_name = Ident::new(
+            &format!(
+                "{}_children_with{}",
+                kind.method_prefix(),
+                variant.method_suffix()
+            ),
+            Span::call_site(),
+        );
+
         items.push(parse_quote!(
             #(#attrs)*
             impl #trait_name<V: ?Sized + #visitor_trait_name> for #type_name {
+                fn #visit_with_name(&mut self, visitor: &mut V #ast_path_extra) #return_type;
 
+                fn #visit_with_children_name(&mut self, visitor: &mut V #ast_path_extra) #return_type;
             }
         ));
     }
