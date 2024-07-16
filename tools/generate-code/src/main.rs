@@ -26,7 +26,10 @@ fn main() -> Result<()> {
         output,
     } = CliArgs::parse();
 
-    let crate_name = input_dir.file_name().unwrap().to_str().unwrap();
+    let crate_name = Ident::new(
+        input_dir.file_name().unwrap().to_str().unwrap(),
+        Span::call_site(),
+    );
 
     input_dir = input_dir
         .canonicalize()
@@ -49,8 +52,7 @@ fn main() -> Result<()> {
 
     let all_type_defs = inputs.iter().flat_map(get_type_defs).collect::<Vec<_>>();
 
-    let file =
-        generators::visitor::generate(&Ident::new(crate_name, Span::call_site()), &all_type_defs);
+    let file = generators::visitor::generate(&crate_name, &all_type_defs);
 
     let output_content = quote::quote!(#file).to_string();
 
