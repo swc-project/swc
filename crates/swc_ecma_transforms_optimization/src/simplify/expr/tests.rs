@@ -747,9 +747,9 @@ fn test_fold_bit_shifts() {
 
     fold("x = 0xffffffff << 0", "x = -1");
     fold("x = 0xffffffff << 4", "x = -16");
-    fold_same("1 << 32");
-    fold_same("1 << -1");
-    fold_same("1 >> 32");
+    fold("1 << 32", "1");
+    fold("1 << -1", "-2147483648");
+    fold("1 >> 32", "1");
 }
 
 #[test]
