@@ -45,7 +45,7 @@ swc_ecma_parser     = { version = "0.147.0", path = "../swc_ecma_parser", option
 swc_ecma_preset_env = { version = "0.212.0", path = "../swc_ecma_preset_env", optional = true }
 swc_ecma_quote      = { version = "0.63.0", path = "../swc_ecma_quote", optional = true }
 swc_ecma_transforms = { version = "0.234.0", path = "../swc_ecma_transforms", optional = true }
-swc_ecma_utils      = { version = "0.131.0", path = "../swc_ecma_utils", optional = true }
+swc_ecma_utils      = { version = "0.132.0", path = "../swc_ecma_utils", optional = true }
 swc_ecma_visit      = { version = "0.102.0", path = "../swc_ecma_visit", optional = true }
 
 [dev-dependencies]

@@ -31,7 +31,7 @@ swc_common = { version = "0.35.0", path = "../swc_common", features = [
 ] }
 swc_ecma_ast = { version = "0.116.0", path = "../swc_ecma_ast" }
 swc_ecma_parser = { version = "0.147.0", path = "../swc_ecma_parser" }
-swc_ecma_utils = { version = "0.131.0", path = "../swc_ecma_utils" }
+swc_ecma_utils = { version = "0.132.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "0.102.0", path = "../swc_ecma_visit" }
 swc_estree_ast = { version = "0.25.0", path = "../swc_estree_ast" }
 swc_node_comments = { version = "0.22.0", path = "../swc_node_comments/" }

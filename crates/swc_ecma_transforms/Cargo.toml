@@ -41,7 +41,7 @@ swc_ecma_transforms_optimization = { version = "0.203.0", path = "../swc_ecma_tr
 swc_ecma_transforms_proposal     = { version = "0.176.0", path = "../swc_ecma_transforms_proposal", optional = true }
 swc_ecma_transforms_react        = { version = "0.188.0", path = "../swc_ecma_transforms_react", optional = true }
 swc_ecma_transforms_typescript   = { version = "0.193.0", path = "../swc_ecma_transforms_typescript", optional = true }
-swc_ecma_utils                   = { version = "0.131.0", path = "../swc_ecma_utils" }
+swc_ecma_utils                   = { version = "0.132.0", path = "../swc_ecma_utils" }
 swc_ecma_visit                   = { version = "0.102.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]

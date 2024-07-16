@@ -4,7 +4,7 @@ use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 #[cfg(feature = "debug")]
 use swc_ecma_transforms_base::fixer::fixer;
-use swc_ecma_utils::{ExprCtx, ExprExt, IdentUsageFinder, Value};
+use swc_ecma_utils::{number::JsNumber, ExprCtx, ExprExt, IdentUsageFinder, Value};
 #[cfg(feature = "debug")]
 use swc_ecma_visit::{as_folder, FoldWith};
 use swc_ecma_visit::{
@@ -512,16 +512,11 @@ pub(crate) fn eval_as_number(expr_ctx: &ExprCtx, e: &Expr) -> Option<f64> {
                             if args.len() != 2 {
                                 return None;
                             }
-                            let base = eval_as_number(expr_ctx, &args[0].expr)?;
-                            let exponent = eval_as_number(expr_ctx, &args[1].expr)?;
+                            let base: JsNumber = eval_as_number(expr_ctx, &args[0].expr)?.into();
+                            let exponent: JsNumber =
+                                eval_as_number(expr_ctx, &args[1].expr)?.into();
 
-                            // https://tc39.es/ecma262/multipage/ecmascript-data-types-and-values.html#sec-numeric-types-number-exponentiate
-                            // https://github.com/rust-lang/rust/issues/60468
-                            if exponent.is_nan() {
-                                return Some(f64::NAN);
-                            }
-
-                            return Some(base.powf(exponent));
+                            return Some(base.pow(exponent).into());
                         }
 
                         _ => {}

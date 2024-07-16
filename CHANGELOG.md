@@ -41,6 +41,9 @@
 - **(es/minifier)** Remove optimization for array pattern ([#9241](https://github.com/swc-project/swc/issues/9241)) ([521161e](https://github.com/swc-project/swc/commit/521161e17009e2025ed9b042579f8cd055e26816))
 
 
+- **(es/minifier)** Fix exponentiate operator ([#9251](https://github.com/swc-project/swc/issues/9251)) ([06bb533](https://github.com/swc-project/swc/commit/06bb5338cea8aef941907933319fbff1d29f9939))
+
+
 - **(es/modules)** Fix lint issue ([#9206](https://github.com/swc-project/swc/issues/9206)) ([efb8636](https://github.com/swc-project/swc/commit/efb86368343e7d9909fec21cae8824edac5008e2))
 
 
@@ -1330,12 +1333,6 @@
 
 
 - **(common)** Fix source map generation with `inputSourceMap` ([#8546](https://github.com/swc-project/swc/issues/8546)) ([043ee85](https://github.com/swc-project/swc/commit/043ee85d0852c7c7d6193ad699074a599326aeec))
-
-
-- **(es/ast)** Add `definite` and `is_override` to `AutoAccessor` ([#8436](https://github.com/swc-project/swc/issues/8436)) ([572bcae](https://github.com/swc-project/swc/commit/572bcaefc1b6ba9f92c57a35ede61fec9f3221bd))
-
-
-- **(es/ast)** Fix definition of `SetterProp` ([#8314](https://github.com/swc-project/swc/issues/8314)) ([bc38ac9](https://github.com/swc-project/swc/commit/bc38ac906c427ba060f3da47c64726fe417162ed))
 
 
 - **(es/codegen)** Set `sourceRoot` of sourcemaps ([#6086](https://github.com/swc-project/swc/issues/6086)) ([ae78669](https://github.com/swc-project/swc/commit/ae786692a0d20254bc233472a23035ba1be25e46))
