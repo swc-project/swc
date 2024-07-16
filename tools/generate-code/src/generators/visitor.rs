@@ -1,3 +1,4 @@
+use inflector::Inflector;
 use proc_macro2::{Span, TokenStream};
 use quote::quote;
 use syn::{parse_quote, Attribute, File, Ident, Item, ItemTrait, TraitItem, Visibility};
@@ -155,6 +156,32 @@ impl Generator {
         let trait_name = self.trait_name(false);
         let attrs = self.base_trait_attrs();
         let mut trait_methods: Vec<TraitItem> = vec![];
+
+        for ty in node_types {
+            let type_name = match ty {
+                Item::Enum(data) => data.ident.clone(),
+                Item::Struct(data) => data.ident.clone(),
+                _ => continue,
+            };
+
+            let ast_path_params = self.param_extra_token();
+            let return_type = self.return_type_token(quote!(#type_name));
+
+            let visit_method_name = Ident::new(
+                &format!(
+                    "{}_{}{}",
+                    self.kind.method_prefix(),
+                    type_name.to_string().to_snake_case(),
+                    self.variant.method_suffix()
+                ),
+                Span::call_site(),
+            );
+
+            trait_methods.push(parse_quote!(
+                /// Visit a node of type `#type_name`.
+                fn #visit_method_name(&mut self, node: #type_name #ast_path_params) #return_type;
+            ));
+        }
 
         parse_quote! {
             /// A visitor trait for traversing the AST.
