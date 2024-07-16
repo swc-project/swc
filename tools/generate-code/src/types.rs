@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 use syn::{
     visit_mut::{visit_file_mut, VisitMut},
-    File, Ident, ItemUse, Path, TypePath, UseTree,
+    File, Ident, ItemUse, Path, PathSegment, TypePath, UseTree,
 };
 
 pub fn qualify_types(mut file: File) -> File {
@@ -14,7 +14,7 @@ pub fn qualify_types(mut file: File) -> File {
         // e.g. use swc_allocator::boxed::Box;
         // becomes `Box: "swc_allocator::boxed::Box"` in the map.
 
-        for_each_use_item(&item.tree, |local_name, path| {
+        for_each_use_item(&[], &item.tree, &mut |local_name, path| {
             map.insert(local_name, path);
         });
     }
@@ -24,13 +24,42 @@ pub fn qualify_types(mut file: File) -> File {
     file
 }
 
-fn for_each_use_item(tree: &UseTree, op: impl FnMut(Ident, Path)) {
+fn for_each_use_item(path: &[Ident], tree: &UseTree, op: &mut impl FnMut(Ident, Path)) {
     match tree {
-        UseTree::Path(_) => todo!(),
-        UseTree::Name(_) => todo!(),
-        UseTree::Rename(_) => todo!(),
-        UseTree::Glob(_) => todo!(),
-        UseTree::Group(_) => todo!(),
+        UseTree::Path(p) => {
+            let mut path = path.to_vec();
+            path.push(p.ident.clone());
+
+            for_each_use_item(&path, &*p.tree, op);
+        }
+        UseTree::Name(name) => {
+            let mut path = path.to_vec();
+            path.push(name.ident.clone());
+            op(
+                name.ident.clone(),
+                Path {
+                    leading_colon: None,
+                    segments: path.into_iter().map(PathSegment::from).collect(),
+                },
+            );
+        }
+        UseTree::Rename(name) => {
+            let mut path = path.to_vec();
+            path.push(name.ident.clone());
+            op(
+                name.ident.clone(),
+                Path {
+                    leading_colon: None,
+                    segments: path.into_iter().map(PathSegment::from).collect(),
+                },
+            );
+        }
+        UseTree::Glob(_) => {}
+        UseTree::Group(g) => {
+            for item in &g.items {
+                for_each_use_item(path, item, op);
+            }
+        }
     }
 }
 
