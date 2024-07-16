@@ -314,7 +314,7 @@ impl Generator {
             );
 
             let visit_with_doc = doc(&format!(
-                "Calls `visitor.{}` with `self`.",
+                "Calls [{visitor_trait_name}`::{}`] with `self`.",
                 visit_method_name
             ));
 
