@@ -1,4 +1,5 @@
-use proc_macro2::Span;
+use proc_macro2::{Span, TokenStream};
+use quote::quote;
 use syn::{parse_quote, Attribute, File, Ident, Item, ItemTrait, TraitItem, Visibility};
 
 pub fn generate(node_types: &[&Item]) -> File {
@@ -52,6 +53,13 @@ impl TraitKind {
 enum Variant {
     Normal,
     AstPath,
+}
+
+fn param_extra_token(kind: TraitKind, variant: Variant) -> TokenStream {
+    match variant {
+        Variant::Normal => quote!(),
+        Variant::AstPath => quote!(, ast_path: &mut AstPath),
+    }
 }
 
 fn trait_name(kind: TraitKind, variant: Variant, with: bool) -> Ident {
@@ -117,6 +125,8 @@ fn declare_visit_with_trait(kind: TraitKind, variant: Variant, node_types: &[&It
     let mut visit_with_trait_methods: Vec<TraitItem> = vec![];
 
     {
+        let ast_path_extra = param_extra_token(kind, variant);
+
         let visit_with_name = Ident::new(
             &format!(
                 "{}_with{}",
@@ -144,12 +154,12 @@ fn declare_visit_with_trait(kind: TraitKind, variant: Variant, node_types: &[&It
 
         visit_with_trait_methods.push(parse_quote!(
             /// Calls a visitor method (visitor.fold_xxx) with self.
-            fn #visit_with_name(&mut self, visitor: &mut V);
+            fn #visit_with_name(&mut self, visitor: &mut V #ast_path_extra);
         ));
 
         visit_with_trait_methods.push(parse_quote!(
             /// Visit children nodes of `self`` with `visitor`.
-            fn #visit_with_children_name(&mut self, visitor: &mut V);
+            fn #visit_with_children_name(&mut self, visitor: &mut V #ast_path_extra);
         ));
     }
 
