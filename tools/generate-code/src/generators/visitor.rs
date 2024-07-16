@@ -239,7 +239,7 @@ impl Generator {
             trait_methods.push(parse_quote!(
                 #method_doc
                 fn #visit_method_name #lifetime (&mut self, node: #type_param #ast_path_params) #return_type {
-                    <#type_name as #with_trait_name>::#visit_with_children_name(node, self #ast_path_arg)
+                    <#type_name as #with_trait_name<Self>>::#visit_with_children_name(node, self #ast_path_arg)
                 }
             ));
         }
