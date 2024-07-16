@@ -1,6 +1,8 @@
 use std::collections::HashMap;
 
+use proc_macro2::Span;
 use syn::{
+    parse_quote,
     visit_mut::{visit_file_mut, VisitMut},
     File, Ident, ItemUse, Path, PathSegment, TypePath, UseTree,
 };
@@ -19,6 +21,12 @@ pub fn qualify_types(mut file: File) -> File {
         });
     }
 
+    map.entry(Ident::new("Box", Span::call_site()))
+        .or_insert_with(|| parse_quote!(::std::boxed::Box));
+
+    map.entry(Ident::new("Vec", Span::call_site()))
+        .or_insert_with(|| parse_quote!(::std::vec::Vec));
+
     visit_file_mut(&mut Folder { map }, &mut file);
 
     file
@@ -30,7 +38,7 @@ fn for_each_use_item(path: &[Ident], tree: &UseTree, op: &mut impl FnMut(Ident, 
             let mut path = path.to_vec();
             path.push(p.ident.clone());
 
-            for_each_use_item(&path, &*p.tree, op);
+            for_each_use_item(&path, &p.tree, op);
         }
         UseTree::Name(name) => {
             let mut path = path.to_vec();
