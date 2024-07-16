@@ -4,7 +4,8 @@ use anyhow::{Context, Result};
 use clap::Parser;
 use proc_macro2::Span;
 use syn::{Ident, Item};
-use types::qualify_types;
+
+use crate::types::qualify_types;
 
 mod generators;
 mod types;

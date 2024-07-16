@@ -35,6 +35,10 @@ pub fn qualify_types(mut file: File) -> File {
 fn for_each_use_item(path: &[Ident], tree: &UseTree, op: &mut impl FnMut(Ident, Path)) {
     match tree {
         UseTree::Path(p) => {
+            if p.ident == "self" || p.ident == "super" || p.ident == "crate" {
+                return;
+            }
+
             let mut path = path.to_vec();
             path.push(p.ident.clone());
 
