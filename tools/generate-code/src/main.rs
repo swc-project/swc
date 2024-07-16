@@ -50,7 +50,12 @@ fn main() -> Result<()> {
         .map(|res| res.map(qualify_types))
         .collect::<Result<Vec<_>>>()?;
 
-    let all_type_defs = inputs.iter().flat_map(get_type_defs).collect::<Vec<_>>();
+    let mut all_type_defs = inputs.iter().flat_map(get_type_defs).collect::<Vec<_>>();
+    all_type_defs.sort_by_key(|item| match item {
+        Item::Enum(data) => Some(data.ident.clone()),
+        Item::Struct(data) => Some(data.ident.clone()),
+        _ => None,
+    });
 
     let file = generators::visitor::generate(&crate_name, &all_type_defs);
 
