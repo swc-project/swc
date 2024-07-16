@@ -660,6 +660,27 @@ fn test_fold_bitwise_op2() {
 }
 
 #[test]
+fn test_issue_9256() {
+    // Returns -2 prior to fix (Number.MAX_VALUE)
+    fold("1.7976931348623157e+308 << 1", "0");
+
+    // Isn't changed prior to fix
+    fold("1.7976931348623157e+308 << 1.7976931348623157e+308", "0");
+    fold("1.7976931348623157e+308 >> 1.7976931348623157e+308", "0");
+
+    // Panics prior to fix (Number.MIN_VALUE)
+    fold("5e-324 >> 5e-324", "0");
+    fold("5e-324 << 5e-324", "0");
+    fold("5e-324 << 0", "0");
+    fold("0 << 5e-324", "0");
+
+    // Wasn't broken prior, used to ensure overflows are handled correctly
+    fold("1 << 31", "-2147483648");
+    fold("-8 >> 2", "-2");
+    fold("-8 >>> 2", "1073741822");
+}
+
+#[test]
 #[ignore]
 fn test_folding_mix_types_early() {
     fold_same("x = x + '2'");
@@ -726,9 +747,9 @@ fn test_fold_bit_shifts() {
 
     fold("x = 0xffffffff << 0", "x = -1");
     fold("x = 0xffffffff << 4", "x = -16");
-    fold_same("1 << 32");
-    fold_same("1 << -1");
-    fold_same("1 >> 32");
+    fold("1 << 32", "1");
+    fold("1 << -1", "-2147483648");
+    fold("1 >> 32", "1");
 }
 
 #[test]
