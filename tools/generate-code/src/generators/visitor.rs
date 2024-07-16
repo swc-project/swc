@@ -2,8 +2,8 @@ use inflector::Inflector;
 use proc_macro2::{Span, TokenStream};
 use quote::quote;
 use syn::{
-    parse_quote, Arm, Attribute, Expr, Field, Fields, File, Ident, Item, Lit, LitInt, Stmt,
-    TraitItem,
+    parse_quote, Arm, Attribute, Expr, Field, Fields, File, GenericArgument, Ident, Item, Lit,
+    LitInt, PathArguments, Stmt, TraitItem, Type,
 };
 
 pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
@@ -502,10 +502,17 @@ fn doc(s: &str) -> Attribute {
 }
 
 fn field_variant(type_name: &Ident, field: &Field) -> Option<TokenStream> {
-    if let Some(name) = &field.ident {
-        let field_name = field.ident.as_ref().unwrap();
+    if let Some(field_name) = &field.ident {
         let variant_name = Ident::new(&field_name.to_string().to_pascal_case(), Span::call_site());
         let variant_doc = doc(&format!("Represents [`{type_name}::{field_name}`]"));
+
+        if let Some(ty) = extract_vec(&field.ty) {
+            return Some(quote!(
+                #variant_doc
+                #variant_name
+            ));
+        }
+
         return Some(quote!(
             #variant_doc
             #variant_name
@@ -515,6 +522,35 @@ fn field_variant(type_name: &Ident, field: &Field) -> Option<TokenStream> {
     None
 }
 
+fn extract_vec(ty: &Type) -> Option<&Type> {
+    extract_generic("Vec", ty)
+}
+
+fn extract_generic<'a>(name: &str, ty: &'a Type) -> Option<&'a Type> {
+    if let Type::Path(p) = ty {
+        let last = p.path.segments.last().unwrap();
+
+        if !last.arguments.is_empty() && last.ident == name {
+            match &last.arguments {
+                PathArguments::AngleBracketed(tps) => {
+                    let arg = tps.args.first().unwrap();
+
+                    match arg {
+                        GenericArgument::Type(arg) => return Some(arg),
+                        _ => unimplemented!("generic parameter other than type"),
+                    }
+                }
+                _ => unimplemented!("Box() -> T or Box without a type parameter"),
+            }
+        }
+    }
+
+    if let Type::Reference(r) = ty {
+        return extract_generic(name, &r.elem);
+    }
+
+    None
+}
 fn define_fields(node_types: &[&Item]) -> Vec<Item> {
     let mut items = Vec::<Item>::new();
 
