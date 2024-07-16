@@ -57,11 +57,7 @@ impl Default for FastAlloc {
     fn default() -> Self {
         Self {
             #[cfg(feature = "scoped")]
-            alloc: if let Some(v) = ALLOC.get() {
-                Some(v)
-            } else {
-                None
-            },
+            alloc: ALLOC.get(),
         }
     }
 }
