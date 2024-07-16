@@ -29,7 +29,7 @@ pub struct AllocGuard<'a> {
 
 impl Drop for AllocGuard<'_> {
     fn drop(&mut self) {
-        ALLOC.set(self.orig.take());
+        ALLOC.set(self.orig);
     }
 }
 
