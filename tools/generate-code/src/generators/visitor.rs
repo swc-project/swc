@@ -209,6 +209,7 @@ impl Generator {
         {
             let ast_path_extra = self.param_extra_token();
             let return_type = self.return_type_token(quote!(Self));
+            let receiver = self.parameter_type_token(quote!(self));
 
             let visit_with_name = Ident::new(
                 &format!(
@@ -229,12 +230,12 @@ impl Generator {
 
             visit_with_trait_methods.push(parse_quote!(
                 /// Calls a visitor method (visitor.fold_xxx) with self.
-                fn #visit_with_name(&mut self, visitor: &mut V #ast_path_extra) #return_type;
+                fn #visit_with_name(#receiver, visitor: &mut V #ast_path_extra) #return_type;
             ));
 
             visit_with_trait_methods.push(parse_quote!(
             /// Visit children nodes of `self`` with `visitor`.
-            fn #visit_with_children_name(&mut self, visitor: &mut V #ast_path_extra) #return_type;
+            fn #visit_with_children_name(#receiver, visitor: &mut V #ast_path_extra) #return_type;
         ));
         }
 
