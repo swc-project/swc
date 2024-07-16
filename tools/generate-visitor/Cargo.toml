@@ -1,7 +1,8 @@
 [package]
-edition              = "2021"
-name                 = "generate-visitor"
-repository.workspace = true
-version              = "0.1.0"
+edition    = "2021"
+name       = "generate-visitor"
+publish    = false
+repository = { workspace = true }
+version    = "0.1.0"
 
 [dependencies]
