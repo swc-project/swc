@@ -116,7 +116,12 @@ impl Generator {
     fn param_extra_token(&self) -> TokenStream {
         match self.variant {
             Variant::Normal => quote!(),
-            Variant::AstPath => quote!(, ast_path: &mut AstPath),
+            Variant::AstPath => match self.kind {
+                TraitKind::Visit => {
+                    quote!(, ast_path: &mut AstNodePath<'r>)
+                }
+                TraitKind::VisitMut | TraitKind::Fold => quote!(, ast_path: &mut AstKindPath),
+            },
         }
     }
 
