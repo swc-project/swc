@@ -352,7 +352,7 @@ impl Generator {
                 impl<V: ?Sized + #visitor_trait_name> #trait_name<V> for #type_name {
                     #visit_with_doc
                     fn #visit_with_name(#receiver, visitor: &mut V #ast_path_param) #return_type {
-                        visitor.#visit_method_name(self #ast_path_arg)
+                        <V as #visitor_trait_name>::#visit_method_name(visitor, self #ast_path_arg)
                     }
 
                     fn #visit_with_children_name(#receiver, visitor: &mut V #ast_path_param) #return_type {
