@@ -17,14 +17,17 @@ pub fn qualify_types(mut file: File) -> File {
         // becomes `Box: "swc_allocator::boxed::Box"` in the map.
 
         for_each_use_item(&[], &item.tree, &mut |local_name, path| {
-            map.insert(local_name, path);
+            map.insert(local_name.to_string(), path);
         });
     }
 
-    map.entry(Ident::new("Box", Span::call_site()))
+    map.entry("Option".into())
+        .or_insert_with(|| parse_quote!(::std::option::Option));
+
+    map.entry("Box".into())
         .or_insert_with(|| parse_quote!(::std::boxed::Box));
 
-    map.entry(Ident::new("Vec", Span::call_site()))
+    map.entry("Vec".into())
         .or_insert_with(|| parse_quote!(::std::vec::Vec));
 
     visit_file_mut(&mut Folder { map }, &mut file);
@@ -87,17 +90,17 @@ fn collect_use_items(file: &File) -> Vec<ItemUse> {
 
 struct Folder {
     /// e.g. `("Box", "std::boxed::Box")`
-    map: HashMap<Ident, Path>,
+    map: HashMap<String, Path>,
 }
 
 impl VisitMut for Folder {
     fn visit_type_path_mut(&mut self, i: &mut TypePath) {
-        syn::visit_mut::visit_type_path_mut(self, i);
-
         if let Some(id) = i.path.get_ident() {
-            if let Some(path) = self.map.get(id) {
+            if let Some(path) = self.map.get(&id.to_string()) {
                 i.path = path.clone();
             }
         }
+
+        syn::visit_mut::visit_type_path_mut(self, i);
     }
 }
