@@ -281,6 +281,14 @@ impl Generator<'_> {
             return self.should_skip(ty);
         }
 
+        if let Some(ty) = extract_generic("Vec", ty) {
+            return self.should_skip(ty);
+        }
+
+        if let Some(ty) = extract_generic("Option", ty) {
+            return self.should_skip(ty);
+        }
+
         let ty = to_field_ty(ty);
         let ty = match ty {
             Some(ty) => ty,
