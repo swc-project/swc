@@ -9,6 +9,7 @@
 #![allow(clippy::clone_on_copy)]
 #![recursion_limit = "1024"]
 
+pub use num_bigint::BigInt as BigIntValue;
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span};
