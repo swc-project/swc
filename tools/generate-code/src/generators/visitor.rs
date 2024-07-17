@@ -101,7 +101,7 @@ pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
         #[cfg(any(docsrs, feature = "path"))]
         pub type AstNodePath<'ast> = swc_visit::AstNodePath<AstParentNodeRef<'ast>>;
     ));
-    output.items.extend(define_fields(node_types));
+    output.items.extend(define_fields(crate_name, node_types));
 
     output
 }
@@ -1266,7 +1266,7 @@ fn extract_generic<'a>(name: &str, ty: &'a Type) -> Option<&'a Type> {
 
     None
 }
-fn define_fields(node_types: &[&Item]) -> Vec<Item> {
+fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
     let mut items = Vec::<Item>::new();
     let mut kind_enum_members = vec![];
     let mut node_ref_enum_members = vec![];
@@ -1277,6 +1277,10 @@ fn define_fields(node_types: &[&Item]) -> Vec<Item> {
 
     {
         let mut defs = Vec::<Item>::new();
+
+        defs.push(parse_quote!(
+            use #crate_name::*;
+        ));
 
         for ty in node_types {
             let type_name = match ty {
