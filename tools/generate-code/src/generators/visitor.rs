@@ -1286,7 +1286,7 @@ fn define_fields(node_types: &[&Item]) -> Vec<Item> {
                             #[inline(always)]
                             pub fn set_index(&mut self, _: usize) {}
                         }
-                    ))
+                    ));
                 }
                 Item::Struct(data) => {
                     let mut set_index_arms = Vec::<Arm>::new();
@@ -1308,6 +1308,17 @@ fn define_fields(node_types: &[&Item]) -> Vec<Item> {
 
                     node_ref_enum_members.push(quote!(
                         #type_name(&'ast #type_name, self::fields::#fields_enum_name)
+                    ));
+
+                    items.push(parse_quote!(
+                        impl #type_name {
+                            #[inline(always)]
+                            pub fn set_index(&mut self, _: usize) {
+                                match self {
+                                    #(#set_index_arms)*
+                                }
+                            }
+                        }
                     ));
                 }
                 _ => continue,
