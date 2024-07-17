@@ -459,6 +459,7 @@ impl Generator<'_> {
         let mut either_impl_methods = Vec::<TraitItem>::new();
         let mut optional_impl_methods = Vec::<TraitItem>::new();
         let mut ptr_impl_methods = Vec::<TraitItem>::new();
+        let mut visit_all_impl_methods = Vec::<TraitItem>::new();
 
         for ty in all_types {
             if let FieldType::Generic(name, ..) = &ty {
@@ -546,6 +547,17 @@ impl Generator<'_> {
                     <V as #trait_name>::#visit_method_name(&mut **self, node #ast_path_arg)
                 }
             ));
+
+            if self.kind == TraitKind::Visit {
+                visit_all_impl_methods.push(parse_quote!(
+                    #[inline]
+                    fn #visit_method_name #lifetime (&mut self, node: #type_param #ast_path_params) #return_type {
+                        <V as #trait_name>::#visit_method_name(&mut self.visitor, node #ast_path_arg);
+
+                        node.visit_children_with(self);
+                    }
+                ));
+            }
         }
 
         items.push(parse_quote! {
@@ -596,6 +608,20 @@ impl Generator<'_> {
                 #(#optional_impl_methods)*
             }
         });
+
+        // ::swc_visit::All<V>
+
+        if self.kind == TraitKind::Visit {
+            items.push(parse_quote! {
+                #(#attrs)*
+                impl<V> #trait_name for ::swc_visit::All<V>
+                where
+                    V: VisitAll,
+                {
+                    #(#visit_all_impl_methods)*
+                }
+            });
+        }
 
         items
     }
