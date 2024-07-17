@@ -2943,9 +2943,9 @@ dependencies = [
 
 [[package]]
 name = "swc_allocator"
-version = "0.1.5"
+version = "0.1.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c2343ec48c635176f5bd74b8482e08ca39df31cbd7eb8d643a3942164400971c"
+checksum = "dae2f696639ba1834a7edb1765a5ea0a7ef57de52ac1403135929bd006748731"
 dependencies = [
  "allocator-api2",
  "bumpalo",
@@ -3047,9 +3047,9 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.35.0"
+version = "0.35.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dcad76737c09d8cafdd6cc0bcb5d57a49340fde34cf9357b9bd30e3e25976fbb"
+checksum = "35fc82e807a50f9964f69b2f76500d340a3784b4e695bc755dad00566bad5111"
 dependencies = [
  "ahash 0.8.8",
  "anyhow",
@@ -3068,6 +3068,7 @@ dependencies = [
  "serde",
  "siphasher",
  "sourcemap",
+ "swc_allocator",
  "swc_atoms",
  "swc_eq_ignore_macros",
  "swc_visit",
