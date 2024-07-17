@@ -2923,7 +2923,7 @@ where
         Visit::visit_yield_expr(self, node)
     }
 }
-impl Visit for Box<V>
+impl<V> Visit for Box<V>
 where
     V: ?Sized + Visit,
 {
@@ -19082,7 +19082,7 @@ where
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-impl VisitAstPath for Box<V>
+impl<V> VisitAstPath for Box<V>
 where
     V: ?Sized + VisitAstPath,
 {
@@ -40680,7 +40680,7 @@ where
         VisitMut::visit_mut_yield_expr(self, node)
     }
 }
-impl VisitMut for Box<V>
+impl<V> VisitMut for Box<V>
 where
     V: ?Sized + VisitMut,
 {
@@ -56056,7 +56056,7 @@ where
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-impl VisitMutAstPath for Box<V>
+impl<V> VisitMutAstPath for Box<V>
 where
     V: ?Sized + VisitMutAstPath,
 {
@@ -74060,7 +74060,7 @@ where
         Fold::fold_yield_expr(self, node)
     }
 }
-impl Fold for Box<V>
+impl<V> Fold for Box<V>
 where
     V: ?Sized + Fold,
 {
@@ -90289,7 +90289,7 @@ where
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-impl FoldAstPath for Box<V>
+impl<V> FoldAstPath for Box<V>
 where
     V: ?Sized + FoldAstPath,
 {

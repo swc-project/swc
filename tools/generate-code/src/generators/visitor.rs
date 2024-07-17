@@ -539,7 +539,7 @@ impl Generator<'_> {
         // Box<V>
         items.push(parse_quote! {
             #(#attrs)*
-            impl #trait_name for Box<V> where V: ?Sized + #trait_name {
+            impl<V> #trait_name for Box<V> where V: ?Sized + #trait_name {
                 #(#ptr_impl_methods)*
             }
         });
