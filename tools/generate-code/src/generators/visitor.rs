@@ -1026,7 +1026,7 @@ fn field_variant(type_name: &Ident, field: &Field) -> Option<TokenStream> {
         let variant_name = Ident::new(&field_name.to_string().to_pascal_case(), Span::call_site());
         let variant_doc = doc(&format!("Represents [`{type_name}::{field_name}`]"));
 
-        if let Some(..) = extract_vec(&field.ty) {
+        if extract_vec(&field.ty).is_some() {
             return Some(quote!(
                 #variant_doc
                 #variant_name(usize)
