@@ -805,7 +805,7 @@ impl Generator {
                         && self.variant == Variant::AstPath
                         && !self.should_skip(ty)
                     {
-                        let mut kind = quote!(self::fields::#fields_enum_name::#field_variant);
+                        let mut kind = quote!(#fields_enum_name::#field_variant);
 
                         if extract_vec(ty).is_some() {
                             kind = quote!(#kind(usize::MAX));
@@ -1320,11 +1320,11 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                     }
 
                     kind_enum_members.push(quote!(
-                        #type_name(self::fields::#fields_enum_name)
+                        #type_name(#fields_enum_name)
                     ));
 
                     node_ref_enum_members.push(quote!(
-                        #type_name(&'ast #type_name, self::fields::#fields_enum_name)
+                        #type_name(&'ast #type_name, #fields_enum_name)
                     ));
 
                     defs.push(parse_quote!(
@@ -1349,11 +1349,11 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                     }
 
                     kind_enum_members.push(quote!(
-                        #type_name(self::fields::#fields_enum_name)
+                        #type_name(#fields_enum_name)
                     ));
 
                     node_ref_enum_members.push(quote!(
-                        #type_name(&'ast #type_name, self::fields::#fields_enum_name)
+                        #type_name(&'ast #type_name, #fields_enum_name)
                     ));
 
                     defs.push(parse_quote!(

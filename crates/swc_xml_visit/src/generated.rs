@@ -2571,10 +2571,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Attribute {
                 raw_value,
             } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Attribute(
-                        self,
-                        self::fields::AttributeField::Span,
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentNodeRef::Attribute(self, AttributeField::Span));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -2582,10 +2580,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Attribute {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Attribute(
-                        self,
-                        self::fields::AttributeField::Namespace,
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentNodeRef::Attribute(self, AttributeField::Namespace));
                     <Option<Namespace> as VisitWithAstPath<V>>::visit_with_ast_path(
                         namespace,
                         visitor,
@@ -2593,10 +2589,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Attribute {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Attribute(
-                        self,
-                        self::fields::AttributeField::Prefix,
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentNodeRef::Attribute(self, AttributeField::Prefix));
                     <Option<swc_atoms::Atom> as VisitWithAstPath<V>>::visit_with_ast_path(
                         prefix,
                         visitor,
@@ -2604,10 +2598,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Attribute {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Attribute(
-                        self,
-                        self::fields::AttributeField::Name,
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentNodeRef::Attribute(self, AttributeField::Name));
                     <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         name,
                         visitor,
@@ -2615,10 +2607,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Attribute {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Attribute(
-                        self,
-                        self::fields::AttributeField::RawName,
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentNodeRef::Attribute(self, AttributeField::RawName));
                     <Option<swc_atoms::Atom> as VisitWithAstPath<V>>::visit_with_ast_path(
                         raw_name,
                         visitor,
@@ -2626,10 +2616,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Attribute {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Attribute(
-                        self,
-                        self::fields::AttributeField::Value,
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentNodeRef::Attribute(self, AttributeField::Value));
                     <Option<swc_atoms::Atom> as VisitWithAstPath<V>>::visit_with_ast_path(
                         value,
                         visitor,
@@ -2637,10 +2625,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Attribute {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Attribute(
-                        self,
-                        self::fields::AttributeField::RawValue,
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentNodeRef::Attribute(self, AttributeField::RawValue));
                     <Option<swc_atoms::Atom> as VisitWithAstPath<V>>::visit_with_ast_path(
                         raw_value,
                         visitor,
@@ -2679,7 +2665,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AttributeToken {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AttributeToken(
                         self,
-                        self::fields::AttributeTokenField::Span,
+                        AttributeTokenField::Span,
                     ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
@@ -2690,7 +2676,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AttributeToken {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AttributeToken(
                         self,
-                        self::fields::AttributeTokenField::Name,
+                        AttributeTokenField::Name,
                     ));
                     <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         name,
@@ -2701,7 +2687,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AttributeToken {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AttributeToken(
                         self,
-                        self::fields::AttributeTokenField::RawName,
+                        AttributeTokenField::RawName,
                     ));
                     <Option<swc_atoms::Atom> as VisitWithAstPath<V>>::visit_with_ast_path(
                         raw_name,
@@ -2712,7 +2698,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AttributeToken {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AttributeToken(
                         self,
-                        self::fields::AttributeTokenField::Value,
+                        AttributeTokenField::Value,
                     ));
                     <Option<swc_atoms::Atom> as VisitWithAstPath<V>>::visit_with_ast_path(
                         value,
@@ -2723,7 +2709,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AttributeToken {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AttributeToken(
                         self,
-                        self::fields::AttributeTokenField::RawValue,
+                        AttributeTokenField::RawValue,
                     ));
                     <Option<swc_atoms::Atom> as VisitWithAstPath<V>>::visit_with_ast_path(
                         raw_value,
@@ -2757,7 +2743,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CdataSection {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::CdataSection(
                         self,
-                        self::fields::CdataSectionField::Span,
+                        CdataSectionField::Span,
                     ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
@@ -2768,7 +2754,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CdataSection {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::CdataSection(
                         self,
-                        self::fields::CdataSectionField::Data,
+                        CdataSectionField::Data,
                     ));
                     <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         data,
@@ -2777,10 +2763,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CdataSection {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::CdataSection(
-                        self,
-                        self::fields::CdataSectionField::Raw,
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentNodeRef::CdataSection(self, CdataSectionField::Raw));
                     <Option<swc_atoms::Atom> as VisitWithAstPath<V>>::visit_with_ast_path(
                         raw,
                         visitor,
@@ -2898,10 +2882,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Comment {
         match self {
             Comment { span, data, raw } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Comment(
-                        self,
-                        self::fields::CommentField::Span,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::Comment(self, CommentField::Span));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -2909,10 +2891,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Comment {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Comment(
-                        self,
-                        self::fields::CommentField::Data,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::Comment(self, CommentField::Data));
                     <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         data,
                         visitor,
@@ -2920,10 +2900,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Comment {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Comment(
-                        self,
-                        self::fields::CommentField::Raw,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::Comment(self, CommentField::Raw));
                     <Option<swc_atoms::Atom> as VisitWithAstPath<V>>::visit_with_ast_path(
                         raw,
                         visitor,
@@ -2954,10 +2932,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Document {
         match self {
             Document { span, children } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Document(
-                        self,
-                        self::fields::DocumentField::Span,
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentNodeRef::Document(self, DocumentField::Span));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -2967,7 +2943,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Document {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Document(
                         self,
-                        self::fields::DocumentField::Children(usize::MAX),
+                        DocumentField::Children(usize::MAX),
                     ));
                     <Vec<Child> as VisitWithAstPath<V>>::visit_with_ast_path(
                         children,
@@ -3031,7 +3007,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for DocumentType {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::DocumentType(
                         self,
-                        self::fields::DocumentTypeField::Span,
+                        DocumentTypeField::Span,
                     ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
@@ -3042,7 +3018,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for DocumentType {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::DocumentType(
                         self,
-                        self::fields::DocumentTypeField::Name,
+                        DocumentTypeField::Name,
                     ));
                     <Option<swc_atoms::Atom> as VisitWithAstPath<V>>::visit_with_ast_path(
                         name,
@@ -3053,7 +3029,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for DocumentType {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::DocumentType(
                         self,
-                        self::fields::DocumentTypeField::PublicId,
+                        DocumentTypeField::PublicId,
                     ));
                     <Option<swc_atoms::Atom> as VisitWithAstPath<V>>::visit_with_ast_path(
                         public_id,
@@ -3064,7 +3040,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for DocumentType {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::DocumentType(
                         self,
-                        self::fields::DocumentTypeField::SystemId,
+                        DocumentTypeField::SystemId,
                     ));
                     <Option<swc_atoms::Atom> as VisitWithAstPath<V>>::visit_with_ast_path(
                         system_id,
@@ -3073,10 +3049,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for DocumentType {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::DocumentType(
-                        self,
-                        self::fields::DocumentTypeField::Raw,
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentNodeRef::DocumentType(self, DocumentTypeField::Raw));
                     <Option<swc_atoms::Atom> as VisitWithAstPath<V>>::visit_with_ast_path(
                         raw,
                         visitor,
@@ -3112,10 +3086,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Element {
                 children,
             } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Element(
-                        self,
-                        self::fields::ElementField::Span,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::Element(self, ElementField::Span));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -3123,10 +3095,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Element {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Element(
-                        self,
-                        self::fields::ElementField::TagName,
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentNodeRef::Element(self, ElementField::TagName));
                     <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         tag_name,
                         visitor,
@@ -3136,7 +3106,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Element {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Element(
                         self,
-                        self::fields::ElementField::Attributes(usize::MAX),
+                        ElementField::Attributes(usize::MAX),
                     ));
                     <Vec<Attribute> as VisitWithAstPath<V>>::visit_with_ast_path(
                         attributes,
@@ -3147,7 +3117,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Element {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Element(
                         self,
-                        self::fields::ElementField::Children(usize::MAX),
+                        ElementField::Children(usize::MAX),
                     ));
                     <Vec<Child> as VisitWithAstPath<V>>::visit_with_ast_path(
                         children,
@@ -3209,7 +3179,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ProcessingInstruction {
                     let mut __ast_path =
                         __ast_path.with_guard(AstParentNodeRef::ProcessingInstruction(
                             self,
-                            self::fields::ProcessingInstructionField::Span,
+                            ProcessingInstructionField::Span,
                         ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
@@ -3221,7 +3191,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ProcessingInstruction {
                     let mut __ast_path =
                         __ast_path.with_guard(AstParentNodeRef::ProcessingInstruction(
                             self,
-                            self::fields::ProcessingInstructionField::Target,
+                            ProcessingInstructionField::Target,
                         ));
                     <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         target,
@@ -3233,7 +3203,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ProcessingInstruction {
                     let mut __ast_path =
                         __ast_path.with_guard(AstParentNodeRef::ProcessingInstruction(
                             self,
-                            self::fields::ProcessingInstructionField::Data,
+                            ProcessingInstructionField::Data,
                         ));
                     <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         data,
@@ -3265,8 +3235,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Text {
         match self {
             Text { span, data, raw } => {
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentNodeRef::Text(self, self::fields::TextField::Span));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::Text(self, TextField::Span));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -3274,8 +3244,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Text {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentNodeRef::Text(self, self::fields::TextField::Data));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::Text(self, TextField::Data));
                     <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         data,
                         visitor,
@@ -3283,8 +3253,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Text {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentNodeRef::Text(self, self::fields::TextField::Raw));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::Text(self, TextField::Raw));
                     <Option<swc_atoms::Atom> as VisitWithAstPath<V>>::visit_with_ast_path(
                         raw,
                         visitor,
@@ -3324,10 +3294,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
                     self::fields::TokenField::Doctype,
                 ));
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Token(
-                        self,
-                        self::fields::TokenField::Name,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::Token(self, TokenField::Name));
                     <Option<swc_atoms::Atom> as VisitWithAstPath<V>>::visit_with_ast_path(
                         name,
                         visitor,
@@ -3335,10 +3303,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Token(
-                        self,
-                        self::fields::TokenField::PublicId,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::Token(self, TokenField::PublicId));
                     <Option<swc_atoms::Atom> as VisitWithAstPath<V>>::visit_with_ast_path(
                         public_id,
                         visitor,
@@ -3346,10 +3312,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Token(
-                        self,
-                        self::fields::TokenField::SystemId,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::Token(self, TokenField::SystemId));
                     <Option<swc_atoms::Atom> as VisitWithAstPath<V>>::visit_with_ast_path(
                         system_id,
                         visitor,
@@ -3357,8 +3321,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentNodeRef::Token(self, self::fields::TokenField::Raw));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::Token(self, TokenField::Raw));
                     <Option<swc_atoms::Atom> as VisitWithAstPath<V>>::visit_with_ast_path(
                         raw,
                         visitor,
@@ -3375,10 +3339,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
                     self::fields::TokenField::StartTag,
                 ));
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Token(
-                        self,
-                        self::fields::TokenField::TagName,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::Token(self, TokenField::TagName));
                     <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         tag_name,
                         visitor,
@@ -3388,7 +3350,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Token(
                         self,
-                        self::fields::TokenField::Attributes(usize::MAX),
+                        TokenField::Attributes(usize::MAX),
                     ));
                     <Vec<AttributeToken> as VisitWithAstPath<V>>::visit_with_ast_path(
                         attributes,
@@ -3406,10 +3368,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
                     self::fields::TokenField::EndTag,
                 ));
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Token(
-                        self,
-                        self::fields::TokenField::TagName,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::Token(self, TokenField::TagName));
                     <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         tag_name,
                         visitor,
@@ -3419,7 +3379,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Token(
                         self,
-                        self::fields::TokenField::Attributes(usize::MAX),
+                        TokenField::Attributes(usize::MAX),
                     ));
                     <Vec<AttributeToken> as VisitWithAstPath<V>>::visit_with_ast_path(
                         attributes,
@@ -3437,10 +3397,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
                     self::fields::TokenField::EmptyTag,
                 ));
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Token(
-                        self,
-                        self::fields::TokenField::TagName,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::Token(self, TokenField::TagName));
                     <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         tag_name,
                         visitor,
@@ -3450,7 +3408,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Token(
                         self,
-                        self::fields::TokenField::Attributes(usize::MAX),
+                        TokenField::Attributes(usize::MAX),
                     ));
                     <Vec<AttributeToken> as VisitWithAstPath<V>>::visit_with_ast_path(
                         attributes,
@@ -3465,10 +3423,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
                     self::fields::TokenField::Comment,
                 ));
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Token(
-                        self,
-                        self::fields::TokenField::Data,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::Token(self, TokenField::Data));
                     <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         data,
                         visitor,
@@ -3476,8 +3432,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentNodeRef::Token(self, self::fields::TokenField::Raw));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::Token(self, TokenField::Raw));
                     <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         raw,
                         visitor,
@@ -3491,8 +3447,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
                     self::fields::TokenField::Character,
                 ));
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentNodeRef::Token(self, self::fields::TokenField::Raw));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::Token(self, TokenField::Raw));
                     <Option<swc_atoms::Atom> as VisitWithAstPath<V>>::visit_with_ast_path(
                         raw,
                         visitor,
@@ -3506,10 +3462,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
                     self::fields::TokenField::ProcessingInstruction,
                 ));
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Token(
-                        self,
-                        self::fields::TokenField::Target,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::Token(self, TokenField::Target));
                     <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         target,
                         visitor,
@@ -3517,10 +3471,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Token(
-                        self,
-                        self::fields::TokenField::Data,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::Token(self, TokenField::Data));
                     <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         data,
                         visitor,
@@ -3534,10 +3486,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
                     self::fields::TokenField::Cdata,
                 ));
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Token(
-                        self,
-                        self::fields::TokenField::Data,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::Token(self, TokenField::Data));
                     <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         data,
                         visitor,
@@ -3545,8 +3495,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentNodeRef::Token(self, self::fields::TokenField::Raw));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::Token(self, TokenField::Raw));
                     <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         raw,
                         visitor,
@@ -3580,7 +3530,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TokenAndSpan {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TokenAndSpan(
                         self,
-                        self::fields::TokenAndSpanField::Span,
+                        TokenAndSpanField::Span,
                     ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
@@ -3591,7 +3541,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TokenAndSpan {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TokenAndSpan(
                         self,
-                        self::fields::TokenAndSpanField::Token,
+                        TokenAndSpanField::Token,
                     ));
                     <Token as VisitWithAstPath<V>>::visit_with_ast_path(
                         token,
@@ -5989,8 +5939,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Attribute {
                 raw_value,
             } => {
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentKind::Attribute(self::fields::AttributeField::Span));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::Attribute(AttributeField::Span));
                     <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         span,
                         visitor,
@@ -5998,9 +5948,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Attribute {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Attribute(
-                        self::fields::AttributeField::Namespace,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::Attribute(AttributeField::Namespace));
                     <Option<Namespace> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         namespace,
                         visitor,
@@ -6008,9 +5957,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Attribute {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Attribute(
-                        self::fields::AttributeField::Prefix,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::Attribute(AttributeField::Prefix));
                     <Option<swc_atoms::Atom> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         prefix,
                         visitor,
@@ -6018,8 +5966,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Attribute {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentKind::Attribute(self::fields::AttributeField::Name));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::Attribute(AttributeField::Name));
                     <swc_atoms::Atom as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         name,
                         visitor,
@@ -6027,9 +5975,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Attribute {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Attribute(
-                        self::fields::AttributeField::RawName,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::Attribute(AttributeField::RawName));
                     <Option<swc_atoms::Atom> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         raw_name,
                         visitor,
@@ -6037,9 +5984,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Attribute {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Attribute(
-                        self::fields::AttributeField::Value,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::Attribute(AttributeField::Value));
                     <Option<swc_atoms::Atom> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         value,
                         visitor,
@@ -6047,9 +5993,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Attribute {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Attribute(
-                        self::fields::AttributeField::RawValue,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::Attribute(AttributeField::RawValue));
                     <Option<swc_atoms::Atom> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         raw_value,
                         visitor,
@@ -6078,9 +6023,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for AttributeToken {
                 raw_value,
             } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::AttributeToken(
-                        self::fields::AttributeTokenField::Span,
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::AttributeToken(AttributeTokenField::Span));
                     <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         span,
                         visitor,
@@ -6088,9 +6032,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for AttributeToken {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::AttributeToken(
-                        self::fields::AttributeTokenField::Name,
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::AttributeToken(AttributeTokenField::Name));
                     <swc_atoms::Atom as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         name,
                         visitor,
@@ -6098,9 +6041,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for AttributeToken {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::AttributeToken(
-                        self::fields::AttributeTokenField::RawName,
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::AttributeToken(AttributeTokenField::RawName));
                     <Option<swc_atoms::Atom> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         raw_name,
                         visitor,
@@ -6108,9 +6050,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for AttributeToken {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::AttributeToken(
-                        self::fields::AttributeTokenField::Value,
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::AttributeToken(AttributeTokenField::Value));
                     <Option<swc_atoms::Atom> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         value,
                         visitor,
@@ -6118,9 +6059,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for AttributeToken {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::AttributeToken(
-                        self::fields::AttributeTokenField::RawValue,
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::AttributeToken(AttributeTokenField::RawValue));
                     <Option<swc_atoms::Atom> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         raw_value,
                         visitor,
@@ -6143,9 +6083,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for CdataSection {
         match self {
             CdataSection { span, data, raw } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::CdataSection(
-                        self::fields::CdataSectionField::Span,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::CdataSection(CdataSectionField::Span));
                     <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         span,
                         visitor,
@@ -6153,9 +6092,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for CdataSection {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::CdataSection(
-                        self::fields::CdataSectionField::Data,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::CdataSection(CdataSectionField::Data));
                     <swc_atoms::Atom as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         data,
                         visitor,
@@ -6163,9 +6101,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for CdataSection {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::CdataSection(
-                        self::fields::CdataSectionField::Raw,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::CdataSection(CdataSectionField::Raw));
                     <Option<swc_atoms::Atom> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         raw,
                         visitor,
@@ -6256,8 +6193,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Comment {
         match self {
             Comment { span, data, raw } => {
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentKind::Comment(self::fields::CommentField::Span));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::Comment(CommentField::Span));
                     <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         span,
                         visitor,
@@ -6265,8 +6202,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Comment {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentKind::Comment(self::fields::CommentField::Data));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::Comment(CommentField::Data));
                     <swc_atoms::Atom as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         data,
                         visitor,
@@ -6274,8 +6211,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Comment {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentKind::Comment(self::fields::CommentField::Raw));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::Comment(CommentField::Raw));
                     <Option<swc_atoms::Atom> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         raw,
                         visitor,
@@ -6298,8 +6235,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Document {
         match self {
             Document { span, children } => {
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentKind::Document(self::fields::DocumentField::Span));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::Document(DocumentField::Span));
                     <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         span,
                         visitor,
@@ -6307,9 +6244,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Document {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Document(
-                        self::fields::DocumentField::Children(usize::MAX),
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::Document(DocumentField::Children(usize::MAX)));
                     <Vec<Child> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         children,
                         visitor,
@@ -6354,9 +6290,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for DocumentType {
                 raw,
             } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::DocumentType(
-                        self::fields::DocumentTypeField::Span,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::DocumentType(DocumentTypeField::Span));
                     <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         span,
                         visitor,
@@ -6364,9 +6299,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for DocumentType {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::DocumentType(
-                        self::fields::DocumentTypeField::Name,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::DocumentType(DocumentTypeField::Name));
                     <Option<swc_atoms::Atom> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         name,
                         visitor,
@@ -6374,9 +6308,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for DocumentType {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::DocumentType(
-                        self::fields::DocumentTypeField::PublicId,
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::DocumentType(DocumentTypeField::PublicId));
                     <Option<swc_atoms::Atom> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         public_id,
                         visitor,
@@ -6384,9 +6317,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for DocumentType {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::DocumentType(
-                        self::fields::DocumentTypeField::SystemId,
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::DocumentType(DocumentTypeField::SystemId));
                     <Option<swc_atoms::Atom> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         system_id,
                         visitor,
@@ -6394,9 +6326,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for DocumentType {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::DocumentType(
-                        self::fields::DocumentTypeField::Raw,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::DocumentType(DocumentTypeField::Raw));
                     <Option<swc_atoms::Atom> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         raw,
                         visitor,
@@ -6424,8 +6355,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Element {
                 children,
             } => {
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentKind::Element(self::fields::ElementField::Span));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::Element(ElementField::Span));
                     <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         span,
                         visitor,
@@ -6433,8 +6364,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Element {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentKind::Element(self::fields::ElementField::TagName));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::Element(ElementField::TagName));
                     <swc_atoms::Atom as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         tag_name,
                         visitor,
@@ -6442,9 +6373,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Element {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Element(
-                        self::fields::ElementField::Attributes(usize::MAX),
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::Element(ElementField::Attributes(usize::MAX)));
                     <Vec<Attribute> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         attributes,
                         visitor,
@@ -6452,9 +6382,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Element {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Element(
-                        self::fields::ElementField::Children(usize::MAX),
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::Element(ElementField::Children(usize::MAX)));
                     <Vec<Child> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         children,
                         visitor,
@@ -6496,10 +6425,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ProcessingInstructi
         match self {
             ProcessingInstruction { span, target, data } => {
                 {
-                    let mut __ast_path =
-                        __ast_path.with_guard(AstParentKind::ProcessingInstruction(
-                            self::fields::ProcessingInstructionField::Span,
-                        ));
+                    let mut __ast_path = __ast_path.with_guard(
+                        AstParentKind::ProcessingInstruction(ProcessingInstructionField::Span),
+                    );
                     <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         span,
                         visitor,
@@ -6507,10 +6435,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ProcessingInstructi
                     )
                 };
                 {
-                    let mut __ast_path =
-                        __ast_path.with_guard(AstParentKind::ProcessingInstruction(
-                            self::fields::ProcessingInstructionField::Target,
-                        ));
+                    let mut __ast_path = __ast_path.with_guard(
+                        AstParentKind::ProcessingInstruction(ProcessingInstructionField::Target),
+                    );
                     <swc_atoms::Atom as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         target,
                         visitor,
@@ -6518,10 +6445,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ProcessingInstructi
                     )
                 };
                 {
-                    let mut __ast_path =
-                        __ast_path.with_guard(AstParentKind::ProcessingInstruction(
-                            self::fields::ProcessingInstructionField::Data,
-                        ));
+                    let mut __ast_path = __ast_path.with_guard(
+                        AstParentKind::ProcessingInstruction(ProcessingInstructionField::Data),
+                    );
                     <swc_atoms::Atom as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         data,
                         visitor,
@@ -6545,7 +6471,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Text {
             Text { span, data, raw } => {
                 {
                     let mut __ast_path =
-                        __ast_path.with_guard(AstParentKind::Text(self::fields::TextField::Span));
+                        __ast_path.with_guard(AstParentKind::Text(TextField::Span));
                     <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         span,
                         visitor,
@@ -6554,7 +6480,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Text {
                 };
                 {
                     let mut __ast_path =
-                        __ast_path.with_guard(AstParentKind::Text(self::fields::TextField::Data));
+                        __ast_path.with_guard(AstParentKind::Text(TextField::Data));
                     <swc_atoms::Atom as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         data,
                         visitor,
@@ -6562,8 +6488,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Text {
                     )
                 };
                 {
-                    let mut __ast_path =
-                        __ast_path.with_guard(AstParentKind::Text(self::fields::TextField::Raw));
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Text(TextField::Raw));
                     <Option<swc_atoms::Atom> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         raw,
                         visitor,
@@ -6594,7 +6519,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Token {
                     __ast_path.with_guard(AstParentKind::Token(self::fields::TokenField::Doctype));
                 {
                     let mut __ast_path =
-                        __ast_path.with_guard(AstParentKind::Token(self::fields::TokenField::Name));
+                        __ast_path.with_guard(AstParentKind::Token(TokenField::Name));
                     <Option<swc_atoms::Atom> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         name,
                         visitor,
@@ -6602,8 +6527,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Token {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentKind::Token(self::fields::TokenField::PublicId));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::Token(TokenField::PublicId));
                     <Option<swc_atoms::Atom> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         public_id,
                         visitor,
@@ -6611,8 +6536,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Token {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentKind::Token(self::fields::TokenField::SystemId));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::Token(TokenField::SystemId));
                     <Option<swc_atoms::Atom> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         system_id,
                         visitor,
@@ -6621,7 +6546,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Token {
                 };
                 {
                     let mut __ast_path =
-                        __ast_path.with_guard(AstParentKind::Token(self::fields::TokenField::Raw));
+                        __ast_path.with_guard(AstParentKind::Token(TokenField::Raw));
                     <Option<swc_atoms::Atom> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         raw,
                         visitor,
@@ -6636,8 +6561,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Token {
                 let mut __ast_path =
                     __ast_path.with_guard(AstParentKind::Token(self::fields::TokenField::StartTag));
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentKind::Token(self::fields::TokenField::TagName));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::Token(TokenField::TagName));
                     <swc_atoms::Atom as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         tag_name,
                         visitor,
@@ -6645,9 +6570,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Token {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Token(
-                        self::fields::TokenField::Attributes(usize::MAX),
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::Token(TokenField::Attributes(usize::MAX)));
                     <Vec<AttributeToken> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         attributes,
                         visitor,
@@ -6662,8 +6586,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Token {
                 let mut __ast_path =
                     __ast_path.with_guard(AstParentKind::Token(self::fields::TokenField::EndTag));
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentKind::Token(self::fields::TokenField::TagName));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::Token(TokenField::TagName));
                     <swc_atoms::Atom as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         tag_name,
                         visitor,
@@ -6671,9 +6595,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Token {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Token(
-                        self::fields::TokenField::Attributes(usize::MAX),
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::Token(TokenField::Attributes(usize::MAX)));
                     <Vec<AttributeToken> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         attributes,
                         visitor,
@@ -6688,8 +6611,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Token {
                 let mut __ast_path =
                     __ast_path.with_guard(AstParentKind::Token(self::fields::TokenField::EmptyTag));
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentKind::Token(self::fields::TokenField::TagName));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::Token(TokenField::TagName));
                     <swc_atoms::Atom as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         tag_name,
                         visitor,
@@ -6697,9 +6620,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Token {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Token(
-                        self::fields::TokenField::Attributes(usize::MAX),
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::Token(TokenField::Attributes(usize::MAX)));
                     <Vec<AttributeToken> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         attributes,
                         visitor,
@@ -6712,7 +6634,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Token {
                     __ast_path.with_guard(AstParentKind::Token(self::fields::TokenField::Comment));
                 {
                     let mut __ast_path =
-                        __ast_path.with_guard(AstParentKind::Token(self::fields::TokenField::Data));
+                        __ast_path.with_guard(AstParentKind::Token(TokenField::Data));
                     <swc_atoms::Atom as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         data,
                         visitor,
@@ -6721,7 +6643,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Token {
                 };
                 {
                     let mut __ast_path =
-                        __ast_path.with_guard(AstParentKind::Token(self::fields::TokenField::Raw));
+                        __ast_path.with_guard(AstParentKind::Token(TokenField::Raw));
                     <swc_atoms::Atom as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         raw,
                         visitor,
@@ -6734,7 +6656,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Token {
                     .with_guard(AstParentKind::Token(self::fields::TokenField::Character));
                 {
                     let mut __ast_path =
-                        __ast_path.with_guard(AstParentKind::Token(self::fields::TokenField::Raw));
+                        __ast_path.with_guard(AstParentKind::Token(TokenField::Raw));
                     <Option<swc_atoms::Atom> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         raw,
                         visitor,
@@ -6747,8 +6669,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Token {
                     self::fields::TokenField::ProcessingInstruction,
                 ));
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentKind::Token(self::fields::TokenField::Target));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::Token(TokenField::Target));
                     <swc_atoms::Atom as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         target,
                         visitor,
@@ -6757,7 +6679,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Token {
                 };
                 {
                     let mut __ast_path =
-                        __ast_path.with_guard(AstParentKind::Token(self::fields::TokenField::Data));
+                        __ast_path.with_guard(AstParentKind::Token(TokenField::Data));
                     <swc_atoms::Atom as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         data,
                         visitor,
@@ -6770,7 +6692,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Token {
                     __ast_path.with_guard(AstParentKind::Token(self::fields::TokenField::Cdata));
                 {
                     let mut __ast_path =
-                        __ast_path.with_guard(AstParentKind::Token(self::fields::TokenField::Data));
+                        __ast_path.with_guard(AstParentKind::Token(TokenField::Data));
                     <swc_atoms::Atom as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         data,
                         visitor,
@@ -6779,7 +6701,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Token {
                 };
                 {
                     let mut __ast_path =
-                        __ast_path.with_guard(AstParentKind::Token(self::fields::TokenField::Raw));
+                        __ast_path.with_guard(AstParentKind::Token(TokenField::Raw));
                     <swc_atoms::Atom as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         raw,
                         visitor,
@@ -6803,9 +6725,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TokenAndSpan {
         match self {
             TokenAndSpan { span, token } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TokenAndSpan(
-                        self::fields::TokenAndSpanField::Span,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::TokenAndSpan(TokenAndSpanField::Span));
                     <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         span,
                         visitor,
@@ -6813,9 +6734,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TokenAndSpan {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TokenAndSpan(
-                        self::fields::TokenAndSpanField::Token,
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::TokenAndSpan(TokenAndSpanField::Token));
                     <Token as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         token,
                         visitor,
@@ -9235,8 +9155,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Attribute {
                 raw_value,
             } => {
                 let span = {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentKind::Attribute(self::fields::AttributeField::Span));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::Attribute(AttributeField::Span));
                     <swc_common::Span as FoldWithAstPath<V>>::fold_with_ast_path(
                         span,
                         visitor,
@@ -9244,9 +9164,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Attribute {
                     )
                 };
                 let namespace = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Attribute(
-                        self::fields::AttributeField::Namespace,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::Attribute(AttributeField::Namespace));
                     <Option<Namespace> as FoldWithAstPath<V>>::fold_with_ast_path(
                         namespace,
                         visitor,
@@ -9254,9 +9173,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Attribute {
                     )
                 };
                 let prefix = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Attribute(
-                        self::fields::AttributeField::Prefix,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::Attribute(AttributeField::Prefix));
                     <Option<swc_atoms::Atom> as FoldWithAstPath<V>>::fold_with_ast_path(
                         prefix,
                         visitor,
@@ -9264,8 +9182,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Attribute {
                     )
                 };
                 let name = {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentKind::Attribute(self::fields::AttributeField::Name));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::Attribute(AttributeField::Name));
                     <swc_atoms::Atom as FoldWithAstPath<V>>::fold_with_ast_path(
                         name,
                         visitor,
@@ -9273,9 +9191,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Attribute {
                     )
                 };
                 let raw_name = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Attribute(
-                        self::fields::AttributeField::RawName,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::Attribute(AttributeField::RawName));
                     <Option<swc_atoms::Atom> as FoldWithAstPath<V>>::fold_with_ast_path(
                         raw_name,
                         visitor,
@@ -9283,9 +9200,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Attribute {
                     )
                 };
                 let value = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Attribute(
-                        self::fields::AttributeField::Value,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::Attribute(AttributeField::Value));
                     <Option<swc_atoms::Atom> as FoldWithAstPath<V>>::fold_with_ast_path(
                         value,
                         visitor,
@@ -9293,9 +9209,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Attribute {
                     )
                 };
                 let raw_value = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Attribute(
-                        self::fields::AttributeField::RawValue,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::Attribute(AttributeField::RawValue));
                     <Option<swc_atoms::Atom> as FoldWithAstPath<V>>::fold_with_ast_path(
                         raw_value,
                         visitor,
@@ -9333,9 +9248,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for AttributeToken {
                 raw_value,
             } => {
                 let span = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::AttributeToken(
-                        self::fields::AttributeTokenField::Span,
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::AttributeToken(AttributeTokenField::Span));
                     <swc_common::Span as FoldWithAstPath<V>>::fold_with_ast_path(
                         span,
                         visitor,
@@ -9343,9 +9257,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for AttributeToken {
                     )
                 };
                 let name = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::AttributeToken(
-                        self::fields::AttributeTokenField::Name,
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::AttributeToken(AttributeTokenField::Name));
                     <swc_atoms::Atom as FoldWithAstPath<V>>::fold_with_ast_path(
                         name,
                         visitor,
@@ -9353,9 +9266,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for AttributeToken {
                     )
                 };
                 let raw_name = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::AttributeToken(
-                        self::fields::AttributeTokenField::RawName,
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::AttributeToken(AttributeTokenField::RawName));
                     <Option<swc_atoms::Atom> as FoldWithAstPath<V>>::fold_with_ast_path(
                         raw_name,
                         visitor,
@@ -9363,9 +9275,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for AttributeToken {
                     )
                 };
                 let value = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::AttributeToken(
-                        self::fields::AttributeTokenField::Value,
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::AttributeToken(AttributeTokenField::Value));
                     <Option<swc_atoms::Atom> as FoldWithAstPath<V>>::fold_with_ast_path(
                         value,
                         visitor,
@@ -9373,9 +9284,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for AttributeToken {
                     )
                 };
                 let raw_value = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::AttributeToken(
-                        self::fields::AttributeTokenField::RawValue,
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::AttributeToken(AttributeTokenField::RawValue));
                     <Option<swc_atoms::Atom> as FoldWithAstPath<V>>::fold_with_ast_path(
                         raw_value,
                         visitor,
@@ -9405,9 +9315,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for CdataSection {
         match self {
             CdataSection { span, data, raw } => {
                 let span = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::CdataSection(
-                        self::fields::CdataSectionField::Span,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::CdataSection(CdataSectionField::Span));
                     <swc_common::Span as FoldWithAstPath<V>>::fold_with_ast_path(
                         span,
                         visitor,
@@ -9415,9 +9324,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for CdataSection {
                     )
                 };
                 let data = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::CdataSection(
-                        self::fields::CdataSectionField::Data,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::CdataSection(CdataSectionField::Data));
                     <swc_atoms::Atom as FoldWithAstPath<V>>::fold_with_ast_path(
                         data,
                         visitor,
@@ -9425,9 +9333,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for CdataSection {
                     )
                 };
                 let raw = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::CdataSection(
-                        self::fields::CdataSectionField::Raw,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::CdataSection(CdataSectionField::Raw));
                     <Option<swc_atoms::Atom> as FoldWithAstPath<V>>::fold_with_ast_path(
                         raw,
                         visitor,
@@ -9525,8 +9432,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Comment {
         match self {
             Comment { span, data, raw } => {
                 let span = {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentKind::Comment(self::fields::CommentField::Span));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::Comment(CommentField::Span));
                     <swc_common::Span as FoldWithAstPath<V>>::fold_with_ast_path(
                         span,
                         visitor,
@@ -9534,8 +9441,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Comment {
                     )
                 };
                 let data = {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentKind::Comment(self::fields::CommentField::Data));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::Comment(CommentField::Data));
                     <swc_atoms::Atom as FoldWithAstPath<V>>::fold_with_ast_path(
                         data,
                         visitor,
@@ -9543,8 +9450,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Comment {
                     )
                 };
                 let raw = {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentKind::Comment(self::fields::CommentField::Raw));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::Comment(CommentField::Raw));
                     <Option<swc_atoms::Atom> as FoldWithAstPath<V>>::fold_with_ast_path(
                         raw,
                         visitor,
@@ -9568,8 +9475,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Document {
         match self {
             Document { span, children } => {
                 let span = {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentKind::Document(self::fields::DocumentField::Span));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::Document(DocumentField::Span));
                     <swc_common::Span as FoldWithAstPath<V>>::fold_with_ast_path(
                         span,
                         visitor,
@@ -9577,9 +9484,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Document {
                     )
                 };
                 let children = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Document(
-                        self::fields::DocumentField::Children(usize::MAX),
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::Document(DocumentField::Children(usize::MAX)));
                     <Vec<Child> as FoldWithAstPath<V>>::fold_with_ast_path(
                         children,
                         visitor,
@@ -9625,9 +9531,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for DocumentType {
                 raw,
             } => {
                 let span = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::DocumentType(
-                        self::fields::DocumentTypeField::Span,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::DocumentType(DocumentTypeField::Span));
                     <swc_common::Span as FoldWithAstPath<V>>::fold_with_ast_path(
                         span,
                         visitor,
@@ -9635,9 +9540,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for DocumentType {
                     )
                 };
                 let name = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::DocumentType(
-                        self::fields::DocumentTypeField::Name,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::DocumentType(DocumentTypeField::Name));
                     <Option<swc_atoms::Atom> as FoldWithAstPath<V>>::fold_with_ast_path(
                         name,
                         visitor,
@@ -9645,9 +9549,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for DocumentType {
                     )
                 };
                 let public_id = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::DocumentType(
-                        self::fields::DocumentTypeField::PublicId,
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::DocumentType(DocumentTypeField::PublicId));
                     <Option<swc_atoms::Atom> as FoldWithAstPath<V>>::fold_with_ast_path(
                         public_id,
                         visitor,
@@ -9655,9 +9558,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for DocumentType {
                     )
                 };
                 let system_id = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::DocumentType(
-                        self::fields::DocumentTypeField::SystemId,
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::DocumentType(DocumentTypeField::SystemId));
                     <Option<swc_atoms::Atom> as FoldWithAstPath<V>>::fold_with_ast_path(
                         system_id,
                         visitor,
@@ -9665,9 +9567,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for DocumentType {
                     )
                 };
                 let raw = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::DocumentType(
-                        self::fields::DocumentTypeField::Raw,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::DocumentType(DocumentTypeField::Raw));
                     <Option<swc_atoms::Atom> as FoldWithAstPath<V>>::fold_with_ast_path(
                         raw,
                         visitor,
@@ -9702,8 +9603,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Element {
                 children,
             } => {
                 let span = {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentKind::Element(self::fields::ElementField::Span));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::Element(ElementField::Span));
                     <swc_common::Span as FoldWithAstPath<V>>::fold_with_ast_path(
                         span,
                         visitor,
@@ -9711,8 +9612,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Element {
                     )
                 };
                 let tag_name = {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentKind::Element(self::fields::ElementField::TagName));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::Element(ElementField::TagName));
                     <swc_atoms::Atom as FoldWithAstPath<V>>::fold_with_ast_path(
                         tag_name,
                         visitor,
@@ -9720,9 +9621,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Element {
                     )
                 };
                 let attributes = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Element(
-                        self::fields::ElementField::Attributes(usize::MAX),
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::Element(ElementField::Attributes(usize::MAX)));
                     <Vec<Attribute> as FoldWithAstPath<V>>::fold_with_ast_path(
                         attributes,
                         visitor,
@@ -9730,9 +9630,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Element {
                     )
                 };
                 let children = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Element(
-                        self::fields::ElementField::Children(usize::MAX),
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::Element(ElementField::Children(usize::MAX)));
                     <Vec<Child> as FoldWithAstPath<V>>::fold_with_ast_path(
                         children,
                         visitor,
@@ -9780,10 +9679,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ProcessingInstruction {
         match self {
             ProcessingInstruction { span, target, data } => {
                 let span = {
-                    let mut __ast_path =
-                        __ast_path.with_guard(AstParentKind::ProcessingInstruction(
-                            self::fields::ProcessingInstructionField::Span,
-                        ));
+                    let mut __ast_path = __ast_path.with_guard(
+                        AstParentKind::ProcessingInstruction(ProcessingInstructionField::Span),
+                    );
                     <swc_common::Span as FoldWithAstPath<V>>::fold_with_ast_path(
                         span,
                         visitor,
@@ -9791,10 +9689,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ProcessingInstruction {
                     )
                 };
                 let target = {
-                    let mut __ast_path =
-                        __ast_path.with_guard(AstParentKind::ProcessingInstruction(
-                            self::fields::ProcessingInstructionField::Target,
-                        ));
+                    let mut __ast_path = __ast_path.with_guard(
+                        AstParentKind::ProcessingInstruction(ProcessingInstructionField::Target),
+                    );
                     <swc_atoms::Atom as FoldWithAstPath<V>>::fold_with_ast_path(
                         target,
                         visitor,
@@ -9802,10 +9699,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ProcessingInstruction {
                     )
                 };
                 let data = {
-                    let mut __ast_path =
-                        __ast_path.with_guard(AstParentKind::ProcessingInstruction(
-                            self::fields::ProcessingInstructionField::Data,
-                        ));
+                    let mut __ast_path = __ast_path.with_guard(
+                        AstParentKind::ProcessingInstruction(ProcessingInstructionField::Data),
+                    );
                     <swc_atoms::Atom as FoldWithAstPath<V>>::fold_with_ast_path(
                         data,
                         visitor,
@@ -9830,7 +9726,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Text {
             Text { span, data, raw } => {
                 let span = {
                     let mut __ast_path =
-                        __ast_path.with_guard(AstParentKind::Text(self::fields::TextField::Span));
+                        __ast_path.with_guard(AstParentKind::Text(TextField::Span));
                     <swc_common::Span as FoldWithAstPath<V>>::fold_with_ast_path(
                         span,
                         visitor,
@@ -9839,7 +9735,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Text {
                 };
                 let data = {
                     let mut __ast_path =
-                        __ast_path.with_guard(AstParentKind::Text(self::fields::TextField::Data));
+                        __ast_path.with_guard(AstParentKind::Text(TextField::Data));
                     <swc_atoms::Atom as FoldWithAstPath<V>>::fold_with_ast_path(
                         data,
                         visitor,
@@ -9847,8 +9743,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Text {
                     )
                 };
                 let raw = {
-                    let mut __ast_path =
-                        __ast_path.with_guard(AstParentKind::Text(self::fields::TextField::Raw));
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Text(TextField::Raw));
                     <Option<swc_atoms::Atom> as FoldWithAstPath<V>>::fold_with_ast_path(
                         raw,
                         visitor,
@@ -9880,7 +9775,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Token {
                     __ast_path.with_guard(AstParentKind::Token(self::fields::TokenField::Doctype));
                 let name = {
                     let mut __ast_path =
-                        __ast_path.with_guard(AstParentKind::Token(self::fields::TokenField::Name));
+                        __ast_path.with_guard(AstParentKind::Token(TokenField::Name));
                     <Option<swc_atoms::Atom> as FoldWithAstPath<V>>::fold_with_ast_path(
                         name,
                         visitor,
@@ -9888,8 +9783,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Token {
                     )
                 };
                 let public_id = {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentKind::Token(self::fields::TokenField::PublicId));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::Token(TokenField::PublicId));
                     <Option<swc_atoms::Atom> as FoldWithAstPath<V>>::fold_with_ast_path(
                         public_id,
                         visitor,
@@ -9897,8 +9792,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Token {
                     )
                 };
                 let system_id = {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentKind::Token(self::fields::TokenField::SystemId));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::Token(TokenField::SystemId));
                     <Option<swc_atoms::Atom> as FoldWithAstPath<V>>::fold_with_ast_path(
                         system_id,
                         visitor,
@@ -9907,7 +9802,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Token {
                 };
                 let raw = {
                     let mut __ast_path =
-                        __ast_path.with_guard(AstParentKind::Token(self::fields::TokenField::Raw));
+                        __ast_path.with_guard(AstParentKind::Token(TokenField::Raw));
                     <Option<swc_atoms::Atom> as FoldWithAstPath<V>>::fold_with_ast_path(
                         raw,
                         visitor,
@@ -9928,8 +9823,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Token {
                 let mut __ast_path =
                     __ast_path.with_guard(AstParentKind::Token(self::fields::TokenField::StartTag));
                 let tag_name = {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentKind::Token(self::fields::TokenField::TagName));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::Token(TokenField::TagName));
                     <swc_atoms::Atom as FoldWithAstPath<V>>::fold_with_ast_path(
                         tag_name,
                         visitor,
@@ -9937,9 +9832,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Token {
                     )
                 };
                 let attributes = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Token(
-                        self::fields::TokenField::Attributes(usize::MAX),
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::Token(TokenField::Attributes(usize::MAX)));
                     <Vec<AttributeToken> as FoldWithAstPath<V>>::fold_with_ast_path(
                         attributes,
                         visitor,
@@ -9958,8 +9852,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Token {
                 let mut __ast_path =
                     __ast_path.with_guard(AstParentKind::Token(self::fields::TokenField::EndTag));
                 let tag_name = {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentKind::Token(self::fields::TokenField::TagName));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::Token(TokenField::TagName));
                     <swc_atoms::Atom as FoldWithAstPath<V>>::fold_with_ast_path(
                         tag_name,
                         visitor,
@@ -9967,9 +9861,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Token {
                     )
                 };
                 let attributes = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Token(
-                        self::fields::TokenField::Attributes(usize::MAX),
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::Token(TokenField::Attributes(usize::MAX)));
                     <Vec<AttributeToken> as FoldWithAstPath<V>>::fold_with_ast_path(
                         attributes,
                         visitor,
@@ -9988,8 +9881,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Token {
                 let mut __ast_path =
                     __ast_path.with_guard(AstParentKind::Token(self::fields::TokenField::EmptyTag));
                 let tag_name = {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentKind::Token(self::fields::TokenField::TagName));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::Token(TokenField::TagName));
                     <swc_atoms::Atom as FoldWithAstPath<V>>::fold_with_ast_path(
                         tag_name,
                         visitor,
@@ -9997,9 +9890,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Token {
                     )
                 };
                 let attributes = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Token(
-                        self::fields::TokenField::Attributes(usize::MAX),
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::Token(TokenField::Attributes(usize::MAX)));
                     <Vec<AttributeToken> as FoldWithAstPath<V>>::fold_with_ast_path(
                         attributes,
                         visitor,
@@ -10016,7 +9908,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Token {
                     __ast_path.with_guard(AstParentKind::Token(self::fields::TokenField::Comment));
                 let data = {
                     let mut __ast_path =
-                        __ast_path.with_guard(AstParentKind::Token(self::fields::TokenField::Data));
+                        __ast_path.with_guard(AstParentKind::Token(TokenField::Data));
                     <swc_atoms::Atom as FoldWithAstPath<V>>::fold_with_ast_path(
                         data,
                         visitor,
@@ -10025,7 +9917,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Token {
                 };
                 let raw = {
                     let mut __ast_path =
-                        __ast_path.with_guard(AstParentKind::Token(self::fields::TokenField::Raw));
+                        __ast_path.with_guard(AstParentKind::Token(TokenField::Raw));
                     <swc_atoms::Atom as FoldWithAstPath<V>>::fold_with_ast_path(
                         raw,
                         visitor,
@@ -10039,7 +9931,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Token {
                     .with_guard(AstParentKind::Token(self::fields::TokenField::Character));
                 let raw = {
                     let mut __ast_path =
-                        __ast_path.with_guard(AstParentKind::Token(self::fields::TokenField::Raw));
+                        __ast_path.with_guard(AstParentKind::Token(TokenField::Raw));
                     <Option<swc_atoms::Atom> as FoldWithAstPath<V>>::fold_with_ast_path(
                         raw,
                         visitor,
@@ -10053,8 +9945,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Token {
                     self::fields::TokenField::ProcessingInstruction,
                 ));
                 let target = {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentKind::Token(self::fields::TokenField::Target));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::Token(TokenField::Target));
                     <swc_atoms::Atom as FoldWithAstPath<V>>::fold_with_ast_path(
                         target,
                         visitor,
@@ -10063,7 +9955,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Token {
                 };
                 let data = {
                     let mut __ast_path =
-                        __ast_path.with_guard(AstParentKind::Token(self::fields::TokenField::Data));
+                        __ast_path.with_guard(AstParentKind::Token(TokenField::Data));
                     <swc_atoms::Atom as FoldWithAstPath<V>>::fold_with_ast_path(
                         data,
                         visitor,
@@ -10077,7 +9969,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Token {
                     __ast_path.with_guard(AstParentKind::Token(self::fields::TokenField::Cdata));
                 let data = {
                     let mut __ast_path =
-                        __ast_path.with_guard(AstParentKind::Token(self::fields::TokenField::Data));
+                        __ast_path.with_guard(AstParentKind::Token(TokenField::Data));
                     <swc_atoms::Atom as FoldWithAstPath<V>>::fold_with_ast_path(
                         data,
                         visitor,
@@ -10086,7 +9978,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Token {
                 };
                 let raw = {
                     let mut __ast_path =
-                        __ast_path.with_guard(AstParentKind::Token(self::fields::TokenField::Raw));
+                        __ast_path.with_guard(AstParentKind::Token(TokenField::Raw));
                     <swc_atoms::Atom as FoldWithAstPath<V>>::fold_with_ast_path(
                         raw,
                         visitor,
@@ -10111,9 +10003,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TokenAndSpan {
         match self {
             TokenAndSpan { span, token } => {
                 let span = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TokenAndSpan(
-                        self::fields::TokenAndSpanField::Span,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentKind::TokenAndSpan(TokenAndSpanField::Span));
                     <swc_common::Span as FoldWithAstPath<V>>::fold_with_ast_path(
                         span,
                         visitor,
@@ -10121,9 +10012,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TokenAndSpan {
                     )
                 };
                 let token = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TokenAndSpan(
-                        self::fields::TokenAndSpanField::Token,
-                    ));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentKind::TokenAndSpan(TokenAndSpanField::Token));
                     <Token as FoldWithAstPath<V>>::fold_with_ast_path(
                         token,
                         visitor,
@@ -11775,20 +11665,20 @@ pub mod fields {
     #[cfg(any(docsrs, feature = "path"))]
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
     pub enum AstParentKind {
-        Attribute(self::fields::AttributeField),
-        AttributeToken(self::fields::AttributeTokenField),
-        CdataSection(self::fields::CdataSectionField),
-        Child(self::fields::ChildField),
-        Comment(self::fields::CommentField),
-        Document(self::fields::DocumentField),
-        DocumentMode(self::fields::DocumentModeField),
-        DocumentType(self::fields::DocumentTypeField),
-        Element(self::fields::ElementField),
-        Namespace(self::fields::NamespaceField),
-        ProcessingInstruction(self::fields::ProcessingInstructionField),
-        Text(self::fields::TextField),
-        Token(self::fields::TokenField),
-        TokenAndSpan(self::fields::TokenAndSpanField),
+        Attribute(AttributeField),
+        AttributeToken(AttributeTokenField),
+        CdataSection(CdataSectionField),
+        Child(ChildField),
+        Comment(CommentField),
+        Document(DocumentField),
+        DocumentMode(DocumentModeField),
+        DocumentType(DocumentTypeField),
+        Element(ElementField),
+        Namespace(NamespaceField),
+        ProcessingInstruction(ProcessingInstructionField),
+        Text(TextField),
+        Token(TokenField),
+        TokenAndSpan(TokenAndSpanField),
     }
     impl ::swc_visit::ParentKind for AstParentKind {
         #[inline]
@@ -11814,23 +11704,20 @@ pub mod fields {
     #[cfg(any(docsrs, feature = "path"))]
     #[derive(Debug, Clone, Copy)]
     pub enum AstParentNodeRef<'ast> {
-        Attribute(&'ast Attribute, self::fields::AttributeField),
-        AttributeToken(&'ast AttributeToken, self::fields::AttributeTokenField),
-        CdataSection(&'ast CdataSection, self::fields::CdataSectionField),
-        Child(&'ast Child, self::fields::ChildField),
-        Comment(&'ast Comment, self::fields::CommentField),
-        Document(&'ast Document, self::fields::DocumentField),
-        DocumentMode(&'ast DocumentMode, self::fields::DocumentModeField),
-        DocumentType(&'ast DocumentType, self::fields::DocumentTypeField),
-        Element(&'ast Element, self::fields::ElementField),
-        Namespace(&'ast Namespace, self::fields::NamespaceField),
-        ProcessingInstruction(
-            &'ast ProcessingInstruction,
-            self::fields::ProcessingInstructionField,
-        ),
-        Text(&'ast Text, self::fields::TextField),
-        Token(&'ast Token, self::fields::TokenField),
-        TokenAndSpan(&'ast TokenAndSpan, self::fields::TokenAndSpanField),
+        Attribute(&'ast Attribute, AttributeField),
+        AttributeToken(&'ast AttributeToken, AttributeTokenField),
+        CdataSection(&'ast CdataSection, CdataSectionField),
+        Child(&'ast Child, ChildField),
+        Comment(&'ast Comment, CommentField),
+        Document(&'ast Document, DocumentField),
+        DocumentMode(&'ast DocumentMode, DocumentModeField),
+        DocumentType(&'ast DocumentType, DocumentTypeField),
+        Element(&'ast Element, ElementField),
+        Namespace(&'ast Namespace, NamespaceField),
+        ProcessingInstruction(&'ast ProcessingInstruction, ProcessingInstructionField),
+        Text(&'ast Text, TextField),
+        Token(&'ast Token, TokenField),
+        TokenAndSpan(&'ast TokenAndSpan, TokenAndSpanField),
     }
     impl<'ast> ::swc_visit::NodeRef for AstParentNodeRef<'ast> {
         type ParentKind = AstParentKind;
