@@ -1136,7 +1136,7 @@ impl Generator<'_> {
 
     fn node_type_for_visitor_method(&self, node_type: &FieldType) -> TokenStream {
         match self.kind {
-            TraitKind::Visit => match node_type {
+            TraitKind::Visit | TraitKind::VisitAll => match node_type {
                 FieldType::Generic(name, inner) if name == "Vec" => {
                     let inner_ty = quote!(#inner);
 
