@@ -60,8 +60,18 @@ pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
     output.items.push(parse_quote!(
         use #crate_name::*;
     ));
+    output.items.push(parse_quote!(
+        pub use ::swc_visit::All;
+    ));
 
-    for &kind in [TraitKind::Visit, TraitKind::VisitMut, TraitKind::Fold].iter() {
+    for &kind in [
+        TraitKind::Visit,
+        TraitKind::VisitMut,
+        TraitKind::Fold,
+        TraitKind::VisitAll,
+    ]
+    .iter()
+    {
         for &variant in [Variant::Normal, Variant::AstPath].iter() {
             let g = Generator {
                 crate_name: crate_name.clone(),
@@ -275,6 +285,7 @@ fn all_types_in_ty(ty: &Type) -> Vec<FieldType> {
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum TraitKind {
     Visit,
+    VisitAll,
     VisitMut,
     Fold,
 }
@@ -283,6 +294,7 @@ impl TraitKind {
     pub fn method_prefix(self) -> &'static str {
         match self {
             TraitKind::Visit => "visit",
+            TraitKind::VisitAll => "visit_all",
             TraitKind::VisitMut => "visit_mut",
             TraitKind::Fold => "fold",
         }
@@ -291,6 +303,7 @@ impl TraitKind {
     pub fn trait_prefix(self) -> &'static str {
         match self {
             TraitKind::Visit => "Visit",
+            TraitKind::VisitAll => "VisitAll",
             TraitKind::VisitMut => "VisitMut",
             TraitKind::Fold => "Fold",
         }
@@ -344,7 +357,7 @@ impl Generator<'_> {
 
     fn method_lifetime(&self) -> TokenStream {
         match self.kind {
-            TraitKind::Visit => match self.variant {
+            TraitKind::Visit | TraitKind::VisitAll => match self.variant {
                 Variant::Normal => quote!(),
                 Variant::AstPath => quote!(<'ast: 'r, 'r>),
             },
@@ -355,7 +368,7 @@ impl Generator<'_> {
 
     fn parameter_type_token(&self, ty: TokenStream) -> TokenStream {
         match self.kind {
-            TraitKind::Visit => match self.variant {
+            TraitKind::Visit | TraitKind::VisitAll => match self.variant {
                 Variant::Normal => quote!(&#ty),
                 Variant::AstPath => quote!(&'ast #ty),
             },
@@ -367,7 +380,7 @@ impl Generator<'_> {
     /// This includes `->`
     fn return_type_token(&self, ty: TokenStream) -> TokenStream {
         match self.kind {
-            TraitKind::Visit => quote!(),
+            TraitKind::Visit | TraitKind::VisitAll => quote!(),
             TraitKind::VisitMut => quote!(),
             TraitKind::Fold => quote!(-> #ty),
         }
@@ -384,7 +397,7 @@ impl Generator<'_> {
         match self.variant {
             Variant::Normal => quote!(),
             Variant::AstPath => match self.kind {
-                TraitKind::Visit => {
+                TraitKind::Visit | TraitKind::VisitAll => {
                     quote!(, ast_path: &mut AstNodePath<'r>)
                 }
                 TraitKind::VisitMut | TraitKind::Fold => quote!(, ast_path: &mut AstKindPath),
@@ -744,7 +757,7 @@ impl Generator<'_> {
                 let mut stmts: Vec<Stmt> = vec![];
                 let mut bindings = vec![];
                 let mut reconstruct = match self.kind {
-                    TraitKind::Visit | TraitKind::VisitMut => None,
+                    TraitKind::Visit | TraitKind::VisitAll | TraitKind::VisitMut => None,
                     TraitKind::Fold => Some(Vec::<TokenStream>::new()),
                 };
 
@@ -770,7 +783,7 @@ impl Generator<'_> {
                 }
 
                 match self.kind {
-                    TraitKind::Visit | TraitKind::VisitMut => {
+                    TraitKind::Visit | TraitKind::VisitAll | TraitKind::VisitMut => {
                         parse_quote!(#path { #(#bindings),* } => {
                             #(#stmts)*
                         })
@@ -792,7 +805,7 @@ impl Generator<'_> {
                 let mut stmts: Vec<Stmt> = vec![];
                 let mut bindings = Vec::<TokenStream>::new();
                 let mut reconstruct = match self.kind {
-                    TraitKind::Visit | TraitKind::VisitMut => None,
+                    TraitKind::Visit | TraitKind::VisitAll | TraitKind::VisitMut => None,
                     TraitKind::Fold => Some(Vec::<TokenStream>::new()),
                 };
 
@@ -818,7 +831,7 @@ impl Generator<'_> {
                 }
 
                 match self.kind {
-                    TraitKind::Visit | TraitKind::VisitMut => {
+                    TraitKind::Visit | TraitKind::VisitAll | TraitKind::VisitMut => {
                         parse_quote!(#path { #(#bindings),* }=> {
                             #(#stmts)*
                         })
@@ -835,7 +848,9 @@ impl Generator<'_> {
                 }
             }
             Fields::Unit => match self.kind {
-                TraitKind::Visit | TraitKind::VisitMut => parse_quote!(#path => {}),
+                TraitKind::Visit | TraitKind::VisitAll | TraitKind::VisitMut => {
+                    parse_quote!(#path => {})
+                }
                 TraitKind::Fold => parse_quote!(#path => #path,),
             },
         }
@@ -889,7 +904,7 @@ impl Generator<'_> {
 
             let default_body: Expr = match node_type {
                 FieldType::Normal(..) => match self.kind {
-                    TraitKind::Visit => {
+                    TraitKind::Visit | TraitKind::VisitAll => {
                         parse_quote!({})
                     }
                     TraitKind::VisitMut => {
@@ -906,7 +921,7 @@ impl Generator<'_> {
                         let inner_ty = quote!(#inner);
 
                         match self.kind {
-                            TraitKind::Visit => {
+                            TraitKind::Visit | TraitKind::VisitAll => {
                                 parse_quote!(self.iter().for_each(|item| {
                                     <#inner_ty as #visit_with_trait_name<V>>::visit_with(item, visitor #ast_path_arg)
                                 }))
@@ -932,7 +947,7 @@ impl Generator<'_> {
                         let inner_ty = quote!(#inner);
 
                         match self.kind {
-                            TraitKind::Visit => {
+                            TraitKind::Visit | TraitKind::VisitAll => {
                                 parse_quote!(
                                     match self {
                                         Some(inner) => {
@@ -1018,7 +1033,7 @@ impl Generator<'_> {
         {
             // Box<T> => T
             let deref_expr = match self.kind {
-                TraitKind::Visit => {
+                TraitKind::Visit | TraitKind::VisitAll => {
                     quote!(&**self)
                 }
                 TraitKind::VisitMut => {
@@ -1030,7 +1045,7 @@ impl Generator<'_> {
             };
 
             let restore_expr = match self.kind {
-                TraitKind::Visit => {
+                TraitKind::Visit | TraitKind::VisitAll => {
                     quote!()
                 }
                 TraitKind::VisitMut => {
