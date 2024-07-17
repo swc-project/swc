@@ -31,19 +31,19 @@ swc_v2  = []
 plugin = []
 
 [dependencies]
-anyhow = "1.0.66"
-getrandom = { version = "0.2.10", features = ["js"] }
-serde = { version = "1", features = ["derive"] }
-serde-wasm-bindgen = "0.4.5"
-swc_core = { version = "0.98.0", features = [
+anyhow = { workspace = true }
+getrandom = { workspace = true, features = ["js"] }
+serde = { workspace = true, features = ["derive"] }
+serde-wasm-bindgen = { workspace = true }
+swc_core = { workspace = true, features = [
   "ecma_ast_serde",
   "ecma_codegen",
   "binding_macro_wasm",
   "ecma_transforms",
   "ecma_visit",
 ] }
-tracing = { version = "0.1.37", features = ["max_level_off"] }
-wasm-bindgen = { version = "0.2.82", features = ["enable-interning"] }
+tracing = { workspace = true, features = ["max_level_off"] }
+wasm-bindgen = { workspace = true, features = ["enable-interning"] }
 
 [package.metadata.wasm-pack.profile.release]
 wasm-opt = false

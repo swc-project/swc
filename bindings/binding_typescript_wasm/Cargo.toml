@@ -15,14 +15,14 @@ crate-type = ["cdylib"]
 [features]
 
 [dependencies]
-anyhow               = "1.0.66"
-getrandom            = { version = "0.2.10", features = ["js"] }
-serde                = { version = "1", features = ["derive"] }
-serde-wasm-bindgen   = "0.4.5"
-serde_json           = "1.0.120"
-swc_common           = "0.35.1"
-swc_error_reporters  = "0.19.0"
-swc_fast_ts_strip    = "0.3.0"
-tracing              = { version = "0.1.37", features = ["max_level_off"] }
-wasm-bindgen         = { version = "0.2.82", features = ["enable-interning"] }
-wasm-bindgen-futures = { version = "0.4.41" }
+anyhow               = { workspace = true }
+getrandom            = { workspace = true, features = ["js"] }
+serde                = { workspace = true, features = ["derive"] }
+serde-wasm-bindgen   = { workspace = true }
+serde_json           = { workspace = true }
+swc_common           = { workspace = true }
+swc_error_reporters  = { workspace = true }
+swc_fast_ts_strip    = { workspace = true }
+tracing              = { workspace = true, features = ["max_level_off"] }
+wasm-bindgen         = { workspace = true, features = ["enable-interning"] }
+wasm-bindgen-futures = { workspace = true }
