@@ -3,6 +3,9 @@
 #![allow(clippy::all)]
 pub use ::swc_visit::All;
 use swc_html_ast::*;
+
+#[cfg(feature = "path")]
+use self::fields::{AstParentKind, AstParentNodeRef};
 #[doc = r" A visitor trait for traversing the AST."]
 pub trait Visit {
     #[doc = "Visit a node of type `swc_atoms :: Atom`.\n\nBy default, this method calls \

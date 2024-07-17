@@ -53,6 +53,10 @@ pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
         use #crate_name::*;
     ));
     output.items.push(parse_quote!(
+        #[cfg(feature = "path")]
+        use self::fields::{AstParentNodeRef, AstParentKind};
+    ));
+    output.items.push(parse_quote!(
         pub use ::swc_visit::All;
     ));
 
