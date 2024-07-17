@@ -73,6 +73,10 @@ pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
     .iter()
     {
         for &variant in [Variant::Normal, Variant::AstPath].iter() {
+            if let (TraitKind::VisitAll, Variant::AstPath) = (kind, variant) {
+                continue;
+            }
+
             let g = Generator {
                 crate_name: crate_name.clone(),
                 kind,
