@@ -39,7 +39,7 @@ pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
 
             output
                 .items
-                .extend(g.implement_visit_with_for_types(node_types));
+                .extend(g.implement_visit_with_for_node_types(node_types));
         }
     }
 
@@ -403,7 +403,7 @@ impl Generator<'_> {
         items
     }
 
-    fn implement_visit_with_for_types(&self, node_types: &[&Item]) -> Vec<Item> {
+    fn implement_visit_with_for_node_types(&self, node_types: &[&Item]) -> Vec<Item> {
         let visitor_trait_name = self.trait_name(false);
         let trait_name = self.trait_name(true);
         let attrs = self.base_trait_attrs();
