@@ -1299,6 +1299,10 @@ fn define_fields(node_types: &[&Item]) -> Vec<Item> {
                 #(#node_ref_enum_members),*
             }
         ));
+
+        items.push(parse_quote!(
+            impl<'ast> ::swc_visit::NodeRef for AstParentNodeRef<'ast> {}
+        ))
     }
 
     items
