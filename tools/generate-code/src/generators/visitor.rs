@@ -745,6 +745,7 @@ impl Generator<'_> {
                         match_arms.push(self.default_visit_body(
                             quote!(#name::#variant_name),
                             name,
+                            Some(variant_name),
                             &v.fields,
                         ));
                     }
@@ -754,7 +755,7 @@ impl Generator<'_> {
                 Item::Struct(data) => {
                     let name = &data.ident;
 
-                    let arm = self.default_visit_body(quote!(#name), name, &data.fields);
+                    let arm = self.default_visit_body(quote!(#name), name, None, &data.fields);
 
                     parse_quote!(match self { #arm })
                 }
@@ -779,7 +780,13 @@ impl Generator<'_> {
         items
     }
 
-    fn default_visit_body(&self, path: TokenStream, type_name: &Ident, fields: &Fields) -> Arm {
+    fn default_visit_body(
+        &self,
+        path: TokenStream,
+        type_name: &Ident,
+        enum_variant_name: Option<&Ident>,
+        fields: &Fields,
+    ) -> Arm {
         let ast_path_arg = match self.variant {
             Variant::Normal => quote!(),
             Variant::AstPath => quote!(, &mut *__ast_path),
@@ -797,6 +804,31 @@ impl Generator<'_> {
 
         let fields_enum_name = Ident::new(&format!("{type_name}Field"), Span::call_site());
 
+        let enum_ast_path = match enum_variant_name {
+            Some(variant_name) => {
+                let field_variant = Ident::new(
+                    &variant_name.to_string().to_pascal_case(),
+                    Span::call_site(),
+                );
+
+                match self.kind {
+                    TraitKind::Visit => Some(quote!(
+                        let mut __ast_path = __ast_path
+                            .with_guard(
+                                AstParentNodeRef::#type_name(self, self::fields::#fields_enum_name::#field_variant),
+                            );
+                    )),
+                    _ => Some(quote!(
+                        let mut __ast_path = __ast_path
+                            .with_guard(
+                                AstParentKind::#type_name(self::fields::#fields_enum_name::#field_variant),
+                            );
+                    )),
+                }
+            }
+            None => None,
+        };
+
         match fields {
             Fields::Named(n) => {
                 let mut stmts: Vec<Stmt> = vec![];
@@ -811,8 +843,11 @@ impl Generator<'_> {
                     let ty = &field.ty;
 
                     bindings.push(field_name.clone());
+
                     let field_variant =
                         Ident::new(&field_name.to_string().to_pascal_case(), Span::call_site());
+
+                    let mut ast_path_guard_expr: Option<Stmt> = None;
 
                     if self.kind != TraitKind::VisitAll
                         && self.variant == Variant::AstPath
@@ -826,7 +861,7 @@ impl Generator<'_> {
 
                         match self.kind {
                             TraitKind::Visit => {
-                                stmts.push(parse_quote!(
+                                ast_path_guard_expr = Some(parse_quote!(
                                     let mut __ast_path = __ast_path
                                         .with_guard(
                                             AstParentNodeRef::#type_name(self, #kind),
@@ -834,7 +869,7 @@ impl Generator<'_> {
                                 ));
                             }
                             _ => {
-                                stmts.push(parse_quote!(
+                                ast_path_guard_expr = Some(parse_quote!(
                                     let mut __ast_path = __ast_path
                                         .with_guard(
                                             AstParentKind::#type_name(#kind),
@@ -847,14 +882,20 @@ impl Generator<'_> {
                     if let Some(reconstructor) = &mut reconstruct {
                         if !self.should_skip(ty) {
                             stmts.push(parse_quote!(
-                                let #field_name = <#ty as #with_visitor_trait_name<V>>::#visit_with_name(#field_name, visitor #ast_path_arg);
+                                let #field_name = {
+                                    #ast_path_guard_expr
+                                    <#ty as #with_visitor_trait_name<V>>::#visit_with_name(#field_name, visitor #ast_path_arg)
+                                };
                             ));
                         }
 
                         reconstructor.push(parse_quote!(#field_name));
                     } else if !self.should_skip(ty) {
                         stmts.push(parse_quote!(
-                           <#ty as #with_visitor_trait_name<V>>::#visit_with_name(#field_name, visitor #ast_path_arg);
+                            {
+                                #ast_path_guard_expr
+                                <#ty as #with_visitor_trait_name<V>>::#visit_with_name(#field_name, visitor #ast_path_arg)
+                            };
                         ));
                     }
                 }
@@ -862,6 +903,8 @@ impl Generator<'_> {
                 match self.kind {
                     TraitKind::Visit | TraitKind::VisitAll | TraitKind::VisitMut => {
                         parse_quote!(#path { #(#bindings),* } => {
+                            #enum_ast_path;
+
                             #(#stmts)*
                         })
                     }
@@ -869,6 +912,9 @@ impl Generator<'_> {
                         let reconstruct = reconstruct.unwrap();
 
                         parse_quote!(#path { #(#bindings),* } => {
+                            #enum_ast_path;
+
+
                             #(#stmts)*
 
                             #path {
@@ -910,6 +956,8 @@ impl Generator<'_> {
                 match self.kind {
                     TraitKind::Visit | TraitKind::VisitAll | TraitKind::VisitMut => {
                         parse_quote!(#path { #(#bindings),* }=> {
+                            #enum_ast_path;
+
                             #(#stmts)*
                         })
                     }
@@ -917,6 +965,8 @@ impl Generator<'_> {
                         let reconstruct = reconstruct.unwrap();
 
                         parse_quote!(#path { #(#bindings),* } => {
+                            #enum_ast_path;
+
                             #(#stmts)*
 
                             #path{#(#reconstruct),*}
