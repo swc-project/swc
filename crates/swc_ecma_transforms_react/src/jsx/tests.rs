@@ -13,7 +13,9 @@ use swc_ecma_transforms_compat::{
     es2015::{arrow, classes},
     es3::property_literals,
 };
-use swc_ecma_transforms_testing::{parse_options, test, test_fixture, FixtureTestConfig, Tester};
+use swc_ecma_transforms_testing::{
+    parse_options, test, test_module_fixture, FixtureTestConfig, Tester,
+};
 use swc_ecma_visit::FoldWith;
 use testing::NormalizedOutput;
 
@@ -108,6 +110,7 @@ fn integration_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Fold {
     )
 }
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -122,6 +125,7 @@ test!(
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -140,6 +144,7 @@ var bar = function () {
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -164,6 +169,7 @@ var x =
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -179,6 +185,7 @@ Component = React.createClass({
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -195,6 +202,7 @@ export default React.createClass({
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -219,6 +227,7 @@ var Bar = React.createClass({
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -236,6 +245,7 @@ exports = {
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -252,6 +262,7 @@ exports.Component = React.createClass({
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -268,6 +279,7 @@ var Component = React.createClass({
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -283,6 +295,7 @@ test!(
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -300,6 +313,7 @@ var profile = <div>
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -319,6 +333,7 @@ var profile = <div>
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -343,6 +358,7 @@ var profile = <div>
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -353,6 +369,7 @@ test!(
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -393,6 +410,7 @@ class App extends React.Component {
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -406,6 +424,7 @@ test!(
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -416,6 +435,7 @@ test!(
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -426,6 +446,7 @@ test!(
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -436,6 +457,7 @@ test!(
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -446,6 +468,7 @@ test!(
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -469,6 +492,7 @@ test!(
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -483,6 +507,7 @@ test!(
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -498,6 +523,7 @@ test!(
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -524,6 +550,7 @@ var x = <Composite>
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -534,6 +561,7 @@ test!(
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -544,6 +572,7 @@ test!(
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -558,6 +587,7 @@ test!(
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -579,6 +609,7 @@ test!(
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -591,6 +622,7 @@ test!(
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -615,6 +647,7 @@ test!(
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -637,6 +670,7 @@ React.render(<HelloMessage name={
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -647,6 +681,7 @@ test!(
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -663,6 +698,7 @@ var x = <div>
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -690,6 +726,7 @@ var x =
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -700,6 +737,7 @@ test!(
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -710,6 +748,7 @@ test!(
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -720,6 +759,7 @@ test!(
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -730,6 +770,7 @@ test!(
 );
 
 test!(
+    module,
     // Comments are currently stripped out
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
@@ -752,6 +793,7 @@ var x = (
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -762,6 +804,7 @@ test!(
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -780,6 +823,7 @@ test!(
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -790,6 +834,7 @@ test!(
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -803,6 +848,7 @@ test!(
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -813,6 +859,7 @@ test!(
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -823,6 +870,7 @@ test!(
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -833,6 +881,7 @@ test!(
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -843,6 +892,7 @@ test!(
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -853,6 +903,7 @@ test!(
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -864,6 +915,7 @@ const b = <div>test</div>"
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -879,6 +931,7 @@ test!(
 );
 
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -890,6 +943,7 @@ test!(
 
 // https://github.com/swc-project/swc/issues/517
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -912,6 +966,7 @@ fn jsx_text() {
 
 // https://github.com/swc-project/swc/issues/542
 test!(
+    module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -966,6 +1021,7 @@ return (
 );
 
 test!(
+    module,
     Syntax::Es(EsSyntax {
         jsx: true,
         ..Default::default()
@@ -998,7 +1054,7 @@ fn fixture(input: PathBuf) {
         output = input.with_file_name("output.mjs");
     }
 
-    test_fixture(
+    test_module_fixture(
         Syntax::Es(EsSyntax {
             jsx: true,
             ..Default::default()
@@ -1023,7 +1079,7 @@ fn integration(input: PathBuf) {
         output = input.with_file_name("output.mjs");
     }
 
-    test_fixture(
+    test_module_fixture(
         Syntax::Es(EsSyntax {
             jsx: true,
             ..Default::default()
