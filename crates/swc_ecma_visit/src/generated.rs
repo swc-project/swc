@@ -8,12 +8,6 @@ pub trait Visit {
     fn visit_accessibility(&mut self, node: &Accessibility) {
         <Accessibility as VisitWith<Self>>::visit_children_with(node, self)
     }
-    #[doc = "Visit a node of type `Align64`.\n\nBy default, this method calls \
-             [`Align64::visit_children_with`]. If you want to recurse, you need to call it \
-             manually."]
-    fn visit_align_64(&mut self, node: &Align64) {
-        <Align64 as VisitWith<Self>>::visit_children_with(node, self)
-    }
     #[doc = "Visit a node of type `ArrayLit`.\n\nBy default, this method calls \
              [`ArrayLit::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -236,12 +230,6 @@ pub trait Visit {
              manually."]
     fn visit_empty_stmt(&mut self, node: &EmptyStmt) {
         <EmptyStmt as VisitWith<Self>>::visit_children_with(node, self)
-    }
-    #[doc = "Visit a node of type `EncodeBigInt`.\n\nBy default, this method calls \
-             [`EncodeBigInt::visit_children_with`]. If you want to recurse, you need to call it \
-             manually."]
-    fn visit_encode_big_int(&mut self, node: &EncodeBigInt) {
-        <EncodeBigInt as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `EsVersion`.\n\nBy default, this method calls \
              [`EsVersion::visit_children_with`]. If you want to recurse, you need to call it \
@@ -1419,20 +1407,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for Accessibility {
         }
     }
 }
-impl<V: ?Sized + Visit> VisitWith<V> for Align64 {
-    #[doc = "Calls [Visit`::visit_align_64`] with `self`."]
-    fn visit_with(&self, visitor: &mut V) {
-        <V as Visit>::visit_align_64(visitor, self)
-    }
-
-    fn visit_children_with(&self, visitor: &mut V) {
-        match self {
-            Align64 { 0: _field_0 } => {
-                <T as VisitWith<V>>::visit_children_with(_field_0, visitor);
-            }
-        }
-    }
-}
 impl<V: ?Sized + Visit> VisitWith<V> for ArrayLit {
     #[doc = "Calls [Visit`::visit_array_lit`] with `self`."]
     fn visit_with(&self, visitor: &mut V) {
@@ -2251,18 +2225,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for EmptyStmt {
             EmptyStmt { span } => {
                 <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
             }
-        }
-    }
-}
-impl<V: ?Sized + Visit> VisitWith<V> for EncodeBigInt {
-    #[doc = "Calls [Visit`::visit_encode_big_int`] with `self`."]
-    fn visit_with(&self, visitor: &mut V) {
-        <V as Visit>::visit_encode_big_int(visitor, self)
-    }
-
-    fn visit_children_with(&self, visitor: &mut V) {
-        match self {
-            EncodeBigInt => {}
         }
     }
 }
@@ -6272,16 +6234,6 @@ pub trait VisitAstPath {
             node, self, ast_path,
         )
     }
-    #[doc = "Visit a node of type `Align64`.\n\nBy default, this method calls \
-             [`Align64::visit_children_with_ast_path`]. If you want to recurse, you need to call \
-             it manually."]
-    fn visit_align_64<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast Align64,
-        ast_path: &mut AstNodePath<'r>,
-    ) {
-        <Align64 as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
-    }
     #[doc = "Visit a node of type `ArrayLit`.\n\nBy default, this method calls \
              [`ArrayLit::visit_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
@@ -6649,16 +6601,6 @@ pub trait VisitAstPath {
         ast_path: &mut AstNodePath<'r>,
     ) {
         <EmptyStmt as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
-    }
-    #[doc = "Visit a node of type `EncodeBigInt`.\n\nBy default, this method calls \
-             [`EncodeBigInt::visit_children_with_ast_path`]. If you want to recurse, you need to \
-             call it manually."]
-    fn visit_encode_big_int<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast EncodeBigInt,
-        ast_path: &mut AstNodePath<'r>,
-    ) {
-        <EncodeBigInt as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
     }
     #[doc = "Visit a node of type `EsVersion`.\n\nBy default, this method calls \
              [`EsVersion::visit_children_with_ast_path`]. If you want to recurse, you need to call \
@@ -8724,32 +8666,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Accessibility {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Align64 {
-    #[doc = "Calls [VisitAstPath`::visit_align_64`] with `self`."]
-    fn visit_with_ast_path<'ast: 'r, 'r>(
-        &'ast self,
-        visitor: &mut V,
-        ast_path: &mut AstNodePath<'r>,
-    ) {
-        <V as VisitAstPath>::visit_align_64(visitor, self, ast_path)
-    }
-
-    fn visit_children_with_ast_path<'ast: 'r, 'r>(
-        &'ast self,
-        visitor: &mut V,
-        ast_path: &mut AstNodePath<'r>,
-    ) {
-        match self {
-            Align64 { 0: _field_0 } => {
-                <T as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    _field_0, visitor, ast_path,
-                );
-            }
-        }
-    }
-}
-#[cfg(any(docsrs, feature = "path"))]
-#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ArrayLit {
     #[doc = "Calls [VisitAstPath`::visit_array_lit`] with `self`."]
     fn visit_with_ast_path<'ast: 'r, 'r>(
@@ -10232,28 +10148,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for EmptyStmt {
                     span, visitor, ast_path,
                 );
             }
-        }
-    }
-}
-#[cfg(any(docsrs, feature = "path"))]
-#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for EncodeBigInt {
-    #[doc = "Calls [VisitAstPath`::visit_encode_big_int`] with `self`."]
-    fn visit_with_ast_path<'ast: 'r, 'r>(
-        &'ast self,
-        visitor: &mut V,
-        ast_path: &mut AstNodePath<'r>,
-    ) {
-        <V as VisitAstPath>::visit_encode_big_int(visitor, self, ast_path)
-    }
-
-    fn visit_children_with_ast_path<'ast: 'r, 'r>(
-        &'ast self,
-        visitor: &mut V,
-        ast_path: &mut AstNodePath<'r>,
-    ) {
-        match self {
-            EncodeBigInt => {}
         }
     }
 }
@@ -17505,12 +17399,6 @@ pub trait VisitMut {
     fn visit_mut_accessibility(&mut self, node: &mut Accessibility) {
         <Accessibility as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
-    #[doc = "Visit a node of type `Align64`.\n\nBy default, this method calls \
-             [`Align64::visit_mut_children_with`]. If you want to recurse, you need to call it \
-             manually."]
-    fn visit_mut_align_64(&mut self, node: &mut Align64) {
-        <Align64 as VisitMutWith<Self>>::visit_mut_children_with(node, self)
-    }
     #[doc = "Visit a node of type `ArrayLit`.\n\nBy default, this method calls \
              [`ArrayLit::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -17738,12 +17626,6 @@ pub trait VisitMut {
              manually."]
     fn visit_mut_empty_stmt(&mut self, node: &mut EmptyStmt) {
         <EmptyStmt as VisitMutWith<Self>>::visit_mut_children_with(node, self)
-    }
-    #[doc = "Visit a node of type `EncodeBigInt`.\n\nBy default, this method calls \
-             [`EncodeBigInt::visit_mut_children_with`]. If you want to recurse, you need to call \
-             it manually."]
-    fn visit_mut_encode_big_int(&mut self, node: &mut EncodeBigInt) {
-        <EncodeBigInt as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `EsVersion`.\n\nBy default, this method calls \
              [`EsVersion::visit_mut_children_with`]. If you want to recurse, you need to call it \
@@ -18943,20 +18825,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Accessibility {
         }
     }
 }
-impl<V: ?Sized + VisitMut> VisitMutWith<V> for Align64 {
-    #[doc = "Calls [VisitMut`::visit_mut_align_64`] with `self`."]
-    fn visit_mut_with(&mut self, visitor: &mut V) {
-        <V as VisitMut>::visit_mut_align_64(visitor, self)
-    }
-
-    fn visit_mut_children_with(&mut self, visitor: &mut V) {
-        match self {
-            Align64 { 0: _field_0 } => {
-                <T as VisitMutWith<V>>::visit_mut_children_with(_field_0, visitor);
-            }
-        }
-    }
-}
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for ArrayLit {
     #[doc = "Calls [VisitMut`::visit_mut_array_lit`] with `self`."]
     fn visit_mut_with(&mut self, visitor: &mut V) {
@@ -19811,18 +19679,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for EmptyStmt {
             EmptyStmt { span } => {
                 <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
             }
-        }
-    }
-}
-impl<V: ?Sized + VisitMut> VisitMutWith<V> for EncodeBigInt {
-    #[doc = "Calls [VisitMut`::visit_mut_encode_big_int`] with `self`."]
-    fn visit_mut_with(&mut self, visitor: &mut V) {
-        <V as VisitMut>::visit_mut_encode_big_int(visitor, self)
-    }
-
-    fn visit_mut_children_with(&mut self, visitor: &mut V) {
-        match self {
-            EncodeBigInt => {}
         }
     }
 }
@@ -23947,14 +23803,6 @@ pub trait VisitMutAstPath {
             node, self, ast_path,
         )
     }
-    #[doc = "Visit a node of type `Align64`.\n\nBy default, this method calls \
-             [`Align64::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
-             call it manually."]
-    fn visit_mut_align_64(&mut self, node: &mut Align64, ast_path: &mut AstKindPath) {
-        <Align64 as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
-            node, self, ast_path,
-        )
-    }
     #[doc = "Visit a node of type `ArrayLit`.\n\nBy default, this method calls \
              [`ArrayLit::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
@@ -24262,14 +24110,6 @@ pub trait VisitMutAstPath {
              call it manually."]
     fn visit_mut_empty_stmt(&mut self, node: &mut EmptyStmt, ast_path: &mut AstKindPath) {
         <EmptyStmt as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
-            node, self, ast_path,
-        )
-    }
-    #[doc = "Visit a node of type `EncodeBigInt`.\n\nBy default, this method calls \
-             [`EncodeBigInt::visit_mut_children_with_ast_path`]. If you want to recurse, you need \
-             to call it manually."]
-    fn visit_mut_encode_big_int(&mut self, node: &mut EncodeBigInt, ast_path: &mut AstKindPath) {
-        <EncodeBigInt as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -26105,24 +25945,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Accessibility {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Align64 {
-    #[doc = "Calls [VisitMutAstPath`::visit_mut_align_64`] with `self`."]
-    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        <V as VisitMutAstPath>::visit_mut_align_64(visitor, self, ast_path)
-    }
-
-    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        match self {
-            Align64 { 0: _field_0 } => {
-                <T as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    _field_0, visitor, ast_path,
-                );
-            }
-        }
-    }
-}
-#[cfg(any(docsrs, feature = "path"))]
-#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ArrayLit {
     #[doc = "Calls [VisitMutAstPath`::visit_mut_array_lit`] with `self`."]
     fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
@@ -27267,20 +27089,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for EmptyStmt {
                     span, visitor, ast_path,
                 );
             }
-        }
-    }
-}
-#[cfg(any(docsrs, feature = "path"))]
-#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for EncodeBigInt {
-    #[doc = "Calls [VisitMutAstPath`::visit_mut_encode_big_int`] with `self`."]
-    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        <V as VisitMutAstPath>::visit_mut_encode_big_int(visitor, self, ast_path)
-    }
-
-    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        match self {
-            EncodeBigInt => {}
         }
     }
 }
@@ -32868,11 +32676,6 @@ pub trait Fold {
     fn fold_accessibility(&mut self, node: Accessibility) -> Accessibility {
         <Accessibility as FoldWith<Self>>::fold_children_with(node, self)
     }
-    #[doc = "Visit a node of type `Align64`.\n\nBy default, this method calls \
-             [`Align64::fold_children_with`]. If you want to recurse, you need to call it manually."]
-    fn fold_align_64(&mut self, node: Align64) -> Align64 {
-        <Align64 as FoldWith<Self>>::fold_children_with(node, self)
-    }
     #[doc = "Visit a node of type `ArrayLit`.\n\nBy default, this method calls \
              [`ArrayLit::fold_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -33094,12 +32897,6 @@ pub trait Fold {
              manually."]
     fn fold_empty_stmt(&mut self, node: EmptyStmt) -> EmptyStmt {
         <EmptyStmt as FoldWith<Self>>::fold_children_with(node, self)
-    }
-    #[doc = "Visit a node of type `EncodeBigInt`.\n\nBy default, this method calls \
-             [`EncodeBigInt::fold_children_with`]. If you want to recurse, you need to call it \
-             manually."]
-    fn fold_encode_big_int(&mut self, node: EncodeBigInt) -> EncodeBigInt {
-        <EncodeBigInt as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `EsVersion`.\n\nBy default, this method calls \
              [`EsVersion::fold_children_with`]. If you want to recurse, you need to call it \
@@ -34290,21 +34087,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for Accessibility {
         }
     }
 }
-impl<V: ?Sized + Fold> FoldWith<V> for Align64 {
-    #[doc = "Calls [Fold`::fold_align_64`] with `self`."]
-    fn fold_with(self, visitor: &mut V) -> Self {
-        <V as Fold>::fold_align_64(visitor, self)
-    }
-
-    fn fold_children_with(self, visitor: &mut V) -> Self {
-        match self {
-            Align64 { 0: _field_0 } => {
-                let _field_0 = <T as FoldWith<V>>::fold_children_with(_field_0, visitor);
-                Align64 { 0: self._field_0 }
-            }
-        }
-    }
-}
 impl<V: ?Sized + Fold> FoldWith<V> for ArrayLit {
     #[doc = "Calls [Fold`::fold_array_lit`] with `self`."]
     fn fold_with(self, visitor: &mut V) -> Self {
@@ -35297,18 +35079,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for EmptyStmt {
                 let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 EmptyStmt { span }
             }
-        }
-    }
-}
-impl<V: ?Sized + Fold> FoldWith<V> for EncodeBigInt {
-    #[doc = "Calls [Fold`::fold_encode_big_int`] with `self`."]
-    fn fold_with(self, visitor: &mut V) -> Self {
-        <V as Fold>::fold_encode_big_int(visitor, self)
-    }
-
-    fn fold_children_with(self, visitor: &mut V) -> Self {
-        match self {
-            EncodeBigInt => {}
         }
     }
 }
@@ -40194,12 +39964,6 @@ pub trait FoldAstPath {
     ) -> Accessibility {
         <Accessibility as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
     }
-    #[doc = "Visit a node of type `Align64`.\n\nBy default, this method calls \
-             [`Align64::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
-             manually."]
-    fn fold_align_64(&mut self, node: Align64, ast_path: &mut AstKindPath) -> Align64 {
-        <Align64 as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
-    }
     #[doc = "Visit a node of type `ArrayLit`.\n\nBy default, this method calls \
              [`ArrayLit::fold_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
@@ -40469,16 +40233,6 @@ pub trait FoldAstPath {
              it manually."]
     fn fold_empty_stmt(&mut self, node: EmptyStmt, ast_path: &mut AstKindPath) -> EmptyStmt {
         <EmptyStmt as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
-    }
-    #[doc = "Visit a node of type `EncodeBigInt`.\n\nBy default, this method calls \
-             [`EncodeBigInt::fold_children_with_ast_path`]. If you want to recurse, you need to \
-             call it manually."]
-    fn fold_encode_big_int(
-        &mut self,
-        node: EncodeBigInt,
-        ast_path: &mut AstKindPath,
-    ) -> EncodeBigInt {
-        <EncodeBigInt as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
     }
     #[doc = "Visit a node of type `EsVersion`.\n\nBy default, this method calls \
              [`EsVersion::fold_children_with_ast_path`]. If you want to recurse, you need to call \
@@ -42178,25 +41932,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Accessibility {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Align64 {
-    #[doc = "Calls [FoldAstPath`::fold_align_64`] with `self`."]
-    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
-        <V as FoldAstPath>::fold_align_64(visitor, self, ast_path)
-    }
-
-    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
-        match self {
-            Align64 { 0: _field_0 } => {
-                let _field_0 = <T as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    _field_0, visitor, ast_path,
-                );
-                Align64 { 0: self._field_0 }
-            }
-        }
-    }
-}
-#[cfg(any(docsrs, feature = "path"))]
-#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ArrayLit {
     #[doc = "Calls [FoldAstPath`::fold_array_lit`] with `self`."]
     fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
@@ -43540,20 +43275,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for EmptyStmt {
                 );
                 EmptyStmt { span }
             }
-        }
-    }
-}
-#[cfg(any(docsrs, feature = "path"))]
-#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for EncodeBigInt {
-    #[doc = "Calls [FoldAstPath`::fold_encode_big_int`] with `self`."]
-    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
-        <V as FoldAstPath>::fold_encode_big_int(visitor, self, ast_path)
-    }
-
-    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
-        match self {
-            EncodeBigInt => {}
         }
     }
 }
@@ -50053,8 +49774,6 @@ pub mod fields {
         Private,
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
-    pub enum Align64Field {}
-    #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
     pub enum ArrayLitField {
         #[doc = "Represents [`ArrayLit::span`]"]
         Span,
@@ -50534,8 +50253,6 @@ pub mod fields {
         #[doc = "Represents [`EmptyStmt::span`]"]
         Span,
     }
-    #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
-    pub enum EncodeBigIntField {}
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
     pub enum EsVersionField {
         #[doc = "Represents [`EsVersion::Es3`]"]
