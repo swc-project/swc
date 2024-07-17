@@ -1210,6 +1210,8 @@ fn extract_generic<'a>(name: &str, ty: &'a Type) -> Option<&'a Type> {
 }
 fn define_fields(node_types: &[&Item]) -> Vec<Item> {
     let mut items = Vec::<Item>::new();
+    let mut kind_enum_members = vec![];
+    let mut node_ref_enum_members = vec![];
 
     {
         let mut defs = Vec::<Item>::new();
@@ -1221,7 +1223,7 @@ fn define_fields(node_types: &[&Item]) -> Vec<Item> {
                 _ => continue,
             };
 
-            let enum_name = Ident::new(&format!("{type_name}Field"), Span::call_site());
+            let fields_enum_name = Ident::new(&format!("{type_name}Field"), Span::call_site());
 
             let mut variants = vec![];
 
@@ -1240,18 +1242,34 @@ fn define_fields(node_types: &[&Item]) -> Vec<Item> {
                             #variant_name
                         ));
                     }
+
+                    kind_enum_members.push(quote!(
+                        #type_name(self::fields::#fields_enum_name)
+                    ));
+
+                    node_ref_enum_members.push(quote!(
+                        #type_name(&'ast #type_name, self::fields::#fields_enum_name)
+                    ));
                 }
                 Item::Struct(data) => {
                     for field in &data.fields {
                         variants.extend(field_variant(&type_name, field));
                     }
+
+                    kind_enum_members.push(quote!(
+                        #type_name(self::fields::#fields_enum_name)
+                    ));
+
+                    node_ref_enum_members.push(quote!(
+                        #type_name(&'ast #type_name, self::fields::#fields_enum_name)
+                    ));
                 }
                 _ => continue,
             }
 
             defs.push(parse_quote!(
                 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
-                pub enum #enum_name {
+                pub enum #fields_enum_name {
                     #(#variants),*
                 }
             ))
@@ -1261,6 +1279,24 @@ fn define_fields(node_types: &[&Item]) -> Vec<Item> {
             #[cfg(feature = "path")]
             pub mod fields {
                 #(#defs)*
+            }
+        ));
+    }
+
+    {
+        items.push(parse_quote!(
+            #[cfg(feature = "path")]
+            pub enum AstParentKind {
+                #(#kind_enum_members),*
+            }
+        ));
+    }
+
+    {
+        items.push(parse_quote!(
+            #[cfg(feature = "path")]
+            pub enum AstParentNodeRef<'ast> {
+                #(#node_ref_enum_members),*
             }
         ));
     }
