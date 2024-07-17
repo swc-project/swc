@@ -1309,7 +1309,7 @@ fn define_fields(node_types: &[&Item]) -> Vec<Item> {
         items.push(parse_quote!(
             impl ::swc_visit::ParentKind for AstParentKind {
                 #[inline]
-                fn set_index(&mut self, index: usize) -> AstParentKind {
+                fn set_index(&mut self, index: usize) {
                     match self {
                         #(#kind_set_index_arms)*
                     }
