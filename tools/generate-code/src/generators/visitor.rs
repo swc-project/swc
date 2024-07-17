@@ -593,9 +593,9 @@ impl Generator<'_> {
         let ast_path_arg = self.arg_extra_token();
 
         let with_visitor_trait_name = self.trait_name(true);
-        let visit_with_children_name = Ident::new(
+        let visit_with_name = Ident::new(
             &format!(
-                "{}_children_with{}",
+                "{}_with{}",
                 self.kind.method_prefix(),
                 self.variant.method_suffix(false)
             ),
@@ -620,14 +620,14 @@ impl Generator<'_> {
                     if let Some(reconstructor) = &mut reconstruct {
                         if !self.is_leaf_type(ty) {
                             stmts.push(parse_quote!(
-                                let #field_name = <#ty as #with_visitor_trait_name<V>>::#visit_with_children_name(#field_name, visitor #ast_path_arg);
+                                let #field_name = <#ty as #with_visitor_trait_name<V>>::#visit_with_name(#field_name, visitor #ast_path_arg);
                             ));
                         }
 
                         reconstructor.push(parse_quote!(#field_name));
                     } else if !self.is_leaf_type(ty) {
                         stmts.push(parse_quote!(
-                           <#ty as #with_visitor_trait_name<V>>::#visit_with_children_name(#field_name, visitor #ast_path_arg);
+                           <#ty as #with_visitor_trait_name<V>>::#visit_with_name(#field_name, visitor #ast_path_arg);
                         ));
                     }
                 }
@@ -668,14 +668,14 @@ impl Generator<'_> {
                     if let Some(reconstructor) = &mut reconstruct {
                         if !self.is_leaf_type(ty) {
                             stmts.push(parse_quote!(
-                                let #field_name = <#ty as #with_visitor_trait_name<V>>::#visit_with_children_name(#field_name, visitor #ast_path_arg);
+                                let #field_name = <#ty as #with_visitor_trait_name<V>>::#visit_with_name(#field_name, visitor #ast_path_arg);
                             ));
                         }
 
                         reconstructor.push(parse_quote!(#binding_idx: self.#field_name));
                     } else if !self.is_leaf_type(ty) {
                         stmts.push(parse_quote!(
-                            <#ty as #with_visitor_trait_name<V>>::#visit_with_children_name(#field_name, visitor #ast_path_arg);
+                            <#ty as #with_visitor_trait_name<V>>::#visit_with_name(#field_name, visitor #ast_path_arg);
                         ));
                     }
                 }
