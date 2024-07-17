@@ -87,16 +87,16 @@ pub trait Visit {
     fn visit_await_expr(&mut self, node: &AwaitExpr) {
         <AwaitExpr as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Visit a node of type `BigInt`.\n\nBy default, this method calls \
+             [`BigInt::visit_children_with`]. If you want to recurse, you need to call it manually."]
+    fn visit_big_int(&mut self, node: &BigInt) {
+        <BigInt as VisitWith<Self>>::visit_children_with(node, self)
+    }
     #[doc = "Visit a node of type `num_bigint :: BigInt`.\n\nBy default, this method calls \
              [`num_bigint :: BigInt::visit_children_with`]. If you want to recurse, you need to \
              call it manually."]
     fn visit_big_int(&mut self, node: &num_bigint::BigInt) {
         <num_bigint::BigInt as VisitWith<Self>>::visit_children_with(node, self)
-    }
-    #[doc = "Visit a node of type `BigInt`.\n\nBy default, this method calls \
-             [`BigInt::visit_children_with`]. If you want to recurse, you need to call it manually."]
-    fn visit_big_int(&mut self, node: &BigInt) {
-        <BigInt as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `BigIntValue`.\n\nBy default, this method calls \
              [`BigIntValue::visit_children_with`]. If you want to recurse, you need to call it \
@@ -7113,6 +7113,12 @@ pub trait VisitAstPath {
     ) {
         <AwaitExpr as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
     }
+    #[doc = "Visit a node of type `BigInt`.\n\nBy default, this method calls \
+             [`BigInt::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_big_int<'ast: 'r, 'r>(&mut self, node: &'ast BigInt, ast_path: &mut AstNodePath<'r>) {
+        <BigInt as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
+    }
     #[doc = "Visit a node of type `num_bigint :: BigInt`.\n\nBy default, this method calls \
              [`num_bigint :: BigInt::visit_children_with_ast_path`]. If you want to recurse, you \
              need to call it manually."]
@@ -7124,12 +7130,6 @@ pub trait VisitAstPath {
         <num_bigint::BigInt as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, ast_path,
         )
-    }
-    #[doc = "Visit a node of type `BigInt`.\n\nBy default, this method calls \
-             [`BigInt::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
-             manually."]
-    fn visit_big_int<'ast: 'r, 'r>(&mut self, node: &'ast BigInt, ast_path: &mut AstNodePath<'r>) {
-        <BigInt as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
     }
     #[doc = "Visit a node of type `BigIntValue`.\n\nBy default, this method calls \
              [`BigIntValue::visit_children_with_ast_path`]. If you want to recurse, you need to \
@@ -19012,12 +19012,16 @@ where
     V: ?Sized + VisitAstPath,
     T: VisitWithAstPath<V>,
 {
-    fn visit_with_ast_path<'ast: 'r, 'r>(&self, visitor: &mut V, ast_path: &mut AstNodePath<'r>) {
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
         <T as VisitWithAstPath<V>>::visit_with_ast_path(&**self, visitor, ast_path)
     }
 
     fn visit_children_with_ast_path<'ast: 'r, 'r>(
-        &self,
+        &'ast self,
         visitor: &mut V,
         ast_path: &mut AstNodePath<'r>,
     ) {
@@ -19110,17 +19114,17 @@ pub trait VisitMut {
     fn visit_mut_await_expr(&mut self, node: &mut AwaitExpr) {
         <AwaitExpr as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
-    #[doc = "Visit a node of type `num_bigint :: BigInt`.\n\nBy default, this method calls \
-             [`num_bigint :: BigInt::visit_mut_children_with`]. If you want to recurse, you need \
-             to call it manually."]
-    fn visit_mut_big_int(&mut self, node: &mut num_bigint::BigInt) {
-        <num_bigint::BigInt as VisitMutWith<Self>>::visit_mut_children_with(node, self)
-    }
     #[doc = "Visit a node of type `BigInt`.\n\nBy default, this method calls \
              [`BigInt::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
     fn visit_mut_big_int(&mut self, node: &mut BigInt) {
         <BigInt as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `num_bigint :: BigInt`.\n\nBy default, this method calls \
+             [`num_bigint :: BigInt::visit_mut_children_with`]. If you want to recurse, you need \
+             to call it manually."]
+    fn visit_mut_big_int(&mut self, node: &mut num_bigint::BigInt) {
+        <num_bigint::BigInt as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `BigIntValue`.\n\nBy default, this method calls \
              [`BigIntValue::visit_mut_children_with`]. If you want to recurse, you need to call it \
@@ -26043,11 +26047,11 @@ where
     V: ?Sized + VisitMut,
     T: VisitMutWith<V>,
 {
-    fn visit_mut_with(&self, visitor: &mut V) {
+    fn visit_mut_with(&mut self, visitor: &mut V) {
         <T as VisitMutWith<V>>::visit_mut_with(&**self, visitor)
     }
 
-    fn visit_mut_children_with(&self, visitor: &mut V) {
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
         <T as VisitMutWith<V>>::visit_mut_children_with(&**self, visitor)
     }
 }
@@ -26171,19 +26175,19 @@ pub trait VisitMutAstPath {
             node, self, ast_path,
         )
     }
-    #[doc = "Visit a node of type `num_bigint :: BigInt`.\n\nBy default, this method calls \
-             [`num_bigint :: BigInt::visit_mut_children_with_ast_path`]. If you want to recurse, \
-             you need to call it manually."]
-    fn visit_mut_big_int(&mut self, node: &mut num_bigint::BigInt, ast_path: &mut AstKindPath) {
-        <num_bigint::BigInt as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
-            node, self, ast_path,
-        )
-    }
     #[doc = "Visit a node of type `BigInt`.\n\nBy default, this method calls \
              [`BigInt::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
     fn visit_mut_big_int(&mut self, node: &mut BigInt, ast_path: &mut AstKindPath) {
         <BigInt as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `num_bigint :: BigInt`.\n\nBy default, this method calls \
+             [`num_bigint :: BigInt::visit_mut_children_with_ast_path`]. If you want to recurse, \
+             you need to call it manually."]
+    fn visit_mut_big_int(&mut self, node: &mut num_bigint::BigInt, ast_path: &mut AstKindPath) {
+        <num_bigint::BigInt as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -35735,11 +35739,11 @@ where
     V: ?Sized + VisitMutAstPath,
     T: VisitMutWithAstPath<V>,
 {
-    fn visit_mut_with_ast_path(&self, visitor: &mut V, ast_path: &mut AstKindPath) {
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         <T as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(&**self, visitor, ast_path)
     }
 
-    fn visit_mut_children_with_ast_path(&self, visitor: &mut V, ast_path: &mut AstKindPath) {
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         <T as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(&**self, visitor, ast_path)
     }
 }
@@ -35829,16 +35833,16 @@ pub trait Fold {
     fn fold_await_expr(&mut self, node: AwaitExpr) -> AwaitExpr {
         <AwaitExpr as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Visit a node of type `BigInt`.\n\nBy default, this method calls \
+             [`BigInt::fold_children_with`]. If you want to recurse, you need to call it manually."]
+    fn fold_big_int(&mut self, node: BigInt) -> BigInt {
+        <BigInt as FoldWith<Self>>::fold_children_with(node, self)
+    }
     #[doc = "Visit a node of type `num_bigint :: BigInt`.\n\nBy default, this method calls \
              [`num_bigint :: BigInt::fold_children_with`]. If you want to recurse, you need to \
              call it manually."]
     fn fold_big_int(&mut self, node: num_bigint::BigInt) -> num_bigint::BigInt {
         <num_bigint::BigInt as FoldWith<Self>>::fold_children_with(node, self)
-    }
-    #[doc = "Visit a node of type `BigInt`.\n\nBy default, this method calls \
-             [`BigInt::fold_children_with`]. If you want to recurse, you need to call it manually."]
-    fn fold_big_int(&mut self, node: BigInt) -> BigInt {
-        <BigInt as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `BigIntValue`.\n\nBy default, this method calls \
              [`BigIntValue::fold_children_with`]. If you want to recurse, you need to call it \
@@ -43568,11 +43572,11 @@ where
     V: ?Sized + Fold,
     T: FoldWith<V>,
 {
-    fn fold_with(&self, visitor: &mut V) -> Self {
+    fn fold_with(self, visitor: &mut V) -> Self {
         <T as FoldWith<V>>::fold_with(&**self, visitor)
     }
 
-    fn fold_children_with(&self, visitor: &mut V) -> Self {
+    fn fold_children_with(self, visitor: &mut V) -> Self {
         <T as FoldWith<V>>::fold_children_with(&**self, visitor)
     }
 }
@@ -43688,6 +43692,12 @@ pub trait FoldAstPath {
     fn fold_await_expr(&mut self, node: AwaitExpr, ast_path: &mut AstKindPath) -> AwaitExpr {
         <AwaitExpr as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
     }
+    #[doc = "Visit a node of type `BigInt`.\n\nBy default, this method calls \
+             [`BigInt::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
+             manually."]
+    fn fold_big_int(&mut self, node: BigInt, ast_path: &mut AstKindPath) -> BigInt {
+        <BigInt as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
+    }
     #[doc = "Visit a node of type `num_bigint :: BigInt`.\n\nBy default, this method calls \
              [`num_bigint :: BigInt::fold_children_with_ast_path`]. If you want to recurse, you \
              need to call it manually."]
@@ -43699,12 +43709,6 @@ pub trait FoldAstPath {
         <num_bigint::BigInt as FoldWithAstPath<Self>>::fold_children_with_ast_path(
             node, self, ast_path,
         )
-    }
-    #[doc = "Visit a node of type `BigInt`.\n\nBy default, this method calls \
-             [`BigInt::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
-             manually."]
-    fn fold_big_int(&mut self, node: BigInt, ast_path: &mut AstKindPath) -> BigInt {
-        <BigInt as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
     }
     #[doc = "Visit a node of type `BigIntValue`.\n\nBy default, this method calls \
              [`BigIntValue::fold_children_with_ast_path`]. If you want to recurse, you need to \
@@ -53746,11 +53750,11 @@ where
     V: ?Sized + FoldAstPath,
     T: FoldWithAstPath<V>,
 {
-    fn fold_with_ast_path(&self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         <T as FoldWithAstPath<V>>::fold_with_ast_path(&**self, visitor, ast_path)
     }
 
-    fn fold_children_with_ast_path(&self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         <T as FoldWithAstPath<V>>::fold_children_with_ast_path(&**self, visitor, ast_path)
     }
 }
