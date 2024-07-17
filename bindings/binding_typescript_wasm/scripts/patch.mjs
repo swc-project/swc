@@ -8,6 +8,23 @@ const base64 = rawWasmFile.toString('base64');
 
 const patchedJsFile = origJsFile
     .replace(`const path = require('path').join(__dirname, 'wasm_bg.wasm');`, '')
+    .replaceAll(/=\s*getInt32Memory0\(\)\[(\w+)\s*\/\s*(\d+)\s*\+\s*(\d+)\]/g, `= getDataView().getInt32($1 + $2 * $3, true)`)
+    .replaceAll(/getInt32Memory0\(\)\[(\w+)\s*\/\s*(\d+)\s*\+\s*(\d+)\]\s*=\s*(.*);/g, `getDataView().setInt32($1 + $2 * $3, $4, true);`)
+    .replaceAll(/getFloat64Memory0\(\)\[(\w+)\s*\/\s*(\d+)\s*\+\s*(\d+)\]\s*=\s*(.*);/g, `getDataView().setFloat64($1 + $2 * $3, $4, true);`)
+    .replace(', fatal: true', '')
+    .replace('let cachedFloat64Memory0 = null;',
+        `
+let cachedDataView = null;
+/** @returns {DataView} */
+function getDataView() {
+    if (cachedDataView === null || cachedDataView.buffer !== wasm.memory.buffer) {
+        cachedDataView = new DataView(wasm.memory.buffer);
+    }
+    return cachedDataView;
+}
+
+let cachedFloat64Memory0 = null;
+`)
     .replace(`const bytes = require('fs').readFileSync(path);`, `
 const { Buffer } = require('node:buffer');
 const bytes = Buffer.from('${base64}', 'base64');`)
