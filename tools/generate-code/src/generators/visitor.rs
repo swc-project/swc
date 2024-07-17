@@ -160,6 +160,10 @@ fn to_field_ty(ty: &Type) -> Option<FieldType> {
         return to_field_ty(ty).map(|ty| FieldType::Generic("Box".into(), Box::new(ty)));
     }
 
+    if let Some(ty) = extract_generic("Option", ty) {
+        return to_field_ty(ty).map(|ty| FieldType::Generic("Box".into(), Box::new(ty)));
+    }
+
     match ty {
         Type::Path(p) => {
             let last = p.path.segments.last().unwrap();
@@ -191,17 +195,7 @@ fn to_field_ty(ty: &Type) -> Option<FieldType> {
                 return Some(FieldType::Normal(i.to_string()));
             }
 
-            match &last.arguments {
-                PathArguments::AngleBracketed(tps) => {
-                    let arg = tps.args.first().unwrap();
-
-                    match arg {
-                        GenericArgument::Type(arg) => to_field_ty(arg),
-                        _ => todo!("generic parameter other than type"),
-                    }
-                }
-                _ => todo!("Box() -> T or Box without a type parameter"),
-            }
+            todo!("to_field_ty: {:?}", ty)
         }
         _ => todo!("to_field_ty"),
     }
