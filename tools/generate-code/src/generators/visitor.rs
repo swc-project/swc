@@ -442,7 +442,10 @@ impl Generator<'_> {
         let with_trait_name = self.trait_name(true);
         let trait_name = self.trait_name(false);
         let attrs = self.base_trait_attrs();
-        let mut trait_methods: Vec<TraitItem> = vec![];
+        let mut trait_methods = Vec::<TraitItem>::new();
+        let mut either_impl_methods = Vec::<TraitItem>::new();
+        let mut ptr_impl_methods = Vec::<TraitItem>::new();
+        let mut optional_impl_methods = Vec::<TraitItem>::new();
 
         for ty in all_types {
             if let FieldType::Generic(name, ..) = &ty {
