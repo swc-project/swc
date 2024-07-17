@@ -881,9 +881,22 @@ impl Generator<'_> {
                 },
             };
 
+            let target_type = match self.kind {
+                TraitKind::Visit => match node_type {
+                    FieldType::Generic(name, inner) if name == "Vec" => {
+                        let inner_ty = quote!(#inner);
+
+                        quote!([#inner_ty])
+                    }
+
+                    _ => quote!(#node_type),
+                },
+                _ => quote!(#node_type),
+            };
+
             items.push(parse_quote!(
                 #(#attrs)*
-                impl<V: ?Sized + #visitor_trait_name> #visit_with_trait_name<V> for #node_type {
+                impl<V: ?Sized + #visitor_trait_name> #visit_with_trait_name<V> for #target_type {
                     #visit_with_doc
                     fn #visit_with_name #lifetime (#receiver, visitor: &mut V #ast_path_param) #return_type {
                         <V as #visitor_trait_name>::#visit_method_name(visitor, self #ast_path_arg)
@@ -929,6 +942,7 @@ impl Generator<'_> {
         let mut items = Vec::<Item>::new();
 
         {
+            // Box<T> => T
             let deref_expr = match self.kind {
                 TraitKind::Visit => {
                     quote!(&**self)
