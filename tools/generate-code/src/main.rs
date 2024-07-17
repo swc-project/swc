@@ -180,12 +180,11 @@ fn collect_input_files(input_dir: &Path) -> Result<Vec<PathBuf>> {
 }
 
 fn run_cargo_fmt(file: &Path) -> Result<()> {
-    let status = std::process::Command::new("cargo")
-        .arg("fmt")
-        .arg("--")
-        .arg(file)
-        .status()
-        .context("failed to run cargo fmt")?;
+    let mut cmd = std::process::Command::new("cargo");
+    cmd.arg("fmt").arg("--").arg(file);
+
+    eprintln!("Running: {:?}", cmd);
+    let status = cmd.status().context("failed to run cargo fmt")?;
 
     if !status.success() {
         bail!("cargo fmt failed with status: {:?}", status);
