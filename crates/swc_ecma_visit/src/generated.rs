@@ -87,16 +87,16 @@ pub trait Visit {
     fn visit_await_expr(&mut self, node: &AwaitExpr) {
         <AwaitExpr as VisitWith<Self>>::visit_children_with(node, self)
     }
-    #[doc = "Visit a node of type `BigInt`.\n\nBy default, this method calls \
-             [`BigInt::visit_children_with`]. If you want to recurse, you need to call it manually."]
-    fn visit_big_int(&mut self, node: &BigInt) {
-        <BigInt as VisitWith<Self>>::visit_children_with(node, self)
-    }
     #[doc = "Visit a node of type `num_bigint :: BigInt`.\n\nBy default, this method calls \
              [`num_bigint :: BigInt::visit_children_with`]. If you want to recurse, you need to \
              call it manually."]
     fn visit_big_int(&mut self, node: &num_bigint::BigInt) {
         <num_bigint::BigInt as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `BigInt`.\n\nBy default, this method calls \
+             [`BigInt::visit_children_with`]. If you want to recurse, you need to call it manually."]
+    fn visit_big_int(&mut self, node: &BigInt) {
+        <BigInt as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `BigIntValue`.\n\nBy default, this method calls \
              [`BigIntValue::visit_children_with`]. If you want to recurse, you need to call it \
@@ -7113,12 +7113,6 @@ pub trait VisitAstPath {
     ) {
         <AwaitExpr as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
     }
-    #[doc = "Visit a node of type `BigInt`.\n\nBy default, this method calls \
-             [`BigInt::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
-             manually."]
-    fn visit_big_int<'ast: 'r, 'r>(&mut self, node: &'ast BigInt, ast_path: &mut AstNodePath<'r>) {
-        <BigInt as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
-    }
     #[doc = "Visit a node of type `num_bigint :: BigInt`.\n\nBy default, this method calls \
              [`num_bigint :: BigInt::visit_children_with_ast_path`]. If you want to recurse, you \
              need to call it manually."]
@@ -7130,6 +7124,12 @@ pub trait VisitAstPath {
         <num_bigint::BigInt as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, ast_path,
         )
+    }
+    #[doc = "Visit a node of type `BigInt`.\n\nBy default, this method calls \
+             [`BigInt::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_big_int<'ast: 'r, 'r>(&mut self, node: &'ast BigInt, ast_path: &mut AstNodePath<'r>) {
+        <BigInt as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
     }
     #[doc = "Visit a node of type `BigIntValue`.\n\nBy default, this method calls \
              [`BigIntValue::visit_children_with_ast_path`]. If you want to recurse, you need to \
@@ -19114,17 +19114,17 @@ pub trait VisitMut {
     fn visit_mut_await_expr(&mut self, node: &mut AwaitExpr) {
         <AwaitExpr as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
-    #[doc = "Visit a node of type `BigInt`.\n\nBy default, this method calls \
-             [`BigInt::visit_mut_children_with`]. If you want to recurse, you need to call it \
-             manually."]
-    fn visit_mut_big_int(&mut self, node: &mut BigInt) {
-        <BigInt as VisitMutWith<Self>>::visit_mut_children_with(node, self)
-    }
     #[doc = "Visit a node of type `num_bigint :: BigInt`.\n\nBy default, this method calls \
              [`num_bigint :: BigInt::visit_mut_children_with`]. If you want to recurse, you need \
              to call it manually."]
     fn visit_mut_big_int(&mut self, node: &mut num_bigint::BigInt) {
         <num_bigint::BigInt as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `BigInt`.\n\nBy default, this method calls \
+             [`BigInt::visit_mut_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_mut_big_int(&mut self, node: &mut BigInt) {
+        <BigInt as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `BigIntValue`.\n\nBy default, this method calls \
              [`BigIntValue::visit_mut_children_with`]. If you want to recurse, you need to call it \
@@ -26175,19 +26175,19 @@ pub trait VisitMutAstPath {
             node, self, ast_path,
         )
     }
-    #[doc = "Visit a node of type `BigInt`.\n\nBy default, this method calls \
-             [`BigInt::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
-             call it manually."]
-    fn visit_mut_big_int(&mut self, node: &mut BigInt, ast_path: &mut AstKindPath) {
-        <BigInt as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
-            node, self, ast_path,
-        )
-    }
     #[doc = "Visit a node of type `num_bigint :: BigInt`.\n\nBy default, this method calls \
              [`num_bigint :: BigInt::visit_mut_children_with_ast_path`]. If you want to recurse, \
              you need to call it manually."]
     fn visit_mut_big_int(&mut self, node: &mut num_bigint::BigInt, ast_path: &mut AstKindPath) {
         <num_bigint::BigInt as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `BigInt`.\n\nBy default, this method calls \
+             [`BigInt::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_mut_big_int(&mut self, node: &mut BigInt, ast_path: &mut AstKindPath) {
+        <BigInt as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -35833,16 +35833,16 @@ pub trait Fold {
     fn fold_await_expr(&mut self, node: AwaitExpr) -> AwaitExpr {
         <AwaitExpr as FoldWith<Self>>::fold_children_with(node, self)
     }
-    #[doc = "Visit a node of type `BigInt`.\n\nBy default, this method calls \
-             [`BigInt::fold_children_with`]. If you want to recurse, you need to call it manually."]
-    fn fold_big_int(&mut self, node: BigInt) -> BigInt {
-        <BigInt as FoldWith<Self>>::fold_children_with(node, self)
-    }
     #[doc = "Visit a node of type `num_bigint :: BigInt`.\n\nBy default, this method calls \
              [`num_bigint :: BigInt::fold_children_with`]. If you want to recurse, you need to \
              call it manually."]
     fn fold_big_int(&mut self, node: num_bigint::BigInt) -> num_bigint::BigInt {
         <num_bigint::BigInt as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `BigInt`.\n\nBy default, this method calls \
+             [`BigInt::fold_children_with`]. If you want to recurse, you need to call it manually."]
+    fn fold_big_int(&mut self, node: BigInt) -> BigInt {
+        <BigInt as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `BigIntValue`.\n\nBy default, this method calls \
              [`BigIntValue::fold_children_with`]. If you want to recurse, you need to call it \
@@ -37743,11 +37743,11 @@ impl<V: ?Sized + Fold> FoldWith<V> for AssignTarget {
         match self {
             AssignTarget::Simple { 0: _field_0 } => {
                 let _field_0 = <SimpleAssignTarget as FoldWith<V>>::fold_with(_field_0, visitor);
-                AssignTarget::Simple { 0: self._field_0 }
+                AssignTarget::Simple { 0: _field_0 }
             }
             AssignTarget::Pat { 0: _field_0 } => {
                 let _field_0 = <AssignTargetPat as FoldWith<V>>::fold_with(_field_0, visitor);
-                AssignTarget::Pat { 0: self._field_0 }
+                AssignTarget::Pat { 0: _field_0 }
             }
         }
     }
@@ -37762,15 +37762,15 @@ impl<V: ?Sized + Fold> FoldWith<V> for AssignTargetPat {
         match self {
             AssignTargetPat::Array { 0: _field_0 } => {
                 let _field_0 = <ArrayPat as FoldWith<V>>::fold_with(_field_0, visitor);
-                AssignTargetPat::Array { 0: self._field_0 }
+                AssignTargetPat::Array { 0: _field_0 }
             }
             AssignTargetPat::Object { 0: _field_0 } => {
                 let _field_0 = <ObjectPat as FoldWith<V>>::fold_with(_field_0, visitor);
-                AssignTargetPat::Object { 0: self._field_0 }
+                AssignTargetPat::Object { 0: _field_0 }
             }
             AssignTargetPat::Invalid { 0: _field_0 } => {
                 let _field_0 = <Invalid as FoldWith<V>>::fold_with(_field_0, visitor);
-                AssignTargetPat::Invalid { 0: self._field_0 }
+                AssignTargetPat::Invalid { 0: _field_0 }
             }
         }
     }
@@ -37950,11 +37950,11 @@ impl<V: ?Sized + Fold> FoldWith<V> for BlockStmtOrExpr {
         match self {
             BlockStmtOrExpr::BlockStmt { 0: _field_0 } => {
                 let _field_0 = <BlockStmt as FoldWith<V>>::fold_with(_field_0, visitor);
-                BlockStmtOrExpr::BlockStmt { 0: self._field_0 }
+                BlockStmtOrExpr::BlockStmt { 0: _field_0 }
             }
             BlockStmtOrExpr::Expr { 0: _field_0 } => {
                 let _field_0 = <Box<Expr> as FoldWith<V>>::fold_with(_field_0, visitor);
-                BlockStmtOrExpr::Expr { 0: self._field_0 }
+                BlockStmtOrExpr::Expr { 0: _field_0 }
             }
         }
     }
@@ -38027,15 +38027,15 @@ impl<V: ?Sized + Fold> FoldWith<V> for Callee {
         match self {
             Callee::Super { 0: _field_0 } => {
                 let _field_0 = <Super as FoldWith<V>>::fold_with(_field_0, visitor);
-                Callee::Super { 0: self._field_0 }
+                Callee::Super { 0: _field_0 }
             }
             Callee::Import { 0: _field_0 } => {
                 let _field_0 = <Import as FoldWith<V>>::fold_with(_field_0, visitor);
-                Callee::Import { 0: self._field_0 }
+                Callee::Import { 0: _field_0 }
             }
             Callee::Expr { 0: _field_0 } => {
                 let _field_0 = <Box<Expr> as FoldWith<V>>::fold_with(_field_0, visitor);
-                Callee::Expr { 0: self._field_0 }
+                Callee::Expr { 0: _field_0 }
             }
         }
     }
@@ -38153,35 +38153,35 @@ impl<V: ?Sized + Fold> FoldWith<V> for ClassMember {
         match self {
             ClassMember::Constructor { 0: _field_0 } => {
                 let _field_0 = <Constructor as FoldWith<V>>::fold_with(_field_0, visitor);
-                ClassMember::Constructor { 0: self._field_0 }
+                ClassMember::Constructor { 0: _field_0 }
             }
-            ClassMember::Method { 0: _field_0 } => ClassMember::Method { 0: self._field_0 },
+            ClassMember::Method { 0: _field_0 } => ClassMember::Method { 0: _field_0 },
             ClassMember::PrivateMethod { 0: _field_0 } => {
-                ClassMember::PrivateMethod { 0: self._field_0 }
+                ClassMember::PrivateMethod { 0: _field_0 }
             }
             ClassMember::ClassProp { 0: _field_0 } => {
                 let _field_0 = <ClassProp as FoldWith<V>>::fold_with(_field_0, visitor);
-                ClassMember::ClassProp { 0: self._field_0 }
+                ClassMember::ClassProp { 0: _field_0 }
             }
             ClassMember::PrivateProp { 0: _field_0 } => {
                 let _field_0 = <PrivateProp as FoldWith<V>>::fold_with(_field_0, visitor);
-                ClassMember::PrivateProp { 0: self._field_0 }
+                ClassMember::PrivateProp { 0: _field_0 }
             }
             ClassMember::TsIndexSignature { 0: _field_0 } => {
                 let _field_0 = <TsIndexSignature as FoldWith<V>>::fold_with(_field_0, visitor);
-                ClassMember::TsIndexSignature { 0: self._field_0 }
+                ClassMember::TsIndexSignature { 0: _field_0 }
             }
             ClassMember::Empty { 0: _field_0 } => {
                 let _field_0 = <EmptyStmt as FoldWith<V>>::fold_with(_field_0, visitor);
-                ClassMember::Empty { 0: self._field_0 }
+                ClassMember::Empty { 0: _field_0 }
             }
             ClassMember::StaticBlock { 0: _field_0 } => {
                 let _field_0 = <StaticBlock as FoldWith<V>>::fold_with(_field_0, visitor);
-                ClassMember::StaticBlock { 0: self._field_0 }
+                ClassMember::StaticBlock { 0: _field_0 }
             }
             ClassMember::AutoAccessor { 0: _field_0 } => {
                 let _field_0 = <AutoAccessor as FoldWith<V>>::fold_with(_field_0, visitor);
-                ClassMember::AutoAccessor { 0: self._field_0 }
+                ClassMember::AutoAccessor { 0: _field_0 }
             }
         }
     }
@@ -38349,35 +38349,35 @@ impl<V: ?Sized + Fold> FoldWith<V> for Decl {
         match self {
             Decl::Class { 0: _field_0 } => {
                 let _field_0 = <ClassDecl as FoldWith<V>>::fold_with(_field_0, visitor);
-                Decl::Class { 0: self._field_0 }
+                Decl::Class { 0: _field_0 }
             }
             Decl::Fn { 0: _field_0 } => {
                 let _field_0 = <FnDecl as FoldWith<V>>::fold_with(_field_0, visitor);
-                Decl::Fn { 0: self._field_0 }
+                Decl::Fn { 0: _field_0 }
             }
             Decl::Var { 0: _field_0 } => {
                 let _field_0 = <Box<VarDecl> as FoldWith<V>>::fold_with(_field_0, visitor);
-                Decl::Var { 0: self._field_0 }
+                Decl::Var { 0: _field_0 }
             }
             Decl::Using { 0: _field_0 } => {
                 let _field_0 = <Box<UsingDecl> as FoldWith<V>>::fold_with(_field_0, visitor);
-                Decl::Using { 0: self._field_0 }
+                Decl::Using { 0: _field_0 }
             }
             Decl::TsInterface { 0: _field_0 } => {
                 let _field_0 = <Box<TsInterfaceDecl> as FoldWith<V>>::fold_with(_field_0, visitor);
-                Decl::TsInterface { 0: self._field_0 }
+                Decl::TsInterface { 0: _field_0 }
             }
             Decl::TsTypeAlias { 0: _field_0 } => {
                 let _field_0 = <Box<TsTypeAliasDecl> as FoldWith<V>>::fold_with(_field_0, visitor);
-                Decl::TsTypeAlias { 0: self._field_0 }
+                Decl::TsTypeAlias { 0: _field_0 }
             }
             Decl::TsEnum { 0: _field_0 } => {
                 let _field_0 = <Box<TsEnumDecl> as FoldWith<V>>::fold_with(_field_0, visitor);
-                Decl::TsEnum { 0: self._field_0 }
+                Decl::TsEnum { 0: _field_0 }
             }
             Decl::TsModule { 0: _field_0 } => {
                 let _field_0 = <Box<TsModuleDecl> as FoldWith<V>>::fold_with(_field_0, visitor);
-                Decl::TsModule { 0: self._field_0 }
+                Decl::TsModule { 0: _field_0 }
             }
         }
     }
@@ -38407,15 +38407,15 @@ impl<V: ?Sized + Fold> FoldWith<V> for DefaultDecl {
         match self {
             DefaultDecl::Class { 0: _field_0 } => {
                 let _field_0 = <ClassExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                DefaultDecl::Class { 0: self._field_0 }
+                DefaultDecl::Class { 0: _field_0 }
             }
             DefaultDecl::Fn { 0: _field_0 } => {
                 let _field_0 = <FnExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                DefaultDecl::Fn { 0: self._field_0 }
+                DefaultDecl::Fn { 0: _field_0 }
             }
             DefaultDecl::TsInterfaceDecl { 0: _field_0 } => {
                 let _field_0 = <Box<TsInterfaceDecl> as FoldWith<V>>::fold_with(_field_0, visitor);
-                DefaultDecl::TsInterfaceDecl { 0: self._field_0 }
+                DefaultDecl::TsInterfaceDecl { 0: _field_0 }
             }
         }
     }
@@ -38609,16 +38609,16 @@ impl<V: ?Sized + Fold> FoldWith<V> for ExportSpecifier {
             ExportSpecifier::Namespace { 0: _field_0 } => {
                 let _field_0 =
                     <ExportNamespaceSpecifier as FoldWith<V>>::fold_with(_field_0, visitor);
-                ExportSpecifier::Namespace { 0: self._field_0 }
+                ExportSpecifier::Namespace { 0: _field_0 }
             }
             ExportSpecifier::Default { 0: _field_0 } => {
                 let _field_0 =
                     <ExportDefaultSpecifier as FoldWith<V>>::fold_with(_field_0, visitor);
-                ExportSpecifier::Default { 0: self._field_0 }
+                ExportSpecifier::Default { 0: _field_0 }
             }
             ExportSpecifier::Named { 0: _field_0 } => {
                 let _field_0 = <ExportNamedSpecifier as FoldWith<V>>::fold_with(_field_0, visitor);
-                ExportSpecifier::Named { 0: self._field_0 }
+                ExportSpecifier::Named { 0: _field_0 }
             }
         }
     }
@@ -38633,155 +38633,155 @@ impl<V: ?Sized + Fold> FoldWith<V> for Expr {
         match self {
             Expr::This { 0: _field_0 } => {
                 let _field_0 = <ThisExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::This { 0: self._field_0 }
+                Expr::This { 0: _field_0 }
             }
             Expr::Array { 0: _field_0 } => {
                 let _field_0 = <ArrayLit as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::Array { 0: self._field_0 }
+                Expr::Array { 0: _field_0 }
             }
             Expr::Object { 0: _field_0 } => {
                 let _field_0 = <ObjectLit as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::Object { 0: self._field_0 }
+                Expr::Object { 0: _field_0 }
             }
             Expr::Fn { 0: _field_0 } => {
                 let _field_0 = <FnExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::Fn { 0: self._field_0 }
+                Expr::Fn { 0: _field_0 }
             }
             Expr::Unary { 0: _field_0 } => {
                 let _field_0 = <UnaryExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::Unary { 0: self._field_0 }
+                Expr::Unary { 0: _field_0 }
             }
             Expr::Update { 0: _field_0 } => {
                 let _field_0 = <UpdateExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::Update { 0: self._field_0 }
+                Expr::Update { 0: _field_0 }
             }
             Expr::Bin { 0: _field_0 } => {
                 let _field_0 = <BinExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::Bin { 0: self._field_0 }
+                Expr::Bin { 0: _field_0 }
             }
             Expr::Assign { 0: _field_0 } => {
                 let _field_0 = <AssignExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::Assign { 0: self._field_0 }
+                Expr::Assign { 0: _field_0 }
             }
             Expr::Member { 0: _field_0 } => {
                 let _field_0 = <MemberExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::Member { 0: self._field_0 }
+                Expr::Member { 0: _field_0 }
             }
             Expr::SuperProp { 0: _field_0 } => {
                 let _field_0 = <SuperPropExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::SuperProp { 0: self._field_0 }
+                Expr::SuperProp { 0: _field_0 }
             }
             Expr::Cond { 0: _field_0 } => {
                 let _field_0 = <CondExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::Cond { 0: self._field_0 }
+                Expr::Cond { 0: _field_0 }
             }
             Expr::Call { 0: _field_0 } => {
                 let _field_0 = <CallExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::Call { 0: self._field_0 }
+                Expr::Call { 0: _field_0 }
             }
             Expr::New { 0: _field_0 } => {
                 let _field_0 = <NewExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::New { 0: self._field_0 }
+                Expr::New { 0: _field_0 }
             }
             Expr::Seq { 0: _field_0 } => {
                 let _field_0 = <SeqExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::Seq { 0: self._field_0 }
+                Expr::Seq { 0: _field_0 }
             }
             Expr::Ident { 0: _field_0 } => {
                 let _field_0 = <Ident as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::Ident { 0: self._field_0 }
+                Expr::Ident { 0: _field_0 }
             }
             Expr::Lit { 0: _field_0 } => {
                 let _field_0 = <Lit as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::Lit { 0: self._field_0 }
+                Expr::Lit { 0: _field_0 }
             }
             Expr::Tpl { 0: _field_0 } => {
                 let _field_0 = <Tpl as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::Tpl { 0: self._field_0 }
+                Expr::Tpl { 0: _field_0 }
             }
             Expr::TaggedTpl { 0: _field_0 } => {
                 let _field_0 = <TaggedTpl as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::TaggedTpl { 0: self._field_0 }
+                Expr::TaggedTpl { 0: _field_0 }
             }
             Expr::Arrow { 0: _field_0 } => {
                 let _field_0 = <ArrowExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::Arrow { 0: self._field_0 }
+                Expr::Arrow { 0: _field_0 }
             }
             Expr::Class { 0: _field_0 } => {
                 let _field_0 = <ClassExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::Class { 0: self._field_0 }
+                Expr::Class { 0: _field_0 }
             }
             Expr::Yield { 0: _field_0 } => {
                 let _field_0 = <YieldExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::Yield { 0: self._field_0 }
+                Expr::Yield { 0: _field_0 }
             }
             Expr::MetaProp { 0: _field_0 } => {
                 let _field_0 = <MetaPropExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::MetaProp { 0: self._field_0 }
+                Expr::MetaProp { 0: _field_0 }
             }
             Expr::Await { 0: _field_0 } => {
                 let _field_0 = <AwaitExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::Await { 0: self._field_0 }
+                Expr::Await { 0: _field_0 }
             }
             Expr::Paren { 0: _field_0 } => {
                 let _field_0 = <ParenExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::Paren { 0: self._field_0 }
+                Expr::Paren { 0: _field_0 }
             }
             Expr::JSXMember { 0: _field_0 } => {
                 let _field_0 = <JSXMemberExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::JSXMember { 0: self._field_0 }
+                Expr::JSXMember { 0: _field_0 }
             }
             Expr::JSXNamespacedName { 0: _field_0 } => {
                 let _field_0 = <JSXNamespacedName as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::JSXNamespacedName { 0: self._field_0 }
+                Expr::JSXNamespacedName { 0: _field_0 }
             }
             Expr::JSXEmpty { 0: _field_0 } => {
                 let _field_0 = <JSXEmptyExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::JSXEmpty { 0: self._field_0 }
+                Expr::JSXEmpty { 0: _field_0 }
             }
             Expr::JSXElement { 0: _field_0 } => {
                 let _field_0 = <Box<JSXElement> as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::JSXElement { 0: self._field_0 }
+                Expr::JSXElement { 0: _field_0 }
             }
             Expr::JSXFragment { 0: _field_0 } => {
                 let _field_0 = <JSXFragment as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::JSXFragment { 0: self._field_0 }
+                Expr::JSXFragment { 0: _field_0 }
             }
             Expr::TsTypeAssertion { 0: _field_0 } => {
                 let _field_0 = <TsTypeAssertion as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::TsTypeAssertion { 0: self._field_0 }
+                Expr::TsTypeAssertion { 0: _field_0 }
             }
             Expr::TsConstAssertion { 0: _field_0 } => {
                 let _field_0 = <TsConstAssertion as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::TsConstAssertion { 0: self._field_0 }
+                Expr::TsConstAssertion { 0: _field_0 }
             }
             Expr::TsNonNull { 0: _field_0 } => {
                 let _field_0 = <TsNonNullExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::TsNonNull { 0: self._field_0 }
+                Expr::TsNonNull { 0: _field_0 }
             }
             Expr::TsAs { 0: _field_0 } => {
                 let _field_0 = <TsAsExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::TsAs { 0: self._field_0 }
+                Expr::TsAs { 0: _field_0 }
             }
             Expr::TsInstantiation { 0: _field_0 } => {
                 let _field_0 = <TsInstantiation as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::TsInstantiation { 0: self._field_0 }
+                Expr::TsInstantiation { 0: _field_0 }
             }
             Expr::TsSatisfies { 0: _field_0 } => {
                 let _field_0 = <TsSatisfiesExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::TsSatisfies { 0: self._field_0 }
+                Expr::TsSatisfies { 0: _field_0 }
             }
             Expr::PrivateName { 0: _field_0 } => {
                 let _field_0 = <PrivateName as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::PrivateName { 0: self._field_0 }
+                Expr::PrivateName { 0: _field_0 }
             }
             Expr::OptChain { 0: _field_0 } => {
                 let _field_0 = <OptChainExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::OptChain { 0: self._field_0 }
+                Expr::OptChain { 0: _field_0 }
             }
             Expr::Invalid { 0: _field_0 } => {
                 let _field_0 = <Invalid as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::Invalid { 0: self._field_0 }
+                Expr::Invalid { 0: _field_0 }
             }
         }
     }
@@ -38866,15 +38866,15 @@ impl<V: ?Sized + Fold> FoldWith<V> for ForHead {
         match self {
             ForHead::VarDecl { 0: _field_0 } => {
                 let _field_0 = <Box<VarDecl> as FoldWith<V>>::fold_with(_field_0, visitor);
-                ForHead::VarDecl { 0: self._field_0 }
+                ForHead::VarDecl { 0: _field_0 }
             }
             ForHead::UsingDecl { 0: _field_0 } => {
                 let _field_0 = <Box<UsingDecl> as FoldWith<V>>::fold_with(_field_0, visitor);
-                ForHead::UsingDecl { 0: self._field_0 }
+                ForHead::UsingDecl { 0: _field_0 }
             }
             ForHead::Pat { 0: _field_0 } => {
                 let _field_0 = <Box<Pat> as FoldWith<V>>::fold_with(_field_0, visitor);
-                ForHead::Pat { 0: self._field_0 }
+                ForHead::Pat { 0: _field_0 }
             }
         }
     }
@@ -39209,16 +39209,16 @@ impl<V: ?Sized + Fold> FoldWith<V> for ImportSpecifier {
         match self {
             ImportSpecifier::Named { 0: _field_0 } => {
                 let _field_0 = <ImportNamedSpecifier as FoldWith<V>>::fold_with(_field_0, visitor);
-                ImportSpecifier::Named { 0: self._field_0 }
+                ImportSpecifier::Named { 0: _field_0 }
             }
             ImportSpecifier::Default { 0: _field_0 } => {
                 let _field_0 =
                     <ImportDefaultSpecifier as FoldWith<V>>::fold_with(_field_0, visitor);
-                ImportSpecifier::Default { 0: self._field_0 }
+                ImportSpecifier::Default { 0: _field_0 }
             }
             ImportSpecifier::Namespace { 0: _field_0 } => {
                 let _field_0 = <ImportStarAsSpecifier as FoldWith<V>>::fold_with(_field_0, visitor);
-                ImportSpecifier::Namespace { 0: self._field_0 }
+                ImportSpecifier::Namespace { 0: _field_0 }
             }
         }
     }
@@ -39307,11 +39307,11 @@ impl<V: ?Sized + Fold> FoldWith<V> for JSXAttrName {
         match self {
             JSXAttrName::Ident { 0: _field_0 } => {
                 let _field_0 = <IdentName as FoldWith<V>>::fold_with(_field_0, visitor);
-                JSXAttrName::Ident { 0: self._field_0 }
+                JSXAttrName::Ident { 0: _field_0 }
             }
             JSXAttrName::JSXNamespacedName { 0: _field_0 } => {
                 let _field_0 = <JSXNamespacedName as FoldWith<V>>::fold_with(_field_0, visitor);
-                JSXAttrName::JSXNamespacedName { 0: self._field_0 }
+                JSXAttrName::JSXNamespacedName { 0: _field_0 }
             }
         }
     }
@@ -39326,11 +39326,11 @@ impl<V: ?Sized + Fold> FoldWith<V> for JSXAttrOrSpread {
         match self {
             JSXAttrOrSpread::JSXAttr { 0: _field_0 } => {
                 let _field_0 = <JSXAttr as FoldWith<V>>::fold_with(_field_0, visitor);
-                JSXAttrOrSpread::JSXAttr { 0: self._field_0 }
+                JSXAttrOrSpread::JSXAttr { 0: _field_0 }
             }
             JSXAttrOrSpread::SpreadElement { 0: _field_0 } => {
                 let _field_0 = <SpreadElement as FoldWith<V>>::fold_with(_field_0, visitor);
-                JSXAttrOrSpread::SpreadElement { 0: self._field_0 }
+                JSXAttrOrSpread::SpreadElement { 0: _field_0 }
             }
         }
     }
@@ -39345,19 +39345,19 @@ impl<V: ?Sized + Fold> FoldWith<V> for JSXAttrValue {
         match self {
             JSXAttrValue::Lit { 0: _field_0 } => {
                 let _field_0 = <Lit as FoldWith<V>>::fold_with(_field_0, visitor);
-                JSXAttrValue::Lit { 0: self._field_0 }
+                JSXAttrValue::Lit { 0: _field_0 }
             }
             JSXAttrValue::JSXExprContainer { 0: _field_0 } => {
                 let _field_0 = <JSXExprContainer as FoldWith<V>>::fold_with(_field_0, visitor);
-                JSXAttrValue::JSXExprContainer { 0: self._field_0 }
+                JSXAttrValue::JSXExprContainer { 0: _field_0 }
             }
             JSXAttrValue::JSXElement { 0: _field_0 } => {
                 let _field_0 = <Box<JSXElement> as FoldWith<V>>::fold_with(_field_0, visitor);
-                JSXAttrValue::JSXElement { 0: self._field_0 }
+                JSXAttrValue::JSXElement { 0: _field_0 }
             }
             JSXAttrValue::JSXFragment { 0: _field_0 } => {
                 let _field_0 = <JSXFragment as FoldWith<V>>::fold_with(_field_0, visitor);
-                JSXAttrValue::JSXFragment { 0: self._field_0 }
+                JSXAttrValue::JSXFragment { 0: _field_0 }
             }
         }
     }
@@ -39427,23 +39427,23 @@ impl<V: ?Sized + Fold> FoldWith<V> for JSXElementChild {
         match self {
             JSXElementChild::JSXText { 0: _field_0 } => {
                 let _field_0 = <JSXText as FoldWith<V>>::fold_with(_field_0, visitor);
-                JSXElementChild::JSXText { 0: self._field_0 }
+                JSXElementChild::JSXText { 0: _field_0 }
             }
             JSXElementChild::JSXExprContainer { 0: _field_0 } => {
                 let _field_0 = <JSXExprContainer as FoldWith<V>>::fold_with(_field_0, visitor);
-                JSXElementChild::JSXExprContainer { 0: self._field_0 }
+                JSXElementChild::JSXExprContainer { 0: _field_0 }
             }
             JSXElementChild::JSXSpreadChild { 0: _field_0 } => {
                 let _field_0 = <JSXSpreadChild as FoldWith<V>>::fold_with(_field_0, visitor);
-                JSXElementChild::JSXSpreadChild { 0: self._field_0 }
+                JSXElementChild::JSXSpreadChild { 0: _field_0 }
             }
             JSXElementChild::JSXElement { 0: _field_0 } => {
                 let _field_0 = <Box<JSXElement> as FoldWith<V>>::fold_with(_field_0, visitor);
-                JSXElementChild::JSXElement { 0: self._field_0 }
+                JSXElementChild::JSXElement { 0: _field_0 }
             }
             JSXElementChild::JSXFragment { 0: _field_0 } => {
                 let _field_0 = <JSXFragment as FoldWith<V>>::fold_with(_field_0, visitor);
-                JSXElementChild::JSXFragment { 0: self._field_0 }
+                JSXElementChild::JSXFragment { 0: _field_0 }
             }
         }
     }
@@ -39458,15 +39458,15 @@ impl<V: ?Sized + Fold> FoldWith<V> for JSXElementName {
         match self {
             JSXElementName::Ident { 0: _field_0 } => {
                 let _field_0 = <Ident as FoldWith<V>>::fold_with(_field_0, visitor);
-                JSXElementName::Ident { 0: self._field_0 }
+                JSXElementName::Ident { 0: _field_0 }
             }
             JSXElementName::JSXMemberExpr { 0: _field_0 } => {
                 let _field_0 = <JSXMemberExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                JSXElementName::JSXMemberExpr { 0: self._field_0 }
+                JSXElementName::JSXMemberExpr { 0: _field_0 }
             }
             JSXElementName::JSXNamespacedName { 0: _field_0 } => {
                 let _field_0 = <JSXNamespacedName as FoldWith<V>>::fold_with(_field_0, visitor);
-                JSXElementName::JSXNamespacedName { 0: self._field_0 }
+                JSXElementName::JSXNamespacedName { 0: _field_0 }
             }
         }
     }
@@ -39493,11 +39493,11 @@ impl<V: ?Sized + Fold> FoldWith<V> for JSXExpr {
         match self {
             JSXExpr::JSXEmptyExpr { 0: _field_0 } => {
                 let _field_0 = <JSXEmptyExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                JSXExpr::JSXEmptyExpr { 0: self._field_0 }
+                JSXExpr::JSXEmptyExpr { 0: _field_0 }
             }
             JSXExpr::Expr { 0: _field_0 } => {
                 let _field_0 = <Box<Expr> as FoldWith<V>>::fold_with(_field_0, visitor);
-                JSXExpr::Expr { 0: self._field_0 }
+                JSXExpr::Expr { 0: _field_0 }
             }
         }
     }
@@ -39586,11 +39586,11 @@ impl<V: ?Sized + Fold> FoldWith<V> for JSXObject {
         match self {
             JSXObject::JSXMemberExpr { 0: _field_0 } => {
                 let _field_0 = <Box<JSXMemberExpr> as FoldWith<V>>::fold_with(_field_0, visitor);
-                JSXObject::JSXMemberExpr { 0: self._field_0 }
+                JSXObject::JSXMemberExpr { 0: _field_0 }
             }
             JSXObject::Ident { 0: _field_0 } => {
                 let _field_0 = <Ident as FoldWith<V>>::fold_with(_field_0, visitor);
-                JSXObject::Ident { 0: self._field_0 }
+                JSXObject::Ident { 0: _field_0 }
             }
         }
     }
@@ -39675,11 +39675,11 @@ impl<V: ?Sized + Fold> FoldWith<V> for Key {
         match self {
             Key::Private { 0: _field_0 } => {
                 let _field_0 = <PrivateName as FoldWith<V>>::fold_with(_field_0, visitor);
-                Key::Private { 0: self._field_0 }
+                Key::Private { 0: _field_0 }
             }
             Key::Public { 0: _field_0 } => {
                 let _field_0 = <PropName as FoldWith<V>>::fold_with(_field_0, visitor);
-                Key::Public { 0: self._field_0 }
+                Key::Public { 0: _field_0 }
             }
         }
     }
@@ -39742,28 +39742,28 @@ impl<V: ?Sized + Fold> FoldWith<V> for Lit {
         match self {
             Lit::Str { 0: _field_0 } => {
                 let _field_0 = <Str as FoldWith<V>>::fold_with(_field_0, visitor);
-                Lit::Str { 0: self._field_0 }
+                Lit::Str { 0: _field_0 }
             }
             Lit::Bool { 0: _field_0 } => {
                 let _field_0 = <Bool as FoldWith<V>>::fold_with(_field_0, visitor);
-                Lit::Bool { 0: self._field_0 }
+                Lit::Bool { 0: _field_0 }
             }
             Lit::Null { 0: _field_0 } => {
                 let _field_0 = <Null as FoldWith<V>>::fold_with(_field_0, visitor);
-                Lit::Null { 0: self._field_0 }
+                Lit::Null { 0: _field_0 }
             }
             Lit::Num { 0: _field_0 } => {
                 let _field_0 = <Number as FoldWith<V>>::fold_with(_field_0, visitor);
-                Lit::Num { 0: self._field_0 }
+                Lit::Num { 0: _field_0 }
             }
-            Lit::BigInt { 0: _field_0 } => Lit::BigInt { 0: self._field_0 },
+            Lit::BigInt { 0: _field_0 } => Lit::BigInt { 0: _field_0 },
             Lit::Regex { 0: _field_0 } => {
                 let _field_0 = <Regex as FoldWith<V>>::fold_with(_field_0, visitor);
-                Lit::Regex { 0: self._field_0 }
+                Lit::Regex { 0: _field_0 }
             }
             Lit::JSXText { 0: _field_0 } => {
                 let _field_0 = <JSXText as FoldWith<V>>::fold_with(_field_0, visitor);
-                Lit::JSXText { 0: self._field_0 }
+                Lit::JSXText { 0: _field_0 }
             }
         }
     }
@@ -39794,15 +39794,15 @@ impl<V: ?Sized + Fold> FoldWith<V> for MemberProp {
         match self {
             MemberProp::Ident { 0: _field_0 } => {
                 let _field_0 = <IdentName as FoldWith<V>>::fold_with(_field_0, visitor);
-                MemberProp::Ident { 0: self._field_0 }
+                MemberProp::Ident { 0: _field_0 }
             }
             MemberProp::PrivateName { 0: _field_0 } => {
                 let _field_0 = <PrivateName as FoldWith<V>>::fold_with(_field_0, visitor);
-                MemberProp::PrivateName { 0: self._field_0 }
+                MemberProp::PrivateName { 0: _field_0 }
             }
             MemberProp::Computed { 0: _field_0 } => {
                 let _field_0 = <ComputedPropName as FoldWith<V>>::fold_with(_field_0, visitor);
-                MemberProp::Computed { 0: self._field_0 }
+                MemberProp::Computed { 0: _field_0 }
             }
         }
     }
@@ -39898,40 +39898,40 @@ impl<V: ?Sized + Fold> FoldWith<V> for ModuleDecl {
         match self {
             ModuleDecl::Import { 0: _field_0 } => {
                 let _field_0 = <ImportDecl as FoldWith<V>>::fold_with(_field_0, visitor);
-                ModuleDecl::Import { 0: self._field_0 }
+                ModuleDecl::Import { 0: _field_0 }
             }
             ModuleDecl::ExportDecl { 0: _field_0 } => {
                 let _field_0 = <ExportDecl as FoldWith<V>>::fold_with(_field_0, visitor);
-                ModuleDecl::ExportDecl { 0: self._field_0 }
+                ModuleDecl::ExportDecl { 0: _field_0 }
             }
             ModuleDecl::ExportNamed { 0: _field_0 } => {
                 let _field_0 = <NamedExport as FoldWith<V>>::fold_with(_field_0, visitor);
-                ModuleDecl::ExportNamed { 0: self._field_0 }
+                ModuleDecl::ExportNamed { 0: _field_0 }
             }
             ModuleDecl::ExportDefaultDecl { 0: _field_0 } => {
                 let _field_0 = <ExportDefaultDecl as FoldWith<V>>::fold_with(_field_0, visitor);
-                ModuleDecl::ExportDefaultDecl { 0: self._field_0 }
+                ModuleDecl::ExportDefaultDecl { 0: _field_0 }
             }
             ModuleDecl::ExportDefaultExpr { 0: _field_0 } => {
                 let _field_0 = <ExportDefaultExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                ModuleDecl::ExportDefaultExpr { 0: self._field_0 }
+                ModuleDecl::ExportDefaultExpr { 0: _field_0 }
             }
             ModuleDecl::ExportAll { 0: _field_0 } => {
                 let _field_0 = <ExportAll as FoldWith<V>>::fold_with(_field_0, visitor);
-                ModuleDecl::ExportAll { 0: self._field_0 }
+                ModuleDecl::ExportAll { 0: _field_0 }
             }
             ModuleDecl::TsImportEquals { 0: _field_0 } => {
                 let _field_0 =
                     <Box<TsImportEqualsDecl> as FoldWith<V>>::fold_with(_field_0, visitor);
-                ModuleDecl::TsImportEquals { 0: self._field_0 }
+                ModuleDecl::TsImportEquals { 0: _field_0 }
             }
             ModuleDecl::TsExportAssignment { 0: _field_0 } => {
                 let _field_0 = <TsExportAssignment as FoldWith<V>>::fold_with(_field_0, visitor);
-                ModuleDecl::TsExportAssignment { 0: self._field_0 }
+                ModuleDecl::TsExportAssignment { 0: _field_0 }
             }
             ModuleDecl::TsNamespaceExport { 0: _field_0 } => {
                 let _field_0 = <TsNamespaceExportDecl as FoldWith<V>>::fold_with(_field_0, visitor);
-                ModuleDecl::TsNamespaceExport { 0: self._field_0 }
+                ModuleDecl::TsNamespaceExport { 0: _field_0 }
             }
         }
     }
@@ -39946,11 +39946,11 @@ impl<V: ?Sized + Fold> FoldWith<V> for ModuleExportName {
         match self {
             ModuleExportName::Ident { 0: _field_0 } => {
                 let _field_0 = <Ident as FoldWith<V>>::fold_with(_field_0, visitor);
-                ModuleExportName::Ident { 0: self._field_0 }
+                ModuleExportName::Ident { 0: _field_0 }
             }
             ModuleExportName::Str { 0: _field_0 } => {
                 let _field_0 = <Str as FoldWith<V>>::fold_with(_field_0, visitor);
-                ModuleExportName::Str { 0: self._field_0 }
+                ModuleExportName::Str { 0: _field_0 }
             }
         }
     }
@@ -39965,11 +39965,11 @@ impl<V: ?Sized + Fold> FoldWith<V> for ModuleItem {
         match self {
             ModuleItem::ModuleDecl { 0: _field_0 } => {
                 let _field_0 = <ModuleDecl as FoldWith<V>>::fold_with(_field_0, visitor);
-                ModuleItem::ModuleDecl { 0: self._field_0 }
+                ModuleItem::ModuleDecl { 0: _field_0 }
             }
             ModuleItem::Stmt { 0: _field_0 } => {
                 let _field_0 = <Stmt as FoldWith<V>>::fold_with(_field_0, visitor);
-                ModuleItem::Stmt { 0: self._field_0 }
+                ModuleItem::Stmt { 0: _field_0 }
             }
         }
     }
@@ -40111,15 +40111,15 @@ impl<V: ?Sized + Fold> FoldWith<V> for ObjectPatProp {
         match self {
             ObjectPatProp::KeyValue { 0: _field_0 } => {
                 let _field_0 = <KeyValuePatProp as FoldWith<V>>::fold_with(_field_0, visitor);
-                ObjectPatProp::KeyValue { 0: self._field_0 }
+                ObjectPatProp::KeyValue { 0: _field_0 }
             }
             ObjectPatProp::Assign { 0: _field_0 } => {
                 let _field_0 = <AssignPatProp as FoldWith<V>>::fold_with(_field_0, visitor);
-                ObjectPatProp::Assign { 0: self._field_0 }
+                ObjectPatProp::Assign { 0: _field_0 }
             }
             ObjectPatProp::Rest { 0: _field_0 } => {
                 let _field_0 = <RestPat as FoldWith<V>>::fold_with(_field_0, visitor);
-                ObjectPatProp::Rest { 0: self._field_0 }
+                ObjectPatProp::Rest { 0: _field_0 }
             }
         }
     }
@@ -40165,11 +40165,11 @@ impl<V: ?Sized + Fold> FoldWith<V> for OptChainBase {
         match self {
             OptChainBase::Member { 0: _field_0 } => {
                 let _field_0 = <MemberExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                OptChainBase::Member { 0: self._field_0 }
+                OptChainBase::Member { 0: _field_0 }
             }
             OptChainBase::Call { 0: _field_0 } => {
                 let _field_0 = <OptCall as FoldWith<V>>::fold_with(_field_0, visitor);
-                OptChainBase::Call { 0: self._field_0 }
+                OptChainBase::Call { 0: _field_0 }
             }
         }
     }
@@ -40231,11 +40231,11 @@ impl<V: ?Sized + Fold> FoldWith<V> for ParamOrTsParamProp {
         match self {
             ParamOrTsParamProp::TsParamProp { 0: _field_0 } => {
                 let _field_0 = <TsParamProp as FoldWith<V>>::fold_with(_field_0, visitor);
-                ParamOrTsParamProp::TsParamProp { 0: self._field_0 }
+                ParamOrTsParamProp::TsParamProp { 0: _field_0 }
             }
             ParamOrTsParamProp::Param { 0: _field_0 } => {
                 let _field_0 = <Param as FoldWith<V>>::fold_with(_field_0, visitor);
-                ParamOrTsParamProp::Param { 0: self._field_0 }
+                ParamOrTsParamProp::Param { 0: _field_0 }
             }
         }
     }
@@ -40265,31 +40265,31 @@ impl<V: ?Sized + Fold> FoldWith<V> for Pat {
         match self {
             Pat::Ident { 0: _field_0 } => {
                 let _field_0 = <BindingIdent as FoldWith<V>>::fold_with(_field_0, visitor);
-                Pat::Ident { 0: self._field_0 }
+                Pat::Ident { 0: _field_0 }
             }
             Pat::Array { 0: _field_0 } => {
                 let _field_0 = <ArrayPat as FoldWith<V>>::fold_with(_field_0, visitor);
-                Pat::Array { 0: self._field_0 }
+                Pat::Array { 0: _field_0 }
             }
             Pat::Rest { 0: _field_0 } => {
                 let _field_0 = <RestPat as FoldWith<V>>::fold_with(_field_0, visitor);
-                Pat::Rest { 0: self._field_0 }
+                Pat::Rest { 0: _field_0 }
             }
             Pat::Object { 0: _field_0 } => {
                 let _field_0 = <ObjectPat as FoldWith<V>>::fold_with(_field_0, visitor);
-                Pat::Object { 0: self._field_0 }
+                Pat::Object { 0: _field_0 }
             }
             Pat::Assign { 0: _field_0 } => {
                 let _field_0 = <AssignPat as FoldWith<V>>::fold_with(_field_0, visitor);
-                Pat::Assign { 0: self._field_0 }
+                Pat::Assign { 0: _field_0 }
             }
             Pat::Invalid { 0: _field_0 } => {
                 let _field_0 = <Invalid as FoldWith<V>>::fold_with(_field_0, visitor);
-                Pat::Invalid { 0: self._field_0 }
+                Pat::Invalid { 0: _field_0 }
             }
             Pat::Expr { 0: _field_0 } => {
                 let _field_0 = <Box<Expr> as FoldWith<V>>::fold_with(_field_0, visitor);
-                Pat::Expr { 0: self._field_0 }
+                Pat::Expr { 0: _field_0 }
             }
         }
     }
@@ -40363,11 +40363,11 @@ impl<V: ?Sized + Fold> FoldWith<V> for Program {
         match self {
             Program::Module { 0: _field_0 } => {
                 let _field_0 = <Module as FoldWith<V>>::fold_with(_field_0, visitor);
-                Program::Module { 0: self._field_0 }
+                Program::Module { 0: _field_0 }
             }
             Program::Script { 0: _field_0 } => {
                 let _field_0 = <Script as FoldWith<V>>::fold_with(_field_0, visitor);
-                Program::Script { 0: self._field_0 }
+                Program::Script { 0: _field_0 }
             }
         }
     }
@@ -40382,27 +40382,27 @@ impl<V: ?Sized + Fold> FoldWith<V> for Prop {
         match self {
             Prop::Shorthand { 0: _field_0 } => {
                 let _field_0 = <Ident as FoldWith<V>>::fold_with(_field_0, visitor);
-                Prop::Shorthand { 0: self._field_0 }
+                Prop::Shorthand { 0: _field_0 }
             }
             Prop::KeyValue { 0: _field_0 } => {
                 let _field_0 = <KeyValueProp as FoldWith<V>>::fold_with(_field_0, visitor);
-                Prop::KeyValue { 0: self._field_0 }
+                Prop::KeyValue { 0: _field_0 }
             }
             Prop::Assign { 0: _field_0 } => {
                 let _field_0 = <AssignProp as FoldWith<V>>::fold_with(_field_0, visitor);
-                Prop::Assign { 0: self._field_0 }
+                Prop::Assign { 0: _field_0 }
             }
             Prop::Getter { 0: _field_0 } => {
                 let _field_0 = <GetterProp as FoldWith<V>>::fold_with(_field_0, visitor);
-                Prop::Getter { 0: self._field_0 }
+                Prop::Getter { 0: _field_0 }
             }
             Prop::Setter { 0: _field_0 } => {
                 let _field_0 = <SetterProp as FoldWith<V>>::fold_with(_field_0, visitor);
-                Prop::Setter { 0: self._field_0 }
+                Prop::Setter { 0: _field_0 }
             }
             Prop::Method { 0: _field_0 } => {
                 let _field_0 = <MethodProp as FoldWith<V>>::fold_with(_field_0, visitor);
-                Prop::Method { 0: self._field_0 }
+                Prop::Method { 0: _field_0 }
             }
         }
     }
@@ -40417,23 +40417,23 @@ impl<V: ?Sized + Fold> FoldWith<V> for PropName {
         match self {
             PropName::Ident { 0: _field_0 } => {
                 let _field_0 = <IdentName as FoldWith<V>>::fold_with(_field_0, visitor);
-                PropName::Ident { 0: self._field_0 }
+                PropName::Ident { 0: _field_0 }
             }
             PropName::Str { 0: _field_0 } => {
                 let _field_0 = <Str as FoldWith<V>>::fold_with(_field_0, visitor);
-                PropName::Str { 0: self._field_0 }
+                PropName::Str { 0: _field_0 }
             }
             PropName::Num { 0: _field_0 } => {
                 let _field_0 = <Number as FoldWith<V>>::fold_with(_field_0, visitor);
-                PropName::Num { 0: self._field_0 }
+                PropName::Num { 0: _field_0 }
             }
             PropName::Computed { 0: _field_0 } => {
                 let _field_0 = <ComputedPropName as FoldWith<V>>::fold_with(_field_0, visitor);
-                PropName::Computed { 0: self._field_0 }
+                PropName::Computed { 0: _field_0 }
             }
             PropName::BigInt { 0: _field_0 } => {
                 let _field_0 = <BigInt as FoldWith<V>>::fold_with(_field_0, visitor);
-                PropName::BigInt { 0: self._field_0 }
+                PropName::BigInt { 0: _field_0 }
             }
         }
     }
@@ -40448,11 +40448,11 @@ impl<V: ?Sized + Fold> FoldWith<V> for PropOrSpread {
         match self {
             PropOrSpread::Spread { 0: _field_0 } => {
                 let _field_0 = <SpreadElement as FoldWith<V>>::fold_with(_field_0, visitor);
-                PropOrSpread::Spread { 0: self._field_0 }
+                PropOrSpread::Spread { 0: _field_0 }
             }
             PropOrSpread::Prop { 0: _field_0 } => {
                 let _field_0 = <Box<Prop> as FoldWith<V>>::fold_with(_field_0, visitor);
-                PropOrSpread::Prop { 0: self._field_0 }
+                PropOrSpread::Prop { 0: _field_0 }
             }
         }
     }
@@ -40604,47 +40604,47 @@ impl<V: ?Sized + Fold> FoldWith<V> for SimpleAssignTarget {
         match self {
             SimpleAssignTarget::Ident { 0: _field_0 } => {
                 let _field_0 = <BindingIdent as FoldWith<V>>::fold_with(_field_0, visitor);
-                SimpleAssignTarget::Ident { 0: self._field_0 }
+                SimpleAssignTarget::Ident { 0: _field_0 }
             }
             SimpleAssignTarget::Member { 0: _field_0 } => {
                 let _field_0 = <MemberExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                SimpleAssignTarget::Member { 0: self._field_0 }
+                SimpleAssignTarget::Member { 0: _field_0 }
             }
             SimpleAssignTarget::SuperProp { 0: _field_0 } => {
                 let _field_0 = <SuperPropExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                SimpleAssignTarget::SuperProp { 0: self._field_0 }
+                SimpleAssignTarget::SuperProp { 0: _field_0 }
             }
             SimpleAssignTarget::Paren { 0: _field_0 } => {
                 let _field_0 = <ParenExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                SimpleAssignTarget::Paren { 0: self._field_0 }
+                SimpleAssignTarget::Paren { 0: _field_0 }
             }
             SimpleAssignTarget::OptChain { 0: _field_0 } => {
                 let _field_0 = <OptChainExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                SimpleAssignTarget::OptChain { 0: self._field_0 }
+                SimpleAssignTarget::OptChain { 0: _field_0 }
             }
             SimpleAssignTarget::TsAs { 0: _field_0 } => {
                 let _field_0 = <TsAsExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                SimpleAssignTarget::TsAs { 0: self._field_0 }
+                SimpleAssignTarget::TsAs { 0: _field_0 }
             }
             SimpleAssignTarget::TsSatisfies { 0: _field_0 } => {
                 let _field_0 = <TsSatisfiesExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                SimpleAssignTarget::TsSatisfies { 0: self._field_0 }
+                SimpleAssignTarget::TsSatisfies { 0: _field_0 }
             }
             SimpleAssignTarget::TsNonNull { 0: _field_0 } => {
                 let _field_0 = <TsNonNullExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                SimpleAssignTarget::TsNonNull { 0: self._field_0 }
+                SimpleAssignTarget::TsNonNull { 0: _field_0 }
             }
             SimpleAssignTarget::TsTypeAssertion { 0: _field_0 } => {
                 let _field_0 = <TsTypeAssertion as FoldWith<V>>::fold_with(_field_0, visitor);
-                SimpleAssignTarget::TsTypeAssertion { 0: self._field_0 }
+                SimpleAssignTarget::TsTypeAssertion { 0: _field_0 }
             }
             SimpleAssignTarget::TsInstantiation { 0: _field_0 } => {
                 let _field_0 = <TsInstantiation as FoldWith<V>>::fold_with(_field_0, visitor);
-                SimpleAssignTarget::TsInstantiation { 0: self._field_0 }
+                SimpleAssignTarget::TsInstantiation { 0: _field_0 }
             }
             SimpleAssignTarget::Invalid { 0: _field_0 } => {
                 let _field_0 = <Invalid as FoldWith<V>>::fold_with(_field_0, visitor);
-                SimpleAssignTarget::Invalid { 0: self._field_0 }
+                SimpleAssignTarget::Invalid { 0: _field_0 }
             }
         }
     }
@@ -40689,79 +40689,79 @@ impl<V: ?Sized + Fold> FoldWith<V> for Stmt {
         match self {
             Stmt::Block { 0: _field_0 } => {
                 let _field_0 = <BlockStmt as FoldWith<V>>::fold_with(_field_0, visitor);
-                Stmt::Block { 0: self._field_0 }
+                Stmt::Block { 0: _field_0 }
             }
             Stmt::Empty { 0: _field_0 } => {
                 let _field_0 = <EmptyStmt as FoldWith<V>>::fold_with(_field_0, visitor);
-                Stmt::Empty { 0: self._field_0 }
+                Stmt::Empty { 0: _field_0 }
             }
             Stmt::Debugger { 0: _field_0 } => {
                 let _field_0 = <DebuggerStmt as FoldWith<V>>::fold_with(_field_0, visitor);
-                Stmt::Debugger { 0: self._field_0 }
+                Stmt::Debugger { 0: _field_0 }
             }
             Stmt::With { 0: _field_0 } => {
                 let _field_0 = <WithStmt as FoldWith<V>>::fold_with(_field_0, visitor);
-                Stmt::With { 0: self._field_0 }
+                Stmt::With { 0: _field_0 }
             }
             Stmt::Return { 0: _field_0 } => {
                 let _field_0 = <ReturnStmt as FoldWith<V>>::fold_with(_field_0, visitor);
-                Stmt::Return { 0: self._field_0 }
+                Stmt::Return { 0: _field_0 }
             }
             Stmt::Labeled { 0: _field_0 } => {
                 let _field_0 = <LabeledStmt as FoldWith<V>>::fold_with(_field_0, visitor);
-                Stmt::Labeled { 0: self._field_0 }
+                Stmt::Labeled { 0: _field_0 }
             }
             Stmt::Break { 0: _field_0 } => {
                 let _field_0 = <BreakStmt as FoldWith<V>>::fold_with(_field_0, visitor);
-                Stmt::Break { 0: self._field_0 }
+                Stmt::Break { 0: _field_0 }
             }
             Stmt::Continue { 0: _field_0 } => {
                 let _field_0 = <ContinueStmt as FoldWith<V>>::fold_with(_field_0, visitor);
-                Stmt::Continue { 0: self._field_0 }
+                Stmt::Continue { 0: _field_0 }
             }
             Stmt::If { 0: _field_0 } => {
                 let _field_0 = <IfStmt as FoldWith<V>>::fold_with(_field_0, visitor);
-                Stmt::If { 0: self._field_0 }
+                Stmt::If { 0: _field_0 }
             }
             Stmt::Switch { 0: _field_0 } => {
                 let _field_0 = <SwitchStmt as FoldWith<V>>::fold_with(_field_0, visitor);
-                Stmt::Switch { 0: self._field_0 }
+                Stmt::Switch { 0: _field_0 }
             }
             Stmt::Throw { 0: _field_0 } => {
                 let _field_0 = <ThrowStmt as FoldWith<V>>::fold_with(_field_0, visitor);
-                Stmt::Throw { 0: self._field_0 }
+                Stmt::Throw { 0: _field_0 }
             }
             Stmt::Try { 0: _field_0 } => {
                 let _field_0 = <Box<TryStmt> as FoldWith<V>>::fold_with(_field_0, visitor);
-                Stmt::Try { 0: self._field_0 }
+                Stmt::Try { 0: _field_0 }
             }
             Stmt::While { 0: _field_0 } => {
                 let _field_0 = <WhileStmt as FoldWith<V>>::fold_with(_field_0, visitor);
-                Stmt::While { 0: self._field_0 }
+                Stmt::While { 0: _field_0 }
             }
             Stmt::DoWhile { 0: _field_0 } => {
                 let _field_0 = <DoWhileStmt as FoldWith<V>>::fold_with(_field_0, visitor);
-                Stmt::DoWhile { 0: self._field_0 }
+                Stmt::DoWhile { 0: _field_0 }
             }
             Stmt::For { 0: _field_0 } => {
                 let _field_0 = <ForStmt as FoldWith<V>>::fold_with(_field_0, visitor);
-                Stmt::For { 0: self._field_0 }
+                Stmt::For { 0: _field_0 }
             }
             Stmt::ForIn { 0: _field_0 } => {
                 let _field_0 = <ForInStmt as FoldWith<V>>::fold_with(_field_0, visitor);
-                Stmt::ForIn { 0: self._field_0 }
+                Stmt::ForIn { 0: _field_0 }
             }
             Stmt::ForOf { 0: _field_0 } => {
                 let _field_0 = <ForOfStmt as FoldWith<V>>::fold_with(_field_0, visitor);
-                Stmt::ForOf { 0: self._field_0 }
+                Stmt::ForOf { 0: _field_0 }
             }
             Stmt::Decl { 0: _field_0 } => {
                 let _field_0 = <Decl as FoldWith<V>>::fold_with(_field_0, visitor);
-                Stmt::Decl { 0: self._field_0 }
+                Stmt::Decl { 0: _field_0 }
             }
             Stmt::Expr { 0: _field_0 } => {
                 let _field_0 = <ExprStmt as FoldWith<V>>::fold_with(_field_0, visitor);
-                Stmt::Expr { 0: self._field_0 }
+                Stmt::Expr { 0: _field_0 }
             }
         }
     }
@@ -40800,11 +40800,11 @@ impl<V: ?Sized + Fold> FoldWith<V> for SuperProp {
         match self {
             SuperProp::Ident { 0: _field_0 } => {
                 let _field_0 = <IdentName as FoldWith<V>>::fold_with(_field_0, visitor);
-                SuperProp::Ident { 0: self._field_0 }
+                SuperProp::Ident { 0: _field_0 }
             }
             SuperProp::Computed { 0: _field_0 } => {
                 let _field_0 = <ComputedPropName as FoldWith<V>>::fold_with(_field_0, visitor);
-                SuperProp::Computed { 0: self._field_0 }
+                SuperProp::Computed { 0: _field_0 }
             }
         }
     }
@@ -41193,11 +41193,11 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsEntityName {
         match self {
             TsEntityName::TsQualifiedName { 0: _field_0 } => {
                 let _field_0 = <Box<TsQualifiedName> as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsEntityName::TsQualifiedName { 0: self._field_0 }
+                TsEntityName::TsQualifiedName { 0: _field_0 }
             }
             TsEntityName::Ident { 0: _field_0 } => {
                 let _field_0 = <Ident as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsEntityName::Ident { 0: self._field_0 }
+                TsEntityName::Ident { 0: _field_0 }
             }
         }
     }
@@ -41256,11 +41256,11 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsEnumMemberId {
         match self {
             TsEnumMemberId::Ident { 0: _field_0 } => {
                 let _field_0 = <Ident as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsEnumMemberId::Ident { 0: self._field_0 }
+                TsEnumMemberId::Ident { 0: _field_0 }
             }
             TsEnumMemberId::Str { 0: _field_0 } => {
                 let _field_0 = <Str as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsEnumMemberId::Str { 0: self._field_0 }
+                TsEnumMemberId::Str { 0: _field_0 }
             }
         }
     }
@@ -41331,11 +41331,11 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsFnOrConstructorType {
         match self {
             TsFnOrConstructorType::TsFnType { 0: _field_0 } => {
                 let _field_0 = <TsFnType as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsFnOrConstructorType::TsFnType { 0: self._field_0 }
+                TsFnOrConstructorType::TsFnType { 0: _field_0 }
             }
             TsFnOrConstructorType::TsConstructorType { 0: _field_0 } => {
                 let _field_0 = <TsConstructorType as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsFnOrConstructorType::TsConstructorType { 0: self._field_0 }
+                TsFnOrConstructorType::TsConstructorType { 0: _field_0 }
             }
         }
     }
@@ -41350,19 +41350,19 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsFnParam {
         match self {
             TsFnParam::Ident { 0: _field_0 } => {
                 let _field_0 = <BindingIdent as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsFnParam::Ident { 0: self._field_0 }
+                TsFnParam::Ident { 0: _field_0 }
             }
             TsFnParam::Array { 0: _field_0 } => {
                 let _field_0 = <ArrayPat as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsFnParam::Array { 0: self._field_0 }
+                TsFnParam::Array { 0: _field_0 }
             }
             TsFnParam::Rest { 0: _field_0 } => {
                 let _field_0 = <RestPat as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsFnParam::Rest { 0: self._field_0 }
+                TsFnParam::Rest { 0: _field_0 }
             }
             TsFnParam::Object { 0: _field_0 } => {
                 let _field_0 = <ObjectPat as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsFnParam::Object { 0: self._field_0 }
+                TsFnParam::Object { 0: _field_0 }
             }
         }
     }
@@ -41687,23 +41687,23 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsLit {
         match self {
             TsLit::Number { 0: _field_0 } => {
                 let _field_0 = <Number as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsLit::Number { 0: self._field_0 }
+                TsLit::Number { 0: _field_0 }
             }
             TsLit::Str { 0: _field_0 } => {
                 let _field_0 = <Str as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsLit::Str { 0: self._field_0 }
+                TsLit::Str { 0: _field_0 }
             }
             TsLit::Bool { 0: _field_0 } => {
                 let _field_0 = <Bool as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsLit::Bool { 0: self._field_0 }
+                TsLit::Bool { 0: _field_0 }
             }
             TsLit::BigInt { 0: _field_0 } => {
                 let _field_0 = <BigInt as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsLit::BigInt { 0: self._field_0 }
+                TsLit::BigInt { 0: _field_0 }
             }
             TsLit::Tpl { 0: _field_0 } => {
                 let _field_0 = <TsTplLitType as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsLit::Tpl { 0: self._field_0 }
+                TsLit::Tpl { 0: _field_0 }
             }
         }
     }
@@ -41845,11 +41845,11 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsModuleName {
         match self {
             TsModuleName::Ident { 0: _field_0 } => {
                 let _field_0 = <Ident as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsModuleName::Ident { 0: self._field_0 }
+                TsModuleName::Ident { 0: _field_0 }
             }
             TsModuleName::Str { 0: _field_0 } => {
                 let _field_0 = <Str as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsModuleName::Str { 0: self._field_0 }
+                TsModuleName::Str { 0: _field_0 }
             }
         }
     }
@@ -41864,11 +41864,11 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsModuleRef {
         match self {
             TsModuleRef::TsEntityName { 0: _field_0 } => {
                 let _field_0 = <TsEntityName as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsModuleRef::TsEntityName { 0: self._field_0 }
+                TsModuleRef::TsEntityName { 0: _field_0 }
             }
             TsModuleRef::TsExternalModuleRef { 0: _field_0 } => {
                 let _field_0 = <TsExternalModuleRef as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsModuleRef::TsExternalModuleRef { 0: self._field_0 }
+                TsModuleRef::TsExternalModuleRef { 0: _field_0 }
             }
         }
     }
@@ -41883,11 +41883,11 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsNamespaceBody {
         match self {
             TsNamespaceBody::TsModuleBlock { 0: _field_0 } => {
                 let _field_0 = <TsModuleBlock as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsNamespaceBody::TsModuleBlock { 0: self._field_0 }
+                TsNamespaceBody::TsModuleBlock { 0: _field_0 }
             }
             TsNamespaceBody::TsNamespaceDecl { 0: _field_0 } => {
                 let _field_0 = <TsNamespaceDecl as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsNamespaceBody::TsNamespaceDecl { 0: self._field_0 }
+                TsNamespaceBody::TsNamespaceDecl { 0: _field_0 }
             }
         }
     }
@@ -42007,11 +42007,11 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsParamPropParam {
         match self {
             TsParamPropParam::Ident { 0: _field_0 } => {
                 let _field_0 = <BindingIdent as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsParamPropParam::Ident { 0: self._field_0 }
+                TsParamPropParam::Ident { 0: _field_0 }
             }
             TsParamPropParam::Assign { 0: _field_0 } => {
                 let _field_0 = <AssignPat as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsParamPropParam::Assign { 0: self._field_0 }
+                TsParamPropParam::Assign { 0: _field_0 }
             }
         }
     }
@@ -42165,11 +42165,11 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsThisTypeOrIdent {
         match self {
             TsThisTypeOrIdent::TsThisType { 0: _field_0 } => {
                 let _field_0 = <TsThisType as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsThisTypeOrIdent::TsThisType { 0: self._field_0 }
+                TsThisTypeOrIdent::TsThisType { 0: _field_0 }
             }
             TsThisTypeOrIdent::Ident { 0: _field_0 } => {
                 let _field_0 = <Ident as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsThisTypeOrIdent::Ident { 0: self._field_0 }
+                TsThisTypeOrIdent::Ident { 0: _field_0 }
             }
         }
     }
@@ -42240,84 +42240,84 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsType {
         match self {
             TsType::TsKeywordType { 0: _field_0 } => {
                 let _field_0 = <TsKeywordType as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsType::TsKeywordType { 0: self._field_0 }
+                TsType::TsKeywordType { 0: _field_0 }
             }
             TsType::TsThisType { 0: _field_0 } => {
                 let _field_0 = <TsThisType as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsType::TsThisType { 0: self._field_0 }
+                TsType::TsThisType { 0: _field_0 }
             }
             TsType::TsFnOrConstructorType { 0: _field_0 } => {
                 let _field_0 = <TsFnOrConstructorType as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsType::TsFnOrConstructorType { 0: self._field_0 }
+                TsType::TsFnOrConstructorType { 0: _field_0 }
             }
             TsType::TsTypeRef { 0: _field_0 } => {
                 let _field_0 = <TsTypeRef as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsType::TsTypeRef { 0: self._field_0 }
+                TsType::TsTypeRef { 0: _field_0 }
             }
             TsType::TsTypeQuery { 0: _field_0 } => {
                 let _field_0 = <TsTypeQuery as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsType::TsTypeQuery { 0: self._field_0 }
+                TsType::TsTypeQuery { 0: _field_0 }
             }
             TsType::TsTypeLit { 0: _field_0 } => {
                 let _field_0 = <TsTypeLit as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsType::TsTypeLit { 0: self._field_0 }
+                TsType::TsTypeLit { 0: _field_0 }
             }
             TsType::TsArrayType { 0: _field_0 } => {
                 let _field_0 = <TsArrayType as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsType::TsArrayType { 0: self._field_0 }
+                TsType::TsArrayType { 0: _field_0 }
             }
             TsType::TsTupleType { 0: _field_0 } => {
                 let _field_0 = <TsTupleType as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsType::TsTupleType { 0: self._field_0 }
+                TsType::TsTupleType { 0: _field_0 }
             }
             TsType::TsOptionalType { 0: _field_0 } => {
                 let _field_0 = <TsOptionalType as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsType::TsOptionalType { 0: self._field_0 }
+                TsType::TsOptionalType { 0: _field_0 }
             }
             TsType::TsRestType { 0: _field_0 } => {
                 let _field_0 = <TsRestType as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsType::TsRestType { 0: self._field_0 }
+                TsType::TsRestType { 0: _field_0 }
             }
             TsType::TsUnionOrIntersectionType { 0: _field_0 } => {
                 let _field_0 =
                     <TsUnionOrIntersectionType as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsType::TsUnionOrIntersectionType { 0: self._field_0 }
+                TsType::TsUnionOrIntersectionType { 0: _field_0 }
             }
             TsType::TsConditionalType { 0: _field_0 } => {
                 let _field_0 = <TsConditionalType as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsType::TsConditionalType { 0: self._field_0 }
+                TsType::TsConditionalType { 0: _field_0 }
             }
             TsType::TsInferType { 0: _field_0 } => {
                 let _field_0 = <TsInferType as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsType::TsInferType { 0: self._field_0 }
+                TsType::TsInferType { 0: _field_0 }
             }
             TsType::TsParenthesizedType { 0: _field_0 } => {
                 let _field_0 = <TsParenthesizedType as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsType::TsParenthesizedType { 0: self._field_0 }
+                TsType::TsParenthesizedType { 0: _field_0 }
             }
             TsType::TsTypeOperator { 0: _field_0 } => {
                 let _field_0 = <TsTypeOperator as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsType::TsTypeOperator { 0: self._field_0 }
+                TsType::TsTypeOperator { 0: _field_0 }
             }
             TsType::TsIndexedAccessType { 0: _field_0 } => {
                 let _field_0 = <TsIndexedAccessType as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsType::TsIndexedAccessType { 0: self._field_0 }
+                TsType::TsIndexedAccessType { 0: _field_0 }
             }
             TsType::TsMappedType { 0: _field_0 } => {
                 let _field_0 = <TsMappedType as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsType::TsMappedType { 0: self._field_0 }
+                TsType::TsMappedType { 0: _field_0 }
             }
             TsType::TsLitType { 0: _field_0 } => {
                 let _field_0 = <TsLitType as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsType::TsLitType { 0: self._field_0 }
+                TsType::TsLitType { 0: _field_0 }
             }
             TsType::TsTypePredicate { 0: _field_0 } => {
                 let _field_0 = <TsTypePredicate as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsType::TsTypePredicate { 0: self._field_0 }
+                TsType::TsTypePredicate { 0: _field_0 }
             }
             TsType::TsImportType { 0: _field_0 } => {
                 let _field_0 = <TsImportType as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsType::TsImportType { 0: self._field_0 }
+                TsType::TsImportType { 0: _field_0 }
             }
         }
     }
@@ -42401,32 +42401,32 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsTypeElement {
         match self {
             TsTypeElement::TsCallSignatureDecl { 0: _field_0 } => {
                 let _field_0 = <TsCallSignatureDecl as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsTypeElement::TsCallSignatureDecl { 0: self._field_0 }
+                TsTypeElement::TsCallSignatureDecl { 0: _field_0 }
             }
             TsTypeElement::TsConstructSignatureDecl { 0: _field_0 } => {
                 let _field_0 =
                     <TsConstructSignatureDecl as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsTypeElement::TsConstructSignatureDecl { 0: self._field_0 }
+                TsTypeElement::TsConstructSignatureDecl { 0: _field_0 }
             }
             TsTypeElement::TsPropertySignature { 0: _field_0 } => {
                 let _field_0 = <TsPropertySignature as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsTypeElement::TsPropertySignature { 0: self._field_0 }
+                TsTypeElement::TsPropertySignature { 0: _field_0 }
             }
             TsTypeElement::TsGetterSignature { 0: _field_0 } => {
                 let _field_0 = <TsGetterSignature as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsTypeElement::TsGetterSignature { 0: self._field_0 }
+                TsTypeElement::TsGetterSignature { 0: _field_0 }
             }
             TsTypeElement::TsSetterSignature { 0: _field_0 } => {
                 let _field_0 = <TsSetterSignature as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsTypeElement::TsSetterSignature { 0: self._field_0 }
+                TsTypeElement::TsSetterSignature { 0: _field_0 }
             }
             TsTypeElement::TsMethodSignature { 0: _field_0 } => {
                 let _field_0 = <TsMethodSignature as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsTypeElement::TsMethodSignature { 0: self._field_0 }
+                TsTypeElement::TsMethodSignature { 0: _field_0 }
             }
             TsTypeElement::TsIndexSignature { 0: _field_0 } => {
                 let _field_0 = <TsIndexSignature as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsTypeElement::TsIndexSignature { 0: self._field_0 }
+                TsTypeElement::TsIndexSignature { 0: _field_0 }
             }
         }
     }
@@ -42603,11 +42603,11 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsTypeQueryExpr {
         match self {
             TsTypeQueryExpr::TsEntityName { 0: _field_0 } => {
                 let _field_0 = <TsEntityName as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsTypeQueryExpr::TsEntityName { 0: self._field_0 }
+                TsTypeQueryExpr::TsEntityName { 0: _field_0 }
             }
             TsTypeQueryExpr::Import { 0: _field_0 } => {
                 let _field_0 = <TsImportType as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsTypeQueryExpr::Import { 0: self._field_0 }
+                TsTypeQueryExpr::Import { 0: _field_0 }
             }
         }
     }
@@ -42649,11 +42649,11 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsUnionOrIntersectionType {
         match self {
             TsUnionOrIntersectionType::TsUnionType { 0: _field_0 } => {
                 let _field_0 = <TsUnionType as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsUnionOrIntersectionType::TsUnionType { 0: self._field_0 }
+                TsUnionOrIntersectionType::TsUnionType { 0: _field_0 }
             }
             TsUnionOrIntersectionType::TsIntersectionType { 0: _field_0 } => {
                 let _field_0 = <TsIntersectionType as FoldWith<V>>::fold_with(_field_0, visitor);
-                TsUnionOrIntersectionType::TsIntersectionType { 0: self._field_0 }
+                TsUnionOrIntersectionType::TsIntersectionType { 0: _field_0 }
             }
         }
     }
@@ -42821,11 +42821,11 @@ impl<V: ?Sized + Fold> FoldWith<V> for VarDeclOrExpr {
         match self {
             VarDeclOrExpr::VarDecl { 0: _field_0 } => {
                 let _field_0 = <Box<VarDecl> as FoldWith<V>>::fold_with(_field_0, visitor);
-                VarDeclOrExpr::VarDecl { 0: self._field_0 }
+                VarDeclOrExpr::VarDecl { 0: _field_0 }
             }
             VarDeclOrExpr::Expr { 0: _field_0 } => {
                 let _field_0 = <Box<Expr> as FoldWith<V>>::fold_with(_field_0, visitor);
-                VarDeclOrExpr::Expr { 0: self._field_0 }
+                VarDeclOrExpr::Expr { 0: _field_0 }
             }
         }
     }
@@ -43692,12 +43692,6 @@ pub trait FoldAstPath {
     fn fold_await_expr(&mut self, node: AwaitExpr, ast_path: &mut AstKindPath) -> AwaitExpr {
         <AwaitExpr as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
     }
-    #[doc = "Visit a node of type `BigInt`.\n\nBy default, this method calls \
-             [`BigInt::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
-             manually."]
-    fn fold_big_int(&mut self, node: BigInt, ast_path: &mut AstKindPath) -> BigInt {
-        <BigInt as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
-    }
     #[doc = "Visit a node of type `num_bigint :: BigInt`.\n\nBy default, this method calls \
              [`num_bigint :: BigInt::fold_children_with_ast_path`]. If you want to recurse, you \
              need to call it manually."]
@@ -43709,6 +43703,12 @@ pub trait FoldAstPath {
         <num_bigint::BigInt as FoldWithAstPath<Self>>::fold_children_with_ast_path(
             node, self, ast_path,
         )
+    }
+    #[doc = "Visit a node of type `BigInt`.\n\nBy default, this method calls \
+             [`BigInt::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
+             manually."]
+    fn fold_big_int(&mut self, node: BigInt, ast_path: &mut AstKindPath) -> BigInt {
+        <BigInt as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
     }
     #[doc = "Visit a node of type `BigIntValue`.\n\nBy default, this method calls \
              [`BigIntValue::fold_children_with_ast_path`]. If you want to recurse, you need to \
@@ -46460,13 +46460,13 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for AssignTarget {
                 let _field_0 = <SimpleAssignTarget as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                AssignTarget::Simple { 0: self._field_0 }
+                AssignTarget::Simple { 0: _field_0 }
             }
             AssignTarget::Pat { 0: _field_0 } => {
                 let _field_0 = <AssignTargetPat as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                AssignTarget::Pat { 0: self._field_0 }
+                AssignTarget::Pat { 0: _field_0 }
             }
         }
     }
@@ -46485,19 +46485,19 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for AssignTargetPat {
                 let _field_0 = <ArrayPat as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                AssignTargetPat::Array { 0: self._field_0 }
+                AssignTargetPat::Array { 0: _field_0 }
             }
             AssignTargetPat::Object { 0: _field_0 } => {
                 let _field_0 = <ObjectPat as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                AssignTargetPat::Object { 0: self._field_0 }
+                AssignTargetPat::Object { 0: _field_0 }
             }
             AssignTargetPat::Invalid { 0: _field_0 } => {
                 let _field_0 = <Invalid as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                AssignTargetPat::Invalid { 0: self._field_0 }
+                AssignTargetPat::Invalid { 0: _field_0 }
             }
         }
     }
@@ -46710,13 +46710,13 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for BlockStmtOrExpr {
                 let _field_0 = <BlockStmt as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                BlockStmtOrExpr::BlockStmt { 0: self._field_0 }
+                BlockStmtOrExpr::BlockStmt { 0: _field_0 }
             }
             BlockStmtOrExpr::Expr { 0: _field_0 } => {
                 let _field_0 = <Box<Expr> as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                BlockStmtOrExpr::Expr { 0: self._field_0 }
+                BlockStmtOrExpr::Expr { 0: _field_0 }
             }
         }
     }
@@ -46801,18 +46801,18 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Callee {
             Callee::Super { 0: _field_0 } => {
                 let _field_0 =
                     <Super as FoldWithAstPath<V>>::fold_with_ast_path(_field_0, visitor, ast_path);
-                Callee::Super { 0: self._field_0 }
+                Callee::Super { 0: _field_0 }
             }
             Callee::Import { 0: _field_0 } => {
                 let _field_0 =
                     <Import as FoldWithAstPath<V>>::fold_with_ast_path(_field_0, visitor, ast_path);
-                Callee::Import { 0: self._field_0 }
+                Callee::Import { 0: _field_0 }
             }
             Callee::Expr { 0: _field_0 } => {
                 let _field_0 = <Box<Expr> as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Callee::Expr { 0: self._field_0 }
+                Callee::Expr { 0: _field_0 }
             }
         }
     }
@@ -46961,47 +46961,47 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ClassMember {
                 let _field_0 = <Constructor as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                ClassMember::Constructor { 0: self._field_0 }
+                ClassMember::Constructor { 0: _field_0 }
             }
-            ClassMember::Method { 0: _field_0 } => ClassMember::Method { 0: self._field_0 },
+            ClassMember::Method { 0: _field_0 } => ClassMember::Method { 0: _field_0 },
             ClassMember::PrivateMethod { 0: _field_0 } => {
-                ClassMember::PrivateMethod { 0: self._field_0 }
+                ClassMember::PrivateMethod { 0: _field_0 }
             }
             ClassMember::ClassProp { 0: _field_0 } => {
                 let _field_0 = <ClassProp as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                ClassMember::ClassProp { 0: self._field_0 }
+                ClassMember::ClassProp { 0: _field_0 }
             }
             ClassMember::PrivateProp { 0: _field_0 } => {
                 let _field_0 = <PrivateProp as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                ClassMember::PrivateProp { 0: self._field_0 }
+                ClassMember::PrivateProp { 0: _field_0 }
             }
             ClassMember::TsIndexSignature { 0: _field_0 } => {
                 let _field_0 = <TsIndexSignature as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                ClassMember::TsIndexSignature { 0: self._field_0 }
+                ClassMember::TsIndexSignature { 0: _field_0 }
             }
             ClassMember::Empty { 0: _field_0 } => {
                 let _field_0 = <EmptyStmt as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                ClassMember::Empty { 0: self._field_0 }
+                ClassMember::Empty { 0: _field_0 }
             }
             ClassMember::StaticBlock { 0: _field_0 } => {
                 let _field_0 = <StaticBlock as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                ClassMember::StaticBlock { 0: self._field_0 }
+                ClassMember::StaticBlock { 0: _field_0 }
             }
             ClassMember::AutoAccessor { 0: _field_0 } => {
                 let _field_0 = <AutoAccessor as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                ClassMember::AutoAccessor { 0: self._field_0 }
+                ClassMember::AutoAccessor { 0: _field_0 }
             }
         }
     }
@@ -47210,48 +47210,48 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Decl {
                 let _field_0 = <ClassDecl as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Decl::Class { 0: self._field_0 }
+                Decl::Class { 0: _field_0 }
             }
             Decl::Fn { 0: _field_0 } => {
                 let _field_0 =
                     <FnDecl as FoldWithAstPath<V>>::fold_with_ast_path(_field_0, visitor, ast_path);
-                Decl::Fn { 0: self._field_0 }
+                Decl::Fn { 0: _field_0 }
             }
             Decl::Var { 0: _field_0 } => {
                 let _field_0 = <Box<VarDecl> as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Decl::Var { 0: self._field_0 }
+                Decl::Var { 0: _field_0 }
             }
             Decl::Using { 0: _field_0 } => {
                 let _field_0 = <Box<UsingDecl> as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Decl::Using { 0: self._field_0 }
+                Decl::Using { 0: _field_0 }
             }
             Decl::TsInterface { 0: _field_0 } => {
                 let _field_0 = <Box<TsInterfaceDecl> as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Decl::TsInterface { 0: self._field_0 }
+                Decl::TsInterface { 0: _field_0 }
             }
             Decl::TsTypeAlias { 0: _field_0 } => {
                 let _field_0 = <Box<TsTypeAliasDecl> as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Decl::TsTypeAlias { 0: self._field_0 }
+                Decl::TsTypeAlias { 0: _field_0 }
             }
             Decl::TsEnum { 0: _field_0 } => {
                 let _field_0 = <Box<TsEnumDecl> as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Decl::TsEnum { 0: self._field_0 }
+                Decl::TsEnum { 0: _field_0 }
             }
             Decl::TsModule { 0: _field_0 } => {
                 let _field_0 = <Box<TsModuleDecl> as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Decl::TsModule { 0: self._field_0 }
+                Decl::TsModule { 0: _field_0 }
             }
         }
     }
@@ -47288,18 +47288,18 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for DefaultDecl {
                 let _field_0 = <ClassExpr as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                DefaultDecl::Class { 0: self._field_0 }
+                DefaultDecl::Class { 0: _field_0 }
             }
             DefaultDecl::Fn { 0: _field_0 } => {
                 let _field_0 =
                     <FnExpr as FoldWithAstPath<V>>::fold_with_ast_path(_field_0, visitor, ast_path);
-                DefaultDecl::Fn { 0: self._field_0 }
+                DefaultDecl::Fn { 0: _field_0 }
             }
             DefaultDecl::TsInterfaceDecl { 0: _field_0 } => {
                 let _field_0 = <Box<TsInterfaceDecl> as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                DefaultDecl::TsInterfaceDecl { 0: self._field_0 }
+                DefaultDecl::TsInterfaceDecl { 0: _field_0 }
             }
         }
     }
@@ -47531,19 +47531,19 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ExportSpecifier {
                 let _field_0 = <ExportNamespaceSpecifier as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                ExportSpecifier::Namespace { 0: self._field_0 }
+                ExportSpecifier::Namespace { 0: _field_0 }
             }
             ExportSpecifier::Default { 0: _field_0 } => {
                 let _field_0 = <ExportDefaultSpecifier as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                ExportSpecifier::Default { 0: self._field_0 }
+                ExportSpecifier::Default { 0: _field_0 }
             }
             ExportSpecifier::Named { 0: _field_0 } => {
                 let _field_0 = <ExportNamedSpecifier as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                ExportSpecifier::Named { 0: self._field_0 }
+                ExportSpecifier::Named { 0: _field_0 }
             }
         }
     }
@@ -47562,225 +47562,225 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Expr {
                 let _field_0 = <ThisExpr as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Expr::This { 0: self._field_0 }
+                Expr::This { 0: _field_0 }
             }
             Expr::Array { 0: _field_0 } => {
                 let _field_0 = <ArrayLit as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Expr::Array { 0: self._field_0 }
+                Expr::Array { 0: _field_0 }
             }
             Expr::Object { 0: _field_0 } => {
                 let _field_0 = <ObjectLit as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Expr::Object { 0: self._field_0 }
+                Expr::Object { 0: _field_0 }
             }
             Expr::Fn { 0: _field_0 } => {
                 let _field_0 =
                     <FnExpr as FoldWithAstPath<V>>::fold_with_ast_path(_field_0, visitor, ast_path);
-                Expr::Fn { 0: self._field_0 }
+                Expr::Fn { 0: _field_0 }
             }
             Expr::Unary { 0: _field_0 } => {
                 let _field_0 = <UnaryExpr as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Expr::Unary { 0: self._field_0 }
+                Expr::Unary { 0: _field_0 }
             }
             Expr::Update { 0: _field_0 } => {
                 let _field_0 = <UpdateExpr as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Expr::Update { 0: self._field_0 }
+                Expr::Update { 0: _field_0 }
             }
             Expr::Bin { 0: _field_0 } => {
                 let _field_0 = <BinExpr as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Expr::Bin { 0: self._field_0 }
+                Expr::Bin { 0: _field_0 }
             }
             Expr::Assign { 0: _field_0 } => {
                 let _field_0 = <AssignExpr as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Expr::Assign { 0: self._field_0 }
+                Expr::Assign { 0: _field_0 }
             }
             Expr::Member { 0: _field_0 } => {
                 let _field_0 = <MemberExpr as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Expr::Member { 0: self._field_0 }
+                Expr::Member { 0: _field_0 }
             }
             Expr::SuperProp { 0: _field_0 } => {
                 let _field_0 = <SuperPropExpr as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Expr::SuperProp { 0: self._field_0 }
+                Expr::SuperProp { 0: _field_0 }
             }
             Expr::Cond { 0: _field_0 } => {
                 let _field_0 = <CondExpr as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Expr::Cond { 0: self._field_0 }
+                Expr::Cond { 0: _field_0 }
             }
             Expr::Call { 0: _field_0 } => {
                 let _field_0 = <CallExpr as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Expr::Call { 0: self._field_0 }
+                Expr::Call { 0: _field_0 }
             }
             Expr::New { 0: _field_0 } => {
                 let _field_0 = <NewExpr as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Expr::New { 0: self._field_0 }
+                Expr::New { 0: _field_0 }
             }
             Expr::Seq { 0: _field_0 } => {
                 let _field_0 = <SeqExpr as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Expr::Seq { 0: self._field_0 }
+                Expr::Seq { 0: _field_0 }
             }
             Expr::Ident { 0: _field_0 } => {
                 let _field_0 =
                     <Ident as FoldWithAstPath<V>>::fold_with_ast_path(_field_0, visitor, ast_path);
-                Expr::Ident { 0: self._field_0 }
+                Expr::Ident { 0: _field_0 }
             }
             Expr::Lit { 0: _field_0 } => {
                 let _field_0 =
                     <Lit as FoldWithAstPath<V>>::fold_with_ast_path(_field_0, visitor, ast_path);
-                Expr::Lit { 0: self._field_0 }
+                Expr::Lit { 0: _field_0 }
             }
             Expr::Tpl { 0: _field_0 } => {
                 let _field_0 =
                     <Tpl as FoldWithAstPath<V>>::fold_with_ast_path(_field_0, visitor, ast_path);
-                Expr::Tpl { 0: self._field_0 }
+                Expr::Tpl { 0: _field_0 }
             }
             Expr::TaggedTpl { 0: _field_0 } => {
                 let _field_0 = <TaggedTpl as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Expr::TaggedTpl { 0: self._field_0 }
+                Expr::TaggedTpl { 0: _field_0 }
             }
             Expr::Arrow { 0: _field_0 } => {
                 let _field_0 = <ArrowExpr as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Expr::Arrow { 0: self._field_0 }
+                Expr::Arrow { 0: _field_0 }
             }
             Expr::Class { 0: _field_0 } => {
                 let _field_0 = <ClassExpr as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Expr::Class { 0: self._field_0 }
+                Expr::Class { 0: _field_0 }
             }
             Expr::Yield { 0: _field_0 } => {
                 let _field_0 = <YieldExpr as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Expr::Yield { 0: self._field_0 }
+                Expr::Yield { 0: _field_0 }
             }
             Expr::MetaProp { 0: _field_0 } => {
                 let _field_0 = <MetaPropExpr as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Expr::MetaProp { 0: self._field_0 }
+                Expr::MetaProp { 0: _field_0 }
             }
             Expr::Await { 0: _field_0 } => {
                 let _field_0 = <AwaitExpr as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Expr::Await { 0: self._field_0 }
+                Expr::Await { 0: _field_0 }
             }
             Expr::Paren { 0: _field_0 } => {
                 let _field_0 = <ParenExpr as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Expr::Paren { 0: self._field_0 }
+                Expr::Paren { 0: _field_0 }
             }
             Expr::JSXMember { 0: _field_0 } => {
                 let _field_0 = <JSXMemberExpr as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Expr::JSXMember { 0: self._field_0 }
+                Expr::JSXMember { 0: _field_0 }
             }
             Expr::JSXNamespacedName { 0: _field_0 } => {
                 let _field_0 = <JSXNamespacedName as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Expr::JSXNamespacedName { 0: self._field_0 }
+                Expr::JSXNamespacedName { 0: _field_0 }
             }
             Expr::JSXEmpty { 0: _field_0 } => {
                 let _field_0 = <JSXEmptyExpr as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Expr::JSXEmpty { 0: self._field_0 }
+                Expr::JSXEmpty { 0: _field_0 }
             }
             Expr::JSXElement { 0: _field_0 } => {
                 let _field_0 = <Box<JSXElement> as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Expr::JSXElement { 0: self._field_0 }
+                Expr::JSXElement { 0: _field_0 }
             }
             Expr::JSXFragment { 0: _field_0 } => {
                 let _field_0 = <JSXFragment as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Expr::JSXFragment { 0: self._field_0 }
+                Expr::JSXFragment { 0: _field_0 }
             }
             Expr::TsTypeAssertion { 0: _field_0 } => {
                 let _field_0 = <TsTypeAssertion as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Expr::TsTypeAssertion { 0: self._field_0 }
+                Expr::TsTypeAssertion { 0: _field_0 }
             }
             Expr::TsConstAssertion { 0: _field_0 } => {
                 let _field_0 = <TsConstAssertion as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Expr::TsConstAssertion { 0: self._field_0 }
+                Expr::TsConstAssertion { 0: _field_0 }
             }
             Expr::TsNonNull { 0: _field_0 } => {
                 let _field_0 = <TsNonNullExpr as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Expr::TsNonNull { 0: self._field_0 }
+                Expr::TsNonNull { 0: _field_0 }
             }
             Expr::TsAs { 0: _field_0 } => {
                 let _field_0 = <TsAsExpr as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Expr::TsAs { 0: self._field_0 }
+                Expr::TsAs { 0: _field_0 }
             }
             Expr::TsInstantiation { 0: _field_0 } => {
                 let _field_0 = <TsInstantiation as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Expr::TsInstantiation { 0: self._field_0 }
+                Expr::TsInstantiation { 0: _field_0 }
             }
             Expr::TsSatisfies { 0: _field_0 } => {
                 let _field_0 = <TsSatisfiesExpr as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Expr::TsSatisfies { 0: self._field_0 }
+                Expr::TsSatisfies { 0: _field_0 }
             }
             Expr::PrivateName { 0: _field_0 } => {
                 let _field_0 = <PrivateName as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Expr::PrivateName { 0: self._field_0 }
+                Expr::PrivateName { 0: _field_0 }
             }
             Expr::OptChain { 0: _field_0 } => {
                 let _field_0 = <OptChainExpr as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Expr::OptChain { 0: self._field_0 }
+                Expr::OptChain { 0: _field_0 }
             }
             Expr::Invalid { 0: _field_0 } => {
                 let _field_0 = <Invalid as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Expr::Invalid { 0: self._field_0 }
+                Expr::Invalid { 0: _field_0 }
             }
         }
     }
@@ -47886,19 +47886,19 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ForHead {
                 let _field_0 = <Box<VarDecl> as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                ForHead::VarDecl { 0: self._field_0 }
+                ForHead::VarDecl { 0: _field_0 }
             }
             ForHead::UsingDecl { 0: _field_0 } => {
                 let _field_0 = <Box<UsingDecl> as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                ForHead::UsingDecl { 0: self._field_0 }
+                ForHead::UsingDecl { 0: _field_0 }
             }
             ForHead::Pat { 0: _field_0 } => {
                 let _field_0 = <Box<Pat> as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                ForHead::Pat { 0: self._field_0 }
+                ForHead::Pat { 0: _field_0 }
             }
         }
     }
@@ -48309,19 +48309,19 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ImportSpecifier {
                 let _field_0 = <ImportNamedSpecifier as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                ImportSpecifier::Named { 0: self._field_0 }
+                ImportSpecifier::Named { 0: _field_0 }
             }
             ImportSpecifier::Default { 0: _field_0 } => {
                 let _field_0 = <ImportDefaultSpecifier as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                ImportSpecifier::Default { 0: self._field_0 }
+                ImportSpecifier::Default { 0: _field_0 }
             }
             ImportSpecifier::Namespace { 0: _field_0 } => {
                 let _field_0 = <ImportStarAsSpecifier as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                ImportSpecifier::Namespace { 0: self._field_0 }
+                ImportSpecifier::Namespace { 0: _field_0 }
             }
         }
     }
@@ -48433,13 +48433,13 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for JSXAttrName {
                 let _field_0 = <IdentName as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                JSXAttrName::Ident { 0: self._field_0 }
+                JSXAttrName::Ident { 0: _field_0 }
             }
             JSXAttrName::JSXNamespacedName { 0: _field_0 } => {
                 let _field_0 = <JSXNamespacedName as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                JSXAttrName::JSXNamespacedName { 0: self._field_0 }
+                JSXAttrName::JSXNamespacedName { 0: _field_0 }
             }
         }
     }
@@ -48458,13 +48458,13 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for JSXAttrOrSpread {
                 let _field_0 = <JSXAttr as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                JSXAttrOrSpread::JSXAttr { 0: self._field_0 }
+                JSXAttrOrSpread::JSXAttr { 0: _field_0 }
             }
             JSXAttrOrSpread::SpreadElement { 0: _field_0 } => {
                 let _field_0 = <SpreadElement as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                JSXAttrOrSpread::SpreadElement { 0: self._field_0 }
+                JSXAttrOrSpread::SpreadElement { 0: _field_0 }
             }
         }
     }
@@ -48482,25 +48482,25 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for JSXAttrValue {
             JSXAttrValue::Lit { 0: _field_0 } => {
                 let _field_0 =
                     <Lit as FoldWithAstPath<V>>::fold_with_ast_path(_field_0, visitor, ast_path);
-                JSXAttrValue::Lit { 0: self._field_0 }
+                JSXAttrValue::Lit { 0: _field_0 }
             }
             JSXAttrValue::JSXExprContainer { 0: _field_0 } => {
                 let _field_0 = <JSXExprContainer as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                JSXAttrValue::JSXExprContainer { 0: self._field_0 }
+                JSXAttrValue::JSXExprContainer { 0: _field_0 }
             }
             JSXAttrValue::JSXElement { 0: _field_0 } => {
                 let _field_0 = <Box<JSXElement> as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                JSXAttrValue::JSXElement { 0: self._field_0 }
+                JSXAttrValue::JSXElement { 0: _field_0 }
             }
             JSXAttrValue::JSXFragment { 0: _field_0 } => {
                 let _field_0 = <JSXFragment as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                JSXAttrValue::JSXFragment { 0: self._field_0 }
+                JSXAttrValue::JSXFragment { 0: _field_0 }
             }
         }
     }
@@ -48587,31 +48587,31 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for JSXElementChild {
                 let _field_0 = <JSXText as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                JSXElementChild::JSXText { 0: self._field_0 }
+                JSXElementChild::JSXText { 0: _field_0 }
             }
             JSXElementChild::JSXExprContainer { 0: _field_0 } => {
                 let _field_0 = <JSXExprContainer as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                JSXElementChild::JSXExprContainer { 0: self._field_0 }
+                JSXElementChild::JSXExprContainer { 0: _field_0 }
             }
             JSXElementChild::JSXSpreadChild { 0: _field_0 } => {
                 let _field_0 = <JSXSpreadChild as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                JSXElementChild::JSXSpreadChild { 0: self._field_0 }
+                JSXElementChild::JSXSpreadChild { 0: _field_0 }
             }
             JSXElementChild::JSXElement { 0: _field_0 } => {
                 let _field_0 = <Box<JSXElement> as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                JSXElementChild::JSXElement { 0: self._field_0 }
+                JSXElementChild::JSXElement { 0: _field_0 }
             }
             JSXElementChild::JSXFragment { 0: _field_0 } => {
                 let _field_0 = <JSXFragment as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                JSXElementChild::JSXFragment { 0: self._field_0 }
+                JSXElementChild::JSXFragment { 0: _field_0 }
             }
         }
     }
@@ -48629,19 +48629,19 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for JSXElementName {
             JSXElementName::Ident { 0: _field_0 } => {
                 let _field_0 =
                     <Ident as FoldWithAstPath<V>>::fold_with_ast_path(_field_0, visitor, ast_path);
-                JSXElementName::Ident { 0: self._field_0 }
+                JSXElementName::Ident { 0: _field_0 }
             }
             JSXElementName::JSXMemberExpr { 0: _field_0 } => {
                 let _field_0 = <JSXMemberExpr as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                JSXElementName::JSXMemberExpr { 0: self._field_0 }
+                JSXElementName::JSXMemberExpr { 0: _field_0 }
             }
             JSXElementName::JSXNamespacedName { 0: _field_0 } => {
                 let _field_0 = <JSXNamespacedName as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                JSXElementName::JSXNamespacedName { 0: self._field_0 }
+                JSXElementName::JSXNamespacedName { 0: _field_0 }
             }
         }
     }
@@ -48674,13 +48674,13 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for JSXExpr {
                 let _field_0 = <JSXEmptyExpr as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                JSXExpr::JSXEmptyExpr { 0: self._field_0 }
+                JSXExpr::JSXEmptyExpr { 0: _field_0 }
             }
             JSXExpr::Expr { 0: _field_0 } => {
                 let _field_0 = <Box<Expr> as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                JSXExpr::Expr { 0: self._field_0 }
+                JSXExpr::Expr { 0: _field_0 }
             }
         }
     }
@@ -48792,12 +48792,12 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for JSXObject {
                 let _field_0 = <Box<JSXMemberExpr> as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                JSXObject::JSXMemberExpr { 0: self._field_0 }
+                JSXObject::JSXMemberExpr { 0: _field_0 }
             }
             JSXObject::Ident { 0: _field_0 } => {
                 let _field_0 =
                     <Ident as FoldWithAstPath<V>>::fold_with_ast_path(_field_0, visitor, ast_path);
-                JSXObject::Ident { 0: self._field_0 }
+                JSXObject::Ident { 0: _field_0 }
             }
         }
     }
@@ -48897,13 +48897,13 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Key {
                 let _field_0 = <PrivateName as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Key::Private { 0: self._field_0 }
+                Key::Private { 0: _field_0 }
             }
             Key::Public { 0: _field_0 } => {
                 let _field_0 = <PropName as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Key::Public { 0: self._field_0 }
+                Key::Public { 0: _field_0 }
             }
         }
     }
@@ -48981,34 +48981,34 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Lit {
             Lit::Str { 0: _field_0 } => {
                 let _field_0 =
                     <Str as FoldWithAstPath<V>>::fold_with_ast_path(_field_0, visitor, ast_path);
-                Lit::Str { 0: self._field_0 }
+                Lit::Str { 0: _field_0 }
             }
             Lit::Bool { 0: _field_0 } => {
                 let _field_0 =
                     <Bool as FoldWithAstPath<V>>::fold_with_ast_path(_field_0, visitor, ast_path);
-                Lit::Bool { 0: self._field_0 }
+                Lit::Bool { 0: _field_0 }
             }
             Lit::Null { 0: _field_0 } => {
                 let _field_0 =
                     <Null as FoldWithAstPath<V>>::fold_with_ast_path(_field_0, visitor, ast_path);
-                Lit::Null { 0: self._field_0 }
+                Lit::Null { 0: _field_0 }
             }
             Lit::Num { 0: _field_0 } => {
                 let _field_0 =
                     <Number as FoldWithAstPath<V>>::fold_with_ast_path(_field_0, visitor, ast_path);
-                Lit::Num { 0: self._field_0 }
+                Lit::Num { 0: _field_0 }
             }
-            Lit::BigInt { 0: _field_0 } => Lit::BigInt { 0: self._field_0 },
+            Lit::BigInt { 0: _field_0 } => Lit::BigInt { 0: _field_0 },
             Lit::Regex { 0: _field_0 } => {
                 let _field_0 =
                     <Regex as FoldWithAstPath<V>>::fold_with_ast_path(_field_0, visitor, ast_path);
-                Lit::Regex { 0: self._field_0 }
+                Lit::Regex { 0: _field_0 }
             }
             Lit::JSXText { 0: _field_0 } => {
                 let _field_0 = <JSXText as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Lit::JSXText { 0: self._field_0 }
+                Lit::JSXText { 0: _field_0 }
             }
         }
     }
@@ -49047,19 +49047,19 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for MemberProp {
                 let _field_0 = <IdentName as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                MemberProp::Ident { 0: self._field_0 }
+                MemberProp::Ident { 0: _field_0 }
             }
             MemberProp::PrivateName { 0: _field_0 } => {
                 let _field_0 = <PrivateName as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                MemberProp::PrivateName { 0: self._field_0 }
+                MemberProp::PrivateName { 0: _field_0 }
             }
             MemberProp::Computed { 0: _field_0 } => {
                 let _field_0 = <ComputedPropName as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                MemberProp::Computed { 0: self._field_0 }
+                MemberProp::Computed { 0: _field_0 }
             }
         }
     }
@@ -49176,55 +49176,55 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ModuleDecl {
                 let _field_0 = <ImportDecl as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                ModuleDecl::Import { 0: self._field_0 }
+                ModuleDecl::Import { 0: _field_0 }
             }
             ModuleDecl::ExportDecl { 0: _field_0 } => {
                 let _field_0 = <ExportDecl as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                ModuleDecl::ExportDecl { 0: self._field_0 }
+                ModuleDecl::ExportDecl { 0: _field_0 }
             }
             ModuleDecl::ExportNamed { 0: _field_0 } => {
                 let _field_0 = <NamedExport as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                ModuleDecl::ExportNamed { 0: self._field_0 }
+                ModuleDecl::ExportNamed { 0: _field_0 }
             }
             ModuleDecl::ExportDefaultDecl { 0: _field_0 } => {
                 let _field_0 = <ExportDefaultDecl as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                ModuleDecl::ExportDefaultDecl { 0: self._field_0 }
+                ModuleDecl::ExportDefaultDecl { 0: _field_0 }
             }
             ModuleDecl::ExportDefaultExpr { 0: _field_0 } => {
                 let _field_0 = <ExportDefaultExpr as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                ModuleDecl::ExportDefaultExpr { 0: self._field_0 }
+                ModuleDecl::ExportDefaultExpr { 0: _field_0 }
             }
             ModuleDecl::ExportAll { 0: _field_0 } => {
                 let _field_0 = <ExportAll as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                ModuleDecl::ExportAll { 0: self._field_0 }
+                ModuleDecl::ExportAll { 0: _field_0 }
             }
             ModuleDecl::TsImportEquals { 0: _field_0 } => {
                 let _field_0 = <Box<TsImportEqualsDecl> as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                ModuleDecl::TsImportEquals { 0: self._field_0 }
+                ModuleDecl::TsImportEquals { 0: _field_0 }
             }
             ModuleDecl::TsExportAssignment { 0: _field_0 } => {
                 let _field_0 = <TsExportAssignment as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                ModuleDecl::TsExportAssignment { 0: self._field_0 }
+                ModuleDecl::TsExportAssignment { 0: _field_0 }
             }
             ModuleDecl::TsNamespaceExport { 0: _field_0 } => {
                 let _field_0 = <TsNamespaceExportDecl as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                ModuleDecl::TsNamespaceExport { 0: self._field_0 }
+                ModuleDecl::TsNamespaceExport { 0: _field_0 }
             }
         }
     }
@@ -49242,12 +49242,12 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ModuleExportName {
             ModuleExportName::Ident { 0: _field_0 } => {
                 let _field_0 =
                     <Ident as FoldWithAstPath<V>>::fold_with_ast_path(_field_0, visitor, ast_path);
-                ModuleExportName::Ident { 0: self._field_0 }
+                ModuleExportName::Ident { 0: _field_0 }
             }
             ModuleExportName::Str { 0: _field_0 } => {
                 let _field_0 =
                     <Str as FoldWithAstPath<V>>::fold_with_ast_path(_field_0, visitor, ast_path);
-                ModuleExportName::Str { 0: self._field_0 }
+                ModuleExportName::Str { 0: _field_0 }
             }
         }
     }
@@ -49266,12 +49266,12 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ModuleItem {
                 let _field_0 = <ModuleDecl as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                ModuleItem::ModuleDecl { 0: self._field_0 }
+                ModuleItem::ModuleDecl { 0: _field_0 }
             }
             ModuleItem::Stmt { 0: _field_0 } => {
                 let _field_0 =
                     <Stmt as FoldWithAstPath<V>>::fold_with_ast_path(_field_0, visitor, ast_path);
-                ModuleItem::Stmt { 0: self._field_0 }
+                ModuleItem::Stmt { 0: _field_0 }
             }
         }
     }
@@ -49441,19 +49441,19 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ObjectPatProp {
                 let _field_0 = <KeyValuePatProp as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                ObjectPatProp::KeyValue { 0: self._field_0 }
+                ObjectPatProp::KeyValue { 0: _field_0 }
             }
             ObjectPatProp::Assign { 0: _field_0 } => {
                 let _field_0 = <AssignPatProp as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                ObjectPatProp::Assign { 0: self._field_0 }
+                ObjectPatProp::Assign { 0: _field_0 }
             }
             ObjectPatProp::Rest { 0: _field_0 } => {
                 let _field_0 = <RestPat as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                ObjectPatProp::Rest { 0: self._field_0 }
+                ObjectPatProp::Rest { 0: _field_0 }
             }
         }
     }
@@ -49507,13 +49507,13 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for OptChainBase {
                 let _field_0 = <MemberExpr as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                OptChainBase::Member { 0: self._field_0 }
+                OptChainBase::Member { 0: _field_0 }
             }
             OptChainBase::Call { 0: _field_0 } => {
                 let _field_0 = <OptCall as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                OptChainBase::Call { 0: self._field_0 }
+                OptChainBase::Call { 0: _field_0 }
             }
         }
     }
@@ -49587,12 +49587,12 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ParamOrTsParamProp {
                 let _field_0 = <TsParamProp as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                ParamOrTsParamProp::TsParamProp { 0: self._field_0 }
+                ParamOrTsParamProp::TsParamProp { 0: _field_0 }
             }
             ParamOrTsParamProp::Param { 0: _field_0 } => {
                 let _field_0 =
                     <Param as FoldWithAstPath<V>>::fold_with_ast_path(_field_0, visitor, ast_path);
-                ParamOrTsParamProp::Param { 0: self._field_0 }
+                ParamOrTsParamProp::Param { 0: _field_0 }
             }
         }
     }
@@ -49629,43 +49629,43 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Pat {
                 let _field_0 = <BindingIdent as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Pat::Ident { 0: self._field_0 }
+                Pat::Ident { 0: _field_0 }
             }
             Pat::Array { 0: _field_0 } => {
                 let _field_0 = <ArrayPat as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Pat::Array { 0: self._field_0 }
+                Pat::Array { 0: _field_0 }
             }
             Pat::Rest { 0: _field_0 } => {
                 let _field_0 = <RestPat as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Pat::Rest { 0: self._field_0 }
+                Pat::Rest { 0: _field_0 }
             }
             Pat::Object { 0: _field_0 } => {
                 let _field_0 = <ObjectPat as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Pat::Object { 0: self._field_0 }
+                Pat::Object { 0: _field_0 }
             }
             Pat::Assign { 0: _field_0 } => {
                 let _field_0 = <AssignPat as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Pat::Assign { 0: self._field_0 }
+                Pat::Assign { 0: _field_0 }
             }
             Pat::Invalid { 0: _field_0 } => {
                 let _field_0 = <Invalid as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Pat::Invalid { 0: self._field_0 }
+                Pat::Invalid { 0: _field_0 }
             }
             Pat::Expr { 0: _field_0 } => {
                 let _field_0 = <Box<Expr> as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Pat::Expr { 0: self._field_0 }
+                Pat::Expr { 0: _field_0 }
             }
         }
     }
@@ -49756,12 +49756,12 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Program {
             Program::Module { 0: _field_0 } => {
                 let _field_0 =
                     <Module as FoldWithAstPath<V>>::fold_with_ast_path(_field_0, visitor, ast_path);
-                Program::Module { 0: self._field_0 }
+                Program::Module { 0: _field_0 }
             }
             Program::Script { 0: _field_0 } => {
                 let _field_0 =
                     <Script as FoldWithAstPath<V>>::fold_with_ast_path(_field_0, visitor, ast_path);
-                Program::Script { 0: self._field_0 }
+                Program::Script { 0: _field_0 }
             }
         }
     }
@@ -49779,37 +49779,37 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Prop {
             Prop::Shorthand { 0: _field_0 } => {
                 let _field_0 =
                     <Ident as FoldWithAstPath<V>>::fold_with_ast_path(_field_0, visitor, ast_path);
-                Prop::Shorthand { 0: self._field_0 }
+                Prop::Shorthand { 0: _field_0 }
             }
             Prop::KeyValue { 0: _field_0 } => {
                 let _field_0 = <KeyValueProp as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Prop::KeyValue { 0: self._field_0 }
+                Prop::KeyValue { 0: _field_0 }
             }
             Prop::Assign { 0: _field_0 } => {
                 let _field_0 = <AssignProp as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Prop::Assign { 0: self._field_0 }
+                Prop::Assign { 0: _field_0 }
             }
             Prop::Getter { 0: _field_0 } => {
                 let _field_0 = <GetterProp as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Prop::Getter { 0: self._field_0 }
+                Prop::Getter { 0: _field_0 }
             }
             Prop::Setter { 0: _field_0 } => {
                 let _field_0 = <SetterProp as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Prop::Setter { 0: self._field_0 }
+                Prop::Setter { 0: _field_0 }
             }
             Prop::Method { 0: _field_0 } => {
                 let _field_0 = <MethodProp as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Prop::Method { 0: self._field_0 }
+                Prop::Method { 0: _field_0 }
             }
         }
     }
@@ -49828,28 +49828,28 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for PropName {
                 let _field_0 = <IdentName as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                PropName::Ident { 0: self._field_0 }
+                PropName::Ident { 0: _field_0 }
             }
             PropName::Str { 0: _field_0 } => {
                 let _field_0 =
                     <Str as FoldWithAstPath<V>>::fold_with_ast_path(_field_0, visitor, ast_path);
-                PropName::Str { 0: self._field_0 }
+                PropName::Str { 0: _field_0 }
             }
             PropName::Num { 0: _field_0 } => {
                 let _field_0 =
                     <Number as FoldWithAstPath<V>>::fold_with_ast_path(_field_0, visitor, ast_path);
-                PropName::Num { 0: self._field_0 }
+                PropName::Num { 0: _field_0 }
             }
             PropName::Computed { 0: _field_0 } => {
                 let _field_0 = <ComputedPropName as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                PropName::Computed { 0: self._field_0 }
+                PropName::Computed { 0: _field_0 }
             }
             PropName::BigInt { 0: _field_0 } => {
                 let _field_0 =
                     <BigInt as FoldWithAstPath<V>>::fold_with_ast_path(_field_0, visitor, ast_path);
-                PropName::BigInt { 0: self._field_0 }
+                PropName::BigInt { 0: _field_0 }
             }
         }
     }
@@ -49868,13 +49868,13 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for PropOrSpread {
                 let _field_0 = <SpreadElement as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                PropOrSpread::Spread { 0: self._field_0 }
+                PropOrSpread::Spread { 0: _field_0 }
             }
             PropOrSpread::Prop { 0: _field_0 } => {
                 let _field_0 = <Box<Prop> as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                PropOrSpread::Prop { 0: self._field_0 }
+                PropOrSpread::Prop { 0: _field_0 }
             }
         }
     }
@@ -50059,67 +50059,67 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for SimpleAssignTarget {
                 let _field_0 = <BindingIdent as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                SimpleAssignTarget::Ident { 0: self._field_0 }
+                SimpleAssignTarget::Ident { 0: _field_0 }
             }
             SimpleAssignTarget::Member { 0: _field_0 } => {
                 let _field_0 = <MemberExpr as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                SimpleAssignTarget::Member { 0: self._field_0 }
+                SimpleAssignTarget::Member { 0: _field_0 }
             }
             SimpleAssignTarget::SuperProp { 0: _field_0 } => {
                 let _field_0 = <SuperPropExpr as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                SimpleAssignTarget::SuperProp { 0: self._field_0 }
+                SimpleAssignTarget::SuperProp { 0: _field_0 }
             }
             SimpleAssignTarget::Paren { 0: _field_0 } => {
                 let _field_0 = <ParenExpr as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                SimpleAssignTarget::Paren { 0: self._field_0 }
+                SimpleAssignTarget::Paren { 0: _field_0 }
             }
             SimpleAssignTarget::OptChain { 0: _field_0 } => {
                 let _field_0 = <OptChainExpr as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                SimpleAssignTarget::OptChain { 0: self._field_0 }
+                SimpleAssignTarget::OptChain { 0: _field_0 }
             }
             SimpleAssignTarget::TsAs { 0: _field_0 } => {
                 let _field_0 = <TsAsExpr as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                SimpleAssignTarget::TsAs { 0: self._field_0 }
+                SimpleAssignTarget::TsAs { 0: _field_0 }
             }
             SimpleAssignTarget::TsSatisfies { 0: _field_0 } => {
                 let _field_0 = <TsSatisfiesExpr as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                SimpleAssignTarget::TsSatisfies { 0: self._field_0 }
+                SimpleAssignTarget::TsSatisfies { 0: _field_0 }
             }
             SimpleAssignTarget::TsNonNull { 0: _field_0 } => {
                 let _field_0 = <TsNonNullExpr as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                SimpleAssignTarget::TsNonNull { 0: self._field_0 }
+                SimpleAssignTarget::TsNonNull { 0: _field_0 }
             }
             SimpleAssignTarget::TsTypeAssertion { 0: _field_0 } => {
                 let _field_0 = <TsTypeAssertion as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                SimpleAssignTarget::TsTypeAssertion { 0: self._field_0 }
+                SimpleAssignTarget::TsTypeAssertion { 0: _field_0 }
             }
             SimpleAssignTarget::TsInstantiation { 0: _field_0 } => {
                 let _field_0 = <TsInstantiation as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                SimpleAssignTarget::TsInstantiation { 0: self._field_0 }
+                SimpleAssignTarget::TsInstantiation { 0: _field_0 }
             }
             SimpleAssignTarget::Invalid { 0: _field_0 } => {
                 let _field_0 = <Invalid as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                SimpleAssignTarget::Invalid { 0: self._field_0 }
+                SimpleAssignTarget::Invalid { 0: _field_0 }
             }
         }
     }
@@ -50174,113 +50174,113 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Stmt {
                 let _field_0 = <BlockStmt as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Stmt::Block { 0: self._field_0 }
+                Stmt::Block { 0: _field_0 }
             }
             Stmt::Empty { 0: _field_0 } => {
                 let _field_0 = <EmptyStmt as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Stmt::Empty { 0: self._field_0 }
+                Stmt::Empty { 0: _field_0 }
             }
             Stmt::Debugger { 0: _field_0 } => {
                 let _field_0 = <DebuggerStmt as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Stmt::Debugger { 0: self._field_0 }
+                Stmt::Debugger { 0: _field_0 }
             }
             Stmt::With { 0: _field_0 } => {
                 let _field_0 = <WithStmt as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Stmt::With { 0: self._field_0 }
+                Stmt::With { 0: _field_0 }
             }
             Stmt::Return { 0: _field_0 } => {
                 let _field_0 = <ReturnStmt as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Stmt::Return { 0: self._field_0 }
+                Stmt::Return { 0: _field_0 }
             }
             Stmt::Labeled { 0: _field_0 } => {
                 let _field_0 = <LabeledStmt as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Stmt::Labeled { 0: self._field_0 }
+                Stmt::Labeled { 0: _field_0 }
             }
             Stmt::Break { 0: _field_0 } => {
                 let _field_0 = <BreakStmt as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Stmt::Break { 0: self._field_0 }
+                Stmt::Break { 0: _field_0 }
             }
             Stmt::Continue { 0: _field_0 } => {
                 let _field_0 = <ContinueStmt as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Stmt::Continue { 0: self._field_0 }
+                Stmt::Continue { 0: _field_0 }
             }
             Stmt::If { 0: _field_0 } => {
                 let _field_0 =
                     <IfStmt as FoldWithAstPath<V>>::fold_with_ast_path(_field_0, visitor, ast_path);
-                Stmt::If { 0: self._field_0 }
+                Stmt::If { 0: _field_0 }
             }
             Stmt::Switch { 0: _field_0 } => {
                 let _field_0 = <SwitchStmt as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Stmt::Switch { 0: self._field_0 }
+                Stmt::Switch { 0: _field_0 }
             }
             Stmt::Throw { 0: _field_0 } => {
                 let _field_0 = <ThrowStmt as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Stmt::Throw { 0: self._field_0 }
+                Stmt::Throw { 0: _field_0 }
             }
             Stmt::Try { 0: _field_0 } => {
                 let _field_0 = <Box<TryStmt> as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Stmt::Try { 0: self._field_0 }
+                Stmt::Try { 0: _field_0 }
             }
             Stmt::While { 0: _field_0 } => {
                 let _field_0 = <WhileStmt as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Stmt::While { 0: self._field_0 }
+                Stmt::While { 0: _field_0 }
             }
             Stmt::DoWhile { 0: _field_0 } => {
                 let _field_0 = <DoWhileStmt as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Stmt::DoWhile { 0: self._field_0 }
+                Stmt::DoWhile { 0: _field_0 }
             }
             Stmt::For { 0: _field_0 } => {
                 let _field_0 = <ForStmt as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Stmt::For { 0: self._field_0 }
+                Stmt::For { 0: _field_0 }
             }
             Stmt::ForIn { 0: _field_0 } => {
                 let _field_0 = <ForInStmt as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Stmt::ForIn { 0: self._field_0 }
+                Stmt::ForIn { 0: _field_0 }
             }
             Stmt::ForOf { 0: _field_0 } => {
                 let _field_0 = <ForOfStmt as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Stmt::ForOf { 0: self._field_0 }
+                Stmt::ForOf { 0: _field_0 }
             }
             Stmt::Decl { 0: _field_0 } => {
                 let _field_0 =
                     <Decl as FoldWithAstPath<V>>::fold_with_ast_path(_field_0, visitor, ast_path);
-                Stmt::Decl { 0: self._field_0 }
+                Stmt::Decl { 0: _field_0 }
             }
             Stmt::Expr { 0: _field_0 } => {
                 let _field_0 = <ExprStmt as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                Stmt::Expr { 0: self._field_0 }
+                Stmt::Expr { 0: _field_0 }
             }
         }
     }
@@ -50327,13 +50327,13 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for SuperProp {
                 let _field_0 = <IdentName as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                SuperProp::Ident { 0: self._field_0 }
+                SuperProp::Ident { 0: _field_0 }
             }
             SuperProp::Computed { 0: _field_0 } => {
                 let _field_0 = <ComputedPropName as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                SuperProp::Computed { 0: self._field_0 }
+                SuperProp::Computed { 0: _field_0 }
             }
         }
     }
@@ -50817,12 +50817,12 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsEntityName {
                 let _field_0 = <Box<TsQualifiedName> as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsEntityName::TsQualifiedName { 0: self._field_0 }
+                TsEntityName::TsQualifiedName { 0: _field_0 }
             }
             TsEntityName::Ident { 0: _field_0 } => {
                 let _field_0 =
                     <Ident as FoldWithAstPath<V>>::fold_with_ast_path(_field_0, visitor, ast_path);
-                TsEntityName::Ident { 0: self._field_0 }
+                TsEntityName::Ident { 0: _field_0 }
             }
         }
     }
@@ -50894,12 +50894,12 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsEnumMemberId {
             TsEnumMemberId::Ident { 0: _field_0 } => {
                 let _field_0 =
                     <Ident as FoldWithAstPath<V>>::fold_with_ast_path(_field_0, visitor, ast_path);
-                TsEnumMemberId::Ident { 0: self._field_0 }
+                TsEnumMemberId::Ident { 0: _field_0 }
             }
             TsEnumMemberId::Str { 0: _field_0 } => {
                 let _field_0 =
                     <Str as FoldWithAstPath<V>>::fold_with_ast_path(_field_0, visitor, ast_path);
-                TsEnumMemberId::Str { 0: self._field_0 }
+                TsEnumMemberId::Str { 0: _field_0 }
             }
         }
     }
@@ -50980,13 +50980,13 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsFnOrConstructorType {
                 let _field_0 = <TsFnType as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsFnOrConstructorType::TsFnType { 0: self._field_0 }
+                TsFnOrConstructorType::TsFnType { 0: _field_0 }
             }
             TsFnOrConstructorType::TsConstructorType { 0: _field_0 } => {
                 let _field_0 = <TsConstructorType as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsFnOrConstructorType::TsConstructorType { 0: self._field_0 }
+                TsFnOrConstructorType::TsConstructorType { 0: _field_0 }
             }
         }
     }
@@ -51005,25 +51005,25 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsFnParam {
                 let _field_0 = <BindingIdent as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsFnParam::Ident { 0: self._field_0 }
+                TsFnParam::Ident { 0: _field_0 }
             }
             TsFnParam::Array { 0: _field_0 } => {
                 let _field_0 = <ArrayPat as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsFnParam::Array { 0: self._field_0 }
+                TsFnParam::Array { 0: _field_0 }
             }
             TsFnParam::Rest { 0: _field_0 } => {
                 let _field_0 = <RestPat as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsFnParam::Rest { 0: self._field_0 }
+                TsFnParam::Rest { 0: _field_0 }
             }
             TsFnParam::Object { 0: _field_0 } => {
                 let _field_0 = <ObjectPat as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsFnParam::Object { 0: self._field_0 }
+                TsFnParam::Object { 0: _field_0 }
             }
         }
     }
@@ -51414,28 +51414,28 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsLit {
             TsLit::Number { 0: _field_0 } => {
                 let _field_0 =
                     <Number as FoldWithAstPath<V>>::fold_with_ast_path(_field_0, visitor, ast_path);
-                TsLit::Number { 0: self._field_0 }
+                TsLit::Number { 0: _field_0 }
             }
             TsLit::Str { 0: _field_0 } => {
                 let _field_0 =
                     <Str as FoldWithAstPath<V>>::fold_with_ast_path(_field_0, visitor, ast_path);
-                TsLit::Str { 0: self._field_0 }
+                TsLit::Str { 0: _field_0 }
             }
             TsLit::Bool { 0: _field_0 } => {
                 let _field_0 =
                     <Bool as FoldWithAstPath<V>>::fold_with_ast_path(_field_0, visitor, ast_path);
-                TsLit::Bool { 0: self._field_0 }
+                TsLit::Bool { 0: _field_0 }
             }
             TsLit::BigInt { 0: _field_0 } => {
                 let _field_0 =
                     <BigInt as FoldWithAstPath<V>>::fold_with_ast_path(_field_0, visitor, ast_path);
-                TsLit::BigInt { 0: self._field_0 }
+                TsLit::BigInt { 0: _field_0 }
             }
             TsLit::Tpl { 0: _field_0 } => {
                 let _field_0 = <TsTplLitType as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsLit::Tpl { 0: self._field_0 }
+                TsLit::Tpl { 0: _field_0 }
             }
         }
     }
@@ -51613,12 +51613,12 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsModuleName {
             TsModuleName::Ident { 0: _field_0 } => {
                 let _field_0 =
                     <Ident as FoldWithAstPath<V>>::fold_with_ast_path(_field_0, visitor, ast_path);
-                TsModuleName::Ident { 0: self._field_0 }
+                TsModuleName::Ident { 0: _field_0 }
             }
             TsModuleName::Str { 0: _field_0 } => {
                 let _field_0 =
                     <Str as FoldWithAstPath<V>>::fold_with_ast_path(_field_0, visitor, ast_path);
-                TsModuleName::Str { 0: self._field_0 }
+                TsModuleName::Str { 0: _field_0 }
             }
         }
     }
@@ -51637,13 +51637,13 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsModuleRef {
                 let _field_0 = <TsEntityName as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsModuleRef::TsEntityName { 0: self._field_0 }
+                TsModuleRef::TsEntityName { 0: _field_0 }
             }
             TsModuleRef::TsExternalModuleRef { 0: _field_0 } => {
                 let _field_0 = <TsExternalModuleRef as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsModuleRef::TsExternalModuleRef { 0: self._field_0 }
+                TsModuleRef::TsExternalModuleRef { 0: _field_0 }
             }
         }
     }
@@ -51662,13 +51662,13 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsNamespaceBody {
                 let _field_0 = <TsModuleBlock as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsNamespaceBody::TsModuleBlock { 0: self._field_0 }
+                TsNamespaceBody::TsModuleBlock { 0: _field_0 }
             }
             TsNamespaceBody::TsNamespaceDecl { 0: _field_0 } => {
                 let _field_0 = <TsNamespaceDecl as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsNamespaceBody::TsNamespaceDecl { 0: self._field_0 }
+                TsNamespaceBody::TsNamespaceDecl { 0: _field_0 }
             }
         }
     }
@@ -51815,13 +51815,13 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsParamPropParam {
                 let _field_0 = <BindingIdent as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsParamPropParam::Ident { 0: self._field_0 }
+                TsParamPropParam::Ident { 0: _field_0 }
             }
             TsParamPropParam::Assign { 0: _field_0 } => {
                 let _field_0 = <AssignPat as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsParamPropParam::Assign { 0: self._field_0 }
+                TsParamPropParam::Assign { 0: _field_0 }
             }
         }
     }
@@ -52007,12 +52007,12 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsThisTypeOrIdent {
                 let _field_0 = <TsThisType as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsThisTypeOrIdent::TsThisType { 0: self._field_0 }
+                TsThisTypeOrIdent::TsThisType { 0: _field_0 }
             }
             TsThisTypeOrIdent::Ident { 0: _field_0 } => {
                 let _field_0 =
                     <Ident as FoldWithAstPath<V>>::fold_with_ast_path(_field_0, visitor, ast_path);
-                TsThisTypeOrIdent::Ident { 0: self._field_0 }
+                TsThisTypeOrIdent::Ident { 0: _field_0 }
             }
         }
     }
@@ -52101,122 +52101,122 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsType {
                 let _field_0 = <TsKeywordType as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsType::TsKeywordType { 0: self._field_0 }
+                TsType::TsKeywordType { 0: _field_0 }
             }
             TsType::TsThisType { 0: _field_0 } => {
                 let _field_0 = <TsThisType as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsType::TsThisType { 0: self._field_0 }
+                TsType::TsThisType { 0: _field_0 }
             }
             TsType::TsFnOrConstructorType { 0: _field_0 } => {
                 let _field_0 = <TsFnOrConstructorType as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsType::TsFnOrConstructorType { 0: self._field_0 }
+                TsType::TsFnOrConstructorType { 0: _field_0 }
             }
             TsType::TsTypeRef { 0: _field_0 } => {
                 let _field_0 = <TsTypeRef as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsType::TsTypeRef { 0: self._field_0 }
+                TsType::TsTypeRef { 0: _field_0 }
             }
             TsType::TsTypeQuery { 0: _field_0 } => {
                 let _field_0 = <TsTypeQuery as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsType::TsTypeQuery { 0: self._field_0 }
+                TsType::TsTypeQuery { 0: _field_0 }
             }
             TsType::TsTypeLit { 0: _field_0 } => {
                 let _field_0 = <TsTypeLit as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsType::TsTypeLit { 0: self._field_0 }
+                TsType::TsTypeLit { 0: _field_0 }
             }
             TsType::TsArrayType { 0: _field_0 } => {
                 let _field_0 = <TsArrayType as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsType::TsArrayType { 0: self._field_0 }
+                TsType::TsArrayType { 0: _field_0 }
             }
             TsType::TsTupleType { 0: _field_0 } => {
                 let _field_0 = <TsTupleType as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsType::TsTupleType { 0: self._field_0 }
+                TsType::TsTupleType { 0: _field_0 }
             }
             TsType::TsOptionalType { 0: _field_0 } => {
                 let _field_0 = <TsOptionalType as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsType::TsOptionalType { 0: self._field_0 }
+                TsType::TsOptionalType { 0: _field_0 }
             }
             TsType::TsRestType { 0: _field_0 } => {
                 let _field_0 = <TsRestType as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsType::TsRestType { 0: self._field_0 }
+                TsType::TsRestType { 0: _field_0 }
             }
             TsType::TsUnionOrIntersectionType { 0: _field_0 } => {
                 let _field_0 =
                     <TsUnionOrIntersectionType as FoldWithAstPath<V>>::fold_with_ast_path(
                         _field_0, visitor, ast_path,
                     );
-                TsType::TsUnionOrIntersectionType { 0: self._field_0 }
+                TsType::TsUnionOrIntersectionType { 0: _field_0 }
             }
             TsType::TsConditionalType { 0: _field_0 } => {
                 let _field_0 = <TsConditionalType as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsType::TsConditionalType { 0: self._field_0 }
+                TsType::TsConditionalType { 0: _field_0 }
             }
             TsType::TsInferType { 0: _field_0 } => {
                 let _field_0 = <TsInferType as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsType::TsInferType { 0: self._field_0 }
+                TsType::TsInferType { 0: _field_0 }
             }
             TsType::TsParenthesizedType { 0: _field_0 } => {
                 let _field_0 = <TsParenthesizedType as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsType::TsParenthesizedType { 0: self._field_0 }
+                TsType::TsParenthesizedType { 0: _field_0 }
             }
             TsType::TsTypeOperator { 0: _field_0 } => {
                 let _field_0 = <TsTypeOperator as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsType::TsTypeOperator { 0: self._field_0 }
+                TsType::TsTypeOperator { 0: _field_0 }
             }
             TsType::TsIndexedAccessType { 0: _field_0 } => {
                 let _field_0 = <TsIndexedAccessType as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsType::TsIndexedAccessType { 0: self._field_0 }
+                TsType::TsIndexedAccessType { 0: _field_0 }
             }
             TsType::TsMappedType { 0: _field_0 } => {
                 let _field_0 = <TsMappedType as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsType::TsMappedType { 0: self._field_0 }
+                TsType::TsMappedType { 0: _field_0 }
             }
             TsType::TsLitType { 0: _field_0 } => {
                 let _field_0 = <TsLitType as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsType::TsLitType { 0: self._field_0 }
+                TsType::TsLitType { 0: _field_0 }
             }
             TsType::TsTypePredicate { 0: _field_0 } => {
                 let _field_0 = <TsTypePredicate as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsType::TsTypePredicate { 0: self._field_0 }
+                TsType::TsTypePredicate { 0: _field_0 }
             }
             TsType::TsImportType { 0: _field_0 } => {
                 let _field_0 = <TsImportType as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsType::TsImportType { 0: self._field_0 }
+                TsType::TsImportType { 0: _field_0 }
             }
         }
     }
@@ -52321,43 +52321,43 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsTypeElement {
                 let _field_0 = <TsCallSignatureDecl as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsTypeElement::TsCallSignatureDecl { 0: self._field_0 }
+                TsTypeElement::TsCallSignatureDecl { 0: _field_0 }
             }
             TsTypeElement::TsConstructSignatureDecl { 0: _field_0 } => {
                 let _field_0 = <TsConstructSignatureDecl as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsTypeElement::TsConstructSignatureDecl { 0: self._field_0 }
+                TsTypeElement::TsConstructSignatureDecl { 0: _field_0 }
             }
             TsTypeElement::TsPropertySignature { 0: _field_0 } => {
                 let _field_0 = <TsPropertySignature as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsTypeElement::TsPropertySignature { 0: self._field_0 }
+                TsTypeElement::TsPropertySignature { 0: _field_0 }
             }
             TsTypeElement::TsGetterSignature { 0: _field_0 } => {
                 let _field_0 = <TsGetterSignature as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsTypeElement::TsGetterSignature { 0: self._field_0 }
+                TsTypeElement::TsGetterSignature { 0: _field_0 }
             }
             TsTypeElement::TsSetterSignature { 0: _field_0 } => {
                 let _field_0 = <TsSetterSignature as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsTypeElement::TsSetterSignature { 0: self._field_0 }
+                TsTypeElement::TsSetterSignature { 0: _field_0 }
             }
             TsTypeElement::TsMethodSignature { 0: _field_0 } => {
                 let _field_0 = <TsMethodSignature as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsTypeElement::TsMethodSignature { 0: self._field_0 }
+                TsTypeElement::TsMethodSignature { 0: _field_0 }
             }
             TsTypeElement::TsIndexSignature { 0: _field_0 } => {
                 let _field_0 = <TsIndexSignature as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsTypeElement::TsIndexSignature { 0: self._field_0 }
+                TsTypeElement::TsIndexSignature { 0: _field_0 }
             }
         }
     }
@@ -52571,13 +52571,13 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsTypeQueryExpr {
                 let _field_0 = <TsEntityName as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsTypeQueryExpr::TsEntityName { 0: self._field_0 }
+                TsTypeQueryExpr::TsEntityName { 0: _field_0 }
             }
             TsTypeQueryExpr::Import { 0: _field_0 } => {
                 let _field_0 = <TsImportType as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsTypeQueryExpr::Import { 0: self._field_0 }
+                TsTypeQueryExpr::Import { 0: _field_0 }
             }
         }
     }
@@ -52624,13 +52624,13 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsUnionOrIntersectionType {
                 let _field_0 = <TsUnionType as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsUnionOrIntersectionType::TsUnionType { 0: self._field_0 }
+                TsUnionOrIntersectionType::TsUnionType { 0: _field_0 }
             }
             TsUnionOrIntersectionType::TsIntersectionType { 0: _field_0 } => {
                 let _field_0 = <TsIntersectionType as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                TsUnionOrIntersectionType::TsIntersectionType { 0: self._field_0 }
+                TsUnionOrIntersectionType::TsIntersectionType { 0: _field_0 }
             }
         }
     }
@@ -52829,13 +52829,13 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for VarDeclOrExpr {
                 let _field_0 = <Box<VarDecl> as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                VarDeclOrExpr::VarDecl { 0: self._field_0 }
+                VarDeclOrExpr::VarDecl { 0: _field_0 }
             }
             VarDeclOrExpr::Expr { 0: _field_0 } => {
                 let _field_0 = <Box<Expr> as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0, visitor, ast_path,
                 );
-                VarDeclOrExpr::Expr { 0: self._field_0 }
+                VarDeclOrExpr::Expr { 0: _field_0 }
             }
         }
     }

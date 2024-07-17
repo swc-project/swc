@@ -721,7 +721,7 @@ impl Generator<'_> {
                             ));
                         }
 
-                        reconstructor.push(parse_quote!(#binding_idx: self.#field_name));
+                        reconstructor.push(parse_quote!(#binding_idx: #field_name));
                     } else if !self.should_skip(ty) {
                         stmts.push(parse_quote!(
                             <#ty as #with_visitor_trait_name<V>>::#visit_with_name(#field_name, visitor #ast_path_arg);
