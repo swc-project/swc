@@ -881,18 +881,7 @@ impl Generator<'_> {
                 },
             };
 
-            let target_type = match self.kind {
-                TraitKind::Visit => match node_type {
-                    FieldType::Generic(name, inner) if name == "Vec" => {
-                        let inner_ty = quote!(#inner);
-
-                        quote!([#inner_ty])
-                    }
-
-                    _ => quote!(#node_type),
-                },
-                _ => quote!(#node_type),
-            };
+            let target_type = self.node_type_for_visitor_method(node_type);
 
             items.push(parse_quote!(
                 #(#attrs)*
@@ -1010,6 +999,21 @@ impl Generator<'_> {
         }
 
         items
+    }
+
+    fn node_type_for_visitor_method(&self, node_type: &FieldType) -> TokenStream {
+        match self.kind {
+            TraitKind::Visit => match node_type {
+                FieldType::Generic(name, inner) if name == "Vec" => {
+                    let inner_ty = quote!(#inner);
+
+                    quote!([#inner_ty])
+                }
+
+                _ => quote!(#node_type),
+            },
+            _ => quote!(#node_type),
+        }
     }
 }
 
