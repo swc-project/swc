@@ -68,6 +68,11 @@ pub trait Visit {
     fn visit_assign_target_pat(&mut self, node: &AssignTargetPat) {
         <AssignTargetPat as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Atom`.\n\nBy default, this method calls \
+             [`Atom::visit_children_with`]. If you want to recurse, you need to call it manually."]
+    fn visit_atom(&mut self, node: &Atom) {
+        <Atom as VisitWith<Self>>::visit_children_with(node, self)
+    }
     #[doc = "Visit a node of type `AutoAccessor`.\n\nBy default, this method calls \
              [`AutoAccessor::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -84,6 +89,12 @@ pub trait Visit {
              [`BigInt::visit_children_with`]. If you want to recurse, you need to call it manually."]
     fn visit_big_int(&mut self, node: &BigInt) {
         <BigInt as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `BigIntValue`.\n\nBy default, this method calls \
+             [`BigIntValue::visit_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_big_int_value(&mut self, node: &BigIntValue) {
+        <BigIntValue as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `BinExpr`.\n\nBy default, this method calls \
              [`BinExpr::visit_children_with`]. If you want to recurse, you need to call it \
@@ -166,6 +177,12 @@ pub trait Visit {
     fn visit_class_member(&mut self, node: &ClassMember) {
         <ClassMember as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Visit a node of type `ClassMethod`.\n\nBy default, this method calls \
+             [`ClassMethod::visit_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_class_method(&mut self, node: &ClassMethod) {
+        <ClassMethod as VisitWith<Self>>::visit_children_with(node, self)
+    }
     #[doc = "Visit a node of type `ClassProp`.\n\nBy default, this method calls \
              [`ClassProp::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -230,12 +247,6 @@ pub trait Visit {
              manually."]
     fn visit_empty_stmt(&mut self, node: &EmptyStmt) {
         <EmptyStmt as VisitWith<Self>>::visit_children_with(node, self)
-    }
-    #[doc = "Visit a node of type `EsVersion`.\n\nBy default, this method calls \
-             [`EsVersion::visit_children_with`]. If you want to recurse, you need to call it \
-             manually."]
-    fn visit_es_version(&mut self, node: &EsVersion) {
-        <EsVersion as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `ExportAll`.\n\nBy default, this method calls \
              [`ExportAll::visit_children_with`]. If you want to recurse, you need to call it \
@@ -404,12 +415,6 @@ pub trait Visit {
              call it manually."]
     fn visit_import_star_as_specifier(&mut self, node: &ImportStarAsSpecifier) {
         <ImportStarAsSpecifier as VisitWith<Self>>::visit_children_with(node, self)
-    }
-    #[doc = "Visit a node of type `ImportWith`.\n\nBy default, this method calls \
-             [`ImportWith::visit_children_with`]. If you want to recurse, you need to call it \
-             manually."]
-    fn visit_import_with(&mut self, node: &ImportWith) {
-        <ImportWith as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `ImportWithItem`.\n\nBy default, this method calls \
              [`ImportWithItem::visit_children_with`]. If you want to recurse, you need to call it \
@@ -595,12 +600,6 @@ pub trait Visit {
     fn visit_meta_prop_kind(&mut self, node: &MetaPropKind) {
         <MetaPropKind as VisitWith<Self>>::visit_children_with(node, self)
     }
-    #[doc = "Visit a node of type `MethodKind`.\n\nBy default, this method calls \
-             [`MethodKind::visit_children_with`]. If you want to recurse, you need to call it \
-             manually."]
-    fn visit_method_kind(&mut self, node: &MethodKind) {
-        <MethodKind as VisitWith<Self>>::visit_children_with(node, self)
-    }
     #[doc = "Visit a node of type `MethodProp`.\n\nBy default, this method calls \
              [`MethodProp::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -710,6 +709,12 @@ pub trait Visit {
     fn visit_pat(&mut self, node: &Pat) {
         <Pat as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Visit a node of type `PrivateMethod`.\n\nBy default, this method calls \
+             [`PrivateMethod::visit_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_private_method(&mut self, node: &PrivateMethod) {
+        <PrivateMethod as VisitWith<Self>>::visit_children_with(node, self)
+    }
     #[doc = "Visit a node of type `PrivateName`.\n\nBy default, this method calls \
              [`PrivateName::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -721,12 +726,6 @@ pub trait Visit {
              manually."]
     fn visit_private_prop(&mut self, node: &PrivateProp) {
         <PrivateProp as VisitWith<Self>>::visit_children_with(node, self)
-    }
-    #[doc = "Visit a node of type `Program`.\n\nBy default, this method calls \
-             [`Program::visit_children_with`]. If you want to recurse, you need to call it \
-             manually."]
-    fn visit_program(&mut self, node: &Program) {
-        <Program as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Prop`.\n\nBy default, this method calls \
              [`Prop::visit_children_with`]. If you want to recurse, you need to call it manually."]
@@ -749,12 +748,6 @@ pub trait Visit {
              [`Regex::visit_children_with`]. If you want to recurse, you need to call it manually."]
     fn visit_regex(&mut self, node: &Regex) {
         <Regex as VisitWith<Self>>::visit_children_with(node, self)
-    }
-    #[doc = "Visit a node of type `ReservedUnused`.\n\nBy default, this method calls \
-             [`ReservedUnused::visit_children_with`]. If you want to recurse, you need to call it \
-             manually."]
-    fn visit_reserved_unused(&mut self, node: &ReservedUnused) {
-        <ReservedUnused as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `RestPat`.\n\nBy default, this method calls \
              [`RestPat::visit_children_with`]. If you want to recurse, you need to call it \
@@ -790,6 +783,11 @@ pub trait Visit {
              it manually."]
     fn visit_simple_assign_target(&mut self, node: &SimpleAssignTarget) {
         <SimpleAssignTarget as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Span`.\n\nBy default, this method calls \
+             [`Span::visit_children_with`]. If you want to recurse, you need to call it manually."]
+    fn visit_span(&mut self, node: &Span) {
+        <Span as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `SpreadElement`.\n\nBy default, this method calls \
              [`SpreadElement::visit_children_with`]. If you want to recurse, you need to call it \
@@ -841,6 +839,12 @@ pub trait Visit {
              manually."]
     fn visit_switch_stmt(&mut self, node: &SwitchStmt) {
         <SwitchStmt as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `SyntaxContext`.\n\nBy default, this method calls \
+             [`SyntaxContext::visit_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_syntax_context(&mut self, node: &SyntaxContext) {
+        <SyntaxContext as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `TaggedTpl`.\n\nBy default, this method calls \
              [`TaggedTpl::visit_children_with`]. If you want to recurse, you need to call it \
@@ -1384,6 +1388,16 @@ pub trait Visit {
              manually."]
     fn visit_yield_expr(&mut self, node: &YieldExpr) {
         <YieldExpr as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `bool`.\n\nBy default, this method calls \
+             [`bool::visit_children_with`]. If you want to recurse, you need to call it manually."]
+    fn visit_bool(&mut self, node: &bool) {
+        <bool as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `f64`.\n\nBy default, this method calls \
+             [`f64::visit_children_with`]. If you want to recurse, you need to call it manually."]
+    fn visit_f_64(&mut self, node: &f64) {
+        <f64 as VisitWith<Self>>::visit_children_with(node, self)
     }
 }
 #[doc = r" A trait implemented for types that can be visited using a visitor."]
@@ -6064,6 +6078,12 @@ pub trait VisitAstPath {
             node, self, ast_path,
         )
     }
+    #[doc = "Visit a node of type `Atom`.\n\nBy default, this method calls \
+             [`Atom::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_atom<'ast: 'r, 'r>(&mut self, node: &'ast Atom, ast_path: &mut AstNodePath<'r>) {
+        <Atom as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
+    }
     #[doc = "Visit a node of type `AutoAccessor`.\n\nBy default, this method calls \
              [`AutoAccessor::visit_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
@@ -6089,6 +6109,16 @@ pub trait VisitAstPath {
              manually."]
     fn visit_big_int<'ast: 'r, 'r>(&mut self, node: &'ast BigInt, ast_path: &mut AstNodePath<'r>) {
         <BigInt as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `BigIntValue`.\n\nBy default, this method calls \
+             [`BigIntValue::visit_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_big_int_value<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast BigIntValue,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <BigIntValue as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
     }
     #[doc = "Visit a node of type `BinExpr`.\n\nBy default, this method calls \
              [`BinExpr::visit_children_with_ast_path`]. If you want to recurse, you need to call \
@@ -6220,6 +6250,16 @@ pub trait VisitAstPath {
     ) {
         <ClassMember as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
     }
+    #[doc = "Visit a node of type `ClassMethod`.\n\nBy default, this method calls \
+             [`ClassMethod::visit_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_class_method<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast ClassMethod,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <ClassMethod as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
+    }
     #[doc = "Visit a node of type `ClassProp`.\n\nBy default, this method calls \
              [`ClassProp::visit_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
@@ -6327,16 +6367,6 @@ pub trait VisitAstPath {
         ast_path: &mut AstNodePath<'r>,
     ) {
         <EmptyStmt as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
-    }
-    #[doc = "Visit a node of type `EsVersion`.\n\nBy default, this method calls \
-             [`EsVersion::visit_children_with_ast_path`]. If you want to recurse, you need to call \
-             it manually."]
-    fn visit_es_version<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast EsVersion,
-        ast_path: &mut AstNodePath<'r>,
-    ) {
-        <EsVersion as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
     }
     #[doc = "Visit a node of type `ExportAll`.\n\nBy default, this method calls \
              [`ExportAll::visit_children_with_ast_path`]. If you want to recurse, you need to call \
@@ -6623,16 +6653,6 @@ pub trait VisitAstPath {
         <ImportStarAsSpecifier as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, ast_path,
         )
-    }
-    #[doc = "Visit a node of type `ImportWith`.\n\nBy default, this method calls \
-             [`ImportWith::visit_children_with_ast_path`]. If you want to recurse, you need to \
-             call it manually."]
-    fn visit_import_with<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast ImportWith,
-        ast_path: &mut AstNodePath<'r>,
-    ) {
-        <ImportWith as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
     }
     #[doc = "Visit a node of type `ImportWithItem`.\n\nBy default, this method calls \
              [`ImportWithItem::visit_children_with_ast_path`]. If you want to recurse, you need to \
@@ -6958,16 +6978,6 @@ pub trait VisitAstPath {
     ) {
         <MetaPropKind as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
     }
-    #[doc = "Visit a node of type `MethodKind`.\n\nBy default, this method calls \
-             [`MethodKind::visit_children_with_ast_path`]. If you want to recurse, you need to \
-             call it manually."]
-    fn visit_method_kind<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast MethodKind,
-        ast_path: &mut AstNodePath<'r>,
-    ) {
-        <MethodKind as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
-    }
     #[doc = "Visit a node of type `MethodProp`.\n\nBy default, this method calls \
              [`MethodProp::visit_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
@@ -7144,6 +7154,18 @@ pub trait VisitAstPath {
     fn visit_pat<'ast: 'r, 'r>(&mut self, node: &'ast Pat, ast_path: &mut AstNodePath<'r>) {
         <Pat as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
     }
+    #[doc = "Visit a node of type `PrivateMethod`.\n\nBy default, this method calls \
+             [`PrivateMethod::visit_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_private_method<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast PrivateMethod,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <PrivateMethod as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `PrivateName`.\n\nBy default, this method calls \
              [`PrivateName::visit_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
@@ -7163,12 +7185,6 @@ pub trait VisitAstPath {
         ast_path: &mut AstNodePath<'r>,
     ) {
         <PrivateProp as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
-    }
-    #[doc = "Visit a node of type `Program`.\n\nBy default, this method calls \
-             [`Program::visit_children_with_ast_path`]. If you want to recurse, you need to call \
-             it manually."]
-    fn visit_program<'ast: 'r, 'r>(&mut self, node: &'ast Program, ast_path: &mut AstNodePath<'r>) {
-        <Program as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
     }
     #[doc = "Visit a node of type `Prop`.\n\nBy default, this method calls \
              [`Prop::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
@@ -7201,18 +7217,6 @@ pub trait VisitAstPath {
              manually."]
     fn visit_regex<'ast: 'r, 'r>(&mut self, node: &'ast Regex, ast_path: &mut AstNodePath<'r>) {
         <Regex as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
-    }
-    #[doc = "Visit a node of type `ReservedUnused`.\n\nBy default, this method calls \
-             [`ReservedUnused::visit_children_with_ast_path`]. If you want to recurse, you need to \
-             call it manually."]
-    fn visit_reserved_unused<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast ReservedUnused,
-        ast_path: &mut AstNodePath<'r>,
-    ) {
-        <ReservedUnused as VisitWithAstPath<Self>>::visit_children_with_ast_path(
-            node, self, ast_path,
-        )
     }
     #[doc = "Visit a node of type `RestPat`.\n\nBy default, this method calls \
              [`RestPat::visit_children_with_ast_path`]. If you want to recurse, you need to call \
@@ -7271,6 +7275,12 @@ pub trait VisitAstPath {
         <SimpleAssignTarget as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, ast_path,
         )
+    }
+    #[doc = "Visit a node of type `Span`.\n\nBy default, this method calls \
+             [`Span::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_span<'ast: 'r, 'r>(&mut self, node: &'ast Span, ast_path: &mut AstNodePath<'r>) {
+        <Span as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
     }
     #[doc = "Visit a node of type `SpreadElement`.\n\nBy default, this method calls \
              [`SpreadElement::visit_children_with_ast_path`]. If you want to recurse, you need to \
@@ -7353,6 +7363,18 @@ pub trait VisitAstPath {
         ast_path: &mut AstNodePath<'r>,
     ) {
         <SwitchStmt as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `SyntaxContext`.\n\nBy default, this method calls \
+             [`SyntaxContext::visit_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_syntax_context<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast SyntaxContext,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <SyntaxContext as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
     }
     #[doc = "Visit a node of type `TaggedTpl`.\n\nBy default, this method calls \
              [`TaggedTpl::visit_children_with_ast_path`]. If you want to recurse, you need to call \
@@ -8347,6 +8369,18 @@ pub trait VisitAstPath {
         ast_path: &mut AstNodePath<'r>,
     ) {
         <YieldExpr as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `bool`.\n\nBy default, this method calls \
+             [`bool::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_bool<'ast: 'r, 'r>(&mut self, node: &'ast bool, ast_path: &mut AstNodePath<'r>) {
+        <bool as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `f64`.\n\nBy default, this method calls \
+             [`f64::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_f_64<'ast: 'r, 'r>(&mut self, node: &'ast f64, ast_path: &mut AstNodePath<'r>) {
+        <f64 as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
     }
 }
 #[doc = r" A trait implemented for types that can be visited using a visitor."]
@@ -16365,6 +16399,12 @@ pub trait VisitMut {
     fn visit_mut_assign_target_pat(&mut self, node: &mut AssignTargetPat) {
         <AssignTargetPat as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Atom`.\n\nBy default, this method calls \
+             [`Atom::visit_mut_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_mut_atom(&mut self, node: &mut Atom) {
+        <Atom as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
     #[doc = "Visit a node of type `AutoAccessor`.\n\nBy default, this method calls \
              [`AutoAccessor::visit_mut_children_with`]. If you want to recurse, you need to call \
              it manually."]
@@ -16382,6 +16422,12 @@ pub trait VisitMut {
              manually."]
     fn visit_mut_big_int(&mut self, node: &mut BigInt) {
         <BigInt as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `BigIntValue`.\n\nBy default, this method calls \
+             [`BigIntValue::visit_mut_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_mut_big_int_value(&mut self, node: &mut BigIntValue) {
+        <BigIntValue as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `BinExpr`.\n\nBy default, this method calls \
              [`BinExpr::visit_mut_children_with`]. If you want to recurse, you need to call it \
@@ -16467,6 +16513,12 @@ pub trait VisitMut {
     fn visit_mut_class_member(&mut self, node: &mut ClassMember) {
         <ClassMember as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Visit a node of type `ClassMethod`.\n\nBy default, this method calls \
+             [`ClassMethod::visit_mut_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_mut_class_method(&mut self, node: &mut ClassMethod) {
+        <ClassMethod as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
     #[doc = "Visit a node of type `ClassProp`.\n\nBy default, this method calls \
              [`ClassProp::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -16532,12 +16584,6 @@ pub trait VisitMut {
              manually."]
     fn visit_mut_empty_stmt(&mut self, node: &mut EmptyStmt) {
         <EmptyStmt as VisitMutWith<Self>>::visit_mut_children_with(node, self)
-    }
-    #[doc = "Visit a node of type `EsVersion`.\n\nBy default, this method calls \
-             [`EsVersion::visit_mut_children_with`]. If you want to recurse, you need to call it \
-             manually."]
-    fn visit_mut_es_version(&mut self, node: &mut EsVersion) {
-        <EsVersion as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `ExportAll`.\n\nBy default, this method calls \
              [`ExportAll::visit_mut_children_with`]. If you want to recurse, you need to call it \
@@ -16712,12 +16758,6 @@ pub trait VisitMut {
              to call it manually."]
     fn visit_mut_import_star_as_specifier(&mut self, node: &mut ImportStarAsSpecifier) {
         <ImportStarAsSpecifier as VisitMutWith<Self>>::visit_mut_children_with(node, self)
-    }
-    #[doc = "Visit a node of type `ImportWith`.\n\nBy default, this method calls \
-             [`ImportWith::visit_mut_children_with`]. If you want to recurse, you need to call it \
-             manually."]
-    fn visit_mut_import_with(&mut self, node: &mut ImportWith) {
-        <ImportWith as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `ImportWithItem`.\n\nBy default, this method calls \
              [`ImportWithItem::visit_mut_children_with`]. If you want to recurse, you need to call \
@@ -16905,12 +16945,6 @@ pub trait VisitMut {
     fn visit_mut_meta_prop_kind(&mut self, node: &mut MetaPropKind) {
         <MetaPropKind as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
-    #[doc = "Visit a node of type `MethodKind`.\n\nBy default, this method calls \
-             [`MethodKind::visit_mut_children_with`]. If you want to recurse, you need to call it \
-             manually."]
-    fn visit_mut_method_kind(&mut self, node: &mut MethodKind) {
-        <MethodKind as VisitMutWith<Self>>::visit_mut_children_with(node, self)
-    }
     #[doc = "Visit a node of type `MethodProp`.\n\nBy default, this method calls \
              [`MethodProp::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -17025,6 +17059,12 @@ pub trait VisitMut {
     fn visit_mut_pat(&mut self, node: &mut Pat) {
         <Pat as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Visit a node of type `PrivateMethod`.\n\nBy default, this method calls \
+             [`PrivateMethod::visit_mut_children_with`]. If you want to recurse, you need to call \
+             it manually."]
+    fn visit_mut_private_method(&mut self, node: &mut PrivateMethod) {
+        <PrivateMethod as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
     #[doc = "Visit a node of type `PrivateName`.\n\nBy default, this method calls \
              [`PrivateName::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -17036,12 +17076,6 @@ pub trait VisitMut {
              manually."]
     fn visit_mut_private_prop(&mut self, node: &mut PrivateProp) {
         <PrivateProp as VisitMutWith<Self>>::visit_mut_children_with(node, self)
-    }
-    #[doc = "Visit a node of type `Program`.\n\nBy default, this method calls \
-             [`Program::visit_mut_children_with`]. If you want to recurse, you need to call it \
-             manually."]
-    fn visit_mut_program(&mut self, node: &mut Program) {
-        <Program as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `Prop`.\n\nBy default, this method calls \
              [`Prop::visit_mut_children_with`]. If you want to recurse, you need to call it \
@@ -17066,12 +17100,6 @@ pub trait VisitMut {
              manually."]
     fn visit_mut_regex(&mut self, node: &mut Regex) {
         <Regex as VisitMutWith<Self>>::visit_mut_children_with(node, self)
-    }
-    #[doc = "Visit a node of type `ReservedUnused`.\n\nBy default, this method calls \
-             [`ReservedUnused::visit_mut_children_with`]. If you want to recurse, you need to call \
-             it manually."]
-    fn visit_mut_reserved_unused(&mut self, node: &mut ReservedUnused) {
-        <ReservedUnused as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `RestPat`.\n\nBy default, this method calls \
              [`RestPat::visit_mut_children_with`]. If you want to recurse, you need to call it \
@@ -17108,6 +17136,12 @@ pub trait VisitMut {
              call it manually."]
     fn visit_mut_simple_assign_target(&mut self, node: &mut SimpleAssignTarget) {
         <SimpleAssignTarget as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Span`.\n\nBy default, this method calls \
+             [`Span::visit_mut_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_mut_span(&mut self, node: &mut Span) {
+        <Span as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `SpreadElement`.\n\nBy default, this method calls \
              [`SpreadElement::visit_mut_children_with`]. If you want to recurse, you need to call \
@@ -17162,6 +17196,12 @@ pub trait VisitMut {
              manually."]
     fn visit_mut_switch_stmt(&mut self, node: &mut SwitchStmt) {
         <SwitchStmt as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `SyntaxContext`.\n\nBy default, this method calls \
+             [`SyntaxContext::visit_mut_children_with`]. If you want to recurse, you need to call \
+             it manually."]
+    fn visit_mut_syntax_context(&mut self, node: &mut SyntaxContext) {
+        <SyntaxContext as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `TaggedTpl`.\n\nBy default, this method calls \
              [`TaggedTpl::visit_mut_children_with`]. If you want to recurse, you need to call it \
@@ -17708,6 +17748,18 @@ pub trait VisitMut {
              manually."]
     fn visit_mut_yield_expr(&mut self, node: &mut YieldExpr) {
         <YieldExpr as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `bool`.\n\nBy default, this method calls \
+             [`bool::visit_mut_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_mut_bool(&mut self, node: &mut bool) {
+        <bool as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `f64`.\n\nBy default, this method calls \
+             [`f64::visit_mut_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_mut_f_64(&mut self, node: &mut f64) {
+        <f64 as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
 }
 #[doc = r" A trait implemented for types that can be visited using a visitor."]
@@ -22495,6 +22547,12 @@ pub trait VisitMutAstPath {
             node, self, ast_path,
         )
     }
+    #[doc = "Visit a node of type `Atom`.\n\nBy default, this method calls \
+             [`Atom::visit_mut_children_with_ast_path`]. If you want to recurse, you need to call \
+             it manually."]
+    fn visit_mut_atom(&mut self, node: &mut Atom, ast_path: &mut AstKindPath) {
+        <Atom as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(node, self, ast_path)
+    }
     #[doc = "Visit a node of type `AutoAccessor`.\n\nBy default, this method calls \
              [`AutoAccessor::visit_mut_children_with_ast_path`]. If you want to recurse, you need \
              to call it manually."]
@@ -22516,6 +22574,14 @@ pub trait VisitMutAstPath {
              call it manually."]
     fn visit_mut_big_int(&mut self, node: &mut BigInt, ast_path: &mut AstKindPath) {
         <BigInt as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `BigIntValue`.\n\nBy default, this method calls \
+             [`BigIntValue::visit_mut_children_with_ast_path`]. If you want to recurse, you need \
+             to call it manually."]
+    fn visit_mut_big_int_value(&mut self, node: &mut BigIntValue, ast_path: &mut AstKindPath) {
+        <BigIntValue as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -22631,6 +22697,14 @@ pub trait VisitMutAstPath {
             node, self, ast_path,
         )
     }
+    #[doc = "Visit a node of type `ClassMethod`.\n\nBy default, this method calls \
+             [`ClassMethod::visit_mut_children_with_ast_path`]. If you want to recurse, you need \
+             to call it manually."]
+    fn visit_mut_class_method(&mut self, node: &mut ClassMethod, ast_path: &mut AstKindPath) {
+        <ClassMethod as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `ClassProp`.\n\nBy default, this method calls \
              [`ClassProp::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
@@ -22718,14 +22792,6 @@ pub trait VisitMutAstPath {
              call it manually."]
     fn visit_mut_empty_stmt(&mut self, node: &mut EmptyStmt, ast_path: &mut AstKindPath) {
         <EmptyStmt as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
-            node, self, ast_path,
-        )
-    }
-    #[doc = "Visit a node of type `EsVersion`.\n\nBy default, this method calls \
-             [`EsVersion::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
-             call it manually."]
-    fn visit_mut_es_version(&mut self, node: &mut EsVersion, ast_path: &mut AstKindPath) {
-        <EsVersion as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -22994,14 +23060,6 @@ pub trait VisitMutAstPath {
         ast_path: &mut AstKindPath,
     ) {
         <ImportStarAsSpecifier as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
-            node, self, ast_path,
-        )
-    }
-    #[doc = "Visit a node of type `ImportWith`.\n\nBy default, this method calls \
-             [`ImportWith::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
-             call it manually."]
-    fn visit_mut_import_with(&mut self, node: &mut ImportWith, ast_path: &mut AstKindPath) {
-        <ImportWith as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -23297,14 +23355,6 @@ pub trait VisitMutAstPath {
             node, self, ast_path,
         )
     }
-    #[doc = "Visit a node of type `MethodKind`.\n\nBy default, this method calls \
-             [`MethodKind::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
-             call it manually."]
-    fn visit_mut_method_kind(&mut self, node: &mut MethodKind, ast_path: &mut AstKindPath) {
-        <MethodKind as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
-            node, self, ast_path,
-        )
-    }
     #[doc = "Visit a node of type `MethodProp`.\n\nBy default, this method calls \
              [`MethodProp::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
@@ -23459,6 +23509,14 @@ pub trait VisitMutAstPath {
     fn visit_mut_pat(&mut self, node: &mut Pat, ast_path: &mut AstKindPath) {
         <Pat as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(node, self, ast_path)
     }
+    #[doc = "Visit a node of type `PrivateMethod`.\n\nBy default, this method calls \
+             [`PrivateMethod::visit_mut_children_with_ast_path`]. If you want to recurse, you need \
+             to call it manually."]
+    fn visit_mut_private_method(&mut self, node: &mut PrivateMethod, ast_path: &mut AstKindPath) {
+        <PrivateMethod as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `PrivateName`.\n\nBy default, this method calls \
              [`PrivateName::visit_mut_children_with_ast_path`]. If you want to recurse, you need \
              to call it manually."]
@@ -23472,14 +23530,6 @@ pub trait VisitMutAstPath {
              to call it manually."]
     fn visit_mut_private_prop(&mut self, node: &mut PrivateProp, ast_path: &mut AstKindPath) {
         <PrivateProp as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
-            node, self, ast_path,
-        )
-    }
-    #[doc = "Visit a node of type `Program`.\n\nBy default, this method calls \
-             [`Program::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
-             call it manually."]
-    fn visit_mut_program(&mut self, node: &mut Program, ast_path: &mut AstKindPath) {
-        <Program as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -23510,14 +23560,6 @@ pub trait VisitMutAstPath {
              it manually."]
     fn visit_mut_regex(&mut self, node: &mut Regex, ast_path: &mut AstKindPath) {
         <Regex as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(node, self, ast_path)
-    }
-    #[doc = "Visit a node of type `ReservedUnused`.\n\nBy default, this method calls \
-             [`ReservedUnused::visit_mut_children_with_ast_path`]. If you want to recurse, you \
-             need to call it manually."]
-    fn visit_mut_reserved_unused(&mut self, node: &mut ReservedUnused, ast_path: &mut AstKindPath) {
-        <ReservedUnused as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
-            node, self, ast_path,
-        )
     }
     #[doc = "Visit a node of type `RestPat`.\n\nBy default, this method calls \
              [`RestPat::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
@@ -23570,6 +23612,12 @@ pub trait VisitMutAstPath {
         <SimpleAssignTarget as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, ast_path,
         )
+    }
+    #[doc = "Visit a node of type `Span`.\n\nBy default, this method calls \
+             [`Span::visit_mut_children_with_ast_path`]. If you want to recurse, you need to call \
+             it manually."]
+    fn visit_mut_span(&mut self, node: &mut Span, ast_path: &mut AstKindPath) {
+        <Span as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(node, self, ast_path)
     }
     #[doc = "Visit a node of type `SpreadElement`.\n\nBy default, this method calls \
              [`SpreadElement::visit_mut_children_with_ast_path`]. If you want to recurse, you need \
@@ -23634,6 +23682,14 @@ pub trait VisitMutAstPath {
              call it manually."]
     fn visit_mut_switch_stmt(&mut self, node: &mut SwitchStmt, ast_path: &mut AstKindPath) {
         <SwitchStmt as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `SyntaxContext`.\n\nBy default, this method calls \
+             [`SyntaxContext::visit_mut_children_with_ast_path`]. If you want to recurse, you need \
+             to call it manually."]
+    fn visit_mut_syntax_context(&mut self, node: &mut SyntaxContext, ast_path: &mut AstKindPath) {
+        <SyntaxContext as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -24524,6 +24580,18 @@ pub trait VisitMutAstPath {
         <YieldExpr as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, ast_path,
         )
+    }
+    #[doc = "Visit a node of type `bool`.\n\nBy default, this method calls \
+             [`bool::visit_mut_children_with_ast_path`]. If you want to recurse, you need to call \
+             it manually."]
+    fn visit_mut_bool(&mut self, node: &mut bool, ast_path: &mut AstKindPath) {
+        <bool as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `f64`.\n\nBy default, this method calls \
+             [`f64::visit_mut_children_with_ast_path`]. If you want to recurse, you need to call \
+             it manually."]
+    fn visit_mut_f_64(&mut self, node: &mut f64, ast_path: &mut AstKindPath) {
+        <f64 as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(node, self, ast_path)
     }
 }
 #[doc = r" A trait implemented for types that can be visited using a visitor."]
@@ -30548,6 +30616,11 @@ pub trait Fold {
     fn fold_assign_target_pat(&mut self, node: AssignTargetPat) -> AssignTargetPat {
         <AssignTargetPat as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Atom`.\n\nBy default, this method calls \
+             [`Atom::fold_children_with`]. If you want to recurse, you need to call it manually."]
+    fn fold_atom(&mut self, node: Atom) -> Atom {
+        <Atom as FoldWith<Self>>::fold_children_with(node, self)
+    }
     #[doc = "Visit a node of type `AutoAccessor`.\n\nBy default, this method calls \
              [`AutoAccessor::fold_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -30564,6 +30637,12 @@ pub trait Fold {
              [`BigInt::fold_children_with`]. If you want to recurse, you need to call it manually."]
     fn fold_big_int(&mut self, node: BigInt) -> BigInt {
         <BigInt as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `BigIntValue`.\n\nBy default, this method calls \
+             [`BigIntValue::fold_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn fold_big_int_value(&mut self, node: BigIntValue) -> BigIntValue {
+        <BigIntValue as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `BinExpr`.\n\nBy default, this method calls \
              [`BinExpr::fold_children_with`]. If you want to recurse, you need to call it manually."]
@@ -30645,6 +30724,12 @@ pub trait Fold {
     fn fold_class_member(&mut self, node: ClassMember) -> ClassMember {
         <ClassMember as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Visit a node of type `ClassMethod`.\n\nBy default, this method calls \
+             [`ClassMethod::fold_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn fold_class_method(&mut self, node: ClassMethod) -> ClassMethod {
+        <ClassMethod as FoldWith<Self>>::fold_children_with(node, self)
+    }
     #[doc = "Visit a node of type `ClassProp`.\n\nBy default, this method calls \
              [`ClassProp::fold_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -30709,12 +30794,6 @@ pub trait Fold {
              manually."]
     fn fold_empty_stmt(&mut self, node: EmptyStmt) -> EmptyStmt {
         <EmptyStmt as FoldWith<Self>>::fold_children_with(node, self)
-    }
-    #[doc = "Visit a node of type `EsVersion`.\n\nBy default, this method calls \
-             [`EsVersion::fold_children_with`]. If you want to recurse, you need to call it \
-             manually."]
-    fn fold_es_version(&mut self, node: EsVersion) -> EsVersion {
-        <EsVersion as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `ExportAll`.\n\nBy default, this method calls \
              [`ExportAll::fold_children_with`]. If you want to recurse, you need to call it \
@@ -30893,12 +30972,6 @@ pub trait Fold {
         node: ImportStarAsSpecifier,
     ) -> ImportStarAsSpecifier {
         <ImportStarAsSpecifier as FoldWith<Self>>::fold_children_with(node, self)
-    }
-    #[doc = "Visit a node of type `ImportWith`.\n\nBy default, this method calls \
-             [`ImportWith::fold_children_with`]. If you want to recurse, you need to call it \
-             manually."]
-    fn fold_import_with(&mut self, node: ImportWith) -> ImportWith {
-        <ImportWith as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `ImportWithItem`.\n\nBy default, this method calls \
              [`ImportWithItem::fold_children_with`]. If you want to recurse, you need to call it \
@@ -31080,12 +31153,6 @@ pub trait Fold {
     fn fold_meta_prop_kind(&mut self, node: MetaPropKind) -> MetaPropKind {
         <MetaPropKind as FoldWith<Self>>::fold_children_with(node, self)
     }
-    #[doc = "Visit a node of type `MethodKind`.\n\nBy default, this method calls \
-             [`MethodKind::fold_children_with`]. If you want to recurse, you need to call it \
-             manually."]
-    fn fold_method_kind(&mut self, node: MethodKind) -> MethodKind {
-        <MethodKind as FoldWith<Self>>::fold_children_with(node, self)
-    }
     #[doc = "Visit a node of type `MethodProp`.\n\nBy default, this method calls \
              [`MethodProp::fold_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -31193,6 +31260,12 @@ pub trait Fold {
     fn fold_pat(&mut self, node: Pat) -> Pat {
         <Pat as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Visit a node of type `PrivateMethod`.\n\nBy default, this method calls \
+             [`PrivateMethod::fold_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn fold_private_method(&mut self, node: PrivateMethod) -> PrivateMethod {
+        <PrivateMethod as FoldWith<Self>>::fold_children_with(node, self)
+    }
     #[doc = "Visit a node of type `PrivateName`.\n\nBy default, this method calls \
              [`PrivateName::fold_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -31204,11 +31277,6 @@ pub trait Fold {
              manually."]
     fn fold_private_prop(&mut self, node: PrivateProp) -> PrivateProp {
         <PrivateProp as FoldWith<Self>>::fold_children_with(node, self)
-    }
-    #[doc = "Visit a node of type `Program`.\n\nBy default, this method calls \
-             [`Program::fold_children_with`]. If you want to recurse, you need to call it manually."]
-    fn fold_program(&mut self, node: Program) -> Program {
-        <Program as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `Prop`.\n\nBy default, this method calls \
              [`Prop::fold_children_with`]. If you want to recurse, you need to call it manually."]
@@ -31231,12 +31299,6 @@ pub trait Fold {
              [`Regex::fold_children_with`]. If you want to recurse, you need to call it manually."]
     fn fold_regex(&mut self, node: Regex) -> Regex {
         <Regex as FoldWith<Self>>::fold_children_with(node, self)
-    }
-    #[doc = "Visit a node of type `ReservedUnused`.\n\nBy default, this method calls \
-             [`ReservedUnused::fold_children_with`]. If you want to recurse, you need to call it \
-             manually."]
-    fn fold_reserved_unused(&mut self, node: ReservedUnused) -> ReservedUnused {
-        <ReservedUnused as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `RestPat`.\n\nBy default, this method calls \
              [`RestPat::fold_children_with`]. If you want to recurse, you need to call it manually."]
@@ -31270,6 +31332,11 @@ pub trait Fold {
              it manually."]
     fn fold_simple_assign_target(&mut self, node: SimpleAssignTarget) -> SimpleAssignTarget {
         <SimpleAssignTarget as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Span`.\n\nBy default, this method calls \
+             [`Span::fold_children_with`]. If you want to recurse, you need to call it manually."]
+    fn fold_span(&mut self, node: Span) -> Span {
+        <Span as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `SpreadElement`.\n\nBy default, this method calls \
              [`SpreadElement::fold_children_with`]. If you want to recurse, you need to call it \
@@ -31321,6 +31388,12 @@ pub trait Fold {
              manually."]
     fn fold_switch_stmt(&mut self, node: SwitchStmt) -> SwitchStmt {
         <SwitchStmt as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `SyntaxContext`.\n\nBy default, this method calls \
+             [`SyntaxContext::fold_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn fold_syntax_context(&mut self, node: SyntaxContext) -> SyntaxContext {
+        <SyntaxContext as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `TaggedTpl`.\n\nBy default, this method calls \
              [`TaggedTpl::fold_children_with`]. If you want to recurse, you need to call it \
@@ -31876,6 +31949,16 @@ pub trait Fold {
              manually."]
     fn fold_yield_expr(&mut self, node: YieldExpr) -> YieldExpr {
         <YieldExpr as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `bool`.\n\nBy default, this method calls \
+             [`bool::fold_children_with`]. If you want to recurse, you need to call it manually."]
+    fn fold_bool(&mut self, node: bool) -> bool {
+        <bool as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `f64`.\n\nBy default, this method calls \
+             [`f64::fold_children_with`]. If you want to recurse, you need to call it manually."]
+    fn fold_f_64(&mut self, node: f64) -> f64 {
+        <f64 as FoldWith<Self>>::fold_children_with(node, self)
     }
 }
 #[doc = r" A trait implemented for types that can be visited using a visitor."]
@@ -37545,6 +37628,12 @@ pub trait FoldAstPath {
             node, self, ast_path,
         )
     }
+    #[doc = "Visit a node of type `Atom`.\n\nBy default, this method calls \
+             [`Atom::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
+             manually."]
+    fn fold_atom(&mut self, node: Atom, ast_path: &mut AstKindPath) -> Atom {
+        <Atom as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
+    }
     #[doc = "Visit a node of type `AutoAccessor`.\n\nBy default, this method calls \
              [`AutoAccessor::fold_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
@@ -37566,6 +37655,12 @@ pub trait FoldAstPath {
              manually."]
     fn fold_big_int(&mut self, node: BigInt, ast_path: &mut AstKindPath) -> BigInt {
         <BigInt as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `BigIntValue`.\n\nBy default, this method calls \
+             [`BigIntValue::fold_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    fn fold_big_int_value(&mut self, node: BigIntValue, ast_path: &mut AstKindPath) -> BigIntValue {
+        <BigIntValue as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
     }
     #[doc = "Visit a node of type `BinExpr`.\n\nBy default, this method calls \
              [`BinExpr::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
@@ -37661,6 +37756,12 @@ pub trait FoldAstPath {
     fn fold_class_member(&mut self, node: ClassMember, ast_path: &mut AstKindPath) -> ClassMember {
         <ClassMember as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
     }
+    #[doc = "Visit a node of type `ClassMethod`.\n\nBy default, this method calls \
+             [`ClassMethod::fold_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    fn fold_class_method(&mut self, node: ClassMethod, ast_path: &mut AstKindPath) -> ClassMethod {
+        <ClassMethod as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
+    }
     #[doc = "Visit a node of type `ClassProp`.\n\nBy default, this method calls \
              [`ClassProp::fold_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
@@ -37740,12 +37841,6 @@ pub trait FoldAstPath {
              it manually."]
     fn fold_empty_stmt(&mut self, node: EmptyStmt, ast_path: &mut AstKindPath) -> EmptyStmt {
         <EmptyStmt as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
-    }
-    #[doc = "Visit a node of type `EsVersion`.\n\nBy default, this method calls \
-             [`EsVersion::fold_children_with_ast_path`]. If you want to recurse, you need to call \
-             it manually."]
-    fn fold_es_version(&mut self, node: EsVersion, ast_path: &mut AstKindPath) -> EsVersion {
-        <EsVersion as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
     }
     #[doc = "Visit a node of type `ExportAll`.\n\nBy default, this method calls \
              [`ExportAll::fold_children_with_ast_path`]. If you want to recurse, you need to call \
@@ -37984,12 +38079,6 @@ pub trait FoldAstPath {
         <ImportStarAsSpecifier as FoldWithAstPath<Self>>::fold_children_with_ast_path(
             node, self, ast_path,
         )
-    }
-    #[doc = "Visit a node of type `ImportWith`.\n\nBy default, this method calls \
-             [`ImportWith::fold_children_with_ast_path`]. If you want to recurse, you need to call \
-             it manually."]
-    fn fold_import_with(&mut self, node: ImportWith, ast_path: &mut AstKindPath) -> ImportWith {
-        <ImportWith as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
     }
     #[doc = "Visit a node of type `ImportWithItem`.\n\nBy default, this method calls \
              [`ImportWithItem::fold_children_with_ast_path`]. If you want to recurse, you need to \
@@ -38267,12 +38356,6 @@ pub trait FoldAstPath {
     ) -> MetaPropKind {
         <MetaPropKind as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
     }
-    #[doc = "Visit a node of type `MethodKind`.\n\nBy default, this method calls \
-             [`MethodKind::fold_children_with_ast_path`]. If you want to recurse, you need to call \
-             it manually."]
-    fn fold_method_kind(&mut self, node: MethodKind, ast_path: &mut AstKindPath) -> MethodKind {
-        <MethodKind as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
-    }
     #[doc = "Visit a node of type `MethodProp`.\n\nBy default, this method calls \
              [`MethodProp::fold_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
@@ -38411,6 +38494,16 @@ pub trait FoldAstPath {
     fn fold_pat(&mut self, node: Pat, ast_path: &mut AstKindPath) -> Pat {
         <Pat as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
     }
+    #[doc = "Visit a node of type `PrivateMethod`.\n\nBy default, this method calls \
+             [`PrivateMethod::fold_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    fn fold_private_method(
+        &mut self,
+        node: PrivateMethod,
+        ast_path: &mut AstKindPath,
+    ) -> PrivateMethod {
+        <PrivateMethod as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
+    }
     #[doc = "Visit a node of type `PrivateName`.\n\nBy default, this method calls \
              [`PrivateName::fold_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
@@ -38422,12 +38515,6 @@ pub trait FoldAstPath {
              call it manually."]
     fn fold_private_prop(&mut self, node: PrivateProp, ast_path: &mut AstKindPath) -> PrivateProp {
         <PrivateProp as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
-    }
-    #[doc = "Visit a node of type `Program`.\n\nBy default, this method calls \
-             [`Program::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
-             manually."]
-    fn fold_program(&mut self, node: Program, ast_path: &mut AstKindPath) -> Program {
-        <Program as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
     }
     #[doc = "Visit a node of type `Prop`.\n\nBy default, this method calls \
              [`Prop::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
@@ -38456,16 +38543,6 @@ pub trait FoldAstPath {
              manually."]
     fn fold_regex(&mut self, node: Regex, ast_path: &mut AstKindPath) -> Regex {
         <Regex as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
-    }
-    #[doc = "Visit a node of type `ReservedUnused`.\n\nBy default, this method calls \
-             [`ReservedUnused::fold_children_with_ast_path`]. If you want to recurse, you need to \
-             call it manually."]
-    fn fold_reserved_unused(
-        &mut self,
-        node: ReservedUnused,
-        ast_path: &mut AstKindPath,
-    ) -> ReservedUnused {
-        <ReservedUnused as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
     }
     #[doc = "Visit a node of type `RestPat`.\n\nBy default, this method calls \
              [`RestPat::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
@@ -38508,6 +38585,12 @@ pub trait FoldAstPath {
         <SimpleAssignTarget as FoldWithAstPath<Self>>::fold_children_with_ast_path(
             node, self, ast_path,
         )
+    }
+    #[doc = "Visit a node of type `Span`.\n\nBy default, this method calls \
+             [`Span::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
+             manually."]
+    fn fold_span(&mut self, node: Span, ast_path: &mut AstKindPath) -> Span {
+        <Span as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
     }
     #[doc = "Visit a node of type `SpreadElement`.\n\nBy default, this method calls \
              [`SpreadElement::fold_children_with_ast_path`]. If you want to recurse, you need to \
@@ -38570,6 +38653,16 @@ pub trait FoldAstPath {
              it manually."]
     fn fold_switch_stmt(&mut self, node: SwitchStmt, ast_path: &mut AstKindPath) -> SwitchStmt {
         <SwitchStmt as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `SyntaxContext`.\n\nBy default, this method calls \
+             [`SyntaxContext::fold_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    fn fold_syntax_context(
+        &mut self,
+        node: SyntaxContext,
+        ast_path: &mut AstKindPath,
+    ) -> SyntaxContext {
+        <SyntaxContext as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
     }
     #[doc = "Visit a node of type `TaggedTpl`.\n\nBy default, this method calls \
              [`TaggedTpl::fold_children_with_ast_path`]. If you want to recurse, you need to call \
@@ -39410,6 +39503,18 @@ pub trait FoldAstPath {
              it manually."]
     fn fold_yield_expr(&mut self, node: YieldExpr, ast_path: &mut AstKindPath) -> YieldExpr {
         <YieldExpr as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `bool`.\n\nBy default, this method calls \
+             [`bool::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
+             manually."]
+    fn fold_bool(&mut self, node: bool, ast_path: &mut AstKindPath) -> bool {
+        <bool as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `f64`.\n\nBy default, this method calls \
+             [`f64::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
+             manually."]
+    fn fold_f_64(&mut self, node: f64, ast_path: &mut AstKindPath) -> f64 {
+        <f64 as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
     }
 }
 #[doc = r" A trait implemented for types that can be visited using a visitor."]

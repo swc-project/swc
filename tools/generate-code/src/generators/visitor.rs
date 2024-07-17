@@ -301,12 +301,10 @@ impl Generator<'_> {
         let attrs = self.base_trait_attrs();
         let mut trait_methods: Vec<TraitItem> = vec![];
 
-        for ty in node_types {
-            let type_name = match ty {
-                Item::Enum(data) => data.ident.clone(),
-                Item::Struct(data) => data.ident.clone(),
-                _ => continue,
-            };
+        let mut all_types = all_field_types(node_types).into_iter().collect::<Vec<_>>();
+        all_types.sort();
+        for ty in all_types {
+            let type_name = Ident::new(&ty, Span::call_site());
 
             let return_type = self.return_type_token(quote!(#type_name));
             let type_param = self.parameter_type_token(quote!(#type_name));
