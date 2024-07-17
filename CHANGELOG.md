@@ -1358,9 +1358,6 @@
 
 - **(es/minifier)** Fix a bug related to inliner and the variable scoping ([#8542](https://github.com/swc-project/swc/issues/8542)) ([aa70131](https://github.com/swc-project/swc/commit/aa70131c558158abd3dcd3fca53dfe444c511ae1))
 
-
-- **(es/quote)** Add support for import phase to quote macro ([#8536](https://github.com/swc-project/swc/issues/8536)) ([71930ff](https://github.com/swc-project/swc/commit/71930ffb5625fb58fab3200764ea98b05abab8ba))
-
 ### Features
 
 
