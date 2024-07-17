@@ -531,7 +531,7 @@ impl Generator<'_> {
         // &mut V
         items.push(parse_quote! {
             #(#attrs)*
-            impl #trait_name for &mut V where V: ?Sized + #trait_name {
+            impl<V> #trait_name for &mut V where V: ?Sized + #trait_name {
                 #(#ptr_impl_methods)*
             }
         });

@@ -1740,7 +1740,7 @@ pub trait Visit {
         <YieldExpr as VisitWith<Self>>::visit_children_with(node, self)
     }
 }
-impl Visit for &mut V
+impl<V> Visit for &mut V
 where
     V: ?Sized + Visit,
 {
@@ -16852,7 +16852,7 @@ pub trait VisitAstPath {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-impl VisitAstPath for &mut V
+impl<V> VisitAstPath for &mut V
 where
     V: ?Sized + VisitAstPath,
 {
@@ -39497,7 +39497,7 @@ pub trait VisitMut {
         <YieldExpr as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
 }
-impl VisitMut for &mut V
+impl<V> VisitMut for &mut V
 where
     V: ?Sized + VisitMut,
 {
@@ -54450,7 +54450,7 @@ pub trait VisitMutAstPath {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-impl VisitMutAstPath for &mut V
+impl<V> VisitMutAstPath for &mut V
 where
     V: ?Sized + VisitMutAstPath,
 {
@@ -72823,7 +72823,7 @@ pub trait Fold {
         <YieldExpr as FoldWith<Self>>::fold_children_with(node, self)
     }
 }
-impl Fold for &mut V
+impl<V> Fold for &mut V
 where
     V: ?Sized + Fold,
 {
@@ -88491,7 +88491,7 @@ pub trait FoldAstPath {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-impl FoldAstPath for &mut V
+impl<V> FoldAstPath for &mut V
 where
     V: ?Sized + FoldAstPath,
 {
