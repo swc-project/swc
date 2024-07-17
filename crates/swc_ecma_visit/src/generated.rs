@@ -4112,364 +4112,364 @@ where
     B: Visit,
 {
     fn visit_accessibility(&mut self, node: &Accessibility) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_accessibility(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_accessibility(self, node),
         }
     }
 
     fn visit_array_lit(&mut self, node: &ArrayLit) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_array_lit(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_array_lit(self, node),
         }
     }
 
     fn visit_array_pat(&mut self, node: &ArrayPat) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_array_pat(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_array_pat(self, node),
         }
     }
 
     fn visit_arrow_expr(&mut self, node: &ArrowExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_arrow_expr(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_arrow_expr(self, node),
         }
     }
 
     fn visit_assign_expr(&mut self, node: &AssignExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_assign_expr(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_assign_expr(self, node),
         }
     }
 
     fn visit_assign_op(&mut self, node: &AssignOp) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_assign_op(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_assign_op(self, node),
         }
     }
 
     fn visit_assign_pat(&mut self, node: &AssignPat) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_assign_pat(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_assign_pat(self, node),
         }
     }
 
     fn visit_assign_pat_prop(&mut self, node: &AssignPatProp) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_assign_pat_prop(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_assign_pat_prop(self, node),
         }
     }
 
     fn visit_assign_prop(&mut self, node: &AssignProp) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_assign_prop(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_assign_prop(self, node),
         }
     }
 
     fn visit_assign_target(&mut self, node: &AssignTarget) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_assign_target(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_assign_target(self, node),
         }
     }
 
     fn visit_assign_target_pat(&mut self, node: &AssignTargetPat) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_assign_target_pat(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_assign_target_pat(self, node),
         }
     }
 
     fn visit_atom(&mut self, node: &swc_atoms::Atom) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_atom(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_atom(self, node),
         }
     }
 
     fn visit_auto_accessor(&mut self, node: &AutoAccessor) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_auto_accessor(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_auto_accessor(self, node),
         }
     }
 
     fn visit_await_expr(&mut self, node: &AwaitExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_await_expr(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_await_expr(self, node),
         }
     }
 
     fn visit_big_int(&mut self, node: &BigInt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_big_int(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_big_int(self, node),
         }
     }
 
     fn visit_big_int_value(&mut self, node: &BigIntValue) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_big_int_value(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_big_int_value(self, node),
         }
     }
 
     fn visit_bin_expr(&mut self, node: &BinExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_bin_expr(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_bin_expr(self, node),
         }
     }
 
     fn visit_binary_op(&mut self, node: &BinaryOp) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_binary_op(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_binary_op(self, node),
         }
     }
 
     fn visit_binding_ident(&mut self, node: &BindingIdent) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_binding_ident(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_binding_ident(self, node),
         }
     }
 
     fn visit_block_stmt(&mut self, node: &BlockStmt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_block_stmt(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_block_stmt(self, node),
         }
     }
 
     fn visit_block_stmt_or_expr(&mut self, node: &BlockStmtOrExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_block_stmt_or_expr(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_block_stmt_or_expr(self, node),
         }
     }
 
     fn visit_bool(&mut self, node: &Bool) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_bool(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_bool(self, node),
         }
     }
 
     fn visit_break_stmt(&mut self, node: &BreakStmt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_break_stmt(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_break_stmt(self, node),
         }
     }
 
     fn visit_call_expr(&mut self, node: &CallExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_call_expr(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_call_expr(self, node),
         }
     }
 
     fn visit_callee(&mut self, node: &Callee) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_callee(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_callee(self, node),
         }
     }
 
     fn visit_catch_clause(&mut self, node: &CatchClause) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_catch_clause(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_catch_clause(self, node),
         }
     }
 
     fn visit_class(&mut self, node: &Class) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_class(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_class(self, node),
         }
     }
 
     fn visit_class_decl(&mut self, node: &ClassDecl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_class_decl(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_class_decl(self, node),
         }
     }
 
     fn visit_class_expr(&mut self, node: &ClassExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_class_expr(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_class_expr(self, node),
         }
     }
 
     fn visit_class_member(&mut self, node: &ClassMember) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_class_member(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_class_member(self, node),
         }
     }
 
     fn visit_class_members(&mut self, node: &[ClassMember]) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_class_members(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_class_members(self, node),
         }
     }
 
     fn visit_class_method(&mut self, node: &ClassMethod) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_class_method(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_class_method(self, node),
         }
     }
 
     fn visit_class_prop(&mut self, node: &ClassProp) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_class_prop(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_class_prop(self, node),
         }
     }
 
     fn visit_computed_prop_name(&mut self, node: &ComputedPropName) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_computed_prop_name(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_computed_prop_name(self, node),
         }
     }
 
     fn visit_cond_expr(&mut self, node: &CondExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_cond_expr(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_cond_expr(self, node),
         }
     }
 
     fn visit_constructor(&mut self, node: &Constructor) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_constructor(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_constructor(self, node),
         }
     }
 
     fn visit_continue_stmt(&mut self, node: &ContinueStmt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_continue_stmt(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_continue_stmt(self, node),
         }
     }
 
     fn visit_debugger_stmt(&mut self, node: &DebuggerStmt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_debugger_stmt(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_debugger_stmt(self, node),
         }
     }
 
     fn visit_decl(&mut self, node: &Decl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_decl(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_decl(self, node),
         }
     }
 
     fn visit_decorator(&mut self, node: &Decorator) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_decorator(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_decorator(self, node),
         }
     }
 
     fn visit_decorators(&mut self, node: &[Decorator]) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_decorators(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_decorators(self, node),
         }
     }
 
     fn visit_default_decl(&mut self, node: &DefaultDecl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_default_decl(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_default_decl(self, node),
         }
     }
 
     fn visit_do_while_stmt(&mut self, node: &DoWhileStmt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_do_while_stmt(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_do_while_stmt(self, node),
         }
     }
 
     fn visit_empty_stmt(&mut self, node: &EmptyStmt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_empty_stmt(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_empty_stmt(self, node),
         }
     }
 
     fn visit_es_version(&mut self, node: &EsVersion) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_es_version(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_es_version(self, node),
         }
     }
 
     fn visit_export_all(&mut self, node: &ExportAll) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_export_all(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_export_all(self, node),
         }
     }
 
     fn visit_export_decl(&mut self, node: &ExportDecl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_export_decl(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_export_decl(self, node),
         }
     }
 
     fn visit_export_default_decl(&mut self, node: &ExportDefaultDecl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_export_default_decl(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_export_default_decl(self, node),
         }
     }
 
     fn visit_export_default_expr(&mut self, node: &ExportDefaultExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_export_default_expr(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_export_default_expr(self, node),
         }
     }
 
     fn visit_export_default_specifier(&mut self, node: &ExportDefaultSpecifier) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_export_default_specifier(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_export_default_specifier(self, node),
         }
     }
 
     fn visit_export_named_specifier(&mut self, node: &ExportNamedSpecifier) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_export_named_specifier(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_export_named_specifier(self, node),
         }
     }
 
     fn visit_export_namespace_specifier(&mut self, node: &ExportNamespaceSpecifier) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_export_namespace_specifier(self, node),
             swc_visit::Either::Right(visitor) => {
                 Visit::visit_export_namespace_specifier(self, node)
@@ -4478,714 +4478,714 @@ where
     }
 
     fn visit_export_specifier(&mut self, node: &ExportSpecifier) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_export_specifier(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_export_specifier(self, node),
         }
     }
 
     fn visit_export_specifiers(&mut self, node: &[ExportSpecifier]) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_export_specifiers(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_export_specifiers(self, node),
         }
     }
 
     fn visit_expr(&mut self, node: &Expr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_expr(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_expr(self, node),
         }
     }
 
     fn visit_expr_or_spread(&mut self, node: &ExprOrSpread) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_expr_or_spread(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_expr_or_spread(self, node),
         }
     }
 
     fn visit_expr_or_spreads(&mut self, node: &[ExprOrSpread]) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_expr_or_spreads(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_expr_or_spreads(self, node),
         }
     }
 
     fn visit_expr_stmt(&mut self, node: &ExprStmt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_expr_stmt(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_expr_stmt(self, node),
         }
     }
 
     fn visit_exprs(&mut self, node: &[Box<Expr>]) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_exprs(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_exprs(self, node),
         }
     }
 
     fn visit_fn_decl(&mut self, node: &FnDecl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_fn_decl(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_fn_decl(self, node),
         }
     }
 
     fn visit_fn_expr(&mut self, node: &FnExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_fn_expr(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_fn_expr(self, node),
         }
     }
 
     fn visit_for_head(&mut self, node: &ForHead) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_for_head(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_for_head(self, node),
         }
     }
 
     fn visit_for_in_stmt(&mut self, node: &ForInStmt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_for_in_stmt(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_for_in_stmt(self, node),
         }
     }
 
     fn visit_for_of_stmt(&mut self, node: &ForOfStmt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_for_of_stmt(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_for_of_stmt(self, node),
         }
     }
 
     fn visit_for_stmt(&mut self, node: &ForStmt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_for_stmt(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_for_stmt(self, node),
         }
     }
 
     fn visit_function(&mut self, node: &Function) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_function(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_function(self, node),
         }
     }
 
     fn visit_getter_prop(&mut self, node: &GetterProp) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_getter_prop(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_getter_prop(self, node),
         }
     }
 
     fn visit_ident(&mut self, node: &Ident) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ident(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ident(self, node),
         }
     }
 
     fn visit_ident_name(&mut self, node: &IdentName) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ident_name(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ident_name(self, node),
         }
     }
 
     fn visit_if_stmt(&mut self, node: &IfStmt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_if_stmt(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_if_stmt(self, node),
         }
     }
 
     fn visit_import(&mut self, node: &Import) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_import(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_import(self, node),
         }
     }
 
     fn visit_import_decl(&mut self, node: &ImportDecl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_import_decl(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_import_decl(self, node),
         }
     }
 
     fn visit_import_default_specifier(&mut self, node: &ImportDefaultSpecifier) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_import_default_specifier(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_import_default_specifier(self, node),
         }
     }
 
     fn visit_import_named_specifier(&mut self, node: &ImportNamedSpecifier) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_import_named_specifier(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_import_named_specifier(self, node),
         }
     }
 
     fn visit_import_phase(&mut self, node: &ImportPhase) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_import_phase(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_import_phase(self, node),
         }
     }
 
     fn visit_import_specifier(&mut self, node: &ImportSpecifier) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_import_specifier(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_import_specifier(self, node),
         }
     }
 
     fn visit_import_specifiers(&mut self, node: &[ImportSpecifier]) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_import_specifiers(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_import_specifiers(self, node),
         }
     }
 
     fn visit_import_star_as_specifier(&mut self, node: &ImportStarAsSpecifier) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_import_star_as_specifier(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_import_star_as_specifier(self, node),
         }
     }
 
     fn visit_import_with(&mut self, node: &ImportWith) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_import_with(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_import_with(self, node),
         }
     }
 
     fn visit_import_with_item(&mut self, node: &ImportWithItem) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_import_with_item(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_import_with_item(self, node),
         }
     }
 
     fn visit_import_with_items(&mut self, node: &[ImportWithItem]) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_import_with_items(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_import_with_items(self, node),
         }
     }
 
     fn visit_invalid(&mut self, node: &Invalid) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_invalid(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_invalid(self, node),
         }
     }
 
     fn visit_jsx_attr(&mut self, node: &JSXAttr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_jsx_attr(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_jsx_attr(self, node),
         }
     }
 
     fn visit_jsx_attr_name(&mut self, node: &JSXAttrName) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_jsx_attr_name(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_jsx_attr_name(self, node),
         }
     }
 
     fn visit_jsx_attr_or_spread(&mut self, node: &JSXAttrOrSpread) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_jsx_attr_or_spread(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_jsx_attr_or_spread(self, node),
         }
     }
 
     fn visit_jsx_attr_or_spreads(&mut self, node: &[JSXAttrOrSpread]) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_jsx_attr_or_spreads(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_jsx_attr_or_spreads(self, node),
         }
     }
 
     fn visit_jsx_attr_value(&mut self, node: &JSXAttrValue) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_jsx_attr_value(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_jsx_attr_value(self, node),
         }
     }
 
     fn visit_jsx_closing_element(&mut self, node: &JSXClosingElement) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_jsx_closing_element(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_jsx_closing_element(self, node),
         }
     }
 
     fn visit_jsx_closing_fragment(&mut self, node: &JSXClosingFragment) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_jsx_closing_fragment(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_jsx_closing_fragment(self, node),
         }
     }
 
     fn visit_jsx_element(&mut self, node: &JSXElement) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_jsx_element(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_jsx_element(self, node),
         }
     }
 
     fn visit_jsx_element_child(&mut self, node: &JSXElementChild) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_jsx_element_child(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_jsx_element_child(self, node),
         }
     }
 
     fn visit_jsx_element_childs(&mut self, node: &[JSXElementChild]) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_jsx_element_childs(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_jsx_element_childs(self, node),
         }
     }
 
     fn visit_jsx_element_name(&mut self, node: &JSXElementName) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_jsx_element_name(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_jsx_element_name(self, node),
         }
     }
 
     fn visit_jsx_empty_expr(&mut self, node: &JSXEmptyExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_jsx_empty_expr(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_jsx_empty_expr(self, node),
         }
     }
 
     fn visit_jsx_expr(&mut self, node: &JSXExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_jsx_expr(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_jsx_expr(self, node),
         }
     }
 
     fn visit_jsx_expr_container(&mut self, node: &JSXExprContainer) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_jsx_expr_container(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_jsx_expr_container(self, node),
         }
     }
 
     fn visit_jsx_fragment(&mut self, node: &JSXFragment) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_jsx_fragment(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_jsx_fragment(self, node),
         }
     }
 
     fn visit_jsx_member_expr(&mut self, node: &JSXMemberExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_jsx_member_expr(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_jsx_member_expr(self, node),
         }
     }
 
     fn visit_jsx_namespaced_name(&mut self, node: &JSXNamespacedName) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_jsx_namespaced_name(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_jsx_namespaced_name(self, node),
         }
     }
 
     fn visit_jsx_object(&mut self, node: &JSXObject) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_jsx_object(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_jsx_object(self, node),
         }
     }
 
     fn visit_jsx_opening_element(&mut self, node: &JSXOpeningElement) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_jsx_opening_element(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_jsx_opening_element(self, node),
         }
     }
 
     fn visit_jsx_opening_fragment(&mut self, node: &JSXOpeningFragment) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_jsx_opening_fragment(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_jsx_opening_fragment(self, node),
         }
     }
 
     fn visit_jsx_spread_child(&mut self, node: &JSXSpreadChild) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_jsx_spread_child(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_jsx_spread_child(self, node),
         }
     }
 
     fn visit_jsx_text(&mut self, node: &JSXText) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_jsx_text(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_jsx_text(self, node),
         }
     }
 
     fn visit_key(&mut self, node: &Key) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_key(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_key(self, node),
         }
     }
 
     fn visit_key_value_pat_prop(&mut self, node: &KeyValuePatProp) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_key_value_pat_prop(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_key_value_pat_prop(self, node),
         }
     }
 
     fn visit_key_value_prop(&mut self, node: &KeyValueProp) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_key_value_prop(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_key_value_prop(self, node),
         }
     }
 
     fn visit_labeled_stmt(&mut self, node: &LabeledStmt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_labeled_stmt(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_labeled_stmt(self, node),
         }
     }
 
     fn visit_lit(&mut self, node: &Lit) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_lit(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_lit(self, node),
         }
     }
 
     fn visit_member_expr(&mut self, node: &MemberExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_member_expr(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_member_expr(self, node),
         }
     }
 
     fn visit_member_prop(&mut self, node: &MemberProp) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_member_prop(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_member_prop(self, node),
         }
     }
 
     fn visit_meta_prop_expr(&mut self, node: &MetaPropExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_meta_prop_expr(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_meta_prop_expr(self, node),
         }
     }
 
     fn visit_meta_prop_kind(&mut self, node: &MetaPropKind) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_meta_prop_kind(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_meta_prop_kind(self, node),
         }
     }
 
     fn visit_method_kind(&mut self, node: &MethodKind) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_method_kind(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_method_kind(self, node),
         }
     }
 
     fn visit_method_prop(&mut self, node: &MethodProp) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_method_prop(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_method_prop(self, node),
         }
     }
 
     fn visit_module(&mut self, node: &Module) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_module(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_module(self, node),
         }
     }
 
     fn visit_module_decl(&mut self, node: &ModuleDecl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_module_decl(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_module_decl(self, node),
         }
     }
 
     fn visit_module_export_name(&mut self, node: &ModuleExportName) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_module_export_name(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_module_export_name(self, node),
         }
     }
 
     fn visit_module_item(&mut self, node: &ModuleItem) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_module_item(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_module_item(self, node),
         }
     }
 
     fn visit_module_items(&mut self, node: &[ModuleItem]) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_module_items(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_module_items(self, node),
         }
     }
 
     fn visit_named_export(&mut self, node: &NamedExport) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_named_export(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_named_export(self, node),
         }
     }
 
     fn visit_new_expr(&mut self, node: &NewExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_new_expr(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_new_expr(self, node),
         }
     }
 
     fn visit_null(&mut self, node: &Null) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_null(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_null(self, node),
         }
     }
 
     fn visit_number(&mut self, node: &Number) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_number(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_number(self, node),
         }
     }
 
     fn visit_object_lit(&mut self, node: &ObjectLit) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_object_lit(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_object_lit(self, node),
         }
     }
 
     fn visit_object_pat(&mut self, node: &ObjectPat) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_object_pat(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_object_pat(self, node),
         }
     }
 
     fn visit_object_pat_prop(&mut self, node: &ObjectPatProp) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_object_pat_prop(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_object_pat_prop(self, node),
         }
     }
 
     fn visit_object_pat_props(&mut self, node: &[ObjectPatProp]) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_object_pat_props(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_object_pat_props(self, node),
         }
     }
 
     fn visit_opt_accessibility(&mut self, node: &Option<Accessibility>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_opt_accessibility(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_opt_accessibility(self, node),
         }
     }
 
     fn visit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_opt_atom(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_opt_atom(self, node),
         }
     }
 
     fn visit_opt_block_stmt(&mut self, node: &Option<BlockStmt>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_opt_block_stmt(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_opt_block_stmt(self, node),
         }
     }
 
     fn visit_opt_call(&mut self, node: &OptCall) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_opt_call(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_opt_call(self, node),
         }
     }
 
     fn visit_opt_catch_clause(&mut self, node: &Option<CatchClause>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_opt_catch_clause(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_opt_catch_clause(self, node),
         }
     }
 
     fn visit_opt_chain_base(&mut self, node: &OptChainBase) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_opt_chain_base(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_opt_chain_base(self, node),
         }
     }
 
     fn visit_opt_chain_expr(&mut self, node: &OptChainExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_opt_chain_expr(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_opt_chain_expr(self, node),
         }
     }
 
     fn visit_opt_expr(&mut self, node: &Option<Box<Expr>>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_opt_expr(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_opt_expr(self, node),
         }
     }
 
     fn visit_opt_expr_or_spread(&mut self, node: &Option<ExprOrSpread>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_opt_expr_or_spread(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_opt_expr_or_spread(self, node),
         }
     }
 
     fn visit_opt_expr_or_spreads(&mut self, node: &Option<Vec<ExprOrSpread>>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_opt_expr_or_spreads(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_opt_expr_or_spreads(self, node),
         }
     }
 
     fn visit_opt_ident(&mut self, node: &Option<Ident>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_opt_ident(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_opt_ident(self, node),
         }
     }
 
     fn visit_opt_jsx_attr_value(&mut self, node: &Option<JSXAttrValue>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_opt_jsx_attr_value(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_opt_jsx_attr_value(self, node),
         }
     }
 
     fn visit_opt_jsx_closing_element(&mut self, node: &Option<JSXClosingElement>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_opt_jsx_closing_element(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_opt_jsx_closing_element(self, node),
         }
     }
 
     fn visit_opt_module_export_name(&mut self, node: &Option<ModuleExportName>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_opt_module_export_name(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_opt_module_export_name(self, node),
         }
     }
 
     fn visit_opt_module_items(&mut self, node: &Option<Vec<ModuleItem>>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_opt_module_items(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_opt_module_items(self, node),
         }
     }
 
     fn visit_opt_object_lit(&mut self, node: &Option<Box<ObjectLit>>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_opt_object_lit(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_opt_object_lit(self, node),
         }
     }
 
     fn visit_opt_pat(&mut self, node: &Option<Pat>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_opt_pat(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_opt_pat(self, node),
         }
     }
 
     fn visit_opt_span(&mut self, node: &Option<swc_common::Span>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_opt_span(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_opt_span(self, node),
         }
     }
 
     fn visit_opt_stmt(&mut self, node: &Option<Box<Stmt>>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_opt_stmt(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_opt_stmt(self, node),
         }
     }
 
     fn visit_opt_str(&mut self, node: &Option<Box<Str>>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_opt_str(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_opt_str(self, node),
         }
     }
 
     fn visit_opt_true_plus_minus(&mut self, node: &Option<TruePlusMinus>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_opt_true_plus_minus(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_opt_true_plus_minus(self, node),
         }
     }
 
     fn visit_opt_ts_entity_name(&mut self, node: &Option<TsEntityName>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_opt_ts_entity_name(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_opt_ts_entity_name(self, node),
         }
     }
 
     fn visit_opt_ts_namespace_body(&mut self, node: &Option<TsNamespaceBody>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_opt_ts_namespace_body(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_opt_ts_namespace_body(self, node),
         }
     }
 
     fn visit_opt_ts_type(&mut self, node: &Option<Box<TsType>>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_opt_ts_type(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_opt_ts_type(self, node),
         }
     }
 
     fn visit_opt_ts_type_ann(&mut self, node: &Option<Box<TsTypeAnn>>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_opt_ts_type_ann(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_opt_ts_type_ann(self, node),
         }
     }
 
     fn visit_opt_ts_type_param_decl(&mut self, node: &Option<Box<TsTypeParamDecl>>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_opt_ts_type_param_decl(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_opt_ts_type_param_decl(self, node),
         }
@@ -5195,7 +5195,7 @@ where
         &mut self,
         node: &Option<Box<TsTypeParamInstantiation>>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 Visit::visit_opt_ts_type_param_instantiation(self, node)
             }
@@ -5206,371 +5206,371 @@ where
     }
 
     fn visit_opt_var_decl_or_expr(&mut self, node: &Option<VarDeclOrExpr>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_opt_var_decl_or_expr(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_opt_var_decl_or_expr(self, node),
         }
     }
 
     fn visit_opt_vec_expr_or_spreads(&mut self, node: &[Option<ExprOrSpread>]) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_opt_vec_expr_or_spreads(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_opt_vec_expr_or_spreads(self, node),
         }
     }
 
     fn visit_opt_vec_pats(&mut self, node: &[Option<Pat>]) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_opt_vec_pats(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_opt_vec_pats(self, node),
         }
     }
 
     fn visit_param(&mut self, node: &Param) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_param(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_param(self, node),
         }
     }
 
     fn visit_param_or_ts_param_prop(&mut self, node: &ParamOrTsParamProp) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_param_or_ts_param_prop(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_param_or_ts_param_prop(self, node),
         }
     }
 
     fn visit_param_or_ts_param_props(&mut self, node: &[ParamOrTsParamProp]) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_param_or_ts_param_props(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_param_or_ts_param_props(self, node),
         }
     }
 
     fn visit_params(&mut self, node: &[Param]) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_params(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_params(self, node),
         }
     }
 
     fn visit_paren_expr(&mut self, node: &ParenExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_paren_expr(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_paren_expr(self, node),
         }
     }
 
     fn visit_pat(&mut self, node: &Pat) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_pat(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_pat(self, node),
         }
     }
 
     fn visit_pats(&mut self, node: &[Pat]) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_pats(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_pats(self, node),
         }
     }
 
     fn visit_private_method(&mut self, node: &PrivateMethod) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_private_method(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_private_method(self, node),
         }
     }
 
     fn visit_private_name(&mut self, node: &PrivateName) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_private_name(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_private_name(self, node),
         }
     }
 
     fn visit_private_prop(&mut self, node: &PrivateProp) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_private_prop(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_private_prop(self, node),
         }
     }
 
     fn visit_program(&mut self, node: &Program) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_program(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_program(self, node),
         }
     }
 
     fn visit_prop(&mut self, node: &Prop) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_prop(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_prop(self, node),
         }
     }
 
     fn visit_prop_name(&mut self, node: &PropName) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_prop_name(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_prop_name(self, node),
         }
     }
 
     fn visit_prop_or_spread(&mut self, node: &PropOrSpread) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_prop_or_spread(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_prop_or_spread(self, node),
         }
     }
 
     fn visit_prop_or_spreads(&mut self, node: &[PropOrSpread]) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_prop_or_spreads(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_prop_or_spreads(self, node),
         }
     }
 
     fn visit_regex(&mut self, node: &Regex) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_regex(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_regex(self, node),
         }
     }
 
     fn visit_reserved_unused(&mut self, node: &ReservedUnused) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_reserved_unused(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_reserved_unused(self, node),
         }
     }
 
     fn visit_rest_pat(&mut self, node: &RestPat) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_rest_pat(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_rest_pat(self, node),
         }
     }
 
     fn visit_return_stmt(&mut self, node: &ReturnStmt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_return_stmt(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_return_stmt(self, node),
         }
     }
 
     fn visit_script(&mut self, node: &Script) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_script(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_script(self, node),
         }
     }
 
     fn visit_seq_expr(&mut self, node: &SeqExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_seq_expr(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_seq_expr(self, node),
         }
     }
 
     fn visit_setter_prop(&mut self, node: &SetterProp) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_setter_prop(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_setter_prop(self, node),
         }
     }
 
     fn visit_simple_assign_target(&mut self, node: &SimpleAssignTarget) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_simple_assign_target(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_simple_assign_target(self, node),
         }
     }
 
     fn visit_span(&mut self, node: &swc_common::Span) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_span(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_span(self, node),
         }
     }
 
     fn visit_spread_element(&mut self, node: &SpreadElement) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_spread_element(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_spread_element(self, node),
         }
     }
 
     fn visit_static_block(&mut self, node: &StaticBlock) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_static_block(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_static_block(self, node),
         }
     }
 
     fn visit_stmt(&mut self, node: &Stmt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_stmt(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_stmt(self, node),
         }
     }
 
     fn visit_stmts(&mut self, node: &[Stmt]) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_stmts(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_stmts(self, node),
         }
     }
 
     fn visit_str(&mut self, node: &Str) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_str(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_str(self, node),
         }
     }
 
     fn visit_super(&mut self, node: &Super) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_super(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_super(self, node),
         }
     }
 
     fn visit_super_prop(&mut self, node: &SuperProp) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_super_prop(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_super_prop(self, node),
         }
     }
 
     fn visit_super_prop_expr(&mut self, node: &SuperPropExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_super_prop_expr(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_super_prop_expr(self, node),
         }
     }
 
     fn visit_switch_case(&mut self, node: &SwitchCase) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_switch_case(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_switch_case(self, node),
         }
     }
 
     fn visit_switch_cases(&mut self, node: &[SwitchCase]) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_switch_cases(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_switch_cases(self, node),
         }
     }
 
     fn visit_switch_stmt(&mut self, node: &SwitchStmt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_switch_stmt(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_switch_stmt(self, node),
         }
     }
 
     fn visit_syntax_context(&mut self, node: &swc_common::SyntaxContext) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_syntax_context(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_syntax_context(self, node),
         }
     }
 
     fn visit_tagged_tpl(&mut self, node: &TaggedTpl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_tagged_tpl(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_tagged_tpl(self, node),
         }
     }
 
     fn visit_this_expr(&mut self, node: &ThisExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_this_expr(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_this_expr(self, node),
         }
     }
 
     fn visit_throw_stmt(&mut self, node: &ThrowStmt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_throw_stmt(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_throw_stmt(self, node),
         }
     }
 
     fn visit_tpl(&mut self, node: &Tpl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_tpl(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_tpl(self, node),
         }
     }
 
     fn visit_tpl_element(&mut self, node: &TplElement) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_tpl_element(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_tpl_element(self, node),
         }
     }
 
     fn visit_tpl_elements(&mut self, node: &[TplElement]) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_tpl_elements(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_tpl_elements(self, node),
         }
     }
 
     fn visit_true_plus_minus(&mut self, node: &TruePlusMinus) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_true_plus_minus(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_true_plus_minus(self, node),
         }
     }
 
     fn visit_try_stmt(&mut self, node: &TryStmt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_try_stmt(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_try_stmt(self, node),
         }
     }
 
     fn visit_ts_array_type(&mut self, node: &TsArrayType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_array_type(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_array_type(self, node),
         }
     }
 
     fn visit_ts_as_expr(&mut self, node: &TsAsExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_as_expr(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_as_expr(self, node),
         }
     }
 
     fn visit_ts_call_signature_decl(&mut self, node: &TsCallSignatureDecl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_call_signature_decl(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_call_signature_decl(self, node),
         }
     }
 
     fn visit_ts_conditional_type(&mut self, node: &TsConditionalType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_conditional_type(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_conditional_type(self, node),
         }
     }
 
     fn visit_ts_const_assertion(&mut self, node: &TsConstAssertion) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_const_assertion(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_const_assertion(self, node),
         }
     }
 
     fn visit_ts_construct_signature_decl(&mut self, node: &TsConstructSignatureDecl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 Visit::visit_ts_construct_signature_decl(self, node)
             }
@@ -5581,455 +5581,455 @@ where
     }
 
     fn visit_ts_constructor_type(&mut self, node: &TsConstructorType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_constructor_type(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_constructor_type(self, node),
         }
     }
 
     fn visit_ts_entity_name(&mut self, node: &TsEntityName) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_entity_name(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_entity_name(self, node),
         }
     }
 
     fn visit_ts_enum_decl(&mut self, node: &TsEnumDecl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_enum_decl(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_enum_decl(self, node),
         }
     }
 
     fn visit_ts_enum_member(&mut self, node: &TsEnumMember) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_enum_member(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_enum_member(self, node),
         }
     }
 
     fn visit_ts_enum_member_id(&mut self, node: &TsEnumMemberId) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_enum_member_id(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_enum_member_id(self, node),
         }
     }
 
     fn visit_ts_enum_members(&mut self, node: &[TsEnumMember]) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_enum_members(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_enum_members(self, node),
         }
     }
 
     fn visit_ts_export_assignment(&mut self, node: &TsExportAssignment) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_export_assignment(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_export_assignment(self, node),
         }
     }
 
     fn visit_ts_expr_with_type_args(&mut self, node: &TsExprWithTypeArgs) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_expr_with_type_args(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_expr_with_type_args(self, node),
         }
     }
 
     fn visit_ts_expr_with_type_argss(&mut self, node: &[TsExprWithTypeArgs]) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_expr_with_type_argss(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_expr_with_type_argss(self, node),
         }
     }
 
     fn visit_ts_external_module_ref(&mut self, node: &TsExternalModuleRef) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_external_module_ref(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_external_module_ref(self, node),
         }
     }
 
     fn visit_ts_fn_or_constructor_type(&mut self, node: &TsFnOrConstructorType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_fn_or_constructor_type(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_fn_or_constructor_type(self, node),
         }
     }
 
     fn visit_ts_fn_param(&mut self, node: &TsFnParam) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_fn_param(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_fn_param(self, node),
         }
     }
 
     fn visit_ts_fn_params(&mut self, node: &[TsFnParam]) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_fn_params(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_fn_params(self, node),
         }
     }
 
     fn visit_ts_fn_type(&mut self, node: &TsFnType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_fn_type(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_fn_type(self, node),
         }
     }
 
     fn visit_ts_getter_signature(&mut self, node: &TsGetterSignature) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_getter_signature(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_getter_signature(self, node),
         }
     }
 
     fn visit_ts_import_equals_decl(&mut self, node: &TsImportEqualsDecl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_import_equals_decl(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_import_equals_decl(self, node),
         }
     }
 
     fn visit_ts_import_type(&mut self, node: &TsImportType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_import_type(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_import_type(self, node),
         }
     }
 
     fn visit_ts_index_signature(&mut self, node: &TsIndexSignature) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_index_signature(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_index_signature(self, node),
         }
     }
 
     fn visit_ts_indexed_access_type(&mut self, node: &TsIndexedAccessType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_indexed_access_type(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_indexed_access_type(self, node),
         }
     }
 
     fn visit_ts_infer_type(&mut self, node: &TsInferType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_infer_type(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_infer_type(self, node),
         }
     }
 
     fn visit_ts_instantiation(&mut self, node: &TsInstantiation) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_instantiation(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_instantiation(self, node),
         }
     }
 
     fn visit_ts_interface_body(&mut self, node: &TsInterfaceBody) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_interface_body(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_interface_body(self, node),
         }
     }
 
     fn visit_ts_interface_decl(&mut self, node: &TsInterfaceDecl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_interface_decl(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_interface_decl(self, node),
         }
     }
 
     fn visit_ts_intersection_type(&mut self, node: &TsIntersectionType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_intersection_type(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_intersection_type(self, node),
         }
     }
 
     fn visit_ts_keyword_type(&mut self, node: &TsKeywordType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_keyword_type(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_keyword_type(self, node),
         }
     }
 
     fn visit_ts_keyword_type_kind(&mut self, node: &TsKeywordTypeKind) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_keyword_type_kind(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_keyword_type_kind(self, node),
         }
     }
 
     fn visit_ts_lit(&mut self, node: &TsLit) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_lit(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_lit(self, node),
         }
     }
 
     fn visit_ts_lit_type(&mut self, node: &TsLitType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_lit_type(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_lit_type(self, node),
         }
     }
 
     fn visit_ts_mapped_type(&mut self, node: &TsMappedType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_mapped_type(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_mapped_type(self, node),
         }
     }
 
     fn visit_ts_method_signature(&mut self, node: &TsMethodSignature) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_method_signature(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_method_signature(self, node),
         }
     }
 
     fn visit_ts_module_block(&mut self, node: &TsModuleBlock) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_module_block(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_module_block(self, node),
         }
     }
 
     fn visit_ts_module_decl(&mut self, node: &TsModuleDecl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_module_decl(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_module_decl(self, node),
         }
     }
 
     fn visit_ts_module_name(&mut self, node: &TsModuleName) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_module_name(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_module_name(self, node),
         }
     }
 
     fn visit_ts_module_ref(&mut self, node: &TsModuleRef) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_module_ref(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_module_ref(self, node),
         }
     }
 
     fn visit_ts_namespace_body(&mut self, node: &TsNamespaceBody) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_namespace_body(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_namespace_body(self, node),
         }
     }
 
     fn visit_ts_namespace_decl(&mut self, node: &TsNamespaceDecl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_namespace_decl(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_namespace_decl(self, node),
         }
     }
 
     fn visit_ts_namespace_export_decl(&mut self, node: &TsNamespaceExportDecl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_namespace_export_decl(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_namespace_export_decl(self, node),
         }
     }
 
     fn visit_ts_non_null_expr(&mut self, node: &TsNonNullExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_non_null_expr(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_non_null_expr(self, node),
         }
     }
 
     fn visit_ts_optional_type(&mut self, node: &TsOptionalType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_optional_type(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_optional_type(self, node),
         }
     }
 
     fn visit_ts_param_prop(&mut self, node: &TsParamProp) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_param_prop(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_param_prop(self, node),
         }
     }
 
     fn visit_ts_param_prop_param(&mut self, node: &TsParamPropParam) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_param_prop_param(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_param_prop_param(self, node),
         }
     }
 
     fn visit_ts_parenthesized_type(&mut self, node: &TsParenthesizedType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_parenthesized_type(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_parenthesized_type(self, node),
         }
     }
 
     fn visit_ts_property_signature(&mut self, node: &TsPropertySignature) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_property_signature(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_property_signature(self, node),
         }
     }
 
     fn visit_ts_qualified_name(&mut self, node: &TsQualifiedName) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_qualified_name(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_qualified_name(self, node),
         }
     }
 
     fn visit_ts_rest_type(&mut self, node: &TsRestType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_rest_type(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_rest_type(self, node),
         }
     }
 
     fn visit_ts_satisfies_expr(&mut self, node: &TsSatisfiesExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_satisfies_expr(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_satisfies_expr(self, node),
         }
     }
 
     fn visit_ts_setter_signature(&mut self, node: &TsSetterSignature) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_setter_signature(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_setter_signature(self, node),
         }
     }
 
     fn visit_ts_this_type(&mut self, node: &TsThisType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_this_type(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_this_type(self, node),
         }
     }
 
     fn visit_ts_this_type_or_ident(&mut self, node: &TsThisTypeOrIdent) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_this_type_or_ident(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_this_type_or_ident(self, node),
         }
     }
 
     fn visit_ts_tpl_lit_type(&mut self, node: &TsTplLitType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_tpl_lit_type(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_tpl_lit_type(self, node),
         }
     }
 
     fn visit_ts_tuple_element(&mut self, node: &TsTupleElement) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_tuple_element(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_tuple_element(self, node),
         }
     }
 
     fn visit_ts_tuple_elements(&mut self, node: &[TsTupleElement]) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_tuple_elements(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_tuple_elements(self, node),
         }
     }
 
     fn visit_ts_tuple_type(&mut self, node: &TsTupleType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_tuple_type(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_tuple_type(self, node),
         }
     }
 
     fn visit_ts_type(&mut self, node: &TsType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_type(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_type(self, node),
         }
     }
 
     fn visit_ts_type_alias_decl(&mut self, node: &TsTypeAliasDecl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_type_alias_decl(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_type_alias_decl(self, node),
         }
     }
 
     fn visit_ts_type_ann(&mut self, node: &TsTypeAnn) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_type_ann(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_type_ann(self, node),
         }
     }
 
     fn visit_ts_type_assertion(&mut self, node: &TsTypeAssertion) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_type_assertion(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_type_assertion(self, node),
         }
     }
 
     fn visit_ts_type_element(&mut self, node: &TsTypeElement) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_type_element(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_type_element(self, node),
         }
     }
 
     fn visit_ts_type_elements(&mut self, node: &[TsTypeElement]) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_type_elements(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_type_elements(self, node),
         }
     }
 
     fn visit_ts_type_lit(&mut self, node: &TsTypeLit) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_type_lit(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_type_lit(self, node),
         }
     }
 
     fn visit_ts_type_operator(&mut self, node: &TsTypeOperator) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_type_operator(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_type_operator(self, node),
         }
     }
 
     fn visit_ts_type_operator_op(&mut self, node: &TsTypeOperatorOp) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_type_operator_op(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_type_operator_op(self, node),
         }
     }
 
     fn visit_ts_type_param(&mut self, node: &TsTypeParam) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_type_param(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_type_param(self, node),
         }
     }
 
     fn visit_ts_type_param_decl(&mut self, node: &TsTypeParamDecl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_type_param_decl(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_type_param_decl(self, node),
         }
     }
 
     fn visit_ts_type_param_instantiation(&mut self, node: &TsTypeParamInstantiation) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 Visit::visit_ts_type_param_instantiation(self, node)
             }
@@ -6040,49 +6040,49 @@ where
     }
 
     fn visit_ts_type_params(&mut self, node: &[TsTypeParam]) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_type_params(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_type_params(self, node),
         }
     }
 
     fn visit_ts_type_predicate(&mut self, node: &TsTypePredicate) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_type_predicate(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_type_predicate(self, node),
         }
     }
 
     fn visit_ts_type_query(&mut self, node: &TsTypeQuery) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_type_query(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_type_query(self, node),
         }
     }
 
     fn visit_ts_type_query_expr(&mut self, node: &TsTypeQueryExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_type_query_expr(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_type_query_expr(self, node),
         }
     }
 
     fn visit_ts_type_ref(&mut self, node: &TsTypeRef) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_type_ref(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_type_ref(self, node),
         }
     }
 
     fn visit_ts_types(&mut self, node: &[Box<TsType>]) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_types(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_types(self, node),
         }
     }
 
     fn visit_ts_union_or_intersection_type(&mut self, node: &TsUnionOrIntersectionType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 Visit::visit_ts_union_or_intersection_type(self, node)
             }
@@ -6093,98 +6093,98 @@ where
     }
 
     fn visit_ts_union_type(&mut self, node: &TsUnionType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_ts_union_type(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_ts_union_type(self, node),
         }
     }
 
     fn visit_unary_expr(&mut self, node: &UnaryExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_unary_expr(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_unary_expr(self, node),
         }
     }
 
     fn visit_unary_op(&mut self, node: &UnaryOp) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_unary_op(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_unary_op(self, node),
         }
     }
 
     fn visit_update_expr(&mut self, node: &UpdateExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_update_expr(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_update_expr(self, node),
         }
     }
 
     fn visit_update_op(&mut self, node: &UpdateOp) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_update_op(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_update_op(self, node),
         }
     }
 
     fn visit_using_decl(&mut self, node: &UsingDecl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_using_decl(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_using_decl(self, node),
         }
     }
 
     fn visit_var_decl(&mut self, node: &VarDecl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_var_decl(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_var_decl(self, node),
         }
     }
 
     fn visit_var_decl_kind(&mut self, node: &VarDeclKind) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_var_decl_kind(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_var_decl_kind(self, node),
         }
     }
 
     fn visit_var_decl_or_expr(&mut self, node: &VarDeclOrExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_var_decl_or_expr(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_var_decl_or_expr(self, node),
         }
     }
 
     fn visit_var_declarator(&mut self, node: &VarDeclarator) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_var_declarator(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_var_declarator(self, node),
         }
     }
 
     fn visit_var_declarators(&mut self, node: &[VarDeclarator]) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_var_declarators(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_var_declarators(self, node),
         }
     }
 
     fn visit_while_stmt(&mut self, node: &WhileStmt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_while_stmt(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_while_stmt(self, node),
         }
     }
 
     fn visit_with_stmt(&mut self, node: &WithStmt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_with_stmt(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_with_stmt(self, node),
         }
     }
 
     fn visit_yield_expr(&mut self, node: &YieldExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Visit::visit_yield_expr(self, node),
             swc_visit::Either::Right(visitor) => Visit::visit_yield_expr(self, node),
         }
@@ -21322,7 +21322,7 @@ where
         node: &'ast Accessibility,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_accessibility(self, node, ast_path)
             }
@@ -21337,7 +21337,7 @@ where
         node: &'ast ArrayLit,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_array_lit(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 VisitAstPath::visit_array_lit(self, node, ast_path)
@@ -21350,7 +21350,7 @@ where
         node: &'ast ArrayPat,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_array_pat(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 VisitAstPath::visit_array_pat(self, node, ast_path)
@@ -21363,7 +21363,7 @@ where
         node: &'ast ArrowExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_arrow_expr(self, node, ast_path)
             }
@@ -21378,7 +21378,7 @@ where
         node: &'ast AssignExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_assign_expr(self, node, ast_path)
             }
@@ -21393,7 +21393,7 @@ where
         node: &'ast AssignOp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_assign_op(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 VisitAstPath::visit_assign_op(self, node, ast_path)
@@ -21406,7 +21406,7 @@ where
         node: &'ast AssignPat,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_assign_pat(self, node, ast_path)
             }
@@ -21421,7 +21421,7 @@ where
         node: &'ast AssignPatProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_assign_pat_prop(self, node, ast_path)
             }
@@ -21436,7 +21436,7 @@ where
         node: &'ast AssignProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_assign_prop(self, node, ast_path)
             }
@@ -21451,7 +21451,7 @@ where
         node: &'ast AssignTarget,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_assign_target(self, node, ast_path)
             }
@@ -21466,7 +21466,7 @@ where
         node: &'ast AssignTargetPat,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_assign_target_pat(self, node, ast_path)
             }
@@ -21481,7 +21481,7 @@ where
         node: &'ast swc_atoms::Atom,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_atom(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_atom(self, node, ast_path),
         }
@@ -21492,7 +21492,7 @@ where
         node: &'ast AutoAccessor,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_auto_accessor(self, node, ast_path)
             }
@@ -21507,7 +21507,7 @@ where
         node: &'ast AwaitExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_await_expr(self, node, ast_path)
             }
@@ -21518,7 +21518,7 @@ where
     }
 
     fn visit_big_int<'ast: 'r, 'r>(&mut self, node: &'ast BigInt, ast_path: &mut AstNodePath<'r>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_big_int(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_big_int(self, node, ast_path),
         }
@@ -21529,7 +21529,7 @@ where
         node: &'ast BigIntValue,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_big_int_value(self, node, ast_path)
             }
@@ -21544,7 +21544,7 @@ where
         node: &'ast BinExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_bin_expr(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_bin_expr(self, node, ast_path),
         }
@@ -21555,7 +21555,7 @@ where
         node: &'ast BinaryOp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_binary_op(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 VisitAstPath::visit_binary_op(self, node, ast_path)
@@ -21568,7 +21568,7 @@ where
         node: &'ast BindingIdent,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_binding_ident(self, node, ast_path)
             }
@@ -21583,7 +21583,7 @@ where
         node: &'ast BlockStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_block_stmt(self, node, ast_path)
             }
@@ -21598,7 +21598,7 @@ where
         node: &'ast BlockStmtOrExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_block_stmt_or_expr(self, node, ast_path)
             }
@@ -21609,7 +21609,7 @@ where
     }
 
     fn visit_bool<'ast: 'r, 'r>(&mut self, node: &'ast Bool, ast_path: &mut AstNodePath<'r>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_bool(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_bool(self, node, ast_path),
         }
@@ -21620,7 +21620,7 @@ where
         node: &'ast BreakStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_break_stmt(self, node, ast_path)
             }
@@ -21635,7 +21635,7 @@ where
         node: &'ast CallExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_call_expr(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 VisitAstPath::visit_call_expr(self, node, ast_path)
@@ -21644,7 +21644,7 @@ where
     }
 
     fn visit_callee<'ast: 'r, 'r>(&mut self, node: &'ast Callee, ast_path: &mut AstNodePath<'r>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_callee(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_callee(self, node, ast_path),
         }
@@ -21655,7 +21655,7 @@ where
         node: &'ast CatchClause,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_catch_clause(self, node, ast_path)
             }
@@ -21666,7 +21666,7 @@ where
     }
 
     fn visit_class<'ast: 'r, 'r>(&mut self, node: &'ast Class, ast_path: &mut AstNodePath<'r>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_class(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_class(self, node, ast_path),
         }
@@ -21677,7 +21677,7 @@ where
         node: &'ast ClassDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_class_decl(self, node, ast_path)
             }
@@ -21692,7 +21692,7 @@ where
         node: &'ast ClassExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_class_expr(self, node, ast_path)
             }
@@ -21707,7 +21707,7 @@ where
         node: &'ast ClassMember,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_class_member(self, node, ast_path)
             }
@@ -21722,7 +21722,7 @@ where
         node: &'ast [ClassMember],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_class_members(self, node, ast_path)
             }
@@ -21737,7 +21737,7 @@ where
         node: &'ast ClassMethod,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_class_method(self, node, ast_path)
             }
@@ -21752,7 +21752,7 @@ where
         node: &'ast ClassProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_class_prop(self, node, ast_path)
             }
@@ -21767,7 +21767,7 @@ where
         node: &'ast ComputedPropName,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_computed_prop_name(self, node, ast_path)
             }
@@ -21782,7 +21782,7 @@ where
         node: &'ast CondExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_cond_expr(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 VisitAstPath::visit_cond_expr(self, node, ast_path)
@@ -21795,7 +21795,7 @@ where
         node: &'ast Constructor,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_constructor(self, node, ast_path)
             }
@@ -21810,7 +21810,7 @@ where
         node: &'ast ContinueStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_continue_stmt(self, node, ast_path)
             }
@@ -21825,7 +21825,7 @@ where
         node: &'ast DebuggerStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_debugger_stmt(self, node, ast_path)
             }
@@ -21836,7 +21836,7 @@ where
     }
 
     fn visit_decl<'ast: 'r, 'r>(&mut self, node: &'ast Decl, ast_path: &mut AstNodePath<'r>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_decl(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_decl(self, node, ast_path),
         }
@@ -21847,7 +21847,7 @@ where
         node: &'ast Decorator,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_decorator(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 VisitAstPath::visit_decorator(self, node, ast_path)
@@ -21860,7 +21860,7 @@ where
         node: &'ast [Decorator],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_decorators(self, node, ast_path)
             }
@@ -21875,7 +21875,7 @@ where
         node: &'ast DefaultDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_default_decl(self, node, ast_path)
             }
@@ -21890,7 +21890,7 @@ where
         node: &'ast DoWhileStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_do_while_stmt(self, node, ast_path)
             }
@@ -21905,7 +21905,7 @@ where
         node: &'ast EmptyStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_empty_stmt(self, node, ast_path)
             }
@@ -21920,7 +21920,7 @@ where
         node: &'ast EsVersion,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_es_version(self, node, ast_path)
             }
@@ -21935,7 +21935,7 @@ where
         node: &'ast ExportAll,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_export_all(self, node, ast_path)
             }
@@ -21950,7 +21950,7 @@ where
         node: &'ast ExportDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_export_decl(self, node, ast_path)
             }
@@ -21965,7 +21965,7 @@ where
         node: &'ast ExportDefaultDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_export_default_decl(self, node, ast_path)
             }
@@ -21980,7 +21980,7 @@ where
         node: &'ast ExportDefaultExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_export_default_expr(self, node, ast_path)
             }
@@ -21995,7 +21995,7 @@ where
         node: &'ast ExportDefaultSpecifier,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_export_default_specifier(self, node, ast_path)
             }
@@ -22010,7 +22010,7 @@ where
         node: &'ast ExportNamedSpecifier,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_export_named_specifier(self, node, ast_path)
             }
@@ -22025,7 +22025,7 @@ where
         node: &'ast ExportNamespaceSpecifier,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_export_namespace_specifier(self, node, ast_path)
             }
@@ -22040,7 +22040,7 @@ where
         node: &'ast ExportSpecifier,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_export_specifier(self, node, ast_path)
             }
@@ -22055,7 +22055,7 @@ where
         node: &'ast [ExportSpecifier],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_export_specifiers(self, node, ast_path)
             }
@@ -22066,7 +22066,7 @@ where
     }
 
     fn visit_expr<'ast: 'r, 'r>(&mut self, node: &'ast Expr, ast_path: &mut AstNodePath<'r>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_expr(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_expr(self, node, ast_path),
         }
@@ -22077,7 +22077,7 @@ where
         node: &'ast ExprOrSpread,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_expr_or_spread(self, node, ast_path)
             }
@@ -22092,7 +22092,7 @@ where
         node: &'ast [ExprOrSpread],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_expr_or_spreads(self, node, ast_path)
             }
@@ -22107,7 +22107,7 @@ where
         node: &'ast ExprStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_expr_stmt(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 VisitAstPath::visit_expr_stmt(self, node, ast_path)
@@ -22120,21 +22120,21 @@ where
         node: &'ast [Box<Expr>],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_exprs(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_exprs(self, node, ast_path),
         }
     }
 
     fn visit_fn_decl<'ast: 'r, 'r>(&mut self, node: &'ast FnDecl, ast_path: &mut AstNodePath<'r>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_fn_decl(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_fn_decl(self, node, ast_path),
         }
     }
 
     fn visit_fn_expr<'ast: 'r, 'r>(&mut self, node: &'ast FnExpr, ast_path: &mut AstNodePath<'r>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_fn_expr(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_fn_expr(self, node, ast_path),
         }
@@ -22145,7 +22145,7 @@ where
         node: &'ast ForHead,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_for_head(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_for_head(self, node, ast_path),
         }
@@ -22156,7 +22156,7 @@ where
         node: &'ast ForInStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_for_in_stmt(self, node, ast_path)
             }
@@ -22171,7 +22171,7 @@ where
         node: &'ast ForOfStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_for_of_stmt(self, node, ast_path)
             }
@@ -22186,7 +22186,7 @@ where
         node: &'ast ForStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_for_stmt(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_for_stmt(self, node, ast_path),
         }
@@ -22197,7 +22197,7 @@ where
         node: &'ast Function,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_function(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_function(self, node, ast_path),
         }
@@ -22208,7 +22208,7 @@ where
         node: &'ast GetterProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_getter_prop(self, node, ast_path)
             }
@@ -22219,7 +22219,7 @@ where
     }
 
     fn visit_ident<'ast: 'r, 'r>(&mut self, node: &'ast Ident, ast_path: &mut AstNodePath<'r>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_ident(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_ident(self, node, ast_path),
         }
@@ -22230,7 +22230,7 @@ where
         node: &'ast IdentName,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ident_name(self, node, ast_path)
             }
@@ -22241,14 +22241,14 @@ where
     }
 
     fn visit_if_stmt<'ast: 'r, 'r>(&mut self, node: &'ast IfStmt, ast_path: &mut AstNodePath<'r>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_if_stmt(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_if_stmt(self, node, ast_path),
         }
     }
 
     fn visit_import<'ast: 'r, 'r>(&mut self, node: &'ast Import, ast_path: &mut AstNodePath<'r>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_import(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_import(self, node, ast_path),
         }
@@ -22259,7 +22259,7 @@ where
         node: &'ast ImportDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_import_decl(self, node, ast_path)
             }
@@ -22274,7 +22274,7 @@ where
         node: &'ast ImportDefaultSpecifier,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_import_default_specifier(self, node, ast_path)
             }
@@ -22289,7 +22289,7 @@ where
         node: &'ast ImportNamedSpecifier,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_import_named_specifier(self, node, ast_path)
             }
@@ -22304,7 +22304,7 @@ where
         node: &'ast ImportPhase,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_import_phase(self, node, ast_path)
             }
@@ -22319,7 +22319,7 @@ where
         node: &'ast ImportSpecifier,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_import_specifier(self, node, ast_path)
             }
@@ -22334,7 +22334,7 @@ where
         node: &'ast [ImportSpecifier],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_import_specifiers(self, node, ast_path)
             }
@@ -22349,7 +22349,7 @@ where
         node: &'ast ImportStarAsSpecifier,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_import_star_as_specifier(self, node, ast_path)
             }
@@ -22364,7 +22364,7 @@ where
         node: &'ast ImportWith,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_import_with(self, node, ast_path)
             }
@@ -22379,7 +22379,7 @@ where
         node: &'ast ImportWithItem,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_import_with_item(self, node, ast_path)
             }
@@ -22394,7 +22394,7 @@ where
         node: &'ast [ImportWithItem],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_import_with_items(self, node, ast_path)
             }
@@ -22405,7 +22405,7 @@ where
     }
 
     fn visit_invalid<'ast: 'r, 'r>(&mut self, node: &'ast Invalid, ast_path: &mut AstNodePath<'r>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_invalid(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_invalid(self, node, ast_path),
         }
@@ -22416,7 +22416,7 @@ where
         node: &'ast JSXAttr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_jsx_attr(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_jsx_attr(self, node, ast_path),
         }
@@ -22427,7 +22427,7 @@ where
         node: &'ast JSXAttrName,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_jsx_attr_name(self, node, ast_path)
             }
@@ -22442,7 +22442,7 @@ where
         node: &'ast JSXAttrOrSpread,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_jsx_attr_or_spread(self, node, ast_path)
             }
@@ -22457,7 +22457,7 @@ where
         node: &'ast [JSXAttrOrSpread],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_jsx_attr_or_spreads(self, node, ast_path)
             }
@@ -22472,7 +22472,7 @@ where
         node: &'ast JSXAttrValue,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_jsx_attr_value(self, node, ast_path)
             }
@@ -22487,7 +22487,7 @@ where
         node: &'ast JSXClosingElement,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_jsx_closing_element(self, node, ast_path)
             }
@@ -22502,7 +22502,7 @@ where
         node: &'ast JSXClosingFragment,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_jsx_closing_fragment(self, node, ast_path)
             }
@@ -22517,7 +22517,7 @@ where
         node: &'ast JSXElement,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_jsx_element(self, node, ast_path)
             }
@@ -22532,7 +22532,7 @@ where
         node: &'ast JSXElementChild,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_jsx_element_child(self, node, ast_path)
             }
@@ -22547,7 +22547,7 @@ where
         node: &'ast [JSXElementChild],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_jsx_element_childs(self, node, ast_path)
             }
@@ -22562,7 +22562,7 @@ where
         node: &'ast JSXElementName,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_jsx_element_name(self, node, ast_path)
             }
@@ -22577,7 +22577,7 @@ where
         node: &'ast JSXEmptyExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_jsx_empty_expr(self, node, ast_path)
             }
@@ -22592,7 +22592,7 @@ where
         node: &'ast JSXExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_jsx_expr(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_jsx_expr(self, node, ast_path),
         }
@@ -22603,7 +22603,7 @@ where
         node: &'ast JSXExprContainer,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_jsx_expr_container(self, node, ast_path)
             }
@@ -22618,7 +22618,7 @@ where
         node: &'ast JSXFragment,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_jsx_fragment(self, node, ast_path)
             }
@@ -22633,7 +22633,7 @@ where
         node: &'ast JSXMemberExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_jsx_member_expr(self, node, ast_path)
             }
@@ -22648,7 +22648,7 @@ where
         node: &'ast JSXNamespacedName,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_jsx_namespaced_name(self, node, ast_path)
             }
@@ -22663,7 +22663,7 @@ where
         node: &'ast JSXObject,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_jsx_object(self, node, ast_path)
             }
@@ -22678,7 +22678,7 @@ where
         node: &'ast JSXOpeningElement,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_jsx_opening_element(self, node, ast_path)
             }
@@ -22693,7 +22693,7 @@ where
         node: &'ast JSXOpeningFragment,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_jsx_opening_fragment(self, node, ast_path)
             }
@@ -22708,7 +22708,7 @@ where
         node: &'ast JSXSpreadChild,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_jsx_spread_child(self, node, ast_path)
             }
@@ -22723,14 +22723,14 @@ where
         node: &'ast JSXText,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_jsx_text(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_jsx_text(self, node, ast_path),
         }
     }
 
     fn visit_key<'ast: 'r, 'r>(&mut self, node: &'ast Key, ast_path: &mut AstNodePath<'r>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_key(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_key(self, node, ast_path),
         }
@@ -22741,7 +22741,7 @@ where
         node: &'ast KeyValuePatProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_key_value_pat_prop(self, node, ast_path)
             }
@@ -22756,7 +22756,7 @@ where
         node: &'ast KeyValueProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_key_value_prop(self, node, ast_path)
             }
@@ -22771,7 +22771,7 @@ where
         node: &'ast LabeledStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_labeled_stmt(self, node, ast_path)
             }
@@ -22782,7 +22782,7 @@ where
     }
 
     fn visit_lit<'ast: 'r, 'r>(&mut self, node: &'ast Lit, ast_path: &mut AstNodePath<'r>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_lit(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_lit(self, node, ast_path),
         }
@@ -22793,7 +22793,7 @@ where
         node: &'ast MemberExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_member_expr(self, node, ast_path)
             }
@@ -22808,7 +22808,7 @@ where
         node: &'ast MemberProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_member_prop(self, node, ast_path)
             }
@@ -22823,7 +22823,7 @@ where
         node: &'ast MetaPropExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_meta_prop_expr(self, node, ast_path)
             }
@@ -22838,7 +22838,7 @@ where
         node: &'ast MetaPropKind,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_meta_prop_kind(self, node, ast_path)
             }
@@ -22853,7 +22853,7 @@ where
         node: &'ast MethodKind,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_method_kind(self, node, ast_path)
             }
@@ -22868,7 +22868,7 @@ where
         node: &'ast MethodProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_method_prop(self, node, ast_path)
             }
@@ -22879,7 +22879,7 @@ where
     }
 
     fn visit_module<'ast: 'r, 'r>(&mut self, node: &'ast Module, ast_path: &mut AstNodePath<'r>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_module(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_module(self, node, ast_path),
         }
@@ -22890,7 +22890,7 @@ where
         node: &'ast ModuleDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_module_decl(self, node, ast_path)
             }
@@ -22905,7 +22905,7 @@ where
         node: &'ast ModuleExportName,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_module_export_name(self, node, ast_path)
             }
@@ -22920,7 +22920,7 @@ where
         node: &'ast ModuleItem,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_module_item(self, node, ast_path)
             }
@@ -22935,7 +22935,7 @@ where
         node: &'ast [ModuleItem],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_module_items(self, node, ast_path)
             }
@@ -22950,7 +22950,7 @@ where
         node: &'ast NamedExport,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_named_export(self, node, ast_path)
             }
@@ -22965,21 +22965,21 @@ where
         node: &'ast NewExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_new_expr(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_new_expr(self, node, ast_path),
         }
     }
 
     fn visit_null<'ast: 'r, 'r>(&mut self, node: &'ast Null, ast_path: &mut AstNodePath<'r>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_null(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_null(self, node, ast_path),
         }
     }
 
     fn visit_number<'ast: 'r, 'r>(&mut self, node: &'ast Number, ast_path: &mut AstNodePath<'r>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_number(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_number(self, node, ast_path),
         }
@@ -22990,7 +22990,7 @@ where
         node: &'ast ObjectLit,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_object_lit(self, node, ast_path)
             }
@@ -23005,7 +23005,7 @@ where
         node: &'ast ObjectPat,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_object_pat(self, node, ast_path)
             }
@@ -23020,7 +23020,7 @@ where
         node: &'ast ObjectPatProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_object_pat_prop(self, node, ast_path)
             }
@@ -23035,7 +23035,7 @@ where
         node: &'ast [ObjectPatProp],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_object_pat_props(self, node, ast_path)
             }
@@ -23050,7 +23050,7 @@ where
         node: &'ast Option<Accessibility>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_opt_accessibility(self, node, ast_path)
             }
@@ -23065,7 +23065,7 @@ where
         node: &'ast Option<swc_atoms::Atom>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_opt_atom(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_opt_atom(self, node, ast_path),
         }
@@ -23076,7 +23076,7 @@ where
         node: &'ast Option<BlockStmt>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_opt_block_stmt(self, node, ast_path)
             }
@@ -23091,7 +23091,7 @@ where
         node: &'ast OptCall,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_opt_call(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_opt_call(self, node, ast_path),
         }
@@ -23102,7 +23102,7 @@ where
         node: &'ast Option<CatchClause>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_opt_catch_clause(self, node, ast_path)
             }
@@ -23117,7 +23117,7 @@ where
         node: &'ast OptChainBase,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_opt_chain_base(self, node, ast_path)
             }
@@ -23132,7 +23132,7 @@ where
         node: &'ast OptChainExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_opt_chain_expr(self, node, ast_path)
             }
@@ -23147,7 +23147,7 @@ where
         node: &'ast Option<Box<Expr>>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_opt_expr(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_opt_expr(self, node, ast_path),
         }
@@ -23158,7 +23158,7 @@ where
         node: &'ast Option<ExprOrSpread>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_opt_expr_or_spread(self, node, ast_path)
             }
@@ -23173,7 +23173,7 @@ where
         node: &'ast Option<Vec<ExprOrSpread>>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_opt_expr_or_spreads(self, node, ast_path)
             }
@@ -23188,7 +23188,7 @@ where
         node: &'ast Option<Ident>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_opt_ident(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 VisitAstPath::visit_opt_ident(self, node, ast_path)
@@ -23201,7 +23201,7 @@ where
         node: &'ast Option<JSXAttrValue>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_opt_jsx_attr_value(self, node, ast_path)
             }
@@ -23216,7 +23216,7 @@ where
         node: &'ast Option<JSXClosingElement>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_opt_jsx_closing_element(self, node, ast_path)
             }
@@ -23231,7 +23231,7 @@ where
         node: &'ast Option<ModuleExportName>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_opt_module_export_name(self, node, ast_path)
             }
@@ -23246,7 +23246,7 @@ where
         node: &'ast Option<Vec<ModuleItem>>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_opt_module_items(self, node, ast_path)
             }
@@ -23261,7 +23261,7 @@ where
         node: &'ast Option<Box<ObjectLit>>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_opt_object_lit(self, node, ast_path)
             }
@@ -23276,7 +23276,7 @@ where
         node: &'ast Option<Pat>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_opt_pat(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_opt_pat(self, node, ast_path),
         }
@@ -23287,7 +23287,7 @@ where
         node: &'ast Option<swc_common::Span>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_opt_span(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_opt_span(self, node, ast_path),
         }
@@ -23298,7 +23298,7 @@ where
         node: &'ast Option<Box<Stmt>>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_opt_stmt(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_opt_stmt(self, node, ast_path),
         }
@@ -23309,7 +23309,7 @@ where
         node: &'ast Option<Box<Str>>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_opt_str(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_opt_str(self, node, ast_path),
         }
@@ -23320,7 +23320,7 @@ where
         node: &'ast Option<TruePlusMinus>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_opt_true_plus_minus(self, node, ast_path)
             }
@@ -23335,7 +23335,7 @@ where
         node: &'ast Option<TsEntityName>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_opt_ts_entity_name(self, node, ast_path)
             }
@@ -23350,7 +23350,7 @@ where
         node: &'ast Option<TsNamespaceBody>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_opt_ts_namespace_body(self, node, ast_path)
             }
@@ -23365,7 +23365,7 @@ where
         node: &'ast Option<Box<TsType>>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_opt_ts_type(self, node, ast_path)
             }
@@ -23380,7 +23380,7 @@ where
         node: &'ast Option<Box<TsTypeAnn>>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_opt_ts_type_ann(self, node, ast_path)
             }
@@ -23395,7 +23395,7 @@ where
         node: &'ast Option<Box<TsTypeParamDecl>>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_opt_ts_type_param_decl(self, node, ast_path)
             }
@@ -23410,7 +23410,7 @@ where
         node: &'ast Option<Box<TsTypeParamInstantiation>>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_opt_ts_type_param_instantiation(self, node, ast_path)
             }
@@ -23425,7 +23425,7 @@ where
         node: &'ast Option<VarDeclOrExpr>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_opt_var_decl_or_expr(self, node, ast_path)
             }
@@ -23440,7 +23440,7 @@ where
         node: &'ast [Option<ExprOrSpread>],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_opt_vec_expr_or_spreads(self, node, ast_path)
             }
@@ -23455,7 +23455,7 @@ where
         node: &'ast [Option<Pat>],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_opt_vec_pats(self, node, ast_path)
             }
@@ -23466,7 +23466,7 @@ where
     }
 
     fn visit_param<'ast: 'r, 'r>(&mut self, node: &'ast Param, ast_path: &mut AstNodePath<'r>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_param(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_param(self, node, ast_path),
         }
@@ -23477,7 +23477,7 @@ where
         node: &'ast ParamOrTsParamProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_param_or_ts_param_prop(self, node, ast_path)
             }
@@ -23492,7 +23492,7 @@ where
         node: &'ast [ParamOrTsParamProp],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_param_or_ts_param_props(self, node, ast_path)
             }
@@ -23503,7 +23503,7 @@ where
     }
 
     fn visit_params<'ast: 'r, 'r>(&mut self, node: &'ast [Param], ast_path: &mut AstNodePath<'r>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_params(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_params(self, node, ast_path),
         }
@@ -23514,7 +23514,7 @@ where
         node: &'ast ParenExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_paren_expr(self, node, ast_path)
             }
@@ -23525,14 +23525,14 @@ where
     }
 
     fn visit_pat<'ast: 'r, 'r>(&mut self, node: &'ast Pat, ast_path: &mut AstNodePath<'r>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_pat(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_pat(self, node, ast_path),
         }
     }
 
     fn visit_pats<'ast: 'r, 'r>(&mut self, node: &'ast [Pat], ast_path: &mut AstNodePath<'r>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_pats(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_pats(self, node, ast_path),
         }
@@ -23543,7 +23543,7 @@ where
         node: &'ast PrivateMethod,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_private_method(self, node, ast_path)
             }
@@ -23558,7 +23558,7 @@ where
         node: &'ast PrivateName,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_private_name(self, node, ast_path)
             }
@@ -23573,7 +23573,7 @@ where
         node: &'ast PrivateProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_private_prop(self, node, ast_path)
             }
@@ -23584,14 +23584,14 @@ where
     }
 
     fn visit_program<'ast: 'r, 'r>(&mut self, node: &'ast Program, ast_path: &mut AstNodePath<'r>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_program(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_program(self, node, ast_path),
         }
     }
 
     fn visit_prop<'ast: 'r, 'r>(&mut self, node: &'ast Prop, ast_path: &mut AstNodePath<'r>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_prop(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_prop(self, node, ast_path),
         }
@@ -23602,7 +23602,7 @@ where
         node: &'ast PropName,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_prop_name(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 VisitAstPath::visit_prop_name(self, node, ast_path)
@@ -23615,7 +23615,7 @@ where
         node: &'ast PropOrSpread,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_prop_or_spread(self, node, ast_path)
             }
@@ -23630,7 +23630,7 @@ where
         node: &'ast [PropOrSpread],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_prop_or_spreads(self, node, ast_path)
             }
@@ -23641,7 +23641,7 @@ where
     }
 
     fn visit_regex<'ast: 'r, 'r>(&mut self, node: &'ast Regex, ast_path: &mut AstNodePath<'r>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_regex(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_regex(self, node, ast_path),
         }
@@ -23652,7 +23652,7 @@ where
         node: &'ast ReservedUnused,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_reserved_unused(self, node, ast_path)
             }
@@ -23667,7 +23667,7 @@ where
         node: &'ast RestPat,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_rest_pat(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_rest_pat(self, node, ast_path),
         }
@@ -23678,7 +23678,7 @@ where
         node: &'ast ReturnStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_return_stmt(self, node, ast_path)
             }
@@ -23689,7 +23689,7 @@ where
     }
 
     fn visit_script<'ast: 'r, 'r>(&mut self, node: &'ast Script, ast_path: &mut AstNodePath<'r>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_script(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_script(self, node, ast_path),
         }
@@ -23700,7 +23700,7 @@ where
         node: &'ast SeqExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_seq_expr(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_seq_expr(self, node, ast_path),
         }
@@ -23711,7 +23711,7 @@ where
         node: &'ast SetterProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_setter_prop(self, node, ast_path)
             }
@@ -23726,7 +23726,7 @@ where
         node: &'ast SimpleAssignTarget,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_simple_assign_target(self, node, ast_path)
             }
@@ -23741,7 +23741,7 @@ where
         node: &'ast swc_common::Span,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_span(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_span(self, node, ast_path),
         }
@@ -23752,7 +23752,7 @@ where
         node: &'ast SpreadElement,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_spread_element(self, node, ast_path)
             }
@@ -23767,7 +23767,7 @@ where
         node: &'ast StaticBlock,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_static_block(self, node, ast_path)
             }
@@ -23778,28 +23778,28 @@ where
     }
 
     fn visit_stmt<'ast: 'r, 'r>(&mut self, node: &'ast Stmt, ast_path: &mut AstNodePath<'r>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_stmt(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_stmt(self, node, ast_path),
         }
     }
 
     fn visit_stmts<'ast: 'r, 'r>(&mut self, node: &'ast [Stmt], ast_path: &mut AstNodePath<'r>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_stmts(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_stmts(self, node, ast_path),
         }
     }
 
     fn visit_str<'ast: 'r, 'r>(&mut self, node: &'ast Str, ast_path: &mut AstNodePath<'r>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_str(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_str(self, node, ast_path),
         }
     }
 
     fn visit_super<'ast: 'r, 'r>(&mut self, node: &'ast Super, ast_path: &mut AstNodePath<'r>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_super(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_super(self, node, ast_path),
         }
@@ -23810,7 +23810,7 @@ where
         node: &'ast SuperProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_super_prop(self, node, ast_path)
             }
@@ -23825,7 +23825,7 @@ where
         node: &'ast SuperPropExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_super_prop_expr(self, node, ast_path)
             }
@@ -23840,7 +23840,7 @@ where
         node: &'ast SwitchCase,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_switch_case(self, node, ast_path)
             }
@@ -23855,7 +23855,7 @@ where
         node: &'ast [SwitchCase],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_switch_cases(self, node, ast_path)
             }
@@ -23870,7 +23870,7 @@ where
         node: &'ast SwitchStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_switch_stmt(self, node, ast_path)
             }
@@ -23885,7 +23885,7 @@ where
         node: &'ast swc_common::SyntaxContext,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_syntax_context(self, node, ast_path)
             }
@@ -23900,7 +23900,7 @@ where
         node: &'ast TaggedTpl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_tagged_tpl(self, node, ast_path)
             }
@@ -23915,7 +23915,7 @@ where
         node: &'ast ThisExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_this_expr(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 VisitAstPath::visit_this_expr(self, node, ast_path)
@@ -23928,7 +23928,7 @@ where
         node: &'ast ThrowStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_throw_stmt(self, node, ast_path)
             }
@@ -23939,7 +23939,7 @@ where
     }
 
     fn visit_tpl<'ast: 'r, 'r>(&mut self, node: &'ast Tpl, ast_path: &mut AstNodePath<'r>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_tpl(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_tpl(self, node, ast_path),
         }
@@ -23950,7 +23950,7 @@ where
         node: &'ast TplElement,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_tpl_element(self, node, ast_path)
             }
@@ -23965,7 +23965,7 @@ where
         node: &'ast [TplElement],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_tpl_elements(self, node, ast_path)
             }
@@ -23980,7 +23980,7 @@ where
         node: &'ast TruePlusMinus,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_true_plus_minus(self, node, ast_path)
             }
@@ -23995,7 +23995,7 @@ where
         node: &'ast TryStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_try_stmt(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_try_stmt(self, node, ast_path),
         }
@@ -24006,7 +24006,7 @@ where
         node: &'ast TsArrayType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_array_type(self, node, ast_path)
             }
@@ -24021,7 +24021,7 @@ where
         node: &'ast TsAsExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_as_expr(self, node, ast_path)
             }
@@ -24036,7 +24036,7 @@ where
         node: &'ast TsCallSignatureDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_call_signature_decl(self, node, ast_path)
             }
@@ -24051,7 +24051,7 @@ where
         node: &'ast TsConditionalType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_conditional_type(self, node, ast_path)
             }
@@ -24066,7 +24066,7 @@ where
         node: &'ast TsConstAssertion,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_const_assertion(self, node, ast_path)
             }
@@ -24081,7 +24081,7 @@ where
         node: &'ast TsConstructSignatureDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_construct_signature_decl(self, node, ast_path)
             }
@@ -24096,7 +24096,7 @@ where
         node: &'ast TsConstructorType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_constructor_type(self, node, ast_path)
             }
@@ -24111,7 +24111,7 @@ where
         node: &'ast TsEntityName,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_entity_name(self, node, ast_path)
             }
@@ -24126,7 +24126,7 @@ where
         node: &'ast TsEnumDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_enum_decl(self, node, ast_path)
             }
@@ -24141,7 +24141,7 @@ where
         node: &'ast TsEnumMember,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_enum_member(self, node, ast_path)
             }
@@ -24156,7 +24156,7 @@ where
         node: &'ast TsEnumMemberId,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_enum_member_id(self, node, ast_path)
             }
@@ -24171,7 +24171,7 @@ where
         node: &'ast [TsEnumMember],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_enum_members(self, node, ast_path)
             }
@@ -24186,7 +24186,7 @@ where
         node: &'ast TsExportAssignment,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_export_assignment(self, node, ast_path)
             }
@@ -24201,7 +24201,7 @@ where
         node: &'ast TsExprWithTypeArgs,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_expr_with_type_args(self, node, ast_path)
             }
@@ -24216,7 +24216,7 @@ where
         node: &'ast [TsExprWithTypeArgs],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_expr_with_type_argss(self, node, ast_path)
             }
@@ -24231,7 +24231,7 @@ where
         node: &'ast TsExternalModuleRef,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_external_module_ref(self, node, ast_path)
             }
@@ -24246,7 +24246,7 @@ where
         node: &'ast TsFnOrConstructorType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_fn_or_constructor_type(self, node, ast_path)
             }
@@ -24261,7 +24261,7 @@ where
         node: &'ast TsFnParam,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_fn_param(self, node, ast_path)
             }
@@ -24276,7 +24276,7 @@ where
         node: &'ast [TsFnParam],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_fn_params(self, node, ast_path)
             }
@@ -24291,7 +24291,7 @@ where
         node: &'ast TsFnType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_fn_type(self, node, ast_path)
             }
@@ -24306,7 +24306,7 @@ where
         node: &'ast TsGetterSignature,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_getter_signature(self, node, ast_path)
             }
@@ -24321,7 +24321,7 @@ where
         node: &'ast TsImportEqualsDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_import_equals_decl(self, node, ast_path)
             }
@@ -24336,7 +24336,7 @@ where
         node: &'ast TsImportType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_import_type(self, node, ast_path)
             }
@@ -24351,7 +24351,7 @@ where
         node: &'ast TsIndexSignature,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_index_signature(self, node, ast_path)
             }
@@ -24366,7 +24366,7 @@ where
         node: &'ast TsIndexedAccessType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_indexed_access_type(self, node, ast_path)
             }
@@ -24381,7 +24381,7 @@ where
         node: &'ast TsInferType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_infer_type(self, node, ast_path)
             }
@@ -24396,7 +24396,7 @@ where
         node: &'ast TsInstantiation,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_instantiation(self, node, ast_path)
             }
@@ -24411,7 +24411,7 @@ where
         node: &'ast TsInterfaceBody,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_interface_body(self, node, ast_path)
             }
@@ -24426,7 +24426,7 @@ where
         node: &'ast TsInterfaceDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_interface_decl(self, node, ast_path)
             }
@@ -24441,7 +24441,7 @@ where
         node: &'ast TsIntersectionType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_intersection_type(self, node, ast_path)
             }
@@ -24456,7 +24456,7 @@ where
         node: &'ast TsKeywordType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_keyword_type(self, node, ast_path)
             }
@@ -24471,7 +24471,7 @@ where
         node: &'ast TsKeywordTypeKind,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_keyword_type_kind(self, node, ast_path)
             }
@@ -24482,7 +24482,7 @@ where
     }
 
     fn visit_ts_lit<'ast: 'r, 'r>(&mut self, node: &'ast TsLit, ast_path: &mut AstNodePath<'r>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_ts_lit(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_ts_lit(self, node, ast_path),
         }
@@ -24493,7 +24493,7 @@ where
         node: &'ast TsLitType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_lit_type(self, node, ast_path)
             }
@@ -24508,7 +24508,7 @@ where
         node: &'ast TsMappedType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_mapped_type(self, node, ast_path)
             }
@@ -24523,7 +24523,7 @@ where
         node: &'ast TsMethodSignature,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_method_signature(self, node, ast_path)
             }
@@ -24538,7 +24538,7 @@ where
         node: &'ast TsModuleBlock,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_module_block(self, node, ast_path)
             }
@@ -24553,7 +24553,7 @@ where
         node: &'ast TsModuleDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_module_decl(self, node, ast_path)
             }
@@ -24568,7 +24568,7 @@ where
         node: &'ast TsModuleName,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_module_name(self, node, ast_path)
             }
@@ -24583,7 +24583,7 @@ where
         node: &'ast TsModuleRef,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_module_ref(self, node, ast_path)
             }
@@ -24598,7 +24598,7 @@ where
         node: &'ast TsNamespaceBody,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_namespace_body(self, node, ast_path)
             }
@@ -24613,7 +24613,7 @@ where
         node: &'ast TsNamespaceDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_namespace_decl(self, node, ast_path)
             }
@@ -24628,7 +24628,7 @@ where
         node: &'ast TsNamespaceExportDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_namespace_export_decl(self, node, ast_path)
             }
@@ -24643,7 +24643,7 @@ where
         node: &'ast TsNonNullExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_non_null_expr(self, node, ast_path)
             }
@@ -24658,7 +24658,7 @@ where
         node: &'ast TsOptionalType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_optional_type(self, node, ast_path)
             }
@@ -24673,7 +24673,7 @@ where
         node: &'ast TsParamProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_param_prop(self, node, ast_path)
             }
@@ -24688,7 +24688,7 @@ where
         node: &'ast TsParamPropParam,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_param_prop_param(self, node, ast_path)
             }
@@ -24703,7 +24703,7 @@ where
         node: &'ast TsParenthesizedType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_parenthesized_type(self, node, ast_path)
             }
@@ -24718,7 +24718,7 @@ where
         node: &'ast TsPropertySignature,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_property_signature(self, node, ast_path)
             }
@@ -24733,7 +24733,7 @@ where
         node: &'ast TsQualifiedName,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_qualified_name(self, node, ast_path)
             }
@@ -24748,7 +24748,7 @@ where
         node: &'ast TsRestType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_rest_type(self, node, ast_path)
             }
@@ -24763,7 +24763,7 @@ where
         node: &'ast TsSatisfiesExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_satisfies_expr(self, node, ast_path)
             }
@@ -24778,7 +24778,7 @@ where
         node: &'ast TsSetterSignature,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_setter_signature(self, node, ast_path)
             }
@@ -24793,7 +24793,7 @@ where
         node: &'ast TsThisType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_this_type(self, node, ast_path)
             }
@@ -24808,7 +24808,7 @@ where
         node: &'ast TsThisTypeOrIdent,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_this_type_or_ident(self, node, ast_path)
             }
@@ -24823,7 +24823,7 @@ where
         node: &'ast TsTplLitType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_tpl_lit_type(self, node, ast_path)
             }
@@ -24838,7 +24838,7 @@ where
         node: &'ast TsTupleElement,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_tuple_element(self, node, ast_path)
             }
@@ -24853,7 +24853,7 @@ where
         node: &'ast [TsTupleElement],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_tuple_elements(self, node, ast_path)
             }
@@ -24868,7 +24868,7 @@ where
         node: &'ast TsTupleType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_tuple_type(self, node, ast_path)
             }
@@ -24879,7 +24879,7 @@ where
     }
 
     fn visit_ts_type<'ast: 'r, 'r>(&mut self, node: &'ast TsType, ast_path: &mut AstNodePath<'r>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_ts_type(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_ts_type(self, node, ast_path),
         }
@@ -24890,7 +24890,7 @@ where
         node: &'ast TsTypeAliasDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_type_alias_decl(self, node, ast_path)
             }
@@ -24905,7 +24905,7 @@ where
         node: &'ast TsTypeAnn,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_type_ann(self, node, ast_path)
             }
@@ -24920,7 +24920,7 @@ where
         node: &'ast TsTypeAssertion,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_type_assertion(self, node, ast_path)
             }
@@ -24935,7 +24935,7 @@ where
         node: &'ast TsTypeElement,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_type_element(self, node, ast_path)
             }
@@ -24950,7 +24950,7 @@ where
         node: &'ast [TsTypeElement],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_type_elements(self, node, ast_path)
             }
@@ -24965,7 +24965,7 @@ where
         node: &'ast TsTypeLit,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_type_lit(self, node, ast_path)
             }
@@ -24980,7 +24980,7 @@ where
         node: &'ast TsTypeOperator,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_type_operator(self, node, ast_path)
             }
@@ -24995,7 +24995,7 @@ where
         node: &'ast TsTypeOperatorOp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_type_operator_op(self, node, ast_path)
             }
@@ -25010,7 +25010,7 @@ where
         node: &'ast TsTypeParam,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_type_param(self, node, ast_path)
             }
@@ -25025,7 +25025,7 @@ where
         node: &'ast TsTypeParamDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_type_param_decl(self, node, ast_path)
             }
@@ -25040,7 +25040,7 @@ where
         node: &'ast TsTypeParamInstantiation,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_type_param_instantiation(self, node, ast_path)
             }
@@ -25055,7 +25055,7 @@ where
         node: &'ast [TsTypeParam],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_type_params(self, node, ast_path)
             }
@@ -25070,7 +25070,7 @@ where
         node: &'ast TsTypePredicate,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_type_predicate(self, node, ast_path)
             }
@@ -25085,7 +25085,7 @@ where
         node: &'ast TsTypeQuery,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_type_query(self, node, ast_path)
             }
@@ -25100,7 +25100,7 @@ where
         node: &'ast TsTypeQueryExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_type_query_expr(self, node, ast_path)
             }
@@ -25115,7 +25115,7 @@ where
         node: &'ast TsTypeRef,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_type_ref(self, node, ast_path)
             }
@@ -25130,7 +25130,7 @@ where
         node: &'ast [Box<TsType>],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_ts_types(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_ts_types(self, node, ast_path),
         }
@@ -25141,7 +25141,7 @@ where
         node: &'ast TsUnionOrIntersectionType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_union_or_intersection_type(self, node, ast_path)
             }
@@ -25156,7 +25156,7 @@ where
         node: &'ast TsUnionType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_ts_union_type(self, node, ast_path)
             }
@@ -25171,7 +25171,7 @@ where
         node: &'ast UnaryExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_unary_expr(self, node, ast_path)
             }
@@ -25186,7 +25186,7 @@ where
         node: &'ast UnaryOp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_unary_op(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_unary_op(self, node, ast_path),
         }
@@ -25197,7 +25197,7 @@ where
         node: &'ast UpdateExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_update_expr(self, node, ast_path)
             }
@@ -25212,7 +25212,7 @@ where
         node: &'ast UpdateOp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_update_op(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 VisitAstPath::visit_update_op(self, node, ast_path)
@@ -25225,7 +25225,7 @@ where
         node: &'ast UsingDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_using_decl(self, node, ast_path)
             }
@@ -25240,7 +25240,7 @@ where
         node: &'ast VarDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_var_decl(self, node, ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_var_decl(self, node, ast_path),
         }
@@ -25251,7 +25251,7 @@ where
         node: &'ast VarDeclKind,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_var_decl_kind(self, node, ast_path)
             }
@@ -25266,7 +25266,7 @@ where
         node: &'ast VarDeclOrExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_var_decl_or_expr(self, node, ast_path)
             }
@@ -25281,7 +25281,7 @@ where
         node: &'ast VarDeclarator,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_var_declarator(self, node, ast_path)
             }
@@ -25296,7 +25296,7 @@ where
         node: &'ast [VarDeclarator],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_var_declarators(self, node, ast_path)
             }
@@ -25311,7 +25311,7 @@ where
         node: &'ast WhileStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_while_stmt(self, node, ast_path)
             }
@@ -25326,7 +25326,7 @@ where
         node: &'ast WithStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_with_stmt(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 VisitAstPath::visit_with_stmt(self, node, ast_path)
@@ -25339,7 +25339,7 @@ where
         node: &'ast YieldExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_yield_expr(self, node, ast_path)
             }
@@ -41869,336 +41869,336 @@ where
     B: VisitMut,
 {
     fn visit_mut_accessibility(&mut self, node: &mut Accessibility) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_accessibility(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_accessibility(self, node),
         }
     }
 
     fn visit_mut_array_lit(&mut self, node: &mut ArrayLit) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_array_lit(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_array_lit(self, node),
         }
     }
 
     fn visit_mut_array_pat(&mut self, node: &mut ArrayPat) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_array_pat(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_array_pat(self, node),
         }
     }
 
     fn visit_mut_arrow_expr(&mut self, node: &mut ArrowExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_arrow_expr(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_arrow_expr(self, node),
         }
     }
 
     fn visit_mut_assign_expr(&mut self, node: &mut AssignExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_assign_expr(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_assign_expr(self, node),
         }
     }
 
     fn visit_mut_assign_op(&mut self, node: &mut AssignOp) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_assign_op(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_assign_op(self, node),
         }
     }
 
     fn visit_mut_assign_pat(&mut self, node: &mut AssignPat) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_assign_pat(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_assign_pat(self, node),
         }
     }
 
     fn visit_mut_assign_pat_prop(&mut self, node: &mut AssignPatProp) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_assign_pat_prop(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_assign_pat_prop(self, node),
         }
     }
 
     fn visit_mut_assign_prop(&mut self, node: &mut AssignProp) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_assign_prop(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_assign_prop(self, node),
         }
     }
 
     fn visit_mut_assign_target(&mut self, node: &mut AssignTarget) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_assign_target(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_assign_target(self, node),
         }
     }
 
     fn visit_mut_assign_target_pat(&mut self, node: &mut AssignTargetPat) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_assign_target_pat(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_assign_target_pat(self, node),
         }
     }
 
     fn visit_mut_atom(&mut self, node: &mut swc_atoms::Atom) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_atom(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_atom(self, node),
         }
     }
 
     fn visit_mut_auto_accessor(&mut self, node: &mut AutoAccessor) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_auto_accessor(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_auto_accessor(self, node),
         }
     }
 
     fn visit_mut_await_expr(&mut self, node: &mut AwaitExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_await_expr(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_await_expr(self, node),
         }
     }
 
     fn visit_mut_big_int(&mut self, node: &mut BigInt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_big_int(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_big_int(self, node),
         }
     }
 
     fn visit_mut_big_int_value(&mut self, node: &mut BigIntValue) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_big_int_value(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_big_int_value(self, node),
         }
     }
 
     fn visit_mut_bin_expr(&mut self, node: &mut BinExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_bin_expr(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_bin_expr(self, node),
         }
     }
 
     fn visit_mut_binary_op(&mut self, node: &mut BinaryOp) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_binary_op(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_binary_op(self, node),
         }
     }
 
     fn visit_mut_binding_ident(&mut self, node: &mut BindingIdent) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_binding_ident(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_binding_ident(self, node),
         }
     }
 
     fn visit_mut_block_stmt(&mut self, node: &mut BlockStmt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_block_stmt(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_block_stmt(self, node),
         }
     }
 
     fn visit_mut_block_stmt_or_expr(&mut self, node: &mut BlockStmtOrExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_block_stmt_or_expr(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_block_stmt_or_expr(self, node),
         }
     }
 
     fn visit_mut_bool(&mut self, node: &mut Bool) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_bool(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_bool(self, node),
         }
     }
 
     fn visit_mut_break_stmt(&mut self, node: &mut BreakStmt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_break_stmt(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_break_stmt(self, node),
         }
     }
 
     fn visit_mut_call_expr(&mut self, node: &mut CallExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_call_expr(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_call_expr(self, node),
         }
     }
 
     fn visit_mut_callee(&mut self, node: &mut Callee) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_callee(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_callee(self, node),
         }
     }
 
     fn visit_mut_catch_clause(&mut self, node: &mut CatchClause) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_catch_clause(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_catch_clause(self, node),
         }
     }
 
     fn visit_mut_class(&mut self, node: &mut Class) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_class(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_class(self, node),
         }
     }
 
     fn visit_mut_class_decl(&mut self, node: &mut ClassDecl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_class_decl(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_class_decl(self, node),
         }
     }
 
     fn visit_mut_class_expr(&mut self, node: &mut ClassExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_class_expr(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_class_expr(self, node),
         }
     }
 
     fn visit_mut_class_member(&mut self, node: &mut ClassMember) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_class_member(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_class_member(self, node),
         }
     }
 
     fn visit_mut_class_members(&mut self, node: &mut Vec<ClassMember>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_class_members(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_class_members(self, node),
         }
     }
 
     fn visit_mut_class_method(&mut self, node: &mut ClassMethod) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_class_method(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_class_method(self, node),
         }
     }
 
     fn visit_mut_class_prop(&mut self, node: &mut ClassProp) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_class_prop(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_class_prop(self, node),
         }
     }
 
     fn visit_mut_computed_prop_name(&mut self, node: &mut ComputedPropName) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_computed_prop_name(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_computed_prop_name(self, node),
         }
     }
 
     fn visit_mut_cond_expr(&mut self, node: &mut CondExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_cond_expr(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_cond_expr(self, node),
         }
     }
 
     fn visit_mut_constructor(&mut self, node: &mut Constructor) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_constructor(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_constructor(self, node),
         }
     }
 
     fn visit_mut_continue_stmt(&mut self, node: &mut ContinueStmt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_continue_stmt(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_continue_stmt(self, node),
         }
     }
 
     fn visit_mut_debugger_stmt(&mut self, node: &mut DebuggerStmt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_debugger_stmt(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_debugger_stmt(self, node),
         }
     }
 
     fn visit_mut_decl(&mut self, node: &mut Decl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_decl(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_decl(self, node),
         }
     }
 
     fn visit_mut_decorator(&mut self, node: &mut Decorator) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_decorator(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_decorator(self, node),
         }
     }
 
     fn visit_mut_decorators(&mut self, node: &mut Vec<Decorator>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_decorators(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_decorators(self, node),
         }
     }
 
     fn visit_mut_default_decl(&mut self, node: &mut DefaultDecl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_default_decl(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_default_decl(self, node),
         }
     }
 
     fn visit_mut_do_while_stmt(&mut self, node: &mut DoWhileStmt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_do_while_stmt(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_do_while_stmt(self, node),
         }
     }
 
     fn visit_mut_empty_stmt(&mut self, node: &mut EmptyStmt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_empty_stmt(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_empty_stmt(self, node),
         }
     }
 
     fn visit_mut_es_version(&mut self, node: &mut EsVersion) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_es_version(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_es_version(self, node),
         }
     }
 
     fn visit_mut_export_all(&mut self, node: &mut ExportAll) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_export_all(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_export_all(self, node),
         }
     }
 
     fn visit_mut_export_decl(&mut self, node: &mut ExportDecl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_export_decl(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_export_decl(self, node),
         }
     }
 
     fn visit_mut_export_default_decl(&mut self, node: &mut ExportDefaultDecl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_export_default_decl(self, node),
             swc_visit::Either::Right(visitor) => {
                 VisitMut::visit_mut_export_default_decl(self, node)
@@ -42207,7 +42207,7 @@ where
     }
 
     fn visit_mut_export_default_expr(&mut self, node: &mut ExportDefaultExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_export_default_expr(self, node),
             swc_visit::Either::Right(visitor) => {
                 VisitMut::visit_mut_export_default_expr(self, node)
@@ -42216,7 +42216,7 @@ where
     }
 
     fn visit_mut_export_default_specifier(&mut self, node: &mut ExportDefaultSpecifier) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMut::visit_mut_export_default_specifier(self, node)
             }
@@ -42227,7 +42227,7 @@ where
     }
 
     fn visit_mut_export_named_specifier(&mut self, node: &mut ExportNamedSpecifier) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMut::visit_mut_export_named_specifier(self, node)
             }
@@ -42238,7 +42238,7 @@ where
     }
 
     fn visit_mut_export_namespace_specifier(&mut self, node: &mut ExportNamespaceSpecifier) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMut::visit_mut_export_namespace_specifier(self, node)
             }
@@ -42249,147 +42249,147 @@ where
     }
 
     fn visit_mut_export_specifier(&mut self, node: &mut ExportSpecifier) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_export_specifier(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_export_specifier(self, node),
         }
     }
 
     fn visit_mut_export_specifiers(&mut self, node: &mut Vec<ExportSpecifier>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_export_specifiers(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_export_specifiers(self, node),
         }
     }
 
     fn visit_mut_expr(&mut self, node: &mut Expr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_expr(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_expr(self, node),
         }
     }
 
     fn visit_mut_expr_or_spread(&mut self, node: &mut ExprOrSpread) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_expr_or_spread(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_expr_or_spread(self, node),
         }
     }
 
     fn visit_mut_expr_or_spreads(&mut self, node: &mut Vec<ExprOrSpread>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_expr_or_spreads(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_expr_or_spreads(self, node),
         }
     }
 
     fn visit_mut_expr_stmt(&mut self, node: &mut ExprStmt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_expr_stmt(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_expr_stmt(self, node),
         }
     }
 
     fn visit_mut_exprs(&mut self, node: &mut Vec<Box<Expr>>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_exprs(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_exprs(self, node),
         }
     }
 
     fn visit_mut_fn_decl(&mut self, node: &mut FnDecl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_fn_decl(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_fn_decl(self, node),
         }
     }
 
     fn visit_mut_fn_expr(&mut self, node: &mut FnExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_fn_expr(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_fn_expr(self, node),
         }
     }
 
     fn visit_mut_for_head(&mut self, node: &mut ForHead) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_for_head(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_for_head(self, node),
         }
     }
 
     fn visit_mut_for_in_stmt(&mut self, node: &mut ForInStmt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_for_in_stmt(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_for_in_stmt(self, node),
         }
     }
 
     fn visit_mut_for_of_stmt(&mut self, node: &mut ForOfStmt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_for_of_stmt(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_for_of_stmt(self, node),
         }
     }
 
     fn visit_mut_for_stmt(&mut self, node: &mut ForStmt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_for_stmt(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_for_stmt(self, node),
         }
     }
 
     fn visit_mut_function(&mut self, node: &mut Function) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_function(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_function(self, node),
         }
     }
 
     fn visit_mut_getter_prop(&mut self, node: &mut GetterProp) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_getter_prop(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_getter_prop(self, node),
         }
     }
 
     fn visit_mut_ident(&mut self, node: &mut Ident) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ident(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ident(self, node),
         }
     }
 
     fn visit_mut_ident_name(&mut self, node: &mut IdentName) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ident_name(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ident_name(self, node),
         }
     }
 
     fn visit_mut_if_stmt(&mut self, node: &mut IfStmt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_if_stmt(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_if_stmt(self, node),
         }
     }
 
     fn visit_mut_import(&mut self, node: &mut Import) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_import(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_import(self, node),
         }
     }
 
     fn visit_mut_import_decl(&mut self, node: &mut ImportDecl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_import_decl(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_import_decl(self, node),
         }
     }
 
     fn visit_mut_import_default_specifier(&mut self, node: &mut ImportDefaultSpecifier) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMut::visit_mut_import_default_specifier(self, node)
             }
@@ -42400,7 +42400,7 @@ where
     }
 
     fn visit_mut_import_named_specifier(&mut self, node: &mut ImportNamedSpecifier) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMut::visit_mut_import_named_specifier(self, node)
             }
@@ -42411,28 +42411,28 @@ where
     }
 
     fn visit_mut_import_phase(&mut self, node: &mut ImportPhase) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_import_phase(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_import_phase(self, node),
         }
     }
 
     fn visit_mut_import_specifier(&mut self, node: &mut ImportSpecifier) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_import_specifier(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_import_specifier(self, node),
         }
     }
 
     fn visit_mut_import_specifiers(&mut self, node: &mut Vec<ImportSpecifier>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_import_specifiers(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_import_specifiers(self, node),
         }
     }
 
     fn visit_mut_import_star_as_specifier(&mut self, node: &mut ImportStarAsSpecifier) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMut::visit_mut_import_star_as_specifier(self, node)
             }
@@ -42443,56 +42443,56 @@ where
     }
 
     fn visit_mut_import_with(&mut self, node: &mut ImportWith) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_import_with(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_import_with(self, node),
         }
     }
 
     fn visit_mut_import_with_item(&mut self, node: &mut ImportWithItem) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_import_with_item(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_import_with_item(self, node),
         }
     }
 
     fn visit_mut_import_with_items(&mut self, node: &mut Vec<ImportWithItem>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_import_with_items(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_import_with_items(self, node),
         }
     }
 
     fn visit_mut_invalid(&mut self, node: &mut Invalid) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_invalid(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_invalid(self, node),
         }
     }
 
     fn visit_mut_jsx_attr(&mut self, node: &mut JSXAttr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_jsx_attr(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_jsx_attr(self, node),
         }
     }
 
     fn visit_mut_jsx_attr_name(&mut self, node: &mut JSXAttrName) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_jsx_attr_name(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_jsx_attr_name(self, node),
         }
     }
 
     fn visit_mut_jsx_attr_or_spread(&mut self, node: &mut JSXAttrOrSpread) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_jsx_attr_or_spread(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_jsx_attr_or_spread(self, node),
         }
     }
 
     fn visit_mut_jsx_attr_or_spreads(&mut self, node: &mut Vec<JSXAttrOrSpread>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_jsx_attr_or_spreads(self, node),
             swc_visit::Either::Right(visitor) => {
                 VisitMut::visit_mut_jsx_attr_or_spreads(self, node)
@@ -42501,14 +42501,14 @@ where
     }
 
     fn visit_mut_jsx_attr_value(&mut self, node: &mut JSXAttrValue) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_jsx_attr_value(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_jsx_attr_value(self, node),
         }
     }
 
     fn visit_mut_jsx_closing_element(&mut self, node: &mut JSXClosingElement) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_jsx_closing_element(self, node),
             swc_visit::Either::Right(visitor) => {
                 VisitMut::visit_mut_jsx_closing_element(self, node)
@@ -42517,7 +42517,7 @@ where
     }
 
     fn visit_mut_jsx_closing_fragment(&mut self, node: &mut JSXClosingFragment) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMut::visit_mut_jsx_closing_fragment(self, node)
             }
@@ -42528,70 +42528,70 @@ where
     }
 
     fn visit_mut_jsx_element(&mut self, node: &mut JSXElement) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_jsx_element(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_jsx_element(self, node),
         }
     }
 
     fn visit_mut_jsx_element_child(&mut self, node: &mut JSXElementChild) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_jsx_element_child(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_jsx_element_child(self, node),
         }
     }
 
     fn visit_mut_jsx_element_childs(&mut self, node: &mut Vec<JSXElementChild>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_jsx_element_childs(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_jsx_element_childs(self, node),
         }
     }
 
     fn visit_mut_jsx_element_name(&mut self, node: &mut JSXElementName) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_jsx_element_name(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_jsx_element_name(self, node),
         }
     }
 
     fn visit_mut_jsx_empty_expr(&mut self, node: &mut JSXEmptyExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_jsx_empty_expr(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_jsx_empty_expr(self, node),
         }
     }
 
     fn visit_mut_jsx_expr(&mut self, node: &mut JSXExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_jsx_expr(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_jsx_expr(self, node),
         }
     }
 
     fn visit_mut_jsx_expr_container(&mut self, node: &mut JSXExprContainer) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_jsx_expr_container(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_jsx_expr_container(self, node),
         }
     }
 
     fn visit_mut_jsx_fragment(&mut self, node: &mut JSXFragment) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_jsx_fragment(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_jsx_fragment(self, node),
         }
     }
 
     fn visit_mut_jsx_member_expr(&mut self, node: &mut JSXMemberExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_jsx_member_expr(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_jsx_member_expr(self, node),
         }
     }
 
     fn visit_mut_jsx_namespaced_name(&mut self, node: &mut JSXNamespacedName) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_jsx_namespaced_name(self, node),
             swc_visit::Either::Right(visitor) => {
                 VisitMut::visit_mut_jsx_namespaced_name(self, node)
@@ -42600,14 +42600,14 @@ where
     }
 
     fn visit_mut_jsx_object(&mut self, node: &mut JSXObject) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_jsx_object(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_jsx_object(self, node),
         }
     }
 
     fn visit_mut_jsx_opening_element(&mut self, node: &mut JSXOpeningElement) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_jsx_opening_element(self, node),
             swc_visit::Either::Right(visitor) => {
                 VisitMut::visit_mut_jsx_opening_element(self, node)
@@ -42616,7 +42616,7 @@ where
     }
 
     fn visit_mut_jsx_opening_fragment(&mut self, node: &mut JSXOpeningFragment) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMut::visit_mut_jsx_opening_fragment(self, node)
             }
@@ -42627,252 +42627,252 @@ where
     }
 
     fn visit_mut_jsx_spread_child(&mut self, node: &mut JSXSpreadChild) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_jsx_spread_child(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_jsx_spread_child(self, node),
         }
     }
 
     fn visit_mut_jsx_text(&mut self, node: &mut JSXText) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_jsx_text(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_jsx_text(self, node),
         }
     }
 
     fn visit_mut_key(&mut self, node: &mut Key) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_key(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_key(self, node),
         }
     }
 
     fn visit_mut_key_value_pat_prop(&mut self, node: &mut KeyValuePatProp) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_key_value_pat_prop(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_key_value_pat_prop(self, node),
         }
     }
 
     fn visit_mut_key_value_prop(&mut self, node: &mut KeyValueProp) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_key_value_prop(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_key_value_prop(self, node),
         }
     }
 
     fn visit_mut_labeled_stmt(&mut self, node: &mut LabeledStmt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_labeled_stmt(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_labeled_stmt(self, node),
         }
     }
 
     fn visit_mut_lit(&mut self, node: &mut Lit) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_lit(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_lit(self, node),
         }
     }
 
     fn visit_mut_member_expr(&mut self, node: &mut MemberExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_member_expr(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_member_expr(self, node),
         }
     }
 
     fn visit_mut_member_prop(&mut self, node: &mut MemberProp) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_member_prop(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_member_prop(self, node),
         }
     }
 
     fn visit_mut_meta_prop_expr(&mut self, node: &mut MetaPropExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_meta_prop_expr(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_meta_prop_expr(self, node),
         }
     }
 
     fn visit_mut_meta_prop_kind(&mut self, node: &mut MetaPropKind) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_meta_prop_kind(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_meta_prop_kind(self, node),
         }
     }
 
     fn visit_mut_method_kind(&mut self, node: &mut MethodKind) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_method_kind(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_method_kind(self, node),
         }
     }
 
     fn visit_mut_method_prop(&mut self, node: &mut MethodProp) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_method_prop(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_method_prop(self, node),
         }
     }
 
     fn visit_mut_module(&mut self, node: &mut Module) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_module(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_module(self, node),
         }
     }
 
     fn visit_mut_module_decl(&mut self, node: &mut ModuleDecl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_module_decl(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_module_decl(self, node),
         }
     }
 
     fn visit_mut_module_export_name(&mut self, node: &mut ModuleExportName) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_module_export_name(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_module_export_name(self, node),
         }
     }
 
     fn visit_mut_module_item(&mut self, node: &mut ModuleItem) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_module_item(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_module_item(self, node),
         }
     }
 
     fn visit_mut_module_items(&mut self, node: &mut Vec<ModuleItem>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_module_items(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_module_items(self, node),
         }
     }
 
     fn visit_mut_named_export(&mut self, node: &mut NamedExport) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_named_export(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_named_export(self, node),
         }
     }
 
     fn visit_mut_new_expr(&mut self, node: &mut NewExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_new_expr(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_new_expr(self, node),
         }
     }
 
     fn visit_mut_null(&mut self, node: &mut Null) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_null(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_null(self, node),
         }
     }
 
     fn visit_mut_number(&mut self, node: &mut Number) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_number(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_number(self, node),
         }
     }
 
     fn visit_mut_object_lit(&mut self, node: &mut ObjectLit) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_object_lit(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_object_lit(self, node),
         }
     }
 
     fn visit_mut_object_pat(&mut self, node: &mut ObjectPat) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_object_pat(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_object_pat(self, node),
         }
     }
 
     fn visit_mut_object_pat_prop(&mut self, node: &mut ObjectPatProp) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_object_pat_prop(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_object_pat_prop(self, node),
         }
     }
 
     fn visit_mut_object_pat_props(&mut self, node: &mut Vec<ObjectPatProp>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_object_pat_props(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_object_pat_props(self, node),
         }
     }
 
     fn visit_mut_opt_accessibility(&mut self, node: &mut Option<Accessibility>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_opt_accessibility(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_opt_accessibility(self, node),
         }
     }
 
     fn visit_mut_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_opt_atom(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_opt_atom(self, node),
         }
     }
 
     fn visit_mut_opt_block_stmt(&mut self, node: &mut Option<BlockStmt>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_opt_block_stmt(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_opt_block_stmt(self, node),
         }
     }
 
     fn visit_mut_opt_call(&mut self, node: &mut OptCall) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_opt_call(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_opt_call(self, node),
         }
     }
 
     fn visit_mut_opt_catch_clause(&mut self, node: &mut Option<CatchClause>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_opt_catch_clause(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_opt_catch_clause(self, node),
         }
     }
 
     fn visit_mut_opt_chain_base(&mut self, node: &mut OptChainBase) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_opt_chain_base(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_opt_chain_base(self, node),
         }
     }
 
     fn visit_mut_opt_chain_expr(&mut self, node: &mut OptChainExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_opt_chain_expr(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_opt_chain_expr(self, node),
         }
     }
 
     fn visit_mut_opt_expr(&mut self, node: &mut Option<Box<Expr>>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_opt_expr(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_opt_expr(self, node),
         }
     }
 
     fn visit_mut_opt_expr_or_spread(&mut self, node: &mut Option<ExprOrSpread>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_opt_expr_or_spread(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_opt_expr_or_spread(self, node),
         }
     }
 
     fn visit_mut_opt_expr_or_spreads(&mut self, node: &mut Option<Vec<ExprOrSpread>>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_opt_expr_or_spreads(self, node),
             swc_visit::Either::Right(visitor) => {
                 VisitMut::visit_mut_opt_expr_or_spreads(self, node)
@@ -42881,21 +42881,21 @@ where
     }
 
     fn visit_mut_opt_ident(&mut self, node: &mut Option<Ident>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_opt_ident(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_opt_ident(self, node),
         }
     }
 
     fn visit_mut_opt_jsx_attr_value(&mut self, node: &mut Option<JSXAttrValue>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_opt_jsx_attr_value(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_opt_jsx_attr_value(self, node),
         }
     }
 
     fn visit_mut_opt_jsx_closing_element(&mut self, node: &mut Option<JSXClosingElement>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMut::visit_mut_opt_jsx_closing_element(self, node)
             }
@@ -42906,7 +42906,7 @@ where
     }
 
     fn visit_mut_opt_module_export_name(&mut self, node: &mut Option<ModuleExportName>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMut::visit_mut_opt_module_export_name(self, node)
             }
@@ -42917,49 +42917,49 @@ where
     }
 
     fn visit_mut_opt_module_items(&mut self, node: &mut Option<Vec<ModuleItem>>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_opt_module_items(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_opt_module_items(self, node),
         }
     }
 
     fn visit_mut_opt_object_lit(&mut self, node: &mut Option<Box<ObjectLit>>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_opt_object_lit(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_opt_object_lit(self, node),
         }
     }
 
     fn visit_mut_opt_pat(&mut self, node: &mut Option<Pat>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_opt_pat(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_opt_pat(self, node),
         }
     }
 
     fn visit_mut_opt_span(&mut self, node: &mut Option<swc_common::Span>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_opt_span(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_opt_span(self, node),
         }
     }
 
     fn visit_mut_opt_stmt(&mut self, node: &mut Option<Box<Stmt>>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_opt_stmt(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_opt_stmt(self, node),
         }
     }
 
     fn visit_mut_opt_str(&mut self, node: &mut Option<Box<Str>>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_opt_str(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_opt_str(self, node),
         }
     }
 
     fn visit_mut_opt_true_plus_minus(&mut self, node: &mut Option<TruePlusMinus>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_opt_true_plus_minus(self, node),
             swc_visit::Either::Right(visitor) => {
                 VisitMut::visit_mut_opt_true_plus_minus(self, node)
@@ -42968,14 +42968,14 @@ where
     }
 
     fn visit_mut_opt_ts_entity_name(&mut self, node: &mut Option<TsEntityName>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_opt_ts_entity_name(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_opt_ts_entity_name(self, node),
         }
     }
 
     fn visit_mut_opt_ts_namespace_body(&mut self, node: &mut Option<TsNamespaceBody>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMut::visit_mut_opt_ts_namespace_body(self, node)
             }
@@ -42986,21 +42986,21 @@ where
     }
 
     fn visit_mut_opt_ts_type(&mut self, node: &mut Option<Box<TsType>>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_opt_ts_type(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_opt_ts_type(self, node),
         }
     }
 
     fn visit_mut_opt_ts_type_ann(&mut self, node: &mut Option<Box<TsTypeAnn>>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_opt_ts_type_ann(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_opt_ts_type_ann(self, node),
         }
     }
 
     fn visit_mut_opt_ts_type_param_decl(&mut self, node: &mut Option<Box<TsTypeParamDecl>>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMut::visit_mut_opt_ts_type_param_decl(self, node)
             }
@@ -43014,7 +43014,7 @@ where
         &mut self,
         node: &mut Option<Box<TsTypeParamInstantiation>>,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMut::visit_mut_opt_ts_type_param_instantiation(self, node)
             }
@@ -43025,7 +43025,7 @@ where
     }
 
     fn visit_mut_opt_var_decl_or_expr(&mut self, node: &mut Option<VarDeclOrExpr>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMut::visit_mut_opt_var_decl_or_expr(self, node)
             }
@@ -43036,7 +43036,7 @@ where
     }
 
     fn visit_mut_opt_vec_expr_or_spreads(&mut self, node: &mut Vec<Option<ExprOrSpread>>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMut::visit_mut_opt_vec_expr_or_spreads(self, node)
             }
@@ -43047,21 +43047,21 @@ where
     }
 
     fn visit_mut_opt_vec_pats(&mut self, node: &mut Vec<Option<Pat>>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_opt_vec_pats(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_opt_vec_pats(self, node),
         }
     }
 
     fn visit_mut_param(&mut self, node: &mut Param) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_param(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_param(self, node),
         }
     }
 
     fn visit_mut_param_or_ts_param_prop(&mut self, node: &mut ParamOrTsParamProp) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMut::visit_mut_param_or_ts_param_prop(self, node)
             }
@@ -43072,7 +43072,7 @@ where
     }
 
     fn visit_mut_param_or_ts_param_props(&mut self, node: &mut Vec<ParamOrTsParamProp>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMut::visit_mut_param_or_ts_param_props(self, node)
             }
@@ -43083,140 +43083,140 @@ where
     }
 
     fn visit_mut_params(&mut self, node: &mut Vec<Param>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_params(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_params(self, node),
         }
     }
 
     fn visit_mut_paren_expr(&mut self, node: &mut ParenExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_paren_expr(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_paren_expr(self, node),
         }
     }
 
     fn visit_mut_pat(&mut self, node: &mut Pat) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_pat(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_pat(self, node),
         }
     }
 
     fn visit_mut_pats(&mut self, node: &mut Vec<Pat>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_pats(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_pats(self, node),
         }
     }
 
     fn visit_mut_private_method(&mut self, node: &mut PrivateMethod) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_private_method(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_private_method(self, node),
         }
     }
 
     fn visit_mut_private_name(&mut self, node: &mut PrivateName) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_private_name(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_private_name(self, node),
         }
     }
 
     fn visit_mut_private_prop(&mut self, node: &mut PrivateProp) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_private_prop(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_private_prop(self, node),
         }
     }
 
     fn visit_mut_program(&mut self, node: &mut Program) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_program(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_program(self, node),
         }
     }
 
     fn visit_mut_prop(&mut self, node: &mut Prop) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_prop(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_prop(self, node),
         }
     }
 
     fn visit_mut_prop_name(&mut self, node: &mut PropName) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_prop_name(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_prop_name(self, node),
         }
     }
 
     fn visit_mut_prop_or_spread(&mut self, node: &mut PropOrSpread) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_prop_or_spread(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_prop_or_spread(self, node),
         }
     }
 
     fn visit_mut_prop_or_spreads(&mut self, node: &mut Vec<PropOrSpread>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_prop_or_spreads(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_prop_or_spreads(self, node),
         }
     }
 
     fn visit_mut_regex(&mut self, node: &mut Regex) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_regex(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_regex(self, node),
         }
     }
 
     fn visit_mut_reserved_unused(&mut self, node: &mut ReservedUnused) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_reserved_unused(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_reserved_unused(self, node),
         }
     }
 
     fn visit_mut_rest_pat(&mut self, node: &mut RestPat) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_rest_pat(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_rest_pat(self, node),
         }
     }
 
     fn visit_mut_return_stmt(&mut self, node: &mut ReturnStmt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_return_stmt(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_return_stmt(self, node),
         }
     }
 
     fn visit_mut_script(&mut self, node: &mut Script) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_script(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_script(self, node),
         }
     }
 
     fn visit_mut_seq_expr(&mut self, node: &mut SeqExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_seq_expr(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_seq_expr(self, node),
         }
     }
 
     fn visit_mut_setter_prop(&mut self, node: &mut SetterProp) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_setter_prop(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_setter_prop(self, node),
         }
     }
 
     fn visit_mut_simple_assign_target(&mut self, node: &mut SimpleAssignTarget) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMut::visit_mut_simple_assign_target(self, node)
             }
@@ -43227,168 +43227,168 @@ where
     }
 
     fn visit_mut_span(&mut self, node: &mut swc_common::Span) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_span(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_span(self, node),
         }
     }
 
     fn visit_mut_spread_element(&mut self, node: &mut SpreadElement) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_spread_element(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_spread_element(self, node),
         }
     }
 
     fn visit_mut_static_block(&mut self, node: &mut StaticBlock) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_static_block(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_static_block(self, node),
         }
     }
 
     fn visit_mut_stmt(&mut self, node: &mut Stmt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_stmt(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_stmt(self, node),
         }
     }
 
     fn visit_mut_stmts(&mut self, node: &mut Vec<Stmt>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_stmts(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_stmts(self, node),
         }
     }
 
     fn visit_mut_str(&mut self, node: &mut Str) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_str(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_str(self, node),
         }
     }
 
     fn visit_mut_super(&mut self, node: &mut Super) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_super(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_super(self, node),
         }
     }
 
     fn visit_mut_super_prop(&mut self, node: &mut SuperProp) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_super_prop(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_super_prop(self, node),
         }
     }
 
     fn visit_mut_super_prop_expr(&mut self, node: &mut SuperPropExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_super_prop_expr(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_super_prop_expr(self, node),
         }
     }
 
     fn visit_mut_switch_case(&mut self, node: &mut SwitchCase) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_switch_case(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_switch_case(self, node),
         }
     }
 
     fn visit_mut_switch_cases(&mut self, node: &mut Vec<SwitchCase>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_switch_cases(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_switch_cases(self, node),
         }
     }
 
     fn visit_mut_switch_stmt(&mut self, node: &mut SwitchStmt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_switch_stmt(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_switch_stmt(self, node),
         }
     }
 
     fn visit_mut_syntax_context(&mut self, node: &mut swc_common::SyntaxContext) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_syntax_context(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_syntax_context(self, node),
         }
     }
 
     fn visit_mut_tagged_tpl(&mut self, node: &mut TaggedTpl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_tagged_tpl(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_tagged_tpl(self, node),
         }
     }
 
     fn visit_mut_this_expr(&mut self, node: &mut ThisExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_this_expr(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_this_expr(self, node),
         }
     }
 
     fn visit_mut_throw_stmt(&mut self, node: &mut ThrowStmt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_throw_stmt(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_throw_stmt(self, node),
         }
     }
 
     fn visit_mut_tpl(&mut self, node: &mut Tpl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_tpl(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_tpl(self, node),
         }
     }
 
     fn visit_mut_tpl_element(&mut self, node: &mut TplElement) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_tpl_element(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_tpl_element(self, node),
         }
     }
 
     fn visit_mut_tpl_elements(&mut self, node: &mut Vec<TplElement>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_tpl_elements(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_tpl_elements(self, node),
         }
     }
 
     fn visit_mut_true_plus_minus(&mut self, node: &mut TruePlusMinus) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_true_plus_minus(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_true_plus_minus(self, node),
         }
     }
 
     fn visit_mut_try_stmt(&mut self, node: &mut TryStmt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_try_stmt(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_try_stmt(self, node),
         }
     }
 
     fn visit_mut_ts_array_type(&mut self, node: &mut TsArrayType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_array_type(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_array_type(self, node),
         }
     }
 
     fn visit_mut_ts_as_expr(&mut self, node: &mut TsAsExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_as_expr(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_as_expr(self, node),
         }
     }
 
     fn visit_mut_ts_call_signature_decl(&mut self, node: &mut TsCallSignatureDecl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMut::visit_mut_ts_call_signature_decl(self, node)
             }
@@ -43399,7 +43399,7 @@ where
     }
 
     fn visit_mut_ts_conditional_type(&mut self, node: &mut TsConditionalType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_conditional_type(self, node),
             swc_visit::Either::Right(visitor) => {
                 VisitMut::visit_mut_ts_conditional_type(self, node)
@@ -43408,14 +43408,14 @@ where
     }
 
     fn visit_mut_ts_const_assertion(&mut self, node: &mut TsConstAssertion) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_const_assertion(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_const_assertion(self, node),
         }
     }
 
     fn visit_mut_ts_construct_signature_decl(&mut self, node: &mut TsConstructSignatureDecl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMut::visit_mut_ts_construct_signature_decl(self, node)
             }
@@ -43426,7 +43426,7 @@ where
     }
 
     fn visit_mut_ts_constructor_type(&mut self, node: &mut TsConstructorType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_constructor_type(self, node),
             swc_visit::Either::Right(visitor) => {
                 VisitMut::visit_mut_ts_constructor_type(self, node)
@@ -43435,42 +43435,42 @@ where
     }
 
     fn visit_mut_ts_entity_name(&mut self, node: &mut TsEntityName) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_entity_name(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_entity_name(self, node),
         }
     }
 
     fn visit_mut_ts_enum_decl(&mut self, node: &mut TsEnumDecl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_enum_decl(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_enum_decl(self, node),
         }
     }
 
     fn visit_mut_ts_enum_member(&mut self, node: &mut TsEnumMember) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_enum_member(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_enum_member(self, node),
         }
     }
 
     fn visit_mut_ts_enum_member_id(&mut self, node: &mut TsEnumMemberId) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_enum_member_id(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_enum_member_id(self, node),
         }
     }
 
     fn visit_mut_ts_enum_members(&mut self, node: &mut Vec<TsEnumMember>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_enum_members(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_enum_members(self, node),
         }
     }
 
     fn visit_mut_ts_export_assignment(&mut self, node: &mut TsExportAssignment) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMut::visit_mut_ts_export_assignment(self, node)
             }
@@ -43481,7 +43481,7 @@ where
     }
 
     fn visit_mut_ts_expr_with_type_args(&mut self, node: &mut TsExprWithTypeArgs) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMut::visit_mut_ts_expr_with_type_args(self, node)
             }
@@ -43492,7 +43492,7 @@ where
     }
 
     fn visit_mut_ts_expr_with_type_argss(&mut self, node: &mut Vec<TsExprWithTypeArgs>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMut::visit_mut_ts_expr_with_type_argss(self, node)
             }
@@ -43503,7 +43503,7 @@ where
     }
 
     fn visit_mut_ts_external_module_ref(&mut self, node: &mut TsExternalModuleRef) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMut::visit_mut_ts_external_module_ref(self, node)
             }
@@ -43514,7 +43514,7 @@ where
     }
 
     fn visit_mut_ts_fn_or_constructor_type(&mut self, node: &mut TsFnOrConstructorType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMut::visit_mut_ts_fn_or_constructor_type(self, node)
             }
@@ -43525,28 +43525,28 @@ where
     }
 
     fn visit_mut_ts_fn_param(&mut self, node: &mut TsFnParam) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_fn_param(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_fn_param(self, node),
         }
     }
 
     fn visit_mut_ts_fn_params(&mut self, node: &mut Vec<TsFnParam>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_fn_params(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_fn_params(self, node),
         }
     }
 
     fn visit_mut_ts_fn_type(&mut self, node: &mut TsFnType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_fn_type(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_fn_type(self, node),
         }
     }
 
     fn visit_mut_ts_getter_signature(&mut self, node: &mut TsGetterSignature) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_getter_signature(self, node),
             swc_visit::Either::Right(visitor) => {
                 VisitMut::visit_mut_ts_getter_signature(self, node)
@@ -43555,7 +43555,7 @@ where
     }
 
     fn visit_mut_ts_import_equals_decl(&mut self, node: &mut TsImportEqualsDecl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMut::visit_mut_ts_import_equals_decl(self, node)
             }
@@ -43566,21 +43566,21 @@ where
     }
 
     fn visit_mut_ts_import_type(&mut self, node: &mut TsImportType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_import_type(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_import_type(self, node),
         }
     }
 
     fn visit_mut_ts_index_signature(&mut self, node: &mut TsIndexSignature) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_index_signature(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_index_signature(self, node),
         }
     }
 
     fn visit_mut_ts_indexed_access_type(&mut self, node: &mut TsIndexedAccessType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMut::visit_mut_ts_indexed_access_type(self, node)
             }
@@ -43591,35 +43591,35 @@ where
     }
 
     fn visit_mut_ts_infer_type(&mut self, node: &mut TsInferType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_infer_type(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_infer_type(self, node),
         }
     }
 
     fn visit_mut_ts_instantiation(&mut self, node: &mut TsInstantiation) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_instantiation(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_instantiation(self, node),
         }
     }
 
     fn visit_mut_ts_interface_body(&mut self, node: &mut TsInterfaceBody) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_interface_body(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_interface_body(self, node),
         }
     }
 
     fn visit_mut_ts_interface_decl(&mut self, node: &mut TsInterfaceDecl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_interface_decl(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_interface_decl(self, node),
         }
     }
 
     fn visit_mut_ts_intersection_type(&mut self, node: &mut TsIntersectionType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMut::visit_mut_ts_intersection_type(self, node)
             }
@@ -43630,14 +43630,14 @@ where
     }
 
     fn visit_mut_ts_keyword_type(&mut self, node: &mut TsKeywordType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_keyword_type(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_keyword_type(self, node),
         }
     }
 
     fn visit_mut_ts_keyword_type_kind(&mut self, node: &mut TsKeywordTypeKind) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMut::visit_mut_ts_keyword_type_kind(self, node)
             }
@@ -43648,28 +43648,28 @@ where
     }
 
     fn visit_mut_ts_lit(&mut self, node: &mut TsLit) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_lit(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_lit(self, node),
         }
     }
 
     fn visit_mut_ts_lit_type(&mut self, node: &mut TsLitType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_lit_type(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_lit_type(self, node),
         }
     }
 
     fn visit_mut_ts_mapped_type(&mut self, node: &mut TsMappedType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_mapped_type(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_mapped_type(self, node),
         }
     }
 
     fn visit_mut_ts_method_signature(&mut self, node: &mut TsMethodSignature) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_method_signature(self, node),
             swc_visit::Either::Right(visitor) => {
                 VisitMut::visit_mut_ts_method_signature(self, node)
@@ -43678,49 +43678,49 @@ where
     }
 
     fn visit_mut_ts_module_block(&mut self, node: &mut TsModuleBlock) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_module_block(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_module_block(self, node),
         }
     }
 
     fn visit_mut_ts_module_decl(&mut self, node: &mut TsModuleDecl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_module_decl(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_module_decl(self, node),
         }
     }
 
     fn visit_mut_ts_module_name(&mut self, node: &mut TsModuleName) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_module_name(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_module_name(self, node),
         }
     }
 
     fn visit_mut_ts_module_ref(&mut self, node: &mut TsModuleRef) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_module_ref(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_module_ref(self, node),
         }
     }
 
     fn visit_mut_ts_namespace_body(&mut self, node: &mut TsNamespaceBody) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_namespace_body(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_namespace_body(self, node),
         }
     }
 
     fn visit_mut_ts_namespace_decl(&mut self, node: &mut TsNamespaceDecl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_namespace_decl(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_namespace_decl(self, node),
         }
     }
 
     fn visit_mut_ts_namespace_export_decl(&mut self, node: &mut TsNamespaceExportDecl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMut::visit_mut_ts_namespace_export_decl(self, node)
             }
@@ -43731,28 +43731,28 @@ where
     }
 
     fn visit_mut_ts_non_null_expr(&mut self, node: &mut TsNonNullExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_non_null_expr(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_non_null_expr(self, node),
         }
     }
 
     fn visit_mut_ts_optional_type(&mut self, node: &mut TsOptionalType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_optional_type(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_optional_type(self, node),
         }
     }
 
     fn visit_mut_ts_param_prop(&mut self, node: &mut TsParamProp) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_param_prop(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_param_prop(self, node),
         }
     }
 
     fn visit_mut_ts_param_prop_param(&mut self, node: &mut TsParamPropParam) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_param_prop_param(self, node),
             swc_visit::Either::Right(visitor) => {
                 VisitMut::visit_mut_ts_param_prop_param(self, node)
@@ -43761,7 +43761,7 @@ where
     }
 
     fn visit_mut_ts_parenthesized_type(&mut self, node: &mut TsParenthesizedType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMut::visit_mut_ts_parenthesized_type(self, node)
             }
@@ -43772,7 +43772,7 @@ where
     }
 
     fn visit_mut_ts_property_signature(&mut self, node: &mut TsPropertySignature) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMut::visit_mut_ts_property_signature(self, node)
             }
@@ -43783,28 +43783,28 @@ where
     }
 
     fn visit_mut_ts_qualified_name(&mut self, node: &mut TsQualifiedName) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_qualified_name(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_qualified_name(self, node),
         }
     }
 
     fn visit_mut_ts_rest_type(&mut self, node: &mut TsRestType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_rest_type(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_rest_type(self, node),
         }
     }
 
     fn visit_mut_ts_satisfies_expr(&mut self, node: &mut TsSatisfiesExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_satisfies_expr(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_satisfies_expr(self, node),
         }
     }
 
     fn visit_mut_ts_setter_signature(&mut self, node: &mut TsSetterSignature) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_setter_signature(self, node),
             swc_visit::Either::Right(visitor) => {
                 VisitMut::visit_mut_ts_setter_signature(self, node)
@@ -43813,14 +43813,14 @@ where
     }
 
     fn visit_mut_ts_this_type(&mut self, node: &mut TsThisType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_this_type(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_this_type(self, node),
         }
     }
 
     fn visit_mut_ts_this_type_or_ident(&mut self, node: &mut TsThisTypeOrIdent) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMut::visit_mut_ts_this_type_or_ident(self, node)
             }
@@ -43831,91 +43831,91 @@ where
     }
 
     fn visit_mut_ts_tpl_lit_type(&mut self, node: &mut TsTplLitType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_tpl_lit_type(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_tpl_lit_type(self, node),
         }
     }
 
     fn visit_mut_ts_tuple_element(&mut self, node: &mut TsTupleElement) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_tuple_element(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_tuple_element(self, node),
         }
     }
 
     fn visit_mut_ts_tuple_elements(&mut self, node: &mut Vec<TsTupleElement>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_tuple_elements(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_tuple_elements(self, node),
         }
     }
 
     fn visit_mut_ts_tuple_type(&mut self, node: &mut TsTupleType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_tuple_type(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_tuple_type(self, node),
         }
     }
 
     fn visit_mut_ts_type(&mut self, node: &mut TsType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_type(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_type(self, node),
         }
     }
 
     fn visit_mut_ts_type_alias_decl(&mut self, node: &mut TsTypeAliasDecl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_type_alias_decl(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_type_alias_decl(self, node),
         }
     }
 
     fn visit_mut_ts_type_ann(&mut self, node: &mut TsTypeAnn) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_type_ann(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_type_ann(self, node),
         }
     }
 
     fn visit_mut_ts_type_assertion(&mut self, node: &mut TsTypeAssertion) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_type_assertion(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_type_assertion(self, node),
         }
     }
 
     fn visit_mut_ts_type_element(&mut self, node: &mut TsTypeElement) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_type_element(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_type_element(self, node),
         }
     }
 
     fn visit_mut_ts_type_elements(&mut self, node: &mut Vec<TsTypeElement>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_type_elements(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_type_elements(self, node),
         }
     }
 
     fn visit_mut_ts_type_lit(&mut self, node: &mut TsTypeLit) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_type_lit(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_type_lit(self, node),
         }
     }
 
     fn visit_mut_ts_type_operator(&mut self, node: &mut TsTypeOperator) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_type_operator(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_type_operator(self, node),
         }
     }
 
     fn visit_mut_ts_type_operator_op(&mut self, node: &mut TsTypeOperatorOp) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_type_operator_op(self, node),
             swc_visit::Either::Right(visitor) => {
                 VisitMut::visit_mut_ts_type_operator_op(self, node)
@@ -43924,21 +43924,21 @@ where
     }
 
     fn visit_mut_ts_type_param(&mut self, node: &mut TsTypeParam) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_type_param(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_type_param(self, node),
         }
     }
 
     fn visit_mut_ts_type_param_decl(&mut self, node: &mut TsTypeParamDecl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_type_param_decl(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_type_param_decl(self, node),
         }
     }
 
     fn visit_mut_ts_type_param_instantiation(&mut self, node: &mut TsTypeParamInstantiation) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMut::visit_mut_ts_type_param_instantiation(self, node)
             }
@@ -43949,49 +43949,49 @@ where
     }
 
     fn visit_mut_ts_type_params(&mut self, node: &mut Vec<TsTypeParam>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_type_params(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_type_params(self, node),
         }
     }
 
     fn visit_mut_ts_type_predicate(&mut self, node: &mut TsTypePredicate) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_type_predicate(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_type_predicate(self, node),
         }
     }
 
     fn visit_mut_ts_type_query(&mut self, node: &mut TsTypeQuery) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_type_query(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_type_query(self, node),
         }
     }
 
     fn visit_mut_ts_type_query_expr(&mut self, node: &mut TsTypeQueryExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_type_query_expr(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_type_query_expr(self, node),
         }
     }
 
     fn visit_mut_ts_type_ref(&mut self, node: &mut TsTypeRef) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_type_ref(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_type_ref(self, node),
         }
     }
 
     fn visit_mut_ts_types(&mut self, node: &mut Vec<Box<TsType>>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_types(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_types(self, node),
         }
     }
 
     fn visit_mut_ts_union_or_intersection_type(&mut self, node: &mut TsUnionOrIntersectionType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMut::visit_mut_ts_union_or_intersection_type(self, node)
             }
@@ -44002,98 +44002,98 @@ where
     }
 
     fn visit_mut_ts_union_type(&mut self, node: &mut TsUnionType) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_ts_union_type(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_ts_union_type(self, node),
         }
     }
 
     fn visit_mut_unary_expr(&mut self, node: &mut UnaryExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_unary_expr(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_unary_expr(self, node),
         }
     }
 
     fn visit_mut_unary_op(&mut self, node: &mut UnaryOp) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_unary_op(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_unary_op(self, node),
         }
     }
 
     fn visit_mut_update_expr(&mut self, node: &mut UpdateExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_update_expr(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_update_expr(self, node),
         }
     }
 
     fn visit_mut_update_op(&mut self, node: &mut UpdateOp) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_update_op(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_update_op(self, node),
         }
     }
 
     fn visit_mut_using_decl(&mut self, node: &mut UsingDecl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_using_decl(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_using_decl(self, node),
         }
     }
 
     fn visit_mut_var_decl(&mut self, node: &mut VarDecl) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_var_decl(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_var_decl(self, node),
         }
     }
 
     fn visit_mut_var_decl_kind(&mut self, node: &mut VarDeclKind) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_var_decl_kind(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_var_decl_kind(self, node),
         }
     }
 
     fn visit_mut_var_decl_or_expr(&mut self, node: &mut VarDeclOrExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_var_decl_or_expr(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_var_decl_or_expr(self, node),
         }
     }
 
     fn visit_mut_var_declarator(&mut self, node: &mut VarDeclarator) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_var_declarator(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_var_declarator(self, node),
         }
     }
 
     fn visit_mut_var_declarators(&mut self, node: &mut Vec<VarDeclarator>) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_var_declarators(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_var_declarators(self, node),
         }
     }
 
     fn visit_mut_while_stmt(&mut self, node: &mut WhileStmt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_while_stmt(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_while_stmt(self, node),
         }
     }
 
     fn visit_mut_with_stmt(&mut self, node: &mut WithStmt) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_with_stmt(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_with_stmt(self, node),
         }
     }
 
     fn visit_mut_yield_expr(&mut self, node: &mut YieldExpr) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_yield_expr(self, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_yield_expr(self, node),
         }
@@ -57668,7 +57668,7 @@ where
     B: VisitMutAstPath,
 {
     fn visit_mut_accessibility(&mut self, node: &mut Accessibility, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_accessibility(self, node, ast_path)
             }
@@ -57679,7 +57679,7 @@ where
     }
 
     fn visit_mut_array_lit(&mut self, node: &mut ArrayLit, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_array_lit(self, node, ast_path)
             }
@@ -57690,7 +57690,7 @@ where
     }
 
     fn visit_mut_array_pat(&mut self, node: &mut ArrayPat, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_array_pat(self, node, ast_path)
             }
@@ -57701,7 +57701,7 @@ where
     }
 
     fn visit_mut_arrow_expr(&mut self, node: &mut ArrowExpr, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_arrow_expr(self, node, ast_path)
             }
@@ -57712,7 +57712,7 @@ where
     }
 
     fn visit_mut_assign_expr(&mut self, node: &mut AssignExpr, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_assign_expr(self, node, ast_path)
             }
@@ -57723,7 +57723,7 @@ where
     }
 
     fn visit_mut_assign_op(&mut self, node: &mut AssignOp, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_assign_op(self, node, ast_path)
             }
@@ -57734,7 +57734,7 @@ where
     }
 
     fn visit_mut_assign_pat(&mut self, node: &mut AssignPat, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_assign_pat(self, node, ast_path)
             }
@@ -57745,7 +57745,7 @@ where
     }
 
     fn visit_mut_assign_pat_prop(&mut self, node: &mut AssignPatProp, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_assign_pat_prop(self, node, ast_path)
             }
@@ -57756,7 +57756,7 @@ where
     }
 
     fn visit_mut_assign_prop(&mut self, node: &mut AssignProp, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_assign_prop(self, node, ast_path)
             }
@@ -57767,7 +57767,7 @@ where
     }
 
     fn visit_mut_assign_target(&mut self, node: &mut AssignTarget, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_assign_target(self, node, ast_path)
             }
@@ -57782,7 +57782,7 @@ where
         node: &mut AssignTargetPat,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_assign_target_pat(self, node, ast_path)
             }
@@ -57793,7 +57793,7 @@ where
     }
 
     fn visit_mut_atom(&mut self, node: &mut swc_atoms::Atom, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_atom(self, node, ast_path)
             }
@@ -57804,7 +57804,7 @@ where
     }
 
     fn visit_mut_auto_accessor(&mut self, node: &mut AutoAccessor, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_auto_accessor(self, node, ast_path)
             }
@@ -57815,7 +57815,7 @@ where
     }
 
     fn visit_mut_await_expr(&mut self, node: &mut AwaitExpr, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_await_expr(self, node, ast_path)
             }
@@ -57826,7 +57826,7 @@ where
     }
 
     fn visit_mut_big_int(&mut self, node: &mut BigInt, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_big_int(self, node, ast_path)
             }
@@ -57837,7 +57837,7 @@ where
     }
 
     fn visit_mut_big_int_value(&mut self, node: &mut BigIntValue, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_big_int_value(self, node, ast_path)
             }
@@ -57848,7 +57848,7 @@ where
     }
 
     fn visit_mut_bin_expr(&mut self, node: &mut BinExpr, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_bin_expr(self, node, ast_path)
             }
@@ -57859,7 +57859,7 @@ where
     }
 
     fn visit_mut_binary_op(&mut self, node: &mut BinaryOp, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_binary_op(self, node, ast_path)
             }
@@ -57870,7 +57870,7 @@ where
     }
 
     fn visit_mut_binding_ident(&mut self, node: &mut BindingIdent, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_binding_ident(self, node, ast_path)
             }
@@ -57881,7 +57881,7 @@ where
     }
 
     fn visit_mut_block_stmt(&mut self, node: &mut BlockStmt, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_block_stmt(self, node, ast_path)
             }
@@ -57896,7 +57896,7 @@ where
         node: &mut BlockStmtOrExpr,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_block_stmt_or_expr(self, node, ast_path)
             }
@@ -57907,7 +57907,7 @@ where
     }
 
     fn visit_mut_bool(&mut self, node: &mut Bool, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_bool(self, node, ast_path)
             }
@@ -57918,7 +57918,7 @@ where
     }
 
     fn visit_mut_break_stmt(&mut self, node: &mut BreakStmt, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_break_stmt(self, node, ast_path)
             }
@@ -57929,7 +57929,7 @@ where
     }
 
     fn visit_mut_call_expr(&mut self, node: &mut CallExpr, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_call_expr(self, node, ast_path)
             }
@@ -57940,7 +57940,7 @@ where
     }
 
     fn visit_mut_callee(&mut self, node: &mut Callee, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_callee(self, node, ast_path)
             }
@@ -57951,7 +57951,7 @@ where
     }
 
     fn visit_mut_catch_clause(&mut self, node: &mut CatchClause, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_catch_clause(self, node, ast_path)
             }
@@ -57962,7 +57962,7 @@ where
     }
 
     fn visit_mut_class(&mut self, node: &mut Class, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_class(self, node, ast_path)
             }
@@ -57973,7 +57973,7 @@ where
     }
 
     fn visit_mut_class_decl(&mut self, node: &mut ClassDecl, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_class_decl(self, node, ast_path)
             }
@@ -57984,7 +57984,7 @@ where
     }
 
     fn visit_mut_class_expr(&mut self, node: &mut ClassExpr, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_class_expr(self, node, ast_path)
             }
@@ -57995,7 +57995,7 @@ where
     }
 
     fn visit_mut_class_member(&mut self, node: &mut ClassMember, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_class_member(self, node, ast_path)
             }
@@ -58006,7 +58006,7 @@ where
     }
 
     fn visit_mut_class_members(&mut self, node: &mut Vec<ClassMember>, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_class_members(self, node, ast_path)
             }
@@ -58017,7 +58017,7 @@ where
     }
 
     fn visit_mut_class_method(&mut self, node: &mut ClassMethod, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_class_method(self, node, ast_path)
             }
@@ -58028,7 +58028,7 @@ where
     }
 
     fn visit_mut_class_prop(&mut self, node: &mut ClassProp, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_class_prop(self, node, ast_path)
             }
@@ -58043,7 +58043,7 @@ where
         node: &mut ComputedPropName,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_computed_prop_name(self, node, ast_path)
             }
@@ -58054,7 +58054,7 @@ where
     }
 
     fn visit_mut_cond_expr(&mut self, node: &mut CondExpr, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_cond_expr(self, node, ast_path)
             }
@@ -58065,7 +58065,7 @@ where
     }
 
     fn visit_mut_constructor(&mut self, node: &mut Constructor, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_constructor(self, node, ast_path)
             }
@@ -58076,7 +58076,7 @@ where
     }
 
     fn visit_mut_continue_stmt(&mut self, node: &mut ContinueStmt, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_continue_stmt(self, node, ast_path)
             }
@@ -58087,7 +58087,7 @@ where
     }
 
     fn visit_mut_debugger_stmt(&mut self, node: &mut DebuggerStmt, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_debugger_stmt(self, node, ast_path)
             }
@@ -58098,7 +58098,7 @@ where
     }
 
     fn visit_mut_decl(&mut self, node: &mut Decl, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_decl(self, node, ast_path)
             }
@@ -58109,7 +58109,7 @@ where
     }
 
     fn visit_mut_decorator(&mut self, node: &mut Decorator, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_decorator(self, node, ast_path)
             }
@@ -58120,7 +58120,7 @@ where
     }
 
     fn visit_mut_decorators(&mut self, node: &mut Vec<Decorator>, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_decorators(self, node, ast_path)
             }
@@ -58131,7 +58131,7 @@ where
     }
 
     fn visit_mut_default_decl(&mut self, node: &mut DefaultDecl, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_default_decl(self, node, ast_path)
             }
@@ -58142,7 +58142,7 @@ where
     }
 
     fn visit_mut_do_while_stmt(&mut self, node: &mut DoWhileStmt, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_do_while_stmt(self, node, ast_path)
             }
@@ -58153,7 +58153,7 @@ where
     }
 
     fn visit_mut_empty_stmt(&mut self, node: &mut EmptyStmt, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_empty_stmt(self, node, ast_path)
             }
@@ -58164,7 +58164,7 @@ where
     }
 
     fn visit_mut_es_version(&mut self, node: &mut EsVersion, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_es_version(self, node, ast_path)
             }
@@ -58175,7 +58175,7 @@ where
     }
 
     fn visit_mut_export_all(&mut self, node: &mut ExportAll, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_export_all(self, node, ast_path)
             }
@@ -58186,7 +58186,7 @@ where
     }
 
     fn visit_mut_export_decl(&mut self, node: &mut ExportDecl, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_export_decl(self, node, ast_path)
             }
@@ -58201,7 +58201,7 @@ where
         node: &mut ExportDefaultDecl,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_export_default_decl(self, node, ast_path)
             }
@@ -58216,7 +58216,7 @@ where
         node: &mut ExportDefaultExpr,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_export_default_expr(self, node, ast_path)
             }
@@ -58231,7 +58231,7 @@ where
         node: &mut ExportDefaultSpecifier,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_export_default_specifier(self, node, ast_path)
             }
@@ -58246,7 +58246,7 @@ where
         node: &mut ExportNamedSpecifier,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_export_named_specifier(self, node, ast_path)
             }
@@ -58261,7 +58261,7 @@ where
         node: &mut ExportNamespaceSpecifier,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_export_namespace_specifier(self, node, ast_path)
             }
@@ -58276,7 +58276,7 @@ where
         node: &mut ExportSpecifier,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_export_specifier(self, node, ast_path)
             }
@@ -58291,7 +58291,7 @@ where
         node: &mut Vec<ExportSpecifier>,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_export_specifiers(self, node, ast_path)
             }
@@ -58302,7 +58302,7 @@ where
     }
 
     fn visit_mut_expr(&mut self, node: &mut Expr, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_expr(self, node, ast_path)
             }
@@ -58313,7 +58313,7 @@ where
     }
 
     fn visit_mut_expr_or_spread(&mut self, node: &mut ExprOrSpread, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_expr_or_spread(self, node, ast_path)
             }
@@ -58328,7 +58328,7 @@ where
         node: &mut Vec<ExprOrSpread>,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_expr_or_spreads(self, node, ast_path)
             }
@@ -58339,7 +58339,7 @@ where
     }
 
     fn visit_mut_expr_stmt(&mut self, node: &mut ExprStmt, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_expr_stmt(self, node, ast_path)
             }
@@ -58350,7 +58350,7 @@ where
     }
 
     fn visit_mut_exprs(&mut self, node: &mut Vec<Box<Expr>>, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_exprs(self, node, ast_path)
             }
@@ -58361,7 +58361,7 @@ where
     }
 
     fn visit_mut_fn_decl(&mut self, node: &mut FnDecl, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_fn_decl(self, node, ast_path)
             }
@@ -58372,7 +58372,7 @@ where
     }
 
     fn visit_mut_fn_expr(&mut self, node: &mut FnExpr, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_fn_expr(self, node, ast_path)
             }
@@ -58383,7 +58383,7 @@ where
     }
 
     fn visit_mut_for_head(&mut self, node: &mut ForHead, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_for_head(self, node, ast_path)
             }
@@ -58394,7 +58394,7 @@ where
     }
 
     fn visit_mut_for_in_stmt(&mut self, node: &mut ForInStmt, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_for_in_stmt(self, node, ast_path)
             }
@@ -58405,7 +58405,7 @@ where
     }
 
     fn visit_mut_for_of_stmt(&mut self, node: &mut ForOfStmt, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_for_of_stmt(self, node, ast_path)
             }
@@ -58416,7 +58416,7 @@ where
     }
 
     fn visit_mut_for_stmt(&mut self, node: &mut ForStmt, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_for_stmt(self, node, ast_path)
             }
@@ -58427,7 +58427,7 @@ where
     }
 
     fn visit_mut_function(&mut self, node: &mut Function, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_function(self, node, ast_path)
             }
@@ -58438,7 +58438,7 @@ where
     }
 
     fn visit_mut_getter_prop(&mut self, node: &mut GetterProp, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_getter_prop(self, node, ast_path)
             }
@@ -58449,7 +58449,7 @@ where
     }
 
     fn visit_mut_ident(&mut self, node: &mut Ident, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ident(self, node, ast_path)
             }
@@ -58460,7 +58460,7 @@ where
     }
 
     fn visit_mut_ident_name(&mut self, node: &mut IdentName, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ident_name(self, node, ast_path)
             }
@@ -58471,7 +58471,7 @@ where
     }
 
     fn visit_mut_if_stmt(&mut self, node: &mut IfStmt, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_if_stmt(self, node, ast_path)
             }
@@ -58482,7 +58482,7 @@ where
     }
 
     fn visit_mut_import(&mut self, node: &mut Import, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_import(self, node, ast_path)
             }
@@ -58493,7 +58493,7 @@ where
     }
 
     fn visit_mut_import_decl(&mut self, node: &mut ImportDecl, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_import_decl(self, node, ast_path)
             }
@@ -58508,7 +58508,7 @@ where
         node: &mut ImportDefaultSpecifier,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_import_default_specifier(self, node, ast_path)
             }
@@ -58523,7 +58523,7 @@ where
         node: &mut ImportNamedSpecifier,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_import_named_specifier(self, node, ast_path)
             }
@@ -58534,7 +58534,7 @@ where
     }
 
     fn visit_mut_import_phase(&mut self, node: &mut ImportPhase, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_import_phase(self, node, ast_path)
             }
@@ -58549,7 +58549,7 @@ where
         node: &mut ImportSpecifier,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_import_specifier(self, node, ast_path)
             }
@@ -58564,7 +58564,7 @@ where
         node: &mut Vec<ImportSpecifier>,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_import_specifiers(self, node, ast_path)
             }
@@ -58579,7 +58579,7 @@ where
         node: &mut ImportStarAsSpecifier,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_import_star_as_specifier(self, node, ast_path)
             }
@@ -58590,7 +58590,7 @@ where
     }
 
     fn visit_mut_import_with(&mut self, node: &mut ImportWith, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_import_with(self, node, ast_path)
             }
@@ -58605,7 +58605,7 @@ where
         node: &mut ImportWithItem,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_import_with_item(self, node, ast_path)
             }
@@ -58620,7 +58620,7 @@ where
         node: &mut Vec<ImportWithItem>,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_import_with_items(self, node, ast_path)
             }
@@ -58631,7 +58631,7 @@ where
     }
 
     fn visit_mut_invalid(&mut self, node: &mut Invalid, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_invalid(self, node, ast_path)
             }
@@ -58642,7 +58642,7 @@ where
     }
 
     fn visit_mut_jsx_attr(&mut self, node: &mut JSXAttr, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_jsx_attr(self, node, ast_path)
             }
@@ -58653,7 +58653,7 @@ where
     }
 
     fn visit_mut_jsx_attr_name(&mut self, node: &mut JSXAttrName, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_jsx_attr_name(self, node, ast_path)
             }
@@ -58668,7 +58668,7 @@ where
         node: &mut JSXAttrOrSpread,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_jsx_attr_or_spread(self, node, ast_path)
             }
@@ -58683,7 +58683,7 @@ where
         node: &mut Vec<JSXAttrOrSpread>,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_jsx_attr_or_spreads(self, node, ast_path)
             }
@@ -58694,7 +58694,7 @@ where
     }
 
     fn visit_mut_jsx_attr_value(&mut self, node: &mut JSXAttrValue, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_jsx_attr_value(self, node, ast_path)
             }
@@ -58709,7 +58709,7 @@ where
         node: &mut JSXClosingElement,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_jsx_closing_element(self, node, ast_path)
             }
@@ -58724,7 +58724,7 @@ where
         node: &mut JSXClosingFragment,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_jsx_closing_fragment(self, node, ast_path)
             }
@@ -58735,7 +58735,7 @@ where
     }
 
     fn visit_mut_jsx_element(&mut self, node: &mut JSXElement, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_jsx_element(self, node, ast_path)
             }
@@ -58750,7 +58750,7 @@ where
         node: &mut JSXElementChild,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_jsx_element_child(self, node, ast_path)
             }
@@ -58765,7 +58765,7 @@ where
         node: &mut Vec<JSXElementChild>,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_jsx_element_childs(self, node, ast_path)
             }
@@ -58780,7 +58780,7 @@ where
         node: &mut JSXElementName,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_jsx_element_name(self, node, ast_path)
             }
@@ -58791,7 +58791,7 @@ where
     }
 
     fn visit_mut_jsx_empty_expr(&mut self, node: &mut JSXEmptyExpr, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_jsx_empty_expr(self, node, ast_path)
             }
@@ -58802,7 +58802,7 @@ where
     }
 
     fn visit_mut_jsx_expr(&mut self, node: &mut JSXExpr, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_jsx_expr(self, node, ast_path)
             }
@@ -58817,7 +58817,7 @@ where
         node: &mut JSXExprContainer,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_jsx_expr_container(self, node, ast_path)
             }
@@ -58828,7 +58828,7 @@ where
     }
 
     fn visit_mut_jsx_fragment(&mut self, node: &mut JSXFragment, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_jsx_fragment(self, node, ast_path)
             }
@@ -58839,7 +58839,7 @@ where
     }
 
     fn visit_mut_jsx_member_expr(&mut self, node: &mut JSXMemberExpr, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_jsx_member_expr(self, node, ast_path)
             }
@@ -58854,7 +58854,7 @@ where
         node: &mut JSXNamespacedName,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_jsx_namespaced_name(self, node, ast_path)
             }
@@ -58865,7 +58865,7 @@ where
     }
 
     fn visit_mut_jsx_object(&mut self, node: &mut JSXObject, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_jsx_object(self, node, ast_path)
             }
@@ -58880,7 +58880,7 @@ where
         node: &mut JSXOpeningElement,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_jsx_opening_element(self, node, ast_path)
             }
@@ -58895,7 +58895,7 @@ where
         node: &mut JSXOpeningFragment,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_jsx_opening_fragment(self, node, ast_path)
             }
@@ -58910,7 +58910,7 @@ where
         node: &mut JSXSpreadChild,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_jsx_spread_child(self, node, ast_path)
             }
@@ -58921,7 +58921,7 @@ where
     }
 
     fn visit_mut_jsx_text(&mut self, node: &mut JSXText, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_jsx_text(self, node, ast_path)
             }
@@ -58932,7 +58932,7 @@ where
     }
 
     fn visit_mut_key(&mut self, node: &mut Key, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_key(self, node, ast_path)
             }
@@ -58947,7 +58947,7 @@ where
         node: &mut KeyValuePatProp,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_key_value_pat_prop(self, node, ast_path)
             }
@@ -58958,7 +58958,7 @@ where
     }
 
     fn visit_mut_key_value_prop(&mut self, node: &mut KeyValueProp, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_key_value_prop(self, node, ast_path)
             }
@@ -58969,7 +58969,7 @@ where
     }
 
     fn visit_mut_labeled_stmt(&mut self, node: &mut LabeledStmt, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_labeled_stmt(self, node, ast_path)
             }
@@ -58980,7 +58980,7 @@ where
     }
 
     fn visit_mut_lit(&mut self, node: &mut Lit, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_lit(self, node, ast_path)
             }
@@ -58991,7 +58991,7 @@ where
     }
 
     fn visit_mut_member_expr(&mut self, node: &mut MemberExpr, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_member_expr(self, node, ast_path)
             }
@@ -59002,7 +59002,7 @@ where
     }
 
     fn visit_mut_member_prop(&mut self, node: &mut MemberProp, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_member_prop(self, node, ast_path)
             }
@@ -59013,7 +59013,7 @@ where
     }
 
     fn visit_mut_meta_prop_expr(&mut self, node: &mut MetaPropExpr, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_meta_prop_expr(self, node, ast_path)
             }
@@ -59024,7 +59024,7 @@ where
     }
 
     fn visit_mut_meta_prop_kind(&mut self, node: &mut MetaPropKind, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_meta_prop_kind(self, node, ast_path)
             }
@@ -59035,7 +59035,7 @@ where
     }
 
     fn visit_mut_method_kind(&mut self, node: &mut MethodKind, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_method_kind(self, node, ast_path)
             }
@@ -59046,7 +59046,7 @@ where
     }
 
     fn visit_mut_method_prop(&mut self, node: &mut MethodProp, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_method_prop(self, node, ast_path)
             }
@@ -59057,7 +59057,7 @@ where
     }
 
     fn visit_mut_module(&mut self, node: &mut Module, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_module(self, node, ast_path)
             }
@@ -59068,7 +59068,7 @@ where
     }
 
     fn visit_mut_module_decl(&mut self, node: &mut ModuleDecl, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_module_decl(self, node, ast_path)
             }
@@ -59083,7 +59083,7 @@ where
         node: &mut ModuleExportName,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_module_export_name(self, node, ast_path)
             }
@@ -59094,7 +59094,7 @@ where
     }
 
     fn visit_mut_module_item(&mut self, node: &mut ModuleItem, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_module_item(self, node, ast_path)
             }
@@ -59105,7 +59105,7 @@ where
     }
 
     fn visit_mut_module_items(&mut self, node: &mut Vec<ModuleItem>, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_module_items(self, node, ast_path)
             }
@@ -59116,7 +59116,7 @@ where
     }
 
     fn visit_mut_named_export(&mut self, node: &mut NamedExport, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_named_export(self, node, ast_path)
             }
@@ -59127,7 +59127,7 @@ where
     }
 
     fn visit_mut_new_expr(&mut self, node: &mut NewExpr, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_new_expr(self, node, ast_path)
             }
@@ -59138,7 +59138,7 @@ where
     }
 
     fn visit_mut_null(&mut self, node: &mut Null, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_null(self, node, ast_path)
             }
@@ -59149,7 +59149,7 @@ where
     }
 
     fn visit_mut_number(&mut self, node: &mut Number, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_number(self, node, ast_path)
             }
@@ -59160,7 +59160,7 @@ where
     }
 
     fn visit_mut_object_lit(&mut self, node: &mut ObjectLit, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_object_lit(self, node, ast_path)
             }
@@ -59171,7 +59171,7 @@ where
     }
 
     fn visit_mut_object_pat(&mut self, node: &mut ObjectPat, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_object_pat(self, node, ast_path)
             }
@@ -59182,7 +59182,7 @@ where
     }
 
     fn visit_mut_object_pat_prop(&mut self, node: &mut ObjectPatProp, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_object_pat_prop(self, node, ast_path)
             }
@@ -59197,7 +59197,7 @@ where
         node: &mut Vec<ObjectPatProp>,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_object_pat_props(self, node, ast_path)
             }
@@ -59212,7 +59212,7 @@ where
         node: &mut Option<Accessibility>,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_opt_accessibility(self, node, ast_path)
             }
@@ -59227,7 +59227,7 @@ where
         node: &mut Option<swc_atoms::Atom>,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_opt_atom(self, node, ast_path)
             }
@@ -59242,7 +59242,7 @@ where
         node: &mut Option<BlockStmt>,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_opt_block_stmt(self, node, ast_path)
             }
@@ -59253,7 +59253,7 @@ where
     }
 
     fn visit_mut_opt_call(&mut self, node: &mut OptCall, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_opt_call(self, node, ast_path)
             }
@@ -59268,7 +59268,7 @@ where
         node: &mut Option<CatchClause>,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_opt_catch_clause(self, node, ast_path)
             }
@@ -59279,7 +59279,7 @@ where
     }
 
     fn visit_mut_opt_chain_base(&mut self, node: &mut OptChainBase, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_opt_chain_base(self, node, ast_path)
             }
@@ -59290,7 +59290,7 @@ where
     }
 
     fn visit_mut_opt_chain_expr(&mut self, node: &mut OptChainExpr, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_opt_chain_expr(self, node, ast_path)
             }
@@ -59301,7 +59301,7 @@ where
     }
 
     fn visit_mut_opt_expr(&mut self, node: &mut Option<Box<Expr>>, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_opt_expr(self, node, ast_path)
             }
@@ -59316,7 +59316,7 @@ where
         node: &mut Option<ExprOrSpread>,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_opt_expr_or_spread(self, node, ast_path)
             }
@@ -59331,7 +59331,7 @@ where
         node: &mut Option<Vec<ExprOrSpread>>,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_opt_expr_or_spreads(self, node, ast_path)
             }
@@ -59342,7 +59342,7 @@ where
     }
 
     fn visit_mut_opt_ident(&mut self, node: &mut Option<Ident>, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_opt_ident(self, node, ast_path)
             }
@@ -59357,7 +59357,7 @@ where
         node: &mut Option<JSXAttrValue>,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_opt_jsx_attr_value(self, node, ast_path)
             }
@@ -59372,7 +59372,7 @@ where
         node: &mut Option<JSXClosingElement>,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_opt_jsx_closing_element(self, node, ast_path)
             }
@@ -59387,7 +59387,7 @@ where
         node: &mut Option<ModuleExportName>,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_opt_module_export_name(self, node, ast_path)
             }
@@ -59402,7 +59402,7 @@ where
         node: &mut Option<Vec<ModuleItem>>,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_opt_module_items(self, node, ast_path)
             }
@@ -59417,7 +59417,7 @@ where
         node: &mut Option<Box<ObjectLit>>,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_opt_object_lit(self, node, ast_path)
             }
@@ -59428,7 +59428,7 @@ where
     }
 
     fn visit_mut_opt_pat(&mut self, node: &mut Option<Pat>, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_opt_pat(self, node, ast_path)
             }
@@ -59443,7 +59443,7 @@ where
         node: &mut Option<swc_common::Span>,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_opt_span(self, node, ast_path)
             }
@@ -59454,7 +59454,7 @@ where
     }
 
     fn visit_mut_opt_stmt(&mut self, node: &mut Option<Box<Stmt>>, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_opt_stmt(self, node, ast_path)
             }
@@ -59465,7 +59465,7 @@ where
     }
 
     fn visit_mut_opt_str(&mut self, node: &mut Option<Box<Str>>, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_opt_str(self, node, ast_path)
             }
@@ -59480,7 +59480,7 @@ where
         node: &mut Option<TruePlusMinus>,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_opt_true_plus_minus(self, node, ast_path)
             }
@@ -59495,7 +59495,7 @@ where
         node: &mut Option<TsEntityName>,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_opt_ts_entity_name(self, node, ast_path)
             }
@@ -59510,7 +59510,7 @@ where
         node: &mut Option<TsNamespaceBody>,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_opt_ts_namespace_body(self, node, ast_path)
             }
@@ -59525,7 +59525,7 @@ where
         node: &mut Option<Box<TsType>>,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_opt_ts_type(self, node, ast_path)
             }
@@ -59540,7 +59540,7 @@ where
         node: &mut Option<Box<TsTypeAnn>>,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_opt_ts_type_ann(self, node, ast_path)
             }
@@ -59555,7 +59555,7 @@ where
         node: &mut Option<Box<TsTypeParamDecl>>,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_opt_ts_type_param_decl(self, node, ast_path)
             }
@@ -59570,7 +59570,7 @@ where
         node: &mut Option<Box<TsTypeParamInstantiation>>,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_opt_ts_type_param_instantiation(self, node, ast_path)
             }
@@ -59585,7 +59585,7 @@ where
         node: &mut Option<VarDeclOrExpr>,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_opt_var_decl_or_expr(self, node, ast_path)
             }
@@ -59600,7 +59600,7 @@ where
         node: &mut Vec<Option<ExprOrSpread>>,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_opt_vec_expr_or_spreads(self, node, ast_path)
             }
@@ -59611,7 +59611,7 @@ where
     }
 
     fn visit_mut_opt_vec_pats(&mut self, node: &mut Vec<Option<Pat>>, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_opt_vec_pats(self, node, ast_path)
             }
@@ -59622,7 +59622,7 @@ where
     }
 
     fn visit_mut_param(&mut self, node: &mut Param, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_param(self, node, ast_path)
             }
@@ -59637,7 +59637,7 @@ where
         node: &mut ParamOrTsParamProp,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_param_or_ts_param_prop(self, node, ast_path)
             }
@@ -59652,7 +59652,7 @@ where
         node: &mut Vec<ParamOrTsParamProp>,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_param_or_ts_param_props(self, node, ast_path)
             }
@@ -59663,7 +59663,7 @@ where
     }
 
     fn visit_mut_params(&mut self, node: &mut Vec<Param>, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_params(self, node, ast_path)
             }
@@ -59674,7 +59674,7 @@ where
     }
 
     fn visit_mut_paren_expr(&mut self, node: &mut ParenExpr, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_paren_expr(self, node, ast_path)
             }
@@ -59685,7 +59685,7 @@ where
     }
 
     fn visit_mut_pat(&mut self, node: &mut Pat, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_pat(self, node, ast_path)
             }
@@ -59696,7 +59696,7 @@ where
     }
 
     fn visit_mut_pats(&mut self, node: &mut Vec<Pat>, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_pats(self, node, ast_path)
             }
@@ -59707,7 +59707,7 @@ where
     }
 
     fn visit_mut_private_method(&mut self, node: &mut PrivateMethod, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_private_method(self, node, ast_path)
             }
@@ -59718,7 +59718,7 @@ where
     }
 
     fn visit_mut_private_name(&mut self, node: &mut PrivateName, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_private_name(self, node, ast_path)
             }
@@ -59729,7 +59729,7 @@ where
     }
 
     fn visit_mut_private_prop(&mut self, node: &mut PrivateProp, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_private_prop(self, node, ast_path)
             }
@@ -59740,7 +59740,7 @@ where
     }
 
     fn visit_mut_program(&mut self, node: &mut Program, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_program(self, node, ast_path)
             }
@@ -59751,7 +59751,7 @@ where
     }
 
     fn visit_mut_prop(&mut self, node: &mut Prop, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_prop(self, node, ast_path)
             }
@@ -59762,7 +59762,7 @@ where
     }
 
     fn visit_mut_prop_name(&mut self, node: &mut PropName, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_prop_name(self, node, ast_path)
             }
@@ -59773,7 +59773,7 @@ where
     }
 
     fn visit_mut_prop_or_spread(&mut self, node: &mut PropOrSpread, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_prop_or_spread(self, node, ast_path)
             }
@@ -59788,7 +59788,7 @@ where
         node: &mut Vec<PropOrSpread>,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_prop_or_spreads(self, node, ast_path)
             }
@@ -59799,7 +59799,7 @@ where
     }
 
     fn visit_mut_regex(&mut self, node: &mut Regex, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_regex(self, node, ast_path)
             }
@@ -59810,7 +59810,7 @@ where
     }
 
     fn visit_mut_reserved_unused(&mut self, node: &mut ReservedUnused, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_reserved_unused(self, node, ast_path)
             }
@@ -59821,7 +59821,7 @@ where
     }
 
     fn visit_mut_rest_pat(&mut self, node: &mut RestPat, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_rest_pat(self, node, ast_path)
             }
@@ -59832,7 +59832,7 @@ where
     }
 
     fn visit_mut_return_stmt(&mut self, node: &mut ReturnStmt, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_return_stmt(self, node, ast_path)
             }
@@ -59843,7 +59843,7 @@ where
     }
 
     fn visit_mut_script(&mut self, node: &mut Script, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_script(self, node, ast_path)
             }
@@ -59854,7 +59854,7 @@ where
     }
 
     fn visit_mut_seq_expr(&mut self, node: &mut SeqExpr, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_seq_expr(self, node, ast_path)
             }
@@ -59865,7 +59865,7 @@ where
     }
 
     fn visit_mut_setter_prop(&mut self, node: &mut SetterProp, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_setter_prop(self, node, ast_path)
             }
@@ -59880,7 +59880,7 @@ where
         node: &mut SimpleAssignTarget,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_simple_assign_target(self, node, ast_path)
             }
@@ -59891,7 +59891,7 @@ where
     }
 
     fn visit_mut_span(&mut self, node: &mut swc_common::Span, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_span(self, node, ast_path)
             }
@@ -59902,7 +59902,7 @@ where
     }
 
     fn visit_mut_spread_element(&mut self, node: &mut SpreadElement, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_spread_element(self, node, ast_path)
             }
@@ -59913,7 +59913,7 @@ where
     }
 
     fn visit_mut_static_block(&mut self, node: &mut StaticBlock, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_static_block(self, node, ast_path)
             }
@@ -59924,7 +59924,7 @@ where
     }
 
     fn visit_mut_stmt(&mut self, node: &mut Stmt, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_stmt(self, node, ast_path)
             }
@@ -59935,7 +59935,7 @@ where
     }
 
     fn visit_mut_stmts(&mut self, node: &mut Vec<Stmt>, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_stmts(self, node, ast_path)
             }
@@ -59946,7 +59946,7 @@ where
     }
 
     fn visit_mut_str(&mut self, node: &mut Str, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_str(self, node, ast_path)
             }
@@ -59957,7 +59957,7 @@ where
     }
 
     fn visit_mut_super(&mut self, node: &mut Super, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_super(self, node, ast_path)
             }
@@ -59968,7 +59968,7 @@ where
     }
 
     fn visit_mut_super_prop(&mut self, node: &mut SuperProp, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_super_prop(self, node, ast_path)
             }
@@ -59979,7 +59979,7 @@ where
     }
 
     fn visit_mut_super_prop_expr(&mut self, node: &mut SuperPropExpr, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_super_prop_expr(self, node, ast_path)
             }
@@ -59990,7 +59990,7 @@ where
     }
 
     fn visit_mut_switch_case(&mut self, node: &mut SwitchCase, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_switch_case(self, node, ast_path)
             }
@@ -60001,7 +60001,7 @@ where
     }
 
     fn visit_mut_switch_cases(&mut self, node: &mut Vec<SwitchCase>, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_switch_cases(self, node, ast_path)
             }
@@ -60012,7 +60012,7 @@ where
     }
 
     fn visit_mut_switch_stmt(&mut self, node: &mut SwitchStmt, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_switch_stmt(self, node, ast_path)
             }
@@ -60027,7 +60027,7 @@ where
         node: &mut swc_common::SyntaxContext,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_syntax_context(self, node, ast_path)
             }
@@ -60038,7 +60038,7 @@ where
     }
 
     fn visit_mut_tagged_tpl(&mut self, node: &mut TaggedTpl, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_tagged_tpl(self, node, ast_path)
             }
@@ -60049,7 +60049,7 @@ where
     }
 
     fn visit_mut_this_expr(&mut self, node: &mut ThisExpr, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_this_expr(self, node, ast_path)
             }
@@ -60060,7 +60060,7 @@ where
     }
 
     fn visit_mut_throw_stmt(&mut self, node: &mut ThrowStmt, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_throw_stmt(self, node, ast_path)
             }
@@ -60071,7 +60071,7 @@ where
     }
 
     fn visit_mut_tpl(&mut self, node: &mut Tpl, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_tpl(self, node, ast_path)
             }
@@ -60082,7 +60082,7 @@ where
     }
 
     fn visit_mut_tpl_element(&mut self, node: &mut TplElement, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_tpl_element(self, node, ast_path)
             }
@@ -60093,7 +60093,7 @@ where
     }
 
     fn visit_mut_tpl_elements(&mut self, node: &mut Vec<TplElement>, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_tpl_elements(self, node, ast_path)
             }
@@ -60104,7 +60104,7 @@ where
     }
 
     fn visit_mut_true_plus_minus(&mut self, node: &mut TruePlusMinus, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_true_plus_minus(self, node, ast_path)
             }
@@ -60115,7 +60115,7 @@ where
     }
 
     fn visit_mut_try_stmt(&mut self, node: &mut TryStmt, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_try_stmt(self, node, ast_path)
             }
@@ -60126,7 +60126,7 @@ where
     }
 
     fn visit_mut_ts_array_type(&mut self, node: &mut TsArrayType, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_array_type(self, node, ast_path)
             }
@@ -60137,7 +60137,7 @@ where
     }
 
     fn visit_mut_ts_as_expr(&mut self, node: &mut TsAsExpr, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_as_expr(self, node, ast_path)
             }
@@ -60152,7 +60152,7 @@ where
         node: &mut TsCallSignatureDecl,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_call_signature_decl(self, node, ast_path)
             }
@@ -60167,7 +60167,7 @@ where
         node: &mut TsConditionalType,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_conditional_type(self, node, ast_path)
             }
@@ -60182,7 +60182,7 @@ where
         node: &mut TsConstAssertion,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_const_assertion(self, node, ast_path)
             }
@@ -60197,7 +60197,7 @@ where
         node: &mut TsConstructSignatureDecl,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_construct_signature_decl(self, node, ast_path)
             }
@@ -60212,7 +60212,7 @@ where
         node: &mut TsConstructorType,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_constructor_type(self, node, ast_path)
             }
@@ -60223,7 +60223,7 @@ where
     }
 
     fn visit_mut_ts_entity_name(&mut self, node: &mut TsEntityName, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_entity_name(self, node, ast_path)
             }
@@ -60234,7 +60234,7 @@ where
     }
 
     fn visit_mut_ts_enum_decl(&mut self, node: &mut TsEnumDecl, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_enum_decl(self, node, ast_path)
             }
@@ -60245,7 +60245,7 @@ where
     }
 
     fn visit_mut_ts_enum_member(&mut self, node: &mut TsEnumMember, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_enum_member(self, node, ast_path)
             }
@@ -60260,7 +60260,7 @@ where
         node: &mut TsEnumMemberId,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_enum_member_id(self, node, ast_path)
             }
@@ -60275,7 +60275,7 @@ where
         node: &mut Vec<TsEnumMember>,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_enum_members(self, node, ast_path)
             }
@@ -60290,7 +60290,7 @@ where
         node: &mut TsExportAssignment,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_export_assignment(self, node, ast_path)
             }
@@ -60305,7 +60305,7 @@ where
         node: &mut TsExprWithTypeArgs,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_expr_with_type_args(self, node, ast_path)
             }
@@ -60320,7 +60320,7 @@ where
         node: &mut Vec<TsExprWithTypeArgs>,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_expr_with_type_argss(self, node, ast_path)
             }
@@ -60335,7 +60335,7 @@ where
         node: &mut TsExternalModuleRef,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_external_module_ref(self, node, ast_path)
             }
@@ -60350,7 +60350,7 @@ where
         node: &mut TsFnOrConstructorType,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_fn_or_constructor_type(self, node, ast_path)
             }
@@ -60361,7 +60361,7 @@ where
     }
 
     fn visit_mut_ts_fn_param(&mut self, node: &mut TsFnParam, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_fn_param(self, node, ast_path)
             }
@@ -60372,7 +60372,7 @@ where
     }
 
     fn visit_mut_ts_fn_params(&mut self, node: &mut Vec<TsFnParam>, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_fn_params(self, node, ast_path)
             }
@@ -60383,7 +60383,7 @@ where
     }
 
     fn visit_mut_ts_fn_type(&mut self, node: &mut TsFnType, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_fn_type(self, node, ast_path)
             }
@@ -60398,7 +60398,7 @@ where
         node: &mut TsGetterSignature,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_getter_signature(self, node, ast_path)
             }
@@ -60413,7 +60413,7 @@ where
         node: &mut TsImportEqualsDecl,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_import_equals_decl(self, node, ast_path)
             }
@@ -60424,7 +60424,7 @@ where
     }
 
     fn visit_mut_ts_import_type(&mut self, node: &mut TsImportType, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_import_type(self, node, ast_path)
             }
@@ -60439,7 +60439,7 @@ where
         node: &mut TsIndexSignature,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_index_signature(self, node, ast_path)
             }
@@ -60454,7 +60454,7 @@ where
         node: &mut TsIndexedAccessType,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_indexed_access_type(self, node, ast_path)
             }
@@ -60465,7 +60465,7 @@ where
     }
 
     fn visit_mut_ts_infer_type(&mut self, node: &mut TsInferType, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_infer_type(self, node, ast_path)
             }
@@ -60480,7 +60480,7 @@ where
         node: &mut TsInstantiation,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_instantiation(self, node, ast_path)
             }
@@ -60495,7 +60495,7 @@ where
         node: &mut TsInterfaceBody,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_interface_body(self, node, ast_path)
             }
@@ -60510,7 +60510,7 @@ where
         node: &mut TsInterfaceDecl,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_interface_decl(self, node, ast_path)
             }
@@ -60525,7 +60525,7 @@ where
         node: &mut TsIntersectionType,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_intersection_type(self, node, ast_path)
             }
@@ -60536,7 +60536,7 @@ where
     }
 
     fn visit_mut_ts_keyword_type(&mut self, node: &mut TsKeywordType, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_keyword_type(self, node, ast_path)
             }
@@ -60551,7 +60551,7 @@ where
         node: &mut TsKeywordTypeKind,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_keyword_type_kind(self, node, ast_path)
             }
@@ -60562,7 +60562,7 @@ where
     }
 
     fn visit_mut_ts_lit(&mut self, node: &mut TsLit, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_lit(self, node, ast_path)
             }
@@ -60573,7 +60573,7 @@ where
     }
 
     fn visit_mut_ts_lit_type(&mut self, node: &mut TsLitType, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_lit_type(self, node, ast_path)
             }
@@ -60584,7 +60584,7 @@ where
     }
 
     fn visit_mut_ts_mapped_type(&mut self, node: &mut TsMappedType, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_mapped_type(self, node, ast_path)
             }
@@ -60599,7 +60599,7 @@ where
         node: &mut TsMethodSignature,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_method_signature(self, node, ast_path)
             }
@@ -60610,7 +60610,7 @@ where
     }
 
     fn visit_mut_ts_module_block(&mut self, node: &mut TsModuleBlock, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_module_block(self, node, ast_path)
             }
@@ -60621,7 +60621,7 @@ where
     }
 
     fn visit_mut_ts_module_decl(&mut self, node: &mut TsModuleDecl, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_module_decl(self, node, ast_path)
             }
@@ -60632,7 +60632,7 @@ where
     }
 
     fn visit_mut_ts_module_name(&mut self, node: &mut TsModuleName, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_module_name(self, node, ast_path)
             }
@@ -60643,7 +60643,7 @@ where
     }
 
     fn visit_mut_ts_module_ref(&mut self, node: &mut TsModuleRef, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_module_ref(self, node, ast_path)
             }
@@ -60658,7 +60658,7 @@ where
         node: &mut TsNamespaceBody,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_namespace_body(self, node, ast_path)
             }
@@ -60673,7 +60673,7 @@ where
         node: &mut TsNamespaceDecl,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_namespace_decl(self, node, ast_path)
             }
@@ -60688,7 +60688,7 @@ where
         node: &mut TsNamespaceExportDecl,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_namespace_export_decl(self, node, ast_path)
             }
@@ -60699,7 +60699,7 @@ where
     }
 
     fn visit_mut_ts_non_null_expr(&mut self, node: &mut TsNonNullExpr, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_non_null_expr(self, node, ast_path)
             }
@@ -60714,7 +60714,7 @@ where
         node: &mut TsOptionalType,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_optional_type(self, node, ast_path)
             }
@@ -60725,7 +60725,7 @@ where
     }
 
     fn visit_mut_ts_param_prop(&mut self, node: &mut TsParamProp, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_param_prop(self, node, ast_path)
             }
@@ -60740,7 +60740,7 @@ where
         node: &mut TsParamPropParam,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_param_prop_param(self, node, ast_path)
             }
@@ -60755,7 +60755,7 @@ where
         node: &mut TsParenthesizedType,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_parenthesized_type(self, node, ast_path)
             }
@@ -60770,7 +60770,7 @@ where
         node: &mut TsPropertySignature,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_property_signature(self, node, ast_path)
             }
@@ -60785,7 +60785,7 @@ where
         node: &mut TsQualifiedName,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_qualified_name(self, node, ast_path)
             }
@@ -60796,7 +60796,7 @@ where
     }
 
     fn visit_mut_ts_rest_type(&mut self, node: &mut TsRestType, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_rest_type(self, node, ast_path)
             }
@@ -60811,7 +60811,7 @@ where
         node: &mut TsSatisfiesExpr,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_satisfies_expr(self, node, ast_path)
             }
@@ -60826,7 +60826,7 @@ where
         node: &mut TsSetterSignature,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_setter_signature(self, node, ast_path)
             }
@@ -60837,7 +60837,7 @@ where
     }
 
     fn visit_mut_ts_this_type(&mut self, node: &mut TsThisType, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_this_type(self, node, ast_path)
             }
@@ -60852,7 +60852,7 @@ where
         node: &mut TsThisTypeOrIdent,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_this_type_or_ident(self, node, ast_path)
             }
@@ -60863,7 +60863,7 @@ where
     }
 
     fn visit_mut_ts_tpl_lit_type(&mut self, node: &mut TsTplLitType, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_tpl_lit_type(self, node, ast_path)
             }
@@ -60878,7 +60878,7 @@ where
         node: &mut TsTupleElement,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_tuple_element(self, node, ast_path)
             }
@@ -60893,7 +60893,7 @@ where
         node: &mut Vec<TsTupleElement>,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_tuple_elements(self, node, ast_path)
             }
@@ -60904,7 +60904,7 @@ where
     }
 
     fn visit_mut_ts_tuple_type(&mut self, node: &mut TsTupleType, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_tuple_type(self, node, ast_path)
             }
@@ -60915,7 +60915,7 @@ where
     }
 
     fn visit_mut_ts_type(&mut self, node: &mut TsType, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_type(self, node, ast_path)
             }
@@ -60930,7 +60930,7 @@ where
         node: &mut TsTypeAliasDecl,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_type_alias_decl(self, node, ast_path)
             }
@@ -60941,7 +60941,7 @@ where
     }
 
     fn visit_mut_ts_type_ann(&mut self, node: &mut TsTypeAnn, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_type_ann(self, node, ast_path)
             }
@@ -60956,7 +60956,7 @@ where
         node: &mut TsTypeAssertion,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_type_assertion(self, node, ast_path)
             }
@@ -60967,7 +60967,7 @@ where
     }
 
     fn visit_mut_ts_type_element(&mut self, node: &mut TsTypeElement, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_type_element(self, node, ast_path)
             }
@@ -60982,7 +60982,7 @@ where
         node: &mut Vec<TsTypeElement>,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_type_elements(self, node, ast_path)
             }
@@ -60993,7 +60993,7 @@ where
     }
 
     fn visit_mut_ts_type_lit(&mut self, node: &mut TsTypeLit, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_type_lit(self, node, ast_path)
             }
@@ -61008,7 +61008,7 @@ where
         node: &mut TsTypeOperator,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_type_operator(self, node, ast_path)
             }
@@ -61023,7 +61023,7 @@ where
         node: &mut TsTypeOperatorOp,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_type_operator_op(self, node, ast_path)
             }
@@ -61034,7 +61034,7 @@ where
     }
 
     fn visit_mut_ts_type_param(&mut self, node: &mut TsTypeParam, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_type_param(self, node, ast_path)
             }
@@ -61049,7 +61049,7 @@ where
         node: &mut TsTypeParamDecl,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_type_param_decl(self, node, ast_path)
             }
@@ -61064,7 +61064,7 @@ where
         node: &mut TsTypeParamInstantiation,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_type_param_instantiation(self, node, ast_path)
             }
@@ -61079,7 +61079,7 @@ where
         node: &mut Vec<TsTypeParam>,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_type_params(self, node, ast_path)
             }
@@ -61094,7 +61094,7 @@ where
         node: &mut TsTypePredicate,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_type_predicate(self, node, ast_path)
             }
@@ -61105,7 +61105,7 @@ where
     }
 
     fn visit_mut_ts_type_query(&mut self, node: &mut TsTypeQuery, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_type_query(self, node, ast_path)
             }
@@ -61120,7 +61120,7 @@ where
         node: &mut TsTypeQueryExpr,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_type_query_expr(self, node, ast_path)
             }
@@ -61131,7 +61131,7 @@ where
     }
 
     fn visit_mut_ts_type_ref(&mut self, node: &mut TsTypeRef, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_type_ref(self, node, ast_path)
             }
@@ -61142,7 +61142,7 @@ where
     }
 
     fn visit_mut_ts_types(&mut self, node: &mut Vec<Box<TsType>>, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_types(self, node, ast_path)
             }
@@ -61157,7 +61157,7 @@ where
         node: &mut TsUnionOrIntersectionType,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_union_or_intersection_type(self, node, ast_path)
             }
@@ -61168,7 +61168,7 @@ where
     }
 
     fn visit_mut_ts_union_type(&mut self, node: &mut TsUnionType, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_ts_union_type(self, node, ast_path)
             }
@@ -61179,7 +61179,7 @@ where
     }
 
     fn visit_mut_unary_expr(&mut self, node: &mut UnaryExpr, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_unary_expr(self, node, ast_path)
             }
@@ -61190,7 +61190,7 @@ where
     }
 
     fn visit_mut_unary_op(&mut self, node: &mut UnaryOp, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_unary_op(self, node, ast_path)
             }
@@ -61201,7 +61201,7 @@ where
     }
 
     fn visit_mut_update_expr(&mut self, node: &mut UpdateExpr, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_update_expr(self, node, ast_path)
             }
@@ -61212,7 +61212,7 @@ where
     }
 
     fn visit_mut_update_op(&mut self, node: &mut UpdateOp, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_update_op(self, node, ast_path)
             }
@@ -61223,7 +61223,7 @@ where
     }
 
     fn visit_mut_using_decl(&mut self, node: &mut UsingDecl, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_using_decl(self, node, ast_path)
             }
@@ -61234,7 +61234,7 @@ where
     }
 
     fn visit_mut_var_decl(&mut self, node: &mut VarDecl, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_var_decl(self, node, ast_path)
             }
@@ -61245,7 +61245,7 @@ where
     }
 
     fn visit_mut_var_decl_kind(&mut self, node: &mut VarDeclKind, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_var_decl_kind(self, node, ast_path)
             }
@@ -61256,7 +61256,7 @@ where
     }
 
     fn visit_mut_var_decl_or_expr(&mut self, node: &mut VarDeclOrExpr, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_var_decl_or_expr(self, node, ast_path)
             }
@@ -61267,7 +61267,7 @@ where
     }
 
     fn visit_mut_var_declarator(&mut self, node: &mut VarDeclarator, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_var_declarator(self, node, ast_path)
             }
@@ -61282,7 +61282,7 @@ where
         node: &mut Vec<VarDeclarator>,
         ast_path: &mut AstKindPath,
     ) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_var_declarators(self, node, ast_path)
             }
@@ -61293,7 +61293,7 @@ where
     }
 
     fn visit_mut_while_stmt(&mut self, node: &mut WhileStmt, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_while_stmt(self, node, ast_path)
             }
@@ -61304,7 +61304,7 @@ where
     }
 
     fn visit_mut_with_stmt(&mut self, node: &mut WithStmt, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_with_stmt(self, node, ast_path)
             }
@@ -61315,7 +61315,7 @@ where
     }
 
     fn visit_mut_yield_expr(&mut self, node: &mut YieldExpr, ast_path: &mut AstKindPath) {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 VisitMutAstPath::visit_mut_yield_expr(self, node, ast_path)
             }
@@ -75303,343 +75303,343 @@ where
     B: Fold,
 {
     fn fold_accessibility(&mut self, node: Accessibility) -> Accessibility {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_accessibility(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_accessibility(self, node),
         }
     }
 
     fn fold_array_lit(&mut self, node: ArrayLit) -> ArrayLit {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_array_lit(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_array_lit(self, node),
         }
     }
 
     fn fold_array_pat(&mut self, node: ArrayPat) -> ArrayPat {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_array_pat(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_array_pat(self, node),
         }
     }
 
     fn fold_arrow_expr(&mut self, node: ArrowExpr) -> ArrowExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_arrow_expr(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_arrow_expr(self, node),
         }
     }
 
     fn fold_assign_expr(&mut self, node: AssignExpr) -> AssignExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_assign_expr(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_assign_expr(self, node),
         }
     }
 
     fn fold_assign_op(&mut self, node: AssignOp) -> AssignOp {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_assign_op(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_assign_op(self, node),
         }
     }
 
     fn fold_assign_pat(&mut self, node: AssignPat) -> AssignPat {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_assign_pat(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_assign_pat(self, node),
         }
     }
 
     fn fold_assign_pat_prop(&mut self, node: AssignPatProp) -> AssignPatProp {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_assign_pat_prop(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_assign_pat_prop(self, node),
         }
     }
 
     fn fold_assign_prop(&mut self, node: AssignProp) -> AssignProp {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_assign_prop(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_assign_prop(self, node),
         }
     }
 
     fn fold_assign_target(&mut self, node: AssignTarget) -> AssignTarget {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_assign_target(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_assign_target(self, node),
         }
     }
 
     fn fold_assign_target_pat(&mut self, node: AssignTargetPat) -> AssignTargetPat {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_assign_target_pat(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_assign_target_pat(self, node),
         }
     }
 
     fn fold_atom(&mut self, node: swc_atoms::Atom) -> swc_atoms::Atom {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_atom(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_atom(self, node),
         }
     }
 
     fn fold_auto_accessor(&mut self, node: AutoAccessor) -> AutoAccessor {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_auto_accessor(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_auto_accessor(self, node),
         }
     }
 
     fn fold_await_expr(&mut self, node: AwaitExpr) -> AwaitExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_await_expr(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_await_expr(self, node),
         }
     }
 
     fn fold_big_int(&mut self, node: BigInt) -> BigInt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_big_int(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_big_int(self, node),
         }
     }
 
     fn fold_big_int_value(&mut self, node: BigIntValue) -> BigIntValue {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_big_int_value(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_big_int_value(self, node),
         }
     }
 
     fn fold_bin_expr(&mut self, node: BinExpr) -> BinExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_bin_expr(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_bin_expr(self, node),
         }
     }
 
     fn fold_binary_op(&mut self, node: BinaryOp) -> BinaryOp {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_binary_op(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_binary_op(self, node),
         }
     }
 
     fn fold_binding_ident(&mut self, node: BindingIdent) -> BindingIdent {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_binding_ident(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_binding_ident(self, node),
         }
     }
 
     fn fold_block_stmt(&mut self, node: BlockStmt) -> BlockStmt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_block_stmt(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_block_stmt(self, node),
         }
     }
 
     fn fold_block_stmt_or_expr(&mut self, node: BlockStmtOrExpr) -> BlockStmtOrExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_block_stmt_or_expr(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_block_stmt_or_expr(self, node),
         }
     }
 
     fn fold_bool(&mut self, node: Bool) -> Bool {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_bool(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_bool(self, node),
         }
     }
 
     fn fold_break_stmt(&mut self, node: BreakStmt) -> BreakStmt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_break_stmt(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_break_stmt(self, node),
         }
     }
 
     fn fold_call_expr(&mut self, node: CallExpr) -> CallExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_call_expr(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_call_expr(self, node),
         }
     }
 
     fn fold_callee(&mut self, node: Callee) -> Callee {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_callee(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_callee(self, node),
         }
     }
 
     fn fold_catch_clause(&mut self, node: CatchClause) -> CatchClause {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_catch_clause(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_catch_clause(self, node),
         }
     }
 
     fn fold_class(&mut self, node: Class) -> Class {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_class(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_class(self, node),
         }
     }
 
     fn fold_class_decl(&mut self, node: ClassDecl) -> ClassDecl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_class_decl(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_class_decl(self, node),
         }
     }
 
     fn fold_class_expr(&mut self, node: ClassExpr) -> ClassExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_class_expr(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_class_expr(self, node),
         }
     }
 
     fn fold_class_member(&mut self, node: ClassMember) -> ClassMember {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_class_member(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_class_member(self, node),
         }
     }
 
     fn fold_class_members(&mut self, node: Vec<ClassMember>) -> Vec<ClassMember> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_class_members(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_class_members(self, node),
         }
     }
 
     fn fold_class_method(&mut self, node: ClassMethod) -> ClassMethod {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_class_method(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_class_method(self, node),
         }
     }
 
     fn fold_class_prop(&mut self, node: ClassProp) -> ClassProp {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_class_prop(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_class_prop(self, node),
         }
     }
 
     fn fold_computed_prop_name(&mut self, node: ComputedPropName) -> ComputedPropName {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_computed_prop_name(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_computed_prop_name(self, node),
         }
     }
 
     fn fold_cond_expr(&mut self, node: CondExpr) -> CondExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_cond_expr(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_cond_expr(self, node),
         }
     }
 
     fn fold_constructor(&mut self, node: Constructor) -> Constructor {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_constructor(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_constructor(self, node),
         }
     }
 
     fn fold_continue_stmt(&mut self, node: ContinueStmt) -> ContinueStmt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_continue_stmt(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_continue_stmt(self, node),
         }
     }
 
     fn fold_debugger_stmt(&mut self, node: DebuggerStmt) -> DebuggerStmt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_debugger_stmt(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_debugger_stmt(self, node),
         }
     }
 
     fn fold_decl(&mut self, node: Decl) -> Decl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_decl(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_decl(self, node),
         }
     }
 
     fn fold_decorator(&mut self, node: Decorator) -> Decorator {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_decorator(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_decorator(self, node),
         }
     }
 
     fn fold_decorators(&mut self, node: Vec<Decorator>) -> Vec<Decorator> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_decorators(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_decorators(self, node),
         }
     }
 
     fn fold_default_decl(&mut self, node: DefaultDecl) -> DefaultDecl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_default_decl(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_default_decl(self, node),
         }
     }
 
     fn fold_do_while_stmt(&mut self, node: DoWhileStmt) -> DoWhileStmt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_do_while_stmt(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_do_while_stmt(self, node),
         }
     }
 
     fn fold_empty_stmt(&mut self, node: EmptyStmt) -> EmptyStmt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_empty_stmt(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_empty_stmt(self, node),
         }
     }
 
     fn fold_es_version(&mut self, node: EsVersion) -> EsVersion {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_es_version(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_es_version(self, node),
         }
     }
 
     fn fold_export_all(&mut self, node: ExportAll) -> ExportAll {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_export_all(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_export_all(self, node),
         }
     }
 
     fn fold_export_decl(&mut self, node: ExportDecl) -> ExportDecl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_export_decl(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_export_decl(self, node),
         }
     }
 
     fn fold_export_default_decl(&mut self, node: ExportDefaultDecl) -> ExportDefaultDecl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_export_default_decl(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_export_default_decl(self, node),
         }
     }
 
     fn fold_export_default_expr(&mut self, node: ExportDefaultExpr) -> ExportDefaultExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_export_default_expr(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_export_default_expr(self, node),
         }
@@ -75649,14 +75649,14 @@ where
         &mut self,
         node: ExportDefaultSpecifier,
     ) -> ExportDefaultSpecifier {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_export_default_specifier(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_export_default_specifier(self, node),
         }
     }
 
     fn fold_export_named_specifier(&mut self, node: ExportNamedSpecifier) -> ExportNamedSpecifier {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_export_named_specifier(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_export_named_specifier(self, node),
         }
@@ -75666,147 +75666,147 @@ where
         &mut self,
         node: ExportNamespaceSpecifier,
     ) -> ExportNamespaceSpecifier {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_export_namespace_specifier(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_export_namespace_specifier(self, node),
         }
     }
 
     fn fold_export_specifier(&mut self, node: ExportSpecifier) -> ExportSpecifier {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_export_specifier(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_export_specifier(self, node),
         }
     }
 
     fn fold_export_specifiers(&mut self, node: Vec<ExportSpecifier>) -> Vec<ExportSpecifier> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_export_specifiers(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_export_specifiers(self, node),
         }
     }
 
     fn fold_expr(&mut self, node: Expr) -> Expr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_expr(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_expr(self, node),
         }
     }
 
     fn fold_expr_or_spread(&mut self, node: ExprOrSpread) -> ExprOrSpread {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_expr_or_spread(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_expr_or_spread(self, node),
         }
     }
 
     fn fold_expr_or_spreads(&mut self, node: Vec<ExprOrSpread>) -> Vec<ExprOrSpread> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_expr_or_spreads(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_expr_or_spreads(self, node),
         }
     }
 
     fn fold_expr_stmt(&mut self, node: ExprStmt) -> ExprStmt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_expr_stmt(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_expr_stmt(self, node),
         }
     }
 
     fn fold_exprs(&mut self, node: Vec<Box<Expr>>) -> Vec<Box<Expr>> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_exprs(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_exprs(self, node),
         }
     }
 
     fn fold_fn_decl(&mut self, node: FnDecl) -> FnDecl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_fn_decl(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_fn_decl(self, node),
         }
     }
 
     fn fold_fn_expr(&mut self, node: FnExpr) -> FnExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_fn_expr(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_fn_expr(self, node),
         }
     }
 
     fn fold_for_head(&mut self, node: ForHead) -> ForHead {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_for_head(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_for_head(self, node),
         }
     }
 
     fn fold_for_in_stmt(&mut self, node: ForInStmt) -> ForInStmt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_for_in_stmt(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_for_in_stmt(self, node),
         }
     }
 
     fn fold_for_of_stmt(&mut self, node: ForOfStmt) -> ForOfStmt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_for_of_stmt(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_for_of_stmt(self, node),
         }
     }
 
     fn fold_for_stmt(&mut self, node: ForStmt) -> ForStmt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_for_stmt(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_for_stmt(self, node),
         }
     }
 
     fn fold_function(&mut self, node: Function) -> Function {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_function(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_function(self, node),
         }
     }
 
     fn fold_getter_prop(&mut self, node: GetterProp) -> GetterProp {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_getter_prop(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_getter_prop(self, node),
         }
     }
 
     fn fold_ident(&mut self, node: Ident) -> Ident {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ident(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ident(self, node),
         }
     }
 
     fn fold_ident_name(&mut self, node: IdentName) -> IdentName {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ident_name(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ident_name(self, node),
         }
     }
 
     fn fold_if_stmt(&mut self, node: IfStmt) -> IfStmt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_if_stmt(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_if_stmt(self, node),
         }
     }
 
     fn fold_import(&mut self, node: Import) -> Import {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_import(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_import(self, node),
         }
     }
 
     fn fold_import_decl(&mut self, node: ImportDecl) -> ImportDecl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_import_decl(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_import_decl(self, node),
         }
@@ -75816,35 +75816,35 @@ where
         &mut self,
         node: ImportDefaultSpecifier,
     ) -> ImportDefaultSpecifier {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_import_default_specifier(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_import_default_specifier(self, node),
         }
     }
 
     fn fold_import_named_specifier(&mut self, node: ImportNamedSpecifier) -> ImportNamedSpecifier {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_import_named_specifier(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_import_named_specifier(self, node),
         }
     }
 
     fn fold_import_phase(&mut self, node: ImportPhase) -> ImportPhase {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_import_phase(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_import_phase(self, node),
         }
     }
 
     fn fold_import_specifier(&mut self, node: ImportSpecifier) -> ImportSpecifier {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_import_specifier(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_import_specifier(self, node),
         }
     }
 
     fn fold_import_specifiers(&mut self, node: Vec<ImportSpecifier>) -> Vec<ImportSpecifier> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_import_specifiers(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_import_specifiers(self, node),
         }
@@ -75854,420 +75854,420 @@ where
         &mut self,
         node: ImportStarAsSpecifier,
     ) -> ImportStarAsSpecifier {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_import_star_as_specifier(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_import_star_as_specifier(self, node),
         }
     }
 
     fn fold_import_with(&mut self, node: ImportWith) -> ImportWith {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_import_with(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_import_with(self, node),
         }
     }
 
     fn fold_import_with_item(&mut self, node: ImportWithItem) -> ImportWithItem {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_import_with_item(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_import_with_item(self, node),
         }
     }
 
     fn fold_import_with_items(&mut self, node: Vec<ImportWithItem>) -> Vec<ImportWithItem> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_import_with_items(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_import_with_items(self, node),
         }
     }
 
     fn fold_invalid(&mut self, node: Invalid) -> Invalid {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_invalid(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_invalid(self, node),
         }
     }
 
     fn fold_jsx_attr(&mut self, node: JSXAttr) -> JSXAttr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_jsx_attr(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_jsx_attr(self, node),
         }
     }
 
     fn fold_jsx_attr_name(&mut self, node: JSXAttrName) -> JSXAttrName {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_jsx_attr_name(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_jsx_attr_name(self, node),
         }
     }
 
     fn fold_jsx_attr_or_spread(&mut self, node: JSXAttrOrSpread) -> JSXAttrOrSpread {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_jsx_attr_or_spread(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_jsx_attr_or_spread(self, node),
         }
     }
 
     fn fold_jsx_attr_or_spreads(&mut self, node: Vec<JSXAttrOrSpread>) -> Vec<JSXAttrOrSpread> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_jsx_attr_or_spreads(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_jsx_attr_or_spreads(self, node),
         }
     }
 
     fn fold_jsx_attr_value(&mut self, node: JSXAttrValue) -> JSXAttrValue {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_jsx_attr_value(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_jsx_attr_value(self, node),
         }
     }
 
     fn fold_jsx_closing_element(&mut self, node: JSXClosingElement) -> JSXClosingElement {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_jsx_closing_element(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_jsx_closing_element(self, node),
         }
     }
 
     fn fold_jsx_closing_fragment(&mut self, node: JSXClosingFragment) -> JSXClosingFragment {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_jsx_closing_fragment(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_jsx_closing_fragment(self, node),
         }
     }
 
     fn fold_jsx_element(&mut self, node: JSXElement) -> JSXElement {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_jsx_element(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_jsx_element(self, node),
         }
     }
 
     fn fold_jsx_element_child(&mut self, node: JSXElementChild) -> JSXElementChild {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_jsx_element_child(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_jsx_element_child(self, node),
         }
     }
 
     fn fold_jsx_element_childs(&mut self, node: Vec<JSXElementChild>) -> Vec<JSXElementChild> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_jsx_element_childs(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_jsx_element_childs(self, node),
         }
     }
 
     fn fold_jsx_element_name(&mut self, node: JSXElementName) -> JSXElementName {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_jsx_element_name(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_jsx_element_name(self, node),
         }
     }
 
     fn fold_jsx_empty_expr(&mut self, node: JSXEmptyExpr) -> JSXEmptyExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_jsx_empty_expr(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_jsx_empty_expr(self, node),
         }
     }
 
     fn fold_jsx_expr(&mut self, node: JSXExpr) -> JSXExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_jsx_expr(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_jsx_expr(self, node),
         }
     }
 
     fn fold_jsx_expr_container(&mut self, node: JSXExprContainer) -> JSXExprContainer {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_jsx_expr_container(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_jsx_expr_container(self, node),
         }
     }
 
     fn fold_jsx_fragment(&mut self, node: JSXFragment) -> JSXFragment {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_jsx_fragment(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_jsx_fragment(self, node),
         }
     }
 
     fn fold_jsx_member_expr(&mut self, node: JSXMemberExpr) -> JSXMemberExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_jsx_member_expr(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_jsx_member_expr(self, node),
         }
     }
 
     fn fold_jsx_namespaced_name(&mut self, node: JSXNamespacedName) -> JSXNamespacedName {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_jsx_namespaced_name(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_jsx_namespaced_name(self, node),
         }
     }
 
     fn fold_jsx_object(&mut self, node: JSXObject) -> JSXObject {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_jsx_object(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_jsx_object(self, node),
         }
     }
 
     fn fold_jsx_opening_element(&mut self, node: JSXOpeningElement) -> JSXOpeningElement {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_jsx_opening_element(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_jsx_opening_element(self, node),
         }
     }
 
     fn fold_jsx_opening_fragment(&mut self, node: JSXOpeningFragment) -> JSXOpeningFragment {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_jsx_opening_fragment(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_jsx_opening_fragment(self, node),
         }
     }
 
     fn fold_jsx_spread_child(&mut self, node: JSXSpreadChild) -> JSXSpreadChild {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_jsx_spread_child(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_jsx_spread_child(self, node),
         }
     }
 
     fn fold_jsx_text(&mut self, node: JSXText) -> JSXText {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_jsx_text(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_jsx_text(self, node),
         }
     }
 
     fn fold_key(&mut self, node: Key) -> Key {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_key(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_key(self, node),
         }
     }
 
     fn fold_key_value_pat_prop(&mut self, node: KeyValuePatProp) -> KeyValuePatProp {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_key_value_pat_prop(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_key_value_pat_prop(self, node),
         }
     }
 
     fn fold_key_value_prop(&mut self, node: KeyValueProp) -> KeyValueProp {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_key_value_prop(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_key_value_prop(self, node),
         }
     }
 
     fn fold_labeled_stmt(&mut self, node: LabeledStmt) -> LabeledStmt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_labeled_stmt(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_labeled_stmt(self, node),
         }
     }
 
     fn fold_lit(&mut self, node: Lit) -> Lit {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_lit(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_lit(self, node),
         }
     }
 
     fn fold_member_expr(&mut self, node: MemberExpr) -> MemberExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_member_expr(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_member_expr(self, node),
         }
     }
 
     fn fold_member_prop(&mut self, node: MemberProp) -> MemberProp {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_member_prop(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_member_prop(self, node),
         }
     }
 
     fn fold_meta_prop_expr(&mut self, node: MetaPropExpr) -> MetaPropExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_meta_prop_expr(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_meta_prop_expr(self, node),
         }
     }
 
     fn fold_meta_prop_kind(&mut self, node: MetaPropKind) -> MetaPropKind {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_meta_prop_kind(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_meta_prop_kind(self, node),
         }
     }
 
     fn fold_method_kind(&mut self, node: MethodKind) -> MethodKind {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_method_kind(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_method_kind(self, node),
         }
     }
 
     fn fold_method_prop(&mut self, node: MethodProp) -> MethodProp {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_method_prop(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_method_prop(self, node),
         }
     }
 
     fn fold_module(&mut self, node: Module) -> Module {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_module(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_module(self, node),
         }
     }
 
     fn fold_module_decl(&mut self, node: ModuleDecl) -> ModuleDecl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_module_decl(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_module_decl(self, node),
         }
     }
 
     fn fold_module_export_name(&mut self, node: ModuleExportName) -> ModuleExportName {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_module_export_name(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_module_export_name(self, node),
         }
     }
 
     fn fold_module_item(&mut self, node: ModuleItem) -> ModuleItem {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_module_item(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_module_item(self, node),
         }
     }
 
     fn fold_module_items(&mut self, node: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_module_items(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_module_items(self, node),
         }
     }
 
     fn fold_named_export(&mut self, node: NamedExport) -> NamedExport {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_named_export(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_named_export(self, node),
         }
     }
 
     fn fold_new_expr(&mut self, node: NewExpr) -> NewExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_new_expr(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_new_expr(self, node),
         }
     }
 
     fn fold_null(&mut self, node: Null) -> Null {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_null(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_null(self, node),
         }
     }
 
     fn fold_number(&mut self, node: Number) -> Number {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_number(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_number(self, node),
         }
     }
 
     fn fold_object_lit(&mut self, node: ObjectLit) -> ObjectLit {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_object_lit(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_object_lit(self, node),
         }
     }
 
     fn fold_object_pat(&mut self, node: ObjectPat) -> ObjectPat {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_object_pat(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_object_pat(self, node),
         }
     }
 
     fn fold_object_pat_prop(&mut self, node: ObjectPatProp) -> ObjectPatProp {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_object_pat_prop(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_object_pat_prop(self, node),
         }
     }
 
     fn fold_object_pat_props(&mut self, node: Vec<ObjectPatProp>) -> Vec<ObjectPatProp> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_object_pat_props(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_object_pat_props(self, node),
         }
     }
 
     fn fold_opt_accessibility(&mut self, node: Option<Accessibility>) -> Option<Accessibility> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_opt_accessibility(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_opt_accessibility(self, node),
         }
     }
 
     fn fold_opt_atom(&mut self, node: Option<swc_atoms::Atom>) -> Option<swc_atoms::Atom> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_opt_atom(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_opt_atom(self, node),
         }
     }
 
     fn fold_opt_block_stmt(&mut self, node: Option<BlockStmt>) -> Option<BlockStmt> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_opt_block_stmt(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_opt_block_stmt(self, node),
         }
     }
 
     fn fold_opt_call(&mut self, node: OptCall) -> OptCall {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_opt_call(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_opt_call(self, node),
         }
     }
 
     fn fold_opt_catch_clause(&mut self, node: Option<CatchClause>) -> Option<CatchClause> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_opt_catch_clause(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_opt_catch_clause(self, node),
         }
     }
 
     fn fold_opt_chain_base(&mut self, node: OptChainBase) -> OptChainBase {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_opt_chain_base(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_opt_chain_base(self, node),
         }
     }
 
     fn fold_opt_chain_expr(&mut self, node: OptChainExpr) -> OptChainExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_opt_chain_expr(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_opt_chain_expr(self, node),
         }
     }
 
     fn fold_opt_expr(&mut self, node: Option<Box<Expr>>) -> Option<Box<Expr>> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_opt_expr(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_opt_expr(self, node),
         }
     }
 
     fn fold_opt_expr_or_spread(&mut self, node: Option<ExprOrSpread>) -> Option<ExprOrSpread> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_opt_expr_or_spread(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_opt_expr_or_spread(self, node),
         }
@@ -76277,21 +76277,21 @@ where
         &mut self,
         node: Option<Vec<ExprOrSpread>>,
     ) -> Option<Vec<ExprOrSpread>> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_opt_expr_or_spreads(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_opt_expr_or_spreads(self, node),
         }
     }
 
     fn fold_opt_ident(&mut self, node: Option<Ident>) -> Option<Ident> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_opt_ident(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_opt_ident(self, node),
         }
     }
 
     fn fold_opt_jsx_attr_value(&mut self, node: Option<JSXAttrValue>) -> Option<JSXAttrValue> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_opt_jsx_attr_value(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_opt_jsx_attr_value(self, node),
         }
@@ -76301,7 +76301,7 @@ where
         &mut self,
         node: Option<JSXClosingElement>,
     ) -> Option<JSXClosingElement> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_opt_jsx_closing_element(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_opt_jsx_closing_element(self, node),
         }
@@ -76311,63 +76311,63 @@ where
         &mut self,
         node: Option<ModuleExportName>,
     ) -> Option<ModuleExportName> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_opt_module_export_name(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_opt_module_export_name(self, node),
         }
     }
 
     fn fold_opt_module_items(&mut self, node: Option<Vec<ModuleItem>>) -> Option<Vec<ModuleItem>> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_opt_module_items(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_opt_module_items(self, node),
         }
     }
 
     fn fold_opt_object_lit(&mut self, node: Option<Box<ObjectLit>>) -> Option<Box<ObjectLit>> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_opt_object_lit(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_opt_object_lit(self, node),
         }
     }
 
     fn fold_opt_pat(&mut self, node: Option<Pat>) -> Option<Pat> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_opt_pat(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_opt_pat(self, node),
         }
     }
 
     fn fold_opt_span(&mut self, node: Option<swc_common::Span>) -> Option<swc_common::Span> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_opt_span(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_opt_span(self, node),
         }
     }
 
     fn fold_opt_stmt(&mut self, node: Option<Box<Stmt>>) -> Option<Box<Stmt>> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_opt_stmt(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_opt_stmt(self, node),
         }
     }
 
     fn fold_opt_str(&mut self, node: Option<Box<Str>>) -> Option<Box<Str>> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_opt_str(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_opt_str(self, node),
         }
     }
 
     fn fold_opt_true_plus_minus(&mut self, node: Option<TruePlusMinus>) -> Option<TruePlusMinus> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_opt_true_plus_minus(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_opt_true_plus_minus(self, node),
         }
     }
 
     fn fold_opt_ts_entity_name(&mut self, node: Option<TsEntityName>) -> Option<TsEntityName> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_opt_ts_entity_name(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_opt_ts_entity_name(self, node),
         }
@@ -76377,21 +76377,21 @@ where
         &mut self,
         node: Option<TsNamespaceBody>,
     ) -> Option<TsNamespaceBody> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_opt_ts_namespace_body(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_opt_ts_namespace_body(self, node),
         }
     }
 
     fn fold_opt_ts_type(&mut self, node: Option<Box<TsType>>) -> Option<Box<TsType>> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_opt_ts_type(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_opt_ts_type(self, node),
         }
     }
 
     fn fold_opt_ts_type_ann(&mut self, node: Option<Box<TsTypeAnn>>) -> Option<Box<TsTypeAnn>> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_opt_ts_type_ann(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_opt_ts_type_ann(self, node),
         }
@@ -76401,7 +76401,7 @@ where
         &mut self,
         node: Option<Box<TsTypeParamDecl>>,
     ) -> Option<Box<TsTypeParamDecl>> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_opt_ts_type_param_decl(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_opt_ts_type_param_decl(self, node),
         }
@@ -76411,7 +76411,7 @@ where
         &mut self,
         node: Option<Box<TsTypeParamInstantiation>>,
     ) -> Option<Box<TsTypeParamInstantiation>> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 Fold::fold_opt_ts_type_param_instantiation(self, node)
             }
@@ -76422,7 +76422,7 @@ where
     }
 
     fn fold_opt_var_decl_or_expr(&mut self, node: Option<VarDeclOrExpr>) -> Option<VarDeclOrExpr> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_opt_var_decl_or_expr(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_opt_var_decl_or_expr(self, node),
         }
@@ -76432,28 +76432,28 @@ where
         &mut self,
         node: Vec<Option<ExprOrSpread>>,
     ) -> Vec<Option<ExprOrSpread>> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_opt_vec_expr_or_spreads(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_opt_vec_expr_or_spreads(self, node),
         }
     }
 
     fn fold_opt_vec_pats(&mut self, node: Vec<Option<Pat>>) -> Vec<Option<Pat>> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_opt_vec_pats(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_opt_vec_pats(self, node),
         }
     }
 
     fn fold_param(&mut self, node: Param) -> Param {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_param(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_param(self, node),
         }
     }
 
     fn fold_param_or_ts_param_prop(&mut self, node: ParamOrTsParamProp) -> ParamOrTsParamProp {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_param_or_ts_param_prop(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_param_or_ts_param_prop(self, node),
         }
@@ -76463,231 +76463,231 @@ where
         &mut self,
         node: Vec<ParamOrTsParamProp>,
     ) -> Vec<ParamOrTsParamProp> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_param_or_ts_param_props(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_param_or_ts_param_props(self, node),
         }
     }
 
     fn fold_params(&mut self, node: Vec<Param>) -> Vec<Param> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_params(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_params(self, node),
         }
     }
 
     fn fold_paren_expr(&mut self, node: ParenExpr) -> ParenExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_paren_expr(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_paren_expr(self, node),
         }
     }
 
     fn fold_pat(&mut self, node: Pat) -> Pat {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_pat(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_pat(self, node),
         }
     }
 
     fn fold_pats(&mut self, node: Vec<Pat>) -> Vec<Pat> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_pats(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_pats(self, node),
         }
     }
 
     fn fold_private_method(&mut self, node: PrivateMethod) -> PrivateMethod {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_private_method(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_private_method(self, node),
         }
     }
 
     fn fold_private_name(&mut self, node: PrivateName) -> PrivateName {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_private_name(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_private_name(self, node),
         }
     }
 
     fn fold_private_prop(&mut self, node: PrivateProp) -> PrivateProp {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_private_prop(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_private_prop(self, node),
         }
     }
 
     fn fold_program(&mut self, node: Program) -> Program {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_program(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_program(self, node),
         }
     }
 
     fn fold_prop(&mut self, node: Prop) -> Prop {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_prop(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_prop(self, node),
         }
     }
 
     fn fold_prop_name(&mut self, node: PropName) -> PropName {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_prop_name(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_prop_name(self, node),
         }
     }
 
     fn fold_prop_or_spread(&mut self, node: PropOrSpread) -> PropOrSpread {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_prop_or_spread(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_prop_or_spread(self, node),
         }
     }
 
     fn fold_prop_or_spreads(&mut self, node: Vec<PropOrSpread>) -> Vec<PropOrSpread> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_prop_or_spreads(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_prop_or_spreads(self, node),
         }
     }
 
     fn fold_regex(&mut self, node: Regex) -> Regex {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_regex(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_regex(self, node),
         }
     }
 
     fn fold_reserved_unused(&mut self, node: ReservedUnused) -> ReservedUnused {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_reserved_unused(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_reserved_unused(self, node),
         }
     }
 
     fn fold_rest_pat(&mut self, node: RestPat) -> RestPat {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_rest_pat(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_rest_pat(self, node),
         }
     }
 
     fn fold_return_stmt(&mut self, node: ReturnStmt) -> ReturnStmt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_return_stmt(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_return_stmt(self, node),
         }
     }
 
     fn fold_script(&mut self, node: Script) -> Script {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_script(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_script(self, node),
         }
     }
 
     fn fold_seq_expr(&mut self, node: SeqExpr) -> SeqExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_seq_expr(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_seq_expr(self, node),
         }
     }
 
     fn fold_setter_prop(&mut self, node: SetterProp) -> SetterProp {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_setter_prop(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_setter_prop(self, node),
         }
     }
 
     fn fold_simple_assign_target(&mut self, node: SimpleAssignTarget) -> SimpleAssignTarget {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_simple_assign_target(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_simple_assign_target(self, node),
         }
     }
 
     fn fold_span(&mut self, node: swc_common::Span) -> swc_common::Span {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_span(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_span(self, node),
         }
     }
 
     fn fold_spread_element(&mut self, node: SpreadElement) -> SpreadElement {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_spread_element(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_spread_element(self, node),
         }
     }
 
     fn fold_static_block(&mut self, node: StaticBlock) -> StaticBlock {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_static_block(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_static_block(self, node),
         }
     }
 
     fn fold_stmt(&mut self, node: Stmt) -> Stmt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_stmt(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_stmt(self, node),
         }
     }
 
     fn fold_stmts(&mut self, node: Vec<Stmt>) -> Vec<Stmt> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_stmts(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_stmts(self, node),
         }
     }
 
     fn fold_str(&mut self, node: Str) -> Str {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_str(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_str(self, node),
         }
     }
 
     fn fold_super(&mut self, node: Super) -> Super {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_super(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_super(self, node),
         }
     }
 
     fn fold_super_prop(&mut self, node: SuperProp) -> SuperProp {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_super_prop(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_super_prop(self, node),
         }
     }
 
     fn fold_super_prop_expr(&mut self, node: SuperPropExpr) -> SuperPropExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_super_prop_expr(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_super_prop_expr(self, node),
         }
     }
 
     fn fold_switch_case(&mut self, node: SwitchCase) -> SwitchCase {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_switch_case(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_switch_case(self, node),
         }
     }
 
     fn fold_switch_cases(&mut self, node: Vec<SwitchCase>) -> Vec<SwitchCase> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_switch_cases(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_switch_cases(self, node),
         }
     }
 
     fn fold_switch_stmt(&mut self, node: SwitchStmt) -> SwitchStmt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_switch_stmt(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_switch_stmt(self, node),
         }
@@ -76697,98 +76697,98 @@ where
         &mut self,
         node: swc_common::SyntaxContext,
     ) -> swc_common::SyntaxContext {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_syntax_context(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_syntax_context(self, node),
         }
     }
 
     fn fold_tagged_tpl(&mut self, node: TaggedTpl) -> TaggedTpl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_tagged_tpl(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_tagged_tpl(self, node),
         }
     }
 
     fn fold_this_expr(&mut self, node: ThisExpr) -> ThisExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_this_expr(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_this_expr(self, node),
         }
     }
 
     fn fold_throw_stmt(&mut self, node: ThrowStmt) -> ThrowStmt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_throw_stmt(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_throw_stmt(self, node),
         }
     }
 
     fn fold_tpl(&mut self, node: Tpl) -> Tpl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_tpl(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_tpl(self, node),
         }
     }
 
     fn fold_tpl_element(&mut self, node: TplElement) -> TplElement {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_tpl_element(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_tpl_element(self, node),
         }
     }
 
     fn fold_tpl_elements(&mut self, node: Vec<TplElement>) -> Vec<TplElement> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_tpl_elements(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_tpl_elements(self, node),
         }
     }
 
     fn fold_true_plus_minus(&mut self, node: TruePlusMinus) -> TruePlusMinus {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_true_plus_minus(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_true_plus_minus(self, node),
         }
     }
 
     fn fold_try_stmt(&mut self, node: TryStmt) -> TryStmt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_try_stmt(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_try_stmt(self, node),
         }
     }
 
     fn fold_ts_array_type(&mut self, node: TsArrayType) -> TsArrayType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_array_type(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_array_type(self, node),
         }
     }
 
     fn fold_ts_as_expr(&mut self, node: TsAsExpr) -> TsAsExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_as_expr(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_as_expr(self, node),
         }
     }
 
     fn fold_ts_call_signature_decl(&mut self, node: TsCallSignatureDecl) -> TsCallSignatureDecl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_call_signature_decl(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_call_signature_decl(self, node),
         }
     }
 
     fn fold_ts_conditional_type(&mut self, node: TsConditionalType) -> TsConditionalType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_conditional_type(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_conditional_type(self, node),
         }
     }
 
     fn fold_ts_const_assertion(&mut self, node: TsConstAssertion) -> TsConstAssertion {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_const_assertion(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_const_assertion(self, node),
         }
@@ -76798,63 +76798,63 @@ where
         &mut self,
         node: TsConstructSignatureDecl,
     ) -> TsConstructSignatureDecl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_construct_signature_decl(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_construct_signature_decl(self, node),
         }
     }
 
     fn fold_ts_constructor_type(&mut self, node: TsConstructorType) -> TsConstructorType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_constructor_type(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_constructor_type(self, node),
         }
     }
 
     fn fold_ts_entity_name(&mut self, node: TsEntityName) -> TsEntityName {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_entity_name(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_entity_name(self, node),
         }
     }
 
     fn fold_ts_enum_decl(&mut self, node: TsEnumDecl) -> TsEnumDecl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_enum_decl(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_enum_decl(self, node),
         }
     }
 
     fn fold_ts_enum_member(&mut self, node: TsEnumMember) -> TsEnumMember {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_enum_member(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_enum_member(self, node),
         }
     }
 
     fn fold_ts_enum_member_id(&mut self, node: TsEnumMemberId) -> TsEnumMemberId {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_enum_member_id(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_enum_member_id(self, node),
         }
     }
 
     fn fold_ts_enum_members(&mut self, node: Vec<TsEnumMember>) -> Vec<TsEnumMember> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_enum_members(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_enum_members(self, node),
         }
     }
 
     fn fold_ts_export_assignment(&mut self, node: TsExportAssignment) -> TsExportAssignment {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_export_assignment(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_export_assignment(self, node),
         }
     }
 
     fn fold_ts_expr_with_type_args(&mut self, node: TsExprWithTypeArgs) -> TsExprWithTypeArgs {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_expr_with_type_args(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_expr_with_type_args(self, node),
         }
@@ -76864,14 +76864,14 @@ where
         &mut self,
         node: Vec<TsExprWithTypeArgs>,
     ) -> Vec<TsExprWithTypeArgs> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_expr_with_type_argss(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_expr_with_type_argss(self, node),
         }
     }
 
     fn fold_ts_external_module_ref(&mut self, node: TsExternalModuleRef) -> TsExternalModuleRef {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_external_module_ref(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_external_module_ref(self, node),
         }
@@ -76881,182 +76881,182 @@ where
         &mut self,
         node: TsFnOrConstructorType,
     ) -> TsFnOrConstructorType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_fn_or_constructor_type(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_fn_or_constructor_type(self, node),
         }
     }
 
     fn fold_ts_fn_param(&mut self, node: TsFnParam) -> TsFnParam {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_fn_param(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_fn_param(self, node),
         }
     }
 
     fn fold_ts_fn_params(&mut self, node: Vec<TsFnParam>) -> Vec<TsFnParam> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_fn_params(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_fn_params(self, node),
         }
     }
 
     fn fold_ts_fn_type(&mut self, node: TsFnType) -> TsFnType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_fn_type(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_fn_type(self, node),
         }
     }
 
     fn fold_ts_getter_signature(&mut self, node: TsGetterSignature) -> TsGetterSignature {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_getter_signature(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_getter_signature(self, node),
         }
     }
 
     fn fold_ts_import_equals_decl(&mut self, node: TsImportEqualsDecl) -> TsImportEqualsDecl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_import_equals_decl(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_import_equals_decl(self, node),
         }
     }
 
     fn fold_ts_import_type(&mut self, node: TsImportType) -> TsImportType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_import_type(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_import_type(self, node),
         }
     }
 
     fn fold_ts_index_signature(&mut self, node: TsIndexSignature) -> TsIndexSignature {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_index_signature(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_index_signature(self, node),
         }
     }
 
     fn fold_ts_indexed_access_type(&mut self, node: TsIndexedAccessType) -> TsIndexedAccessType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_indexed_access_type(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_indexed_access_type(self, node),
         }
     }
 
     fn fold_ts_infer_type(&mut self, node: TsInferType) -> TsInferType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_infer_type(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_infer_type(self, node),
         }
     }
 
     fn fold_ts_instantiation(&mut self, node: TsInstantiation) -> TsInstantiation {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_instantiation(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_instantiation(self, node),
         }
     }
 
     fn fold_ts_interface_body(&mut self, node: TsInterfaceBody) -> TsInterfaceBody {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_interface_body(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_interface_body(self, node),
         }
     }
 
     fn fold_ts_interface_decl(&mut self, node: TsInterfaceDecl) -> TsInterfaceDecl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_interface_decl(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_interface_decl(self, node),
         }
     }
 
     fn fold_ts_intersection_type(&mut self, node: TsIntersectionType) -> TsIntersectionType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_intersection_type(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_intersection_type(self, node),
         }
     }
 
     fn fold_ts_keyword_type(&mut self, node: TsKeywordType) -> TsKeywordType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_keyword_type(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_keyword_type(self, node),
         }
     }
 
     fn fold_ts_keyword_type_kind(&mut self, node: TsKeywordTypeKind) -> TsKeywordTypeKind {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_keyword_type_kind(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_keyword_type_kind(self, node),
         }
     }
 
     fn fold_ts_lit(&mut self, node: TsLit) -> TsLit {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_lit(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_lit(self, node),
         }
     }
 
     fn fold_ts_lit_type(&mut self, node: TsLitType) -> TsLitType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_lit_type(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_lit_type(self, node),
         }
     }
 
     fn fold_ts_mapped_type(&mut self, node: TsMappedType) -> TsMappedType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_mapped_type(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_mapped_type(self, node),
         }
     }
 
     fn fold_ts_method_signature(&mut self, node: TsMethodSignature) -> TsMethodSignature {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_method_signature(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_method_signature(self, node),
         }
     }
 
     fn fold_ts_module_block(&mut self, node: TsModuleBlock) -> TsModuleBlock {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_module_block(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_module_block(self, node),
         }
     }
 
     fn fold_ts_module_decl(&mut self, node: TsModuleDecl) -> TsModuleDecl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_module_decl(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_module_decl(self, node),
         }
     }
 
     fn fold_ts_module_name(&mut self, node: TsModuleName) -> TsModuleName {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_module_name(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_module_name(self, node),
         }
     }
 
     fn fold_ts_module_ref(&mut self, node: TsModuleRef) -> TsModuleRef {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_module_ref(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_module_ref(self, node),
         }
     }
 
     fn fold_ts_namespace_body(&mut self, node: TsNamespaceBody) -> TsNamespaceBody {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_namespace_body(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_namespace_body(self, node),
         }
     }
 
     fn fold_ts_namespace_decl(&mut self, node: TsNamespaceDecl) -> TsNamespaceDecl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_namespace_decl(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_namespace_decl(self, node),
         }
@@ -77066,196 +77066,196 @@ where
         &mut self,
         node: TsNamespaceExportDecl,
     ) -> TsNamespaceExportDecl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_namespace_export_decl(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_namespace_export_decl(self, node),
         }
     }
 
     fn fold_ts_non_null_expr(&mut self, node: TsNonNullExpr) -> TsNonNullExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_non_null_expr(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_non_null_expr(self, node),
         }
     }
 
     fn fold_ts_optional_type(&mut self, node: TsOptionalType) -> TsOptionalType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_optional_type(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_optional_type(self, node),
         }
     }
 
     fn fold_ts_param_prop(&mut self, node: TsParamProp) -> TsParamProp {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_param_prop(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_param_prop(self, node),
         }
     }
 
     fn fold_ts_param_prop_param(&mut self, node: TsParamPropParam) -> TsParamPropParam {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_param_prop_param(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_param_prop_param(self, node),
         }
     }
 
     fn fold_ts_parenthesized_type(&mut self, node: TsParenthesizedType) -> TsParenthesizedType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_parenthesized_type(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_parenthesized_type(self, node),
         }
     }
 
     fn fold_ts_property_signature(&mut self, node: TsPropertySignature) -> TsPropertySignature {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_property_signature(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_property_signature(self, node),
         }
     }
 
     fn fold_ts_qualified_name(&mut self, node: TsQualifiedName) -> TsQualifiedName {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_qualified_name(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_qualified_name(self, node),
         }
     }
 
     fn fold_ts_rest_type(&mut self, node: TsRestType) -> TsRestType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_rest_type(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_rest_type(self, node),
         }
     }
 
     fn fold_ts_satisfies_expr(&mut self, node: TsSatisfiesExpr) -> TsSatisfiesExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_satisfies_expr(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_satisfies_expr(self, node),
         }
     }
 
     fn fold_ts_setter_signature(&mut self, node: TsSetterSignature) -> TsSetterSignature {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_setter_signature(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_setter_signature(self, node),
         }
     }
 
     fn fold_ts_this_type(&mut self, node: TsThisType) -> TsThisType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_this_type(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_this_type(self, node),
         }
     }
 
     fn fold_ts_this_type_or_ident(&mut self, node: TsThisTypeOrIdent) -> TsThisTypeOrIdent {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_this_type_or_ident(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_this_type_or_ident(self, node),
         }
     }
 
     fn fold_ts_tpl_lit_type(&mut self, node: TsTplLitType) -> TsTplLitType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_tpl_lit_type(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_tpl_lit_type(self, node),
         }
     }
 
     fn fold_ts_tuple_element(&mut self, node: TsTupleElement) -> TsTupleElement {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_tuple_element(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_tuple_element(self, node),
         }
     }
 
     fn fold_ts_tuple_elements(&mut self, node: Vec<TsTupleElement>) -> Vec<TsTupleElement> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_tuple_elements(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_tuple_elements(self, node),
         }
     }
 
     fn fold_ts_tuple_type(&mut self, node: TsTupleType) -> TsTupleType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_tuple_type(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_tuple_type(self, node),
         }
     }
 
     fn fold_ts_type(&mut self, node: TsType) -> TsType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_type(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_type(self, node),
         }
     }
 
     fn fold_ts_type_alias_decl(&mut self, node: TsTypeAliasDecl) -> TsTypeAliasDecl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_type_alias_decl(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_type_alias_decl(self, node),
         }
     }
 
     fn fold_ts_type_ann(&mut self, node: TsTypeAnn) -> TsTypeAnn {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_type_ann(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_type_ann(self, node),
         }
     }
 
     fn fold_ts_type_assertion(&mut self, node: TsTypeAssertion) -> TsTypeAssertion {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_type_assertion(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_type_assertion(self, node),
         }
     }
 
     fn fold_ts_type_element(&mut self, node: TsTypeElement) -> TsTypeElement {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_type_element(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_type_element(self, node),
         }
     }
 
     fn fold_ts_type_elements(&mut self, node: Vec<TsTypeElement>) -> Vec<TsTypeElement> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_type_elements(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_type_elements(self, node),
         }
     }
 
     fn fold_ts_type_lit(&mut self, node: TsTypeLit) -> TsTypeLit {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_type_lit(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_type_lit(self, node),
         }
     }
 
     fn fold_ts_type_operator(&mut self, node: TsTypeOperator) -> TsTypeOperator {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_type_operator(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_type_operator(self, node),
         }
     }
 
     fn fold_ts_type_operator_op(&mut self, node: TsTypeOperatorOp) -> TsTypeOperatorOp {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_type_operator_op(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_type_operator_op(self, node),
         }
     }
 
     fn fold_ts_type_param(&mut self, node: TsTypeParam) -> TsTypeParam {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_type_param(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_type_param(self, node),
         }
     }
 
     fn fold_ts_type_param_decl(&mut self, node: TsTypeParamDecl) -> TsTypeParamDecl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_type_param_decl(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_type_param_decl(self, node),
         }
@@ -77265,49 +77265,49 @@ where
         &mut self,
         node: TsTypeParamInstantiation,
     ) -> TsTypeParamInstantiation {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_type_param_instantiation(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_type_param_instantiation(self, node),
         }
     }
 
     fn fold_ts_type_params(&mut self, node: Vec<TsTypeParam>) -> Vec<TsTypeParam> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_type_params(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_type_params(self, node),
         }
     }
 
     fn fold_ts_type_predicate(&mut self, node: TsTypePredicate) -> TsTypePredicate {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_type_predicate(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_type_predicate(self, node),
         }
     }
 
     fn fold_ts_type_query(&mut self, node: TsTypeQuery) -> TsTypeQuery {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_type_query(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_type_query(self, node),
         }
     }
 
     fn fold_ts_type_query_expr(&mut self, node: TsTypeQueryExpr) -> TsTypeQueryExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_type_query_expr(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_type_query_expr(self, node),
         }
     }
 
     fn fold_ts_type_ref(&mut self, node: TsTypeRef) -> TsTypeRef {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_type_ref(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_type_ref(self, node),
         }
     }
 
     fn fold_ts_types(&mut self, node: Vec<Box<TsType>>) -> Vec<Box<TsType>> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_types(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_types(self, node),
         }
@@ -77317,7 +77317,7 @@ where
         &mut self,
         node: TsUnionOrIntersectionType,
     ) -> TsUnionOrIntersectionType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 Fold::fold_ts_union_or_intersection_type(self, node)
             }
@@ -77328,98 +77328,98 @@ where
     }
 
     fn fold_ts_union_type(&mut self, node: TsUnionType) -> TsUnionType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_ts_union_type(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_ts_union_type(self, node),
         }
     }
 
     fn fold_unary_expr(&mut self, node: UnaryExpr) -> UnaryExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_unary_expr(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_unary_expr(self, node),
         }
     }
 
     fn fold_unary_op(&mut self, node: UnaryOp) -> UnaryOp {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_unary_op(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_unary_op(self, node),
         }
     }
 
     fn fold_update_expr(&mut self, node: UpdateExpr) -> UpdateExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_update_expr(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_update_expr(self, node),
         }
     }
 
     fn fold_update_op(&mut self, node: UpdateOp) -> UpdateOp {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_update_op(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_update_op(self, node),
         }
     }
 
     fn fold_using_decl(&mut self, node: UsingDecl) -> UsingDecl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_using_decl(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_using_decl(self, node),
         }
     }
 
     fn fold_var_decl(&mut self, node: VarDecl) -> VarDecl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_var_decl(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_var_decl(self, node),
         }
     }
 
     fn fold_var_decl_kind(&mut self, node: VarDeclKind) -> VarDeclKind {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_var_decl_kind(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_var_decl_kind(self, node),
         }
     }
 
     fn fold_var_decl_or_expr(&mut self, node: VarDeclOrExpr) -> VarDeclOrExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_var_decl_or_expr(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_var_decl_or_expr(self, node),
         }
     }
 
     fn fold_var_declarator(&mut self, node: VarDeclarator) -> VarDeclarator {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_var_declarator(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_var_declarator(self, node),
         }
     }
 
     fn fold_var_declarators(&mut self, node: Vec<VarDeclarator>) -> Vec<VarDeclarator> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_var_declarators(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_var_declarators(self, node),
         }
     }
 
     fn fold_while_stmt(&mut self, node: WhileStmt) -> WhileStmt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_while_stmt(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_while_stmt(self, node),
         }
     }
 
     fn fold_with_stmt(&mut self, node: WithStmt) -> WithStmt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_with_stmt(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_with_stmt(self, node),
         }
     }
 
     fn fold_yield_expr(&mut self, node: YieldExpr) -> YieldExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => Fold::fold_yield_expr(self, node),
             swc_visit::Either::Right(visitor) => Fold::fold_yield_expr(self, node),
         }
@@ -92097,7 +92097,7 @@ where
         node: Accessibility,
         ast_path: &mut AstKindPath,
     ) -> Accessibility {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_accessibility(self, node, ast_path)
             }
@@ -92108,28 +92108,28 @@ where
     }
 
     fn fold_array_lit(&mut self, node: ArrayLit, ast_path: &mut AstKindPath) -> ArrayLit {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_array_lit(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_array_lit(self, node, ast_path),
         }
     }
 
     fn fold_array_pat(&mut self, node: ArrayPat, ast_path: &mut AstKindPath) -> ArrayPat {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_array_pat(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_array_pat(self, node, ast_path),
         }
     }
 
     fn fold_arrow_expr(&mut self, node: ArrowExpr, ast_path: &mut AstKindPath) -> ArrowExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_arrow_expr(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_arrow_expr(self, node, ast_path),
         }
     }
 
     fn fold_assign_expr(&mut self, node: AssignExpr, ast_path: &mut AstKindPath) -> AssignExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_assign_expr(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_assign_expr(self, node, ast_path)
@@ -92138,14 +92138,14 @@ where
     }
 
     fn fold_assign_op(&mut self, node: AssignOp, ast_path: &mut AstKindPath) -> AssignOp {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_assign_op(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_assign_op(self, node, ast_path),
         }
     }
 
     fn fold_assign_pat(&mut self, node: AssignPat, ast_path: &mut AstKindPath) -> AssignPat {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_assign_pat(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_assign_pat(self, node, ast_path),
         }
@@ -92156,7 +92156,7 @@ where
         node: AssignPatProp,
         ast_path: &mut AstKindPath,
     ) -> AssignPatProp {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_assign_pat_prop(self, node, ast_path)
             }
@@ -92167,7 +92167,7 @@ where
     }
 
     fn fold_assign_prop(&mut self, node: AssignProp, ast_path: &mut AstKindPath) -> AssignProp {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_assign_prop(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_assign_prop(self, node, ast_path)
@@ -92180,7 +92180,7 @@ where
         node: AssignTarget,
         ast_path: &mut AstKindPath,
     ) -> AssignTarget {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_assign_target(self, node, ast_path)
             }
@@ -92195,7 +92195,7 @@ where
         node: AssignTargetPat,
         ast_path: &mut AstKindPath,
     ) -> AssignTargetPat {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_assign_target_pat(self, node, ast_path)
             }
@@ -92206,7 +92206,7 @@ where
     }
 
     fn fold_atom(&mut self, node: swc_atoms::Atom, ast_path: &mut AstKindPath) -> swc_atoms::Atom {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_atom(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_atom(self, node, ast_path),
         }
@@ -92217,7 +92217,7 @@ where
         node: AutoAccessor,
         ast_path: &mut AstKindPath,
     ) -> AutoAccessor {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_auto_accessor(self, node, ast_path)
             }
@@ -92228,21 +92228,21 @@ where
     }
 
     fn fold_await_expr(&mut self, node: AwaitExpr, ast_path: &mut AstKindPath) -> AwaitExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_await_expr(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_await_expr(self, node, ast_path),
         }
     }
 
     fn fold_big_int(&mut self, node: BigInt, ast_path: &mut AstKindPath) -> BigInt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_big_int(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_big_int(self, node, ast_path),
         }
     }
 
     fn fold_big_int_value(&mut self, node: BigIntValue, ast_path: &mut AstKindPath) -> BigIntValue {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_big_int_value(self, node, ast_path)
             }
@@ -92253,14 +92253,14 @@ where
     }
 
     fn fold_bin_expr(&mut self, node: BinExpr, ast_path: &mut AstKindPath) -> BinExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_bin_expr(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_bin_expr(self, node, ast_path),
         }
     }
 
     fn fold_binary_op(&mut self, node: BinaryOp, ast_path: &mut AstKindPath) -> BinaryOp {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_binary_op(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_binary_op(self, node, ast_path),
         }
@@ -92271,7 +92271,7 @@ where
         node: BindingIdent,
         ast_path: &mut AstKindPath,
     ) -> BindingIdent {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_binding_ident(self, node, ast_path)
             }
@@ -92282,7 +92282,7 @@ where
     }
 
     fn fold_block_stmt(&mut self, node: BlockStmt, ast_path: &mut AstKindPath) -> BlockStmt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_block_stmt(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_block_stmt(self, node, ast_path),
         }
@@ -92293,7 +92293,7 @@ where
         node: BlockStmtOrExpr,
         ast_path: &mut AstKindPath,
     ) -> BlockStmtOrExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_block_stmt_or_expr(self, node, ast_path)
             }
@@ -92304,35 +92304,35 @@ where
     }
 
     fn fold_bool(&mut self, node: Bool, ast_path: &mut AstKindPath) -> Bool {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_bool(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_bool(self, node, ast_path),
         }
     }
 
     fn fold_break_stmt(&mut self, node: BreakStmt, ast_path: &mut AstKindPath) -> BreakStmt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_break_stmt(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_break_stmt(self, node, ast_path),
         }
     }
 
     fn fold_call_expr(&mut self, node: CallExpr, ast_path: &mut AstKindPath) -> CallExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_call_expr(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_call_expr(self, node, ast_path),
         }
     }
 
     fn fold_callee(&mut self, node: Callee, ast_path: &mut AstKindPath) -> Callee {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_callee(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_callee(self, node, ast_path),
         }
     }
 
     fn fold_catch_clause(&mut self, node: CatchClause, ast_path: &mut AstKindPath) -> CatchClause {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_catch_clause(self, node, ast_path)
             }
@@ -92343,28 +92343,28 @@ where
     }
 
     fn fold_class(&mut self, node: Class, ast_path: &mut AstKindPath) -> Class {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_class(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_class(self, node, ast_path),
         }
     }
 
     fn fold_class_decl(&mut self, node: ClassDecl, ast_path: &mut AstKindPath) -> ClassDecl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_class_decl(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_class_decl(self, node, ast_path),
         }
     }
 
     fn fold_class_expr(&mut self, node: ClassExpr, ast_path: &mut AstKindPath) -> ClassExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_class_expr(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_class_expr(self, node, ast_path),
         }
     }
 
     fn fold_class_member(&mut self, node: ClassMember, ast_path: &mut AstKindPath) -> ClassMember {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_class_member(self, node, ast_path)
             }
@@ -92379,7 +92379,7 @@ where
         node: Vec<ClassMember>,
         ast_path: &mut AstKindPath,
     ) -> Vec<ClassMember> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_class_members(self, node, ast_path)
             }
@@ -92390,7 +92390,7 @@ where
     }
 
     fn fold_class_method(&mut self, node: ClassMethod, ast_path: &mut AstKindPath) -> ClassMethod {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_class_method(self, node, ast_path)
             }
@@ -92401,7 +92401,7 @@ where
     }
 
     fn fold_class_prop(&mut self, node: ClassProp, ast_path: &mut AstKindPath) -> ClassProp {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_class_prop(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_class_prop(self, node, ast_path),
         }
@@ -92412,7 +92412,7 @@ where
         node: ComputedPropName,
         ast_path: &mut AstKindPath,
     ) -> ComputedPropName {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_computed_prop_name(self, node, ast_path)
             }
@@ -92423,14 +92423,14 @@ where
     }
 
     fn fold_cond_expr(&mut self, node: CondExpr, ast_path: &mut AstKindPath) -> CondExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_cond_expr(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_cond_expr(self, node, ast_path),
         }
     }
 
     fn fold_constructor(&mut self, node: Constructor, ast_path: &mut AstKindPath) -> Constructor {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_constructor(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_constructor(self, node, ast_path)
@@ -92443,7 +92443,7 @@ where
         node: ContinueStmt,
         ast_path: &mut AstKindPath,
     ) -> ContinueStmt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_continue_stmt(self, node, ast_path)
             }
@@ -92458,7 +92458,7 @@ where
         node: DebuggerStmt,
         ast_path: &mut AstKindPath,
     ) -> DebuggerStmt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_debugger_stmt(self, node, ast_path)
             }
@@ -92469,14 +92469,14 @@ where
     }
 
     fn fold_decl(&mut self, node: Decl, ast_path: &mut AstKindPath) -> Decl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_decl(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_decl(self, node, ast_path),
         }
     }
 
     fn fold_decorator(&mut self, node: Decorator, ast_path: &mut AstKindPath) -> Decorator {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_decorator(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_decorator(self, node, ast_path),
         }
@@ -92487,14 +92487,14 @@ where
         node: Vec<Decorator>,
         ast_path: &mut AstKindPath,
     ) -> Vec<Decorator> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_decorators(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_decorators(self, node, ast_path),
         }
     }
 
     fn fold_default_decl(&mut self, node: DefaultDecl, ast_path: &mut AstKindPath) -> DefaultDecl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_default_decl(self, node, ast_path)
             }
@@ -92505,7 +92505,7 @@ where
     }
 
     fn fold_do_while_stmt(&mut self, node: DoWhileStmt, ast_path: &mut AstKindPath) -> DoWhileStmt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_do_while_stmt(self, node, ast_path)
             }
@@ -92516,28 +92516,28 @@ where
     }
 
     fn fold_empty_stmt(&mut self, node: EmptyStmt, ast_path: &mut AstKindPath) -> EmptyStmt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_empty_stmt(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_empty_stmt(self, node, ast_path),
         }
     }
 
     fn fold_es_version(&mut self, node: EsVersion, ast_path: &mut AstKindPath) -> EsVersion {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_es_version(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_es_version(self, node, ast_path),
         }
     }
 
     fn fold_export_all(&mut self, node: ExportAll, ast_path: &mut AstKindPath) -> ExportAll {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_export_all(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_export_all(self, node, ast_path),
         }
     }
 
     fn fold_export_decl(&mut self, node: ExportDecl, ast_path: &mut AstKindPath) -> ExportDecl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_export_decl(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_export_decl(self, node, ast_path)
@@ -92550,7 +92550,7 @@ where
         node: ExportDefaultDecl,
         ast_path: &mut AstKindPath,
     ) -> ExportDefaultDecl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_export_default_decl(self, node, ast_path)
             }
@@ -92565,7 +92565,7 @@ where
         node: ExportDefaultExpr,
         ast_path: &mut AstKindPath,
     ) -> ExportDefaultExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_export_default_expr(self, node, ast_path)
             }
@@ -92580,7 +92580,7 @@ where
         node: ExportDefaultSpecifier,
         ast_path: &mut AstKindPath,
     ) -> ExportDefaultSpecifier {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_export_default_specifier(self, node, ast_path)
             }
@@ -92595,7 +92595,7 @@ where
         node: ExportNamedSpecifier,
         ast_path: &mut AstKindPath,
     ) -> ExportNamedSpecifier {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_export_named_specifier(self, node, ast_path)
             }
@@ -92610,7 +92610,7 @@ where
         node: ExportNamespaceSpecifier,
         ast_path: &mut AstKindPath,
     ) -> ExportNamespaceSpecifier {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_export_namespace_specifier(self, node, ast_path)
             }
@@ -92625,7 +92625,7 @@ where
         node: ExportSpecifier,
         ast_path: &mut AstKindPath,
     ) -> ExportSpecifier {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_export_specifier(self, node, ast_path)
             }
@@ -92640,7 +92640,7 @@ where
         node: Vec<ExportSpecifier>,
         ast_path: &mut AstKindPath,
     ) -> Vec<ExportSpecifier> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_export_specifiers(self, node, ast_path)
             }
@@ -92651,7 +92651,7 @@ where
     }
 
     fn fold_expr(&mut self, node: Expr, ast_path: &mut AstKindPath) -> Expr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_expr(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_expr(self, node, ast_path),
         }
@@ -92662,7 +92662,7 @@ where
         node: ExprOrSpread,
         ast_path: &mut AstKindPath,
     ) -> ExprOrSpread {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_expr_or_spread(self, node, ast_path)
             }
@@ -92677,7 +92677,7 @@ where
         node: Vec<ExprOrSpread>,
         ast_path: &mut AstKindPath,
     ) -> Vec<ExprOrSpread> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_expr_or_spreads(self, node, ast_path)
             }
@@ -92688,42 +92688,42 @@ where
     }
 
     fn fold_expr_stmt(&mut self, node: ExprStmt, ast_path: &mut AstKindPath) -> ExprStmt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_expr_stmt(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_expr_stmt(self, node, ast_path),
         }
     }
 
     fn fold_exprs(&mut self, node: Vec<Box<Expr>>, ast_path: &mut AstKindPath) -> Vec<Box<Expr>> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_exprs(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_exprs(self, node, ast_path),
         }
     }
 
     fn fold_fn_decl(&mut self, node: FnDecl, ast_path: &mut AstKindPath) -> FnDecl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_fn_decl(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_fn_decl(self, node, ast_path),
         }
     }
 
     fn fold_fn_expr(&mut self, node: FnExpr, ast_path: &mut AstKindPath) -> FnExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_fn_expr(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_fn_expr(self, node, ast_path),
         }
     }
 
     fn fold_for_head(&mut self, node: ForHead, ast_path: &mut AstKindPath) -> ForHead {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_for_head(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_for_head(self, node, ast_path),
         }
     }
 
     fn fold_for_in_stmt(&mut self, node: ForInStmt, ast_path: &mut AstKindPath) -> ForInStmt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_for_in_stmt(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_for_in_stmt(self, node, ast_path)
@@ -92732,7 +92732,7 @@ where
     }
 
     fn fold_for_of_stmt(&mut self, node: ForOfStmt, ast_path: &mut AstKindPath) -> ForOfStmt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_for_of_stmt(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_for_of_stmt(self, node, ast_path)
@@ -92741,21 +92741,21 @@ where
     }
 
     fn fold_for_stmt(&mut self, node: ForStmt, ast_path: &mut AstKindPath) -> ForStmt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_for_stmt(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_for_stmt(self, node, ast_path),
         }
     }
 
     fn fold_function(&mut self, node: Function, ast_path: &mut AstKindPath) -> Function {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_function(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_function(self, node, ast_path),
         }
     }
 
     fn fold_getter_prop(&mut self, node: GetterProp, ast_path: &mut AstKindPath) -> GetterProp {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_getter_prop(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_getter_prop(self, node, ast_path)
@@ -92764,35 +92764,35 @@ where
     }
 
     fn fold_ident(&mut self, node: Ident, ast_path: &mut AstKindPath) -> Ident {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_ident(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_ident(self, node, ast_path),
         }
     }
 
     fn fold_ident_name(&mut self, node: IdentName, ast_path: &mut AstKindPath) -> IdentName {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_ident_name(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_ident_name(self, node, ast_path),
         }
     }
 
     fn fold_if_stmt(&mut self, node: IfStmt, ast_path: &mut AstKindPath) -> IfStmt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_if_stmt(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_if_stmt(self, node, ast_path),
         }
     }
 
     fn fold_import(&mut self, node: Import, ast_path: &mut AstKindPath) -> Import {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_import(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_import(self, node, ast_path),
         }
     }
 
     fn fold_import_decl(&mut self, node: ImportDecl, ast_path: &mut AstKindPath) -> ImportDecl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_import_decl(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_import_decl(self, node, ast_path)
@@ -92805,7 +92805,7 @@ where
         node: ImportDefaultSpecifier,
         ast_path: &mut AstKindPath,
     ) -> ImportDefaultSpecifier {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_import_default_specifier(self, node, ast_path)
             }
@@ -92820,7 +92820,7 @@ where
         node: ImportNamedSpecifier,
         ast_path: &mut AstKindPath,
     ) -> ImportNamedSpecifier {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_import_named_specifier(self, node, ast_path)
             }
@@ -92831,7 +92831,7 @@ where
     }
 
     fn fold_import_phase(&mut self, node: ImportPhase, ast_path: &mut AstKindPath) -> ImportPhase {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_import_phase(self, node, ast_path)
             }
@@ -92846,7 +92846,7 @@ where
         node: ImportSpecifier,
         ast_path: &mut AstKindPath,
     ) -> ImportSpecifier {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_import_specifier(self, node, ast_path)
             }
@@ -92861,7 +92861,7 @@ where
         node: Vec<ImportSpecifier>,
         ast_path: &mut AstKindPath,
     ) -> Vec<ImportSpecifier> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_import_specifiers(self, node, ast_path)
             }
@@ -92876,7 +92876,7 @@ where
         node: ImportStarAsSpecifier,
         ast_path: &mut AstKindPath,
     ) -> ImportStarAsSpecifier {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_import_star_as_specifier(self, node, ast_path)
             }
@@ -92887,7 +92887,7 @@ where
     }
 
     fn fold_import_with(&mut self, node: ImportWith, ast_path: &mut AstKindPath) -> ImportWith {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_import_with(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_import_with(self, node, ast_path)
@@ -92900,7 +92900,7 @@ where
         node: ImportWithItem,
         ast_path: &mut AstKindPath,
     ) -> ImportWithItem {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_import_with_item(self, node, ast_path)
             }
@@ -92915,7 +92915,7 @@ where
         node: Vec<ImportWithItem>,
         ast_path: &mut AstKindPath,
     ) -> Vec<ImportWithItem> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_import_with_items(self, node, ast_path)
             }
@@ -92926,21 +92926,21 @@ where
     }
 
     fn fold_invalid(&mut self, node: Invalid, ast_path: &mut AstKindPath) -> Invalid {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_invalid(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_invalid(self, node, ast_path),
         }
     }
 
     fn fold_jsx_attr(&mut self, node: JSXAttr, ast_path: &mut AstKindPath) -> JSXAttr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_jsx_attr(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_jsx_attr(self, node, ast_path),
         }
     }
 
     fn fold_jsx_attr_name(&mut self, node: JSXAttrName, ast_path: &mut AstKindPath) -> JSXAttrName {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_jsx_attr_name(self, node, ast_path)
             }
@@ -92955,7 +92955,7 @@ where
         node: JSXAttrOrSpread,
         ast_path: &mut AstKindPath,
     ) -> JSXAttrOrSpread {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_jsx_attr_or_spread(self, node, ast_path)
             }
@@ -92970,7 +92970,7 @@ where
         node: Vec<JSXAttrOrSpread>,
         ast_path: &mut AstKindPath,
     ) -> Vec<JSXAttrOrSpread> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_jsx_attr_or_spreads(self, node, ast_path)
             }
@@ -92985,7 +92985,7 @@ where
         node: JSXAttrValue,
         ast_path: &mut AstKindPath,
     ) -> JSXAttrValue {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_jsx_attr_value(self, node, ast_path)
             }
@@ -93000,7 +93000,7 @@ where
         node: JSXClosingElement,
         ast_path: &mut AstKindPath,
     ) -> JSXClosingElement {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_jsx_closing_element(self, node, ast_path)
             }
@@ -93015,7 +93015,7 @@ where
         node: JSXClosingFragment,
         ast_path: &mut AstKindPath,
     ) -> JSXClosingFragment {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_jsx_closing_fragment(self, node, ast_path)
             }
@@ -93026,7 +93026,7 @@ where
     }
 
     fn fold_jsx_element(&mut self, node: JSXElement, ast_path: &mut AstKindPath) -> JSXElement {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_jsx_element(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_jsx_element(self, node, ast_path)
@@ -93039,7 +93039,7 @@ where
         node: JSXElementChild,
         ast_path: &mut AstKindPath,
     ) -> JSXElementChild {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_jsx_element_child(self, node, ast_path)
             }
@@ -93054,7 +93054,7 @@ where
         node: Vec<JSXElementChild>,
         ast_path: &mut AstKindPath,
     ) -> Vec<JSXElementChild> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_jsx_element_childs(self, node, ast_path)
             }
@@ -93069,7 +93069,7 @@ where
         node: JSXElementName,
         ast_path: &mut AstKindPath,
     ) -> JSXElementName {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_jsx_element_name(self, node, ast_path)
             }
@@ -93084,7 +93084,7 @@ where
         node: JSXEmptyExpr,
         ast_path: &mut AstKindPath,
     ) -> JSXEmptyExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_jsx_empty_expr(self, node, ast_path)
             }
@@ -93095,7 +93095,7 @@ where
     }
 
     fn fold_jsx_expr(&mut self, node: JSXExpr, ast_path: &mut AstKindPath) -> JSXExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_jsx_expr(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_jsx_expr(self, node, ast_path),
         }
@@ -93106,7 +93106,7 @@ where
         node: JSXExprContainer,
         ast_path: &mut AstKindPath,
     ) -> JSXExprContainer {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_jsx_expr_container(self, node, ast_path)
             }
@@ -93117,7 +93117,7 @@ where
     }
 
     fn fold_jsx_fragment(&mut self, node: JSXFragment, ast_path: &mut AstKindPath) -> JSXFragment {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_jsx_fragment(self, node, ast_path)
             }
@@ -93132,7 +93132,7 @@ where
         node: JSXMemberExpr,
         ast_path: &mut AstKindPath,
     ) -> JSXMemberExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_jsx_member_expr(self, node, ast_path)
             }
@@ -93147,7 +93147,7 @@ where
         node: JSXNamespacedName,
         ast_path: &mut AstKindPath,
     ) -> JSXNamespacedName {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_jsx_namespaced_name(self, node, ast_path)
             }
@@ -93158,7 +93158,7 @@ where
     }
 
     fn fold_jsx_object(&mut self, node: JSXObject, ast_path: &mut AstKindPath) -> JSXObject {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_jsx_object(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_jsx_object(self, node, ast_path),
         }
@@ -93169,7 +93169,7 @@ where
         node: JSXOpeningElement,
         ast_path: &mut AstKindPath,
     ) -> JSXOpeningElement {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_jsx_opening_element(self, node, ast_path)
             }
@@ -93184,7 +93184,7 @@ where
         node: JSXOpeningFragment,
         ast_path: &mut AstKindPath,
     ) -> JSXOpeningFragment {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_jsx_opening_fragment(self, node, ast_path)
             }
@@ -93199,7 +93199,7 @@ where
         node: JSXSpreadChild,
         ast_path: &mut AstKindPath,
     ) -> JSXSpreadChild {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_jsx_spread_child(self, node, ast_path)
             }
@@ -93210,14 +93210,14 @@ where
     }
 
     fn fold_jsx_text(&mut self, node: JSXText, ast_path: &mut AstKindPath) -> JSXText {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_jsx_text(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_jsx_text(self, node, ast_path),
         }
     }
 
     fn fold_key(&mut self, node: Key, ast_path: &mut AstKindPath) -> Key {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_key(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_key(self, node, ast_path),
         }
@@ -93228,7 +93228,7 @@ where
         node: KeyValuePatProp,
         ast_path: &mut AstKindPath,
     ) -> KeyValuePatProp {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_key_value_pat_prop(self, node, ast_path)
             }
@@ -93243,7 +93243,7 @@ where
         node: KeyValueProp,
         ast_path: &mut AstKindPath,
     ) -> KeyValueProp {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_key_value_prop(self, node, ast_path)
             }
@@ -93254,7 +93254,7 @@ where
     }
 
     fn fold_labeled_stmt(&mut self, node: LabeledStmt, ast_path: &mut AstKindPath) -> LabeledStmt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_labeled_stmt(self, node, ast_path)
             }
@@ -93265,14 +93265,14 @@ where
     }
 
     fn fold_lit(&mut self, node: Lit, ast_path: &mut AstKindPath) -> Lit {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_lit(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_lit(self, node, ast_path),
         }
     }
 
     fn fold_member_expr(&mut self, node: MemberExpr, ast_path: &mut AstKindPath) -> MemberExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_member_expr(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_member_expr(self, node, ast_path)
@@ -93281,7 +93281,7 @@ where
     }
 
     fn fold_member_prop(&mut self, node: MemberProp, ast_path: &mut AstKindPath) -> MemberProp {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_member_prop(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_member_prop(self, node, ast_path)
@@ -93294,7 +93294,7 @@ where
         node: MetaPropExpr,
         ast_path: &mut AstKindPath,
     ) -> MetaPropExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_meta_prop_expr(self, node, ast_path)
             }
@@ -93309,7 +93309,7 @@ where
         node: MetaPropKind,
         ast_path: &mut AstKindPath,
     ) -> MetaPropKind {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_meta_prop_kind(self, node, ast_path)
             }
@@ -93320,7 +93320,7 @@ where
     }
 
     fn fold_method_kind(&mut self, node: MethodKind, ast_path: &mut AstKindPath) -> MethodKind {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_method_kind(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_method_kind(self, node, ast_path)
@@ -93329,7 +93329,7 @@ where
     }
 
     fn fold_method_prop(&mut self, node: MethodProp, ast_path: &mut AstKindPath) -> MethodProp {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_method_prop(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_method_prop(self, node, ast_path)
@@ -93338,14 +93338,14 @@ where
     }
 
     fn fold_module(&mut self, node: Module, ast_path: &mut AstKindPath) -> Module {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_module(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_module(self, node, ast_path),
         }
     }
 
     fn fold_module_decl(&mut self, node: ModuleDecl, ast_path: &mut AstKindPath) -> ModuleDecl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_module_decl(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_module_decl(self, node, ast_path)
@@ -93358,7 +93358,7 @@ where
         node: ModuleExportName,
         ast_path: &mut AstKindPath,
     ) -> ModuleExportName {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_module_export_name(self, node, ast_path)
             }
@@ -93369,7 +93369,7 @@ where
     }
 
     fn fold_module_item(&mut self, node: ModuleItem, ast_path: &mut AstKindPath) -> ModuleItem {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_module_item(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_module_item(self, node, ast_path)
@@ -93382,7 +93382,7 @@ where
         node: Vec<ModuleItem>,
         ast_path: &mut AstKindPath,
     ) -> Vec<ModuleItem> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_module_items(self, node, ast_path)
             }
@@ -93393,7 +93393,7 @@ where
     }
 
     fn fold_named_export(&mut self, node: NamedExport, ast_path: &mut AstKindPath) -> NamedExport {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_named_export(self, node, ast_path)
             }
@@ -93404,35 +93404,35 @@ where
     }
 
     fn fold_new_expr(&mut self, node: NewExpr, ast_path: &mut AstKindPath) -> NewExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_new_expr(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_new_expr(self, node, ast_path),
         }
     }
 
     fn fold_null(&mut self, node: Null, ast_path: &mut AstKindPath) -> Null {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_null(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_null(self, node, ast_path),
         }
     }
 
     fn fold_number(&mut self, node: Number, ast_path: &mut AstKindPath) -> Number {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_number(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_number(self, node, ast_path),
         }
     }
 
     fn fold_object_lit(&mut self, node: ObjectLit, ast_path: &mut AstKindPath) -> ObjectLit {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_object_lit(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_object_lit(self, node, ast_path),
         }
     }
 
     fn fold_object_pat(&mut self, node: ObjectPat, ast_path: &mut AstKindPath) -> ObjectPat {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_object_pat(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_object_pat(self, node, ast_path),
         }
@@ -93443,7 +93443,7 @@ where
         node: ObjectPatProp,
         ast_path: &mut AstKindPath,
     ) -> ObjectPatProp {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_object_pat_prop(self, node, ast_path)
             }
@@ -93458,7 +93458,7 @@ where
         node: Vec<ObjectPatProp>,
         ast_path: &mut AstKindPath,
     ) -> Vec<ObjectPatProp> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_object_pat_props(self, node, ast_path)
             }
@@ -93473,7 +93473,7 @@ where
         node: Option<Accessibility>,
         ast_path: &mut AstKindPath,
     ) -> Option<Accessibility> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_opt_accessibility(self, node, ast_path)
             }
@@ -93488,7 +93488,7 @@ where
         node: Option<swc_atoms::Atom>,
         ast_path: &mut AstKindPath,
     ) -> Option<swc_atoms::Atom> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_opt_atom(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_opt_atom(self, node, ast_path),
         }
@@ -93499,7 +93499,7 @@ where
         node: Option<BlockStmt>,
         ast_path: &mut AstKindPath,
     ) -> Option<BlockStmt> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_opt_block_stmt(self, node, ast_path)
             }
@@ -93510,7 +93510,7 @@ where
     }
 
     fn fold_opt_call(&mut self, node: OptCall, ast_path: &mut AstKindPath) -> OptCall {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_opt_call(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_opt_call(self, node, ast_path),
         }
@@ -93521,7 +93521,7 @@ where
         node: Option<CatchClause>,
         ast_path: &mut AstKindPath,
     ) -> Option<CatchClause> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_opt_catch_clause(self, node, ast_path)
             }
@@ -93536,7 +93536,7 @@ where
         node: OptChainBase,
         ast_path: &mut AstKindPath,
     ) -> OptChainBase {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_opt_chain_base(self, node, ast_path)
             }
@@ -93551,7 +93551,7 @@ where
         node: OptChainExpr,
         ast_path: &mut AstKindPath,
     ) -> OptChainExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_opt_chain_expr(self, node, ast_path)
             }
@@ -93566,7 +93566,7 @@ where
         node: Option<Box<Expr>>,
         ast_path: &mut AstKindPath,
     ) -> Option<Box<Expr>> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_opt_expr(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_opt_expr(self, node, ast_path),
         }
@@ -93577,7 +93577,7 @@ where
         node: Option<ExprOrSpread>,
         ast_path: &mut AstKindPath,
     ) -> Option<ExprOrSpread> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_opt_expr_or_spread(self, node, ast_path)
             }
@@ -93592,7 +93592,7 @@ where
         node: Option<Vec<ExprOrSpread>>,
         ast_path: &mut AstKindPath,
     ) -> Option<Vec<ExprOrSpread>> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_opt_expr_or_spreads(self, node, ast_path)
             }
@@ -93603,7 +93603,7 @@ where
     }
 
     fn fold_opt_ident(&mut self, node: Option<Ident>, ast_path: &mut AstKindPath) -> Option<Ident> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_opt_ident(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_opt_ident(self, node, ast_path),
         }
@@ -93614,7 +93614,7 @@ where
         node: Option<JSXAttrValue>,
         ast_path: &mut AstKindPath,
     ) -> Option<JSXAttrValue> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_opt_jsx_attr_value(self, node, ast_path)
             }
@@ -93629,7 +93629,7 @@ where
         node: Option<JSXClosingElement>,
         ast_path: &mut AstKindPath,
     ) -> Option<JSXClosingElement> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_opt_jsx_closing_element(self, node, ast_path)
             }
@@ -93644,7 +93644,7 @@ where
         node: Option<ModuleExportName>,
         ast_path: &mut AstKindPath,
     ) -> Option<ModuleExportName> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_opt_module_export_name(self, node, ast_path)
             }
@@ -93659,7 +93659,7 @@ where
         node: Option<Vec<ModuleItem>>,
         ast_path: &mut AstKindPath,
     ) -> Option<Vec<ModuleItem>> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_opt_module_items(self, node, ast_path)
             }
@@ -93674,7 +93674,7 @@ where
         node: Option<Box<ObjectLit>>,
         ast_path: &mut AstKindPath,
     ) -> Option<Box<ObjectLit>> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_opt_object_lit(self, node, ast_path)
             }
@@ -93685,7 +93685,7 @@ where
     }
 
     fn fold_opt_pat(&mut self, node: Option<Pat>, ast_path: &mut AstKindPath) -> Option<Pat> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_opt_pat(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_opt_pat(self, node, ast_path),
         }
@@ -93696,7 +93696,7 @@ where
         node: Option<swc_common::Span>,
         ast_path: &mut AstKindPath,
     ) -> Option<swc_common::Span> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_opt_span(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_opt_span(self, node, ast_path),
         }
@@ -93707,7 +93707,7 @@ where
         node: Option<Box<Stmt>>,
         ast_path: &mut AstKindPath,
     ) -> Option<Box<Stmt>> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_opt_stmt(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_opt_stmt(self, node, ast_path),
         }
@@ -93718,7 +93718,7 @@ where
         node: Option<Box<Str>>,
         ast_path: &mut AstKindPath,
     ) -> Option<Box<Str>> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_opt_str(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_opt_str(self, node, ast_path),
         }
@@ -93729,7 +93729,7 @@ where
         node: Option<TruePlusMinus>,
         ast_path: &mut AstKindPath,
     ) -> Option<TruePlusMinus> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_opt_true_plus_minus(self, node, ast_path)
             }
@@ -93744,7 +93744,7 @@ where
         node: Option<TsEntityName>,
         ast_path: &mut AstKindPath,
     ) -> Option<TsEntityName> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_opt_ts_entity_name(self, node, ast_path)
             }
@@ -93759,7 +93759,7 @@ where
         node: Option<TsNamespaceBody>,
         ast_path: &mut AstKindPath,
     ) -> Option<TsNamespaceBody> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_opt_ts_namespace_body(self, node, ast_path)
             }
@@ -93774,7 +93774,7 @@ where
         node: Option<Box<TsType>>,
         ast_path: &mut AstKindPath,
     ) -> Option<Box<TsType>> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_opt_ts_type(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_opt_ts_type(self, node, ast_path)
@@ -93787,7 +93787,7 @@ where
         node: Option<Box<TsTypeAnn>>,
         ast_path: &mut AstKindPath,
     ) -> Option<Box<TsTypeAnn>> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_opt_ts_type_ann(self, node, ast_path)
             }
@@ -93802,7 +93802,7 @@ where
         node: Option<Box<TsTypeParamDecl>>,
         ast_path: &mut AstKindPath,
     ) -> Option<Box<TsTypeParamDecl>> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_opt_ts_type_param_decl(self, node, ast_path)
             }
@@ -93817,7 +93817,7 @@ where
         node: Option<Box<TsTypeParamInstantiation>>,
         ast_path: &mut AstKindPath,
     ) -> Option<Box<TsTypeParamInstantiation>> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_opt_ts_type_param_instantiation(self, node, ast_path)
             }
@@ -93832,7 +93832,7 @@ where
         node: Option<VarDeclOrExpr>,
         ast_path: &mut AstKindPath,
     ) -> Option<VarDeclOrExpr> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_opt_var_decl_or_expr(self, node, ast_path)
             }
@@ -93847,7 +93847,7 @@ where
         node: Vec<Option<ExprOrSpread>>,
         ast_path: &mut AstKindPath,
     ) -> Vec<Option<ExprOrSpread>> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_opt_vec_expr_or_spreads(self, node, ast_path)
             }
@@ -93862,7 +93862,7 @@ where
         node: Vec<Option<Pat>>,
         ast_path: &mut AstKindPath,
     ) -> Vec<Option<Pat>> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_opt_vec_pats(self, node, ast_path)
             }
@@ -93873,7 +93873,7 @@ where
     }
 
     fn fold_param(&mut self, node: Param, ast_path: &mut AstKindPath) -> Param {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_param(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_param(self, node, ast_path),
         }
@@ -93884,7 +93884,7 @@ where
         node: ParamOrTsParamProp,
         ast_path: &mut AstKindPath,
     ) -> ParamOrTsParamProp {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_param_or_ts_param_prop(self, node, ast_path)
             }
@@ -93899,7 +93899,7 @@ where
         node: Vec<ParamOrTsParamProp>,
         ast_path: &mut AstKindPath,
     ) -> Vec<ParamOrTsParamProp> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_param_or_ts_param_props(self, node, ast_path)
             }
@@ -93910,28 +93910,28 @@ where
     }
 
     fn fold_params(&mut self, node: Vec<Param>, ast_path: &mut AstKindPath) -> Vec<Param> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_params(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_params(self, node, ast_path),
         }
     }
 
     fn fold_paren_expr(&mut self, node: ParenExpr, ast_path: &mut AstKindPath) -> ParenExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_paren_expr(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_paren_expr(self, node, ast_path),
         }
     }
 
     fn fold_pat(&mut self, node: Pat, ast_path: &mut AstKindPath) -> Pat {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_pat(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_pat(self, node, ast_path),
         }
     }
 
     fn fold_pats(&mut self, node: Vec<Pat>, ast_path: &mut AstKindPath) -> Vec<Pat> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_pats(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_pats(self, node, ast_path),
         }
@@ -93942,7 +93942,7 @@ where
         node: PrivateMethod,
         ast_path: &mut AstKindPath,
     ) -> PrivateMethod {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_private_method(self, node, ast_path)
             }
@@ -93953,7 +93953,7 @@ where
     }
 
     fn fold_private_name(&mut self, node: PrivateName, ast_path: &mut AstKindPath) -> PrivateName {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_private_name(self, node, ast_path)
             }
@@ -93964,7 +93964,7 @@ where
     }
 
     fn fold_private_prop(&mut self, node: PrivateProp, ast_path: &mut AstKindPath) -> PrivateProp {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_private_prop(self, node, ast_path)
             }
@@ -93975,21 +93975,21 @@ where
     }
 
     fn fold_program(&mut self, node: Program, ast_path: &mut AstKindPath) -> Program {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_program(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_program(self, node, ast_path),
         }
     }
 
     fn fold_prop(&mut self, node: Prop, ast_path: &mut AstKindPath) -> Prop {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_prop(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_prop(self, node, ast_path),
         }
     }
 
     fn fold_prop_name(&mut self, node: PropName, ast_path: &mut AstKindPath) -> PropName {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_prop_name(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_prop_name(self, node, ast_path),
         }
@@ -94000,7 +94000,7 @@ where
         node: PropOrSpread,
         ast_path: &mut AstKindPath,
     ) -> PropOrSpread {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_prop_or_spread(self, node, ast_path)
             }
@@ -94015,7 +94015,7 @@ where
         node: Vec<PropOrSpread>,
         ast_path: &mut AstKindPath,
     ) -> Vec<PropOrSpread> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_prop_or_spreads(self, node, ast_path)
             }
@@ -94026,7 +94026,7 @@ where
     }
 
     fn fold_regex(&mut self, node: Regex, ast_path: &mut AstKindPath) -> Regex {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_regex(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_regex(self, node, ast_path),
         }
@@ -94037,7 +94037,7 @@ where
         node: ReservedUnused,
         ast_path: &mut AstKindPath,
     ) -> ReservedUnused {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_reserved_unused(self, node, ast_path)
             }
@@ -94048,14 +94048,14 @@ where
     }
 
     fn fold_rest_pat(&mut self, node: RestPat, ast_path: &mut AstKindPath) -> RestPat {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_rest_pat(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_rest_pat(self, node, ast_path),
         }
     }
 
     fn fold_return_stmt(&mut self, node: ReturnStmt, ast_path: &mut AstKindPath) -> ReturnStmt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_return_stmt(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_return_stmt(self, node, ast_path)
@@ -94064,21 +94064,21 @@ where
     }
 
     fn fold_script(&mut self, node: Script, ast_path: &mut AstKindPath) -> Script {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_script(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_script(self, node, ast_path),
         }
     }
 
     fn fold_seq_expr(&mut self, node: SeqExpr, ast_path: &mut AstKindPath) -> SeqExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_seq_expr(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_seq_expr(self, node, ast_path),
         }
     }
 
     fn fold_setter_prop(&mut self, node: SetterProp, ast_path: &mut AstKindPath) -> SetterProp {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_setter_prop(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_setter_prop(self, node, ast_path)
@@ -94091,7 +94091,7 @@ where
         node: SimpleAssignTarget,
         ast_path: &mut AstKindPath,
     ) -> SimpleAssignTarget {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_simple_assign_target(self, node, ast_path)
             }
@@ -94106,7 +94106,7 @@ where
         node: swc_common::Span,
         ast_path: &mut AstKindPath,
     ) -> swc_common::Span {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_span(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_span(self, node, ast_path),
         }
@@ -94117,7 +94117,7 @@ where
         node: SpreadElement,
         ast_path: &mut AstKindPath,
     ) -> SpreadElement {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_spread_element(self, node, ast_path)
             }
@@ -94128,7 +94128,7 @@ where
     }
 
     fn fold_static_block(&mut self, node: StaticBlock, ast_path: &mut AstKindPath) -> StaticBlock {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_static_block(self, node, ast_path)
             }
@@ -94139,35 +94139,35 @@ where
     }
 
     fn fold_stmt(&mut self, node: Stmt, ast_path: &mut AstKindPath) -> Stmt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_stmt(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_stmt(self, node, ast_path),
         }
     }
 
     fn fold_stmts(&mut self, node: Vec<Stmt>, ast_path: &mut AstKindPath) -> Vec<Stmt> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_stmts(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_stmts(self, node, ast_path),
         }
     }
 
     fn fold_str(&mut self, node: Str, ast_path: &mut AstKindPath) -> Str {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_str(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_str(self, node, ast_path),
         }
     }
 
     fn fold_super(&mut self, node: Super, ast_path: &mut AstKindPath) -> Super {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_super(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_super(self, node, ast_path),
         }
     }
 
     fn fold_super_prop(&mut self, node: SuperProp, ast_path: &mut AstKindPath) -> SuperProp {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_super_prop(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_super_prop(self, node, ast_path),
         }
@@ -94178,7 +94178,7 @@ where
         node: SuperPropExpr,
         ast_path: &mut AstKindPath,
     ) -> SuperPropExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_super_prop_expr(self, node, ast_path)
             }
@@ -94189,7 +94189,7 @@ where
     }
 
     fn fold_switch_case(&mut self, node: SwitchCase, ast_path: &mut AstKindPath) -> SwitchCase {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_switch_case(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_switch_case(self, node, ast_path)
@@ -94202,7 +94202,7 @@ where
         node: Vec<SwitchCase>,
         ast_path: &mut AstKindPath,
     ) -> Vec<SwitchCase> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_switch_cases(self, node, ast_path)
             }
@@ -94213,7 +94213,7 @@ where
     }
 
     fn fold_switch_stmt(&mut self, node: SwitchStmt, ast_path: &mut AstKindPath) -> SwitchStmt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_switch_stmt(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_switch_stmt(self, node, ast_path)
@@ -94226,7 +94226,7 @@ where
         node: swc_common::SyntaxContext,
         ast_path: &mut AstKindPath,
     ) -> swc_common::SyntaxContext {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_syntax_context(self, node, ast_path)
             }
@@ -94237,35 +94237,35 @@ where
     }
 
     fn fold_tagged_tpl(&mut self, node: TaggedTpl, ast_path: &mut AstKindPath) -> TaggedTpl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_tagged_tpl(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_tagged_tpl(self, node, ast_path),
         }
     }
 
     fn fold_this_expr(&mut self, node: ThisExpr, ast_path: &mut AstKindPath) -> ThisExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_this_expr(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_this_expr(self, node, ast_path),
         }
     }
 
     fn fold_throw_stmt(&mut self, node: ThrowStmt, ast_path: &mut AstKindPath) -> ThrowStmt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_throw_stmt(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_throw_stmt(self, node, ast_path),
         }
     }
 
     fn fold_tpl(&mut self, node: Tpl, ast_path: &mut AstKindPath) -> Tpl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_tpl(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_tpl(self, node, ast_path),
         }
     }
 
     fn fold_tpl_element(&mut self, node: TplElement, ast_path: &mut AstKindPath) -> TplElement {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_tpl_element(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_tpl_element(self, node, ast_path)
@@ -94278,7 +94278,7 @@ where
         node: Vec<TplElement>,
         ast_path: &mut AstKindPath,
     ) -> Vec<TplElement> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_tpl_elements(self, node, ast_path)
             }
@@ -94293,7 +94293,7 @@ where
         node: TruePlusMinus,
         ast_path: &mut AstKindPath,
     ) -> TruePlusMinus {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_true_plus_minus(self, node, ast_path)
             }
@@ -94304,14 +94304,14 @@ where
     }
 
     fn fold_try_stmt(&mut self, node: TryStmt, ast_path: &mut AstKindPath) -> TryStmt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_try_stmt(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_try_stmt(self, node, ast_path),
         }
     }
 
     fn fold_ts_array_type(&mut self, node: TsArrayType, ast_path: &mut AstKindPath) -> TsArrayType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_array_type(self, node, ast_path)
             }
@@ -94322,7 +94322,7 @@ where
     }
 
     fn fold_ts_as_expr(&mut self, node: TsAsExpr, ast_path: &mut AstKindPath) -> TsAsExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_ts_as_expr(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_ts_as_expr(self, node, ast_path),
         }
@@ -94333,7 +94333,7 @@ where
         node: TsCallSignatureDecl,
         ast_path: &mut AstKindPath,
     ) -> TsCallSignatureDecl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_call_signature_decl(self, node, ast_path)
             }
@@ -94348,7 +94348,7 @@ where
         node: TsConditionalType,
         ast_path: &mut AstKindPath,
     ) -> TsConditionalType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_conditional_type(self, node, ast_path)
             }
@@ -94363,7 +94363,7 @@ where
         node: TsConstAssertion,
         ast_path: &mut AstKindPath,
     ) -> TsConstAssertion {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_const_assertion(self, node, ast_path)
             }
@@ -94378,7 +94378,7 @@ where
         node: TsConstructSignatureDecl,
         ast_path: &mut AstKindPath,
     ) -> TsConstructSignatureDecl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_construct_signature_decl(self, node, ast_path)
             }
@@ -94393,7 +94393,7 @@ where
         node: TsConstructorType,
         ast_path: &mut AstKindPath,
     ) -> TsConstructorType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_constructor_type(self, node, ast_path)
             }
@@ -94408,7 +94408,7 @@ where
         node: TsEntityName,
         ast_path: &mut AstKindPath,
     ) -> TsEntityName {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_entity_name(self, node, ast_path)
             }
@@ -94419,7 +94419,7 @@ where
     }
 
     fn fold_ts_enum_decl(&mut self, node: TsEnumDecl, ast_path: &mut AstKindPath) -> TsEnumDecl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_enum_decl(self, node, ast_path)
             }
@@ -94434,7 +94434,7 @@ where
         node: TsEnumMember,
         ast_path: &mut AstKindPath,
     ) -> TsEnumMember {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_enum_member(self, node, ast_path)
             }
@@ -94449,7 +94449,7 @@ where
         node: TsEnumMemberId,
         ast_path: &mut AstKindPath,
     ) -> TsEnumMemberId {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_enum_member_id(self, node, ast_path)
             }
@@ -94464,7 +94464,7 @@ where
         node: Vec<TsEnumMember>,
         ast_path: &mut AstKindPath,
     ) -> Vec<TsEnumMember> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_enum_members(self, node, ast_path)
             }
@@ -94479,7 +94479,7 @@ where
         node: TsExportAssignment,
         ast_path: &mut AstKindPath,
     ) -> TsExportAssignment {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_export_assignment(self, node, ast_path)
             }
@@ -94494,7 +94494,7 @@ where
         node: TsExprWithTypeArgs,
         ast_path: &mut AstKindPath,
     ) -> TsExprWithTypeArgs {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_expr_with_type_args(self, node, ast_path)
             }
@@ -94509,7 +94509,7 @@ where
         node: Vec<TsExprWithTypeArgs>,
         ast_path: &mut AstKindPath,
     ) -> Vec<TsExprWithTypeArgs> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_expr_with_type_argss(self, node, ast_path)
             }
@@ -94524,7 +94524,7 @@ where
         node: TsExternalModuleRef,
         ast_path: &mut AstKindPath,
     ) -> TsExternalModuleRef {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_external_module_ref(self, node, ast_path)
             }
@@ -94539,7 +94539,7 @@ where
         node: TsFnOrConstructorType,
         ast_path: &mut AstKindPath,
     ) -> TsFnOrConstructorType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_fn_or_constructor_type(self, node, ast_path)
             }
@@ -94550,7 +94550,7 @@ where
     }
 
     fn fold_ts_fn_param(&mut self, node: TsFnParam, ast_path: &mut AstKindPath) -> TsFnParam {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_ts_fn_param(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_ts_fn_param(self, node, ast_path)
@@ -94563,7 +94563,7 @@ where
         node: Vec<TsFnParam>,
         ast_path: &mut AstKindPath,
     ) -> Vec<TsFnParam> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_fn_params(self, node, ast_path)
             }
@@ -94574,7 +94574,7 @@ where
     }
 
     fn fold_ts_fn_type(&mut self, node: TsFnType, ast_path: &mut AstKindPath) -> TsFnType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_ts_fn_type(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_ts_fn_type(self, node, ast_path),
         }
@@ -94585,7 +94585,7 @@ where
         node: TsGetterSignature,
         ast_path: &mut AstKindPath,
     ) -> TsGetterSignature {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_getter_signature(self, node, ast_path)
             }
@@ -94600,7 +94600,7 @@ where
         node: TsImportEqualsDecl,
         ast_path: &mut AstKindPath,
     ) -> TsImportEqualsDecl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_import_equals_decl(self, node, ast_path)
             }
@@ -94615,7 +94615,7 @@ where
         node: TsImportType,
         ast_path: &mut AstKindPath,
     ) -> TsImportType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_import_type(self, node, ast_path)
             }
@@ -94630,7 +94630,7 @@ where
         node: TsIndexSignature,
         ast_path: &mut AstKindPath,
     ) -> TsIndexSignature {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_index_signature(self, node, ast_path)
             }
@@ -94645,7 +94645,7 @@ where
         node: TsIndexedAccessType,
         ast_path: &mut AstKindPath,
     ) -> TsIndexedAccessType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_indexed_access_type(self, node, ast_path)
             }
@@ -94656,7 +94656,7 @@ where
     }
 
     fn fold_ts_infer_type(&mut self, node: TsInferType, ast_path: &mut AstKindPath) -> TsInferType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_infer_type(self, node, ast_path)
             }
@@ -94671,7 +94671,7 @@ where
         node: TsInstantiation,
         ast_path: &mut AstKindPath,
     ) -> TsInstantiation {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_instantiation(self, node, ast_path)
             }
@@ -94686,7 +94686,7 @@ where
         node: TsInterfaceBody,
         ast_path: &mut AstKindPath,
     ) -> TsInterfaceBody {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_interface_body(self, node, ast_path)
             }
@@ -94701,7 +94701,7 @@ where
         node: TsInterfaceDecl,
         ast_path: &mut AstKindPath,
     ) -> TsInterfaceDecl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_interface_decl(self, node, ast_path)
             }
@@ -94716,7 +94716,7 @@ where
         node: TsIntersectionType,
         ast_path: &mut AstKindPath,
     ) -> TsIntersectionType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_intersection_type(self, node, ast_path)
             }
@@ -94731,7 +94731,7 @@ where
         node: TsKeywordType,
         ast_path: &mut AstKindPath,
     ) -> TsKeywordType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_keyword_type(self, node, ast_path)
             }
@@ -94746,7 +94746,7 @@ where
         node: TsKeywordTypeKind,
         ast_path: &mut AstKindPath,
     ) -> TsKeywordTypeKind {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_keyword_type_kind(self, node, ast_path)
             }
@@ -94757,14 +94757,14 @@ where
     }
 
     fn fold_ts_lit(&mut self, node: TsLit, ast_path: &mut AstKindPath) -> TsLit {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_ts_lit(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_ts_lit(self, node, ast_path),
         }
     }
 
     fn fold_ts_lit_type(&mut self, node: TsLitType, ast_path: &mut AstKindPath) -> TsLitType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_ts_lit_type(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_ts_lit_type(self, node, ast_path)
@@ -94777,7 +94777,7 @@ where
         node: TsMappedType,
         ast_path: &mut AstKindPath,
     ) -> TsMappedType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_mapped_type(self, node, ast_path)
             }
@@ -94792,7 +94792,7 @@ where
         node: TsMethodSignature,
         ast_path: &mut AstKindPath,
     ) -> TsMethodSignature {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_method_signature(self, node, ast_path)
             }
@@ -94807,7 +94807,7 @@ where
         node: TsModuleBlock,
         ast_path: &mut AstKindPath,
     ) -> TsModuleBlock {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_module_block(self, node, ast_path)
             }
@@ -94822,7 +94822,7 @@ where
         node: TsModuleDecl,
         ast_path: &mut AstKindPath,
     ) -> TsModuleDecl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_module_decl(self, node, ast_path)
             }
@@ -94837,7 +94837,7 @@ where
         node: TsModuleName,
         ast_path: &mut AstKindPath,
     ) -> TsModuleName {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_module_name(self, node, ast_path)
             }
@@ -94848,7 +94848,7 @@ where
     }
 
     fn fold_ts_module_ref(&mut self, node: TsModuleRef, ast_path: &mut AstKindPath) -> TsModuleRef {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_module_ref(self, node, ast_path)
             }
@@ -94863,7 +94863,7 @@ where
         node: TsNamespaceBody,
         ast_path: &mut AstKindPath,
     ) -> TsNamespaceBody {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_namespace_body(self, node, ast_path)
             }
@@ -94878,7 +94878,7 @@ where
         node: TsNamespaceDecl,
         ast_path: &mut AstKindPath,
     ) -> TsNamespaceDecl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_namespace_decl(self, node, ast_path)
             }
@@ -94893,7 +94893,7 @@ where
         node: TsNamespaceExportDecl,
         ast_path: &mut AstKindPath,
     ) -> TsNamespaceExportDecl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_namespace_export_decl(self, node, ast_path)
             }
@@ -94908,7 +94908,7 @@ where
         node: TsNonNullExpr,
         ast_path: &mut AstKindPath,
     ) -> TsNonNullExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_non_null_expr(self, node, ast_path)
             }
@@ -94923,7 +94923,7 @@ where
         node: TsOptionalType,
         ast_path: &mut AstKindPath,
     ) -> TsOptionalType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_optional_type(self, node, ast_path)
             }
@@ -94934,7 +94934,7 @@ where
     }
 
     fn fold_ts_param_prop(&mut self, node: TsParamProp, ast_path: &mut AstKindPath) -> TsParamProp {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_param_prop(self, node, ast_path)
             }
@@ -94949,7 +94949,7 @@ where
         node: TsParamPropParam,
         ast_path: &mut AstKindPath,
     ) -> TsParamPropParam {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_param_prop_param(self, node, ast_path)
             }
@@ -94964,7 +94964,7 @@ where
         node: TsParenthesizedType,
         ast_path: &mut AstKindPath,
     ) -> TsParenthesizedType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_parenthesized_type(self, node, ast_path)
             }
@@ -94979,7 +94979,7 @@ where
         node: TsPropertySignature,
         ast_path: &mut AstKindPath,
     ) -> TsPropertySignature {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_property_signature(self, node, ast_path)
             }
@@ -94994,7 +94994,7 @@ where
         node: TsQualifiedName,
         ast_path: &mut AstKindPath,
     ) -> TsQualifiedName {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_qualified_name(self, node, ast_path)
             }
@@ -95005,7 +95005,7 @@ where
     }
 
     fn fold_ts_rest_type(&mut self, node: TsRestType, ast_path: &mut AstKindPath) -> TsRestType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_rest_type(self, node, ast_path)
             }
@@ -95020,7 +95020,7 @@ where
         node: TsSatisfiesExpr,
         ast_path: &mut AstKindPath,
     ) -> TsSatisfiesExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_satisfies_expr(self, node, ast_path)
             }
@@ -95035,7 +95035,7 @@ where
         node: TsSetterSignature,
         ast_path: &mut AstKindPath,
     ) -> TsSetterSignature {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_setter_signature(self, node, ast_path)
             }
@@ -95046,7 +95046,7 @@ where
     }
 
     fn fold_ts_this_type(&mut self, node: TsThisType, ast_path: &mut AstKindPath) -> TsThisType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_this_type(self, node, ast_path)
             }
@@ -95061,7 +95061,7 @@ where
         node: TsThisTypeOrIdent,
         ast_path: &mut AstKindPath,
     ) -> TsThisTypeOrIdent {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_this_type_or_ident(self, node, ast_path)
             }
@@ -95076,7 +95076,7 @@ where
         node: TsTplLitType,
         ast_path: &mut AstKindPath,
     ) -> TsTplLitType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_tpl_lit_type(self, node, ast_path)
             }
@@ -95091,7 +95091,7 @@ where
         node: TsTupleElement,
         ast_path: &mut AstKindPath,
     ) -> TsTupleElement {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_tuple_element(self, node, ast_path)
             }
@@ -95106,7 +95106,7 @@ where
         node: Vec<TsTupleElement>,
         ast_path: &mut AstKindPath,
     ) -> Vec<TsTupleElement> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_tuple_elements(self, node, ast_path)
             }
@@ -95117,7 +95117,7 @@ where
     }
 
     fn fold_ts_tuple_type(&mut self, node: TsTupleType, ast_path: &mut AstKindPath) -> TsTupleType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_tuple_type(self, node, ast_path)
             }
@@ -95128,7 +95128,7 @@ where
     }
 
     fn fold_ts_type(&mut self, node: TsType, ast_path: &mut AstKindPath) -> TsType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_ts_type(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_ts_type(self, node, ast_path),
         }
@@ -95139,7 +95139,7 @@ where
         node: TsTypeAliasDecl,
         ast_path: &mut AstKindPath,
     ) -> TsTypeAliasDecl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_type_alias_decl(self, node, ast_path)
             }
@@ -95150,7 +95150,7 @@ where
     }
 
     fn fold_ts_type_ann(&mut self, node: TsTypeAnn, ast_path: &mut AstKindPath) -> TsTypeAnn {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_ts_type_ann(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_ts_type_ann(self, node, ast_path)
@@ -95163,7 +95163,7 @@ where
         node: TsTypeAssertion,
         ast_path: &mut AstKindPath,
     ) -> TsTypeAssertion {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_type_assertion(self, node, ast_path)
             }
@@ -95178,7 +95178,7 @@ where
         node: TsTypeElement,
         ast_path: &mut AstKindPath,
     ) -> TsTypeElement {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_type_element(self, node, ast_path)
             }
@@ -95193,7 +95193,7 @@ where
         node: Vec<TsTypeElement>,
         ast_path: &mut AstKindPath,
     ) -> Vec<TsTypeElement> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_type_elements(self, node, ast_path)
             }
@@ -95204,7 +95204,7 @@ where
     }
 
     fn fold_ts_type_lit(&mut self, node: TsTypeLit, ast_path: &mut AstKindPath) -> TsTypeLit {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_ts_type_lit(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_ts_type_lit(self, node, ast_path)
@@ -95217,7 +95217,7 @@ where
         node: TsTypeOperator,
         ast_path: &mut AstKindPath,
     ) -> TsTypeOperator {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_type_operator(self, node, ast_path)
             }
@@ -95232,7 +95232,7 @@ where
         node: TsTypeOperatorOp,
         ast_path: &mut AstKindPath,
     ) -> TsTypeOperatorOp {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_type_operator_op(self, node, ast_path)
             }
@@ -95243,7 +95243,7 @@ where
     }
 
     fn fold_ts_type_param(&mut self, node: TsTypeParam, ast_path: &mut AstKindPath) -> TsTypeParam {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_type_param(self, node, ast_path)
             }
@@ -95258,7 +95258,7 @@ where
         node: TsTypeParamDecl,
         ast_path: &mut AstKindPath,
     ) -> TsTypeParamDecl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_type_param_decl(self, node, ast_path)
             }
@@ -95273,7 +95273,7 @@ where
         node: TsTypeParamInstantiation,
         ast_path: &mut AstKindPath,
     ) -> TsTypeParamInstantiation {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_type_param_instantiation(self, node, ast_path)
             }
@@ -95288,7 +95288,7 @@ where
         node: Vec<TsTypeParam>,
         ast_path: &mut AstKindPath,
     ) -> Vec<TsTypeParam> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_type_params(self, node, ast_path)
             }
@@ -95303,7 +95303,7 @@ where
         node: TsTypePredicate,
         ast_path: &mut AstKindPath,
     ) -> TsTypePredicate {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_type_predicate(self, node, ast_path)
             }
@@ -95314,7 +95314,7 @@ where
     }
 
     fn fold_ts_type_query(&mut self, node: TsTypeQuery, ast_path: &mut AstKindPath) -> TsTypeQuery {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_type_query(self, node, ast_path)
             }
@@ -95329,7 +95329,7 @@ where
         node: TsTypeQueryExpr,
         ast_path: &mut AstKindPath,
     ) -> TsTypeQueryExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_type_query_expr(self, node, ast_path)
             }
@@ -95340,7 +95340,7 @@ where
     }
 
     fn fold_ts_type_ref(&mut self, node: TsTypeRef, ast_path: &mut AstKindPath) -> TsTypeRef {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_ts_type_ref(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_ts_type_ref(self, node, ast_path)
@@ -95353,7 +95353,7 @@ where
         node: Vec<Box<TsType>>,
         ast_path: &mut AstKindPath,
     ) -> Vec<Box<TsType>> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_ts_types(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_ts_types(self, node, ast_path),
         }
@@ -95364,7 +95364,7 @@ where
         node: TsUnionOrIntersectionType,
         ast_path: &mut AstKindPath,
     ) -> TsUnionOrIntersectionType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_union_or_intersection_type(self, node, ast_path)
             }
@@ -95375,7 +95375,7 @@ where
     }
 
     fn fold_ts_union_type(&mut self, node: TsUnionType, ast_path: &mut AstKindPath) -> TsUnionType {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_ts_union_type(self, node, ast_path)
             }
@@ -95386,21 +95386,21 @@ where
     }
 
     fn fold_unary_expr(&mut self, node: UnaryExpr, ast_path: &mut AstKindPath) -> UnaryExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_unary_expr(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_unary_expr(self, node, ast_path),
         }
     }
 
     fn fold_unary_op(&mut self, node: UnaryOp, ast_path: &mut AstKindPath) -> UnaryOp {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_unary_op(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_unary_op(self, node, ast_path),
         }
     }
 
     fn fold_update_expr(&mut self, node: UpdateExpr, ast_path: &mut AstKindPath) -> UpdateExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_update_expr(self, node, ast_path),
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_update_expr(self, node, ast_path)
@@ -95409,28 +95409,28 @@ where
     }
 
     fn fold_update_op(&mut self, node: UpdateOp, ast_path: &mut AstKindPath) -> UpdateOp {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_update_op(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_update_op(self, node, ast_path),
         }
     }
 
     fn fold_using_decl(&mut self, node: UsingDecl, ast_path: &mut AstKindPath) -> UsingDecl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_using_decl(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_using_decl(self, node, ast_path),
         }
     }
 
     fn fold_var_decl(&mut self, node: VarDecl, ast_path: &mut AstKindPath) -> VarDecl {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_var_decl(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_var_decl(self, node, ast_path),
         }
     }
 
     fn fold_var_decl_kind(&mut self, node: VarDeclKind, ast_path: &mut AstKindPath) -> VarDeclKind {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_var_decl_kind(self, node, ast_path)
             }
@@ -95445,7 +95445,7 @@ where
         node: VarDeclOrExpr,
         ast_path: &mut AstKindPath,
     ) -> VarDeclOrExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_var_decl_or_expr(self, node, ast_path)
             }
@@ -95460,7 +95460,7 @@ where
         node: VarDeclarator,
         ast_path: &mut AstKindPath,
     ) -> VarDeclarator {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_var_declarator(self, node, ast_path)
             }
@@ -95475,7 +95475,7 @@ where
         node: Vec<VarDeclarator>,
         ast_path: &mut AstKindPath,
     ) -> Vec<VarDeclarator> {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => {
                 FoldAstPath::fold_var_declarators(self, node, ast_path)
             }
@@ -95486,21 +95486,21 @@ where
     }
 
     fn fold_while_stmt(&mut self, node: WhileStmt, ast_path: &mut AstKindPath) -> WhileStmt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_while_stmt(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_while_stmt(self, node, ast_path),
         }
     }
 
     fn fold_with_stmt(&mut self, node: WithStmt, ast_path: &mut AstKindPath) -> WithStmt {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_with_stmt(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_with_stmt(self, node, ast_path),
         }
     }
 
     fn fold_yield_expr(&mut self, node: YieldExpr, ast_path: &mut AstKindPath) -> YieldExpr {
-        match node {
+        match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_yield_expr(self, node, ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_yield_expr(self, node, ast_path),
         }

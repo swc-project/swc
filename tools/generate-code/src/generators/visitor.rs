@@ -492,7 +492,7 @@ impl Generator<'_> {
 
             either_impl_methods.push(parse_quote!(
                 fn #visit_method_name #lifetime (&mut self, node: #type_param #ast_path_params) #return_type {
-                    match node {
+                    match self {
                         swc_visit::Either::Left(visitor) => {
                             #trait_name::#visit_method_name(self, node #ast_path_arg)
                         }
