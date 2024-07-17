@@ -1254,7 +1254,7 @@ fn define_fields(node_types: &[&Item]) -> Vec<Item> {
                 Self::#type_name(_, __field_kind) => AstParentKind::#type_name(*__field_kind),
             ));
             node_ref_set_index_arms.push(parse_quote!(
-                Self::#type_name(node, __field_kind) => node.set_index(index),
+                Self::#type_name(_, __field_kind) => __field_kind.set_index(index),
             ));
 
             match ty {
