@@ -1281,10 +1281,10 @@ fn define_fields(node_types: &[&Item]) -> Vec<Item> {
                         #type_name(&'ast #type_name, self::fields::#fields_enum_name)
                     ));
 
-                    items.push(parse_quote!(
+                    defs.push(parse_quote!(
                         impl #fields_enum_name {
                             #[inline(always)]
-                            fn set_index(&mut self, _: usize) {}
+                            pub(crate) fn set_index(&mut self, _: usize) {}
                         }
                     ));
                 }
@@ -1310,9 +1310,9 @@ fn define_fields(node_types: &[&Item]) -> Vec<Item> {
                         #type_name(&'ast #type_name, self::fields::#fields_enum_name)
                     ));
 
-                    items.push(parse_quote!(
+                    defs.push(parse_quote!(
                         impl #fields_enum_name {
-                            fn set_index(&mut self, _: usize) {
+                            pub(crate) fn set_index(&mut self, _: usize) {
                                 match self {
                                     #(#set_index_arms)*
                                 }
