@@ -1,6 +1,6 @@
 use std::path::{Path, PathBuf};
 
-use anyhow::{Context, Result};
+use anyhow::{bail, Context, Result};
 use clap::Parser;
 use proc_macro2::Span;
 use syn::{Ident, Item};
@@ -83,13 +83,39 @@ fn run_visitor_codegen(input_dir: &Path, output: &Path, excludes: &[String]) -> 
 
     let output_content = quote::quote!(#file).to_string();
 
+    let original = std::fs::read_to_string(output).ok();
+
     std::fs::write(output, output_content).context("failed to write the output file")?;
 
     eprintln!("Generated visitor code in file: {:?}", output);
 
     run_cargo_fmt(output)?;
 
+    if std::env::var("CI").is_ok_and(|v| v != "1") {
+        if let Some(original) = original {
+            let output =
+                std::fs::read_to_string(output).context("failed to read the output file")?;
+
+            if original != output {
+                bail!(
+                    "The generated code is not up to date. Please run `cargo codegen` and commit \
+                     the changes."
+                );
+            }
+        }
+    }
+
     Ok(())
+}
+
+#[test]
+fn test_es() {
+    run_visitor_codegen(
+        Path::new("./crates/swc_ecma_ast"),
+        Path::new("./crates/swc_ecma_visit/src/generated.rs"),
+        &["Align64".into(), "EncodeBigInt".into()],
+    )
+    .unwrap();
 }
 
 fn get_type_defs(file: &syn::File) -> Vec<&Item> {
@@ -130,7 +156,7 @@ fn run_cargo_fmt(file: &Path) -> Result<()> {
         .context("failed to run cargo fmt")?;
 
     if !status.success() {
-        anyhow::bail!("cargo fmt failed with status: {:?}", status);
+        bail!("cargo fmt failed with status: {:?}", status);
     }
 
     Ok(())
