@@ -213,6 +213,12 @@ fn all_types_in_ty(ty: &Type) -> Vec<FieldType> {
         return types;
     }
 
+    if let Some(ty) = extract_generic("Option", ty) {
+        let mut types = all_types_in_ty(ty);
+        types.extend(to_field_ty(ty).map(|ty| FieldType::Generic("Option".into(), Box::new(ty))));
+        return types;
+    }
+
     to_field_ty(ty).into_iter().collect()
 }
 
@@ -735,7 +741,7 @@ impl Generator<'_> {
             );
 
             let visit_with_doc = doc(&format!(
-                "Calls [{visitor_trait_name}`::{}`] with `self`.",
+                "Calls [{visitor_trait_name}`::{}`] with `self`. (Extra impl)",
                 visit_method_name
             ));
 

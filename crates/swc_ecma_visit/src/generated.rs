@@ -735,11 +735,34 @@ pub trait Visit {
     fn visit_object_pat_props(&mut self, node: &Vec<ObjectPatProp>) {
         <Vec<ObjectPatProp> as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Option < Accessibility >`.\n\nBy default, this method calls \
+             [`Option < Accessibility >::visit_children_with`]. If you want to recurse, you need \
+             to call it manually."]
+    fn visit_opt_accessibility(&mut self, node: &Option<Accessibility>) {
+        <Option<Accessibility> as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Atom >`.\n\nBy default, this method calls [`Option < \
+             Atom >::visit_children_with`]. If you want to recurse, you need to call it manually."]
+    fn visit_opt_atom(&mut self, node: &Option<Atom>) {
+        <Option<Atom> as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < BlockStmt >`.\n\nBy default, this method calls \
+             [`Option < BlockStmt >::visit_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_opt_block_stmt(&mut self, node: &Option<BlockStmt>) {
+        <Option<BlockStmt> as VisitWith<Self>>::visit_children_with(node, self)
+    }
     #[doc = "Visit a node of type `OptCall`.\n\nBy default, this method calls \
              [`OptCall::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
     fn visit_opt_call(&mut self, node: &OptCall) {
         <OptCall as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < CatchClause >`.\n\nBy default, this method calls \
+             [`Option < CatchClause >::visit_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_opt_catch_clause(&mut self, node: &Option<CatchClause>) {
+        <Option<CatchClause> as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `OptChainBase`.\n\nBy default, this method calls \
              [`OptChainBase::visit_children_with`]. If you want to recurse, you need to call it \
@@ -752,6 +775,132 @@ pub trait Visit {
              manually."]
     fn visit_opt_chain_expr(&mut self, node: &OptChainExpr) {
         <OptChainExpr as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Box < Expr > >`.\n\nBy default, this method calls \
+             [`Option < Box < Expr > >::visit_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_opt_expr(&mut self, node: &Option<Box<Expr>>) {
+        <Option<Box<Expr>> as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < ExprOrSpread >`.\n\nBy default, this method calls \
+             [`Option < ExprOrSpread >::visit_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_opt_expr_or_spread(&mut self, node: &Option<ExprOrSpread>) {
+        <Option<ExprOrSpread> as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Vec < ExprOrSpread > >`.\n\nBy default, this method \
+             calls [`Option < Vec < ExprOrSpread > >::visit_children_with`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_opt_expr_or_spreads(&mut self, node: &Option<Vec<ExprOrSpread>>) {
+        <Option<Vec<ExprOrSpread>> as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Ident >`.\n\nBy default, this method calls [`Option < \
+             Ident >::visit_children_with`]. If you want to recurse, you need to call it manually."]
+    fn visit_opt_ident(&mut self, node: &Option<Ident>) {
+        <Option<Ident> as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < JSXAttrValue >`.\n\nBy default, this method calls \
+             [`Option < JSXAttrValue >::visit_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_opt_jsx_attr_value(&mut self, node: &Option<JSXAttrValue>) {
+        <Option<JSXAttrValue> as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < JSXClosingElement >`.\n\nBy default, this method calls \
+             [`Option < JSXClosingElement >::visit_children_with`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_opt_jsx_closing_element(&mut self, node: &Option<JSXClosingElement>) {
+        <Option<JSXClosingElement> as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < ModuleExportName >`.\n\nBy default, this method calls \
+             [`Option < ModuleExportName >::visit_children_with`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_opt_module_export_name(&mut self, node: &Option<ModuleExportName>) {
+        <Option<ModuleExportName> as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Vec < ModuleItem > >`.\n\nBy default, this method \
+             calls [`Option < Vec < ModuleItem > >::visit_children_with`]. If you want to recurse, \
+             you need to call it manually."]
+    fn visit_opt_module_items(&mut self, node: &Option<Vec<ModuleItem>>) {
+        <Option<Vec<ModuleItem>> as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Box < ObjectLit > >`.\n\nBy default, this method calls \
+             [`Option < Box < ObjectLit > >::visit_children_with`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_opt_object_lit(&mut self, node: &Option<Box<ObjectLit>>) {
+        <Option<Box<ObjectLit>> as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Pat >`.\n\nBy default, this method calls [`Option < \
+             Pat >::visit_children_with`]. If you want to recurse, you need to call it manually."]
+    fn visit_opt_pat(&mut self, node: &Option<Pat>) {
+        <Option<Pat> as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Span >`.\n\nBy default, this method calls [`Option < \
+             Span >::visit_children_with`]. If you want to recurse, you need to call it manually."]
+    fn visit_opt_span(&mut self, node: &Option<Span>) {
+        <Option<Span> as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Box < Stmt > >`.\n\nBy default, this method calls \
+             [`Option < Box < Stmt > >::visit_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_opt_stmt(&mut self, node: &Option<Box<Stmt>>) {
+        <Option<Box<Stmt>> as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Box < Str > >`.\n\nBy default, this method calls \
+             [`Option < Box < Str > >::visit_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_opt_str(&mut self, node: &Option<Box<Str>>) {
+        <Option<Box<Str>> as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < TruePlusMinus >`.\n\nBy default, this method calls \
+             [`Option < TruePlusMinus >::visit_children_with`]. If you want to recurse, you need \
+             to call it manually."]
+    fn visit_opt_true_plus_minus(&mut self, node: &Option<TruePlusMinus>) {
+        <Option<TruePlusMinus> as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < TsEntityName >`.\n\nBy default, this method calls \
+             [`Option < TsEntityName >::visit_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_opt_ts_entity_name(&mut self, node: &Option<TsEntityName>) {
+        <Option<TsEntityName> as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < TsNamespaceBody >`.\n\nBy default, this method calls \
+             [`Option < TsNamespaceBody >::visit_children_with`]. If you want to recurse, you need \
+             to call it manually."]
+    fn visit_opt_ts_namespace_body(&mut self, node: &Option<TsNamespaceBody>) {
+        <Option<TsNamespaceBody> as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Box < TsType > >`.\n\nBy default, this method calls \
+             [`Option < Box < TsType > >::visit_children_with`]. If you want to recurse, you need \
+             to call it manually."]
+    fn visit_opt_ts_type(&mut self, node: &Option<Box<TsType>>) {
+        <Option<Box<TsType>> as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Box < TsTypeAnn > >`.\n\nBy default, this method calls \
+             [`Option < Box < TsTypeAnn > >::visit_children_with`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_opt_ts_type_ann(&mut self, node: &Option<Box<TsTypeAnn>>) {
+        <Option<Box<TsTypeAnn>> as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Box < TsTypeParamDecl > >`.\n\nBy default, this method \
+             calls [`Option < Box < TsTypeParamDecl > >::visit_children_with`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_opt_ts_type_param_decl(&mut self, node: &Option<Box<TsTypeParamDecl>>) {
+        <Option<Box<TsTypeParamDecl>> as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Box < TsTypeParamInstantiation > >`.\n\nBy default, \
+             this method calls [`Option < Box < TsTypeParamInstantiation > \
+             >::visit_children_with`]. If you want to recurse, you need to call it manually."]
+    fn visit_opt_ts_type_param_instantiation(
+        &mut self,
+        node: &Option<Box<TsTypeParamInstantiation>>,
+    ) {
+        <Option<Box<TsTypeParamInstantiation>> as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < VarDeclOrExpr >`.\n\nBy default, this method calls \
+             [`Option < VarDeclOrExpr >::visit_children_with`]. If you want to recurse, you need \
+             to call it manually."]
+    fn visit_opt_var_decl_or_expr(&mut self, node: &Option<VarDeclOrExpr>) {
+        <Option<VarDeclOrExpr> as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Param`.\n\nBy default, this method calls \
              [`Param::visit_children_with`]. If you want to recurse, you need to call it manually."]
@@ -1403,6 +1552,12 @@ pub trait Visit {
              manually."]
     fn visit_ts_type_param(&mut self, node: &TsTypeParam) {
         <TsTypeParam as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `TsTypeParamDecl`.\n\nBy default, this method calls \
+             [`TsTypeParamDecl::visit_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_ts_type_param_decl(&mut self, node: &TsTypeParamDecl) {
+        <TsTypeParamDecl as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `TsTypeParamInstantiation`.\n\nBy default, this method calls \
              [`TsTypeParamInstantiation::visit_children_with`]. If you want to recurse, you need \
@@ -7235,6 +7390,40 @@ pub trait VisitAstPath {
             node, self, ast_path,
         )
     }
+    #[doc = "Visit a node of type `Option < Accessibility >`.\n\nBy default, this method calls \
+             [`Option < Accessibility >::visit_children_with_ast_path`]. If you want to recurse, \
+             you need to call it manually."]
+    fn visit_opt_accessibility<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Accessibility>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Option<Accessibility> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < Atom >`.\n\nBy default, this method calls [`Option < \
+             Atom >::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_opt_atom<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Atom>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Option<Atom> as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `Option < BlockStmt >`.\n\nBy default, this method calls \
+             [`Option < BlockStmt >::visit_children_with_ast_path`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_opt_block_stmt<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<BlockStmt>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Option<BlockStmt> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `OptCall`.\n\nBy default, this method calls \
              [`OptCall::visit_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
@@ -7244,6 +7433,18 @@ pub trait VisitAstPath {
         ast_path: &mut AstNodePath<'r>,
     ) {
         <OptCall as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `Option < CatchClause >`.\n\nBy default, this method calls \
+             [`Option < CatchClause >::visit_children_with_ast_path`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_opt_catch_clause<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<CatchClause>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Option<CatchClause> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
     }
     #[doc = "Visit a node of type `OptChainBase`.\n\nBy default, this method calls \
              [`OptChainBase::visit_children_with_ast_path`]. If you want to recurse, you need to \
@@ -7264,6 +7465,253 @@ pub trait VisitAstPath {
         ast_path: &mut AstNodePath<'r>,
     ) {
         <OptChainExpr as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `Option < Box < Expr > >`.\n\nBy default, this method calls \
+             [`Option < Box < Expr > >::visit_children_with_ast_path`]. If you want to recurse, \
+             you need to call it manually."]
+    fn visit_opt_expr<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Box<Expr>>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Option<Box<Expr>> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < ExprOrSpread >`.\n\nBy default, this method calls \
+             [`Option < ExprOrSpread >::visit_children_with_ast_path`]. If you want to recurse, \
+             you need to call it manually."]
+    fn visit_opt_expr_or_spread<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<ExprOrSpread>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Option<ExprOrSpread> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < Vec < ExprOrSpread > >`.\n\nBy default, this method \
+             calls [`Option < Vec < ExprOrSpread > >::visit_children_with_ast_path`]. If you want \
+             to recurse, you need to call it manually."]
+    fn visit_opt_expr_or_spreads<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Vec<ExprOrSpread>>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Option<Vec<ExprOrSpread>> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < Ident >`.\n\nBy default, this method calls [`Option < \
+             Ident >::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_opt_ident<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Ident>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Option<Ident> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < JSXAttrValue >`.\n\nBy default, this method calls \
+             [`Option < JSXAttrValue >::visit_children_with_ast_path`]. If you want to recurse, \
+             you need to call it manually."]
+    fn visit_opt_jsx_attr_value<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<JSXAttrValue>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Option<JSXAttrValue> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < JSXClosingElement >`.\n\nBy default, this method calls \
+             [`Option < JSXClosingElement >::visit_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_opt_jsx_closing_element<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<JSXClosingElement>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Option<JSXClosingElement> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < ModuleExportName >`.\n\nBy default, this method calls \
+             [`Option < ModuleExportName >::visit_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_opt_module_export_name<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<ModuleExportName>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Option<ModuleExportName> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < Vec < ModuleItem > >`.\n\nBy default, this method \
+             calls [`Option < Vec < ModuleItem > >::visit_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_opt_module_items<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Vec<ModuleItem>>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Option<Vec<ModuleItem>> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < Box < ObjectLit > >`.\n\nBy default, this method calls \
+             [`Option < Box < ObjectLit > >::visit_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_opt_object_lit<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Box<ObjectLit>>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Option<Box<ObjectLit>> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < Pat >`.\n\nBy default, this method calls [`Option < \
+             Pat >::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_opt_pat<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Pat>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Option<Pat> as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `Option < Span >`.\n\nBy default, this method calls [`Option < \
+             Span >::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_opt_span<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Span>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Option<Span> as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `Option < Box < Stmt > >`.\n\nBy default, this method calls \
+             [`Option < Box < Stmt > >::visit_children_with_ast_path`]. If you want to recurse, \
+             you need to call it manually."]
+    fn visit_opt_stmt<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Box<Stmt>>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Option<Box<Stmt>> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < Box < Str > >`.\n\nBy default, this method calls \
+             [`Option < Box < Str > >::visit_children_with_ast_path`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_opt_str<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Box<Str>>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Option<Box<Str>> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < TruePlusMinus >`.\n\nBy default, this method calls \
+             [`Option < TruePlusMinus >::visit_children_with_ast_path`]. If you want to recurse, \
+             you need to call it manually."]
+    fn visit_opt_true_plus_minus<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<TruePlusMinus>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Option<TruePlusMinus> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < TsEntityName >`.\n\nBy default, this method calls \
+             [`Option < TsEntityName >::visit_children_with_ast_path`]. If you want to recurse, \
+             you need to call it manually."]
+    fn visit_opt_ts_entity_name<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<TsEntityName>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Option<TsEntityName> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < TsNamespaceBody >`.\n\nBy default, this method calls \
+             [`Option < TsNamespaceBody >::visit_children_with_ast_path`]. If you want to recurse, \
+             you need to call it manually."]
+    fn visit_opt_ts_namespace_body<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<TsNamespaceBody>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Option<TsNamespaceBody> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < Box < TsType > >`.\n\nBy default, this method calls \
+             [`Option < Box < TsType > >::visit_children_with_ast_path`]. If you want to recurse, \
+             you need to call it manually."]
+    fn visit_opt_ts_type<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Box<TsType>>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Option<Box<TsType>> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < Box < TsTypeAnn > >`.\n\nBy default, this method calls \
+             [`Option < Box < TsTypeAnn > >::visit_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_opt_ts_type_ann<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Box<TsTypeAnn>>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Option<Box<TsTypeAnn>> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < Box < TsTypeParamDecl > >`.\n\nBy default, this method \
+             calls [`Option < Box < TsTypeParamDecl > >::visit_children_with_ast_path`]. If you \
+             want to recurse, you need to call it manually."]
+    fn visit_opt_ts_type_param_decl<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Box<TsTypeParamDecl>>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Option<Box<TsTypeParamDecl>> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < Box < TsTypeParamInstantiation > >`.\n\nBy default, \
+             this method calls [`Option < Box < TsTypeParamInstantiation > \
+             >::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_opt_ts_type_param_instantiation<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Box<TsTypeParamInstantiation>>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        < Option < Box < TsTypeParamInstantiation > > as VisitWithAstPath < Self > > :: visit_children_with_ast_path (node , self , ast_path)
+    }
+    #[doc = "Visit a node of type `Option < VarDeclOrExpr >`.\n\nBy default, this method calls \
+             [`Option < VarDeclOrExpr >::visit_children_with_ast_path`]. If you want to recurse, \
+             you need to call it manually."]
+    fn visit_opt_var_decl_or_expr<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<VarDeclOrExpr>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Option<VarDeclOrExpr> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
     }
     #[doc = "Visit a node of type `Param`.\n\nBy default, this method calls \
              [`Param::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
@@ -8430,6 +8878,18 @@ pub trait VisitAstPath {
         ast_path: &mut AstNodePath<'r>,
     ) {
         <TsTypeParam as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `TsTypeParamDecl`.\n\nBy default, this method calls \
+             [`TsTypeParamDecl::visit_children_with_ast_path`]. If you want to recurse, you need \
+             to call it manually."]
+    fn visit_ts_type_param_decl<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TsTypeParamDecl,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <TsTypeParamDecl as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
     }
     #[doc = "Visit a node of type `TsTypeParamInstantiation`.\n\nBy default, this method calls \
              [`TsTypeParamInstantiation::visit_children_with_ast_path`]. If you want to recurse, \
@@ -17229,11 +17689,35 @@ pub trait VisitMut {
     fn visit_mut_object_pat_props(&mut self, node: &mut Vec<ObjectPatProp>) {
         <Vec<ObjectPatProp> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Option < Accessibility >`.\n\nBy default, this method calls \
+             [`Option < Accessibility >::visit_mut_children_with`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_mut_opt_accessibility(&mut self, node: &mut Option<Accessibility>) {
+        <Option<Accessibility> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Atom >`.\n\nBy default, this method calls [`Option < \
+             Atom >::visit_mut_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_mut_opt_atom(&mut self, node: &mut Option<Atom>) {
+        <Option<Atom> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < BlockStmt >`.\n\nBy default, this method calls \
+             [`Option < BlockStmt >::visit_mut_children_with`]. If you want to recurse, you need \
+             to call it manually."]
+    fn visit_mut_opt_block_stmt(&mut self, node: &mut Option<BlockStmt>) {
+        <Option<BlockStmt> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
     #[doc = "Visit a node of type `OptCall`.\n\nBy default, this method calls \
              [`OptCall::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
     fn visit_mut_opt_call(&mut self, node: &mut OptCall) {
         <OptCall as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < CatchClause >`.\n\nBy default, this method calls \
+             [`Option < CatchClause >::visit_mut_children_with`]. If you want to recurse, you need \
+             to call it manually."]
+    fn visit_mut_opt_catch_clause(&mut self, node: &mut Option<CatchClause>) {
+        <Option<CatchClause> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `OptChainBase`.\n\nBy default, this method calls \
              [`OptChainBase::visit_mut_children_with`]. If you want to recurse, you need to call \
@@ -17246,6 +17730,137 @@ pub trait VisitMut {
              it manually."]
     fn visit_mut_opt_chain_expr(&mut self, node: &mut OptChainExpr) {
         <OptChainExpr as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Box < Expr > >`.\n\nBy default, this method calls \
+             [`Option < Box < Expr > >::visit_mut_children_with`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_mut_opt_expr(&mut self, node: &mut Option<Box<Expr>>) {
+        <Option<Box<Expr>> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < ExprOrSpread >`.\n\nBy default, this method calls \
+             [`Option < ExprOrSpread >::visit_mut_children_with`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_mut_opt_expr_or_spread(&mut self, node: &mut Option<ExprOrSpread>) {
+        <Option<ExprOrSpread> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Vec < ExprOrSpread > >`.\n\nBy default, this method \
+             calls [`Option < Vec < ExprOrSpread > >::visit_mut_children_with`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_mut_opt_expr_or_spreads(&mut self, node: &mut Option<Vec<ExprOrSpread>>) {
+        <Option<Vec<ExprOrSpread>> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Ident >`.\n\nBy default, this method calls [`Option < \
+             Ident >::visit_mut_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_mut_opt_ident(&mut self, node: &mut Option<Ident>) {
+        <Option<Ident> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < JSXAttrValue >`.\n\nBy default, this method calls \
+             [`Option < JSXAttrValue >::visit_mut_children_with`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_mut_opt_jsx_attr_value(&mut self, node: &mut Option<JSXAttrValue>) {
+        <Option<JSXAttrValue> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < JSXClosingElement >`.\n\nBy default, this method calls \
+             [`Option < JSXClosingElement >::visit_mut_children_with`]. If you want to recurse, \
+             you need to call it manually."]
+    fn visit_mut_opt_jsx_closing_element(&mut self, node: &mut Option<JSXClosingElement>) {
+        <Option<JSXClosingElement> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < ModuleExportName >`.\n\nBy default, this method calls \
+             [`Option < ModuleExportName >::visit_mut_children_with`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_mut_opt_module_export_name(&mut self, node: &mut Option<ModuleExportName>) {
+        <Option<ModuleExportName> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Vec < ModuleItem > >`.\n\nBy default, this method \
+             calls [`Option < Vec < ModuleItem > >::visit_mut_children_with`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_mut_opt_module_items(&mut self, node: &mut Option<Vec<ModuleItem>>) {
+        <Option<Vec<ModuleItem>> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Box < ObjectLit > >`.\n\nBy default, this method calls \
+             [`Option < Box < ObjectLit > >::visit_mut_children_with`]. If you want to recurse, \
+             you need to call it manually."]
+    fn visit_mut_opt_object_lit(&mut self, node: &mut Option<Box<ObjectLit>>) {
+        <Option<Box<ObjectLit>> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Pat >`.\n\nBy default, this method calls [`Option < \
+             Pat >::visit_mut_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_mut_opt_pat(&mut self, node: &mut Option<Pat>) {
+        <Option<Pat> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Span >`.\n\nBy default, this method calls [`Option < \
+             Span >::visit_mut_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_mut_opt_span(&mut self, node: &mut Option<Span>) {
+        <Option<Span> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Box < Stmt > >`.\n\nBy default, this method calls \
+             [`Option < Box < Stmt > >::visit_mut_children_with`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_mut_opt_stmt(&mut self, node: &mut Option<Box<Stmt>>) {
+        <Option<Box<Stmt>> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Box < Str > >`.\n\nBy default, this method calls \
+             [`Option < Box < Str > >::visit_mut_children_with`]. If you want to recurse, you need \
+             to call it manually."]
+    fn visit_mut_opt_str(&mut self, node: &mut Option<Box<Str>>) {
+        <Option<Box<Str>> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < TruePlusMinus >`.\n\nBy default, this method calls \
+             [`Option < TruePlusMinus >::visit_mut_children_with`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_mut_opt_true_plus_minus(&mut self, node: &mut Option<TruePlusMinus>) {
+        <Option<TruePlusMinus> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < TsEntityName >`.\n\nBy default, this method calls \
+             [`Option < TsEntityName >::visit_mut_children_with`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_mut_opt_ts_entity_name(&mut self, node: &mut Option<TsEntityName>) {
+        <Option<TsEntityName> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < TsNamespaceBody >`.\n\nBy default, this method calls \
+             [`Option < TsNamespaceBody >::visit_mut_children_with`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_mut_opt_ts_namespace_body(&mut self, node: &mut Option<TsNamespaceBody>) {
+        <Option<TsNamespaceBody> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Box < TsType > >`.\n\nBy default, this method calls \
+             [`Option < Box < TsType > >::visit_mut_children_with`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_mut_opt_ts_type(&mut self, node: &mut Option<Box<TsType>>) {
+        <Option<Box<TsType>> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Box < TsTypeAnn > >`.\n\nBy default, this method calls \
+             [`Option < Box < TsTypeAnn > >::visit_mut_children_with`]. If you want to recurse, \
+             you need to call it manually."]
+    fn visit_mut_opt_ts_type_ann(&mut self, node: &mut Option<Box<TsTypeAnn>>) {
+        <Option<Box<TsTypeAnn>> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Box < TsTypeParamDecl > >`.\n\nBy default, this method \
+             calls [`Option < Box < TsTypeParamDecl > >::visit_mut_children_with`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_mut_opt_ts_type_param_decl(&mut self, node: &mut Option<Box<TsTypeParamDecl>>) {
+        <Option<Box<TsTypeParamDecl>> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Box < TsTypeParamInstantiation > >`.\n\nBy default, \
+             this method calls [`Option < Box < TsTypeParamInstantiation > \
+             >::visit_mut_children_with`]. If you want to recurse, you need to call it manually."]
+    fn visit_mut_opt_ts_type_param_instantiation(
+        &mut self,
+        node: &mut Option<Box<TsTypeParamInstantiation>>,
+    ) {
+        <Option<Box<TsTypeParamInstantiation>> as VisitMutWith<Self>>::visit_mut_children_with(
+            node, self,
+        )
+    }
+    #[doc = "Visit a node of type `Option < VarDeclOrExpr >`.\n\nBy default, this method calls \
+             [`Option < VarDeclOrExpr >::visit_mut_children_with`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_mut_opt_var_decl_or_expr(&mut self, node: &mut Option<VarDeclOrExpr>) {
+        <Option<VarDeclOrExpr> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `Param`.\n\nBy default, this method calls \
              [`Param::visit_mut_children_with`]. If you want to recurse, you need to call it \
@@ -17909,6 +18524,12 @@ pub trait VisitMut {
              manually."]
     fn visit_mut_ts_type_param(&mut self, node: &mut TsTypeParam) {
         <TsTypeParam as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `TsTypeParamDecl`.\n\nBy default, this method calls \
+             [`TsTypeParamDecl::visit_mut_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_mut_ts_type_param_decl(&mut self, node: &mut TsTypeParamDecl) {
+        <TsTypeParamDecl as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `TsTypeParamInstantiation`.\n\nBy default, this method calls \
              [`TsTypeParamInstantiation::visit_mut_children_with`]. If you want to recurse, you \
@@ -23651,11 +24272,55 @@ pub trait VisitMutAstPath {
             node, self, ast_path,
         )
     }
+    #[doc = "Visit a node of type `Option < Accessibility >`.\n\nBy default, this method calls \
+             [`Option < Accessibility >::visit_mut_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_mut_opt_accessibility(
+        &mut self,
+        node: &mut Option<Accessibility>,
+        ast_path: &mut AstKindPath,
+    ) {
+        <Option<Accessibility> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < Atom >`.\n\nBy default, this method calls [`Option < \
+             Atom >::visit_mut_children_with_ast_path`]. If you want to recurse, you need to call \
+             it manually."]
+    fn visit_mut_opt_atom(&mut self, node: &mut Option<Atom>, ast_path: &mut AstKindPath) {
+        <Option<Atom> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < BlockStmt >`.\n\nBy default, this method calls \
+             [`Option < BlockStmt >::visit_mut_children_with_ast_path`]. If you want to recurse, \
+             you need to call it manually."]
+    fn visit_mut_opt_block_stmt(
+        &mut self,
+        node: &mut Option<BlockStmt>,
+        ast_path: &mut AstKindPath,
+    ) {
+        <Option<BlockStmt> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `OptCall`.\n\nBy default, this method calls \
              [`OptCall::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
     fn visit_mut_opt_call(&mut self, node: &mut OptCall, ast_path: &mut AstKindPath) {
         <OptCall as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < CatchClause >`.\n\nBy default, this method calls \
+             [`Option < CatchClause >::visit_mut_children_with_ast_path`]. If you want to recurse, \
+             you need to call it manually."]
+    fn visit_mut_opt_catch_clause(
+        &mut self,
+        node: &mut Option<CatchClause>,
+        ast_path: &mut AstKindPath,
+    ) {
+        <Option<CatchClause> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -23672,6 +24337,231 @@ pub trait VisitMutAstPath {
              to call it manually."]
     fn visit_mut_opt_chain_expr(&mut self, node: &mut OptChainExpr, ast_path: &mut AstKindPath) {
         <OptChainExpr as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < Box < Expr > >`.\n\nBy default, this method calls \
+             [`Option < Box < Expr > >::visit_mut_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_mut_opt_expr(&mut self, node: &mut Option<Box<Expr>>, ast_path: &mut AstKindPath) {
+        <Option<Box<Expr>> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < ExprOrSpread >`.\n\nBy default, this method calls \
+             [`Option < ExprOrSpread >::visit_mut_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_mut_opt_expr_or_spread(
+        &mut self,
+        node: &mut Option<ExprOrSpread>,
+        ast_path: &mut AstKindPath,
+    ) {
+        <Option<ExprOrSpread> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < Vec < ExprOrSpread > >`.\n\nBy default, this method \
+             calls [`Option < Vec < ExprOrSpread > >::visit_mut_children_with_ast_path`]. If you \
+             want to recurse, you need to call it manually."]
+    fn visit_mut_opt_expr_or_spreads(
+        &mut self,
+        node: &mut Option<Vec<ExprOrSpread>>,
+        ast_path: &mut AstKindPath,
+    ) {
+        <Option<Vec<ExprOrSpread>> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < Ident >`.\n\nBy default, this method calls [`Option < \
+             Ident >::visit_mut_children_with_ast_path`]. If you want to recurse, you need to call \
+             it manually."]
+    fn visit_mut_opt_ident(&mut self, node: &mut Option<Ident>, ast_path: &mut AstKindPath) {
+        <Option<Ident> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < JSXAttrValue >`.\n\nBy default, this method calls \
+             [`Option < JSXAttrValue >::visit_mut_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_mut_opt_jsx_attr_value(
+        &mut self,
+        node: &mut Option<JSXAttrValue>,
+        ast_path: &mut AstKindPath,
+    ) {
+        <Option<JSXAttrValue> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < JSXClosingElement >`.\n\nBy default, this method calls \
+             [`Option < JSXClosingElement >::visit_mut_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_mut_opt_jsx_closing_element(
+        &mut self,
+        node: &mut Option<JSXClosingElement>,
+        ast_path: &mut AstKindPath,
+    ) {
+        <Option<JSXClosingElement> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < ModuleExportName >`.\n\nBy default, this method calls \
+             [`Option < ModuleExportName >::visit_mut_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_mut_opt_module_export_name(
+        &mut self,
+        node: &mut Option<ModuleExportName>,
+        ast_path: &mut AstKindPath,
+    ) {
+        <Option<ModuleExportName> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < Vec < ModuleItem > >`.\n\nBy default, this method \
+             calls [`Option < Vec < ModuleItem > >::visit_mut_children_with_ast_path`]. If you \
+             want to recurse, you need to call it manually."]
+    fn visit_mut_opt_module_items(
+        &mut self,
+        node: &mut Option<Vec<ModuleItem>>,
+        ast_path: &mut AstKindPath,
+    ) {
+        <Option<Vec<ModuleItem>> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < Box < ObjectLit > >`.\n\nBy default, this method calls \
+             [`Option < Box < ObjectLit > >::visit_mut_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_mut_opt_object_lit(
+        &mut self,
+        node: &mut Option<Box<ObjectLit>>,
+        ast_path: &mut AstKindPath,
+    ) {
+        <Option<Box<ObjectLit>> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < Pat >`.\n\nBy default, this method calls [`Option < \
+             Pat >::visit_mut_children_with_ast_path`]. If you want to recurse, you need to call \
+             it manually."]
+    fn visit_mut_opt_pat(&mut self, node: &mut Option<Pat>, ast_path: &mut AstKindPath) {
+        <Option<Pat> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < Span >`.\n\nBy default, this method calls [`Option < \
+             Span >::visit_mut_children_with_ast_path`]. If you want to recurse, you need to call \
+             it manually."]
+    fn visit_mut_opt_span(&mut self, node: &mut Option<Span>, ast_path: &mut AstKindPath) {
+        <Option<Span> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < Box < Stmt > >`.\n\nBy default, this method calls \
+             [`Option < Box < Stmt > >::visit_mut_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_mut_opt_stmt(&mut self, node: &mut Option<Box<Stmt>>, ast_path: &mut AstKindPath) {
+        <Option<Box<Stmt>> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < Box < Str > >`.\n\nBy default, this method calls \
+             [`Option < Box < Str > >::visit_mut_children_with_ast_path`]. If you want to recurse, \
+             you need to call it manually."]
+    fn visit_mut_opt_str(&mut self, node: &mut Option<Box<Str>>, ast_path: &mut AstKindPath) {
+        <Option<Box<Str>> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < TruePlusMinus >`.\n\nBy default, this method calls \
+             [`Option < TruePlusMinus >::visit_mut_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_mut_opt_true_plus_minus(
+        &mut self,
+        node: &mut Option<TruePlusMinus>,
+        ast_path: &mut AstKindPath,
+    ) {
+        <Option<TruePlusMinus> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < TsEntityName >`.\n\nBy default, this method calls \
+             [`Option < TsEntityName >::visit_mut_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_mut_opt_ts_entity_name(
+        &mut self,
+        node: &mut Option<TsEntityName>,
+        ast_path: &mut AstKindPath,
+    ) {
+        <Option<TsEntityName> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < TsNamespaceBody >`.\n\nBy default, this method calls \
+             [`Option < TsNamespaceBody >::visit_mut_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_mut_opt_ts_namespace_body(
+        &mut self,
+        node: &mut Option<TsNamespaceBody>,
+        ast_path: &mut AstKindPath,
+    ) {
+        <Option<TsNamespaceBody> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < Box < TsType > >`.\n\nBy default, this method calls \
+             [`Option < Box < TsType > >::visit_mut_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_mut_opt_ts_type(
+        &mut self,
+        node: &mut Option<Box<TsType>>,
+        ast_path: &mut AstKindPath,
+    ) {
+        <Option<Box<TsType>> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < Box < TsTypeAnn > >`.\n\nBy default, this method calls \
+             [`Option < Box < TsTypeAnn > >::visit_mut_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_mut_opt_ts_type_ann(
+        &mut self,
+        node: &mut Option<Box<TsTypeAnn>>,
+        ast_path: &mut AstKindPath,
+    ) {
+        <Option<Box<TsTypeAnn>> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < Box < TsTypeParamDecl > >`.\n\nBy default, this method \
+             calls [`Option < Box < TsTypeParamDecl > >::visit_mut_children_with_ast_path`]. If \
+             you want to recurse, you need to call it manually."]
+    fn visit_mut_opt_ts_type_param_decl(
+        &mut self,
+        node: &mut Option<Box<TsTypeParamDecl>>,
+        ast_path: &mut AstKindPath,
+    ) {
+        < Option < Box < TsTypeParamDecl > > as VisitMutWithAstPath < Self > > :: visit_mut_children_with_ast_path (node , self , ast_path)
+    }
+    #[doc = "Visit a node of type `Option < Box < TsTypeParamInstantiation > >`.\n\nBy default, \
+             this method calls [`Option < Box < TsTypeParamInstantiation > \
+             >::visit_mut_children_with_ast_path`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_mut_opt_ts_type_param_instantiation(
+        &mut self,
+        node: &mut Option<Box<TsTypeParamInstantiation>>,
+        ast_path: &mut AstKindPath,
+    ) {
+        < Option < Box < TsTypeParamInstantiation > > as VisitMutWithAstPath < Self > > :: visit_mut_children_with_ast_path (node , self , ast_path)
+    }
+    #[doc = "Visit a node of type `Option < VarDeclOrExpr >`.\n\nBy default, this method calls \
+             [`Option < VarDeclOrExpr >::visit_mut_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_mut_opt_var_decl_or_expr(
+        &mut self,
+        node: &mut Option<VarDeclOrExpr>,
+        ast_path: &mut AstKindPath,
+    ) {
+        <Option<VarDeclOrExpr> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -24716,6 +25606,18 @@ pub trait VisitMutAstPath {
              to call it manually."]
     fn visit_mut_ts_type_param(&mut self, node: &mut TsTypeParam, ast_path: &mut AstKindPath) {
         <TsTypeParam as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `TsTypeParamDecl`.\n\nBy default, this method calls \
+             [`TsTypeParamDecl::visit_mut_children_with_ast_path`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_mut_ts_type_param_decl(
+        &mut self,
+        node: &mut TsTypeParamDecl,
+        ast_path: &mut AstKindPath,
+    ) {
+        <TsTypeParamDecl as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -31582,10 +32484,33 @@ pub trait Fold {
     fn fold_object_pat_props(&mut self, node: Vec<ObjectPatProp>) -> Vec<ObjectPatProp> {
         <Vec<ObjectPatProp> as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Option < Accessibility >`.\n\nBy default, this method calls \
+             [`Option < Accessibility >::fold_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn fold_opt_accessibility(&mut self, node: Option<Accessibility>) -> Option<Accessibility> {
+        <Option<Accessibility> as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Atom >`.\n\nBy default, this method calls [`Option < \
+             Atom >::fold_children_with`]. If you want to recurse, you need to call it manually."]
+    fn fold_opt_atom(&mut self, node: Option<Atom>) -> Option<Atom> {
+        <Option<Atom> as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < BlockStmt >`.\n\nBy default, this method calls \
+             [`Option < BlockStmt >::fold_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn fold_opt_block_stmt(&mut self, node: Option<BlockStmt>) -> Option<BlockStmt> {
+        <Option<BlockStmt> as FoldWith<Self>>::fold_children_with(node, self)
+    }
     #[doc = "Visit a node of type `OptCall`.\n\nBy default, this method calls \
              [`OptCall::fold_children_with`]. If you want to recurse, you need to call it manually."]
     fn fold_opt_call(&mut self, node: OptCall) -> OptCall {
         <OptCall as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < CatchClause >`.\n\nBy default, this method calls \
+             [`Option < CatchClause >::fold_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn fold_opt_catch_clause(&mut self, node: Option<CatchClause>) -> Option<CatchClause> {
+        <Option<CatchClause> as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `OptChainBase`.\n\nBy default, this method calls \
              [`OptChainBase::fold_children_with`]. If you want to recurse, you need to call it \
@@ -31598,6 +32523,147 @@ pub trait Fold {
              manually."]
     fn fold_opt_chain_expr(&mut self, node: OptChainExpr) -> OptChainExpr {
         <OptChainExpr as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Box < Expr > >`.\n\nBy default, this method calls \
+             [`Option < Box < Expr > >::fold_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn fold_opt_expr(&mut self, node: Option<Box<Expr>>) -> Option<Box<Expr>> {
+        <Option<Box<Expr>> as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < ExprOrSpread >`.\n\nBy default, this method calls \
+             [`Option < ExprOrSpread >::fold_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn fold_opt_expr_or_spread(&mut self, node: Option<ExprOrSpread>) -> Option<ExprOrSpread> {
+        <Option<ExprOrSpread> as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Vec < ExprOrSpread > >`.\n\nBy default, this method \
+             calls [`Option < Vec < ExprOrSpread > >::fold_children_with`]. If you want to \
+             recurse, you need to call it manually."]
+    fn fold_opt_expr_or_spreads(
+        &mut self,
+        node: Option<Vec<ExprOrSpread>>,
+    ) -> Option<Vec<ExprOrSpread>> {
+        <Option<Vec<ExprOrSpread>> as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Ident >`.\n\nBy default, this method calls [`Option < \
+             Ident >::fold_children_with`]. If you want to recurse, you need to call it manually."]
+    fn fold_opt_ident(&mut self, node: Option<Ident>) -> Option<Ident> {
+        <Option<Ident> as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < JSXAttrValue >`.\n\nBy default, this method calls \
+             [`Option < JSXAttrValue >::fold_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn fold_opt_jsx_attr_value(&mut self, node: Option<JSXAttrValue>) -> Option<JSXAttrValue> {
+        <Option<JSXAttrValue> as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < JSXClosingElement >`.\n\nBy default, this method calls \
+             [`Option < JSXClosingElement >::fold_children_with`]. If you want to recurse, you \
+             need to call it manually."]
+    fn fold_opt_jsx_closing_element(
+        &mut self,
+        node: Option<JSXClosingElement>,
+    ) -> Option<JSXClosingElement> {
+        <Option<JSXClosingElement> as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < ModuleExportName >`.\n\nBy default, this method calls \
+             [`Option < ModuleExportName >::fold_children_with`]. If you want to recurse, you need \
+             to call it manually."]
+    fn fold_opt_module_export_name(
+        &mut self,
+        node: Option<ModuleExportName>,
+    ) -> Option<ModuleExportName> {
+        <Option<ModuleExportName> as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Vec < ModuleItem > >`.\n\nBy default, this method \
+             calls [`Option < Vec < ModuleItem > >::fold_children_with`]. If you want to recurse, \
+             you need to call it manually."]
+    fn fold_opt_module_items(&mut self, node: Option<Vec<ModuleItem>>) -> Option<Vec<ModuleItem>> {
+        <Option<Vec<ModuleItem>> as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Box < ObjectLit > >`.\n\nBy default, this method calls \
+             [`Option < Box < ObjectLit > >::fold_children_with`]. If you want to recurse, you \
+             need to call it manually."]
+    fn fold_opt_object_lit(&mut self, node: Option<Box<ObjectLit>>) -> Option<Box<ObjectLit>> {
+        <Option<Box<ObjectLit>> as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Pat >`.\n\nBy default, this method calls [`Option < \
+             Pat >::fold_children_with`]. If you want to recurse, you need to call it manually."]
+    fn fold_opt_pat(&mut self, node: Option<Pat>) -> Option<Pat> {
+        <Option<Pat> as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Span >`.\n\nBy default, this method calls [`Option < \
+             Span >::fold_children_with`]. If you want to recurse, you need to call it manually."]
+    fn fold_opt_span(&mut self, node: Option<Span>) -> Option<Span> {
+        <Option<Span> as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Box < Stmt > >`.\n\nBy default, this method calls \
+             [`Option < Box < Stmt > >::fold_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn fold_opt_stmt(&mut self, node: Option<Box<Stmt>>) -> Option<Box<Stmt>> {
+        <Option<Box<Stmt>> as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Box < Str > >`.\n\nBy default, this method calls \
+             [`Option < Box < Str > >::fold_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn fold_opt_str(&mut self, node: Option<Box<Str>>) -> Option<Box<Str>> {
+        <Option<Box<Str>> as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < TruePlusMinus >`.\n\nBy default, this method calls \
+             [`Option < TruePlusMinus >::fold_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn fold_opt_true_plus_minus(&mut self, node: Option<TruePlusMinus>) -> Option<TruePlusMinus> {
+        <Option<TruePlusMinus> as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < TsEntityName >`.\n\nBy default, this method calls \
+             [`Option < TsEntityName >::fold_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn fold_opt_ts_entity_name(&mut self, node: Option<TsEntityName>) -> Option<TsEntityName> {
+        <Option<TsEntityName> as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < TsNamespaceBody >`.\n\nBy default, this method calls \
+             [`Option < TsNamespaceBody >::fold_children_with`]. If you want to recurse, you need \
+             to call it manually."]
+    fn fold_opt_ts_namespace_body(
+        &mut self,
+        node: Option<TsNamespaceBody>,
+    ) -> Option<TsNamespaceBody> {
+        <Option<TsNamespaceBody> as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Box < TsType > >`.\n\nBy default, this method calls \
+             [`Option < Box < TsType > >::fold_children_with`]. If you want to recurse, you need \
+             to call it manually."]
+    fn fold_opt_ts_type(&mut self, node: Option<Box<TsType>>) -> Option<Box<TsType>> {
+        <Option<Box<TsType>> as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Box < TsTypeAnn > >`.\n\nBy default, this method calls \
+             [`Option < Box < TsTypeAnn > >::fold_children_with`]. If you want to recurse, you \
+             need to call it manually."]
+    fn fold_opt_ts_type_ann(&mut self, node: Option<Box<TsTypeAnn>>) -> Option<Box<TsTypeAnn>> {
+        <Option<Box<TsTypeAnn>> as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Box < TsTypeParamDecl > >`.\n\nBy default, this method \
+             calls [`Option < Box < TsTypeParamDecl > >::fold_children_with`]. If you want to \
+             recurse, you need to call it manually."]
+    fn fold_opt_ts_type_param_decl(
+        &mut self,
+        node: Option<Box<TsTypeParamDecl>>,
+    ) -> Option<Box<TsTypeParamDecl>> {
+        <Option<Box<TsTypeParamDecl>> as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < Box < TsTypeParamInstantiation > >`.\n\nBy default, \
+             this method calls [`Option < Box < TsTypeParamInstantiation > \
+             >::fold_children_with`]. If you want to recurse, you need to call it manually."]
+    fn fold_opt_ts_type_param_instantiation(
+        &mut self,
+        node: Option<Box<TsTypeParamInstantiation>>,
+    ) -> Option<Box<TsTypeParamInstantiation>> {
+        <Option<Box<TsTypeParamInstantiation>> as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < VarDeclOrExpr >`.\n\nBy default, this method calls \
+             [`Option < VarDeclOrExpr >::fold_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn fold_opt_var_decl_or_expr(&mut self, node: Option<VarDeclOrExpr>) -> Option<VarDeclOrExpr> {
+        <Option<VarDeclOrExpr> as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `Param`.\n\nBy default, this method calls \
              [`Param::fold_children_with`]. If you want to recurse, you need to call it manually."]
@@ -32261,6 +33327,12 @@ pub trait Fold {
              manually."]
     fn fold_ts_type_param(&mut self, node: TsTypeParam) -> TsTypeParam {
         <TsTypeParam as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `TsTypeParamDecl`.\n\nBy default, this method calls \
+             [`TsTypeParamDecl::fold_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn fold_ts_type_param_decl(&mut self, node: TsTypeParamDecl) -> TsTypeParamDecl {
+        <TsTypeParamDecl as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `TsTypeParamInstantiation`.\n\nBy default, this method calls \
              [`TsTypeParamInstantiation::fold_children_with`]. If you want to recurse, you need to \
@@ -38784,11 +39856,53 @@ pub trait FoldAstPath {
             node, self, ast_path,
         )
     }
+    #[doc = "Visit a node of type `Option < Accessibility >`.\n\nBy default, this method calls \
+             [`Option < Accessibility >::fold_children_with_ast_path`]. If you want to recurse, \
+             you need to call it manually."]
+    fn fold_opt_accessibility(
+        &mut self,
+        node: Option<Accessibility>,
+        ast_path: &mut AstKindPath,
+    ) -> Option<Accessibility> {
+        <Option<Accessibility> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < Atom >`.\n\nBy default, this method calls [`Option < \
+             Atom >::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
+             manually."]
+    fn fold_opt_atom(&mut self, node: Option<Atom>, ast_path: &mut AstKindPath) -> Option<Atom> {
+        <Option<Atom> as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `Option < BlockStmt >`.\n\nBy default, this method calls \
+             [`Option < BlockStmt >::fold_children_with_ast_path`]. If you want to recurse, you \
+             need to call it manually."]
+    fn fold_opt_block_stmt(
+        &mut self,
+        node: Option<BlockStmt>,
+        ast_path: &mut AstKindPath,
+    ) -> Option<BlockStmt> {
+        <Option<BlockStmt> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `OptCall`.\n\nBy default, this method calls \
              [`OptCall::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
     fn fold_opt_call(&mut self, node: OptCall, ast_path: &mut AstKindPath) -> OptCall {
         <OptCall as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `Option < CatchClause >`.\n\nBy default, this method calls \
+             [`Option < CatchClause >::fold_children_with_ast_path`]. If you want to recurse, you \
+             need to call it manually."]
+    fn fold_opt_catch_clause(
+        &mut self,
+        node: Option<CatchClause>,
+        ast_path: &mut AstKindPath,
+    ) -> Option<CatchClause> {
+        <Option<CatchClause> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
     }
     #[doc = "Visit a node of type `OptChainBase`.\n\nBy default, this method calls \
              [`OptChainBase::fold_children_with_ast_path`]. If you want to recurse, you need to \
@@ -38809,6 +39923,239 @@ pub trait FoldAstPath {
         ast_path: &mut AstKindPath,
     ) -> OptChainExpr {
         <OptChainExpr as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `Option < Box < Expr > >`.\n\nBy default, this method calls \
+             [`Option < Box < Expr > >::fold_children_with_ast_path`]. If you want to recurse, you \
+             need to call it manually."]
+    fn fold_opt_expr(
+        &mut self,
+        node: Option<Box<Expr>>,
+        ast_path: &mut AstKindPath,
+    ) -> Option<Box<Expr>> {
+        <Option<Box<Expr>> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < ExprOrSpread >`.\n\nBy default, this method calls \
+             [`Option < ExprOrSpread >::fold_children_with_ast_path`]. If you want to recurse, you \
+             need to call it manually."]
+    fn fold_opt_expr_or_spread(
+        &mut self,
+        node: Option<ExprOrSpread>,
+        ast_path: &mut AstKindPath,
+    ) -> Option<ExprOrSpread> {
+        <Option<ExprOrSpread> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < Vec < ExprOrSpread > >`.\n\nBy default, this method \
+             calls [`Option < Vec < ExprOrSpread > >::fold_children_with_ast_path`]. If you want \
+             to recurse, you need to call it manually."]
+    fn fold_opt_expr_or_spreads(
+        &mut self,
+        node: Option<Vec<ExprOrSpread>>,
+        ast_path: &mut AstKindPath,
+    ) -> Option<Vec<ExprOrSpread>> {
+        <Option<Vec<ExprOrSpread>> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < Ident >`.\n\nBy default, this method calls [`Option < \
+             Ident >::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
+             manually."]
+    fn fold_opt_ident(&mut self, node: Option<Ident>, ast_path: &mut AstKindPath) -> Option<Ident> {
+        <Option<Ident> as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `Option < JSXAttrValue >`.\n\nBy default, this method calls \
+             [`Option < JSXAttrValue >::fold_children_with_ast_path`]. If you want to recurse, you \
+             need to call it manually."]
+    fn fold_opt_jsx_attr_value(
+        &mut self,
+        node: Option<JSXAttrValue>,
+        ast_path: &mut AstKindPath,
+    ) -> Option<JSXAttrValue> {
+        <Option<JSXAttrValue> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < JSXClosingElement >`.\n\nBy default, this method calls \
+             [`Option < JSXClosingElement >::fold_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    fn fold_opt_jsx_closing_element(
+        &mut self,
+        node: Option<JSXClosingElement>,
+        ast_path: &mut AstKindPath,
+    ) -> Option<JSXClosingElement> {
+        <Option<JSXClosingElement> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < ModuleExportName >`.\n\nBy default, this method calls \
+             [`Option < ModuleExportName >::fold_children_with_ast_path`]. If you want to recurse, \
+             you need to call it manually."]
+    fn fold_opt_module_export_name(
+        &mut self,
+        node: Option<ModuleExportName>,
+        ast_path: &mut AstKindPath,
+    ) -> Option<ModuleExportName> {
+        <Option<ModuleExportName> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < Vec < ModuleItem > >`.\n\nBy default, this method \
+             calls [`Option < Vec < ModuleItem > >::fold_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    fn fold_opt_module_items(
+        &mut self,
+        node: Option<Vec<ModuleItem>>,
+        ast_path: &mut AstKindPath,
+    ) -> Option<Vec<ModuleItem>> {
+        <Option<Vec<ModuleItem>> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < Box < ObjectLit > >`.\n\nBy default, this method calls \
+             [`Option < Box < ObjectLit > >::fold_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    fn fold_opt_object_lit(
+        &mut self,
+        node: Option<Box<ObjectLit>>,
+        ast_path: &mut AstKindPath,
+    ) -> Option<Box<ObjectLit>> {
+        <Option<Box<ObjectLit>> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < Pat >`.\n\nBy default, this method calls [`Option < \
+             Pat >::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
+             manually."]
+    fn fold_opt_pat(&mut self, node: Option<Pat>, ast_path: &mut AstKindPath) -> Option<Pat> {
+        <Option<Pat> as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `Option < Span >`.\n\nBy default, this method calls [`Option < \
+             Span >::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
+             manually."]
+    fn fold_opt_span(&mut self, node: Option<Span>, ast_path: &mut AstKindPath) -> Option<Span> {
+        <Option<Span> as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `Option < Box < Stmt > >`.\n\nBy default, this method calls \
+             [`Option < Box < Stmt > >::fold_children_with_ast_path`]. If you want to recurse, you \
+             need to call it manually."]
+    fn fold_opt_stmt(
+        &mut self,
+        node: Option<Box<Stmt>>,
+        ast_path: &mut AstKindPath,
+    ) -> Option<Box<Stmt>> {
+        <Option<Box<Stmt>> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < Box < Str > >`.\n\nBy default, this method calls \
+             [`Option < Box < Str > >::fold_children_with_ast_path`]. If you want to recurse, you \
+             need to call it manually."]
+    fn fold_opt_str(
+        &mut self,
+        node: Option<Box<Str>>,
+        ast_path: &mut AstKindPath,
+    ) -> Option<Box<Str>> {
+        <Option<Box<Str>> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < TruePlusMinus >`.\n\nBy default, this method calls \
+             [`Option < TruePlusMinus >::fold_children_with_ast_path`]. If you want to recurse, \
+             you need to call it manually."]
+    fn fold_opt_true_plus_minus(
+        &mut self,
+        node: Option<TruePlusMinus>,
+        ast_path: &mut AstKindPath,
+    ) -> Option<TruePlusMinus> {
+        <Option<TruePlusMinus> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < TsEntityName >`.\n\nBy default, this method calls \
+             [`Option < TsEntityName >::fold_children_with_ast_path`]. If you want to recurse, you \
+             need to call it manually."]
+    fn fold_opt_ts_entity_name(
+        &mut self,
+        node: Option<TsEntityName>,
+        ast_path: &mut AstKindPath,
+    ) -> Option<TsEntityName> {
+        <Option<TsEntityName> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < TsNamespaceBody >`.\n\nBy default, this method calls \
+             [`Option < TsNamespaceBody >::fold_children_with_ast_path`]. If you want to recurse, \
+             you need to call it manually."]
+    fn fold_opt_ts_namespace_body(
+        &mut self,
+        node: Option<TsNamespaceBody>,
+        ast_path: &mut AstKindPath,
+    ) -> Option<TsNamespaceBody> {
+        <Option<TsNamespaceBody> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < Box < TsType > >`.\n\nBy default, this method calls \
+             [`Option < Box < TsType > >::fold_children_with_ast_path`]. If you want to recurse, \
+             you need to call it manually."]
+    fn fold_opt_ts_type(
+        &mut self,
+        node: Option<Box<TsType>>,
+        ast_path: &mut AstKindPath,
+    ) -> Option<Box<TsType>> {
+        <Option<Box<TsType>> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < Box < TsTypeAnn > >`.\n\nBy default, this method calls \
+             [`Option < Box < TsTypeAnn > >::fold_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    fn fold_opt_ts_type_ann(
+        &mut self,
+        node: Option<Box<TsTypeAnn>>,
+        ast_path: &mut AstKindPath,
+    ) -> Option<Box<TsTypeAnn>> {
+        <Option<Box<TsTypeAnn>> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < Box < TsTypeParamDecl > >`.\n\nBy default, this method \
+             calls [`Option < Box < TsTypeParamDecl > >::fold_children_with_ast_path`]. If you \
+             want to recurse, you need to call it manually."]
+    fn fold_opt_ts_type_param_decl(
+        &mut self,
+        node: Option<Box<TsTypeParamDecl>>,
+        ast_path: &mut AstKindPath,
+    ) -> Option<Box<TsTypeParamDecl>> {
+        <Option<Box<TsTypeParamDecl>> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < Box < TsTypeParamInstantiation > >`.\n\nBy default, \
+             this method calls [`Option < Box < TsTypeParamInstantiation > \
+             >::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
+             manually."]
+    fn fold_opt_ts_type_param_instantiation(
+        &mut self,
+        node: Option<Box<TsTypeParamInstantiation>>,
+        ast_path: &mut AstKindPath,
+    ) -> Option<Box<TsTypeParamInstantiation>> {
+        < Option < Box < TsTypeParamInstantiation > > as FoldWithAstPath < Self > > :: fold_children_with_ast_path (node , self , ast_path)
+    }
+    #[doc = "Visit a node of type `Option < VarDeclOrExpr >`.\n\nBy default, this method calls \
+             [`Option < VarDeclOrExpr >::fold_children_with_ast_path`]. If you want to recurse, \
+             you need to call it manually."]
+    fn fold_opt_var_decl_or_expr(
+        &mut self,
+        node: Option<VarDeclOrExpr>,
+        ast_path: &mut AstKindPath,
+    ) -> Option<VarDeclOrExpr> {
+        <Option<VarDeclOrExpr> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
     }
     #[doc = "Visit a node of type `Param`.\n\nBy default, this method calls \
              [`Param::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
@@ -39815,6 +41162,18 @@ pub trait FoldAstPath {
              call it manually."]
     fn fold_ts_type_param(&mut self, node: TsTypeParam, ast_path: &mut AstKindPath) -> TsTypeParam {
         <TsTypeParam as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `TsTypeParamDecl`.\n\nBy default, this method calls \
+             [`TsTypeParamDecl::fold_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    fn fold_ts_type_param_decl(
+        &mut self,
+        node: TsTypeParamDecl,
+        ast_path: &mut AstKindPath,
+    ) -> TsTypeParamDecl {
+        <TsTypeParamDecl as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
     }
     #[doc = "Visit a node of type `TsTypeParamInstantiation`.\n\nBy default, this method calls \
              [`TsTypeParamInstantiation::fold_children_with_ast_path`]. If you want to recurse, \
