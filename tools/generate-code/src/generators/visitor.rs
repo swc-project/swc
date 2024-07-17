@@ -1312,7 +1312,7 @@ fn define_fields(node_types: &[&Item]) -> Vec<Item> {
 
                     defs.push(parse_quote!(
                         impl #fields_enum_name {
-                            pub(crate) fn set_index(&mut self, _: usize) {
+                            pub(crate) fn set_index(&mut self, index: usize) {
                                 match self {
                                     #(#set_index_arms)*
                                 }
