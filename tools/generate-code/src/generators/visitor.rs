@@ -805,7 +805,7 @@ impl Generator<'_> {
         let fields_enum_name = Ident::new(&format!("{type_name}Field"), Span::call_site());
 
         let enum_ast_path = match enum_variant_name {
-            Some(variant_name) => {
+            Some(variant_name) if self.variant == Variant::AstPath => {
                 let field_variant = Ident::new(
                     &variant_name.to_string().to_pascal_case(),
                     Span::call_site(),
@@ -826,7 +826,7 @@ impl Generator<'_> {
                     )),
                 }
             }
-            None => None,
+            _ => None,
         };
 
         match fields {
