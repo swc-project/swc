@@ -835,31 +835,31 @@ impl Generator<'_> {
 
                         match self.kind {
                             TraitKind::Visit => {
-                                parse_quote!({
+                                parse_quote!(
                                     match self {
                                         Some(inner) => {
                                             <#inner_ty as #visit_with_trait_name<V>>::visit_with(visitor, inner #ast_path_arg)
                                         }
                                         None => {}
                                     }
-                                })
+                                )
                             }
                             TraitKind::VisitMut => {
-                                parse_quote!({
+                                parse_quote!(
                                     match self {
                                         Some(inner) => {
                                             <#inner_ty as #visit_with_trait_name<V>>::visit_mut_with(visitor, inner #ast_path_arg)
                                         }
                                         None => {}
                                     }
-                                })
+                                )
                             }
                             TraitKind::Fold => {
-                                parse_quote!({
+                                parse_quote!(
                                     self.map(|inner| {
                                         <#inner_ty as #visit_with_trait_name<V>>::fold_with(visitor, inner #ast_path_arg)
                                     })
-                                })
+                                )
                             }
                         }
                     }
@@ -869,19 +869,19 @@ impl Generator<'_> {
 
                         match self.kind {
                             TraitKind::Visit => {
-                                parse_quote!({
+                                parse_quote!(
                                     <#inner_ty as #visit_with_trait_name<V>>::visit_with(&**self, visitor #ast_path_arg)
-                                })
+                                )
                             }
                             TraitKind::VisitMut => {
-                                parse_quote!({
+                                parse_quote!(
                                     <#inner_ty as #visit_with_trait_name<V>>::#visit_method_name(&mut **self, visitor #ast_path_arg)
-                                })
+                                )
                             }
                             TraitKind::Fold => {
-                                parse_quote!({
+                                parse_quote!(
                                     Box::new(<#inner_ty as #visit_with_trait_name<V>>::fold_with(*self, visitor #ast_path_arg))
-                                })
+                                )
                             }
                         }
                     }
