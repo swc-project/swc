@@ -1290,6 +1290,10 @@ fn define_fields(node_types: &[&Item]) -> Vec<Item> {
                 #(#kind_enum_members),*
             }
         ));
+
+        items.push(parse_quote!(
+            impl ::swc_visit::ParentKind for AstParentKind {}
+        ));
     }
 
     {
@@ -1302,7 +1306,7 @@ fn define_fields(node_types: &[&Item]) -> Vec<Item> {
 
         items.push(parse_quote!(
             impl<'ast> ::swc_visit::NodeRef for AstParentNodeRef<'ast> {}
-        ))
+        ));
     }
 
     items
