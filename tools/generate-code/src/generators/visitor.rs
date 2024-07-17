@@ -979,7 +979,7 @@ impl Generator<'_> {
             ));
         }
 
-        if self.kind != TraitKind::Fold {
+        if self.kind == TraitKind::Visit {
             // Vec<T> => [T]
             items.push(parse_quote!(
                 #(#attrs)*
