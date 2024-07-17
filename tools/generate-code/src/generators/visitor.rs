@@ -489,10 +489,17 @@ impl Generator<'_> {
                 Span::call_site(),
             );
 
+            let recurse_doc = match self.kind {
+                TraitKind::VisitAll => {
+                    "This method unconditionally calls the visitor method for all children because \
+                     it's defined in the trait [VisitAll]."
+                }
+                _ => "If you want to recurse, you need to call it manually.",
+            };
+
             let method_doc = doc(&format!(
                 "Visit a node of type `{}`.\n\nBy default, this method calls \
-                 [`{type_name}::{visit_with_children_name}`]. If you want to recurse, you need to \
-                 call it manually.",
+                 [`{type_name}::{visit_with_children_name}`]. {recurse_doc}",
                 type_name
             ));
 
