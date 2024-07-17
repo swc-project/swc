@@ -6,7 +6,7 @@ authors = [
 description = "Visitor for html"
 documentation = "https://rustdoc.swc.rs/swc_html_visit/"
 edition = "2021"
-license = "Apache-2.0"
+license = { workspace = true }
 name = "swc_html_visit"
 repository = "https://github.com/swc-project/swc.git"
 version = "0.35.0"

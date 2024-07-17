@@ -1,6 +1,6 @@
 use is_macro::Is;
 use string_enum::StringEnum;
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 #[ast_node("Document")]
@@ -41,10 +41,10 @@ pub enum Child {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct DocumentType {
     pub span: Span,
-    pub name: Option<JsWord>,
-    pub public_id: Option<JsWord>,
-    pub system_id: Option<JsWord>,
-    pub raw: Option<JsWord>,
+    pub name: Option<Atom>,
+    pub public_id: Option<Atom>,
+    pub system_id: Option<Atom>,
+    pub raw: Option<Atom>,
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
@@ -67,7 +67,7 @@ pub enum Namespace {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Element {
     pub span: Span,
-    pub tag_name: JsWord,
+    pub tag_name: Atom,
     pub attributes: Vec<Attribute>,
     pub children: Vec<Child>,
 }
@@ -77,41 +77,41 @@ pub struct Element {
 pub struct Attribute {
     pub span: Span,
     pub namespace: Option<Namespace>,
-    pub prefix: Option<JsWord>,
-    pub name: JsWord,
-    pub raw_name: Option<JsWord>,
-    pub value: Option<JsWord>,
-    pub raw_value: Option<JsWord>,
+    pub prefix: Option<Atom>,
+    pub name: Atom,
+    pub raw_name: Option<Atom>,
+    pub value: Option<Atom>,
+    pub raw_value: Option<Atom>,
 }
 
 #[ast_node("Text")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Text {
     pub span: Span,
-    pub data: JsWord,
-    pub raw: Option<JsWord>,
+    pub data: Atom,
+    pub raw: Option<Atom>,
 }
 
 #[ast_node("CdataSection")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct CdataSection {
     pub span: Span,
-    pub data: JsWord,
-    pub raw: Option<JsWord>,
+    pub data: Atom,
+    pub raw: Option<Atom>,
 }
 
 #[ast_node("ProcessingInstruction")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct ProcessingInstruction {
     pub span: Span,
-    pub target: JsWord,
-    pub data: JsWord,
+    pub target: Atom,
+    pub data: Atom,
 }
 
 #[ast_node("Comment")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Comment {
     pub span: Span,
-    pub data: JsWord,
-    pub raw: Option<JsWord>,
+    pub data: Atom,
+    pub raw: Option<Atom>,
 }

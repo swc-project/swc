@@ -6,7 +6,7 @@ authors = [
 description = "AST definitions of html"
 documentation = "https://rustdoc.swc.rs/swc_html_ast/"
 edition = "2021"
-license = "Apache-2.0"
+license = { workspace = true }
 name = "swc_html_ast"
 repository = "https://github.com/swc-project/swc.git"
 version = "0.35.0"

@@ -6,7 +6,7 @@ authors = [
 description = "Internal macro for the html code generator"
 documentation = "https://rustdoc.swc.rs/swc_html_codegen_macros/"
 edition = "2021"
-license = "Apache-2.0"
+license = { workspace = true }
 name = "swc_html_codegen_macros"
 repository = "https://github.com/swc-project/swc.git"
 version = "0.2.4"

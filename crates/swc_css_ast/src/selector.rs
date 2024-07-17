@@ -1,6 +1,6 @@
 use is_macro::Is;
 use string_enum::StringEnum;
-use swc_atoms::{Atom, JsWord};
+use swc_atoms::Atom;
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span};
 
 use crate::{Delimiter, Ident, ListOfComponentValues, Str, TokenAndSpan};
@@ -413,7 +413,7 @@ pub enum PseudoElementSelectorChildren {
 pub struct CustomHighlightName {
     pub span: Span,
 
-    pub value: JsWord,
+    pub value: Atom,
     pub raw: Option<Atom>,
 }
 

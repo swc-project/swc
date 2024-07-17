@@ -18,5 +18,5 @@ default = ["swc_cli_impl/default"]
 plugin  = ["swc_cli_impl/plugin"]
 
 [dependencies]
-anyhow       = "1.0.66"
-swc_cli_impl = "0.15.0"
+anyhow       = { workspace = true }
+swc_cli_impl = { workspace = true }
