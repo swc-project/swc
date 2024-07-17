@@ -491,8 +491,7 @@ impl Generator<'_> {
                         #default_body
                     }
                 }
-            )
-        );
+            ));
         }
 
         items
