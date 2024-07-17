@@ -552,9 +552,9 @@ impl Generator<'_> {
                 visit_all_impl_methods.push(parse_quote!(
                     #[inline]
                     fn #visit_method_name #lifetime (&mut self, node: #type_param #ast_path_params) #return_type {
-                        <V as #trait_name>::#visit_method_name(&mut self.visitor, node #ast_path_arg);
+                        <V as VisitAll>::#visit_method_name(&mut self.visitor, node #ast_path_arg);
 
-                        node.visit_children_with(self);
+                        Visit::visit_children_with(node, self);
                     }
                 ));
             }

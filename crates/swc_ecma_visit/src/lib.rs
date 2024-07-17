@@ -8,11 +8,9 @@ pub extern crate swc_ecma_ast;
 
 use std::{borrow::Cow, fmt::Debug};
 
-use num_bigint::BigInt as BigIntValue;
-use swc_atoms::Atom;
-use swc_common::{pass::CompilerPass, Span, SyntaxContext, DUMMY_SP};
+use swc_common::{pass::CompilerPass, Span, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_visit::{define, AndThen, Repeat, Repeated};
+use swc_visit::{AndThen, Repeat, Repeated};
 
 pub use crate::generated::*;
 mod generated;
