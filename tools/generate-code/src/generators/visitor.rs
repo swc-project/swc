@@ -275,15 +275,15 @@ struct Generator<'a> {
 }
 
 impl Generator<'_> {
-    fn is_leaf_type(&self, ty: &Type) -> bool {
+    fn should_skip(&self, ty: &Type) -> bool {
         if let Some(ty) = extract_generic("Box", ty) {
-            return self.is_leaf_type(ty);
+            return self.should_skip(ty);
         }
 
         let ty = to_field_ty(ty);
         let ty = match ty {
             Some(ty) => ty,
-            None => return false,
+            None => return true,
         };
         self.leat_types.contains(&ty)
     }
@@ -618,14 +618,14 @@ impl Generator<'_> {
                     bindings.push(field_name.clone());
 
                     if let Some(reconstructor) = &mut reconstruct {
-                        if !self.is_leaf_type(ty) {
+                        if !self.should_skip(ty) {
                             stmts.push(parse_quote!(
                                 let #field_name = <#ty as #with_visitor_trait_name<V>>::#visit_with_name(#field_name, visitor #ast_path_arg);
                             ));
                         }
 
                         reconstructor.push(parse_quote!(#field_name));
-                    } else if !self.is_leaf_type(ty) {
+                    } else if !self.should_skip(ty) {
                         stmts.push(parse_quote!(
                            <#ty as #with_visitor_trait_name<V>>::#visit_with_name(#field_name, visitor #ast_path_arg);
                         ));
@@ -666,14 +666,14 @@ impl Generator<'_> {
                     bindings.push(parse_quote!(#binding_idx: #field_name));
 
                     if let Some(reconstructor) = &mut reconstruct {
-                        if !self.is_leaf_type(ty) {
+                        if !self.should_skip(ty) {
                             stmts.push(parse_quote!(
                                 let #field_name = <#ty as #with_visitor_trait_name<V>>::#visit_with_name(#field_name, visitor #ast_path_arg);
                             ));
                         }
 
                         reconstructor.push(parse_quote!(#binding_idx: self.#field_name));
-                    } else if !self.is_leaf_type(ty) {
+                    } else if !self.should_skip(ty) {
                         stmts.push(parse_quote!(
                             <#ty as #with_visitor_trait_name<V>>::#visit_with_name(#field_name, visitor #ast_path_arg);
                         ));
