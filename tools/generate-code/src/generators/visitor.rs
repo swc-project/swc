@@ -451,7 +451,8 @@ impl Generator<'_> {
             }
             let type_name = quote!(#ty);
             let return_type = self.return_type_token(quote!(#type_name));
-            let type_param = self.parameter_type_token(quote!(#type_name));
+            let type_param = self.node_type_for_visitor_method(ty);
+            let type_param = self.parameter_type_token(quote!(#type_param));
 
             let visit_method_name = Ident::new(
                 &format!(
