@@ -1235,7 +1235,7 @@ fn define_fields(node_types: &[&Item]) -> Vec<Item> {
                 Self::#type_name(v) => v.set_index(index),
             ));
             node_ref_kind_arms.push(parse_quote!(
-                Self::#type_name(_, __field_kind) => *kind,
+                Self::#type_name(_, __field_kind) => AstParentKind::#type_name(*__field_kind),
             ));
             node_ref_set_index_arms.push(parse_quote!(
                 Self::#type_name(node, __field_kind) => node.set_index(index),
@@ -1309,7 +1309,7 @@ fn define_fields(node_types: &[&Item]) -> Vec<Item> {
         items.push(parse_quote!(
             impl ::swc_visit::ParentKind for AstParentKind {
                 #[inline]
-                fn set_index(&self, index: usize) -> AstParentKind {
+                fn set_index(&mut self, index: usize) -> AstParentKind {
                     match self {
                         #(#kind_set_index_arms)*
                     }
