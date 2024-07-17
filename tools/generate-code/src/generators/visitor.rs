@@ -64,7 +64,7 @@ pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
                 crate_name: crate_name.clone(),
                 kind,
                 variant,
-                leat_types: &leaf_types,
+                leaf_types: &leaf_types,
             };
 
             output.items.push(g.declare_visit_trait(&all_types));
@@ -301,7 +301,7 @@ struct Generator<'a> {
     crate_name: Ident,
     kind: TraitKind,
     variant: Variant,
-    leat_types: &'a HashSet<FieldType>,
+    leaf_types: &'a HashSet<FieldType>,
 }
 
 impl Generator<'_> {
@@ -323,7 +323,7 @@ impl Generator<'_> {
             Some(ty) => ty,
             None => return true,
         };
-        self.leat_types.contains(&ty)
+        self.leaf_types.contains(&ty)
     }
 
     fn method_lifetime(&self) -> TokenStream {
