@@ -1284,7 +1284,7 @@ fn define_fields(node_types: &[&Item]) -> Vec<Item> {
                     items.push(parse_quote!(
                         impl #fields_enum_name {
                             #[inline(always)]
-                            pub fn set_index(&mut self, _: usize) {}
+                            fn set_index(&mut self, _: usize) {}
                         }
                     ));
                 }
@@ -1312,8 +1312,7 @@ fn define_fields(node_types: &[&Item]) -> Vec<Item> {
 
                     items.push(parse_quote!(
                         impl #fields_enum_name {
-                            #[inline(always)]
-                            pub fn set_index(&mut self, _: usize) {
+                            fn set_index(&mut self, _: usize) {
                                 match self {
                                     #(#set_index_arms)*
                                 }
