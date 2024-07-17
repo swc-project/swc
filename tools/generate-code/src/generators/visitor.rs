@@ -926,17 +926,47 @@ impl Generator<'_> {
         let mut items = Vec::<Item>::new();
 
         {
+            let deref_expr = match self.kind {
+                TraitKind::Visit => {
+                    quote!(&**self)
+                }
+                TraitKind::VisitMut => {
+                    quote!(&mut **self)
+                }
+                TraitKind::Fold => {
+                    quote!(*self)
+                }
+            };
+
+            let restore_expr = match self.kind {
+                TraitKind::Visit => {
+                    quote!()
+                }
+                TraitKind::VisitMut => {
+                    quote!()
+                }
+                TraitKind::Fold => {
+                    quote!(
+                        let v = std::boxed::Box::new(v);
+                    )
+                }
+            };
+
             items.push(parse_quote!(
                 #(#attrs)*
-                impl<V, T> #visit_with_trait_name<V> for Box<T>
+                impl<V, T> #visit_with_trait_name<V> for std::boxed::Box<T>
                     where V: ?Sized + #visit_trait_name,
                         T: #visit_with_trait_name<V> {
                     fn #visit_with_name #lifetime (#receiver, visitor: &mut V #ast_path_param) #return_type {
-                        <T as #visit_with_trait_name<V>>::#visit_with_name(&**self, visitor #ast_path_arg)
+                        let v = <T as #visit_with_trait_name<V>>::#visit_with_name(#deref_expr, visitor #ast_path_arg);
+                        #restore_expr
+                        v
                     }
 
                     fn #visit_with_children_name #lifetime (#receiver, visitor: &mut V #ast_path_param) #return_type {
-                        <T as #visit_with_trait_name<V>>::#visit_with_children_name(&**self, visitor #ast_path_arg)
+                        let v = <T as #visit_with_trait_name<V>>::#visit_with_children_name(#deref_expr, visitor #ast_path_arg);
+                        #restore_expr
+                        v
                     }
                 }
             ));
