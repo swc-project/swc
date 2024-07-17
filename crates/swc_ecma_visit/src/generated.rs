@@ -6950,6 +6950,21 @@ where
         v
     }
 }
+impl<V, T> VisitWith<V> for std::vec::Vec<T>
+where
+    V: ?Sized + Visit,
+    [T]: VisitWith<V>,
+{
+    fn visit_with(&self, visitor: &mut V) {
+        let v = <[T] as VisitWith<V>>::visit_with(self, visitor);
+        v
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        let v = <[T] as VisitWith<V>>::visit_children_with(self, visitor);
+        v
+    }
+}
 #[doc = r" A visitor trait for traversing the AST."]
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
@@ -18990,6 +19005,31 @@ where
         v
     }
 }
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V, T> VisitWithAstPath<V> for std::vec::Vec<T>
+where
+    V: ?Sized + VisitAstPath,
+    [T]: VisitWithAstPath<V>,
+{
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        let v = <[T] as VisitWithAstPath<V>>::visit_with_ast_path(self, visitor, ast_path);
+        v
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        let v = <[T] as VisitWithAstPath<V>>::visit_children_with_ast_path(self, visitor, ast_path);
+        v
+    }
+}
 #[doc = r" A visitor trait for traversing the AST."]
 pub trait VisitMut {
     #[doc = "Visit a node of type `Accessibility`.\n\nBy default, this method calls \
@@ -26002,6 +26042,21 @@ where
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         let v = <T as VisitMutWith<V>>::visit_mut_children_with(&mut **self, visitor);
+        v
+    }
+}
+impl<V, T> VisitMutWith<V> for std::vec::Vec<T>
+where
+    V: ?Sized + VisitMut,
+    [T]: VisitMutWith<V>,
+{
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        let v = <[T] as VisitMutWith<V>>::visit_mut_with(self, visitor);
+        v
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        let v = <[T] as VisitMutWith<V>>::visit_mut_children_with(self, visitor);
         v
     }
 }
@@ -35684,6 +35739,25 @@ where
             &mut **self,
             visitor,
             ast_path,
+        );
+        v
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V, T> VisitMutWithAstPath<V> for std::vec::Vec<T>
+where
+    V: ?Sized + VisitMutAstPath,
+    [T]: VisitMutWithAstPath<V>,
+{
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        let v = <[T] as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(self, visitor, ast_path);
+        v
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        let v = <[T] as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
+            self, visitor, ast_path,
         );
         v
     }

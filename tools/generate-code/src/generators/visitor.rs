@@ -989,6 +989,26 @@ impl Generator<'_> {
             ));
         }
 
+        if self.kind != TraitKind::Fold {
+            // Vec<T> => [T]
+            items.push(parse_quote!(
+                #(#attrs)*
+                impl<V, T> #visit_with_trait_name<V> for std::vec::Vec<T>
+                    where V: ?Sized + #visit_trait_name,
+                        [T]: #visit_with_trait_name<V> {
+                    fn #visit_with_name #lifetime (#receiver, visitor: &mut V #ast_path_param) #return_type {
+                        let v = <[T] as #visit_with_trait_name<V>>::#visit_with_name(self, visitor #ast_path_arg);
+                        v
+                    }
+
+                    fn #visit_with_children_name #lifetime (#receiver, visitor: &mut V #ast_path_param) #return_type {
+                        let v = <[T] as #visit_with_trait_name<V>>::#visit_with_children_name(self, visitor #ast_path_arg);
+                        v
+                    }
+                }
+            ));
+        }
+
         items
     }
 }
