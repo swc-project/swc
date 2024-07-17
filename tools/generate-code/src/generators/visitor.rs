@@ -70,7 +70,7 @@ pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
                 leaf_types: &leaf_types,
             };
 
-            output.items.push(g.declare_visit_trait(&all_types));
+            output.items.extend(g.declare_visit_trait(&all_types));
 
             output.items.extend(g.declare_visit_with_trait(node_types));
 
@@ -434,7 +434,8 @@ impl Generator<'_> {
         }
     }
 
-    fn declare_visit_trait(&self, all_types: &[FieldType]) -> Item {
+    fn declare_visit_trait(&self, all_types: &[FieldType]) -> Vec<Item> {
+        let mut items = Vec::<Item>::new();
         let lifetime = self.method_lifetime();
         let ast_path_arg = self.arg_extra_token();
         let ast_path_params = self.param_extra_token();
@@ -487,13 +488,15 @@ impl Generator<'_> {
             ));
         }
 
-        parse_quote! {
+        items.push(parse_quote! {
             /// A visitor trait for traversing the AST.
             #(#attrs)*
             pub trait #trait_name {
                 #(#trait_methods)*
             }
-        }
+        });
+
+        items
     }
 
     fn declare_visit_with_trait(&self, node_types: &[&Item]) -> Vec<Item> {
