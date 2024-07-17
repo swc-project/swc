@@ -78,6 +78,10 @@ pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
             output
                 .items
                 .extend(g.implement_visit_with_for_non_node_types(&field_only_types));
+
+            output
+                .items
+                .extend(g.implement_visit_with_for_generic_types());
         }
     }
 
@@ -796,21 +800,17 @@ impl Generator<'_> {
             ));
 
             let default_body: Expr = match node_type {
-                FieldType::Normal(..) => {
-                    let ty = quote!(#node_type);
-
-                    match self.kind {
-                        TraitKind::Visit => {
-                            parse_quote!({})
-                        }
-                        TraitKind::VisitMut => {
-                            parse_quote!({})
-                        }
-                        TraitKind::Fold => {
-                            parse_quote!(self)
-                        }
+                FieldType::Normal(..) => match self.kind {
+                    TraitKind::Visit => {
+                        parse_quote!({})
                     }
-                }
+                    TraitKind::VisitMut => {
+                        parse_quote!({})
+                    }
+                    TraitKind::Fold => {
+                        parse_quote!(self)
+                    }
+                },
 
                 FieldType::Generic(name, inner) => match &**name {
                     "Vec" => {
@@ -873,28 +873,7 @@ impl Generator<'_> {
                             }
                         }
                     }
-                    "Box" => {
-                        let inner = inner.as_ref();
-                        let inner_ty = quote!(#inner);
-
-                        match self.kind {
-                            TraitKind::Visit => {
-                                parse_quote!(
-                                    <#inner_ty as #visit_with_trait_name<V>>::visit_with(&**self, visitor #ast_path_arg)
-                                )
-                            }
-                            TraitKind::VisitMut => {
-                                parse_quote!(
-                                    <#inner_ty as #visit_with_trait_name<V>>::visit_mut_with(&mut **self, visitor #ast_path_arg)
-                                )
-                            }
-                            TraitKind::Fold => {
-                                parse_quote!(
-                                    Box::new(<#inner_ty as #visit_with_trait_name<V>>::fold_with(*self, visitor #ast_path_arg))
-                                )
-                            }
-                        }
-                    }
+                    "Box" => continue,
                     _ => unreachable!("unexpected generic type: {}", name),
                 },
             };
@@ -913,6 +892,48 @@ impl Generator<'_> {
                 }
             ));
         }
+
+        items
+    }
+
+    fn implement_visit_with_for_generic_types(&self) -> Vec<Item> {
+        let visit_trait_name = self.trait_name(false);
+        let visit_with_trait_name = self.trait_name(true);
+        let lifetime = self.method_lifetime();
+        let ast_path_arg = self.arg_extra_token();
+        let ast_path_param = self.param_extra_token();
+        let return_type = self.return_type_token(quote!(Self));
+
+        let visit_with_name = Ident::new(
+            &format!(
+                "{}_with{}",
+                self.kind.method_prefix(),
+                self.variant.method_suffix(false)
+            ),
+            Span::call_site(),
+        );
+        let visit_with_children_name = Ident::new(
+            &format!(
+                "{}_children_with{}",
+                self.kind.method_prefix(),
+                self.variant.method_suffix(false)
+            ),
+            Span::call_site(),
+        );
+
+        let mut items = Vec::<Item>::new();
+
+        items.push(parse_quote!(
+            impl<V: ?Sized + #visit_trait_name> #visit_with_trait_name<V> for Box<T> where T: #visit_with_trait_name<V> {
+                fn #visit_with_name #lifetime (&self, visitor: &mut V #ast_path_param) #return_type {
+                    <T as #visit_with_trait_name<V>>::#visit_with_name(&**self, visitor #ast_path_arg)
+                }
+
+                fn #visit_with_children_name #lifetime (&self, visitor: &mut V #ast_path_param) #return_type {
+                    <T as #visit_with_trait_name<V>>::#visit_with_children_name(&**self, visitor #ast_path_arg)
+                }
+            }
+        ));
 
         items
     }
