@@ -1367,9 +1367,6 @@
 
 - **(css/parser)** Implement error reporting for `@value` of CSS Modules ([#8547](https://github.com/swc-project/swc/issues/8547)) ([00619b1](https://github.com/swc-project/swc/commit/00619b17082e857d1d5822f04b9ee82b0a295cc3))
 
-
-- **(swc_core)** Expose `preset_env_base` ([#8537](https://github.com/swc-project/swc/issues/8537)) ([793f265](https://github.com/swc-project/swc/commit/793f2651a8c44c43cde8b83d4f98eda6e274676c))
-
 ### Miscellaneous Tasks
 
 
