@@ -19,17 +19,25 @@ struct CliArgs {
     /// The file for the generated visitor code.
     #[clap(short = 'o', long)]
     output: PathBuf,
+
+    /// The list of types to exclude from the generated visitor.
+    #[clap(long)]
+    exclude: Vec<String>,
 }
 
 fn main() -> Result<()> {
-    let CliArgs { input_dir, output } = CliArgs::parse();
+    let CliArgs {
+        input_dir,
+        output,
+        exclude,
+    } = CliArgs::parse();
 
-    run_visitor_codegen(&input_dir, &output)?;
+    run_visitor_codegen(&input_dir, &output, &exclude)?;
 
     Ok(())
 }
 
-fn run_visitor_codegen(input_dir: &Path, output: &Path) -> Result<()> {
+fn run_visitor_codegen(input_dir: &Path, output: &Path, excludes: &[String]) -> Result<()> {
     let crate_name = Ident::new(
         input_dir.file_name().unwrap().to_str().unwrap(),
         Span::call_site(),
@@ -55,6 +63,16 @@ fn run_visitor_codegen(input_dir: &Path, output: &Path) -> Result<()> {
         .collect::<Result<Vec<_>>>()?;
 
     let mut all_type_defs = inputs.iter().flat_map(get_type_defs).collect::<Vec<_>>();
+    all_type_defs.retain(|type_def| {
+        let ident = match type_def {
+            Item::Struct(data) => &data.ident,
+            Item::Enum(data) => &data.ident,
+            _ => return true,
+        };
+
+        !excludes.contains(&ident.to_string())
+    });
+
     all_type_defs.sort_by_key(|item| match item {
         Item::Enum(data) => Some(data.ident.clone()),
         Item::Struct(data) => Some(data.ident.clone()),
