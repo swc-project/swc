@@ -184,7 +184,7 @@ pub trait Visit {
              ClassMember >::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
     fn visit_class_members(&mut self, node: &[ClassMember]) {
-        <Vec<ClassMember> as VisitWith<Self>>::visit_children_with(node, self)
+        <[ClassMember] as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `ClassMethod`.\n\nBy default, this method calls \
              [`ClassMethod::visit_children_with`]. If you want to recurse, you need to call it \
@@ -243,7 +243,7 @@ pub trait Visit {
              Decorator >::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
     fn visit_decorators(&mut self, node: &[Decorator]) {
-        <Vec<Decorator> as VisitWith<Self>>::visit_children_with(node, self)
+        <[Decorator] as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `DefaultDecl`.\n\nBy default, this method calls \
              [`DefaultDecl::visit_children_with`]. If you want to recurse, you need to call it \
@@ -321,7 +321,7 @@ pub trait Visit {
              [`Vec < ExportSpecifier >::visit_children_with`]. If you want to recurse, you need to \
              call it manually."]
     fn visit_export_specifiers(&mut self, node: &[ExportSpecifier]) {
-        <Vec<ExportSpecifier> as VisitWith<Self>>::visit_children_with(node, self)
+        <[ExportSpecifier] as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Expr`.\n\nBy default, this method calls \
              [`Expr::visit_children_with`]. If you want to recurse, you need to call it manually."]
@@ -338,7 +338,7 @@ pub trait Visit {
              ExprOrSpread >::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
     fn visit_expr_or_spreads(&mut self, node: &[ExprOrSpread]) {
-        <Vec<ExprOrSpread> as VisitWith<Self>>::visit_children_with(node, self)
+        <[ExprOrSpread] as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `ExprStmt`.\n\nBy default, this method calls \
              [`ExprStmt::visit_children_with`]. If you want to recurse, you need to call it \
@@ -350,7 +350,7 @@ pub trait Visit {
              Box < Expr > >::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
     fn visit_exprs(&mut self, node: &[Box<Expr>]) {
-        <Vec<Box<Expr>> as VisitWith<Self>>::visit_children_with(node, self)
+        <[Box<Expr>] as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `FnDecl`.\n\nBy default, this method calls \
              [`FnDecl::visit_children_with`]. If you want to recurse, you need to call it manually."]
@@ -453,7 +453,7 @@ pub trait Visit {
              [`Vec < ImportSpecifier >::visit_children_with`]. If you want to recurse, you need to \
              call it manually."]
     fn visit_import_specifiers(&mut self, node: &[ImportSpecifier]) {
-        <Vec<ImportSpecifier> as VisitWith<Self>>::visit_children_with(node, self)
+        <[ImportSpecifier] as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `ImportStarAsSpecifier`.\n\nBy default, this method calls \
              [`ImportStarAsSpecifier::visit_children_with`]. If you want to recurse, you need to \
@@ -477,7 +477,7 @@ pub trait Visit {
              < ImportWithItem >::visit_children_with`]. If you want to recurse, you need to call \
              it manually."]
     fn visit_import_with_items(&mut self, node: &[ImportWithItem]) {
-        <Vec<ImportWithItem> as VisitWith<Self>>::visit_children_with(node, self)
+        <[ImportWithItem] as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Invalid`.\n\nBy default, this method calls \
              [`Invalid::visit_children_with`]. If you want to recurse, you need to call it \
@@ -507,7 +507,7 @@ pub trait Visit {
              [`Vec < JSXAttrOrSpread >::visit_children_with`]. If you want to recurse, you need to \
              call it manually."]
     fn visit_jsx_attr_or_spreads(&mut self, node: &[JSXAttrOrSpread]) {
-        <Vec<JSXAttrOrSpread> as VisitWith<Self>>::visit_children_with(node, self)
+        <[JSXAttrOrSpread] as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `JSXAttrValue`.\n\nBy default, this method calls \
              [`JSXAttrValue::visit_children_with`]. If you want to recurse, you need to call it \
@@ -543,7 +543,7 @@ pub trait Visit {
              [`Vec < JSXElementChild >::visit_children_with`]. If you want to recurse, you need to \
              call it manually."]
     fn visit_jsx_element_childs(&mut self, node: &[JSXElementChild]) {
-        <Vec<JSXElementChild> as VisitWith<Self>>::visit_children_with(node, self)
+        <[JSXElementChild] as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `JSXElementName`.\n\nBy default, this method calls \
              [`JSXElementName::visit_children_with`]. If you want to recurse, you need to call it \
@@ -708,7 +708,7 @@ pub trait Visit {
              ModuleItem >::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
     fn visit_module_items(&mut self, node: &[ModuleItem]) {
-        <Vec<ModuleItem> as VisitWith<Self>>::visit_children_with(node, self)
+        <[ModuleItem] as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `NamedExport`.\n\nBy default, this method calls \
              [`NamedExport::visit_children_with`]. If you want to recurse, you need to call it \
@@ -754,7 +754,7 @@ pub trait Visit {
              < ObjectPatProp >::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
     fn visit_object_pat_props(&mut self, node: &[ObjectPatProp]) {
-        <Vec<ObjectPatProp> as VisitWith<Self>>::visit_children_with(node, self)
+        <[ObjectPatProp] as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Option < Accessibility >`.\n\nBy default, this method calls \
              [`Option < Accessibility >::visit_children_with`]. If you want to recurse, you need \
@@ -929,13 +929,13 @@ pub trait Visit {
              calls [`Vec < Option < ExprOrSpread > >::visit_children_with`]. If you want to \
              recurse, you need to call it manually."]
     fn visit_opt_vec_expr_or_spreads(&mut self, node: &[Option<ExprOrSpread>]) {
-        <Vec<Option<ExprOrSpread>> as VisitWith<Self>>::visit_children_with(node, self)
+        <[Option<ExprOrSpread>] as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Vec < Option < Pat > >`.\n\nBy default, this method calls [`Vec \
              < Option < Pat > >::visit_children_with`]. If you want to recurse, you need to call \
              it manually."]
     fn visit_opt_vec_pats(&mut self, node: &[Option<Pat>]) {
-        <Vec<Option<Pat>> as VisitWith<Self>>::visit_children_with(node, self)
+        <[Option<Pat>] as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Param`.\n\nBy default, this method calls \
              [`Param::visit_children_with`]. If you want to recurse, you need to call it manually."]
@@ -952,12 +952,12 @@ pub trait Visit {
              [`Vec < ParamOrTsParamProp >::visit_children_with`]. If you want to recurse, you need \
              to call it manually."]
     fn visit_param_or_ts_param_props(&mut self, node: &[ParamOrTsParamProp]) {
-        <Vec<ParamOrTsParamProp> as VisitWith<Self>>::visit_children_with(node, self)
+        <[ParamOrTsParamProp] as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Vec < Param >`.\n\nBy default, this method calls [`Vec < Param \
              >::visit_children_with`]. If you want to recurse, you need to call it manually."]
     fn visit_params(&mut self, node: &[Param]) {
-        <Vec<Param> as VisitWith<Self>>::visit_children_with(node, self)
+        <[Param] as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `ParenExpr`.\n\nBy default, this method calls \
              [`ParenExpr::visit_children_with`]. If you want to recurse, you need to call it \
@@ -973,7 +973,7 @@ pub trait Visit {
     #[doc = "Visit a node of type `Vec < Pat >`.\n\nBy default, this method calls [`Vec < Pat \
              >::visit_children_with`]. If you want to recurse, you need to call it manually."]
     fn visit_pats(&mut self, node: &[Pat]) {
-        <Vec<Pat> as VisitWith<Self>>::visit_children_with(node, self)
+        <[Pat] as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `PrivateMethod`.\n\nBy default, this method calls \
              [`PrivateMethod::visit_children_with`]. If you want to recurse, you need to call it \
@@ -1020,7 +1020,7 @@ pub trait Visit {
              PropOrSpread >::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
     fn visit_prop_or_spreads(&mut self, node: &[PropOrSpread]) {
-        <Vec<PropOrSpread> as VisitWith<Self>>::visit_children_with(node, self)
+        <[PropOrSpread] as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Regex`.\n\nBy default, this method calls \
              [`Regex::visit_children_with`]. If you want to recurse, you need to call it manually."]
@@ -1094,7 +1094,7 @@ pub trait Visit {
     #[doc = "Visit a node of type `Vec < Stmt >`.\n\nBy default, this method calls [`Vec < Stmt \
              >::visit_children_with`]. If you want to recurse, you need to call it manually."]
     fn visit_stmts(&mut self, node: &[Stmt]) {
-        <Vec<Stmt> as VisitWith<Self>>::visit_children_with(node, self)
+        <[Stmt] as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Str`.\n\nBy default, this method calls \
              [`Str::visit_children_with`]. If you want to recurse, you need to call it manually."]
@@ -1128,7 +1128,7 @@ pub trait Visit {
              SwitchCase >::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
     fn visit_switch_cases(&mut self, node: &[SwitchCase]) {
-        <Vec<SwitchCase> as VisitWith<Self>>::visit_children_with(node, self)
+        <[SwitchCase] as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `SwitchStmt`.\n\nBy default, this method calls \
              [`SwitchStmt::visit_children_with`]. If you want to recurse, you need to call it \
@@ -1175,7 +1175,7 @@ pub trait Visit {
              TplElement >::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
     fn visit_tpl_elements(&mut self, node: &[TplElement]) {
-        <Vec<TplElement> as VisitWith<Self>>::visit_children_with(node, self)
+        <[TplElement] as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `TruePlusMinus`.\n\nBy default, this method calls \
              [`TruePlusMinus::visit_children_with`]. If you want to recurse, you need to call it \
@@ -1259,7 +1259,7 @@ pub trait Visit {
              TsEnumMember >::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
     fn visit_ts_enum_members(&mut self, node: &[TsEnumMember]) {
-        <Vec<TsEnumMember> as VisitWith<Self>>::visit_children_with(node, self)
+        <[TsEnumMember] as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `TsExportAssignment`.\n\nBy default, this method calls \
              [`TsExportAssignment::visit_children_with`]. If you want to recurse, you need to call \
@@ -1277,7 +1277,7 @@ pub trait Visit {
              [`Vec < TsExprWithTypeArgs >::visit_children_with`]. If you want to recurse, you need \
              to call it manually."]
     fn visit_ts_expr_with_type_argss(&mut self, node: &[TsExprWithTypeArgs]) {
-        <Vec<TsExprWithTypeArgs> as VisitWith<Self>>::visit_children_with(node, self)
+        <[TsExprWithTypeArgs] as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `TsExternalModuleRef`.\n\nBy default, this method calls \
              [`TsExternalModuleRef::visit_children_with`]. If you want to recurse, you need to \
@@ -1301,7 +1301,7 @@ pub trait Visit {
              TsFnParam >::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
     fn visit_ts_fn_params(&mut self, node: &[TsFnParam]) {
-        <Vec<TsFnParam> as VisitWith<Self>>::visit_children_with(node, self)
+        <[TsFnParam] as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `TsFnType`.\n\nBy default, this method calls \
              [`TsFnType::visit_children_with`]. If you want to recurse, you need to call it \
@@ -1534,7 +1534,7 @@ pub trait Visit {
              < TsTupleElement >::visit_children_with`]. If you want to recurse, you need to call \
              it manually."]
     fn visit_ts_tuple_elements(&mut self, node: &[TsTupleElement]) {
-        <Vec<TsTupleElement> as VisitWith<Self>>::visit_children_with(node, self)
+        <[TsTupleElement] as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `TsTupleType`.\n\nBy default, this method calls \
              [`TsTupleType::visit_children_with`]. If you want to recurse, you need to call it \
@@ -1575,7 +1575,7 @@ pub trait Visit {
              < TsTypeElement >::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
     fn visit_ts_type_elements(&mut self, node: &[TsTypeElement]) {
-        <Vec<TsTypeElement> as VisitWith<Self>>::visit_children_with(node, self)
+        <[TsTypeElement] as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `TsTypeLit`.\n\nBy default, this method calls \
              [`TsTypeLit::visit_children_with`]. If you want to recurse, you need to call it \
@@ -1617,7 +1617,7 @@ pub trait Visit {
              TsTypeParam >::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
     fn visit_ts_type_params(&mut self, node: &[TsTypeParam]) {
-        <Vec<TsTypeParam> as VisitWith<Self>>::visit_children_with(node, self)
+        <[TsTypeParam] as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `TsTypePredicate`.\n\nBy default, this method calls \
              [`TsTypePredicate::visit_children_with`]. If you want to recurse, you need to call it \
@@ -1647,7 +1647,7 @@ pub trait Visit {
              < Box < TsType > >::visit_children_with`]. If you want to recurse, you need to call \
              it manually."]
     fn visit_ts_types(&mut self, node: &[Box<TsType>]) {
-        <Vec<Box<TsType>> as VisitWith<Self>>::visit_children_with(node, self)
+        <[Box<TsType>] as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `TsUnionOrIntersectionType`.\n\nBy default, this method calls \
              [`TsUnionOrIntersectionType::visit_children_with`]. If you want to recurse, you need \
@@ -1719,7 +1719,7 @@ pub trait Visit {
              < VarDeclarator >::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
     fn visit_var_declarators(&mut self, node: &[VarDeclarator]) {
-        <Vec<VarDeclarator> as VisitWith<Self>>::visit_children_with(node, self)
+        <[VarDeclarator] as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `WhileStmt`.\n\nBy default, this method calls \
              [`WhileStmt::visit_children_with`]. If you want to recurse, you need to call it \
@@ -7271,7 +7271,7 @@ pub trait VisitAstPath {
         node: &'ast [ClassMember],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        <Vec<ClassMember> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+        <[ClassMember] as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -7371,9 +7371,7 @@ pub trait VisitAstPath {
         node: &'ast [Decorator],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        <Vec<Decorator> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
-            node, self, ast_path,
-        )
+        <[Decorator] as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
     }
     #[doc = "Visit a node of type `DefaultDecl`.\n\nBy default, this method calls \
              [`DefaultDecl::visit_children_with_ast_path`]. If you want to recurse, you need to \
@@ -7515,7 +7513,7 @@ pub trait VisitAstPath {
         node: &'ast [ExportSpecifier],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        <Vec<ExportSpecifier> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+        <[ExportSpecifier] as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -7543,7 +7541,7 @@ pub trait VisitAstPath {
         node: &'ast [ExprOrSpread],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        <Vec<ExprOrSpread> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+        <[ExprOrSpread] as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -7565,9 +7563,7 @@ pub trait VisitAstPath {
         node: &'ast [Box<Expr>],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        <Vec<Box<Expr>> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
-            node, self, ast_path,
-        )
+        <[Box<Expr>] as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
     }
     #[doc = "Visit a node of type `FnDecl`.\n\nBy default, this method calls \
              [`FnDecl::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
@@ -7733,7 +7729,7 @@ pub trait VisitAstPath {
         node: &'ast [ImportSpecifier],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        <Vec<ImportSpecifier> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+        <[ImportSpecifier] as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -7779,7 +7775,7 @@ pub trait VisitAstPath {
         node: &'ast [ImportWithItem],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        <Vec<ImportWithItem> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+        <[ImportWithItem] as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -7829,7 +7825,7 @@ pub trait VisitAstPath {
         node: &'ast [JSXAttrOrSpread],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        <Vec<JSXAttrOrSpread> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+        <[JSXAttrOrSpread] as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -7897,7 +7893,7 @@ pub trait VisitAstPath {
         node: &'ast [JSXElementChild],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        <Vec<JSXElementChild> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+        <[JSXElementChild] as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -8185,9 +8181,7 @@ pub trait VisitAstPath {
         node: &'ast [ModuleItem],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        <Vec<ModuleItem> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
-            node, self, ast_path,
-        )
+        <[ModuleItem] as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
     }
     #[doc = "Visit a node of type `NamedExport`.\n\nBy default, this method calls \
              [`NamedExport::visit_children_with_ast_path`]. If you want to recurse, you need to \
@@ -8261,7 +8255,7 @@ pub trait VisitAstPath {
         node: &'ast [ObjectPatProp],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        <Vec<ObjectPatProp> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+        <[ObjectPatProp] as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -8600,7 +8594,7 @@ pub trait VisitAstPath {
         node: &'ast [Option<ExprOrSpread>],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        <Vec<Option<ExprOrSpread>> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+        <[Option<ExprOrSpread>] as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -8612,7 +8606,7 @@ pub trait VisitAstPath {
         node: &'ast [Option<Pat>],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        <Vec<Option<Pat>> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+        <[Option<Pat>] as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -8642,7 +8636,7 @@ pub trait VisitAstPath {
         node: &'ast [ParamOrTsParamProp],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        <Vec<ParamOrTsParamProp> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+        <[ParamOrTsParamProp] as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -8650,7 +8644,7 @@ pub trait VisitAstPath {
              >::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
     fn visit_params<'ast: 'r, 'r>(&mut self, node: &'ast [Param], ast_path: &mut AstNodePath<'r>) {
-        <Vec<Param> as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
+        <[Param] as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
     }
     #[doc = "Visit a node of type `ParenExpr`.\n\nBy default, this method calls \
              [`ParenExpr::visit_children_with_ast_path`]. If you want to recurse, you need to call \
@@ -8672,7 +8666,7 @@ pub trait VisitAstPath {
              >::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
     fn visit_pats<'ast: 'r, 'r>(&mut self, node: &'ast [Pat], ast_path: &mut AstNodePath<'r>) {
-        <Vec<Pat> as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
+        <[Pat] as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
     }
     #[doc = "Visit a node of type `PrivateMethod`.\n\nBy default, this method calls \
              [`PrivateMethod::visit_children_with_ast_path`]. If you want to recurse, you need to \
@@ -8746,7 +8740,7 @@ pub trait VisitAstPath {
         node: &'ast [PropOrSpread],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        <Vec<PropOrSpread> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+        <[PropOrSpread] as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -8870,7 +8864,7 @@ pub trait VisitAstPath {
              >::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
     fn visit_stmts<'ast: 'r, 'r>(&mut self, node: &'ast [Stmt], ast_path: &mut AstNodePath<'r>) {
-        <Vec<Stmt> as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
+        <[Stmt] as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
     }
     #[doc = "Visit a node of type `Str`.\n\nBy default, this method calls \
              [`Str::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
@@ -8924,9 +8918,7 @@ pub trait VisitAstPath {
         node: &'ast [SwitchCase],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        <Vec<SwitchCase> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
-            node, self, ast_path,
-        )
+        <[SwitchCase] as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
     }
     #[doc = "Visit a node of type `SwitchStmt`.\n\nBy default, this method calls \
              [`SwitchStmt::visit_children_with_ast_path`]. If you want to recurse, you need to \
@@ -9004,9 +8996,7 @@ pub trait VisitAstPath {
         node: &'ast [TplElement],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        <Vec<TplElement> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
-            node, self, ast_path,
-        )
+        <[TplElement] as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
     }
     #[doc = "Visit a node of type `TruePlusMinus`.\n\nBy default, this method calls \
              [`TruePlusMinus::visit_children_with_ast_path`]. If you want to recurse, you need to \
@@ -9160,7 +9150,7 @@ pub trait VisitAstPath {
         node: &'ast [TsEnumMember],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        <Vec<TsEnumMember> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+        <[TsEnumMember] as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -9196,7 +9186,7 @@ pub trait VisitAstPath {
         node: &'ast [TsExprWithTypeArgs],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        <Vec<TsExprWithTypeArgs> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+        <[TsExprWithTypeArgs] as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -9242,9 +9232,7 @@ pub trait VisitAstPath {
         node: &'ast [TsFnParam],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        <Vec<TsFnParam> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
-            node, self, ast_path,
-        )
+        <[TsFnParam] as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
     }
     #[doc = "Visit a node of type `TsFnType`.\n\nBy default, this method calls \
              [`TsFnType::visit_children_with_ast_path`]. If you want to recurse, you need to call \
@@ -9680,7 +9668,7 @@ pub trait VisitAstPath {
         node: &'ast [TsTupleElement],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        <Vec<TsTupleElement> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+        <[TsTupleElement] as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -9754,7 +9742,7 @@ pub trait VisitAstPath {
         node: &'ast [TsTypeElement],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        <Vec<TsTypeElement> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+        <[TsTypeElement] as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -9834,7 +9822,7 @@ pub trait VisitAstPath {
         node: &'ast [TsTypeParam],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        <Vec<TsTypeParam> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+        <[TsTypeParam] as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -9890,7 +9878,7 @@ pub trait VisitAstPath {
         node: &'ast [Box<TsType>],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        <Vec<Box<TsType>> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+        <[Box<TsType>] as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -10018,7 +10006,7 @@ pub trait VisitAstPath {
         node: &'ast [VarDeclarator],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        <Vec<VarDeclarator> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+        <[VarDeclarator] as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, ast_path,
         )
     }

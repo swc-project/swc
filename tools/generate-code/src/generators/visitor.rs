@@ -451,8 +451,8 @@ impl Generator<'_> {
             }
             let type_name = quote!(#ty);
             let return_type = self.return_type_token(quote!(#type_name));
-            let type_param = self.node_type_for_visitor_method(ty);
-            let type_param = self.parameter_type_token(quote!(#type_param));
+            let node_type = self.node_type_for_visitor_method(ty);
+            let type_param = self.parameter_type_token(quote!(#node_type));
 
             let visit_method_name = Ident::new(
                 &format!(
@@ -482,7 +482,7 @@ impl Generator<'_> {
             trait_methods.push(parse_quote!(
                 #method_doc
                 fn #visit_method_name #lifetime (&mut self, node: #type_param #ast_path_params) #return_type {
-                    <#type_name as #with_trait_name<Self>>::#visit_with_children_name(node, self #ast_path_arg)
+                    <#node_type as #with_trait_name<Self>>::#visit_with_children_name(node, self #ast_path_arg)
                 }
             ));
         }
