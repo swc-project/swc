@@ -294,7 +294,7 @@ impl TraitKind {
     pub fn method_prefix(self) -> &'static str {
         match self {
             TraitKind::Visit => "visit",
-            TraitKind::VisitAll => "visit_all",
+            TraitKind::VisitAll => "visit",
             TraitKind::VisitMut => "visit_mut",
             TraitKind::Fold => "fold",
         }
