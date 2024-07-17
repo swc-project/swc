@@ -78,7 +78,6 @@ pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
             }
 
             let g = Generator {
-                crate_name: crate_name.clone(),
                 kind,
                 variant,
                 leaf_types: &leaf_types,
@@ -86,7 +85,7 @@ pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
 
             output.items.extend(g.declare_visit_trait(&all_types));
 
-            output.items.extend(g.declare_visit_with_trait(node_types));
+            output.items.extend(g.declare_visit_with_trait());
 
             output
                 .items
@@ -331,7 +330,6 @@ impl Variant {
 }
 
 struct Generator<'a> {
-    crate_name: Ident,
     kind: TraitKind,
     variant: Variant,
     leaf_types: &'a HashSet<FieldType>,
@@ -433,22 +431,6 @@ impl Generator<'_> {
         }
 
         attrs
-    }
-
-    fn visit_method_name(&self, with: bool) -> Ident {
-        let name = self.kind.method_prefix();
-
-        let name = if with {
-            format!("{}_with", name)
-        } else {
-            name.to_string()
-        };
-
-        if self.variant == Variant::AstPath {
-            Ident::new(&format!("{}_ast_path", name), Span::call_site())
-        } else {
-            Ident::new(&name, Span::call_site())
-        }
     }
 
     fn declare_visit_trait(&self, all_types: &[FieldType]) -> Vec<Item> {
@@ -630,7 +612,7 @@ impl Generator<'_> {
         items
     }
 
-    fn declare_visit_with_trait(&self, node_types: &[&Item]) -> Vec<Item> {
+    fn declare_visit_with_trait(&self) -> Vec<Item> {
         let visitor_trait_name = self.trait_name(false);
         let trait_name = self.trait_name(true);
         let attrs = self.base_trait_attrs();
