@@ -925,20 +925,22 @@ impl Generator<'_> {
 
         let mut items = Vec::<Item>::new();
 
-        items.push(parse_quote!(
-            #(#attrs)*
-            impl<V, T> #visit_with_trait_name<V> for Box<T>
-                where V: ?Sized + #visit_trait_name,
-                      T: #visit_with_trait_name<V> {
-                fn #visit_with_name #lifetime (#receiver, visitor: &mut V #ast_path_param) #return_type {
-                    <T as #visit_with_trait_name<V>>::#visit_with_name(&**self, visitor #ast_path_arg)
-                }
+        {
+            items.push(parse_quote!(
+                #(#attrs)*
+                impl<V, T> #visit_with_trait_name<V> for Box<T>
+                    where V: ?Sized + #visit_trait_name,
+                        T: #visit_with_trait_name<V> {
+                    fn #visit_with_name #lifetime (#receiver, visitor: &mut V #ast_path_param) #return_type {
+                        <T as #visit_with_trait_name<V>>::#visit_with_name(&**self, visitor #ast_path_arg)
+                    }
 
-                fn #visit_with_children_name #lifetime (#receiver, visitor: &mut V #ast_path_param) #return_type {
-                    <T as #visit_with_trait_name<V>>::#visit_with_children_name(&**self, visitor #ast_path_arg)
+                    fn #visit_with_children_name #lifetime (#receiver, visitor: &mut V #ast_path_param) #return_type {
+                        <T as #visit_with_trait_name<V>>::#visit_with_children_name(&**self, visitor #ast_path_arg)
+                    }
                 }
-            }
-        ));
+            ));
+        }
 
         items
     }
