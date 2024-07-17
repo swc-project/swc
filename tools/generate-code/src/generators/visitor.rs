@@ -529,14 +529,16 @@ impl Generator<'_> {
                     bindings.push(field_name.clone());
 
                     if let Some(reconstructor) = &mut reconstruct {
-                        stmts.push(parse_quote!(
-                            let #field_name = <#ty as #with_visitor_trait_name<V>>::#visit_with_children_name(#field_name, visitor #ast_path_arg);
-                        ));
+                        if !self.is_leaf_type(ty) {
+                            stmts.push(parse_quote!(
+                                let #field_name = <#ty as #with_visitor_trait_name<V>>::#visit_with_children_name(#field_name, visitor #ast_path_arg);
+                            ));
+                        }
 
                         reconstructor.push(parse_quote!(#field_name));
-                    } else {
+                    } else if !self.is_leaf_type(ty) {
                         stmts.push(parse_quote!(
-                            <#ty as #with_visitor_trait_name<V>>::#visit_with_children_name(#field_name, visitor #ast_path_arg);
+                           <#ty as #with_visitor_trait_name<V>>::#visit_with_children_name(#field_name, visitor #ast_path_arg);
                         ));
                     }
                 }
@@ -575,12 +577,14 @@ impl Generator<'_> {
                     bindings.push(parse_quote!(#binding_idx: #field_name));
 
                     if let Some(reconstructor) = &mut reconstruct {
-                        stmts.push(parse_quote!(
-                            let #field_name = <#ty as #with_visitor_trait_name<V>>::#visit_with_children_name(#field_name, visitor #ast_path_arg);
-                        ));
+                        if !self.is_leaf_type(ty) {
+                            stmts.push(parse_quote!(
+                                let #field_name = <#ty as #with_visitor_trait_name<V>>::#visit_with_children_name(#field_name, visitor #ast_path_arg);
+                            ));
+                        }
 
                         reconstructor.push(parse_quote!(#binding_idx: self.#field_name));
-                    } else {
+                    } else if !self.is_leaf_type(ty) {
                         stmts.push(parse_quote!(
                             <#ty as #with_visitor_trait_name<V>>::#visit_with_children_name(#field_name, visitor #ast_path_arg);
                         ));

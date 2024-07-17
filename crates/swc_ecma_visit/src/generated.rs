@@ -1416,7 +1416,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for ArrayLit {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             ArrayLit { span, elems } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Vec<Option<ExprOrSpread>> as VisitWith<V>>::visit_children_with(elems, visitor);
             }
         }
@@ -1436,9 +1435,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for ArrayPat {
                 optional,
                 type_ann,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Vec<Option<Pat>> as VisitWith<V>>::visit_children_with(elems, visitor);
-                <bool as VisitWith<V>>::visit_children_with(optional, visitor);
                 <Option<Box<TsTypeAnn>> as VisitWith<V>>::visit_children_with(type_ann, visitor);
             }
         }
@@ -1462,12 +1459,8 @@ impl<V: ?Sized + Visit> VisitWith<V> for ArrowExpr {
                 type_params,
                 return_type,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-                <swc_common::SyntaxContext as VisitWith<V>>::visit_children_with(ctxt, visitor);
                 <Vec<Pat> as VisitWith<V>>::visit_children_with(params, visitor);
                 <Box<BlockStmtOrExpr> as VisitWith<V>>::visit_children_with(body, visitor);
-                <bool as VisitWith<V>>::visit_children_with(is_async, visitor);
-                <bool as VisitWith<V>>::visit_children_with(is_generator, visitor);
                 <Option<Box<TsTypeParamDecl>> as VisitWith<V>>::visit_children_with(
                     type_params,
                     visitor,
@@ -1491,7 +1484,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for AssignExpr {
                 left,
                 right,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <AssignOp as VisitWith<V>>::visit_children_with(op, visitor);
                 <AssignTarget as VisitWith<V>>::visit_children_with(left, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(right, visitor);
@@ -1535,7 +1527,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for AssignPat {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             AssignPat { span, left, right } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Box<Pat> as VisitWith<V>>::visit_children_with(left, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(right, visitor);
             }
@@ -1551,7 +1542,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for AssignPatProp {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             AssignPatProp { span, key, value } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <BindingIdent as VisitWith<V>>::visit_children_with(key, visitor);
                 <Option<Box<Expr>> as VisitWith<V>>::visit_children_with(value, visitor);
             }
@@ -1567,7 +1557,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for AssignProp {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             AssignProp { span, key, value } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Ident as VisitWith<V>>::visit_children_with(key, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(value, visitor);
             }
@@ -1631,19 +1620,14 @@ impl<V: ?Sized + Visit> VisitWith<V> for AutoAccessor {
                 is_override,
                 definite,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Key as VisitWith<V>>::visit_children_with(key, visitor);
                 <Option<Box<Expr>> as VisitWith<V>>::visit_children_with(value, visitor);
                 <Option<Box<TsTypeAnn>> as VisitWith<V>>::visit_children_with(type_ann, visitor);
-                <bool as VisitWith<V>>::visit_children_with(is_static, visitor);
                 <Vec<Decorator> as VisitWith<V>>::visit_children_with(decorators, visitor);
                 <Option<Accessibility> as VisitWith<V>>::visit_children_with(
                     accessibility,
                     visitor,
                 );
-                <bool as VisitWith<V>>::visit_children_with(is_abstract, visitor);
-                <bool as VisitWith<V>>::visit_children_with(is_override, visitor);
-                <bool as VisitWith<V>>::visit_children_with(definite, visitor);
             }
         }
     }
@@ -1657,7 +1641,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for AwaitExpr {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             AwaitExpr { span, arg } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(arg, visitor);
             }
         }
@@ -1672,8 +1655,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for BigInt {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             BigInt { span, value, raw } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-                <Box<BigIntValue> as VisitWith<V>>::visit_children_with(value, visitor);
                 <Option<swc_atoms::Atom> as VisitWith<V>>::visit_children_with(raw, visitor);
             }
         }
@@ -1693,7 +1674,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for BinExpr {
                 left,
                 right,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <BinaryOp as VisitWith<V>>::visit_children_with(op, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(left, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(right, visitor);
@@ -1761,8 +1741,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for BlockStmt {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             BlockStmt { span, ctxt, stmts } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-                <swc_common::SyntaxContext as VisitWith<V>>::visit_children_with(ctxt, visitor);
                 <Vec<Stmt> as VisitWith<V>>::visit_children_with(stmts, visitor);
             }
         }
@@ -1793,10 +1771,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Bool {
 
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
-            Bool { span, value } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-                <bool as VisitWith<V>>::visit_children_with(value, visitor);
-            }
+            Bool { span, value } => {}
         }
     }
 }
@@ -1809,7 +1784,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for BreakStmt {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             BreakStmt { span, label } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Option<Ident> as VisitWith<V>>::visit_children_with(label, visitor);
             }
         }
@@ -1830,8 +1804,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for CallExpr {
                 args,
                 type_args,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-                <swc_common::SyntaxContext as VisitWith<V>>::visit_children_with(ctxt, visitor);
                 <Callee as VisitWith<V>>::visit_children_with(callee, visitor);
                 <Vec<ExprOrSpread> as VisitWith<V>>::visit_children_with(args, visitor);
                 <Option<Box<TsTypeParamInstantiation>> as VisitWith<V>>::visit_children_with(
@@ -1870,7 +1842,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for CatchClause {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             CatchClause { span, param, body } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Option<Pat> as VisitWith<V>>::visit_children_with(param, visitor);
                 <BlockStmt as VisitWith<V>>::visit_children_with(body, visitor);
             }
@@ -1896,12 +1867,9 @@ impl<V: ?Sized + Visit> VisitWith<V> for Class {
                 super_type_params,
                 implements,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-                <swc_common::SyntaxContext as VisitWith<V>>::visit_children_with(ctxt, visitor);
                 <Vec<Decorator> as VisitWith<V>>::visit_children_with(decorators, visitor);
                 <Vec<ClassMember> as VisitWith<V>>::visit_children_with(body, visitor);
                 <Option<Box<Expr>> as VisitWith<V>>::visit_children_with(super_class, visitor);
-                <bool as VisitWith<V>>::visit_children_with(is_abstract, visitor);
                 <Option<Box<TsTypeParamDecl>> as VisitWith<V>>::visit_children_with(
                     type_params,
                     visitor,
@@ -1929,7 +1897,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for ClassDecl {
                 class,
             } => {
                 <Ident as VisitWith<V>>::visit_children_with(ident, visitor);
-                <bool as VisitWith<V>>::visit_children_with(declare, visitor);
                 <Box<Class> as VisitWith<V>>::visit_children_with(class, visitor);
             }
         }
@@ -1961,12 +1928,8 @@ impl<V: ?Sized + Visit> VisitWith<V> for ClassMember {
             ClassMember::Constructor { 0: _field_0 } => {
                 <Constructor as VisitWith<V>>::visit_children_with(_field_0, visitor);
             }
-            ClassMember::Method { 0: _field_0 } => {
-                <ClassMethod as VisitWith<V>>::visit_children_with(_field_0, visitor);
-            }
-            ClassMember::PrivateMethod { 0: _field_0 } => {
-                <PrivateMethod as VisitWith<V>>::visit_children_with(_field_0, visitor);
-            }
+            ClassMember::Method { 0: _field_0 } => {}
+            ClassMember::PrivateMethod { 0: _field_0 } => {}
             ClassMember::ClassProp { 0: _field_0 } => {
                 <ClassProp as VisitWith<V>>::visit_children_with(_field_0, visitor);
             }
@@ -2011,22 +1974,14 @@ impl<V: ?Sized + Visit> VisitWith<V> for ClassProp {
                 declare,
                 definite,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <PropName as VisitWith<V>>::visit_children_with(key, visitor);
                 <Option<Box<Expr>> as VisitWith<V>>::visit_children_with(value, visitor);
                 <Option<Box<TsTypeAnn>> as VisitWith<V>>::visit_children_with(type_ann, visitor);
-                <bool as VisitWith<V>>::visit_children_with(is_static, visitor);
                 <Vec<Decorator> as VisitWith<V>>::visit_children_with(decorators, visitor);
                 <Option<Accessibility> as VisitWith<V>>::visit_children_with(
                     accessibility,
                     visitor,
                 );
-                <bool as VisitWith<V>>::visit_children_with(is_abstract, visitor);
-                <bool as VisitWith<V>>::visit_children_with(is_optional, visitor);
-                <bool as VisitWith<V>>::visit_children_with(is_override, visitor);
-                <bool as VisitWith<V>>::visit_children_with(readonly, visitor);
-                <bool as VisitWith<V>>::visit_children_with(declare, visitor);
-                <bool as VisitWith<V>>::visit_children_with(definite, visitor);
             }
         }
     }
@@ -2040,7 +1995,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for ComputedPropName {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             ComputedPropName { span, expr } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(expr, visitor);
             }
         }
@@ -2060,7 +2014,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for CondExpr {
                 cons,
                 alt,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(test, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(cons, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(alt, visitor);
@@ -2085,8 +2038,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for Constructor {
                 accessibility,
                 is_optional,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-                <swc_common::SyntaxContext as VisitWith<V>>::visit_children_with(ctxt, visitor);
                 <PropName as VisitWith<V>>::visit_children_with(key, visitor);
                 <Vec<ParamOrTsParamProp> as VisitWith<V>>::visit_children_with(params, visitor);
                 <Option<BlockStmt> as VisitWith<V>>::visit_children_with(body, visitor);
@@ -2094,7 +2045,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for Constructor {
                     accessibility,
                     visitor,
                 );
-                <bool as VisitWith<V>>::visit_children_with(is_optional, visitor);
             }
         }
     }
@@ -2108,7 +2058,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for ContinueStmt {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             ContinueStmt { span, label } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Option<Ident> as VisitWith<V>>::visit_children_with(label, visitor);
             }
         }
@@ -2122,9 +2071,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for DebuggerStmt {
 
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
-            DebuggerStmt { span } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-            }
+            DebuggerStmt { span } => {}
         }
     }
 }
@@ -2172,7 +2119,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for Decorator {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             Decorator { span, expr } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(expr, visitor);
             }
         }
@@ -2207,7 +2153,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for DoWhileStmt {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             DoWhileStmt { span, test, body } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(test, visitor);
                 <Box<Stmt> as VisitWith<V>>::visit_children_with(body, visitor);
             }
@@ -2222,9 +2167,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for EmptyStmt {
 
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
-            EmptyStmt { span } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-            }
+            EmptyStmt { span } => {}
         }
     }
 }
@@ -2264,9 +2207,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for ExportAll {
                 type_only,
                 with,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Box<Str> as VisitWith<V>>::visit_children_with(src, visitor);
-                <bool as VisitWith<V>>::visit_children_with(type_only, visitor);
                 <Option<Box<ObjectLit>> as VisitWith<V>>::visit_children_with(with, visitor);
             }
         }
@@ -2281,7 +2222,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for ExportDecl {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             ExportDecl { span, decl } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Decl as VisitWith<V>>::visit_children_with(decl, visitor);
             }
         }
@@ -2296,7 +2236,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for ExportDefaultDecl {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             ExportDefaultDecl { span, decl } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <DefaultDecl as VisitWith<V>>::visit_children_with(decl, visitor);
             }
         }
@@ -2311,7 +2250,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for ExportDefaultExpr {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             ExportDefaultExpr { span, expr } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(expr, visitor);
             }
         }
@@ -2345,10 +2283,8 @@ impl<V: ?Sized + Visit> VisitWith<V> for ExportNamedSpecifier {
                 exported,
                 is_type_only,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <ModuleExportName as VisitWith<V>>::visit_children_with(orig, visitor);
                 <Option<ModuleExportName> as VisitWith<V>>::visit_children_with(exported, visitor);
-                <bool as VisitWith<V>>::visit_children_with(is_type_only, visitor);
             }
         }
     }
@@ -2362,7 +2298,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for ExportNamespaceSpecifier {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             ExportNamespaceSpecifier { span, name } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <ModuleExportName as VisitWith<V>>::visit_children_with(name, visitor);
             }
         }
@@ -2537,7 +2472,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for ExprStmt {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             ExprStmt { span, expr } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(expr, visitor);
             }
         }
@@ -2557,7 +2491,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for FnDecl {
                 function,
             } => {
                 <Ident as VisitWith<V>>::visit_children_with(ident, visitor);
-                <bool as VisitWith<V>>::visit_children_with(declare, visitor);
                 <Box<Function> as VisitWith<V>>::visit_children_with(function, visitor);
             }
         }
@@ -2612,7 +2545,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for ForInStmt {
                 right,
                 body,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <ForHead as VisitWith<V>>::visit_children_with(left, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(right, visitor);
                 <Box<Stmt> as VisitWith<V>>::visit_children_with(body, visitor);
@@ -2635,8 +2567,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for ForOfStmt {
                 right,
                 body,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-                <bool as VisitWith<V>>::visit_children_with(is_await, visitor);
                 <ForHead as VisitWith<V>>::visit_children_with(left, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(right, visitor);
                 <Box<Stmt> as VisitWith<V>>::visit_children_with(body, visitor);
@@ -2659,7 +2589,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for ForStmt {
                 update,
                 body,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Option<VarDeclOrExpr> as VisitWith<V>>::visit_children_with(init, visitor);
                 <Option<Box<Expr>> as VisitWith<V>>::visit_children_with(test, visitor);
                 <Option<Box<Expr>> as VisitWith<V>>::visit_children_with(update, visitor);
@@ -2689,11 +2618,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Function {
             } => {
                 <Vec<Param> as VisitWith<V>>::visit_children_with(params, visitor);
                 <Vec<Decorator> as VisitWith<V>>::visit_children_with(decorators, visitor);
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-                <swc_common::SyntaxContext as VisitWith<V>>::visit_children_with(ctxt, visitor);
                 <Option<BlockStmt> as VisitWith<V>>::visit_children_with(body, visitor);
-                <bool as VisitWith<V>>::visit_children_with(is_generator, visitor);
-                <bool as VisitWith<V>>::visit_children_with(is_async, visitor);
                 <Option<Box<TsTypeParamDecl>> as VisitWith<V>>::visit_children_with(
                     type_params,
                     visitor,
@@ -2717,7 +2642,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for GetterProp {
                 type_ann,
                 body,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <PropName as VisitWith<V>>::visit_children_with(key, visitor);
                 <Option<Box<TsTypeAnn>> as VisitWith<V>>::visit_children_with(type_ann, visitor);
                 <Option<BlockStmt> as VisitWith<V>>::visit_children_with(body, visitor);
@@ -2738,12 +2662,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Ident {
                 ctxt,
                 sym,
                 optional,
-            } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-                <swc_common::SyntaxContext as VisitWith<V>>::visit_children_with(ctxt, visitor);
-                <swc_atoms::Atom as VisitWith<V>>::visit_children_with(sym, visitor);
-                <bool as VisitWith<V>>::visit_children_with(optional, visitor);
-            }
+            } => {}
         }
     }
 }
@@ -2755,10 +2674,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for IdentName {
 
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
-            IdentName { span, sym } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-                <swc_atoms::Atom as VisitWith<V>>::visit_children_with(sym, visitor);
-            }
+            IdentName { span, sym } => {}
         }
     }
 }
@@ -2776,7 +2692,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for IfStmt {
                 cons,
                 alt,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(test, visitor);
                 <Box<Stmt> as VisitWith<V>>::visit_children_with(cons, visitor);
                 <Option<Box<Stmt>> as VisitWith<V>>::visit_children_with(alt, visitor);
@@ -2793,7 +2708,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for Import {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             Import { span, phase } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <ImportPhase as VisitWith<V>>::visit_children_with(phase, visitor);
             }
         }
@@ -2815,10 +2729,8 @@ impl<V: ?Sized + Visit> VisitWith<V> for ImportDecl {
                 with,
                 phase,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Vec<ImportSpecifier> as VisitWith<V>>::visit_children_with(specifiers, visitor);
                 <Box<Str> as VisitWith<V>>::visit_children_with(src, visitor);
-                <bool as VisitWith<V>>::visit_children_with(type_only, visitor);
                 <Option<Box<ObjectLit>> as VisitWith<V>>::visit_children_with(with, visitor);
                 <ImportPhase as VisitWith<V>>::visit_children_with(phase, visitor);
             }
@@ -2834,7 +2746,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for ImportDefaultSpecifier {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             ImportDefaultSpecifier { span, local } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Ident as VisitWith<V>>::visit_children_with(local, visitor);
             }
         }
@@ -2854,10 +2765,8 @@ impl<V: ?Sized + Visit> VisitWith<V> for ImportNamedSpecifier {
                 imported,
                 is_type_only,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Ident as VisitWith<V>>::visit_children_with(local, visitor);
                 <Option<ModuleExportName> as VisitWith<V>>::visit_children_with(imported, visitor);
-                <bool as VisitWith<V>>::visit_children_with(is_type_only, visitor);
             }
         }
     }
@@ -2905,7 +2814,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for ImportStarAsSpecifier {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             ImportStarAsSpecifier { span, local } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Ident as VisitWith<V>>::visit_children_with(local, visitor);
             }
         }
@@ -2920,7 +2828,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for ImportWith {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             ImportWith { span, values } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Vec<ImportWithItem> as VisitWith<V>>::visit_children_with(values, visitor);
             }
         }
@@ -2949,9 +2856,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Invalid {
 
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
-            Invalid { span } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-            }
+            Invalid { span } => {}
         }
     }
 }
@@ -2964,7 +2869,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for JSXAttr {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             JSXAttr { span, name, value } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <JSXAttrName as VisitWith<V>>::visit_children_with(name, visitor);
                 <Option<JSXAttrValue> as VisitWith<V>>::visit_children_with(value, visitor);
             }
@@ -3037,7 +2941,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for JSXClosingElement {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             JSXClosingElement { span, name } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <JSXElementName as VisitWith<V>>::visit_children_with(name, visitor);
             }
         }
@@ -3051,9 +2954,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for JSXClosingFragment {
 
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
-            JSXClosingFragment { span } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-            }
+            JSXClosingFragment { span } => {}
         }
     }
 }
@@ -3071,7 +2972,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for JSXElement {
                 children,
                 closing,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <JSXOpeningElement as VisitWith<V>>::visit_children_with(opening, visitor);
                 <Vec<JSXElementChild> as VisitWith<V>>::visit_children_with(children, visitor);
                 <Option<JSXClosingElement> as VisitWith<V>>::visit_children_with(closing, visitor);
@@ -3133,9 +3033,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for JSXEmptyExpr {
 
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
-            JSXEmptyExpr { span } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-            }
+            JSXEmptyExpr { span } => {}
         }
     }
 }
@@ -3165,7 +3063,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for JSXExprContainer {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             JSXExprContainer { span, expr } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <JSXExpr as VisitWith<V>>::visit_children_with(expr, visitor);
             }
         }
@@ -3185,7 +3082,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for JSXFragment {
                 children,
                 closing,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <JSXOpeningFragment as VisitWith<V>>::visit_children_with(opening, visitor);
                 <Vec<JSXElementChild> as VisitWith<V>>::visit_children_with(children, visitor);
                 <JSXClosingFragment as VisitWith<V>>::visit_children_with(closing, visitor);
@@ -3202,7 +3098,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for JSXMemberExpr {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             JSXMemberExpr { span, obj, prop } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <JSXObject as VisitWith<V>>::visit_children_with(obj, visitor);
                 <IdentName as VisitWith<V>>::visit_children_with(prop, visitor);
             }
@@ -3218,7 +3113,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for JSXNamespacedName {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             JSXNamespacedName { span, ns, name } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <IdentName as VisitWith<V>>::visit_children_with(ns, visitor);
                 <IdentName as VisitWith<V>>::visit_children_with(name, visitor);
             }
@@ -3258,9 +3152,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for JSXOpeningElement {
                 type_args,
             } => {
                 <JSXElementName as VisitWith<V>>::visit_children_with(name, visitor);
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Vec<JSXAttrOrSpread> as VisitWith<V>>::visit_children_with(attrs, visitor);
-                <bool as VisitWith<V>>::visit_children_with(self_closing, visitor);
                 <Option<Box<TsTypeParamInstantiation>> as VisitWith<V>>::visit_children_with(
                     type_args, visitor,
                 );
@@ -3276,9 +3168,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for JSXOpeningFragment {
 
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
-            JSXOpeningFragment { span } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-            }
+            JSXOpeningFragment { span } => {}
         }
     }
 }
@@ -3291,7 +3181,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for JSXSpreadChild {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             JSXSpreadChild { span, expr } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(expr, visitor);
             }
         }
@@ -3305,11 +3194,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for JSXText {
 
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
-            JSXText { span, value, raw } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-                <swc_atoms::Atom as VisitWith<V>>::visit_children_with(value, visitor);
-                <swc_atoms::Atom as VisitWith<V>>::visit_children_with(raw, visitor);
-            }
+            JSXText { span, value, raw } => {}
         }
     }
 }
@@ -3369,7 +3254,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for LabeledStmt {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             LabeledStmt { span, label, body } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Ident as VisitWith<V>>::visit_children_with(label, visitor);
                 <Box<Stmt> as VisitWith<V>>::visit_children_with(body, visitor);
             }
@@ -3417,7 +3301,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for MemberExpr {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             MemberExpr { span, obj, prop } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(obj, visitor);
                 <MemberProp as VisitWith<V>>::visit_children_with(prop, visitor);
             }
@@ -3453,7 +3336,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for MetaPropExpr {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             MetaPropExpr { span, kind } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <MetaPropKind as VisitWith<V>>::visit_children_with(kind, visitor);
             }
         }
@@ -3514,7 +3396,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for Module {
                 body,
                 shebang,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Vec<ModuleItem> as VisitWith<V>>::visit_children_with(body, visitor);
                 <Option<swc_atoms::Atom> as VisitWith<V>>::visit_children_with(shebang, visitor);
             }
@@ -3608,10 +3489,8 @@ impl<V: ?Sized + Visit> VisitWith<V> for NamedExport {
                 type_only,
                 with,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Vec<ExportSpecifier> as VisitWith<V>>::visit_children_with(specifiers, visitor);
                 <Option<Box<Str>> as VisitWith<V>>::visit_children_with(src, visitor);
-                <bool as VisitWith<V>>::visit_children_with(type_only, visitor);
                 <Option<Box<ObjectLit>> as VisitWith<V>>::visit_children_with(with, visitor);
             }
         }
@@ -3632,8 +3511,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for NewExpr {
                 args,
                 type_args,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-                <swc_common::SyntaxContext as VisitWith<V>>::visit_children_with(ctxt, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(callee, visitor);
                 <Option<Vec<ExprOrSpread>> as VisitWith<V>>::visit_children_with(args, visitor);
                 <Option<Box<TsTypeParamInstantiation>> as VisitWith<V>>::visit_children_with(
@@ -3651,9 +3528,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Null {
 
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
-            Null { span } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-            }
+            Null { span } => {}
         }
     }
 }
@@ -3666,8 +3541,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for Number {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             Number { span, value, raw } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-                <f64 as VisitWith<V>>::visit_children_with(value, visitor);
                 <Option<swc_atoms::Atom> as VisitWith<V>>::visit_children_with(raw, visitor);
             }
         }
@@ -3682,7 +3555,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for ObjectLit {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             ObjectLit { span, props } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Vec<PropOrSpread> as VisitWith<V>>::visit_children_with(props, visitor);
             }
         }
@@ -3702,9 +3574,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for ObjectPat {
                 optional,
                 type_ann,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Vec<ObjectPatProp> as VisitWith<V>>::visit_children_with(props, visitor);
-                <bool as VisitWith<V>>::visit_children_with(optional, visitor);
                 <Option<Box<TsTypeAnn>> as VisitWith<V>>::visit_children_with(type_ann, visitor);
             }
         }
@@ -3745,8 +3615,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for OptCall {
                 args,
                 type_args,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-                <swc_common::SyntaxContext as VisitWith<V>>::visit_children_with(ctxt, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(callee, visitor);
                 <Vec<ExprOrSpread> as VisitWith<V>>::visit_children_with(args, visitor);
                 <Option<Box<TsTypeParamInstantiation>> as VisitWith<V>>::visit_children_with(
@@ -3786,8 +3654,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for OptChainExpr {
                 optional,
                 base,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-                <bool as VisitWith<V>>::visit_children_with(optional, visitor);
                 <Box<OptChainBase> as VisitWith<V>>::visit_children_with(base, visitor);
             }
         }
@@ -3806,7 +3672,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for Param {
                 decorators,
                 pat,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Vec<Decorator> as VisitWith<V>>::visit_children_with(decorators, visitor);
                 <Pat as VisitWith<V>>::visit_children_with(pat, visitor);
             }
@@ -3839,7 +3704,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for ParenExpr {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             ParenExpr { span, expr } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(expr, visitor);
             }
         }
@@ -3885,10 +3749,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for PrivateName {
 
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
-            PrivateName { span, name } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-                <swc_atoms::Atom as VisitWith<V>>::visit_children_with(name, visitor);
-            }
+            PrivateName { span, name } => {}
         }
     }
 }
@@ -3914,21 +3775,14 @@ impl<V: ?Sized + Visit> VisitWith<V> for PrivateProp {
                 readonly,
                 definite,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-                <swc_common::SyntaxContext as VisitWith<V>>::visit_children_with(ctxt, visitor);
                 <PrivateName as VisitWith<V>>::visit_children_with(key, visitor);
                 <Option<Box<Expr>> as VisitWith<V>>::visit_children_with(value, visitor);
                 <Option<Box<TsTypeAnn>> as VisitWith<V>>::visit_children_with(type_ann, visitor);
-                <bool as VisitWith<V>>::visit_children_with(is_static, visitor);
                 <Vec<Decorator> as VisitWith<V>>::visit_children_with(decorators, visitor);
                 <Option<Accessibility> as VisitWith<V>>::visit_children_with(
                     accessibility,
                     visitor,
                 );
-                <bool as VisitWith<V>>::visit_children_with(is_optional, visitor);
-                <bool as VisitWith<V>>::visit_children_with(is_override, visitor);
-                <bool as VisitWith<V>>::visit_children_with(readonly, visitor);
-                <bool as VisitWith<V>>::visit_children_with(definite, visitor);
             }
         }
     }
@@ -4030,11 +3884,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Regex {
 
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
-            Regex { span, exp, flags } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-                <swc_atoms::Atom as VisitWith<V>>::visit_children_with(exp, visitor);
-                <swc_atoms::Atom as VisitWith<V>>::visit_children_with(flags, visitor);
-            }
+            Regex { span, exp, flags } => {}
         }
     }
 }
@@ -4047,7 +3897,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for ReservedUnused {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             ReservedUnused { span, body } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Option<Vec<ModuleItem>> as VisitWith<V>>::visit_children_with(body, visitor);
             }
         }
@@ -4067,8 +3916,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for RestPat {
                 arg,
                 type_ann,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-                <swc_common::Span as VisitWith<V>>::visit_children_with(dot3_token, visitor);
                 <Box<Pat> as VisitWith<V>>::visit_children_with(arg, visitor);
                 <Option<Box<TsTypeAnn>> as VisitWith<V>>::visit_children_with(type_ann, visitor);
             }
@@ -4084,7 +3931,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for ReturnStmt {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             ReturnStmt { span, arg } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Option<Box<Expr>> as VisitWith<V>>::visit_children_with(arg, visitor);
             }
         }
@@ -4103,7 +3949,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for Script {
                 body,
                 shebang,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Vec<Stmt> as VisitWith<V>>::visit_children_with(body, visitor);
                 <Option<swc_atoms::Atom> as VisitWith<V>>::visit_children_with(shebang, visitor);
             }
@@ -4119,7 +3964,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for SeqExpr {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             SeqExpr { span, exprs } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Vec<Box<Expr>> as VisitWith<V>>::visit_children_with(exprs, visitor);
             }
         }
@@ -4140,7 +3984,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for SetterProp {
                 param,
                 body,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <PropName as VisitWith<V>>::visit_children_with(key, visitor);
                 <Option<Pat> as VisitWith<V>>::visit_children_with(this_param, visitor);
                 <Box<Pat> as VisitWith<V>>::visit_children_with(param, visitor);
@@ -4202,7 +4045,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for SpreadElement {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             SpreadElement { dot3_token, expr } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(dot3_token, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(expr, visitor);
             }
         }
@@ -4217,7 +4059,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for StaticBlock {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             StaticBlock { span, body } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <BlockStmt as VisitWith<V>>::visit_children_with(body, visitor);
             }
         }
@@ -4300,8 +4141,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for Str {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             Str { span, value, raw } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-                <swc_atoms::Atom as VisitWith<V>>::visit_children_with(value, visitor);
                 <Option<swc_atoms::Atom> as VisitWith<V>>::visit_children_with(raw, visitor);
             }
         }
@@ -4315,9 +4154,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Super {
 
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
-            Super { span } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-            }
+            Super { span } => {}
         }
     }
 }
@@ -4347,7 +4184,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for SuperPropExpr {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             SuperPropExpr { span, obj, prop } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Super as VisitWith<V>>::visit_children_with(obj, visitor);
                 <SuperProp as VisitWith<V>>::visit_children_with(prop, visitor);
             }
@@ -4363,7 +4199,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for SwitchCase {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             SwitchCase { span, test, cons } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Option<Box<Expr>> as VisitWith<V>>::visit_children_with(test, visitor);
                 <Vec<Stmt> as VisitWith<V>>::visit_children_with(cons, visitor);
             }
@@ -4383,7 +4218,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for SwitchStmt {
                 discriminant,
                 cases,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(discriminant, visitor);
                 <Vec<SwitchCase> as VisitWith<V>>::visit_children_with(cases, visitor);
             }
@@ -4405,8 +4239,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TaggedTpl {
                 type_params,
                 tpl,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-                <swc_common::SyntaxContext as VisitWith<V>>::visit_children_with(ctxt, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(tag, visitor);
                 <Option<Box<TsTypeParamInstantiation>> as VisitWith<V>>::visit_children_with(
                     type_params,
@@ -4425,9 +4257,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for ThisExpr {
 
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
-            ThisExpr { span } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-            }
+            ThisExpr { span } => {}
         }
     }
 }
@@ -4440,7 +4270,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for ThrowStmt {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             ThrowStmt { span, arg } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(arg, visitor);
             }
         }
@@ -4459,7 +4288,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for Tpl {
                 exprs,
                 quasis,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Vec<Box<Expr>> as VisitWith<V>>::visit_children_with(exprs, visitor);
                 <Vec<TplElement> as VisitWith<V>>::visit_children_with(quasis, visitor);
             }
@@ -4480,10 +4308,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for TplElement {
                 cooked,
                 raw,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-                <bool as VisitWith<V>>::visit_children_with(tail, visitor);
                 <Option<swc_atoms::Atom> as VisitWith<V>>::visit_children_with(cooked, visitor);
-                <swc_atoms::Atom as VisitWith<V>>::visit_children_with(raw, visitor);
             }
         }
     }
@@ -4516,7 +4341,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TryStmt {
                 handler,
                 finalizer,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <BlockStmt as VisitWith<V>>::visit_children_with(block, visitor);
                 <Option<CatchClause> as VisitWith<V>>::visit_children_with(handler, visitor);
                 <Option<BlockStmt> as VisitWith<V>>::visit_children_with(finalizer, visitor);
@@ -4533,7 +4357,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsArrayType {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             TsArrayType { span, elem_type } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Box<TsType> as VisitWith<V>>::visit_children_with(elem_type, visitor);
             }
         }
@@ -4552,7 +4375,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsAsExpr {
                 expr,
                 type_ann,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(expr, visitor);
                 <Box<TsType> as VisitWith<V>>::visit_children_with(type_ann, visitor);
             }
@@ -4573,7 +4395,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsCallSignatureDecl {
                 type_ann,
                 type_params,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Vec<TsFnParam> as VisitWith<V>>::visit_children_with(params, visitor);
                 <Option<Box<TsTypeAnn>> as VisitWith<V>>::visit_children_with(type_ann, visitor);
                 <Option<Box<TsTypeParamDecl>> as VisitWith<V>>::visit_children_with(
@@ -4599,7 +4420,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsConditionalType {
                 true_type,
                 false_type,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Box<TsType> as VisitWith<V>>::visit_children_with(check_type, visitor);
                 <Box<TsType> as VisitWith<V>>::visit_children_with(extends_type, visitor);
                 <Box<TsType> as VisitWith<V>>::visit_children_with(true_type, visitor);
@@ -4617,7 +4437,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsConstAssertion {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             TsConstAssertion { span, expr } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(expr, visitor);
             }
         }
@@ -4637,7 +4456,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsConstructSignatureDecl {
                 type_ann,
                 type_params,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Vec<TsFnParam> as VisitWith<V>>::visit_children_with(params, visitor);
                 <Option<Box<TsTypeAnn>> as VisitWith<V>>::visit_children_with(type_ann, visitor);
                 <Option<Box<TsTypeParamDecl>> as VisitWith<V>>::visit_children_with(
@@ -4663,14 +4481,12 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsConstructorType {
                 type_ann,
                 is_abstract,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Vec<TsFnParam> as VisitWith<V>>::visit_children_with(params, visitor);
                 <Option<Box<TsTypeParamDecl>> as VisitWith<V>>::visit_children_with(
                     type_params,
                     visitor,
                 );
                 <Box<TsTypeAnn> as VisitWith<V>>::visit_children_with(type_ann, visitor);
-                <bool as VisitWith<V>>::visit_children_with(is_abstract, visitor);
             }
         }
     }
@@ -4707,9 +4523,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsEnumDecl {
                 id,
                 members,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-                <bool as VisitWith<V>>::visit_children_with(declare, visitor);
-                <bool as VisitWith<V>>::visit_children_with(is_const, visitor);
                 <Ident as VisitWith<V>>::visit_children_with(id, visitor);
                 <Vec<TsEnumMember> as VisitWith<V>>::visit_children_with(members, visitor);
             }
@@ -4725,7 +4538,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsEnumMember {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             TsEnumMember { span, id, init } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <TsEnumMemberId as VisitWith<V>>::visit_children_with(id, visitor);
                 <Option<Box<Expr>> as VisitWith<V>>::visit_children_with(init, visitor);
             }
@@ -4758,7 +4570,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsExportAssignment {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             TsExportAssignment { span, expr } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(expr, visitor);
             }
         }
@@ -4777,7 +4588,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsExprWithTypeArgs {
                 expr,
                 type_args,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(expr, visitor);
                 <Option<Box<TsTypeParamInstantiation>> as VisitWith<V>>::visit_children_with(
                     type_args, visitor,
@@ -4795,7 +4605,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsExternalModuleRef {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             TsExternalModuleRef { span, expr } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Str as VisitWith<V>>::visit_children_with(expr, visitor);
             }
         }
@@ -4855,7 +4664,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsFnType {
                 type_params,
                 type_ann,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Vec<TsFnParam> as VisitWith<V>>::visit_children_with(params, visitor);
                 <Option<Box<TsTypeParamDecl>> as VisitWith<V>>::visit_children_with(
                     type_params,
@@ -4880,9 +4688,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsGetterSignature {
                 computed,
                 type_ann,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(key, visitor);
-                <bool as VisitWith<V>>::visit_children_with(computed, visitor);
                 <Option<Box<TsTypeAnn>> as VisitWith<V>>::visit_children_with(type_ann, visitor);
             }
         }
@@ -4903,9 +4709,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsImportEqualsDecl {
                 id,
                 module_ref,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-                <bool as VisitWith<V>>::visit_children_with(is_export, visitor);
-                <bool as VisitWith<V>>::visit_children_with(is_type_only, visitor);
                 <Ident as VisitWith<V>>::visit_children_with(id, visitor);
                 <TsModuleRef as VisitWith<V>>::visit_children_with(module_ref, visitor);
             }
@@ -4926,7 +4729,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsImportType {
                 qualifier,
                 type_args,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Str as VisitWith<V>>::visit_children_with(arg, visitor);
                 <Option<TsEntityName> as VisitWith<V>>::visit_children_with(qualifier, visitor);
                 <Option<Box<TsTypeParamInstantiation>> as VisitWith<V>>::visit_children_with(
@@ -4953,9 +4755,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsIndexSignature {
             } => {
                 <Vec<TsFnParam> as VisitWith<V>>::visit_children_with(params, visitor);
                 <Option<Box<TsTypeAnn>> as VisitWith<V>>::visit_children_with(type_ann, visitor);
-                <bool as VisitWith<V>>::visit_children_with(readonly, visitor);
-                <bool as VisitWith<V>>::visit_children_with(is_static, visitor);
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
             }
         }
     }
@@ -4974,8 +4773,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsIndexedAccessType {
                 obj_type,
                 index_type,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-                <bool as VisitWith<V>>::visit_children_with(readonly, visitor);
                 <Box<TsType> as VisitWith<V>>::visit_children_with(obj_type, visitor);
                 <Box<TsType> as VisitWith<V>>::visit_children_with(index_type, visitor);
             }
@@ -4991,7 +4788,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsInferType {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             TsInferType { span, type_param } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <TsTypeParam as VisitWith<V>>::visit_children_with(type_param, visitor);
             }
         }
@@ -5010,7 +4806,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsInstantiation {
                 expr,
                 type_args,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(expr, visitor);
                 <Box<TsTypeParamInstantiation> as VisitWith<V>>::visit_children_with(
                     type_args, visitor,
@@ -5028,7 +4823,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsInterfaceBody {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             TsInterfaceBody { span, body } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Vec<TsTypeElement> as VisitWith<V>>::visit_children_with(body, visitor);
             }
         }
@@ -5050,9 +4844,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsInterfaceDecl {
                 extends,
                 body,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Ident as VisitWith<V>>::visit_children_with(id, visitor);
-                <bool as VisitWith<V>>::visit_children_with(declare, visitor);
                 <Option<Box<TsTypeParamDecl>> as VisitWith<V>>::visit_children_with(
                     type_params,
                     visitor,
@@ -5072,7 +4864,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsIntersectionType {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             TsIntersectionType { span, types } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Vec<Box<TsType>> as VisitWith<V>>::visit_children_with(types, visitor);
             }
         }
@@ -5087,7 +4878,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsKeywordType {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             TsKeywordType { span, kind } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <TsKeywordTypeKind as VisitWith<V>>::visit_children_with(kind, visitor);
             }
         }
@@ -5152,7 +4942,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsLitType {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             TsLitType { span, lit } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <TsLit as VisitWith<V>>::visit_children_with(lit, visitor);
             }
         }
@@ -5174,7 +4963,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsMappedType {
                 optional,
                 type_ann,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Option<TruePlusMinus> as VisitWith<V>>::visit_children_with(readonly, visitor);
                 <TsTypeParam as VisitWith<V>>::visit_children_with(type_param, visitor);
                 <Option<Box<TsType>> as VisitWith<V>>::visit_children_with(name_type, visitor);
@@ -5201,10 +4989,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsMethodSignature {
                 type_ann,
                 type_params,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(key, visitor);
-                <bool as VisitWith<V>>::visit_children_with(computed, visitor);
-                <bool as VisitWith<V>>::visit_children_with(optional, visitor);
                 <Vec<TsFnParam> as VisitWith<V>>::visit_children_with(params, visitor);
                 <Option<Box<TsTypeAnn>> as VisitWith<V>>::visit_children_with(type_ann, visitor);
                 <Option<Box<TsTypeParamDecl>> as VisitWith<V>>::visit_children_with(
@@ -5224,7 +5009,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsModuleBlock {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             TsModuleBlock { span, body } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Vec<ModuleItem> as VisitWith<V>>::visit_children_with(body, visitor);
             }
         }
@@ -5245,9 +5029,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsModuleDecl {
                 id,
                 body,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-                <bool as VisitWith<V>>::visit_children_with(declare, visitor);
-                <bool as VisitWith<V>>::visit_children_with(global, visitor);
                 <TsModuleName as VisitWith<V>>::visit_children_with(id, visitor);
                 <Option<TsNamespaceBody> as VisitWith<V>>::visit_children_with(body, visitor);
             }
@@ -5320,9 +5101,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsNamespaceDecl {
                 id,
                 body,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-                <bool as VisitWith<V>>::visit_children_with(declare, visitor);
-                <bool as VisitWith<V>>::visit_children_with(global, visitor);
                 <Ident as VisitWith<V>>::visit_children_with(id, visitor);
                 <Box<TsNamespaceBody> as VisitWith<V>>::visit_children_with(body, visitor);
             }
@@ -5338,7 +5116,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsNamespaceExportDecl {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             TsNamespaceExportDecl { span, id } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Ident as VisitWith<V>>::visit_children_with(id, visitor);
             }
         }
@@ -5353,7 +5130,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsNonNullExpr {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             TsNonNullExpr { span, expr } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(expr, visitor);
             }
         }
@@ -5368,7 +5144,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsOptionalType {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             TsOptionalType { span, type_ann } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Box<TsType> as VisitWith<V>>::visit_children_with(type_ann, visitor);
             }
         }
@@ -5390,14 +5165,11 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsParamProp {
                 readonly,
                 param,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Vec<Decorator> as VisitWith<V>>::visit_children_with(decorators, visitor);
                 <Option<Accessibility> as VisitWith<V>>::visit_children_with(
                     accessibility,
                     visitor,
                 );
-                <bool as VisitWith<V>>::visit_children_with(is_override, visitor);
-                <bool as VisitWith<V>>::visit_children_with(readonly, visitor);
                 <TsParamPropParam as VisitWith<V>>::visit_children_with(param, visitor);
             }
         }
@@ -5429,7 +5201,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsParenthesizedType {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             TsParenthesizedType { span, type_ann } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Box<TsType> as VisitWith<V>>::visit_children_with(type_ann, visitor);
             }
         }
@@ -5451,11 +5222,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsPropertySignature {
                 optional,
                 type_ann,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-                <bool as VisitWith<V>>::visit_children_with(readonly, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(key, visitor);
-                <bool as VisitWith<V>>::visit_children_with(computed, visitor);
-                <bool as VisitWith<V>>::visit_children_with(optional, visitor);
                 <Option<Box<TsTypeAnn>> as VisitWith<V>>::visit_children_with(type_ann, visitor);
             }
         }
@@ -5470,7 +5237,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsQualifiedName {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             TsQualifiedName { span, left, right } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <TsEntityName as VisitWith<V>>::visit_children_with(left, visitor);
                 <IdentName as VisitWith<V>>::visit_children_with(right, visitor);
             }
@@ -5486,7 +5252,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsRestType {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             TsRestType { span, type_ann } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Box<TsType> as VisitWith<V>>::visit_children_with(type_ann, visitor);
             }
         }
@@ -5505,7 +5270,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsSatisfiesExpr {
                 expr,
                 type_ann,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(expr, visitor);
                 <Box<TsType> as VisitWith<V>>::visit_children_with(type_ann, visitor);
             }
@@ -5526,9 +5290,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsSetterSignature {
                 computed,
                 param,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(key, visitor);
-                <bool as VisitWith<V>>::visit_children_with(computed, visitor);
                 <TsFnParam as VisitWith<V>>::visit_children_with(param, visitor);
             }
         }
@@ -5542,9 +5304,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsThisType {
 
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
-            TsThisType { span } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-            }
+            TsThisType { span } => {}
         }
     }
 }
@@ -5578,7 +5338,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsTplLitType {
                 types,
                 quasis,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Vec<Box<TsType>> as VisitWith<V>>::visit_children_with(types, visitor);
                 <Vec<TplElement> as VisitWith<V>>::visit_children_with(quasis, visitor);
             }
@@ -5594,7 +5353,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsTupleElement {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             TsTupleElement { span, label, ty } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Option<Pat> as VisitWith<V>>::visit_children_with(label, visitor);
                 <Box<TsType> as VisitWith<V>>::visit_children_with(ty, visitor);
             }
@@ -5610,7 +5368,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsTupleType {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             TsTupleType { span, elem_types } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Vec<TsTupleElement> as VisitWith<V>>::visit_children_with(elem_types, visitor);
             }
         }
@@ -5702,8 +5459,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsTypeAliasDecl {
                 type_params,
                 type_ann,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-                <bool as VisitWith<V>>::visit_children_with(declare, visitor);
                 <Ident as VisitWith<V>>::visit_children_with(id, visitor);
                 <Option<Box<TsTypeParamDecl>> as VisitWith<V>>::visit_children_with(
                     type_params,
@@ -5723,7 +5478,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsTypeAnn {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             TsTypeAnn { span, type_ann } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Box<TsType> as VisitWith<V>>::visit_children_with(type_ann, visitor);
             }
         }
@@ -5742,7 +5496,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsTypeAssertion {
                 expr,
                 type_ann,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(expr, visitor);
                 <Box<TsType> as VisitWith<V>>::visit_children_with(type_ann, visitor);
             }
@@ -5790,7 +5543,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsTypeLit {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             TsTypeLit { span, members } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Vec<TsTypeElement> as VisitWith<V>>::visit_children_with(members, visitor);
             }
         }
@@ -5805,7 +5557,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsTypeOperator {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             TsTypeOperator { span, op, type_ann } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <TsTypeOperatorOp as VisitWith<V>>::visit_children_with(op, visitor);
                 <Box<TsType> as VisitWith<V>>::visit_children_with(type_ann, visitor);
             }
@@ -5843,11 +5594,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsTypeParam {
                 constraint,
                 default,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Ident as VisitWith<V>>::visit_children_with(name, visitor);
-                <bool as VisitWith<V>>::visit_children_with(is_in, visitor);
-                <bool as VisitWith<V>>::visit_children_with(is_out, visitor);
-                <bool as VisitWith<V>>::visit_children_with(is_const, visitor);
                 <Option<Box<TsType>> as VisitWith<V>>::visit_children_with(constraint, visitor);
                 <Option<Box<TsType>> as VisitWith<V>>::visit_children_with(default, visitor);
             }
@@ -5863,7 +5610,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsTypeParamDecl {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             TsTypeParamDecl { span, params } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Vec<TsTypeParam> as VisitWith<V>>::visit_children_with(params, visitor);
             }
         }
@@ -5878,7 +5624,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsTypeParamInstantiation {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             TsTypeParamInstantiation { span, params } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Vec<Box<TsType>> as VisitWith<V>>::visit_children_with(params, visitor);
             }
         }
@@ -5898,8 +5643,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsTypePredicate {
                 param_name,
                 type_ann,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-                <bool as VisitWith<V>>::visit_children_with(asserts, visitor);
                 <TsThisTypeOrIdent as VisitWith<V>>::visit_children_with(param_name, visitor);
                 <Option<Box<TsTypeAnn>> as VisitWith<V>>::visit_children_with(type_ann, visitor);
             }
@@ -5919,7 +5662,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsTypeQuery {
                 expr_name,
                 type_args,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <TsTypeQueryExpr as VisitWith<V>>::visit_children_with(expr_name, visitor);
                 <Option<Box<TsTypeParamInstantiation>> as VisitWith<V>>::visit_children_with(
                     type_args, visitor,
@@ -5958,7 +5700,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsTypeRef {
                 type_name,
                 type_params,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <TsEntityName as VisitWith<V>>::visit_children_with(type_name, visitor);
                 <Option<Box<TsTypeParamInstantiation>> as VisitWith<V>>::visit_children_with(
                     type_params,
@@ -5994,7 +5735,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsUnionType {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             TsUnionType { span, types } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Vec<Box<TsType>> as VisitWith<V>>::visit_children_with(types, visitor);
             }
         }
@@ -6009,7 +5749,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for UnaryExpr {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             UnaryExpr { span, op, arg } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <UnaryOp as VisitWith<V>>::visit_children_with(op, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(arg, visitor);
             }
@@ -6048,9 +5787,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for UpdateExpr {
                 prefix,
                 arg,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <UpdateOp as VisitWith<V>>::visit_children_with(op, visitor);
-                <bool as VisitWith<V>>::visit_children_with(prefix, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(arg, visitor);
             }
         }
@@ -6082,8 +5819,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for UsingDecl {
                 is_await,
                 decls,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-                <bool as VisitWith<V>>::visit_children_with(is_await, visitor);
                 <Vec<VarDeclarator> as VisitWith<V>>::visit_children_with(decls, visitor);
             }
         }
@@ -6104,10 +5839,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for VarDecl {
                 declare,
                 decls,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
-                <swc_common::SyntaxContext as VisitWith<V>>::visit_children_with(ctxt, visitor);
                 <VarDeclKind as VisitWith<V>>::visit_children_with(kind, visitor);
-                <bool as VisitWith<V>>::visit_children_with(declare, visitor);
                 <Vec<VarDeclarator> as VisitWith<V>>::visit_children_with(decls, visitor);
             }
         }
@@ -6158,10 +5890,8 @@ impl<V: ?Sized + Visit> VisitWith<V> for VarDeclarator {
                 init,
                 definite,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Pat as VisitWith<V>>::visit_children_with(name, visitor);
                 <Option<Box<Expr>> as VisitWith<V>>::visit_children_with(init, visitor);
-                <bool as VisitWith<V>>::visit_children_with(definite, visitor);
             }
         }
     }
@@ -6175,7 +5905,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for WhileStmt {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             WhileStmt { span, test, body } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(test, visitor);
                 <Box<Stmt> as VisitWith<V>>::visit_children_with(body, visitor);
             }
@@ -6191,7 +5920,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for WithStmt {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             WithStmt { span, obj, body } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Box<Expr> as VisitWith<V>>::visit_children_with(obj, visitor);
                 <Box<Stmt> as VisitWith<V>>::visit_children_with(body, visitor);
             }
@@ -6211,9 +5939,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for YieldExpr {
                 arg,
                 delegate,
             } => {
-                <swc_common::Span as VisitWith<V>>::visit_children_with(span, visitor);
                 <Option<Box<Expr>> as VisitWith<V>>::visit_children_with(arg, visitor);
-                <bool as VisitWith<V>>::visit_children_with(delegate, visitor);
             }
         }
     }
@@ -8683,9 +8409,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ArrayLit {
     ) {
         match self {
             ArrayLit { span, elems } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<Option<ExprOrSpread>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     elems, visitor, ast_path,
                 );
@@ -8717,14 +8440,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ArrayPat {
                 optional,
                 type_ann,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<Option<Pat>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     elems, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    optional, visitor, ast_path,
                 );
                 <Option<Box<TsTypeAnn>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     type_ann, visitor, ast_path,
@@ -8761,25 +8478,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ArrowExpr {
                 type_params,
                 return_type,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <swc_common::SyntaxContext as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    ctxt, visitor, ast_path,
-                );
                 <Vec<Pat> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     params, visitor, ast_path,
                 );
                 <Box<BlockStmtOrExpr> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     body, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    is_async, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    is_generator,
-                    visitor,
-                    ast_path,
                 );
                 <Option<Box<TsTypeParamDecl>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     type_params,
@@ -8819,9 +8522,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AssignExpr {
                 left,
                 right,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <AssignOp as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     op, visitor, ast_path,
                 );
@@ -8891,9 +8591,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AssignPat {
     ) {
         match self {
             AssignPat { span, left, right } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Pat> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     left, visitor, ast_path,
                 );
@@ -8923,9 +8620,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AssignPatProp {
     ) {
         match self {
             AssignPatProp { span, key, value } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <BindingIdent as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     key, visitor, ast_path,
                 );
@@ -8955,9 +8649,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AssignProp {
     ) {
         match self {
             AssignProp { span, key, value } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Ident as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     key, visitor, ast_path,
                 );
@@ -9065,18 +8756,12 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AutoAccessor {
                 is_override,
                 definite,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Key as VisitWithAstPath<V>>::visit_children_with_ast_path(key, visitor, ast_path);
                 <Option<Box<Expr>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     value, visitor, ast_path,
                 );
                 <Option<Box<TsTypeAnn>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     type_ann, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    is_static, visitor, ast_path,
                 );
                 <Vec<Decorator> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     decorators, visitor, ast_path,
@@ -9085,19 +8770,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AutoAccessor {
                     accessibility,
                     visitor,
                     ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    is_abstract,
-                    visitor,
-                    ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    is_override,
-                    visitor,
-                    ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    definite, visitor, ast_path,
                 );
             }
         }
@@ -9122,9 +8794,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AwaitExpr {
     ) {
         match self {
             AwaitExpr { span, arg } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     arg, visitor, ast_path,
                 );
@@ -9151,12 +8820,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for BigInt {
     ) {
         match self {
             BigInt { span, value, raw } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <Box<BigIntValue> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    value, visitor, ast_path,
-                );
                 <Option<swc_atoms::Atom> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     raw, visitor, ast_path,
                 );
@@ -9188,9 +8851,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for BinExpr {
                 left,
                 right,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <BinaryOp as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     op, visitor, ast_path,
                 );
@@ -9296,12 +8956,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for BlockStmt {
     ) {
         match self {
             BlockStmt { span, ctxt, stmts } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <swc_common::SyntaxContext as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    ctxt, visitor, ast_path,
-                );
                 <Vec<Stmt> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     stmts, visitor, ast_path,
                 );
@@ -9358,14 +9012,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Bool {
         ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
-            Bool { span, value } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    value, visitor, ast_path,
-                );
-            }
+            Bool { span, value } => {}
         }
     }
 }
@@ -9388,9 +9035,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for BreakStmt {
     ) {
         match self {
             BreakStmt { span, label } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Option<Ident> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     label, visitor, ast_path,
                 );
@@ -9423,12 +9067,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CallExpr {
                 args,
                 type_args,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <swc_common::SyntaxContext as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    ctxt, visitor, ast_path,
-                );
                 <Callee as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     callee, visitor, ast_path,
                 );
@@ -9495,9 +9133,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CatchClause {
     ) {
         match self {
             CatchClause { span, param, body } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Option<Pat> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     param, visitor, ast_path,
                 );
@@ -9537,12 +9172,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Class {
                 super_type_params,
                 implements,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <swc_common::SyntaxContext as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    ctxt, visitor, ast_path,
-                );
                 <Vec<Decorator> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     decorators, visitor, ast_path,
                 );
@@ -9551,11 +9180,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Class {
                 );
                 <Option<Box<Expr>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     super_class,
-                    visitor,
-                    ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    is_abstract,
                     visitor,
                     ast_path,
                 );
@@ -9597,9 +9221,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ClassDecl {
             } => {
                 <Ident as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     ident, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    declare, visitor, ast_path,
                 );
                 <Box<Class> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     class, visitor, ast_path,
@@ -9660,16 +9281,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ClassMember {
                     _field_0, visitor, ast_path,
                 );
             }
-            ClassMember::Method { 0: _field_0 } => {
-                <ClassMethod as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    _field_0, visitor, ast_path,
-                );
-            }
-            ClassMember::PrivateMethod { 0: _field_0 } => {
-                <PrivateMethod as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    _field_0, visitor, ast_path,
-                );
-            }
+            ClassMember::Method { 0: _field_0 } => {}
+            ClassMember::PrivateMethod { 0: _field_0 } => {}
             ClassMember::ClassProp { 0: _field_0 } => {
                 <ClassProp as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     _field_0, visitor, ast_path,
@@ -9736,9 +9349,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ClassProp {
                 declare,
                 definite,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <PropName as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     key, visitor, ast_path,
                 );
@@ -9748,9 +9358,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ClassProp {
                 <Option<Box<TsTypeAnn>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     type_ann, visitor, ast_path,
                 );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    is_static, visitor, ast_path,
-                );
                 <Vec<Decorator> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     decorators, visitor, ast_path,
                 );
@@ -9758,30 +9365,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ClassProp {
                     accessibility,
                     visitor,
                     ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    is_abstract,
-                    visitor,
-                    ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    is_optional,
-                    visitor,
-                    ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    is_override,
-                    visitor,
-                    ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    readonly, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    declare, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    definite, visitor, ast_path,
                 );
             }
         }
@@ -9806,9 +9389,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ComputedPropName {
     ) {
         match self {
             ComputedPropName { span, expr } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -9840,9 +9420,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CondExpr {
                 cons,
                 alt,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     test, visitor, ast_path,
                 );
@@ -9883,12 +9460,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Constructor {
                 accessibility,
                 is_optional,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <swc_common::SyntaxContext as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    ctxt, visitor, ast_path,
-                );
                 <PropName as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     key, visitor, ast_path,
                 );
@@ -9900,11 +9471,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Constructor {
                 );
                 <Option<Accessibility> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     accessibility,
-                    visitor,
-                    ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    is_optional,
                     visitor,
                     ast_path,
                 );
@@ -9931,9 +9497,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ContinueStmt {
     ) {
         match self {
             ContinueStmt { span, label } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Option<Ident> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     label, visitor, ast_path,
                 );
@@ -9959,11 +9522,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for DebuggerStmt {
         ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
-            DebuggerStmt { span } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-            }
+            DebuggerStmt { span } => {}
         }
     }
 }
@@ -10047,9 +9606,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Decorator {
     ) {
         match self {
             Decorator { span, expr } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -10112,9 +9668,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for DoWhileStmt {
     ) {
         match self {
             DoWhileStmt { span, test, body } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     test, visitor, ast_path,
                 );
@@ -10143,11 +9696,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for EmptyStmt {
         ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
-            EmptyStmt { span } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-            }
+            EmptyStmt { span } => {}
         }
     }
 }
@@ -10207,14 +9756,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ExportAll {
                 type_only,
                 with,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Str> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     src, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    type_only, visitor, ast_path,
                 );
                 <Option<Box<ObjectLit>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     with, visitor, ast_path,
@@ -10242,9 +9785,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ExportDecl {
     ) {
         match self {
             ExportDecl { span, decl } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Decl as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     decl, visitor, ast_path,
                 );
@@ -10271,9 +9811,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ExportDefaultDecl {
     ) {
         match self {
             ExportDefaultDecl { span, decl } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <DefaultDecl as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     decl, visitor, ast_path,
                 );
@@ -10300,9 +9837,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ExportDefaultExpr {
     ) {
         match self {
             ExportDefaultExpr { span, expr } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -10360,19 +9894,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ExportNamedSpecifier {
                 exported,
                 is_type_only,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <ModuleExportName as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     orig, visitor, ast_path,
                 );
                 <Option<ModuleExportName> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     exported, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    is_type_only,
-                    visitor,
-                    ast_path,
                 );
             }
         }
@@ -10397,9 +9923,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ExportNamespaceSpecifier 
     ) {
         match self {
             ExportNamespaceSpecifier { span, name } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <ModuleExportName as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     name, visitor, ast_path,
                 );
@@ -10702,9 +10225,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ExprStmt {
     ) {
         match self {
             ExprStmt { span, expr } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -10737,9 +10257,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for FnDecl {
             } => {
                 <Ident as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     ident, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    declare, visitor, ast_path,
                 );
                 <Box<Function> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     function, visitor, ast_path,
@@ -10837,9 +10354,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ForInStmt {
                 right,
                 body,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <ForHead as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     left, visitor, ast_path,
                 );
@@ -10878,12 +10392,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ForOfStmt {
                 right,
                 body,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    is_await, visitor, ast_path,
-                );
                 <ForHead as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     left, visitor, ast_path,
                 );
@@ -10922,9 +10430,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ForStmt {
                 update,
                 body,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Option<VarDeclOrExpr> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     init, visitor, ast_path,
                 );
@@ -10976,22 +10481,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Function {
                 <Vec<Decorator> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     decorators, visitor, ast_path,
                 );
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <swc_common::SyntaxContext as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    ctxt, visitor, ast_path,
-                );
                 <Option<BlockStmt> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     body, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    is_generator,
-                    visitor,
-                    ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    is_async, visitor, ast_path,
                 );
                 <Option<Box<TsTypeParamDecl>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     type_params,
@@ -11031,9 +10522,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for GetterProp {
                 type_ann,
                 body,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <PropName as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     key, visitor, ast_path,
                 );
@@ -11070,20 +10558,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Ident {
                 ctxt,
                 sym,
                 optional,
-            } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <swc_common::SyntaxContext as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    ctxt, visitor, ast_path,
-                );
-                <swc_atoms::Atom as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    sym, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    optional, visitor, ast_path,
-                );
-            }
+            } => {}
         }
     }
 }
@@ -11105,14 +10580,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for IdentName {
         ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
-            IdentName { span, sym } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <swc_atoms::Atom as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    sym, visitor, ast_path,
-                );
-            }
+            IdentName { span, sym } => {}
         }
     }
 }
@@ -11140,9 +10608,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for IfStmt {
                 cons,
                 alt,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     test, visitor, ast_path,
                 );
@@ -11175,9 +10640,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Import {
     ) {
         match self {
             Import { span, phase } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <ImportPhase as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     phase, visitor, ast_path,
                 );
@@ -11211,17 +10673,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ImportDecl {
                 with,
                 phase,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<ImportSpecifier> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     specifiers, visitor, ast_path,
                 );
                 <Box<Str> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     src, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    type_only, visitor, ast_path,
                 );
                 <Option<Box<ObjectLit>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     with, visitor, ast_path,
@@ -11252,9 +10708,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ImportDefaultSpecifier {
     ) {
         match self {
             ImportDefaultSpecifier { span, local } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Ident as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     local, visitor, ast_path,
                 );
@@ -11286,19 +10739,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ImportNamedSpecifier {
                 imported,
                 is_type_only,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Ident as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     local, visitor, ast_path,
                 );
                 <Option<ModuleExportName> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     imported, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    is_type_only,
-                    visitor,
-                    ast_path,
                 );
             }
         }
@@ -11383,9 +10828,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ImportStarAsSpecifier {
     ) {
         match self {
             ImportStarAsSpecifier { span, local } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Ident as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     local, visitor, ast_path,
                 );
@@ -11412,9 +10854,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ImportWith {
     ) {
         match self {
             ImportWith { span, values } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<ImportWithItem> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     values, visitor, ast_path,
                 );
@@ -11469,11 +10908,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Invalid {
         ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
-            Invalid { span } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-            }
+            Invalid { span } => {}
         }
     }
 }
@@ -11496,9 +10931,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for JSXAttr {
     ) {
         match self {
             JSXAttr { span, name, value } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <JSXAttrName as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     name, visitor, ast_path,
                 );
@@ -11631,9 +11063,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for JSXClosingElement {
     ) {
         match self {
             JSXClosingElement { span, name } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <JSXElementName as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     name, visitor, ast_path,
                 );
@@ -11659,11 +11088,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for JSXClosingFragment {
         ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
-            JSXClosingFragment { span } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-            }
+            JSXClosingFragment { span } => {}
         }
     }
 }
@@ -11691,9 +11116,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for JSXElement {
                 children,
                 closing,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <JSXOpeningElement as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     opening, visitor, ast_path,
                 );
@@ -11807,11 +11229,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for JSXEmptyExpr {
         ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
-            JSXEmptyExpr { span } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-            }
+            JSXEmptyExpr { span } => {}
         }
     }
 }
@@ -11865,9 +11283,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for JSXExprContainer {
     ) {
         match self {
             JSXExprContainer { span, expr } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <JSXExpr as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -11899,9 +11314,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for JSXFragment {
                 children,
                 closing,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <JSXOpeningFragment as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     opening, visitor, ast_path,
                 );
@@ -11934,9 +11346,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for JSXMemberExpr {
     ) {
         match self {
             JSXMemberExpr { span, obj, prop } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <JSXObject as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     obj, visitor, ast_path,
                 );
@@ -11966,9 +11375,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for JSXNamespacedName {
     ) {
         match self {
             JSXNamespacedName { span, ns, name } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <IdentName as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     ns, visitor, ast_path,
                 );
@@ -12038,16 +11444,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for JSXOpeningElement {
                 <JSXElementName as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     name, visitor, ast_path,
                 );
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<JSXAttrOrSpread> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     attrs, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    self_closing,
-                    visitor,
-                    ast_path,
                 );
                 < Option < Box < TsTypeParamInstantiation > > as VisitWithAstPath < V > > :: visit_children_with_ast_path (type_args , visitor , ast_path) ;
             }
@@ -12072,11 +11470,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for JSXOpeningFragment {
         ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
-            JSXOpeningFragment { span } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-            }
+            JSXOpeningFragment { span } => {}
         }
     }
 }
@@ -12099,9 +11493,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for JSXSpreadChild {
     ) {
         match self {
             JSXSpreadChild { span, expr } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -12127,17 +11518,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for JSXText {
         ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
-            JSXText { span, value, raw } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <swc_atoms::Atom as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    value, visitor, ast_path,
-                );
-                <swc_atoms::Atom as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    raw, visitor, ast_path,
-                );
-            }
+            JSXText { span, value, raw } => {}
         }
     }
 }
@@ -12249,9 +11630,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for LabeledStmt {
     ) {
         match self {
             LabeledStmt { span, label, body } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Ident as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     label, visitor, ast_path,
                 );
@@ -12337,9 +11715,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MemberExpr {
     ) {
         match self {
             MemberExpr { span, obj, prop } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     obj, visitor, ast_path,
                 );
@@ -12405,9 +11780,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MetaPropExpr {
     ) {
         match self {
             MetaPropExpr { span, kind } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <MetaPropKind as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     kind, visitor, ast_path,
                 );
@@ -12514,9 +11886,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Module {
                 body,
                 shebang,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<ModuleItem> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     body, visitor, ast_path,
                 );
@@ -12680,17 +12049,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for NamedExport {
                 type_only,
                 with,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<ExportSpecifier> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     specifiers, visitor, ast_path,
                 );
                 <Option<Box<Str>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     src, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    type_only, visitor, ast_path,
                 );
                 <Option<Box<ObjectLit>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     with, visitor, ast_path,
@@ -12724,12 +12087,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for NewExpr {
                 args,
                 type_args,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <swc_common::SyntaxContext as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    ctxt, visitor, ast_path,
-                );
                 <Box<Expr> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     callee, visitor, ast_path,
                 );
@@ -12759,11 +12116,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Null {
         ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
-            Null { span } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-            }
+            Null { span } => {}
         }
     }
 }
@@ -12786,12 +12139,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Number {
     ) {
         match self {
             Number { span, value, raw } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <f64 as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    value, visitor, ast_path,
-                );
                 <Option<swc_atoms::Atom> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     raw, visitor, ast_path,
                 );
@@ -12818,9 +12165,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ObjectLit {
     ) {
         match self {
             ObjectLit { span, props } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<PropOrSpread> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     props, visitor, ast_path,
                 );
@@ -12852,14 +12196,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ObjectPat {
                 optional,
                 type_ann,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<ObjectPatProp> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     props, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    optional, visitor, ast_path,
                 );
                 <Option<Box<TsTypeAnn>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     type_ann, visitor, ast_path,
@@ -12929,12 +12267,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for OptCall {
                 args,
                 type_args,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <swc_common::SyntaxContext as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    ctxt, visitor, ast_path,
-                );
                 <Box<Expr> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     callee, visitor, ast_path,
                 );
@@ -13000,12 +12332,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for OptChainExpr {
                 optional,
                 base,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    optional, visitor, ast_path,
-                );
                 <Box<OptChainBase> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     base, visitor, ast_path,
                 );
@@ -13036,9 +12362,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Param {
                 decorators,
                 pat,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<Decorator> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     decorators, visitor, ast_path,
                 );
@@ -13097,9 +12420,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ParenExpr {
     ) {
         match self {
             ParenExpr { span, expr } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -13181,14 +12501,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for PrivateName {
         ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
-            PrivateName { span, name } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <swc_atoms::Atom as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    name, visitor, ast_path,
-                );
-            }
+            PrivateName { span, name } => {}
         }
     }
 }
@@ -13224,12 +12537,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for PrivateProp {
                 readonly,
                 definite,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <swc_common::SyntaxContext as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    ctxt, visitor, ast_path,
-                );
                 <PrivateName as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     key, visitor, ast_path,
                 );
@@ -13239,9 +12546,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for PrivateProp {
                 <Option<Box<TsTypeAnn>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     type_ann, visitor, ast_path,
                 );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    is_static, visitor, ast_path,
-                );
                 <Vec<Decorator> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     decorators, visitor, ast_path,
                 );
@@ -13249,22 +12553,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for PrivateProp {
                     accessibility,
                     visitor,
                     ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    is_optional,
-                    visitor,
-                    ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    is_override,
-                    visitor,
-                    ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    readonly, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    definite, visitor, ast_path,
                 );
             }
         }
@@ -13447,17 +12735,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Regex {
         ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
-            Regex { span, exp, flags } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <swc_atoms::Atom as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    exp, visitor, ast_path,
-                );
-                <swc_atoms::Atom as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    flags, visitor, ast_path,
-                );
-            }
+            Regex { span, exp, flags } => {}
         }
     }
 }
@@ -13480,9 +12758,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ReservedUnused {
     ) {
         match self {
             ReservedUnused { span, body } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Option<Vec<ModuleItem>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     body, visitor, ast_path,
                 );
@@ -13514,12 +12789,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for RestPat {
                 arg,
                 type_ann,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    dot3_token, visitor, ast_path,
-                );
                 <Box<Pat> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     arg, visitor, ast_path,
                 );
@@ -13549,9 +12818,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ReturnStmt {
     ) {
         match self {
             ReturnStmt { span, arg } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Option<Box<Expr>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     arg, visitor, ast_path,
                 );
@@ -13582,9 +12848,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Script {
                 body,
                 shebang,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<Stmt> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     body, visitor, ast_path,
                 );
@@ -13614,9 +12877,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SeqExpr {
     ) {
         match self {
             SeqExpr { span, exprs } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<Box<Expr>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     exprs, visitor, ast_path,
                 );
@@ -13649,9 +12909,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SetterProp {
                 param,
                 body,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <PropName as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     key, visitor, ast_path,
                 );
@@ -13763,9 +13020,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SpreadElement {
     ) {
         match self {
             SpreadElement { dot3_token, expr } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    dot3_token, visitor, ast_path,
-                );
                 <Box<Expr> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -13792,9 +13046,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for StaticBlock {
     ) {
         match self {
             StaticBlock { span, body } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <BlockStmt as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     body, visitor, ast_path,
                 );
@@ -13937,12 +13188,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Str {
     ) {
         match self {
             Str { span, value, raw } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <swc_atoms::Atom as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    value, visitor, ast_path,
-                );
                 <Option<swc_atoms::Atom> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     raw, visitor, ast_path,
                 );
@@ -13968,11 +13213,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Super {
         ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
-            Super { span } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-            }
+            Super { span } => {}
         }
     }
 }
@@ -14026,9 +13267,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SuperPropExpr {
     ) {
         match self {
             SuperPropExpr { span, obj, prop } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Super as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     obj, visitor, ast_path,
                 );
@@ -14058,9 +13296,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SwitchCase {
     ) {
         match self {
             SwitchCase { span, test, cons } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Option<Box<Expr>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     test, visitor, ast_path,
                 );
@@ -14094,9 +13329,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SwitchStmt {
                 discriminant,
                 cases,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     discriminant,
                     visitor,
@@ -14134,12 +13366,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TaggedTpl {
                 type_params,
                 tpl,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <swc_common::SyntaxContext as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    ctxt, visitor, ast_path,
-                );
                 <Box<Expr> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     tag, visitor, ast_path,
                 );
@@ -14169,11 +13395,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ThisExpr {
         ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
-            ThisExpr { span } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-            }
+            ThisExpr { span } => {}
         }
     }
 }
@@ -14196,9 +13418,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ThrowStmt {
     ) {
         match self {
             ThrowStmt { span, arg } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     arg, visitor, ast_path,
                 );
@@ -14229,9 +13448,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Tpl {
                 exprs,
                 quasis,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<Box<Expr>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     exprs, visitor, ast_path,
                 );
@@ -14266,17 +13482,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TplElement {
                 cooked,
                 raw,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    tail, visitor, ast_path,
-                );
                 <Option<swc_atoms::Atom> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     cooked, visitor, ast_path,
-                );
-                <swc_atoms::Atom as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    raw, visitor, ast_path,
                 );
             }
         }
@@ -14330,9 +13537,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TryStmt {
                 handler,
                 finalizer,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <BlockStmt as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     block, visitor, ast_path,
                 );
@@ -14365,9 +13569,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsArrayType {
     ) {
         match self {
             TsArrayType { span, elem_type } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<TsType> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     elem_type, visitor, ast_path,
                 );
@@ -14398,9 +13599,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsAsExpr {
                 expr,
                 type_ann,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -14435,9 +13633,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsCallSignatureDecl {
                 type_ann,
                 type_params,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<TsFnParam> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     params, visitor, ast_path,
                 );
@@ -14478,9 +13673,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsConditionalType {
                 true_type,
                 false_type,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<TsType> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     check_type, visitor, ast_path,
                 );
@@ -14518,9 +13710,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsConstAssertion {
     ) {
         match self {
             TsConstAssertion { span, expr } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -14552,9 +13741,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsConstructSignatureDecl 
                 type_ann,
                 type_params,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<TsFnParam> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     params, visitor, ast_path,
                 );
@@ -14595,9 +13781,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsConstructorType {
                 type_ann,
                 is_abstract,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<TsFnParam> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     params, visitor, ast_path,
                 );
@@ -14608,11 +13791,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsConstructorType {
                 );
                 <Box<TsTypeAnn> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     type_ann, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    is_abstract,
-                    visitor,
-                    ast_path,
                 );
             }
         }
@@ -14674,15 +13852,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsEnumDecl {
                 id,
                 members,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    declare, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    is_const, visitor, ast_path,
-                );
                 <Ident as VisitWithAstPath<V>>::visit_children_with_ast_path(id, visitor, ast_path);
                 <Vec<TsEnumMember> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     members, visitor, ast_path,
@@ -14710,9 +13879,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsEnumMember {
     ) {
         match self {
             TsEnumMember { span, id, init } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <TsEnumMemberId as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     id, visitor, ast_path,
                 );
@@ -14773,9 +13939,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsExportAssignment {
     ) {
         match self {
             TsExportAssignment { span, expr } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -14806,9 +13969,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsExprWithTypeArgs {
                 expr,
                 type_args,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -14836,9 +13996,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsExternalModuleRef {
     ) {
         match self {
             TsExternalModuleRef { span, expr } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Str as VisitWithAstPath<V>>::visit_children_with_ast_path(expr, visitor, ast_path);
             }
         }
@@ -14940,9 +14097,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsFnType {
                 type_params,
                 type_ann,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<TsFnParam> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     params, visitor, ast_path,
                 );
@@ -14982,14 +14136,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsGetterSignature {
                 computed,
                 type_ann,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     key, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    computed, visitor, ast_path,
                 );
                 <Option<Box<TsTypeAnn>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     type_ann, visitor, ast_path,
@@ -15023,17 +14171,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsImportEqualsDecl {
                 id,
                 module_ref,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    is_export, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    is_type_only,
-                    visitor,
-                    ast_path,
-                );
                 <Ident as VisitWithAstPath<V>>::visit_children_with_ast_path(id, visitor, ast_path);
                 <TsModuleRef as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     module_ref, visitor, ast_path,
@@ -15066,9 +14203,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsImportType {
                 qualifier,
                 type_args,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Str as VisitWithAstPath<V>>::visit_children_with_ast_path(arg, visitor, ast_path);
                 <Option<TsEntityName> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     qualifier, visitor, ast_path,
@@ -15109,15 +14243,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsIndexSignature {
                 <Option<Box<TsTypeAnn>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     type_ann, visitor, ast_path,
                 );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    readonly, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    is_static, visitor, ast_path,
-                );
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
             }
         }
     }
@@ -15146,12 +14271,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsIndexedAccessType {
                 obj_type,
                 index_type,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    readonly, visitor, ast_path,
-                );
                 <Box<TsType> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     obj_type, visitor, ast_path,
                 );
@@ -15181,9 +14300,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsInferType {
     ) {
         match self {
             TsInferType { span, type_param } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <TsTypeParam as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     type_param, visitor, ast_path,
                 );
@@ -15214,9 +14330,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsInstantiation {
                 expr,
                 type_args,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -15244,9 +14357,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsInterfaceBody {
     ) {
         match self {
             TsInterfaceBody { span, body } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<TsTypeElement> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     body, visitor, ast_path,
                 );
@@ -15280,13 +14390,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsInterfaceDecl {
                 extends,
                 body,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Ident as VisitWithAstPath<V>>::visit_children_with_ast_path(id, visitor, ast_path);
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    declare, visitor, ast_path,
-                );
                 <Option<Box<TsTypeParamDecl>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     type_params,
                     visitor,
@@ -15321,9 +14425,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsIntersectionType {
     ) {
         match self {
             TsIntersectionType { span, types } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<Box<TsType>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     types, visitor, ast_path,
                 );
@@ -15350,9 +14451,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsKeywordType {
     ) {
         match self {
             TsKeywordType { span, kind } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <TsKeywordTypeKind as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     kind, visitor, ast_path,
                 );
@@ -15459,9 +14557,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsLitType {
     ) {
         match self {
             TsLitType { span, lit } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <TsLit as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     lit, visitor, ast_path,
                 );
@@ -15495,9 +14590,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsMappedType {
                 optional,
                 type_ann,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Option<TruePlusMinus> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     readonly, visitor, ast_path,
                 );
@@ -15544,17 +14636,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsMethodSignature {
                 type_ann,
                 type_params,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     key, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    computed, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    optional, visitor, ast_path,
                 );
                 <Vec<TsFnParam> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     params, visitor, ast_path,
@@ -15590,9 +14673,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsModuleBlock {
     ) {
         match self {
             TsModuleBlock { span, body } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<ModuleItem> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     body, visitor, ast_path,
                 );
@@ -15625,15 +14705,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsModuleDecl {
                 id,
                 body,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    declare, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    global, visitor, ast_path,
-                );
                 <TsModuleName as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     id, visitor, ast_path,
                 );
@@ -15762,15 +14833,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsNamespaceDecl {
                 id,
                 body,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    declare, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    global, visitor, ast_path,
-                );
                 <Ident as VisitWithAstPath<V>>::visit_children_with_ast_path(id, visitor, ast_path);
                 <Box<TsNamespaceBody> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     body, visitor, ast_path,
@@ -15798,9 +14860,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsNamespaceExportDecl {
     ) {
         match self {
             TsNamespaceExportDecl { span, id } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Ident as VisitWithAstPath<V>>::visit_children_with_ast_path(id, visitor, ast_path);
             }
         }
@@ -15825,9 +14884,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsNonNullExpr {
     ) {
         match self {
             TsNonNullExpr { span, expr } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -15854,9 +14910,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsOptionalType {
     ) {
         match self {
             TsOptionalType { span, type_ann } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<TsType> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     type_ann, visitor, ast_path,
                 );
@@ -15890,9 +14943,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsParamProp {
                 readonly,
                 param,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<Decorator> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     decorators, visitor, ast_path,
                 );
@@ -15900,14 +14950,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsParamProp {
                     accessibility,
                     visitor,
                     ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    is_override,
-                    visitor,
-                    ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    readonly, visitor, ast_path,
                 );
                 <TsParamPropParam as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     param, visitor, ast_path,
@@ -15966,9 +15008,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsParenthesizedType {
     ) {
         match self {
             TsParenthesizedType { span, type_ann } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<TsType> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     type_ann, visitor, ast_path,
                 );
@@ -16002,20 +15041,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsPropertySignature {
                 optional,
                 type_ann,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    readonly, visitor, ast_path,
-                );
                 <Box<Expr> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     key, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    computed, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    optional, visitor, ast_path,
                 );
                 <Option<Box<TsTypeAnn>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     type_ann, visitor, ast_path,
@@ -16043,9 +15070,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsQualifiedName {
     ) {
         match self {
             TsQualifiedName { span, left, right } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <TsEntityName as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     left, visitor, ast_path,
                 );
@@ -16075,9 +15099,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsRestType {
     ) {
         match self {
             TsRestType { span, type_ann } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<TsType> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     type_ann, visitor, ast_path,
                 );
@@ -16108,9 +15129,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsSatisfiesExpr {
                 expr,
                 type_ann,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -16145,14 +15163,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsSetterSignature {
                 computed,
                 param,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     key, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    computed, visitor, ast_path,
                 );
                 <TsFnParam as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     param, visitor, ast_path,
@@ -16179,11 +15191,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsThisType {
         ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
-            TsThisType { span } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-            }
+            TsThisType { span } => {}
         }
     }
 }
@@ -16241,9 +15249,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsTplLitType {
                 types,
                 quasis,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<Box<TsType>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     types, visitor, ast_path,
                 );
@@ -16273,9 +15278,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsTupleElement {
     ) {
         match self {
             TsTupleElement { span, label, ty } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Option<Pat> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     label, visitor, ast_path,
                 );
@@ -16305,9 +15307,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsTupleType {
     ) {
         match self {
             TsTupleType { span, elem_types } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<TsTupleElement> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     elem_types, visitor, ast_path,
                 );
@@ -16461,12 +15460,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsTypeAliasDecl {
                 type_params,
                 type_ann,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    declare, visitor, ast_path,
-                );
                 <Ident as VisitWithAstPath<V>>::visit_children_with_ast_path(id, visitor, ast_path);
                 <Option<Box<TsTypeParamDecl>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     type_params,
@@ -16499,9 +15492,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsTypeAnn {
     ) {
         match self {
             TsTypeAnn { span, type_ann } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<TsType> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     type_ann, visitor, ast_path,
                 );
@@ -16532,9 +15522,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsTypeAssertion {
                 expr,
                 type_ann,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -16620,9 +15607,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsTypeLit {
     ) {
         match self {
             TsTypeLit { span, members } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<TsTypeElement> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     members, visitor, ast_path,
                 );
@@ -16649,9 +15633,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsTypeOperator {
     ) {
         match self {
             TsTypeOperator { span, op, type_ann } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <TsTypeOperatorOp as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     op, visitor, ast_path,
                 );
@@ -16713,20 +15694,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsTypeParam {
                 constraint,
                 default,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Ident as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     name, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    is_in, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    is_out, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    is_const, visitor, ast_path,
                 );
                 <Option<Box<TsType>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     constraint, visitor, ast_path,
@@ -16757,9 +15726,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsTypeParamDecl {
     ) {
         match self {
             TsTypeParamDecl { span, params } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<TsTypeParam> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     params, visitor, ast_path,
                 );
@@ -16786,9 +15752,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsTypeParamInstantiation 
     ) {
         match self {
             TsTypeParamInstantiation { span, params } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<Box<TsType>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     params, visitor, ast_path,
                 );
@@ -16820,12 +15783,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsTypePredicate {
                 param_name,
                 type_ann,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    asserts, visitor, ast_path,
-                );
                 <TsThisTypeOrIdent as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     param_name, visitor, ast_path,
                 );
@@ -16859,9 +15816,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsTypeQuery {
                 expr_name,
                 type_args,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <TsTypeQueryExpr as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     expr_name, visitor, ast_path,
                 );
@@ -16924,9 +15878,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsTypeRef {
                 type_name,
                 type_params,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <TsEntityName as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     type_name, visitor, ast_path,
                 );
@@ -16985,9 +15936,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsUnionType {
     ) {
         match self {
             TsUnionType { span, types } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<Box<TsType>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     types, visitor, ast_path,
                 );
@@ -17014,9 +15962,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for UnaryExpr {
     ) {
         match self {
             UnaryExpr { span, op, arg } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <UnaryOp as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     op, visitor, ast_path,
                 );
@@ -17079,14 +16024,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for UpdateExpr {
                 prefix,
                 arg,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <UpdateOp as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     op, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    prefix, visitor, ast_path,
                 );
                 <Box<Expr> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     arg, visitor, ast_path,
@@ -17141,12 +16080,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for UsingDecl {
                 is_await,
                 decls,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    is_await, visitor, ast_path,
-                );
                 <Vec<VarDeclarator> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     decls, visitor, ast_path,
                 );
@@ -17179,17 +16112,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for VarDecl {
                 declare,
                 decls,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <swc_common::SyntaxContext as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    ctxt, visitor, ast_path,
-                );
                 <VarDeclKind as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     kind, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    declare, visitor, ast_path,
                 );
                 <Vec<VarDeclarator> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     decls, visitor, ast_path,
@@ -17277,15 +16201,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for VarDeclarator {
                 init,
                 definite,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Pat as VisitWithAstPath<V>>::visit_children_with_ast_path(name, visitor, ast_path);
                 <Option<Box<Expr>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     init, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    definite, visitor, ast_path,
                 );
             }
         }
@@ -17310,9 +16228,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for WhileStmt {
     ) {
         match self {
             WhileStmt { span, test, body } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     test, visitor, ast_path,
                 );
@@ -17342,9 +16257,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for WithStmt {
     ) {
         match self {
             WithStmt { span, obj, body } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     obj, visitor, ast_path,
                 );
@@ -17378,14 +16290,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for YieldExpr {
                 arg,
                 delegate,
             } => {
-                <swc_common::Span as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Option<Box<Expr>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     arg, visitor, ast_path,
-                );
-                <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    delegate, visitor, ast_path,
                 );
             }
         }
@@ -18834,7 +17740,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ArrayLit {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             ArrayLit { span, elems } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Vec<Option<ExprOrSpread>> as VisitMutWith<V>>::visit_mut_children_with(
                     elems, visitor,
                 );
@@ -18856,9 +17761,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ArrayPat {
                 optional,
                 type_ann,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Vec<Option<Pat>> as VisitMutWith<V>>::visit_mut_children_with(elems, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(optional, visitor);
                 <Option<Box<TsTypeAnn>> as VisitMutWith<V>>::visit_mut_children_with(
                     type_ann, visitor,
                 );
@@ -18884,14 +17787,8 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ArrowExpr {
                 type_params,
                 return_type,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-                <swc_common::SyntaxContext as VisitMutWith<V>>::visit_mut_children_with(
-                    ctxt, visitor,
-                );
                 <Vec<Pat> as VisitMutWith<V>>::visit_mut_children_with(params, visitor);
                 <Box<BlockStmtOrExpr> as VisitMutWith<V>>::visit_mut_children_with(body, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(is_async, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(is_generator, visitor);
                 <Option<Box<TsTypeParamDecl>> as VisitMutWith<V>>::visit_mut_children_with(
                     type_params,
                     visitor,
@@ -18918,7 +17815,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for AssignExpr {
                 left,
                 right,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <AssignOp as VisitMutWith<V>>::visit_mut_children_with(op, visitor);
                 <AssignTarget as VisitMutWith<V>>::visit_mut_children_with(left, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(right, visitor);
@@ -18962,7 +17858,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for AssignPat {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             AssignPat { span, left, right } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Box<Pat> as VisitMutWith<V>>::visit_mut_children_with(left, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(right, visitor);
             }
@@ -18978,7 +17873,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for AssignPatProp {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             AssignPatProp { span, key, value } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <BindingIdent as VisitMutWith<V>>::visit_mut_children_with(key, visitor);
                 <Option<Box<Expr>> as VisitMutWith<V>>::visit_mut_children_with(value, visitor);
             }
@@ -18994,7 +17888,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for AssignProp {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             AssignProp { span, key, value } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Ident as VisitMutWith<V>>::visit_mut_children_with(key, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(value, visitor);
             }
@@ -19058,21 +17951,16 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for AutoAccessor {
                 is_override,
                 definite,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Key as VisitMutWith<V>>::visit_mut_children_with(key, visitor);
                 <Option<Box<Expr>> as VisitMutWith<V>>::visit_mut_children_with(value, visitor);
                 <Option<Box<TsTypeAnn>> as VisitMutWith<V>>::visit_mut_children_with(
                     type_ann, visitor,
                 );
-                <bool as VisitMutWith<V>>::visit_mut_children_with(is_static, visitor);
                 <Vec<Decorator> as VisitMutWith<V>>::visit_mut_children_with(decorators, visitor);
                 <Option<Accessibility> as VisitMutWith<V>>::visit_mut_children_with(
                     accessibility,
                     visitor,
                 );
-                <bool as VisitMutWith<V>>::visit_mut_children_with(is_abstract, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(is_override, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(definite, visitor);
             }
         }
     }
@@ -19086,7 +17974,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for AwaitExpr {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             AwaitExpr { span, arg } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(arg, visitor);
             }
         }
@@ -19101,8 +17988,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for BigInt {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             BigInt { span, value, raw } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-                <Box<BigIntValue> as VisitMutWith<V>>::visit_mut_children_with(value, visitor);
                 <Option<swc_atoms::Atom> as VisitMutWith<V>>::visit_mut_children_with(raw, visitor);
             }
         }
@@ -19122,7 +18007,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for BinExpr {
                 left,
                 right,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <BinaryOp as VisitMutWith<V>>::visit_mut_children_with(op, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(left, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(right, visitor);
@@ -19192,10 +18076,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for BlockStmt {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             BlockStmt { span, ctxt, stmts } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-                <swc_common::SyntaxContext as VisitMutWith<V>>::visit_mut_children_with(
-                    ctxt, visitor,
-                );
                 <Vec<Stmt> as VisitMutWith<V>>::visit_mut_children_with(stmts, visitor);
             }
         }
@@ -19226,10 +18106,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Bool {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
-            Bool { span, value } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(value, visitor);
-            }
+            Bool { span, value } => {}
         }
     }
 }
@@ -19242,7 +18119,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for BreakStmt {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             BreakStmt { span, label } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Option<Ident> as VisitMutWith<V>>::visit_mut_children_with(label, visitor);
             }
         }
@@ -19263,10 +18139,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for CallExpr {
                 args,
                 type_args,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-                <swc_common::SyntaxContext as VisitMutWith<V>>::visit_mut_children_with(
-                    ctxt, visitor,
-                );
                 <Callee as VisitMutWith<V>>::visit_mut_children_with(callee, visitor);
                 <Vec<ExprOrSpread> as VisitMutWith<V>>::visit_mut_children_with(args, visitor);
                 <Option<Box<TsTypeParamInstantiation>> as VisitMutWith<V>>::visit_mut_children_with(
@@ -19305,7 +18177,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for CatchClause {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             CatchClause { span, param, body } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Option<Pat> as VisitMutWith<V>>::visit_mut_children_with(param, visitor);
                 <BlockStmt as VisitMutWith<V>>::visit_mut_children_with(body, visitor);
             }
@@ -19331,17 +18202,12 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Class {
                 super_type_params,
                 implements,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-                <swc_common::SyntaxContext as VisitMutWith<V>>::visit_mut_children_with(
-                    ctxt, visitor,
-                );
                 <Vec<Decorator> as VisitMutWith<V>>::visit_mut_children_with(decorators, visitor);
                 <Vec<ClassMember> as VisitMutWith<V>>::visit_mut_children_with(body, visitor);
                 <Option<Box<Expr>> as VisitMutWith<V>>::visit_mut_children_with(
                     super_class,
                     visitor,
                 );
-                <bool as VisitMutWith<V>>::visit_mut_children_with(is_abstract, visitor);
                 <Option<Box<TsTypeParamDecl>> as VisitMutWith<V>>::visit_mut_children_with(
                     type_params,
                     visitor,
@@ -19371,7 +18237,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ClassDecl {
                 class,
             } => {
                 <Ident as VisitMutWith<V>>::visit_mut_children_with(ident, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(declare, visitor);
                 <Box<Class> as VisitMutWith<V>>::visit_mut_children_with(class, visitor);
             }
         }
@@ -19403,12 +18268,8 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ClassMember {
             ClassMember::Constructor { 0: _field_0 } => {
                 <Constructor as VisitMutWith<V>>::visit_mut_children_with(_field_0, visitor);
             }
-            ClassMember::Method { 0: _field_0 } => {
-                <ClassMethod as VisitMutWith<V>>::visit_mut_children_with(_field_0, visitor);
-            }
-            ClassMember::PrivateMethod { 0: _field_0 } => {
-                <PrivateMethod as VisitMutWith<V>>::visit_mut_children_with(_field_0, visitor);
-            }
+            ClassMember::Method { 0: _field_0 } => {}
+            ClassMember::PrivateMethod { 0: _field_0 } => {}
             ClassMember::ClassProp { 0: _field_0 } => {
                 <ClassProp as VisitMutWith<V>>::visit_mut_children_with(_field_0, visitor);
             }
@@ -19453,24 +18314,16 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ClassProp {
                 declare,
                 definite,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <PropName as VisitMutWith<V>>::visit_mut_children_with(key, visitor);
                 <Option<Box<Expr>> as VisitMutWith<V>>::visit_mut_children_with(value, visitor);
                 <Option<Box<TsTypeAnn>> as VisitMutWith<V>>::visit_mut_children_with(
                     type_ann, visitor,
                 );
-                <bool as VisitMutWith<V>>::visit_mut_children_with(is_static, visitor);
                 <Vec<Decorator> as VisitMutWith<V>>::visit_mut_children_with(decorators, visitor);
                 <Option<Accessibility> as VisitMutWith<V>>::visit_mut_children_with(
                     accessibility,
                     visitor,
                 );
-                <bool as VisitMutWith<V>>::visit_mut_children_with(is_abstract, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(is_optional, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(is_override, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(readonly, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(declare, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(definite, visitor);
             }
         }
     }
@@ -19484,7 +18337,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ComputedPropName {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             ComputedPropName { span, expr } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(expr, visitor);
             }
         }
@@ -19504,7 +18356,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for CondExpr {
                 cons,
                 alt,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(test, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(cons, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(alt, visitor);
@@ -19529,10 +18380,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Constructor {
                 accessibility,
                 is_optional,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-                <swc_common::SyntaxContext as VisitMutWith<V>>::visit_mut_children_with(
-                    ctxt, visitor,
-                );
                 <PropName as VisitMutWith<V>>::visit_mut_children_with(key, visitor);
                 <Vec<ParamOrTsParamProp> as VisitMutWith<V>>::visit_mut_children_with(
                     params, visitor,
@@ -19542,7 +18389,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Constructor {
                     accessibility,
                     visitor,
                 );
-                <bool as VisitMutWith<V>>::visit_mut_children_with(is_optional, visitor);
             }
         }
     }
@@ -19556,7 +18402,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ContinueStmt {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             ContinueStmt { span, label } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Option<Ident> as VisitMutWith<V>>::visit_mut_children_with(label, visitor);
             }
         }
@@ -19570,9 +18415,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for DebuggerStmt {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
-            DebuggerStmt { span } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-            }
+            DebuggerStmt { span } => {}
         }
     }
 }
@@ -19624,7 +18467,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Decorator {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             Decorator { span, expr } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(expr, visitor);
             }
         }
@@ -19661,7 +18503,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for DoWhileStmt {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             DoWhileStmt { span, test, body } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(test, visitor);
                 <Box<Stmt> as VisitMutWith<V>>::visit_mut_children_with(body, visitor);
             }
@@ -19676,9 +18517,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for EmptyStmt {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
-            EmptyStmt { span } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-            }
+            EmptyStmt { span } => {}
         }
     }
 }
@@ -19718,9 +18557,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ExportAll {
                 type_only,
                 with,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Box<Str> as VisitMutWith<V>>::visit_mut_children_with(src, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(type_only, visitor);
                 <Option<Box<ObjectLit>> as VisitMutWith<V>>::visit_mut_children_with(with, visitor);
             }
         }
@@ -19735,7 +18572,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ExportDecl {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             ExportDecl { span, decl } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Decl as VisitMutWith<V>>::visit_mut_children_with(decl, visitor);
             }
         }
@@ -19750,7 +18586,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ExportDefaultDecl {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             ExportDefaultDecl { span, decl } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <DefaultDecl as VisitMutWith<V>>::visit_mut_children_with(decl, visitor);
             }
         }
@@ -19765,7 +18600,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ExportDefaultExpr {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             ExportDefaultExpr { span, expr } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(expr, visitor);
             }
         }
@@ -19799,12 +18633,10 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ExportNamedSpecifier {
                 exported,
                 is_type_only,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <ModuleExportName as VisitMutWith<V>>::visit_mut_children_with(orig, visitor);
                 <Option<ModuleExportName> as VisitMutWith<V>>::visit_mut_children_with(
                     exported, visitor,
                 );
-                <bool as VisitMutWith<V>>::visit_mut_children_with(is_type_only, visitor);
             }
         }
     }
@@ -19818,7 +18650,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ExportNamespaceSpecifier {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             ExportNamespaceSpecifier { span, name } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <ModuleExportName as VisitMutWith<V>>::visit_mut_children_with(name, visitor);
             }
         }
@@ -20001,7 +18832,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ExprStmt {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             ExprStmt { span, expr } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(expr, visitor);
             }
         }
@@ -20021,7 +18851,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for FnDecl {
                 function,
             } => {
                 <Ident as VisitMutWith<V>>::visit_mut_children_with(ident, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(declare, visitor);
                 <Box<Function> as VisitMutWith<V>>::visit_mut_children_with(function, visitor);
             }
         }
@@ -20076,7 +18905,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ForInStmt {
                 right,
                 body,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <ForHead as VisitMutWith<V>>::visit_mut_children_with(left, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(right, visitor);
                 <Box<Stmt> as VisitMutWith<V>>::visit_mut_children_with(body, visitor);
@@ -20099,8 +18927,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ForOfStmt {
                 right,
                 body,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(is_await, visitor);
                 <ForHead as VisitMutWith<V>>::visit_mut_children_with(left, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(right, visitor);
                 <Box<Stmt> as VisitMutWith<V>>::visit_mut_children_with(body, visitor);
@@ -20123,7 +18949,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ForStmt {
                 update,
                 body,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Option<VarDeclOrExpr> as VisitMutWith<V>>::visit_mut_children_with(init, visitor);
                 <Option<Box<Expr>> as VisitMutWith<V>>::visit_mut_children_with(test, visitor);
                 <Option<Box<Expr>> as VisitMutWith<V>>::visit_mut_children_with(update, visitor);
@@ -20153,13 +18978,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Function {
             } => {
                 <Vec<Param> as VisitMutWith<V>>::visit_mut_children_with(params, visitor);
                 <Vec<Decorator> as VisitMutWith<V>>::visit_mut_children_with(decorators, visitor);
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-                <swc_common::SyntaxContext as VisitMutWith<V>>::visit_mut_children_with(
-                    ctxt, visitor,
-                );
                 <Option<BlockStmt> as VisitMutWith<V>>::visit_mut_children_with(body, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(is_generator, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(is_async, visitor);
                 <Option<Box<TsTypeParamDecl>> as VisitMutWith<V>>::visit_mut_children_with(
                     type_params,
                     visitor,
@@ -20186,7 +19005,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for GetterProp {
                 type_ann,
                 body,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <PropName as VisitMutWith<V>>::visit_mut_children_with(key, visitor);
                 <Option<Box<TsTypeAnn>> as VisitMutWith<V>>::visit_mut_children_with(
                     type_ann, visitor,
@@ -20209,14 +19027,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Ident {
                 ctxt,
                 sym,
                 optional,
-            } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-                <swc_common::SyntaxContext as VisitMutWith<V>>::visit_mut_children_with(
-                    ctxt, visitor,
-                );
-                <swc_atoms::Atom as VisitMutWith<V>>::visit_mut_children_with(sym, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(optional, visitor);
-            }
+            } => {}
         }
     }
 }
@@ -20228,10 +19039,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for IdentName {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
-            IdentName { span, sym } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-                <swc_atoms::Atom as VisitMutWith<V>>::visit_mut_children_with(sym, visitor);
-            }
+            IdentName { span, sym } => {}
         }
     }
 }
@@ -20249,7 +19057,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for IfStmt {
                 cons,
                 alt,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(test, visitor);
                 <Box<Stmt> as VisitMutWith<V>>::visit_mut_children_with(cons, visitor);
                 <Option<Box<Stmt>> as VisitMutWith<V>>::visit_mut_children_with(alt, visitor);
@@ -20266,7 +19073,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Import {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             Import { span, phase } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <ImportPhase as VisitMutWith<V>>::visit_mut_children_with(phase, visitor);
             }
         }
@@ -20288,12 +19094,10 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ImportDecl {
                 with,
                 phase,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Vec<ImportSpecifier> as VisitMutWith<V>>::visit_mut_children_with(
                     specifiers, visitor,
                 );
                 <Box<Str> as VisitMutWith<V>>::visit_mut_children_with(src, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(type_only, visitor);
                 <Option<Box<ObjectLit>> as VisitMutWith<V>>::visit_mut_children_with(with, visitor);
                 <ImportPhase as VisitMutWith<V>>::visit_mut_children_with(phase, visitor);
             }
@@ -20309,7 +19113,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ImportDefaultSpecifier {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             ImportDefaultSpecifier { span, local } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Ident as VisitMutWith<V>>::visit_mut_children_with(local, visitor);
             }
         }
@@ -20329,12 +19132,10 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ImportNamedSpecifier {
                 imported,
                 is_type_only,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Ident as VisitMutWith<V>>::visit_mut_children_with(local, visitor);
                 <Option<ModuleExportName> as VisitMutWith<V>>::visit_mut_children_with(
                     imported, visitor,
                 );
-                <bool as VisitMutWith<V>>::visit_mut_children_with(is_type_only, visitor);
             }
         }
     }
@@ -20388,7 +19189,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ImportStarAsSpecifier {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             ImportStarAsSpecifier { span, local } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Ident as VisitMutWith<V>>::visit_mut_children_with(local, visitor);
             }
         }
@@ -20403,7 +19203,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ImportWith {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             ImportWith { span, values } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Vec<ImportWithItem> as VisitMutWith<V>>::visit_mut_children_with(values, visitor);
             }
         }
@@ -20432,9 +19231,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Invalid {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
-            Invalid { span } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-            }
+            Invalid { span } => {}
         }
     }
 }
@@ -20447,7 +19244,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for JSXAttr {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             JSXAttr { span, name, value } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <JSXAttrName as VisitMutWith<V>>::visit_mut_children_with(name, visitor);
                 <Option<JSXAttrValue> as VisitMutWith<V>>::visit_mut_children_with(value, visitor);
             }
@@ -20520,7 +19316,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for JSXClosingElement {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             JSXClosingElement { span, name } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <JSXElementName as VisitMutWith<V>>::visit_mut_children_with(name, visitor);
             }
         }
@@ -20534,9 +19329,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for JSXClosingFragment {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
-            JSXClosingFragment { span } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-            }
+            JSXClosingFragment { span } => {}
         }
     }
 }
@@ -20554,7 +19347,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for JSXElement {
                 children,
                 closing,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <JSXOpeningElement as VisitMutWith<V>>::visit_mut_children_with(opening, visitor);
                 <Vec<JSXElementChild> as VisitMutWith<V>>::visit_mut_children_with(
                     children, visitor,
@@ -20620,9 +19412,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for JSXEmptyExpr {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
-            JSXEmptyExpr { span } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-            }
+            JSXEmptyExpr { span } => {}
         }
     }
 }
@@ -20652,7 +19442,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for JSXExprContainer {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             JSXExprContainer { span, expr } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <JSXExpr as VisitMutWith<V>>::visit_mut_children_with(expr, visitor);
             }
         }
@@ -20672,7 +19461,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for JSXFragment {
                 children,
                 closing,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <JSXOpeningFragment as VisitMutWith<V>>::visit_mut_children_with(opening, visitor);
                 <Vec<JSXElementChild> as VisitMutWith<V>>::visit_mut_children_with(
                     children, visitor,
@@ -20691,7 +19479,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for JSXMemberExpr {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             JSXMemberExpr { span, obj, prop } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <JSXObject as VisitMutWith<V>>::visit_mut_children_with(obj, visitor);
                 <IdentName as VisitMutWith<V>>::visit_mut_children_with(prop, visitor);
             }
@@ -20707,7 +19494,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for JSXNamespacedName {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             JSXNamespacedName { span, ns, name } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <IdentName as VisitMutWith<V>>::visit_mut_children_with(ns, visitor);
                 <IdentName as VisitMutWith<V>>::visit_mut_children_with(name, visitor);
             }
@@ -20747,9 +19533,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for JSXOpeningElement {
                 type_args,
             } => {
                 <JSXElementName as VisitMutWith<V>>::visit_mut_children_with(name, visitor);
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Vec<JSXAttrOrSpread> as VisitMutWith<V>>::visit_mut_children_with(attrs, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(self_closing, visitor);
                 <Option<Box<TsTypeParamInstantiation>> as VisitMutWith<V>>::visit_mut_children_with(
                     type_args, visitor,
                 );
@@ -20765,9 +19549,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for JSXOpeningFragment {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
-            JSXOpeningFragment { span } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-            }
+            JSXOpeningFragment { span } => {}
         }
     }
 }
@@ -20780,7 +19562,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for JSXSpreadChild {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             JSXSpreadChild { span, expr } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(expr, visitor);
             }
         }
@@ -20794,11 +19575,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for JSXText {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
-            JSXText { span, value, raw } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-                <swc_atoms::Atom as VisitMutWith<V>>::visit_mut_children_with(value, visitor);
-                <swc_atoms::Atom as VisitMutWith<V>>::visit_mut_children_with(raw, visitor);
-            }
+            JSXText { span, value, raw } => {}
         }
     }
 }
@@ -20858,7 +19635,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for LabeledStmt {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             LabeledStmt { span, label, body } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Ident as VisitMutWith<V>>::visit_mut_children_with(label, visitor);
                 <Box<Stmt> as VisitMutWith<V>>::visit_mut_children_with(body, visitor);
             }
@@ -20906,7 +19682,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for MemberExpr {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             MemberExpr { span, obj, prop } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(obj, visitor);
                 <MemberProp as VisitMutWith<V>>::visit_mut_children_with(prop, visitor);
             }
@@ -20942,7 +19717,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for MetaPropExpr {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             MetaPropExpr { span, kind } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <MetaPropKind as VisitMutWith<V>>::visit_mut_children_with(kind, visitor);
             }
         }
@@ -21003,7 +19777,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Module {
                 body,
                 shebang,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Vec<ModuleItem> as VisitMutWith<V>>::visit_mut_children_with(body, visitor);
                 <Option<swc_atoms::Atom> as VisitMutWith<V>>::visit_mut_children_with(
                     shebang, visitor,
@@ -21103,12 +19876,10 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for NamedExport {
                 type_only,
                 with,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Vec<ExportSpecifier> as VisitMutWith<V>>::visit_mut_children_with(
                     specifiers, visitor,
                 );
                 <Option<Box<Str>> as VisitMutWith<V>>::visit_mut_children_with(src, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(type_only, visitor);
                 <Option<Box<ObjectLit>> as VisitMutWith<V>>::visit_mut_children_with(with, visitor);
             }
         }
@@ -21129,10 +19900,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for NewExpr {
                 args,
                 type_args,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-                <swc_common::SyntaxContext as VisitMutWith<V>>::visit_mut_children_with(
-                    ctxt, visitor,
-                );
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(callee, visitor);
                 <Option<Vec<ExprOrSpread>> as VisitMutWith<V>>::visit_mut_children_with(
                     args, visitor,
@@ -21152,9 +19919,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Null {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
-            Null { span } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-            }
+            Null { span } => {}
         }
     }
 }
@@ -21167,8 +19932,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Number {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             Number { span, value, raw } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-                <f64 as VisitMutWith<V>>::visit_mut_children_with(value, visitor);
                 <Option<swc_atoms::Atom> as VisitMutWith<V>>::visit_mut_children_with(raw, visitor);
             }
         }
@@ -21183,7 +19946,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ObjectLit {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             ObjectLit { span, props } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Vec<PropOrSpread> as VisitMutWith<V>>::visit_mut_children_with(props, visitor);
             }
         }
@@ -21203,9 +19965,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ObjectPat {
                 optional,
                 type_ann,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Vec<ObjectPatProp> as VisitMutWith<V>>::visit_mut_children_with(props, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(optional, visitor);
                 <Option<Box<TsTypeAnn>> as VisitMutWith<V>>::visit_mut_children_with(
                     type_ann, visitor,
                 );
@@ -21248,10 +20008,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for OptCall {
                 args,
                 type_args,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-                <swc_common::SyntaxContext as VisitMutWith<V>>::visit_mut_children_with(
-                    ctxt, visitor,
-                );
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(callee, visitor);
                 <Vec<ExprOrSpread> as VisitMutWith<V>>::visit_mut_children_with(args, visitor);
                 <Option<Box<TsTypeParamInstantiation>> as VisitMutWith<V>>::visit_mut_children_with(
@@ -21291,8 +20047,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for OptChainExpr {
                 optional,
                 base,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(optional, visitor);
                 <Box<OptChainBase> as VisitMutWith<V>>::visit_mut_children_with(base, visitor);
             }
         }
@@ -21311,7 +20065,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Param {
                 decorators,
                 pat,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Vec<Decorator> as VisitMutWith<V>>::visit_mut_children_with(decorators, visitor);
                 <Pat as VisitMutWith<V>>::visit_mut_children_with(pat, visitor);
             }
@@ -21344,7 +20097,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ParenExpr {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             ParenExpr { span, expr } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(expr, visitor);
             }
         }
@@ -21390,10 +20142,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for PrivateName {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
-            PrivateName { span, name } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-                <swc_atoms::Atom as VisitMutWith<V>>::visit_mut_children_with(name, visitor);
-            }
+            PrivateName { span, name } => {}
         }
     }
 }
@@ -21419,25 +20168,16 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for PrivateProp {
                 readonly,
                 definite,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-                <swc_common::SyntaxContext as VisitMutWith<V>>::visit_mut_children_with(
-                    ctxt, visitor,
-                );
                 <PrivateName as VisitMutWith<V>>::visit_mut_children_with(key, visitor);
                 <Option<Box<Expr>> as VisitMutWith<V>>::visit_mut_children_with(value, visitor);
                 <Option<Box<TsTypeAnn>> as VisitMutWith<V>>::visit_mut_children_with(
                     type_ann, visitor,
                 );
-                <bool as VisitMutWith<V>>::visit_mut_children_with(is_static, visitor);
                 <Vec<Decorator> as VisitMutWith<V>>::visit_mut_children_with(decorators, visitor);
                 <Option<Accessibility> as VisitMutWith<V>>::visit_mut_children_with(
                     accessibility,
                     visitor,
                 );
-                <bool as VisitMutWith<V>>::visit_mut_children_with(is_optional, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(is_override, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(readonly, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(definite, visitor);
             }
         }
     }
@@ -21539,11 +20279,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Regex {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
-            Regex { span, exp, flags } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-                <swc_atoms::Atom as VisitMutWith<V>>::visit_mut_children_with(exp, visitor);
-                <swc_atoms::Atom as VisitMutWith<V>>::visit_mut_children_with(flags, visitor);
-            }
+            Regex { span, exp, flags } => {}
         }
     }
 }
@@ -21556,7 +20292,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ReservedUnused {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             ReservedUnused { span, body } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Option<Vec<ModuleItem>> as VisitMutWith<V>>::visit_mut_children_with(
                     body, visitor,
                 );
@@ -21578,8 +20313,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for RestPat {
                 arg,
                 type_ann,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(dot3_token, visitor);
                 <Box<Pat> as VisitMutWith<V>>::visit_mut_children_with(arg, visitor);
                 <Option<Box<TsTypeAnn>> as VisitMutWith<V>>::visit_mut_children_with(
                     type_ann, visitor,
@@ -21597,7 +20330,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ReturnStmt {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             ReturnStmt { span, arg } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Option<Box<Expr>> as VisitMutWith<V>>::visit_mut_children_with(arg, visitor);
             }
         }
@@ -21616,7 +20348,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Script {
                 body,
                 shebang,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Vec<Stmt> as VisitMutWith<V>>::visit_mut_children_with(body, visitor);
                 <Option<swc_atoms::Atom> as VisitMutWith<V>>::visit_mut_children_with(
                     shebang, visitor,
@@ -21634,7 +20365,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for SeqExpr {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             SeqExpr { span, exprs } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Vec<Box<Expr>> as VisitMutWith<V>>::visit_mut_children_with(exprs, visitor);
             }
         }
@@ -21655,7 +20385,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for SetterProp {
                 param,
                 body,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <PropName as VisitMutWith<V>>::visit_mut_children_with(key, visitor);
                 <Option<Pat> as VisitMutWith<V>>::visit_mut_children_with(this_param, visitor);
                 <Box<Pat> as VisitMutWith<V>>::visit_mut_children_with(param, visitor);
@@ -21717,7 +20446,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for SpreadElement {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             SpreadElement { dot3_token, expr } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(dot3_token, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(expr, visitor);
             }
         }
@@ -21732,7 +20460,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for StaticBlock {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             StaticBlock { span, body } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <BlockStmt as VisitMutWith<V>>::visit_mut_children_with(body, visitor);
             }
         }
@@ -21815,8 +20542,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Str {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             Str { span, value, raw } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-                <swc_atoms::Atom as VisitMutWith<V>>::visit_mut_children_with(value, visitor);
                 <Option<swc_atoms::Atom> as VisitMutWith<V>>::visit_mut_children_with(raw, visitor);
             }
         }
@@ -21830,9 +20555,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Super {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
-            Super { span } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-            }
+            Super { span } => {}
         }
     }
 }
@@ -21862,7 +20585,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for SuperPropExpr {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             SuperPropExpr { span, obj, prop } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Super as VisitMutWith<V>>::visit_mut_children_with(obj, visitor);
                 <SuperProp as VisitMutWith<V>>::visit_mut_children_with(prop, visitor);
             }
@@ -21878,7 +20600,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for SwitchCase {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             SwitchCase { span, test, cons } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Option<Box<Expr>> as VisitMutWith<V>>::visit_mut_children_with(test, visitor);
                 <Vec<Stmt> as VisitMutWith<V>>::visit_mut_children_with(cons, visitor);
             }
@@ -21898,7 +20619,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for SwitchStmt {
                 discriminant,
                 cases,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(discriminant, visitor);
                 <Vec<SwitchCase> as VisitMutWith<V>>::visit_mut_children_with(cases, visitor);
             }
@@ -21920,10 +20640,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TaggedTpl {
                 type_params,
                 tpl,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-                <swc_common::SyntaxContext as VisitMutWith<V>>::visit_mut_children_with(
-                    ctxt, visitor,
-                );
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(tag, visitor);
                 <Option<Box<TsTypeParamInstantiation>> as VisitMutWith<V>>::visit_mut_children_with(
                     type_params,
@@ -21942,9 +20658,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ThisExpr {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
-            ThisExpr { span } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-            }
+            ThisExpr { span } => {}
         }
     }
 }
@@ -21957,7 +20671,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ThrowStmt {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             ThrowStmt { span, arg } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(arg, visitor);
             }
         }
@@ -21976,7 +20689,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Tpl {
                 exprs,
                 quasis,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Vec<Box<Expr>> as VisitMutWith<V>>::visit_mut_children_with(exprs, visitor);
                 <Vec<TplElement> as VisitMutWith<V>>::visit_mut_children_with(quasis, visitor);
             }
@@ -21997,12 +20709,9 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TplElement {
                 cooked,
                 raw,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(tail, visitor);
                 <Option<swc_atoms::Atom> as VisitMutWith<V>>::visit_mut_children_with(
                     cooked, visitor,
                 );
-                <swc_atoms::Atom as VisitMutWith<V>>::visit_mut_children_with(raw, visitor);
             }
         }
     }
@@ -22035,7 +20744,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TryStmt {
                 handler,
                 finalizer,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <BlockStmt as VisitMutWith<V>>::visit_mut_children_with(block, visitor);
                 <Option<CatchClause> as VisitMutWith<V>>::visit_mut_children_with(handler, visitor);
                 <Option<BlockStmt> as VisitMutWith<V>>::visit_mut_children_with(finalizer, visitor);
@@ -22052,7 +20760,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsArrayType {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             TsArrayType { span, elem_type } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Box<TsType> as VisitMutWith<V>>::visit_mut_children_with(elem_type, visitor);
             }
         }
@@ -22071,7 +20778,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsAsExpr {
                 expr,
                 type_ann,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(expr, visitor);
                 <Box<TsType> as VisitMutWith<V>>::visit_mut_children_with(type_ann, visitor);
             }
@@ -22092,7 +20798,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsCallSignatureDecl {
                 type_ann,
                 type_params,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Vec<TsFnParam> as VisitMutWith<V>>::visit_mut_children_with(params, visitor);
                 <Option<Box<TsTypeAnn>> as VisitMutWith<V>>::visit_mut_children_with(
                     type_ann, visitor,
@@ -22120,7 +20825,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsConditionalType {
                 true_type,
                 false_type,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Box<TsType> as VisitMutWith<V>>::visit_mut_children_with(check_type, visitor);
                 <Box<TsType> as VisitMutWith<V>>::visit_mut_children_with(extends_type, visitor);
                 <Box<TsType> as VisitMutWith<V>>::visit_mut_children_with(true_type, visitor);
@@ -22138,7 +20842,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsConstAssertion {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             TsConstAssertion { span, expr } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(expr, visitor);
             }
         }
@@ -22158,7 +20861,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsConstructSignatureDecl {
                 type_ann,
                 type_params,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Vec<TsFnParam> as VisitMutWith<V>>::visit_mut_children_with(params, visitor);
                 <Option<Box<TsTypeAnn>> as VisitMutWith<V>>::visit_mut_children_with(
                     type_ann, visitor,
@@ -22186,14 +20888,12 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsConstructorType {
                 type_ann,
                 is_abstract,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Vec<TsFnParam> as VisitMutWith<V>>::visit_mut_children_with(params, visitor);
                 <Option<Box<TsTypeParamDecl>> as VisitMutWith<V>>::visit_mut_children_with(
                     type_params,
                     visitor,
                 );
                 <Box<TsTypeAnn> as VisitMutWith<V>>::visit_mut_children_with(type_ann, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(is_abstract, visitor);
             }
         }
     }
@@ -22232,9 +20932,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsEnumDecl {
                 id,
                 members,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(declare, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(is_const, visitor);
                 <Ident as VisitMutWith<V>>::visit_mut_children_with(id, visitor);
                 <Vec<TsEnumMember> as VisitMutWith<V>>::visit_mut_children_with(members, visitor);
             }
@@ -22250,7 +20947,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsEnumMember {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             TsEnumMember { span, id, init } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <TsEnumMemberId as VisitMutWith<V>>::visit_mut_children_with(id, visitor);
                 <Option<Box<Expr>> as VisitMutWith<V>>::visit_mut_children_with(init, visitor);
             }
@@ -22283,7 +20979,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsExportAssignment {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             TsExportAssignment { span, expr } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(expr, visitor);
             }
         }
@@ -22302,7 +20997,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsExprWithTypeArgs {
                 expr,
                 type_args,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(expr, visitor);
                 <Option<Box<TsTypeParamInstantiation>> as VisitMutWith<V>>::visit_mut_children_with(
                     type_args, visitor,
@@ -22320,7 +21014,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsExternalModuleRef {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             TsExternalModuleRef { span, expr } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Str as VisitMutWith<V>>::visit_mut_children_with(expr, visitor);
             }
         }
@@ -22380,7 +21073,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsFnType {
                 type_params,
                 type_ann,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Vec<TsFnParam> as VisitMutWith<V>>::visit_mut_children_with(params, visitor);
                 <Option<Box<TsTypeParamDecl>> as VisitMutWith<V>>::visit_mut_children_with(
                     type_params,
@@ -22405,9 +21097,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsGetterSignature {
                 computed,
                 type_ann,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(key, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(computed, visitor);
                 <Option<Box<TsTypeAnn>> as VisitMutWith<V>>::visit_mut_children_with(
                     type_ann, visitor,
                 );
@@ -22430,9 +21120,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsImportEqualsDecl {
                 id,
                 module_ref,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(is_export, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(is_type_only, visitor);
                 <Ident as VisitMutWith<V>>::visit_mut_children_with(id, visitor);
                 <TsModuleRef as VisitMutWith<V>>::visit_mut_children_with(module_ref, visitor);
             }
@@ -22453,7 +21140,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsImportType {
                 qualifier,
                 type_args,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Str as VisitMutWith<V>>::visit_mut_children_with(arg, visitor);
                 <Option<TsEntityName> as VisitMutWith<V>>::visit_mut_children_with(
                     qualifier, visitor,
@@ -22484,9 +21170,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsIndexSignature {
                 <Option<Box<TsTypeAnn>> as VisitMutWith<V>>::visit_mut_children_with(
                     type_ann, visitor,
                 );
-                <bool as VisitMutWith<V>>::visit_mut_children_with(readonly, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(is_static, visitor);
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
             }
         }
     }
@@ -22505,8 +21188,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsIndexedAccessType {
                 obj_type,
                 index_type,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(readonly, visitor);
                 <Box<TsType> as VisitMutWith<V>>::visit_mut_children_with(obj_type, visitor);
                 <Box<TsType> as VisitMutWith<V>>::visit_mut_children_with(index_type, visitor);
             }
@@ -22522,7 +21203,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsInferType {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             TsInferType { span, type_param } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <TsTypeParam as VisitMutWith<V>>::visit_mut_children_with(type_param, visitor);
             }
         }
@@ -22541,7 +21221,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsInstantiation {
                 expr,
                 type_args,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(expr, visitor);
                 <Box<TsTypeParamInstantiation> as VisitMutWith<V>>::visit_mut_children_with(
                     type_args, visitor,
@@ -22559,7 +21238,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsInterfaceBody {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             TsInterfaceBody { span, body } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Vec<TsTypeElement> as VisitMutWith<V>>::visit_mut_children_with(body, visitor);
             }
         }
@@ -22581,9 +21259,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsInterfaceDecl {
                 extends,
                 body,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Ident as VisitMutWith<V>>::visit_mut_children_with(id, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(declare, visitor);
                 <Option<Box<TsTypeParamDecl>> as VisitMutWith<V>>::visit_mut_children_with(
                     type_params,
                     visitor,
@@ -22605,7 +21281,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsIntersectionType {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             TsIntersectionType { span, types } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Vec<Box<TsType>> as VisitMutWith<V>>::visit_mut_children_with(types, visitor);
             }
         }
@@ -22620,7 +21295,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsKeywordType {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             TsKeywordType { span, kind } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <TsKeywordTypeKind as VisitMutWith<V>>::visit_mut_children_with(kind, visitor);
             }
         }
@@ -22685,7 +21359,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsLitType {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             TsLitType { span, lit } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <TsLit as VisitMutWith<V>>::visit_mut_children_with(lit, visitor);
             }
         }
@@ -22707,7 +21380,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsMappedType {
                 optional,
                 type_ann,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Option<TruePlusMinus> as VisitMutWith<V>>::visit_mut_children_with(
                     readonly, visitor,
                 );
@@ -22742,10 +21414,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsMethodSignature {
                 type_ann,
                 type_params,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(key, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(computed, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(optional, visitor);
                 <Vec<TsFnParam> as VisitMutWith<V>>::visit_mut_children_with(params, visitor);
                 <Option<Box<TsTypeAnn>> as VisitMutWith<V>>::visit_mut_children_with(
                     type_ann, visitor,
@@ -22767,7 +21436,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsModuleBlock {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             TsModuleBlock { span, body } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Vec<ModuleItem> as VisitMutWith<V>>::visit_mut_children_with(body, visitor);
             }
         }
@@ -22788,9 +21456,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsModuleDecl {
                 id,
                 body,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(declare, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(global, visitor);
                 <TsModuleName as VisitMutWith<V>>::visit_mut_children_with(id, visitor);
                 <Option<TsNamespaceBody> as VisitMutWith<V>>::visit_mut_children_with(
                     body, visitor,
@@ -22867,9 +21532,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsNamespaceDecl {
                 id,
                 body,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(declare, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(global, visitor);
                 <Ident as VisitMutWith<V>>::visit_mut_children_with(id, visitor);
                 <Box<TsNamespaceBody> as VisitMutWith<V>>::visit_mut_children_with(body, visitor);
             }
@@ -22885,7 +21547,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsNamespaceExportDecl {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             TsNamespaceExportDecl { span, id } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Ident as VisitMutWith<V>>::visit_mut_children_with(id, visitor);
             }
         }
@@ -22900,7 +21561,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsNonNullExpr {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             TsNonNullExpr { span, expr } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(expr, visitor);
             }
         }
@@ -22915,7 +21575,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsOptionalType {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             TsOptionalType { span, type_ann } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Box<TsType> as VisitMutWith<V>>::visit_mut_children_with(type_ann, visitor);
             }
         }
@@ -22937,14 +21596,11 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsParamProp {
                 readonly,
                 param,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Vec<Decorator> as VisitMutWith<V>>::visit_mut_children_with(decorators, visitor);
                 <Option<Accessibility> as VisitMutWith<V>>::visit_mut_children_with(
                     accessibility,
                     visitor,
                 );
-                <bool as VisitMutWith<V>>::visit_mut_children_with(is_override, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(readonly, visitor);
                 <TsParamPropParam as VisitMutWith<V>>::visit_mut_children_with(param, visitor);
             }
         }
@@ -22976,7 +21632,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsParenthesizedType {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             TsParenthesizedType { span, type_ann } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Box<TsType> as VisitMutWith<V>>::visit_mut_children_with(type_ann, visitor);
             }
         }
@@ -22998,11 +21653,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsPropertySignature {
                 optional,
                 type_ann,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(readonly, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(key, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(computed, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(optional, visitor);
                 <Option<Box<TsTypeAnn>> as VisitMutWith<V>>::visit_mut_children_with(
                     type_ann, visitor,
                 );
@@ -23019,7 +21670,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsQualifiedName {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             TsQualifiedName { span, left, right } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <TsEntityName as VisitMutWith<V>>::visit_mut_children_with(left, visitor);
                 <IdentName as VisitMutWith<V>>::visit_mut_children_with(right, visitor);
             }
@@ -23035,7 +21685,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsRestType {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             TsRestType { span, type_ann } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Box<TsType> as VisitMutWith<V>>::visit_mut_children_with(type_ann, visitor);
             }
         }
@@ -23054,7 +21703,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsSatisfiesExpr {
                 expr,
                 type_ann,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(expr, visitor);
                 <Box<TsType> as VisitMutWith<V>>::visit_mut_children_with(type_ann, visitor);
             }
@@ -23075,9 +21723,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsSetterSignature {
                 computed,
                 param,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(key, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(computed, visitor);
                 <TsFnParam as VisitMutWith<V>>::visit_mut_children_with(param, visitor);
             }
         }
@@ -23091,9 +21737,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsThisType {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
-            TsThisType { span } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-            }
+            TsThisType { span } => {}
         }
     }
 }
@@ -23127,7 +21771,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsTplLitType {
                 types,
                 quasis,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Vec<Box<TsType>> as VisitMutWith<V>>::visit_mut_children_with(types, visitor);
                 <Vec<TplElement> as VisitMutWith<V>>::visit_mut_children_with(quasis, visitor);
             }
@@ -23143,7 +21786,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsTupleElement {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             TsTupleElement { span, label, ty } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Option<Pat> as VisitMutWith<V>>::visit_mut_children_with(label, visitor);
                 <Box<TsType> as VisitMutWith<V>>::visit_mut_children_with(ty, visitor);
             }
@@ -23159,7 +21801,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsTupleType {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             TsTupleType { span, elem_types } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Vec<TsTupleElement> as VisitMutWith<V>>::visit_mut_children_with(
                     elem_types, visitor,
                 );
@@ -23261,8 +21902,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsTypeAliasDecl {
                 type_params,
                 type_ann,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(declare, visitor);
                 <Ident as VisitMutWith<V>>::visit_mut_children_with(id, visitor);
                 <Option<Box<TsTypeParamDecl>> as VisitMutWith<V>>::visit_mut_children_with(
                     type_params,
@@ -23282,7 +21921,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsTypeAnn {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             TsTypeAnn { span, type_ann } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Box<TsType> as VisitMutWith<V>>::visit_mut_children_with(type_ann, visitor);
             }
         }
@@ -23301,7 +21939,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsTypeAssertion {
                 expr,
                 type_ann,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(expr, visitor);
                 <Box<TsType> as VisitMutWith<V>>::visit_mut_children_with(type_ann, visitor);
             }
@@ -23355,7 +21992,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsTypeLit {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             TsTypeLit { span, members } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Vec<TsTypeElement> as VisitMutWith<V>>::visit_mut_children_with(members, visitor);
             }
         }
@@ -23370,7 +22006,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsTypeOperator {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             TsTypeOperator { span, op, type_ann } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <TsTypeOperatorOp as VisitMutWith<V>>::visit_mut_children_with(op, visitor);
                 <Box<TsType> as VisitMutWith<V>>::visit_mut_children_with(type_ann, visitor);
             }
@@ -23408,11 +22043,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsTypeParam {
                 constraint,
                 default,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Ident as VisitMutWith<V>>::visit_mut_children_with(name, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(is_in, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(is_out, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(is_const, visitor);
                 <Option<Box<TsType>> as VisitMutWith<V>>::visit_mut_children_with(
                     constraint, visitor,
                 );
@@ -23430,7 +22061,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsTypeParamDecl {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             TsTypeParamDecl { span, params } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Vec<TsTypeParam> as VisitMutWith<V>>::visit_mut_children_with(params, visitor);
             }
         }
@@ -23445,7 +22075,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsTypeParamInstantiation {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             TsTypeParamInstantiation { span, params } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Vec<Box<TsType>> as VisitMutWith<V>>::visit_mut_children_with(params, visitor);
             }
         }
@@ -23465,8 +22094,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsTypePredicate {
                 param_name,
                 type_ann,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(asserts, visitor);
                 <TsThisTypeOrIdent as VisitMutWith<V>>::visit_mut_children_with(
                     param_name, visitor,
                 );
@@ -23490,7 +22117,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsTypeQuery {
                 expr_name,
                 type_args,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <TsTypeQueryExpr as VisitMutWith<V>>::visit_mut_children_with(expr_name, visitor);
                 <Option<Box<TsTypeParamInstantiation>> as VisitMutWith<V>>::visit_mut_children_with(
                     type_args, visitor,
@@ -23529,7 +22155,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsTypeRef {
                 type_name,
                 type_params,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <TsEntityName as VisitMutWith<V>>::visit_mut_children_with(type_name, visitor);
                 <Option<Box<TsTypeParamInstantiation>> as VisitMutWith<V>>::visit_mut_children_with(
                     type_params,
@@ -23565,7 +22190,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsUnionType {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             TsUnionType { span, types } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Vec<Box<TsType>> as VisitMutWith<V>>::visit_mut_children_with(types, visitor);
             }
         }
@@ -23580,7 +22204,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for UnaryExpr {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             UnaryExpr { span, op, arg } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <UnaryOp as VisitMutWith<V>>::visit_mut_children_with(op, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(arg, visitor);
             }
@@ -23619,9 +22242,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for UpdateExpr {
                 prefix,
                 arg,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <UpdateOp as VisitMutWith<V>>::visit_mut_children_with(op, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(prefix, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(arg, visitor);
             }
         }
@@ -23653,8 +22274,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for UsingDecl {
                 is_await,
                 decls,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(is_await, visitor);
                 <Vec<VarDeclarator> as VisitMutWith<V>>::visit_mut_children_with(decls, visitor);
             }
         }
@@ -23675,12 +22294,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for VarDecl {
                 declare,
                 decls,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
-                <swc_common::SyntaxContext as VisitMutWith<V>>::visit_mut_children_with(
-                    ctxt, visitor,
-                );
                 <VarDeclKind as VisitMutWith<V>>::visit_mut_children_with(kind, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(declare, visitor);
                 <Vec<VarDeclarator> as VisitMutWith<V>>::visit_mut_children_with(decls, visitor);
             }
         }
@@ -23731,10 +22345,8 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for VarDeclarator {
                 init,
                 definite,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Pat as VisitMutWith<V>>::visit_mut_children_with(name, visitor);
                 <Option<Box<Expr>> as VisitMutWith<V>>::visit_mut_children_with(init, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(definite, visitor);
             }
         }
     }
@@ -23748,7 +22360,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for WhileStmt {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             WhileStmt { span, test, body } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(test, visitor);
                 <Box<Stmt> as VisitMutWith<V>>::visit_mut_children_with(body, visitor);
             }
@@ -23764,7 +22375,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for WithStmt {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             WithStmt { span, obj, body } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(obj, visitor);
                 <Box<Stmt> as VisitMutWith<V>>::visit_mut_children_with(body, visitor);
             }
@@ -23784,9 +22394,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for YieldExpr {
                 arg,
                 delegate,
             } => {
-                <swc_common::Span as VisitMutWith<V>>::visit_mut_children_with(span, visitor);
                 <Option<Box<Expr>> as VisitMutWith<V>>::visit_mut_children_with(arg, visitor);
-                <bool as VisitMutWith<V>>::visit_mut_children_with(delegate, visitor);
             }
         }
     }
@@ -25954,9 +24562,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ArrayLit {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             ArrayLit { span, elems } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 < Vec < Option < ExprOrSpread > > as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (elems , visitor , ast_path) ;
             }
         }
@@ -25978,14 +24583,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ArrayPat {
                 optional,
                 type_ann,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<Option<Pat>> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     elems, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    optional, visitor, ast_path,
                 );
                 < Option < Box < TsTypeAnn > > as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (type_ann , visitor , ast_path) ;
             }
@@ -26012,23 +24611,11 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ArrowExpr {
                 type_params,
                 return_type,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                < swc_common :: SyntaxContext as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (ctxt , visitor , ast_path) ;
                 <Vec<Pat> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     params, visitor, ast_path,
                 );
                 <Box<BlockStmtOrExpr> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     body, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    is_async, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    is_generator,
-                    visitor,
-                    ast_path,
                 );
                 < Option < Box < TsTypeParamDecl > > as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (type_params , visitor , ast_path) ;
                 < Option < Box < TsTypeAnn > > as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (return_type , visitor , ast_path) ;
@@ -26052,9 +24639,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for AssignExpr {
                 left,
                 right,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <AssignOp as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     op, visitor, ast_path,
                 );
@@ -26108,9 +24692,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for AssignPat {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             AssignPat { span, left, right } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Pat> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     left, visitor, ast_path,
                 );
@@ -26132,9 +24713,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for AssignPatProp {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             AssignPatProp { span, key, value } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <BindingIdent as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     key, visitor, ast_path,
                 );
@@ -26156,9 +24734,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for AssignProp {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             AssignProp { span, key, value } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Ident as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     key, visitor, ast_path,
                 );
@@ -26242,9 +24817,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for AutoAccessor {
                 is_override,
                 definite,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Key as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     key, visitor, ast_path,
                 );
@@ -26252,9 +24824,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for AutoAccessor {
                     value, visitor, ast_path,
                 );
                 < Option < Box < TsTypeAnn > > as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (type_ann , visitor , ast_path) ;
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    is_static, visitor, ast_path,
-                );
                 <Vec<Decorator> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     decorators, visitor, ast_path,
                 );
@@ -26262,19 +24831,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for AutoAccessor {
                     accessibility,
                     visitor,
                     ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    is_abstract,
-                    visitor,
-                    ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    is_override,
-                    visitor,
-                    ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    definite, visitor, ast_path,
                 );
             }
         }
@@ -26291,9 +24847,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for AwaitExpr {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             AwaitExpr { span, arg } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     arg, visitor, ast_path,
                 );
@@ -26312,12 +24865,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for BigInt {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             BigInt { span, value, raw } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <Box<BigIntValue> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    value, visitor, ast_path,
-                );
                 < Option < swc_atoms :: Atom > as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (raw , visitor , ast_path) ;
             }
         }
@@ -26339,9 +24886,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for BinExpr {
                 left,
                 right,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <BinaryOp as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     op, visitor, ast_path,
                 );
@@ -26423,10 +24967,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for BlockStmt {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             BlockStmt { span, ctxt, stmts } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                < swc_common :: SyntaxContext as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (ctxt , visitor , ast_path) ;
                 <Vec<Stmt> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     stmts, visitor, ast_path,
                 );
@@ -26467,14 +25007,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Bool {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
-            Bool { span, value } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    value, visitor, ast_path,
-                );
-            }
+            Bool { span, value } => {}
         }
     }
 }
@@ -26489,9 +25022,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for BreakStmt {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             BreakStmt { span, label } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Option<Ident> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     label, visitor, ast_path,
                 );
@@ -26516,10 +25046,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for CallExpr {
                 args,
                 type_args,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                < swc_common :: SyntaxContext as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (ctxt , visitor , ast_path) ;
                 <Callee as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     callee, visitor, ast_path,
                 );
@@ -26570,9 +25096,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for CatchClause {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             CatchClause { span, param, body } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Option<Pat> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     param, visitor, ast_path,
                 );
@@ -26604,10 +25127,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Class {
                 super_type_params,
                 implements,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                < swc_common :: SyntaxContext as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (ctxt , visitor , ast_path) ;
                 <Vec<Decorator> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     decorators, visitor, ast_path,
                 );
@@ -26616,11 +25135,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Class {
                 );
                 <Option<Box<Expr>> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     super_class,
-                    visitor,
-                    ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    is_abstract,
                     visitor,
                     ast_path,
                 );
@@ -26648,9 +25162,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ClassDecl {
             } => {
                 <Ident as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     ident, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    declare, visitor, ast_path,
                 );
                 <Box<Class> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     class, visitor, ast_path,
@@ -26695,16 +25206,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ClassMember {
                     _field_0, visitor, ast_path,
                 );
             }
-            ClassMember::Method { 0: _field_0 } => {
-                <ClassMethod as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    _field_0, visitor, ast_path,
-                );
-            }
-            ClassMember::PrivateMethod { 0: _field_0 } => {
-                <PrivateMethod as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    _field_0, visitor, ast_path,
-                );
-            }
+            ClassMember::Method { 0: _field_0 } => {}
+            ClassMember::PrivateMethod { 0: _field_0 } => {}
             ClassMember::ClassProp { 0: _field_0 } => {
                 <ClassProp as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     _field_0, visitor, ast_path,
@@ -26763,9 +25266,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ClassProp {
                 declare,
                 definite,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <PropName as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     key, visitor, ast_path,
                 );
@@ -26773,9 +25273,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ClassProp {
                     value, visitor, ast_path,
                 );
                 < Option < Box < TsTypeAnn > > as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (type_ann , visitor , ast_path) ;
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    is_static, visitor, ast_path,
-                );
                 <Vec<Decorator> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     decorators, visitor, ast_path,
                 );
@@ -26783,30 +25280,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ClassProp {
                     accessibility,
                     visitor,
                     ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    is_abstract,
-                    visitor,
-                    ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    is_optional,
-                    visitor,
-                    ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    is_override,
-                    visitor,
-                    ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    readonly, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    declare, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    definite, visitor, ast_path,
                 );
             }
         }
@@ -26823,9 +25296,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ComputedPropName {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             ComputedPropName { span, expr } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -26849,9 +25319,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for CondExpr {
                 cons,
                 alt,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     test, visitor, ast_path,
                 );
@@ -26884,10 +25351,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Constructor {
                 accessibility,
                 is_optional,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                < swc_common :: SyntaxContext as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (ctxt , visitor , ast_path) ;
                 <PropName as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     key, visitor, ast_path,
                 );
@@ -26897,11 +25360,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Constructor {
                 );
                 <Option<Accessibility> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     accessibility,
-                    visitor,
-                    ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    is_optional,
                     visitor,
                     ast_path,
                 );
@@ -26920,9 +25378,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ContinueStmt {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             ContinueStmt { span, label } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Option<Ident> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     label, visitor, ast_path,
                 );
@@ -26940,11 +25395,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for DebuggerStmt {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
-            DebuggerStmt { span } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-            }
+            DebuggerStmt { span } => {}
         }
     }
 }
@@ -27012,9 +25463,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Decorator {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             Decorator { span, expr } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -27061,9 +25509,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for DoWhileStmt {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             DoWhileStmt { span, test, body } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     test, visitor, ast_path,
                 );
@@ -27084,11 +25529,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for EmptyStmt {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
-            EmptyStmt { span } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-            }
+            EmptyStmt { span } => {}
         }
     }
 }
@@ -27132,14 +25573,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ExportAll {
                 type_only,
                 with,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Str> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     src, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    type_only, visitor, ast_path,
                 );
                 < Option < Box < ObjectLit > > as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (with , visitor , ast_path) ;
             }
@@ -27157,9 +25592,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ExportDecl {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             ExportDecl { span, decl } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Decl as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     decl, visitor, ast_path,
                 );
@@ -27178,9 +25610,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ExportDefaultDecl {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             ExportDefaultDecl { span, decl } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <DefaultDecl as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     decl, visitor, ast_path,
                 );
@@ -27199,9 +25628,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ExportDefaultExpr {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             ExportDefaultExpr { span, expr } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -27243,18 +25669,10 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ExportNamedSpecifie
                 exported,
                 is_type_only,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <ModuleExportName as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     orig, visitor, ast_path,
                 );
                 < Option < ModuleExportName > as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (exported , visitor , ast_path) ;
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    is_type_only,
-                    visitor,
-                    ast_path,
-                );
             }
         }
     }
@@ -27270,9 +25688,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ExportNamespaceSpec
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             ExportNamespaceSpecifier { span, name } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <ModuleExportName as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     name, visitor, ast_path,
                 );
@@ -27537,9 +25952,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ExprStmt {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             ExprStmt { span, expr } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -27564,9 +25976,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for FnDecl {
             } => {
                 <Ident as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     ident, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    declare, visitor, ast_path,
                 );
                 <Box<Function> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     function, visitor, ast_path,
@@ -27640,9 +26049,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ForInStmt {
                 right,
                 body,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <ForHead as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     left, visitor, ast_path,
                 );
@@ -27673,12 +26079,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ForOfStmt {
                 right,
                 body,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    is_await, visitor, ast_path,
-                );
                 <ForHead as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     left, visitor, ast_path,
                 );
@@ -27709,9 +26109,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ForStmt {
                 update,
                 body,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Option<VarDeclOrExpr> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     init, visitor, ast_path,
                 );
@@ -27755,20 +26152,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Function {
                 <Vec<Decorator> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     decorators, visitor, ast_path,
                 );
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                < swc_common :: SyntaxContext as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (ctxt , visitor , ast_path) ;
                 <Option<BlockStmt> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     body, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    is_generator,
-                    visitor,
-                    ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    is_async, visitor, ast_path,
                 );
                 < Option < Box < TsTypeParamDecl > > as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (type_params , visitor , ast_path) ;
                 < Option < Box < TsTypeAnn > > as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (return_type , visitor , ast_path) ;
@@ -27792,9 +26177,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for GetterProp {
                 type_ann,
                 body,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <PropName as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     key, visitor, ast_path,
                 );
@@ -27821,18 +26203,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Ident {
                 ctxt,
                 sym,
                 optional,
-            } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                < swc_common :: SyntaxContext as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (ctxt , visitor , ast_path) ;
-                <swc_atoms::Atom as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    sym, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    optional, visitor, ast_path,
-                );
-            }
+            } => {}
         }
     }
 }
@@ -27846,14 +26217,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for IdentName {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
-            IdentName { span, sym } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <swc_atoms::Atom as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    sym, visitor, ast_path,
-                );
-            }
+            IdentName { span, sym } => {}
         }
     }
 }
@@ -27873,9 +26237,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for IfStmt {
                 cons,
                 alt,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     test, visitor, ast_path,
                 );
@@ -27900,9 +26261,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Import {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             Import { span, phase } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <ImportPhase as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     phase, visitor, ast_path,
                 );
@@ -27928,17 +26286,11 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ImportDecl {
                 with,
                 phase,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<ImportSpecifier> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     specifiers, visitor, ast_path,
                 );
                 <Box<Str> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     src, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    type_only, visitor, ast_path,
                 );
                 < Option < Box < ObjectLit > > as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (with , visitor , ast_path) ;
                 <ImportPhase as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
@@ -27959,9 +26311,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ImportDefaultSpecif
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             ImportDefaultSpecifier { span, local } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Ident as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     local, visitor, ast_path,
                 );
@@ -27985,18 +26334,10 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ImportNamedSpecifie
                 imported,
                 is_type_only,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Ident as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     local, visitor, ast_path,
                 );
                 < Option < ModuleExportName > as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (imported , visitor , ast_path) ;
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    is_type_only,
-                    visitor,
-                    ast_path,
-                );
             }
         }
     }
@@ -28054,9 +26395,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ImportStarAsSpecifi
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             ImportStarAsSpecifier { span, local } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Ident as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     local, visitor, ast_path,
                 );
@@ -28075,9 +26413,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ImportWith {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             ImportWith { span, values } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<ImportWithItem> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     values, visitor, ast_path,
                 );
@@ -28116,11 +26451,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Invalid {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
-            Invalid { span } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-            }
+            Invalid { span } => {}
         }
     }
 }
@@ -28135,9 +26466,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for JSXAttr {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             JSXAttr { span, name, value } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <JSXAttrName as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     name, visitor, ast_path,
                 );
@@ -28238,9 +26566,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for JSXClosingElement {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             JSXClosingElement { span, name } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <JSXElementName as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     name, visitor, ast_path,
                 );
@@ -28258,11 +26583,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for JSXClosingFragment 
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
-            JSXClosingFragment { span } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-            }
+            JSXClosingFragment { span } => {}
         }
     }
 }
@@ -28282,9 +26603,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for JSXElement {
                 children,
                 closing,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <JSXOpeningElement as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     opening, visitor, ast_path,
                 );
@@ -28372,11 +26690,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for JSXEmptyExpr {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
-            JSXEmptyExpr { span } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-            }
+            JSXEmptyExpr { span } => {}
         }
     }
 }
@@ -28414,9 +26728,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for JSXExprContainer {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             JSXExprContainer { span, expr } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <JSXExpr as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -28440,9 +26751,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for JSXFragment {
                 children,
                 closing,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <JSXOpeningFragment as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     opening, visitor, ast_path,
                 );
@@ -28467,9 +26775,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for JSXMemberExpr {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             JSXMemberExpr { span, obj, prop } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <JSXObject as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     obj, visitor, ast_path,
                 );
@@ -28491,9 +26796,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for JSXNamespacedName {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             JSXNamespacedName { span, ns, name } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <IdentName as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     ns, visitor, ast_path,
                 );
@@ -28547,16 +26849,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for JSXOpeningElement {
                 <JSXElementName as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     name, visitor, ast_path,
                 );
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<JSXAttrOrSpread> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     attrs, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    self_closing,
-                    visitor,
-                    ast_path,
                 );
                 < Option < Box < TsTypeParamInstantiation > > as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (type_args , visitor , ast_path) ;
             }
@@ -28573,11 +26867,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for JSXOpeningFragment 
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
-            JSXOpeningFragment { span } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-            }
+            JSXOpeningFragment { span } => {}
         }
     }
 }
@@ -28592,9 +26882,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for JSXSpreadChild {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             JSXSpreadChild { span, expr } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -28612,17 +26899,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for JSXText {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
-            JSXText { span, value, raw } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <swc_atoms::Atom as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    value, visitor, ast_path,
-                );
-                <swc_atoms::Atom as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    raw, visitor, ast_path,
-                );
-            }
+            JSXText { span, value, raw } => {}
         }
     }
 }
@@ -28702,9 +26979,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for LabeledStmt {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             LabeledStmt { span, label, body } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Ident as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     label, visitor, ast_path,
                 );
@@ -28774,9 +27048,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for MemberExpr {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             MemberExpr { span, obj, prop } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     obj, visitor, ast_path,
                 );
@@ -28826,9 +27097,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for MetaPropExpr {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             MetaPropExpr { span, kind } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <MetaPropKind as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     kind, visitor, ast_path,
                 );
@@ -28903,9 +27171,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Module {
                 body,
                 shebang,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<ModuleItem> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     body, visitor, ast_path,
                 );
@@ -29033,17 +27298,11 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for NamedExport {
                 type_only,
                 with,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<ExportSpecifier> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     specifiers, visitor, ast_path,
                 );
                 <Option<Box<Str>> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     src, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    type_only, visitor, ast_path,
                 );
                 < Option < Box < ObjectLit > > as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (with , visitor , ast_path) ;
             }
@@ -29067,10 +27326,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for NewExpr {
                 args,
                 type_args,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                < swc_common :: SyntaxContext as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (ctxt , visitor , ast_path) ;
                 <Box<Expr> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     callee, visitor, ast_path,
                 );
@@ -29090,11 +27345,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Null {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
-            Null { span } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-            }
+            Null { span } => {}
         }
     }
 }
@@ -29109,12 +27360,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Number {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             Number { span, value, raw } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <f64 as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    value, visitor, ast_path,
-                );
                 < Option < swc_atoms :: Atom > as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (raw , visitor , ast_path) ;
             }
         }
@@ -29131,9 +27376,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ObjectLit {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             ObjectLit { span, props } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<PropOrSpread> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     props, visitor, ast_path,
                 );
@@ -29157,14 +27399,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ObjectPat {
                 optional,
                 type_ann,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<ObjectPatProp> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     props, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    optional, visitor, ast_path,
                 );
                 < Option < Box < TsTypeAnn > > as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (type_ann , visitor , ast_path) ;
             }
@@ -29216,10 +27452,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for OptCall {
                 args,
                 type_args,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                < swc_common :: SyntaxContext as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (ctxt , visitor , ast_path) ;
                 <Box<Expr> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     callee, visitor, ast_path,
                 );
@@ -29269,12 +27501,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for OptChainExpr {
                 optional,
                 base,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    optional, visitor, ast_path,
-                );
                 <Box<OptChainBase> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     base, visitor, ast_path,
                 );
@@ -29297,9 +27523,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Param {
                 decorators,
                 pat,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<Decorator> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     decorators, visitor, ast_path,
                 );
@@ -29344,9 +27567,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ParenExpr {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             ParenExpr { span, expr } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -29412,14 +27632,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for PrivateName {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
-            PrivateName { span, name } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <swc_atoms::Atom as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    name, visitor, ast_path,
-                );
-            }
+            PrivateName { span, name } => {}
         }
     }
 }
@@ -29447,10 +27660,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for PrivateProp {
                 readonly,
                 definite,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                < swc_common :: SyntaxContext as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (ctxt , visitor , ast_path) ;
                 <PrivateName as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     key, visitor, ast_path,
                 );
@@ -29458,9 +27667,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for PrivateProp {
                     value, visitor, ast_path,
                 );
                 < Option < Box < TsTypeAnn > > as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (type_ann , visitor , ast_path) ;
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    is_static, visitor, ast_path,
-                );
                 <Vec<Decorator> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     decorators, visitor, ast_path,
                 );
@@ -29468,22 +27674,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for PrivateProp {
                     accessibility,
                     visitor,
                     ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    is_optional,
-                    visitor,
-                    ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    is_override,
-                    visitor,
-                    ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    readonly, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    definite, visitor, ast_path,
                 );
             }
         }
@@ -29626,17 +27816,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Regex {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
-            Regex { span, exp, flags } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <swc_atoms::Atom as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    exp, visitor, ast_path,
-                );
-                <swc_atoms::Atom as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    flags, visitor, ast_path,
-                );
-            }
+            Regex { span, exp, flags } => {}
         }
     }
 }
@@ -29651,9 +27831,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ReservedUnused {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             ReservedUnused { span, body } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 < Option < Vec < ModuleItem > > as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (body , visitor , ast_path) ;
             }
         }
@@ -29675,12 +27852,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for RestPat {
                 arg,
                 type_ann,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    dot3_token, visitor, ast_path,
-                );
                 <Box<Pat> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     arg, visitor, ast_path,
                 );
@@ -29700,9 +27871,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ReturnStmt {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             ReturnStmt { span, arg } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Option<Box<Expr>> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     arg, visitor, ast_path,
                 );
@@ -29725,9 +27893,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Script {
                 body,
                 shebang,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<Stmt> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     body, visitor, ast_path,
                 );
@@ -29747,9 +27912,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for SeqExpr {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             SeqExpr { span, exprs } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<Box<Expr>> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     exprs, visitor, ast_path,
                 );
@@ -29774,9 +27936,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for SetterProp {
                 param,
                 body,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <PropName as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     key, visitor, ast_path,
                 );
@@ -29872,9 +28031,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for SpreadElement {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             SpreadElement { dot3_token, expr } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    dot3_token, visitor, ast_path,
-                );
                 <Box<Expr> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -29893,9 +28049,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for StaticBlock {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             StaticBlock { span, body } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <BlockStmt as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     body, visitor, ast_path,
                 );
@@ -30022,12 +28175,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Str {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             Str { span, value, raw } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <swc_atoms::Atom as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    value, visitor, ast_path,
-                );
                 < Option < swc_atoms :: Atom > as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (raw , visitor , ast_path) ;
             }
         }
@@ -30043,11 +28190,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Super {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
-            Super { span } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-            }
+            Super { span } => {}
         }
     }
 }
@@ -30085,9 +28228,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for SuperPropExpr {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             SuperPropExpr { span, obj, prop } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Super as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     obj, visitor, ast_path,
                 );
@@ -30109,9 +28249,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for SwitchCase {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             SwitchCase { span, test, cons } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Option<Box<Expr>> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     test, visitor, ast_path,
                 );
@@ -30137,9 +28274,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for SwitchStmt {
                 discriminant,
                 cases,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     discriminant,
                     visitor,
@@ -30169,10 +28303,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TaggedTpl {
                 type_params,
                 tpl,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                < swc_common :: SyntaxContext as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (ctxt , visitor , ast_path) ;
                 <Box<Expr> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     tag, visitor, ast_path,
                 );
@@ -30194,11 +28324,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ThisExpr {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
-            ThisExpr { span } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-            }
+            ThisExpr { span } => {}
         }
     }
 }
@@ -30213,9 +28339,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ThrowStmt {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             ThrowStmt { span, arg } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     arg, visitor, ast_path,
                 );
@@ -30238,9 +28361,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Tpl {
                 exprs,
                 quasis,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<Box<Expr>> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     exprs, visitor, ast_path,
                 );
@@ -30267,16 +28387,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TplElement {
                 cooked,
                 raw,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    tail, visitor, ast_path,
-                );
                 < Option < swc_atoms :: Atom > as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (cooked , visitor , ast_path) ;
-                <swc_atoms::Atom as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    raw, visitor, ast_path,
-                );
             }
         }
     }
@@ -30313,9 +28424,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TryStmt {
                 handler,
                 finalizer,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <BlockStmt as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     block, visitor, ast_path,
                 );
@@ -30340,9 +28448,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsArrayType {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             TsArrayType { span, elem_type } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<TsType> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     elem_type, visitor, ast_path,
                 );
@@ -30365,9 +28470,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsAsExpr {
                 expr,
                 type_ann,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -30394,9 +28496,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsCallSignatureDecl
                 type_ann,
                 type_params,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<TsFnParam> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     params, visitor, ast_path,
                 );
@@ -30423,9 +28522,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsConditionalType {
                 true_type,
                 false_type,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<TsType> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     check_type, visitor, ast_path,
                 );
@@ -30455,9 +28551,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsConstAssertion {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             TsConstAssertion { span, expr } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -30481,9 +28574,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsConstructSignatur
                 type_ann,
                 type_params,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<TsFnParam> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     params, visitor, ast_path,
                 );
@@ -30510,20 +28600,12 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsConstructorType {
                 type_ann,
                 is_abstract,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<TsFnParam> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     params, visitor, ast_path,
                 );
                 < Option < Box < TsTypeParamDecl > > as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (type_params , visitor , ast_path) ;
                 <Box<TsTypeAnn> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     type_ann, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    is_abstract,
-                    visitor,
-                    ast_path,
                 );
             }
         }
@@ -30569,15 +28651,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsEnumDecl {
                 id,
                 members,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    declare, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    is_const, visitor, ast_path,
-                );
                 <Ident as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     id, visitor, ast_path,
                 );
@@ -30599,9 +28672,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsEnumMember {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             TsEnumMember { span, id, init } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <TsEnumMemberId as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     id, visitor, ast_path,
                 );
@@ -30646,9 +28716,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsExportAssignment 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             TsExportAssignment { span, expr } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -30671,9 +28738,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsExprWithTypeArgs 
                 expr,
                 type_args,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -30693,9 +28757,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsExternalModuleRef
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             TsExternalModuleRef { span, expr } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Str as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -30775,9 +28836,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsFnType {
                 type_params,
                 type_ann,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<TsFnParam> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     params, visitor, ast_path,
                 );
@@ -30805,14 +28863,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsGetterSignature {
                 computed,
                 type_ann,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     key, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    computed, visitor, ast_path,
                 );
                 < Option < Box < TsTypeAnn > > as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (type_ann , visitor , ast_path) ;
             }
@@ -30836,17 +28888,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsImportEqualsDecl 
                 id,
                 module_ref,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    is_export, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    is_type_only,
-                    visitor,
-                    ast_path,
-                );
                 <Ident as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     id, visitor, ast_path,
                 );
@@ -30873,9 +28914,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsImportType {
                 qualifier,
                 type_args,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Str as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     arg, visitor, ast_path,
                 );
@@ -30908,15 +28946,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsIndexSignature {
                     params, visitor, ast_path,
                 );
                 < Option < Box < TsTypeAnn > > as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (type_ann , visitor , ast_path) ;
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    readonly, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    is_static, visitor, ast_path,
-                );
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
             }
         }
     }
@@ -30937,12 +28966,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsIndexedAccessType
                 obj_type,
                 index_type,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    readonly, visitor, ast_path,
-                );
                 <Box<TsType> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     obj_type, visitor, ast_path,
                 );
@@ -30964,9 +28987,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsInferType {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             TsInferType { span, type_param } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <TsTypeParam as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     type_param, visitor, ast_path,
                 );
@@ -30989,9 +29009,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsInstantiation {
                 expr,
                 type_args,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -31011,9 +29028,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsInterfaceBody {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             TsInterfaceBody { span, body } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<TsTypeElement> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     body, visitor, ast_path,
                 );
@@ -31039,14 +29053,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsInterfaceDecl {
                 extends,
                 body,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Ident as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     id, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    declare, visitor, ast_path,
                 );
                 < Option < Box < TsTypeParamDecl > > as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (type_params , visitor , ast_path) ;
                 < Vec < TsExprWithTypeArgs > as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (extends , visitor , ast_path) ;
@@ -31068,9 +29076,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsIntersectionType 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             TsIntersectionType { span, types } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<Box<TsType>> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     types, visitor, ast_path,
                 );
@@ -31089,9 +29094,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsKeywordType {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             TsKeywordType { span, kind } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <TsKeywordTypeKind as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     kind, visitor, ast_path,
                 );
@@ -31174,9 +29176,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsLitType {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             TsLitType { span, lit } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <TsLit as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     lit, visitor, ast_path,
                 );
@@ -31202,9 +29201,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsMappedType {
                 optional,
                 type_ann,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Option<TruePlusMinus> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     readonly, visitor, ast_path,
                 );
@@ -31243,17 +29239,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsMethodSignature {
                 type_ann,
                 type_params,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     key, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    computed, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    optional, visitor, ast_path,
                 );
                 <Vec<TsFnParam> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     params, visitor, ast_path,
@@ -31275,9 +29262,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsModuleBlock {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             TsModuleBlock { span, body } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<ModuleItem> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     body, visitor, ast_path,
                 );
@@ -31302,15 +29286,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsModuleDecl {
                 id,
                 body,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    declare, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    global, visitor, ast_path,
-                );
                 <TsModuleName as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     id, visitor, ast_path,
                 );
@@ -31405,15 +29380,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsNamespaceDecl {
                 id,
                 body,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    declare, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    global, visitor, ast_path,
-                );
                 <Ident as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     id, visitor, ast_path,
                 );
@@ -31435,9 +29401,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsNamespaceExportDe
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             TsNamespaceExportDecl { span, id } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Ident as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     id, visitor, ast_path,
                 );
@@ -31456,9 +29419,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsNonNullExpr {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             TsNonNullExpr { span, expr } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -31477,9 +29437,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsOptionalType {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             TsOptionalType { span, type_ann } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<TsType> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     type_ann, visitor, ast_path,
                 );
@@ -31505,9 +29462,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsParamProp {
                 readonly,
                 param,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<Decorator> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     decorators, visitor, ast_path,
                 );
@@ -31515,14 +29469,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsParamProp {
                     accessibility,
                     visitor,
                     ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    is_override,
-                    visitor,
-                    ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    readonly, visitor, ast_path,
                 );
                 <TsParamPropParam as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     param, visitor, ast_path,
@@ -31565,9 +29511,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsParenthesizedType
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             TsParenthesizedType { span, type_ann } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<TsType> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     type_ann, visitor, ast_path,
                 );
@@ -31593,20 +29536,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsPropertySignature
                 optional,
                 type_ann,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    readonly, visitor, ast_path,
-                );
                 <Box<Expr> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     key, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    computed, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    optional, visitor, ast_path,
                 );
                 < Option < Box < TsTypeAnn > > as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (type_ann , visitor , ast_path) ;
             }
@@ -31624,9 +29555,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsQualifiedName {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             TsQualifiedName { span, left, right } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <TsEntityName as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     left, visitor, ast_path,
                 );
@@ -31648,9 +29576,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsRestType {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             TsRestType { span, type_ann } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<TsType> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     type_ann, visitor, ast_path,
                 );
@@ -31673,9 +29598,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsSatisfiesExpr {
                 expr,
                 type_ann,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -31702,14 +29624,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsSetterSignature {
                 computed,
                 param,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     key, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    computed, visitor, ast_path,
                 );
                 <TsFnParam as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     param, visitor, ast_path,
@@ -31728,11 +29644,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsThisType {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
-            TsThisType { span } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-            }
+            TsThisType { span } => {}
         }
     }
 }
@@ -31774,9 +29686,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsTplLitType {
                 types,
                 quasis,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<Box<TsType>> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     types, visitor, ast_path,
                 );
@@ -31798,9 +29707,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsTupleElement {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             TsTupleElement { span, label, ty } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Option<Pat> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     label, visitor, ast_path,
                 );
@@ -31822,9 +29728,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsTupleType {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             TsTupleType { span, elem_types } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<TsTupleElement> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     elem_types, visitor, ast_path,
                 );
@@ -31960,12 +29863,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsTypeAliasDecl {
                 type_params,
                 type_ann,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    declare, visitor, ast_path,
-                );
                 <Ident as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     id, visitor, ast_path,
                 );
@@ -31988,9 +29885,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsTypeAnn {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             TsTypeAnn { span, type_ann } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<TsType> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     type_ann, visitor, ast_path,
                 );
@@ -32013,9 +29907,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsTypeAssertion {
                 expr,
                 type_ann,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -32083,9 +29974,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsTypeLit {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             TsTypeLit { span, members } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<TsTypeElement> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     members, visitor, ast_path,
                 );
@@ -32104,9 +29992,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsTypeOperator {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             TsTypeOperator { span, op, type_ann } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <TsTypeOperatorOp as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     op, visitor, ast_path,
                 );
@@ -32152,20 +30037,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsTypeParam {
                 constraint,
                 default,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Ident as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     name, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    is_in, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    is_out, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    is_const, visitor, ast_path,
                 );
                 <Option<Box<TsType>> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     constraint, visitor, ast_path,
@@ -32188,9 +30061,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsTypeParamDecl {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             TsTypeParamDecl { span, params } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<TsTypeParam> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     params, visitor, ast_path,
                 );
@@ -32209,9 +30079,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsTypeParamInstanti
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             TsTypeParamInstantiation { span, params } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<Box<TsType>> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     params, visitor, ast_path,
                 );
@@ -32235,12 +30102,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsTypePredicate {
                 param_name,
                 type_ann,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    asserts, visitor, ast_path,
-                );
                 <TsThisTypeOrIdent as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     param_name, visitor, ast_path,
                 );
@@ -32264,9 +30125,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsTypeQuery {
                 expr_name,
                 type_args,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <TsTypeQueryExpr as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     expr_name, visitor, ast_path,
                 );
@@ -32313,9 +30171,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsTypeRef {
                 type_name,
                 type_params,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <TsEntityName as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     type_name, visitor, ast_path,
                 );
@@ -32358,9 +30213,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsUnionType {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             TsUnionType { span, types } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Vec<Box<TsType>> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     types, visitor, ast_path,
                 );
@@ -32379,9 +30231,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for UnaryExpr {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             UnaryExpr { span, op, arg } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <UnaryOp as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     op, visitor, ast_path,
                 );
@@ -32428,14 +30277,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for UpdateExpr {
                 prefix,
                 arg,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <UpdateOp as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     op, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    prefix, visitor, ast_path,
                 );
                 <Box<Expr> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     arg, visitor, ast_path,
@@ -32474,12 +30317,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for UsingDecl {
                 is_await,
                 decls,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    is_await, visitor, ast_path,
-                );
                 <Vec<VarDeclarator> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     decls, visitor, ast_path,
                 );
@@ -32504,15 +30341,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for VarDecl {
                 declare,
                 decls,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                < swc_common :: SyntaxContext as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (ctxt , visitor , ast_path) ;
                 <VarDeclKind as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     kind, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    declare, visitor, ast_path,
                 );
                 <Vec<VarDeclarator> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     decls, visitor, ast_path,
@@ -32576,17 +30406,11 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for VarDeclarator {
                 init,
                 definite,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Pat as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     name, visitor, ast_path,
                 );
                 <Option<Box<Expr>> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     init, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    definite, visitor, ast_path,
                 );
             }
         }
@@ -32603,9 +30427,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for WhileStmt {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             WhileStmt { span, test, body } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     test, visitor, ast_path,
                 );
@@ -32627,9 +30448,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for WithStmt {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
             WithStmt { span, obj, body } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Box<Expr> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     obj, visitor, ast_path,
                 );
@@ -32655,14 +30473,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for YieldExpr {
                 arg,
                 delegate,
             } => {
-                <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 <Option<Box<Expr>> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     arg, visitor, ast_path,
-                );
-                <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    delegate, visitor, ast_path,
                 );
             }
         }
@@ -34096,7 +31908,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for ArrayLit {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             ArrayLit { span, elems } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let elems =
                     <Vec<Option<ExprOrSpread>> as FoldWith<V>>::fold_children_with(elems, visitor);
                 ArrayLit { span, elems }
@@ -34118,9 +31929,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for ArrayPat {
                 optional,
                 type_ann,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let elems = <Vec<Option<Pat>> as FoldWith<V>>::fold_children_with(elems, visitor);
-                let optional = <bool as FoldWith<V>>::fold_children_with(optional, visitor);
                 let type_ann =
                     <Option<Box<TsTypeAnn>> as FoldWith<V>>::fold_children_with(type_ann, visitor);
                 ArrayPat {
@@ -34151,13 +31960,8 @@ impl<V: ?Sized + Fold> FoldWith<V> for ArrowExpr {
                 type_params,
                 return_type,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                let ctxt =
-                    <swc_common::SyntaxContext as FoldWith<V>>::fold_children_with(ctxt, visitor);
                 let params = <Vec<Pat> as FoldWith<V>>::fold_children_with(params, visitor);
                 let body = <Box<BlockStmtOrExpr> as FoldWith<V>>::fold_children_with(body, visitor);
-                let is_async = <bool as FoldWith<V>>::fold_children_with(is_async, visitor);
-                let is_generator = <bool as FoldWith<V>>::fold_children_with(is_generator, visitor);
                 let type_params = <Option<Box<TsTypeParamDecl>> as FoldWith<V>>::fold_children_with(
                     type_params,
                     visitor,
@@ -34194,7 +31998,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for AssignExpr {
                 left,
                 right,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let op = <AssignOp as FoldWith<V>>::fold_children_with(op, visitor);
                 let left = <AssignTarget as FoldWith<V>>::fold_children_with(left, visitor);
                 let right = <Box<Expr> as FoldWith<V>>::fold_children_with(right, visitor);
@@ -34244,7 +32047,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for AssignPat {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             AssignPat { span, left, right } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let left = <Box<Pat> as FoldWith<V>>::fold_children_with(left, visitor);
                 let right = <Box<Expr> as FoldWith<V>>::fold_children_with(right, visitor);
                 AssignPat { span, left, right }
@@ -34261,7 +32063,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for AssignPatProp {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             AssignPatProp { span, key, value } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let key = <BindingIdent as FoldWith<V>>::fold_children_with(key, visitor);
                 let value = <Option<Box<Expr>> as FoldWith<V>>::fold_children_with(value, visitor);
                 AssignPatProp { span, key, value }
@@ -34278,7 +32079,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for AssignProp {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             AssignProp { span, key, value } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let key = <Ident as FoldWith<V>>::fold_children_with(key, visitor);
                 let value = <Box<Expr> as FoldWith<V>>::fold_children_with(value, visitor);
                 AssignProp { span, key, value }
@@ -34350,21 +32150,16 @@ impl<V: ?Sized + Fold> FoldWith<V> for AutoAccessor {
                 is_override,
                 definite,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let key = <Key as FoldWith<V>>::fold_children_with(key, visitor);
                 let value = <Option<Box<Expr>> as FoldWith<V>>::fold_children_with(value, visitor);
                 let type_ann =
                     <Option<Box<TsTypeAnn>> as FoldWith<V>>::fold_children_with(type_ann, visitor);
-                let is_static = <bool as FoldWith<V>>::fold_children_with(is_static, visitor);
                 let decorators =
                     <Vec<Decorator> as FoldWith<V>>::fold_children_with(decorators, visitor);
                 let accessibility = <Option<Accessibility> as FoldWith<V>>::fold_children_with(
                     accessibility,
                     visitor,
                 );
-                let is_abstract = <bool as FoldWith<V>>::fold_children_with(is_abstract, visitor);
-                let is_override = <bool as FoldWith<V>>::fold_children_with(is_override, visitor);
-                let definite = <bool as FoldWith<V>>::fold_children_with(definite, visitor);
                 AutoAccessor {
                     span,
                     key,
@@ -34390,7 +32185,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for AwaitExpr {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             AwaitExpr { span, arg } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let arg = <Box<Expr> as FoldWith<V>>::fold_children_with(arg, visitor);
                 AwaitExpr { span, arg }
             }
@@ -34406,8 +32200,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for BigInt {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             BigInt { span, value, raw } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                let value = <Box<BigIntValue> as FoldWith<V>>::fold_children_with(value, visitor);
                 let raw =
                     <Option<swc_atoms::Atom> as FoldWith<V>>::fold_children_with(raw, visitor);
                 BigInt { span, value, raw }
@@ -34429,7 +32221,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for BinExpr {
                 left,
                 right,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let op = <BinaryOp as FoldWith<V>>::fold_children_with(op, visitor);
                 let left = <Box<Expr> as FoldWith<V>>::fold_children_with(left, visitor);
                 let right = <Box<Expr> as FoldWith<V>>::fold_children_with(right, visitor);
@@ -34505,9 +32296,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for BlockStmt {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             BlockStmt { span, ctxt, stmts } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                let ctxt =
-                    <swc_common::SyntaxContext as FoldWith<V>>::fold_children_with(ctxt, visitor);
                 let stmts = <Vec<Stmt> as FoldWith<V>>::fold_children_with(stmts, visitor);
                 BlockStmt { span, ctxt, stmts }
             }
@@ -34541,11 +32329,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Bool {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            Bool { span, value } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                let value = <bool as FoldWith<V>>::fold_children_with(value, visitor);
-                Bool { span, value }
-            }
+            Bool { span, value } => Bool { span, value },
         }
     }
 }
@@ -34558,7 +32342,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for BreakStmt {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             BreakStmt { span, label } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let label = <Option<Ident> as FoldWith<V>>::fold_children_with(label, visitor);
                 BreakStmt { span, label }
             }
@@ -34580,9 +32363,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for CallExpr {
                 args,
                 type_args,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                let ctxt =
-                    <swc_common::SyntaxContext as FoldWith<V>>::fold_children_with(ctxt, visitor);
                 let callee = <Callee as FoldWith<V>>::fold_children_with(callee, visitor);
                 let args = <Vec<ExprOrSpread> as FoldWith<V>>::fold_children_with(args, visitor);
                 let type_args =
@@ -34632,7 +32412,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for CatchClause {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             CatchClause { span, param, body } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let param = <Option<Pat> as FoldWith<V>>::fold_children_with(param, visitor);
                 let body = <BlockStmt as FoldWith<V>>::fold_children_with(body, visitor);
                 CatchClause { span, param, body }
@@ -34659,15 +32438,11 @@ impl<V: ?Sized + Fold> FoldWith<V> for Class {
                 super_type_params,
                 implements,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                let ctxt =
-                    <swc_common::SyntaxContext as FoldWith<V>>::fold_children_with(ctxt, visitor);
                 let decorators =
                     <Vec<Decorator> as FoldWith<V>>::fold_children_with(decorators, visitor);
                 let body = <Vec<ClassMember> as FoldWith<V>>::fold_children_with(body, visitor);
                 let super_class =
                     <Option<Box<Expr>> as FoldWith<V>>::fold_children_with(super_class, visitor);
-                let is_abstract = <bool as FoldWith<V>>::fold_children_with(is_abstract, visitor);
                 let type_params = <Option<Box<TsTypeParamDecl>> as FoldWith<V>>::fold_children_with(
                     type_params,
                     visitor,
@@ -34709,7 +32484,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for ClassDecl {
                 class,
             } => {
                 let ident = <Ident as FoldWith<V>>::fold_children_with(ident, visitor);
-                let declare = <bool as FoldWith<V>>::fold_children_with(declare, visitor);
                 let class = <Box<Class> as FoldWith<V>>::fold_children_with(class, visitor);
                 ClassDecl {
                     ident,
@@ -34748,13 +32522,8 @@ impl<V: ?Sized + Fold> FoldWith<V> for ClassMember {
                 let _field_0 = <Constructor as FoldWith<V>>::fold_children_with(_field_0, visitor);
                 ClassMember::Constructor { 0: self._field_0 }
             }
-            ClassMember::Method { 0: _field_0 } => {
-                let _field_0 = <ClassMethod as FoldWith<V>>::fold_children_with(_field_0, visitor);
-                ClassMember::Method { 0: self._field_0 }
-            }
+            ClassMember::Method { 0: _field_0 } => ClassMember::Method { 0: self._field_0 },
             ClassMember::PrivateMethod { 0: _field_0 } => {
-                let _field_0 =
-                    <PrivateMethod as FoldWith<V>>::fold_children_with(_field_0, visitor);
                 ClassMember::PrivateMethod { 0: self._field_0 }
             }
             ClassMember::ClassProp { 0: _field_0 } => {
@@ -34808,24 +32577,16 @@ impl<V: ?Sized + Fold> FoldWith<V> for ClassProp {
                 declare,
                 definite,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let key = <PropName as FoldWith<V>>::fold_children_with(key, visitor);
                 let value = <Option<Box<Expr>> as FoldWith<V>>::fold_children_with(value, visitor);
                 let type_ann =
                     <Option<Box<TsTypeAnn>> as FoldWith<V>>::fold_children_with(type_ann, visitor);
-                let is_static = <bool as FoldWith<V>>::fold_children_with(is_static, visitor);
                 let decorators =
                     <Vec<Decorator> as FoldWith<V>>::fold_children_with(decorators, visitor);
                 let accessibility = <Option<Accessibility> as FoldWith<V>>::fold_children_with(
                     accessibility,
                     visitor,
                 );
-                let is_abstract = <bool as FoldWith<V>>::fold_children_with(is_abstract, visitor);
-                let is_optional = <bool as FoldWith<V>>::fold_children_with(is_optional, visitor);
-                let is_override = <bool as FoldWith<V>>::fold_children_with(is_override, visitor);
-                let readonly = <bool as FoldWith<V>>::fold_children_with(readonly, visitor);
-                let declare = <bool as FoldWith<V>>::fold_children_with(declare, visitor);
-                let definite = <bool as FoldWith<V>>::fold_children_with(definite, visitor);
                 ClassProp {
                     span,
                     key,
@@ -34854,7 +32615,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for ComputedPropName {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             ComputedPropName { span, expr } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let expr = <Box<Expr> as FoldWith<V>>::fold_children_with(expr, visitor);
                 ComputedPropName { span, expr }
             }
@@ -34875,7 +32635,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for CondExpr {
                 cons,
                 alt,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let test = <Box<Expr> as FoldWith<V>>::fold_children_with(test, visitor);
                 let cons = <Box<Expr> as FoldWith<V>>::fold_children_with(cons, visitor);
                 let alt = <Box<Expr> as FoldWith<V>>::fold_children_with(alt, visitor);
@@ -34906,9 +32665,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for Constructor {
                 accessibility,
                 is_optional,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                let ctxt =
-                    <swc_common::SyntaxContext as FoldWith<V>>::fold_children_with(ctxt, visitor);
                 let key = <PropName as FoldWith<V>>::fold_children_with(key, visitor);
                 let params =
                     <Vec<ParamOrTsParamProp> as FoldWith<V>>::fold_children_with(params, visitor);
@@ -34917,7 +32673,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for Constructor {
                     accessibility,
                     visitor,
                 );
-                let is_optional = <bool as FoldWith<V>>::fold_children_with(is_optional, visitor);
                 Constructor {
                     span,
                     ctxt,
@@ -34940,7 +32695,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for ContinueStmt {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             ContinueStmt { span, label } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let label = <Option<Ident> as FoldWith<V>>::fold_children_with(label, visitor);
                 ContinueStmt { span, label }
             }
@@ -34955,10 +32709,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for DebuggerStmt {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            DebuggerStmt { span } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                DebuggerStmt { span }
-            }
+            DebuggerStmt { span } => DebuggerStmt { span },
         }
     }
 }
@@ -35019,7 +32770,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for Decorator {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             Decorator { span, expr } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let expr = <Box<Expr> as FoldWith<V>>::fold_children_with(expr, visitor);
                 Decorator { span, expr }
             }
@@ -35059,7 +32809,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for DoWhileStmt {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             DoWhileStmt { span, test, body } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let test = <Box<Expr> as FoldWith<V>>::fold_children_with(test, visitor);
                 let body = <Box<Stmt> as FoldWith<V>>::fold_children_with(body, visitor);
                 DoWhileStmt { span, test, body }
@@ -35075,10 +32824,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for EmptyStmt {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            EmptyStmt { span } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                EmptyStmt { span }
-            }
+            EmptyStmt { span } => EmptyStmt { span },
         }
     }
 }
@@ -35118,9 +32864,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for ExportAll {
                 type_only,
                 with,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let src = <Box<Str> as FoldWith<V>>::fold_children_with(src, visitor);
-                let type_only = <bool as FoldWith<V>>::fold_children_with(type_only, visitor);
                 let with =
                     <Option<Box<ObjectLit>> as FoldWith<V>>::fold_children_with(with, visitor);
                 ExportAll {
@@ -35142,7 +32886,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for ExportDecl {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             ExportDecl { span, decl } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let decl = <Decl as FoldWith<V>>::fold_children_with(decl, visitor);
                 ExportDecl { span, decl }
             }
@@ -35158,7 +32901,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for ExportDefaultDecl {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             ExportDefaultDecl { span, decl } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let decl = <DefaultDecl as FoldWith<V>>::fold_children_with(decl, visitor);
                 ExportDefaultDecl { span, decl }
             }
@@ -35174,7 +32916,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for ExportDefaultExpr {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             ExportDefaultExpr { span, expr } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let expr = <Box<Expr> as FoldWith<V>>::fold_children_with(expr, visitor);
                 ExportDefaultExpr { span, expr }
             }
@@ -35210,12 +32951,10 @@ impl<V: ?Sized + Fold> FoldWith<V> for ExportNamedSpecifier {
                 exported,
                 is_type_only,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let orig = <ModuleExportName as FoldWith<V>>::fold_children_with(orig, visitor);
                 let exported = <Option<ModuleExportName> as FoldWith<V>>::fold_children_with(
                     exported, visitor,
                 );
-                let is_type_only = <bool as FoldWith<V>>::fold_children_with(is_type_only, visitor);
                 ExportNamedSpecifier {
                     span,
                     orig,
@@ -35235,7 +32974,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for ExportNamespaceSpecifier {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             ExportNamespaceSpecifier { span, name } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let name = <ModuleExportName as FoldWith<V>>::fold_children_with(name, visitor);
                 ExportNamespaceSpecifier { span, name }
             }
@@ -35467,7 +33205,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for ExprStmt {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             ExprStmt { span, expr } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let expr = <Box<Expr> as FoldWith<V>>::fold_children_with(expr, visitor);
                 ExprStmt { span, expr }
             }
@@ -35488,7 +33225,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for FnDecl {
                 function,
             } => {
                 let ident = <Ident as FoldWith<V>>::fold_children_with(ident, visitor);
-                let declare = <bool as FoldWith<V>>::fold_children_with(declare, visitor);
                 let function =
                     <Box<Function> as FoldWith<V>>::fold_children_with(function, visitor);
                 FnDecl {
@@ -35555,7 +33291,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for ForInStmt {
                 right,
                 body,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let left = <ForHead as FoldWith<V>>::fold_children_with(left, visitor);
                 let right = <Box<Expr> as FoldWith<V>>::fold_children_with(right, visitor);
                 let body = <Box<Stmt> as FoldWith<V>>::fold_children_with(body, visitor);
@@ -35584,8 +33319,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for ForOfStmt {
                 right,
                 body,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                let is_await = <bool as FoldWith<V>>::fold_children_with(is_await, visitor);
                 let left = <ForHead as FoldWith<V>>::fold_children_with(left, visitor);
                 let right = <Box<Expr> as FoldWith<V>>::fold_children_with(right, visitor);
                 let body = <Box<Stmt> as FoldWith<V>>::fold_children_with(body, visitor);
@@ -35615,7 +33348,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for ForStmt {
                 update,
                 body,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let init =
                     <Option<VarDeclOrExpr> as FoldWith<V>>::fold_children_with(init, visitor);
                 let test = <Option<Box<Expr>> as FoldWith<V>>::fold_children_with(test, visitor);
@@ -35655,12 +33387,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Function {
                 let params = <Vec<Param> as FoldWith<V>>::fold_children_with(params, visitor);
                 let decorators =
                     <Vec<Decorator> as FoldWith<V>>::fold_children_with(decorators, visitor);
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                let ctxt =
-                    <swc_common::SyntaxContext as FoldWith<V>>::fold_children_with(ctxt, visitor);
                 let body = <Option<BlockStmt> as FoldWith<V>>::fold_children_with(body, visitor);
-                let is_generator = <bool as FoldWith<V>>::fold_children_with(is_generator, visitor);
-                let is_async = <bool as FoldWith<V>>::fold_children_with(is_async, visitor);
                 let type_params = <Option<Box<TsTypeParamDecl>> as FoldWith<V>>::fold_children_with(
                     type_params,
                     visitor,
@@ -35698,7 +33425,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for GetterProp {
                 type_ann,
                 body,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let key = <PropName as FoldWith<V>>::fold_children_with(key, visitor);
                 let type_ann =
                     <Option<Box<TsTypeAnn>> as FoldWith<V>>::fold_children_with(type_ann, visitor);
@@ -35726,19 +33452,12 @@ impl<V: ?Sized + Fold> FoldWith<V> for Ident {
                 ctxt,
                 sym,
                 optional,
-            } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                let ctxt =
-                    <swc_common::SyntaxContext as FoldWith<V>>::fold_children_with(ctxt, visitor);
-                let sym = <swc_atoms::Atom as FoldWith<V>>::fold_children_with(sym, visitor);
-                let optional = <bool as FoldWith<V>>::fold_children_with(optional, visitor);
-                Ident {
-                    span,
-                    ctxt,
-                    sym,
-                    optional,
-                }
-            }
+            } => Ident {
+                span,
+                ctxt,
+                sym,
+                optional,
+            },
         }
     }
 }
@@ -35750,11 +33469,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for IdentName {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            IdentName { span, sym } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                let sym = <swc_atoms::Atom as FoldWith<V>>::fold_children_with(sym, visitor);
-                IdentName { span, sym }
-            }
+            IdentName { span, sym } => IdentName { span, sym },
         }
     }
 }
@@ -35772,7 +33487,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for IfStmt {
                 cons,
                 alt,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let test = <Box<Expr> as FoldWith<V>>::fold_children_with(test, visitor);
                 let cons = <Box<Stmt> as FoldWith<V>>::fold_children_with(cons, visitor);
                 let alt = <Option<Box<Stmt>> as FoldWith<V>>::fold_children_with(alt, visitor);
@@ -35795,7 +33509,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for Import {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             Import { span, phase } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let phase = <ImportPhase as FoldWith<V>>::fold_children_with(phase, visitor);
                 Import { span, phase }
             }
@@ -35818,11 +33531,9 @@ impl<V: ?Sized + Fold> FoldWith<V> for ImportDecl {
                 with,
                 phase,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let specifiers =
                     <Vec<ImportSpecifier> as FoldWith<V>>::fold_children_with(specifiers, visitor);
                 let src = <Box<Str> as FoldWith<V>>::fold_children_with(src, visitor);
-                let type_only = <bool as FoldWith<V>>::fold_children_with(type_only, visitor);
                 let with =
                     <Option<Box<ObjectLit>> as FoldWith<V>>::fold_children_with(with, visitor);
                 let phase = <ImportPhase as FoldWith<V>>::fold_children_with(phase, visitor);
@@ -35847,7 +33558,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for ImportDefaultSpecifier {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             ImportDefaultSpecifier { span, local } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let local = <Ident as FoldWith<V>>::fold_children_with(local, visitor);
                 ImportDefaultSpecifier { span, local }
             }
@@ -35868,12 +33578,10 @@ impl<V: ?Sized + Fold> FoldWith<V> for ImportNamedSpecifier {
                 imported,
                 is_type_only,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let local = <Ident as FoldWith<V>>::fold_children_with(local, visitor);
                 let imported = <Option<ModuleExportName> as FoldWith<V>>::fold_children_with(
                     imported, visitor,
                 );
-                let is_type_only = <bool as FoldWith<V>>::fold_children_with(is_type_only, visitor);
                 ImportNamedSpecifier {
                     span,
                     local,
@@ -35933,7 +33641,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for ImportStarAsSpecifier {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             ImportStarAsSpecifier { span, local } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let local = <Ident as FoldWith<V>>::fold_children_with(local, visitor);
                 ImportStarAsSpecifier { span, local }
             }
@@ -35949,7 +33656,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for ImportWith {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             ImportWith { span, values } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let values =
                     <Vec<ImportWithItem> as FoldWith<V>>::fold_children_with(values, visitor);
                 ImportWith { span, values }
@@ -35981,10 +33687,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Invalid {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            Invalid { span } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                Invalid { span }
-            }
+            Invalid { span } => Invalid { span },
         }
     }
 }
@@ -35997,7 +33700,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for JSXAttr {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             JSXAttr { span, name, value } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let name = <JSXAttrName as FoldWith<V>>::fold_children_with(name, visitor);
                 let value =
                     <Option<JSXAttrValue> as FoldWith<V>>::fold_children_with(value, visitor);
@@ -36084,7 +33786,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for JSXClosingElement {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             JSXClosingElement { span, name } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let name = <JSXElementName as FoldWith<V>>::fold_children_with(name, visitor);
                 JSXClosingElement { span, name }
             }
@@ -36099,10 +33800,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for JSXClosingFragment {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            JSXClosingFragment { span } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                JSXClosingFragment { span }
-            }
+            JSXClosingFragment { span } => JSXClosingFragment { span },
         }
     }
 }
@@ -36120,7 +33818,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for JSXElement {
                 children,
                 closing,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let opening =
                     <JSXOpeningElement as FoldWith<V>>::fold_children_with(opening, visitor);
                 let children =
@@ -36205,10 +33902,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for JSXEmptyExpr {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            JSXEmptyExpr { span } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                JSXEmptyExpr { span }
-            }
+            JSXEmptyExpr { span } => JSXEmptyExpr { span },
         }
     }
 }
@@ -36240,7 +33934,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for JSXExprContainer {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             JSXExprContainer { span, expr } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let expr = <JSXExpr as FoldWith<V>>::fold_children_with(expr, visitor);
                 JSXExprContainer { span, expr }
             }
@@ -36261,7 +33954,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for JSXFragment {
                 children,
                 closing,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let opening =
                     <JSXOpeningFragment as FoldWith<V>>::fold_children_with(opening, visitor);
                 let children =
@@ -36287,7 +33979,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for JSXMemberExpr {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             JSXMemberExpr { span, obj, prop } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let obj = <JSXObject as FoldWith<V>>::fold_children_with(obj, visitor);
                 let prop = <IdentName as FoldWith<V>>::fold_children_with(prop, visitor);
                 JSXMemberExpr { span, obj, prop }
@@ -36304,7 +33995,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for JSXNamespacedName {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             JSXNamespacedName { span, ns, name } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let ns = <IdentName as FoldWith<V>>::fold_children_with(ns, visitor);
                 let name = <IdentName as FoldWith<V>>::fold_children_with(name, visitor);
                 JSXNamespacedName { span, ns, name }
@@ -36348,10 +34038,8 @@ impl<V: ?Sized + Fold> FoldWith<V> for JSXOpeningElement {
                 type_args,
             } => {
                 let name = <JSXElementName as FoldWith<V>>::fold_children_with(name, visitor);
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let attrs =
                     <Vec<JSXAttrOrSpread> as FoldWith<V>>::fold_children_with(attrs, visitor);
-                let self_closing = <bool as FoldWith<V>>::fold_children_with(self_closing, visitor);
                 let type_args =
                     <Option<Box<TsTypeParamInstantiation>> as FoldWith<V>>::fold_children_with(
                         type_args, visitor,
@@ -36375,10 +34063,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for JSXOpeningFragment {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            JSXOpeningFragment { span } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                JSXOpeningFragment { span }
-            }
+            JSXOpeningFragment { span } => JSXOpeningFragment { span },
         }
     }
 }
@@ -36391,7 +34076,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for JSXSpreadChild {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             JSXSpreadChild { span, expr } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let expr = <Box<Expr> as FoldWith<V>>::fold_children_with(expr, visitor);
                 JSXSpreadChild { span, expr }
             }
@@ -36406,12 +34090,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for JSXText {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            JSXText { span, value, raw } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                let value = <swc_atoms::Atom as FoldWith<V>>::fold_children_with(value, visitor);
-                let raw = <swc_atoms::Atom as FoldWith<V>>::fold_children_with(raw, visitor);
-                JSXText { span, value, raw }
-            }
+            JSXText { span, value, raw } => JSXText { span, value, raw },
         }
     }
 }
@@ -36475,7 +34154,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for LabeledStmt {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             LabeledStmt { span, label, body } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let label = <Ident as FoldWith<V>>::fold_children_with(label, visitor);
                 let body = <Box<Stmt> as FoldWith<V>>::fold_children_with(body, visitor);
                 LabeledStmt { span, label, body }
@@ -36532,7 +34210,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for MemberExpr {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             MemberExpr { span, obj, prop } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let obj = <Box<Expr> as FoldWith<V>>::fold_children_with(obj, visitor);
                 let prop = <MemberProp as FoldWith<V>>::fold_children_with(prop, visitor);
                 MemberExpr { span, obj, prop }
@@ -36573,7 +34250,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for MetaPropExpr {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             MetaPropExpr { span, kind } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let kind = <MetaPropKind as FoldWith<V>>::fold_children_with(kind, visitor);
                 MetaPropExpr { span, kind }
             }
@@ -36637,7 +34313,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for Module {
                 body,
                 shebang,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let body = <Vec<ModuleItem> as FoldWith<V>>::fold_children_with(body, visitor);
                 let shebang =
                     <Option<swc_atoms::Atom> as FoldWith<V>>::fold_children_with(shebang, visitor);
@@ -36755,11 +34430,9 @@ impl<V: ?Sized + Fold> FoldWith<V> for NamedExport {
                 type_only,
                 with,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let specifiers =
                     <Vec<ExportSpecifier> as FoldWith<V>>::fold_children_with(specifiers, visitor);
                 let src = <Option<Box<Str>> as FoldWith<V>>::fold_children_with(src, visitor);
-                let type_only = <bool as FoldWith<V>>::fold_children_with(type_only, visitor);
                 let with =
                     <Option<Box<ObjectLit>> as FoldWith<V>>::fold_children_with(with, visitor);
                 NamedExport {
@@ -36788,9 +34461,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for NewExpr {
                 args,
                 type_args,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                let ctxt =
-                    <swc_common::SyntaxContext as FoldWith<V>>::fold_children_with(ctxt, visitor);
                 let callee = <Box<Expr> as FoldWith<V>>::fold_children_with(callee, visitor);
                 let args =
                     <Option<Vec<ExprOrSpread>> as FoldWith<V>>::fold_children_with(args, visitor);
@@ -36817,10 +34487,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Null {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            Null { span } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                Null { span }
-            }
+            Null { span } => Null { span },
         }
     }
 }
@@ -36833,8 +34500,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for Number {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             Number { span, value, raw } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                let value = <f64 as FoldWith<V>>::fold_children_with(value, visitor);
                 let raw =
                     <Option<swc_atoms::Atom> as FoldWith<V>>::fold_children_with(raw, visitor);
                 Number { span, value, raw }
@@ -36851,7 +34516,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for ObjectLit {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             ObjectLit { span, props } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let props = <Vec<PropOrSpread> as FoldWith<V>>::fold_children_with(props, visitor);
                 ObjectLit { span, props }
             }
@@ -36872,9 +34536,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for ObjectPat {
                 optional,
                 type_ann,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let props = <Vec<ObjectPatProp> as FoldWith<V>>::fold_children_with(props, visitor);
-                let optional = <bool as FoldWith<V>>::fold_children_with(optional, visitor);
                 let type_ann =
                     <Option<Box<TsTypeAnn>> as FoldWith<V>>::fold_children_with(type_ann, visitor);
                 ObjectPat {
@@ -36927,9 +34589,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for OptCall {
                 args,
                 type_args,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                let ctxt =
-                    <swc_common::SyntaxContext as FoldWith<V>>::fold_children_with(ctxt, visitor);
                 let callee = <Box<Expr> as FoldWith<V>>::fold_children_with(callee, visitor);
                 let args = <Vec<ExprOrSpread> as FoldWith<V>>::fold_children_with(args, visitor);
                 let type_args =
@@ -36979,8 +34638,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for OptChainExpr {
                 optional,
                 base,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                let optional = <bool as FoldWith<V>>::fold_children_with(optional, visitor);
                 let base = <Box<OptChainBase> as FoldWith<V>>::fold_children_with(base, visitor);
                 OptChainExpr {
                     span,
@@ -37004,7 +34661,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for Param {
                 decorators,
                 pat,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let decorators =
                     <Vec<Decorator> as FoldWith<V>>::fold_children_with(decorators, visitor);
                 let pat = <Pat as FoldWith<V>>::fold_children_with(pat, visitor);
@@ -37045,7 +34701,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for ParenExpr {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             ParenExpr { span, expr } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let expr = <Box<Expr> as FoldWith<V>>::fold_children_with(expr, visitor);
                 ParenExpr { span, expr }
             }
@@ -37099,11 +34754,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for PrivateName {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            PrivateName { span, name } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                let name = <swc_atoms::Atom as FoldWith<V>>::fold_children_with(name, visitor);
-                PrivateName { span, name }
-            }
+            PrivateName { span, name } => PrivateName { span, name },
         }
     }
 }
@@ -37129,24 +34780,16 @@ impl<V: ?Sized + Fold> FoldWith<V> for PrivateProp {
                 readonly,
                 definite,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                let ctxt =
-                    <swc_common::SyntaxContext as FoldWith<V>>::fold_children_with(ctxt, visitor);
                 let key = <PrivateName as FoldWith<V>>::fold_children_with(key, visitor);
                 let value = <Option<Box<Expr>> as FoldWith<V>>::fold_children_with(value, visitor);
                 let type_ann =
                     <Option<Box<TsTypeAnn>> as FoldWith<V>>::fold_children_with(type_ann, visitor);
-                let is_static = <bool as FoldWith<V>>::fold_children_with(is_static, visitor);
                 let decorators =
                     <Vec<Decorator> as FoldWith<V>>::fold_children_with(decorators, visitor);
                 let accessibility = <Option<Accessibility> as FoldWith<V>>::fold_children_with(
                     accessibility,
                     visitor,
                 );
-                let is_optional = <bool as FoldWith<V>>::fold_children_with(is_optional, visitor);
-                let is_override = <bool as FoldWith<V>>::fold_children_with(is_override, visitor);
-                let readonly = <bool as FoldWith<V>>::fold_children_with(readonly, visitor);
-                let definite = <bool as FoldWith<V>>::fold_children_with(definite, visitor);
                 PrivateProp {
                     span,
                     ctxt,
@@ -37279,12 +34922,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Regex {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            Regex { span, exp, flags } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                let exp = <swc_atoms::Atom as FoldWith<V>>::fold_children_with(exp, visitor);
-                let flags = <swc_atoms::Atom as FoldWith<V>>::fold_children_with(flags, visitor);
-                Regex { span, exp, flags }
-            }
+            Regex { span, exp, flags } => Regex { span, exp, flags },
         }
     }
 }
@@ -37297,7 +34935,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for ReservedUnused {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             ReservedUnused { span, body } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let body =
                     <Option<Vec<ModuleItem>> as FoldWith<V>>::fold_children_with(body, visitor);
                 ReservedUnused { span, body }
@@ -37319,9 +34956,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for RestPat {
                 arg,
                 type_ann,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                let dot3_token =
-                    <swc_common::Span as FoldWith<V>>::fold_children_with(dot3_token, visitor);
                 let arg = <Box<Pat> as FoldWith<V>>::fold_children_with(arg, visitor);
                 let type_ann =
                     <Option<Box<TsTypeAnn>> as FoldWith<V>>::fold_children_with(type_ann, visitor);
@@ -37344,7 +34978,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for ReturnStmt {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             ReturnStmt { span, arg } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let arg = <Option<Box<Expr>> as FoldWith<V>>::fold_children_with(arg, visitor);
                 ReturnStmt { span, arg }
             }
@@ -37364,7 +34997,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for Script {
                 body,
                 shebang,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let body = <Vec<Stmt> as FoldWith<V>>::fold_children_with(body, visitor);
                 let shebang =
                     <Option<swc_atoms::Atom> as FoldWith<V>>::fold_children_with(shebang, visitor);
@@ -37386,7 +35018,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for SeqExpr {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             SeqExpr { span, exprs } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let exprs = <Vec<Box<Expr>> as FoldWith<V>>::fold_children_with(exprs, visitor);
                 SeqExpr { span, exprs }
             }
@@ -37408,7 +35039,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for SetterProp {
                 param,
                 body,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let key = <PropName as FoldWith<V>>::fold_children_with(key, visitor);
                 let this_param =
                     <Option<Pat> as FoldWith<V>>::fold_children_with(this_param, visitor);
@@ -37494,8 +35124,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for SpreadElement {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             SpreadElement { dot3_token, expr } => {
-                let dot3_token =
-                    <swc_common::Span as FoldWith<V>>::fold_children_with(dot3_token, visitor);
                 let expr = <Box<Expr> as FoldWith<V>>::fold_children_with(expr, visitor);
                 SpreadElement { dot3_token, expr }
             }
@@ -37511,7 +35139,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for StaticBlock {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             StaticBlock { span, body } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let body = <BlockStmt as FoldWith<V>>::fold_children_with(body, visitor);
                 StaticBlock { span, body }
             }
@@ -37614,8 +35241,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for Str {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             Str { span, value, raw } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                let value = <swc_atoms::Atom as FoldWith<V>>::fold_children_with(value, visitor);
                 let raw =
                     <Option<swc_atoms::Atom> as FoldWith<V>>::fold_children_with(raw, visitor);
                 Str { span, value, raw }
@@ -37631,10 +35256,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Super {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            Super { span } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                Super { span }
-            }
+            Super { span } => Super { span },
         }
     }
 }
@@ -37667,7 +35289,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for SuperPropExpr {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             SuperPropExpr { span, obj, prop } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let obj = <Super as FoldWith<V>>::fold_children_with(obj, visitor);
                 let prop = <SuperProp as FoldWith<V>>::fold_children_with(prop, visitor);
                 SuperPropExpr { span, obj, prop }
@@ -37684,7 +35305,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for SwitchCase {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             SwitchCase { span, test, cons } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let test = <Option<Box<Expr>> as FoldWith<V>>::fold_children_with(test, visitor);
                 let cons = <Vec<Stmt> as FoldWith<V>>::fold_children_with(cons, visitor);
                 SwitchCase { span, test, cons }
@@ -37705,7 +35325,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for SwitchStmt {
                 discriminant,
                 cases,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let discriminant =
                     <Box<Expr> as FoldWith<V>>::fold_children_with(discriminant, visitor);
                 let cases = <Vec<SwitchCase> as FoldWith<V>>::fold_children_with(cases, visitor);
@@ -37733,9 +35352,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TaggedTpl {
                 type_params,
                 tpl,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                let ctxt =
-                    <swc_common::SyntaxContext as FoldWith<V>>::fold_children_with(ctxt, visitor);
                 let tag = <Box<Expr> as FoldWith<V>>::fold_children_with(tag, visitor);
                 let type_params =
                     <Option<Box<TsTypeParamInstantiation>> as FoldWith<V>>::fold_children_with(
@@ -37762,10 +35378,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for ThisExpr {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            ThisExpr { span } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                ThisExpr { span }
-            }
+            ThisExpr { span } => ThisExpr { span },
         }
     }
 }
@@ -37778,7 +35391,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for ThrowStmt {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             ThrowStmt { span, arg } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let arg = <Box<Expr> as FoldWith<V>>::fold_children_with(arg, visitor);
                 ThrowStmt { span, arg }
             }
@@ -37798,7 +35410,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for Tpl {
                 exprs,
                 quasis,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let exprs = <Vec<Box<Expr>> as FoldWith<V>>::fold_children_with(exprs, visitor);
                 let quasis = <Vec<TplElement> as FoldWith<V>>::fold_children_with(quasis, visitor);
                 Tpl {
@@ -37824,11 +35435,8 @@ impl<V: ?Sized + Fold> FoldWith<V> for TplElement {
                 cooked,
                 raw,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                let tail = <bool as FoldWith<V>>::fold_children_with(tail, visitor);
                 let cooked =
                     <Option<swc_atoms::Atom> as FoldWith<V>>::fold_children_with(cooked, visitor);
-                let raw = <swc_atoms::Atom as FoldWith<V>>::fold_children_with(raw, visitor);
                 TplElement {
                     span,
                     tail,
@@ -37867,7 +35475,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TryStmt {
                 handler,
                 finalizer,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let block = <BlockStmt as FoldWith<V>>::fold_children_with(block, visitor);
                 let handler =
                     <Option<CatchClause> as FoldWith<V>>::fold_children_with(handler, visitor);
@@ -37892,7 +35499,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsArrayType {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             TsArrayType { span, elem_type } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let elem_type =
                     <Box<TsType> as FoldWith<V>>::fold_children_with(elem_type, visitor);
                 TsArrayType { span, elem_type }
@@ -37913,7 +35519,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsAsExpr {
                 expr,
                 type_ann,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let expr = <Box<Expr> as FoldWith<V>>::fold_children_with(expr, visitor);
                 let type_ann = <Box<TsType> as FoldWith<V>>::fold_children_with(type_ann, visitor);
                 TsAsExpr {
@@ -37939,7 +35544,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsCallSignatureDecl {
                 type_ann,
                 type_params,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let params = <Vec<TsFnParam> as FoldWith<V>>::fold_children_with(params, visitor);
                 let type_ann =
                     <Option<Box<TsTypeAnn>> as FoldWith<V>>::fold_children_with(type_ann, visitor);
@@ -37972,7 +35576,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsConditionalType {
                 true_type,
                 false_type,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let check_type =
                     <Box<TsType> as FoldWith<V>>::fold_children_with(check_type, visitor);
                 let extends_type =
@@ -38001,7 +35604,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsConstAssertion {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             TsConstAssertion { span, expr } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let expr = <Box<Expr> as FoldWith<V>>::fold_children_with(expr, visitor);
                 TsConstAssertion { span, expr }
             }
@@ -38022,7 +35624,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsConstructSignatureDecl {
                 type_ann,
                 type_params,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let params = <Vec<TsFnParam> as FoldWith<V>>::fold_children_with(params, visitor);
                 let type_ann =
                     <Option<Box<TsTypeAnn>> as FoldWith<V>>::fold_children_with(type_ann, visitor);
@@ -38055,7 +35656,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsConstructorType {
                 type_ann,
                 is_abstract,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let params = <Vec<TsFnParam> as FoldWith<V>>::fold_children_with(params, visitor);
                 let type_params = <Option<Box<TsTypeParamDecl>> as FoldWith<V>>::fold_children_with(
                     type_params,
@@ -38063,7 +35663,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsConstructorType {
                 );
                 let type_ann =
                     <Box<TsTypeAnn> as FoldWith<V>>::fold_children_with(type_ann, visitor);
-                let is_abstract = <bool as FoldWith<V>>::fold_children_with(is_abstract, visitor);
                 TsConstructorType {
                     span,
                     params,
@@ -38110,9 +35709,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsEnumDecl {
                 id,
                 members,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                let declare = <bool as FoldWith<V>>::fold_children_with(declare, visitor);
-                let is_const = <bool as FoldWith<V>>::fold_children_with(is_const, visitor);
                 let id = <Ident as FoldWith<V>>::fold_children_with(id, visitor);
                 let members =
                     <Vec<TsEnumMember> as FoldWith<V>>::fold_children_with(members, visitor);
@@ -38136,7 +35732,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsEnumMember {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             TsEnumMember { span, id, init } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let id = <TsEnumMemberId as FoldWith<V>>::fold_children_with(id, visitor);
                 let init = <Option<Box<Expr>> as FoldWith<V>>::fold_children_with(init, visitor);
                 TsEnumMember { span, id, init }
@@ -38172,7 +35767,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsExportAssignment {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             TsExportAssignment { span, expr } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let expr = <Box<Expr> as FoldWith<V>>::fold_children_with(expr, visitor);
                 TsExportAssignment { span, expr }
             }
@@ -38192,7 +35786,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsExprWithTypeArgs {
                 expr,
                 type_args,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let expr = <Box<Expr> as FoldWith<V>>::fold_children_with(expr, visitor);
                 let type_args =
                     <Option<Box<TsTypeParamInstantiation>> as FoldWith<V>>::fold_children_with(
@@ -38216,7 +35809,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsExternalModuleRef {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             TsExternalModuleRef { span, expr } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let expr = <Str as FoldWith<V>>::fold_children_with(expr, visitor);
                 TsExternalModuleRef { span, expr }
             }
@@ -38284,7 +35876,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsFnType {
                 type_params,
                 type_ann,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let params = <Vec<TsFnParam> as FoldWith<V>>::fold_children_with(params, visitor);
                 let type_params = <Option<Box<TsTypeParamDecl>> as FoldWith<V>>::fold_children_with(
                     type_params,
@@ -38316,9 +35907,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsGetterSignature {
                 computed,
                 type_ann,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let key = <Box<Expr> as FoldWith<V>>::fold_children_with(key, visitor);
-                let computed = <bool as FoldWith<V>>::fold_children_with(computed, visitor);
                 let type_ann =
                     <Option<Box<TsTypeAnn>> as FoldWith<V>>::fold_children_with(type_ann, visitor);
                 TsGetterSignature {
@@ -38346,9 +35935,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsImportEqualsDecl {
                 id,
                 module_ref,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                let is_export = <bool as FoldWith<V>>::fold_children_with(is_export, visitor);
-                let is_type_only = <bool as FoldWith<V>>::fold_children_with(is_type_only, visitor);
                 let id = <Ident as FoldWith<V>>::fold_children_with(id, visitor);
                 let module_ref =
                     <TsModuleRef as FoldWith<V>>::fold_children_with(module_ref, visitor);
@@ -38377,7 +35963,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsImportType {
                 qualifier,
                 type_args,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let arg = <Str as FoldWith<V>>::fold_children_with(arg, visitor);
                 let qualifier =
                     <Option<TsEntityName> as FoldWith<V>>::fold_children_with(qualifier, visitor);
@@ -38413,9 +35998,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsIndexSignature {
                 let params = <Vec<TsFnParam> as FoldWith<V>>::fold_children_with(params, visitor);
                 let type_ann =
                     <Option<Box<TsTypeAnn>> as FoldWith<V>>::fold_children_with(type_ann, visitor);
-                let readonly = <bool as FoldWith<V>>::fold_children_with(readonly, visitor);
-                let is_static = <bool as FoldWith<V>>::fold_children_with(is_static, visitor);
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 TsIndexSignature {
                     params,
                     type_ann,
@@ -38441,8 +36023,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsIndexedAccessType {
                 obj_type,
                 index_type,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                let readonly = <bool as FoldWith<V>>::fold_children_with(readonly, visitor);
                 let obj_type = <Box<TsType> as FoldWith<V>>::fold_children_with(obj_type, visitor);
                 let index_type =
                     <Box<TsType> as FoldWith<V>>::fold_children_with(index_type, visitor);
@@ -38465,7 +36045,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsInferType {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             TsInferType { span, type_param } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let type_param =
                     <TsTypeParam as FoldWith<V>>::fold_children_with(type_param, visitor);
                 TsInferType { span, type_param }
@@ -38486,7 +36065,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsInstantiation {
                 expr,
                 type_args,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let expr = <Box<Expr> as FoldWith<V>>::fold_children_with(expr, visitor);
                 let type_args = <Box<TsTypeParamInstantiation> as FoldWith<V>>::fold_children_with(
                     type_args, visitor,
@@ -38509,7 +36087,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsInterfaceBody {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             TsInterfaceBody { span, body } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let body = <Vec<TsTypeElement> as FoldWith<V>>::fold_children_with(body, visitor);
                 TsInterfaceBody { span, body }
             }
@@ -38532,9 +36109,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsInterfaceDecl {
                 extends,
                 body,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let id = <Ident as FoldWith<V>>::fold_children_with(id, visitor);
-                let declare = <bool as FoldWith<V>>::fold_children_with(declare, visitor);
                 let type_params = <Option<Box<TsTypeParamDecl>> as FoldWith<V>>::fold_children_with(
                     type_params,
                     visitor,
@@ -38563,7 +36138,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsIntersectionType {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             TsIntersectionType { span, types } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let types = <Vec<Box<TsType>> as FoldWith<V>>::fold_children_with(types, visitor);
                 TsIntersectionType { span, types }
             }
@@ -38579,7 +36153,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsKeywordType {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             TsKeywordType { span, kind } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let kind = <TsKeywordTypeKind as FoldWith<V>>::fold_children_with(kind, visitor);
                 TsKeywordType { span, kind }
             }
@@ -38650,7 +36223,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsLitType {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             TsLitType { span, lit } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let lit = <TsLit as FoldWith<V>>::fold_children_with(lit, visitor);
                 TsLitType { span, lit }
             }
@@ -38673,7 +36245,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsMappedType {
                 optional,
                 type_ann,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let readonly =
                     <Option<TruePlusMinus> as FoldWith<V>>::fold_children_with(readonly, visitor);
                 let type_param =
@@ -38713,10 +36284,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsMethodSignature {
                 type_ann,
                 type_params,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let key = <Box<Expr> as FoldWith<V>>::fold_children_with(key, visitor);
-                let computed = <bool as FoldWith<V>>::fold_children_with(computed, visitor);
-                let optional = <bool as FoldWith<V>>::fold_children_with(optional, visitor);
                 let params = <Vec<TsFnParam> as FoldWith<V>>::fold_children_with(params, visitor);
                 let type_ann =
                     <Option<Box<TsTypeAnn>> as FoldWith<V>>::fold_children_with(type_ann, visitor);
@@ -38746,7 +36314,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsModuleBlock {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             TsModuleBlock { span, body } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let body = <Vec<ModuleItem> as FoldWith<V>>::fold_children_with(body, visitor);
                 TsModuleBlock { span, body }
             }
@@ -38768,9 +36335,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsModuleDecl {
                 id,
                 body,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                let declare = <bool as FoldWith<V>>::fold_children_with(declare, visitor);
-                let global = <bool as FoldWith<V>>::fold_children_with(global, visitor);
                 let id = <TsModuleName as FoldWith<V>>::fold_children_with(id, visitor);
                 let body =
                     <Option<TsNamespaceBody> as FoldWith<V>>::fold_children_with(body, visitor);
@@ -38860,9 +36424,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsNamespaceDecl {
                 id,
                 body,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                let declare = <bool as FoldWith<V>>::fold_children_with(declare, visitor);
-                let global = <bool as FoldWith<V>>::fold_children_with(global, visitor);
                 let id = <Ident as FoldWith<V>>::fold_children_with(id, visitor);
                 let body = <Box<TsNamespaceBody> as FoldWith<V>>::fold_children_with(body, visitor);
                 TsNamespaceDecl {
@@ -38885,7 +36446,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsNamespaceExportDecl {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             TsNamespaceExportDecl { span, id } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let id = <Ident as FoldWith<V>>::fold_children_with(id, visitor);
                 TsNamespaceExportDecl { span, id }
             }
@@ -38901,7 +36461,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsNonNullExpr {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             TsNonNullExpr { span, expr } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let expr = <Box<Expr> as FoldWith<V>>::fold_children_with(expr, visitor);
                 TsNonNullExpr { span, expr }
             }
@@ -38917,7 +36476,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsOptionalType {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             TsOptionalType { span, type_ann } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let type_ann = <Box<TsType> as FoldWith<V>>::fold_children_with(type_ann, visitor);
                 TsOptionalType { span, type_ann }
             }
@@ -38940,15 +36498,12 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsParamProp {
                 readonly,
                 param,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let decorators =
                     <Vec<Decorator> as FoldWith<V>>::fold_children_with(decorators, visitor);
                 let accessibility = <Option<Accessibility> as FoldWith<V>>::fold_children_with(
                     accessibility,
                     visitor,
                 );
-                let is_override = <bool as FoldWith<V>>::fold_children_with(is_override, visitor);
-                let readonly = <bool as FoldWith<V>>::fold_children_with(readonly, visitor);
                 let param = <TsParamPropParam as FoldWith<V>>::fold_children_with(param, visitor);
                 TsParamProp {
                     span,
@@ -38990,7 +36545,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsParenthesizedType {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             TsParenthesizedType { span, type_ann } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let type_ann = <Box<TsType> as FoldWith<V>>::fold_children_with(type_ann, visitor);
                 TsParenthesizedType { span, type_ann }
             }
@@ -39013,11 +36567,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsPropertySignature {
                 optional,
                 type_ann,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                let readonly = <bool as FoldWith<V>>::fold_children_with(readonly, visitor);
                 let key = <Box<Expr> as FoldWith<V>>::fold_children_with(key, visitor);
-                let computed = <bool as FoldWith<V>>::fold_children_with(computed, visitor);
-                let optional = <bool as FoldWith<V>>::fold_children_with(optional, visitor);
                 let type_ann =
                     <Option<Box<TsTypeAnn>> as FoldWith<V>>::fold_children_with(type_ann, visitor);
                 TsPropertySignature {
@@ -39041,7 +36591,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsQualifiedName {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             TsQualifiedName { span, left, right } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let left = <TsEntityName as FoldWith<V>>::fold_children_with(left, visitor);
                 let right = <IdentName as FoldWith<V>>::fold_children_with(right, visitor);
                 TsQualifiedName { span, left, right }
@@ -39058,7 +36607,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsRestType {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             TsRestType { span, type_ann } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let type_ann = <Box<TsType> as FoldWith<V>>::fold_children_with(type_ann, visitor);
                 TsRestType { span, type_ann }
             }
@@ -39078,7 +36626,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsSatisfiesExpr {
                 expr,
                 type_ann,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let expr = <Box<Expr> as FoldWith<V>>::fold_children_with(expr, visitor);
                 let type_ann = <Box<TsType> as FoldWith<V>>::fold_children_with(type_ann, visitor);
                 TsSatisfiesExpr {
@@ -39104,9 +36651,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsSetterSignature {
                 computed,
                 param,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let key = <Box<Expr> as FoldWith<V>>::fold_children_with(key, visitor);
-                let computed = <bool as FoldWith<V>>::fold_children_with(computed, visitor);
                 let param = <TsFnParam as FoldWith<V>>::fold_children_with(param, visitor);
                 TsSetterSignature {
                     span,
@@ -39126,10 +36671,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsThisType {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            TsThisType { span } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                TsThisType { span }
-            }
+            TsThisType { span } => TsThisType { span },
         }
     }
 }
@@ -39165,7 +36707,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsTplLitType {
                 types,
                 quasis,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let types = <Vec<Box<TsType>> as FoldWith<V>>::fold_children_with(types, visitor);
                 let quasis = <Vec<TplElement> as FoldWith<V>>::fold_children_with(quasis, visitor);
                 TsTplLitType {
@@ -39186,7 +36727,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsTupleElement {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             TsTupleElement { span, label, ty } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let label = <Option<Pat> as FoldWith<V>>::fold_children_with(label, visitor);
                 let ty = <Box<TsType> as FoldWith<V>>::fold_children_with(ty, visitor);
                 TsTupleElement { span, label, ty }
@@ -39203,7 +36743,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsTupleType {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             TsTupleType { span, elem_types } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let elem_types =
                     <Vec<TsTupleElement> as FoldWith<V>>::fold_children_with(elem_types, visitor);
                 TsTupleType { span, elem_types }
@@ -39327,8 +36866,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsTypeAliasDecl {
                 type_params,
                 type_ann,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                let declare = <bool as FoldWith<V>>::fold_children_with(declare, visitor);
                 let id = <Ident as FoldWith<V>>::fold_children_with(id, visitor);
                 let type_params = <Option<Box<TsTypeParamDecl>> as FoldWith<V>>::fold_children_with(
                     type_params,
@@ -39355,7 +36892,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsTypeAnn {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             TsTypeAnn { span, type_ann } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let type_ann = <Box<TsType> as FoldWith<V>>::fold_children_with(type_ann, visitor);
                 TsTypeAnn { span, type_ann }
             }
@@ -39375,7 +36911,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsTypeAssertion {
                 expr,
                 type_ann,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let expr = <Box<Expr> as FoldWith<V>>::fold_children_with(expr, visitor);
                 let type_ann = <Box<TsType> as FoldWith<V>>::fold_children_with(type_ann, visitor);
                 TsTypeAssertion {
@@ -39443,7 +36978,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsTypeLit {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             TsTypeLit { span, members } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let members =
                     <Vec<TsTypeElement> as FoldWith<V>>::fold_children_with(members, visitor);
                 TsTypeLit { span, members }
@@ -39460,7 +36994,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsTypeOperator {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             TsTypeOperator { span, op, type_ann } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let op = <TsTypeOperatorOp as FoldWith<V>>::fold_children_with(op, visitor);
                 let type_ann = <Box<TsType> as FoldWith<V>>::fold_children_with(type_ann, visitor);
                 TsTypeOperator { span, op, type_ann }
@@ -39499,11 +37032,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsTypeParam {
                 constraint,
                 default,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let name = <Ident as FoldWith<V>>::fold_children_with(name, visitor);
-                let is_in = <bool as FoldWith<V>>::fold_children_with(is_in, visitor);
-                let is_out = <bool as FoldWith<V>>::fold_children_with(is_out, visitor);
-                let is_const = <bool as FoldWith<V>>::fold_children_with(is_const, visitor);
                 let constraint =
                     <Option<Box<TsType>> as FoldWith<V>>::fold_children_with(constraint, visitor);
                 let default =
@@ -39530,7 +37059,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsTypeParamDecl {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             TsTypeParamDecl { span, params } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let params = <Vec<TsTypeParam> as FoldWith<V>>::fold_children_with(params, visitor);
                 TsTypeParamDecl { span, params }
             }
@@ -39546,7 +37074,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsTypeParamInstantiation {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             TsTypeParamInstantiation { span, params } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let params = <Vec<Box<TsType>> as FoldWith<V>>::fold_children_with(params, visitor);
                 TsTypeParamInstantiation { span, params }
             }
@@ -39567,8 +37094,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsTypePredicate {
                 param_name,
                 type_ann,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                let asserts = <bool as FoldWith<V>>::fold_children_with(asserts, visitor);
                 let param_name =
                     <TsThisTypeOrIdent as FoldWith<V>>::fold_children_with(param_name, visitor);
                 let type_ann =
@@ -39596,7 +37121,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsTypeQuery {
                 expr_name,
                 type_args,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let expr_name =
                     <TsTypeQueryExpr as FoldWith<V>>::fold_children_with(expr_name, visitor);
                 let type_args =
@@ -39644,7 +37168,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsTypeRef {
                 type_name,
                 type_params,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let type_name =
                     <TsEntityName as FoldWith<V>>::fold_children_with(type_name, visitor);
                 let type_params =
@@ -39690,7 +37213,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsUnionType {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             TsUnionType { span, types } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let types = <Vec<Box<TsType>> as FoldWith<V>>::fold_children_with(types, visitor);
                 TsUnionType { span, types }
             }
@@ -39706,7 +37228,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for UnaryExpr {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             UnaryExpr { span, op, arg } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let op = <UnaryOp as FoldWith<V>>::fold_children_with(op, visitor);
                 let arg = <Box<Expr> as FoldWith<V>>::fold_children_with(arg, visitor);
                 UnaryExpr { span, op, arg }
@@ -39746,9 +37267,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for UpdateExpr {
                 prefix,
                 arg,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let op = <UpdateOp as FoldWith<V>>::fold_children_with(op, visitor);
-                let prefix = <bool as FoldWith<V>>::fold_children_with(prefix, visitor);
                 let arg = <Box<Expr> as FoldWith<V>>::fold_children_with(arg, visitor);
                 UpdateExpr {
                     span,
@@ -39786,8 +37305,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for UsingDecl {
                 is_await,
                 decls,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                let is_await = <bool as FoldWith<V>>::fold_children_with(is_await, visitor);
                 let decls = <Vec<VarDeclarator> as FoldWith<V>>::fold_children_with(decls, visitor);
                 UsingDecl {
                     span,
@@ -39813,11 +37330,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for VarDecl {
                 declare,
                 decls,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
-                let ctxt =
-                    <swc_common::SyntaxContext as FoldWith<V>>::fold_children_with(ctxt, visitor);
                 let kind = <VarDeclKind as FoldWith<V>>::fold_children_with(kind, visitor);
-                let declare = <bool as FoldWith<V>>::fold_children_with(declare, visitor);
                 let decls = <Vec<VarDeclarator> as FoldWith<V>>::fold_children_with(decls, visitor);
                 VarDecl {
                     span,
@@ -39877,10 +37390,8 @@ impl<V: ?Sized + Fold> FoldWith<V> for VarDeclarator {
                 init,
                 definite,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let name = <Pat as FoldWith<V>>::fold_children_with(name, visitor);
                 let init = <Option<Box<Expr>> as FoldWith<V>>::fold_children_with(init, visitor);
-                let definite = <bool as FoldWith<V>>::fold_children_with(definite, visitor);
                 VarDeclarator {
                     span,
                     name,
@@ -39900,7 +37411,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for WhileStmt {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             WhileStmt { span, test, body } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let test = <Box<Expr> as FoldWith<V>>::fold_children_with(test, visitor);
                 let body = <Box<Stmt> as FoldWith<V>>::fold_children_with(body, visitor);
                 WhileStmt { span, test, body }
@@ -39917,7 +37427,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for WithStmt {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             WithStmt { span, obj, body } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let obj = <Box<Expr> as FoldWith<V>>::fold_children_with(obj, visitor);
                 let body = <Box<Stmt> as FoldWith<V>>::fold_children_with(body, visitor);
                 WithStmt { span, obj, body }
@@ -39938,9 +37447,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for YieldExpr {
                 arg,
                 delegate,
             } => {
-                let span = <swc_common::Span as FoldWith<V>>::fold_children_with(span, visitor);
                 let arg = <Option<Box<Expr>> as FoldWith<V>>::fold_children_with(arg, visitor);
-                let delegate = <bool as FoldWith<V>>::fold_children_with(delegate, visitor);
                 YieldExpr {
                     span,
                     arg,
@@ -41941,9 +39448,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ArrayLit {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             ArrayLit { span, elems } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let elems =
                     <Vec<Option<ExprOrSpread>> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         elems, visitor, ast_path,
@@ -41969,14 +39473,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ArrayPat {
                 optional,
                 type_ann,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let elems = <Vec<Option<Pat>> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     elems, visitor, ast_path,
-                );
-                let optional = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    optional, visitor, ast_path,
                 );
                 let type_ann =
                     <Option<Box<TsTypeAnn>> as FoldWithAstPath<V>>::fold_children_with_ast_path(
@@ -42012,13 +39510,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ArrowExpr {
                 type_params,
                 return_type,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                let ctxt =
-                    <swc_common::SyntaxContext as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                        ctxt, visitor, ast_path,
-                    );
                 let params = <Vec<Pat> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     params, visitor, ast_path,
                 );
@@ -42026,14 +39517,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ArrowExpr {
                     <Box<BlockStmtOrExpr> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         body, visitor, ast_path,
                     );
-                let is_async = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    is_async, visitor, ast_path,
-                );
-                let is_generator = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    is_generator,
-                    visitor,
-                    ast_path,
-                );
                 let type_params = < Option < Box < TsTypeParamDecl > > as FoldWithAstPath < V > > :: fold_children_with_ast_path (type_params , visitor , ast_path) ;
                 let return_type =
                     <Option<Box<TsTypeAnn>> as FoldWithAstPath<V>>::fold_children_with_ast_path(
@@ -42071,9 +39554,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for AssignExpr {
                 left,
                 right,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let op = <AssignOp as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     op, visitor, ast_path,
                 );
@@ -42133,9 +39613,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for AssignPat {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             AssignPat { span, left, right } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let left = <Box<Pat> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     left, visitor, ast_path,
                 );
@@ -42158,9 +39635,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for AssignPatProp {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             AssignPatProp { span, key, value } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let key = <BindingIdent as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     key, visitor, ast_path,
                 );
@@ -42183,9 +39657,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for AssignProp {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             AssignProp { span, key, value } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let key = <Ident as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     key, visitor, ast_path,
                 );
@@ -42276,9 +39747,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for AutoAccessor {
                 is_override,
                 definite,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let key = <Key as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     key, visitor, ast_path,
                 );
@@ -42289,9 +39757,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for AutoAccessor {
                     <Option<Box<TsTypeAnn>> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         type_ann, visitor, ast_path,
                     );
-                let is_static = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    is_static, visitor, ast_path,
-                );
                 let decorators =
                     <Vec<Decorator> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         decorators, visitor, ast_path,
@@ -42302,19 +39767,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for AutoAccessor {
                         visitor,
                         ast_path,
                     );
-                let is_abstract = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    is_abstract,
-                    visitor,
-                    ast_path,
-                );
-                let is_override = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    is_override,
-                    visitor,
-                    ast_path,
-                );
-                let definite = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    definite, visitor, ast_path,
-                );
                 AutoAccessor {
                     span,
                     key,
@@ -42342,9 +39794,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for AwaitExpr {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             AwaitExpr { span, arg } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let arg = <Box<Expr> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     arg, visitor, ast_path,
                 );
@@ -42364,12 +39813,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for BigInt {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             BigInt { span, value, raw } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                let value = <Box<BigIntValue> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    value, visitor, ast_path,
-                );
                 let raw =
                     <Option<swc_atoms::Atom> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         raw, visitor, ast_path,
@@ -42395,9 +39838,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for BinExpr {
                 left,
                 right,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let op = <BinaryOp as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     op, visitor, ast_path,
                 );
@@ -42489,13 +39929,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for BlockStmt {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             BlockStmt { span, ctxt, stmts } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                let ctxt =
-                    <swc_common::SyntaxContext as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                        ctxt, visitor, ast_path,
-                    );
                 let stmts = <Vec<Stmt> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     stmts, visitor, ast_path,
                 );
@@ -42539,15 +39972,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Bool {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            Bool { span, value } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                let value = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    value, visitor, ast_path,
-                );
-                Bool { span, value }
-            }
+            Bool { span, value } => Bool { span, value },
         }
     }
 }
@@ -42562,9 +39987,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for BreakStmt {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             BreakStmt { span, label } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let label = <Option<Ident> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     label, visitor, ast_path,
                 );
@@ -42590,13 +40012,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for CallExpr {
                 args,
                 type_args,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                let ctxt =
-                    <swc_common::SyntaxContext as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                        ctxt, visitor, ast_path,
-                    );
                 let callee = <Callee as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     callee, visitor, ast_path,
                 );
@@ -42657,9 +40072,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for CatchClause {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             CatchClause { span, param, body } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let param = <Option<Pat> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     param, visitor, ast_path,
                 );
@@ -42692,13 +40104,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Class {
                 super_type_params,
                 implements,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                let ctxt =
-                    <swc_common::SyntaxContext as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                        ctxt, visitor, ast_path,
-                    );
                 let decorators =
                     <Vec<Decorator> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         decorators, visitor, ast_path,
@@ -42712,11 +40117,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Class {
                         visitor,
                         ast_path,
                     );
-                let is_abstract = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    is_abstract,
-                    visitor,
-                    ast_path,
-                );
                 let type_params = < Option < Box < TsTypeParamDecl > > as FoldWithAstPath < V > > :: fold_children_with_ast_path (type_params , visitor , ast_path) ;
                 let super_type_params = < Option < Box < TsTypeParamInstantiation > > as FoldWithAstPath < V > > :: fold_children_with_ast_path (super_type_params , visitor , ast_path) ;
                 let implements =
@@ -42755,9 +40155,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ClassDecl {
             } => {
                 let ident = <Ident as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     ident, visitor, ast_path,
-                );
-                let declare = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    declare, visitor, ast_path,
                 );
                 let class = <Box<Class> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     class, visitor, ast_path,
@@ -42809,16 +40206,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ClassMember {
                 );
                 ClassMember::Constructor { 0: self._field_0 }
             }
-            ClassMember::Method { 0: _field_0 } => {
-                let _field_0 = <ClassMethod as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    _field_0, visitor, ast_path,
-                );
-                ClassMember::Method { 0: self._field_0 }
-            }
+            ClassMember::Method { 0: _field_0 } => ClassMember::Method { 0: self._field_0 },
             ClassMember::PrivateMethod { 0: _field_0 } => {
-                let _field_0 = <PrivateMethod as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    _field_0, visitor, ast_path,
-                );
                 ClassMember::PrivateMethod { 0: self._field_0 }
             }
             ClassMember::ClassProp { 0: _field_0 } => {
@@ -42886,9 +40275,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ClassProp {
                 declare,
                 definite,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let key = <PropName as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     key, visitor, ast_path,
                 );
@@ -42899,9 +40285,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ClassProp {
                     <Option<Box<TsTypeAnn>> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         type_ann, visitor, ast_path,
                     );
-                let is_static = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    is_static, visitor, ast_path,
-                );
                 let decorators =
                     <Vec<Decorator> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         decorators, visitor, ast_path,
@@ -42912,30 +40295,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ClassProp {
                         visitor,
                         ast_path,
                     );
-                let is_abstract = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    is_abstract,
-                    visitor,
-                    ast_path,
-                );
-                let is_optional = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    is_optional,
-                    visitor,
-                    ast_path,
-                );
-                let is_override = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    is_override,
-                    visitor,
-                    ast_path,
-                );
-                let readonly = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    readonly, visitor, ast_path,
-                );
-                let declare = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    declare, visitor, ast_path,
-                );
-                let definite = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    definite, visitor, ast_path,
-                );
                 ClassProp {
                     span,
                     key,
@@ -42966,9 +40325,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ComputedPropName {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             ComputedPropName { span, expr } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let expr = <Box<Expr> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -42993,9 +40349,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for CondExpr {
                 cons,
                 alt,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let test = <Box<Expr> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     test, visitor, ast_path,
                 );
@@ -43034,13 +40387,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Constructor {
                 accessibility,
                 is_optional,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                let ctxt =
-                    <swc_common::SyntaxContext as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                        ctxt, visitor, ast_path,
-                    );
                 let key = <PropName as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     key, visitor, ast_path,
                 );
@@ -43057,11 +40403,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Constructor {
                         visitor,
                         ast_path,
                     );
-                let is_optional = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    is_optional,
-                    visitor,
-                    ast_path,
-                );
                 Constructor {
                     span,
                     ctxt,
@@ -43086,9 +40427,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ContinueStmt {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             ContinueStmt { span, label } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let label = <Option<Ident> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     label, visitor, ast_path,
                 );
@@ -43107,12 +40445,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for DebuggerStmt {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            DebuggerStmt { span } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                DebuggerStmt { span }
-            }
+            DebuggerStmt { span } => DebuggerStmt { span },
         }
     }
 }
@@ -43191,9 +40524,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Decorator {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             Decorator { span, expr } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let expr = <Box<Expr> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -43245,9 +40575,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for DoWhileStmt {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             DoWhileStmt { span, test, body } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let test = <Box<Expr> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     test, visitor, ast_path,
                 );
@@ -43269,12 +40596,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for EmptyStmt {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            EmptyStmt { span } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                EmptyStmt { span }
-            }
+            EmptyStmt { span } => EmptyStmt { span },
         }
     }
 }
@@ -43318,14 +40640,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ExportAll {
                 type_only,
                 with,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let src = <Box<Str> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     src, visitor, ast_path,
-                );
-                let type_only = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    type_only, visitor, ast_path,
                 );
                 let with =
                     <Option<Box<ObjectLit>> as FoldWithAstPath<V>>::fold_children_with_ast_path(
@@ -43352,9 +40668,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ExportDecl {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             ExportDecl { span, decl } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let decl = <Decl as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     decl, visitor, ast_path,
                 );
@@ -43374,9 +40687,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ExportDefaultDecl {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             ExportDefaultDecl { span, decl } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let decl = <DefaultDecl as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     decl, visitor, ast_path,
                 );
@@ -43396,9 +40706,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ExportDefaultExpr {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             ExportDefaultExpr { span, expr } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let expr = <Box<Expr> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -43442,9 +40749,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ExportNamedSpecifier {
                 exported,
                 is_type_only,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let orig = <ModuleExportName as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     orig, visitor, ast_path,
                 );
@@ -43452,11 +40756,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ExportNamedSpecifier {
                     <Option<ModuleExportName> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         exported, visitor, ast_path,
                     );
-                let is_type_only = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    is_type_only,
-                    visitor,
-                    ast_path,
-                );
                 ExportNamedSpecifier {
                     span,
                     orig,
@@ -43478,9 +40777,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ExportNamespaceSpecifier {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             ExportNamespaceSpecifier { span, name } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let name = <ModuleExportName as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     name, visitor, ast_path,
                 );
@@ -43800,9 +41096,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ExprStmt {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             ExprStmt { span, expr } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let expr = <Box<Expr> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -43828,9 +41121,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for FnDecl {
             } => {
                 let ident = <Ident as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     ident, visitor, ast_path,
-                );
-                let declare = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    declare, visitor, ast_path,
                 );
                 let function = <Box<Function> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     function, visitor, ast_path,
@@ -43913,9 +41203,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ForInStmt {
                 right,
                 body,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let left = <ForHead as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     left, visitor, ast_path,
                 );
@@ -43952,12 +41239,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ForOfStmt {
                 right,
                 body,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                let is_await = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    is_await, visitor, ast_path,
-                );
                 let left = <ForHead as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     left, visitor, ast_path,
                 );
@@ -43995,9 +41276,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ForStmt {
                 update,
                 body,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let init =
                     <Option<VarDeclOrExpr> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         init, visitor, ast_path,
@@ -44050,23 +41328,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Function {
                     <Vec<Decorator> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         decorators, visitor, ast_path,
                     );
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                let ctxt =
-                    <swc_common::SyntaxContext as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                        ctxt, visitor, ast_path,
-                    );
                 let body = <Option<BlockStmt> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     body, visitor, ast_path,
-                );
-                let is_generator = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    is_generator,
-                    visitor,
-                    ast_path,
-                );
-                let is_async = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    is_async, visitor, ast_path,
                 );
                 let type_params = < Option < Box < TsTypeParamDecl > > as FoldWithAstPath < V > > :: fold_children_with_ast_path (type_params , visitor , ast_path) ;
                 let return_type =
@@ -44106,9 +41369,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for GetterProp {
                 type_ann,
                 body,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let key = <PropName as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     key, visitor, ast_path,
                 );
@@ -44144,27 +41404,12 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Ident {
                 ctxt,
                 sym,
                 optional,
-            } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                let ctxt =
-                    <swc_common::SyntaxContext as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                        ctxt, visitor, ast_path,
-                    );
-                let sym = <swc_atoms::Atom as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    sym, visitor, ast_path,
-                );
-                let optional = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    optional, visitor, ast_path,
-                );
-                Ident {
-                    span,
-                    ctxt,
-                    sym,
-                    optional,
-                }
-            }
+            } => Ident {
+                span,
+                ctxt,
+                sym,
+                optional,
+            },
         }
     }
 }
@@ -44178,15 +41423,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for IdentName {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            IdentName { span, sym } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                let sym = <swc_atoms::Atom as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    sym, visitor, ast_path,
-                );
-                IdentName { span, sym }
-            }
+            IdentName { span, sym } => IdentName { span, sym },
         }
     }
 }
@@ -44206,9 +41443,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for IfStmt {
                 cons,
                 alt,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let test = <Box<Expr> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     test, visitor, ast_path,
                 );
@@ -44239,9 +41473,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Import {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             Import { span, phase } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let phase = <ImportPhase as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     phase, visitor, ast_path,
                 );
@@ -44268,18 +41499,12 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ImportDecl {
                 with,
                 phase,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let specifiers =
                     <Vec<ImportSpecifier> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         specifiers, visitor, ast_path,
                     );
                 let src = <Box<Str> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     src, visitor, ast_path,
-                );
-                let type_only = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    type_only, visitor, ast_path,
                 );
                 let with =
                     <Option<Box<ObjectLit>> as FoldWithAstPath<V>>::fold_children_with_ast_path(
@@ -44311,9 +41536,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ImportDefaultSpecifier {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             ImportDefaultSpecifier { span, local } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let local = <Ident as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     local, visitor, ast_path,
                 );
@@ -44338,9 +41560,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ImportNamedSpecifier {
                 imported,
                 is_type_only,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let local = <Ident as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     local, visitor, ast_path,
                 );
@@ -44348,11 +41567,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ImportNamedSpecifier {
                     <Option<ModuleExportName> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         imported, visitor, ast_path,
                     );
-                let is_type_only = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    is_type_only,
-                    visitor,
-                    ast_path,
-                );
                 ImportNamedSpecifier {
                     span,
                     local,
@@ -44424,9 +41638,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ImportStarAsSpecifier {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             ImportStarAsSpecifier { span, local } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let local = <Ident as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     local, visitor, ast_path,
                 );
@@ -44446,9 +41657,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ImportWith {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             ImportWith { span, values } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let values =
                     <Vec<ImportWithItem> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         values, visitor, ast_path,
@@ -44490,12 +41698,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Invalid {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            Invalid { span } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                Invalid { span }
-            }
+            Invalid { span } => Invalid { span },
         }
     }
 }
@@ -44510,9 +41713,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for JSXAttr {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             JSXAttr { span, name, value } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let name = <JSXAttrName as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     name, visitor, ast_path,
                 );
@@ -44625,9 +41825,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for JSXClosingElement {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             JSXClosingElement { span, name } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let name = <JSXElementName as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     name, visitor, ast_path,
                 );
@@ -44646,12 +41843,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for JSXClosingFragment {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            JSXClosingFragment { span } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                JSXClosingFragment { span }
-            }
+            JSXClosingFragment { span } => JSXClosingFragment { span },
         }
     }
 }
@@ -44671,9 +41863,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for JSXElement {
                 children,
                 closing,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let opening =
                     <JSXOpeningElement as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         opening, visitor, ast_path,
@@ -44782,12 +41971,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for JSXEmptyExpr {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            JSXEmptyExpr { span } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                JSXEmptyExpr { span }
-            }
+            JSXEmptyExpr { span } => JSXEmptyExpr { span },
         }
     }
 }
@@ -44827,9 +42011,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for JSXExprContainer {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             JSXExprContainer { span, expr } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let expr = <JSXExpr as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -44854,9 +42035,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for JSXFragment {
                 children,
                 closing,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let opening =
                     <JSXOpeningFragment as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         opening, visitor, ast_path,
@@ -44890,9 +42068,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for JSXMemberExpr {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             JSXMemberExpr { span, obj, prop } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let obj = <JSXObject as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     obj, visitor, ast_path,
                 );
@@ -44915,9 +42090,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for JSXNamespacedName {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             JSXNamespacedName { span, ns, name } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let ns = <IdentName as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     ns, visitor, ast_path,
                 );
@@ -44975,18 +42147,10 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for JSXOpeningElement {
                 let name = <JSXElementName as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     name, visitor, ast_path,
                 );
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let attrs =
                     <Vec<JSXAttrOrSpread> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         attrs, visitor, ast_path,
                     );
-                let self_closing = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    self_closing,
-                    visitor,
-                    ast_path,
-                );
                 let type_args = < Option < Box < TsTypeParamInstantiation > > as FoldWithAstPath < V > > :: fold_children_with_ast_path (type_args , visitor , ast_path) ;
                 JSXOpeningElement {
                     name,
@@ -45009,12 +42173,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for JSXOpeningFragment {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            JSXOpeningFragment { span } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                JSXOpeningFragment { span }
-            }
+            JSXOpeningFragment { span } => JSXOpeningFragment { span },
         }
     }
 }
@@ -45029,9 +42188,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for JSXSpreadChild {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             JSXSpreadChild { span, expr } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let expr = <Box<Expr> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -45050,18 +42206,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for JSXText {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            JSXText { span, value, raw } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                let value = <swc_atoms::Atom as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    value, visitor, ast_path,
-                );
-                let raw = <swc_atoms::Atom as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    raw, visitor, ast_path,
-                );
-                JSXText { span, value, raw }
-            }
+            JSXText { span, value, raw } => JSXText { span, value, raw },
         }
     }
 }
@@ -45145,9 +42290,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for LabeledStmt {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             LabeledStmt { span, label, body } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let label = <Ident as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     label, visitor, ast_path,
                 );
@@ -45226,9 +42368,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for MemberExpr {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             MemberExpr { span, obj, prop } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let obj = <Box<Expr> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     obj, visitor, ast_path,
                 );
@@ -45283,9 +42422,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for MetaPropExpr {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             MetaPropExpr { span, kind } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let kind = <MetaPropKind as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     kind, visitor, ast_path,
                 );
@@ -45362,9 +42498,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Module {
                 body,
                 shebang,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let body = <Vec<ModuleItem> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     body, visitor, ast_path,
                 );
@@ -45520,18 +42653,12 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for NamedExport {
                 type_only,
                 with,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let specifiers =
                     <Vec<ExportSpecifier> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         specifiers, visitor, ast_path,
                     );
                 let src = <Option<Box<Str>> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     src, visitor, ast_path,
-                );
-                let type_only = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    type_only, visitor, ast_path,
                 );
                 let with =
                     <Option<Box<ObjectLit>> as FoldWithAstPath<V>>::fold_children_with_ast_path(
@@ -45565,13 +42692,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for NewExpr {
                 args,
                 type_args,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                let ctxt =
-                    <swc_common::SyntaxContext as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                        ctxt, visitor, ast_path,
-                    );
                 let callee = <Box<Expr> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     callee, visitor, ast_path,
                 );
@@ -45601,12 +42721,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Null {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            Null { span } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                Null { span }
-            }
+            Null { span } => Null { span },
         }
     }
 }
@@ -45621,12 +42736,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Number {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             Number { span, value, raw } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                let value = <f64 as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    value, visitor, ast_path,
-                );
                 let raw =
                     <Option<swc_atoms::Atom> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         raw, visitor, ast_path,
@@ -45647,9 +42756,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ObjectLit {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             ObjectLit { span, props } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let props = <Vec<PropOrSpread> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     props, visitor, ast_path,
                 );
@@ -45674,14 +42780,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ObjectPat {
                 optional,
                 type_ann,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let props = <Vec<ObjectPatProp> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     props, visitor, ast_path,
-                );
-                let optional = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    optional, visitor, ast_path,
                 );
                 let type_ann =
                     <Option<Box<TsTypeAnn>> as FoldWithAstPath<V>>::fold_children_with_ast_path(
@@ -45745,13 +42845,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for OptCall {
                 args,
                 type_args,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                let ctxt =
-                    <swc_common::SyntaxContext as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                        ctxt, visitor, ast_path,
-                    );
                 let callee = <Box<Expr> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     callee, visitor, ast_path,
                 );
@@ -45810,12 +42903,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for OptChainExpr {
                 optional,
                 base,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                let optional = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    optional, visitor, ast_path,
-                );
                 let base = <Box<OptChainBase> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     base, visitor, ast_path,
                 );
@@ -45843,9 +42930,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Param {
                 decorators,
                 pat,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let decorators =
                     <Vec<Decorator> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         decorators, visitor, ast_path,
@@ -45898,9 +42982,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ParenExpr {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             ParenExpr { span, expr } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let expr = <Box<Expr> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -45974,15 +43055,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for PrivateName {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            PrivateName { span, name } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                let name = <swc_atoms::Atom as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    name, visitor, ast_path,
-                );
-                PrivateName { span, name }
-            }
+            PrivateName { span, name } => PrivateName { span, name },
         }
     }
 }
@@ -46010,13 +43083,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for PrivateProp {
                 readonly,
                 definite,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                let ctxt =
-                    <swc_common::SyntaxContext as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                        ctxt, visitor, ast_path,
-                    );
                 let key = <PrivateName as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     key, visitor, ast_path,
                 );
@@ -46027,9 +43093,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for PrivateProp {
                     <Option<Box<TsTypeAnn>> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         type_ann, visitor, ast_path,
                     );
-                let is_static = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    is_static, visitor, ast_path,
-                );
                 let decorators =
                     <Vec<Decorator> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         decorators, visitor, ast_path,
@@ -46040,22 +43103,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for PrivateProp {
                         visitor,
                         ast_path,
                     );
-                let is_optional = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    is_optional,
-                    visitor,
-                    ast_path,
-                );
-                let is_override = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    is_override,
-                    visitor,
-                    ast_path,
-                );
-                let readonly = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    readonly, visitor, ast_path,
-                );
-                let definite = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    definite, visitor, ast_path,
-                );
                 PrivateProp {
                     span,
                     ctxt,
@@ -46227,18 +43274,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Regex {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            Regex { span, exp, flags } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                let exp = <swc_atoms::Atom as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    exp, visitor, ast_path,
-                );
-                let flags = <swc_atoms::Atom as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    flags, visitor, ast_path,
-                );
-                Regex { span, exp, flags }
-            }
+            Regex { span, exp, flags } => Regex { span, exp, flags },
         }
     }
 }
@@ -46253,9 +43289,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ReservedUnused {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             ReservedUnused { span, body } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let body =
                     <Option<Vec<ModuleItem>> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         body, visitor, ast_path,
@@ -46281,13 +43314,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for RestPat {
                 arg,
                 type_ann,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                let dot3_token =
-                    <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                        dot3_token, visitor, ast_path,
-                    );
                 let arg = <Box<Pat> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     arg, visitor, ast_path,
                 );
@@ -46316,9 +43342,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ReturnStmt {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             ReturnStmt { span, arg } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let arg = <Option<Box<Expr>> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     arg, visitor, ast_path,
                 );
@@ -46342,9 +43365,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Script {
                 body,
                 shebang,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let body = <Vec<Stmt> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     body, visitor, ast_path,
                 );
@@ -46372,9 +43392,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for SeqExpr {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             SeqExpr { span, exprs } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let exprs = <Vec<Box<Expr>> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     exprs, visitor, ast_path,
                 );
@@ -46400,9 +43417,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for SetterProp {
                 param,
                 body,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let key = <PropName as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     key, visitor, ast_path,
                 );
@@ -46516,10 +43530,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for SpreadElement {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             SpreadElement { dot3_token, expr } => {
-                let dot3_token =
-                    <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                        dot3_token, visitor, ast_path,
-                    );
                 let expr = <Box<Expr> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -46539,9 +43549,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for StaticBlock {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             StaticBlock { span, body } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let body = <BlockStmt as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     body, visitor, ast_path,
                 );
@@ -46688,12 +43695,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Str {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             Str { span, value, raw } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                let value = <swc_atoms::Atom as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    value, visitor, ast_path,
-                );
                 let raw =
                     <Option<swc_atoms::Atom> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         raw, visitor, ast_path,
@@ -46713,12 +43714,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Super {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            Super { span } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                Super { span }
-            }
+            Super { span } => Super { span },
         }
     }
 }
@@ -46759,9 +43755,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for SuperPropExpr {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             SuperPropExpr { span, obj, prop } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let obj = <Super as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     obj, visitor, ast_path,
                 );
@@ -46784,9 +43777,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for SwitchCase {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             SwitchCase { span, test, cons } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let test = <Option<Box<Expr>> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     test, visitor, ast_path,
                 );
@@ -46813,9 +43803,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for SwitchStmt {
                 discriminant,
                 cases,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let discriminant = <Box<Expr> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     discriminant,
                     visitor,
@@ -46850,13 +43837,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TaggedTpl {
                 type_params,
                 tpl,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                let ctxt =
-                    <swc_common::SyntaxContext as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                        ctxt, visitor, ast_path,
-                    );
                 let tag = <Box<Expr> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     tag, visitor, ast_path,
                 );
@@ -46885,12 +43865,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ThisExpr {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            ThisExpr { span } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                ThisExpr { span }
-            }
+            ThisExpr { span } => ThisExpr { span },
         }
     }
 }
@@ -46905,9 +43880,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ThrowStmt {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             ThrowStmt { span, arg } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let arg = <Box<Expr> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     arg, visitor, ast_path,
                 );
@@ -46931,9 +43903,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Tpl {
                 exprs,
                 quasis,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let exprs = <Vec<Box<Expr>> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     exprs, visitor, ast_path,
                 );
@@ -46965,19 +43934,10 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TplElement {
                 cooked,
                 raw,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                let tail = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    tail, visitor, ast_path,
-                );
                 let cooked =
                     <Option<swc_atoms::Atom> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         cooked, visitor, ast_path,
                     );
-                let raw = <swc_atoms::Atom as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    raw, visitor, ast_path,
-                );
                 TplElement {
                     span,
                     tail,
@@ -47020,9 +43980,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TryStmt {
                 handler,
                 finalizer,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let block = <BlockStmt as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     block, visitor, ast_path,
                 );
@@ -47055,9 +44012,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsArrayType {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             TsArrayType { span, elem_type } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let elem_type = <Box<TsType> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     elem_type, visitor, ast_path,
                 );
@@ -47081,9 +44035,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsAsExpr {
                 expr,
                 type_ann,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let expr = <Box<Expr> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -47115,9 +44066,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsCallSignatureDecl {
                 type_ann,
                 type_params,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let params = <Vec<TsFnParam> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     params, visitor, ast_path,
                 );
@@ -47153,9 +44101,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsConditionalType {
                 true_type,
                 false_type,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let check_type = <Box<TsType> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     check_type, visitor, ast_path,
                 );
@@ -47192,9 +44137,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsConstAssertion {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             TsConstAssertion { span, expr } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let expr = <Box<Expr> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -47219,9 +44161,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsConstructSignatureDecl {
                 type_ann,
                 type_params,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let params = <Vec<TsFnParam> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     params, visitor, ast_path,
                 );
@@ -47257,20 +44196,12 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsConstructorType {
                 type_ann,
                 is_abstract,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let params = <Vec<TsFnParam> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     params, visitor, ast_path,
                 );
                 let type_params = < Option < Box < TsTypeParamDecl > > as FoldWithAstPath < V > > :: fold_children_with_ast_path (type_params , visitor , ast_path) ;
                 let type_ann = <Box<TsTypeAnn> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     type_ann, visitor, ast_path,
-                );
-                let is_abstract = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    is_abstract,
-                    visitor,
-                    ast_path,
                 );
                 TsConstructorType {
                     span,
@@ -47326,15 +44257,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsEnumDecl {
                 id,
                 members,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                let declare = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    declare, visitor, ast_path,
-                );
-                let is_const = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    is_const, visitor, ast_path,
-                );
                 let id = <Ident as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     id, visitor, ast_path,
                 );
@@ -47364,9 +44286,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsEnumMember {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             TsEnumMember { span, id, init } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let id = <TsEnumMemberId as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     id, visitor, ast_path,
                 );
@@ -47414,9 +44333,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsExportAssignment {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             TsExportAssignment { span, expr } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let expr = <Box<Expr> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -47440,9 +44356,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsExprWithTypeArgs {
                 expr,
                 type_args,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let expr = <Box<Expr> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -47467,9 +44380,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsExternalModuleRef {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             TsExternalModuleRef { span, expr } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let expr = <Str as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -47557,9 +44467,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsFnType {
                 type_params,
                 type_ann,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let params = <Vec<TsFnParam> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     params, visitor, ast_path,
                 );
@@ -47593,14 +44500,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsGetterSignature {
                 computed,
                 type_ann,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let key = <Box<Expr> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     key, visitor, ast_path,
-                );
-                let computed = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    computed, visitor, ast_path,
                 );
                 let type_ann =
                     <Option<Box<TsTypeAnn>> as FoldWithAstPath<V>>::fold_children_with_ast_path(
@@ -47633,17 +44534,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsImportEqualsDecl {
                 id,
                 module_ref,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                let is_export = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    is_export, visitor, ast_path,
-                );
-                let is_type_only = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    is_type_only,
-                    visitor,
-                    ast_path,
-                );
                 let id = <Ident as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     id, visitor, ast_path,
                 );
@@ -47677,9 +44567,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsImportType {
                 qualifier,
                 type_args,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let arg = <Str as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     arg, visitor, ast_path,
                 );
@@ -47722,15 +44609,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsIndexSignature {
                     <Option<Box<TsTypeAnn>> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         type_ann, visitor, ast_path,
                     );
-                let readonly = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    readonly, visitor, ast_path,
-                );
-                let is_static = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    is_static, visitor, ast_path,
-                );
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 TsIndexSignature {
                     params,
                     type_ann,
@@ -47758,12 +44636,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsIndexedAccessType {
                 obj_type,
                 index_type,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                let readonly = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    readonly, visitor, ast_path,
-                );
                 let obj_type = <Box<TsType> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     obj_type, visitor, ast_path,
                 );
@@ -47791,9 +44663,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsInferType {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             TsInferType { span, type_param } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let type_param = <TsTypeParam as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     type_param, visitor, ast_path,
                 );
@@ -47817,9 +44686,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsInstantiation {
                 expr,
                 type_args,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let expr = <Box<Expr> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -47844,9 +44710,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsInterfaceBody {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             TsInterfaceBody { span, body } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let body = <Vec<TsTypeElement> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     body, visitor, ast_path,
                 );
@@ -47873,14 +44736,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsInterfaceDecl {
                 extends,
                 body,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let id = <Ident as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     id, visitor, ast_path,
-                );
-                let declare = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    declare, visitor, ast_path,
                 );
                 let type_params = < Option < Box < TsTypeParamDecl > > as FoldWithAstPath < V > > :: fold_children_with_ast_path (type_params , visitor , ast_path) ;
                 let extends =
@@ -47913,9 +44770,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsIntersectionType {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             TsIntersectionType { span, types } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let types = <Vec<Box<TsType>> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     types, visitor, ast_path,
                 );
@@ -47935,9 +44789,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsKeywordType {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             TsKeywordType { span, kind } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let kind = <TsKeywordTypeKind as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     kind, visitor, ast_path,
                 );
@@ -48026,9 +44877,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsLitType {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             TsLitType { span, lit } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let lit = <TsLit as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     lit, visitor, ast_path,
                 );
@@ -48055,9 +44903,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsMappedType {
                 optional,
                 type_ann,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let readonly =
                     <Option<TruePlusMinus> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         readonly, visitor, ast_path,
@@ -48108,17 +44953,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsMethodSignature {
                 type_ann,
                 type_params,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let key = <Box<Expr> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     key, visitor, ast_path,
-                );
-                let computed = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    computed, visitor, ast_path,
-                );
-                let optional = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    optional, visitor, ast_path,
                 );
                 let params = <Vec<TsFnParam> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     params, visitor, ast_path,
@@ -48152,9 +44988,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsModuleBlock {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             TsModuleBlock { span, body } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let body = <Vec<ModuleItem> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     body, visitor, ast_path,
                 );
@@ -48180,15 +45013,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsModuleDecl {
                 id,
                 body,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                let declare = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    declare, visitor, ast_path,
-                );
-                let global = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    global, visitor, ast_path,
-                );
                 let id = <TsModuleName as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     id, visitor, ast_path,
                 );
@@ -48300,15 +45124,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsNamespaceDecl {
                 id,
                 body,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                let declare = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    declare, visitor, ast_path,
-                );
-                let global = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    global, visitor, ast_path,
-                );
                 let id = <Ident as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     id, visitor, ast_path,
                 );
@@ -48338,9 +45153,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsNamespaceExportDecl {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             TsNamespaceExportDecl { span, id } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let id = <Ident as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     id, visitor, ast_path,
                 );
@@ -48360,9 +45172,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsNonNullExpr {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             TsNonNullExpr { span, expr } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let expr = <Box<Expr> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -48382,9 +45191,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsOptionalType {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             TsOptionalType { span, type_ann } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let type_ann = <Box<TsType> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     type_ann, visitor, ast_path,
                 );
@@ -48411,9 +45217,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsParamProp {
                 readonly,
                 param,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let decorators =
                     <Vec<Decorator> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         decorators, visitor, ast_path,
@@ -48424,14 +45227,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsParamProp {
                         visitor,
                         ast_path,
                     );
-                let is_override = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    is_override,
-                    visitor,
-                    ast_path,
-                );
-                let readonly = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    readonly, visitor, ast_path,
-                );
                 let param = <TsParamPropParam as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     param, visitor, ast_path,
                 );
@@ -48483,9 +45278,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsParenthesizedType {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             TsParenthesizedType { span, type_ann } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let type_ann = <Box<TsType> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     type_ann, visitor, ast_path,
                 );
@@ -48512,20 +45304,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsPropertySignature {
                 optional,
                 type_ann,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                let readonly = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    readonly, visitor, ast_path,
-                );
                 let key = <Box<Expr> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     key, visitor, ast_path,
-                );
-                let computed = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    computed, visitor, ast_path,
-                );
-                let optional = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    optional, visitor, ast_path,
                 );
                 let type_ann =
                     <Option<Box<TsTypeAnn>> as FoldWithAstPath<V>>::fold_children_with_ast_path(
@@ -48554,9 +45334,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsQualifiedName {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             TsQualifiedName { span, left, right } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let left = <TsEntityName as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     left, visitor, ast_path,
                 );
@@ -48579,9 +45356,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsRestType {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             TsRestType { span, type_ann } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let type_ann = <Box<TsType> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     type_ann, visitor, ast_path,
                 );
@@ -48605,9 +45379,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsSatisfiesExpr {
                 expr,
                 type_ann,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let expr = <Box<Expr> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -48639,14 +45410,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsSetterSignature {
                 computed,
                 param,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let key = <Box<Expr> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     key, visitor, ast_path,
-                );
-                let computed = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    computed, visitor, ast_path,
                 );
                 let param = <TsFnParam as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     param, visitor, ast_path,
@@ -48671,12 +45436,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsThisType {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            TsThisType { span } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                TsThisType { span }
-            }
+            TsThisType { span } => TsThisType { span },
         }
     }
 }
@@ -48720,9 +45480,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsTplLitType {
                 types,
                 quasis,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let types = <Vec<Box<TsType>> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     types, visitor, ast_path,
                 );
@@ -48749,9 +45506,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsTupleElement {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             TsTupleElement { span, label, ty } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let label = <Option<Pat> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     label, visitor, ast_path,
                 );
@@ -48774,9 +45528,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsTupleType {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             TsTupleType { span, elem_types } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let elem_types =
                     <Vec<TsTupleElement> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         elem_types, visitor, ast_path,
@@ -48941,12 +45692,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsTypeAliasDecl {
                 type_params,
                 type_ann,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                let declare = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    declare, visitor, ast_path,
-                );
                 let id = <Ident as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     id, visitor, ast_path,
                 );
@@ -48976,9 +45721,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsTypeAnn {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             TsTypeAnn { span, type_ann } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let type_ann = <Box<TsType> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     type_ann, visitor, ast_path,
                 );
@@ -49002,9 +45744,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsTypeAssertion {
                 expr,
                 type_ann,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let expr = <Box<Expr> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     expr, visitor, ast_path,
                 );
@@ -49093,9 +45832,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsTypeLit {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             TsTypeLit { span, members } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let members =
                     <Vec<TsTypeElement> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         members, visitor, ast_path,
@@ -49116,9 +45852,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsTypeOperator {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             TsTypeOperator { span, op, type_ann } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let op = <TsTypeOperatorOp as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     op, visitor, ast_path,
                 );
@@ -49165,20 +45898,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsTypeParam {
                 constraint,
                 default,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let name = <Ident as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     name, visitor, ast_path,
-                );
-                let is_in = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    is_in, visitor, ast_path,
-                );
-                let is_out = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    is_out, visitor, ast_path,
-                );
-                let is_const = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    is_const, visitor, ast_path,
                 );
                 let constraint =
                     <Option<Box<TsType>> as FoldWithAstPath<V>>::fold_children_with_ast_path(
@@ -49212,9 +45933,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsTypeParamDecl {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             TsTypeParamDecl { span, params } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let params = <Vec<TsTypeParam> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     params, visitor, ast_path,
                 );
@@ -49234,9 +45952,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsTypeParamInstantiation {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             TsTypeParamInstantiation { span, params } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let params = <Vec<Box<TsType>> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     params, visitor, ast_path,
                 );
@@ -49261,12 +45976,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsTypePredicate {
                 param_name,
                 type_ann,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                let asserts = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    asserts, visitor, ast_path,
-                );
                 let param_name =
                     <TsThisTypeOrIdent as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         param_name, visitor, ast_path,
@@ -49300,9 +46009,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsTypeQuery {
                 expr_name,
                 type_args,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let expr_name =
                     <TsTypeQueryExpr as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         expr_name, visitor, ast_path,
@@ -49357,9 +46063,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsTypeRef {
                 type_name,
                 type_params,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let type_name = <TsEntityName as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     type_name, visitor, ast_path,
                 );
@@ -49410,9 +46113,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsUnionType {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             TsUnionType { span, types } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let types = <Vec<Box<TsType>> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     types, visitor, ast_path,
                 );
@@ -49432,9 +46132,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for UnaryExpr {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             UnaryExpr { span, op, arg } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let op = <UnaryOp as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     op, visitor, ast_path,
                 );
@@ -49482,14 +46179,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for UpdateExpr {
                 prefix,
                 arg,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let op = <UpdateOp as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     op, visitor, ast_path,
-                );
-                let prefix = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    prefix, visitor, ast_path,
                 );
                 let arg = <Box<Expr> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     arg, visitor, ast_path,
@@ -49534,12 +46225,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for UsingDecl {
                 is_await,
                 decls,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                let is_await = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    is_await, visitor, ast_path,
-                );
                 let decls = <Vec<VarDeclarator> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     decls, visitor, ast_path,
                 );
@@ -49569,18 +46254,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for VarDecl {
                 declare,
                 decls,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
-                let ctxt =
-                    <swc_common::SyntaxContext as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                        ctxt, visitor, ast_path,
-                    );
                 let kind = <VarDeclKind as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     kind, visitor, ast_path,
-                );
-                let declare = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    declare, visitor, ast_path,
                 );
                 let decls = <Vec<VarDeclarator> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     decls, visitor, ast_path,
@@ -49653,17 +46328,11 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for VarDeclarator {
                 init,
                 definite,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let name = <Pat as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     name, visitor, ast_path,
                 );
                 let init = <Option<Box<Expr>> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     init, visitor, ast_path,
-                );
-                let definite = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    definite, visitor, ast_path,
                 );
                 VarDeclarator {
                     span,
@@ -49686,9 +46355,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for WhileStmt {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             WhileStmt { span, test, body } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let test = <Box<Expr> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     test, visitor, ast_path,
                 );
@@ -49711,9 +46377,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for WithStmt {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
             WithStmt { span, obj, body } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let obj = <Box<Expr> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     obj, visitor, ast_path,
                 );
@@ -49740,14 +46403,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for YieldExpr {
                 arg,
                 delegate,
             } => {
-                let span = <swc_common::Span as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    span, visitor, ast_path,
-                );
                 let arg = <Option<Box<Expr>> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     arg, visitor, ast_path,
-                );
-                let delegate = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    delegate, visitor, ast_path,
                 );
                 YieldExpr {
                     span,
