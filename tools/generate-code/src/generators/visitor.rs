@@ -444,8 +444,8 @@ impl Generator<'_> {
         let attrs = self.base_trait_attrs();
         let mut trait_methods = Vec::<TraitItem>::new();
         let mut either_impl_methods = Vec::<TraitItem>::new();
-        let mut ptr_impl_methods = Vec::<TraitItem>::new();
         let mut optional_impl_methods = Vec::<TraitItem>::new();
+        let mut ptr_impl_methods = Vec::<TraitItem>::new();
 
         for ty in all_types {
             if let FieldType::Generic(name, ..) = &ty {
@@ -489,6 +489,35 @@ impl Generator<'_> {
                     <#node_type as #with_trait_name<Self>>::#visit_with_children_name(node, self #ast_path_arg)
                 }
             ));
+
+            either_impl_methods.push(parse_quote!(
+                fn #visit_method_name #lifetime (&mut self, node: #type_param #ast_path_params) #return_type {
+                    match node {
+                        swc_visit::Either::Left(visitor) => {
+                            #trait_name::#visit_method_name(self, node #ast_path_arg)
+                        }
+                        swc_visit::Either::Right(visitor) => {
+                            #trait_name::#visit_method_name(self, node #ast_path_arg)
+                        }
+                    }
+                }
+            ));
+
+            optional_impl_methods.push(parse_quote!(
+                fn #visit_method_name #lifetime (&mut self, node: #type_param #ast_path_params) #return_type {
+                    if self.enabled {
+                        #trait_name::#visit_method_name(self, node #ast_path_arg)
+                    } else {
+                        node
+                    }
+                }
+            ));
+
+            ptr_impl_methods.push(parse_quote!(
+                fn #visit_method_name #lifetime (&mut self, node: #type_param #ast_path_params) #return_type {
+                    #trait_name::#visit_method_name(self, node #ast_path_arg)
+                }
+            ));
         }
 
         items.push(parse_quote! {
@@ -496,6 +525,47 @@ impl Generator<'_> {
             #(#attrs)*
             pub trait #trait_name {
                 #(#trait_methods)*
+            }
+        });
+
+        // &mut V
+        items.push(parse_quote! {
+            #(#attrs)*
+            impl #trait_name for &mut V where V: ?Sized + #trait_name {
+                #(#ptr_impl_methods)*
+            }
+        });
+
+        // Box<V>
+        items.push(parse_quote! {
+            #(#attrs)*
+            impl #trait_name for Box<V> where V: ?Sized + #trait_name {
+                #(#ptr_impl_methods)*
+            }
+        });
+
+        // ::swc_visit::Either<A, B>
+
+        items.push(parse_quote! {
+            #(#attrs)*
+            impl<A, B> #trait_name for ::swc_visit::Either<A, B>
+            where
+                A: #trait_name,
+                B: #trait_name,
+            {
+                #(#either_impl_methods)*
+            }
+        });
+
+        // ::swc_visit::Optional<V>
+
+        items.push(parse_quote! {
+            #(#attrs)*
+            impl<V> #trait_name for ::swc_visit::Optional<V>
+            where
+                V: #trait_name,
+            {
+                #(#optional_impl_methods)*
             }
         });
 
