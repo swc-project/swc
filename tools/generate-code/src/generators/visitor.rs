@@ -511,7 +511,7 @@ impl Generator<'_> {
             optional_impl_methods.push(parse_quote!(
                 fn #visit_method_name #lifetime (&mut self, node: #type_param #ast_path_params) #return_type {
                     if self.enabled {
-                        #trait_name::#visit_method_name(self, node #ast_path_arg)
+                        <V as #trait_name>::#visit_method_name(self, node #ast_path_arg)
                     } else {
                         #else_block
                     }
@@ -520,7 +520,7 @@ impl Generator<'_> {
 
             ptr_impl_methods.push(parse_quote!(
                 fn #visit_method_name #lifetime (&mut self, node: #type_param #ast_path_params) #return_type {
-                    #trait_name::#visit_method_name(&mut **self, node #ast_path_arg)
+                    <V as #trait_name>::#visit_method_name(&mut **self, node #ast_path_arg)
                 }
             ));
         }
