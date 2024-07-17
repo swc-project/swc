@@ -1,3 +1,5 @@
+#![allow(clippy::only_used_in_recursion)]
+
 use std::path::{Path, PathBuf};
 
 use anyhow::{bail, Context, Result};

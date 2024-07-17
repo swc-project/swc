@@ -69,11 +69,7 @@ pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
                 continue;
             }
 
-            let g = Generator {
-                kind,
-                variant,
-                skip_types: &typedefs,
-            };
+            let g = Generator { kind, variant };
 
             output.items.extend(g.declare_visit_trait(&all_types));
 
@@ -300,13 +296,12 @@ impl Variant {
     }
 }
 
-struct Generator<'a> {
+struct Generator {
     kind: TraitKind,
     variant: Variant,
-    skip_types: &'a HashSet<FieldType>,
 }
 
-impl Generator<'_> {
+impl Generator {
     fn should_skip(&self, ty: &Type) -> bool {
         if let Some(ty) = extract_generic("Box", ty) {
             return self.should_skip(ty);
@@ -321,11 +316,11 @@ impl Generator<'_> {
         }
 
         let ty = to_field_ty(ty);
-        let ty = match ty {
-            Some(ty) => ty,
+        match ty {
+            Some(..) => {}
             None => return true,
-        };
-        self.skip_types.contains(&ty)
+        }
+        false
     }
 
     fn method_lifetime(&self) -> TokenStream {
