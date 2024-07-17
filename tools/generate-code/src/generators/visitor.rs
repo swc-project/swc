@@ -818,12 +818,18 @@ impl Generator<'_> {
                         && self.variant == Variant::AstPath
                         && !self.should_skip(ty)
                     {
+                        let mut kind = quote!(self::fields::#fields_enum_name::#field_variant);
+
+                        if extract_vec(ty).is_some() {
+                            kind = quote!(#kind(usize::MAX));
+                        }
+
                         match self.kind {
                             TraitKind::Visit => {
                                 stmts.push(parse_quote!(
                                     let mut __ast_path = __ast_path
                                         .with_guard(
-                                            AstParentNodeRef::#type_name(self, self::fields::#fields_enum_name::#field_variant),
+                                            AstParentNodeRef::#type_name(self, #kind),
                                         );
                                 ));
                             }
@@ -831,7 +837,7 @@ impl Generator<'_> {
                                 stmts.push(parse_quote!(
                                     let mut __ast_path = __ast_path
                                         .with_guard(
-                                            AstParentKind::#type_name(self::fields::#fields_enum_name::#field_variant),
+                                            AstParentKind::#type_name(#kind),
                                         );
                                 ));
                             }
