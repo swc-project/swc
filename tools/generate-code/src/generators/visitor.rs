@@ -5,7 +5,7 @@ use proc_macro2::{Span, TokenStream};
 use quote::{quote, ToTokens};
 use syn::{
     parse_quote, Arm, Attribute, Expr, Field, Fields, File, GenericArgument, Ident, Item, Lit,
-    LitInt, PathArguments, Stmt, TraitItem, Type,
+    LitInt, Path, PathArguments, Stmt, TraitItem, Type,
 };
 
 pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
@@ -71,8 +71,8 @@ impl ToTokens for FieldType {
     fn to_tokens(&self, tokens: &mut TokenStream) {
         match self {
             FieldType::Normal(name) => {
-                let name = Ident::new(name, Span::call_site());
-                name.to_tokens(tokens);
+                let parsed: Path = syn::parse_str(name).expect("failed to parse path");
+                parsed.to_tokens(tokens);
             }
             FieldType::Generic(name, ty) => {
                 let name = Ident::new(name, Span::call_site());
@@ -192,7 +192,7 @@ fn to_field_ty(ty: &Type) -> Option<FieldType> {
                     return None;
                 }
 
-                return Some(FieldType::Normal(i.to_string()));
+                return Some(FieldType::Normal(quote!(#p).to_string()));
             }
 
             todo!("to_field_ty: {:?}", ty)
