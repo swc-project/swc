@@ -803,17 +803,17 @@ pub trait Visit {
     fn visit_opt_expr_or_spread(&mut self, node: &Option<ExprOrSpread>) {
         <Option<ExprOrSpread> as VisitWith<Self>>::visit_children_with(node, self)
     }
-    #[doc = "Visit a node of type `Vec < Option < ExprOrSpread > >`.\n\nBy default, this method \
-             calls [`Vec < Option < ExprOrSpread > >::visit_children_with`]. If you want to \
-             recurse, you need to call it manually."]
-    fn visit_opt_expr_or_spreads(&mut self, node: &Vec<Option<ExprOrSpread>>) {
-        <Vec<Option<ExprOrSpread>> as VisitWith<Self>>::visit_children_with(node, self)
-    }
     #[doc = "Visit a node of type `Option < Vec < ExprOrSpread > >`.\n\nBy default, this method \
              calls [`Option < Vec < ExprOrSpread > >::visit_children_with`]. If you want to \
              recurse, you need to call it manually."]
     fn visit_opt_expr_or_spreads(&mut self, node: &Option<Vec<ExprOrSpread>>) {
         <Option<Vec<ExprOrSpread>> as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < Option < ExprOrSpread > >`.\n\nBy default, this method \
+             calls [`Vec < Option < ExprOrSpread > >::visit_children_with`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_opt_expr_or_spreads(&mut self, node: &Vec<Option<ExprOrSpread>>) {
+        <Vec<Option<ExprOrSpread>> as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Option < Ident >`.\n\nBy default, this method calls [`Option < \
              Ident >::visit_children_with`]. If you want to recurse, you need to call it manually."]
@@ -6547,17 +6547,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for Option<ExprOrSpread> {
         }
     }
 }
-impl<V: ?Sized + Visit> VisitWith<V> for Vec<Option<ExprOrSpread>> {
-    #[doc = "Calls [Visit`::visit_opt_expr_or_spreads`] with `self`. (Extra impl)"]
-    fn visit_with(&self, visitor: &mut V) {
-        <V as Visit>::visit_opt_expr_or_spreads(visitor, self)
-    }
-
-    fn visit_children_with(&self, visitor: &mut V) {
-        self.iter()
-            .for_each(|item| <V as Visit>::visit_opt_expr_or_spreads(visitor, item))
-    }
-}
 impl<V: ?Sized + Visit> VisitWith<V> for Option<Vec<ExprOrSpread>> {
     #[doc = "Calls [Visit`::visit_opt_expr_or_spreads`] with `self`. (Extra impl)"]
     fn visit_with(&self, visitor: &mut V) {
@@ -6571,6 +6560,17 @@ impl<V: ?Sized + Visit> VisitWith<V> for Option<Vec<ExprOrSpread>> {
                 None => {}
             }
         }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Vec<Option<ExprOrSpread>> {
+    #[doc = "Calls [Visit`::visit_opt_expr_or_spreads`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_opt_expr_or_spreads(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        self.iter()
+            .for_each(|item| <V as Visit>::visit_opt_expr_or_spreads(visitor, item))
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for Option<Ident> {
@@ -8652,18 +8652,6 @@ pub trait VisitAstPath {
             node, self, ast_path,
         )
     }
-    #[doc = "Visit a node of type `Vec < Option < ExprOrSpread > >`.\n\nBy default, this method \
-             calls [`Vec < Option < ExprOrSpread > >::visit_children_with_ast_path`]. If you want \
-             to recurse, you need to call it manually."]
-    fn visit_opt_expr_or_spreads<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast Vec<Option<ExprOrSpread>>,
-        ast_path: &mut AstNodePath<'r>,
-    ) {
-        <Vec<Option<ExprOrSpread>> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
-            node, self, ast_path,
-        )
-    }
     #[doc = "Visit a node of type `Option < Vec < ExprOrSpread > >`.\n\nBy default, this method \
              calls [`Option < Vec < ExprOrSpread > >::visit_children_with_ast_path`]. If you want \
              to recurse, you need to call it manually."]
@@ -8673,6 +8661,18 @@ pub trait VisitAstPath {
         ast_path: &mut AstNodePath<'r>,
     ) {
         <Option<Vec<ExprOrSpread>> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Vec < Option < ExprOrSpread > >`.\n\nBy default, this method \
+             calls [`Vec < Option < ExprOrSpread > >::visit_children_with_ast_path`]. If you want \
+             to recurse, you need to call it manually."]
+    fn visit_opt_expr_or_spreads<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Vec<Option<ExprOrSpread>>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Vec<Option<ExprOrSpread>> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -18502,28 +18502,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<ExprOrSpread> {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<Option<ExprOrSpread>> {
-    #[doc = "Calls [VisitAstPath`::visit_opt_expr_or_spreads`] with `self`. (Extra impl)"]
-    fn visit_with_ast_path<'ast: 'r, 'r>(
-        &'ast self,
-        visitor: &mut V,
-        ast_path: &mut AstNodePath<'r>,
-    ) {
-        <V as VisitAstPath>::visit_opt_expr_or_spreads(visitor, self, ast_path)
-    }
-
-    fn visit_children_with_ast_path<'ast: 'r, 'r>(
-        &'ast self,
-        visitor: &mut V,
-        ast_path: &mut AstNodePath<'r>,
-    ) {
-        self.iter().for_each(|item| {
-            <V as VisitAstPath>::visit_opt_expr_or_spreads(visitor, item, ast_path)
-        })
-    }
-}
-#[cfg(any(docsrs, feature = "path"))]
-#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Vec<ExprOrSpread>> {
     #[doc = "Calls [VisitAstPath`::visit_opt_expr_or_spreads`] with `self`. (Extra impl)"]
     fn visit_with_ast_path<'ast: 'r, 'r>(
@@ -18547,6 +18525,28 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Vec<ExprOrSpread>>
                 None => {}
             }
         }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<Option<ExprOrSpread>> {
+    #[doc = "Calls [VisitAstPath`::visit_opt_expr_or_spreads`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_opt_expr_or_spreads(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        self.iter().for_each(|item| {
+            <V as VisitAstPath>::visit_opt_expr_or_spreads(visitor, item, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -20623,17 +20623,17 @@ pub trait VisitMut {
     fn visit_mut_opt_expr_or_spread(&mut self, node: &mut Option<ExprOrSpread>) {
         <Option<ExprOrSpread> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
-    #[doc = "Visit a node of type `Vec < Option < ExprOrSpread > >`.\n\nBy default, this method \
-             calls [`Vec < Option < ExprOrSpread > >::visit_mut_children_with`]. If you want to \
-             recurse, you need to call it manually."]
-    fn visit_mut_opt_expr_or_spreads(&mut self, node: &mut Vec<Option<ExprOrSpread>>) {
-        <Vec<Option<ExprOrSpread>> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
-    }
     #[doc = "Visit a node of type `Option < Vec < ExprOrSpread > >`.\n\nBy default, this method \
              calls [`Option < Vec < ExprOrSpread > >::visit_mut_children_with`]. If you want to \
              recurse, you need to call it manually."]
     fn visit_mut_opt_expr_or_spreads(&mut self, node: &mut Option<Vec<ExprOrSpread>>) {
         <Option<Vec<ExprOrSpread>> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < Option < ExprOrSpread > >`.\n\nBy default, this method \
+             calls [`Vec < Option < ExprOrSpread > >::visit_mut_children_with`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_mut_opt_expr_or_spreads(&mut self, node: &mut Vec<Option<ExprOrSpread>>) {
+        <Vec<Option<ExprOrSpread>> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `Option < Ident >`.\n\nBy default, this method calls [`Option < \
              Ident >::visit_mut_children_with`]. If you want to recurse, you need to call it \
@@ -26414,17 +26414,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<ExprOrSpread> {
         }
     }
 }
-impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<Option<ExprOrSpread>> {
-    #[doc = "Calls [VisitMut`::visit_mut_opt_expr_or_spreads`] with `self`. (Extra impl)"]
-    fn visit_mut_with(&mut self, visitor: &mut V) {
-        <V as VisitMut>::visit_mut_opt_expr_or_spreads(visitor, self)
-    }
-
-    fn visit_mut_children_with(&mut self, visitor: &mut V) {
-        self.iter_mut()
-            .for_each(|item| <V as VisitMut>::visit_mut_opt_expr_or_spreads(visitor, item))
-    }
-}
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Vec<ExprOrSpread>> {
     #[doc = "Calls [VisitMut`::visit_mut_opt_expr_or_spreads`] with `self`. (Extra impl)"]
     fn visit_mut_with(&mut self, visitor: &mut V) {
@@ -26438,6 +26427,17 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Vec<ExprOrSpread>> {
                 None => {}
             }
         }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<Option<ExprOrSpread>> {
+    #[doc = "Calls [VisitMut`::visit_mut_opt_expr_or_spreads`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_opt_expr_or_spreads(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        self.iter_mut()
+            .for_each(|item| <V as VisitMut>::visit_mut_opt_expr_or_spreads(visitor, item))
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Ident> {
@@ -28360,18 +28360,6 @@ pub trait VisitMutAstPath {
             node, self, ast_path,
         )
     }
-    #[doc = "Visit a node of type `Vec < Option < ExprOrSpread > >`.\n\nBy default, this method \
-             calls [`Vec < Option < ExprOrSpread > >::visit_mut_children_with_ast_path`]. If you \
-             want to recurse, you need to call it manually."]
-    fn visit_mut_opt_expr_or_spreads(
-        &mut self,
-        node: &mut Vec<Option<ExprOrSpread>>,
-        ast_path: &mut AstKindPath,
-    ) {
-        <Vec<Option<ExprOrSpread>> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
-            node, self, ast_path,
-        )
-    }
     #[doc = "Visit a node of type `Option < Vec < ExprOrSpread > >`.\n\nBy default, this method \
              calls [`Option < Vec < ExprOrSpread > >::visit_mut_children_with_ast_path`]. If you \
              want to recurse, you need to call it manually."]
@@ -28381,6 +28369,18 @@ pub trait VisitMutAstPath {
         ast_path: &mut AstKindPath,
     ) {
         <Option<Vec<ExprOrSpread>> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Vec < Option < ExprOrSpread > >`.\n\nBy default, this method \
+             calls [`Vec < Option < ExprOrSpread > >::visit_mut_children_with_ast_path`]. If you \
+             want to recurse, you need to call it manually."]
+    fn visit_mut_opt_expr_or_spreads(
+        &mut self,
+        node: &mut Vec<Option<ExprOrSpread>>,
+        ast_path: &mut AstKindPath,
+    ) {
+        <Vec<Option<ExprOrSpread>> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -36284,20 +36284,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<ExprOrSpread
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<Option<ExprOrSpread>> {
-    #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_expr_or_spreads`] with `self`. (Extra impl)"]
-    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        <V as VisitMutAstPath>::visit_mut_opt_expr_or_spreads(visitor, self, ast_path)
-    }
-
-    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        self.iter_mut().for_each(|item| {
-            <V as VisitMutAstPath>::visit_mut_opt_expr_or_spreads(visitor, item, ast_path)
-        })
-    }
-}
-#[cfg(any(docsrs, feature = "path"))]
-#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Vec<ExprOrSpread>> {
     #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_expr_or_spreads`] with `self`. (Extra impl)"]
     fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
@@ -36313,6 +36299,20 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Vec<ExprOrSp
                 None => {}
             }
         }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<Option<ExprOrSpread>> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_expr_or_spreads`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_opt_expr_or_spreads(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        self.iter_mut().for_each(|item| {
+            <V as VisitMutAstPath>::visit_mut_opt_expr_or_spreads(visitor, item, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -37966,15 +37966,6 @@ pub trait Fold {
     fn fold_opt_expr_or_spread(&mut self, node: Option<ExprOrSpread>) -> Option<ExprOrSpread> {
         <Option<ExprOrSpread> as FoldWith<Self>>::fold_children_with(node, self)
     }
-    #[doc = "Visit a node of type `Vec < Option < ExprOrSpread > >`.\n\nBy default, this method \
-             calls [`Vec < Option < ExprOrSpread > >::fold_children_with`]. If you want to \
-             recurse, you need to call it manually."]
-    fn fold_opt_expr_or_spreads(
-        &mut self,
-        node: Vec<Option<ExprOrSpread>>,
-    ) -> Vec<Option<ExprOrSpread>> {
-        <Vec<Option<ExprOrSpread>> as FoldWith<Self>>::fold_children_with(node, self)
-    }
     #[doc = "Visit a node of type `Option < Vec < ExprOrSpread > >`.\n\nBy default, this method \
              calls [`Option < Vec < ExprOrSpread > >::fold_children_with`]. If you want to \
              recurse, you need to call it manually."]
@@ -37983,6 +37974,15 @@ pub trait Fold {
         node: Option<Vec<ExprOrSpread>>,
     ) -> Option<Vec<ExprOrSpread>> {
         <Option<Vec<ExprOrSpread>> as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < Option < ExprOrSpread > >`.\n\nBy default, this method \
+             calls [`Vec < Option < ExprOrSpread > >::fold_children_with`]. If you want to \
+             recurse, you need to call it manually."]
+    fn fold_opt_expr_or_spreads(
+        &mut self,
+        node: Vec<Option<ExprOrSpread>>,
+    ) -> Vec<Option<ExprOrSpread>> {
+        <Vec<Option<ExprOrSpread>> as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `Option < Ident >`.\n\nBy default, this method calls [`Option < \
              Ident >::fold_children_with`]. If you want to recurse, you need to call it manually."]
@@ -44631,18 +44631,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for Option<ExprOrSpread> {
         }
     }
 }
-impl<V: ?Sized + Fold> FoldWith<V> for Vec<Option<ExprOrSpread>> {
-    #[doc = "Calls [Fold`::fold_opt_expr_or_spreads`] with `self`. (Extra impl)"]
-    fn fold_with(self, visitor: &mut V) -> Self {
-        <V as Fold>::fold_opt_expr_or_spreads(visitor, self)
-    }
-
-    fn fold_children_with(self, visitor: &mut V) -> Self {
-        self.into_iter()
-            .map(|item| <V as Fold>::fold_opt_expr_or_spreads(visitor, item))
-            .collect()
-    }
-}
 impl<V: ?Sized + Fold> FoldWith<V> for Option<Vec<ExprOrSpread>> {
     #[doc = "Calls [Fold`::fold_opt_expr_or_spreads`] with `self`. (Extra impl)"]
     fn fold_with(self, visitor: &mut V) -> Self {
@@ -44653,6 +44641,18 @@ impl<V: ?Sized + Fold> FoldWith<V> for Option<Vec<ExprOrSpread>> {
         {
             self.map(|inner| <V as Fold>::fold_opt_expr_or_spreads(visitor, inner))
         }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Vec<Option<ExprOrSpread>> {
+    #[doc = "Calls [Fold`::fold_opt_expr_or_spreads`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_opt_expr_or_spreads(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        self.into_iter()
+            .map(|item| <V as Fold>::fold_opt_expr_or_spreads(visitor, item))
+            .collect()
     }
 }
 impl<V: ?Sized + Fold> FoldWith<V> for Option<Ident> {
@@ -46437,18 +46437,6 @@ pub trait FoldAstPath {
             node, self, ast_path,
         )
     }
-    #[doc = "Visit a node of type `Vec < Option < ExprOrSpread > >`.\n\nBy default, this method \
-             calls [`Vec < Option < ExprOrSpread > >::fold_children_with_ast_path`]. If you want \
-             to recurse, you need to call it manually."]
-    fn fold_opt_expr_or_spreads(
-        &mut self,
-        node: Vec<Option<ExprOrSpread>>,
-        ast_path: &mut AstKindPath,
-    ) -> Vec<Option<ExprOrSpread>> {
-        <Vec<Option<ExprOrSpread>> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
-            node, self, ast_path,
-        )
-    }
     #[doc = "Visit a node of type `Option < Vec < ExprOrSpread > >`.\n\nBy default, this method \
              calls [`Option < Vec < ExprOrSpread > >::fold_children_with_ast_path`]. If you want \
              to recurse, you need to call it manually."]
@@ -46458,6 +46446,18 @@ pub trait FoldAstPath {
         ast_path: &mut AstKindPath,
     ) -> Option<Vec<ExprOrSpread>> {
         <Option<Vec<ExprOrSpread>> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Vec < Option < ExprOrSpread > >`.\n\nBy default, this method \
+             calls [`Vec < Option < ExprOrSpread > >::fold_children_with_ast_path`]. If you want \
+             to recurse, you need to call it manually."]
+    fn fold_opt_expr_or_spreads(
+        &mut self,
+        node: Vec<Option<ExprOrSpread>>,
+        ast_path: &mut AstKindPath,
+    ) -> Vec<Option<ExprOrSpread>> {
+        <Vec<Option<ExprOrSpread>> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -55030,20 +55030,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<ExprOrSpread> {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<Option<ExprOrSpread>> {
-    #[doc = "Calls [FoldAstPath`::fold_opt_expr_or_spreads`] with `self`. (Extra impl)"]
-    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
-        <V as FoldAstPath>::fold_opt_expr_or_spreads(visitor, self, ast_path)
-    }
-
-    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
-        self.into_iter()
-            .map(|item| <V as FoldAstPath>::fold_opt_expr_or_spreads(visitor, item, ast_path))
-            .collect()
-    }
-}
-#[cfg(any(docsrs, feature = "path"))]
-#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Vec<ExprOrSpread>> {
     #[doc = "Calls [FoldAstPath`::fold_opt_expr_or_spreads`] with `self`. (Extra impl)"]
     fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
@@ -55054,6 +55040,20 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Vec<ExprOrSpread>> {
         {
             self.map(|inner| <V as FoldAstPath>::fold_opt_expr_or_spreads(visitor, inner, ast_path))
         }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<Option<ExprOrSpread>> {
+    #[doc = "Calls [FoldAstPath`::fold_opt_expr_or_spreads`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_opt_expr_or_spreads(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        self.into_iter()
+            .map(|item| <V as FoldAstPath>::fold_opt_expr_or_spreads(visitor, item, ast_path))
+            .collect()
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
