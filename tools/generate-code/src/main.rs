@@ -83,11 +83,11 @@ fn run_visitor_codegen(input_dir: &Path, output: &Path, excludes: &[String]) -> 
 
     let output_content = quote::quote!(#file).to_string();
 
-    std::fs::write(&output, output_content).context("failed to write the output file")?;
+    std::fs::write(output, output_content).context("failed to write the output file")?;
 
     eprintln!("Generated visitor code in file: {:?}", output);
 
-    run_cargo_fmt(&output)?;
+    run_cargo_fmt(output)?;
 
     Ok(())
 }
