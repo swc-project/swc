@@ -164,7 +164,7 @@ impl Stmt {
     }
 }
 
-// Memory layout depends on the version of rustc.
+// Memory layout depedns on the version of rustc.
 // #[cfg(target_pointer_width = "64")]
 // assert_eq_size!(Stmt, [u8; 56]);
 
