@@ -6,7 +6,7 @@ use std::{
 use is_macro::Is;
 #[cfg(feature = "serde-impl")]
 use serde::{Deserialize, Serialize};
-use swc_atoms::{Atom, JsWord};
+use swc_atoms::Atom;
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span};
 
 #[ast_node("PreservedToken")]
@@ -70,7 +70,7 @@ pub struct DimensionToken {
     pub value: f64,
     pub raw_value: Atom,
 
-    pub unit: JsWord,
+    pub unit: Atom,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "type"))]
     pub type_flag: NumberType,
@@ -95,27 +95,27 @@ pub struct DimensionToken {
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 pub enum Token {
     Ident {
-        value: JsWord,
+        value: Atom,
         raw: Atom,
     },
     Function {
-        value: JsWord,
+        value: Atom,
         raw: Atom,
     },
     /// `@`
     AtKeyword {
-        value: JsWord,
+        value: Atom,
         raw: Atom,
     },
     /// `#`
     Hash {
         is_id: bool,
 
-        value: JsWord,
+        value: Atom,
         raw: Atom,
     },
     String {
-        value: JsWord,
+        value: Atom,
         raw: Atom,
     },
     BadString {
@@ -123,7 +123,7 @@ pub enum Token {
     },
     /// `url(value)`
     Url {
-        value: JsWord,
+        value: Atom,
         /// Name and value
         raw: Box<UrlKeyValue>,
     },

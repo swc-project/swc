@@ -1,6 +1,6 @@
 use is_macro::Is;
 use string_enum::StringEnum;
-use swc_atoms::{Atom, JsWord};
+use swc_atoms::Atom;
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span};
 
 use crate::{
@@ -37,8 +37,8 @@ impl PartialEq<str> for AtRuleName {
     }
 }
 
-impl PartialEq<JsWord> for AtRuleName {
-    fn eq(&self, other: &JsWord) -> bool {
+impl PartialEq<Atom> for AtRuleName {
+    fn eq(&self, other: &Atom) -> bool {
         match self {
             AtRuleName::DashedIdent(v) => v.value == *other,
             AtRuleName::Ident(v) => v.value == *other,
@@ -858,7 +858,7 @@ pub enum SizeFeatureName {
 #[derive(Eq, Hash)]
 pub struct ExtensionName {
     pub span: Span,
-    pub value: JsWord,
+    pub value: Atom,
     pub raw: Option<Atom>,
 }
 

@@ -5,7 +5,7 @@ use std::{
 
 use is_macro::Is;
 use string_enum::StringEnum;
-use swc_atoms::{Atom, JsWord};
+use swc_atoms::Atom;
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span};
 
 use crate::Function;
@@ -15,7 +15,7 @@ use crate::Function;
 pub struct Ident {
     pub span: Span,
 
-    pub value: JsWord,
+    pub value: Atom,
     pub raw: Option<Atom>,
 }
 
@@ -49,7 +49,7 @@ impl Take for Ident {
 pub struct CustomIdent {
     pub span: Span,
 
-    pub value: JsWord,
+    pub value: Atom,
     pub raw: Option<Atom>,
 }
 
@@ -65,7 +65,7 @@ impl EqIgnoreSpan for CustomIdent {
 pub struct DashedIdent {
     pub span: Span,
 
-    pub value: JsWord,
+    pub value: Atom,
     pub raw: Option<Atom>,
 }
 
@@ -88,7 +88,7 @@ impl PartialEq<str> for DashedIdent {
 pub struct CustomPropertyName {
     pub span: Span,
 
-    pub value: JsWord,
+    pub value: Atom,
     pub raw: Option<Atom>,
 }
 
@@ -104,7 +104,7 @@ impl EqIgnoreSpan for CustomPropertyName {
 pub struct Str {
     pub span: Span,
 
-    pub value: JsWord,
+    pub value: Atom,
     pub raw: Option<Atom>,
 }
 
@@ -176,7 +176,7 @@ pub struct HexColor {
     /// Includes `#`
     pub span: Span,
     /// Does **not** include `#`
-    pub value: JsWord,
+    pub value: Atom,
     /// Does **not** include `#`
     pub raw: Option<Atom>,
 }
@@ -443,7 +443,7 @@ pub enum UrlValue {
 pub struct UrlValueRaw {
     pub span: Span,
 
-    pub value: JsWord,
+    pub value: Atom,
     pub raw: Option<Atom>,
 }
 
@@ -461,9 +461,9 @@ pub enum UrlModifier {
 pub struct UnicodeRange {
     pub span: Span,
 
-    pub start: JsWord,
+    pub start: Atom,
 
-    pub end: Option<JsWord>,
+    pub end: Option<Atom>,
     pub raw: Option<Atom>,
 }
 
