@@ -780,7 +780,10 @@ impl Generator<'_> {
     }
 
     fn default_visit_body(&self, path: TokenStream, type_name: &Ident, fields: &Fields) -> Arm {
-        let ast_path_arg = self.arg_extra_token();
+        let ast_path_arg = match self.variant {
+            Variant::Normal => quote!(),
+            Variant::AstPath => quote!(, &mut *__ast_path),
+        };
 
         let with_visitor_trait_name = self.trait_name(true);
         let visit_with_name = Ident::new(
