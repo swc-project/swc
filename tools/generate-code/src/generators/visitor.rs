@@ -48,7 +48,7 @@ pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
 
             output
                 .items
-                .extend(g.implement_visit_with_for_non_leaf_types(&all_types));
+                .extend(g.implement_visit_with_for_non_node_types(&all_types));
         }
     }
 
@@ -710,7 +710,7 @@ impl Generator<'_> {
         }
     }
 
-    fn implement_visit_with_for_non_leaf_types(&self, non_leaf_types: &[FieldType]) -> Vec<Item> {
+    fn implement_visit_with_for_non_node_types(&self, non_leaf_types: &[FieldType]) -> Vec<Item> {
         let visitor_trait_name = self.trait_name(false);
         let trait_name = self.trait_name(true);
         let attrs = self.base_trait_attrs();
@@ -757,7 +757,21 @@ impl Generator<'_> {
             ));
 
             let default_body: Expr = match node_type {
-                FieldType::Normal(..) => continue,
+                FieldType::Normal(..) => {
+                    let ty = quote!(#node_type);
+
+                    match self.kind {
+                        TraitKind::Visit => {
+                            parse_quote!({})
+                        }
+                        TraitKind::VisitMut => {
+                            parse_quote!({})
+                        }
+                        TraitKind::Fold => {
+                            parse_quote!(self)
+                        }
+                    }
+                }
 
                 FieldType::Generic(name, inner) => match &**name {
                     "Vec" => {
