@@ -870,17 +870,17 @@ impl Generator<'_> {
                         match self.kind {
                             TraitKind::Visit => {
                                 parse_quote!({
-                                    <V as #visitor_trait_name>::visit_with(&**self, visitor #ast_path_arg)
+                                    <V as #visit_with_trait_name>::visit_with(&**self, visitor #ast_path_arg)
                                 })
                             }
                             TraitKind::VisitMut => {
                                 parse_quote!({
-                                    <V as #visitor_trait_name>::#visit_method_name(&mut **self, visitor #ast_path_arg)
+                                    <V as #visit_with_trait_name>::#visit_method_name(&mut **self, visitor #ast_path_arg)
                                 })
                             }
                             TraitKind::Fold => {
                                 parse_quote!({
-                                    Box::new(<V as #visitor_trait_name>::fold_with(*self, visitor #ast_path_arg))
+                                    Box::new(<V as #visit_with_trait_name>::fold_with(*self, visitor #ast_path_arg))
                                 })
                             }
                         }
