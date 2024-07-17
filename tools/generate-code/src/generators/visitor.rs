@@ -393,7 +393,7 @@ impl Generator<'_> {
     fn arg_extra_token(&self) -> TokenStream {
         match self.variant {
             Variant::Normal => quote!(),
-            Variant::AstPath => quote!(, ast_path),
+            Variant::AstPath => quote!(, __ast_path),
         }
     }
 
@@ -402,9 +402,9 @@ impl Generator<'_> {
             Variant::Normal => quote!(),
             Variant::AstPath => match self.kind {
                 TraitKind::Visit | TraitKind::VisitAll => {
-                    quote!(, ast_path: &mut AstNodePath<'r>)
+                    quote!(, __ast_path: &mut AstNodePath<'r>)
                 }
-                TraitKind::VisitMut | TraitKind::Fold => quote!(, ast_path: &mut AstKindPath),
+                TraitKind::VisitMut | TraitKind::Fold => quote!(, __ast_path: &mut AstKindPath),
             },
         }
     }
@@ -742,8 +742,11 @@ impl Generator<'_> {
                     for v in &data.variants {
                         let variant_name = &v.ident;
 
-                        match_arms
-                            .push(self.default_visit_body(quote!(#name::#variant_name), &v.fields));
+                        match_arms.push(self.default_visit_body(
+                            quote!(#name::#variant_name),
+                            name,
+                            &v.fields,
+                        ));
                     }
 
                     parse_quote!(match self { #(#match_arms)* })
@@ -751,7 +754,7 @@ impl Generator<'_> {
                 Item::Struct(data) => {
                     let name = &data.ident;
 
-                    let arm = self.default_visit_body(quote!(#name), &data.fields);
+                    let arm = self.default_visit_body(quote!(#name), name, &data.fields);
 
                     parse_quote!(match self { #arm })
                 }
@@ -776,7 +779,7 @@ impl Generator<'_> {
         items
     }
 
-    fn default_visit_body(&self, path: TokenStream, fields: &Fields) -> Arm {
+    fn default_visit_body(&self, path: TokenStream, type_name: &Ident, fields: &Fields) -> Arm {
         let ast_path_arg = self.arg_extra_token();
 
         let with_visitor_trait_name = self.trait_name(true);
@@ -788,6 +791,8 @@ impl Generator<'_> {
             ),
             Span::call_site(),
         );
+
+        let fields_enum_name = Ident::new(&format!("{type_name}Field"), Span::call_site());
 
         match fields {
             Fields::Named(n) => {
@@ -803,6 +808,17 @@ impl Generator<'_> {
                     let ty = &field.ty;
 
                     bindings.push(field_name.clone());
+                    let field_variant =
+                        Ident::new(&field_name.to_string().to_pascal_case(), Span::call_site());
+
+                    if self.variant == Variant::AstPath && !self.should_skip(ty) {
+                        stmts.push(parse_quote!(
+                            let mut __ast_path = __ast_path
+                                .with_guard(
+                                    AstParentKind::#type_name(self::fields::#fields_enum_name::#field_variant),
+                                );
+                        ));
+                    }
 
                     if let Some(reconstructor) = &mut reconstruct {
                         if !self.should_skip(ty) {
