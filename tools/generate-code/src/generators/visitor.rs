@@ -903,6 +903,7 @@ impl Generator<'_> {
         let ast_path_arg = self.arg_extra_token();
         let ast_path_param = self.param_extra_token();
         let return_type = self.return_type_token(quote!(Self));
+        let attrs = self.base_trait_attrs();
 
         let visit_with_name = Ident::new(
             &format!(
@@ -924,7 +925,10 @@ impl Generator<'_> {
         let mut items = Vec::<Item>::new();
 
         items.push(parse_quote!(
-            impl<V: ?Sized + #visit_trait_name> #visit_with_trait_name<V> for Box<T> where T: #visit_with_trait_name<V> {
+            #(#attrs)*
+            impl<V, T> #visit_with_trait_name<V> for Box<T>
+                where V: ?Sized + #visit_trait_name,
+                      T: #visit_with_trait_name<V> {
                 fn #visit_with_name #lifetime (&self, visitor: &mut V #ast_path_param) #return_type {
                     <T as #visit_with_trait_name<V>>::#visit_with_name(&**self, visitor #ast_path_arg)
                 }

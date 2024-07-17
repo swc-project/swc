@@ -6948,8 +6948,9 @@ impl<V: ?Sized + Visit> VisitWith<V> for Vec<VarDeclarator> {
             .for_each(|item| <VarDeclarator as VisitWith<V>>::visit_with(item, visitor))
     }
 }
-impl<V: ?Sized + Visit> VisitWith<V> for Box<T>
+impl<V, T> VisitWith<V> for Box<T>
 where
+    V: ?Sized + Visit,
     T: VisitWith<V>,
 {
     fn visit_with(&self, visitor: &mut V) {
@@ -19004,8 +19005,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<VarDeclarator> {
         })
     }
 }
-impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<T>
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V, T> VisitWithAstPath<V> for Box<T>
 where
+    V: ?Sized + VisitAstPath,
     T: VisitWithAstPath<V>,
 {
     fn visit_with_ast_path<'ast: 'r, 'r>(&self, visitor: &mut V, ast_path: &mut AstNodePath<'r>) {
@@ -26034,8 +26038,9 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<VarDeclarator> {
             .for_each(|item| <VarDeclarator as VisitMutWith<V>>::visit_mut_with(item, visitor))
     }
 }
-impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<T>
+impl<V, T> VisitMutWith<V> for Box<T>
 where
+    V: ?Sized + VisitMut,
     T: VisitMutWith<V>,
 {
     fn visit_mut_with(&self, visitor: &mut V) {
@@ -35723,8 +35728,11 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<VarDeclarator> 
         })
     }
 }
-impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<T>
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V, T> VisitMutWithAstPath<V> for Box<T>
 where
+    V: ?Sized + VisitMutAstPath,
     T: VisitMutWithAstPath<V>,
 {
     fn visit_mut_with_ast_path(&self, visitor: &mut V, ast_path: &mut AstKindPath) {
@@ -43555,8 +43563,9 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<VarDeclarator> {
             .collect()
     }
 }
-impl<V: ?Sized + Fold> FoldWith<V> for Box<T>
+impl<V, T> FoldWith<V> for Box<T>
 where
+    V: ?Sized + Fold,
     T: FoldWith<V>,
 {
     fn fold_with(&self, visitor: &mut V) -> Self {
@@ -53730,8 +53739,11 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<VarDeclarator> {
             .collect()
     }
 }
-impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<T>
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V, T> FoldWithAstPath<V> for Box<T>
 where
+    V: ?Sized + FoldAstPath,
     T: FoldWithAstPath<V>,
 {
     fn fold_with_ast_path(&self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
