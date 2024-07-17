@@ -5,6 +5,12 @@ pub use ::swc_visit::All;
 use swc_xml_ast::*;
 #[doc = r" A visitor trait for traversing the AST."]
 pub trait Visit {
+    #[doc = "Visit a node of type `swc_atoms :: Atom`.\n\nBy default, this method calls \
+             [`swc_atoms :: Atom::visit_children_with`]. If you want to recurse, you need to call \
+             it manually."]
+    fn visit_atom(&mut self, node: &swc_atoms::Atom) {
+        <swc_atoms::Atom as VisitWith<Self>>::visit_children_with(node, self)
+    }
     #[doc = "Visit a node of type `Attribute`.\n\nBy default, this method calls \
              [`Attribute::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -75,23 +81,17 @@ pub trait Visit {
     fn visit_element(&mut self, node: &Element) {
         <Element as VisitWith<Self>>::visit_children_with(node, self)
     }
-    #[doc = "Visit a node of type `swc_atoms :: JsWord`.\n\nBy default, this method calls \
-             [`swc_atoms :: JsWord::visit_children_with`]. If you want to recurse, you need to \
-             call it manually."]
-    fn visit_js_word(&mut self, node: &swc_atoms::JsWord) {
-        <swc_atoms::JsWord as VisitWith<Self>>::visit_children_with(node, self)
-    }
     #[doc = "Visit a node of type `Namespace`.\n\nBy default, this method calls \
              [`Namespace::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
     fn visit_namespace(&mut self, node: &Namespace) {
         <Namespace as VisitWith<Self>>::visit_children_with(node, self)
     }
-    #[doc = "Visit a node of type `Option < swc_atoms :: JsWord >`.\n\nBy default, this method \
-             calls [`Option < swc_atoms :: JsWord >::visit_children_with`]. If you want to \
-             recurse, you need to call it manually."]
-    fn visit_opt_js_word(&mut self, node: &Option<swc_atoms::JsWord>) {
-        <Option<swc_atoms::JsWord> as VisitWith<Self>>::visit_children_with(node, self)
+    #[doc = "Visit a node of type `Option < swc_atoms :: Atom >`.\n\nBy default, this method calls \
+             [`Option < swc_atoms :: Atom >::visit_children_with`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
+        <Option<swc_atoms::Atom> as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Option < Namespace >`.\n\nBy default, this method calls \
              [`Option < Namespace >::visit_children_with`]. If you want to recurse, you need to \
@@ -133,6 +133,11 @@ where
     V: ?Sized + Visit,
 {
     #[inline]
+    fn visit_atom(&mut self, node: &swc_atoms::Atom) {
+        <V as Visit>::visit_atom(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_attribute(&mut self, node: &Attribute) {
         <V as Visit>::visit_attribute(&mut **self, node)
     }
@@ -193,18 +198,13 @@ where
     }
 
     #[inline]
-    fn visit_js_word(&mut self, node: &swc_atoms::JsWord) {
-        <V as Visit>::visit_js_word(&mut **self, node)
-    }
-
-    #[inline]
     fn visit_namespace(&mut self, node: &Namespace) {
         <V as Visit>::visit_namespace(&mut **self, node)
     }
 
     #[inline]
-    fn visit_opt_js_word(&mut self, node: &Option<swc_atoms::JsWord>) {
-        <V as Visit>::visit_opt_js_word(&mut **self, node)
+    fn visit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
+        <V as Visit>::visit_opt_atom(&mut **self, node)
     }
 
     #[inline]
@@ -242,6 +242,11 @@ where
     V: ?Sized + Visit,
 {
     #[inline]
+    fn visit_atom(&mut self, node: &swc_atoms::Atom) {
+        <V as Visit>::visit_atom(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_attribute(&mut self, node: &Attribute) {
         <V as Visit>::visit_attribute(&mut **self, node)
     }
@@ -302,18 +307,13 @@ where
     }
 
     #[inline]
-    fn visit_js_word(&mut self, node: &swc_atoms::JsWord) {
-        <V as Visit>::visit_js_word(&mut **self, node)
-    }
-
-    #[inline]
     fn visit_namespace(&mut self, node: &Namespace) {
         <V as Visit>::visit_namespace(&mut **self, node)
     }
 
     #[inline]
-    fn visit_opt_js_word(&mut self, node: &Option<swc_atoms::JsWord>) {
-        <V as Visit>::visit_opt_js_word(&mut **self, node)
+    fn visit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
+        <V as Visit>::visit_opt_atom(&mut **self, node)
     }
 
     #[inline]
@@ -351,6 +351,14 @@ where
     A: Visit,
     B: Visit,
 {
+    #[inline]
+    fn visit_atom(&mut self, node: &swc_atoms::Atom) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::visit_atom(self, node),
+            swc_visit::Either::Right(visitor) => Visit::visit_atom(self, node),
+        }
+    }
+
     #[inline]
     fn visit_attribute(&mut self, node: &Attribute) {
         match self {
@@ -448,14 +456,6 @@ where
     }
 
     #[inline]
-    fn visit_js_word(&mut self, node: &swc_atoms::JsWord) {
-        match self {
-            swc_visit::Either::Left(visitor) => Visit::visit_js_word(self, node),
-            swc_visit::Either::Right(visitor) => Visit::visit_js_word(self, node),
-        }
-    }
-
-    #[inline]
     fn visit_namespace(&mut self, node: &Namespace) {
         match self {
             swc_visit::Either::Left(visitor) => Visit::visit_namespace(self, node),
@@ -464,10 +464,10 @@ where
     }
 
     #[inline]
-    fn visit_opt_js_word(&mut self, node: &Option<swc_atoms::JsWord>) {
+    fn visit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
         match self {
-            swc_visit::Either::Left(visitor) => Visit::visit_opt_js_word(self, node),
-            swc_visit::Either::Right(visitor) => Visit::visit_opt_js_word(self, node),
+            swc_visit::Either::Left(visitor) => Visit::visit_opt_atom(self, node),
+            swc_visit::Either::Right(visitor) => Visit::visit_opt_atom(self, node),
         }
     }
 
@@ -523,6 +523,14 @@ impl<V> Visit for ::swc_visit::Optional<V>
 where
     V: Visit,
 {
+    #[inline]
+    fn visit_atom(&mut self, node: &swc_atoms::Atom) {
+        if self.enabled {
+            <V as Visit>::visit_atom(&mut self.visitor, node)
+        } else {
+        }
+    }
+
     #[inline]
     fn visit_attribute(&mut self, node: &Attribute) {
         if self.enabled {
@@ -620,14 +628,6 @@ where
     }
 
     #[inline]
-    fn visit_js_word(&mut self, node: &swc_atoms::JsWord) {
-        if self.enabled {
-            <V as Visit>::visit_js_word(&mut self.visitor, node)
-        } else {
-        }
-    }
-
-    #[inline]
     fn visit_namespace(&mut self, node: &Namespace) {
         if self.enabled {
             <V as Visit>::visit_namespace(&mut self.visitor, node)
@@ -636,9 +636,9 @@ where
     }
 
     #[inline]
-    fn visit_opt_js_word(&mut self, node: &Option<swc_atoms::JsWord>) {
+    fn visit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
         if self.enabled {
-            <V as Visit>::visit_opt_js_word(&mut self.visitor, node)
+            <V as Visit>::visit_opt_atom(&mut self.visitor, node)
         } else {
         }
     }
@@ -695,6 +695,12 @@ impl<V> Visit for ::swc_visit::All<V>
 where
     V: VisitAll,
 {
+    #[inline]
+    fn visit_atom(&mut self, node: &swc_atoms::Atom) {
+        <V as VisitAll>::visit_atom(&mut self.visitor, node);
+        <swc_atoms::Atom as VisitWith<Self>>::visit_children_with(node, self);
+    }
+
     #[inline]
     fn visit_attribute(&mut self, node: &Attribute) {
         <V as VisitAll>::visit_attribute(&mut self.visitor, node);
@@ -768,21 +774,15 @@ where
     }
 
     #[inline]
-    fn visit_js_word(&mut self, node: &swc_atoms::JsWord) {
-        <V as VisitAll>::visit_js_word(&mut self.visitor, node);
-        <swc_atoms::JsWord as VisitWith<Self>>::visit_children_with(node, self);
-    }
-
-    #[inline]
     fn visit_namespace(&mut self, node: &Namespace) {
         <V as VisitAll>::visit_namespace(&mut self.visitor, node);
         <Namespace as VisitWith<Self>>::visit_children_with(node, self);
     }
 
     #[inline]
-    fn visit_opt_js_word(&mut self, node: &Option<swc_atoms::JsWord>) {
-        <V as VisitAll>::visit_opt_js_word(&mut self.visitor, node);
-        <Option<swc_atoms::JsWord> as VisitWith<Self>>::visit_children_with(node, self);
+    fn visit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
+        <V as VisitAll>::visit_opt_atom(&mut self.visitor, node);
+        <Option<swc_atoms::Atom> as VisitWith<Self>>::visit_children_with(node, self);
     }
 
     #[inline]
@@ -1098,6 +1098,16 @@ impl<V: ?Sized + Visit> VisitWith<V> for TokenAndSpan {
         }
     }
 }
+impl<V: ?Sized + Visit> VisitWith<V> for swc_atoms::Atom {
+    #[doc = "Calls [Visit`::visit_atom`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_atom(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {}
+    }
+}
 impl<V: ?Sized + Visit> VisitWith<V> for [AttributeToken] {
     #[doc = "Calls [Visit`::visit_attribute_tokens`] with `self`. (Extra impl)"]
     fn visit_with(&self, visitor: &mut V) {
@@ -1131,25 +1141,15 @@ impl<V: ?Sized + Visit> VisitWith<V> for [Child] {
             .for_each(|item| <Child as VisitWith<V>>::visit_with(item, visitor))
     }
 }
-impl<V: ?Sized + Visit> VisitWith<V> for swc_atoms::JsWord {
-    #[doc = "Calls [Visit`::visit_js_word`] with `self`. (Extra impl)"]
+impl<V: ?Sized + Visit> VisitWith<V> for Option<swc_atoms::Atom> {
+    #[doc = "Calls [Visit`::visit_opt_atom`] with `self`. (Extra impl)"]
     fn visit_with(&self, visitor: &mut V) {
-        <V as Visit>::visit_js_word(visitor, self)
-    }
-
-    fn visit_children_with(&self, visitor: &mut V) {
-        {}
-    }
-}
-impl<V: ?Sized + Visit> VisitWith<V> for Option<swc_atoms::JsWord> {
-    #[doc = "Calls [Visit`::visit_opt_js_word`] with `self`. (Extra impl)"]
-    fn visit_with(&self, visitor: &mut V) {
-        <V as Visit>::visit_opt_js_word(visitor, self)
+        <V as Visit>::visit_opt_atom(visitor, self)
     }
 
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
-            Some(inner) => <swc_atoms::JsWord as VisitWith<V>>::visit_with(inner, visitor),
+            Some(inner) => <swc_atoms::Atom as VisitWith<V>>::visit_with(inner, visitor),
             None => {}
         }
     }
@@ -1211,6 +1211,18 @@ where
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 pub trait VisitAstPath {
+    #[doc = "Visit a node of type `swc_atoms :: Atom`.\n\nBy default, this method calls \
+             [`swc_atoms :: Atom::visit_children_with_ast_path`]. If you want to recurse, you need \
+             to call it manually."]
+    fn visit_atom<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast swc_atoms::Atom,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <swc_atoms::Atom as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, __ast_path,
+        )
+    }
     #[doc = "Visit a node of type `Attribute`.\n\nBy default, this method calls \
              [`Attribute::visit_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
@@ -1339,18 +1351,6 @@ pub trait VisitAstPath {
     ) {
         <Element as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, __ast_path)
     }
-    #[doc = "Visit a node of type `swc_atoms :: JsWord`.\n\nBy default, this method calls \
-             [`swc_atoms :: JsWord::visit_children_with_ast_path`]. If you want to recurse, you \
-             need to call it manually."]
-    fn visit_js_word<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast swc_atoms::JsWord,
-        __ast_path: &mut AstNodePath<'r>,
-    ) {
-        <swc_atoms::JsWord as VisitWithAstPath<Self>>::visit_children_with_ast_path(
-            node, self, __ast_path,
-        )
-    }
     #[doc = "Visit a node of type `Namespace`.\n\nBy default, this method calls \
              [`Namespace::visit_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
@@ -1361,15 +1361,15 @@ pub trait VisitAstPath {
     ) {
         <Namespace as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, __ast_path)
     }
-    #[doc = "Visit a node of type `Option < swc_atoms :: JsWord >`.\n\nBy default, this method \
-             calls [`Option < swc_atoms :: JsWord >::visit_children_with_ast_path`]. If you want \
-             to recurse, you need to call it manually."]
-    fn visit_opt_js_word<'ast: 'r, 'r>(
+    #[doc = "Visit a node of type `Option < swc_atoms :: Atom >`.\n\nBy default, this method calls \
+             [`Option < swc_atoms :: Atom >::visit_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_opt_atom<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast Option<swc_atoms::JsWord>,
+        node: &'ast Option<swc_atoms::Atom>,
         __ast_path: &mut AstNodePath<'r>,
     ) {
-        <Option<swc_atoms::JsWord> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+        <Option<swc_atoms::Atom> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, __ast_path,
         )
     }
@@ -1441,6 +1441,15 @@ where
     V: ?Sized + VisitAstPath,
 {
     #[inline]
+    fn visit_atom<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast swc_atoms::Atom,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_atom(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_attribute<'ast: 'r, 'r>(
         &mut self,
         node: &'ast Attribute,
@@ -1545,15 +1554,6 @@ where
     }
 
     #[inline]
-    fn visit_js_word<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast swc_atoms::JsWord,
-        __ast_path: &mut AstNodePath<'r>,
-    ) {
-        <V as VisitAstPath>::visit_js_word(&mut **self, node, __ast_path)
-    }
-
-    #[inline]
     fn visit_namespace<'ast: 'r, 'r>(
         &mut self,
         node: &'ast Namespace,
@@ -1563,12 +1563,12 @@ where
     }
 
     #[inline]
-    fn visit_opt_js_word<'ast: 'r, 'r>(
+    fn visit_opt_atom<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast Option<swc_atoms::JsWord>,
+        node: &'ast Option<swc_atoms::Atom>,
         __ast_path: &mut AstNodePath<'r>,
     ) {
-        <V as VisitAstPath>::visit_opt_js_word(&mut **self, node, __ast_path)
+        <V as VisitAstPath>::visit_opt_atom(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -1624,6 +1624,15 @@ where
     V: ?Sized + VisitAstPath,
 {
     #[inline]
+    fn visit_atom<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast swc_atoms::Atom,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_atom(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_attribute<'ast: 'r, 'r>(
         &mut self,
         node: &'ast Attribute,
@@ -1728,15 +1737,6 @@ where
     }
 
     #[inline]
-    fn visit_js_word<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast swc_atoms::JsWord,
-        __ast_path: &mut AstNodePath<'r>,
-    ) {
-        <V as VisitAstPath>::visit_js_word(&mut **self, node, __ast_path)
-    }
-
-    #[inline]
     fn visit_namespace<'ast: 'r, 'r>(
         &mut self,
         node: &'ast Namespace,
@@ -1746,12 +1746,12 @@ where
     }
 
     #[inline]
-    fn visit_opt_js_word<'ast: 'r, 'r>(
+    fn visit_opt_atom<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast Option<swc_atoms::JsWord>,
+        node: &'ast Option<swc_atoms::Atom>,
         __ast_path: &mut AstNodePath<'r>,
     ) {
-        <V as VisitAstPath>::visit_opt_js_word(&mut **self, node, __ast_path)
+        <V as VisitAstPath>::visit_opt_atom(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -1807,6 +1807,18 @@ where
     A: VisitAstPath,
     B: VisitAstPath,
 {
+    #[inline]
+    fn visit_atom<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast swc_atoms::Atom,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitAstPath::visit_atom(self, node, __ast_path),
+            swc_visit::Either::Right(visitor) => VisitAstPath::visit_atom(self, node, __ast_path),
+        }
+    }
+
     #[inline]
     fn visit_attribute<'ast: 'r, 'r>(
         &mut self,
@@ -1984,20 +1996,6 @@ where
     }
 
     #[inline]
-    fn visit_js_word<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast swc_atoms::JsWord,
-        __ast_path: &mut AstNodePath<'r>,
-    ) {
-        match self {
-            swc_visit::Either::Left(visitor) => VisitAstPath::visit_js_word(self, node, __ast_path),
-            swc_visit::Either::Right(visitor) => {
-                VisitAstPath::visit_js_word(self, node, __ast_path)
-            }
-        }
-    }
-
-    #[inline]
     fn visit_namespace<'ast: 'r, 'r>(
         &mut self,
         node: &'ast Namespace,
@@ -2014,17 +2012,17 @@ where
     }
 
     #[inline]
-    fn visit_opt_js_word<'ast: 'r, 'r>(
+    fn visit_opt_atom<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast Option<swc_atoms::JsWord>,
+        node: &'ast Option<swc_atoms::Atom>,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
             swc_visit::Either::Left(visitor) => {
-                VisitAstPath::visit_opt_js_word(self, node, __ast_path)
+                VisitAstPath::visit_opt_atom(self, node, __ast_path)
             }
             swc_visit::Either::Right(visitor) => {
-                VisitAstPath::visit_opt_js_word(self, node, __ast_path)
+                VisitAstPath::visit_opt_atom(self, node, __ast_path)
             }
         }
     }
@@ -2111,6 +2109,18 @@ impl<V> VisitAstPath for ::swc_visit::Optional<V>
 where
     V: VisitAstPath,
 {
+    #[inline]
+    fn visit_atom<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast swc_atoms::Atom,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::visit_atom(&mut self.visitor, node, __ast_path)
+        } else {
+        }
+    }
+
     #[inline]
     fn visit_attribute<'ast: 'r, 'r>(
         &mut self,
@@ -2252,18 +2262,6 @@ where
     }
 
     #[inline]
-    fn visit_js_word<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast swc_atoms::JsWord,
-        __ast_path: &mut AstNodePath<'r>,
-    ) {
-        if self.enabled {
-            <V as VisitAstPath>::visit_js_word(&mut self.visitor, node, __ast_path)
-        } else {
-        }
-    }
-
-    #[inline]
     fn visit_namespace<'ast: 'r, 'r>(
         &mut self,
         node: &'ast Namespace,
@@ -2276,13 +2274,13 @@ where
     }
 
     #[inline]
-    fn visit_opt_js_word<'ast: 'r, 'r>(
+    fn visit_opt_atom<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast Option<swc_atoms::JsWord>,
+        node: &'ast Option<swc_atoms::Atom>,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_opt_js_word(&mut self.visitor, node, __ast_path)
+            <V as VisitAstPath>::visit_opt_atom(&mut self.visitor, node, __ast_path)
         } else {
         }
     }
@@ -2932,6 +2930,26 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TokenAndSpan {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for swc_atoms::Atom {
+    #[doc = "Calls [VisitAstPath`::visit_atom`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_atom(visitor, self, __ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        {}
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for [AttributeToken] {
     #[doc = "Calls [VisitAstPath`::visit_attribute_tokens`] with `self`. (Extra impl)"]
     fn visit_with_ast_path<'ast: 'r, 'r>(
@@ -2998,34 +3016,14 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for [Child] {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for swc_atoms::JsWord {
-    #[doc = "Calls [VisitAstPath`::visit_js_word`] with `self`. (Extra impl)"]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<swc_atoms::Atom> {
+    #[doc = "Calls [VisitAstPath`::visit_opt_atom`] with `self`. (Extra impl)"]
     fn visit_with_ast_path<'ast: 'r, 'r>(
         &'ast self,
         visitor: &mut V,
         __ast_path: &mut AstNodePath<'r>,
     ) {
-        <V as VisitAstPath>::visit_js_word(visitor, self, __ast_path)
-    }
-
-    fn visit_children_with_ast_path<'ast: 'r, 'r>(
-        &'ast self,
-        visitor: &mut V,
-        __ast_path: &mut AstNodePath<'r>,
-    ) {
-        {}
-    }
-}
-#[cfg(any(docsrs, feature = "path"))]
-#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<swc_atoms::JsWord> {
-    #[doc = "Calls [VisitAstPath`::visit_opt_js_word`] with `self`. (Extra impl)"]
-    fn visit_with_ast_path<'ast: 'r, 'r>(
-        &'ast self,
-        visitor: &mut V,
-        __ast_path: &mut AstNodePath<'r>,
-    ) {
-        <V as VisitAstPath>::visit_opt_js_word(visitor, self, __ast_path)
+        <V as VisitAstPath>::visit_opt_atom(visitor, self, __ast_path)
     }
 
     fn visit_children_with_ast_path<'ast: 'r, 'r>(
@@ -3034,7 +3032,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<swc_atoms::JsWord>
         __ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
-            Some(inner) => <swc_atoms::JsWord as VisitWithAstPath<V>>::visit_with_ast_path(
+            Some(inner) => <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                 inner, visitor, __ast_path,
             ),
             None => {}
@@ -3140,6 +3138,12 @@ where
 }
 #[doc = r" A visitor trait for traversing the AST."]
 pub trait VisitMut {
+    #[doc = "Visit a node of type `swc_atoms :: Atom`.\n\nBy default, this method calls \
+             [`swc_atoms :: Atom::visit_mut_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_mut_atom(&mut self, node: &mut swc_atoms::Atom) {
+        <swc_atoms::Atom as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
     #[doc = "Visit a node of type `Attribute`.\n\nBy default, this method calls \
              [`Attribute::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -3211,23 +3215,17 @@ pub trait VisitMut {
     fn visit_mut_element(&mut self, node: &mut Element) {
         <Element as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
-    #[doc = "Visit a node of type `swc_atoms :: JsWord`.\n\nBy default, this method calls \
-             [`swc_atoms :: JsWord::visit_mut_children_with`]. If you want to recurse, you need to \
-             call it manually."]
-    fn visit_mut_js_word(&mut self, node: &mut swc_atoms::JsWord) {
-        <swc_atoms::JsWord as VisitMutWith<Self>>::visit_mut_children_with(node, self)
-    }
     #[doc = "Visit a node of type `Namespace`.\n\nBy default, this method calls \
              [`Namespace::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
     fn visit_mut_namespace(&mut self, node: &mut Namespace) {
         <Namespace as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
-    #[doc = "Visit a node of type `Option < swc_atoms :: JsWord >`.\n\nBy default, this method \
-             calls [`Option < swc_atoms :: JsWord >::visit_mut_children_with`]. If you want to \
-             recurse, you need to call it manually."]
-    fn visit_mut_opt_js_word(&mut self, node: &mut Option<swc_atoms::JsWord>) {
-        <Option<swc_atoms::JsWord> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    #[doc = "Visit a node of type `Option < swc_atoms :: Atom >`.\n\nBy default, this method calls \
+             [`Option < swc_atoms :: Atom >::visit_mut_children_with`]. If you want to recurse, \
+             you need to call it manually."]
+    fn visit_mut_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
+        <Option<swc_atoms::Atom> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `Option < Namespace >`.\n\nBy default, this method calls \
              [`Option < Namespace >::visit_mut_children_with`]. If you want to recurse, you need \
@@ -3271,6 +3269,11 @@ where
     V: ?Sized + VisitMut,
 {
     #[inline]
+    fn visit_mut_atom(&mut self, node: &mut swc_atoms::Atom) {
+        <V as VisitMut>::visit_mut_atom(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_mut_attribute(&mut self, node: &mut Attribute) {
         <V as VisitMut>::visit_mut_attribute(&mut **self, node)
     }
@@ -3331,18 +3334,13 @@ where
     }
 
     #[inline]
-    fn visit_mut_js_word(&mut self, node: &mut swc_atoms::JsWord) {
-        <V as VisitMut>::visit_mut_js_word(&mut **self, node)
-    }
-
-    #[inline]
     fn visit_mut_namespace(&mut self, node: &mut Namespace) {
         <V as VisitMut>::visit_mut_namespace(&mut **self, node)
     }
 
     #[inline]
-    fn visit_mut_opt_js_word(&mut self, node: &mut Option<swc_atoms::JsWord>) {
-        <V as VisitMut>::visit_mut_opt_js_word(&mut **self, node)
+    fn visit_mut_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
+        <V as VisitMut>::visit_mut_opt_atom(&mut **self, node)
     }
 
     #[inline]
@@ -3380,6 +3378,11 @@ where
     V: ?Sized + VisitMut,
 {
     #[inline]
+    fn visit_mut_atom(&mut self, node: &mut swc_atoms::Atom) {
+        <V as VisitMut>::visit_mut_atom(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_mut_attribute(&mut self, node: &mut Attribute) {
         <V as VisitMut>::visit_mut_attribute(&mut **self, node)
     }
@@ -3440,18 +3443,13 @@ where
     }
 
     #[inline]
-    fn visit_mut_js_word(&mut self, node: &mut swc_atoms::JsWord) {
-        <V as VisitMut>::visit_mut_js_word(&mut **self, node)
-    }
-
-    #[inline]
     fn visit_mut_namespace(&mut self, node: &mut Namespace) {
         <V as VisitMut>::visit_mut_namespace(&mut **self, node)
     }
 
     #[inline]
-    fn visit_mut_opt_js_word(&mut self, node: &mut Option<swc_atoms::JsWord>) {
-        <V as VisitMut>::visit_mut_opt_js_word(&mut **self, node)
+    fn visit_mut_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
+        <V as VisitMut>::visit_mut_opt_atom(&mut **self, node)
     }
 
     #[inline]
@@ -3489,6 +3487,14 @@ where
     A: VisitMut,
     B: VisitMut,
 {
+    #[inline]
+    fn visit_mut_atom(&mut self, node: &mut swc_atoms::Atom) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::visit_mut_atom(self, node),
+            swc_visit::Either::Right(visitor) => VisitMut::visit_mut_atom(self, node),
+        }
+    }
+
     #[inline]
     fn visit_mut_attribute(&mut self, node: &mut Attribute) {
         match self {
@@ -3586,14 +3592,6 @@ where
     }
 
     #[inline]
-    fn visit_mut_js_word(&mut self, node: &mut swc_atoms::JsWord) {
-        match self {
-            swc_visit::Either::Left(visitor) => VisitMut::visit_mut_js_word(self, node),
-            swc_visit::Either::Right(visitor) => VisitMut::visit_mut_js_word(self, node),
-        }
-    }
-
-    #[inline]
     fn visit_mut_namespace(&mut self, node: &mut Namespace) {
         match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_namespace(self, node),
@@ -3602,10 +3600,10 @@ where
     }
 
     #[inline]
-    fn visit_mut_opt_js_word(&mut self, node: &mut Option<swc_atoms::JsWord>) {
+    fn visit_mut_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
         match self {
-            swc_visit::Either::Left(visitor) => VisitMut::visit_mut_opt_js_word(self, node),
-            swc_visit::Either::Right(visitor) => VisitMut::visit_mut_opt_js_word(self, node),
+            swc_visit::Either::Left(visitor) => VisitMut::visit_mut_opt_atom(self, node),
+            swc_visit::Either::Right(visitor) => VisitMut::visit_mut_opt_atom(self, node),
         }
     }
 
@@ -3665,6 +3663,14 @@ impl<V> VisitMut for ::swc_visit::Optional<V>
 where
     V: VisitMut,
 {
+    #[inline]
+    fn visit_mut_atom(&mut self, node: &mut swc_atoms::Atom) {
+        if self.enabled {
+            <V as VisitMut>::visit_mut_atom(&mut self.visitor, node)
+        } else {
+        }
+    }
+
     #[inline]
     fn visit_mut_attribute(&mut self, node: &mut Attribute) {
         if self.enabled {
@@ -3762,14 +3768,6 @@ where
     }
 
     #[inline]
-    fn visit_mut_js_word(&mut self, node: &mut swc_atoms::JsWord) {
-        if self.enabled {
-            <V as VisitMut>::visit_mut_js_word(&mut self.visitor, node)
-        } else {
-        }
-    }
-
-    #[inline]
     fn visit_mut_namespace(&mut self, node: &mut Namespace) {
         if self.enabled {
             <V as VisitMut>::visit_mut_namespace(&mut self.visitor, node)
@@ -3778,9 +3776,9 @@ where
     }
 
     #[inline]
-    fn visit_mut_opt_js_word(&mut self, node: &mut Option<swc_atoms::JsWord>) {
+    fn visit_mut_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_opt_js_word(&mut self.visitor, node)
+            <V as VisitMut>::visit_mut_opt_atom(&mut self.visitor, node)
         } else {
         }
     }
@@ -4110,6 +4108,16 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TokenAndSpan {
         }
     }
 }
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for swc_atoms::Atom {
+    #[doc = "Calls [VisitMut`::visit_mut_atom`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_atom(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {}
+    }
+}
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<AttributeToken> {
     #[doc = "Calls [VisitMut`::visit_mut_attribute_tokens`] with `self`. (Extra impl)"]
     fn visit_mut_with(&mut self, visitor: &mut V) {
@@ -4143,25 +4151,15 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<Child> {
             .for_each(|item| <Child as VisitMutWith<V>>::visit_mut_with(item, visitor))
     }
 }
-impl<V: ?Sized + VisitMut> VisitMutWith<V> for swc_atoms::JsWord {
-    #[doc = "Calls [VisitMut`::visit_mut_js_word`] with `self`. (Extra impl)"]
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<swc_atoms::Atom> {
+    #[doc = "Calls [VisitMut`::visit_mut_opt_atom`] with `self`. (Extra impl)"]
     fn visit_mut_with(&mut self, visitor: &mut V) {
-        <V as VisitMut>::visit_mut_js_word(visitor, self)
-    }
-
-    fn visit_mut_children_with(&mut self, visitor: &mut V) {
-        {}
-    }
-}
-impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<swc_atoms::JsWord> {
-    #[doc = "Calls [VisitMut`::visit_mut_opt_js_word`] with `self`. (Extra impl)"]
-    fn visit_mut_with(&mut self, visitor: &mut V) {
-        <V as VisitMut>::visit_mut_opt_js_word(visitor, self)
+        <V as VisitMut>::visit_mut_opt_atom(visitor, self)
     }
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
-            Some(inner) => <swc_atoms::JsWord as VisitMutWith<V>>::visit_mut_with(inner, visitor),
+            Some(inner) => <swc_atoms::Atom as VisitMutWith<V>>::visit_mut_with(inner, visitor),
             None => {}
         }
     }
@@ -4208,6 +4206,14 @@ where
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 pub trait VisitMutAstPath {
+    #[doc = "Visit a node of type `swc_atoms :: Atom`.\n\nBy default, this method calls \
+             [`swc_atoms :: Atom::visit_mut_children_with_ast_path`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_mut_atom(&mut self, node: &mut swc_atoms::Atom, __ast_path: &mut AstKindPath) {
+        <swc_atoms::Atom as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, __ast_path,
+        )
+    }
     #[doc = "Visit a node of type `Attribute`.\n\nBy default, this method calls \
              [`Attribute::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
@@ -4312,14 +4318,6 @@ pub trait VisitMutAstPath {
             node, self, __ast_path,
         )
     }
-    #[doc = "Visit a node of type `swc_atoms :: JsWord`.\n\nBy default, this method calls \
-             [`swc_atoms :: JsWord::visit_mut_children_with_ast_path`]. If you want to recurse, \
-             you need to call it manually."]
-    fn visit_mut_js_word(&mut self, node: &mut swc_atoms::JsWord, __ast_path: &mut AstKindPath) {
-        <swc_atoms::JsWord as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
-            node, self, __ast_path,
-        )
-    }
     #[doc = "Visit a node of type `Namespace`.\n\nBy default, this method calls \
              [`Namespace::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
@@ -4328,15 +4326,15 @@ pub trait VisitMutAstPath {
             node, self, __ast_path,
         )
     }
-    #[doc = "Visit a node of type `Option < swc_atoms :: JsWord >`.\n\nBy default, this method \
-             calls [`Option < swc_atoms :: JsWord >::visit_mut_children_with_ast_path`]. If you \
-             want to recurse, you need to call it manually."]
-    fn visit_mut_opt_js_word(
+    #[doc = "Visit a node of type `Option < swc_atoms :: Atom >`.\n\nBy default, this method calls \
+             [`Option < swc_atoms :: Atom >::visit_mut_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_mut_opt_atom(
         &mut self,
-        node: &mut Option<swc_atoms::JsWord>,
+        node: &mut Option<swc_atoms::Atom>,
         __ast_path: &mut AstKindPath,
     ) {
-        <Option<swc_atoms::JsWord> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+        <Option<swc_atoms::Atom> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, __ast_path,
         )
     }
@@ -4404,6 +4402,11 @@ where
     V: ?Sized + VisitMutAstPath,
 {
     #[inline]
+    fn visit_mut_atom(&mut self, node: &mut swc_atoms::Atom, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_atom(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_mut_attribute(&mut self, node: &mut Attribute, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_attribute(&mut **self, node, __ast_path)
     }
@@ -4472,22 +4475,17 @@ where
     }
 
     #[inline]
-    fn visit_mut_js_word(&mut self, node: &mut swc_atoms::JsWord, __ast_path: &mut AstKindPath) {
-        <V as VisitMutAstPath>::visit_mut_js_word(&mut **self, node, __ast_path)
-    }
-
-    #[inline]
     fn visit_mut_namespace(&mut self, node: &mut Namespace, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_namespace(&mut **self, node, __ast_path)
     }
 
     #[inline]
-    fn visit_mut_opt_js_word(
+    fn visit_mut_opt_atom(
         &mut self,
-        node: &mut Option<swc_atoms::JsWord>,
+        node: &mut Option<swc_atoms::Atom>,
         __ast_path: &mut AstKindPath,
     ) {
-        <V as VisitMutAstPath>::visit_mut_opt_js_word(&mut **self, node, __ast_path)
+        <V as VisitMutAstPath>::visit_mut_opt_atom(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -4535,6 +4533,11 @@ where
     V: ?Sized + VisitMutAstPath,
 {
     #[inline]
+    fn visit_mut_atom(&mut self, node: &mut swc_atoms::Atom, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_atom(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_mut_attribute(&mut self, node: &mut Attribute, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_attribute(&mut **self, node, __ast_path)
     }
@@ -4603,22 +4606,17 @@ where
     }
 
     #[inline]
-    fn visit_mut_js_word(&mut self, node: &mut swc_atoms::JsWord, __ast_path: &mut AstKindPath) {
-        <V as VisitMutAstPath>::visit_mut_js_word(&mut **self, node, __ast_path)
-    }
-
-    #[inline]
     fn visit_mut_namespace(&mut self, node: &mut Namespace, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_namespace(&mut **self, node, __ast_path)
     }
 
     #[inline]
-    fn visit_mut_opt_js_word(
+    fn visit_mut_opt_atom(
         &mut self,
-        node: &mut Option<swc_atoms::JsWord>,
+        node: &mut Option<swc_atoms::Atom>,
         __ast_path: &mut AstKindPath,
     ) {
-        <V as VisitMutAstPath>::visit_mut_opt_js_word(&mut **self, node, __ast_path)
+        <V as VisitMutAstPath>::visit_mut_opt_atom(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -4667,6 +4665,18 @@ where
     B: VisitMutAstPath,
 {
     #[inline]
+    fn visit_mut_atom(&mut self, node: &mut swc_atoms::Atom, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::visit_mut_atom(self, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::visit_mut_atom(self, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn visit_mut_attribute(&mut self, node: &mut Attribute, __ast_path: &mut AstKindPath) {
         match self {
             swc_visit::Either::Left(visitor) => {
@@ -4819,18 +4829,6 @@ where
     }
 
     #[inline]
-    fn visit_mut_js_word(&mut self, node: &mut swc_atoms::JsWord, __ast_path: &mut AstKindPath) {
-        match self {
-            swc_visit::Either::Left(visitor) => {
-                VisitMutAstPath::visit_mut_js_word(self, node, __ast_path)
-            }
-            swc_visit::Either::Right(visitor) => {
-                VisitMutAstPath::visit_mut_js_word(self, node, __ast_path)
-            }
-        }
-    }
-
-    #[inline]
     fn visit_mut_namespace(&mut self, node: &mut Namespace, __ast_path: &mut AstKindPath) {
         match self {
             swc_visit::Either::Left(visitor) => {
@@ -4843,17 +4841,17 @@ where
     }
 
     #[inline]
-    fn visit_mut_opt_js_word(
+    fn visit_mut_opt_atom(
         &mut self,
-        node: &mut Option<swc_atoms::JsWord>,
+        node: &mut Option<swc_atoms::Atom>,
         __ast_path: &mut AstKindPath,
     ) {
         match self {
             swc_visit::Either::Left(visitor) => {
-                VisitMutAstPath::visit_mut_opt_js_word(self, node, __ast_path)
+                VisitMutAstPath::visit_mut_opt_atom(self, node, __ast_path)
             }
             swc_visit::Either::Right(visitor) => {
-                VisitMutAstPath::visit_mut_opt_js_word(self, node, __ast_path)
+                VisitMutAstPath::visit_mut_opt_atom(self, node, __ast_path)
             }
         }
     }
@@ -4944,6 +4942,14 @@ impl<V> VisitMutAstPath for ::swc_visit::Optional<V>
 where
     V: VisitMutAstPath,
 {
+    #[inline]
+    fn visit_mut_atom(&mut self, node: &mut swc_atoms::Atom, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::visit_mut_atom(&mut self.visitor, node, __ast_path)
+        } else {
+        }
+    }
+
     #[inline]
     fn visit_mut_attribute(&mut self, node: &mut Attribute, __ast_path: &mut AstKindPath) {
         if self.enabled {
@@ -5049,14 +5055,6 @@ where
     }
 
     #[inline]
-    fn visit_mut_js_word(&mut self, node: &mut swc_atoms::JsWord, __ast_path: &mut AstKindPath) {
-        if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_js_word(&mut self.visitor, node, __ast_path)
-        } else {
-        }
-    }
-
-    #[inline]
     fn visit_mut_namespace(&mut self, node: &mut Namespace, __ast_path: &mut AstKindPath) {
         if self.enabled {
             <V as VisitMutAstPath>::visit_mut_namespace(&mut self.visitor, node, __ast_path)
@@ -5065,13 +5063,13 @@ where
     }
 
     #[inline]
-    fn visit_mut_opt_js_word(
+    fn visit_mut_opt_atom(
         &mut self,
-        node: &mut Option<swc_atoms::JsWord>,
+        node: &mut Option<swc_atoms::Atom>,
         __ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_opt_js_word(&mut self.visitor, node, __ast_path)
+            <V as VisitMutAstPath>::visit_mut_opt_atom(&mut self.visitor, node, __ast_path)
         } else {
         }
     }
@@ -5560,6 +5558,18 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TokenAndSpan {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for swc_atoms::Atom {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_atom`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_atom(visitor, self, __ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        {}
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<AttributeToken> {
     #[doc = "Calls [VisitMutAstPath`::visit_mut_attribute_tokens`] with `self`. (Extra impl)"]
     fn visit_mut_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
@@ -5606,27 +5616,15 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<Child> {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for swc_atoms::JsWord {
-    #[doc = "Calls [VisitMutAstPath`::visit_mut_js_word`] with `self`. (Extra impl)"]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<swc_atoms::Atom> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_atom`] with `self`. (Extra impl)"]
     fn visit_mut_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
-        <V as VisitMutAstPath>::visit_mut_js_word(visitor, self, __ast_path)
-    }
-
-    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
-        {}
-    }
-}
-#[cfg(any(docsrs, feature = "path"))]
-#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<swc_atoms::JsWord> {
-    #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_js_word`] with `self`. (Extra impl)"]
-    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
-        <V as VisitMutAstPath>::visit_mut_opt_js_word(visitor, self, __ast_path)
+        <V as VisitMutAstPath>::visit_mut_opt_atom(visitor, self, __ast_path)
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
         match self {
-            Some(inner) => <swc_atoms::JsWord as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+            Some(inner) => <swc_atoms::Atom as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                 inner, visitor, __ast_path,
             ),
             None => {}
@@ -5689,6 +5687,12 @@ where
 }
 #[doc = r" A visitor trait for traversing the AST."]
 pub trait Fold {
+    #[doc = "Visit a node of type `swc_atoms :: Atom`.\n\nBy default, this method calls \
+             [`swc_atoms :: Atom::fold_children_with`]. If you want to recurse, you need to call \
+             it manually."]
+    fn fold_atom(&mut self, node: swc_atoms::Atom) -> swc_atoms::Atom {
+        <swc_atoms::Atom as FoldWith<Self>>::fold_children_with(node, self)
+    }
     #[doc = "Visit a node of type `Attribute`.\n\nBy default, this method calls \
              [`Attribute::fold_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -5757,23 +5761,17 @@ pub trait Fold {
     fn fold_element(&mut self, node: Element) -> Element {
         <Element as FoldWith<Self>>::fold_children_with(node, self)
     }
-    #[doc = "Visit a node of type `swc_atoms :: JsWord`.\n\nBy default, this method calls \
-             [`swc_atoms :: JsWord::fold_children_with`]. If you want to recurse, you need to call \
-             it manually."]
-    fn fold_js_word(&mut self, node: swc_atoms::JsWord) -> swc_atoms::JsWord {
-        <swc_atoms::JsWord as FoldWith<Self>>::fold_children_with(node, self)
-    }
     #[doc = "Visit a node of type `Namespace`.\n\nBy default, this method calls \
              [`Namespace::fold_children_with`]. If you want to recurse, you need to call it \
              manually."]
     fn fold_namespace(&mut self, node: Namespace) -> Namespace {
         <Namespace as FoldWith<Self>>::fold_children_with(node, self)
     }
-    #[doc = "Visit a node of type `Option < swc_atoms :: JsWord >`.\n\nBy default, this method \
-             calls [`Option < swc_atoms :: JsWord >::fold_children_with`]. If you want to recurse, \
-             you need to call it manually."]
-    fn fold_opt_js_word(&mut self, node: Option<swc_atoms::JsWord>) -> Option<swc_atoms::JsWord> {
-        <Option<swc_atoms::JsWord> as FoldWith<Self>>::fold_children_with(node, self)
+    #[doc = "Visit a node of type `Option < swc_atoms :: Atom >`.\n\nBy default, this method calls \
+             [`Option < swc_atoms :: Atom >::fold_children_with`]. If you want to recurse, you \
+             need to call it manually."]
+    fn fold_opt_atom(&mut self, node: Option<swc_atoms::Atom>) -> Option<swc_atoms::Atom> {
+        <Option<swc_atoms::Atom> as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `Option < Namespace >`.\n\nBy default, this method calls \
              [`Option < Namespace >::fold_children_with`]. If you want to recurse, you need to \
@@ -5818,6 +5816,11 @@ where
     V: ?Sized + Fold,
 {
     #[inline]
+    fn fold_atom(&mut self, node: swc_atoms::Atom) -> swc_atoms::Atom {
+        <V as Fold>::fold_atom(&mut **self, node)
+    }
+
+    #[inline]
     fn fold_attribute(&mut self, node: Attribute) -> Attribute {
         <V as Fold>::fold_attribute(&mut **self, node)
     }
@@ -5878,18 +5881,13 @@ where
     }
 
     #[inline]
-    fn fold_js_word(&mut self, node: swc_atoms::JsWord) -> swc_atoms::JsWord {
-        <V as Fold>::fold_js_word(&mut **self, node)
-    }
-
-    #[inline]
     fn fold_namespace(&mut self, node: Namespace) -> Namespace {
         <V as Fold>::fold_namespace(&mut **self, node)
     }
 
     #[inline]
-    fn fold_opt_js_word(&mut self, node: Option<swc_atoms::JsWord>) -> Option<swc_atoms::JsWord> {
-        <V as Fold>::fold_opt_js_word(&mut **self, node)
+    fn fold_opt_atom(&mut self, node: Option<swc_atoms::Atom>) -> Option<swc_atoms::Atom> {
+        <V as Fold>::fold_opt_atom(&mut **self, node)
     }
 
     #[inline]
@@ -5930,6 +5928,11 @@ where
     V: ?Sized + Fold,
 {
     #[inline]
+    fn fold_atom(&mut self, node: swc_atoms::Atom) -> swc_atoms::Atom {
+        <V as Fold>::fold_atom(&mut **self, node)
+    }
+
+    #[inline]
     fn fold_attribute(&mut self, node: Attribute) -> Attribute {
         <V as Fold>::fold_attribute(&mut **self, node)
     }
@@ -5990,18 +5993,13 @@ where
     }
 
     #[inline]
-    fn fold_js_word(&mut self, node: swc_atoms::JsWord) -> swc_atoms::JsWord {
-        <V as Fold>::fold_js_word(&mut **self, node)
-    }
-
-    #[inline]
     fn fold_namespace(&mut self, node: Namespace) -> Namespace {
         <V as Fold>::fold_namespace(&mut **self, node)
     }
 
     #[inline]
-    fn fold_opt_js_word(&mut self, node: Option<swc_atoms::JsWord>) -> Option<swc_atoms::JsWord> {
-        <V as Fold>::fold_opt_js_word(&mut **self, node)
+    fn fold_opt_atom(&mut self, node: Option<swc_atoms::Atom>) -> Option<swc_atoms::Atom> {
+        <V as Fold>::fold_opt_atom(&mut **self, node)
     }
 
     #[inline]
@@ -6042,6 +6040,14 @@ where
     A: Fold,
     B: Fold,
 {
+    #[inline]
+    fn fold_atom(&mut self, node: swc_atoms::Atom) -> swc_atoms::Atom {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::fold_atom(self, node),
+            swc_visit::Either::Right(visitor) => Fold::fold_atom(self, node),
+        }
+    }
+
     #[inline]
     fn fold_attribute(&mut self, node: Attribute) -> Attribute {
         match self {
@@ -6139,14 +6145,6 @@ where
     }
 
     #[inline]
-    fn fold_js_word(&mut self, node: swc_atoms::JsWord) -> swc_atoms::JsWord {
-        match self {
-            swc_visit::Either::Left(visitor) => Fold::fold_js_word(self, node),
-            swc_visit::Either::Right(visitor) => Fold::fold_js_word(self, node),
-        }
-    }
-
-    #[inline]
     fn fold_namespace(&mut self, node: Namespace) -> Namespace {
         match self {
             swc_visit::Either::Left(visitor) => Fold::fold_namespace(self, node),
@@ -6155,10 +6153,10 @@ where
     }
 
     #[inline]
-    fn fold_opt_js_word(&mut self, node: Option<swc_atoms::JsWord>) -> Option<swc_atoms::JsWord> {
+    fn fold_opt_atom(&mut self, node: Option<swc_atoms::Atom>) -> Option<swc_atoms::Atom> {
         match self {
-            swc_visit::Either::Left(visitor) => Fold::fold_opt_js_word(self, node),
-            swc_visit::Either::Right(visitor) => Fold::fold_opt_js_word(self, node),
+            swc_visit::Either::Left(visitor) => Fold::fold_opt_atom(self, node),
+            swc_visit::Either::Right(visitor) => Fold::fold_opt_atom(self, node),
         }
     }
 
@@ -6217,6 +6215,15 @@ impl<V> Fold for ::swc_visit::Optional<V>
 where
     V: Fold,
 {
+    #[inline]
+    fn fold_atom(&mut self, node: swc_atoms::Atom) -> swc_atoms::Atom {
+        if self.enabled {
+            <V as Fold>::fold_atom(&mut self.visitor, node)
+        } else {
+            node
+        }
+    }
+
     #[inline]
     fn fold_attribute(&mut self, node: Attribute) -> Attribute {
         if self.enabled {
@@ -6326,15 +6333,6 @@ where
     }
 
     #[inline]
-    fn fold_js_word(&mut self, node: swc_atoms::JsWord) -> swc_atoms::JsWord {
-        if self.enabled {
-            <V as Fold>::fold_js_word(&mut self.visitor, node)
-        } else {
-            node
-        }
-    }
-
-    #[inline]
     fn fold_namespace(&mut self, node: Namespace) -> Namespace {
         if self.enabled {
             <V as Fold>::fold_namespace(&mut self.visitor, node)
@@ -6344,9 +6342,9 @@ where
     }
 
     #[inline]
-    fn fold_opt_js_word(&mut self, node: Option<swc_atoms::JsWord>) -> Option<swc_atoms::JsWord> {
+    fn fold_opt_atom(&mut self, node: Option<swc_atoms::Atom>) -> Option<swc_atoms::Atom> {
         if self.enabled {
-            <V as Fold>::fold_opt_js_word(&mut self.visitor, node)
+            <V as Fold>::fold_opt_atom(&mut self.visitor, node)
         } else {
             node
         }
@@ -6731,6 +6729,16 @@ impl<V: ?Sized + Fold> FoldWith<V> for TokenAndSpan {
         }
     }
 }
+impl<V: ?Sized + Fold> FoldWith<V> for swc_atoms::Atom {
+    #[doc = "Calls [Fold`::fold_atom`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_atom(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        self
+    }
+}
 impl<V: ?Sized + Fold> FoldWith<V> for Vec<AttributeToken> {
     #[doc = "Calls [Fold`::fold_attribute_tokens`] with `self`. (Extra impl)"]
     fn fold_with(self, visitor: &mut V) -> Self {
@@ -6767,24 +6775,14 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<Child> {
             .collect()
     }
 }
-impl<V: ?Sized + Fold> FoldWith<V> for swc_atoms::JsWord {
-    #[doc = "Calls [Fold`::fold_js_word`] with `self`. (Extra impl)"]
+impl<V: ?Sized + Fold> FoldWith<V> for Option<swc_atoms::Atom> {
+    #[doc = "Calls [Fold`::fold_opt_atom`] with `self`. (Extra impl)"]
     fn fold_with(self, visitor: &mut V) -> Self {
-        <V as Fold>::fold_js_word(visitor, self)
+        <V as Fold>::fold_opt_atom(visitor, self)
     }
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
-        self
-    }
-}
-impl<V: ?Sized + Fold> FoldWith<V> for Option<swc_atoms::JsWord> {
-    #[doc = "Calls [Fold`::fold_opt_js_word`] with `self`. (Extra impl)"]
-    fn fold_with(self, visitor: &mut V) -> Self {
-        <V as Fold>::fold_opt_js_word(visitor, self)
-    }
-
-    fn fold_children_with(self, visitor: &mut V) -> Self {
-        self.map(|inner| <swc_atoms::JsWord as FoldWith<V>>::fold_with(inner, visitor))
+        self.map(|inner| <swc_atoms::Atom as FoldWith<V>>::fold_with(inner, visitor))
     }
 }
 impl<V: ?Sized + Fold> FoldWith<V> for Option<Namespace> {
@@ -6828,6 +6826,18 @@ where
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 pub trait FoldAstPath {
+    #[doc = "Visit a node of type `swc_atoms :: Atom`.\n\nBy default, this method calls \
+             [`swc_atoms :: Atom::fold_children_with_ast_path`]. If you want to recurse, you need \
+             to call it manually."]
+    fn fold_atom(
+        &mut self,
+        node: swc_atoms::Atom,
+        __ast_path: &mut AstKindPath,
+    ) -> swc_atoms::Atom {
+        <swc_atoms::Atom as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, __ast_path,
+        )
+    }
     #[doc = "Visit a node of type `Attribute`.\n\nBy default, this method calls \
              [`Attribute::fold_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
@@ -6930,33 +6940,21 @@ pub trait FoldAstPath {
     fn fold_element(&mut self, node: Element, __ast_path: &mut AstKindPath) -> Element {
         <Element as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, __ast_path)
     }
-    #[doc = "Visit a node of type `swc_atoms :: JsWord`.\n\nBy default, this method calls \
-             [`swc_atoms :: JsWord::fold_children_with_ast_path`]. If you want to recurse, you \
-             need to call it manually."]
-    fn fold_js_word(
-        &mut self,
-        node: swc_atoms::JsWord,
-        __ast_path: &mut AstKindPath,
-    ) -> swc_atoms::JsWord {
-        <swc_atoms::JsWord as FoldWithAstPath<Self>>::fold_children_with_ast_path(
-            node, self, __ast_path,
-        )
-    }
     #[doc = "Visit a node of type `Namespace`.\n\nBy default, this method calls \
              [`Namespace::fold_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
     fn fold_namespace(&mut self, node: Namespace, __ast_path: &mut AstKindPath) -> Namespace {
         <Namespace as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, __ast_path)
     }
-    #[doc = "Visit a node of type `Option < swc_atoms :: JsWord >`.\n\nBy default, this method \
-             calls [`Option < swc_atoms :: JsWord >::fold_children_with_ast_path`]. If you want to \
+    #[doc = "Visit a node of type `Option < swc_atoms :: Atom >`.\n\nBy default, this method calls \
+             [`Option < swc_atoms :: Atom >::fold_children_with_ast_path`]. If you want to \
              recurse, you need to call it manually."]
-    fn fold_opt_js_word(
+    fn fold_opt_atom(
         &mut self,
-        node: Option<swc_atoms::JsWord>,
+        node: Option<swc_atoms::Atom>,
         __ast_path: &mut AstKindPath,
-    ) -> Option<swc_atoms::JsWord> {
-        <Option<swc_atoms::JsWord> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+    ) -> Option<swc_atoms::Atom> {
+        <Option<swc_atoms::Atom> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
             node, self, __ast_path,
         )
     }
@@ -7026,6 +7024,15 @@ where
     V: ?Sized + FoldAstPath,
 {
     #[inline]
+    fn fold_atom(
+        &mut self,
+        node: swc_atoms::Atom,
+        __ast_path: &mut AstKindPath,
+    ) -> swc_atoms::Atom {
+        <V as FoldAstPath>::fold_atom(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_attribute(&mut self, node: Attribute, __ast_path: &mut AstKindPath) -> Attribute {
         <V as FoldAstPath>::fold_attribute(&mut **self, node, __ast_path)
     }
@@ -7110,26 +7117,17 @@ where
     }
 
     #[inline]
-    fn fold_js_word(
-        &mut self,
-        node: swc_atoms::JsWord,
-        __ast_path: &mut AstKindPath,
-    ) -> swc_atoms::JsWord {
-        <V as FoldAstPath>::fold_js_word(&mut **self, node, __ast_path)
-    }
-
-    #[inline]
     fn fold_namespace(&mut self, node: Namespace, __ast_path: &mut AstKindPath) -> Namespace {
         <V as FoldAstPath>::fold_namespace(&mut **self, node, __ast_path)
     }
 
     #[inline]
-    fn fold_opt_js_word(
+    fn fold_opt_atom(
         &mut self,
-        node: Option<swc_atoms::JsWord>,
+        node: Option<swc_atoms::Atom>,
         __ast_path: &mut AstKindPath,
-    ) -> Option<swc_atoms::JsWord> {
-        <V as FoldAstPath>::fold_opt_js_word(&mut **self, node, __ast_path)
+    ) -> Option<swc_atoms::Atom> {
+        <V as FoldAstPath>::fold_opt_atom(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -7185,6 +7183,15 @@ where
     V: ?Sized + FoldAstPath,
 {
     #[inline]
+    fn fold_atom(
+        &mut self,
+        node: swc_atoms::Atom,
+        __ast_path: &mut AstKindPath,
+    ) -> swc_atoms::Atom {
+        <V as FoldAstPath>::fold_atom(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_attribute(&mut self, node: Attribute, __ast_path: &mut AstKindPath) -> Attribute {
         <V as FoldAstPath>::fold_attribute(&mut **self, node, __ast_path)
     }
@@ -7269,26 +7276,17 @@ where
     }
 
     #[inline]
-    fn fold_js_word(
-        &mut self,
-        node: swc_atoms::JsWord,
-        __ast_path: &mut AstKindPath,
-    ) -> swc_atoms::JsWord {
-        <V as FoldAstPath>::fold_js_word(&mut **self, node, __ast_path)
-    }
-
-    #[inline]
     fn fold_namespace(&mut self, node: Namespace, __ast_path: &mut AstKindPath) -> Namespace {
         <V as FoldAstPath>::fold_namespace(&mut **self, node, __ast_path)
     }
 
     #[inline]
-    fn fold_opt_js_word(
+    fn fold_opt_atom(
         &mut self,
-        node: Option<swc_atoms::JsWord>,
+        node: Option<swc_atoms::Atom>,
         __ast_path: &mut AstKindPath,
-    ) -> Option<swc_atoms::JsWord> {
-        <V as FoldAstPath>::fold_opt_js_word(&mut **self, node, __ast_path)
+    ) -> Option<swc_atoms::Atom> {
+        <V as FoldAstPath>::fold_opt_atom(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -7344,6 +7342,18 @@ where
     A: FoldAstPath,
     B: FoldAstPath,
 {
+    #[inline]
+    fn fold_atom(
+        &mut self,
+        node: swc_atoms::Atom,
+        __ast_path: &mut AstKindPath,
+    ) -> swc_atoms::Atom {
+        match self {
+            swc_visit::Either::Left(visitor) => FoldAstPath::fold_atom(self, node, __ast_path),
+            swc_visit::Either::Right(visitor) => FoldAstPath::fold_atom(self, node, __ast_path),
+        }
+    }
+
     #[inline]
     fn fold_attribute(&mut self, node: Attribute, __ast_path: &mut AstKindPath) -> Attribute {
         match self {
@@ -7491,18 +7501,6 @@ where
     }
 
     #[inline]
-    fn fold_js_word(
-        &mut self,
-        node: swc_atoms::JsWord,
-        __ast_path: &mut AstKindPath,
-    ) -> swc_atoms::JsWord {
-        match self {
-            swc_visit::Either::Left(visitor) => FoldAstPath::fold_js_word(self, node, __ast_path),
-            swc_visit::Either::Right(visitor) => FoldAstPath::fold_js_word(self, node, __ast_path),
-        }
-    }
-
-    #[inline]
     fn fold_namespace(&mut self, node: Namespace, __ast_path: &mut AstKindPath) -> Namespace {
         match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_namespace(self, node, __ast_path),
@@ -7513,18 +7511,14 @@ where
     }
 
     #[inline]
-    fn fold_opt_js_word(
+    fn fold_opt_atom(
         &mut self,
-        node: Option<swc_atoms::JsWord>,
+        node: Option<swc_atoms::Atom>,
         __ast_path: &mut AstKindPath,
-    ) -> Option<swc_atoms::JsWord> {
+    ) -> Option<swc_atoms::Atom> {
         match self {
-            swc_visit::Either::Left(visitor) => {
-                FoldAstPath::fold_opt_js_word(self, node, __ast_path)
-            }
-            swc_visit::Either::Right(visitor) => {
-                FoldAstPath::fold_opt_js_word(self, node, __ast_path)
-            }
+            swc_visit::Either::Left(visitor) => FoldAstPath::fold_opt_atom(self, node, __ast_path),
+            swc_visit::Either::Right(visitor) => FoldAstPath::fold_opt_atom(self, node, __ast_path),
         }
     }
 
@@ -7610,6 +7604,19 @@ impl<V> FoldAstPath for ::swc_visit::Optional<V>
 where
     V: FoldAstPath,
 {
+    #[inline]
+    fn fold_atom(
+        &mut self,
+        node: swc_atoms::Atom,
+        __ast_path: &mut AstKindPath,
+    ) -> swc_atoms::Atom {
+        if self.enabled {
+            <V as FoldAstPath>::fold_atom(&mut self.visitor, node, __ast_path)
+        } else {
+            node
+        }
+    }
+
     #[inline]
     fn fold_attribute(&mut self, node: Attribute, __ast_path: &mut AstKindPath) -> Attribute {
         if self.enabled {
@@ -7743,19 +7750,6 @@ where
     }
 
     #[inline]
-    fn fold_js_word(
-        &mut self,
-        node: swc_atoms::JsWord,
-        __ast_path: &mut AstKindPath,
-    ) -> swc_atoms::JsWord {
-        if self.enabled {
-            <V as FoldAstPath>::fold_js_word(&mut self.visitor, node, __ast_path)
-        } else {
-            node
-        }
-    }
-
-    #[inline]
     fn fold_namespace(&mut self, node: Namespace, __ast_path: &mut AstKindPath) -> Namespace {
         if self.enabled {
             <V as FoldAstPath>::fold_namespace(&mut self.visitor, node, __ast_path)
@@ -7765,13 +7759,13 @@ where
     }
 
     #[inline]
-    fn fold_opt_js_word(
+    fn fold_opt_atom(
         &mut self,
-        node: Option<swc_atoms::JsWord>,
+        node: Option<swc_atoms::Atom>,
         __ast_path: &mut AstKindPath,
-    ) -> Option<swc_atoms::JsWord> {
+    ) -> Option<swc_atoms::Atom> {
         if self.enabled {
-            <V as FoldAstPath>::fold_opt_js_word(&mut self.visitor, node, __ast_path)
+            <V as FoldAstPath>::fold_opt_atom(&mut self.visitor, node, __ast_path)
         } else {
             node
         }
@@ -8330,6 +8324,18 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TokenAndSpan {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for swc_atoms::Atom {
+    #[doc = "Calls [FoldAstPath`::fold_atom`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_atom(visitor, self, __ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
+        self
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<AttributeToken> {
     #[doc = "Calls [FoldAstPath`::fold_attribute_tokens`] with `self`. (Extra impl)"]
     fn fold_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
@@ -8380,29 +8386,15 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<Child> {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for swc_atoms::JsWord {
-    #[doc = "Calls [FoldAstPath`::fold_js_word`] with `self`. (Extra impl)"]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<swc_atoms::Atom> {
+    #[doc = "Calls [FoldAstPath`::fold_opt_atom`] with `self`. (Extra impl)"]
     fn fold_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
-        <V as FoldAstPath>::fold_js_word(visitor, self, __ast_path)
-    }
-
-    fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
-        self
-    }
-}
-#[cfg(any(docsrs, feature = "path"))]
-#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<swc_atoms::JsWord> {
-    #[doc = "Calls [FoldAstPath`::fold_opt_js_word`] with `self`. (Extra impl)"]
-    fn fold_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
-        <V as FoldAstPath>::fold_opt_js_word(visitor, self, __ast_path)
+        <V as FoldAstPath>::fold_opt_atom(visitor, self, __ast_path)
     }
 
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
         self.map(|inner| {
-            <swc_atoms::JsWord as FoldWithAstPath<V>>::fold_with_ast_path(
-                inner, visitor, __ast_path,
-            )
+            <swc_atoms::Atom as FoldWithAstPath<V>>::fold_with_ast_path(inner, visitor, __ast_path)
         })
     }
 }
@@ -8453,6 +8445,12 @@ where
 }
 #[doc = r" A visitor trait for traversing the AST."]
 pub trait VisitAll {
+    #[doc = "Visit a node of type `swc_atoms :: Atom`.\n\nBy default, this method calls \
+             [`swc_atoms :: Atom::visit_children_with`]. This method unconditionally calls the \
+             visitor method for all children because it's defined in the trait [VisitAll]."]
+    fn visit_atom(&mut self, node: &swc_atoms::Atom) {
+        <swc_atoms::Atom as VisitAllWith<Self>>::visit_children_with(node, self)
+    }
     #[doc = "Visit a node of type `Attribute`.\n\nBy default, this method calls \
              [`Attribute::visit_children_with`]. This method unconditionally calls the visitor \
              method for all children because it's defined in the trait [VisitAll]."]
@@ -8525,24 +8523,18 @@ pub trait VisitAll {
     fn visit_element(&mut self, node: &Element) {
         <Element as VisitAllWith<Self>>::visit_children_with(node, self)
     }
-    #[doc = "Visit a node of type `swc_atoms :: JsWord`.\n\nBy default, this method calls \
-             [`swc_atoms :: JsWord::visit_children_with`]. This method unconditionally calls the \
-             visitor method for all children because it's defined in the trait [VisitAll]."]
-    fn visit_js_word(&mut self, node: &swc_atoms::JsWord) {
-        <swc_atoms::JsWord as VisitAllWith<Self>>::visit_children_with(node, self)
-    }
     #[doc = "Visit a node of type `Namespace`.\n\nBy default, this method calls \
              [`Namespace::visit_children_with`]. This method unconditionally calls the visitor \
              method for all children because it's defined in the trait [VisitAll]."]
     fn visit_namespace(&mut self, node: &Namespace) {
         <Namespace as VisitAllWith<Self>>::visit_children_with(node, self)
     }
-    #[doc = "Visit a node of type `Option < swc_atoms :: JsWord >`.\n\nBy default, this method \
-             calls [`Option < swc_atoms :: JsWord >::visit_children_with`]. This method \
-             unconditionally calls the visitor method for all children because it's defined in the \
-             trait [VisitAll]."]
-    fn visit_opt_js_word(&mut self, node: &Option<swc_atoms::JsWord>) {
-        <Option<swc_atoms::JsWord> as VisitAllWith<Self>>::visit_children_with(node, self)
+    #[doc = "Visit a node of type `Option < swc_atoms :: Atom >`.\n\nBy default, this method calls \
+             [`Option < swc_atoms :: Atom >::visit_children_with`]. This method unconditionally \
+             calls the visitor method for all children because it's defined in the trait \
+             [VisitAll]."]
+    fn visit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
+        <Option<swc_atoms::Atom> as VisitAllWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Option < Namespace >`.\n\nBy default, this method calls \
              [`Option < Namespace >::visit_children_with`]. This method unconditionally calls the \
@@ -8586,6 +8578,11 @@ where
     V: ?Sized + VisitAll,
 {
     #[inline]
+    fn visit_atom(&mut self, node: &swc_atoms::Atom) {
+        <V as VisitAll>::visit_atom(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_attribute(&mut self, node: &Attribute) {
         <V as VisitAll>::visit_attribute(&mut **self, node)
     }
@@ -8646,18 +8643,13 @@ where
     }
 
     #[inline]
-    fn visit_js_word(&mut self, node: &swc_atoms::JsWord) {
-        <V as VisitAll>::visit_js_word(&mut **self, node)
-    }
-
-    #[inline]
     fn visit_namespace(&mut self, node: &Namespace) {
         <V as VisitAll>::visit_namespace(&mut **self, node)
     }
 
     #[inline]
-    fn visit_opt_js_word(&mut self, node: &Option<swc_atoms::JsWord>) {
-        <V as VisitAll>::visit_opt_js_word(&mut **self, node)
+    fn visit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
+        <V as VisitAll>::visit_opt_atom(&mut **self, node)
     }
 
     #[inline]
@@ -8695,6 +8687,11 @@ where
     V: ?Sized + VisitAll,
 {
     #[inline]
+    fn visit_atom(&mut self, node: &swc_atoms::Atom) {
+        <V as VisitAll>::visit_atom(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_attribute(&mut self, node: &Attribute) {
         <V as VisitAll>::visit_attribute(&mut **self, node)
     }
@@ -8755,18 +8752,13 @@ where
     }
 
     #[inline]
-    fn visit_js_word(&mut self, node: &swc_atoms::JsWord) {
-        <V as VisitAll>::visit_js_word(&mut **self, node)
-    }
-
-    #[inline]
     fn visit_namespace(&mut self, node: &Namespace) {
         <V as VisitAll>::visit_namespace(&mut **self, node)
     }
 
     #[inline]
-    fn visit_opt_js_word(&mut self, node: &Option<swc_atoms::JsWord>) {
-        <V as VisitAll>::visit_opt_js_word(&mut **self, node)
+    fn visit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
+        <V as VisitAll>::visit_opt_atom(&mut **self, node)
     }
 
     #[inline]
@@ -8804,6 +8796,14 @@ where
     A: VisitAll,
     B: VisitAll,
 {
+    #[inline]
+    fn visit_atom(&mut self, node: &swc_atoms::Atom) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitAll::visit_atom(self, node),
+            swc_visit::Either::Right(visitor) => VisitAll::visit_atom(self, node),
+        }
+    }
+
     #[inline]
     fn visit_attribute(&mut self, node: &Attribute) {
         match self {
@@ -8901,14 +8901,6 @@ where
     }
 
     #[inline]
-    fn visit_js_word(&mut self, node: &swc_atoms::JsWord) {
-        match self {
-            swc_visit::Either::Left(visitor) => VisitAll::visit_js_word(self, node),
-            swc_visit::Either::Right(visitor) => VisitAll::visit_js_word(self, node),
-        }
-    }
-
-    #[inline]
     fn visit_namespace(&mut self, node: &Namespace) {
         match self {
             swc_visit::Either::Left(visitor) => VisitAll::visit_namespace(self, node),
@@ -8917,10 +8909,10 @@ where
     }
 
     #[inline]
-    fn visit_opt_js_word(&mut self, node: &Option<swc_atoms::JsWord>) {
+    fn visit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
         match self {
-            swc_visit::Either::Left(visitor) => VisitAll::visit_opt_js_word(self, node),
-            swc_visit::Either::Right(visitor) => VisitAll::visit_opt_js_word(self, node),
+            swc_visit::Either::Left(visitor) => VisitAll::visit_opt_atom(self, node),
+            swc_visit::Either::Right(visitor) => VisitAll::visit_opt_atom(self, node),
         }
     }
 
@@ -8976,6 +8968,14 @@ impl<V> VisitAll for ::swc_visit::Optional<V>
 where
     V: VisitAll,
 {
+    #[inline]
+    fn visit_atom(&mut self, node: &swc_atoms::Atom) {
+        if self.enabled {
+            <V as VisitAll>::visit_atom(&mut self.visitor, node)
+        } else {
+        }
+    }
+
     #[inline]
     fn visit_attribute(&mut self, node: &Attribute) {
         if self.enabled {
@@ -9073,14 +9073,6 @@ where
     }
 
     #[inline]
-    fn visit_js_word(&mut self, node: &swc_atoms::JsWord) {
-        if self.enabled {
-            <V as VisitAll>::visit_js_word(&mut self.visitor, node)
-        } else {
-        }
-    }
-
-    #[inline]
     fn visit_namespace(&mut self, node: &Namespace) {
         if self.enabled {
             <V as VisitAll>::visit_namespace(&mut self.visitor, node)
@@ -9089,9 +9081,9 @@ where
     }
 
     #[inline]
-    fn visit_opt_js_word(&mut self, node: &Option<swc_atoms::JsWord>) {
+    fn visit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
         if self.enabled {
-            <V as VisitAll>::visit_opt_js_word(&mut self.visitor, node)
+            <V as VisitAll>::visit_opt_atom(&mut self.visitor, node)
         } else {
         }
     }
@@ -9421,6 +9413,16 @@ impl<V: ?Sized + VisitAll> VisitAllWith<V> for TokenAndSpan {
         }
     }
 }
+impl<V: ?Sized + VisitAll> VisitAllWith<V> for swc_atoms::Atom {
+    #[doc = "Calls [VisitAll`::visit_atom`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as VisitAll>::visit_atom(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {}
+    }
+}
 impl<V: ?Sized + VisitAll> VisitAllWith<V> for [AttributeToken] {
     #[doc = "Calls [VisitAll`::visit_attribute_tokens`] with `self`. (Extra impl)"]
     fn visit_with(&self, visitor: &mut V) {
@@ -9454,25 +9456,15 @@ impl<V: ?Sized + VisitAll> VisitAllWith<V> for [Child] {
             .for_each(|item| <Child as VisitAllWith<V>>::visit_with(item, visitor))
     }
 }
-impl<V: ?Sized + VisitAll> VisitAllWith<V> for swc_atoms::JsWord {
-    #[doc = "Calls [VisitAll`::visit_js_word`] with `self`. (Extra impl)"]
+impl<V: ?Sized + VisitAll> VisitAllWith<V> for Option<swc_atoms::Atom> {
+    #[doc = "Calls [VisitAll`::visit_opt_atom`] with `self`. (Extra impl)"]
     fn visit_with(&self, visitor: &mut V) {
-        <V as VisitAll>::visit_js_word(visitor, self)
-    }
-
-    fn visit_children_with(&self, visitor: &mut V) {
-        {}
-    }
-}
-impl<V: ?Sized + VisitAll> VisitAllWith<V> for Option<swc_atoms::JsWord> {
-    #[doc = "Calls [VisitAll`::visit_opt_js_word`] with `self`. (Extra impl)"]
-    fn visit_with(&self, visitor: &mut V) {
-        <V as VisitAll>::visit_opt_js_word(visitor, self)
+        <V as VisitAll>::visit_opt_atom(visitor, self)
     }
 
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
-            Some(inner) => <swc_atoms::JsWord as VisitAllWith<V>>::visit_with(inner, visitor),
+            Some(inner) => <swc_atoms::Atom as VisitAllWith<V>>::visit_with(inner, visitor),
             None => {}
         }
     }
