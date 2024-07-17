@@ -21,7 +21,6 @@ rustc-hash = { workspace = true }
 serde      = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 sourcemap  = { workspace = true }
-swc_allocator = { version = "0.1.5", path = "../swc_allocator", default-features = false }
 
 swc_atoms = { version = "0.6.5", path = "../swc_atoms" }
 swc_common = { version = "0.35.0", path = "../swc_common", features = [

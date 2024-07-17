@@ -1,4 +1,3 @@
-use swc_allocator::vec::Vec;
 use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName, Mark, SourceMap};
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::{Parser, StringInput};
@@ -41,8 +40,8 @@ fn emit(
     comments: Lrc<SingleThreadedComments>,
     program: &Module,
 ) -> String {
-    let mut src_map_buf = Vec::new();
-    let mut buf = std::vec::Vec::new();
+    let mut src_map_buf = vec![];
+    let mut buf = vec![];
     {
         let writer = Box::new(JsWriter::new(
             source_map.clone(),
