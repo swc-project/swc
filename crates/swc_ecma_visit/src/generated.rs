@@ -69,6 +69,12 @@ pub trait Visit {
     fn visit_assign_target_pat(&mut self, node: &AssignTargetPat) {
         <AssignTargetPat as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Visit a node of type `swc_atoms :: Atom`.\n\nBy default, this method calls \
+             [`swc_atoms :: Atom::visit_children_with`]. If you want to recurse, you need to call \
+             it manually."]
+    fn visit_atom(&mut self, node: &swc_atoms::Atom) {
+        <swc_atoms::Atom as VisitWith<Self>>::visit_children_with(node, self)
+    }
     #[doc = "Visit a node of type `AutoAccessor`.\n\nBy default, this method calls \
              [`AutoAccessor::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -80,6 +86,12 @@ pub trait Visit {
              manually."]
     fn visit_await_expr(&mut self, node: &AwaitExpr) {
         <AwaitExpr as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `num_bigint :: BigInt`.\n\nBy default, this method calls \
+             [`num_bigint :: BigInt::visit_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_big_int(&mut self, node: &num_bigint::BigInt) {
+        <num_bigint::BigInt as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `BigInt`.\n\nBy default, this method calls \
              [`BigInt::visit_children_with`]. If you want to recurse, you need to call it manually."]
@@ -720,12 +732,6 @@ pub trait Visit {
     fn visit_null(&mut self, node: &Null) {
         <Null as VisitWith<Self>>::visit_children_with(node, self)
     }
-    #[doc = "Visit a node of type `num_bigint :: BigInt`.\n\nBy default, this method calls \
-             [`num_bigint :: BigInt::visit_children_with`]. If you want to recurse, you need to \
-             call it manually."]
-    fn visit_num_bigint_big_int(&mut self, node: &num_bigint::BigInt) {
-        <num_bigint::BigInt as VisitWith<Self>>::visit_children_with(node, self)
-    }
     #[doc = "Visit a node of type `Number`.\n\nBy default, this method calls \
              [`Number::visit_children_with`]. If you want to recurse, you need to call it manually."]
     fn visit_number(&mut self, node: &Number) {
@@ -760,6 +766,12 @@ pub trait Visit {
              to call it manually."]
     fn visit_opt_accessibility(&mut self, node: &Option<Accessibility>) {
         <Option<Accessibility> as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < swc_atoms :: Atom >`.\n\nBy default, this method calls \
+             [`Option < swc_atoms :: Atom >::visit_children_with`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
+        <Option<swc_atoms::Atom> as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Option < BlockStmt >`.\n\nBy default, this method calls \
              [`Option < BlockStmt >::visit_children_with`]. If you want to recurse, you need to \
@@ -861,6 +873,12 @@ pub trait Visit {
     fn visit_opt_pats(&mut self, node: &Vec<Option<Pat>>) {
         <Vec<Option<Pat>> as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Option < swc_common :: Span >`.\n\nBy default, this method \
+             calls [`Option < swc_common :: Span >::visit_children_with`]. If you want to recurse, \
+             you need to call it manually."]
+    fn visit_opt_span(&mut self, node: &Option<swc_common::Span>) {
+        <Option<swc_common::Span> as VisitWith<Self>>::visit_children_with(node, self)
+    }
     #[doc = "Visit a node of type `Option < Box < Stmt > >`.\n\nBy default, this method calls \
              [`Option < Box < Stmt > >::visit_children_with`]. If you want to recurse, you need to \
              call it manually."]
@@ -872,18 +890,6 @@ pub trait Visit {
              call it manually."]
     fn visit_opt_str(&mut self, node: &Option<Box<Str>>) {
         <Option<Box<Str>> as VisitWith<Self>>::visit_children_with(node, self)
-    }
-    #[doc = "Visit a node of type `Option < swc_atoms :: Atom >`.\n\nBy default, this method calls \
-             [`Option < swc_atoms :: Atom >::visit_children_with`]. If you want to recurse, you \
-             need to call it manually."]
-    fn visit_opt_swc_atoms_atom(&mut self, node: &Option<swc_atoms::Atom>) {
-        <Option<swc_atoms::Atom> as VisitWith<Self>>::visit_children_with(node, self)
-    }
-    #[doc = "Visit a node of type `Option < swc_common :: Span >`.\n\nBy default, this method \
-             calls [`Option < swc_common :: Span >::visit_children_with`]. If you want to recurse, \
-             you need to call it manually."]
-    fn visit_opt_swc_common_span(&mut self, node: &Option<swc_common::Span>) {
-        <Option<swc_common::Span> as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Option < TruePlusMinus >`.\n\nBy default, this method calls \
              [`Option < TruePlusMinus >::visit_children_with`]. If you want to recurse, you need \
@@ -1067,6 +1073,12 @@ pub trait Visit {
     fn visit_simple_assign_target(&mut self, node: &SimpleAssignTarget) {
         <SimpleAssignTarget as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Visit a node of type `swc_common :: Span`.\n\nBy default, this method calls \
+             [`swc_common :: Span::visit_children_with`]. If you want to recurse, you need to call \
+             it manually."]
+    fn visit_span(&mut self, node: &swc_common::Span) {
+        <swc_common::Span as VisitWith<Self>>::visit_children_with(node, self)
+    }
     #[doc = "Visit a node of type `SpreadElement`.\n\nBy default, this method calls \
              [`SpreadElement::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -1111,24 +1123,6 @@ pub trait Visit {
     fn visit_super_prop_expr(&mut self, node: &SuperPropExpr) {
         <SuperPropExpr as VisitWith<Self>>::visit_children_with(node, self)
     }
-    #[doc = "Visit a node of type `swc_atoms :: Atom`.\n\nBy default, this method calls \
-             [`swc_atoms :: Atom::visit_children_with`]. If you want to recurse, you need to call \
-             it manually."]
-    fn visit_swc_atoms_atom(&mut self, node: &swc_atoms::Atom) {
-        <swc_atoms::Atom as VisitWith<Self>>::visit_children_with(node, self)
-    }
-    #[doc = "Visit a node of type `swc_common :: Span`.\n\nBy default, this method calls \
-             [`swc_common :: Span::visit_children_with`]. If you want to recurse, you need to call \
-             it manually."]
-    fn visit_swc_common_span(&mut self, node: &swc_common::Span) {
-        <swc_common::Span as VisitWith<Self>>::visit_children_with(node, self)
-    }
-    #[doc = "Visit a node of type `swc_common :: SyntaxContext`.\n\nBy default, this method calls \
-             [`swc_common :: SyntaxContext::visit_children_with`]. If you want to recurse, you \
-             need to call it manually."]
-    fn visit_swc_common_syntax_context(&mut self, node: &swc_common::SyntaxContext) {
-        <swc_common::SyntaxContext as VisitWith<Self>>::visit_children_with(node, self)
-    }
     #[doc = "Visit a node of type `SwitchCase`.\n\nBy default, this method calls \
              [`SwitchCase::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -1146,6 +1140,12 @@ pub trait Visit {
              manually."]
     fn visit_switch_stmt(&mut self, node: &SwitchStmt) {
         <SwitchStmt as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `swc_common :: SyntaxContext`.\n\nBy default, this method calls \
+             [`swc_common :: SyntaxContext::visit_children_with`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_syntax_context(&mut self, node: &swc_common::SyntaxContext) {
+        <swc_common::SyntaxContext as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `TaggedTpl`.\n\nBy default, this method calls \
              [`TaggedTpl::visit_children_with`]. If you want to recurse, you need to call it \
@@ -6475,6 +6475,21 @@ impl<V: ?Sized + Visit> VisitWith<V> for Option<Accessibility> {
         }
     }
 }
+impl<V: ?Sized + Visit> VisitWith<V> for Option<swc_atoms::Atom> {
+    #[doc = "Calls [Visit`::visit_opt_atom`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_opt_atom(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as Visit>::visit_opt_atom(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
 impl<V: ?Sized + Visit> VisitWith<V> for Option<BlockStmt> {
     #[doc = "Calls [Visit`::visit_opt_block_stmt`] with `self`. (Extra impl)"]
     fn visit_with(&self, visitor: &mut V) {
@@ -6689,6 +6704,21 @@ impl<V: ?Sized + Visit> VisitWith<V> for Vec<Option<Pat>> {
             .for_each(|item| <V as Visit>::visit_opt_pats(visitor, item))
     }
 }
+impl<V: ?Sized + Visit> VisitWith<V> for Option<swc_common::Span> {
+    #[doc = "Calls [Visit`::visit_opt_span`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_opt_span(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as Visit>::visit_opt_span(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
 impl<V: ?Sized + Visit> VisitWith<V> for Option<Box<Stmt>> {
     #[doc = "Calls [Visit`::visit_opt_stmt`] with `self`. (Extra impl)"]
     fn visit_with(&self, visitor: &mut V) {
@@ -6714,36 +6744,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for Option<Box<Str>> {
         {
             match self {
                 Some(inner) => <V as Visit>::visit_opt_str(visitor, inner),
-                None => {}
-            }
-        }
-    }
-}
-impl<V: ?Sized + Visit> VisitWith<V> for Option<swc_atoms::Atom> {
-    #[doc = "Calls [Visit`::visit_opt_swc_atoms_atom`] with `self`. (Extra impl)"]
-    fn visit_with(&self, visitor: &mut V) {
-        <V as Visit>::visit_opt_swc_atoms_atom(visitor, self)
-    }
-
-    fn visit_children_with(&self, visitor: &mut V) {
-        {
-            match self {
-                Some(inner) => <V as Visit>::visit_opt_swc_atoms_atom(visitor, inner),
-                None => {}
-            }
-        }
-    }
-}
-impl<V: ?Sized + Visit> VisitWith<V> for Option<swc_common::Span> {
-    #[doc = "Calls [Visit`::visit_opt_swc_common_span`] with `self`. (Extra impl)"]
-    fn visit_with(&self, visitor: &mut V) {
-        <V as Visit>::visit_opt_swc_common_span(visitor, self)
-    }
-
-    fn visit_children_with(&self, visitor: &mut V) {
-        {
-            match self {
-                Some(inner) => <V as Visit>::visit_opt_swc_common_span(visitor, inner),
                 None => {}
             }
         }
@@ -7382,6 +7382,18 @@ pub trait VisitAstPath {
             node, self, ast_path,
         )
     }
+    #[doc = "Visit a node of type `swc_atoms :: Atom`.\n\nBy default, this method calls \
+             [`swc_atoms :: Atom::visit_children_with_ast_path`]. If you want to recurse, you need \
+             to call it manually."]
+    fn visit_atom<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast swc_atoms::Atom,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <swc_atoms::Atom as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `AutoAccessor`.\n\nBy default, this method calls \
              [`AutoAccessor::visit_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
@@ -7401,6 +7413,18 @@ pub trait VisitAstPath {
         ast_path: &mut AstNodePath<'r>,
     ) {
         <AwaitExpr as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `num_bigint :: BigInt`.\n\nBy default, this method calls \
+             [`num_bigint :: BigInt::visit_children_with_ast_path`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_big_int<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast num_bigint::BigInt,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <num_bigint::BigInt as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
     }
     #[doc = "Visit a node of type `BigInt`.\n\nBy default, this method calls \
              [`BigInt::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
@@ -8500,18 +8524,6 @@ pub trait VisitAstPath {
     fn visit_null<'ast: 'r, 'r>(&mut self, node: &'ast Null, ast_path: &mut AstNodePath<'r>) {
         <Null as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
     }
-    #[doc = "Visit a node of type `num_bigint :: BigInt`.\n\nBy default, this method calls \
-             [`num_bigint :: BigInt::visit_children_with_ast_path`]. If you want to recurse, you \
-             need to call it manually."]
-    fn visit_num_bigint_big_int<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast num_bigint::BigInt,
-        ast_path: &mut AstNodePath<'r>,
-    ) {
-        <num_bigint::BigInt as VisitWithAstPath<Self>>::visit_children_with_ast_path(
-            node, self, ast_path,
-        )
-    }
     #[doc = "Visit a node of type `Number`.\n\nBy default, this method calls \
              [`Number::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
@@ -8571,6 +8583,18 @@ pub trait VisitAstPath {
         ast_path: &mut AstNodePath<'r>,
     ) {
         <Option<Accessibility> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < swc_atoms :: Atom >`.\n\nBy default, this method calls \
+             [`Option < swc_atoms :: Atom >::visit_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_opt_atom<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<swc_atoms::Atom>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Option<swc_atoms::Atom> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -8770,6 +8794,18 @@ pub trait VisitAstPath {
             node, self, ast_path,
         )
     }
+    #[doc = "Visit a node of type `Option < swc_common :: Span >`.\n\nBy default, this method \
+             calls [`Option < swc_common :: Span >::visit_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_opt_span<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<swc_common::Span>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Option<swc_common::Span> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `Option < Box < Stmt > >`.\n\nBy default, this method calls \
              [`Option < Box < Stmt > >::visit_children_with_ast_path`]. If you want to recurse, \
              you need to call it manually."]
@@ -8791,30 +8827,6 @@ pub trait VisitAstPath {
         ast_path: &mut AstNodePath<'r>,
     ) {
         <Option<Box<Str>> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
-            node, self, ast_path,
-        )
-    }
-    #[doc = "Visit a node of type `Option < swc_atoms :: Atom >`.\n\nBy default, this method calls \
-             [`Option < swc_atoms :: Atom >::visit_children_with_ast_path`]. If you want to \
-             recurse, you need to call it manually."]
-    fn visit_opt_swc_atoms_atom<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast Option<swc_atoms::Atom>,
-        ast_path: &mut AstNodePath<'r>,
-    ) {
-        <Option<swc_atoms::Atom> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
-            node, self, ast_path,
-        )
-    }
-    #[doc = "Visit a node of type `Option < swc_common :: Span >`.\n\nBy default, this method \
-             calls [`Option < swc_common :: Span >::visit_children_with_ast_path`]. If you want to \
-             recurse, you need to call it manually."]
-    fn visit_opt_swc_common_span<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast Option<swc_common::Span>,
-        ast_path: &mut AstNodePath<'r>,
-    ) {
-        <Option<swc_common::Span> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -9127,6 +9139,18 @@ pub trait VisitAstPath {
             node, self, ast_path,
         )
     }
+    #[doc = "Visit a node of type `swc_common :: Span`.\n\nBy default, this method calls \
+             [`swc_common :: Span::visit_children_with_ast_path`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_span<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast swc_common::Span,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <swc_common::Span as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `SpreadElement`.\n\nBy default, this method calls \
              [`SpreadElement::visit_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
@@ -9195,42 +9219,6 @@ pub trait VisitAstPath {
             node, self, ast_path,
         )
     }
-    #[doc = "Visit a node of type `swc_atoms :: Atom`.\n\nBy default, this method calls \
-             [`swc_atoms :: Atom::visit_children_with_ast_path`]. If you want to recurse, you need \
-             to call it manually."]
-    fn visit_swc_atoms_atom<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast swc_atoms::Atom,
-        ast_path: &mut AstNodePath<'r>,
-    ) {
-        <swc_atoms::Atom as VisitWithAstPath<Self>>::visit_children_with_ast_path(
-            node, self, ast_path,
-        )
-    }
-    #[doc = "Visit a node of type `swc_common :: Span`.\n\nBy default, this method calls \
-             [`swc_common :: Span::visit_children_with_ast_path`]. If you want to recurse, you \
-             need to call it manually."]
-    fn visit_swc_common_span<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast swc_common::Span,
-        ast_path: &mut AstNodePath<'r>,
-    ) {
-        <swc_common::Span as VisitWithAstPath<Self>>::visit_children_with_ast_path(
-            node, self, ast_path,
-        )
-    }
-    #[doc = "Visit a node of type `swc_common :: SyntaxContext`.\n\nBy default, this method calls \
-             [`swc_common :: SyntaxContext::visit_children_with_ast_path`]. If you want to \
-             recurse, you need to call it manually."]
-    fn visit_swc_common_syntax_context<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast swc_common::SyntaxContext,
-        ast_path: &mut AstNodePath<'r>,
-    ) {
-        <swc_common::SyntaxContext as VisitWithAstPath<Self>>::visit_children_with_ast_path(
-            node, self, ast_path,
-        )
-    }
     #[doc = "Visit a node of type `SwitchCase`.\n\nBy default, this method calls \
              [`SwitchCase::visit_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
@@ -9262,6 +9250,18 @@ pub trait VisitAstPath {
         ast_path: &mut AstNodePath<'r>,
     ) {
         <SwitchStmt as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `swc_common :: SyntaxContext`.\n\nBy default, this method calls \
+             [`swc_common :: SyntaxContext::visit_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_syntax_context<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast swc_common::SyntaxContext,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <swc_common::SyntaxContext as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
     }
     #[doc = "Visit a node of type `TaggedTpl`.\n\nBy default, this method calls \
              [`TaggedTpl::visit_children_with_ast_path`]. If you want to recurse, you need to call \
@@ -18376,6 +18376,31 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Accessibility> {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<swc_atoms::Atom> {
+    #[doc = "Calls [VisitAstPath`::visit_opt_atom`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_opt_atom(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            match self {
+                Some(inner) => <V as VisitAstPath>::visit_opt_atom(visitor, inner, ast_path),
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<BlockStmt> {
     #[doc = "Calls [VisitAstPath`::visit_opt_block_stmt`] with `self`. (Extra impl)"]
     fn visit_with_ast_path<'ast: 'r, 'r>(
@@ -18755,6 +18780,31 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<Option<Pat>> {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<swc_common::Span> {
+    #[doc = "Calls [VisitAstPath`::visit_opt_span`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_opt_span(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            match self {
+                Some(inner) => <V as VisitAstPath>::visit_opt_span(visitor, inner, ast_path),
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Box<Stmt>> {
     #[doc = "Calls [VisitAstPath`::visit_opt_stmt`] with `self`. (Extra impl)"]
     fn visit_with_ast_path<'ast: 'r, 'r>(
@@ -18798,60 +18848,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Box<Str>> {
         {
             match self {
                 Some(inner) => <V as VisitAstPath>::visit_opt_str(visitor, inner, ast_path),
-                None => {}
-            }
-        }
-    }
-}
-#[cfg(any(docsrs, feature = "path"))]
-#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<swc_atoms::Atom> {
-    #[doc = "Calls [VisitAstPath`::visit_opt_swc_atoms_atom`] with `self`. (Extra impl)"]
-    fn visit_with_ast_path<'ast: 'r, 'r>(
-        &'ast self,
-        visitor: &mut V,
-        ast_path: &mut AstNodePath<'r>,
-    ) {
-        <V as VisitAstPath>::visit_opt_swc_atoms_atom(visitor, self, ast_path)
-    }
-
-    fn visit_children_with_ast_path<'ast: 'r, 'r>(
-        &'ast self,
-        visitor: &mut V,
-        ast_path: &mut AstNodePath<'r>,
-    ) {
-        {
-            match self {
-                Some(inner) => {
-                    <V as VisitAstPath>::visit_opt_swc_atoms_atom(visitor, inner, ast_path)
-                }
-                None => {}
-            }
-        }
-    }
-}
-#[cfg(any(docsrs, feature = "path"))]
-#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<swc_common::Span> {
-    #[doc = "Calls [VisitAstPath`::visit_opt_swc_common_span`] with `self`. (Extra impl)"]
-    fn visit_with_ast_path<'ast: 'r, 'r>(
-        &'ast self,
-        visitor: &mut V,
-        ast_path: &mut AstNodePath<'r>,
-    ) {
-        <V as VisitAstPath>::visit_opt_swc_common_span(visitor, self, ast_path)
-    }
-
-    fn visit_children_with_ast_path<'ast: 'r, 'r>(
-        &'ast self,
-        visitor: &mut V,
-        ast_path: &mut AstNodePath<'r>,
-    ) {
-        {
-            match self {
-                Some(inner) => {
-                    <V as VisitAstPath>::visit_opt_swc_common_span(visitor, inner, ast_path)
-                }
                 None => {}
             }
         }
@@ -19873,6 +19869,12 @@ pub trait VisitMut {
     fn visit_mut_assign_target_pat(&mut self, node: &mut AssignTargetPat) {
         <AssignTargetPat as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Visit a node of type `swc_atoms :: Atom`.\n\nBy default, this method calls \
+             [`swc_atoms :: Atom::visit_mut_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_mut_atom(&mut self, node: &mut swc_atoms::Atom) {
+        <swc_atoms::Atom as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
     #[doc = "Visit a node of type `AutoAccessor`.\n\nBy default, this method calls \
              [`AutoAccessor::visit_mut_children_with`]. If you want to recurse, you need to call \
              it manually."]
@@ -19884,6 +19886,12 @@ pub trait VisitMut {
              manually."]
     fn visit_mut_await_expr(&mut self, node: &mut AwaitExpr) {
         <AwaitExpr as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `num_bigint :: BigInt`.\n\nBy default, this method calls \
+             [`num_bigint :: BigInt::visit_mut_children_with`]. If you want to recurse, you need \
+             to call it manually."]
+    fn visit_mut_big_int(&mut self, node: &mut num_bigint::BigInt) {
+        <num_bigint::BigInt as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `BigInt`.\n\nBy default, this method calls \
              [`BigInt::visit_mut_children_with`]. If you want to recurse, you need to call it \
@@ -20539,12 +20547,6 @@ pub trait VisitMut {
     fn visit_mut_null(&mut self, node: &mut Null) {
         <Null as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
-    #[doc = "Visit a node of type `num_bigint :: BigInt`.\n\nBy default, this method calls \
-             [`num_bigint :: BigInt::visit_mut_children_with`]. If you want to recurse, you need \
-             to call it manually."]
-    fn visit_mut_num_bigint_big_int(&mut self, node: &mut num_bigint::BigInt) {
-        <num_bigint::BigInt as VisitMutWith<Self>>::visit_mut_children_with(node, self)
-    }
     #[doc = "Visit a node of type `Number`.\n\nBy default, this method calls \
              [`Number::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -20580,6 +20582,12 @@ pub trait VisitMut {
              need to call it manually."]
     fn visit_mut_opt_accessibility(&mut self, node: &mut Option<Accessibility>) {
         <Option<Accessibility> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < swc_atoms :: Atom >`.\n\nBy default, this method calls \
+             [`Option < swc_atoms :: Atom >::visit_mut_children_with`]. If you want to recurse, \
+             you need to call it manually."]
+    fn visit_mut_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
+        <Option<swc_atoms::Atom> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `Option < BlockStmt >`.\n\nBy default, this method calls \
              [`Option < BlockStmt >::visit_mut_children_with`]. If you want to recurse, you need \
@@ -20683,6 +20691,12 @@ pub trait VisitMut {
     fn visit_mut_opt_pats(&mut self, node: &mut Vec<Option<Pat>>) {
         <Vec<Option<Pat>> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Option < swc_common :: Span >`.\n\nBy default, this method \
+             calls [`Option < swc_common :: Span >::visit_mut_children_with`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_mut_opt_span(&mut self, node: &mut Option<swc_common::Span>) {
+        <Option<swc_common::Span> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
     #[doc = "Visit a node of type `Option < Box < Stmt > >`.\n\nBy default, this method calls \
              [`Option < Box < Stmt > >::visit_mut_children_with`]. If you want to recurse, you \
              need to call it manually."]
@@ -20694,18 +20708,6 @@ pub trait VisitMut {
              to call it manually."]
     fn visit_mut_opt_str(&mut self, node: &mut Option<Box<Str>>) {
         <Option<Box<Str>> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
-    }
-    #[doc = "Visit a node of type `Option < swc_atoms :: Atom >`.\n\nBy default, this method calls \
-             [`Option < swc_atoms :: Atom >::visit_mut_children_with`]. If you want to recurse, \
-             you need to call it manually."]
-    fn visit_mut_opt_swc_atoms_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
-        <Option<swc_atoms::Atom> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
-    }
-    #[doc = "Visit a node of type `Option < swc_common :: Span >`.\n\nBy default, this method \
-             calls [`Option < swc_common :: Span >::visit_mut_children_with`]. If you want to \
-             recurse, you need to call it manually."]
-    fn visit_mut_opt_swc_common_span(&mut self, node: &mut Option<swc_common::Span>) {
-        <Option<swc_common::Span> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `Option < TruePlusMinus >`.\n\nBy default, this method calls \
              [`Option < TruePlusMinus >::visit_mut_children_with`]. If you want to recurse, you \
@@ -20896,6 +20898,12 @@ pub trait VisitMut {
     fn visit_mut_simple_assign_target(&mut self, node: &mut SimpleAssignTarget) {
         <SimpleAssignTarget as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Visit a node of type `swc_common :: Span`.\n\nBy default, this method calls \
+             [`swc_common :: Span::visit_mut_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_mut_span(&mut self, node: &mut swc_common::Span) {
+        <swc_common::Span as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
     #[doc = "Visit a node of type `SpreadElement`.\n\nBy default, this method calls \
              [`SpreadElement::visit_mut_children_with`]. If you want to recurse, you need to call \
              it manually."]
@@ -20943,24 +20951,6 @@ pub trait VisitMut {
     fn visit_mut_super_prop_expr(&mut self, node: &mut SuperPropExpr) {
         <SuperPropExpr as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
-    #[doc = "Visit a node of type `swc_atoms :: Atom`.\n\nBy default, this method calls \
-             [`swc_atoms :: Atom::visit_mut_children_with`]. If you want to recurse, you need to \
-             call it manually."]
-    fn visit_mut_swc_atoms_atom(&mut self, node: &mut swc_atoms::Atom) {
-        <swc_atoms::Atom as VisitMutWith<Self>>::visit_mut_children_with(node, self)
-    }
-    #[doc = "Visit a node of type `swc_common :: Span`.\n\nBy default, this method calls \
-             [`swc_common :: Span::visit_mut_children_with`]. If you want to recurse, you need to \
-             call it manually."]
-    fn visit_mut_swc_common_span(&mut self, node: &mut swc_common::Span) {
-        <swc_common::Span as VisitMutWith<Self>>::visit_mut_children_with(node, self)
-    }
-    #[doc = "Visit a node of type `swc_common :: SyntaxContext`.\n\nBy default, this method calls \
-             [`swc_common :: SyntaxContext::visit_mut_children_with`]. If you want to recurse, you \
-             need to call it manually."]
-    fn visit_mut_swc_common_syntax_context(&mut self, node: &mut swc_common::SyntaxContext) {
-        <swc_common::SyntaxContext as VisitMutWith<Self>>::visit_mut_children_with(node, self)
-    }
     #[doc = "Visit a node of type `SwitchCase`.\n\nBy default, this method calls \
              [`SwitchCase::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -20978,6 +20968,12 @@ pub trait VisitMut {
              manually."]
     fn visit_mut_switch_stmt(&mut self, node: &mut SwitchStmt) {
         <SwitchStmt as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `swc_common :: SyntaxContext`.\n\nBy default, this method calls \
+             [`swc_common :: SyntaxContext::visit_mut_children_with`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_mut_syntax_context(&mut self, node: &mut swc_common::SyntaxContext) {
+        <swc_common::SyntaxContext as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `TaggedTpl`.\n\nBy default, this method calls \
              [`TaggedTpl::visit_mut_children_with`]. If you want to recurse, you need to call it \
@@ -26342,6 +26338,21 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Accessibility> {
         }
     }
 }
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<swc_atoms::Atom> {
+    #[doc = "Calls [VisitMut`::visit_mut_opt_atom`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_opt_atom(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as VisitMut>::visit_mut_opt_atom(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<BlockStmt> {
     #[doc = "Calls [VisitMut`::visit_mut_opt_block_stmt`] with `self`. (Extra impl)"]
     fn visit_mut_with(&mut self, visitor: &mut V) {
@@ -26556,6 +26567,21 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<Option<Pat>> {
             .for_each(|item| <V as VisitMut>::visit_mut_opt_pats(visitor, item))
     }
 }
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<swc_common::Span> {
+    #[doc = "Calls [VisitMut`::visit_mut_opt_span`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_opt_span(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as VisitMut>::visit_mut_opt_span(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Box<Stmt>> {
     #[doc = "Calls [VisitMut`::visit_mut_opt_stmt`] with `self`. (Extra impl)"]
     fn visit_mut_with(&mut self, visitor: &mut V) {
@@ -26581,36 +26607,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Box<Str>> {
         {
             match self {
                 Some(inner) => <V as VisitMut>::visit_mut_opt_str(visitor, inner),
-                None => {}
-            }
-        }
-    }
-}
-impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<swc_atoms::Atom> {
-    #[doc = "Calls [VisitMut`::visit_mut_opt_swc_atoms_atom`] with `self`. (Extra impl)"]
-    fn visit_mut_with(&mut self, visitor: &mut V) {
-        <V as VisitMut>::visit_mut_opt_swc_atoms_atom(visitor, self)
-    }
-
-    fn visit_mut_children_with(&mut self, visitor: &mut V) {
-        {
-            match self {
-                Some(inner) => <V as VisitMut>::visit_mut_opt_swc_atoms_atom(visitor, inner),
-                None => {}
-            }
-        }
-    }
-}
-impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<swc_common::Span> {
-    #[doc = "Calls [VisitMut`::visit_mut_opt_swc_common_span`] with `self`. (Extra impl)"]
-    fn visit_mut_with(&mut self, visitor: &mut V) {
-        <V as VisitMut>::visit_mut_opt_swc_common_span(visitor, self)
-    }
-
-    fn visit_mut_children_with(&mut self, visitor: &mut V) {
-        {
-            match self {
-                Some(inner) => <V as VisitMut>::visit_mut_opt_swc_common_span(visitor, inner),
                 None => {}
             }
         }
@@ -27228,6 +27224,14 @@ pub trait VisitMutAstPath {
             node, self, ast_path,
         )
     }
+    #[doc = "Visit a node of type `swc_atoms :: Atom`.\n\nBy default, this method calls \
+             [`swc_atoms :: Atom::visit_mut_children_with_ast_path`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_mut_atom(&mut self, node: &mut swc_atoms::Atom, ast_path: &mut AstKindPath) {
+        <swc_atoms::Atom as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `AutoAccessor`.\n\nBy default, this method calls \
              [`AutoAccessor::visit_mut_children_with_ast_path`]. If you want to recurse, you need \
              to call it manually."]
@@ -27241,6 +27245,14 @@ pub trait VisitMutAstPath {
              call it manually."]
     fn visit_mut_await_expr(&mut self, node: &mut AwaitExpr, ast_path: &mut AstKindPath) {
         <AwaitExpr as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `num_bigint :: BigInt`.\n\nBy default, this method calls \
+             [`num_bigint :: BigInt::visit_mut_children_with_ast_path`]. If you want to recurse, \
+             you need to call it manually."]
+    fn visit_mut_big_int(&mut self, node: &mut num_bigint::BigInt, ast_path: &mut AstKindPath) {
+        <num_bigint::BigInt as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -28224,18 +28236,6 @@ pub trait VisitMutAstPath {
     fn visit_mut_null(&mut self, node: &mut Null, ast_path: &mut AstKindPath) {
         <Null as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(node, self, ast_path)
     }
-    #[doc = "Visit a node of type `num_bigint :: BigInt`.\n\nBy default, this method calls \
-             [`num_bigint :: BigInt::visit_mut_children_with_ast_path`]. If you want to recurse, \
-             you need to call it manually."]
-    fn visit_mut_num_bigint_big_int(
-        &mut self,
-        node: &mut num_bigint::BigInt,
-        ast_path: &mut AstKindPath,
-    ) {
-        <num_bigint::BigInt as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
-            node, self, ast_path,
-        )
-    }
     #[doc = "Visit a node of type `Number`.\n\nBy default, this method calls \
              [`Number::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
@@ -28289,6 +28289,18 @@ pub trait VisitMutAstPath {
         ast_path: &mut AstKindPath,
     ) {
         <Option<Accessibility> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < swc_atoms :: Atom >`.\n\nBy default, this method calls \
+             [`Option < swc_atoms :: Atom >::visit_mut_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_mut_opt_atom(
+        &mut self,
+        node: &mut Option<swc_atoms::Atom>,
+        ast_path: &mut AstKindPath,
+    ) {
+        <Option<swc_atoms::Atom> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -28468,6 +28480,18 @@ pub trait VisitMutAstPath {
             node, self, ast_path,
         )
     }
+    #[doc = "Visit a node of type `Option < swc_common :: Span >`.\n\nBy default, this method \
+             calls [`Option < swc_common :: Span >::visit_mut_children_with_ast_path`]. If you \
+             want to recurse, you need to call it manually."]
+    fn visit_mut_opt_span(
+        &mut self,
+        node: &mut Option<swc_common::Span>,
+        ast_path: &mut AstKindPath,
+    ) {
+        <Option<swc_common::Span> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `Option < Box < Stmt > >`.\n\nBy default, this method calls \
              [`Option < Box < Stmt > >::visit_mut_children_with_ast_path`]. If you want to \
              recurse, you need to call it manually."]
@@ -28481,30 +28505,6 @@ pub trait VisitMutAstPath {
              you need to call it manually."]
     fn visit_mut_opt_str(&mut self, node: &mut Option<Box<Str>>, ast_path: &mut AstKindPath) {
         <Option<Box<Str>> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
-            node, self, ast_path,
-        )
-    }
-    #[doc = "Visit a node of type `Option < swc_atoms :: Atom >`.\n\nBy default, this method calls \
-             [`Option < swc_atoms :: Atom >::visit_mut_children_with_ast_path`]. If you want to \
-             recurse, you need to call it manually."]
-    fn visit_mut_opt_swc_atoms_atom(
-        &mut self,
-        node: &mut Option<swc_atoms::Atom>,
-        ast_path: &mut AstKindPath,
-    ) {
-        <Option<swc_atoms::Atom> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
-            node, self, ast_path,
-        )
-    }
-    #[doc = "Visit a node of type `Option < swc_common :: Span >`.\n\nBy default, this method \
-             calls [`Option < swc_common :: Span >::visit_mut_children_with_ast_path`]. If you \
-             want to recurse, you need to call it manually."]
-    fn visit_mut_opt_swc_common_span(
-        &mut self,
-        node: &mut Option<swc_common::Span>,
-        ast_path: &mut AstKindPath,
-    ) {
-        <Option<swc_common::Span> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -28793,6 +28793,14 @@ pub trait VisitMutAstPath {
             node, self, ast_path,
         )
     }
+    #[doc = "Visit a node of type `swc_common :: Span`.\n\nBy default, this method calls \
+             [`swc_common :: Span::visit_mut_children_with_ast_path`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_mut_span(&mut self, node: &mut swc_common::Span, ast_path: &mut AstKindPath) {
+        <swc_common::Span as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `SpreadElement`.\n\nBy default, this method calls \
              [`SpreadElement::visit_mut_children_with_ast_path`]. If you want to recurse, you need \
              to call it manually."]
@@ -28851,38 +28859,6 @@ pub trait VisitMutAstPath {
             node, self, ast_path,
         )
     }
-    #[doc = "Visit a node of type `swc_atoms :: Atom`.\n\nBy default, this method calls \
-             [`swc_atoms :: Atom::visit_mut_children_with_ast_path`]. If you want to recurse, you \
-             need to call it manually."]
-    fn visit_mut_swc_atoms_atom(&mut self, node: &mut swc_atoms::Atom, ast_path: &mut AstKindPath) {
-        <swc_atoms::Atom as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
-            node, self, ast_path,
-        )
-    }
-    #[doc = "Visit a node of type `swc_common :: Span`.\n\nBy default, this method calls \
-             [`swc_common :: Span::visit_mut_children_with_ast_path`]. If you want to recurse, you \
-             need to call it manually."]
-    fn visit_mut_swc_common_span(
-        &mut self,
-        node: &mut swc_common::Span,
-        ast_path: &mut AstKindPath,
-    ) {
-        <swc_common::Span as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
-            node, self, ast_path,
-        )
-    }
-    #[doc = "Visit a node of type `swc_common :: SyntaxContext`.\n\nBy default, this method calls \
-             [`swc_common :: SyntaxContext::visit_mut_children_with_ast_path`]. If you want to \
-             recurse, you need to call it manually."]
-    fn visit_mut_swc_common_syntax_context(
-        &mut self,
-        node: &mut swc_common::SyntaxContext,
-        ast_path: &mut AstKindPath,
-    ) {
-        <swc_common::SyntaxContext as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
-            node, self, ast_path,
-        )
-    }
     #[doc = "Visit a node of type `SwitchCase`.\n\nBy default, this method calls \
              [`SwitchCase::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
@@ -28904,6 +28880,18 @@ pub trait VisitMutAstPath {
              call it manually."]
     fn visit_mut_switch_stmt(&mut self, node: &mut SwitchStmt, ast_path: &mut AstKindPath) {
         <SwitchStmt as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `swc_common :: SyntaxContext`.\n\nBy default, this method calls \
+             [`swc_common :: SyntaxContext::visit_mut_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_mut_syntax_context(
+        &mut self,
+        node: &mut swc_common::SyntaxContext,
+        ast_path: &mut AstKindPath,
+    ) {
+        <swc_common::SyntaxContext as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -36196,6 +36184,23 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Accessibilit
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<swc_atoms::Atom> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_atom`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_opt_atom(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            match self {
+                Some(inner) => <V as VisitMutAstPath>::visit_mut_opt_atom(visitor, inner, ast_path),
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<BlockStmt> {
     #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_block_stmt`] with `self`. (Extra impl)"]
     fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
@@ -36461,6 +36466,23 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<Option<Pat>> {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<swc_common::Span> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_span`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_opt_span(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            match self {
+                Some(inner) => <V as VisitMutAstPath>::visit_mut_opt_span(visitor, inner, ast_path),
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Box<Stmt>> {
     #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_stmt`] with `self`. (Extra impl)"]
     fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
@@ -36488,44 +36510,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Box<Str>> {
         {
             match self {
                 Some(inner) => <V as VisitMutAstPath>::visit_mut_opt_str(visitor, inner, ast_path),
-                None => {}
-            }
-        }
-    }
-}
-#[cfg(any(docsrs, feature = "path"))]
-#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<swc_atoms::Atom> {
-    #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_swc_atoms_atom`] with `self`. (Extra impl)"]
-    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        <V as VisitMutAstPath>::visit_mut_opt_swc_atoms_atom(visitor, self, ast_path)
-    }
-
-    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        {
-            match self {
-                Some(inner) => {
-                    <V as VisitMutAstPath>::visit_mut_opt_swc_atoms_atom(visitor, inner, ast_path)
-                }
-                None => {}
-            }
-        }
-    }
-}
-#[cfg(any(docsrs, feature = "path"))]
-#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<swc_common::Span> {
-    #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_swc_common_span`] with `self`. (Extra impl)"]
-    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        <V as VisitMutAstPath>::visit_mut_opt_swc_common_span(visitor, self, ast_path)
-    }
-
-    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        {
-            match self {
-                Some(inner) => {
-                    <V as VisitMutAstPath>::visit_mut_opt_swc_common_span(visitor, inner, ast_path)
-                }
                 None => {}
             }
         }
@@ -37229,6 +37213,12 @@ pub trait Fold {
     fn fold_assign_target_pat(&mut self, node: AssignTargetPat) -> AssignTargetPat {
         <AssignTargetPat as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Visit a node of type `swc_atoms :: Atom`.\n\nBy default, this method calls \
+             [`swc_atoms :: Atom::fold_children_with`]. If you want to recurse, you need to call \
+             it manually."]
+    fn fold_atom(&mut self, node: swc_atoms::Atom) -> swc_atoms::Atom {
+        <swc_atoms::Atom as FoldWith<Self>>::fold_children_with(node, self)
+    }
     #[doc = "Visit a node of type `AutoAccessor`.\n\nBy default, this method calls \
              [`AutoAccessor::fold_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -37240,6 +37230,12 @@ pub trait Fold {
              manually."]
     fn fold_await_expr(&mut self, node: AwaitExpr) -> AwaitExpr {
         <AwaitExpr as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `num_bigint :: BigInt`.\n\nBy default, this method calls \
+             [`num_bigint :: BigInt::fold_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn fold_big_int(&mut self, node: num_bigint::BigInt) -> num_bigint::BigInt {
+        <num_bigint::BigInt as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `BigInt`.\n\nBy default, this method calls \
              [`BigInt::fold_children_with`]. If you want to recurse, you need to call it manually."]
@@ -37884,12 +37880,6 @@ pub trait Fold {
     fn fold_null(&mut self, node: Null) -> Null {
         <Null as FoldWith<Self>>::fold_children_with(node, self)
     }
-    #[doc = "Visit a node of type `num_bigint :: BigInt`.\n\nBy default, this method calls \
-             [`num_bigint :: BigInt::fold_children_with`]. If you want to recurse, you need to \
-             call it manually."]
-    fn fold_num_bigint_big_int(&mut self, node: num_bigint::BigInt) -> num_bigint::BigInt {
-        <num_bigint::BigInt as FoldWith<Self>>::fold_children_with(node, self)
-    }
     #[doc = "Visit a node of type `Number`.\n\nBy default, this method calls \
              [`Number::fold_children_with`]. If you want to recurse, you need to call it manually."]
     fn fold_number(&mut self, node: Number) -> Number {
@@ -37924,6 +37914,12 @@ pub trait Fold {
              call it manually."]
     fn fold_opt_accessibility(&mut self, node: Option<Accessibility>) -> Option<Accessibility> {
         <Option<Accessibility> as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Option < swc_atoms :: Atom >`.\n\nBy default, this method calls \
+             [`Option < swc_atoms :: Atom >::fold_children_with`]. If you want to recurse, you \
+             need to call it manually."]
+    fn fold_opt_atom(&mut self, node: Option<swc_atoms::Atom>) -> Option<swc_atoms::Atom> {
+        <Option<swc_atoms::Atom> as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `Option < BlockStmt >`.\n\nBy default, this method calls \
              [`Option < BlockStmt >::fold_children_with`]. If you want to recurse, you need to \
@@ -38036,6 +38032,12 @@ pub trait Fold {
     fn fold_opt_pats(&mut self, node: Vec<Option<Pat>>) -> Vec<Option<Pat>> {
         <Vec<Option<Pat>> as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Option < swc_common :: Span >`.\n\nBy default, this method \
+             calls [`Option < swc_common :: Span >::fold_children_with`]. If you want to recurse, \
+             you need to call it manually."]
+    fn fold_opt_span(&mut self, node: Option<swc_common::Span>) -> Option<swc_common::Span> {
+        <Option<swc_common::Span> as FoldWith<Self>>::fold_children_with(node, self)
+    }
     #[doc = "Visit a node of type `Option < Box < Stmt > >`.\n\nBy default, this method calls \
              [`Option < Box < Stmt > >::fold_children_with`]. If you want to recurse, you need to \
              call it manually."]
@@ -38047,24 +38049,6 @@ pub trait Fold {
              call it manually."]
     fn fold_opt_str(&mut self, node: Option<Box<Str>>) -> Option<Box<Str>> {
         <Option<Box<Str>> as FoldWith<Self>>::fold_children_with(node, self)
-    }
-    #[doc = "Visit a node of type `Option < swc_atoms :: Atom >`.\n\nBy default, this method calls \
-             [`Option < swc_atoms :: Atom >::fold_children_with`]. If you want to recurse, you \
-             need to call it manually."]
-    fn fold_opt_swc_atoms_atom(
-        &mut self,
-        node: Option<swc_atoms::Atom>,
-    ) -> Option<swc_atoms::Atom> {
-        <Option<swc_atoms::Atom> as FoldWith<Self>>::fold_children_with(node, self)
-    }
-    #[doc = "Visit a node of type `Option < swc_common :: Span >`.\n\nBy default, this method \
-             calls [`Option < swc_common :: Span >::fold_children_with`]. If you want to recurse, \
-             you need to call it manually."]
-    fn fold_opt_swc_common_span(
-        &mut self,
-        node: Option<swc_common::Span>,
-    ) -> Option<swc_common::Span> {
-        <Option<swc_common::Span> as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `Option < TruePlusMinus >`.\n\nBy default, this method calls \
              [`Option < TruePlusMinus >::fold_children_with`]. If you want to recurse, you need to \
@@ -38254,6 +38238,12 @@ pub trait Fold {
     fn fold_simple_assign_target(&mut self, node: SimpleAssignTarget) -> SimpleAssignTarget {
         <SimpleAssignTarget as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Visit a node of type `swc_common :: Span`.\n\nBy default, this method calls \
+             [`swc_common :: Span::fold_children_with`]. If you want to recurse, you need to call \
+             it manually."]
+    fn fold_span(&mut self, node: swc_common::Span) -> swc_common::Span {
+        <swc_common::Span as FoldWith<Self>>::fold_children_with(node, self)
+    }
     #[doc = "Visit a node of type `SpreadElement`.\n\nBy default, this method calls \
              [`SpreadElement::fold_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -38298,27 +38288,6 @@ pub trait Fold {
     fn fold_super_prop_expr(&mut self, node: SuperPropExpr) -> SuperPropExpr {
         <SuperPropExpr as FoldWith<Self>>::fold_children_with(node, self)
     }
-    #[doc = "Visit a node of type `swc_atoms :: Atom`.\n\nBy default, this method calls \
-             [`swc_atoms :: Atom::fold_children_with`]. If you want to recurse, you need to call \
-             it manually."]
-    fn fold_swc_atoms_atom(&mut self, node: swc_atoms::Atom) -> swc_atoms::Atom {
-        <swc_atoms::Atom as FoldWith<Self>>::fold_children_with(node, self)
-    }
-    #[doc = "Visit a node of type `swc_common :: Span`.\n\nBy default, this method calls \
-             [`swc_common :: Span::fold_children_with`]. If you want to recurse, you need to call \
-             it manually."]
-    fn fold_swc_common_span(&mut self, node: swc_common::Span) -> swc_common::Span {
-        <swc_common::Span as FoldWith<Self>>::fold_children_with(node, self)
-    }
-    #[doc = "Visit a node of type `swc_common :: SyntaxContext`.\n\nBy default, this method calls \
-             [`swc_common :: SyntaxContext::fold_children_with`]. If you want to recurse, you need \
-             to call it manually."]
-    fn fold_swc_common_syntax_context(
-        &mut self,
-        node: swc_common::SyntaxContext,
-    ) -> swc_common::SyntaxContext {
-        <swc_common::SyntaxContext as FoldWith<Self>>::fold_children_with(node, self)
-    }
     #[doc = "Visit a node of type `SwitchCase`.\n\nBy default, this method calls \
              [`SwitchCase::fold_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -38336,6 +38305,15 @@ pub trait Fold {
              manually."]
     fn fold_switch_stmt(&mut self, node: SwitchStmt) -> SwitchStmt {
         <SwitchStmt as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `swc_common :: SyntaxContext`.\n\nBy default, this method calls \
+             [`swc_common :: SyntaxContext::fold_children_with`]. If you want to recurse, you need \
+             to call it manually."]
+    fn fold_syntax_context(
+        &mut self,
+        node: swc_common::SyntaxContext,
+    ) -> swc_common::SyntaxContext {
+        <swc_common::SyntaxContext as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `TaggedTpl`.\n\nBy default, this method calls \
              [`TaggedTpl::fold_children_with`]. If you want to recurse, you need to call it \
@@ -44571,6 +44549,18 @@ impl<V: ?Sized + Fold> FoldWith<V> for Option<Accessibility> {
         }
     }
 }
+impl<V: ?Sized + Fold> FoldWith<V> for Option<swc_atoms::Atom> {
+    #[doc = "Calls [Fold`::fold_opt_atom`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_opt_atom(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            self.map(|inner| <V as Fold>::fold_opt_atom(visitor, inner))
+        }
+    }
+}
 impl<V: ?Sized + Fold> FoldWith<V> for Option<BlockStmt> {
     #[doc = "Calls [Fold`::fold_opt_block_stmt`] with `self`. (Extra impl)"]
     fn fold_with(self, visitor: &mut V) -> Self {
@@ -44751,6 +44741,18 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<Option<Pat>> {
             .collect()
     }
 }
+impl<V: ?Sized + Fold> FoldWith<V> for Option<swc_common::Span> {
+    #[doc = "Calls [Fold`::fold_opt_span`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_opt_span(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            self.map(|inner| <V as Fold>::fold_opt_span(visitor, inner))
+        }
+    }
+}
 impl<V: ?Sized + Fold> FoldWith<V> for Option<Box<Stmt>> {
     #[doc = "Calls [Fold`::fold_opt_stmt`] with `self`. (Extra impl)"]
     fn fold_with(self, visitor: &mut V) -> Self {
@@ -44772,30 +44774,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for Option<Box<Str>> {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
             self.map(|inner| <V as Fold>::fold_opt_str(visitor, inner))
-        }
-    }
-}
-impl<V: ?Sized + Fold> FoldWith<V> for Option<swc_atoms::Atom> {
-    #[doc = "Calls [Fold`::fold_opt_swc_atoms_atom`] with `self`. (Extra impl)"]
-    fn fold_with(self, visitor: &mut V) -> Self {
-        <V as Fold>::fold_opt_swc_atoms_atom(visitor, self)
-    }
-
-    fn fold_children_with(self, visitor: &mut V) -> Self {
-        {
-            self.map(|inner| <V as Fold>::fold_opt_swc_atoms_atom(visitor, inner))
-        }
-    }
-}
-impl<V: ?Sized + Fold> FoldWith<V> for Option<swc_common::Span> {
-    #[doc = "Calls [Fold`::fold_opt_swc_common_span`] with `self`. (Extra impl)"]
-    fn fold_with(self, visitor: &mut V) -> Self {
-        <V as Fold>::fold_opt_swc_common_span(visitor, self)
-    }
-
-    fn fold_children_with(self, visitor: &mut V) -> Self {
-        {
-            self.map(|inner| <V as Fold>::fold_opt_swc_common_span(visitor, inner))
         }
     }
 }
@@ -45393,6 +45371,14 @@ pub trait FoldAstPath {
             node, self, ast_path,
         )
     }
+    #[doc = "Visit a node of type `swc_atoms :: Atom`.\n\nBy default, this method calls \
+             [`swc_atoms :: Atom::fold_children_with_ast_path`]. If you want to recurse, you need \
+             to call it manually."]
+    fn fold_atom(&mut self, node: swc_atoms::Atom, ast_path: &mut AstKindPath) -> swc_atoms::Atom {
+        <swc_atoms::Atom as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `AutoAccessor`.\n\nBy default, this method calls \
              [`AutoAccessor::fold_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
@@ -45408,6 +45394,18 @@ pub trait FoldAstPath {
              it manually."]
     fn fold_await_expr(&mut self, node: AwaitExpr, ast_path: &mut AstKindPath) -> AwaitExpr {
         <AwaitExpr as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `num_bigint :: BigInt`.\n\nBy default, this method calls \
+             [`num_bigint :: BigInt::fold_children_with_ast_path`]. If you want to recurse, you \
+             need to call it manually."]
+    fn fold_big_int(
+        &mut self,
+        node: num_bigint::BigInt,
+        ast_path: &mut AstKindPath,
+    ) -> num_bigint::BigInt {
+        <num_bigint::BigInt as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
     }
     #[doc = "Visit a node of type `BigInt`.\n\nBy default, this method calls \
              [`BigInt::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
@@ -46299,18 +46297,6 @@ pub trait FoldAstPath {
     fn fold_null(&mut self, node: Null, ast_path: &mut AstKindPath) -> Null {
         <Null as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
     }
-    #[doc = "Visit a node of type `num_bigint :: BigInt`.\n\nBy default, this method calls \
-             [`num_bigint :: BigInt::fold_children_with_ast_path`]. If you want to recurse, you \
-             need to call it manually."]
-    fn fold_num_bigint_big_int(
-        &mut self,
-        node: num_bigint::BigInt,
-        ast_path: &mut AstKindPath,
-    ) -> num_bigint::BigInt {
-        <num_bigint::BigInt as FoldWithAstPath<Self>>::fold_children_with_ast_path(
-            node, self, ast_path,
-        )
-    }
     #[doc = "Visit a node of type `Number`.\n\nBy default, this method calls \
              [`Number::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
@@ -46360,6 +46346,18 @@ pub trait FoldAstPath {
         ast_path: &mut AstKindPath,
     ) -> Option<Accessibility> {
         <Option<Accessibility> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Option < swc_atoms :: Atom >`.\n\nBy default, this method calls \
+             [`Option < swc_atoms :: Atom >::fold_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    fn fold_opt_atom(
+        &mut self,
+        node: Option<swc_atoms::Atom>,
+        ast_path: &mut AstKindPath,
+    ) -> Option<swc_atoms::Atom> {
+        <Option<swc_atoms::Atom> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -46545,6 +46543,18 @@ pub trait FoldAstPath {
             node, self, ast_path,
         )
     }
+    #[doc = "Visit a node of type `Option < swc_common :: Span >`.\n\nBy default, this method \
+             calls [`Option < swc_common :: Span >::fold_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    fn fold_opt_span(
+        &mut self,
+        node: Option<swc_common::Span>,
+        ast_path: &mut AstKindPath,
+    ) -> Option<swc_common::Span> {
+        <Option<swc_common::Span> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `Option < Box < Stmt > >`.\n\nBy default, this method calls \
              [`Option < Box < Stmt > >::fold_children_with_ast_path`]. If you want to recurse, you \
              need to call it manually."]
@@ -46566,30 +46576,6 @@ pub trait FoldAstPath {
         ast_path: &mut AstKindPath,
     ) -> Option<Box<Str>> {
         <Option<Box<Str>> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
-            node, self, ast_path,
-        )
-    }
-    #[doc = "Visit a node of type `Option < swc_atoms :: Atom >`.\n\nBy default, this method calls \
-             [`Option < swc_atoms :: Atom >::fold_children_with_ast_path`]. If you want to \
-             recurse, you need to call it manually."]
-    fn fold_opt_swc_atoms_atom(
-        &mut self,
-        node: Option<swc_atoms::Atom>,
-        ast_path: &mut AstKindPath,
-    ) -> Option<swc_atoms::Atom> {
-        <Option<swc_atoms::Atom> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
-            node, self, ast_path,
-        )
-    }
-    #[doc = "Visit a node of type `Option < swc_common :: Span >`.\n\nBy default, this method \
-             calls [`Option < swc_common :: Span >::fold_children_with_ast_path`]. If you want to \
-             recurse, you need to call it manually."]
-    fn fold_opt_swc_common_span(
-        &mut self,
-        node: Option<swc_common::Span>,
-        ast_path: &mut AstKindPath,
-    ) -> Option<swc_common::Span> {
-        <Option<swc_common::Span> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -46862,6 +46848,18 @@ pub trait FoldAstPath {
             node, self, ast_path,
         )
     }
+    #[doc = "Visit a node of type `swc_common :: Span`.\n\nBy default, this method calls \
+             [`swc_common :: Span::fold_children_with_ast_path`]. If you want to recurse, you need \
+             to call it manually."]
+    fn fold_span(
+        &mut self,
+        node: swc_common::Span,
+        ast_path: &mut AstKindPath,
+    ) -> swc_common::Span {
+        <swc_common::Span as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `SpreadElement`.\n\nBy default, this method calls \
              [`SpreadElement::fold_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
@@ -46918,42 +46916,6 @@ pub trait FoldAstPath {
     ) -> SuperPropExpr {
         <SuperPropExpr as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
     }
-    #[doc = "Visit a node of type `swc_atoms :: Atom`.\n\nBy default, this method calls \
-             [`swc_atoms :: Atom::fold_children_with_ast_path`]. If you want to recurse, you need \
-             to call it manually."]
-    fn fold_swc_atoms_atom(
-        &mut self,
-        node: swc_atoms::Atom,
-        ast_path: &mut AstKindPath,
-    ) -> swc_atoms::Atom {
-        <swc_atoms::Atom as FoldWithAstPath<Self>>::fold_children_with_ast_path(
-            node, self, ast_path,
-        )
-    }
-    #[doc = "Visit a node of type `swc_common :: Span`.\n\nBy default, this method calls \
-             [`swc_common :: Span::fold_children_with_ast_path`]. If you want to recurse, you need \
-             to call it manually."]
-    fn fold_swc_common_span(
-        &mut self,
-        node: swc_common::Span,
-        ast_path: &mut AstKindPath,
-    ) -> swc_common::Span {
-        <swc_common::Span as FoldWithAstPath<Self>>::fold_children_with_ast_path(
-            node, self, ast_path,
-        )
-    }
-    #[doc = "Visit a node of type `swc_common :: SyntaxContext`.\n\nBy default, this method calls \
-             [`swc_common :: SyntaxContext::fold_children_with_ast_path`]. If you want to recurse, \
-             you need to call it manually."]
-    fn fold_swc_common_syntax_context(
-        &mut self,
-        node: swc_common::SyntaxContext,
-        ast_path: &mut AstKindPath,
-    ) -> swc_common::SyntaxContext {
-        <swc_common::SyntaxContext as FoldWithAstPath<Self>>::fold_children_with_ast_path(
-            node, self, ast_path,
-        )
-    }
     #[doc = "Visit a node of type `SwitchCase`.\n\nBy default, this method calls \
              [`SwitchCase::fold_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
@@ -46977,6 +46939,18 @@ pub trait FoldAstPath {
              it manually."]
     fn fold_switch_stmt(&mut self, node: SwitchStmt, ast_path: &mut AstKindPath) -> SwitchStmt {
         <SwitchStmt as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `swc_common :: SyntaxContext`.\n\nBy default, this method calls \
+             [`swc_common :: SyntaxContext::fold_children_with_ast_path`]. If you want to recurse, \
+             you need to call it manually."]
+    fn fold_syntax_context(
+        &mut self,
+        node: swc_common::SyntaxContext,
+        ast_path: &mut AstKindPath,
+    ) -> swc_common::SyntaxContext {
+        <swc_common::SyntaxContext as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
     }
     #[doc = "Visit a node of type `TaggedTpl`.\n\nBy default, this method calls \
              [`TaggedTpl::fold_children_with_ast_path`]. If you want to recurse, you need to call \
@@ -54958,6 +54932,20 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Accessibility> {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<swc_atoms::Atom> {
+    #[doc = "Calls [FoldAstPath`::fold_opt_atom`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_opt_atom(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            self.map(|inner| <V as FoldAstPath>::fold_opt_atom(visitor, inner, ast_path))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<BlockStmt> {
     #[doc = "Calls [FoldAstPath`::fold_opt_block_stmt`] with `self`. (Extra impl)"]
     fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
@@ -55174,6 +55162,20 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<Option<Pat>> {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<swc_common::Span> {
+    #[doc = "Calls [FoldAstPath`::fold_opt_span`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_opt_span(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            self.map(|inner| <V as FoldAstPath>::fold_opt_span(visitor, inner, ast_path))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Box<Stmt>> {
     #[doc = "Calls [FoldAstPath`::fold_opt_stmt`] with `self`. (Extra impl)"]
     fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
@@ -55197,34 +55199,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Box<Str>> {
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
             self.map(|inner| <V as FoldAstPath>::fold_opt_str(visitor, inner, ast_path))
-        }
-    }
-}
-#[cfg(any(docsrs, feature = "path"))]
-#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<swc_atoms::Atom> {
-    #[doc = "Calls [FoldAstPath`::fold_opt_swc_atoms_atom`] with `self`. (Extra impl)"]
-    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
-        <V as FoldAstPath>::fold_opt_swc_atoms_atom(visitor, self, ast_path)
-    }
-
-    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
-        {
-            self.map(|inner| <V as FoldAstPath>::fold_opt_swc_atoms_atom(visitor, inner, ast_path))
-        }
-    }
-}
-#[cfg(any(docsrs, feature = "path"))]
-#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<swc_common::Span> {
-    #[doc = "Calls [FoldAstPath`::fold_opt_swc_common_span`] with `self`. (Extra impl)"]
-    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
-        <V as FoldAstPath>::fold_opt_swc_common_span(visitor, self, ast_path)
-    }
-
-    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
-        {
-            self.map(|inner| <V as FoldAstPath>::fold_opt_swc_common_span(visitor, inner, ast_path))
         }
     }
 }

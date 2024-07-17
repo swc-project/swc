@@ -90,7 +90,7 @@ impl ToTokens for FieldType {
 impl FieldType {
     pub fn method_name(&self) -> String {
         match self {
-            FieldType::Normal(name) => name.to_string().to_snake_case(),
+            FieldType::Normal(name) => name.split("::").last().unwrap().to_snake_case(),
             FieldType::Generic(name, ty) => match &**name {
                 "Option" => format!("opt_{}", ty.method_name()),
                 "Vec" => format!("{}s", ty.method_name()),
