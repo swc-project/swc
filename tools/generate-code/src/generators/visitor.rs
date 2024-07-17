@@ -52,10 +52,7 @@ pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
     output.items.push(parse_quote!(
         use #crate_name::*;
     ));
-    output.items.push(parse_quote!(
-        #[cfg(any(docsrs, feature = "path"))]
-        use self::fields::{AstParentNodeRef, AstParentKind};
-    ));
+
     output.items.push(parse_quote!(
         pub use ::swc_visit::All;
     ));
