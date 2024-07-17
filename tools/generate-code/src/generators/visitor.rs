@@ -56,8 +56,14 @@ pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
     output
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+enum FieldType {
+    Normal(String),
+    Generic(String, Box<FieldType>),
+}
+
 /// Leaf types has a visitor method but does not have any children.
-fn leaf_types(node_types: &[&Item]) -> HashSet<String> {
+fn leaf_types(node_types: &[&Item]) -> HashSet<FieldType> {
     let mut non_leaf_types = HashSet::new();
 
     for ty in node_types {
@@ -67,7 +73,7 @@ fn leaf_types(node_types: &[&Item]) -> HashSet<String> {
             _ => continue,
         };
 
-        non_leaf_types.insert(type_name.to_string());
+        non_leaf_types.insert(FieldType::Normal(type_name));
     }
 
     let mut types = all_field_types(node_types);
@@ -77,7 +83,7 @@ fn leaf_types(node_types: &[&Item]) -> HashSet<String> {
     types
 }
 
-fn all_field_types(node_types: &[&Item]) -> HashSet<String> {
+fn all_field_types(node_types: &[&Item]) -> HashSet<FieldType> {
     let mut all_types = HashSet::new();
 
     for ty in node_types {
@@ -103,7 +109,40 @@ fn all_field_types(node_types: &[&Item]) -> HashSet<String> {
     all_types
 }
 
-fn all_types_in_ty(ty: &Type) -> Vec<String> {
+fn to_field_ty(ty: &Type) -> Option<FieldType> {
+    if let Some(ty) = extract_vec(ty) {
+        return to_field_ty(ty).map(|ty| FieldType::Generic("Vec".into(), Box::new(ty)));
+    }
+
+    if let Some(ty) = extract_generic("Box", ty) {
+        return to_field_ty(ty).map(|ty| FieldType::Generic("Box".into(), Box::new(ty)));
+    }
+
+    match ty {
+        Type::Path(p) => {
+            let last = p.path.segments.last().unwrap();
+
+            if last.arguments.is_empty() {
+                return Some(FieldType::Normal(last.ident.to_string()));
+            }
+
+            match &last.arguments {
+                PathArguments::AngleBracketed(tps) => {
+                    let arg = tps.args.first().unwrap();
+
+                    match arg {
+                        GenericArgument::Type(arg) => to_field_ty(arg),
+                        _ => todo!("generic parameter other than type"),
+                    }
+                }
+                _ => todo!("Box() -> T or Box without a type parameter"),
+            }
+        }
+        _ => todo!("to_field_ty"),
+    }
+}
+
+fn all_types_in_ty(ty: &Type) -> Vec<FieldType> {
     if let Some(ty) = extract_vec(ty) {
         return all_types_in_ty(ty);
     }
@@ -112,28 +151,7 @@ fn all_types_in_ty(ty: &Type) -> Vec<String> {
         return all_types_in_ty(ty);
     }
 
-    match ty {
-        Type::Path(p) => {
-            let last = p.path.segments.last().unwrap();
-
-            if last.arguments.is_empty() {
-                return vec![last.ident.to_string()];
-            }
-
-            match &last.arguments {
-                PathArguments::AngleBracketed(tps) => {
-                    let arg = tps.args.first().unwrap();
-
-                    match arg {
-                        GenericArgument::Type(arg) => all_types_in_ty(arg),
-                        _ => todo!("generic parameter other than type"),
-                    }
-                }
-                _ => todo!("Box() -> T or Box without a type parameter"),
-            }
-        }
-        _ => todo!("all_types_in_ty"),
-    }
+    to_field_ty(ty).into_iter().collect()
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -181,7 +199,7 @@ struct Generator<'a> {
     crate_name: Ident,
     kind: TraitKind,
     variant: Variant,
-    leat_types: &'a HashSet<String>,
+    leat_types: &'a HashSet<FieldType>,
 }
 
 impl Generator<'_> {
@@ -190,14 +208,12 @@ impl Generator<'_> {
             return self.is_leaf_type(ty);
         }
 
-        match ty {
-            Type::Path(p) => {
-                let last = p.path.segments.last().unwrap();
-                let ty = &last.ident.to_string();
-                self.leat_types.contains(ty)
-            }
-            _ => false,
-        }
+        let ty = to_field_ty(ty);
+        let ty = match ty {
+            Some(ty) => ty,
+            None => return false,
+        };
+        self.leat_types.contains(&ty)
     }
 
     fn method_lifetime(&self) -> TokenStream {
