@@ -202,11 +202,15 @@ fn to_field_ty(ty: &Type) -> Option<FieldType> {
 
 fn all_types_in_ty(ty: &Type) -> Vec<FieldType> {
     if let Some(ty) = extract_vec(ty) {
-        return all_types_in_ty(ty);
+        let mut types = all_types_in_ty(ty);
+        types.extend(to_field_ty(ty).map(|ty| FieldType::Generic("Vec".into(), Box::new(ty))));
+        return types;
     }
 
     if let Some(ty) = extract_generic("Box", ty) {
-        return all_types_in_ty(ty);
+        let mut types = all_types_in_ty(ty);
+        types.extend(to_field_ty(ty).map(|ty| FieldType::Generic("Box".into(), Box::new(ty))));
+        return types;
     }
 
     to_field_ty(ty).into_iter().collect()

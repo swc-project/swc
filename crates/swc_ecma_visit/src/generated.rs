@@ -177,6 +177,12 @@ pub trait Visit {
     fn visit_class_member(&mut self, node: &ClassMember) {
         <ClassMember as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Vec < ClassMember >`.\n\nBy default, this method calls [`Vec < \
+             ClassMember >::visit_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_class_members(&mut self, node: &Vec<ClassMember>) {
+        <Vec<ClassMember> as VisitWith<Self>>::visit_children_with(node, self)
+    }
     #[doc = "Visit a node of type `ClassMethod`.\n\nBy default, this method calls \
              [`ClassMethod::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -229,6 +235,12 @@ pub trait Visit {
              manually."]
     fn visit_decorator(&mut self, node: &Decorator) {
         <Decorator as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < Decorator >`.\n\nBy default, this method calls [`Vec < \
+             Decorator >::visit_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_decorators(&mut self, node: &Vec<Decorator>) {
+        <Vec<Decorator> as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `DefaultDecl`.\n\nBy default, this method calls \
              [`DefaultDecl::visit_children_with`]. If you want to recurse, you need to call it \
@@ -296,6 +308,12 @@ pub trait Visit {
     fn visit_export_specifier(&mut self, node: &ExportSpecifier) {
         <ExportSpecifier as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Vec < ExportSpecifier >`.\n\nBy default, this method calls \
+             [`Vec < ExportSpecifier >::visit_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_export_specifiers(&mut self, node: &Vec<ExportSpecifier>) {
+        <Vec<ExportSpecifier> as VisitWith<Self>>::visit_children_with(node, self)
+    }
     #[doc = "Visit a node of type `Expr`.\n\nBy default, this method calls \
              [`Expr::visit_children_with`]. If you want to recurse, you need to call it manually."]
     fn visit_expr(&mut self, node: &Expr) {
@@ -318,6 +336,12 @@ pub trait Visit {
              manually."]
     fn visit_expr_stmt(&mut self, node: &ExprStmt) {
         <ExprStmt as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < Box < Expr > >`.\n\nBy default, this method calls [`Vec < \
+             Box < Expr > >::visit_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_exprs(&mut self, node: &Vec<Box<Expr>>) {
+        <Vec<Box<Expr>> as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `FnDecl`.\n\nBy default, this method calls \
              [`FnDecl::visit_children_with`]. If you want to recurse, you need to call it manually."]
@@ -416,6 +440,12 @@ pub trait Visit {
     fn visit_import_specifier(&mut self, node: &ImportSpecifier) {
         <ImportSpecifier as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Vec < ImportSpecifier >`.\n\nBy default, this method calls \
+             [`Vec < ImportSpecifier >::visit_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_import_specifiers(&mut self, node: &Vec<ImportSpecifier>) {
+        <Vec<ImportSpecifier> as VisitWith<Self>>::visit_children_with(node, self)
+    }
     #[doc = "Visit a node of type `ImportStarAsSpecifier`.\n\nBy default, this method calls \
              [`ImportStarAsSpecifier::visit_children_with`]. If you want to recurse, you need to \
              call it manually."]
@@ -427,6 +457,12 @@ pub trait Visit {
              manually."]
     fn visit_import_with_item(&mut self, node: &ImportWithItem) {
         <ImportWithItem as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < ImportWithItem >`.\n\nBy default, this method calls [`Vec \
+             < ImportWithItem >::visit_children_with`]. If you want to recurse, you need to call \
+             it manually."]
+    fn visit_import_with_items(&mut self, node: &Vec<ImportWithItem>) {
+        <Vec<ImportWithItem> as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Invalid`.\n\nBy default, this method calls \
              [`Invalid::visit_children_with`]. If you want to recurse, you need to call it \
@@ -451,6 +487,12 @@ pub trait Visit {
              manually."]
     fn visit_jsx_attr_or_spread(&mut self, node: &JSXAttrOrSpread) {
         <JSXAttrOrSpread as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < JSXAttrOrSpread >`.\n\nBy default, this method calls \
+             [`Vec < JSXAttrOrSpread >::visit_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_jsx_attr_or_spreads(&mut self, node: &Vec<JSXAttrOrSpread>) {
+        <Vec<JSXAttrOrSpread> as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `JSXAttrValue`.\n\nBy default, this method calls \
              [`JSXAttrValue::visit_children_with`]. If you want to recurse, you need to call it \
@@ -481,6 +523,12 @@ pub trait Visit {
              manually."]
     fn visit_jsx_element_child(&mut self, node: &JSXElementChild) {
         <JSXElementChild as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < JSXElementChild >`.\n\nBy default, this method calls \
+             [`Vec < JSXElementChild >::visit_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_jsx_element_childs(&mut self, node: &Vec<JSXElementChild>) {
+        <Vec<JSXElementChild> as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `JSXElementName`.\n\nBy default, this method calls \
              [`JSXElementName::visit_children_with`]. If you want to recurse, you need to call it \
@@ -681,6 +729,12 @@ pub trait Visit {
     fn visit_object_pat_prop(&mut self, node: &ObjectPatProp) {
         <ObjectPatProp as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Vec < ObjectPatProp >`.\n\nBy default, this method calls [`Vec \
+             < ObjectPatProp >::visit_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_object_pat_props(&mut self, node: &Vec<ObjectPatProp>) {
+        <Vec<ObjectPatProp> as VisitWith<Self>>::visit_children_with(node, self)
+    }
     #[doc = "Visit a node of type `OptCall`.\n\nBy default, this method calls \
              [`OptCall::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -710,6 +764,17 @@ pub trait Visit {
     fn visit_param_or_ts_param_prop(&mut self, node: &ParamOrTsParamProp) {
         <ParamOrTsParamProp as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Vec < ParamOrTsParamProp >`.\n\nBy default, this method calls \
+             [`Vec < ParamOrTsParamProp >::visit_children_with`]. If you want to recurse, you need \
+             to call it manually."]
+    fn visit_param_or_ts_param_props(&mut self, node: &Vec<ParamOrTsParamProp>) {
+        <Vec<ParamOrTsParamProp> as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < Param >`.\n\nBy default, this method calls [`Vec < Param \
+             >::visit_children_with`]. If you want to recurse, you need to call it manually."]
+    fn visit_params(&mut self, node: &Vec<Param>) {
+        <Vec<Param> as VisitWith<Self>>::visit_children_with(node, self)
+    }
     #[doc = "Visit a node of type `ParenExpr`.\n\nBy default, this method calls \
              [`ParenExpr::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -720,6 +785,11 @@ pub trait Visit {
              [`Pat::visit_children_with`]. If you want to recurse, you need to call it manually."]
     fn visit_pat(&mut self, node: &Pat) {
         <Pat as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < Pat >`.\n\nBy default, this method calls [`Vec < Pat \
+             >::visit_children_with`]. If you want to recurse, you need to call it manually."]
+    fn visit_pats(&mut self, node: &Vec<Pat>) {
+        <Vec<Pat> as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `PrivateMethod`.\n\nBy default, this method calls \
              [`PrivateMethod::visit_children_with`]. If you want to recurse, you need to call it \
@@ -755,6 +825,12 @@ pub trait Visit {
              manually."]
     fn visit_prop_or_spread(&mut self, node: &PropOrSpread) {
         <PropOrSpread as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < PropOrSpread >`.\n\nBy default, this method calls [`Vec < \
+             PropOrSpread >::visit_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_prop_or_spreads(&mut self, node: &Vec<PropOrSpread>) {
+        <Vec<PropOrSpread> as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Regex`.\n\nBy default, this method calls \
              [`Regex::visit_children_with`]. If you want to recurse, you need to call it manually."]
@@ -818,6 +894,11 @@ pub trait Visit {
     fn visit_stmt(&mut self, node: &Stmt) {
         <Stmt as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Vec < Stmt >`.\n\nBy default, this method calls [`Vec < Stmt \
+             >::visit_children_with`]. If you want to recurse, you need to call it manually."]
+    fn visit_stmts(&mut self, node: &Vec<Stmt>) {
+        <Vec<Stmt> as VisitWith<Self>>::visit_children_with(node, self)
+    }
     #[doc = "Visit a node of type `Str`.\n\nBy default, this method calls \
              [`Str::visit_children_with`]. If you want to recurse, you need to call it manually."]
     fn visit_str(&mut self, node: &Str) {
@@ -845,6 +926,12 @@ pub trait Visit {
              manually."]
     fn visit_switch_case(&mut self, node: &SwitchCase) {
         <SwitchCase as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < SwitchCase >`.\n\nBy default, this method calls [`Vec < \
+             SwitchCase >::visit_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_switch_cases(&mut self, node: &Vec<SwitchCase>) {
+        <Vec<SwitchCase> as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `SwitchStmt`.\n\nBy default, this method calls \
              [`SwitchStmt::visit_children_with`]. If you want to recurse, you need to call it \
@@ -886,6 +973,12 @@ pub trait Visit {
              manually."]
     fn visit_tpl_element(&mut self, node: &TplElement) {
         <TplElement as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < TplElement >`.\n\nBy default, this method calls [`Vec < \
+             TplElement >::visit_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_tpl_elements(&mut self, node: &Vec<TplElement>) {
+        <Vec<TplElement> as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `TruePlusMinus`.\n\nBy default, this method calls \
              [`TruePlusMinus::visit_children_with`]. If you want to recurse, you need to call it \
@@ -965,6 +1058,12 @@ pub trait Visit {
     fn visit_ts_enum_member_id(&mut self, node: &TsEnumMemberId) {
         <TsEnumMemberId as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Vec < TsEnumMember >`.\n\nBy default, this method calls [`Vec < \
+             TsEnumMember >::visit_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_ts_enum_members(&mut self, node: &Vec<TsEnumMember>) {
+        <Vec<TsEnumMember> as VisitWith<Self>>::visit_children_with(node, self)
+    }
     #[doc = "Visit a node of type `TsExportAssignment`.\n\nBy default, this method calls \
              [`TsExportAssignment::visit_children_with`]. If you want to recurse, you need to call \
              it manually."]
@@ -976,6 +1075,12 @@ pub trait Visit {
              it manually."]
     fn visit_ts_expr_with_type_args(&mut self, node: &TsExprWithTypeArgs) {
         <TsExprWithTypeArgs as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < TsExprWithTypeArgs >`.\n\nBy default, this method calls \
+             [`Vec < TsExprWithTypeArgs >::visit_children_with`]. If you want to recurse, you need \
+             to call it manually."]
+    fn visit_ts_expr_with_type_argss(&mut self, node: &Vec<TsExprWithTypeArgs>) {
+        <Vec<TsExprWithTypeArgs> as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `TsExternalModuleRef`.\n\nBy default, this method calls \
              [`TsExternalModuleRef::visit_children_with`]. If you want to recurse, you need to \
@@ -994,6 +1099,12 @@ pub trait Visit {
              manually."]
     fn visit_ts_fn_param(&mut self, node: &TsFnParam) {
         <TsFnParam as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < TsFnParam >`.\n\nBy default, this method calls [`Vec < \
+             TsFnParam >::visit_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_ts_fn_params(&mut self, node: &Vec<TsFnParam>) {
+        <Vec<TsFnParam> as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `TsFnType`.\n\nBy default, this method calls \
              [`TsFnType::visit_children_with`]. If you want to recurse, you need to call it \
@@ -1222,6 +1333,12 @@ pub trait Visit {
     fn visit_ts_tuple_element(&mut self, node: &TsTupleElement) {
         <TsTupleElement as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Vec < TsTupleElement >`.\n\nBy default, this method calls [`Vec \
+             < TsTupleElement >::visit_children_with`]. If you want to recurse, you need to call \
+             it manually."]
+    fn visit_ts_tuple_elements(&mut self, node: &Vec<TsTupleElement>) {
+        <Vec<TsTupleElement> as VisitWith<Self>>::visit_children_with(node, self)
+    }
     #[doc = "Visit a node of type `TsTupleType`.\n\nBy default, this method calls \
              [`TsTupleType::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -1257,6 +1374,12 @@ pub trait Visit {
     fn visit_ts_type_element(&mut self, node: &TsTypeElement) {
         <TsTypeElement as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Vec < TsTypeElement >`.\n\nBy default, this method calls [`Vec \
+             < TsTypeElement >::visit_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_ts_type_elements(&mut self, node: &Vec<TsTypeElement>) {
+        <Vec<TsTypeElement> as VisitWith<Self>>::visit_children_with(node, self)
+    }
     #[doc = "Visit a node of type `TsTypeLit`.\n\nBy default, this method calls \
              [`TsTypeLit::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -1287,6 +1410,12 @@ pub trait Visit {
     fn visit_ts_type_param_instantiation(&mut self, node: &TsTypeParamInstantiation) {
         <TsTypeParamInstantiation as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Vec < TsTypeParam >`.\n\nBy default, this method calls [`Vec < \
+             TsTypeParam >::visit_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_ts_type_params(&mut self, node: &Vec<TsTypeParam>) {
+        <Vec<TsTypeParam> as VisitWith<Self>>::visit_children_with(node, self)
+    }
     #[doc = "Visit a node of type `TsTypePredicate`.\n\nBy default, this method calls \
              [`TsTypePredicate::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -1310,6 +1439,12 @@ pub trait Visit {
              manually."]
     fn visit_ts_type_ref(&mut self, node: &TsTypeRef) {
         <TsTypeRef as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < Box < TsType > >`.\n\nBy default, this method calls [`Vec \
+             < Box < TsType > >::visit_children_with`]. If you want to recurse, you need to call \
+             it manually."]
+    fn visit_ts_types(&mut self, node: &Vec<Box<TsType>>) {
+        <Vec<Box<TsType>> as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `TsUnionOrIntersectionType`.\n\nBy default, this method calls \
              [`TsUnionOrIntersectionType::visit_children_with`]. If you want to recurse, you need \
@@ -1377,6 +1512,12 @@ pub trait Visit {
     fn visit_var_declarator(&mut self, node: &VarDeclarator) {
         <VarDeclarator as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Vec < VarDeclarator >`.\n\nBy default, this method calls [`Vec \
+             < VarDeclarator >::visit_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_var_declarators(&mut self, node: &Vec<VarDeclarator>) {
+        <Vec<VarDeclarator> as VisitWith<Self>>::visit_children_with(node, self)
+    }
     #[doc = "Visit a node of type `WhileStmt`.\n\nBy default, this method calls \
              [`WhileStmt::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -1443,7 +1584,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for ArrayPat {
                 optional,
                 type_ann,
             } => {
-                <Vec<Option<Pat>> as VisitWith<V>>::visit_children_with(elems, visitor);
                 <bool as VisitWith<V>>::visit_children_with(optional, visitor);
             }
         }
@@ -1467,7 +1607,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for ArrowExpr {
                 type_params,
                 return_type,
             } => {
-                <Vec<Pat> as VisitWith<V>>::visit_children_with(params, visitor);
                 <Box<BlockStmtOrExpr> as VisitWith<V>>::visit_children_with(body, visitor);
                 <bool as VisitWith<V>>::visit_children_with(is_async, visitor);
                 <bool as VisitWith<V>>::visit_children_with(is_generator, visitor);
@@ -1626,7 +1765,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for AutoAccessor {
             } => {
                 <Key as VisitWith<V>>::visit_children_with(key, visitor);
                 <bool as VisitWith<V>>::visit_children_with(is_static, visitor);
-                <Vec<Decorator> as VisitWith<V>>::visit_children_with(decorators, visitor);
                 <Option<Accessibility> as VisitWith<V>>::visit_children_with(
                     accessibility,
                     visitor,
@@ -1743,9 +1881,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for BlockStmt {
 
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
-            BlockStmt { span, ctxt, stmts } => {
-                <Vec<Stmt> as VisitWith<V>>::visit_children_with(stmts, visitor);
-            }
+            BlockStmt { span, ctxt, stmts } => {}
         }
     }
 }
@@ -1868,10 +2004,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Class {
                 super_type_params,
                 implements,
             } => {
-                <Vec<Decorator> as VisitWith<V>>::visit_children_with(decorators, visitor);
-                <Vec<ClassMember> as VisitWith<V>>::visit_children_with(body, visitor);
                 <bool as VisitWith<V>>::visit_children_with(is_abstract, visitor);
-                <Vec<TsExprWithTypeArgs> as VisitWith<V>>::visit_children_with(implements, visitor);
             }
         }
     }
@@ -1970,7 +2103,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for ClassProp {
             } => {
                 <PropName as VisitWith<V>>::visit_children_with(key, visitor);
                 <bool as VisitWith<V>>::visit_children_with(is_static, visitor);
-                <Vec<Decorator> as VisitWith<V>>::visit_children_with(decorators, visitor);
                 <Option<Accessibility> as VisitWith<V>>::visit_children_with(
                     accessibility,
                     visitor,
@@ -2038,7 +2170,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for Constructor {
                 is_optional,
             } => {
                 <PropName as VisitWith<V>>::visit_children_with(key, visitor);
-                <Vec<ParamOrTsParamProp> as VisitWith<V>>::visit_children_with(params, visitor);
                 <Option<BlockStmt> as VisitWith<V>>::visit_children_with(body, visitor);
                 <Option<Accessibility> as VisitWith<V>>::visit_children_with(
                     accessibility,
@@ -2616,8 +2747,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for Function {
                 type_params,
                 return_type,
             } => {
-                <Vec<Param> as VisitWith<V>>::visit_children_with(params, visitor);
-                <Vec<Decorator> as VisitWith<V>>::visit_children_with(decorators, visitor);
                 <Option<BlockStmt> as VisitWith<V>>::visit_children_with(body, visitor);
                 <bool as VisitWith<V>>::visit_children_with(is_generator, visitor);
                 <bool as VisitWith<V>>::visit_children_with(is_async, visitor);
@@ -2726,7 +2855,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for ImportDecl {
                 with,
                 phase,
             } => {
-                <Vec<ImportSpecifier> as VisitWith<V>>::visit_children_with(specifiers, visitor);
                 <Box<Str> as VisitWith<V>>::visit_children_with(src, visitor);
                 <bool as VisitWith<V>>::visit_children_with(type_only, visitor);
                 <ImportPhase as VisitWith<V>>::visit_children_with(phase, visitor);
@@ -2825,9 +2953,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for ImportWith {
 
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
-            ImportWith { span, values } => {
-                <Vec<ImportWithItem> as VisitWith<V>>::visit_children_with(values, visitor);
-            }
+            ImportWith { span, values } => {}
         }
     }
 }
@@ -2971,7 +3097,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for JSXElement {
                 closing,
             } => {
                 <JSXOpeningElement as VisitWith<V>>::visit_children_with(opening, visitor);
-                <Vec<JSXElementChild> as VisitWith<V>>::visit_children_with(children, visitor);
                 <Option<JSXClosingElement> as VisitWith<V>>::visit_children_with(closing, visitor);
             }
         }
@@ -3081,7 +3206,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for JSXFragment {
                 closing,
             } => {
                 <JSXOpeningFragment as VisitWith<V>>::visit_children_with(opening, visitor);
-                <Vec<JSXElementChild> as VisitWith<V>>::visit_children_with(children, visitor);
                 <JSXClosingFragment as VisitWith<V>>::visit_children_with(closing, visitor);
             }
         }
@@ -3150,7 +3274,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for JSXOpeningElement {
                 type_args,
             } => {
                 <JSXElementName as VisitWith<V>>::visit_children_with(name, visitor);
-                <Vec<JSXAttrOrSpread> as VisitWith<V>>::visit_children_with(attrs, visitor);
                 <bool as VisitWith<V>>::visit_children_with(self_closing, visitor);
             }
         }
@@ -3482,7 +3605,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for NamedExport {
                 type_only,
                 with,
             } => {
-                <Vec<ExportSpecifier> as VisitWith<V>>::visit_children_with(specifiers, visitor);
                 <bool as VisitWith<V>>::visit_children_with(type_only, visitor);
             }
         }
@@ -3542,9 +3664,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for ObjectLit {
 
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
-            ObjectLit { span, props } => {
-                <Vec<PropOrSpread> as VisitWith<V>>::visit_children_with(props, visitor);
-            }
+            ObjectLit { span, props } => {}
         }
     }
 }
@@ -3562,7 +3682,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for ObjectPat {
                 optional,
                 type_ann,
             } => {
-                <Vec<ObjectPatProp> as VisitWith<V>>::visit_children_with(props, visitor);
                 <bool as VisitWith<V>>::visit_children_with(optional, visitor);
             }
         }
@@ -3657,7 +3776,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for Param {
                 decorators,
                 pat,
             } => {
-                <Vec<Decorator> as VisitWith<V>>::visit_children_with(decorators, visitor);
                 <Pat as VisitWith<V>>::visit_children_with(pat, visitor);
             }
         }
@@ -3762,7 +3880,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for PrivateProp {
             } => {
                 <PrivateName as VisitWith<V>>::visit_children_with(key, visitor);
                 <bool as VisitWith<V>>::visit_children_with(is_static, visitor);
-                <Vec<Decorator> as VisitWith<V>>::visit_children_with(decorators, visitor);
                 <Option<Accessibility> as VisitWith<V>>::visit_children_with(
                     accessibility,
                     visitor,
@@ -3931,9 +4048,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Script {
                 span,
                 body,
                 shebang,
-            } => {
-                <Vec<Stmt> as VisitWith<V>>::visit_children_with(body, visitor);
-            }
+            } => {}
         }
     }
 }
@@ -3945,9 +4060,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for SeqExpr {
 
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
-            SeqExpr { span, exprs } => {
-                <Vec<Box<Expr>> as VisitWith<V>>::visit_children_with(exprs, visitor);
-            }
+            SeqExpr { span, exprs } => {}
         }
     }
 }
@@ -4178,9 +4291,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for SwitchCase {
 
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
-            SwitchCase { span, test, cons } => {
-                <Vec<Stmt> as VisitWith<V>>::visit_children_with(cons, visitor);
-            }
+            SwitchCase { span, test, cons } => {}
         }
     }
 }
@@ -4198,7 +4309,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for SwitchStmt {
                 cases,
             } => {
                 <Box<Expr> as VisitWith<V>>::visit_children_with(discriminant, visitor);
-                <Vec<SwitchCase> as VisitWith<V>>::visit_children_with(cases, visitor);
             }
         }
     }
@@ -4262,10 +4372,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Tpl {
                 span,
                 exprs,
                 quasis,
-            } => {
-                <Vec<Box<Expr>> as VisitWith<V>>::visit_children_with(exprs, visitor);
-                <Vec<TplElement> as VisitWith<V>>::visit_children_with(quasis, visitor);
-            }
+            } => {}
         }
     }
 }
@@ -4369,9 +4476,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsCallSignatureDecl {
                 params,
                 type_ann,
                 type_params,
-            } => {
-                <Vec<TsFnParam> as VisitWith<V>>::visit_children_with(params, visitor);
-            }
+            } => {}
         }
     }
 }
@@ -4425,9 +4530,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsConstructSignatureDecl {
                 params,
                 type_ann,
                 type_params,
-            } => {
-                <Vec<TsFnParam> as VisitWith<V>>::visit_children_with(params, visitor);
-            }
+            } => {}
         }
     }
 }
@@ -4446,7 +4549,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsConstructorType {
                 type_ann,
                 is_abstract,
             } => {
-                <Vec<TsFnParam> as VisitWith<V>>::visit_children_with(params, visitor);
                 <Box<TsTypeAnn> as VisitWith<V>>::visit_children_with(type_ann, visitor);
                 <bool as VisitWith<V>>::visit_children_with(is_abstract, visitor);
             }
@@ -4488,7 +4590,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsEnumDecl {
                 <bool as VisitWith<V>>::visit_children_with(declare, visitor);
                 <bool as VisitWith<V>>::visit_children_with(is_const, visitor);
                 <Ident as VisitWith<V>>::visit_children_with(id, visitor);
-                <Vec<TsEnumMember> as VisitWith<V>>::visit_children_with(members, visitor);
             }
         }
     }
@@ -4624,7 +4725,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsFnType {
                 type_params,
                 type_ann,
             } => {
-                <Vec<TsFnParam> as VisitWith<V>>::visit_children_with(params, visitor);
                 <Box<TsTypeAnn> as VisitWith<V>>::visit_children_with(type_ann, visitor);
             }
         }
@@ -4708,7 +4808,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsIndexSignature {
                 is_static,
                 span,
             } => {
-                <Vec<TsFnParam> as VisitWith<V>>::visit_children_with(params, visitor);
                 <bool as VisitWith<V>>::visit_children_with(readonly, visitor);
                 <bool as VisitWith<V>>::visit_children_with(is_static, visitor);
             }
@@ -4779,9 +4878,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsInterfaceBody {
 
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
-            TsInterfaceBody { span, body } => {
-                <Vec<TsTypeElement> as VisitWith<V>>::visit_children_with(body, visitor);
-            }
+            TsInterfaceBody { span, body } => {}
         }
     }
 }
@@ -4803,7 +4900,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsInterfaceDecl {
             } => {
                 <Ident as VisitWith<V>>::visit_children_with(id, visitor);
                 <bool as VisitWith<V>>::visit_children_with(declare, visitor);
-                <Vec<TsExprWithTypeArgs> as VisitWith<V>>::visit_children_with(extends, visitor);
                 <TsInterfaceBody as VisitWith<V>>::visit_children_with(body, visitor);
             }
         }
@@ -4817,9 +4913,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsIntersectionType {
 
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
-            TsIntersectionType { span, types } => {
-                <Vec<Box<TsType>> as VisitWith<V>>::visit_children_with(types, visitor);
-            }
+            TsIntersectionType { span, types } => {}
         }
     }
 }
@@ -4944,7 +5038,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsMethodSignature {
                 <Box<Expr> as VisitWith<V>>::visit_children_with(key, visitor);
                 <bool as VisitWith<V>>::visit_children_with(computed, visitor);
                 <bool as VisitWith<V>>::visit_children_with(optional, visitor);
-                <Vec<TsFnParam> as VisitWith<V>>::visit_children_with(params, visitor);
             }
         }
     }
@@ -5116,7 +5209,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsParamProp {
                 readonly,
                 param,
             } => {
-                <Vec<Decorator> as VisitWith<V>>::visit_children_with(decorators, visitor);
                 <Option<Accessibility> as VisitWith<V>>::visit_children_with(
                     accessibility,
                     visitor,
@@ -5293,10 +5385,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsTplLitType {
                 span,
                 types,
                 quasis,
-            } => {
-                <Vec<Box<TsType>> as VisitWith<V>>::visit_children_with(types, visitor);
-                <Vec<TplElement> as VisitWith<V>>::visit_children_with(quasis, visitor);
-            }
+            } => {}
         }
     }
 }
@@ -5323,9 +5412,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsTupleType {
 
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
-            TsTupleType { span, elem_types } => {
-                <Vec<TsTupleElement> as VisitWith<V>>::visit_children_with(elem_types, visitor);
-            }
+            TsTupleType { span, elem_types } => {}
         }
     }
 }
@@ -5495,9 +5582,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsTypeLit {
 
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
-            TsTypeLit { span, members } => {
-                <Vec<TsTypeElement> as VisitWith<V>>::visit_children_with(members, visitor);
-            }
+            TsTypeLit { span, members } => {}
         }
     }
 }
@@ -5563,9 +5648,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsTypeParamDecl {
 
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
-            TsTypeParamDecl { span, params } => {
-                <Vec<TsTypeParam> as VisitWith<V>>::visit_children_with(params, visitor);
-            }
+            TsTypeParamDecl { span, params } => {}
         }
     }
 }
@@ -5577,9 +5660,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsTypeParamInstantiation {
 
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
-            TsTypeParamInstantiation { span, params } => {
-                <Vec<Box<TsType>> as VisitWith<V>>::visit_children_with(params, visitor);
-            }
+            TsTypeParamInstantiation { span, params } => {}
         }
     }
 }
@@ -5681,9 +5762,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsUnionType {
 
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
-            TsUnionType { span, types } => {
-                <Vec<Box<TsType>> as VisitWith<V>>::visit_children_with(types, visitor);
-            }
+            TsUnionType { span, types } => {}
         }
     }
 }
@@ -5768,7 +5847,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for UsingDecl {
                 decls,
             } => {
                 <bool as VisitWith<V>>::visit_children_with(is_await, visitor);
-                <Vec<VarDeclarator> as VisitWith<V>>::visit_children_with(decls, visitor);
             }
         }
     }
@@ -5790,7 +5868,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for VarDecl {
             } => {
                 <VarDeclKind as VisitWith<V>>::visit_children_with(kind, visitor);
                 <bool as VisitWith<V>>::visit_children_with(declare, visitor);
-                <Vec<VarDeclarator> as VisitWith<V>>::visit_children_with(decls, visitor);
             }
         }
     }
@@ -6186,6 +6263,18 @@ pub trait VisitAstPath {
     ) {
         <ClassMember as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
     }
+    #[doc = "Visit a node of type `Vec < ClassMember >`.\n\nBy default, this method calls [`Vec < \
+             ClassMember >::visit_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_class_members<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Vec<ClassMember>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Vec<ClassMember> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `ClassMethod`.\n\nBy default, this method calls \
              [`ClassMethod::visit_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
@@ -6273,6 +6362,18 @@ pub trait VisitAstPath {
         ast_path: &mut AstNodePath<'r>,
     ) {
         <Decorator as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `Vec < Decorator >`.\n\nBy default, this method calls [`Vec < \
+             Decorator >::visit_children_with_ast_path`]. If you want to recurse, you need to call \
+             it manually."]
+    fn visit_decorators<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Vec<Decorator>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Vec<Decorator> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
     }
     #[doc = "Visit a node of type `DefaultDecl`.\n\nBy default, this method calls \
              [`DefaultDecl::visit_children_with_ast_path`]. If you want to recurse, you need to \
@@ -6396,6 +6497,18 @@ pub trait VisitAstPath {
             node, self, ast_path,
         )
     }
+    #[doc = "Visit a node of type `Vec < ExportSpecifier >`.\n\nBy default, this method calls \
+             [`Vec < ExportSpecifier >::visit_children_with_ast_path`]. If you want to recurse, \
+             you need to call it manually."]
+    fn visit_export_specifiers<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Vec<ExportSpecifier>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Vec<ExportSpecifier> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `Expr`.\n\nBy default, this method calls \
              [`Expr::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
@@ -6433,6 +6546,18 @@ pub trait VisitAstPath {
         ast_path: &mut AstNodePath<'r>,
     ) {
         <ExprStmt as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `Vec < Box < Expr > >`.\n\nBy default, this method calls [`Vec < \
+             Box < Expr > >::visit_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_exprs<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Vec<Box<Expr>>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Vec<Box<Expr>> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
     }
     #[doc = "Visit a node of type `FnDecl`.\n\nBy default, this method calls \
              [`FnDecl::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
@@ -6590,6 +6715,18 @@ pub trait VisitAstPath {
             node, self, ast_path,
         )
     }
+    #[doc = "Visit a node of type `Vec < ImportSpecifier >`.\n\nBy default, this method calls \
+             [`Vec < ImportSpecifier >::visit_children_with_ast_path`]. If you want to recurse, \
+             you need to call it manually."]
+    fn visit_import_specifiers<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Vec<ImportSpecifier>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Vec<ImportSpecifier> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `ImportStarAsSpecifier`.\n\nBy default, this method calls \
              [`ImportStarAsSpecifier::visit_children_with_ast_path`]. If you want to recurse, you \
              need to call it manually."]
@@ -6611,6 +6748,18 @@ pub trait VisitAstPath {
         ast_path: &mut AstNodePath<'r>,
     ) {
         <ImportWithItem as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Vec < ImportWithItem >`.\n\nBy default, this method calls [`Vec \
+             < ImportWithItem >::visit_children_with_ast_path`]. If you want to recurse, you need \
+             to call it manually."]
+    fn visit_import_with_items<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Vec<ImportWithItem>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Vec<ImportWithItem> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -6649,6 +6798,18 @@ pub trait VisitAstPath {
         ast_path: &mut AstNodePath<'r>,
     ) {
         <JSXAttrOrSpread as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Vec < JSXAttrOrSpread >`.\n\nBy default, this method calls \
+             [`Vec < JSXAttrOrSpread >::visit_children_with_ast_path`]. If you want to recurse, \
+             you need to call it manually."]
+    fn visit_jsx_attr_or_spreads<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Vec<JSXAttrOrSpread>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Vec<JSXAttrOrSpread> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -6705,6 +6866,18 @@ pub trait VisitAstPath {
         ast_path: &mut AstNodePath<'r>,
     ) {
         <JSXElementChild as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Vec < JSXElementChild >`.\n\nBy default, this method calls \
+             [`Vec < JSXElementChild >::visit_children_with_ast_path`]. If you want to recurse, \
+             you need to call it manually."]
+    fn visit_jsx_element_childs<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Vec<JSXElementChild>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Vec<JSXElementChild> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -7050,6 +7223,18 @@ pub trait VisitAstPath {
             node, self, ast_path,
         )
     }
+    #[doc = "Visit a node of type `Vec < ObjectPatProp >`.\n\nBy default, this method calls [`Vec \
+             < ObjectPatProp >::visit_children_with_ast_path`]. If you want to recurse, you need \
+             to call it manually."]
+    fn visit_object_pat_props<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Vec<ObjectPatProp>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Vec<ObjectPatProp> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `OptCall`.\n\nBy default, this method calls \
              [`OptCall::visit_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
@@ -7098,6 +7283,28 @@ pub trait VisitAstPath {
             node, self, ast_path,
         )
     }
+    #[doc = "Visit a node of type `Vec < ParamOrTsParamProp >`.\n\nBy default, this method calls \
+             [`Vec < ParamOrTsParamProp >::visit_children_with_ast_path`]. If you want to recurse, \
+             you need to call it manually."]
+    fn visit_param_or_ts_param_props<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Vec<ParamOrTsParamProp>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Vec<ParamOrTsParamProp> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Vec < Param >`.\n\nBy default, this method calls [`Vec < Param \
+             >::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_params<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Vec<Param>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Vec<Param> as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
+    }
     #[doc = "Visit a node of type `ParenExpr`.\n\nBy default, this method calls \
              [`ParenExpr::visit_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
@@ -7113,6 +7320,12 @@ pub trait VisitAstPath {
              manually."]
     fn visit_pat<'ast: 'r, 'r>(&mut self, node: &'ast Pat, ast_path: &mut AstNodePath<'r>) {
         <Pat as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `Vec < Pat >`.\n\nBy default, this method calls [`Vec < Pat \
+             >::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_pats<'ast: 'r, 'r>(&mut self, node: &'ast Vec<Pat>, ast_path: &mut AstNodePath<'r>) {
+        <Vec<Pat> as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
     }
     #[doc = "Visit a node of type `PrivateMethod`.\n\nBy default, this method calls \
              [`PrivateMethod::visit_children_with_ast_path`]. If you want to recurse, you need to \
@@ -7171,6 +7384,18 @@ pub trait VisitAstPath {
         ast_path: &mut AstNodePath<'r>,
     ) {
         <PropOrSpread as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `Vec < PropOrSpread >`.\n\nBy default, this method calls [`Vec < \
+             PropOrSpread >::visit_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_prop_or_spreads<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Vec<PropOrSpread>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Vec<PropOrSpread> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
     }
     #[doc = "Visit a node of type `Regex`.\n\nBy default, this method calls \
              [`Regex::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
@@ -7270,6 +7495,12 @@ pub trait VisitAstPath {
     fn visit_stmt<'ast: 'r, 'r>(&mut self, node: &'ast Stmt, ast_path: &mut AstNodePath<'r>) {
         <Stmt as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
     }
+    #[doc = "Visit a node of type `Vec < Stmt >`.\n\nBy default, this method calls [`Vec < Stmt \
+             >::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_stmts<'ast: 'r, 'r>(&mut self, node: &'ast Vec<Stmt>, ast_path: &mut AstNodePath<'r>) {
+        <Vec<Stmt> as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
+    }
     #[doc = "Visit a node of type `Str`.\n\nBy default, this method calls \
              [`Str::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
@@ -7313,6 +7544,18 @@ pub trait VisitAstPath {
         ast_path: &mut AstNodePath<'r>,
     ) {
         <SwitchCase as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `Vec < SwitchCase >`.\n\nBy default, this method calls [`Vec < \
+             SwitchCase >::visit_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_switch_cases<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Vec<SwitchCase>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Vec<SwitchCase> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
     }
     #[doc = "Visit a node of type `SwitchStmt`.\n\nBy default, this method calls \
              [`SwitchStmt::visit_children_with_ast_path`]. If you want to recurse, you need to \
@@ -7381,6 +7624,18 @@ pub trait VisitAstPath {
         ast_path: &mut AstNodePath<'r>,
     ) {
         <TplElement as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `Vec < TplElement >`.\n\nBy default, this method calls [`Vec < \
+             TplElement >::visit_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_tpl_elements<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Vec<TplElement>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Vec<TplElement> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
     }
     #[doc = "Visit a node of type `TruePlusMinus`.\n\nBy default, this method calls \
              [`TruePlusMinus::visit_children_with_ast_path`]. If you want to recurse, you need to \
@@ -7526,6 +7781,18 @@ pub trait VisitAstPath {
             node, self, ast_path,
         )
     }
+    #[doc = "Visit a node of type `Vec < TsEnumMember >`.\n\nBy default, this method calls [`Vec < \
+             TsEnumMember >::visit_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_ts_enum_members<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Vec<TsEnumMember>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Vec<TsEnumMember> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `TsExportAssignment`.\n\nBy default, this method calls \
              [`TsExportAssignment::visit_children_with_ast_path`]. If you want to recurse, you \
              need to call it manually."]
@@ -7547,6 +7814,18 @@ pub trait VisitAstPath {
         ast_path: &mut AstNodePath<'r>,
     ) {
         <TsExprWithTypeArgs as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Vec < TsExprWithTypeArgs >`.\n\nBy default, this method calls \
+             [`Vec < TsExprWithTypeArgs >::visit_children_with_ast_path`]. If you want to recurse, \
+             you need to call it manually."]
+    fn visit_ts_expr_with_type_argss<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Vec<TsExprWithTypeArgs>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Vec<TsExprWithTypeArgs> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -7583,6 +7862,18 @@ pub trait VisitAstPath {
         ast_path: &mut AstNodePath<'r>,
     ) {
         <TsFnParam as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `Vec < TsFnParam >`.\n\nBy default, this method calls [`Vec < \
+             TsFnParam >::visit_children_with_ast_path`]. If you want to recurse, you need to call \
+             it manually."]
+    fn visit_ts_fn_params<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Vec<TsFnParam>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Vec<TsFnParam> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
     }
     #[doc = "Visit a node of type `TsFnType`.\n\nBy default, this method calls \
              [`TsFnType::visit_children_with_ast_path`]. If you want to recurse, you need to call \
@@ -8010,6 +8301,18 @@ pub trait VisitAstPath {
             node, self, ast_path,
         )
     }
+    #[doc = "Visit a node of type `Vec < TsTupleElement >`.\n\nBy default, this method calls [`Vec \
+             < TsTupleElement >::visit_children_with_ast_path`]. If you want to recurse, you need \
+             to call it manually."]
+    fn visit_ts_tuple_elements<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Vec<TsTupleElement>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Vec<TsTupleElement> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `TsTupleType`.\n\nBy default, this method calls \
              [`TsTupleType::visit_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
@@ -8072,6 +8375,18 @@ pub trait VisitAstPath {
             node, self, ast_path,
         )
     }
+    #[doc = "Visit a node of type `Vec < TsTypeElement >`.\n\nBy default, this method calls [`Vec \
+             < TsTypeElement >::visit_children_with_ast_path`]. If you want to recurse, you need \
+             to call it manually."]
+    fn visit_ts_type_elements<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Vec<TsTypeElement>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Vec<TsTypeElement> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `TsTypeLit`.\n\nBy default, this method calls \
              [`TsTypeLit::visit_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
@@ -8128,6 +8443,18 @@ pub trait VisitAstPath {
             node, self, ast_path,
         )
     }
+    #[doc = "Visit a node of type `Vec < TsTypeParam >`.\n\nBy default, this method calls [`Vec < \
+             TsTypeParam >::visit_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_ts_type_params<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Vec<TsTypeParam>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Vec<TsTypeParam> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `TsTypePredicate`.\n\nBy default, this method calls \
              [`TsTypePredicate::visit_children_with_ast_path`]. If you want to recurse, you need \
              to call it manually."]
@@ -8171,6 +8498,18 @@ pub trait VisitAstPath {
         ast_path: &mut AstNodePath<'r>,
     ) {
         <TsTypeRef as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `Vec < Box < TsType > >`.\n\nBy default, this method calls [`Vec \
+             < Box < TsType > >::visit_children_with_ast_path`]. If you want to recurse, you need \
+             to call it manually."]
+    fn visit_ts_types<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Vec<Box<TsType>>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Vec<Box<TsType>> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
     }
     #[doc = "Visit a node of type `TsUnionOrIntersectionType`.\n\nBy default, this method calls \
              [`TsUnionOrIntersectionType::visit_children_with_ast_path`]. If you want to recurse, \
@@ -8285,6 +8624,18 @@ pub trait VisitAstPath {
         ast_path: &mut AstNodePath<'r>,
     ) {
         <VarDeclarator as VisitWithAstPath<Self>>::visit_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Vec < VarDeclarator >`.\n\nBy default, this method calls [`Vec \
+             < VarDeclarator >::visit_children_with_ast_path`]. If you want to recurse, you need \
+             to call it manually."]
+    fn visit_var_declarators<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Vec<VarDeclarator>,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <Vec<VarDeclarator> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -8406,9 +8757,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ArrayPat {
                 optional,
                 type_ann,
             } => {
-                <Vec<Option<Pat>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    elems, visitor, ast_path,
-                );
                 <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     optional, visitor, ast_path,
                 );
@@ -8444,9 +8792,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ArrowExpr {
                 type_params,
                 return_type,
             } => {
-                <Vec<Pat> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    params, visitor, ast_path,
-                );
                 <Box<BlockStmtOrExpr> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     body, visitor, ast_path,
                 );
@@ -8721,9 +9066,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AutoAccessor {
                 <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     is_static, visitor, ast_path,
                 );
-                <Vec<Decorator> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    decorators, visitor, ast_path,
-                );
                 <Option<Accessibility> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     accessibility,
                     visitor,
@@ -8919,11 +9261,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for BlockStmt {
         ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
-            BlockStmt { span, ctxt, stmts } => {
-                <Vec<Stmt> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    stmts, visitor, ast_path,
-                );
-            }
+            BlockStmt { span, ctxt, stmts } => {}
         }
     }
 }
@@ -9136,19 +9474,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Class {
                 super_type_params,
                 implements,
             } => {
-                <Vec<Decorator> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    decorators, visitor, ast_path,
-                );
-                <Vec<ClassMember> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    body, visitor, ast_path,
-                );
                 <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     is_abstract,
                     visitor,
                     ast_path,
-                );
-                <Vec<TsExprWithTypeArgs> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    implements, visitor, ast_path,
                 );
             }
         }
@@ -9316,9 +9645,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ClassProp {
                 <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     is_static, visitor, ast_path,
                 );
-                <Vec<Decorator> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    decorators, visitor, ast_path,
-                );
                 <Option<Accessibility> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     accessibility,
                     visitor,
@@ -9444,9 +9770,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Constructor {
             } => {
                 <PropName as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     key, visitor, ast_path,
-                );
-                <Vec<ParamOrTsParamProp> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    params, visitor, ast_path,
                 );
                 <Option<BlockStmt> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     body, visitor, ast_path,
@@ -10464,12 +10787,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Function {
                 type_params,
                 return_type,
             } => {
-                <Vec<Param> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    params, visitor, ast_path,
-                );
-                <Vec<Decorator> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    decorators, visitor, ast_path,
-                );
                 <Option<BlockStmt> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     body, visitor, ast_path,
                 );
@@ -10658,9 +10975,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ImportDecl {
                 with,
                 phase,
             } => {
-                <Vec<ImportSpecifier> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    specifiers, visitor, ast_path,
-                );
                 <Box<Str> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     src, visitor, ast_path,
                 );
@@ -10843,11 +11157,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ImportWith {
         ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
-            ImportWith { span, values } => {
-                <Vec<ImportWithItem> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    values, visitor, ast_path,
-                );
-            }
+            ImportWith { span, values } => {}
         }
     }
 }
@@ -11109,9 +11419,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for JSXElement {
                 <JSXOpeningElement as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     opening, visitor, ast_path,
                 );
-                <Vec<JSXElementChild> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    children, visitor, ast_path,
-                );
                 <Option<JSXClosingElement> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     closing, visitor, ast_path,
                 );
@@ -11307,9 +11614,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for JSXFragment {
                 <JSXOpeningFragment as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     opening, visitor, ast_path,
                 );
-                <Vec<JSXElementChild> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    children, visitor, ast_path,
-                );
                 <JSXClosingFragment as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     closing, visitor, ast_path,
                 );
@@ -11433,9 +11737,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for JSXOpeningElement {
             } => {
                 <JSXElementName as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     name, visitor, ast_path,
-                );
-                <Vec<JSXAttrOrSpread> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    attrs, visitor, ast_path,
                 );
                 <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     self_closing,
@@ -12036,9 +12337,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for NamedExport {
                 type_only,
                 with,
             } => {
-                <Vec<ExportSpecifier> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    specifiers, visitor, ast_path,
-                );
                 <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     type_only, visitor, ast_path,
                 );
@@ -12144,11 +12442,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ObjectLit {
         ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
-            ObjectLit { span, props } => {
-                <Vec<PropOrSpread> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    props, visitor, ast_path,
-                );
-            }
+            ObjectLit { span, props } => {}
         }
     }
 }
@@ -12176,9 +12470,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ObjectPat {
                 optional,
                 type_ann,
             } => {
-                <Vec<ObjectPatProp> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    props, visitor, ast_path,
-                );
                 <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     optional, visitor, ast_path,
                 );
@@ -12341,9 +12632,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Param {
                 decorators,
                 pat,
             } => {
-                <Vec<Decorator> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    decorators, visitor, ast_path,
-                );
                 <Pat as VisitWithAstPath<V>>::visit_children_with_ast_path(pat, visitor, ast_path);
             }
         }
@@ -12521,9 +12809,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for PrivateProp {
                 );
                 <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     is_static, visitor, ast_path,
-                );
-                <Vec<Decorator> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    decorators, visitor, ast_path,
                 );
                 <Option<Accessibility> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     accessibility,
@@ -12828,11 +13113,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Script {
                 span,
                 body,
                 shebang,
-            } => {
-                <Vec<Stmt> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    body, visitor, ast_path,
-                );
-            }
+            } => {}
         }
     }
 }
@@ -12854,11 +13135,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SeqExpr {
         ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
-            SeqExpr { span, exprs } => {
-                <Vec<Box<Expr>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    exprs, visitor, ast_path,
-                );
-            }
+            SeqExpr { span, exprs } => {}
         }
     }
 }
@@ -13269,11 +13546,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SwitchCase {
         ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
-            SwitchCase { span, test, cons } => {
-                <Vec<Stmt> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    cons, visitor, ast_path,
-                );
-            }
+            SwitchCase { span, test, cons } => {}
         }
     }
 }
@@ -13304,9 +13577,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SwitchStmt {
                     discriminant,
                     visitor,
                     ast_path,
-                );
-                <Vec<SwitchCase> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    cases, visitor, ast_path,
                 );
             }
         }
@@ -13417,14 +13687,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Tpl {
                 span,
                 exprs,
                 quasis,
-            } => {
-                <Vec<Box<Expr>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    exprs, visitor, ast_path,
-                );
-                <Vec<TplElement> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    quasis, visitor, ast_path,
-                );
-            }
+            } => {}
         }
     }
 }
@@ -13602,11 +13865,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsCallSignatureDecl {
                 params,
                 type_ann,
                 type_params,
-            } => {
-                <Vec<TsFnParam> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    params, visitor, ast_path,
-                );
-            }
+            } => {}
         }
     }
 }
@@ -13702,11 +13961,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsConstructSignatureDecl 
                 params,
                 type_ann,
                 type_params,
-            } => {
-                <Vec<TsFnParam> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    params, visitor, ast_path,
-                );
-            }
+            } => {}
         }
     }
 }
@@ -13735,9 +13990,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsConstructorType {
                 type_ann,
                 is_abstract,
             } => {
-                <Vec<TsFnParam> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    params, visitor, ast_path,
-                );
                 <Box<TsTypeAnn> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     type_ann, visitor, ast_path,
                 );
@@ -13813,9 +14065,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsEnumDecl {
                     is_const, visitor, ast_path,
                 );
                 <Ident as VisitWithAstPath<V>>::visit_children_with_ast_path(id, visitor, ast_path);
-                <Vec<TsEnumMember> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    members, visitor, ast_path,
-                );
             }
         }
     }
@@ -14053,9 +14302,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsFnType {
                 type_params,
                 type_ann,
             } => {
-                <Vec<TsFnParam> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    params, visitor, ast_path,
-                );
                 <Box<TsTypeAnn> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     type_ann, visitor, ast_path,
                 );
@@ -14195,9 +14441,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsIndexSignature {
                 is_static,
                 span,
             } => {
-                <Vec<TsFnParam> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    params, visitor, ast_path,
-                );
                 <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     readonly, visitor, ast_path,
                 );
@@ -14320,11 +14563,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsInterfaceBody {
         ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
-            TsInterfaceBody { span, body } => {
-                <Vec<TsTypeElement> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    body, visitor, ast_path,
-                );
-            }
+            TsInterfaceBody { span, body } => {}
         }
     }
 }
@@ -14358,9 +14597,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsInterfaceDecl {
                 <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     declare, visitor, ast_path,
                 );
-                <Vec<TsExprWithTypeArgs> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    extends, visitor, ast_path,
-                );
                 <TsInterfaceBody as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     body, visitor, ast_path,
                 );
@@ -14386,11 +14622,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsIntersectionType {
         ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
-            TsIntersectionType { span, types } => {
-                <Vec<Box<TsType>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    types, visitor, ast_path,
-                );
-            }
+            TsIntersectionType { span, types } => {}
         }
     }
 }
@@ -14600,9 +14832,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsMethodSignature {
                 );
                 <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     optional, visitor, ast_path,
-                );
-                <Vec<TsFnParam> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    params, visitor, ast_path,
                 );
             }
         }
@@ -14905,9 +15134,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsParamProp {
                 readonly,
                 param,
             } => {
-                <Vec<Decorator> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    decorators, visitor, ast_path,
-                );
                 <Option<Accessibility> as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     accessibility,
                     visitor,
@@ -15227,14 +15453,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsTplLitType {
                 span,
                 types,
                 quasis,
-            } => {
-                <Vec<Box<TsType>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    types, visitor, ast_path,
-                );
-                <Vec<TplElement> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    quasis, visitor, ast_path,
-                );
-            }
+            } => {}
         }
     }
 }
@@ -15285,11 +15504,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsTupleType {
         ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
-            TsTupleType { span, elem_types } => {
-                <Vec<TsTupleElement> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    elem_types, visitor, ast_path,
-                );
-            }
+            TsTupleType { span, elem_types } => {}
         }
     }
 }
@@ -15583,11 +15798,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsTypeLit {
         ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
-            TsTypeLit { span, members } => {
-                <Vec<TsTypeElement> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    members, visitor, ast_path,
-                );
-            }
+            TsTypeLit { span, members } => {}
         }
     }
 }
@@ -15705,11 +15916,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsTypeParamDecl {
         ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
-            TsTypeParamDecl { span, params } => {
-                <Vec<TsTypeParam> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    params, visitor, ast_path,
-                );
-            }
+            TsTypeParamDecl { span, params } => {}
         }
     }
 }
@@ -15731,11 +15938,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsTypeParamInstantiation 
         ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
-            TsTypeParamInstantiation { span, params } => {
-                <Vec<Box<TsType>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    params, visitor, ast_path,
-                );
-            }
+            TsTypeParamInstantiation { span, params } => {}
         }
     }
 }
@@ -15913,11 +16116,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsUnionType {
         ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
-            TsUnionType { span, types } => {
-                <Vec<Box<TsType>> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    types, visitor, ast_path,
-                );
-            }
+            TsUnionType { span, types } => {}
         }
     }
 }
@@ -16064,9 +16263,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for UsingDecl {
                 <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     is_await, visitor, ast_path,
                 );
-                <Vec<VarDeclarator> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    decls, visitor, ast_path,
-                );
             }
         }
     }
@@ -16101,9 +16297,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for VarDecl {
                 );
                 <bool as VisitWithAstPath<V>>::visit_children_with_ast_path(
                     declare, visitor, ast_path,
-                );
-                <Vec<VarDeclarator> as VisitWithAstPath<V>>::visit_children_with_ast_path(
-                    decls, visitor, ast_path,
                 );
             }
         }
@@ -16466,6 +16659,12 @@ pub trait VisitMut {
     fn visit_mut_class_member(&mut self, node: &mut ClassMember) {
         <ClassMember as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Vec < ClassMember >`.\n\nBy default, this method calls [`Vec < \
+             ClassMember >::visit_mut_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_mut_class_members(&mut self, node: &mut Vec<ClassMember>) {
+        <Vec<ClassMember> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
     #[doc = "Visit a node of type `ClassMethod`.\n\nBy default, this method calls \
              [`ClassMethod::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -16519,6 +16718,12 @@ pub trait VisitMut {
              manually."]
     fn visit_mut_decorator(&mut self, node: &mut Decorator) {
         <Decorator as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < Decorator >`.\n\nBy default, this method calls [`Vec < \
+             Decorator >::visit_mut_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_mut_decorators(&mut self, node: &mut Vec<Decorator>) {
+        <Vec<Decorator> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `DefaultDecl`.\n\nBy default, this method calls \
              [`DefaultDecl::visit_mut_children_with`]. If you want to recurse, you need to call it \
@@ -16586,6 +16791,12 @@ pub trait VisitMut {
     fn visit_mut_export_specifier(&mut self, node: &mut ExportSpecifier) {
         <ExportSpecifier as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Vec < ExportSpecifier >`.\n\nBy default, this method calls \
+             [`Vec < ExportSpecifier >::visit_mut_children_with`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_mut_export_specifiers(&mut self, node: &mut Vec<ExportSpecifier>) {
+        <Vec<ExportSpecifier> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
     #[doc = "Visit a node of type `Expr`.\n\nBy default, this method calls \
              [`Expr::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -16609,6 +16820,12 @@ pub trait VisitMut {
              manually."]
     fn visit_mut_expr_stmt(&mut self, node: &mut ExprStmt) {
         <ExprStmt as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < Box < Expr > >`.\n\nBy default, this method calls [`Vec < \
+             Box < Expr > >::visit_mut_children_with`]. If you want to recurse, you need to call \
+             it manually."]
+    fn visit_mut_exprs(&mut self, node: &mut Vec<Box<Expr>>) {
+        <Vec<Box<Expr>> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `FnDecl`.\n\nBy default, this method calls \
              [`FnDecl::visit_mut_children_with`]. If you want to recurse, you need to call it \
@@ -16712,6 +16929,12 @@ pub trait VisitMut {
     fn visit_mut_import_specifier(&mut self, node: &mut ImportSpecifier) {
         <ImportSpecifier as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Vec < ImportSpecifier >`.\n\nBy default, this method calls \
+             [`Vec < ImportSpecifier >::visit_mut_children_with`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_mut_import_specifiers(&mut self, node: &mut Vec<ImportSpecifier>) {
+        <Vec<ImportSpecifier> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
     #[doc = "Visit a node of type `ImportStarAsSpecifier`.\n\nBy default, this method calls \
              [`ImportStarAsSpecifier::visit_mut_children_with`]. If you want to recurse, you need \
              to call it manually."]
@@ -16723,6 +16946,12 @@ pub trait VisitMut {
              it manually."]
     fn visit_mut_import_with_item(&mut self, node: &mut ImportWithItem) {
         <ImportWithItem as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < ImportWithItem >`.\n\nBy default, this method calls [`Vec \
+             < ImportWithItem >::visit_mut_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_mut_import_with_items(&mut self, node: &mut Vec<ImportWithItem>) {
+        <Vec<ImportWithItem> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `Invalid`.\n\nBy default, this method calls \
              [`Invalid::visit_mut_children_with`]. If you want to recurse, you need to call it \
@@ -16747,6 +16976,12 @@ pub trait VisitMut {
              call it manually."]
     fn visit_mut_jsx_attr_or_spread(&mut self, node: &mut JSXAttrOrSpread) {
         <JSXAttrOrSpread as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < JSXAttrOrSpread >`.\n\nBy default, this method calls \
+             [`Vec < JSXAttrOrSpread >::visit_mut_children_with`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_mut_jsx_attr_or_spreads(&mut self, node: &mut Vec<JSXAttrOrSpread>) {
+        <Vec<JSXAttrOrSpread> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `JSXAttrValue`.\n\nBy default, this method calls \
              [`JSXAttrValue::visit_mut_children_with`]. If you want to recurse, you need to call \
@@ -16777,6 +17012,12 @@ pub trait VisitMut {
              call it manually."]
     fn visit_mut_jsx_element_child(&mut self, node: &mut JSXElementChild) {
         <JSXElementChild as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < JSXElementChild >`.\n\nBy default, this method calls \
+             [`Vec < JSXElementChild >::visit_mut_children_with`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_mut_jsx_element_childs(&mut self, node: &mut Vec<JSXElementChild>) {
+        <Vec<JSXElementChild> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `JSXElementName`.\n\nBy default, this method calls \
              [`JSXElementName::visit_mut_children_with`]. If you want to recurse, you need to call \
@@ -16982,6 +17223,12 @@ pub trait VisitMut {
     fn visit_mut_object_pat_prop(&mut self, node: &mut ObjectPatProp) {
         <ObjectPatProp as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Vec < ObjectPatProp >`.\n\nBy default, this method calls [`Vec \
+             < ObjectPatProp >::visit_mut_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_mut_object_pat_props(&mut self, node: &mut Vec<ObjectPatProp>) {
+        <Vec<ObjectPatProp> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
     #[doc = "Visit a node of type `OptCall`.\n\nBy default, this method calls \
              [`OptCall::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -17012,6 +17259,17 @@ pub trait VisitMut {
     fn visit_mut_param_or_ts_param_prop(&mut self, node: &mut ParamOrTsParamProp) {
         <ParamOrTsParamProp as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Vec < ParamOrTsParamProp >`.\n\nBy default, this method calls \
+             [`Vec < ParamOrTsParamProp >::visit_mut_children_with`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_mut_param_or_ts_param_props(&mut self, node: &mut Vec<ParamOrTsParamProp>) {
+        <Vec<ParamOrTsParamProp> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < Param >`.\n\nBy default, this method calls [`Vec < Param \
+             >::visit_mut_children_with`]. If you want to recurse, you need to call it manually."]
+    fn visit_mut_params(&mut self, node: &mut Vec<Param>) {
+        <Vec<Param> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
     #[doc = "Visit a node of type `ParenExpr`.\n\nBy default, this method calls \
              [`ParenExpr::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -17023,6 +17281,11 @@ pub trait VisitMut {
              manually."]
     fn visit_mut_pat(&mut self, node: &mut Pat) {
         <Pat as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < Pat >`.\n\nBy default, this method calls [`Vec < Pat \
+             >::visit_mut_children_with`]. If you want to recurse, you need to call it manually."]
+    fn visit_mut_pats(&mut self, node: &mut Vec<Pat>) {
+        <Vec<Pat> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `PrivateMethod`.\n\nBy default, this method calls \
              [`PrivateMethod::visit_mut_children_with`]. If you want to recurse, you need to call \
@@ -17059,6 +17322,12 @@ pub trait VisitMut {
              it manually."]
     fn visit_mut_prop_or_spread(&mut self, node: &mut PropOrSpread) {
         <PropOrSpread as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < PropOrSpread >`.\n\nBy default, this method calls [`Vec < \
+             PropOrSpread >::visit_mut_children_with`]. If you want to recurse, you need to call \
+             it manually."]
+    fn visit_mut_prop_or_spreads(&mut self, node: &mut Vec<PropOrSpread>) {
+        <Vec<PropOrSpread> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `Regex`.\n\nBy default, this method calls \
              [`Regex::visit_mut_children_with`]. If you want to recurse, you need to call it \
@@ -17126,6 +17395,11 @@ pub trait VisitMut {
     fn visit_mut_stmt(&mut self, node: &mut Stmt) {
         <Stmt as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Vec < Stmt >`.\n\nBy default, this method calls [`Vec < Stmt \
+             >::visit_mut_children_with`]. If you want to recurse, you need to call it manually."]
+    fn visit_mut_stmts(&mut self, node: &mut Vec<Stmt>) {
+        <Vec<Stmt> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
     #[doc = "Visit a node of type `Str`.\n\nBy default, this method calls \
              [`Str::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -17155,6 +17429,12 @@ pub trait VisitMut {
              manually."]
     fn visit_mut_switch_case(&mut self, node: &mut SwitchCase) {
         <SwitchCase as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < SwitchCase >`.\n\nBy default, this method calls [`Vec < \
+             SwitchCase >::visit_mut_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_mut_switch_cases(&mut self, node: &mut Vec<SwitchCase>) {
+        <Vec<SwitchCase> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `SwitchStmt`.\n\nBy default, this method calls \
              [`SwitchStmt::visit_mut_children_with`]. If you want to recurse, you need to call it \
@@ -17197,6 +17477,12 @@ pub trait VisitMut {
              manually."]
     fn visit_mut_tpl_element(&mut self, node: &mut TplElement) {
         <TplElement as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < TplElement >`.\n\nBy default, this method calls [`Vec < \
+             TplElement >::visit_mut_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_mut_tpl_elements(&mut self, node: &mut Vec<TplElement>) {
+        <Vec<TplElement> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `TruePlusMinus`.\n\nBy default, this method calls \
              [`TruePlusMinus::visit_mut_children_with`]. If you want to recurse, you need to call \
@@ -17276,6 +17562,12 @@ pub trait VisitMut {
     fn visit_mut_ts_enum_member_id(&mut self, node: &mut TsEnumMemberId) {
         <TsEnumMemberId as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Vec < TsEnumMember >`.\n\nBy default, this method calls [`Vec < \
+             TsEnumMember >::visit_mut_children_with`]. If you want to recurse, you need to call \
+             it manually."]
+    fn visit_mut_ts_enum_members(&mut self, node: &mut Vec<TsEnumMember>) {
+        <Vec<TsEnumMember> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
     #[doc = "Visit a node of type `TsExportAssignment`.\n\nBy default, this method calls \
              [`TsExportAssignment::visit_mut_children_with`]. If you want to recurse, you need to \
              call it manually."]
@@ -17287,6 +17579,12 @@ pub trait VisitMut {
              call it manually."]
     fn visit_mut_ts_expr_with_type_args(&mut self, node: &mut TsExprWithTypeArgs) {
         <TsExprWithTypeArgs as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < TsExprWithTypeArgs >`.\n\nBy default, this method calls \
+             [`Vec < TsExprWithTypeArgs >::visit_mut_children_with`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_mut_ts_expr_with_type_argss(&mut self, node: &mut Vec<TsExprWithTypeArgs>) {
+        <Vec<TsExprWithTypeArgs> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `TsExternalModuleRef`.\n\nBy default, this method calls \
              [`TsExternalModuleRef::visit_mut_children_with`]. If you want to recurse, you need to \
@@ -17305,6 +17603,12 @@ pub trait VisitMut {
              manually."]
     fn visit_mut_ts_fn_param(&mut self, node: &mut TsFnParam) {
         <TsFnParam as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < TsFnParam >`.\n\nBy default, this method calls [`Vec < \
+             TsFnParam >::visit_mut_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_mut_ts_fn_params(&mut self, node: &mut Vec<TsFnParam>) {
+        <Vec<TsFnParam> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `TsFnType`.\n\nBy default, this method calls \
              [`TsFnType::visit_mut_children_with`]. If you want to recurse, you need to call it \
@@ -17534,6 +17838,12 @@ pub trait VisitMut {
     fn visit_mut_ts_tuple_element(&mut self, node: &mut TsTupleElement) {
         <TsTupleElement as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Vec < TsTupleElement >`.\n\nBy default, this method calls [`Vec \
+             < TsTupleElement >::visit_mut_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_mut_ts_tuple_elements(&mut self, node: &mut Vec<TsTupleElement>) {
+        <Vec<TsTupleElement> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
     #[doc = "Visit a node of type `TsTupleType`.\n\nBy default, this method calls \
              [`TsTupleType::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -17570,6 +17880,12 @@ pub trait VisitMut {
     fn visit_mut_ts_type_element(&mut self, node: &mut TsTypeElement) {
         <TsTypeElement as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Vec < TsTypeElement >`.\n\nBy default, this method calls [`Vec \
+             < TsTypeElement >::visit_mut_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_mut_ts_type_elements(&mut self, node: &mut Vec<TsTypeElement>) {
+        <Vec<TsTypeElement> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
     #[doc = "Visit a node of type `TsTypeLit`.\n\nBy default, this method calls \
              [`TsTypeLit::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -17600,6 +17916,12 @@ pub trait VisitMut {
     fn visit_mut_ts_type_param_instantiation(&mut self, node: &mut TsTypeParamInstantiation) {
         <TsTypeParamInstantiation as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Vec < TsTypeParam >`.\n\nBy default, this method calls [`Vec < \
+             TsTypeParam >::visit_mut_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_mut_ts_type_params(&mut self, node: &mut Vec<TsTypeParam>) {
+        <Vec<TsTypeParam> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
     #[doc = "Visit a node of type `TsTypePredicate`.\n\nBy default, this method calls \
              [`TsTypePredicate::visit_mut_children_with`]. If you want to recurse, you need to \
              call it manually."]
@@ -17623,6 +17945,12 @@ pub trait VisitMut {
              manually."]
     fn visit_mut_ts_type_ref(&mut self, node: &mut TsTypeRef) {
         <TsTypeRef as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < Box < TsType > >`.\n\nBy default, this method calls [`Vec \
+             < Box < TsType > >::visit_mut_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_mut_ts_types(&mut self, node: &mut Vec<Box<TsType>>) {
+        <Vec<Box<TsType>> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `TsUnionOrIntersectionType`.\n\nBy default, this method calls \
              [`TsUnionOrIntersectionType::visit_mut_children_with`]. If you want to recurse, you \
@@ -17690,6 +18018,12 @@ pub trait VisitMut {
     fn visit_mut_var_declarator(&mut self, node: &mut VarDeclarator) {
         <VarDeclarator as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Vec < VarDeclarator >`.\n\nBy default, this method calls [`Vec \
+             < VarDeclarator >::visit_mut_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_mut_var_declarators(&mut self, node: &mut Vec<VarDeclarator>) {
+        <Vec<VarDeclarator> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
     #[doc = "Visit a node of type `WhileStmt`.\n\nBy default, this method calls \
              [`WhileStmt::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -17756,7 +18090,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ArrayPat {
                 optional,
                 type_ann,
             } => {
-                <Vec<Option<Pat>> as VisitMutWith<V>>::visit_mut_children_with(elems, visitor);
                 <bool as VisitMutWith<V>>::visit_mut_children_with(optional, visitor);
             }
         }
@@ -17780,7 +18113,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ArrowExpr {
                 type_params,
                 return_type,
             } => {
-                <Vec<Pat> as VisitMutWith<V>>::visit_mut_children_with(params, visitor);
                 <Box<BlockStmtOrExpr> as VisitMutWith<V>>::visit_mut_children_with(body, visitor);
                 <bool as VisitMutWith<V>>::visit_mut_children_with(is_async, visitor);
                 <bool as VisitMutWith<V>>::visit_mut_children_with(is_generator, visitor);
@@ -17939,7 +18271,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for AutoAccessor {
             } => {
                 <Key as VisitMutWith<V>>::visit_mut_children_with(key, visitor);
                 <bool as VisitMutWith<V>>::visit_mut_children_with(is_static, visitor);
-                <Vec<Decorator> as VisitMutWith<V>>::visit_mut_children_with(decorators, visitor);
                 <Option<Accessibility> as VisitMutWith<V>>::visit_mut_children_with(
                     accessibility,
                     visitor,
@@ -18056,9 +18387,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for BlockStmt {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
-            BlockStmt { span, ctxt, stmts } => {
-                <Vec<Stmt> as VisitMutWith<V>>::visit_mut_children_with(stmts, visitor);
-            }
+            BlockStmt { span, ctxt, stmts } => {}
         }
     }
 }
@@ -18181,12 +18510,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Class {
                 super_type_params,
                 implements,
             } => {
-                <Vec<Decorator> as VisitMutWith<V>>::visit_mut_children_with(decorators, visitor);
-                <Vec<ClassMember> as VisitMutWith<V>>::visit_mut_children_with(body, visitor);
                 <bool as VisitMutWith<V>>::visit_mut_children_with(is_abstract, visitor);
-                <Vec<TsExprWithTypeArgs> as VisitMutWith<V>>::visit_mut_children_with(
-                    implements, visitor,
-                );
             }
         }
     }
@@ -18285,7 +18609,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ClassProp {
             } => {
                 <PropName as VisitMutWith<V>>::visit_mut_children_with(key, visitor);
                 <bool as VisitMutWith<V>>::visit_mut_children_with(is_static, visitor);
-                <Vec<Decorator> as VisitMutWith<V>>::visit_mut_children_with(decorators, visitor);
                 <Option<Accessibility> as VisitMutWith<V>>::visit_mut_children_with(
                     accessibility,
                     visitor,
@@ -18353,9 +18676,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Constructor {
                 is_optional,
             } => {
                 <PropName as VisitMutWith<V>>::visit_mut_children_with(key, visitor);
-                <Vec<ParamOrTsParamProp> as VisitMutWith<V>>::visit_mut_children_with(
-                    params, visitor,
-                );
                 <Option<BlockStmt> as VisitMutWith<V>>::visit_mut_children_with(body, visitor);
                 <Option<Accessibility> as VisitMutWith<V>>::visit_mut_children_with(
                     accessibility,
@@ -18947,8 +19267,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Function {
                 type_params,
                 return_type,
             } => {
-                <Vec<Param> as VisitMutWith<V>>::visit_mut_children_with(params, visitor);
-                <Vec<Decorator> as VisitMutWith<V>>::visit_mut_children_with(decorators, visitor);
                 <Option<BlockStmt> as VisitMutWith<V>>::visit_mut_children_with(body, visitor);
                 <bool as VisitMutWith<V>>::visit_mut_children_with(is_generator, visitor);
                 <bool as VisitMutWith<V>>::visit_mut_children_with(is_async, visitor);
@@ -19057,9 +19375,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ImportDecl {
                 with,
                 phase,
             } => {
-                <Vec<ImportSpecifier> as VisitMutWith<V>>::visit_mut_children_with(
-                    specifiers, visitor,
-                );
                 <Box<Str> as VisitMutWith<V>>::visit_mut_children_with(src, visitor);
                 <bool as VisitMutWith<V>>::visit_mut_children_with(type_only, visitor);
                 <ImportPhase as VisitMutWith<V>>::visit_mut_children_with(phase, visitor);
@@ -19166,9 +19481,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ImportWith {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
-            ImportWith { span, values } => {
-                <Vec<ImportWithItem> as VisitMutWith<V>>::visit_mut_children_with(values, visitor);
-            }
+            ImportWith { span, values } => {}
         }
     }
 }
@@ -19312,9 +19625,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for JSXElement {
                 closing,
             } => {
                 <JSXOpeningElement as VisitMutWith<V>>::visit_mut_children_with(opening, visitor);
-                <Vec<JSXElementChild> as VisitMutWith<V>>::visit_mut_children_with(
-                    children, visitor,
-                );
                 <Option<JSXClosingElement> as VisitMutWith<V>>::visit_mut_children_with(
                     closing, visitor,
                 );
@@ -19426,9 +19736,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for JSXFragment {
                 closing,
             } => {
                 <JSXOpeningFragment as VisitMutWith<V>>::visit_mut_children_with(opening, visitor);
-                <Vec<JSXElementChild> as VisitMutWith<V>>::visit_mut_children_with(
-                    children, visitor,
-                );
                 <JSXClosingFragment as VisitMutWith<V>>::visit_mut_children_with(closing, visitor);
             }
         }
@@ -19497,7 +19804,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for JSXOpeningElement {
                 type_args,
             } => {
                 <JSXElementName as VisitMutWith<V>>::visit_mut_children_with(name, visitor);
-                <Vec<JSXAttrOrSpread> as VisitMutWith<V>>::visit_mut_children_with(attrs, visitor);
                 <bool as VisitMutWith<V>>::visit_mut_children_with(self_closing, visitor);
             }
         }
@@ -19833,9 +20139,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for NamedExport {
                 type_only,
                 with,
             } => {
-                <Vec<ExportSpecifier> as VisitMutWith<V>>::visit_mut_children_with(
-                    specifiers, visitor,
-                );
                 <bool as VisitMutWith<V>>::visit_mut_children_with(type_only, visitor);
             }
         }
@@ -19895,9 +20198,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ObjectLit {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
-            ObjectLit { span, props } => {
-                <Vec<PropOrSpread> as VisitMutWith<V>>::visit_mut_children_with(props, visitor);
-            }
+            ObjectLit { span, props } => {}
         }
     }
 }
@@ -19915,7 +20216,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ObjectPat {
                 optional,
                 type_ann,
             } => {
-                <Vec<ObjectPatProp> as VisitMutWith<V>>::visit_mut_children_with(props, visitor);
                 <bool as VisitMutWith<V>>::visit_mut_children_with(optional, visitor);
             }
         }
@@ -20010,7 +20310,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Param {
                 decorators,
                 pat,
             } => {
-                <Vec<Decorator> as VisitMutWith<V>>::visit_mut_children_with(decorators, visitor);
                 <Pat as VisitMutWith<V>>::visit_mut_children_with(pat, visitor);
             }
         }
@@ -20115,7 +20414,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for PrivateProp {
             } => {
                 <PrivateName as VisitMutWith<V>>::visit_mut_children_with(key, visitor);
                 <bool as VisitMutWith<V>>::visit_mut_children_with(is_static, visitor);
-                <Vec<Decorator> as VisitMutWith<V>>::visit_mut_children_with(decorators, visitor);
                 <Option<Accessibility> as VisitMutWith<V>>::visit_mut_children_with(
                     accessibility,
                     visitor,
@@ -20284,9 +20582,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Script {
                 span,
                 body,
                 shebang,
-            } => {
-                <Vec<Stmt> as VisitMutWith<V>>::visit_mut_children_with(body, visitor);
-            }
+            } => {}
         }
     }
 }
@@ -20298,9 +20594,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for SeqExpr {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
-            SeqExpr { span, exprs } => {
-                <Vec<Box<Expr>> as VisitMutWith<V>>::visit_mut_children_with(exprs, visitor);
-            }
+            SeqExpr { span, exprs } => {}
         }
     }
 }
@@ -20531,9 +20825,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for SwitchCase {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
-            SwitchCase { span, test, cons } => {
-                <Vec<Stmt> as VisitMutWith<V>>::visit_mut_children_with(cons, visitor);
-            }
+            SwitchCase { span, test, cons } => {}
         }
     }
 }
@@ -20551,7 +20843,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for SwitchStmt {
                 cases,
             } => {
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(discriminant, visitor);
-                <Vec<SwitchCase> as VisitMutWith<V>>::visit_mut_children_with(cases, visitor);
             }
         }
     }
@@ -20615,10 +20906,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Tpl {
                 span,
                 exprs,
                 quasis,
-            } => {
-                <Vec<Box<Expr>> as VisitMutWith<V>>::visit_mut_children_with(exprs, visitor);
-                <Vec<TplElement> as VisitMutWith<V>>::visit_mut_children_with(quasis, visitor);
-            }
+            } => {}
         }
     }
 }
@@ -20722,9 +21010,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsCallSignatureDecl {
                 params,
                 type_ann,
                 type_params,
-            } => {
-                <Vec<TsFnParam> as VisitMutWith<V>>::visit_mut_children_with(params, visitor);
-            }
+            } => {}
         }
     }
 }
@@ -20778,9 +21064,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsConstructSignatureDecl {
                 params,
                 type_ann,
                 type_params,
-            } => {
-                <Vec<TsFnParam> as VisitMutWith<V>>::visit_mut_children_with(params, visitor);
-            }
+            } => {}
         }
     }
 }
@@ -20799,7 +21083,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsConstructorType {
                 type_ann,
                 is_abstract,
             } => {
-                <Vec<TsFnParam> as VisitMutWith<V>>::visit_mut_children_with(params, visitor);
                 <Box<TsTypeAnn> as VisitMutWith<V>>::visit_mut_children_with(type_ann, visitor);
                 <bool as VisitMutWith<V>>::visit_mut_children_with(is_abstract, visitor);
             }
@@ -20843,7 +21126,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsEnumDecl {
                 <bool as VisitMutWith<V>>::visit_mut_children_with(declare, visitor);
                 <bool as VisitMutWith<V>>::visit_mut_children_with(is_const, visitor);
                 <Ident as VisitMutWith<V>>::visit_mut_children_with(id, visitor);
-                <Vec<TsEnumMember> as VisitMutWith<V>>::visit_mut_children_with(members, visitor);
             }
         }
     }
@@ -20979,7 +21261,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsFnType {
                 type_params,
                 type_ann,
             } => {
-                <Vec<TsFnParam> as VisitMutWith<V>>::visit_mut_children_with(params, visitor);
                 <Box<TsTypeAnn> as VisitMutWith<V>>::visit_mut_children_with(type_ann, visitor);
             }
         }
@@ -21065,7 +21346,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsIndexSignature {
                 is_static,
                 span,
             } => {
-                <Vec<TsFnParam> as VisitMutWith<V>>::visit_mut_children_with(params, visitor);
                 <bool as VisitMutWith<V>>::visit_mut_children_with(readonly, visitor);
                 <bool as VisitMutWith<V>>::visit_mut_children_with(is_static, visitor);
             }
@@ -21136,9 +21416,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsInterfaceBody {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
-            TsInterfaceBody { span, body } => {
-                <Vec<TsTypeElement> as VisitMutWith<V>>::visit_mut_children_with(body, visitor);
-            }
+            TsInterfaceBody { span, body } => {}
         }
     }
 }
@@ -21160,9 +21438,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsInterfaceDecl {
             } => {
                 <Ident as VisitMutWith<V>>::visit_mut_children_with(id, visitor);
                 <bool as VisitMutWith<V>>::visit_mut_children_with(declare, visitor);
-                <Vec<TsExprWithTypeArgs> as VisitMutWith<V>>::visit_mut_children_with(
-                    extends, visitor,
-                );
                 <TsInterfaceBody as VisitMutWith<V>>::visit_mut_children_with(body, visitor);
             }
         }
@@ -21176,9 +21451,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsIntersectionType {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
-            TsIntersectionType { span, types } => {
-                <Vec<Box<TsType>> as VisitMutWith<V>>::visit_mut_children_with(types, visitor);
-            }
+            TsIntersectionType { span, types } => {}
         }
     }
 }
@@ -21307,7 +21580,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsMethodSignature {
                 <Box<Expr> as VisitMutWith<V>>::visit_mut_children_with(key, visitor);
                 <bool as VisitMutWith<V>>::visit_mut_children_with(computed, visitor);
                 <bool as VisitMutWith<V>>::visit_mut_children_with(optional, visitor);
-                <Vec<TsFnParam> as VisitMutWith<V>>::visit_mut_children_with(params, visitor);
             }
         }
     }
@@ -21483,7 +21755,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsParamProp {
                 readonly,
                 param,
             } => {
-                <Vec<Decorator> as VisitMutWith<V>>::visit_mut_children_with(decorators, visitor);
                 <Option<Accessibility> as VisitMutWith<V>>::visit_mut_children_with(
                     accessibility,
                     visitor,
@@ -21660,10 +21931,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsTplLitType {
                 span,
                 types,
                 quasis,
-            } => {
-                <Vec<Box<TsType>> as VisitMutWith<V>>::visit_mut_children_with(types, visitor);
-                <Vec<TplElement> as VisitMutWith<V>>::visit_mut_children_with(quasis, visitor);
-            }
+            } => {}
         }
     }
 }
@@ -21690,11 +21958,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsTupleType {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
-            TsTupleType { span, elem_types } => {
-                <Vec<TsTupleElement> as VisitMutWith<V>>::visit_mut_children_with(
-                    elem_types, visitor,
-                );
-            }
+            TsTupleType { span, elem_types } => {}
         }
     }
 }
@@ -21878,9 +22142,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsTypeLit {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
-            TsTypeLit { span, members } => {
-                <Vec<TsTypeElement> as VisitMutWith<V>>::visit_mut_children_with(members, visitor);
-            }
+            TsTypeLit { span, members } => {}
         }
     }
 }
@@ -21946,9 +22208,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsTypeParamDecl {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
-            TsTypeParamDecl { span, params } => {
-                <Vec<TsTypeParam> as VisitMutWith<V>>::visit_mut_children_with(params, visitor);
-            }
+            TsTypeParamDecl { span, params } => {}
         }
     }
 }
@@ -21960,9 +22220,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsTypeParamInstantiation {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
-            TsTypeParamInstantiation { span, params } => {
-                <Vec<Box<TsType>> as VisitMutWith<V>>::visit_mut_children_with(params, visitor);
-            }
+            TsTypeParamInstantiation { span, params } => {}
         }
     }
 }
@@ -22066,9 +22324,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsUnionType {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
-            TsUnionType { span, types } => {
-                <Vec<Box<TsType>> as VisitMutWith<V>>::visit_mut_children_with(types, visitor);
-            }
+            TsUnionType { span, types } => {}
         }
     }
 }
@@ -22153,7 +22409,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for UsingDecl {
                 decls,
             } => {
                 <bool as VisitMutWith<V>>::visit_mut_children_with(is_await, visitor);
-                <Vec<VarDeclarator> as VisitMutWith<V>>::visit_mut_children_with(decls, visitor);
             }
         }
     }
@@ -22175,7 +22430,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for VarDecl {
             } => {
                 <VarDeclKind as VisitMutWith<V>>::visit_mut_children_with(kind, visitor);
                 <bool as VisitMutWith<V>>::visit_mut_children_with(declare, visitor);
-                <Vec<VarDeclarator> as VisitMutWith<V>>::visit_mut_children_with(decls, visitor);
             }
         }
     }
@@ -22525,6 +22779,14 @@ pub trait VisitMutAstPath {
             node, self, ast_path,
         )
     }
+    #[doc = "Visit a node of type `Vec < ClassMember >`.\n\nBy default, this method calls [`Vec < \
+             ClassMember >::visit_mut_children_with_ast_path`]. If you want to recurse, you need \
+             to call it manually."]
+    fn visit_mut_class_members(&mut self, node: &mut Vec<ClassMember>, ast_path: &mut AstKindPath) {
+        <Vec<ClassMember> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `ClassMethod`.\n\nBy default, this method calls \
              [`ClassMethod::visit_mut_children_with_ast_path`]. If you want to recurse, you need \
              to call it manually."]
@@ -22596,6 +22858,14 @@ pub trait VisitMutAstPath {
              call it manually."]
     fn visit_mut_decorator(&mut self, node: &mut Decorator, ast_path: &mut AstKindPath) {
         <Decorator as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Vec < Decorator >`.\n\nBy default, this method calls [`Vec < \
+             Decorator >::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_mut_decorators(&mut self, node: &mut Vec<Decorator>, ast_path: &mut AstKindPath) {
+        <Vec<Decorator> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -22711,6 +22981,18 @@ pub trait VisitMutAstPath {
             node, self, ast_path,
         )
     }
+    #[doc = "Visit a node of type `Vec < ExportSpecifier >`.\n\nBy default, this method calls \
+             [`Vec < ExportSpecifier >::visit_mut_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_mut_export_specifiers(
+        &mut self,
+        node: &mut Vec<ExportSpecifier>,
+        ast_path: &mut AstKindPath,
+    ) {
+        <Vec<ExportSpecifier> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `Expr`.\n\nBy default, this method calls \
              [`Expr::visit_mut_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
@@ -22742,6 +23024,14 @@ pub trait VisitMutAstPath {
              call it manually."]
     fn visit_mut_expr_stmt(&mut self, node: &mut ExprStmt, ast_path: &mut AstKindPath) {
         <ExprStmt as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Vec < Box < Expr > >`.\n\nBy default, this method calls [`Vec < \
+             Box < Expr > >::visit_mut_children_with_ast_path`]. If you want to recurse, you need \
+             to call it manually."]
+    fn visit_mut_exprs(&mut self, node: &mut Vec<Box<Expr>>, ast_path: &mut AstKindPath) {
+        <Vec<Box<Expr>> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -22891,6 +23181,18 @@ pub trait VisitMutAstPath {
             node, self, ast_path,
         )
     }
+    #[doc = "Visit a node of type `Vec < ImportSpecifier >`.\n\nBy default, this method calls \
+             [`Vec < ImportSpecifier >::visit_mut_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_mut_import_specifiers(
+        &mut self,
+        node: &mut Vec<ImportSpecifier>,
+        ast_path: &mut AstKindPath,
+    ) {
+        <Vec<ImportSpecifier> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `ImportStarAsSpecifier`.\n\nBy default, this method calls \
              [`ImportStarAsSpecifier::visit_mut_children_with_ast_path`]. If you want to recurse, \
              you need to call it manually."]
@@ -22912,6 +23214,18 @@ pub trait VisitMutAstPath {
         ast_path: &mut AstKindPath,
     ) {
         <ImportWithItem as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Vec < ImportWithItem >`.\n\nBy default, this method calls [`Vec \
+             < ImportWithItem >::visit_mut_children_with_ast_path`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_mut_import_with_items(
+        &mut self,
+        node: &mut Vec<ImportWithItem>,
+        ast_path: &mut AstKindPath,
+    ) {
+        <Vec<ImportWithItem> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -22948,6 +23262,18 @@ pub trait VisitMutAstPath {
         ast_path: &mut AstKindPath,
     ) {
         <JSXAttrOrSpread as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Vec < JSXAttrOrSpread >`.\n\nBy default, this method calls \
+             [`Vec < JSXAttrOrSpread >::visit_mut_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_mut_jsx_attr_or_spreads(
+        &mut self,
+        node: &mut Vec<JSXAttrOrSpread>,
+        ast_path: &mut AstKindPath,
+    ) {
+        <Vec<JSXAttrOrSpread> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -23000,6 +23326,18 @@ pub trait VisitMutAstPath {
         ast_path: &mut AstKindPath,
     ) {
         <JSXElementChild as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Vec < JSXElementChild >`.\n\nBy default, this method calls \
+             [`Vec < JSXElementChild >::visit_mut_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_mut_jsx_element_childs(
+        &mut self,
+        node: &mut Vec<JSXElementChild>,
+        ast_path: &mut AstKindPath,
+    ) {
+        <Vec<JSXElementChild> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -23301,6 +23639,18 @@ pub trait VisitMutAstPath {
             node, self, ast_path,
         )
     }
+    #[doc = "Visit a node of type `Vec < ObjectPatProp >`.\n\nBy default, this method calls [`Vec \
+             < ObjectPatProp >::visit_mut_children_with_ast_path`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_mut_object_pat_props(
+        &mut self,
+        node: &mut Vec<ObjectPatProp>,
+        ast_path: &mut AstKindPath,
+    ) {
+        <Vec<ObjectPatProp> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `OptCall`.\n\nBy default, this method calls \
              [`OptCall::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
@@ -23343,6 +23693,26 @@ pub trait VisitMutAstPath {
             node, self, ast_path,
         )
     }
+    #[doc = "Visit a node of type `Vec < ParamOrTsParamProp >`.\n\nBy default, this method calls \
+             [`Vec < ParamOrTsParamProp >::visit_mut_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_mut_param_or_ts_param_props(
+        &mut self,
+        node: &mut Vec<ParamOrTsParamProp>,
+        ast_path: &mut AstKindPath,
+    ) {
+        <Vec<ParamOrTsParamProp> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Vec < Param >`.\n\nBy default, this method calls [`Vec < Param \
+             >::visit_mut_children_with_ast_path`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_mut_params(&mut self, node: &mut Vec<Param>, ast_path: &mut AstKindPath) {
+        <Vec<Param> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `ParenExpr`.\n\nBy default, this method calls \
              [`ParenExpr::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
@@ -23356,6 +23726,14 @@ pub trait VisitMutAstPath {
              it manually."]
     fn visit_mut_pat(&mut self, node: &mut Pat, ast_path: &mut AstKindPath) {
         <Pat as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `Vec < Pat >`.\n\nBy default, this method calls [`Vec < Pat \
+             >::visit_mut_children_with_ast_path`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_mut_pats(&mut self, node: &mut Vec<Pat>, ast_path: &mut AstKindPath) {
+        <Vec<Pat> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
     }
     #[doc = "Visit a node of type `PrivateMethod`.\n\nBy default, this method calls \
              [`PrivateMethod::visit_mut_children_with_ast_path`]. If you want to recurse, you need \
@@ -23400,6 +23778,18 @@ pub trait VisitMutAstPath {
              to call it manually."]
     fn visit_mut_prop_or_spread(&mut self, node: &mut PropOrSpread, ast_path: &mut AstKindPath) {
         <PropOrSpread as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Vec < PropOrSpread >`.\n\nBy default, this method calls [`Vec < \
+             PropOrSpread >::visit_mut_children_with_ast_path`]. If you want to recurse, you need \
+             to call it manually."]
+    fn visit_mut_prop_or_spreads(
+        &mut self,
+        node: &mut Vec<PropOrSpread>,
+        ast_path: &mut AstKindPath,
+    ) {
+        <Vec<PropOrSpread> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -23489,6 +23879,14 @@ pub trait VisitMutAstPath {
     fn visit_mut_stmt(&mut self, node: &mut Stmt, ast_path: &mut AstKindPath) {
         <Stmt as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(node, self, ast_path)
     }
+    #[doc = "Visit a node of type `Vec < Stmt >`.\n\nBy default, this method calls [`Vec < Stmt \
+             >::visit_mut_children_with_ast_path`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_mut_stmts(&mut self, node: &mut Vec<Stmt>, ast_path: &mut AstKindPath) {
+        <Vec<Stmt> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `Str`.\n\nBy default, this method calls \
              [`Str::visit_mut_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
@@ -23522,6 +23920,14 @@ pub trait VisitMutAstPath {
              call it manually."]
     fn visit_mut_switch_case(&mut self, node: &mut SwitchCase, ast_path: &mut AstKindPath) {
         <SwitchCase as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Vec < SwitchCase >`.\n\nBy default, this method calls [`Vec < \
+             SwitchCase >::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_mut_switch_cases(&mut self, node: &mut Vec<SwitchCase>, ast_path: &mut AstKindPath) {
+        <Vec<SwitchCase> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -23576,6 +23982,14 @@ pub trait VisitMutAstPath {
              call it manually."]
     fn visit_mut_tpl_element(&mut self, node: &mut TplElement, ast_path: &mut AstKindPath) {
         <TplElement as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Vec < TplElement >`.\n\nBy default, this method calls [`Vec < \
+             TplElement >::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_mut_tpl_elements(&mut self, node: &mut Vec<TplElement>, ast_path: &mut AstKindPath) {
+        <Vec<TplElement> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -23707,6 +24121,18 @@ pub trait VisitMutAstPath {
             node, self, ast_path,
         )
     }
+    #[doc = "Visit a node of type `Vec < TsEnumMember >`.\n\nBy default, this method calls [`Vec < \
+             TsEnumMember >::visit_mut_children_with_ast_path`]. If you want to recurse, you need \
+             to call it manually."]
+    fn visit_mut_ts_enum_members(
+        &mut self,
+        node: &mut Vec<TsEnumMember>,
+        ast_path: &mut AstKindPath,
+    ) {
+        <Vec<TsEnumMember> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `TsExportAssignment`.\n\nBy default, this method calls \
              [`TsExportAssignment::visit_mut_children_with_ast_path`]. If you want to recurse, you \
              need to call it manually."]
@@ -23728,6 +24154,18 @@ pub trait VisitMutAstPath {
         ast_path: &mut AstKindPath,
     ) {
         <TsExprWithTypeArgs as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Vec < TsExprWithTypeArgs >`.\n\nBy default, this method calls \
+             [`Vec < TsExprWithTypeArgs >::visit_mut_children_with_ast_path`]. If you want to \
+             recurse, you need to call it manually."]
+    fn visit_mut_ts_expr_with_type_argss(
+        &mut self,
+        node: &mut Vec<TsExprWithTypeArgs>,
+        ast_path: &mut AstKindPath,
+    ) {
+        <Vec<TsExprWithTypeArgs> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -23760,6 +24198,14 @@ pub trait VisitMutAstPath {
              call it manually."]
     fn visit_mut_ts_fn_param(&mut self, node: &mut TsFnParam, ast_path: &mut AstKindPath) {
         <TsFnParam as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Vec < TsFnParam >`.\n\nBy default, this method calls [`Vec < \
+             TsFnParam >::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    fn visit_mut_ts_fn_params(&mut self, node: &mut Vec<TsFnParam>, ast_path: &mut AstKindPath) {
+        <Vec<TsFnParam> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -24153,6 +24599,18 @@ pub trait VisitMutAstPath {
             node, self, ast_path,
         )
     }
+    #[doc = "Visit a node of type `Vec < TsTupleElement >`.\n\nBy default, this method calls [`Vec \
+             < TsTupleElement >::visit_mut_children_with_ast_path`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_mut_ts_tuple_elements(
+        &mut self,
+        node: &mut Vec<TsTupleElement>,
+        ast_path: &mut AstKindPath,
+    ) {
+        <Vec<TsTupleElement> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `TsTupleType`.\n\nBy default, this method calls \
              [`TsTupleType::visit_mut_children_with_ast_path`]. If you want to recurse, you need \
              to call it manually."]
@@ -24209,6 +24667,18 @@ pub trait VisitMutAstPath {
             node, self, ast_path,
         )
     }
+    #[doc = "Visit a node of type `Vec < TsTypeElement >`.\n\nBy default, this method calls [`Vec \
+             < TsTypeElement >::visit_mut_children_with_ast_path`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_mut_ts_type_elements(
+        &mut self,
+        node: &mut Vec<TsTypeElement>,
+        ast_path: &mut AstKindPath,
+    ) {
+        <Vec<TsTypeElement> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `TsTypeLit`.\n\nBy default, this method calls \
              [`TsTypeLit::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
@@ -24261,6 +24731,18 @@ pub trait VisitMutAstPath {
             node, self, ast_path,
         )
     }
+    #[doc = "Visit a node of type `Vec < TsTypeParam >`.\n\nBy default, this method calls [`Vec < \
+             TsTypeParam >::visit_mut_children_with_ast_path`]. If you want to recurse, you need \
+             to call it manually."]
+    fn visit_mut_ts_type_params(
+        &mut self,
+        node: &mut Vec<TsTypeParam>,
+        ast_path: &mut AstKindPath,
+    ) {
+        <Vec<TsTypeParam> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `TsTypePredicate`.\n\nBy default, this method calls \
              [`TsTypePredicate::visit_mut_children_with_ast_path`]. If you want to recurse, you \
              need to call it manually."]
@@ -24298,6 +24780,14 @@ pub trait VisitMutAstPath {
              call it manually."]
     fn visit_mut_ts_type_ref(&mut self, node: &mut TsTypeRef, ast_path: &mut AstKindPath) {
         <TsTypeRef as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Vec < Box < TsType > >`.\n\nBy default, this method calls [`Vec \
+             < Box < TsType > >::visit_mut_children_with_ast_path`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_mut_ts_types(&mut self, node: &mut Vec<Box<TsType>>, ast_path: &mut AstKindPath) {
+        <Vec<Box<TsType>> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -24393,6 +24883,18 @@ pub trait VisitMutAstPath {
             node, self, ast_path,
         )
     }
+    #[doc = "Visit a node of type `Vec < VarDeclarator >`.\n\nBy default, this method calls [`Vec \
+             < VarDeclarator >::visit_mut_children_with_ast_path`]. If you want to recurse, you \
+             need to call it manually."]
+    fn visit_mut_var_declarators(
+        &mut self,
+        node: &mut Vec<VarDeclarator>,
+        ast_path: &mut AstKindPath,
+    ) {
+        <Vec<VarDeclarator> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `WhileStmt`.\n\nBy default, this method calls \
              [`WhileStmt::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
@@ -24473,9 +24975,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ArrayPat {
                 optional,
                 type_ann,
             } => {
-                <Vec<Option<Pat>> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    elems, visitor, ast_path,
-                );
                 <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     optional, visitor, ast_path,
                 );
@@ -24503,9 +25002,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ArrowExpr {
                 type_params,
                 return_type,
             } => {
-                <Vec<Pat> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    params, visitor, ast_path,
-                );
                 <Box<BlockStmtOrExpr> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     body, visitor, ast_path,
                 );
@@ -24718,9 +25214,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for AutoAccessor {
                 <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     is_static, visitor, ast_path,
                 );
-                <Vec<Decorator> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    decorators, visitor, ast_path,
-                );
                 <Option<Accessibility> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     accessibility,
                     visitor,
@@ -24870,11 +25363,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for BlockStmt {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
-            BlockStmt { span, ctxt, stmts } => {
-                <Vec<Stmt> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    stmts, visitor, ast_path,
-                );
-            }
+            BlockStmt { span, ctxt, stmts } => {}
         }
     }
 }
@@ -25031,18 +25520,11 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Class {
                 super_type_params,
                 implements,
             } => {
-                <Vec<Decorator> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    decorators, visitor, ast_path,
-                );
-                <Vec<ClassMember> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    body, visitor, ast_path,
-                );
                 <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     is_abstract,
                     visitor,
                     ast_path,
                 );
-                < Vec < TsExprWithTypeArgs > as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (implements , visitor , ast_path) ;
             }
         }
     }
@@ -25177,9 +25659,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ClassProp {
                 <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     is_static, visitor, ast_path,
                 );
-                <Vec<Decorator> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    decorators, visitor, ast_path,
-                );
                 <Option<Accessibility> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     accessibility,
                     visitor,
@@ -25282,7 +25761,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Constructor {
                 <PropName as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     key, visitor, ast_path,
                 );
-                < Vec < ParamOrTsParamProp > as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (params , visitor , ast_path) ;
                 <Option<BlockStmt> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     body, visitor, ast_path,
                 );
@@ -26085,12 +26563,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Function {
                 type_params,
                 return_type,
             } => {
-                <Vec<Param> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    params, visitor, ast_path,
-                );
-                <Vec<Decorator> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    decorators, visitor, ast_path,
-                );
                 <Option<BlockStmt> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     body, visitor, ast_path,
                 );
@@ -26231,9 +26703,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ImportDecl {
                 with,
                 phase,
             } => {
-                <Vec<ImportSpecifier> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    specifiers, visitor, ast_path,
-                );
                 <Box<Str> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     src, visitor, ast_path,
                 );
@@ -26364,11 +26833,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ImportWith {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
-            ImportWith { span, values } => {
-                <Vec<ImportWithItem> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    values, visitor, ast_path,
-                );
-            }
+            ImportWith { span, values } => {}
         }
     }
 }
@@ -26558,9 +27023,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for JSXElement {
                 <JSXOpeningElement as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     opening, visitor, ast_path,
                 );
-                <Vec<JSXElementChild> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    children, visitor, ast_path,
-                );
                 < Option < JSXClosingElement > as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (closing , visitor , ast_path) ;
             }
         }
@@ -26706,9 +27168,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for JSXFragment {
                 <JSXOpeningFragment as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     opening, visitor, ast_path,
                 );
-                <Vec<JSXElementChild> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    children, visitor, ast_path,
-                );
                 <JSXClosingFragment as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     closing, visitor, ast_path,
                 );
@@ -26800,9 +27259,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for JSXOpeningElement {
             } => {
                 <JSXElementName as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     name, visitor, ast_path,
-                );
-                <Vec<JSXAttrOrSpread> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    attrs, visitor, ast_path,
                 );
                 <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     self_closing,
@@ -27249,9 +27705,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for NamedExport {
                 type_only,
                 with,
             } => {
-                <Vec<ExportSpecifier> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    specifiers, visitor, ast_path,
-                );
                 <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     type_only, visitor, ast_path,
                 );
@@ -27325,11 +27778,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ObjectLit {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
-            ObjectLit { span, props } => {
-                <Vec<PropOrSpread> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    props, visitor, ast_path,
-                );
-            }
+            ObjectLit { span, props } => {}
         }
     }
 }
@@ -27349,9 +27798,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ObjectPat {
                 optional,
                 type_ann,
             } => {
-                <Vec<ObjectPatProp> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    props, visitor, ast_path,
-                );
                 <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     optional, visitor, ast_path,
                 );
@@ -27474,9 +27920,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Param {
                 decorators,
                 pat,
             } => {
-                <Vec<Decorator> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    decorators, visitor, ast_path,
-                );
                 <Pat as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     pat, visitor, ast_path,
                 );
@@ -27616,9 +28059,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for PrivateProp {
                 );
                 <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     is_static, visitor, ast_path,
-                );
-                <Vec<Decorator> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    decorators, visitor, ast_path,
                 );
                 <Option<Accessibility> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     accessibility,
@@ -27851,11 +28291,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Script {
                 span,
                 body,
                 shebang,
-            } => {
-                <Vec<Stmt> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    body, visitor, ast_path,
-                );
-            }
+            } => {}
         }
     }
 }
@@ -27869,11 +28305,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for SeqExpr {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
-            SeqExpr { span, exprs } => {
-                <Vec<Box<Expr>> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    exprs, visitor, ast_path,
-                );
-            }
+            SeqExpr { span, exprs } => {}
         }
     }
 }
@@ -28204,11 +28636,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for SwitchCase {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
-            SwitchCase { span, test, cons } => {
-                <Vec<Stmt> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    cons, visitor, ast_path,
-                );
-            }
+            SwitchCase { span, test, cons } => {}
         }
     }
 }
@@ -28231,9 +28659,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for SwitchStmt {
                     discriminant,
                     visitor,
                     ast_path,
-                );
-                <Vec<SwitchCase> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    cases, visitor, ast_path,
                 );
             }
         }
@@ -28312,14 +28737,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Tpl {
                 span,
                 exprs,
                 quasis,
-            } => {
-                <Vec<Box<Expr>> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    exprs, visitor, ast_path,
-                );
-                <Vec<TplElement> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    quasis, visitor, ast_path,
-                );
-            }
+            } => {}
         }
     }
 }
@@ -28449,11 +28867,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsCallSignatureDecl
                 params,
                 type_ann,
                 type_params,
-            } => {
-                <Vec<TsFnParam> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    params, visitor, ast_path,
-                );
-            }
+            } => {}
         }
     }
 }
@@ -28525,11 +28939,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsConstructSignatur
                 params,
                 type_ann,
                 type_params,
-            } => {
-                <Vec<TsFnParam> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    params, visitor, ast_path,
-                );
-            }
+            } => {}
         }
     }
 }
@@ -28550,9 +28960,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsConstructorType {
                 type_ann,
                 is_abstract,
             } => {
-                <Vec<TsFnParam> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    params, visitor, ast_path,
-                );
                 <Box<TsTypeAnn> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     type_ann, visitor, ast_path,
                 );
@@ -28613,9 +29020,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsEnumDecl {
                 );
                 <Ident as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     id, visitor, ast_path,
-                );
-                <Vec<TsEnumMember> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    members, visitor, ast_path,
                 );
             }
         }
@@ -28792,9 +29196,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsFnType {
                 type_params,
                 type_ann,
             } => {
-                <Vec<TsFnParam> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    params, visitor, ast_path,
-                );
                 <Box<TsTypeAnn> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     type_ann, visitor, ast_path,
                 );
@@ -28906,9 +29307,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsIndexSignature {
                 is_static,
                 span,
             } => {
-                <Vec<TsFnParam> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    params, visitor, ast_path,
-                );
                 <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     readonly, visitor, ast_path,
                 );
@@ -28999,11 +29397,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsInterfaceBody {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
-            TsInterfaceBody { span, body } => {
-                <Vec<TsTypeElement> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    body, visitor, ast_path,
-                );
-            }
+            TsInterfaceBody { span, body } => {}
         }
     }
 }
@@ -29031,7 +29425,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsInterfaceDecl {
                 <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     declare, visitor, ast_path,
                 );
-                < Vec < TsExprWithTypeArgs > as VisitMutWithAstPath < V > > :: visit_mut_children_with_ast_path (extends , visitor , ast_path) ;
                 <TsInterfaceBody as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     body, visitor, ast_path,
                 );
@@ -29049,11 +29442,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsIntersectionType 
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
-            TsIntersectionType { span, types } => {
-                <Vec<Box<TsType>> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    types, visitor, ast_path,
-                );
-            }
+            TsIntersectionType { span, types } => {}
         }
     }
 }
@@ -29215,9 +29604,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsMethodSignature {
                 );
                 <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     optional, visitor, ast_path,
-                );
-                <Vec<TsFnParam> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    params, visitor, ast_path,
                 );
             }
         }
@@ -29442,9 +29828,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsParamProp {
                 readonly,
                 param,
             } => {
-                <Vec<Decorator> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    decorators, visitor, ast_path,
-                );
                 <Option<Accessibility> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     accessibility,
                     visitor,
@@ -29684,14 +30067,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsTplLitType {
                 span,
                 types,
                 quasis,
-            } => {
-                <Vec<Box<TsType>> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    types, visitor, ast_path,
-                );
-                <Vec<TplElement> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    quasis, visitor, ast_path,
-                );
-            }
+            } => {}
         }
     }
 }
@@ -29726,11 +30102,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsTupleType {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
-            TsTupleType { span, elem_types } => {
-                <Vec<TsTupleElement> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    elem_types, visitor, ast_path,
-                );
-            }
+            TsTupleType { span, elem_types } => {}
         }
     }
 }
@@ -29974,11 +30346,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsTypeLit {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
-            TsTypeLit { span, members } => {
-                <Vec<TsTypeElement> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    members, visitor, ast_path,
-                );
-            }
+            TsTypeLit { span, members } => {}
         }
     }
 }
@@ -30064,11 +30432,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsTypeParamDecl {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
-            TsTypeParamDecl { span, params } => {
-                <Vec<TsTypeParam> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    params, visitor, ast_path,
-                );
-            }
+            TsTypeParamDecl { span, params } => {}
         }
     }
 }
@@ -30082,11 +30446,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsTypeParamInstanti
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
-            TsTypeParamInstantiation { span, params } => {
-                <Vec<Box<TsType>> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    params, visitor, ast_path,
-                );
-            }
+            TsTypeParamInstantiation { span, params } => {}
         }
     }
 }
@@ -30216,11 +30576,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsUnionType {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         match self {
-            TsUnionType { span, types } => {
-                <Vec<Box<TsType>> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    types, visitor, ast_path,
-                );
-            }
+            TsUnionType { span, types } => {}
         }
     }
 }
@@ -30327,9 +30683,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for UsingDecl {
                 <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     is_await, visitor, ast_path,
                 );
-                <Vec<VarDeclarator> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    decls, visitor, ast_path,
-                );
             }
         }
     }
@@ -30356,9 +30709,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for VarDecl {
                 );
                 <bool as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
                     declare, visitor, ast_path,
-                );
-                <Vec<VarDeclarator> as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
-                    decls, visitor, ast_path,
                 );
             }
         }
@@ -30669,6 +31019,12 @@ pub trait Fold {
     fn fold_class_member(&mut self, node: ClassMember) -> ClassMember {
         <ClassMember as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Vec < ClassMember >`.\n\nBy default, this method calls [`Vec < \
+             ClassMember >::fold_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn fold_class_members(&mut self, node: Vec<ClassMember>) -> Vec<ClassMember> {
+        <Vec<ClassMember> as FoldWith<Self>>::fold_children_with(node, self)
+    }
     #[doc = "Visit a node of type `ClassMethod`.\n\nBy default, this method calls \
              [`ClassMethod::fold_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -30721,6 +31077,12 @@ pub trait Fold {
              manually."]
     fn fold_decorator(&mut self, node: Decorator) -> Decorator {
         <Decorator as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < Decorator >`.\n\nBy default, this method calls [`Vec < \
+             Decorator >::fold_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn fold_decorators(&mut self, node: Vec<Decorator>) -> Vec<Decorator> {
+        <Vec<Decorator> as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `DefaultDecl`.\n\nBy default, this method calls \
              [`DefaultDecl::fold_children_with`]. If you want to recurse, you need to call it \
@@ -30794,6 +31156,12 @@ pub trait Fold {
     fn fold_export_specifier(&mut self, node: ExportSpecifier) -> ExportSpecifier {
         <ExportSpecifier as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Vec < ExportSpecifier >`.\n\nBy default, this method calls \
+             [`Vec < ExportSpecifier >::fold_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn fold_export_specifiers(&mut self, node: Vec<ExportSpecifier>) -> Vec<ExportSpecifier> {
+        <Vec<ExportSpecifier> as FoldWith<Self>>::fold_children_with(node, self)
+    }
     #[doc = "Visit a node of type `Expr`.\n\nBy default, this method calls \
              [`Expr::fold_children_with`]. If you want to recurse, you need to call it manually."]
     fn fold_expr(&mut self, node: Expr) -> Expr {
@@ -30816,6 +31184,12 @@ pub trait Fold {
              manually."]
     fn fold_expr_stmt(&mut self, node: ExprStmt) -> ExprStmt {
         <ExprStmt as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < Box < Expr > >`.\n\nBy default, this method calls [`Vec < \
+             Box < Expr > >::fold_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn fold_exprs(&mut self, node: Vec<Box<Expr>>) -> Vec<Box<Expr>> {
+        <Vec<Box<Expr>> as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `FnDecl`.\n\nBy default, this method calls \
              [`FnDecl::fold_children_with`]. If you want to recurse, you need to call it manually."]
@@ -30915,6 +31289,12 @@ pub trait Fold {
     fn fold_import_specifier(&mut self, node: ImportSpecifier) -> ImportSpecifier {
         <ImportSpecifier as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Vec < ImportSpecifier >`.\n\nBy default, this method calls \
+             [`Vec < ImportSpecifier >::fold_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn fold_import_specifiers(&mut self, node: Vec<ImportSpecifier>) -> Vec<ImportSpecifier> {
+        <Vec<ImportSpecifier> as FoldWith<Self>>::fold_children_with(node, self)
+    }
     #[doc = "Visit a node of type `ImportStarAsSpecifier`.\n\nBy default, this method calls \
              [`ImportStarAsSpecifier::fold_children_with`]. If you want to recurse, you need to \
              call it manually."]
@@ -30929,6 +31309,12 @@ pub trait Fold {
              manually."]
     fn fold_import_with_item(&mut self, node: ImportWithItem) -> ImportWithItem {
         <ImportWithItem as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < ImportWithItem >`.\n\nBy default, this method calls [`Vec \
+             < ImportWithItem >::fold_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn fold_import_with_items(&mut self, node: Vec<ImportWithItem>) -> Vec<ImportWithItem> {
+        <Vec<ImportWithItem> as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `Invalid`.\n\nBy default, this method calls \
              [`Invalid::fold_children_with`]. If you want to recurse, you need to call it manually."]
@@ -30951,6 +31337,12 @@ pub trait Fold {
              manually."]
     fn fold_jsx_attr_or_spread(&mut self, node: JSXAttrOrSpread) -> JSXAttrOrSpread {
         <JSXAttrOrSpread as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < JSXAttrOrSpread >`.\n\nBy default, this method calls \
+             [`Vec < JSXAttrOrSpread >::fold_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn fold_jsx_attr_or_spreads(&mut self, node: Vec<JSXAttrOrSpread>) -> Vec<JSXAttrOrSpread> {
+        <Vec<JSXAttrOrSpread> as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `JSXAttrValue`.\n\nBy default, this method calls \
              [`JSXAttrValue::fold_children_with`]. If you want to recurse, you need to call it \
@@ -30981,6 +31373,12 @@ pub trait Fold {
              manually."]
     fn fold_jsx_element_child(&mut self, node: JSXElementChild) -> JSXElementChild {
         <JSXElementChild as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < JSXElementChild >`.\n\nBy default, this method calls \
+             [`Vec < JSXElementChild >::fold_children_with`]. If you want to recurse, you need to \
+             call it manually."]
+    fn fold_jsx_element_childs(&mut self, node: Vec<JSXElementChild>) -> Vec<JSXElementChild> {
+        <Vec<JSXElementChild> as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `JSXElementName`.\n\nBy default, this method calls \
              [`JSXElementName::fold_children_with`]. If you want to recurse, you need to call it \
@@ -31178,6 +31576,12 @@ pub trait Fold {
     fn fold_object_pat_prop(&mut self, node: ObjectPatProp) -> ObjectPatProp {
         <ObjectPatProp as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Vec < ObjectPatProp >`.\n\nBy default, this method calls [`Vec \
+             < ObjectPatProp >::fold_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn fold_object_pat_props(&mut self, node: Vec<ObjectPatProp>) -> Vec<ObjectPatProp> {
+        <Vec<ObjectPatProp> as FoldWith<Self>>::fold_children_with(node, self)
+    }
     #[doc = "Visit a node of type `OptCall`.\n\nBy default, this method calls \
              [`OptCall::fold_children_with`]. If you want to recurse, you need to call it manually."]
     fn fold_opt_call(&mut self, node: OptCall) -> OptCall {
@@ -31206,6 +31610,20 @@ pub trait Fold {
     fn fold_param_or_ts_param_prop(&mut self, node: ParamOrTsParamProp) -> ParamOrTsParamProp {
         <ParamOrTsParamProp as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Vec < ParamOrTsParamProp >`.\n\nBy default, this method calls \
+             [`Vec < ParamOrTsParamProp >::fold_children_with`]. If you want to recurse, you need \
+             to call it manually."]
+    fn fold_param_or_ts_param_props(
+        &mut self,
+        node: Vec<ParamOrTsParamProp>,
+    ) -> Vec<ParamOrTsParamProp> {
+        <Vec<ParamOrTsParamProp> as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < Param >`.\n\nBy default, this method calls [`Vec < Param \
+             >::fold_children_with`]. If you want to recurse, you need to call it manually."]
+    fn fold_params(&mut self, node: Vec<Param>) -> Vec<Param> {
+        <Vec<Param> as FoldWith<Self>>::fold_children_with(node, self)
+    }
     #[doc = "Visit a node of type `ParenExpr`.\n\nBy default, this method calls \
              [`ParenExpr::fold_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -31216,6 +31634,11 @@ pub trait Fold {
              [`Pat::fold_children_with`]. If you want to recurse, you need to call it manually."]
     fn fold_pat(&mut self, node: Pat) -> Pat {
         <Pat as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < Pat >`.\n\nBy default, this method calls [`Vec < Pat \
+             >::fold_children_with`]. If you want to recurse, you need to call it manually."]
+    fn fold_pats(&mut self, node: Vec<Pat>) -> Vec<Pat> {
+        <Vec<Pat> as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `PrivateMethod`.\n\nBy default, this method calls \
              [`PrivateMethod::fold_children_with`]. If you want to recurse, you need to call it \
@@ -31251,6 +31674,12 @@ pub trait Fold {
              manually."]
     fn fold_prop_or_spread(&mut self, node: PropOrSpread) -> PropOrSpread {
         <PropOrSpread as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < PropOrSpread >`.\n\nBy default, this method calls [`Vec < \
+             PropOrSpread >::fold_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn fold_prop_or_spreads(&mut self, node: Vec<PropOrSpread>) -> Vec<PropOrSpread> {
+        <Vec<PropOrSpread> as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `Regex`.\n\nBy default, this method calls \
              [`Regex::fold_children_with`]. If you want to recurse, you need to call it manually."]
@@ -31312,6 +31741,11 @@ pub trait Fold {
     fn fold_stmt(&mut self, node: Stmt) -> Stmt {
         <Stmt as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Vec < Stmt >`.\n\nBy default, this method calls [`Vec < Stmt \
+             >::fold_children_with`]. If you want to recurse, you need to call it manually."]
+    fn fold_stmts(&mut self, node: Vec<Stmt>) -> Vec<Stmt> {
+        <Vec<Stmt> as FoldWith<Self>>::fold_children_with(node, self)
+    }
     #[doc = "Visit a node of type `Str`.\n\nBy default, this method calls \
              [`Str::fold_children_with`]. If you want to recurse, you need to call it manually."]
     fn fold_str(&mut self, node: Str) -> Str {
@@ -31339,6 +31773,12 @@ pub trait Fold {
              manually."]
     fn fold_switch_case(&mut self, node: SwitchCase) -> SwitchCase {
         <SwitchCase as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < SwitchCase >`.\n\nBy default, this method calls [`Vec < \
+             SwitchCase >::fold_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn fold_switch_cases(&mut self, node: Vec<SwitchCase>) -> Vec<SwitchCase> {
+        <Vec<SwitchCase> as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `SwitchStmt`.\n\nBy default, this method calls \
              [`SwitchStmt::fold_children_with`]. If you want to recurse, you need to call it \
@@ -31380,6 +31820,12 @@ pub trait Fold {
              manually."]
     fn fold_tpl_element(&mut self, node: TplElement) -> TplElement {
         <TplElement as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < TplElement >`.\n\nBy default, this method calls [`Vec < \
+             TplElement >::fold_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn fold_tpl_elements(&mut self, node: Vec<TplElement>) -> Vec<TplElement> {
+        <Vec<TplElement> as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `TruePlusMinus`.\n\nBy default, this method calls \
              [`TruePlusMinus::fold_children_with`]. If you want to recurse, you need to call it \
@@ -31461,6 +31907,12 @@ pub trait Fold {
     fn fold_ts_enum_member_id(&mut self, node: TsEnumMemberId) -> TsEnumMemberId {
         <TsEnumMemberId as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Vec < TsEnumMember >`.\n\nBy default, this method calls [`Vec < \
+             TsEnumMember >::fold_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn fold_ts_enum_members(&mut self, node: Vec<TsEnumMember>) -> Vec<TsEnumMember> {
+        <Vec<TsEnumMember> as FoldWith<Self>>::fold_children_with(node, self)
+    }
     #[doc = "Visit a node of type `TsExportAssignment`.\n\nBy default, this method calls \
              [`TsExportAssignment::fold_children_with`]. If you want to recurse, you need to call \
              it manually."]
@@ -31472,6 +31924,15 @@ pub trait Fold {
              it manually."]
     fn fold_ts_expr_with_type_args(&mut self, node: TsExprWithTypeArgs) -> TsExprWithTypeArgs {
         <TsExprWithTypeArgs as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < TsExprWithTypeArgs >`.\n\nBy default, this method calls \
+             [`Vec < TsExprWithTypeArgs >::fold_children_with`]. If you want to recurse, you need \
+             to call it manually."]
+    fn fold_ts_expr_with_type_argss(
+        &mut self,
+        node: Vec<TsExprWithTypeArgs>,
+    ) -> Vec<TsExprWithTypeArgs> {
+        <Vec<TsExprWithTypeArgs> as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `TsExternalModuleRef`.\n\nBy default, this method calls \
              [`TsExternalModuleRef::fold_children_with`]. If you want to recurse, you need to call \
@@ -31493,6 +31954,12 @@ pub trait Fold {
              manually."]
     fn fold_ts_fn_param(&mut self, node: TsFnParam) -> TsFnParam {
         <TsFnParam as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < TsFnParam >`.\n\nBy default, this method calls [`Vec < \
+             TsFnParam >::fold_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn fold_ts_fn_params(&mut self, node: Vec<TsFnParam>) -> Vec<TsFnParam> {
+        <Vec<TsFnParam> as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `TsFnType`.\n\nBy default, this method calls \
              [`TsFnType::fold_children_with`]. If you want to recurse, you need to call it \
@@ -31724,6 +32191,12 @@ pub trait Fold {
     fn fold_ts_tuple_element(&mut self, node: TsTupleElement) -> TsTupleElement {
         <TsTupleElement as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Vec < TsTupleElement >`.\n\nBy default, this method calls [`Vec \
+             < TsTupleElement >::fold_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn fold_ts_tuple_elements(&mut self, node: Vec<TsTupleElement>) -> Vec<TsTupleElement> {
+        <Vec<TsTupleElement> as FoldWith<Self>>::fold_children_with(node, self)
+    }
     #[doc = "Visit a node of type `TsTupleType`.\n\nBy default, this method calls \
              [`TsTupleType::fold_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -31759,6 +32232,12 @@ pub trait Fold {
     fn fold_ts_type_element(&mut self, node: TsTypeElement) -> TsTypeElement {
         <TsTypeElement as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Vec < TsTypeElement >`.\n\nBy default, this method calls [`Vec \
+             < TsTypeElement >::fold_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn fold_ts_type_elements(&mut self, node: Vec<TsTypeElement>) -> Vec<TsTypeElement> {
+        <Vec<TsTypeElement> as FoldWith<Self>>::fold_children_with(node, self)
+    }
     #[doc = "Visit a node of type `TsTypeLit`.\n\nBy default, this method calls \
              [`TsTypeLit::fold_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -31792,6 +32271,12 @@ pub trait Fold {
     ) -> TsTypeParamInstantiation {
         <TsTypeParamInstantiation as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Vec < TsTypeParam >`.\n\nBy default, this method calls [`Vec < \
+             TsTypeParam >::fold_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn fold_ts_type_params(&mut self, node: Vec<TsTypeParam>) -> Vec<TsTypeParam> {
+        <Vec<TsTypeParam> as FoldWith<Self>>::fold_children_with(node, self)
+    }
     #[doc = "Visit a node of type `TsTypePredicate`.\n\nBy default, this method calls \
              [`TsTypePredicate::fold_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -31815,6 +32300,12 @@ pub trait Fold {
              manually."]
     fn fold_ts_type_ref(&mut self, node: TsTypeRef) -> TsTypeRef {
         <TsTypeRef as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < Box < TsType > >`.\n\nBy default, this method calls [`Vec \
+             < Box < TsType > >::fold_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn fold_ts_types(&mut self, node: Vec<Box<TsType>>) -> Vec<Box<TsType>> {
+        <Vec<Box<TsType>> as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `TsUnionOrIntersectionType`.\n\nBy default, this method calls \
              [`TsUnionOrIntersectionType::fold_children_with`]. If you want to recurse, you need \
@@ -31883,6 +32374,12 @@ pub trait Fold {
     fn fold_var_declarator(&mut self, node: VarDeclarator) -> VarDeclarator {
         <VarDeclarator as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Vec < VarDeclarator >`.\n\nBy default, this method calls [`Vec \
+             < VarDeclarator >::fold_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn fold_var_declarators(&mut self, node: Vec<VarDeclarator>) -> Vec<VarDeclarator> {
+        <Vec<VarDeclarator> as FoldWith<Self>>::fold_children_with(node, self)
+    }
     #[doc = "Visit a node of type `WhileStmt`.\n\nBy default, this method calls \
              [`WhileStmt::fold_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -31949,7 +32446,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for ArrayPat {
                 optional,
                 type_ann,
             } => {
-                let elems = <Vec<Option<Pat>> as FoldWith<V>>::fold_children_with(elems, visitor);
                 let optional = <bool as FoldWith<V>>::fold_children_with(optional, visitor);
                 ArrayPat {
                     span,
@@ -31979,7 +32475,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for ArrowExpr {
                 type_params,
                 return_type,
             } => {
-                let params = <Vec<Pat> as FoldWith<V>>::fold_children_with(params, visitor);
                 let body = <Box<BlockStmtOrExpr> as FoldWith<V>>::fold_children_with(body, visitor);
                 let is_async = <bool as FoldWith<V>>::fold_children_with(is_async, visitor);
                 let is_generator = <bool as FoldWith<V>>::fold_children_with(is_generator, visitor);
@@ -32164,8 +32659,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for AutoAccessor {
             } => {
                 let key = <Key as FoldWith<V>>::fold_children_with(key, visitor);
                 let is_static = <bool as FoldWith<V>>::fold_children_with(is_static, visitor);
-                let decorators =
-                    <Vec<Decorator> as FoldWith<V>>::fold_children_with(decorators, visitor);
                 let accessibility = <Option<Accessibility> as FoldWith<V>>::fold_children_with(
                     accessibility,
                     visitor,
@@ -32302,10 +32795,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for BlockStmt {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            BlockStmt { span, ctxt, stmts } => {
-                let stmts = <Vec<Stmt> as FoldWith<V>>::fold_children_with(stmts, visitor);
-                BlockStmt { span, ctxt, stmts }
-            }
+            BlockStmt { span, ctxt, stmts } => BlockStmt { span, ctxt, stmts },
         }
     }
 }
@@ -32443,13 +32933,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Class {
                 super_type_params,
                 implements,
             } => {
-                let decorators =
-                    <Vec<Decorator> as FoldWith<V>>::fold_children_with(decorators, visitor);
-                let body = <Vec<ClassMember> as FoldWith<V>>::fold_children_with(body, visitor);
                 let is_abstract = <bool as FoldWith<V>>::fold_children_with(is_abstract, visitor);
-                let implements = <Vec<TsExprWithTypeArgs> as FoldWith<V>>::fold_children_with(
-                    implements, visitor,
-                );
                 Class {
                     span,
                     ctxt,
@@ -32575,8 +33059,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for ClassProp {
             } => {
                 let key = <PropName as FoldWith<V>>::fold_children_with(key, visitor);
                 let is_static = <bool as FoldWith<V>>::fold_children_with(is_static, visitor);
-                let decorators =
-                    <Vec<Decorator> as FoldWith<V>>::fold_children_with(decorators, visitor);
                 let accessibility = <Option<Accessibility> as FoldWith<V>>::fold_children_with(
                     accessibility,
                     visitor,
@@ -32666,8 +33148,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for Constructor {
                 is_optional,
             } => {
                 let key = <PropName as FoldWith<V>>::fold_children_with(key, visitor);
-                let params =
-                    <Vec<ParamOrTsParamProp> as FoldWith<V>>::fold_children_with(params, visitor);
                 let body = <Option<BlockStmt> as FoldWith<V>>::fold_children_with(body, visitor);
                 let accessibility = <Option<Accessibility> as FoldWith<V>>::fold_children_with(
                     accessibility,
@@ -33382,9 +33862,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for Function {
                 type_params,
                 return_type,
             } => {
-                let params = <Vec<Param> as FoldWith<V>>::fold_children_with(params, visitor);
-                let decorators =
-                    <Vec<Decorator> as FoldWith<V>>::fold_children_with(decorators, visitor);
                 let body = <Option<BlockStmt> as FoldWith<V>>::fold_children_with(body, visitor);
                 let is_generator = <bool as FoldWith<V>>::fold_children_with(is_generator, visitor);
                 let is_async = <bool as FoldWith<V>>::fold_children_with(is_async, visitor);
@@ -33523,8 +34000,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for ImportDecl {
                 with,
                 phase,
             } => {
-                let specifiers =
-                    <Vec<ImportSpecifier> as FoldWith<V>>::fold_children_with(specifiers, visitor);
                 let src = <Box<Str> as FoldWith<V>>::fold_children_with(src, visitor);
                 let type_only = <bool as FoldWith<V>>::fold_children_with(type_only, visitor);
                 let phase = <ImportPhase as FoldWith<V>>::fold_children_with(phase, visitor);
@@ -33647,11 +34122,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for ImportWith {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            ImportWith { span, values } => {
-                let values =
-                    <Vec<ImportWithItem> as FoldWith<V>>::fold_children_with(values, visitor);
-                ImportWith { span, values }
-            }
+            ImportWith { span, values } => ImportWith { span, values },
         }
     }
 }
@@ -33812,8 +34283,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for JSXElement {
             } => {
                 let opening =
                     <JSXOpeningElement as FoldWith<V>>::fold_children_with(opening, visitor);
-                let children =
-                    <Vec<JSXElementChild> as FoldWith<V>>::fold_children_with(children, visitor);
                 let closing = <Option<JSXClosingElement> as FoldWith<V>>::fold_children_with(
                     closing, visitor,
                 );
@@ -33948,8 +34417,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for JSXFragment {
             } => {
                 let opening =
                     <JSXOpeningFragment as FoldWith<V>>::fold_children_with(opening, visitor);
-                let children =
-                    <Vec<JSXElementChild> as FoldWith<V>>::fold_children_with(children, visitor);
                 let closing =
                     <JSXClosingFragment as FoldWith<V>>::fold_children_with(closing, visitor);
                 JSXFragment {
@@ -34030,8 +34497,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for JSXOpeningElement {
                 type_args,
             } => {
                 let name = <JSXElementName as FoldWith<V>>::fold_children_with(name, visitor);
-                let attrs =
-                    <Vec<JSXAttrOrSpread> as FoldWith<V>>::fold_children_with(attrs, visitor);
                 let self_closing = <bool as FoldWith<V>>::fold_children_with(self_closing, visitor);
                 JSXOpeningElement {
                     name,
@@ -34414,8 +34879,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for NamedExport {
                 type_only,
                 with,
             } => {
-                let specifiers =
-                    <Vec<ExportSpecifier> as FoldWith<V>>::fold_children_with(specifiers, visitor);
                 let type_only = <bool as FoldWith<V>>::fold_children_with(type_only, visitor);
                 NamedExport {
                     span,
@@ -34490,10 +34953,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for ObjectLit {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            ObjectLit { span, props } => {
-                let props = <Vec<PropOrSpread> as FoldWith<V>>::fold_children_with(props, visitor);
-                ObjectLit { span, props }
-            }
+            ObjectLit { span, props } => ObjectLit { span, props },
         }
     }
 }
@@ -34511,7 +34971,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for ObjectPat {
                 optional,
                 type_ann,
             } => {
-                let props = <Vec<ObjectPatProp> as FoldWith<V>>::fold_children_with(props, visitor);
                 let optional = <bool as FoldWith<V>>::fold_children_with(optional, visitor);
                 ObjectPat {
                     span,
@@ -34631,8 +35090,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for Param {
                 decorators,
                 pat,
             } => {
-                let decorators =
-                    <Vec<Decorator> as FoldWith<V>>::fold_children_with(decorators, visitor);
                 let pat = <Pat as FoldWith<V>>::fold_children_with(pat, visitor);
                 Param {
                     span,
@@ -34752,8 +35209,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for PrivateProp {
             } => {
                 let key = <PrivateName as FoldWith<V>>::fold_children_with(key, visitor);
                 let is_static = <bool as FoldWith<V>>::fold_children_with(is_static, visitor);
-                let decorators =
-                    <Vec<Decorator> as FoldWith<V>>::fold_children_with(decorators, visitor);
                 let accessibility = <Option<Accessibility> as FoldWith<V>>::fold_children_with(
                     accessibility,
                     visitor,
@@ -34959,14 +35414,11 @@ impl<V: ?Sized + Fold> FoldWith<V> for Script {
                 span,
                 body,
                 shebang,
-            } => {
-                let body = <Vec<Stmt> as FoldWith<V>>::fold_children_with(body, visitor);
-                Script {
-                    span,
-                    body,
-                    shebang,
-                }
-            }
+            } => Script {
+                span,
+                body,
+                shebang,
+            },
         }
     }
 }
@@ -34978,10 +35430,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for SeqExpr {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            SeqExpr { span, exprs } => {
-                let exprs = <Vec<Box<Expr>> as FoldWith<V>>::fold_children_with(exprs, visitor);
-                SeqExpr { span, exprs }
-            }
+            SeqExpr { span, exprs } => SeqExpr { span, exprs },
         }
     }
 }
@@ -35261,10 +35710,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for SwitchCase {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            SwitchCase { span, test, cons } => {
-                let cons = <Vec<Stmt> as FoldWith<V>>::fold_children_with(cons, visitor);
-                SwitchCase { span, test, cons }
-            }
+            SwitchCase { span, test, cons } => SwitchCase { span, test, cons },
         }
     }
 }
@@ -35283,7 +35729,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for SwitchStmt {
             } => {
                 let discriminant =
                     <Box<Expr> as FoldWith<V>>::fold_children_with(discriminant, visitor);
-                let cases = <Vec<SwitchCase> as FoldWith<V>>::fold_children_with(cases, visitor);
                 SwitchStmt {
                     span,
                     discriminant,
@@ -35360,15 +35805,11 @@ impl<V: ?Sized + Fold> FoldWith<V> for Tpl {
                 span,
                 exprs,
                 quasis,
-            } => {
-                let exprs = <Vec<Box<Expr>> as FoldWith<V>>::fold_children_with(exprs, visitor);
-                let quasis = <Vec<TplElement> as FoldWith<V>>::fold_children_with(quasis, visitor);
-                Tpl {
-                    span,
-                    exprs,
-                    quasis,
-                }
-            }
+            } => Tpl {
+                span,
+                exprs,
+                quasis,
+            },
         }
     }
 }
@@ -35493,15 +35934,12 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsCallSignatureDecl {
                 params,
                 type_ann,
                 type_params,
-            } => {
-                let params = <Vec<TsFnParam> as FoldWith<V>>::fold_children_with(params, visitor);
-                TsCallSignatureDecl {
-                    span,
-                    params,
-                    type_ann,
-                    type_params,
-                }
-            }
+            } => TsCallSignatureDecl {
+                span,
+                params,
+                type_ann,
+                type_params,
+            },
         }
     }
 }
@@ -35567,15 +36005,12 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsConstructSignatureDecl {
                 params,
                 type_ann,
                 type_params,
-            } => {
-                let params = <Vec<TsFnParam> as FoldWith<V>>::fold_children_with(params, visitor);
-                TsConstructSignatureDecl {
-                    span,
-                    params,
-                    type_ann,
-                    type_params,
-                }
-            }
+            } => TsConstructSignatureDecl {
+                span,
+                params,
+                type_ann,
+                type_params,
+            },
         }
     }
 }
@@ -35594,7 +36029,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsConstructorType {
                 type_ann,
                 is_abstract,
             } => {
-                let params = <Vec<TsFnParam> as FoldWith<V>>::fold_children_with(params, visitor);
                 let type_ann =
                     <Box<TsTypeAnn> as FoldWith<V>>::fold_children_with(type_ann, visitor);
                 let is_abstract = <bool as FoldWith<V>>::fold_children_with(is_abstract, visitor);
@@ -35647,8 +36081,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsEnumDecl {
                 let declare = <bool as FoldWith<V>>::fold_children_with(declare, visitor);
                 let is_const = <bool as FoldWith<V>>::fold_children_with(is_const, visitor);
                 let id = <Ident as FoldWith<V>>::fold_children_with(id, visitor);
-                let members =
-                    <Vec<TsEnumMember> as FoldWith<V>>::fold_children_with(members, visitor);
                 TsEnumDecl {
                     span,
                     declare,
@@ -35808,7 +36240,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsFnType {
                 type_params,
                 type_ann,
             } => {
-                let params = <Vec<TsFnParam> as FoldWith<V>>::fold_children_with(params, visitor);
                 let type_ann =
                     <Box<TsTypeAnn> as FoldWith<V>>::fold_children_with(type_ann, visitor);
                 TsFnType {
@@ -35920,7 +36351,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsIndexSignature {
                 is_static,
                 span,
             } => {
-                let params = <Vec<TsFnParam> as FoldWith<V>>::fold_children_with(params, visitor);
                 let readonly = <bool as FoldWith<V>>::fold_children_with(readonly, visitor);
                 let is_static = <bool as FoldWith<V>>::fold_children_with(is_static, visitor);
                 TsIndexSignature {
@@ -36012,10 +36442,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsInterfaceBody {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            TsInterfaceBody { span, body } => {
-                let body = <Vec<TsTypeElement> as FoldWith<V>>::fold_children_with(body, visitor);
-                TsInterfaceBody { span, body }
-            }
+            TsInterfaceBody { span, body } => TsInterfaceBody { span, body },
         }
     }
 }
@@ -36037,8 +36464,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsInterfaceDecl {
             } => {
                 let id = <Ident as FoldWith<V>>::fold_children_with(id, visitor);
                 let declare = <bool as FoldWith<V>>::fold_children_with(declare, visitor);
-                let extends =
-                    <Vec<TsExprWithTypeArgs> as FoldWith<V>>::fold_children_with(extends, visitor);
                 let body = <TsInterfaceBody as FoldWith<V>>::fold_children_with(body, visitor);
                 TsInterfaceDecl {
                     span,
@@ -36060,10 +36485,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsIntersectionType {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            TsIntersectionType { span, types } => {
-                let types = <Vec<Box<TsType>> as FoldWith<V>>::fold_children_with(types, visitor);
-                TsIntersectionType { span, types }
-            }
+            TsIntersectionType { span, types } => TsIntersectionType { span, types },
         }
     }
 }
@@ -36206,7 +36628,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsMethodSignature {
                 let key = <Box<Expr> as FoldWith<V>>::fold_children_with(key, visitor);
                 let computed = <bool as FoldWith<V>>::fold_children_with(computed, visitor);
                 let optional = <bool as FoldWith<V>>::fold_children_with(optional, visitor);
-                let params = <Vec<TsFnParam> as FoldWith<V>>::fold_children_with(params, visitor);
                 TsMethodSignature {
                     span,
                     key,
@@ -36414,8 +36835,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsParamProp {
                 readonly,
                 param,
             } => {
-                let decorators =
-                    <Vec<Decorator> as FoldWith<V>>::fold_children_with(decorators, visitor);
                 let accessibility = <Option<Accessibility> as FoldWith<V>>::fold_children_with(
                     accessibility,
                     visitor,
@@ -36626,15 +37045,11 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsTplLitType {
                 span,
                 types,
                 quasis,
-            } => {
-                let types = <Vec<Box<TsType>> as FoldWith<V>>::fold_children_with(types, visitor);
-                let quasis = <Vec<TplElement> as FoldWith<V>>::fold_children_with(quasis, visitor);
-                TsTplLitType {
-                    span,
-                    types,
-                    quasis,
-                }
-            }
+            } => TsTplLitType {
+                span,
+                types,
+                quasis,
+            },
         }
     }
 }
@@ -36662,11 +37077,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsTupleType {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            TsTupleType { span, elem_types } => {
-                let elem_types =
-                    <Vec<TsTupleElement> as FoldWith<V>>::fold_children_with(elem_types, visitor);
-                TsTupleType { span, elem_types }
-            }
+            TsTupleType { span, elem_types } => TsTupleType { span, elem_types },
         }
     }
 }
@@ -36894,11 +37305,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsTypeLit {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            TsTypeLit { span, members } => {
-                let members =
-                    <Vec<TsTypeElement> as FoldWith<V>>::fold_children_with(members, visitor);
-                TsTypeLit { span, members }
-            }
+            TsTypeLit { span, members } => TsTypeLit { span, members },
         }
     }
 }
@@ -36974,10 +37381,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsTypeParamDecl {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            TsTypeParamDecl { span, params } => {
-                let params = <Vec<TsTypeParam> as FoldWith<V>>::fold_children_with(params, visitor);
-                TsTypeParamDecl { span, params }
-            }
+            TsTypeParamDecl { span, params } => TsTypeParamDecl { span, params },
         }
     }
 }
@@ -36989,10 +37393,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsTypeParamInstantiation {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            TsTypeParamInstantiation { span, params } => {
-                let params = <Vec<Box<TsType>> as FoldWith<V>>::fold_children_with(params, visitor);
-                TsTypeParamInstantiation { span, params }
-            }
+            TsTypeParamInstantiation { span, params } => TsTypeParamInstantiation { span, params },
         }
     }
 }
@@ -37118,10 +37519,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsUnionType {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            TsUnionType { span, types } => {
-                let types = <Vec<Box<TsType>> as FoldWith<V>>::fold_children_with(types, visitor);
-                TsUnionType { span, types }
-            }
+            TsUnionType { span, types } => TsUnionType { span, types },
         }
     }
 }
@@ -37213,7 +37611,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for UsingDecl {
                 decls,
             } => {
                 let is_await = <bool as FoldWith<V>>::fold_children_with(is_await, visitor);
-                let decls = <Vec<VarDeclarator> as FoldWith<V>>::fold_children_with(decls, visitor);
                 UsingDecl {
                     span,
                     is_await,
@@ -37240,7 +37637,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for VarDecl {
             } => {
                 let kind = <VarDeclKind as FoldWith<V>>::fold_children_with(kind, visitor);
                 let declare = <bool as FoldWith<V>>::fold_children_with(declare, visitor);
-                let decls = <Vec<VarDeclarator> as FoldWith<V>>::fold_children_with(decls, visitor);
                 VarDecl {
                     span,
                     ctxt,
@@ -37582,6 +37978,18 @@ pub trait FoldAstPath {
     fn fold_class_member(&mut self, node: ClassMember, ast_path: &mut AstKindPath) -> ClassMember {
         <ClassMember as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
     }
+    #[doc = "Visit a node of type `Vec < ClassMember >`.\n\nBy default, this method calls [`Vec < \
+             ClassMember >::fold_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    fn fold_class_members(
+        &mut self,
+        node: Vec<ClassMember>,
+        ast_path: &mut AstKindPath,
+    ) -> Vec<ClassMember> {
+        <Vec<ClassMember> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `ClassMethod`.\n\nBy default, this method calls \
              [`ClassMethod::fold_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
@@ -37649,6 +38057,16 @@ pub trait FoldAstPath {
              it manually."]
     fn fold_decorator(&mut self, node: Decorator, ast_path: &mut AstKindPath) -> Decorator {
         <Decorator as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `Vec < Decorator >`.\n\nBy default, this method calls [`Vec < \
+             Decorator >::fold_children_with_ast_path`]. If you want to recurse, you need to call \
+             it manually."]
+    fn fold_decorators(
+        &mut self,
+        node: Vec<Decorator>,
+        ast_path: &mut AstKindPath,
+    ) -> Vec<Decorator> {
+        <Vec<Decorator> as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
     }
     #[doc = "Visit a node of type `DefaultDecl`.\n\nBy default, this method calls \
              [`DefaultDecl::fold_children_with_ast_path`]. If you want to recurse, you need to \
@@ -37752,6 +38170,18 @@ pub trait FoldAstPath {
             node, self, ast_path,
         )
     }
+    #[doc = "Visit a node of type `Vec < ExportSpecifier >`.\n\nBy default, this method calls \
+             [`Vec < ExportSpecifier >::fold_children_with_ast_path`]. If you want to recurse, you \
+             need to call it manually."]
+    fn fold_export_specifiers(
+        &mut self,
+        node: Vec<ExportSpecifier>,
+        ast_path: &mut AstKindPath,
+    ) -> Vec<ExportSpecifier> {
+        <Vec<ExportSpecifier> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `Expr`.\n\nBy default, this method calls \
              [`Expr::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
@@ -37785,6 +38215,12 @@ pub trait FoldAstPath {
              it manually."]
     fn fold_expr_stmt(&mut self, node: ExprStmt, ast_path: &mut AstKindPath) -> ExprStmt {
         <ExprStmt as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `Vec < Box < Expr > >`.\n\nBy default, this method calls [`Vec < \
+             Box < Expr > >::fold_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    fn fold_exprs(&mut self, node: Vec<Box<Expr>>, ast_path: &mut AstKindPath) -> Vec<Box<Expr>> {
+        <Vec<Box<Expr>> as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
     }
     #[doc = "Visit a node of type `FnDecl`.\n\nBy default, this method calls \
              [`FnDecl::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
@@ -37906,6 +38342,18 @@ pub trait FoldAstPath {
             node, self, ast_path,
         )
     }
+    #[doc = "Visit a node of type `Vec < ImportSpecifier >`.\n\nBy default, this method calls \
+             [`Vec < ImportSpecifier >::fold_children_with_ast_path`]. If you want to recurse, you \
+             need to call it manually."]
+    fn fold_import_specifiers(
+        &mut self,
+        node: Vec<ImportSpecifier>,
+        ast_path: &mut AstKindPath,
+    ) -> Vec<ImportSpecifier> {
+        <Vec<ImportSpecifier> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `ImportStarAsSpecifier`.\n\nBy default, this method calls \
              [`ImportStarAsSpecifier::fold_children_with_ast_path`]. If you want to recurse, you \
              need to call it manually."]
@@ -37927,6 +38375,18 @@ pub trait FoldAstPath {
         ast_path: &mut AstKindPath,
     ) -> ImportWithItem {
         <ImportWithItem as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `Vec < ImportWithItem >`.\n\nBy default, this method calls [`Vec \
+             < ImportWithItem >::fold_children_with_ast_path`]. If you want to recurse, you need \
+             to call it manually."]
+    fn fold_import_with_items(
+        &mut self,
+        node: Vec<ImportWithItem>,
+        ast_path: &mut AstKindPath,
+    ) -> Vec<ImportWithItem> {
+        <Vec<ImportWithItem> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
     }
     #[doc = "Visit a node of type `Invalid`.\n\nBy default, this method calls \
              [`Invalid::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
@@ -37955,6 +38415,18 @@ pub trait FoldAstPath {
         ast_path: &mut AstKindPath,
     ) -> JSXAttrOrSpread {
         <JSXAttrOrSpread as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Vec < JSXAttrOrSpread >`.\n\nBy default, this method calls \
+             [`Vec < JSXAttrOrSpread >::fold_children_with_ast_path`]. If you want to recurse, you \
+             need to call it manually."]
+    fn fold_jsx_attr_or_spreads(
+        &mut self,
+        node: Vec<JSXAttrOrSpread>,
+        ast_path: &mut AstKindPath,
+    ) -> Vec<JSXAttrOrSpread> {
+        <Vec<JSXAttrOrSpread> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -38007,6 +38479,18 @@ pub trait FoldAstPath {
         ast_path: &mut AstKindPath,
     ) -> JSXElementChild {
         <JSXElementChild as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Vec < JSXElementChild >`.\n\nBy default, this method calls \
+             [`Vec < JSXElementChild >::fold_children_with_ast_path`]. If you want to recurse, you \
+             need to call it manually."]
+    fn fold_jsx_element_childs(
+        &mut self,
+        node: Vec<JSXElementChild>,
+        ast_path: &mut AstKindPath,
+    ) -> Vec<JSXElementChild> {
+        <Vec<JSXElementChild> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -38288,6 +38772,18 @@ pub trait FoldAstPath {
     ) -> ObjectPatProp {
         <ObjectPatProp as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
     }
+    #[doc = "Visit a node of type `Vec < ObjectPatProp >`.\n\nBy default, this method calls [`Vec \
+             < ObjectPatProp >::fold_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    fn fold_object_pat_props(
+        &mut self,
+        node: Vec<ObjectPatProp>,
+        ast_path: &mut AstKindPath,
+    ) -> Vec<ObjectPatProp> {
+        <Vec<ObjectPatProp> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `OptCall`.\n\nBy default, this method calls \
              [`OptCall::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
@@ -38332,6 +38828,24 @@ pub trait FoldAstPath {
             node, self, ast_path,
         )
     }
+    #[doc = "Visit a node of type `Vec < ParamOrTsParamProp >`.\n\nBy default, this method calls \
+             [`Vec < ParamOrTsParamProp >::fold_children_with_ast_path`]. If you want to recurse, \
+             you need to call it manually."]
+    fn fold_param_or_ts_param_props(
+        &mut self,
+        node: Vec<ParamOrTsParamProp>,
+        ast_path: &mut AstKindPath,
+    ) -> Vec<ParamOrTsParamProp> {
+        <Vec<ParamOrTsParamProp> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Vec < Param >`.\n\nBy default, this method calls [`Vec < Param \
+             >::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
+             manually."]
+    fn fold_params(&mut self, node: Vec<Param>, ast_path: &mut AstKindPath) -> Vec<Param> {
+        <Vec<Param> as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
+    }
     #[doc = "Visit a node of type `ParenExpr`.\n\nBy default, this method calls \
              [`ParenExpr::fold_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
@@ -38343,6 +38857,12 @@ pub trait FoldAstPath {
              manually."]
     fn fold_pat(&mut self, node: Pat, ast_path: &mut AstKindPath) -> Pat {
         <Pat as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `Vec < Pat >`.\n\nBy default, this method calls [`Vec < Pat \
+             >::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
+             manually."]
+    fn fold_pats(&mut self, node: Vec<Pat>, ast_path: &mut AstKindPath) -> Vec<Pat> {
+        <Vec<Pat> as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
     }
     #[doc = "Visit a node of type `PrivateMethod`.\n\nBy default, this method calls \
              [`PrivateMethod::fold_children_with_ast_path`]. If you want to recurse, you need to \
@@ -38387,6 +38907,18 @@ pub trait FoldAstPath {
         ast_path: &mut AstKindPath,
     ) -> PropOrSpread {
         <PropOrSpread as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `Vec < PropOrSpread >`.\n\nBy default, this method calls [`Vec < \
+             PropOrSpread >::fold_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    fn fold_prop_or_spreads(
+        &mut self,
+        node: Vec<PropOrSpread>,
+        ast_path: &mut AstKindPath,
+    ) -> Vec<PropOrSpread> {
+        <Vec<PropOrSpread> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
     }
     #[doc = "Visit a node of type `Regex`.\n\nBy default, this method calls \
              [`Regex::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
@@ -38464,6 +38996,12 @@ pub trait FoldAstPath {
     fn fold_stmt(&mut self, node: Stmt, ast_path: &mut AstKindPath) -> Stmt {
         <Stmt as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
     }
+    #[doc = "Visit a node of type `Vec < Stmt >`.\n\nBy default, this method calls [`Vec < Stmt \
+             >::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
+             manually."]
+    fn fold_stmts(&mut self, node: Vec<Stmt>, ast_path: &mut AstKindPath) -> Vec<Stmt> {
+        <Vec<Stmt> as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
+    }
     #[doc = "Visit a node of type `Str`.\n\nBy default, this method calls \
              [`Str::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
@@ -38497,6 +39035,18 @@ pub trait FoldAstPath {
              it manually."]
     fn fold_switch_case(&mut self, node: SwitchCase, ast_path: &mut AstKindPath) -> SwitchCase {
         <SwitchCase as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `Vec < SwitchCase >`.\n\nBy default, this method calls [`Vec < \
+             SwitchCase >::fold_children_with_ast_path`]. If you want to recurse, you need to call \
+             it manually."]
+    fn fold_switch_cases(
+        &mut self,
+        node: Vec<SwitchCase>,
+        ast_path: &mut AstKindPath,
+    ) -> Vec<SwitchCase> {
+        <Vec<SwitchCase> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
     }
     #[doc = "Visit a node of type `SwitchStmt`.\n\nBy default, this method calls \
              [`SwitchStmt::fold_children_with_ast_path`]. If you want to recurse, you need to call \
@@ -38543,6 +39093,18 @@ pub trait FoldAstPath {
              it manually."]
     fn fold_tpl_element(&mut self, node: TplElement, ast_path: &mut AstKindPath) -> TplElement {
         <TplElement as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `Vec < TplElement >`.\n\nBy default, this method calls [`Vec < \
+             TplElement >::fold_children_with_ast_path`]. If you want to recurse, you need to call \
+             it manually."]
+    fn fold_tpl_elements(
+        &mut self,
+        node: Vec<TplElement>,
+        ast_path: &mut AstKindPath,
+    ) -> Vec<TplElement> {
+        <Vec<TplElement> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
     }
     #[doc = "Visit a node of type `TruePlusMinus`.\n\nBy default, this method calls \
              [`TruePlusMinus::fold_children_with_ast_path`]. If you want to recurse, you need to \
@@ -38668,6 +39230,18 @@ pub trait FoldAstPath {
     ) -> TsEnumMemberId {
         <TsEnumMemberId as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
     }
+    #[doc = "Visit a node of type `Vec < TsEnumMember >`.\n\nBy default, this method calls [`Vec < \
+             TsEnumMember >::fold_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    fn fold_ts_enum_members(
+        &mut self,
+        node: Vec<TsEnumMember>,
+        ast_path: &mut AstKindPath,
+    ) -> Vec<TsEnumMember> {
+        <Vec<TsEnumMember> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `TsExportAssignment`.\n\nBy default, this method calls \
              [`TsExportAssignment::fold_children_with_ast_path`]. If you want to recurse, you need \
              to call it manually."]
@@ -38689,6 +39263,18 @@ pub trait FoldAstPath {
         ast_path: &mut AstKindPath,
     ) -> TsExprWithTypeArgs {
         <TsExprWithTypeArgs as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Vec < TsExprWithTypeArgs >`.\n\nBy default, this method calls \
+             [`Vec < TsExprWithTypeArgs >::fold_children_with_ast_path`]. If you want to recurse, \
+             you need to call it manually."]
+    fn fold_ts_expr_with_type_argss(
+        &mut self,
+        node: Vec<TsExprWithTypeArgs>,
+        ast_path: &mut AstKindPath,
+    ) -> Vec<TsExprWithTypeArgs> {
+        <Vec<TsExprWithTypeArgs> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -38721,6 +39307,16 @@ pub trait FoldAstPath {
              it manually."]
     fn fold_ts_fn_param(&mut self, node: TsFnParam, ast_path: &mut AstKindPath) -> TsFnParam {
         <TsFnParam as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `Vec < TsFnParam >`.\n\nBy default, this method calls [`Vec < \
+             TsFnParam >::fold_children_with_ast_path`]. If you want to recurse, you need to call \
+             it manually."]
+    fn fold_ts_fn_params(
+        &mut self,
+        node: Vec<TsFnParam>,
+        ast_path: &mut AstKindPath,
+    ) -> Vec<TsFnParam> {
+        <Vec<TsFnParam> as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
     }
     #[doc = "Visit a node of type `TsFnType`.\n\nBy default, this method calls \
              [`TsFnType::fold_children_with_ast_path`]. If you want to recurse, you need to call \
@@ -39110,6 +39706,18 @@ pub trait FoldAstPath {
     ) -> TsTupleElement {
         <TsTupleElement as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
     }
+    #[doc = "Visit a node of type `Vec < TsTupleElement >`.\n\nBy default, this method calls [`Vec \
+             < TsTupleElement >::fold_children_with_ast_path`]. If you want to recurse, you need \
+             to call it manually."]
+    fn fold_ts_tuple_elements(
+        &mut self,
+        node: Vec<TsTupleElement>,
+        ast_path: &mut AstKindPath,
+    ) -> Vec<TsTupleElement> {
+        <Vec<TsTupleElement> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `TsTupleType`.\n\nBy default, this method calls \
              [`TsTupleType::fold_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
@@ -39162,6 +39770,18 @@ pub trait FoldAstPath {
     ) -> TsTypeElement {
         <TsTypeElement as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
     }
+    #[doc = "Visit a node of type `Vec < TsTypeElement >`.\n\nBy default, this method calls [`Vec \
+             < TsTypeElement >::fold_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    fn fold_ts_type_elements(
+        &mut self,
+        node: Vec<TsTypeElement>,
+        ast_path: &mut AstKindPath,
+    ) -> Vec<TsTypeElement> {
+        <Vec<TsTypeElement> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `TsTypeLit`.\n\nBy default, this method calls \
              [`TsTypeLit::fold_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
@@ -39208,6 +39828,18 @@ pub trait FoldAstPath {
             node, self, ast_path,
         )
     }
+    #[doc = "Visit a node of type `Vec < TsTypeParam >`.\n\nBy default, this method calls [`Vec < \
+             TsTypeParam >::fold_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    fn fold_ts_type_params(
+        &mut self,
+        node: Vec<TsTypeParam>,
+        ast_path: &mut AstKindPath,
+    ) -> Vec<TsTypeParam> {
+        <Vec<TsTypeParam> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `TsTypePredicate`.\n\nBy default, this method calls \
              [`TsTypePredicate::fold_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
@@ -39243,6 +39875,18 @@ pub trait FoldAstPath {
              it manually."]
     fn fold_ts_type_ref(&mut self, node: TsTypeRef, ast_path: &mut AstKindPath) -> TsTypeRef {
         <TsTypeRef as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `Vec < Box < TsType > >`.\n\nBy default, this method calls [`Vec \
+             < Box < TsType > >::fold_children_with_ast_path`]. If you want to recurse, you need \
+             to call it manually."]
+    fn fold_ts_types(
+        &mut self,
+        node: Vec<Box<TsType>>,
+        ast_path: &mut AstKindPath,
+    ) -> Vec<Box<TsType>> {
+        <Vec<Box<TsType>> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
     }
     #[doc = "Visit a node of type `TsUnionOrIntersectionType`.\n\nBy default, this method calls \
              [`TsUnionOrIntersectionType::fold_children_with_ast_path`]. If you want to recurse, \
@@ -39324,6 +39968,18 @@ pub trait FoldAstPath {
     ) -> VarDeclarator {
         <VarDeclarator as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
     }
+    #[doc = "Visit a node of type `Vec < VarDeclarator >`.\n\nBy default, this method calls [`Vec \
+             < VarDeclarator >::fold_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    fn fold_var_declarators(
+        &mut self,
+        node: Vec<VarDeclarator>,
+        ast_path: &mut AstKindPath,
+    ) -> Vec<VarDeclarator> {
+        <Vec<VarDeclarator> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
     #[doc = "Visit a node of type `WhileStmt`.\n\nBy default, this method calls \
              [`WhileStmt::fold_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
@@ -39398,9 +40054,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ArrayPat {
                 optional,
                 type_ann,
             } => {
-                let elems = <Vec<Option<Pat>> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    elems, visitor, ast_path,
-                );
                 let optional = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     optional, visitor, ast_path,
                 );
@@ -39434,9 +40087,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ArrowExpr {
                 type_params,
                 return_type,
             } => {
-                let params = <Vec<Pat> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    params, visitor, ast_path,
-                );
                 let body =
                     <Box<BlockStmtOrExpr> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         body, visitor, ast_path,
@@ -39675,10 +40325,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for AutoAccessor {
                 let is_static = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     is_static, visitor, ast_path,
                 );
-                let decorators =
-                    <Vec<Decorator> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                        decorators, visitor, ast_path,
-                    );
                 let accessibility =
                     <Option<Accessibility> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         accessibility,
@@ -39849,12 +40495,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for BlockStmt {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            BlockStmt { span, ctxt, stmts } => {
-                let stmts = <Vec<Stmt> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    stmts, visitor, ast_path,
-                );
-                BlockStmt { span, ctxt, stmts }
-            }
+            BlockStmt { span, ctxt, stmts } => BlockStmt { span, ctxt, stmts },
         }
     }
 }
@@ -40026,22 +40667,11 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Class {
                 super_type_params,
                 implements,
             } => {
-                let decorators =
-                    <Vec<Decorator> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                        decorators, visitor, ast_path,
-                    );
-                let body = <Vec<ClassMember> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    body, visitor, ast_path,
-                );
                 let is_abstract = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     is_abstract,
                     visitor,
                     ast_path,
                 );
-                let implements =
-                    <Vec<TsExprWithTypeArgs> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                        implements, visitor, ast_path,
-                    );
                 Class {
                     span,
                     ctxt,
@@ -40203,10 +40833,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ClassProp {
                 let is_static = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     is_static, visitor, ast_path,
                 );
-                let decorators =
-                    <Vec<Decorator> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                        decorators, visitor, ast_path,
-                    );
                 let accessibility =
                     <Option<Accessibility> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         accessibility,
@@ -40332,10 +40958,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Constructor {
                 let key = <PropName as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     key, visitor, ast_path,
                 );
-                let params =
-                    <Vec<ParamOrTsParamProp> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                        params, visitor, ast_path,
-                    );
                 let body = <Option<BlockStmt> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     body, visitor, ast_path,
                 );
@@ -41268,13 +41890,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Function {
                 type_params,
                 return_type,
             } => {
-                let params = <Vec<Param> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    params, visitor, ast_path,
-                );
-                let decorators =
-                    <Vec<Decorator> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                        decorators, visitor, ast_path,
-                    );
                 let body = <Option<BlockStmt> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     body, visitor, ast_path,
                 );
@@ -41445,10 +42060,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ImportDecl {
                 with,
                 phase,
             } => {
-                let specifiers =
-                    <Vec<ImportSpecifier> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                        specifiers, visitor, ast_path,
-                    );
                 let src = <Box<Str> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     src, visitor, ast_path,
                 );
@@ -41606,13 +42217,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ImportWith {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            ImportWith { span, values } => {
-                let values =
-                    <Vec<ImportWithItem> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                        values, visitor, ast_path,
-                    );
-                ImportWith { span, values }
-            }
+            ImportWith { span, values } => ImportWith { span, values },
         }
     }
 }
@@ -41817,10 +42422,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for JSXElement {
                     <JSXOpeningElement as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         opening, visitor, ast_path,
                     );
-                let children =
-                    <Vec<JSXElementChild> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                        children, visitor, ast_path,
-                    );
                 let closing =
                     <Option<JSXClosingElement> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         closing, visitor, ast_path,
@@ -41989,10 +42590,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for JSXFragment {
                     <JSXOpeningFragment as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         opening, visitor, ast_path,
                     );
-                let children =
-                    <Vec<JSXElementChild> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                        children, visitor, ast_path,
-                    );
                 let closing =
                     <JSXClosingFragment as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         closing, visitor, ast_path,
@@ -42097,10 +42694,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for JSXOpeningElement {
                 let name = <JSXElementName as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     name, visitor, ast_path,
                 );
-                let attrs =
-                    <Vec<JSXAttrOrSpread> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                        attrs, visitor, ast_path,
-                    );
                 let self_closing = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     self_closing,
                     visitor,
@@ -42598,10 +43191,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for NamedExport {
                 type_only,
                 with,
             } => {
-                let specifiers =
-                    <Vec<ExportSpecifier> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                        specifiers, visitor, ast_path,
-                    );
                 let type_only = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     type_only, visitor, ast_path,
                 );
@@ -42690,12 +43279,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ObjectLit {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            ObjectLit { span, props } => {
-                let props = <Vec<PropOrSpread> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    props, visitor, ast_path,
-                );
-                ObjectLit { span, props }
-            }
+            ObjectLit { span, props } => ObjectLit { span, props },
         }
     }
 }
@@ -42715,9 +43299,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ObjectPat {
                 optional,
                 type_ann,
             } => {
-                let props = <Vec<ObjectPatProp> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    props, visitor, ast_path,
-                );
                 let optional = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     optional, visitor, ast_path,
                 );
@@ -42863,10 +43444,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Param {
                 decorators,
                 pat,
             } => {
-                let decorators =
-                    <Vec<Decorator> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                        decorators, visitor, ast_path,
-                    );
                 let pat = <Pat as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     pat, visitor, ast_path,
                 );
@@ -43022,10 +43599,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for PrivateProp {
                 let is_static = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     is_static, visitor, ast_path,
                 );
-                let decorators =
-                    <Vec<Decorator> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                        decorators, visitor, ast_path,
-                    );
                 let accessibility =
                     <Option<Accessibility> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         accessibility,
@@ -43294,16 +43867,11 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Script {
                 span,
                 body,
                 shebang,
-            } => {
-                let body = <Vec<Stmt> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    body, visitor, ast_path,
-                );
-                Script {
-                    span,
-                    body,
-                    shebang,
-                }
-            }
+            } => Script {
+                span,
+                body,
+                shebang,
+            },
         }
     }
 }
@@ -43317,12 +43885,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for SeqExpr {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            SeqExpr { span, exprs } => {
-                let exprs = <Vec<Box<Expr>> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    exprs, visitor, ast_path,
-                );
-                SeqExpr { span, exprs }
-            }
+            SeqExpr { span, exprs } => SeqExpr { span, exprs },
         }
     }
 }
@@ -43696,12 +44259,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for SwitchCase {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            SwitchCase { span, test, cons } => {
-                let cons = <Vec<Stmt> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    cons, visitor, ast_path,
-                );
-                SwitchCase { span, test, cons }
-            }
+            SwitchCase { span, test, cons } => SwitchCase { span, test, cons },
         }
     }
 }
@@ -43724,9 +44282,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for SwitchStmt {
                     discriminant,
                     visitor,
                     ast_path,
-                );
-                let cases = <Vec<SwitchCase> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    cases, visitor, ast_path,
                 );
                 SwitchStmt {
                     span,
@@ -43818,19 +44373,11 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Tpl {
                 span,
                 exprs,
                 quasis,
-            } => {
-                let exprs = <Vec<Box<Expr>> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    exprs, visitor, ast_path,
-                );
-                let quasis = <Vec<TplElement> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    quasis, visitor, ast_path,
-                );
-                Tpl {
-                    span,
-                    exprs,
-                    quasis,
-                }
-            }
+            } => Tpl {
+                span,
+                exprs,
+                quasis,
+            },
         }
     }
 }
@@ -43980,17 +44527,12 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsCallSignatureDecl {
                 params,
                 type_ann,
                 type_params,
-            } => {
-                let params = <Vec<TsFnParam> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    params, visitor, ast_path,
-                );
-                TsCallSignatureDecl {
-                    span,
-                    params,
-                    type_ann,
-                    type_params,
-                }
-            }
+            } => TsCallSignatureDecl {
+                span,
+                params,
+                type_ann,
+                type_params,
+            },
         }
     }
 }
@@ -44070,17 +44612,12 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsConstructSignatureDecl {
                 params,
                 type_ann,
                 type_params,
-            } => {
-                let params = <Vec<TsFnParam> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    params, visitor, ast_path,
-                );
-                TsConstructSignatureDecl {
-                    span,
-                    params,
-                    type_ann,
-                    type_params,
-                }
-            }
+            } => TsConstructSignatureDecl {
+                span,
+                params,
+                type_ann,
+                type_params,
+            },
         }
     }
 }
@@ -44101,9 +44638,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsConstructorType {
                 type_ann,
                 is_abstract,
             } => {
-                let params = <Vec<TsFnParam> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    params, visitor, ast_path,
-                );
                 let type_ann = <Box<TsTypeAnn> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     type_ann, visitor, ast_path,
                 );
@@ -44175,10 +44709,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsEnumDecl {
                 let id = <Ident as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     id, visitor, ast_path,
                 );
-                let members =
-                    <Vec<TsEnumMember> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                        members, visitor, ast_path,
-                    );
                 TsEnumDecl {
                     span,
                     declare,
@@ -44378,9 +44908,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsFnType {
                 type_params,
                 type_ann,
             } => {
-                let params = <Vec<TsFnParam> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    params, visitor, ast_path,
-                );
                 let type_ann = <Box<TsTypeAnn> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     type_ann, visitor, ast_path,
                 );
@@ -44518,9 +45045,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsIndexSignature {
                 is_static,
                 span,
             } => {
-                let params = <Vec<TsFnParam> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    params, visitor, ast_path,
-                );
                 let readonly = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     readonly, visitor, ast_path,
                 );
@@ -44630,12 +45154,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsInterfaceBody {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            TsInterfaceBody { span, body } => {
-                let body = <Vec<TsTypeElement> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    body, visitor, ast_path,
-                );
-                TsInterfaceBody { span, body }
-            }
+            TsInterfaceBody { span, body } => TsInterfaceBody { span, body },
         }
     }
 }
@@ -44663,10 +45182,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsInterfaceDecl {
                 let declare = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     declare, visitor, ast_path,
                 );
-                let extends =
-                    <Vec<TsExprWithTypeArgs> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                        extends, visitor, ast_path,
-                    );
                 let body = <TsInterfaceBody as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     body, visitor, ast_path,
                 );
@@ -44692,12 +45207,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsIntersectionType {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            TsIntersectionType { span, types } => {
-                let types = <Vec<Box<TsType>> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    types, visitor, ast_path,
-                );
-                TsIntersectionType { span, types }
-            }
+            TsIntersectionType { span, types } => TsIntersectionType { span, types },
         }
     }
 }
@@ -44876,9 +45386,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsMethodSignature {
                 );
                 let optional = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     optional, visitor, ast_path,
-                );
-                let params = <Vec<TsFnParam> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    params, visitor, ast_path,
                 );
                 TsMethodSignature {
                     span,
@@ -45140,10 +45647,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsParamProp {
                 readonly,
                 param,
             } => {
-                let decorators =
-                    <Vec<Decorator> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                        decorators, visitor, ast_path,
-                    );
                 let accessibility =
                     <Option<Accessibility> as FoldWithAstPath<V>>::fold_children_with_ast_path(
                         accessibility,
@@ -45418,19 +45921,11 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsTplLitType {
                 span,
                 types,
                 quasis,
-            } => {
-                let types = <Vec<Box<TsType>> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    types, visitor, ast_path,
-                );
-                let quasis = <Vec<TplElement> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    quasis, visitor, ast_path,
-                );
-                TsTplLitType {
-                    span,
-                    types,
-                    quasis,
-                }
-            }
+            } => TsTplLitType {
+                span,
+                types,
+                quasis,
+            },
         }
     }
 }
@@ -45466,13 +45961,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsTupleType {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            TsTupleType { span, elem_types } => {
-                let elem_types =
-                    <Vec<TsTupleElement> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                        elem_types, visitor, ast_path,
-                    );
-                TsTupleType { span, elem_types }
-            }
+            TsTupleType { span, elem_types } => TsTupleType { span, elem_types },
         }
     }
 }
@@ -45772,13 +46261,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsTypeLit {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            TsTypeLit { span, members } => {
-                let members =
-                    <Vec<TsTypeElement> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                        members, visitor, ast_path,
-                    );
-                TsTypeLit { span, members }
-            }
+            TsTypeLit { span, members } => TsTypeLit { span, members },
         }
     }
 }
@@ -45874,12 +46357,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsTypeParamDecl {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            TsTypeParamDecl { span, params } => {
-                let params = <Vec<TsTypeParam> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    params, visitor, ast_path,
-                );
-                TsTypeParamDecl { span, params }
-            }
+            TsTypeParamDecl { span, params } => TsTypeParamDecl { span, params },
         }
     }
 }
@@ -45893,12 +46371,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsTypeParamInstantiation {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            TsTypeParamInstantiation { span, params } => {
-                let params = <Vec<Box<TsType>> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    params, visitor, ast_path,
-                );
-                TsTypeParamInstantiation { span, params }
-            }
+            TsTypeParamInstantiation { span, params } => TsTypeParamInstantiation { span, params },
         }
     }
 }
@@ -46051,12 +46524,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsUnionType {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            TsUnionType { span, types } => {
-                let types = <Vec<Box<TsType>> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    types, visitor, ast_path,
-                );
-                TsUnionType { span, types }
-            }
+            TsUnionType { span, types } => TsUnionType { span, types },
         }
     }
 }
@@ -46170,9 +46638,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for UsingDecl {
                 let is_await = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     is_await, visitor, ast_path,
                 );
-                let decls = <Vec<VarDeclarator> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    decls, visitor, ast_path,
-                );
                 UsingDecl {
                     span,
                     is_await,
@@ -46204,9 +46669,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for VarDecl {
                 );
                 let declare = <bool as FoldWithAstPath<V>>::fold_children_with_ast_path(
                     declare, visitor, ast_path,
-                );
-                let decls = <Vec<VarDeclarator> as FoldWithAstPath<V>>::fold_children_with_ast_path(
-                    decls, visitor, ast_path,
                 );
                 VarDecl {
                     span,
