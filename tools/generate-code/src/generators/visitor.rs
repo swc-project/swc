@@ -14,7 +14,7 @@ pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
         attrs: Vec::new(),
         items: Vec::new(),
     };
-    let (leaf_types, non_leaf_types) = split_types(node_types);
+    let (leaf_types, _non_leaf_types) = split_types(node_types);
     let mut all_types = all_field_types(node_types).into_iter().collect::<Vec<_>>();
     all_types.sort_by_cached_key(|v| v.method_name());
 
@@ -52,6 +52,9 @@ pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
     ));
     output.attrs.push(parse_quote!(
         #![allow(unused_variables)]
+    ));
+    output.attrs.push(parse_quote!(
+        #![allow(clippy::all)]
     ));
 
     output.items.push(parse_quote!(

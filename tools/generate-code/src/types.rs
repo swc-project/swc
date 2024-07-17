@@ -57,17 +57,7 @@ fn for_each_use_item(path: &[Ident], tree: &UseTree, op: &mut impl FnMut(Ident, 
                 },
             );
         }
-        UseTree::Rename(name) => {
-            let mut path = path.to_vec();
-            path.push(name.ident.clone());
-            op(
-                name.ident.clone(),
-                Path {
-                    leading_colon: None,
-                    segments: path.into_iter().map(PathSegment::from).collect(),
-                },
-            );
-        }
+        UseTree::Rename(..) => {}
         UseTree::Glob(_) => {}
         UseTree::Group(g) => {
             for item in &g.items {
