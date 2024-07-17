@@ -23,6 +23,7 @@ fn tr(_tester: &mut Tester<'_>, config: Config) -> impl Fold {
 }
 
 test!(
+    module,
     syntax(),
     |tester| tr(tester, Default::default()),
     allow_continuous_assignment,
