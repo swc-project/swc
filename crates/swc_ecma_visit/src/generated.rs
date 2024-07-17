@@ -327,17 +327,17 @@ pub trait Visit {
     fn visit_expr_or_spread(&mut self, node: &ExprOrSpread) {
         <ExprOrSpread as VisitWith<Self>>::visit_children_with(node, self)
     }
-    #[doc = "Visit a node of type `Vec < ExprOrSpread >`.\n\nBy default, this method calls [`Vec < \
-             ExprOrSpread >::visit_children_with`]. If you want to recurse, you need to call it \
-             manually."]
-    fn visit_expr_or_spreads(&mut self, node: &Vec<ExprOrSpread>) {
-        <Vec<ExprOrSpread> as VisitWith<Self>>::visit_children_with(node, self)
-    }
     #[doc = "Visit a node of type `Vec < Box < ExprOrSpread > >`.\n\nBy default, this method calls \
              [`Vec < Box < ExprOrSpread > >::visit_children_with`]. If you want to recurse, you \
              need to call it manually."]
     fn visit_expr_or_spreads(&mut self, node: &Vec<Box<ExprOrSpread>>) {
         <Vec<Box<ExprOrSpread>> as VisitWith<Self>>::visit_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < ExprOrSpread >`.\n\nBy default, this method calls [`Vec < \
+             ExprOrSpread >::visit_children_with`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_expr_or_spreads(&mut self, node: &Vec<ExprOrSpread>) {
+        <Vec<ExprOrSpread> as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `ExprStmt`.\n\nBy default, this method calls \
              [`ExprStmt::visit_children_with`]. If you want to recurse, you need to call it \
@@ -963,16 +963,16 @@ pub trait Visit {
     fn visit_pat(&mut self, node: &Pat) {
         <Pat as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Vec < Pat >`.\n\nBy default, this method calls [`Vec < Pat \
+             >::visit_children_with`]. If you want to recurse, you need to call it manually."]
+    fn visit_pats(&mut self, node: &Vec<Pat>) {
+        <Vec<Pat> as VisitWith<Self>>::visit_children_with(node, self)
+    }
     #[doc = "Visit a node of type `Vec < Box < Pat > >`.\n\nBy default, this method calls [`Vec < \
              Box < Pat > >::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
     fn visit_pats(&mut self, node: &Vec<Box<Pat>>) {
         <Vec<Box<Pat>> as VisitWith<Self>>::visit_children_with(node, self)
-    }
-    #[doc = "Visit a node of type `Vec < Pat >`.\n\nBy default, this method calls [`Vec < Pat \
-             >::visit_children_with`]. If you want to recurse, you need to call it manually."]
-    fn visit_pats(&mut self, node: &Vec<Pat>) {
-        <Vec<Pat> as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `PrivateMethod`.\n\nBy default, this method calls \
              [`PrivateMethod::visit_children_with`]. If you want to recurse, you need to call it \
@@ -6180,6 +6180,1025 @@ impl<V: ?Sized + Visit> VisitWith<V> for YieldExpr {
                 <Option<Box<Expr>> as VisitWith<V>>::visit_with(arg, visitor);
             }
         }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Box<BigIntValue> {
+    #[doc = "Calls [Visit`::visit_big_int_value`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_big_int_value(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            <V as Visit>::visit_big_int_value(visitor, &**self)
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Box<BlockStmtOrExpr> {
+    #[doc = "Calls [Visit`::visit_block_stmt_or_expr`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_block_stmt_or_expr(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            <V as Visit>::visit_block_stmt_or_expr(visitor, &**self)
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Box<Class> {
+    #[doc = "Calls [Visit`::visit_class`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_class(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            <V as Visit>::visit_class(visitor, &**self)
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Vec<ClassMember> {
+    #[doc = "Calls [Visit`::visit_class_members`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_class_members(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        self.iter()
+            .for_each(|item| <V as Visit>::visit_class_members(visitor, item))
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Vec<Decorator> {
+    #[doc = "Calls [Visit`::visit_decorators`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_decorators(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        self.iter()
+            .for_each(|item| <V as Visit>::visit_decorators(visitor, item))
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Vec<ExportSpecifier> {
+    #[doc = "Calls [Visit`::visit_export_specifiers`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_export_specifiers(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        self.iter()
+            .for_each(|item| <V as Visit>::visit_export_specifiers(visitor, item))
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Box<Expr> {
+    #[doc = "Calls [Visit`::visit_expr`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_expr(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            <V as Visit>::visit_expr(visitor, &**self)
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Vec<Box<ExprOrSpread>> {
+    #[doc = "Calls [Visit`::visit_expr_or_spreads`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_expr_or_spreads(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        self.iter()
+            .for_each(|item| <V as Visit>::visit_expr_or_spreads(visitor, item))
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Vec<ExprOrSpread> {
+    #[doc = "Calls [Visit`::visit_expr_or_spreads`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_expr_or_spreads(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        self.iter()
+            .for_each(|item| <V as Visit>::visit_expr_or_spreads(visitor, item))
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Vec<Box<Expr>> {
+    #[doc = "Calls [Visit`::visit_exprs`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_exprs(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        self.iter()
+            .for_each(|item| <V as Visit>::visit_exprs(visitor, item))
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Box<Function> {
+    #[doc = "Calls [Visit`::visit_function`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_function(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            <V as Visit>::visit_function(visitor, &**self)
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Vec<ImportSpecifier> {
+    #[doc = "Calls [Visit`::visit_import_specifiers`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_import_specifiers(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        self.iter()
+            .for_each(|item| <V as Visit>::visit_import_specifiers(visitor, item))
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Vec<ImportWithItem> {
+    #[doc = "Calls [Visit`::visit_import_with_items`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_import_with_items(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        self.iter()
+            .for_each(|item| <V as Visit>::visit_import_with_items(visitor, item))
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Vec<JSXAttrOrSpread> {
+    #[doc = "Calls [Visit`::visit_jsx_attr_or_spreads`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_jsx_attr_or_spreads(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        self.iter()
+            .for_each(|item| <V as Visit>::visit_jsx_attr_or_spreads(visitor, item))
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Box<JSXElement> {
+    #[doc = "Calls [Visit`::visit_jsx_element`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_jsx_element(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            <V as Visit>::visit_jsx_element(visitor, &**self)
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Vec<JSXElementChild> {
+    #[doc = "Calls [Visit`::visit_jsx_element_childs`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_jsx_element_childs(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        self.iter()
+            .for_each(|item| <V as Visit>::visit_jsx_element_childs(visitor, item))
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Box<JSXMemberExpr> {
+    #[doc = "Calls [Visit`::visit_jsx_member_expr`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_jsx_member_expr(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            <V as Visit>::visit_jsx_member_expr(visitor, &**self)
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Vec<ModuleItem> {
+    #[doc = "Calls [Visit`::visit_module_items`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_module_items(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        self.iter()
+            .for_each(|item| <V as Visit>::visit_module_items(visitor, item))
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Box<ObjectLit> {
+    #[doc = "Calls [Visit`::visit_object_lit`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_object_lit(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            <V as Visit>::visit_object_lit(visitor, &**self)
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Vec<ObjectPatProp> {
+    #[doc = "Calls [Visit`::visit_object_pat_props`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_object_pat_props(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        self.iter()
+            .for_each(|item| <V as Visit>::visit_object_pat_props(visitor, item))
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Option<Accessibility> {
+    #[doc = "Calls [Visit`::visit_opt_accessibility`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_opt_accessibility(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as Visit>::visit_opt_accessibility(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Option<BlockStmt> {
+    #[doc = "Calls [Visit`::visit_opt_block_stmt`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_opt_block_stmt(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as Visit>::visit_opt_block_stmt(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Option<CatchClause> {
+    #[doc = "Calls [Visit`::visit_opt_catch_clause`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_opt_catch_clause(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as Visit>::visit_opt_catch_clause(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Box<OptChainBase> {
+    #[doc = "Calls [Visit`::visit_opt_chain_base`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_opt_chain_base(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            <V as Visit>::visit_opt_chain_base(visitor, &**self)
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Option<Box<Expr>> {
+    #[doc = "Calls [Visit`::visit_opt_expr`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_opt_expr(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as Visit>::visit_opt_expr(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Option<ExprOrSpread> {
+    #[doc = "Calls [Visit`::visit_opt_expr_or_spread`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_opt_expr_or_spread(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as Visit>::visit_opt_expr_or_spread(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Option<Vec<ExprOrSpread>> {
+    #[doc = "Calls [Visit`::visit_opt_expr_or_spreads`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_opt_expr_or_spreads(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as Visit>::visit_opt_expr_or_spreads(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Option<Ident> {
+    #[doc = "Calls [Visit`::visit_opt_ident`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_opt_ident(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as Visit>::visit_opt_ident(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Option<JSXAttrValue> {
+    #[doc = "Calls [Visit`::visit_opt_jsx_attr_value`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_opt_jsx_attr_value(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as Visit>::visit_opt_jsx_attr_value(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Option<JSXClosingElement> {
+    #[doc = "Calls [Visit`::visit_opt_jsx_closing_element`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_opt_jsx_closing_element(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as Visit>::visit_opt_jsx_closing_element(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Option<ModuleExportName> {
+    #[doc = "Calls [Visit`::visit_opt_module_export_name`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_opt_module_export_name(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as Visit>::visit_opt_module_export_name(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Option<Vec<ModuleItem>> {
+    #[doc = "Calls [Visit`::visit_opt_module_items`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_opt_module_items(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as Visit>::visit_opt_module_items(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Option<Box<ObjectLit>> {
+    #[doc = "Calls [Visit`::visit_opt_object_lit`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_opt_object_lit(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as Visit>::visit_opt_object_lit(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Option<Pat> {
+    #[doc = "Calls [Visit`::visit_opt_pat`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_opt_pat(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as Visit>::visit_opt_pat(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Option<Box<Stmt>> {
+    #[doc = "Calls [Visit`::visit_opt_stmt`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_opt_stmt(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as Visit>::visit_opt_stmt(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Option<Box<Str>> {
+    #[doc = "Calls [Visit`::visit_opt_str`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_opt_str(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as Visit>::visit_opt_str(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Option<swc_atoms::Atom> {
+    #[doc = "Calls [Visit`::visit_opt_swc_atoms_atom`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_opt_swc_atoms_atom(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as Visit>::visit_opt_swc_atoms_atom(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Option<swc_common::Span> {
+    #[doc = "Calls [Visit`::visit_opt_swc_common_span`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_opt_swc_common_span(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as Visit>::visit_opt_swc_common_span(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Option<TruePlusMinus> {
+    #[doc = "Calls [Visit`::visit_opt_true_plus_minus`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_opt_true_plus_minus(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as Visit>::visit_opt_true_plus_minus(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Option<TsEntityName> {
+    #[doc = "Calls [Visit`::visit_opt_ts_entity_name`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_opt_ts_entity_name(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as Visit>::visit_opt_ts_entity_name(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Option<TsNamespaceBody> {
+    #[doc = "Calls [Visit`::visit_opt_ts_namespace_body`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_opt_ts_namespace_body(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as Visit>::visit_opt_ts_namespace_body(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Option<Box<TsType>> {
+    #[doc = "Calls [Visit`::visit_opt_ts_type`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_opt_ts_type(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as Visit>::visit_opt_ts_type(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Option<Box<TsTypeAnn>> {
+    #[doc = "Calls [Visit`::visit_opt_ts_type_ann`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_opt_ts_type_ann(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as Visit>::visit_opt_ts_type_ann(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Option<Box<TsTypeParamDecl>> {
+    #[doc = "Calls [Visit`::visit_opt_ts_type_param_decl`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_opt_ts_type_param_decl(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as Visit>::visit_opt_ts_type_param_decl(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Option<Box<TsTypeParamInstantiation>> {
+    #[doc = "Calls [Visit`::visit_opt_ts_type_param_instantiation`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_opt_ts_type_param_instantiation(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as Visit>::visit_opt_ts_type_param_instantiation(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Option<VarDeclOrExpr> {
+    #[doc = "Calls [Visit`::visit_opt_var_decl_or_expr`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_opt_var_decl_or_expr(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as Visit>::visit_opt_var_decl_or_expr(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Vec<ParamOrTsParamProp> {
+    #[doc = "Calls [Visit`::visit_param_or_ts_param_props`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_param_or_ts_param_props(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        self.iter()
+            .for_each(|item| <V as Visit>::visit_param_or_ts_param_props(visitor, item))
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Vec<Param> {
+    #[doc = "Calls [Visit`::visit_params`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_params(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        self.iter()
+            .for_each(|item| <V as Visit>::visit_params(visitor, item))
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Box<Pat> {
+    #[doc = "Calls [Visit`::visit_pat`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_pat(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            <V as Visit>::visit_pat(visitor, &**self)
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Vec<Pat> {
+    #[doc = "Calls [Visit`::visit_pats`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_pats(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        self.iter()
+            .for_each(|item| <V as Visit>::visit_pats(visitor, item))
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Vec<Box<Pat>> {
+    #[doc = "Calls [Visit`::visit_pats`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_pats(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        self.iter()
+            .for_each(|item| <V as Visit>::visit_pats(visitor, item))
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Box<Prop> {
+    #[doc = "Calls [Visit`::visit_prop`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_prop(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            <V as Visit>::visit_prop(visitor, &**self)
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Vec<PropOrSpread> {
+    #[doc = "Calls [Visit`::visit_prop_or_spreads`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_prop_or_spreads(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        self.iter()
+            .for_each(|item| <V as Visit>::visit_prop_or_spreads(visitor, item))
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Box<Stmt> {
+    #[doc = "Calls [Visit`::visit_stmt`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_stmt(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            <V as Visit>::visit_stmt(visitor, &**self)
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Vec<Stmt> {
+    #[doc = "Calls [Visit`::visit_stmts`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_stmts(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        self.iter()
+            .for_each(|item| <V as Visit>::visit_stmts(visitor, item))
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Box<Str> {
+    #[doc = "Calls [Visit`::visit_str`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_str(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            <V as Visit>::visit_str(visitor, &**self)
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Vec<SwitchCase> {
+    #[doc = "Calls [Visit`::visit_switch_cases`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_switch_cases(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        self.iter()
+            .for_each(|item| <V as Visit>::visit_switch_cases(visitor, item))
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Box<Tpl> {
+    #[doc = "Calls [Visit`::visit_tpl`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_tpl(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            <V as Visit>::visit_tpl(visitor, &**self)
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Vec<TplElement> {
+    #[doc = "Calls [Visit`::visit_tpl_elements`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_tpl_elements(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        self.iter()
+            .for_each(|item| <V as Visit>::visit_tpl_elements(visitor, item))
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Box<TryStmt> {
+    #[doc = "Calls [Visit`::visit_try_stmt`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_try_stmt(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            <V as Visit>::visit_try_stmt(visitor, &**self)
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Box<TsEnumDecl> {
+    #[doc = "Calls [Visit`::visit_ts_enum_decl`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_ts_enum_decl(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            <V as Visit>::visit_ts_enum_decl(visitor, &**self)
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Vec<TsEnumMember> {
+    #[doc = "Calls [Visit`::visit_ts_enum_members`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_ts_enum_members(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        self.iter()
+            .for_each(|item| <V as Visit>::visit_ts_enum_members(visitor, item))
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Vec<TsExprWithTypeArgs> {
+    #[doc = "Calls [Visit`::visit_ts_expr_with_type_argss`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_ts_expr_with_type_argss(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        self.iter()
+            .for_each(|item| <V as Visit>::visit_ts_expr_with_type_argss(visitor, item))
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Vec<TsFnParam> {
+    #[doc = "Calls [Visit`::visit_ts_fn_params`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_ts_fn_params(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        self.iter()
+            .for_each(|item| <V as Visit>::visit_ts_fn_params(visitor, item))
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Box<TsImportEqualsDecl> {
+    #[doc = "Calls [Visit`::visit_ts_import_equals_decl`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_ts_import_equals_decl(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            <V as Visit>::visit_ts_import_equals_decl(visitor, &**self)
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Box<TsInterfaceDecl> {
+    #[doc = "Calls [Visit`::visit_ts_interface_decl`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_ts_interface_decl(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            <V as Visit>::visit_ts_interface_decl(visitor, &**self)
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Box<TsModuleDecl> {
+    #[doc = "Calls [Visit`::visit_ts_module_decl`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_ts_module_decl(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            <V as Visit>::visit_ts_module_decl(visitor, &**self)
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Box<TsNamespaceBody> {
+    #[doc = "Calls [Visit`::visit_ts_namespace_body`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_ts_namespace_body(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            <V as Visit>::visit_ts_namespace_body(visitor, &**self)
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Box<TsQualifiedName> {
+    #[doc = "Calls [Visit`::visit_ts_qualified_name`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_ts_qualified_name(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            <V as Visit>::visit_ts_qualified_name(visitor, &**self)
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Vec<TsTupleElement> {
+    #[doc = "Calls [Visit`::visit_ts_tuple_elements`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_ts_tuple_elements(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        self.iter()
+            .for_each(|item| <V as Visit>::visit_ts_tuple_elements(visitor, item))
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Box<TsType> {
+    #[doc = "Calls [Visit`::visit_ts_type`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_ts_type(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            <V as Visit>::visit_ts_type(visitor, &**self)
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Box<TsTypeAliasDecl> {
+    #[doc = "Calls [Visit`::visit_ts_type_alias_decl`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_ts_type_alias_decl(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            <V as Visit>::visit_ts_type_alias_decl(visitor, &**self)
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Box<TsTypeAnn> {
+    #[doc = "Calls [Visit`::visit_ts_type_ann`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_ts_type_ann(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            <V as Visit>::visit_ts_type_ann(visitor, &**self)
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Vec<TsTypeElement> {
+    #[doc = "Calls [Visit`::visit_ts_type_elements`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_ts_type_elements(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        self.iter()
+            .for_each(|item| <V as Visit>::visit_ts_type_elements(visitor, item))
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Box<TsTypeParamDecl> {
+    #[doc = "Calls [Visit`::visit_ts_type_param_decl`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_ts_type_param_decl(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            <V as Visit>::visit_ts_type_param_decl(visitor, &**self)
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Box<TsTypeParamInstantiation> {
+    #[doc = "Calls [Visit`::visit_ts_type_param_instantiation`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_ts_type_param_instantiation(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            <V as Visit>::visit_ts_type_param_instantiation(visitor, &**self)
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Vec<TsTypeParam> {
+    #[doc = "Calls [Visit`::visit_ts_type_params`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_ts_type_params(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        self.iter()
+            .for_each(|item| <V as Visit>::visit_ts_type_params(visitor, item))
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Vec<Box<TsType>> {
+    #[doc = "Calls [Visit`::visit_ts_types`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_ts_types(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        self.iter()
+            .for_each(|item| <V as Visit>::visit_ts_types(visitor, item))
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Box<UsingDecl> {
+    #[doc = "Calls [Visit`::visit_using_decl`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_using_decl(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            <V as Visit>::visit_using_decl(visitor, &**self)
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Box<VarDecl> {
+    #[doc = "Calls [Visit`::visit_var_decl`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_var_decl(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            <V as Visit>::visit_var_decl(visitor, &**self)
+        }
+    }
+}
+impl<V: ?Sized + Visit> VisitWith<V> for Vec<VarDeclarator> {
+    #[doc = "Calls [Visit`::visit_var_declarators`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_var_declarators(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        self.iter()
+            .for_each(|item| <V as Visit>::visit_var_declarators(visitor, item))
     }
 }
 #[doc = r" A visitor trait for traversing the AST."]
@@ -16714,6 +17733,1871 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for YieldExpr {
         }
     }
 }
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<BigIntValue> {
+    #[doc = "Calls [VisitAstPath`::visit_big_int_value`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_big_int_value(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            <V as VisitAstPath>::visit_big_int_value(visitor, &**self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<BlockStmtOrExpr> {
+    #[doc = "Calls [VisitAstPath`::visit_block_stmt_or_expr`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_block_stmt_or_expr(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            <V as VisitAstPath>::visit_block_stmt_or_expr(visitor, &**self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<Class> {
+    #[doc = "Calls [VisitAstPath`::visit_class`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_class(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            <V as VisitAstPath>::visit_class(visitor, &**self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<ClassMember> {
+    #[doc = "Calls [VisitAstPath`::visit_class_members`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_class_members(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        self.iter()
+            .for_each(|item| <V as VisitAstPath>::visit_class_members(visitor, item, ast_path))
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<Decorator> {
+    #[doc = "Calls [VisitAstPath`::visit_decorators`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_decorators(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        self.iter()
+            .for_each(|item| <V as VisitAstPath>::visit_decorators(visitor, item, ast_path))
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<ExportSpecifier> {
+    #[doc = "Calls [VisitAstPath`::visit_export_specifiers`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_export_specifiers(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        self.iter()
+            .for_each(|item| <V as VisitAstPath>::visit_export_specifiers(visitor, item, ast_path))
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<Expr> {
+    #[doc = "Calls [VisitAstPath`::visit_expr`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_expr(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            <V as VisitAstPath>::visit_expr(visitor, &**self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<Box<ExprOrSpread>> {
+    #[doc = "Calls [VisitAstPath`::visit_expr_or_spreads`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_expr_or_spreads(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        self.iter()
+            .for_each(|item| <V as VisitAstPath>::visit_expr_or_spreads(visitor, item, ast_path))
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<ExprOrSpread> {
+    #[doc = "Calls [VisitAstPath`::visit_expr_or_spreads`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_expr_or_spreads(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        self.iter()
+            .for_each(|item| <V as VisitAstPath>::visit_expr_or_spreads(visitor, item, ast_path))
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<Box<Expr>> {
+    #[doc = "Calls [VisitAstPath`::visit_exprs`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_exprs(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        self.iter()
+            .for_each(|item| <V as VisitAstPath>::visit_exprs(visitor, item, ast_path))
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<Function> {
+    #[doc = "Calls [VisitAstPath`::visit_function`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_function(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            <V as VisitAstPath>::visit_function(visitor, &**self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<ImportSpecifier> {
+    #[doc = "Calls [VisitAstPath`::visit_import_specifiers`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_import_specifiers(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        self.iter()
+            .for_each(|item| <V as VisitAstPath>::visit_import_specifiers(visitor, item, ast_path))
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<ImportWithItem> {
+    #[doc = "Calls [VisitAstPath`::visit_import_with_items`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_import_with_items(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        self.iter()
+            .for_each(|item| <V as VisitAstPath>::visit_import_with_items(visitor, item, ast_path))
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<JSXAttrOrSpread> {
+    #[doc = "Calls [VisitAstPath`::visit_jsx_attr_or_spreads`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_jsx_attr_or_spreads(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        self.iter().for_each(|item| {
+            <V as VisitAstPath>::visit_jsx_attr_or_spreads(visitor, item, ast_path)
+        })
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<JSXElement> {
+    #[doc = "Calls [VisitAstPath`::visit_jsx_element`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_jsx_element(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            <V as VisitAstPath>::visit_jsx_element(visitor, &**self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<JSXElementChild> {
+    #[doc = "Calls [VisitAstPath`::visit_jsx_element_childs`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_jsx_element_childs(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        self.iter()
+            .for_each(|item| <V as VisitAstPath>::visit_jsx_element_childs(visitor, item, ast_path))
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<JSXMemberExpr> {
+    #[doc = "Calls [VisitAstPath`::visit_jsx_member_expr`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_jsx_member_expr(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            <V as VisitAstPath>::visit_jsx_member_expr(visitor, &**self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<ModuleItem> {
+    #[doc = "Calls [VisitAstPath`::visit_module_items`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_module_items(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        self.iter()
+            .for_each(|item| <V as VisitAstPath>::visit_module_items(visitor, item, ast_path))
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<ObjectLit> {
+    #[doc = "Calls [VisitAstPath`::visit_object_lit`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_object_lit(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            <V as VisitAstPath>::visit_object_lit(visitor, &**self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<ObjectPatProp> {
+    #[doc = "Calls [VisitAstPath`::visit_object_pat_props`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_object_pat_props(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        self.iter()
+            .for_each(|item| <V as VisitAstPath>::visit_object_pat_props(visitor, item, ast_path))
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Accessibility> {
+    #[doc = "Calls [VisitAstPath`::visit_opt_accessibility`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_opt_accessibility(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            match self {
+                Some(inner) => {
+                    <V as VisitAstPath>::visit_opt_accessibility(visitor, inner, ast_path)
+                }
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<BlockStmt> {
+    #[doc = "Calls [VisitAstPath`::visit_opt_block_stmt`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_opt_block_stmt(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            match self {
+                Some(inner) => <V as VisitAstPath>::visit_opt_block_stmt(visitor, inner, ast_path),
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<CatchClause> {
+    #[doc = "Calls [VisitAstPath`::visit_opt_catch_clause`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_opt_catch_clause(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            match self {
+                Some(inner) => {
+                    <V as VisitAstPath>::visit_opt_catch_clause(visitor, inner, ast_path)
+                }
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<OptChainBase> {
+    #[doc = "Calls [VisitAstPath`::visit_opt_chain_base`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_opt_chain_base(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            <V as VisitAstPath>::visit_opt_chain_base(visitor, &**self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Box<Expr>> {
+    #[doc = "Calls [VisitAstPath`::visit_opt_expr`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_opt_expr(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            match self {
+                Some(inner) => <V as VisitAstPath>::visit_opt_expr(visitor, inner, ast_path),
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<ExprOrSpread> {
+    #[doc = "Calls [VisitAstPath`::visit_opt_expr_or_spread`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_opt_expr_or_spread(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            match self {
+                Some(inner) => {
+                    <V as VisitAstPath>::visit_opt_expr_or_spread(visitor, inner, ast_path)
+                }
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Vec<ExprOrSpread>> {
+    #[doc = "Calls [VisitAstPath`::visit_opt_expr_or_spreads`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_opt_expr_or_spreads(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            match self {
+                Some(inner) => {
+                    <V as VisitAstPath>::visit_opt_expr_or_spreads(visitor, inner, ast_path)
+                }
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Ident> {
+    #[doc = "Calls [VisitAstPath`::visit_opt_ident`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_opt_ident(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            match self {
+                Some(inner) => <V as VisitAstPath>::visit_opt_ident(visitor, inner, ast_path),
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<JSXAttrValue> {
+    #[doc = "Calls [VisitAstPath`::visit_opt_jsx_attr_value`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_opt_jsx_attr_value(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            match self {
+                Some(inner) => {
+                    <V as VisitAstPath>::visit_opt_jsx_attr_value(visitor, inner, ast_path)
+                }
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<JSXClosingElement> {
+    #[doc = "Calls [VisitAstPath`::visit_opt_jsx_closing_element`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_opt_jsx_closing_element(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            match self {
+                Some(inner) => {
+                    <V as VisitAstPath>::visit_opt_jsx_closing_element(visitor, inner, ast_path)
+                }
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<ModuleExportName> {
+    #[doc = "Calls [VisitAstPath`::visit_opt_module_export_name`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_opt_module_export_name(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            match self {
+                Some(inner) => {
+                    <V as VisitAstPath>::visit_opt_module_export_name(visitor, inner, ast_path)
+                }
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Vec<ModuleItem>> {
+    #[doc = "Calls [VisitAstPath`::visit_opt_module_items`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_opt_module_items(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            match self {
+                Some(inner) => {
+                    <V as VisitAstPath>::visit_opt_module_items(visitor, inner, ast_path)
+                }
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Box<ObjectLit>> {
+    #[doc = "Calls [VisitAstPath`::visit_opt_object_lit`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_opt_object_lit(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            match self {
+                Some(inner) => <V as VisitAstPath>::visit_opt_object_lit(visitor, inner, ast_path),
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Pat> {
+    #[doc = "Calls [VisitAstPath`::visit_opt_pat`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_opt_pat(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            match self {
+                Some(inner) => <V as VisitAstPath>::visit_opt_pat(visitor, inner, ast_path),
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Box<Stmt>> {
+    #[doc = "Calls [VisitAstPath`::visit_opt_stmt`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_opt_stmt(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            match self {
+                Some(inner) => <V as VisitAstPath>::visit_opt_stmt(visitor, inner, ast_path),
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Box<Str>> {
+    #[doc = "Calls [VisitAstPath`::visit_opt_str`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_opt_str(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            match self {
+                Some(inner) => <V as VisitAstPath>::visit_opt_str(visitor, inner, ast_path),
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<swc_atoms::Atom> {
+    #[doc = "Calls [VisitAstPath`::visit_opt_swc_atoms_atom`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_opt_swc_atoms_atom(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            match self {
+                Some(inner) => {
+                    <V as VisitAstPath>::visit_opt_swc_atoms_atom(visitor, inner, ast_path)
+                }
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<swc_common::Span> {
+    #[doc = "Calls [VisitAstPath`::visit_opt_swc_common_span`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_opt_swc_common_span(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            match self {
+                Some(inner) => {
+                    <V as VisitAstPath>::visit_opt_swc_common_span(visitor, inner, ast_path)
+                }
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<TruePlusMinus> {
+    #[doc = "Calls [VisitAstPath`::visit_opt_true_plus_minus`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_opt_true_plus_minus(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            match self {
+                Some(inner) => {
+                    <V as VisitAstPath>::visit_opt_true_plus_minus(visitor, inner, ast_path)
+                }
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<TsEntityName> {
+    #[doc = "Calls [VisitAstPath`::visit_opt_ts_entity_name`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_opt_ts_entity_name(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            match self {
+                Some(inner) => {
+                    <V as VisitAstPath>::visit_opt_ts_entity_name(visitor, inner, ast_path)
+                }
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<TsNamespaceBody> {
+    #[doc = "Calls [VisitAstPath`::visit_opt_ts_namespace_body`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_opt_ts_namespace_body(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            match self {
+                Some(inner) => {
+                    <V as VisitAstPath>::visit_opt_ts_namespace_body(visitor, inner, ast_path)
+                }
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Box<TsType>> {
+    #[doc = "Calls [VisitAstPath`::visit_opt_ts_type`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_opt_ts_type(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            match self {
+                Some(inner) => <V as VisitAstPath>::visit_opt_ts_type(visitor, inner, ast_path),
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Box<TsTypeAnn>> {
+    #[doc = "Calls [VisitAstPath`::visit_opt_ts_type_ann`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_opt_ts_type_ann(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            match self {
+                Some(inner) => <V as VisitAstPath>::visit_opt_ts_type_ann(visitor, inner, ast_path),
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Box<TsTypeParamDecl>> {
+    #[doc = "Calls [VisitAstPath`::visit_opt_ts_type_param_decl`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_opt_ts_type_param_decl(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            match self {
+                Some(inner) => {
+                    <V as VisitAstPath>::visit_opt_ts_type_param_decl(visitor, inner, ast_path)
+                }
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Box<TsTypeParamInstantiation>> {
+    #[doc = "Calls [VisitAstPath`::visit_opt_ts_type_param_instantiation`] with `self`. (Extra \
+             impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_opt_ts_type_param_instantiation(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            match self {
+                Some(inner) => <V as VisitAstPath>::visit_opt_ts_type_param_instantiation(
+                    visitor, inner, ast_path,
+                ),
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<VarDeclOrExpr> {
+    #[doc = "Calls [VisitAstPath`::visit_opt_var_decl_or_expr`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_opt_var_decl_or_expr(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            match self {
+                Some(inner) => {
+                    <V as VisitAstPath>::visit_opt_var_decl_or_expr(visitor, inner, ast_path)
+                }
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<ParamOrTsParamProp> {
+    #[doc = "Calls [VisitAstPath`::visit_param_or_ts_param_props`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_param_or_ts_param_props(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        self.iter().for_each(|item| {
+            <V as VisitAstPath>::visit_param_or_ts_param_props(visitor, item, ast_path)
+        })
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<Param> {
+    #[doc = "Calls [VisitAstPath`::visit_params`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_params(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        self.iter()
+            .for_each(|item| <V as VisitAstPath>::visit_params(visitor, item, ast_path))
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<Pat> {
+    #[doc = "Calls [VisitAstPath`::visit_pat`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_pat(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            <V as VisitAstPath>::visit_pat(visitor, &**self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<Pat> {
+    #[doc = "Calls [VisitAstPath`::visit_pats`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_pats(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        self.iter()
+            .for_each(|item| <V as VisitAstPath>::visit_pats(visitor, item, ast_path))
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<Box<Pat>> {
+    #[doc = "Calls [VisitAstPath`::visit_pats`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_pats(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        self.iter()
+            .for_each(|item| <V as VisitAstPath>::visit_pats(visitor, item, ast_path))
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<Prop> {
+    #[doc = "Calls [VisitAstPath`::visit_prop`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_prop(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            <V as VisitAstPath>::visit_prop(visitor, &**self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<PropOrSpread> {
+    #[doc = "Calls [VisitAstPath`::visit_prop_or_spreads`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_prop_or_spreads(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        self.iter()
+            .for_each(|item| <V as VisitAstPath>::visit_prop_or_spreads(visitor, item, ast_path))
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<Stmt> {
+    #[doc = "Calls [VisitAstPath`::visit_stmt`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_stmt(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            <V as VisitAstPath>::visit_stmt(visitor, &**self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<Stmt> {
+    #[doc = "Calls [VisitAstPath`::visit_stmts`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_stmts(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        self.iter()
+            .for_each(|item| <V as VisitAstPath>::visit_stmts(visitor, item, ast_path))
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<Str> {
+    #[doc = "Calls [VisitAstPath`::visit_str`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_str(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            <V as VisitAstPath>::visit_str(visitor, &**self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<SwitchCase> {
+    #[doc = "Calls [VisitAstPath`::visit_switch_cases`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_switch_cases(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        self.iter()
+            .for_each(|item| <V as VisitAstPath>::visit_switch_cases(visitor, item, ast_path))
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<Tpl> {
+    #[doc = "Calls [VisitAstPath`::visit_tpl`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_tpl(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            <V as VisitAstPath>::visit_tpl(visitor, &**self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<TplElement> {
+    #[doc = "Calls [VisitAstPath`::visit_tpl_elements`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_tpl_elements(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        self.iter()
+            .for_each(|item| <V as VisitAstPath>::visit_tpl_elements(visitor, item, ast_path))
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<TryStmt> {
+    #[doc = "Calls [VisitAstPath`::visit_try_stmt`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_try_stmt(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            <V as VisitAstPath>::visit_try_stmt(visitor, &**self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<TsEnumDecl> {
+    #[doc = "Calls [VisitAstPath`::visit_ts_enum_decl`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_ts_enum_decl(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            <V as VisitAstPath>::visit_ts_enum_decl(visitor, &**self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<TsEnumMember> {
+    #[doc = "Calls [VisitAstPath`::visit_ts_enum_members`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_ts_enum_members(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        self.iter()
+            .for_each(|item| <V as VisitAstPath>::visit_ts_enum_members(visitor, item, ast_path))
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<TsExprWithTypeArgs> {
+    #[doc = "Calls [VisitAstPath`::visit_ts_expr_with_type_argss`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_ts_expr_with_type_argss(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        self.iter().for_each(|item| {
+            <V as VisitAstPath>::visit_ts_expr_with_type_argss(visitor, item, ast_path)
+        })
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<TsFnParam> {
+    #[doc = "Calls [VisitAstPath`::visit_ts_fn_params`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_ts_fn_params(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        self.iter()
+            .for_each(|item| <V as VisitAstPath>::visit_ts_fn_params(visitor, item, ast_path))
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<TsImportEqualsDecl> {
+    #[doc = "Calls [VisitAstPath`::visit_ts_import_equals_decl`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_ts_import_equals_decl(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            <V as VisitAstPath>::visit_ts_import_equals_decl(visitor, &**self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<TsInterfaceDecl> {
+    #[doc = "Calls [VisitAstPath`::visit_ts_interface_decl`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_ts_interface_decl(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            <V as VisitAstPath>::visit_ts_interface_decl(visitor, &**self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<TsModuleDecl> {
+    #[doc = "Calls [VisitAstPath`::visit_ts_module_decl`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_ts_module_decl(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            <V as VisitAstPath>::visit_ts_module_decl(visitor, &**self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<TsNamespaceBody> {
+    #[doc = "Calls [VisitAstPath`::visit_ts_namespace_body`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_ts_namespace_body(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            <V as VisitAstPath>::visit_ts_namespace_body(visitor, &**self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<TsQualifiedName> {
+    #[doc = "Calls [VisitAstPath`::visit_ts_qualified_name`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_ts_qualified_name(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            <V as VisitAstPath>::visit_ts_qualified_name(visitor, &**self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<TsTupleElement> {
+    #[doc = "Calls [VisitAstPath`::visit_ts_tuple_elements`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_ts_tuple_elements(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        self.iter()
+            .for_each(|item| <V as VisitAstPath>::visit_ts_tuple_elements(visitor, item, ast_path))
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<TsType> {
+    #[doc = "Calls [VisitAstPath`::visit_ts_type`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_ts_type(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            <V as VisitAstPath>::visit_ts_type(visitor, &**self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<TsTypeAliasDecl> {
+    #[doc = "Calls [VisitAstPath`::visit_ts_type_alias_decl`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_ts_type_alias_decl(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            <V as VisitAstPath>::visit_ts_type_alias_decl(visitor, &**self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<TsTypeAnn> {
+    #[doc = "Calls [VisitAstPath`::visit_ts_type_ann`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_ts_type_ann(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            <V as VisitAstPath>::visit_ts_type_ann(visitor, &**self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<TsTypeElement> {
+    #[doc = "Calls [VisitAstPath`::visit_ts_type_elements`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_ts_type_elements(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        self.iter()
+            .for_each(|item| <V as VisitAstPath>::visit_ts_type_elements(visitor, item, ast_path))
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<TsTypeParamDecl> {
+    #[doc = "Calls [VisitAstPath`::visit_ts_type_param_decl`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_ts_type_param_decl(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            <V as VisitAstPath>::visit_ts_type_param_decl(visitor, &**self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<TsTypeParamInstantiation> {
+    #[doc = "Calls [VisitAstPath`::visit_ts_type_param_instantiation`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_ts_type_param_instantiation(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            <V as VisitAstPath>::visit_ts_type_param_instantiation(visitor, &**self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<TsTypeParam> {
+    #[doc = "Calls [VisitAstPath`::visit_ts_type_params`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_ts_type_params(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        self.iter()
+            .for_each(|item| <V as VisitAstPath>::visit_ts_type_params(visitor, item, ast_path))
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<Box<TsType>> {
+    #[doc = "Calls [VisitAstPath`::visit_ts_types`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_ts_types(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        self.iter()
+            .for_each(|item| <V as VisitAstPath>::visit_ts_types(visitor, item, ast_path))
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<UsingDecl> {
+    #[doc = "Calls [VisitAstPath`::visit_using_decl`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_using_decl(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            <V as VisitAstPath>::visit_using_decl(visitor, &**self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<VarDecl> {
+    #[doc = "Calls [VisitAstPath`::visit_var_decl`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_var_decl(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            <V as VisitAstPath>::visit_var_decl(visitor, &**self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<VarDeclarator> {
+    #[doc = "Calls [VisitAstPath`::visit_var_declarators`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_var_declarators(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        self.iter()
+            .for_each(|item| <V as VisitAstPath>::visit_var_declarators(visitor, item, ast_path))
+    }
+}
 #[doc = r" A visitor trait for traversing the AST."]
 pub trait VisitMut {
     #[doc = "Visit a node of type `Accessibility`.\n\nBy default, this method calls \
@@ -17046,17 +19930,17 @@ pub trait VisitMut {
     fn visit_mut_expr_or_spread(&mut self, node: &mut ExprOrSpread) {
         <ExprOrSpread as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
-    #[doc = "Visit a node of type `Vec < ExprOrSpread >`.\n\nBy default, this method calls [`Vec < \
-             ExprOrSpread >::visit_mut_children_with`]. If you want to recurse, you need to call \
-             it manually."]
-    fn visit_mut_expr_or_spreads(&mut self, node: &mut Vec<ExprOrSpread>) {
-        <Vec<ExprOrSpread> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
-    }
     #[doc = "Visit a node of type `Vec < Box < ExprOrSpread > >`.\n\nBy default, this method calls \
              [`Vec < Box < ExprOrSpread > >::visit_mut_children_with`]. If you want to recurse, \
              you need to call it manually."]
     fn visit_mut_expr_or_spreads(&mut self, node: &mut Vec<Box<ExprOrSpread>>) {
         <Vec<Box<ExprOrSpread>> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `Vec < ExprOrSpread >`.\n\nBy default, this method calls [`Vec < \
+             ExprOrSpread >::visit_mut_children_with`]. If you want to recurse, you need to call \
+             it manually."]
+    fn visit_mut_expr_or_spreads(&mut self, node: &mut Vec<ExprOrSpread>) {
+        <Vec<ExprOrSpread> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `ExprStmt`.\n\nBy default, this method calls \
              [`ExprStmt::visit_mut_children_with`]. If you want to recurse, you need to call it \
@@ -17698,16 +20582,16 @@ pub trait VisitMut {
     fn visit_mut_pat(&mut self, node: &mut Pat) {
         <Pat as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Visit a node of type `Vec < Pat >`.\n\nBy default, this method calls [`Vec < Pat \
+             >::visit_mut_children_with`]. If you want to recurse, you need to call it manually."]
+    fn visit_mut_pats(&mut self, node: &mut Vec<Pat>) {
+        <Vec<Pat> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
     #[doc = "Visit a node of type `Vec < Box < Pat > >`.\n\nBy default, this method calls [`Vec < \
              Box < Pat > >::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
     fn visit_mut_pats(&mut self, node: &mut Vec<Box<Pat>>) {
         <Vec<Box<Pat>> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
-    }
-    #[doc = "Visit a node of type `Vec < Pat >`.\n\nBy default, this method calls [`Vec < Pat \
-             >::visit_mut_children_with`]. If you want to recurse, you need to call it manually."]
-    fn visit_mut_pats(&mut self, node: &mut Vec<Pat>) {
-        <Vec<Pat> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `PrivateMethod`.\n\nBy default, this method calls \
              [`PrivateMethod::visit_mut_children_with`]. If you want to recurse, you need to call \
@@ -22958,6 +25842,1028 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for YieldExpr {
         }
     }
 }
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<BigIntValue> {
+    #[doc = "Calls [VisitMut`::visit_mut_big_int_value`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_big_int_value(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            <V as VisitMut>::visit_mut_big_int_value(visitor, &mut **self)
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<BlockStmtOrExpr> {
+    #[doc = "Calls [VisitMut`::visit_mut_block_stmt_or_expr`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_block_stmt_or_expr(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            <V as VisitMut>::visit_mut_block_stmt_or_expr(visitor, &mut **self)
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<Class> {
+    #[doc = "Calls [VisitMut`::visit_mut_class`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_class(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            <V as VisitMut>::visit_mut_class(visitor, &mut **self)
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<ClassMember> {
+    #[doc = "Calls [VisitMut`::visit_mut_class_members`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_class_members(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        self.iter_mut()
+            .for_each(|item| <V as VisitMut>::visit_mut_class_members(visitor, item))
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<Decorator> {
+    #[doc = "Calls [VisitMut`::visit_mut_decorators`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_decorators(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        self.iter_mut()
+            .for_each(|item| <V as VisitMut>::visit_mut_decorators(visitor, item))
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<ExportSpecifier> {
+    #[doc = "Calls [VisitMut`::visit_mut_export_specifiers`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_export_specifiers(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        self.iter_mut()
+            .for_each(|item| <V as VisitMut>::visit_mut_export_specifiers(visitor, item))
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<Expr> {
+    #[doc = "Calls [VisitMut`::visit_mut_expr`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_expr(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            <V as VisitMut>::visit_mut_expr(visitor, &mut **self)
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<Box<ExprOrSpread>> {
+    #[doc = "Calls [VisitMut`::visit_mut_expr_or_spreads`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_expr_or_spreads(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        self.iter_mut()
+            .for_each(|item| <V as VisitMut>::visit_mut_expr_or_spreads(visitor, item))
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<ExprOrSpread> {
+    #[doc = "Calls [VisitMut`::visit_mut_expr_or_spreads`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_expr_or_spreads(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        self.iter_mut()
+            .for_each(|item| <V as VisitMut>::visit_mut_expr_or_spreads(visitor, item))
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<Box<Expr>> {
+    #[doc = "Calls [VisitMut`::visit_mut_exprs`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_exprs(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        self.iter_mut()
+            .for_each(|item| <V as VisitMut>::visit_mut_exprs(visitor, item))
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<Function> {
+    #[doc = "Calls [VisitMut`::visit_mut_function`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_function(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            <V as VisitMut>::visit_mut_function(visitor, &mut **self)
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<ImportSpecifier> {
+    #[doc = "Calls [VisitMut`::visit_mut_import_specifiers`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_import_specifiers(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        self.iter_mut()
+            .for_each(|item| <V as VisitMut>::visit_mut_import_specifiers(visitor, item))
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<ImportWithItem> {
+    #[doc = "Calls [VisitMut`::visit_mut_import_with_items`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_import_with_items(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        self.iter_mut()
+            .for_each(|item| <V as VisitMut>::visit_mut_import_with_items(visitor, item))
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<JSXAttrOrSpread> {
+    #[doc = "Calls [VisitMut`::visit_mut_jsx_attr_or_spreads`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_jsx_attr_or_spreads(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        self.iter_mut()
+            .for_each(|item| <V as VisitMut>::visit_mut_jsx_attr_or_spreads(visitor, item))
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<JSXElement> {
+    #[doc = "Calls [VisitMut`::visit_mut_jsx_element`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_jsx_element(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            <V as VisitMut>::visit_mut_jsx_element(visitor, &mut **self)
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<JSXElementChild> {
+    #[doc = "Calls [VisitMut`::visit_mut_jsx_element_childs`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_jsx_element_childs(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        self.iter_mut()
+            .for_each(|item| <V as VisitMut>::visit_mut_jsx_element_childs(visitor, item))
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<JSXMemberExpr> {
+    #[doc = "Calls [VisitMut`::visit_mut_jsx_member_expr`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_jsx_member_expr(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            <V as VisitMut>::visit_mut_jsx_member_expr(visitor, &mut **self)
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<ModuleItem> {
+    #[doc = "Calls [VisitMut`::visit_mut_module_items`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_module_items(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        self.iter_mut()
+            .for_each(|item| <V as VisitMut>::visit_mut_module_items(visitor, item))
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<ObjectLit> {
+    #[doc = "Calls [VisitMut`::visit_mut_object_lit`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_object_lit(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            <V as VisitMut>::visit_mut_object_lit(visitor, &mut **self)
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<ObjectPatProp> {
+    #[doc = "Calls [VisitMut`::visit_mut_object_pat_props`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_object_pat_props(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        self.iter_mut()
+            .for_each(|item| <V as VisitMut>::visit_mut_object_pat_props(visitor, item))
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Accessibility> {
+    #[doc = "Calls [VisitMut`::visit_mut_opt_accessibility`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_opt_accessibility(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as VisitMut>::visit_mut_opt_accessibility(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<BlockStmt> {
+    #[doc = "Calls [VisitMut`::visit_mut_opt_block_stmt`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_opt_block_stmt(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as VisitMut>::visit_mut_opt_block_stmt(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<CatchClause> {
+    #[doc = "Calls [VisitMut`::visit_mut_opt_catch_clause`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_opt_catch_clause(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as VisitMut>::visit_mut_opt_catch_clause(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<OptChainBase> {
+    #[doc = "Calls [VisitMut`::visit_mut_opt_chain_base`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_opt_chain_base(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            <V as VisitMut>::visit_mut_opt_chain_base(visitor, &mut **self)
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Box<Expr>> {
+    #[doc = "Calls [VisitMut`::visit_mut_opt_expr`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_opt_expr(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as VisitMut>::visit_mut_opt_expr(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<ExprOrSpread> {
+    #[doc = "Calls [VisitMut`::visit_mut_opt_expr_or_spread`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_opt_expr_or_spread(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as VisitMut>::visit_mut_opt_expr_or_spread(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Vec<ExprOrSpread>> {
+    #[doc = "Calls [VisitMut`::visit_mut_opt_expr_or_spreads`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_opt_expr_or_spreads(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as VisitMut>::visit_mut_opt_expr_or_spreads(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Ident> {
+    #[doc = "Calls [VisitMut`::visit_mut_opt_ident`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_opt_ident(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as VisitMut>::visit_mut_opt_ident(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<JSXAttrValue> {
+    #[doc = "Calls [VisitMut`::visit_mut_opt_jsx_attr_value`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_opt_jsx_attr_value(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as VisitMut>::visit_mut_opt_jsx_attr_value(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<JSXClosingElement> {
+    #[doc = "Calls [VisitMut`::visit_mut_opt_jsx_closing_element`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_opt_jsx_closing_element(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as VisitMut>::visit_mut_opt_jsx_closing_element(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<ModuleExportName> {
+    #[doc = "Calls [VisitMut`::visit_mut_opt_module_export_name`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_opt_module_export_name(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as VisitMut>::visit_mut_opt_module_export_name(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Vec<ModuleItem>> {
+    #[doc = "Calls [VisitMut`::visit_mut_opt_module_items`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_opt_module_items(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as VisitMut>::visit_mut_opt_module_items(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Box<ObjectLit>> {
+    #[doc = "Calls [VisitMut`::visit_mut_opt_object_lit`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_opt_object_lit(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as VisitMut>::visit_mut_opt_object_lit(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Pat> {
+    #[doc = "Calls [VisitMut`::visit_mut_opt_pat`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_opt_pat(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as VisitMut>::visit_mut_opt_pat(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Box<Stmt>> {
+    #[doc = "Calls [VisitMut`::visit_mut_opt_stmt`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_opt_stmt(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as VisitMut>::visit_mut_opt_stmt(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Box<Str>> {
+    #[doc = "Calls [VisitMut`::visit_mut_opt_str`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_opt_str(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as VisitMut>::visit_mut_opt_str(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<swc_atoms::Atom> {
+    #[doc = "Calls [VisitMut`::visit_mut_opt_swc_atoms_atom`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_opt_swc_atoms_atom(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as VisitMut>::visit_mut_opt_swc_atoms_atom(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<swc_common::Span> {
+    #[doc = "Calls [VisitMut`::visit_mut_opt_swc_common_span`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_opt_swc_common_span(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as VisitMut>::visit_mut_opt_swc_common_span(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<TruePlusMinus> {
+    #[doc = "Calls [VisitMut`::visit_mut_opt_true_plus_minus`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_opt_true_plus_minus(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as VisitMut>::visit_mut_opt_true_plus_minus(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<TsEntityName> {
+    #[doc = "Calls [VisitMut`::visit_mut_opt_ts_entity_name`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_opt_ts_entity_name(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as VisitMut>::visit_mut_opt_ts_entity_name(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<TsNamespaceBody> {
+    #[doc = "Calls [VisitMut`::visit_mut_opt_ts_namespace_body`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_opt_ts_namespace_body(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as VisitMut>::visit_mut_opt_ts_namespace_body(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Box<TsType>> {
+    #[doc = "Calls [VisitMut`::visit_mut_opt_ts_type`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_opt_ts_type(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as VisitMut>::visit_mut_opt_ts_type(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Box<TsTypeAnn>> {
+    #[doc = "Calls [VisitMut`::visit_mut_opt_ts_type_ann`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_opt_ts_type_ann(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as VisitMut>::visit_mut_opt_ts_type_ann(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Box<TsTypeParamDecl>> {
+    #[doc = "Calls [VisitMut`::visit_mut_opt_ts_type_param_decl`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_opt_ts_type_param_decl(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as VisitMut>::visit_mut_opt_ts_type_param_decl(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Box<TsTypeParamInstantiation>> {
+    #[doc = "Calls [VisitMut`::visit_mut_opt_ts_type_param_instantiation`] with `self`. (Extra \
+             impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_opt_ts_type_param_instantiation(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => {
+                    <V as VisitMut>::visit_mut_opt_ts_type_param_instantiation(visitor, inner)
+                }
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<VarDeclOrExpr> {
+    #[doc = "Calls [VisitMut`::visit_mut_opt_var_decl_or_expr`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_opt_var_decl_or_expr(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            match self {
+                Some(inner) => <V as VisitMut>::visit_mut_opt_var_decl_or_expr(visitor, inner),
+                None => {}
+            }
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<ParamOrTsParamProp> {
+    #[doc = "Calls [VisitMut`::visit_mut_param_or_ts_param_props`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_param_or_ts_param_props(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        self.iter_mut()
+            .for_each(|item| <V as VisitMut>::visit_mut_param_or_ts_param_props(visitor, item))
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<Param> {
+    #[doc = "Calls [VisitMut`::visit_mut_params`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_params(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        self.iter_mut()
+            .for_each(|item| <V as VisitMut>::visit_mut_params(visitor, item))
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<Pat> {
+    #[doc = "Calls [VisitMut`::visit_mut_pat`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_pat(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            <V as VisitMut>::visit_mut_pat(visitor, &mut **self)
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<Pat> {
+    #[doc = "Calls [VisitMut`::visit_mut_pats`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_pats(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        self.iter_mut()
+            .for_each(|item| <V as VisitMut>::visit_mut_pats(visitor, item))
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<Box<Pat>> {
+    #[doc = "Calls [VisitMut`::visit_mut_pats`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_pats(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        self.iter_mut()
+            .for_each(|item| <V as VisitMut>::visit_mut_pats(visitor, item))
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<Prop> {
+    #[doc = "Calls [VisitMut`::visit_mut_prop`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_prop(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            <V as VisitMut>::visit_mut_prop(visitor, &mut **self)
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<PropOrSpread> {
+    #[doc = "Calls [VisitMut`::visit_mut_prop_or_spreads`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_prop_or_spreads(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        self.iter_mut()
+            .for_each(|item| <V as VisitMut>::visit_mut_prop_or_spreads(visitor, item))
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<Stmt> {
+    #[doc = "Calls [VisitMut`::visit_mut_stmt`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_stmt(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            <V as VisitMut>::visit_mut_stmt(visitor, &mut **self)
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<Stmt> {
+    #[doc = "Calls [VisitMut`::visit_mut_stmts`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_stmts(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        self.iter_mut()
+            .for_each(|item| <V as VisitMut>::visit_mut_stmts(visitor, item))
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<Str> {
+    #[doc = "Calls [VisitMut`::visit_mut_str`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_str(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            <V as VisitMut>::visit_mut_str(visitor, &mut **self)
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<SwitchCase> {
+    #[doc = "Calls [VisitMut`::visit_mut_switch_cases`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_switch_cases(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        self.iter_mut()
+            .for_each(|item| <V as VisitMut>::visit_mut_switch_cases(visitor, item))
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<Tpl> {
+    #[doc = "Calls [VisitMut`::visit_mut_tpl`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_tpl(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            <V as VisitMut>::visit_mut_tpl(visitor, &mut **self)
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<TplElement> {
+    #[doc = "Calls [VisitMut`::visit_mut_tpl_elements`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_tpl_elements(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        self.iter_mut()
+            .for_each(|item| <V as VisitMut>::visit_mut_tpl_elements(visitor, item))
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<TryStmt> {
+    #[doc = "Calls [VisitMut`::visit_mut_try_stmt`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_try_stmt(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            <V as VisitMut>::visit_mut_try_stmt(visitor, &mut **self)
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<TsEnumDecl> {
+    #[doc = "Calls [VisitMut`::visit_mut_ts_enum_decl`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_ts_enum_decl(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            <V as VisitMut>::visit_mut_ts_enum_decl(visitor, &mut **self)
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<TsEnumMember> {
+    #[doc = "Calls [VisitMut`::visit_mut_ts_enum_members`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_ts_enum_members(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        self.iter_mut()
+            .for_each(|item| <V as VisitMut>::visit_mut_ts_enum_members(visitor, item))
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<TsExprWithTypeArgs> {
+    #[doc = "Calls [VisitMut`::visit_mut_ts_expr_with_type_argss`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_ts_expr_with_type_argss(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        self.iter_mut()
+            .for_each(|item| <V as VisitMut>::visit_mut_ts_expr_with_type_argss(visitor, item))
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<TsFnParam> {
+    #[doc = "Calls [VisitMut`::visit_mut_ts_fn_params`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_ts_fn_params(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        self.iter_mut()
+            .for_each(|item| <V as VisitMut>::visit_mut_ts_fn_params(visitor, item))
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<TsImportEqualsDecl> {
+    #[doc = "Calls [VisitMut`::visit_mut_ts_import_equals_decl`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_ts_import_equals_decl(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            <V as VisitMut>::visit_mut_ts_import_equals_decl(visitor, &mut **self)
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<TsInterfaceDecl> {
+    #[doc = "Calls [VisitMut`::visit_mut_ts_interface_decl`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_ts_interface_decl(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            <V as VisitMut>::visit_mut_ts_interface_decl(visitor, &mut **self)
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<TsModuleDecl> {
+    #[doc = "Calls [VisitMut`::visit_mut_ts_module_decl`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_ts_module_decl(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            <V as VisitMut>::visit_mut_ts_module_decl(visitor, &mut **self)
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<TsNamespaceBody> {
+    #[doc = "Calls [VisitMut`::visit_mut_ts_namespace_body`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_ts_namespace_body(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            <V as VisitMut>::visit_mut_ts_namespace_body(visitor, &mut **self)
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<TsQualifiedName> {
+    #[doc = "Calls [VisitMut`::visit_mut_ts_qualified_name`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_ts_qualified_name(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            <V as VisitMut>::visit_mut_ts_qualified_name(visitor, &mut **self)
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<TsTupleElement> {
+    #[doc = "Calls [VisitMut`::visit_mut_ts_tuple_elements`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_ts_tuple_elements(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        self.iter_mut()
+            .for_each(|item| <V as VisitMut>::visit_mut_ts_tuple_elements(visitor, item))
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<TsType> {
+    #[doc = "Calls [VisitMut`::visit_mut_ts_type`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_ts_type(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            <V as VisitMut>::visit_mut_ts_type(visitor, &mut **self)
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<TsTypeAliasDecl> {
+    #[doc = "Calls [VisitMut`::visit_mut_ts_type_alias_decl`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_ts_type_alias_decl(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            <V as VisitMut>::visit_mut_ts_type_alias_decl(visitor, &mut **self)
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<TsTypeAnn> {
+    #[doc = "Calls [VisitMut`::visit_mut_ts_type_ann`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_ts_type_ann(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            <V as VisitMut>::visit_mut_ts_type_ann(visitor, &mut **self)
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<TsTypeElement> {
+    #[doc = "Calls [VisitMut`::visit_mut_ts_type_elements`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_ts_type_elements(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        self.iter_mut()
+            .for_each(|item| <V as VisitMut>::visit_mut_ts_type_elements(visitor, item))
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<TsTypeParamDecl> {
+    #[doc = "Calls [VisitMut`::visit_mut_ts_type_param_decl`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_ts_type_param_decl(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            <V as VisitMut>::visit_mut_ts_type_param_decl(visitor, &mut **self)
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<TsTypeParamInstantiation> {
+    #[doc = "Calls [VisitMut`::visit_mut_ts_type_param_instantiation`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_ts_type_param_instantiation(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            <V as VisitMut>::visit_mut_ts_type_param_instantiation(visitor, &mut **self)
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<TsTypeParam> {
+    #[doc = "Calls [VisitMut`::visit_mut_ts_type_params`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_ts_type_params(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        self.iter_mut()
+            .for_each(|item| <V as VisitMut>::visit_mut_ts_type_params(visitor, item))
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<Box<TsType>> {
+    #[doc = "Calls [VisitMut`::visit_mut_ts_types`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_ts_types(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        self.iter_mut()
+            .for_each(|item| <V as VisitMut>::visit_mut_ts_types(visitor, item))
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<UsingDecl> {
+    #[doc = "Calls [VisitMut`::visit_mut_using_decl`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_using_decl(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            <V as VisitMut>::visit_mut_using_decl(visitor, &mut **self)
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<VarDecl> {
+    #[doc = "Calls [VisitMut`::visit_mut_var_decl`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_var_decl(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            <V as VisitMut>::visit_mut_var_decl(visitor, &mut **self)
+        }
+    }
+}
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<VarDeclarator> {
+    #[doc = "Calls [VisitMut`::visit_mut_var_declarators`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_var_declarators(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        self.iter_mut()
+            .for_each(|item| <V as VisitMut>::visit_mut_var_declarators(visitor, item))
+    }
+}
 #[doc = r" A visitor trait for traversing the AST."]
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
@@ -23434,18 +27340,6 @@ pub trait VisitMutAstPath {
             node, self, ast_path,
         )
     }
-    #[doc = "Visit a node of type `Vec < ExprOrSpread >`.\n\nBy default, this method calls [`Vec < \
-             ExprOrSpread >::visit_mut_children_with_ast_path`]. If you want to recurse, you need \
-             to call it manually."]
-    fn visit_mut_expr_or_spreads(
-        &mut self,
-        node: &mut Vec<ExprOrSpread>,
-        ast_path: &mut AstKindPath,
-    ) {
-        <Vec<ExprOrSpread> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
-            node, self, ast_path,
-        )
-    }
     #[doc = "Visit a node of type `Vec < Box < ExprOrSpread > >`.\n\nBy default, this method calls \
              [`Vec < Box < ExprOrSpread > >::visit_mut_children_with_ast_path`]. If you want to \
              recurse, you need to call it manually."]
@@ -23455,6 +27349,18 @@ pub trait VisitMutAstPath {
         ast_path: &mut AstKindPath,
     ) {
         <Vec<Box<ExprOrSpread>> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `Vec < ExprOrSpread >`.\n\nBy default, this method calls [`Vec < \
+             ExprOrSpread >::visit_mut_children_with_ast_path`]. If you want to recurse, you need \
+             to call it manually."]
+    fn visit_mut_expr_or_spreads(
+        &mut self,
+        node: &mut Vec<ExprOrSpread>,
+        ast_path: &mut AstKindPath,
+    ) {
+        <Vec<ExprOrSpread> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -31578,6 +35484,1256 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for YieldExpr {
         }
     }
 }
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<BigIntValue> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_big_int_value`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_big_int_value(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            <V as VisitMutAstPath>::visit_mut_big_int_value(visitor, &mut **self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<BlockStmtOrExpr> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_block_stmt_or_expr`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_block_stmt_or_expr(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            <V as VisitMutAstPath>::visit_mut_block_stmt_or_expr(visitor, &mut **self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<Class> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_class`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_class(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            <V as VisitMutAstPath>::visit_mut_class(visitor, &mut **self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<ClassMember> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_class_members`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_class_members(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        self.iter_mut().for_each(|item| {
+            <V as VisitMutAstPath>::visit_mut_class_members(visitor, item, ast_path)
+        })
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<Decorator> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_decorators`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_decorators(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        self.iter_mut()
+            .for_each(|item| <V as VisitMutAstPath>::visit_mut_decorators(visitor, item, ast_path))
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<ExportSpecifier> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_export_specifiers`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_export_specifiers(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        self.iter_mut().for_each(|item| {
+            <V as VisitMutAstPath>::visit_mut_export_specifiers(visitor, item, ast_path)
+        })
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<Expr> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_expr`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_expr(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            <V as VisitMutAstPath>::visit_mut_expr(visitor, &mut **self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<Box<ExprOrSpread>> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_expr_or_spreads`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_expr_or_spreads(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        self.iter_mut().for_each(|item| {
+            <V as VisitMutAstPath>::visit_mut_expr_or_spreads(visitor, item, ast_path)
+        })
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<ExprOrSpread> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_expr_or_spreads`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_expr_or_spreads(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        self.iter_mut().for_each(|item| {
+            <V as VisitMutAstPath>::visit_mut_expr_or_spreads(visitor, item, ast_path)
+        })
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<Box<Expr>> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_exprs`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_exprs(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        self.iter_mut()
+            .for_each(|item| <V as VisitMutAstPath>::visit_mut_exprs(visitor, item, ast_path))
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<Function> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_function`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_function(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            <V as VisitMutAstPath>::visit_mut_function(visitor, &mut **self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<ImportSpecifier> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_import_specifiers`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_import_specifiers(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        self.iter_mut().for_each(|item| {
+            <V as VisitMutAstPath>::visit_mut_import_specifiers(visitor, item, ast_path)
+        })
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<ImportWithItem> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_import_with_items`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_import_with_items(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        self.iter_mut().for_each(|item| {
+            <V as VisitMutAstPath>::visit_mut_import_with_items(visitor, item, ast_path)
+        })
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<JSXAttrOrSpread> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_jsx_attr_or_spreads`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_jsx_attr_or_spreads(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        self.iter_mut().for_each(|item| {
+            <V as VisitMutAstPath>::visit_mut_jsx_attr_or_spreads(visitor, item, ast_path)
+        })
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<JSXElement> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_jsx_element`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_jsx_element(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            <V as VisitMutAstPath>::visit_mut_jsx_element(visitor, &mut **self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<JSXElementChild> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_jsx_element_childs`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_jsx_element_childs(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        self.iter_mut().for_each(|item| {
+            <V as VisitMutAstPath>::visit_mut_jsx_element_childs(visitor, item, ast_path)
+        })
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<JSXMemberExpr> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_jsx_member_expr`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_jsx_member_expr(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            <V as VisitMutAstPath>::visit_mut_jsx_member_expr(visitor, &mut **self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<ModuleItem> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_module_items`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_module_items(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        self.iter_mut().for_each(|item| {
+            <V as VisitMutAstPath>::visit_mut_module_items(visitor, item, ast_path)
+        })
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<ObjectLit> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_object_lit`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_object_lit(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            <V as VisitMutAstPath>::visit_mut_object_lit(visitor, &mut **self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<ObjectPatProp> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_object_pat_props`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_object_pat_props(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        self.iter_mut().for_each(|item| {
+            <V as VisitMutAstPath>::visit_mut_object_pat_props(visitor, item, ast_path)
+        })
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Accessibility> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_accessibility`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_opt_accessibility(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            match self {
+                Some(inner) => {
+                    <V as VisitMutAstPath>::visit_mut_opt_accessibility(visitor, inner, ast_path)
+                }
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<BlockStmt> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_block_stmt`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_opt_block_stmt(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            match self {
+                Some(inner) => {
+                    <V as VisitMutAstPath>::visit_mut_opt_block_stmt(visitor, inner, ast_path)
+                }
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<CatchClause> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_catch_clause`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_opt_catch_clause(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            match self {
+                Some(inner) => {
+                    <V as VisitMutAstPath>::visit_mut_opt_catch_clause(visitor, inner, ast_path)
+                }
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<OptChainBase> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_chain_base`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_opt_chain_base(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            <V as VisitMutAstPath>::visit_mut_opt_chain_base(visitor, &mut **self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Box<Expr>> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_expr`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_opt_expr(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            match self {
+                Some(inner) => <V as VisitMutAstPath>::visit_mut_opt_expr(visitor, inner, ast_path),
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<ExprOrSpread> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_expr_or_spread`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_opt_expr_or_spread(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            match self {
+                Some(inner) => {
+                    <V as VisitMutAstPath>::visit_mut_opt_expr_or_spread(visitor, inner, ast_path)
+                }
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Vec<ExprOrSpread>> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_expr_or_spreads`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_opt_expr_or_spreads(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            match self {
+                Some(inner) => {
+                    <V as VisitMutAstPath>::visit_mut_opt_expr_or_spreads(visitor, inner, ast_path)
+                }
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Ident> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_ident`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_opt_ident(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            match self {
+                Some(inner) => {
+                    <V as VisitMutAstPath>::visit_mut_opt_ident(visitor, inner, ast_path)
+                }
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<JSXAttrValue> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_jsx_attr_value`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_opt_jsx_attr_value(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            match self {
+                Some(inner) => {
+                    <V as VisitMutAstPath>::visit_mut_opt_jsx_attr_value(visitor, inner, ast_path)
+                }
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<JSXClosingElement> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_jsx_closing_element`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_opt_jsx_closing_element(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            match self {
+                Some(inner) => <V as VisitMutAstPath>::visit_mut_opt_jsx_closing_element(
+                    visitor, inner, ast_path,
+                ),
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<ModuleExportName> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_module_export_name`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_opt_module_export_name(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            match self {
+                Some(inner) => <V as VisitMutAstPath>::visit_mut_opt_module_export_name(
+                    visitor, inner, ast_path,
+                ),
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Vec<ModuleItem>> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_module_items`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_opt_module_items(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            match self {
+                Some(inner) => {
+                    <V as VisitMutAstPath>::visit_mut_opt_module_items(visitor, inner, ast_path)
+                }
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Box<ObjectLit>> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_object_lit`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_opt_object_lit(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            match self {
+                Some(inner) => {
+                    <V as VisitMutAstPath>::visit_mut_opt_object_lit(visitor, inner, ast_path)
+                }
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Pat> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_pat`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_opt_pat(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            match self {
+                Some(inner) => <V as VisitMutAstPath>::visit_mut_opt_pat(visitor, inner, ast_path),
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Box<Stmt>> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_stmt`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_opt_stmt(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            match self {
+                Some(inner) => <V as VisitMutAstPath>::visit_mut_opt_stmt(visitor, inner, ast_path),
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Box<Str>> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_str`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_opt_str(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            match self {
+                Some(inner) => <V as VisitMutAstPath>::visit_mut_opt_str(visitor, inner, ast_path),
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<swc_atoms::Atom> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_swc_atoms_atom`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_opt_swc_atoms_atom(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            match self {
+                Some(inner) => {
+                    <V as VisitMutAstPath>::visit_mut_opt_swc_atoms_atom(visitor, inner, ast_path)
+                }
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<swc_common::Span> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_swc_common_span`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_opt_swc_common_span(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            match self {
+                Some(inner) => {
+                    <V as VisitMutAstPath>::visit_mut_opt_swc_common_span(visitor, inner, ast_path)
+                }
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<TruePlusMinus> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_true_plus_minus`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_opt_true_plus_minus(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            match self {
+                Some(inner) => {
+                    <V as VisitMutAstPath>::visit_mut_opt_true_plus_minus(visitor, inner, ast_path)
+                }
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<TsEntityName> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_ts_entity_name`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_opt_ts_entity_name(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            match self {
+                Some(inner) => {
+                    <V as VisitMutAstPath>::visit_mut_opt_ts_entity_name(visitor, inner, ast_path)
+                }
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<TsNamespaceBody> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_ts_namespace_body`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_opt_ts_namespace_body(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            match self {
+                Some(inner) => <V as VisitMutAstPath>::visit_mut_opt_ts_namespace_body(
+                    visitor, inner, ast_path,
+                ),
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Box<TsType>> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_ts_type`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_opt_ts_type(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            match self {
+                Some(inner) => {
+                    <V as VisitMutAstPath>::visit_mut_opt_ts_type(visitor, inner, ast_path)
+                }
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Box<TsTypeAnn>> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_ts_type_ann`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_opt_ts_type_ann(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            match self {
+                Some(inner) => {
+                    <V as VisitMutAstPath>::visit_mut_opt_ts_type_ann(visitor, inner, ast_path)
+                }
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Box<TsTypeParamDecl>> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_ts_type_param_decl`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_opt_ts_type_param_decl(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            match self {
+                Some(inner) => <V as VisitMutAstPath>::visit_mut_opt_ts_type_param_decl(
+                    visitor, inner, ast_path,
+                ),
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Box<TsTypeParamInstantiation>> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_ts_type_param_instantiation`] with `self`. \
+             (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_opt_ts_type_param_instantiation(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            match self {
+                Some(inner) => <V as VisitMutAstPath>::visit_mut_opt_ts_type_param_instantiation(
+                    visitor, inner, ast_path,
+                ),
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<VarDeclOrExpr> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_var_decl_or_expr`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_opt_var_decl_or_expr(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            match self {
+                Some(inner) => {
+                    <V as VisitMutAstPath>::visit_mut_opt_var_decl_or_expr(visitor, inner, ast_path)
+                }
+                None => {}
+            }
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<ParamOrTsParamProp> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_param_or_ts_param_props`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_param_or_ts_param_props(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        self.iter_mut().for_each(|item| {
+            <V as VisitMutAstPath>::visit_mut_param_or_ts_param_props(visitor, item, ast_path)
+        })
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<Param> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_params`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_params(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        self.iter_mut()
+            .for_each(|item| <V as VisitMutAstPath>::visit_mut_params(visitor, item, ast_path))
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<Pat> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_pat`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_pat(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            <V as VisitMutAstPath>::visit_mut_pat(visitor, &mut **self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<Pat> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_pats`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_pats(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        self.iter_mut()
+            .for_each(|item| <V as VisitMutAstPath>::visit_mut_pats(visitor, item, ast_path))
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<Box<Pat>> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_pats`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_pats(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        self.iter_mut()
+            .for_each(|item| <V as VisitMutAstPath>::visit_mut_pats(visitor, item, ast_path))
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<Prop> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_prop`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_prop(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            <V as VisitMutAstPath>::visit_mut_prop(visitor, &mut **self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<PropOrSpread> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_prop_or_spreads`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_prop_or_spreads(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        self.iter_mut().for_each(|item| {
+            <V as VisitMutAstPath>::visit_mut_prop_or_spreads(visitor, item, ast_path)
+        })
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<Stmt> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_stmt`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_stmt(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            <V as VisitMutAstPath>::visit_mut_stmt(visitor, &mut **self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<Stmt> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_stmts`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_stmts(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        self.iter_mut()
+            .for_each(|item| <V as VisitMutAstPath>::visit_mut_stmts(visitor, item, ast_path))
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<Str> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_str`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_str(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            <V as VisitMutAstPath>::visit_mut_str(visitor, &mut **self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<SwitchCase> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_switch_cases`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_switch_cases(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        self.iter_mut().for_each(|item| {
+            <V as VisitMutAstPath>::visit_mut_switch_cases(visitor, item, ast_path)
+        })
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<Tpl> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_tpl`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_tpl(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            <V as VisitMutAstPath>::visit_mut_tpl(visitor, &mut **self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<TplElement> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_tpl_elements`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_tpl_elements(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        self.iter_mut().for_each(|item| {
+            <V as VisitMutAstPath>::visit_mut_tpl_elements(visitor, item, ast_path)
+        })
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<TryStmt> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_try_stmt`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_try_stmt(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            <V as VisitMutAstPath>::visit_mut_try_stmt(visitor, &mut **self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<TsEnumDecl> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_ts_enum_decl`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_ts_enum_decl(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            <V as VisitMutAstPath>::visit_mut_ts_enum_decl(visitor, &mut **self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<TsEnumMember> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_ts_enum_members`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_ts_enum_members(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        self.iter_mut().for_each(|item| {
+            <V as VisitMutAstPath>::visit_mut_ts_enum_members(visitor, item, ast_path)
+        })
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<TsExprWithTypeArgs> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_ts_expr_with_type_argss`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_ts_expr_with_type_argss(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        self.iter_mut().for_each(|item| {
+            <V as VisitMutAstPath>::visit_mut_ts_expr_with_type_argss(visitor, item, ast_path)
+        })
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<TsFnParam> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_ts_fn_params`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_ts_fn_params(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        self.iter_mut().for_each(|item| {
+            <V as VisitMutAstPath>::visit_mut_ts_fn_params(visitor, item, ast_path)
+        })
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<TsImportEqualsDecl> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_ts_import_equals_decl`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_ts_import_equals_decl(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            <V as VisitMutAstPath>::visit_mut_ts_import_equals_decl(visitor, &mut **self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<TsInterfaceDecl> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_ts_interface_decl`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_ts_interface_decl(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            <V as VisitMutAstPath>::visit_mut_ts_interface_decl(visitor, &mut **self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<TsModuleDecl> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_ts_module_decl`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_ts_module_decl(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            <V as VisitMutAstPath>::visit_mut_ts_module_decl(visitor, &mut **self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<TsNamespaceBody> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_ts_namespace_body`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_ts_namespace_body(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            <V as VisitMutAstPath>::visit_mut_ts_namespace_body(visitor, &mut **self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<TsQualifiedName> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_ts_qualified_name`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_ts_qualified_name(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            <V as VisitMutAstPath>::visit_mut_ts_qualified_name(visitor, &mut **self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<TsTupleElement> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_ts_tuple_elements`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_ts_tuple_elements(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        self.iter_mut().for_each(|item| {
+            <V as VisitMutAstPath>::visit_mut_ts_tuple_elements(visitor, item, ast_path)
+        })
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<TsType> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_ts_type`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_ts_type(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            <V as VisitMutAstPath>::visit_mut_ts_type(visitor, &mut **self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<TsTypeAliasDecl> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_ts_type_alias_decl`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_ts_type_alias_decl(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            <V as VisitMutAstPath>::visit_mut_ts_type_alias_decl(visitor, &mut **self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<TsTypeAnn> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_ts_type_ann`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_ts_type_ann(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            <V as VisitMutAstPath>::visit_mut_ts_type_ann(visitor, &mut **self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<TsTypeElement> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_ts_type_elements`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_ts_type_elements(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        self.iter_mut().for_each(|item| {
+            <V as VisitMutAstPath>::visit_mut_ts_type_elements(visitor, item, ast_path)
+        })
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<TsTypeParamDecl> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_ts_type_param_decl`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_ts_type_param_decl(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            <V as VisitMutAstPath>::visit_mut_ts_type_param_decl(visitor, &mut **self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<TsTypeParamInstantiation> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_ts_type_param_instantiation`] with `self`. (Extra \
+             impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_ts_type_param_instantiation(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            <V as VisitMutAstPath>::visit_mut_ts_type_param_instantiation(
+                visitor,
+                &mut **self,
+                ast_path,
+            )
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<TsTypeParam> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_ts_type_params`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_ts_type_params(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        self.iter_mut().for_each(|item| {
+            <V as VisitMutAstPath>::visit_mut_ts_type_params(visitor, item, ast_path)
+        })
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<Box<TsType>> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_ts_types`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_ts_types(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        self.iter_mut()
+            .for_each(|item| <V as VisitMutAstPath>::visit_mut_ts_types(visitor, item, ast_path))
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<UsingDecl> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_using_decl`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_using_decl(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            <V as VisitMutAstPath>::visit_mut_using_decl(visitor, &mut **self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<VarDecl> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_var_decl`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_var_decl(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            <V as VisitMutAstPath>::visit_mut_var_decl(visitor, &mut **self, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<VarDeclarator> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_var_declarators`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_var_declarators(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        self.iter_mut().for_each(|item| {
+            <V as VisitMutAstPath>::visit_mut_var_declarators(visitor, item, ast_path)
+        })
+    }
+}
 #[doc = r" A visitor trait for traversing the AST."]
 pub trait Fold {
     #[doc = "Visit a node of type `Accessibility`.\n\nBy default, this method calls \
@@ -38668,6 +43824,980 @@ impl<V: ?Sized + Fold> FoldWith<V> for YieldExpr {
         }
     }
 }
+impl<V: ?Sized + Fold> FoldWith<V> for Box<BigIntValue> {
+    #[doc = "Calls [Fold`::fold_big_int_value`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_big_int_value(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            Box::new(<V as Fold>::fold_big_int_value(visitor, *self))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Box<BlockStmtOrExpr> {
+    #[doc = "Calls [Fold`::fold_block_stmt_or_expr`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_block_stmt_or_expr(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            Box::new(<V as Fold>::fold_block_stmt_or_expr(visitor, *self))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Box<Class> {
+    #[doc = "Calls [Fold`::fold_class`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_class(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            Box::new(<V as Fold>::fold_class(visitor, *self))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Vec<ClassMember> {
+    #[doc = "Calls [Fold`::fold_class_members`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_class_members(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        self.into_iter()
+            .map(|item| <V as Fold>::fold_class_members(visitor, item))
+            .collect()
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Vec<Decorator> {
+    #[doc = "Calls [Fold`::fold_decorators`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_decorators(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        self.into_iter()
+            .map(|item| <V as Fold>::fold_decorators(visitor, item))
+            .collect()
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Vec<ExportSpecifier> {
+    #[doc = "Calls [Fold`::fold_export_specifiers`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_export_specifiers(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        self.into_iter()
+            .map(|item| <V as Fold>::fold_export_specifiers(visitor, item))
+            .collect()
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Box<Expr> {
+    #[doc = "Calls [Fold`::fold_expr`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_expr(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            Box::new(<V as Fold>::fold_expr(visitor, *self))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Vec<Box<ExprOrSpread>> {
+    #[doc = "Calls [Fold`::fold_expr_or_spreads`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_expr_or_spreads(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        self.into_iter()
+            .map(|item| <V as Fold>::fold_expr_or_spreads(visitor, item))
+            .collect()
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Vec<ExprOrSpread> {
+    #[doc = "Calls [Fold`::fold_expr_or_spreads`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_expr_or_spreads(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        self.into_iter()
+            .map(|item| <V as Fold>::fold_expr_or_spreads(visitor, item))
+            .collect()
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Vec<Box<Expr>> {
+    #[doc = "Calls [Fold`::fold_exprs`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_exprs(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        self.into_iter()
+            .map(|item| <V as Fold>::fold_exprs(visitor, item))
+            .collect()
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Box<Function> {
+    #[doc = "Calls [Fold`::fold_function`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_function(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            Box::new(<V as Fold>::fold_function(visitor, *self))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Vec<ImportSpecifier> {
+    #[doc = "Calls [Fold`::fold_import_specifiers`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_import_specifiers(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        self.into_iter()
+            .map(|item| <V as Fold>::fold_import_specifiers(visitor, item))
+            .collect()
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Vec<ImportWithItem> {
+    #[doc = "Calls [Fold`::fold_import_with_items`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_import_with_items(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        self.into_iter()
+            .map(|item| <V as Fold>::fold_import_with_items(visitor, item))
+            .collect()
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Vec<JSXAttrOrSpread> {
+    #[doc = "Calls [Fold`::fold_jsx_attr_or_spreads`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_jsx_attr_or_spreads(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        self.into_iter()
+            .map(|item| <V as Fold>::fold_jsx_attr_or_spreads(visitor, item))
+            .collect()
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Box<JSXElement> {
+    #[doc = "Calls [Fold`::fold_jsx_element`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_jsx_element(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            Box::new(<V as Fold>::fold_jsx_element(visitor, *self))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Vec<JSXElementChild> {
+    #[doc = "Calls [Fold`::fold_jsx_element_childs`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_jsx_element_childs(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        self.into_iter()
+            .map(|item| <V as Fold>::fold_jsx_element_childs(visitor, item))
+            .collect()
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Box<JSXMemberExpr> {
+    #[doc = "Calls [Fold`::fold_jsx_member_expr`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_jsx_member_expr(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            Box::new(<V as Fold>::fold_jsx_member_expr(visitor, *self))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Vec<ModuleItem> {
+    #[doc = "Calls [Fold`::fold_module_items`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_module_items(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        self.into_iter()
+            .map(|item| <V as Fold>::fold_module_items(visitor, item))
+            .collect()
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Box<ObjectLit> {
+    #[doc = "Calls [Fold`::fold_object_lit`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_object_lit(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            Box::new(<V as Fold>::fold_object_lit(visitor, *self))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Vec<ObjectPatProp> {
+    #[doc = "Calls [Fold`::fold_object_pat_props`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_object_pat_props(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        self.into_iter()
+            .map(|item| <V as Fold>::fold_object_pat_props(visitor, item))
+            .collect()
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Option<Accessibility> {
+    #[doc = "Calls [Fold`::fold_opt_accessibility`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_opt_accessibility(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            self.map(|inner| <V as Fold>::fold_opt_accessibility(visitor, inner))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Option<BlockStmt> {
+    #[doc = "Calls [Fold`::fold_opt_block_stmt`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_opt_block_stmt(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            self.map(|inner| <V as Fold>::fold_opt_block_stmt(visitor, inner))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Option<CatchClause> {
+    #[doc = "Calls [Fold`::fold_opt_catch_clause`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_opt_catch_clause(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            self.map(|inner| <V as Fold>::fold_opt_catch_clause(visitor, inner))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Box<OptChainBase> {
+    #[doc = "Calls [Fold`::fold_opt_chain_base`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_opt_chain_base(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            Box::new(<V as Fold>::fold_opt_chain_base(visitor, *self))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Option<Box<Expr>> {
+    #[doc = "Calls [Fold`::fold_opt_expr`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_opt_expr(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            self.map(|inner| <V as Fold>::fold_opt_expr(visitor, inner))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Option<ExprOrSpread> {
+    #[doc = "Calls [Fold`::fold_opt_expr_or_spread`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_opt_expr_or_spread(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            self.map(|inner| <V as Fold>::fold_opt_expr_or_spread(visitor, inner))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Option<Vec<ExprOrSpread>> {
+    #[doc = "Calls [Fold`::fold_opt_expr_or_spreads`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_opt_expr_or_spreads(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            self.map(|inner| <V as Fold>::fold_opt_expr_or_spreads(visitor, inner))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Option<Ident> {
+    #[doc = "Calls [Fold`::fold_opt_ident`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_opt_ident(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            self.map(|inner| <V as Fold>::fold_opt_ident(visitor, inner))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Option<JSXAttrValue> {
+    #[doc = "Calls [Fold`::fold_opt_jsx_attr_value`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_opt_jsx_attr_value(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            self.map(|inner| <V as Fold>::fold_opt_jsx_attr_value(visitor, inner))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Option<JSXClosingElement> {
+    #[doc = "Calls [Fold`::fold_opt_jsx_closing_element`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_opt_jsx_closing_element(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            self.map(|inner| <V as Fold>::fold_opt_jsx_closing_element(visitor, inner))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Option<ModuleExportName> {
+    #[doc = "Calls [Fold`::fold_opt_module_export_name`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_opt_module_export_name(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            self.map(|inner| <V as Fold>::fold_opt_module_export_name(visitor, inner))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Option<Vec<ModuleItem>> {
+    #[doc = "Calls [Fold`::fold_opt_module_items`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_opt_module_items(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            self.map(|inner| <V as Fold>::fold_opt_module_items(visitor, inner))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Option<Box<ObjectLit>> {
+    #[doc = "Calls [Fold`::fold_opt_object_lit`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_opt_object_lit(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            self.map(|inner| <V as Fold>::fold_opt_object_lit(visitor, inner))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Option<Pat> {
+    #[doc = "Calls [Fold`::fold_opt_pat`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_opt_pat(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            self.map(|inner| <V as Fold>::fold_opt_pat(visitor, inner))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Option<Box<Stmt>> {
+    #[doc = "Calls [Fold`::fold_opt_stmt`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_opt_stmt(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            self.map(|inner| <V as Fold>::fold_opt_stmt(visitor, inner))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Option<Box<Str>> {
+    #[doc = "Calls [Fold`::fold_opt_str`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_opt_str(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            self.map(|inner| <V as Fold>::fold_opt_str(visitor, inner))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Option<swc_atoms::Atom> {
+    #[doc = "Calls [Fold`::fold_opt_swc_atoms_atom`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_opt_swc_atoms_atom(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            self.map(|inner| <V as Fold>::fold_opt_swc_atoms_atom(visitor, inner))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Option<swc_common::Span> {
+    #[doc = "Calls [Fold`::fold_opt_swc_common_span`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_opt_swc_common_span(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            self.map(|inner| <V as Fold>::fold_opt_swc_common_span(visitor, inner))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Option<TruePlusMinus> {
+    #[doc = "Calls [Fold`::fold_opt_true_plus_minus`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_opt_true_plus_minus(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            self.map(|inner| <V as Fold>::fold_opt_true_plus_minus(visitor, inner))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Option<TsEntityName> {
+    #[doc = "Calls [Fold`::fold_opt_ts_entity_name`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_opt_ts_entity_name(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            self.map(|inner| <V as Fold>::fold_opt_ts_entity_name(visitor, inner))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Option<TsNamespaceBody> {
+    #[doc = "Calls [Fold`::fold_opt_ts_namespace_body`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_opt_ts_namespace_body(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            self.map(|inner| <V as Fold>::fold_opt_ts_namespace_body(visitor, inner))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Option<Box<TsType>> {
+    #[doc = "Calls [Fold`::fold_opt_ts_type`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_opt_ts_type(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            self.map(|inner| <V as Fold>::fold_opt_ts_type(visitor, inner))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Option<Box<TsTypeAnn>> {
+    #[doc = "Calls [Fold`::fold_opt_ts_type_ann`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_opt_ts_type_ann(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            self.map(|inner| <V as Fold>::fold_opt_ts_type_ann(visitor, inner))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Option<Box<TsTypeParamDecl>> {
+    #[doc = "Calls [Fold`::fold_opt_ts_type_param_decl`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_opt_ts_type_param_decl(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            self.map(|inner| <V as Fold>::fold_opt_ts_type_param_decl(visitor, inner))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Option<Box<TsTypeParamInstantiation>> {
+    #[doc = "Calls [Fold`::fold_opt_ts_type_param_instantiation`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_opt_ts_type_param_instantiation(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            self.map(|inner| <V as Fold>::fold_opt_ts_type_param_instantiation(visitor, inner))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Option<VarDeclOrExpr> {
+    #[doc = "Calls [Fold`::fold_opt_var_decl_or_expr`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_opt_var_decl_or_expr(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            self.map(|inner| <V as Fold>::fold_opt_var_decl_or_expr(visitor, inner))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Vec<ParamOrTsParamProp> {
+    #[doc = "Calls [Fold`::fold_param_or_ts_param_props`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_param_or_ts_param_props(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        self.into_iter()
+            .map(|item| <V as Fold>::fold_param_or_ts_param_props(visitor, item))
+            .collect()
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Vec<Param> {
+    #[doc = "Calls [Fold`::fold_params`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_params(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        self.into_iter()
+            .map(|item| <V as Fold>::fold_params(visitor, item))
+            .collect()
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Box<Pat> {
+    #[doc = "Calls [Fold`::fold_pat`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_pat(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            Box::new(<V as Fold>::fold_pat(visitor, *self))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Vec<Pat> {
+    #[doc = "Calls [Fold`::fold_pats`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_pats(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        self.into_iter()
+            .map(|item| <V as Fold>::fold_pats(visitor, item))
+            .collect()
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Vec<Box<Pat>> {
+    #[doc = "Calls [Fold`::fold_pats`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_pats(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        self.into_iter()
+            .map(|item| <V as Fold>::fold_pats(visitor, item))
+            .collect()
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Box<Prop> {
+    #[doc = "Calls [Fold`::fold_prop`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_prop(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            Box::new(<V as Fold>::fold_prop(visitor, *self))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Vec<PropOrSpread> {
+    #[doc = "Calls [Fold`::fold_prop_or_spreads`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_prop_or_spreads(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        self.into_iter()
+            .map(|item| <V as Fold>::fold_prop_or_spreads(visitor, item))
+            .collect()
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Box<Stmt> {
+    #[doc = "Calls [Fold`::fold_stmt`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_stmt(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            Box::new(<V as Fold>::fold_stmt(visitor, *self))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Vec<Stmt> {
+    #[doc = "Calls [Fold`::fold_stmts`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_stmts(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        self.into_iter()
+            .map(|item| <V as Fold>::fold_stmts(visitor, item))
+            .collect()
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Box<Str> {
+    #[doc = "Calls [Fold`::fold_str`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_str(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            Box::new(<V as Fold>::fold_str(visitor, *self))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Vec<SwitchCase> {
+    #[doc = "Calls [Fold`::fold_switch_cases`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_switch_cases(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        self.into_iter()
+            .map(|item| <V as Fold>::fold_switch_cases(visitor, item))
+            .collect()
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Box<Tpl> {
+    #[doc = "Calls [Fold`::fold_tpl`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_tpl(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            Box::new(<V as Fold>::fold_tpl(visitor, *self))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Vec<TplElement> {
+    #[doc = "Calls [Fold`::fold_tpl_elements`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_tpl_elements(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        self.into_iter()
+            .map(|item| <V as Fold>::fold_tpl_elements(visitor, item))
+            .collect()
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Box<TryStmt> {
+    #[doc = "Calls [Fold`::fold_try_stmt`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_try_stmt(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            Box::new(<V as Fold>::fold_try_stmt(visitor, *self))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Box<TsEnumDecl> {
+    #[doc = "Calls [Fold`::fold_ts_enum_decl`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_ts_enum_decl(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            Box::new(<V as Fold>::fold_ts_enum_decl(visitor, *self))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Vec<TsEnumMember> {
+    #[doc = "Calls [Fold`::fold_ts_enum_members`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_ts_enum_members(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        self.into_iter()
+            .map(|item| <V as Fold>::fold_ts_enum_members(visitor, item))
+            .collect()
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Vec<TsExprWithTypeArgs> {
+    #[doc = "Calls [Fold`::fold_ts_expr_with_type_argss`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_ts_expr_with_type_argss(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        self.into_iter()
+            .map(|item| <V as Fold>::fold_ts_expr_with_type_argss(visitor, item))
+            .collect()
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Vec<TsFnParam> {
+    #[doc = "Calls [Fold`::fold_ts_fn_params`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_ts_fn_params(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        self.into_iter()
+            .map(|item| <V as Fold>::fold_ts_fn_params(visitor, item))
+            .collect()
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Box<TsImportEqualsDecl> {
+    #[doc = "Calls [Fold`::fold_ts_import_equals_decl`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_ts_import_equals_decl(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            Box::new(<V as Fold>::fold_ts_import_equals_decl(visitor, *self))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Box<TsInterfaceDecl> {
+    #[doc = "Calls [Fold`::fold_ts_interface_decl`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_ts_interface_decl(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            Box::new(<V as Fold>::fold_ts_interface_decl(visitor, *self))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Box<TsModuleDecl> {
+    #[doc = "Calls [Fold`::fold_ts_module_decl`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_ts_module_decl(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            Box::new(<V as Fold>::fold_ts_module_decl(visitor, *self))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Box<TsNamespaceBody> {
+    #[doc = "Calls [Fold`::fold_ts_namespace_body`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_ts_namespace_body(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            Box::new(<V as Fold>::fold_ts_namespace_body(visitor, *self))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Box<TsQualifiedName> {
+    #[doc = "Calls [Fold`::fold_ts_qualified_name`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_ts_qualified_name(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            Box::new(<V as Fold>::fold_ts_qualified_name(visitor, *self))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Vec<TsTupleElement> {
+    #[doc = "Calls [Fold`::fold_ts_tuple_elements`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_ts_tuple_elements(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        self.into_iter()
+            .map(|item| <V as Fold>::fold_ts_tuple_elements(visitor, item))
+            .collect()
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Box<TsType> {
+    #[doc = "Calls [Fold`::fold_ts_type`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_ts_type(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            Box::new(<V as Fold>::fold_ts_type(visitor, *self))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Box<TsTypeAliasDecl> {
+    #[doc = "Calls [Fold`::fold_ts_type_alias_decl`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_ts_type_alias_decl(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            Box::new(<V as Fold>::fold_ts_type_alias_decl(visitor, *self))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Box<TsTypeAnn> {
+    #[doc = "Calls [Fold`::fold_ts_type_ann`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_ts_type_ann(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            Box::new(<V as Fold>::fold_ts_type_ann(visitor, *self))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Vec<TsTypeElement> {
+    #[doc = "Calls [Fold`::fold_ts_type_elements`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_ts_type_elements(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        self.into_iter()
+            .map(|item| <V as Fold>::fold_ts_type_elements(visitor, item))
+            .collect()
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Box<TsTypeParamDecl> {
+    #[doc = "Calls [Fold`::fold_ts_type_param_decl`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_ts_type_param_decl(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            Box::new(<V as Fold>::fold_ts_type_param_decl(visitor, *self))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Box<TsTypeParamInstantiation> {
+    #[doc = "Calls [Fold`::fold_ts_type_param_instantiation`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_ts_type_param_instantiation(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            Box::new(<V as Fold>::fold_ts_type_param_instantiation(
+                visitor, *self,
+            ))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Vec<TsTypeParam> {
+    #[doc = "Calls [Fold`::fold_ts_type_params`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_ts_type_params(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        self.into_iter()
+            .map(|item| <V as Fold>::fold_ts_type_params(visitor, item))
+            .collect()
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Vec<Box<TsType>> {
+    #[doc = "Calls [Fold`::fold_ts_types`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_ts_types(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        self.into_iter()
+            .map(|item| <V as Fold>::fold_ts_types(visitor, item))
+            .collect()
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Box<UsingDecl> {
+    #[doc = "Calls [Fold`::fold_using_decl`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_using_decl(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            Box::new(<V as Fold>::fold_using_decl(visitor, *self))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Box<VarDecl> {
+    #[doc = "Calls [Fold`::fold_var_decl`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_var_decl(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            Box::new(<V as Fold>::fold_var_decl(visitor, *self))
+        }
+    }
+}
+impl<V: ?Sized + Fold> FoldWith<V> for Vec<VarDeclarator> {
+    #[doc = "Calls [Fold`::fold_var_declarators`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_var_declarators(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        self.into_iter()
+            .map(|item| <V as Fold>::fold_var_declarators(visitor, item))
+            .collect()
+    }
+}
 #[doc = r" A visitor trait for traversing the AST."]
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
@@ -40087,17 +46217,17 @@ pub trait FoldAstPath {
     fn fold_pat(&mut self, node: Pat, ast_path: &mut AstKindPath) -> Pat {
         <Pat as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
     }
-    #[doc = "Visit a node of type `Vec < Box < Pat > >`.\n\nBy default, this method calls [`Vec < \
-             Box < Pat > >::fold_children_with_ast_path`]. If you want to recurse, you need to \
-             call it manually."]
-    fn fold_pats(&mut self, node: Vec<Box<Pat>>, ast_path: &mut AstKindPath) -> Vec<Box<Pat>> {
-        <Vec<Box<Pat>> as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
-    }
     #[doc = "Visit a node of type `Vec < Pat >`.\n\nBy default, this method calls [`Vec < Pat \
              >::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
     fn fold_pats(&mut self, node: Vec<Pat>, ast_path: &mut AstKindPath) -> Vec<Pat> {
         <Vec<Pat> as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
+    }
+    #[doc = "Visit a node of type `Vec < Box < Pat > >`.\n\nBy default, this method calls [`Vec < \
+             Box < Pat > >::fold_children_with_ast_path`]. If you want to recurse, you need to \
+             call it manually."]
+    fn fold_pats(&mut self, node: Vec<Box<Pat>>, ast_path: &mut AstKindPath) -> Vec<Box<Pat>> {
+        <Vec<Box<Pat>> as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
     }
     #[doc = "Visit a node of type `PrivateMethod`.\n\nBy default, this method calls \
              [`PrivateMethod::fold_children_with_ast_path`]. If you want to recurse, you need to \
@@ -47853,6 +53983,1186 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for YieldExpr {
                 }
             }
         }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<BigIntValue> {
+    #[doc = "Calls [FoldAstPath`::fold_big_int_value`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_big_int_value(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            Box::new(<V as FoldAstPath>::fold_big_int_value(
+                visitor, *self, ast_path,
+            ))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<BlockStmtOrExpr> {
+    #[doc = "Calls [FoldAstPath`::fold_block_stmt_or_expr`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_block_stmt_or_expr(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            Box::new(<V as FoldAstPath>::fold_block_stmt_or_expr(
+                visitor, *self, ast_path,
+            ))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<Class> {
+    #[doc = "Calls [FoldAstPath`::fold_class`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_class(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            Box::new(<V as FoldAstPath>::fold_class(visitor, *self, ast_path))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<ClassMember> {
+    #[doc = "Calls [FoldAstPath`::fold_class_members`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_class_members(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        self.into_iter()
+            .map(|item| <V as FoldAstPath>::fold_class_members(visitor, item, ast_path))
+            .collect()
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<Decorator> {
+    #[doc = "Calls [FoldAstPath`::fold_decorators`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_decorators(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        self.into_iter()
+            .map(|item| <V as FoldAstPath>::fold_decorators(visitor, item, ast_path))
+            .collect()
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<ExportSpecifier> {
+    #[doc = "Calls [FoldAstPath`::fold_export_specifiers`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_export_specifiers(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        self.into_iter()
+            .map(|item| <V as FoldAstPath>::fold_export_specifiers(visitor, item, ast_path))
+            .collect()
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<Expr> {
+    #[doc = "Calls [FoldAstPath`::fold_expr`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_expr(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            Box::new(<V as FoldAstPath>::fold_expr(visitor, *self, ast_path))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<Box<ExprOrSpread>> {
+    #[doc = "Calls [FoldAstPath`::fold_expr_or_spreads`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_expr_or_spreads(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        self.into_iter()
+            .map(|item| <V as FoldAstPath>::fold_expr_or_spreads(visitor, item, ast_path))
+            .collect()
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<ExprOrSpread> {
+    #[doc = "Calls [FoldAstPath`::fold_expr_or_spreads`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_expr_or_spreads(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        self.into_iter()
+            .map(|item| <V as FoldAstPath>::fold_expr_or_spreads(visitor, item, ast_path))
+            .collect()
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<Box<Expr>> {
+    #[doc = "Calls [FoldAstPath`::fold_exprs`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_exprs(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        self.into_iter()
+            .map(|item| <V as FoldAstPath>::fold_exprs(visitor, item, ast_path))
+            .collect()
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<Function> {
+    #[doc = "Calls [FoldAstPath`::fold_function`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_function(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            Box::new(<V as FoldAstPath>::fold_function(visitor, *self, ast_path))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<ImportSpecifier> {
+    #[doc = "Calls [FoldAstPath`::fold_import_specifiers`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_import_specifiers(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        self.into_iter()
+            .map(|item| <V as FoldAstPath>::fold_import_specifiers(visitor, item, ast_path))
+            .collect()
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<ImportWithItem> {
+    #[doc = "Calls [FoldAstPath`::fold_import_with_items`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_import_with_items(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        self.into_iter()
+            .map(|item| <V as FoldAstPath>::fold_import_with_items(visitor, item, ast_path))
+            .collect()
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<JSXAttrOrSpread> {
+    #[doc = "Calls [FoldAstPath`::fold_jsx_attr_or_spreads`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_jsx_attr_or_spreads(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        self.into_iter()
+            .map(|item| <V as FoldAstPath>::fold_jsx_attr_or_spreads(visitor, item, ast_path))
+            .collect()
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<JSXElement> {
+    #[doc = "Calls [FoldAstPath`::fold_jsx_element`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_jsx_element(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            Box::new(<V as FoldAstPath>::fold_jsx_element(
+                visitor, *self, ast_path,
+            ))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<JSXElementChild> {
+    #[doc = "Calls [FoldAstPath`::fold_jsx_element_childs`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_jsx_element_childs(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        self.into_iter()
+            .map(|item| <V as FoldAstPath>::fold_jsx_element_childs(visitor, item, ast_path))
+            .collect()
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<JSXMemberExpr> {
+    #[doc = "Calls [FoldAstPath`::fold_jsx_member_expr`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_jsx_member_expr(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            Box::new(<V as FoldAstPath>::fold_jsx_member_expr(
+                visitor, *self, ast_path,
+            ))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<ModuleItem> {
+    #[doc = "Calls [FoldAstPath`::fold_module_items`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_module_items(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        self.into_iter()
+            .map(|item| <V as FoldAstPath>::fold_module_items(visitor, item, ast_path))
+            .collect()
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<ObjectLit> {
+    #[doc = "Calls [FoldAstPath`::fold_object_lit`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_object_lit(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            Box::new(<V as FoldAstPath>::fold_object_lit(
+                visitor, *self, ast_path,
+            ))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<ObjectPatProp> {
+    #[doc = "Calls [FoldAstPath`::fold_object_pat_props`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_object_pat_props(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        self.into_iter()
+            .map(|item| <V as FoldAstPath>::fold_object_pat_props(visitor, item, ast_path))
+            .collect()
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Accessibility> {
+    #[doc = "Calls [FoldAstPath`::fold_opt_accessibility`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_opt_accessibility(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            self.map(|inner| <V as FoldAstPath>::fold_opt_accessibility(visitor, inner, ast_path))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<BlockStmt> {
+    #[doc = "Calls [FoldAstPath`::fold_opt_block_stmt`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_opt_block_stmt(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            self.map(|inner| <V as FoldAstPath>::fold_opt_block_stmt(visitor, inner, ast_path))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<CatchClause> {
+    #[doc = "Calls [FoldAstPath`::fold_opt_catch_clause`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_opt_catch_clause(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            self.map(|inner| <V as FoldAstPath>::fold_opt_catch_clause(visitor, inner, ast_path))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<OptChainBase> {
+    #[doc = "Calls [FoldAstPath`::fold_opt_chain_base`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_opt_chain_base(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            Box::new(<V as FoldAstPath>::fold_opt_chain_base(
+                visitor, *self, ast_path,
+            ))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Box<Expr>> {
+    #[doc = "Calls [FoldAstPath`::fold_opt_expr`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_opt_expr(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            self.map(|inner| <V as FoldAstPath>::fold_opt_expr(visitor, inner, ast_path))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<ExprOrSpread> {
+    #[doc = "Calls [FoldAstPath`::fold_opt_expr_or_spread`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_opt_expr_or_spread(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            self.map(|inner| <V as FoldAstPath>::fold_opt_expr_or_spread(visitor, inner, ast_path))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Vec<ExprOrSpread>> {
+    #[doc = "Calls [FoldAstPath`::fold_opt_expr_or_spreads`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_opt_expr_or_spreads(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            self.map(|inner| <V as FoldAstPath>::fold_opt_expr_or_spreads(visitor, inner, ast_path))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Ident> {
+    #[doc = "Calls [FoldAstPath`::fold_opt_ident`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_opt_ident(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            self.map(|inner| <V as FoldAstPath>::fold_opt_ident(visitor, inner, ast_path))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<JSXAttrValue> {
+    #[doc = "Calls [FoldAstPath`::fold_opt_jsx_attr_value`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_opt_jsx_attr_value(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            self.map(|inner| <V as FoldAstPath>::fold_opt_jsx_attr_value(visitor, inner, ast_path))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<JSXClosingElement> {
+    #[doc = "Calls [FoldAstPath`::fold_opt_jsx_closing_element`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_opt_jsx_closing_element(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            self.map(|inner| {
+                <V as FoldAstPath>::fold_opt_jsx_closing_element(visitor, inner, ast_path)
+            })
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<ModuleExportName> {
+    #[doc = "Calls [FoldAstPath`::fold_opt_module_export_name`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_opt_module_export_name(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            self.map(|inner| {
+                <V as FoldAstPath>::fold_opt_module_export_name(visitor, inner, ast_path)
+            })
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Vec<ModuleItem>> {
+    #[doc = "Calls [FoldAstPath`::fold_opt_module_items`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_opt_module_items(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            self.map(|inner| <V as FoldAstPath>::fold_opt_module_items(visitor, inner, ast_path))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Box<ObjectLit>> {
+    #[doc = "Calls [FoldAstPath`::fold_opt_object_lit`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_opt_object_lit(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            self.map(|inner| <V as FoldAstPath>::fold_opt_object_lit(visitor, inner, ast_path))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Pat> {
+    #[doc = "Calls [FoldAstPath`::fold_opt_pat`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_opt_pat(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            self.map(|inner| <V as FoldAstPath>::fold_opt_pat(visitor, inner, ast_path))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Box<Stmt>> {
+    #[doc = "Calls [FoldAstPath`::fold_opt_stmt`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_opt_stmt(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            self.map(|inner| <V as FoldAstPath>::fold_opt_stmt(visitor, inner, ast_path))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Box<Str>> {
+    #[doc = "Calls [FoldAstPath`::fold_opt_str`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_opt_str(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            self.map(|inner| <V as FoldAstPath>::fold_opt_str(visitor, inner, ast_path))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<swc_atoms::Atom> {
+    #[doc = "Calls [FoldAstPath`::fold_opt_swc_atoms_atom`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_opt_swc_atoms_atom(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            self.map(|inner| <V as FoldAstPath>::fold_opt_swc_atoms_atom(visitor, inner, ast_path))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<swc_common::Span> {
+    #[doc = "Calls [FoldAstPath`::fold_opt_swc_common_span`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_opt_swc_common_span(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            self.map(|inner| <V as FoldAstPath>::fold_opt_swc_common_span(visitor, inner, ast_path))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<TruePlusMinus> {
+    #[doc = "Calls [FoldAstPath`::fold_opt_true_plus_minus`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_opt_true_plus_minus(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            self.map(|inner| <V as FoldAstPath>::fold_opt_true_plus_minus(visitor, inner, ast_path))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<TsEntityName> {
+    #[doc = "Calls [FoldAstPath`::fold_opt_ts_entity_name`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_opt_ts_entity_name(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            self.map(|inner| <V as FoldAstPath>::fold_opt_ts_entity_name(visitor, inner, ast_path))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<TsNamespaceBody> {
+    #[doc = "Calls [FoldAstPath`::fold_opt_ts_namespace_body`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_opt_ts_namespace_body(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            self.map(|inner| {
+                <V as FoldAstPath>::fold_opt_ts_namespace_body(visitor, inner, ast_path)
+            })
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Box<TsType>> {
+    #[doc = "Calls [FoldAstPath`::fold_opt_ts_type`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_opt_ts_type(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            self.map(|inner| <V as FoldAstPath>::fold_opt_ts_type(visitor, inner, ast_path))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Box<TsTypeAnn>> {
+    #[doc = "Calls [FoldAstPath`::fold_opt_ts_type_ann`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_opt_ts_type_ann(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            self.map(|inner| <V as FoldAstPath>::fold_opt_ts_type_ann(visitor, inner, ast_path))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Box<TsTypeParamDecl>> {
+    #[doc = "Calls [FoldAstPath`::fold_opt_ts_type_param_decl`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_opt_ts_type_param_decl(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            self.map(|inner| {
+                <V as FoldAstPath>::fold_opt_ts_type_param_decl(visitor, inner, ast_path)
+            })
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Box<TsTypeParamInstantiation>> {
+    #[doc = "Calls [FoldAstPath`::fold_opt_ts_type_param_instantiation`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_opt_ts_type_param_instantiation(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            self.map(|inner| {
+                <V as FoldAstPath>::fold_opt_ts_type_param_instantiation(visitor, inner, ast_path)
+            })
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<VarDeclOrExpr> {
+    #[doc = "Calls [FoldAstPath`::fold_opt_var_decl_or_expr`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_opt_var_decl_or_expr(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            self.map(|inner| {
+                <V as FoldAstPath>::fold_opt_var_decl_or_expr(visitor, inner, ast_path)
+            })
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<ParamOrTsParamProp> {
+    #[doc = "Calls [FoldAstPath`::fold_param_or_ts_param_props`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_param_or_ts_param_props(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        self.into_iter()
+            .map(|item| <V as FoldAstPath>::fold_param_or_ts_param_props(visitor, item, ast_path))
+            .collect()
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<Param> {
+    #[doc = "Calls [FoldAstPath`::fold_params`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_params(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        self.into_iter()
+            .map(|item| <V as FoldAstPath>::fold_params(visitor, item, ast_path))
+            .collect()
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<Pat> {
+    #[doc = "Calls [FoldAstPath`::fold_pat`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_pat(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            Box::new(<V as FoldAstPath>::fold_pat(visitor, *self, ast_path))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<Pat> {
+    #[doc = "Calls [FoldAstPath`::fold_pats`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_pats(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        self.into_iter()
+            .map(|item| <V as FoldAstPath>::fold_pats(visitor, item, ast_path))
+            .collect()
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<Box<Pat>> {
+    #[doc = "Calls [FoldAstPath`::fold_pats`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_pats(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        self.into_iter()
+            .map(|item| <V as FoldAstPath>::fold_pats(visitor, item, ast_path))
+            .collect()
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<Prop> {
+    #[doc = "Calls [FoldAstPath`::fold_prop`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_prop(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            Box::new(<V as FoldAstPath>::fold_prop(visitor, *self, ast_path))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<PropOrSpread> {
+    #[doc = "Calls [FoldAstPath`::fold_prop_or_spreads`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_prop_or_spreads(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        self.into_iter()
+            .map(|item| <V as FoldAstPath>::fold_prop_or_spreads(visitor, item, ast_path))
+            .collect()
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<Stmt> {
+    #[doc = "Calls [FoldAstPath`::fold_stmt`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_stmt(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            Box::new(<V as FoldAstPath>::fold_stmt(visitor, *self, ast_path))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<Stmt> {
+    #[doc = "Calls [FoldAstPath`::fold_stmts`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_stmts(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        self.into_iter()
+            .map(|item| <V as FoldAstPath>::fold_stmts(visitor, item, ast_path))
+            .collect()
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<Str> {
+    #[doc = "Calls [FoldAstPath`::fold_str`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_str(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            Box::new(<V as FoldAstPath>::fold_str(visitor, *self, ast_path))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<SwitchCase> {
+    #[doc = "Calls [FoldAstPath`::fold_switch_cases`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_switch_cases(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        self.into_iter()
+            .map(|item| <V as FoldAstPath>::fold_switch_cases(visitor, item, ast_path))
+            .collect()
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<Tpl> {
+    #[doc = "Calls [FoldAstPath`::fold_tpl`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_tpl(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            Box::new(<V as FoldAstPath>::fold_tpl(visitor, *self, ast_path))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<TplElement> {
+    #[doc = "Calls [FoldAstPath`::fold_tpl_elements`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_tpl_elements(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        self.into_iter()
+            .map(|item| <V as FoldAstPath>::fold_tpl_elements(visitor, item, ast_path))
+            .collect()
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<TryStmt> {
+    #[doc = "Calls [FoldAstPath`::fold_try_stmt`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_try_stmt(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            Box::new(<V as FoldAstPath>::fold_try_stmt(visitor, *self, ast_path))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<TsEnumDecl> {
+    #[doc = "Calls [FoldAstPath`::fold_ts_enum_decl`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_ts_enum_decl(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            Box::new(<V as FoldAstPath>::fold_ts_enum_decl(
+                visitor, *self, ast_path,
+            ))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<TsEnumMember> {
+    #[doc = "Calls [FoldAstPath`::fold_ts_enum_members`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_ts_enum_members(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        self.into_iter()
+            .map(|item| <V as FoldAstPath>::fold_ts_enum_members(visitor, item, ast_path))
+            .collect()
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<TsExprWithTypeArgs> {
+    #[doc = "Calls [FoldAstPath`::fold_ts_expr_with_type_argss`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_ts_expr_with_type_argss(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        self.into_iter()
+            .map(|item| <V as FoldAstPath>::fold_ts_expr_with_type_argss(visitor, item, ast_path))
+            .collect()
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<TsFnParam> {
+    #[doc = "Calls [FoldAstPath`::fold_ts_fn_params`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_ts_fn_params(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        self.into_iter()
+            .map(|item| <V as FoldAstPath>::fold_ts_fn_params(visitor, item, ast_path))
+            .collect()
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<TsImportEqualsDecl> {
+    #[doc = "Calls [FoldAstPath`::fold_ts_import_equals_decl`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_ts_import_equals_decl(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            Box::new(<V as FoldAstPath>::fold_ts_import_equals_decl(
+                visitor, *self, ast_path,
+            ))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<TsInterfaceDecl> {
+    #[doc = "Calls [FoldAstPath`::fold_ts_interface_decl`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_ts_interface_decl(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            Box::new(<V as FoldAstPath>::fold_ts_interface_decl(
+                visitor, *self, ast_path,
+            ))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<TsModuleDecl> {
+    #[doc = "Calls [FoldAstPath`::fold_ts_module_decl`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_ts_module_decl(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            Box::new(<V as FoldAstPath>::fold_ts_module_decl(
+                visitor, *self, ast_path,
+            ))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<TsNamespaceBody> {
+    #[doc = "Calls [FoldAstPath`::fold_ts_namespace_body`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_ts_namespace_body(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            Box::new(<V as FoldAstPath>::fold_ts_namespace_body(
+                visitor, *self, ast_path,
+            ))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<TsQualifiedName> {
+    #[doc = "Calls [FoldAstPath`::fold_ts_qualified_name`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_ts_qualified_name(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            Box::new(<V as FoldAstPath>::fold_ts_qualified_name(
+                visitor, *self, ast_path,
+            ))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<TsTupleElement> {
+    #[doc = "Calls [FoldAstPath`::fold_ts_tuple_elements`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_ts_tuple_elements(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        self.into_iter()
+            .map(|item| <V as FoldAstPath>::fold_ts_tuple_elements(visitor, item, ast_path))
+            .collect()
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<TsType> {
+    #[doc = "Calls [FoldAstPath`::fold_ts_type`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_ts_type(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            Box::new(<V as FoldAstPath>::fold_ts_type(visitor, *self, ast_path))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<TsTypeAliasDecl> {
+    #[doc = "Calls [FoldAstPath`::fold_ts_type_alias_decl`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_ts_type_alias_decl(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            Box::new(<V as FoldAstPath>::fold_ts_type_alias_decl(
+                visitor, *self, ast_path,
+            ))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<TsTypeAnn> {
+    #[doc = "Calls [FoldAstPath`::fold_ts_type_ann`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_ts_type_ann(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            Box::new(<V as FoldAstPath>::fold_ts_type_ann(
+                visitor, *self, ast_path,
+            ))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<TsTypeElement> {
+    #[doc = "Calls [FoldAstPath`::fold_ts_type_elements`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_ts_type_elements(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        self.into_iter()
+            .map(|item| <V as FoldAstPath>::fold_ts_type_elements(visitor, item, ast_path))
+            .collect()
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<TsTypeParamDecl> {
+    #[doc = "Calls [FoldAstPath`::fold_ts_type_param_decl`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_ts_type_param_decl(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            Box::new(<V as FoldAstPath>::fold_ts_type_param_decl(
+                visitor, *self, ast_path,
+            ))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<TsTypeParamInstantiation> {
+    #[doc = "Calls [FoldAstPath`::fold_ts_type_param_instantiation`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_ts_type_param_instantiation(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            Box::new(<V as FoldAstPath>::fold_ts_type_param_instantiation(
+                visitor, *self, ast_path,
+            ))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<TsTypeParam> {
+    #[doc = "Calls [FoldAstPath`::fold_ts_type_params`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_ts_type_params(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        self.into_iter()
+            .map(|item| <V as FoldAstPath>::fold_ts_type_params(visitor, item, ast_path))
+            .collect()
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<Box<TsType>> {
+    #[doc = "Calls [FoldAstPath`::fold_ts_types`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_ts_types(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        self.into_iter()
+            .map(|item| <V as FoldAstPath>::fold_ts_types(visitor, item, ast_path))
+            .collect()
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<UsingDecl> {
+    #[doc = "Calls [FoldAstPath`::fold_using_decl`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_using_decl(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            Box::new(<V as FoldAstPath>::fold_using_decl(
+                visitor, *self, ast_path,
+            ))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<VarDecl> {
+    #[doc = "Calls [FoldAstPath`::fold_var_decl`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_var_decl(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            Box::new(<V as FoldAstPath>::fold_var_decl(visitor, *self, ast_path))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<VarDeclarator> {
+    #[doc = "Calls [FoldAstPath`::fold_var_declarators`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_var_declarators(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        self.into_iter()
+            .map(|item| <V as FoldAstPath>::fold_var_declarators(visitor, item, ast_path))
+            .collect()
     }
 }
 #[cfg(feature = "path")]
