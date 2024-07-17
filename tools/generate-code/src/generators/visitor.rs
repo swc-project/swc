@@ -53,7 +53,7 @@ pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
         use #crate_name::*;
     ));
     output.items.push(parse_quote!(
-        #[cfg(feature = "path")]
+        #[cfg(any(docsrs, feature = "path"))]
         use self::fields::{AstParentNodeRef, AstParentKind};
     ));
     output.items.push(parse_quote!(
@@ -94,11 +94,11 @@ pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
     }
 
     output.items.push(parse_quote!(
-        #[cfg(feature = "path")]
+        #[cfg(any(docsrs, feature = "path"))]
         pub type AstKindPath = swc_visit::AstKindPath<AstParentKind>;
     ));
     output.items.push(parse_quote!(
-        #[cfg(feature = "path")]
+        #[cfg(any(docsrs, feature = "path"))]
         pub type AstNodePath<'ast> = swc_visit::AstNodePath<AstParentNodeRef<'ast>>;
     ));
     output.items.extend(define_fields(node_types));
@@ -1377,7 +1377,7 @@ fn define_fields(node_types: &[&Item]) -> Vec<Item> {
 
         {
             defs.push(parse_quote!(
-                #[cfg(feature = "path")]
+                #[cfg(any(docsrs, feature = "path"))]
                 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
                 pub enum AstParentKind {
                     #(#kind_enum_members),*
@@ -1398,7 +1398,7 @@ fn define_fields(node_types: &[&Item]) -> Vec<Item> {
 
         {
             defs.push(parse_quote!(
-                #[cfg(feature = "path")]
+                #[cfg(any(docsrs, feature = "path"))]
                 #[derive(Debug, Clone, Copy)]
                 pub enum AstParentNodeRef<'ast> {
                     #(#node_ref_enum_members),*
@@ -1426,14 +1426,14 @@ fn define_fields(node_types: &[&Item]) -> Vec<Item> {
         }
 
         items.push(parse_quote!(
-            #[cfg(feature = "path")]
+            #[cfg(any(docsrs, feature = "path"))]
             pub mod fields {
                 #(#defs)*
             }
         ));
 
         items.push(parse_quote!(
-            #[cfg(feature = "path")]
+            #[cfg(any(docsrs, feature = "path"))]
             pub use self::fields::{AstParentKind, AstParentNodeRef};
         ));
     }
