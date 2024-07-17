@@ -180,6 +180,8 @@ fn collect_input_files(input_dir: &Path) -> Result<Vec<PathBuf>> {
 }
 
 fn run_cargo_fmt(file: &Path) -> Result<()> {
+    let file = file.canonicalize().context("failed to canonicalize file")?;
+
     let mut cmd = std::process::Command::new("cargo");
     cmd.arg("fmt").arg("--").arg(file);
 
