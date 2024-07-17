@@ -1111,7 +1111,7 @@ impl Generator<'_> {
             ));
         }
 
-        if self.kind == TraitKind::Visit {
+        if self.kind == TraitKind::Visit || self.kind == TraitKind::VisitAll {
             // Vec<T> => [T]
             items.push(parse_quote!(
                 #(#attrs)*
