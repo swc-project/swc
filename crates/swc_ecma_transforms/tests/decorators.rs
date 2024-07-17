@@ -17,7 +17,7 @@ use swc_ecma_transforms_compat::{
 };
 use swc_ecma_transforms_module::common_js;
 use swc_ecma_transforms_proposal::{decorators, decorators::Config};
-use swc_ecma_transforms_testing::{test, test_exec, test_fixture, Tester};
+use swc_ecma_transforms_testing::{test, test_exec, test_fixture, SrcType, Tester};
 use swc_ecma_transforms_typescript::{strip, typescript};
 use swc_ecma_visit::Fold;
 
