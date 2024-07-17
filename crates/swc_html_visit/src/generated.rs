@@ -11980,6 +11980,7 @@ pub type AstKindPath = swc_visit::AstKindPath<AstParentKind>;
 pub type AstNodePath<'ast> = swc_visit::AstNodePath<AstParentNodeRef<'ast>>;
 #[cfg(any(docsrs, feature = "path"))]
 pub mod fields {
+    use swc_html_ast::*;
     impl AttributeField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
