@@ -1745,1182 +1745,1182 @@ where
     V: ?Sized + Visit,
 {
     fn visit_accessibility(&mut self, node: &Accessibility) {
-        Visit::visit_accessibility(self, node)
+        Visit::visit_accessibility(&mut **self, node)
     }
 
     fn visit_array_lit(&mut self, node: &ArrayLit) {
-        Visit::visit_array_lit(self, node)
+        Visit::visit_array_lit(&mut **self, node)
     }
 
     fn visit_array_pat(&mut self, node: &ArrayPat) {
-        Visit::visit_array_pat(self, node)
+        Visit::visit_array_pat(&mut **self, node)
     }
 
     fn visit_arrow_expr(&mut self, node: &ArrowExpr) {
-        Visit::visit_arrow_expr(self, node)
+        Visit::visit_arrow_expr(&mut **self, node)
     }
 
     fn visit_assign_expr(&mut self, node: &AssignExpr) {
-        Visit::visit_assign_expr(self, node)
+        Visit::visit_assign_expr(&mut **self, node)
     }
 
     fn visit_assign_op(&mut self, node: &AssignOp) {
-        Visit::visit_assign_op(self, node)
+        Visit::visit_assign_op(&mut **self, node)
     }
 
     fn visit_assign_pat(&mut self, node: &AssignPat) {
-        Visit::visit_assign_pat(self, node)
+        Visit::visit_assign_pat(&mut **self, node)
     }
 
     fn visit_assign_pat_prop(&mut self, node: &AssignPatProp) {
-        Visit::visit_assign_pat_prop(self, node)
+        Visit::visit_assign_pat_prop(&mut **self, node)
     }
 
     fn visit_assign_prop(&mut self, node: &AssignProp) {
-        Visit::visit_assign_prop(self, node)
+        Visit::visit_assign_prop(&mut **self, node)
     }
 
     fn visit_assign_target(&mut self, node: &AssignTarget) {
-        Visit::visit_assign_target(self, node)
+        Visit::visit_assign_target(&mut **self, node)
     }
 
     fn visit_assign_target_pat(&mut self, node: &AssignTargetPat) {
-        Visit::visit_assign_target_pat(self, node)
+        Visit::visit_assign_target_pat(&mut **self, node)
     }
 
     fn visit_atom(&mut self, node: &swc_atoms::Atom) {
-        Visit::visit_atom(self, node)
+        Visit::visit_atom(&mut **self, node)
     }
 
     fn visit_auto_accessor(&mut self, node: &AutoAccessor) {
-        Visit::visit_auto_accessor(self, node)
+        Visit::visit_auto_accessor(&mut **self, node)
     }
 
     fn visit_await_expr(&mut self, node: &AwaitExpr) {
-        Visit::visit_await_expr(self, node)
+        Visit::visit_await_expr(&mut **self, node)
     }
 
     fn visit_big_int(&mut self, node: &BigInt) {
-        Visit::visit_big_int(self, node)
+        Visit::visit_big_int(&mut **self, node)
     }
 
     fn visit_big_int_value(&mut self, node: &BigIntValue) {
-        Visit::visit_big_int_value(self, node)
+        Visit::visit_big_int_value(&mut **self, node)
     }
 
     fn visit_bin_expr(&mut self, node: &BinExpr) {
-        Visit::visit_bin_expr(self, node)
+        Visit::visit_bin_expr(&mut **self, node)
     }
 
     fn visit_binary_op(&mut self, node: &BinaryOp) {
-        Visit::visit_binary_op(self, node)
+        Visit::visit_binary_op(&mut **self, node)
     }
 
     fn visit_binding_ident(&mut self, node: &BindingIdent) {
-        Visit::visit_binding_ident(self, node)
+        Visit::visit_binding_ident(&mut **self, node)
     }
 
     fn visit_block_stmt(&mut self, node: &BlockStmt) {
-        Visit::visit_block_stmt(self, node)
+        Visit::visit_block_stmt(&mut **self, node)
     }
 
     fn visit_block_stmt_or_expr(&mut self, node: &BlockStmtOrExpr) {
-        Visit::visit_block_stmt_or_expr(self, node)
+        Visit::visit_block_stmt_or_expr(&mut **self, node)
     }
 
     fn visit_bool(&mut self, node: &Bool) {
-        Visit::visit_bool(self, node)
+        Visit::visit_bool(&mut **self, node)
     }
 
     fn visit_break_stmt(&mut self, node: &BreakStmt) {
-        Visit::visit_break_stmt(self, node)
+        Visit::visit_break_stmt(&mut **self, node)
     }
 
     fn visit_call_expr(&mut self, node: &CallExpr) {
-        Visit::visit_call_expr(self, node)
+        Visit::visit_call_expr(&mut **self, node)
     }
 
     fn visit_callee(&mut self, node: &Callee) {
-        Visit::visit_callee(self, node)
+        Visit::visit_callee(&mut **self, node)
     }
 
     fn visit_catch_clause(&mut self, node: &CatchClause) {
-        Visit::visit_catch_clause(self, node)
+        Visit::visit_catch_clause(&mut **self, node)
     }
 
     fn visit_class(&mut self, node: &Class) {
-        Visit::visit_class(self, node)
+        Visit::visit_class(&mut **self, node)
     }
 
     fn visit_class_decl(&mut self, node: &ClassDecl) {
-        Visit::visit_class_decl(self, node)
+        Visit::visit_class_decl(&mut **self, node)
     }
 
     fn visit_class_expr(&mut self, node: &ClassExpr) {
-        Visit::visit_class_expr(self, node)
+        Visit::visit_class_expr(&mut **self, node)
     }
 
     fn visit_class_member(&mut self, node: &ClassMember) {
-        Visit::visit_class_member(self, node)
+        Visit::visit_class_member(&mut **self, node)
     }
 
     fn visit_class_members(&mut self, node: &[ClassMember]) {
-        Visit::visit_class_members(self, node)
+        Visit::visit_class_members(&mut **self, node)
     }
 
     fn visit_class_method(&mut self, node: &ClassMethod) {
-        Visit::visit_class_method(self, node)
+        Visit::visit_class_method(&mut **self, node)
     }
 
     fn visit_class_prop(&mut self, node: &ClassProp) {
-        Visit::visit_class_prop(self, node)
+        Visit::visit_class_prop(&mut **self, node)
     }
 
     fn visit_computed_prop_name(&mut self, node: &ComputedPropName) {
-        Visit::visit_computed_prop_name(self, node)
+        Visit::visit_computed_prop_name(&mut **self, node)
     }
 
     fn visit_cond_expr(&mut self, node: &CondExpr) {
-        Visit::visit_cond_expr(self, node)
+        Visit::visit_cond_expr(&mut **self, node)
     }
 
     fn visit_constructor(&mut self, node: &Constructor) {
-        Visit::visit_constructor(self, node)
+        Visit::visit_constructor(&mut **self, node)
     }
 
     fn visit_continue_stmt(&mut self, node: &ContinueStmt) {
-        Visit::visit_continue_stmt(self, node)
+        Visit::visit_continue_stmt(&mut **self, node)
     }
 
     fn visit_debugger_stmt(&mut self, node: &DebuggerStmt) {
-        Visit::visit_debugger_stmt(self, node)
+        Visit::visit_debugger_stmt(&mut **self, node)
     }
 
     fn visit_decl(&mut self, node: &Decl) {
-        Visit::visit_decl(self, node)
+        Visit::visit_decl(&mut **self, node)
     }
 
     fn visit_decorator(&mut self, node: &Decorator) {
-        Visit::visit_decorator(self, node)
+        Visit::visit_decorator(&mut **self, node)
     }
 
     fn visit_decorators(&mut self, node: &[Decorator]) {
-        Visit::visit_decorators(self, node)
+        Visit::visit_decorators(&mut **self, node)
     }
 
     fn visit_default_decl(&mut self, node: &DefaultDecl) {
-        Visit::visit_default_decl(self, node)
+        Visit::visit_default_decl(&mut **self, node)
     }
 
     fn visit_do_while_stmt(&mut self, node: &DoWhileStmt) {
-        Visit::visit_do_while_stmt(self, node)
+        Visit::visit_do_while_stmt(&mut **self, node)
     }
 
     fn visit_empty_stmt(&mut self, node: &EmptyStmt) {
-        Visit::visit_empty_stmt(self, node)
+        Visit::visit_empty_stmt(&mut **self, node)
     }
 
     fn visit_es_version(&mut self, node: &EsVersion) {
-        Visit::visit_es_version(self, node)
+        Visit::visit_es_version(&mut **self, node)
     }
 
     fn visit_export_all(&mut self, node: &ExportAll) {
-        Visit::visit_export_all(self, node)
+        Visit::visit_export_all(&mut **self, node)
     }
 
     fn visit_export_decl(&mut self, node: &ExportDecl) {
-        Visit::visit_export_decl(self, node)
+        Visit::visit_export_decl(&mut **self, node)
     }
 
     fn visit_export_default_decl(&mut self, node: &ExportDefaultDecl) {
-        Visit::visit_export_default_decl(self, node)
+        Visit::visit_export_default_decl(&mut **self, node)
     }
 
     fn visit_export_default_expr(&mut self, node: &ExportDefaultExpr) {
-        Visit::visit_export_default_expr(self, node)
+        Visit::visit_export_default_expr(&mut **self, node)
     }
 
     fn visit_export_default_specifier(&mut self, node: &ExportDefaultSpecifier) {
-        Visit::visit_export_default_specifier(self, node)
+        Visit::visit_export_default_specifier(&mut **self, node)
     }
 
     fn visit_export_named_specifier(&mut self, node: &ExportNamedSpecifier) {
-        Visit::visit_export_named_specifier(self, node)
+        Visit::visit_export_named_specifier(&mut **self, node)
     }
 
     fn visit_export_namespace_specifier(&mut self, node: &ExportNamespaceSpecifier) {
-        Visit::visit_export_namespace_specifier(self, node)
+        Visit::visit_export_namespace_specifier(&mut **self, node)
     }
 
     fn visit_export_specifier(&mut self, node: &ExportSpecifier) {
-        Visit::visit_export_specifier(self, node)
+        Visit::visit_export_specifier(&mut **self, node)
     }
 
     fn visit_export_specifiers(&mut self, node: &[ExportSpecifier]) {
-        Visit::visit_export_specifiers(self, node)
+        Visit::visit_export_specifiers(&mut **self, node)
     }
 
     fn visit_expr(&mut self, node: &Expr) {
-        Visit::visit_expr(self, node)
+        Visit::visit_expr(&mut **self, node)
     }
 
     fn visit_expr_or_spread(&mut self, node: &ExprOrSpread) {
-        Visit::visit_expr_or_spread(self, node)
+        Visit::visit_expr_or_spread(&mut **self, node)
     }
 
     fn visit_expr_or_spreads(&mut self, node: &[ExprOrSpread]) {
-        Visit::visit_expr_or_spreads(self, node)
+        Visit::visit_expr_or_spreads(&mut **self, node)
     }
 
     fn visit_expr_stmt(&mut self, node: &ExprStmt) {
-        Visit::visit_expr_stmt(self, node)
+        Visit::visit_expr_stmt(&mut **self, node)
     }
 
     fn visit_exprs(&mut self, node: &[Box<Expr>]) {
-        Visit::visit_exprs(self, node)
+        Visit::visit_exprs(&mut **self, node)
     }
 
     fn visit_fn_decl(&mut self, node: &FnDecl) {
-        Visit::visit_fn_decl(self, node)
+        Visit::visit_fn_decl(&mut **self, node)
     }
 
     fn visit_fn_expr(&mut self, node: &FnExpr) {
-        Visit::visit_fn_expr(self, node)
+        Visit::visit_fn_expr(&mut **self, node)
     }
 
     fn visit_for_head(&mut self, node: &ForHead) {
-        Visit::visit_for_head(self, node)
+        Visit::visit_for_head(&mut **self, node)
     }
 
     fn visit_for_in_stmt(&mut self, node: &ForInStmt) {
-        Visit::visit_for_in_stmt(self, node)
+        Visit::visit_for_in_stmt(&mut **self, node)
     }
 
     fn visit_for_of_stmt(&mut self, node: &ForOfStmt) {
-        Visit::visit_for_of_stmt(self, node)
+        Visit::visit_for_of_stmt(&mut **self, node)
     }
 
     fn visit_for_stmt(&mut self, node: &ForStmt) {
-        Visit::visit_for_stmt(self, node)
+        Visit::visit_for_stmt(&mut **self, node)
     }
 
     fn visit_function(&mut self, node: &Function) {
-        Visit::visit_function(self, node)
+        Visit::visit_function(&mut **self, node)
     }
 
     fn visit_getter_prop(&mut self, node: &GetterProp) {
-        Visit::visit_getter_prop(self, node)
+        Visit::visit_getter_prop(&mut **self, node)
     }
 
     fn visit_ident(&mut self, node: &Ident) {
-        Visit::visit_ident(self, node)
+        Visit::visit_ident(&mut **self, node)
     }
 
     fn visit_ident_name(&mut self, node: &IdentName) {
-        Visit::visit_ident_name(self, node)
+        Visit::visit_ident_name(&mut **self, node)
     }
 
     fn visit_if_stmt(&mut self, node: &IfStmt) {
-        Visit::visit_if_stmt(self, node)
+        Visit::visit_if_stmt(&mut **self, node)
     }
 
     fn visit_import(&mut self, node: &Import) {
-        Visit::visit_import(self, node)
+        Visit::visit_import(&mut **self, node)
     }
 
     fn visit_import_decl(&mut self, node: &ImportDecl) {
-        Visit::visit_import_decl(self, node)
+        Visit::visit_import_decl(&mut **self, node)
     }
 
     fn visit_import_default_specifier(&mut self, node: &ImportDefaultSpecifier) {
-        Visit::visit_import_default_specifier(self, node)
+        Visit::visit_import_default_specifier(&mut **self, node)
     }
 
     fn visit_import_named_specifier(&mut self, node: &ImportNamedSpecifier) {
-        Visit::visit_import_named_specifier(self, node)
+        Visit::visit_import_named_specifier(&mut **self, node)
     }
 
     fn visit_import_phase(&mut self, node: &ImportPhase) {
-        Visit::visit_import_phase(self, node)
+        Visit::visit_import_phase(&mut **self, node)
     }
 
     fn visit_import_specifier(&mut self, node: &ImportSpecifier) {
-        Visit::visit_import_specifier(self, node)
+        Visit::visit_import_specifier(&mut **self, node)
     }
 
     fn visit_import_specifiers(&mut self, node: &[ImportSpecifier]) {
-        Visit::visit_import_specifiers(self, node)
+        Visit::visit_import_specifiers(&mut **self, node)
     }
 
     fn visit_import_star_as_specifier(&mut self, node: &ImportStarAsSpecifier) {
-        Visit::visit_import_star_as_specifier(self, node)
+        Visit::visit_import_star_as_specifier(&mut **self, node)
     }
 
     fn visit_import_with(&mut self, node: &ImportWith) {
-        Visit::visit_import_with(self, node)
+        Visit::visit_import_with(&mut **self, node)
     }
 
     fn visit_import_with_item(&mut self, node: &ImportWithItem) {
-        Visit::visit_import_with_item(self, node)
+        Visit::visit_import_with_item(&mut **self, node)
     }
 
     fn visit_import_with_items(&mut self, node: &[ImportWithItem]) {
-        Visit::visit_import_with_items(self, node)
+        Visit::visit_import_with_items(&mut **self, node)
     }
 
     fn visit_invalid(&mut self, node: &Invalid) {
-        Visit::visit_invalid(self, node)
+        Visit::visit_invalid(&mut **self, node)
     }
 
     fn visit_jsx_attr(&mut self, node: &JSXAttr) {
-        Visit::visit_jsx_attr(self, node)
+        Visit::visit_jsx_attr(&mut **self, node)
     }
 
     fn visit_jsx_attr_name(&mut self, node: &JSXAttrName) {
-        Visit::visit_jsx_attr_name(self, node)
+        Visit::visit_jsx_attr_name(&mut **self, node)
     }
 
     fn visit_jsx_attr_or_spread(&mut self, node: &JSXAttrOrSpread) {
-        Visit::visit_jsx_attr_or_spread(self, node)
+        Visit::visit_jsx_attr_or_spread(&mut **self, node)
     }
 
     fn visit_jsx_attr_or_spreads(&mut self, node: &[JSXAttrOrSpread]) {
-        Visit::visit_jsx_attr_or_spreads(self, node)
+        Visit::visit_jsx_attr_or_spreads(&mut **self, node)
     }
 
     fn visit_jsx_attr_value(&mut self, node: &JSXAttrValue) {
-        Visit::visit_jsx_attr_value(self, node)
+        Visit::visit_jsx_attr_value(&mut **self, node)
     }
 
     fn visit_jsx_closing_element(&mut self, node: &JSXClosingElement) {
-        Visit::visit_jsx_closing_element(self, node)
+        Visit::visit_jsx_closing_element(&mut **self, node)
     }
 
     fn visit_jsx_closing_fragment(&mut self, node: &JSXClosingFragment) {
-        Visit::visit_jsx_closing_fragment(self, node)
+        Visit::visit_jsx_closing_fragment(&mut **self, node)
     }
 
     fn visit_jsx_element(&mut self, node: &JSXElement) {
-        Visit::visit_jsx_element(self, node)
+        Visit::visit_jsx_element(&mut **self, node)
     }
 
     fn visit_jsx_element_child(&mut self, node: &JSXElementChild) {
-        Visit::visit_jsx_element_child(self, node)
+        Visit::visit_jsx_element_child(&mut **self, node)
     }
 
     fn visit_jsx_element_childs(&mut self, node: &[JSXElementChild]) {
-        Visit::visit_jsx_element_childs(self, node)
+        Visit::visit_jsx_element_childs(&mut **self, node)
     }
 
     fn visit_jsx_element_name(&mut self, node: &JSXElementName) {
-        Visit::visit_jsx_element_name(self, node)
+        Visit::visit_jsx_element_name(&mut **self, node)
     }
 
     fn visit_jsx_empty_expr(&mut self, node: &JSXEmptyExpr) {
-        Visit::visit_jsx_empty_expr(self, node)
+        Visit::visit_jsx_empty_expr(&mut **self, node)
     }
 
     fn visit_jsx_expr(&mut self, node: &JSXExpr) {
-        Visit::visit_jsx_expr(self, node)
+        Visit::visit_jsx_expr(&mut **self, node)
     }
 
     fn visit_jsx_expr_container(&mut self, node: &JSXExprContainer) {
-        Visit::visit_jsx_expr_container(self, node)
+        Visit::visit_jsx_expr_container(&mut **self, node)
     }
 
     fn visit_jsx_fragment(&mut self, node: &JSXFragment) {
-        Visit::visit_jsx_fragment(self, node)
+        Visit::visit_jsx_fragment(&mut **self, node)
     }
 
     fn visit_jsx_member_expr(&mut self, node: &JSXMemberExpr) {
-        Visit::visit_jsx_member_expr(self, node)
+        Visit::visit_jsx_member_expr(&mut **self, node)
     }
 
     fn visit_jsx_namespaced_name(&mut self, node: &JSXNamespacedName) {
-        Visit::visit_jsx_namespaced_name(self, node)
+        Visit::visit_jsx_namespaced_name(&mut **self, node)
     }
 
     fn visit_jsx_object(&mut self, node: &JSXObject) {
-        Visit::visit_jsx_object(self, node)
+        Visit::visit_jsx_object(&mut **self, node)
     }
 
     fn visit_jsx_opening_element(&mut self, node: &JSXOpeningElement) {
-        Visit::visit_jsx_opening_element(self, node)
+        Visit::visit_jsx_opening_element(&mut **self, node)
     }
 
     fn visit_jsx_opening_fragment(&mut self, node: &JSXOpeningFragment) {
-        Visit::visit_jsx_opening_fragment(self, node)
+        Visit::visit_jsx_opening_fragment(&mut **self, node)
     }
 
     fn visit_jsx_spread_child(&mut self, node: &JSXSpreadChild) {
-        Visit::visit_jsx_spread_child(self, node)
+        Visit::visit_jsx_spread_child(&mut **self, node)
     }
 
     fn visit_jsx_text(&mut self, node: &JSXText) {
-        Visit::visit_jsx_text(self, node)
+        Visit::visit_jsx_text(&mut **self, node)
     }
 
     fn visit_key(&mut self, node: &Key) {
-        Visit::visit_key(self, node)
+        Visit::visit_key(&mut **self, node)
     }
 
     fn visit_key_value_pat_prop(&mut self, node: &KeyValuePatProp) {
-        Visit::visit_key_value_pat_prop(self, node)
+        Visit::visit_key_value_pat_prop(&mut **self, node)
     }
 
     fn visit_key_value_prop(&mut self, node: &KeyValueProp) {
-        Visit::visit_key_value_prop(self, node)
+        Visit::visit_key_value_prop(&mut **self, node)
     }
 
     fn visit_labeled_stmt(&mut self, node: &LabeledStmt) {
-        Visit::visit_labeled_stmt(self, node)
+        Visit::visit_labeled_stmt(&mut **self, node)
     }
 
     fn visit_lit(&mut self, node: &Lit) {
-        Visit::visit_lit(self, node)
+        Visit::visit_lit(&mut **self, node)
     }
 
     fn visit_member_expr(&mut self, node: &MemberExpr) {
-        Visit::visit_member_expr(self, node)
+        Visit::visit_member_expr(&mut **self, node)
     }
 
     fn visit_member_prop(&mut self, node: &MemberProp) {
-        Visit::visit_member_prop(self, node)
+        Visit::visit_member_prop(&mut **self, node)
     }
 
     fn visit_meta_prop_expr(&mut self, node: &MetaPropExpr) {
-        Visit::visit_meta_prop_expr(self, node)
+        Visit::visit_meta_prop_expr(&mut **self, node)
     }
 
     fn visit_meta_prop_kind(&mut self, node: &MetaPropKind) {
-        Visit::visit_meta_prop_kind(self, node)
+        Visit::visit_meta_prop_kind(&mut **self, node)
     }
 
     fn visit_method_kind(&mut self, node: &MethodKind) {
-        Visit::visit_method_kind(self, node)
+        Visit::visit_method_kind(&mut **self, node)
     }
 
     fn visit_method_prop(&mut self, node: &MethodProp) {
-        Visit::visit_method_prop(self, node)
+        Visit::visit_method_prop(&mut **self, node)
     }
 
     fn visit_module(&mut self, node: &Module) {
-        Visit::visit_module(self, node)
+        Visit::visit_module(&mut **self, node)
     }
 
     fn visit_module_decl(&mut self, node: &ModuleDecl) {
-        Visit::visit_module_decl(self, node)
+        Visit::visit_module_decl(&mut **self, node)
     }
 
     fn visit_module_export_name(&mut self, node: &ModuleExportName) {
-        Visit::visit_module_export_name(self, node)
+        Visit::visit_module_export_name(&mut **self, node)
     }
 
     fn visit_module_item(&mut self, node: &ModuleItem) {
-        Visit::visit_module_item(self, node)
+        Visit::visit_module_item(&mut **self, node)
     }
 
     fn visit_module_items(&mut self, node: &[ModuleItem]) {
-        Visit::visit_module_items(self, node)
+        Visit::visit_module_items(&mut **self, node)
     }
 
     fn visit_named_export(&mut self, node: &NamedExport) {
-        Visit::visit_named_export(self, node)
+        Visit::visit_named_export(&mut **self, node)
     }
 
     fn visit_new_expr(&mut self, node: &NewExpr) {
-        Visit::visit_new_expr(self, node)
+        Visit::visit_new_expr(&mut **self, node)
     }
 
     fn visit_null(&mut self, node: &Null) {
-        Visit::visit_null(self, node)
+        Visit::visit_null(&mut **self, node)
     }
 
     fn visit_number(&mut self, node: &Number) {
-        Visit::visit_number(self, node)
+        Visit::visit_number(&mut **self, node)
     }
 
     fn visit_object_lit(&mut self, node: &ObjectLit) {
-        Visit::visit_object_lit(self, node)
+        Visit::visit_object_lit(&mut **self, node)
     }
 
     fn visit_object_pat(&mut self, node: &ObjectPat) {
-        Visit::visit_object_pat(self, node)
+        Visit::visit_object_pat(&mut **self, node)
     }
 
     fn visit_object_pat_prop(&mut self, node: &ObjectPatProp) {
-        Visit::visit_object_pat_prop(self, node)
+        Visit::visit_object_pat_prop(&mut **self, node)
     }
 
     fn visit_object_pat_props(&mut self, node: &[ObjectPatProp]) {
-        Visit::visit_object_pat_props(self, node)
+        Visit::visit_object_pat_props(&mut **self, node)
     }
 
     fn visit_opt_accessibility(&mut self, node: &Option<Accessibility>) {
-        Visit::visit_opt_accessibility(self, node)
+        Visit::visit_opt_accessibility(&mut **self, node)
     }
 
     fn visit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
-        Visit::visit_opt_atom(self, node)
+        Visit::visit_opt_atom(&mut **self, node)
     }
 
     fn visit_opt_block_stmt(&mut self, node: &Option<BlockStmt>) {
-        Visit::visit_opt_block_stmt(self, node)
+        Visit::visit_opt_block_stmt(&mut **self, node)
     }
 
     fn visit_opt_call(&mut self, node: &OptCall) {
-        Visit::visit_opt_call(self, node)
+        Visit::visit_opt_call(&mut **self, node)
     }
 
     fn visit_opt_catch_clause(&mut self, node: &Option<CatchClause>) {
-        Visit::visit_opt_catch_clause(self, node)
+        Visit::visit_opt_catch_clause(&mut **self, node)
     }
 
     fn visit_opt_chain_base(&mut self, node: &OptChainBase) {
-        Visit::visit_opt_chain_base(self, node)
+        Visit::visit_opt_chain_base(&mut **self, node)
     }
 
     fn visit_opt_chain_expr(&mut self, node: &OptChainExpr) {
-        Visit::visit_opt_chain_expr(self, node)
+        Visit::visit_opt_chain_expr(&mut **self, node)
     }
 
     fn visit_opt_expr(&mut self, node: &Option<Box<Expr>>) {
-        Visit::visit_opt_expr(self, node)
+        Visit::visit_opt_expr(&mut **self, node)
     }
 
     fn visit_opt_expr_or_spread(&mut self, node: &Option<ExprOrSpread>) {
-        Visit::visit_opt_expr_or_spread(self, node)
+        Visit::visit_opt_expr_or_spread(&mut **self, node)
     }
 
     fn visit_opt_expr_or_spreads(&mut self, node: &Option<Vec<ExprOrSpread>>) {
-        Visit::visit_opt_expr_or_spreads(self, node)
+        Visit::visit_opt_expr_or_spreads(&mut **self, node)
     }
 
     fn visit_opt_ident(&mut self, node: &Option<Ident>) {
-        Visit::visit_opt_ident(self, node)
+        Visit::visit_opt_ident(&mut **self, node)
     }
 
     fn visit_opt_jsx_attr_value(&mut self, node: &Option<JSXAttrValue>) {
-        Visit::visit_opt_jsx_attr_value(self, node)
+        Visit::visit_opt_jsx_attr_value(&mut **self, node)
     }
 
     fn visit_opt_jsx_closing_element(&mut self, node: &Option<JSXClosingElement>) {
-        Visit::visit_opt_jsx_closing_element(self, node)
+        Visit::visit_opt_jsx_closing_element(&mut **self, node)
     }
 
     fn visit_opt_module_export_name(&mut self, node: &Option<ModuleExportName>) {
-        Visit::visit_opt_module_export_name(self, node)
+        Visit::visit_opt_module_export_name(&mut **self, node)
     }
 
     fn visit_opt_module_items(&mut self, node: &Option<Vec<ModuleItem>>) {
-        Visit::visit_opt_module_items(self, node)
+        Visit::visit_opt_module_items(&mut **self, node)
     }
 
     fn visit_opt_object_lit(&mut self, node: &Option<Box<ObjectLit>>) {
-        Visit::visit_opt_object_lit(self, node)
+        Visit::visit_opt_object_lit(&mut **self, node)
     }
 
     fn visit_opt_pat(&mut self, node: &Option<Pat>) {
-        Visit::visit_opt_pat(self, node)
+        Visit::visit_opt_pat(&mut **self, node)
     }
 
     fn visit_opt_span(&mut self, node: &Option<swc_common::Span>) {
-        Visit::visit_opt_span(self, node)
+        Visit::visit_opt_span(&mut **self, node)
     }
 
     fn visit_opt_stmt(&mut self, node: &Option<Box<Stmt>>) {
-        Visit::visit_opt_stmt(self, node)
+        Visit::visit_opt_stmt(&mut **self, node)
     }
 
     fn visit_opt_str(&mut self, node: &Option<Box<Str>>) {
-        Visit::visit_opt_str(self, node)
+        Visit::visit_opt_str(&mut **self, node)
     }
 
     fn visit_opt_true_plus_minus(&mut self, node: &Option<TruePlusMinus>) {
-        Visit::visit_opt_true_plus_minus(self, node)
+        Visit::visit_opt_true_plus_minus(&mut **self, node)
     }
 
     fn visit_opt_ts_entity_name(&mut self, node: &Option<TsEntityName>) {
-        Visit::visit_opt_ts_entity_name(self, node)
+        Visit::visit_opt_ts_entity_name(&mut **self, node)
     }
 
     fn visit_opt_ts_namespace_body(&mut self, node: &Option<TsNamespaceBody>) {
-        Visit::visit_opt_ts_namespace_body(self, node)
+        Visit::visit_opt_ts_namespace_body(&mut **self, node)
     }
 
     fn visit_opt_ts_type(&mut self, node: &Option<Box<TsType>>) {
-        Visit::visit_opt_ts_type(self, node)
+        Visit::visit_opt_ts_type(&mut **self, node)
     }
 
     fn visit_opt_ts_type_ann(&mut self, node: &Option<Box<TsTypeAnn>>) {
-        Visit::visit_opt_ts_type_ann(self, node)
+        Visit::visit_opt_ts_type_ann(&mut **self, node)
     }
 
     fn visit_opt_ts_type_param_decl(&mut self, node: &Option<Box<TsTypeParamDecl>>) {
-        Visit::visit_opt_ts_type_param_decl(self, node)
+        Visit::visit_opt_ts_type_param_decl(&mut **self, node)
     }
 
     fn visit_opt_ts_type_param_instantiation(
         &mut self,
         node: &Option<Box<TsTypeParamInstantiation>>,
     ) {
-        Visit::visit_opt_ts_type_param_instantiation(self, node)
+        Visit::visit_opt_ts_type_param_instantiation(&mut **self, node)
     }
 
     fn visit_opt_var_decl_or_expr(&mut self, node: &Option<VarDeclOrExpr>) {
-        Visit::visit_opt_var_decl_or_expr(self, node)
+        Visit::visit_opt_var_decl_or_expr(&mut **self, node)
     }
 
     fn visit_opt_vec_expr_or_spreads(&mut self, node: &[Option<ExprOrSpread>]) {
-        Visit::visit_opt_vec_expr_or_spreads(self, node)
+        Visit::visit_opt_vec_expr_or_spreads(&mut **self, node)
     }
 
     fn visit_opt_vec_pats(&mut self, node: &[Option<Pat>]) {
-        Visit::visit_opt_vec_pats(self, node)
+        Visit::visit_opt_vec_pats(&mut **self, node)
     }
 
     fn visit_param(&mut self, node: &Param) {
-        Visit::visit_param(self, node)
+        Visit::visit_param(&mut **self, node)
     }
 
     fn visit_param_or_ts_param_prop(&mut self, node: &ParamOrTsParamProp) {
-        Visit::visit_param_or_ts_param_prop(self, node)
+        Visit::visit_param_or_ts_param_prop(&mut **self, node)
     }
 
     fn visit_param_or_ts_param_props(&mut self, node: &[ParamOrTsParamProp]) {
-        Visit::visit_param_or_ts_param_props(self, node)
+        Visit::visit_param_or_ts_param_props(&mut **self, node)
     }
 
     fn visit_params(&mut self, node: &[Param]) {
-        Visit::visit_params(self, node)
+        Visit::visit_params(&mut **self, node)
     }
 
     fn visit_paren_expr(&mut self, node: &ParenExpr) {
-        Visit::visit_paren_expr(self, node)
+        Visit::visit_paren_expr(&mut **self, node)
     }
 
     fn visit_pat(&mut self, node: &Pat) {
-        Visit::visit_pat(self, node)
+        Visit::visit_pat(&mut **self, node)
     }
 
     fn visit_pats(&mut self, node: &[Pat]) {
-        Visit::visit_pats(self, node)
+        Visit::visit_pats(&mut **self, node)
     }
 
     fn visit_private_method(&mut self, node: &PrivateMethod) {
-        Visit::visit_private_method(self, node)
+        Visit::visit_private_method(&mut **self, node)
     }
 
     fn visit_private_name(&mut self, node: &PrivateName) {
-        Visit::visit_private_name(self, node)
+        Visit::visit_private_name(&mut **self, node)
     }
 
     fn visit_private_prop(&mut self, node: &PrivateProp) {
-        Visit::visit_private_prop(self, node)
+        Visit::visit_private_prop(&mut **self, node)
     }
 
     fn visit_program(&mut self, node: &Program) {
-        Visit::visit_program(self, node)
+        Visit::visit_program(&mut **self, node)
     }
 
     fn visit_prop(&mut self, node: &Prop) {
-        Visit::visit_prop(self, node)
+        Visit::visit_prop(&mut **self, node)
     }
 
     fn visit_prop_name(&mut self, node: &PropName) {
-        Visit::visit_prop_name(self, node)
+        Visit::visit_prop_name(&mut **self, node)
     }
 
     fn visit_prop_or_spread(&mut self, node: &PropOrSpread) {
-        Visit::visit_prop_or_spread(self, node)
+        Visit::visit_prop_or_spread(&mut **self, node)
     }
 
     fn visit_prop_or_spreads(&mut self, node: &[PropOrSpread]) {
-        Visit::visit_prop_or_spreads(self, node)
+        Visit::visit_prop_or_spreads(&mut **self, node)
     }
 
     fn visit_regex(&mut self, node: &Regex) {
-        Visit::visit_regex(self, node)
+        Visit::visit_regex(&mut **self, node)
     }
 
     fn visit_reserved_unused(&mut self, node: &ReservedUnused) {
-        Visit::visit_reserved_unused(self, node)
+        Visit::visit_reserved_unused(&mut **self, node)
     }
 
     fn visit_rest_pat(&mut self, node: &RestPat) {
-        Visit::visit_rest_pat(self, node)
+        Visit::visit_rest_pat(&mut **self, node)
     }
 
     fn visit_return_stmt(&mut self, node: &ReturnStmt) {
-        Visit::visit_return_stmt(self, node)
+        Visit::visit_return_stmt(&mut **self, node)
     }
 
     fn visit_script(&mut self, node: &Script) {
-        Visit::visit_script(self, node)
+        Visit::visit_script(&mut **self, node)
     }
 
     fn visit_seq_expr(&mut self, node: &SeqExpr) {
-        Visit::visit_seq_expr(self, node)
+        Visit::visit_seq_expr(&mut **self, node)
     }
 
     fn visit_setter_prop(&mut self, node: &SetterProp) {
-        Visit::visit_setter_prop(self, node)
+        Visit::visit_setter_prop(&mut **self, node)
     }
 
     fn visit_simple_assign_target(&mut self, node: &SimpleAssignTarget) {
-        Visit::visit_simple_assign_target(self, node)
+        Visit::visit_simple_assign_target(&mut **self, node)
     }
 
     fn visit_span(&mut self, node: &swc_common::Span) {
-        Visit::visit_span(self, node)
+        Visit::visit_span(&mut **self, node)
     }
 
     fn visit_spread_element(&mut self, node: &SpreadElement) {
-        Visit::visit_spread_element(self, node)
+        Visit::visit_spread_element(&mut **self, node)
     }
 
     fn visit_static_block(&mut self, node: &StaticBlock) {
-        Visit::visit_static_block(self, node)
+        Visit::visit_static_block(&mut **self, node)
     }
 
     fn visit_stmt(&mut self, node: &Stmt) {
-        Visit::visit_stmt(self, node)
+        Visit::visit_stmt(&mut **self, node)
     }
 
     fn visit_stmts(&mut self, node: &[Stmt]) {
-        Visit::visit_stmts(self, node)
+        Visit::visit_stmts(&mut **self, node)
     }
 
     fn visit_str(&mut self, node: &Str) {
-        Visit::visit_str(self, node)
+        Visit::visit_str(&mut **self, node)
     }
 
     fn visit_super(&mut self, node: &Super) {
-        Visit::visit_super(self, node)
+        Visit::visit_super(&mut **self, node)
     }
 
     fn visit_super_prop(&mut self, node: &SuperProp) {
-        Visit::visit_super_prop(self, node)
+        Visit::visit_super_prop(&mut **self, node)
     }
 
     fn visit_super_prop_expr(&mut self, node: &SuperPropExpr) {
-        Visit::visit_super_prop_expr(self, node)
+        Visit::visit_super_prop_expr(&mut **self, node)
     }
 
     fn visit_switch_case(&mut self, node: &SwitchCase) {
-        Visit::visit_switch_case(self, node)
+        Visit::visit_switch_case(&mut **self, node)
     }
 
     fn visit_switch_cases(&mut self, node: &[SwitchCase]) {
-        Visit::visit_switch_cases(self, node)
+        Visit::visit_switch_cases(&mut **self, node)
     }
 
     fn visit_switch_stmt(&mut self, node: &SwitchStmt) {
-        Visit::visit_switch_stmt(self, node)
+        Visit::visit_switch_stmt(&mut **self, node)
     }
 
     fn visit_syntax_context(&mut self, node: &swc_common::SyntaxContext) {
-        Visit::visit_syntax_context(self, node)
+        Visit::visit_syntax_context(&mut **self, node)
     }
 
     fn visit_tagged_tpl(&mut self, node: &TaggedTpl) {
-        Visit::visit_tagged_tpl(self, node)
+        Visit::visit_tagged_tpl(&mut **self, node)
     }
 
     fn visit_this_expr(&mut self, node: &ThisExpr) {
-        Visit::visit_this_expr(self, node)
+        Visit::visit_this_expr(&mut **self, node)
     }
 
     fn visit_throw_stmt(&mut self, node: &ThrowStmt) {
-        Visit::visit_throw_stmt(self, node)
+        Visit::visit_throw_stmt(&mut **self, node)
     }
 
     fn visit_tpl(&mut self, node: &Tpl) {
-        Visit::visit_tpl(self, node)
+        Visit::visit_tpl(&mut **self, node)
     }
 
     fn visit_tpl_element(&mut self, node: &TplElement) {
-        Visit::visit_tpl_element(self, node)
+        Visit::visit_tpl_element(&mut **self, node)
     }
 
     fn visit_tpl_elements(&mut self, node: &[TplElement]) {
-        Visit::visit_tpl_elements(self, node)
+        Visit::visit_tpl_elements(&mut **self, node)
     }
 
     fn visit_true_plus_minus(&mut self, node: &TruePlusMinus) {
-        Visit::visit_true_plus_minus(self, node)
+        Visit::visit_true_plus_minus(&mut **self, node)
     }
 
     fn visit_try_stmt(&mut self, node: &TryStmt) {
-        Visit::visit_try_stmt(self, node)
+        Visit::visit_try_stmt(&mut **self, node)
     }
 
     fn visit_ts_array_type(&mut self, node: &TsArrayType) {
-        Visit::visit_ts_array_type(self, node)
+        Visit::visit_ts_array_type(&mut **self, node)
     }
 
     fn visit_ts_as_expr(&mut self, node: &TsAsExpr) {
-        Visit::visit_ts_as_expr(self, node)
+        Visit::visit_ts_as_expr(&mut **self, node)
     }
 
     fn visit_ts_call_signature_decl(&mut self, node: &TsCallSignatureDecl) {
-        Visit::visit_ts_call_signature_decl(self, node)
+        Visit::visit_ts_call_signature_decl(&mut **self, node)
     }
 
     fn visit_ts_conditional_type(&mut self, node: &TsConditionalType) {
-        Visit::visit_ts_conditional_type(self, node)
+        Visit::visit_ts_conditional_type(&mut **self, node)
     }
 
     fn visit_ts_const_assertion(&mut self, node: &TsConstAssertion) {
-        Visit::visit_ts_const_assertion(self, node)
+        Visit::visit_ts_const_assertion(&mut **self, node)
     }
 
     fn visit_ts_construct_signature_decl(&mut self, node: &TsConstructSignatureDecl) {
-        Visit::visit_ts_construct_signature_decl(self, node)
+        Visit::visit_ts_construct_signature_decl(&mut **self, node)
     }
 
     fn visit_ts_constructor_type(&mut self, node: &TsConstructorType) {
-        Visit::visit_ts_constructor_type(self, node)
+        Visit::visit_ts_constructor_type(&mut **self, node)
     }
 
     fn visit_ts_entity_name(&mut self, node: &TsEntityName) {
-        Visit::visit_ts_entity_name(self, node)
+        Visit::visit_ts_entity_name(&mut **self, node)
     }
 
     fn visit_ts_enum_decl(&mut self, node: &TsEnumDecl) {
-        Visit::visit_ts_enum_decl(self, node)
+        Visit::visit_ts_enum_decl(&mut **self, node)
     }
 
     fn visit_ts_enum_member(&mut self, node: &TsEnumMember) {
-        Visit::visit_ts_enum_member(self, node)
+        Visit::visit_ts_enum_member(&mut **self, node)
     }
 
     fn visit_ts_enum_member_id(&mut self, node: &TsEnumMemberId) {
-        Visit::visit_ts_enum_member_id(self, node)
+        Visit::visit_ts_enum_member_id(&mut **self, node)
     }
 
     fn visit_ts_enum_members(&mut self, node: &[TsEnumMember]) {
-        Visit::visit_ts_enum_members(self, node)
+        Visit::visit_ts_enum_members(&mut **self, node)
     }
 
     fn visit_ts_export_assignment(&mut self, node: &TsExportAssignment) {
-        Visit::visit_ts_export_assignment(self, node)
+        Visit::visit_ts_export_assignment(&mut **self, node)
     }
 
     fn visit_ts_expr_with_type_args(&mut self, node: &TsExprWithTypeArgs) {
-        Visit::visit_ts_expr_with_type_args(self, node)
+        Visit::visit_ts_expr_with_type_args(&mut **self, node)
     }
 
     fn visit_ts_expr_with_type_argss(&mut self, node: &[TsExprWithTypeArgs]) {
-        Visit::visit_ts_expr_with_type_argss(self, node)
+        Visit::visit_ts_expr_with_type_argss(&mut **self, node)
     }
 
     fn visit_ts_external_module_ref(&mut self, node: &TsExternalModuleRef) {
-        Visit::visit_ts_external_module_ref(self, node)
+        Visit::visit_ts_external_module_ref(&mut **self, node)
     }
 
     fn visit_ts_fn_or_constructor_type(&mut self, node: &TsFnOrConstructorType) {
-        Visit::visit_ts_fn_or_constructor_type(self, node)
+        Visit::visit_ts_fn_or_constructor_type(&mut **self, node)
     }
 
     fn visit_ts_fn_param(&mut self, node: &TsFnParam) {
-        Visit::visit_ts_fn_param(self, node)
+        Visit::visit_ts_fn_param(&mut **self, node)
     }
 
     fn visit_ts_fn_params(&mut self, node: &[TsFnParam]) {
-        Visit::visit_ts_fn_params(self, node)
+        Visit::visit_ts_fn_params(&mut **self, node)
     }
 
     fn visit_ts_fn_type(&mut self, node: &TsFnType) {
-        Visit::visit_ts_fn_type(self, node)
+        Visit::visit_ts_fn_type(&mut **self, node)
     }
 
     fn visit_ts_getter_signature(&mut self, node: &TsGetterSignature) {
-        Visit::visit_ts_getter_signature(self, node)
+        Visit::visit_ts_getter_signature(&mut **self, node)
     }
 
     fn visit_ts_import_equals_decl(&mut self, node: &TsImportEqualsDecl) {
-        Visit::visit_ts_import_equals_decl(self, node)
+        Visit::visit_ts_import_equals_decl(&mut **self, node)
     }
 
     fn visit_ts_import_type(&mut self, node: &TsImportType) {
-        Visit::visit_ts_import_type(self, node)
+        Visit::visit_ts_import_type(&mut **self, node)
     }
 
     fn visit_ts_index_signature(&mut self, node: &TsIndexSignature) {
-        Visit::visit_ts_index_signature(self, node)
+        Visit::visit_ts_index_signature(&mut **self, node)
     }
 
     fn visit_ts_indexed_access_type(&mut self, node: &TsIndexedAccessType) {
-        Visit::visit_ts_indexed_access_type(self, node)
+        Visit::visit_ts_indexed_access_type(&mut **self, node)
     }
 
     fn visit_ts_infer_type(&mut self, node: &TsInferType) {
-        Visit::visit_ts_infer_type(self, node)
+        Visit::visit_ts_infer_type(&mut **self, node)
     }
 
     fn visit_ts_instantiation(&mut self, node: &TsInstantiation) {
-        Visit::visit_ts_instantiation(self, node)
+        Visit::visit_ts_instantiation(&mut **self, node)
     }
 
     fn visit_ts_interface_body(&mut self, node: &TsInterfaceBody) {
-        Visit::visit_ts_interface_body(self, node)
+        Visit::visit_ts_interface_body(&mut **self, node)
     }
 
     fn visit_ts_interface_decl(&mut self, node: &TsInterfaceDecl) {
-        Visit::visit_ts_interface_decl(self, node)
+        Visit::visit_ts_interface_decl(&mut **self, node)
     }
 
     fn visit_ts_intersection_type(&mut self, node: &TsIntersectionType) {
-        Visit::visit_ts_intersection_type(self, node)
+        Visit::visit_ts_intersection_type(&mut **self, node)
     }
 
     fn visit_ts_keyword_type(&mut self, node: &TsKeywordType) {
-        Visit::visit_ts_keyword_type(self, node)
+        Visit::visit_ts_keyword_type(&mut **self, node)
     }
 
     fn visit_ts_keyword_type_kind(&mut self, node: &TsKeywordTypeKind) {
-        Visit::visit_ts_keyword_type_kind(self, node)
+        Visit::visit_ts_keyword_type_kind(&mut **self, node)
     }
 
     fn visit_ts_lit(&mut self, node: &TsLit) {
-        Visit::visit_ts_lit(self, node)
+        Visit::visit_ts_lit(&mut **self, node)
     }
 
     fn visit_ts_lit_type(&mut self, node: &TsLitType) {
-        Visit::visit_ts_lit_type(self, node)
+        Visit::visit_ts_lit_type(&mut **self, node)
     }
 
     fn visit_ts_mapped_type(&mut self, node: &TsMappedType) {
-        Visit::visit_ts_mapped_type(self, node)
+        Visit::visit_ts_mapped_type(&mut **self, node)
     }
 
     fn visit_ts_method_signature(&mut self, node: &TsMethodSignature) {
-        Visit::visit_ts_method_signature(self, node)
+        Visit::visit_ts_method_signature(&mut **self, node)
     }
 
     fn visit_ts_module_block(&mut self, node: &TsModuleBlock) {
-        Visit::visit_ts_module_block(self, node)
+        Visit::visit_ts_module_block(&mut **self, node)
     }
 
     fn visit_ts_module_decl(&mut self, node: &TsModuleDecl) {
-        Visit::visit_ts_module_decl(self, node)
+        Visit::visit_ts_module_decl(&mut **self, node)
     }
 
     fn visit_ts_module_name(&mut self, node: &TsModuleName) {
-        Visit::visit_ts_module_name(self, node)
+        Visit::visit_ts_module_name(&mut **self, node)
     }
 
     fn visit_ts_module_ref(&mut self, node: &TsModuleRef) {
-        Visit::visit_ts_module_ref(self, node)
+        Visit::visit_ts_module_ref(&mut **self, node)
     }
 
     fn visit_ts_namespace_body(&mut self, node: &TsNamespaceBody) {
-        Visit::visit_ts_namespace_body(self, node)
+        Visit::visit_ts_namespace_body(&mut **self, node)
     }
 
     fn visit_ts_namespace_decl(&mut self, node: &TsNamespaceDecl) {
-        Visit::visit_ts_namespace_decl(self, node)
+        Visit::visit_ts_namespace_decl(&mut **self, node)
     }
 
     fn visit_ts_namespace_export_decl(&mut self, node: &TsNamespaceExportDecl) {
-        Visit::visit_ts_namespace_export_decl(self, node)
+        Visit::visit_ts_namespace_export_decl(&mut **self, node)
     }
 
     fn visit_ts_non_null_expr(&mut self, node: &TsNonNullExpr) {
-        Visit::visit_ts_non_null_expr(self, node)
+        Visit::visit_ts_non_null_expr(&mut **self, node)
     }
 
     fn visit_ts_optional_type(&mut self, node: &TsOptionalType) {
-        Visit::visit_ts_optional_type(self, node)
+        Visit::visit_ts_optional_type(&mut **self, node)
     }
 
     fn visit_ts_param_prop(&mut self, node: &TsParamProp) {
-        Visit::visit_ts_param_prop(self, node)
+        Visit::visit_ts_param_prop(&mut **self, node)
     }
 
     fn visit_ts_param_prop_param(&mut self, node: &TsParamPropParam) {
-        Visit::visit_ts_param_prop_param(self, node)
+        Visit::visit_ts_param_prop_param(&mut **self, node)
     }
 
     fn visit_ts_parenthesized_type(&mut self, node: &TsParenthesizedType) {
-        Visit::visit_ts_parenthesized_type(self, node)
+        Visit::visit_ts_parenthesized_type(&mut **self, node)
     }
 
     fn visit_ts_property_signature(&mut self, node: &TsPropertySignature) {
-        Visit::visit_ts_property_signature(self, node)
+        Visit::visit_ts_property_signature(&mut **self, node)
     }
 
     fn visit_ts_qualified_name(&mut self, node: &TsQualifiedName) {
-        Visit::visit_ts_qualified_name(self, node)
+        Visit::visit_ts_qualified_name(&mut **self, node)
     }
 
     fn visit_ts_rest_type(&mut self, node: &TsRestType) {
-        Visit::visit_ts_rest_type(self, node)
+        Visit::visit_ts_rest_type(&mut **self, node)
     }
 
     fn visit_ts_satisfies_expr(&mut self, node: &TsSatisfiesExpr) {
-        Visit::visit_ts_satisfies_expr(self, node)
+        Visit::visit_ts_satisfies_expr(&mut **self, node)
     }
 
     fn visit_ts_setter_signature(&mut self, node: &TsSetterSignature) {
-        Visit::visit_ts_setter_signature(self, node)
+        Visit::visit_ts_setter_signature(&mut **self, node)
     }
 
     fn visit_ts_this_type(&mut self, node: &TsThisType) {
-        Visit::visit_ts_this_type(self, node)
+        Visit::visit_ts_this_type(&mut **self, node)
     }
 
     fn visit_ts_this_type_or_ident(&mut self, node: &TsThisTypeOrIdent) {
-        Visit::visit_ts_this_type_or_ident(self, node)
+        Visit::visit_ts_this_type_or_ident(&mut **self, node)
     }
 
     fn visit_ts_tpl_lit_type(&mut self, node: &TsTplLitType) {
-        Visit::visit_ts_tpl_lit_type(self, node)
+        Visit::visit_ts_tpl_lit_type(&mut **self, node)
     }
 
     fn visit_ts_tuple_element(&mut self, node: &TsTupleElement) {
-        Visit::visit_ts_tuple_element(self, node)
+        Visit::visit_ts_tuple_element(&mut **self, node)
     }
 
     fn visit_ts_tuple_elements(&mut self, node: &[TsTupleElement]) {
-        Visit::visit_ts_tuple_elements(self, node)
+        Visit::visit_ts_tuple_elements(&mut **self, node)
     }
 
     fn visit_ts_tuple_type(&mut self, node: &TsTupleType) {
-        Visit::visit_ts_tuple_type(self, node)
+        Visit::visit_ts_tuple_type(&mut **self, node)
     }
 
     fn visit_ts_type(&mut self, node: &TsType) {
-        Visit::visit_ts_type(self, node)
+        Visit::visit_ts_type(&mut **self, node)
     }
 
     fn visit_ts_type_alias_decl(&mut self, node: &TsTypeAliasDecl) {
-        Visit::visit_ts_type_alias_decl(self, node)
+        Visit::visit_ts_type_alias_decl(&mut **self, node)
     }
 
     fn visit_ts_type_ann(&mut self, node: &TsTypeAnn) {
-        Visit::visit_ts_type_ann(self, node)
+        Visit::visit_ts_type_ann(&mut **self, node)
     }
 
     fn visit_ts_type_assertion(&mut self, node: &TsTypeAssertion) {
-        Visit::visit_ts_type_assertion(self, node)
+        Visit::visit_ts_type_assertion(&mut **self, node)
     }
 
     fn visit_ts_type_element(&mut self, node: &TsTypeElement) {
-        Visit::visit_ts_type_element(self, node)
+        Visit::visit_ts_type_element(&mut **self, node)
     }
 
     fn visit_ts_type_elements(&mut self, node: &[TsTypeElement]) {
-        Visit::visit_ts_type_elements(self, node)
+        Visit::visit_ts_type_elements(&mut **self, node)
     }
 
     fn visit_ts_type_lit(&mut self, node: &TsTypeLit) {
-        Visit::visit_ts_type_lit(self, node)
+        Visit::visit_ts_type_lit(&mut **self, node)
     }
 
     fn visit_ts_type_operator(&mut self, node: &TsTypeOperator) {
-        Visit::visit_ts_type_operator(self, node)
+        Visit::visit_ts_type_operator(&mut **self, node)
     }
 
     fn visit_ts_type_operator_op(&mut self, node: &TsTypeOperatorOp) {
-        Visit::visit_ts_type_operator_op(self, node)
+        Visit::visit_ts_type_operator_op(&mut **self, node)
     }
 
     fn visit_ts_type_param(&mut self, node: &TsTypeParam) {
-        Visit::visit_ts_type_param(self, node)
+        Visit::visit_ts_type_param(&mut **self, node)
     }
 
     fn visit_ts_type_param_decl(&mut self, node: &TsTypeParamDecl) {
-        Visit::visit_ts_type_param_decl(self, node)
+        Visit::visit_ts_type_param_decl(&mut **self, node)
     }
 
     fn visit_ts_type_param_instantiation(&mut self, node: &TsTypeParamInstantiation) {
-        Visit::visit_ts_type_param_instantiation(self, node)
+        Visit::visit_ts_type_param_instantiation(&mut **self, node)
     }
 
     fn visit_ts_type_params(&mut self, node: &[TsTypeParam]) {
-        Visit::visit_ts_type_params(self, node)
+        Visit::visit_ts_type_params(&mut **self, node)
     }
 
     fn visit_ts_type_predicate(&mut self, node: &TsTypePredicate) {
-        Visit::visit_ts_type_predicate(self, node)
+        Visit::visit_ts_type_predicate(&mut **self, node)
     }
 
     fn visit_ts_type_query(&mut self, node: &TsTypeQuery) {
-        Visit::visit_ts_type_query(self, node)
+        Visit::visit_ts_type_query(&mut **self, node)
     }
 
     fn visit_ts_type_query_expr(&mut self, node: &TsTypeQueryExpr) {
-        Visit::visit_ts_type_query_expr(self, node)
+        Visit::visit_ts_type_query_expr(&mut **self, node)
     }
 
     fn visit_ts_type_ref(&mut self, node: &TsTypeRef) {
-        Visit::visit_ts_type_ref(self, node)
+        Visit::visit_ts_type_ref(&mut **self, node)
     }
 
     fn visit_ts_types(&mut self, node: &[Box<TsType>]) {
-        Visit::visit_ts_types(self, node)
+        Visit::visit_ts_types(&mut **self, node)
     }
 
     fn visit_ts_union_or_intersection_type(&mut self, node: &TsUnionOrIntersectionType) {
-        Visit::visit_ts_union_or_intersection_type(self, node)
+        Visit::visit_ts_union_or_intersection_type(&mut **self, node)
     }
 
     fn visit_ts_union_type(&mut self, node: &TsUnionType) {
-        Visit::visit_ts_union_type(self, node)
+        Visit::visit_ts_union_type(&mut **self, node)
     }
 
     fn visit_unary_expr(&mut self, node: &UnaryExpr) {
-        Visit::visit_unary_expr(self, node)
+        Visit::visit_unary_expr(&mut **self, node)
     }
 
     fn visit_unary_op(&mut self, node: &UnaryOp) {
-        Visit::visit_unary_op(self, node)
+        Visit::visit_unary_op(&mut **self, node)
     }
 
     fn visit_update_expr(&mut self, node: &UpdateExpr) {
-        Visit::visit_update_expr(self, node)
+        Visit::visit_update_expr(&mut **self, node)
     }
 
     fn visit_update_op(&mut self, node: &UpdateOp) {
-        Visit::visit_update_op(self, node)
+        Visit::visit_update_op(&mut **self, node)
     }
 
     fn visit_using_decl(&mut self, node: &UsingDecl) {
-        Visit::visit_using_decl(self, node)
+        Visit::visit_using_decl(&mut **self, node)
     }
 
     fn visit_var_decl(&mut self, node: &VarDecl) {
-        Visit::visit_var_decl(self, node)
+        Visit::visit_var_decl(&mut **self, node)
     }
 
     fn visit_var_decl_kind(&mut self, node: &VarDeclKind) {
-        Visit::visit_var_decl_kind(self, node)
+        Visit::visit_var_decl_kind(&mut **self, node)
     }
 
     fn visit_var_decl_or_expr(&mut self, node: &VarDeclOrExpr) {
-        Visit::visit_var_decl_or_expr(self, node)
+        Visit::visit_var_decl_or_expr(&mut **self, node)
     }
 
     fn visit_var_declarator(&mut self, node: &VarDeclarator) {
-        Visit::visit_var_declarator(self, node)
+        Visit::visit_var_declarator(&mut **self, node)
     }
 
     fn visit_var_declarators(&mut self, node: &[VarDeclarator]) {
-        Visit::visit_var_declarators(self, node)
+        Visit::visit_var_declarators(&mut **self, node)
     }
 
     fn visit_while_stmt(&mut self, node: &WhileStmt) {
-        Visit::visit_while_stmt(self, node)
+        Visit::visit_while_stmt(&mut **self, node)
     }
 
     fn visit_with_stmt(&mut self, node: &WithStmt) {
-        Visit::visit_with_stmt(self, node)
+        Visit::visit_with_stmt(&mut **self, node)
     }
 
     fn visit_yield_expr(&mut self, node: &YieldExpr) {
-        Visit::visit_yield_expr(self, node)
+        Visit::visit_yield_expr(&mut **self, node)
     }
 }
 impl<V> Visit for Box<V>
@@ -2928,1182 +2928,1182 @@ where
     V: ?Sized + Visit,
 {
     fn visit_accessibility(&mut self, node: &Accessibility) {
-        Visit::visit_accessibility(self, node)
+        Visit::visit_accessibility(&mut **self, node)
     }
 
     fn visit_array_lit(&mut self, node: &ArrayLit) {
-        Visit::visit_array_lit(self, node)
+        Visit::visit_array_lit(&mut **self, node)
     }
 
     fn visit_array_pat(&mut self, node: &ArrayPat) {
-        Visit::visit_array_pat(self, node)
+        Visit::visit_array_pat(&mut **self, node)
     }
 
     fn visit_arrow_expr(&mut self, node: &ArrowExpr) {
-        Visit::visit_arrow_expr(self, node)
+        Visit::visit_arrow_expr(&mut **self, node)
     }
 
     fn visit_assign_expr(&mut self, node: &AssignExpr) {
-        Visit::visit_assign_expr(self, node)
+        Visit::visit_assign_expr(&mut **self, node)
     }
 
     fn visit_assign_op(&mut self, node: &AssignOp) {
-        Visit::visit_assign_op(self, node)
+        Visit::visit_assign_op(&mut **self, node)
     }
 
     fn visit_assign_pat(&mut self, node: &AssignPat) {
-        Visit::visit_assign_pat(self, node)
+        Visit::visit_assign_pat(&mut **self, node)
     }
 
     fn visit_assign_pat_prop(&mut self, node: &AssignPatProp) {
-        Visit::visit_assign_pat_prop(self, node)
+        Visit::visit_assign_pat_prop(&mut **self, node)
     }
 
     fn visit_assign_prop(&mut self, node: &AssignProp) {
-        Visit::visit_assign_prop(self, node)
+        Visit::visit_assign_prop(&mut **self, node)
     }
 
     fn visit_assign_target(&mut self, node: &AssignTarget) {
-        Visit::visit_assign_target(self, node)
+        Visit::visit_assign_target(&mut **self, node)
     }
 
     fn visit_assign_target_pat(&mut self, node: &AssignTargetPat) {
-        Visit::visit_assign_target_pat(self, node)
+        Visit::visit_assign_target_pat(&mut **self, node)
     }
 
     fn visit_atom(&mut self, node: &swc_atoms::Atom) {
-        Visit::visit_atom(self, node)
+        Visit::visit_atom(&mut **self, node)
     }
 
     fn visit_auto_accessor(&mut self, node: &AutoAccessor) {
-        Visit::visit_auto_accessor(self, node)
+        Visit::visit_auto_accessor(&mut **self, node)
     }
 
     fn visit_await_expr(&mut self, node: &AwaitExpr) {
-        Visit::visit_await_expr(self, node)
+        Visit::visit_await_expr(&mut **self, node)
     }
 
     fn visit_big_int(&mut self, node: &BigInt) {
-        Visit::visit_big_int(self, node)
+        Visit::visit_big_int(&mut **self, node)
     }
 
     fn visit_big_int_value(&mut self, node: &BigIntValue) {
-        Visit::visit_big_int_value(self, node)
+        Visit::visit_big_int_value(&mut **self, node)
     }
 
     fn visit_bin_expr(&mut self, node: &BinExpr) {
-        Visit::visit_bin_expr(self, node)
+        Visit::visit_bin_expr(&mut **self, node)
     }
 
     fn visit_binary_op(&mut self, node: &BinaryOp) {
-        Visit::visit_binary_op(self, node)
+        Visit::visit_binary_op(&mut **self, node)
     }
 
     fn visit_binding_ident(&mut self, node: &BindingIdent) {
-        Visit::visit_binding_ident(self, node)
+        Visit::visit_binding_ident(&mut **self, node)
     }
 
     fn visit_block_stmt(&mut self, node: &BlockStmt) {
-        Visit::visit_block_stmt(self, node)
+        Visit::visit_block_stmt(&mut **self, node)
     }
 
     fn visit_block_stmt_or_expr(&mut self, node: &BlockStmtOrExpr) {
-        Visit::visit_block_stmt_or_expr(self, node)
+        Visit::visit_block_stmt_or_expr(&mut **self, node)
     }
 
     fn visit_bool(&mut self, node: &Bool) {
-        Visit::visit_bool(self, node)
+        Visit::visit_bool(&mut **self, node)
     }
 
     fn visit_break_stmt(&mut self, node: &BreakStmt) {
-        Visit::visit_break_stmt(self, node)
+        Visit::visit_break_stmt(&mut **self, node)
     }
 
     fn visit_call_expr(&mut self, node: &CallExpr) {
-        Visit::visit_call_expr(self, node)
+        Visit::visit_call_expr(&mut **self, node)
     }
 
     fn visit_callee(&mut self, node: &Callee) {
-        Visit::visit_callee(self, node)
+        Visit::visit_callee(&mut **self, node)
     }
 
     fn visit_catch_clause(&mut self, node: &CatchClause) {
-        Visit::visit_catch_clause(self, node)
+        Visit::visit_catch_clause(&mut **self, node)
     }
 
     fn visit_class(&mut self, node: &Class) {
-        Visit::visit_class(self, node)
+        Visit::visit_class(&mut **self, node)
     }
 
     fn visit_class_decl(&mut self, node: &ClassDecl) {
-        Visit::visit_class_decl(self, node)
+        Visit::visit_class_decl(&mut **self, node)
     }
 
     fn visit_class_expr(&mut self, node: &ClassExpr) {
-        Visit::visit_class_expr(self, node)
+        Visit::visit_class_expr(&mut **self, node)
     }
 
     fn visit_class_member(&mut self, node: &ClassMember) {
-        Visit::visit_class_member(self, node)
+        Visit::visit_class_member(&mut **self, node)
     }
 
     fn visit_class_members(&mut self, node: &[ClassMember]) {
-        Visit::visit_class_members(self, node)
+        Visit::visit_class_members(&mut **self, node)
     }
 
     fn visit_class_method(&mut self, node: &ClassMethod) {
-        Visit::visit_class_method(self, node)
+        Visit::visit_class_method(&mut **self, node)
     }
 
     fn visit_class_prop(&mut self, node: &ClassProp) {
-        Visit::visit_class_prop(self, node)
+        Visit::visit_class_prop(&mut **self, node)
     }
 
     fn visit_computed_prop_name(&mut self, node: &ComputedPropName) {
-        Visit::visit_computed_prop_name(self, node)
+        Visit::visit_computed_prop_name(&mut **self, node)
     }
 
     fn visit_cond_expr(&mut self, node: &CondExpr) {
-        Visit::visit_cond_expr(self, node)
+        Visit::visit_cond_expr(&mut **self, node)
     }
 
     fn visit_constructor(&mut self, node: &Constructor) {
-        Visit::visit_constructor(self, node)
+        Visit::visit_constructor(&mut **self, node)
     }
 
     fn visit_continue_stmt(&mut self, node: &ContinueStmt) {
-        Visit::visit_continue_stmt(self, node)
+        Visit::visit_continue_stmt(&mut **self, node)
     }
 
     fn visit_debugger_stmt(&mut self, node: &DebuggerStmt) {
-        Visit::visit_debugger_stmt(self, node)
+        Visit::visit_debugger_stmt(&mut **self, node)
     }
 
     fn visit_decl(&mut self, node: &Decl) {
-        Visit::visit_decl(self, node)
+        Visit::visit_decl(&mut **self, node)
     }
 
     fn visit_decorator(&mut self, node: &Decorator) {
-        Visit::visit_decorator(self, node)
+        Visit::visit_decorator(&mut **self, node)
     }
 
     fn visit_decorators(&mut self, node: &[Decorator]) {
-        Visit::visit_decorators(self, node)
+        Visit::visit_decorators(&mut **self, node)
     }
 
     fn visit_default_decl(&mut self, node: &DefaultDecl) {
-        Visit::visit_default_decl(self, node)
+        Visit::visit_default_decl(&mut **self, node)
     }
 
     fn visit_do_while_stmt(&mut self, node: &DoWhileStmt) {
-        Visit::visit_do_while_stmt(self, node)
+        Visit::visit_do_while_stmt(&mut **self, node)
     }
 
     fn visit_empty_stmt(&mut self, node: &EmptyStmt) {
-        Visit::visit_empty_stmt(self, node)
+        Visit::visit_empty_stmt(&mut **self, node)
     }
 
     fn visit_es_version(&mut self, node: &EsVersion) {
-        Visit::visit_es_version(self, node)
+        Visit::visit_es_version(&mut **self, node)
     }
 
     fn visit_export_all(&mut self, node: &ExportAll) {
-        Visit::visit_export_all(self, node)
+        Visit::visit_export_all(&mut **self, node)
     }
 
     fn visit_export_decl(&mut self, node: &ExportDecl) {
-        Visit::visit_export_decl(self, node)
+        Visit::visit_export_decl(&mut **self, node)
     }
 
     fn visit_export_default_decl(&mut self, node: &ExportDefaultDecl) {
-        Visit::visit_export_default_decl(self, node)
+        Visit::visit_export_default_decl(&mut **self, node)
     }
 
     fn visit_export_default_expr(&mut self, node: &ExportDefaultExpr) {
-        Visit::visit_export_default_expr(self, node)
+        Visit::visit_export_default_expr(&mut **self, node)
     }
 
     fn visit_export_default_specifier(&mut self, node: &ExportDefaultSpecifier) {
-        Visit::visit_export_default_specifier(self, node)
+        Visit::visit_export_default_specifier(&mut **self, node)
     }
 
     fn visit_export_named_specifier(&mut self, node: &ExportNamedSpecifier) {
-        Visit::visit_export_named_specifier(self, node)
+        Visit::visit_export_named_specifier(&mut **self, node)
     }
 
     fn visit_export_namespace_specifier(&mut self, node: &ExportNamespaceSpecifier) {
-        Visit::visit_export_namespace_specifier(self, node)
+        Visit::visit_export_namespace_specifier(&mut **self, node)
     }
 
     fn visit_export_specifier(&mut self, node: &ExportSpecifier) {
-        Visit::visit_export_specifier(self, node)
+        Visit::visit_export_specifier(&mut **self, node)
     }
 
     fn visit_export_specifiers(&mut self, node: &[ExportSpecifier]) {
-        Visit::visit_export_specifiers(self, node)
+        Visit::visit_export_specifiers(&mut **self, node)
     }
 
     fn visit_expr(&mut self, node: &Expr) {
-        Visit::visit_expr(self, node)
+        Visit::visit_expr(&mut **self, node)
     }
 
     fn visit_expr_or_spread(&mut self, node: &ExprOrSpread) {
-        Visit::visit_expr_or_spread(self, node)
+        Visit::visit_expr_or_spread(&mut **self, node)
     }
 
     fn visit_expr_or_spreads(&mut self, node: &[ExprOrSpread]) {
-        Visit::visit_expr_or_spreads(self, node)
+        Visit::visit_expr_or_spreads(&mut **self, node)
     }
 
     fn visit_expr_stmt(&mut self, node: &ExprStmt) {
-        Visit::visit_expr_stmt(self, node)
+        Visit::visit_expr_stmt(&mut **self, node)
     }
 
     fn visit_exprs(&mut self, node: &[Box<Expr>]) {
-        Visit::visit_exprs(self, node)
+        Visit::visit_exprs(&mut **self, node)
     }
 
     fn visit_fn_decl(&mut self, node: &FnDecl) {
-        Visit::visit_fn_decl(self, node)
+        Visit::visit_fn_decl(&mut **self, node)
     }
 
     fn visit_fn_expr(&mut self, node: &FnExpr) {
-        Visit::visit_fn_expr(self, node)
+        Visit::visit_fn_expr(&mut **self, node)
     }
 
     fn visit_for_head(&mut self, node: &ForHead) {
-        Visit::visit_for_head(self, node)
+        Visit::visit_for_head(&mut **self, node)
     }
 
     fn visit_for_in_stmt(&mut self, node: &ForInStmt) {
-        Visit::visit_for_in_stmt(self, node)
+        Visit::visit_for_in_stmt(&mut **self, node)
     }
 
     fn visit_for_of_stmt(&mut self, node: &ForOfStmt) {
-        Visit::visit_for_of_stmt(self, node)
+        Visit::visit_for_of_stmt(&mut **self, node)
     }
 
     fn visit_for_stmt(&mut self, node: &ForStmt) {
-        Visit::visit_for_stmt(self, node)
+        Visit::visit_for_stmt(&mut **self, node)
     }
 
     fn visit_function(&mut self, node: &Function) {
-        Visit::visit_function(self, node)
+        Visit::visit_function(&mut **self, node)
     }
 
     fn visit_getter_prop(&mut self, node: &GetterProp) {
-        Visit::visit_getter_prop(self, node)
+        Visit::visit_getter_prop(&mut **self, node)
     }
 
     fn visit_ident(&mut self, node: &Ident) {
-        Visit::visit_ident(self, node)
+        Visit::visit_ident(&mut **self, node)
     }
 
     fn visit_ident_name(&mut self, node: &IdentName) {
-        Visit::visit_ident_name(self, node)
+        Visit::visit_ident_name(&mut **self, node)
     }
 
     fn visit_if_stmt(&mut self, node: &IfStmt) {
-        Visit::visit_if_stmt(self, node)
+        Visit::visit_if_stmt(&mut **self, node)
     }
 
     fn visit_import(&mut self, node: &Import) {
-        Visit::visit_import(self, node)
+        Visit::visit_import(&mut **self, node)
     }
 
     fn visit_import_decl(&mut self, node: &ImportDecl) {
-        Visit::visit_import_decl(self, node)
+        Visit::visit_import_decl(&mut **self, node)
     }
 
     fn visit_import_default_specifier(&mut self, node: &ImportDefaultSpecifier) {
-        Visit::visit_import_default_specifier(self, node)
+        Visit::visit_import_default_specifier(&mut **self, node)
     }
 
     fn visit_import_named_specifier(&mut self, node: &ImportNamedSpecifier) {
-        Visit::visit_import_named_specifier(self, node)
+        Visit::visit_import_named_specifier(&mut **self, node)
     }
 
     fn visit_import_phase(&mut self, node: &ImportPhase) {
-        Visit::visit_import_phase(self, node)
+        Visit::visit_import_phase(&mut **self, node)
     }
 
     fn visit_import_specifier(&mut self, node: &ImportSpecifier) {
-        Visit::visit_import_specifier(self, node)
+        Visit::visit_import_specifier(&mut **self, node)
     }
 
     fn visit_import_specifiers(&mut self, node: &[ImportSpecifier]) {
-        Visit::visit_import_specifiers(self, node)
+        Visit::visit_import_specifiers(&mut **self, node)
     }
 
     fn visit_import_star_as_specifier(&mut self, node: &ImportStarAsSpecifier) {
-        Visit::visit_import_star_as_specifier(self, node)
+        Visit::visit_import_star_as_specifier(&mut **self, node)
     }
 
     fn visit_import_with(&mut self, node: &ImportWith) {
-        Visit::visit_import_with(self, node)
+        Visit::visit_import_with(&mut **self, node)
     }
 
     fn visit_import_with_item(&mut self, node: &ImportWithItem) {
-        Visit::visit_import_with_item(self, node)
+        Visit::visit_import_with_item(&mut **self, node)
     }
 
     fn visit_import_with_items(&mut self, node: &[ImportWithItem]) {
-        Visit::visit_import_with_items(self, node)
+        Visit::visit_import_with_items(&mut **self, node)
     }
 
     fn visit_invalid(&mut self, node: &Invalid) {
-        Visit::visit_invalid(self, node)
+        Visit::visit_invalid(&mut **self, node)
     }
 
     fn visit_jsx_attr(&mut self, node: &JSXAttr) {
-        Visit::visit_jsx_attr(self, node)
+        Visit::visit_jsx_attr(&mut **self, node)
     }
 
     fn visit_jsx_attr_name(&mut self, node: &JSXAttrName) {
-        Visit::visit_jsx_attr_name(self, node)
+        Visit::visit_jsx_attr_name(&mut **self, node)
     }
 
     fn visit_jsx_attr_or_spread(&mut self, node: &JSXAttrOrSpread) {
-        Visit::visit_jsx_attr_or_spread(self, node)
+        Visit::visit_jsx_attr_or_spread(&mut **self, node)
     }
 
     fn visit_jsx_attr_or_spreads(&mut self, node: &[JSXAttrOrSpread]) {
-        Visit::visit_jsx_attr_or_spreads(self, node)
+        Visit::visit_jsx_attr_or_spreads(&mut **self, node)
     }
 
     fn visit_jsx_attr_value(&mut self, node: &JSXAttrValue) {
-        Visit::visit_jsx_attr_value(self, node)
+        Visit::visit_jsx_attr_value(&mut **self, node)
     }
 
     fn visit_jsx_closing_element(&mut self, node: &JSXClosingElement) {
-        Visit::visit_jsx_closing_element(self, node)
+        Visit::visit_jsx_closing_element(&mut **self, node)
     }
 
     fn visit_jsx_closing_fragment(&mut self, node: &JSXClosingFragment) {
-        Visit::visit_jsx_closing_fragment(self, node)
+        Visit::visit_jsx_closing_fragment(&mut **self, node)
     }
 
     fn visit_jsx_element(&mut self, node: &JSXElement) {
-        Visit::visit_jsx_element(self, node)
+        Visit::visit_jsx_element(&mut **self, node)
     }
 
     fn visit_jsx_element_child(&mut self, node: &JSXElementChild) {
-        Visit::visit_jsx_element_child(self, node)
+        Visit::visit_jsx_element_child(&mut **self, node)
     }
 
     fn visit_jsx_element_childs(&mut self, node: &[JSXElementChild]) {
-        Visit::visit_jsx_element_childs(self, node)
+        Visit::visit_jsx_element_childs(&mut **self, node)
     }
 
     fn visit_jsx_element_name(&mut self, node: &JSXElementName) {
-        Visit::visit_jsx_element_name(self, node)
+        Visit::visit_jsx_element_name(&mut **self, node)
     }
 
     fn visit_jsx_empty_expr(&mut self, node: &JSXEmptyExpr) {
-        Visit::visit_jsx_empty_expr(self, node)
+        Visit::visit_jsx_empty_expr(&mut **self, node)
     }
 
     fn visit_jsx_expr(&mut self, node: &JSXExpr) {
-        Visit::visit_jsx_expr(self, node)
+        Visit::visit_jsx_expr(&mut **self, node)
     }
 
     fn visit_jsx_expr_container(&mut self, node: &JSXExprContainer) {
-        Visit::visit_jsx_expr_container(self, node)
+        Visit::visit_jsx_expr_container(&mut **self, node)
     }
 
     fn visit_jsx_fragment(&mut self, node: &JSXFragment) {
-        Visit::visit_jsx_fragment(self, node)
+        Visit::visit_jsx_fragment(&mut **self, node)
     }
 
     fn visit_jsx_member_expr(&mut self, node: &JSXMemberExpr) {
-        Visit::visit_jsx_member_expr(self, node)
+        Visit::visit_jsx_member_expr(&mut **self, node)
     }
 
     fn visit_jsx_namespaced_name(&mut self, node: &JSXNamespacedName) {
-        Visit::visit_jsx_namespaced_name(self, node)
+        Visit::visit_jsx_namespaced_name(&mut **self, node)
     }
 
     fn visit_jsx_object(&mut self, node: &JSXObject) {
-        Visit::visit_jsx_object(self, node)
+        Visit::visit_jsx_object(&mut **self, node)
     }
 
     fn visit_jsx_opening_element(&mut self, node: &JSXOpeningElement) {
-        Visit::visit_jsx_opening_element(self, node)
+        Visit::visit_jsx_opening_element(&mut **self, node)
     }
 
     fn visit_jsx_opening_fragment(&mut self, node: &JSXOpeningFragment) {
-        Visit::visit_jsx_opening_fragment(self, node)
+        Visit::visit_jsx_opening_fragment(&mut **self, node)
     }
 
     fn visit_jsx_spread_child(&mut self, node: &JSXSpreadChild) {
-        Visit::visit_jsx_spread_child(self, node)
+        Visit::visit_jsx_spread_child(&mut **self, node)
     }
 
     fn visit_jsx_text(&mut self, node: &JSXText) {
-        Visit::visit_jsx_text(self, node)
+        Visit::visit_jsx_text(&mut **self, node)
     }
 
     fn visit_key(&mut self, node: &Key) {
-        Visit::visit_key(self, node)
+        Visit::visit_key(&mut **self, node)
     }
 
     fn visit_key_value_pat_prop(&mut self, node: &KeyValuePatProp) {
-        Visit::visit_key_value_pat_prop(self, node)
+        Visit::visit_key_value_pat_prop(&mut **self, node)
     }
 
     fn visit_key_value_prop(&mut self, node: &KeyValueProp) {
-        Visit::visit_key_value_prop(self, node)
+        Visit::visit_key_value_prop(&mut **self, node)
     }
 
     fn visit_labeled_stmt(&mut self, node: &LabeledStmt) {
-        Visit::visit_labeled_stmt(self, node)
+        Visit::visit_labeled_stmt(&mut **self, node)
     }
 
     fn visit_lit(&mut self, node: &Lit) {
-        Visit::visit_lit(self, node)
+        Visit::visit_lit(&mut **self, node)
     }
 
     fn visit_member_expr(&mut self, node: &MemberExpr) {
-        Visit::visit_member_expr(self, node)
+        Visit::visit_member_expr(&mut **self, node)
     }
 
     fn visit_member_prop(&mut self, node: &MemberProp) {
-        Visit::visit_member_prop(self, node)
+        Visit::visit_member_prop(&mut **self, node)
     }
 
     fn visit_meta_prop_expr(&mut self, node: &MetaPropExpr) {
-        Visit::visit_meta_prop_expr(self, node)
+        Visit::visit_meta_prop_expr(&mut **self, node)
     }
 
     fn visit_meta_prop_kind(&mut self, node: &MetaPropKind) {
-        Visit::visit_meta_prop_kind(self, node)
+        Visit::visit_meta_prop_kind(&mut **self, node)
     }
 
     fn visit_method_kind(&mut self, node: &MethodKind) {
-        Visit::visit_method_kind(self, node)
+        Visit::visit_method_kind(&mut **self, node)
     }
 
     fn visit_method_prop(&mut self, node: &MethodProp) {
-        Visit::visit_method_prop(self, node)
+        Visit::visit_method_prop(&mut **self, node)
     }
 
     fn visit_module(&mut self, node: &Module) {
-        Visit::visit_module(self, node)
+        Visit::visit_module(&mut **self, node)
     }
 
     fn visit_module_decl(&mut self, node: &ModuleDecl) {
-        Visit::visit_module_decl(self, node)
+        Visit::visit_module_decl(&mut **self, node)
     }
 
     fn visit_module_export_name(&mut self, node: &ModuleExportName) {
-        Visit::visit_module_export_name(self, node)
+        Visit::visit_module_export_name(&mut **self, node)
     }
 
     fn visit_module_item(&mut self, node: &ModuleItem) {
-        Visit::visit_module_item(self, node)
+        Visit::visit_module_item(&mut **self, node)
     }
 
     fn visit_module_items(&mut self, node: &[ModuleItem]) {
-        Visit::visit_module_items(self, node)
+        Visit::visit_module_items(&mut **self, node)
     }
 
     fn visit_named_export(&mut self, node: &NamedExport) {
-        Visit::visit_named_export(self, node)
+        Visit::visit_named_export(&mut **self, node)
     }
 
     fn visit_new_expr(&mut self, node: &NewExpr) {
-        Visit::visit_new_expr(self, node)
+        Visit::visit_new_expr(&mut **self, node)
     }
 
     fn visit_null(&mut self, node: &Null) {
-        Visit::visit_null(self, node)
+        Visit::visit_null(&mut **self, node)
     }
 
     fn visit_number(&mut self, node: &Number) {
-        Visit::visit_number(self, node)
+        Visit::visit_number(&mut **self, node)
     }
 
     fn visit_object_lit(&mut self, node: &ObjectLit) {
-        Visit::visit_object_lit(self, node)
+        Visit::visit_object_lit(&mut **self, node)
     }
 
     fn visit_object_pat(&mut self, node: &ObjectPat) {
-        Visit::visit_object_pat(self, node)
+        Visit::visit_object_pat(&mut **self, node)
     }
 
     fn visit_object_pat_prop(&mut self, node: &ObjectPatProp) {
-        Visit::visit_object_pat_prop(self, node)
+        Visit::visit_object_pat_prop(&mut **self, node)
     }
 
     fn visit_object_pat_props(&mut self, node: &[ObjectPatProp]) {
-        Visit::visit_object_pat_props(self, node)
+        Visit::visit_object_pat_props(&mut **self, node)
     }
 
     fn visit_opt_accessibility(&mut self, node: &Option<Accessibility>) {
-        Visit::visit_opt_accessibility(self, node)
+        Visit::visit_opt_accessibility(&mut **self, node)
     }
 
     fn visit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
-        Visit::visit_opt_atom(self, node)
+        Visit::visit_opt_atom(&mut **self, node)
     }
 
     fn visit_opt_block_stmt(&mut self, node: &Option<BlockStmt>) {
-        Visit::visit_opt_block_stmt(self, node)
+        Visit::visit_opt_block_stmt(&mut **self, node)
     }
 
     fn visit_opt_call(&mut self, node: &OptCall) {
-        Visit::visit_opt_call(self, node)
+        Visit::visit_opt_call(&mut **self, node)
     }
 
     fn visit_opt_catch_clause(&mut self, node: &Option<CatchClause>) {
-        Visit::visit_opt_catch_clause(self, node)
+        Visit::visit_opt_catch_clause(&mut **self, node)
     }
 
     fn visit_opt_chain_base(&mut self, node: &OptChainBase) {
-        Visit::visit_opt_chain_base(self, node)
+        Visit::visit_opt_chain_base(&mut **self, node)
     }
 
     fn visit_opt_chain_expr(&mut self, node: &OptChainExpr) {
-        Visit::visit_opt_chain_expr(self, node)
+        Visit::visit_opt_chain_expr(&mut **self, node)
     }
 
     fn visit_opt_expr(&mut self, node: &Option<Box<Expr>>) {
-        Visit::visit_opt_expr(self, node)
+        Visit::visit_opt_expr(&mut **self, node)
     }
 
     fn visit_opt_expr_or_spread(&mut self, node: &Option<ExprOrSpread>) {
-        Visit::visit_opt_expr_or_spread(self, node)
+        Visit::visit_opt_expr_or_spread(&mut **self, node)
     }
 
     fn visit_opt_expr_or_spreads(&mut self, node: &Option<Vec<ExprOrSpread>>) {
-        Visit::visit_opt_expr_or_spreads(self, node)
+        Visit::visit_opt_expr_or_spreads(&mut **self, node)
     }
 
     fn visit_opt_ident(&mut self, node: &Option<Ident>) {
-        Visit::visit_opt_ident(self, node)
+        Visit::visit_opt_ident(&mut **self, node)
     }
 
     fn visit_opt_jsx_attr_value(&mut self, node: &Option<JSXAttrValue>) {
-        Visit::visit_opt_jsx_attr_value(self, node)
+        Visit::visit_opt_jsx_attr_value(&mut **self, node)
     }
 
     fn visit_opt_jsx_closing_element(&mut self, node: &Option<JSXClosingElement>) {
-        Visit::visit_opt_jsx_closing_element(self, node)
+        Visit::visit_opt_jsx_closing_element(&mut **self, node)
     }
 
     fn visit_opt_module_export_name(&mut self, node: &Option<ModuleExportName>) {
-        Visit::visit_opt_module_export_name(self, node)
+        Visit::visit_opt_module_export_name(&mut **self, node)
     }
 
     fn visit_opt_module_items(&mut self, node: &Option<Vec<ModuleItem>>) {
-        Visit::visit_opt_module_items(self, node)
+        Visit::visit_opt_module_items(&mut **self, node)
     }
 
     fn visit_opt_object_lit(&mut self, node: &Option<Box<ObjectLit>>) {
-        Visit::visit_opt_object_lit(self, node)
+        Visit::visit_opt_object_lit(&mut **self, node)
     }
 
     fn visit_opt_pat(&mut self, node: &Option<Pat>) {
-        Visit::visit_opt_pat(self, node)
+        Visit::visit_opt_pat(&mut **self, node)
     }
 
     fn visit_opt_span(&mut self, node: &Option<swc_common::Span>) {
-        Visit::visit_opt_span(self, node)
+        Visit::visit_opt_span(&mut **self, node)
     }
 
     fn visit_opt_stmt(&mut self, node: &Option<Box<Stmt>>) {
-        Visit::visit_opt_stmt(self, node)
+        Visit::visit_opt_stmt(&mut **self, node)
     }
 
     fn visit_opt_str(&mut self, node: &Option<Box<Str>>) {
-        Visit::visit_opt_str(self, node)
+        Visit::visit_opt_str(&mut **self, node)
     }
 
     fn visit_opt_true_plus_minus(&mut self, node: &Option<TruePlusMinus>) {
-        Visit::visit_opt_true_plus_minus(self, node)
+        Visit::visit_opt_true_plus_minus(&mut **self, node)
     }
 
     fn visit_opt_ts_entity_name(&mut self, node: &Option<TsEntityName>) {
-        Visit::visit_opt_ts_entity_name(self, node)
+        Visit::visit_opt_ts_entity_name(&mut **self, node)
     }
 
     fn visit_opt_ts_namespace_body(&mut self, node: &Option<TsNamespaceBody>) {
-        Visit::visit_opt_ts_namespace_body(self, node)
+        Visit::visit_opt_ts_namespace_body(&mut **self, node)
     }
 
     fn visit_opt_ts_type(&mut self, node: &Option<Box<TsType>>) {
-        Visit::visit_opt_ts_type(self, node)
+        Visit::visit_opt_ts_type(&mut **self, node)
     }
 
     fn visit_opt_ts_type_ann(&mut self, node: &Option<Box<TsTypeAnn>>) {
-        Visit::visit_opt_ts_type_ann(self, node)
+        Visit::visit_opt_ts_type_ann(&mut **self, node)
     }
 
     fn visit_opt_ts_type_param_decl(&mut self, node: &Option<Box<TsTypeParamDecl>>) {
-        Visit::visit_opt_ts_type_param_decl(self, node)
+        Visit::visit_opt_ts_type_param_decl(&mut **self, node)
     }
 
     fn visit_opt_ts_type_param_instantiation(
         &mut self,
         node: &Option<Box<TsTypeParamInstantiation>>,
     ) {
-        Visit::visit_opt_ts_type_param_instantiation(self, node)
+        Visit::visit_opt_ts_type_param_instantiation(&mut **self, node)
     }
 
     fn visit_opt_var_decl_or_expr(&mut self, node: &Option<VarDeclOrExpr>) {
-        Visit::visit_opt_var_decl_or_expr(self, node)
+        Visit::visit_opt_var_decl_or_expr(&mut **self, node)
     }
 
     fn visit_opt_vec_expr_or_spreads(&mut self, node: &[Option<ExprOrSpread>]) {
-        Visit::visit_opt_vec_expr_or_spreads(self, node)
+        Visit::visit_opt_vec_expr_or_spreads(&mut **self, node)
     }
 
     fn visit_opt_vec_pats(&mut self, node: &[Option<Pat>]) {
-        Visit::visit_opt_vec_pats(self, node)
+        Visit::visit_opt_vec_pats(&mut **self, node)
     }
 
     fn visit_param(&mut self, node: &Param) {
-        Visit::visit_param(self, node)
+        Visit::visit_param(&mut **self, node)
     }
 
     fn visit_param_or_ts_param_prop(&mut self, node: &ParamOrTsParamProp) {
-        Visit::visit_param_or_ts_param_prop(self, node)
+        Visit::visit_param_or_ts_param_prop(&mut **self, node)
     }
 
     fn visit_param_or_ts_param_props(&mut self, node: &[ParamOrTsParamProp]) {
-        Visit::visit_param_or_ts_param_props(self, node)
+        Visit::visit_param_or_ts_param_props(&mut **self, node)
     }
 
     fn visit_params(&mut self, node: &[Param]) {
-        Visit::visit_params(self, node)
+        Visit::visit_params(&mut **self, node)
     }
 
     fn visit_paren_expr(&mut self, node: &ParenExpr) {
-        Visit::visit_paren_expr(self, node)
+        Visit::visit_paren_expr(&mut **self, node)
     }
 
     fn visit_pat(&mut self, node: &Pat) {
-        Visit::visit_pat(self, node)
+        Visit::visit_pat(&mut **self, node)
     }
 
     fn visit_pats(&mut self, node: &[Pat]) {
-        Visit::visit_pats(self, node)
+        Visit::visit_pats(&mut **self, node)
     }
 
     fn visit_private_method(&mut self, node: &PrivateMethod) {
-        Visit::visit_private_method(self, node)
+        Visit::visit_private_method(&mut **self, node)
     }
 
     fn visit_private_name(&mut self, node: &PrivateName) {
-        Visit::visit_private_name(self, node)
+        Visit::visit_private_name(&mut **self, node)
     }
 
     fn visit_private_prop(&mut self, node: &PrivateProp) {
-        Visit::visit_private_prop(self, node)
+        Visit::visit_private_prop(&mut **self, node)
     }
 
     fn visit_program(&mut self, node: &Program) {
-        Visit::visit_program(self, node)
+        Visit::visit_program(&mut **self, node)
     }
 
     fn visit_prop(&mut self, node: &Prop) {
-        Visit::visit_prop(self, node)
+        Visit::visit_prop(&mut **self, node)
     }
 
     fn visit_prop_name(&mut self, node: &PropName) {
-        Visit::visit_prop_name(self, node)
+        Visit::visit_prop_name(&mut **self, node)
     }
 
     fn visit_prop_or_spread(&mut self, node: &PropOrSpread) {
-        Visit::visit_prop_or_spread(self, node)
+        Visit::visit_prop_or_spread(&mut **self, node)
     }
 
     fn visit_prop_or_spreads(&mut self, node: &[PropOrSpread]) {
-        Visit::visit_prop_or_spreads(self, node)
+        Visit::visit_prop_or_spreads(&mut **self, node)
     }
 
     fn visit_regex(&mut self, node: &Regex) {
-        Visit::visit_regex(self, node)
+        Visit::visit_regex(&mut **self, node)
     }
 
     fn visit_reserved_unused(&mut self, node: &ReservedUnused) {
-        Visit::visit_reserved_unused(self, node)
+        Visit::visit_reserved_unused(&mut **self, node)
     }
 
     fn visit_rest_pat(&mut self, node: &RestPat) {
-        Visit::visit_rest_pat(self, node)
+        Visit::visit_rest_pat(&mut **self, node)
     }
 
     fn visit_return_stmt(&mut self, node: &ReturnStmt) {
-        Visit::visit_return_stmt(self, node)
+        Visit::visit_return_stmt(&mut **self, node)
     }
 
     fn visit_script(&mut self, node: &Script) {
-        Visit::visit_script(self, node)
+        Visit::visit_script(&mut **self, node)
     }
 
     fn visit_seq_expr(&mut self, node: &SeqExpr) {
-        Visit::visit_seq_expr(self, node)
+        Visit::visit_seq_expr(&mut **self, node)
     }
 
     fn visit_setter_prop(&mut self, node: &SetterProp) {
-        Visit::visit_setter_prop(self, node)
+        Visit::visit_setter_prop(&mut **self, node)
     }
 
     fn visit_simple_assign_target(&mut self, node: &SimpleAssignTarget) {
-        Visit::visit_simple_assign_target(self, node)
+        Visit::visit_simple_assign_target(&mut **self, node)
     }
 
     fn visit_span(&mut self, node: &swc_common::Span) {
-        Visit::visit_span(self, node)
+        Visit::visit_span(&mut **self, node)
     }
 
     fn visit_spread_element(&mut self, node: &SpreadElement) {
-        Visit::visit_spread_element(self, node)
+        Visit::visit_spread_element(&mut **self, node)
     }
 
     fn visit_static_block(&mut self, node: &StaticBlock) {
-        Visit::visit_static_block(self, node)
+        Visit::visit_static_block(&mut **self, node)
     }
 
     fn visit_stmt(&mut self, node: &Stmt) {
-        Visit::visit_stmt(self, node)
+        Visit::visit_stmt(&mut **self, node)
     }
 
     fn visit_stmts(&mut self, node: &[Stmt]) {
-        Visit::visit_stmts(self, node)
+        Visit::visit_stmts(&mut **self, node)
     }
 
     fn visit_str(&mut self, node: &Str) {
-        Visit::visit_str(self, node)
+        Visit::visit_str(&mut **self, node)
     }
 
     fn visit_super(&mut self, node: &Super) {
-        Visit::visit_super(self, node)
+        Visit::visit_super(&mut **self, node)
     }
 
     fn visit_super_prop(&mut self, node: &SuperProp) {
-        Visit::visit_super_prop(self, node)
+        Visit::visit_super_prop(&mut **self, node)
     }
 
     fn visit_super_prop_expr(&mut self, node: &SuperPropExpr) {
-        Visit::visit_super_prop_expr(self, node)
+        Visit::visit_super_prop_expr(&mut **self, node)
     }
 
     fn visit_switch_case(&mut self, node: &SwitchCase) {
-        Visit::visit_switch_case(self, node)
+        Visit::visit_switch_case(&mut **self, node)
     }
 
     fn visit_switch_cases(&mut self, node: &[SwitchCase]) {
-        Visit::visit_switch_cases(self, node)
+        Visit::visit_switch_cases(&mut **self, node)
     }
 
     fn visit_switch_stmt(&mut self, node: &SwitchStmt) {
-        Visit::visit_switch_stmt(self, node)
+        Visit::visit_switch_stmt(&mut **self, node)
     }
 
     fn visit_syntax_context(&mut self, node: &swc_common::SyntaxContext) {
-        Visit::visit_syntax_context(self, node)
+        Visit::visit_syntax_context(&mut **self, node)
     }
 
     fn visit_tagged_tpl(&mut self, node: &TaggedTpl) {
-        Visit::visit_tagged_tpl(self, node)
+        Visit::visit_tagged_tpl(&mut **self, node)
     }
 
     fn visit_this_expr(&mut self, node: &ThisExpr) {
-        Visit::visit_this_expr(self, node)
+        Visit::visit_this_expr(&mut **self, node)
     }
 
     fn visit_throw_stmt(&mut self, node: &ThrowStmt) {
-        Visit::visit_throw_stmt(self, node)
+        Visit::visit_throw_stmt(&mut **self, node)
     }
 
     fn visit_tpl(&mut self, node: &Tpl) {
-        Visit::visit_tpl(self, node)
+        Visit::visit_tpl(&mut **self, node)
     }
 
     fn visit_tpl_element(&mut self, node: &TplElement) {
-        Visit::visit_tpl_element(self, node)
+        Visit::visit_tpl_element(&mut **self, node)
     }
 
     fn visit_tpl_elements(&mut self, node: &[TplElement]) {
-        Visit::visit_tpl_elements(self, node)
+        Visit::visit_tpl_elements(&mut **self, node)
     }
 
     fn visit_true_plus_minus(&mut self, node: &TruePlusMinus) {
-        Visit::visit_true_plus_minus(self, node)
+        Visit::visit_true_plus_minus(&mut **self, node)
     }
 
     fn visit_try_stmt(&mut self, node: &TryStmt) {
-        Visit::visit_try_stmt(self, node)
+        Visit::visit_try_stmt(&mut **self, node)
     }
 
     fn visit_ts_array_type(&mut self, node: &TsArrayType) {
-        Visit::visit_ts_array_type(self, node)
+        Visit::visit_ts_array_type(&mut **self, node)
     }
 
     fn visit_ts_as_expr(&mut self, node: &TsAsExpr) {
-        Visit::visit_ts_as_expr(self, node)
+        Visit::visit_ts_as_expr(&mut **self, node)
     }
 
     fn visit_ts_call_signature_decl(&mut self, node: &TsCallSignatureDecl) {
-        Visit::visit_ts_call_signature_decl(self, node)
+        Visit::visit_ts_call_signature_decl(&mut **self, node)
     }
 
     fn visit_ts_conditional_type(&mut self, node: &TsConditionalType) {
-        Visit::visit_ts_conditional_type(self, node)
+        Visit::visit_ts_conditional_type(&mut **self, node)
     }
 
     fn visit_ts_const_assertion(&mut self, node: &TsConstAssertion) {
-        Visit::visit_ts_const_assertion(self, node)
+        Visit::visit_ts_const_assertion(&mut **self, node)
     }
 
     fn visit_ts_construct_signature_decl(&mut self, node: &TsConstructSignatureDecl) {
-        Visit::visit_ts_construct_signature_decl(self, node)
+        Visit::visit_ts_construct_signature_decl(&mut **self, node)
     }
 
     fn visit_ts_constructor_type(&mut self, node: &TsConstructorType) {
-        Visit::visit_ts_constructor_type(self, node)
+        Visit::visit_ts_constructor_type(&mut **self, node)
     }
 
     fn visit_ts_entity_name(&mut self, node: &TsEntityName) {
-        Visit::visit_ts_entity_name(self, node)
+        Visit::visit_ts_entity_name(&mut **self, node)
     }
 
     fn visit_ts_enum_decl(&mut self, node: &TsEnumDecl) {
-        Visit::visit_ts_enum_decl(self, node)
+        Visit::visit_ts_enum_decl(&mut **self, node)
     }
 
     fn visit_ts_enum_member(&mut self, node: &TsEnumMember) {
-        Visit::visit_ts_enum_member(self, node)
+        Visit::visit_ts_enum_member(&mut **self, node)
     }
 
     fn visit_ts_enum_member_id(&mut self, node: &TsEnumMemberId) {
-        Visit::visit_ts_enum_member_id(self, node)
+        Visit::visit_ts_enum_member_id(&mut **self, node)
     }
 
     fn visit_ts_enum_members(&mut self, node: &[TsEnumMember]) {
-        Visit::visit_ts_enum_members(self, node)
+        Visit::visit_ts_enum_members(&mut **self, node)
     }
 
     fn visit_ts_export_assignment(&mut self, node: &TsExportAssignment) {
-        Visit::visit_ts_export_assignment(self, node)
+        Visit::visit_ts_export_assignment(&mut **self, node)
     }
 
     fn visit_ts_expr_with_type_args(&mut self, node: &TsExprWithTypeArgs) {
-        Visit::visit_ts_expr_with_type_args(self, node)
+        Visit::visit_ts_expr_with_type_args(&mut **self, node)
     }
 
     fn visit_ts_expr_with_type_argss(&mut self, node: &[TsExprWithTypeArgs]) {
-        Visit::visit_ts_expr_with_type_argss(self, node)
+        Visit::visit_ts_expr_with_type_argss(&mut **self, node)
     }
 
     fn visit_ts_external_module_ref(&mut self, node: &TsExternalModuleRef) {
-        Visit::visit_ts_external_module_ref(self, node)
+        Visit::visit_ts_external_module_ref(&mut **self, node)
     }
 
     fn visit_ts_fn_or_constructor_type(&mut self, node: &TsFnOrConstructorType) {
-        Visit::visit_ts_fn_or_constructor_type(self, node)
+        Visit::visit_ts_fn_or_constructor_type(&mut **self, node)
     }
 
     fn visit_ts_fn_param(&mut self, node: &TsFnParam) {
-        Visit::visit_ts_fn_param(self, node)
+        Visit::visit_ts_fn_param(&mut **self, node)
     }
 
     fn visit_ts_fn_params(&mut self, node: &[TsFnParam]) {
-        Visit::visit_ts_fn_params(self, node)
+        Visit::visit_ts_fn_params(&mut **self, node)
     }
 
     fn visit_ts_fn_type(&mut self, node: &TsFnType) {
-        Visit::visit_ts_fn_type(self, node)
+        Visit::visit_ts_fn_type(&mut **self, node)
     }
 
     fn visit_ts_getter_signature(&mut self, node: &TsGetterSignature) {
-        Visit::visit_ts_getter_signature(self, node)
+        Visit::visit_ts_getter_signature(&mut **self, node)
     }
 
     fn visit_ts_import_equals_decl(&mut self, node: &TsImportEqualsDecl) {
-        Visit::visit_ts_import_equals_decl(self, node)
+        Visit::visit_ts_import_equals_decl(&mut **self, node)
     }
 
     fn visit_ts_import_type(&mut self, node: &TsImportType) {
-        Visit::visit_ts_import_type(self, node)
+        Visit::visit_ts_import_type(&mut **self, node)
     }
 
     fn visit_ts_index_signature(&mut self, node: &TsIndexSignature) {
-        Visit::visit_ts_index_signature(self, node)
+        Visit::visit_ts_index_signature(&mut **self, node)
     }
 
     fn visit_ts_indexed_access_type(&mut self, node: &TsIndexedAccessType) {
-        Visit::visit_ts_indexed_access_type(self, node)
+        Visit::visit_ts_indexed_access_type(&mut **self, node)
     }
 
     fn visit_ts_infer_type(&mut self, node: &TsInferType) {
-        Visit::visit_ts_infer_type(self, node)
+        Visit::visit_ts_infer_type(&mut **self, node)
     }
 
     fn visit_ts_instantiation(&mut self, node: &TsInstantiation) {
-        Visit::visit_ts_instantiation(self, node)
+        Visit::visit_ts_instantiation(&mut **self, node)
     }
 
     fn visit_ts_interface_body(&mut self, node: &TsInterfaceBody) {
-        Visit::visit_ts_interface_body(self, node)
+        Visit::visit_ts_interface_body(&mut **self, node)
     }
 
     fn visit_ts_interface_decl(&mut self, node: &TsInterfaceDecl) {
-        Visit::visit_ts_interface_decl(self, node)
+        Visit::visit_ts_interface_decl(&mut **self, node)
     }
 
     fn visit_ts_intersection_type(&mut self, node: &TsIntersectionType) {
-        Visit::visit_ts_intersection_type(self, node)
+        Visit::visit_ts_intersection_type(&mut **self, node)
     }
 
     fn visit_ts_keyword_type(&mut self, node: &TsKeywordType) {
-        Visit::visit_ts_keyword_type(self, node)
+        Visit::visit_ts_keyword_type(&mut **self, node)
     }
 
     fn visit_ts_keyword_type_kind(&mut self, node: &TsKeywordTypeKind) {
-        Visit::visit_ts_keyword_type_kind(self, node)
+        Visit::visit_ts_keyword_type_kind(&mut **self, node)
     }
 
     fn visit_ts_lit(&mut self, node: &TsLit) {
-        Visit::visit_ts_lit(self, node)
+        Visit::visit_ts_lit(&mut **self, node)
     }
 
     fn visit_ts_lit_type(&mut self, node: &TsLitType) {
-        Visit::visit_ts_lit_type(self, node)
+        Visit::visit_ts_lit_type(&mut **self, node)
     }
 
     fn visit_ts_mapped_type(&mut self, node: &TsMappedType) {
-        Visit::visit_ts_mapped_type(self, node)
+        Visit::visit_ts_mapped_type(&mut **self, node)
     }
 
     fn visit_ts_method_signature(&mut self, node: &TsMethodSignature) {
-        Visit::visit_ts_method_signature(self, node)
+        Visit::visit_ts_method_signature(&mut **self, node)
     }
 
     fn visit_ts_module_block(&mut self, node: &TsModuleBlock) {
-        Visit::visit_ts_module_block(self, node)
+        Visit::visit_ts_module_block(&mut **self, node)
     }
 
     fn visit_ts_module_decl(&mut self, node: &TsModuleDecl) {
-        Visit::visit_ts_module_decl(self, node)
+        Visit::visit_ts_module_decl(&mut **self, node)
     }
 
     fn visit_ts_module_name(&mut self, node: &TsModuleName) {
-        Visit::visit_ts_module_name(self, node)
+        Visit::visit_ts_module_name(&mut **self, node)
     }
 
     fn visit_ts_module_ref(&mut self, node: &TsModuleRef) {
-        Visit::visit_ts_module_ref(self, node)
+        Visit::visit_ts_module_ref(&mut **self, node)
     }
 
     fn visit_ts_namespace_body(&mut self, node: &TsNamespaceBody) {
-        Visit::visit_ts_namespace_body(self, node)
+        Visit::visit_ts_namespace_body(&mut **self, node)
     }
 
     fn visit_ts_namespace_decl(&mut self, node: &TsNamespaceDecl) {
-        Visit::visit_ts_namespace_decl(self, node)
+        Visit::visit_ts_namespace_decl(&mut **self, node)
     }
 
     fn visit_ts_namespace_export_decl(&mut self, node: &TsNamespaceExportDecl) {
-        Visit::visit_ts_namespace_export_decl(self, node)
+        Visit::visit_ts_namespace_export_decl(&mut **self, node)
     }
 
     fn visit_ts_non_null_expr(&mut self, node: &TsNonNullExpr) {
-        Visit::visit_ts_non_null_expr(self, node)
+        Visit::visit_ts_non_null_expr(&mut **self, node)
     }
 
     fn visit_ts_optional_type(&mut self, node: &TsOptionalType) {
-        Visit::visit_ts_optional_type(self, node)
+        Visit::visit_ts_optional_type(&mut **self, node)
     }
 
     fn visit_ts_param_prop(&mut self, node: &TsParamProp) {
-        Visit::visit_ts_param_prop(self, node)
+        Visit::visit_ts_param_prop(&mut **self, node)
     }
 
     fn visit_ts_param_prop_param(&mut self, node: &TsParamPropParam) {
-        Visit::visit_ts_param_prop_param(self, node)
+        Visit::visit_ts_param_prop_param(&mut **self, node)
     }
 
     fn visit_ts_parenthesized_type(&mut self, node: &TsParenthesizedType) {
-        Visit::visit_ts_parenthesized_type(self, node)
+        Visit::visit_ts_parenthesized_type(&mut **self, node)
     }
 
     fn visit_ts_property_signature(&mut self, node: &TsPropertySignature) {
-        Visit::visit_ts_property_signature(self, node)
+        Visit::visit_ts_property_signature(&mut **self, node)
     }
 
     fn visit_ts_qualified_name(&mut self, node: &TsQualifiedName) {
-        Visit::visit_ts_qualified_name(self, node)
+        Visit::visit_ts_qualified_name(&mut **self, node)
     }
 
     fn visit_ts_rest_type(&mut self, node: &TsRestType) {
-        Visit::visit_ts_rest_type(self, node)
+        Visit::visit_ts_rest_type(&mut **self, node)
     }
 
     fn visit_ts_satisfies_expr(&mut self, node: &TsSatisfiesExpr) {
-        Visit::visit_ts_satisfies_expr(self, node)
+        Visit::visit_ts_satisfies_expr(&mut **self, node)
     }
 
     fn visit_ts_setter_signature(&mut self, node: &TsSetterSignature) {
-        Visit::visit_ts_setter_signature(self, node)
+        Visit::visit_ts_setter_signature(&mut **self, node)
     }
 
     fn visit_ts_this_type(&mut self, node: &TsThisType) {
-        Visit::visit_ts_this_type(self, node)
+        Visit::visit_ts_this_type(&mut **self, node)
     }
 
     fn visit_ts_this_type_or_ident(&mut self, node: &TsThisTypeOrIdent) {
-        Visit::visit_ts_this_type_or_ident(self, node)
+        Visit::visit_ts_this_type_or_ident(&mut **self, node)
     }
 
     fn visit_ts_tpl_lit_type(&mut self, node: &TsTplLitType) {
-        Visit::visit_ts_tpl_lit_type(self, node)
+        Visit::visit_ts_tpl_lit_type(&mut **self, node)
     }
 
     fn visit_ts_tuple_element(&mut self, node: &TsTupleElement) {
-        Visit::visit_ts_tuple_element(self, node)
+        Visit::visit_ts_tuple_element(&mut **self, node)
     }
 
     fn visit_ts_tuple_elements(&mut self, node: &[TsTupleElement]) {
-        Visit::visit_ts_tuple_elements(self, node)
+        Visit::visit_ts_tuple_elements(&mut **self, node)
     }
 
     fn visit_ts_tuple_type(&mut self, node: &TsTupleType) {
-        Visit::visit_ts_tuple_type(self, node)
+        Visit::visit_ts_tuple_type(&mut **self, node)
     }
 
     fn visit_ts_type(&mut self, node: &TsType) {
-        Visit::visit_ts_type(self, node)
+        Visit::visit_ts_type(&mut **self, node)
     }
 
     fn visit_ts_type_alias_decl(&mut self, node: &TsTypeAliasDecl) {
-        Visit::visit_ts_type_alias_decl(self, node)
+        Visit::visit_ts_type_alias_decl(&mut **self, node)
     }
 
     fn visit_ts_type_ann(&mut self, node: &TsTypeAnn) {
-        Visit::visit_ts_type_ann(self, node)
+        Visit::visit_ts_type_ann(&mut **self, node)
     }
 
     fn visit_ts_type_assertion(&mut self, node: &TsTypeAssertion) {
-        Visit::visit_ts_type_assertion(self, node)
+        Visit::visit_ts_type_assertion(&mut **self, node)
     }
 
     fn visit_ts_type_element(&mut self, node: &TsTypeElement) {
-        Visit::visit_ts_type_element(self, node)
+        Visit::visit_ts_type_element(&mut **self, node)
     }
 
     fn visit_ts_type_elements(&mut self, node: &[TsTypeElement]) {
-        Visit::visit_ts_type_elements(self, node)
+        Visit::visit_ts_type_elements(&mut **self, node)
     }
 
     fn visit_ts_type_lit(&mut self, node: &TsTypeLit) {
-        Visit::visit_ts_type_lit(self, node)
+        Visit::visit_ts_type_lit(&mut **self, node)
     }
 
     fn visit_ts_type_operator(&mut self, node: &TsTypeOperator) {
-        Visit::visit_ts_type_operator(self, node)
+        Visit::visit_ts_type_operator(&mut **self, node)
     }
 
     fn visit_ts_type_operator_op(&mut self, node: &TsTypeOperatorOp) {
-        Visit::visit_ts_type_operator_op(self, node)
+        Visit::visit_ts_type_operator_op(&mut **self, node)
     }
 
     fn visit_ts_type_param(&mut self, node: &TsTypeParam) {
-        Visit::visit_ts_type_param(self, node)
+        Visit::visit_ts_type_param(&mut **self, node)
     }
 
     fn visit_ts_type_param_decl(&mut self, node: &TsTypeParamDecl) {
-        Visit::visit_ts_type_param_decl(self, node)
+        Visit::visit_ts_type_param_decl(&mut **self, node)
     }
 
     fn visit_ts_type_param_instantiation(&mut self, node: &TsTypeParamInstantiation) {
-        Visit::visit_ts_type_param_instantiation(self, node)
+        Visit::visit_ts_type_param_instantiation(&mut **self, node)
     }
 
     fn visit_ts_type_params(&mut self, node: &[TsTypeParam]) {
-        Visit::visit_ts_type_params(self, node)
+        Visit::visit_ts_type_params(&mut **self, node)
     }
 
     fn visit_ts_type_predicate(&mut self, node: &TsTypePredicate) {
-        Visit::visit_ts_type_predicate(self, node)
+        Visit::visit_ts_type_predicate(&mut **self, node)
     }
 
     fn visit_ts_type_query(&mut self, node: &TsTypeQuery) {
-        Visit::visit_ts_type_query(self, node)
+        Visit::visit_ts_type_query(&mut **self, node)
     }
 
     fn visit_ts_type_query_expr(&mut self, node: &TsTypeQueryExpr) {
-        Visit::visit_ts_type_query_expr(self, node)
+        Visit::visit_ts_type_query_expr(&mut **self, node)
     }
 
     fn visit_ts_type_ref(&mut self, node: &TsTypeRef) {
-        Visit::visit_ts_type_ref(self, node)
+        Visit::visit_ts_type_ref(&mut **self, node)
     }
 
     fn visit_ts_types(&mut self, node: &[Box<TsType>]) {
-        Visit::visit_ts_types(self, node)
+        Visit::visit_ts_types(&mut **self, node)
     }
 
     fn visit_ts_union_or_intersection_type(&mut self, node: &TsUnionOrIntersectionType) {
-        Visit::visit_ts_union_or_intersection_type(self, node)
+        Visit::visit_ts_union_or_intersection_type(&mut **self, node)
     }
 
     fn visit_ts_union_type(&mut self, node: &TsUnionType) {
-        Visit::visit_ts_union_type(self, node)
+        Visit::visit_ts_union_type(&mut **self, node)
     }
 
     fn visit_unary_expr(&mut self, node: &UnaryExpr) {
-        Visit::visit_unary_expr(self, node)
+        Visit::visit_unary_expr(&mut **self, node)
     }
 
     fn visit_unary_op(&mut self, node: &UnaryOp) {
-        Visit::visit_unary_op(self, node)
+        Visit::visit_unary_op(&mut **self, node)
     }
 
     fn visit_update_expr(&mut self, node: &UpdateExpr) {
-        Visit::visit_update_expr(self, node)
+        Visit::visit_update_expr(&mut **self, node)
     }
 
     fn visit_update_op(&mut self, node: &UpdateOp) {
-        Visit::visit_update_op(self, node)
+        Visit::visit_update_op(&mut **self, node)
     }
 
     fn visit_using_decl(&mut self, node: &UsingDecl) {
-        Visit::visit_using_decl(self, node)
+        Visit::visit_using_decl(&mut **self, node)
     }
 
     fn visit_var_decl(&mut self, node: &VarDecl) {
-        Visit::visit_var_decl(self, node)
+        Visit::visit_var_decl(&mut **self, node)
     }
 
     fn visit_var_decl_kind(&mut self, node: &VarDeclKind) {
-        Visit::visit_var_decl_kind(self, node)
+        Visit::visit_var_decl_kind(&mut **self, node)
     }
 
     fn visit_var_decl_or_expr(&mut self, node: &VarDeclOrExpr) {
-        Visit::visit_var_decl_or_expr(self, node)
+        Visit::visit_var_decl_or_expr(&mut **self, node)
     }
 
     fn visit_var_declarator(&mut self, node: &VarDeclarator) {
-        Visit::visit_var_declarator(self, node)
+        Visit::visit_var_declarator(&mut **self, node)
     }
 
     fn visit_var_declarators(&mut self, node: &[VarDeclarator]) {
-        Visit::visit_var_declarators(self, node)
+        Visit::visit_var_declarators(&mut **self, node)
     }
 
     fn visit_while_stmt(&mut self, node: &WhileStmt) {
-        Visit::visit_while_stmt(self, node)
+        Visit::visit_while_stmt(&mut **self, node)
     }
 
     fn visit_with_stmt(&mut self, node: &WithStmt) {
-        Visit::visit_with_stmt(self, node)
+        Visit::visit_with_stmt(&mut **self, node)
     }
 
     fn visit_yield_expr(&mut self, node: &YieldExpr) {
-        Visit::visit_yield_expr(self, node)
+        Visit::visit_yield_expr(&mut **self, node)
     }
 }
 impl<A, B> Visit for ::swc_visit::Either<A, B>
@@ -16567,7 +16567,7 @@ where
         node: &'ast Accessibility,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_accessibility(self, node, ast_path)
+        VisitAstPath::visit_accessibility(&mut **self, node, ast_path)
     }
 
     fn visit_array_lit<'ast: 'r, 'r>(
@@ -16575,7 +16575,7 @@ where
         node: &'ast ArrayLit,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_array_lit(self, node, ast_path)
+        VisitAstPath::visit_array_lit(&mut **self, node, ast_path)
     }
 
     fn visit_array_pat<'ast: 'r, 'r>(
@@ -16583,7 +16583,7 @@ where
         node: &'ast ArrayPat,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_array_pat(self, node, ast_path)
+        VisitAstPath::visit_array_pat(&mut **self, node, ast_path)
     }
 
     fn visit_arrow_expr<'ast: 'r, 'r>(
@@ -16591,7 +16591,7 @@ where
         node: &'ast ArrowExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_arrow_expr(self, node, ast_path)
+        VisitAstPath::visit_arrow_expr(&mut **self, node, ast_path)
     }
 
     fn visit_assign_expr<'ast: 'r, 'r>(
@@ -16599,7 +16599,7 @@ where
         node: &'ast AssignExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_assign_expr(self, node, ast_path)
+        VisitAstPath::visit_assign_expr(&mut **self, node, ast_path)
     }
 
     fn visit_assign_op<'ast: 'r, 'r>(
@@ -16607,7 +16607,7 @@ where
         node: &'ast AssignOp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_assign_op(self, node, ast_path)
+        VisitAstPath::visit_assign_op(&mut **self, node, ast_path)
     }
 
     fn visit_assign_pat<'ast: 'r, 'r>(
@@ -16615,7 +16615,7 @@ where
         node: &'ast AssignPat,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_assign_pat(self, node, ast_path)
+        VisitAstPath::visit_assign_pat(&mut **self, node, ast_path)
     }
 
     fn visit_assign_pat_prop<'ast: 'r, 'r>(
@@ -16623,7 +16623,7 @@ where
         node: &'ast AssignPatProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_assign_pat_prop(self, node, ast_path)
+        VisitAstPath::visit_assign_pat_prop(&mut **self, node, ast_path)
     }
 
     fn visit_assign_prop<'ast: 'r, 'r>(
@@ -16631,7 +16631,7 @@ where
         node: &'ast AssignProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_assign_prop(self, node, ast_path)
+        VisitAstPath::visit_assign_prop(&mut **self, node, ast_path)
     }
 
     fn visit_assign_target<'ast: 'r, 'r>(
@@ -16639,7 +16639,7 @@ where
         node: &'ast AssignTarget,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_assign_target(self, node, ast_path)
+        VisitAstPath::visit_assign_target(&mut **self, node, ast_path)
     }
 
     fn visit_assign_target_pat<'ast: 'r, 'r>(
@@ -16647,7 +16647,7 @@ where
         node: &'ast AssignTargetPat,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_assign_target_pat(self, node, ast_path)
+        VisitAstPath::visit_assign_target_pat(&mut **self, node, ast_path)
     }
 
     fn visit_atom<'ast: 'r, 'r>(
@@ -16655,7 +16655,7 @@ where
         node: &'ast swc_atoms::Atom,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_atom(self, node, ast_path)
+        VisitAstPath::visit_atom(&mut **self, node, ast_path)
     }
 
     fn visit_auto_accessor<'ast: 'r, 'r>(
@@ -16663,7 +16663,7 @@ where
         node: &'ast AutoAccessor,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_auto_accessor(self, node, ast_path)
+        VisitAstPath::visit_auto_accessor(&mut **self, node, ast_path)
     }
 
     fn visit_await_expr<'ast: 'r, 'r>(
@@ -16671,11 +16671,11 @@ where
         node: &'ast AwaitExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_await_expr(self, node, ast_path)
+        VisitAstPath::visit_await_expr(&mut **self, node, ast_path)
     }
 
     fn visit_big_int<'ast: 'r, 'r>(&mut self, node: &'ast BigInt, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_big_int(self, node, ast_path)
+        VisitAstPath::visit_big_int(&mut **self, node, ast_path)
     }
 
     fn visit_big_int_value<'ast: 'r, 'r>(
@@ -16683,7 +16683,7 @@ where
         node: &'ast BigIntValue,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_big_int_value(self, node, ast_path)
+        VisitAstPath::visit_big_int_value(&mut **self, node, ast_path)
     }
 
     fn visit_bin_expr<'ast: 'r, 'r>(
@@ -16691,7 +16691,7 @@ where
         node: &'ast BinExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_bin_expr(self, node, ast_path)
+        VisitAstPath::visit_bin_expr(&mut **self, node, ast_path)
     }
 
     fn visit_binary_op<'ast: 'r, 'r>(
@@ -16699,7 +16699,7 @@ where
         node: &'ast BinaryOp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_binary_op(self, node, ast_path)
+        VisitAstPath::visit_binary_op(&mut **self, node, ast_path)
     }
 
     fn visit_binding_ident<'ast: 'r, 'r>(
@@ -16707,7 +16707,7 @@ where
         node: &'ast BindingIdent,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_binding_ident(self, node, ast_path)
+        VisitAstPath::visit_binding_ident(&mut **self, node, ast_path)
     }
 
     fn visit_block_stmt<'ast: 'r, 'r>(
@@ -16715,7 +16715,7 @@ where
         node: &'ast BlockStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_block_stmt(self, node, ast_path)
+        VisitAstPath::visit_block_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_block_stmt_or_expr<'ast: 'r, 'r>(
@@ -16723,11 +16723,11 @@ where
         node: &'ast BlockStmtOrExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_block_stmt_or_expr(self, node, ast_path)
+        VisitAstPath::visit_block_stmt_or_expr(&mut **self, node, ast_path)
     }
 
     fn visit_bool<'ast: 'r, 'r>(&mut self, node: &'ast Bool, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_bool(self, node, ast_path)
+        VisitAstPath::visit_bool(&mut **self, node, ast_path)
     }
 
     fn visit_break_stmt<'ast: 'r, 'r>(
@@ -16735,7 +16735,7 @@ where
         node: &'ast BreakStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_break_stmt(self, node, ast_path)
+        VisitAstPath::visit_break_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_call_expr<'ast: 'r, 'r>(
@@ -16743,11 +16743,11 @@ where
         node: &'ast CallExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_call_expr(self, node, ast_path)
+        VisitAstPath::visit_call_expr(&mut **self, node, ast_path)
     }
 
     fn visit_callee<'ast: 'r, 'r>(&mut self, node: &'ast Callee, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_callee(self, node, ast_path)
+        VisitAstPath::visit_callee(&mut **self, node, ast_path)
     }
 
     fn visit_catch_clause<'ast: 'r, 'r>(
@@ -16755,11 +16755,11 @@ where
         node: &'ast CatchClause,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_catch_clause(self, node, ast_path)
+        VisitAstPath::visit_catch_clause(&mut **self, node, ast_path)
     }
 
     fn visit_class<'ast: 'r, 'r>(&mut self, node: &'ast Class, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_class(self, node, ast_path)
+        VisitAstPath::visit_class(&mut **self, node, ast_path)
     }
 
     fn visit_class_decl<'ast: 'r, 'r>(
@@ -16767,7 +16767,7 @@ where
         node: &'ast ClassDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_class_decl(self, node, ast_path)
+        VisitAstPath::visit_class_decl(&mut **self, node, ast_path)
     }
 
     fn visit_class_expr<'ast: 'r, 'r>(
@@ -16775,7 +16775,7 @@ where
         node: &'ast ClassExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_class_expr(self, node, ast_path)
+        VisitAstPath::visit_class_expr(&mut **self, node, ast_path)
     }
 
     fn visit_class_member<'ast: 'r, 'r>(
@@ -16783,7 +16783,7 @@ where
         node: &'ast ClassMember,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_class_member(self, node, ast_path)
+        VisitAstPath::visit_class_member(&mut **self, node, ast_path)
     }
 
     fn visit_class_members<'ast: 'r, 'r>(
@@ -16791,7 +16791,7 @@ where
         node: &'ast [ClassMember],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_class_members(self, node, ast_path)
+        VisitAstPath::visit_class_members(&mut **self, node, ast_path)
     }
 
     fn visit_class_method<'ast: 'r, 'r>(
@@ -16799,7 +16799,7 @@ where
         node: &'ast ClassMethod,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_class_method(self, node, ast_path)
+        VisitAstPath::visit_class_method(&mut **self, node, ast_path)
     }
 
     fn visit_class_prop<'ast: 'r, 'r>(
@@ -16807,7 +16807,7 @@ where
         node: &'ast ClassProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_class_prop(self, node, ast_path)
+        VisitAstPath::visit_class_prop(&mut **self, node, ast_path)
     }
 
     fn visit_computed_prop_name<'ast: 'r, 'r>(
@@ -16815,7 +16815,7 @@ where
         node: &'ast ComputedPropName,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_computed_prop_name(self, node, ast_path)
+        VisitAstPath::visit_computed_prop_name(&mut **self, node, ast_path)
     }
 
     fn visit_cond_expr<'ast: 'r, 'r>(
@@ -16823,7 +16823,7 @@ where
         node: &'ast CondExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_cond_expr(self, node, ast_path)
+        VisitAstPath::visit_cond_expr(&mut **self, node, ast_path)
     }
 
     fn visit_constructor<'ast: 'r, 'r>(
@@ -16831,7 +16831,7 @@ where
         node: &'ast Constructor,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_constructor(self, node, ast_path)
+        VisitAstPath::visit_constructor(&mut **self, node, ast_path)
     }
 
     fn visit_continue_stmt<'ast: 'r, 'r>(
@@ -16839,7 +16839,7 @@ where
         node: &'ast ContinueStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_continue_stmt(self, node, ast_path)
+        VisitAstPath::visit_continue_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_debugger_stmt<'ast: 'r, 'r>(
@@ -16847,11 +16847,11 @@ where
         node: &'ast DebuggerStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_debugger_stmt(self, node, ast_path)
+        VisitAstPath::visit_debugger_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_decl<'ast: 'r, 'r>(&mut self, node: &'ast Decl, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_decl(self, node, ast_path)
+        VisitAstPath::visit_decl(&mut **self, node, ast_path)
     }
 
     fn visit_decorator<'ast: 'r, 'r>(
@@ -16859,7 +16859,7 @@ where
         node: &'ast Decorator,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_decorator(self, node, ast_path)
+        VisitAstPath::visit_decorator(&mut **self, node, ast_path)
     }
 
     fn visit_decorators<'ast: 'r, 'r>(
@@ -16867,7 +16867,7 @@ where
         node: &'ast [Decorator],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_decorators(self, node, ast_path)
+        VisitAstPath::visit_decorators(&mut **self, node, ast_path)
     }
 
     fn visit_default_decl<'ast: 'r, 'r>(
@@ -16875,7 +16875,7 @@ where
         node: &'ast DefaultDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_default_decl(self, node, ast_path)
+        VisitAstPath::visit_default_decl(&mut **self, node, ast_path)
     }
 
     fn visit_do_while_stmt<'ast: 'r, 'r>(
@@ -16883,7 +16883,7 @@ where
         node: &'ast DoWhileStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_do_while_stmt(self, node, ast_path)
+        VisitAstPath::visit_do_while_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_empty_stmt<'ast: 'r, 'r>(
@@ -16891,7 +16891,7 @@ where
         node: &'ast EmptyStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_empty_stmt(self, node, ast_path)
+        VisitAstPath::visit_empty_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_es_version<'ast: 'r, 'r>(
@@ -16899,7 +16899,7 @@ where
         node: &'ast EsVersion,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_es_version(self, node, ast_path)
+        VisitAstPath::visit_es_version(&mut **self, node, ast_path)
     }
 
     fn visit_export_all<'ast: 'r, 'r>(
@@ -16907,7 +16907,7 @@ where
         node: &'ast ExportAll,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_export_all(self, node, ast_path)
+        VisitAstPath::visit_export_all(&mut **self, node, ast_path)
     }
 
     fn visit_export_decl<'ast: 'r, 'r>(
@@ -16915,7 +16915,7 @@ where
         node: &'ast ExportDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_export_decl(self, node, ast_path)
+        VisitAstPath::visit_export_decl(&mut **self, node, ast_path)
     }
 
     fn visit_export_default_decl<'ast: 'r, 'r>(
@@ -16923,7 +16923,7 @@ where
         node: &'ast ExportDefaultDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_export_default_decl(self, node, ast_path)
+        VisitAstPath::visit_export_default_decl(&mut **self, node, ast_path)
     }
 
     fn visit_export_default_expr<'ast: 'r, 'r>(
@@ -16931,7 +16931,7 @@ where
         node: &'ast ExportDefaultExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_export_default_expr(self, node, ast_path)
+        VisitAstPath::visit_export_default_expr(&mut **self, node, ast_path)
     }
 
     fn visit_export_default_specifier<'ast: 'r, 'r>(
@@ -16939,7 +16939,7 @@ where
         node: &'ast ExportDefaultSpecifier,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_export_default_specifier(self, node, ast_path)
+        VisitAstPath::visit_export_default_specifier(&mut **self, node, ast_path)
     }
 
     fn visit_export_named_specifier<'ast: 'r, 'r>(
@@ -16947,7 +16947,7 @@ where
         node: &'ast ExportNamedSpecifier,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_export_named_specifier(self, node, ast_path)
+        VisitAstPath::visit_export_named_specifier(&mut **self, node, ast_path)
     }
 
     fn visit_export_namespace_specifier<'ast: 'r, 'r>(
@@ -16955,7 +16955,7 @@ where
         node: &'ast ExportNamespaceSpecifier,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_export_namespace_specifier(self, node, ast_path)
+        VisitAstPath::visit_export_namespace_specifier(&mut **self, node, ast_path)
     }
 
     fn visit_export_specifier<'ast: 'r, 'r>(
@@ -16963,7 +16963,7 @@ where
         node: &'ast ExportSpecifier,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_export_specifier(self, node, ast_path)
+        VisitAstPath::visit_export_specifier(&mut **self, node, ast_path)
     }
 
     fn visit_export_specifiers<'ast: 'r, 'r>(
@@ -16971,11 +16971,11 @@ where
         node: &'ast [ExportSpecifier],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_export_specifiers(self, node, ast_path)
+        VisitAstPath::visit_export_specifiers(&mut **self, node, ast_path)
     }
 
     fn visit_expr<'ast: 'r, 'r>(&mut self, node: &'ast Expr, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_expr(self, node, ast_path)
+        VisitAstPath::visit_expr(&mut **self, node, ast_path)
     }
 
     fn visit_expr_or_spread<'ast: 'r, 'r>(
@@ -16983,7 +16983,7 @@ where
         node: &'ast ExprOrSpread,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_expr_or_spread(self, node, ast_path)
+        VisitAstPath::visit_expr_or_spread(&mut **self, node, ast_path)
     }
 
     fn visit_expr_or_spreads<'ast: 'r, 'r>(
@@ -16991,7 +16991,7 @@ where
         node: &'ast [ExprOrSpread],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_expr_or_spreads(self, node, ast_path)
+        VisitAstPath::visit_expr_or_spreads(&mut **self, node, ast_path)
     }
 
     fn visit_expr_stmt<'ast: 'r, 'r>(
@@ -16999,7 +16999,7 @@ where
         node: &'ast ExprStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_expr_stmt(self, node, ast_path)
+        VisitAstPath::visit_expr_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_exprs<'ast: 'r, 'r>(
@@ -17007,15 +17007,15 @@ where
         node: &'ast [Box<Expr>],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_exprs(self, node, ast_path)
+        VisitAstPath::visit_exprs(&mut **self, node, ast_path)
     }
 
     fn visit_fn_decl<'ast: 'r, 'r>(&mut self, node: &'ast FnDecl, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_fn_decl(self, node, ast_path)
+        VisitAstPath::visit_fn_decl(&mut **self, node, ast_path)
     }
 
     fn visit_fn_expr<'ast: 'r, 'r>(&mut self, node: &'ast FnExpr, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_fn_expr(self, node, ast_path)
+        VisitAstPath::visit_fn_expr(&mut **self, node, ast_path)
     }
 
     fn visit_for_head<'ast: 'r, 'r>(
@@ -17023,7 +17023,7 @@ where
         node: &'ast ForHead,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_for_head(self, node, ast_path)
+        VisitAstPath::visit_for_head(&mut **self, node, ast_path)
     }
 
     fn visit_for_in_stmt<'ast: 'r, 'r>(
@@ -17031,7 +17031,7 @@ where
         node: &'ast ForInStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_for_in_stmt(self, node, ast_path)
+        VisitAstPath::visit_for_in_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_for_of_stmt<'ast: 'r, 'r>(
@@ -17039,7 +17039,7 @@ where
         node: &'ast ForOfStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_for_of_stmt(self, node, ast_path)
+        VisitAstPath::visit_for_of_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_for_stmt<'ast: 'r, 'r>(
@@ -17047,7 +17047,7 @@ where
         node: &'ast ForStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_for_stmt(self, node, ast_path)
+        VisitAstPath::visit_for_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_function<'ast: 'r, 'r>(
@@ -17055,7 +17055,7 @@ where
         node: &'ast Function,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_function(self, node, ast_path)
+        VisitAstPath::visit_function(&mut **self, node, ast_path)
     }
 
     fn visit_getter_prop<'ast: 'r, 'r>(
@@ -17063,11 +17063,11 @@ where
         node: &'ast GetterProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_getter_prop(self, node, ast_path)
+        VisitAstPath::visit_getter_prop(&mut **self, node, ast_path)
     }
 
     fn visit_ident<'ast: 'r, 'r>(&mut self, node: &'ast Ident, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_ident(self, node, ast_path)
+        VisitAstPath::visit_ident(&mut **self, node, ast_path)
     }
 
     fn visit_ident_name<'ast: 'r, 'r>(
@@ -17075,15 +17075,15 @@ where
         node: &'ast IdentName,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ident_name(self, node, ast_path)
+        VisitAstPath::visit_ident_name(&mut **self, node, ast_path)
     }
 
     fn visit_if_stmt<'ast: 'r, 'r>(&mut self, node: &'ast IfStmt, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_if_stmt(self, node, ast_path)
+        VisitAstPath::visit_if_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_import<'ast: 'r, 'r>(&mut self, node: &'ast Import, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_import(self, node, ast_path)
+        VisitAstPath::visit_import(&mut **self, node, ast_path)
     }
 
     fn visit_import_decl<'ast: 'r, 'r>(
@@ -17091,7 +17091,7 @@ where
         node: &'ast ImportDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_import_decl(self, node, ast_path)
+        VisitAstPath::visit_import_decl(&mut **self, node, ast_path)
     }
 
     fn visit_import_default_specifier<'ast: 'r, 'r>(
@@ -17099,7 +17099,7 @@ where
         node: &'ast ImportDefaultSpecifier,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_import_default_specifier(self, node, ast_path)
+        VisitAstPath::visit_import_default_specifier(&mut **self, node, ast_path)
     }
 
     fn visit_import_named_specifier<'ast: 'r, 'r>(
@@ -17107,7 +17107,7 @@ where
         node: &'ast ImportNamedSpecifier,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_import_named_specifier(self, node, ast_path)
+        VisitAstPath::visit_import_named_specifier(&mut **self, node, ast_path)
     }
 
     fn visit_import_phase<'ast: 'r, 'r>(
@@ -17115,7 +17115,7 @@ where
         node: &'ast ImportPhase,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_import_phase(self, node, ast_path)
+        VisitAstPath::visit_import_phase(&mut **self, node, ast_path)
     }
 
     fn visit_import_specifier<'ast: 'r, 'r>(
@@ -17123,7 +17123,7 @@ where
         node: &'ast ImportSpecifier,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_import_specifier(self, node, ast_path)
+        VisitAstPath::visit_import_specifier(&mut **self, node, ast_path)
     }
 
     fn visit_import_specifiers<'ast: 'r, 'r>(
@@ -17131,7 +17131,7 @@ where
         node: &'ast [ImportSpecifier],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_import_specifiers(self, node, ast_path)
+        VisitAstPath::visit_import_specifiers(&mut **self, node, ast_path)
     }
 
     fn visit_import_star_as_specifier<'ast: 'r, 'r>(
@@ -17139,7 +17139,7 @@ where
         node: &'ast ImportStarAsSpecifier,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_import_star_as_specifier(self, node, ast_path)
+        VisitAstPath::visit_import_star_as_specifier(&mut **self, node, ast_path)
     }
 
     fn visit_import_with<'ast: 'r, 'r>(
@@ -17147,7 +17147,7 @@ where
         node: &'ast ImportWith,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_import_with(self, node, ast_path)
+        VisitAstPath::visit_import_with(&mut **self, node, ast_path)
     }
 
     fn visit_import_with_item<'ast: 'r, 'r>(
@@ -17155,7 +17155,7 @@ where
         node: &'ast ImportWithItem,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_import_with_item(self, node, ast_path)
+        VisitAstPath::visit_import_with_item(&mut **self, node, ast_path)
     }
 
     fn visit_import_with_items<'ast: 'r, 'r>(
@@ -17163,11 +17163,11 @@ where
         node: &'ast [ImportWithItem],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_import_with_items(self, node, ast_path)
+        VisitAstPath::visit_import_with_items(&mut **self, node, ast_path)
     }
 
     fn visit_invalid<'ast: 'r, 'r>(&mut self, node: &'ast Invalid, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_invalid(self, node, ast_path)
+        VisitAstPath::visit_invalid(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_attr<'ast: 'r, 'r>(
@@ -17175,7 +17175,7 @@ where
         node: &'ast JSXAttr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_attr(self, node, ast_path)
+        VisitAstPath::visit_jsx_attr(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_attr_name<'ast: 'r, 'r>(
@@ -17183,7 +17183,7 @@ where
         node: &'ast JSXAttrName,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_attr_name(self, node, ast_path)
+        VisitAstPath::visit_jsx_attr_name(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_attr_or_spread<'ast: 'r, 'r>(
@@ -17191,7 +17191,7 @@ where
         node: &'ast JSXAttrOrSpread,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_attr_or_spread(self, node, ast_path)
+        VisitAstPath::visit_jsx_attr_or_spread(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_attr_or_spreads<'ast: 'r, 'r>(
@@ -17199,7 +17199,7 @@ where
         node: &'ast [JSXAttrOrSpread],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_attr_or_spreads(self, node, ast_path)
+        VisitAstPath::visit_jsx_attr_or_spreads(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_attr_value<'ast: 'r, 'r>(
@@ -17207,7 +17207,7 @@ where
         node: &'ast JSXAttrValue,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_attr_value(self, node, ast_path)
+        VisitAstPath::visit_jsx_attr_value(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_closing_element<'ast: 'r, 'r>(
@@ -17215,7 +17215,7 @@ where
         node: &'ast JSXClosingElement,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_closing_element(self, node, ast_path)
+        VisitAstPath::visit_jsx_closing_element(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_closing_fragment<'ast: 'r, 'r>(
@@ -17223,7 +17223,7 @@ where
         node: &'ast JSXClosingFragment,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_closing_fragment(self, node, ast_path)
+        VisitAstPath::visit_jsx_closing_fragment(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_element<'ast: 'r, 'r>(
@@ -17231,7 +17231,7 @@ where
         node: &'ast JSXElement,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_element(self, node, ast_path)
+        VisitAstPath::visit_jsx_element(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_element_child<'ast: 'r, 'r>(
@@ -17239,7 +17239,7 @@ where
         node: &'ast JSXElementChild,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_element_child(self, node, ast_path)
+        VisitAstPath::visit_jsx_element_child(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_element_childs<'ast: 'r, 'r>(
@@ -17247,7 +17247,7 @@ where
         node: &'ast [JSXElementChild],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_element_childs(self, node, ast_path)
+        VisitAstPath::visit_jsx_element_childs(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_element_name<'ast: 'r, 'r>(
@@ -17255,7 +17255,7 @@ where
         node: &'ast JSXElementName,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_element_name(self, node, ast_path)
+        VisitAstPath::visit_jsx_element_name(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_empty_expr<'ast: 'r, 'r>(
@@ -17263,7 +17263,7 @@ where
         node: &'ast JSXEmptyExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_empty_expr(self, node, ast_path)
+        VisitAstPath::visit_jsx_empty_expr(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_expr<'ast: 'r, 'r>(
@@ -17271,7 +17271,7 @@ where
         node: &'ast JSXExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_expr(self, node, ast_path)
+        VisitAstPath::visit_jsx_expr(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_expr_container<'ast: 'r, 'r>(
@@ -17279,7 +17279,7 @@ where
         node: &'ast JSXExprContainer,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_expr_container(self, node, ast_path)
+        VisitAstPath::visit_jsx_expr_container(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_fragment<'ast: 'r, 'r>(
@@ -17287,7 +17287,7 @@ where
         node: &'ast JSXFragment,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_fragment(self, node, ast_path)
+        VisitAstPath::visit_jsx_fragment(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_member_expr<'ast: 'r, 'r>(
@@ -17295,7 +17295,7 @@ where
         node: &'ast JSXMemberExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_member_expr(self, node, ast_path)
+        VisitAstPath::visit_jsx_member_expr(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_namespaced_name<'ast: 'r, 'r>(
@@ -17303,7 +17303,7 @@ where
         node: &'ast JSXNamespacedName,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_namespaced_name(self, node, ast_path)
+        VisitAstPath::visit_jsx_namespaced_name(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_object<'ast: 'r, 'r>(
@@ -17311,7 +17311,7 @@ where
         node: &'ast JSXObject,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_object(self, node, ast_path)
+        VisitAstPath::visit_jsx_object(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_opening_element<'ast: 'r, 'r>(
@@ -17319,7 +17319,7 @@ where
         node: &'ast JSXOpeningElement,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_opening_element(self, node, ast_path)
+        VisitAstPath::visit_jsx_opening_element(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_opening_fragment<'ast: 'r, 'r>(
@@ -17327,7 +17327,7 @@ where
         node: &'ast JSXOpeningFragment,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_opening_fragment(self, node, ast_path)
+        VisitAstPath::visit_jsx_opening_fragment(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_spread_child<'ast: 'r, 'r>(
@@ -17335,7 +17335,7 @@ where
         node: &'ast JSXSpreadChild,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_spread_child(self, node, ast_path)
+        VisitAstPath::visit_jsx_spread_child(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_text<'ast: 'r, 'r>(
@@ -17343,11 +17343,11 @@ where
         node: &'ast JSXText,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_text(self, node, ast_path)
+        VisitAstPath::visit_jsx_text(&mut **self, node, ast_path)
     }
 
     fn visit_key<'ast: 'r, 'r>(&mut self, node: &'ast Key, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_key(self, node, ast_path)
+        VisitAstPath::visit_key(&mut **self, node, ast_path)
     }
 
     fn visit_key_value_pat_prop<'ast: 'r, 'r>(
@@ -17355,7 +17355,7 @@ where
         node: &'ast KeyValuePatProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_key_value_pat_prop(self, node, ast_path)
+        VisitAstPath::visit_key_value_pat_prop(&mut **self, node, ast_path)
     }
 
     fn visit_key_value_prop<'ast: 'r, 'r>(
@@ -17363,7 +17363,7 @@ where
         node: &'ast KeyValueProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_key_value_prop(self, node, ast_path)
+        VisitAstPath::visit_key_value_prop(&mut **self, node, ast_path)
     }
 
     fn visit_labeled_stmt<'ast: 'r, 'r>(
@@ -17371,11 +17371,11 @@ where
         node: &'ast LabeledStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_labeled_stmt(self, node, ast_path)
+        VisitAstPath::visit_labeled_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_lit<'ast: 'r, 'r>(&mut self, node: &'ast Lit, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_lit(self, node, ast_path)
+        VisitAstPath::visit_lit(&mut **self, node, ast_path)
     }
 
     fn visit_member_expr<'ast: 'r, 'r>(
@@ -17383,7 +17383,7 @@ where
         node: &'ast MemberExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_member_expr(self, node, ast_path)
+        VisitAstPath::visit_member_expr(&mut **self, node, ast_path)
     }
 
     fn visit_member_prop<'ast: 'r, 'r>(
@@ -17391,7 +17391,7 @@ where
         node: &'ast MemberProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_member_prop(self, node, ast_path)
+        VisitAstPath::visit_member_prop(&mut **self, node, ast_path)
     }
 
     fn visit_meta_prop_expr<'ast: 'r, 'r>(
@@ -17399,7 +17399,7 @@ where
         node: &'ast MetaPropExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_meta_prop_expr(self, node, ast_path)
+        VisitAstPath::visit_meta_prop_expr(&mut **self, node, ast_path)
     }
 
     fn visit_meta_prop_kind<'ast: 'r, 'r>(
@@ -17407,7 +17407,7 @@ where
         node: &'ast MetaPropKind,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_meta_prop_kind(self, node, ast_path)
+        VisitAstPath::visit_meta_prop_kind(&mut **self, node, ast_path)
     }
 
     fn visit_method_kind<'ast: 'r, 'r>(
@@ -17415,7 +17415,7 @@ where
         node: &'ast MethodKind,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_method_kind(self, node, ast_path)
+        VisitAstPath::visit_method_kind(&mut **self, node, ast_path)
     }
 
     fn visit_method_prop<'ast: 'r, 'r>(
@@ -17423,11 +17423,11 @@ where
         node: &'ast MethodProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_method_prop(self, node, ast_path)
+        VisitAstPath::visit_method_prop(&mut **self, node, ast_path)
     }
 
     fn visit_module<'ast: 'r, 'r>(&mut self, node: &'ast Module, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_module(self, node, ast_path)
+        VisitAstPath::visit_module(&mut **self, node, ast_path)
     }
 
     fn visit_module_decl<'ast: 'r, 'r>(
@@ -17435,7 +17435,7 @@ where
         node: &'ast ModuleDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_module_decl(self, node, ast_path)
+        VisitAstPath::visit_module_decl(&mut **self, node, ast_path)
     }
 
     fn visit_module_export_name<'ast: 'r, 'r>(
@@ -17443,7 +17443,7 @@ where
         node: &'ast ModuleExportName,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_module_export_name(self, node, ast_path)
+        VisitAstPath::visit_module_export_name(&mut **self, node, ast_path)
     }
 
     fn visit_module_item<'ast: 'r, 'r>(
@@ -17451,7 +17451,7 @@ where
         node: &'ast ModuleItem,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_module_item(self, node, ast_path)
+        VisitAstPath::visit_module_item(&mut **self, node, ast_path)
     }
 
     fn visit_module_items<'ast: 'r, 'r>(
@@ -17459,7 +17459,7 @@ where
         node: &'ast [ModuleItem],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_module_items(self, node, ast_path)
+        VisitAstPath::visit_module_items(&mut **self, node, ast_path)
     }
 
     fn visit_named_export<'ast: 'r, 'r>(
@@ -17467,7 +17467,7 @@ where
         node: &'ast NamedExport,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_named_export(self, node, ast_path)
+        VisitAstPath::visit_named_export(&mut **self, node, ast_path)
     }
 
     fn visit_new_expr<'ast: 'r, 'r>(
@@ -17475,15 +17475,15 @@ where
         node: &'ast NewExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_new_expr(self, node, ast_path)
+        VisitAstPath::visit_new_expr(&mut **self, node, ast_path)
     }
 
     fn visit_null<'ast: 'r, 'r>(&mut self, node: &'ast Null, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_null(self, node, ast_path)
+        VisitAstPath::visit_null(&mut **self, node, ast_path)
     }
 
     fn visit_number<'ast: 'r, 'r>(&mut self, node: &'ast Number, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_number(self, node, ast_path)
+        VisitAstPath::visit_number(&mut **self, node, ast_path)
     }
 
     fn visit_object_lit<'ast: 'r, 'r>(
@@ -17491,7 +17491,7 @@ where
         node: &'ast ObjectLit,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_object_lit(self, node, ast_path)
+        VisitAstPath::visit_object_lit(&mut **self, node, ast_path)
     }
 
     fn visit_object_pat<'ast: 'r, 'r>(
@@ -17499,7 +17499,7 @@ where
         node: &'ast ObjectPat,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_object_pat(self, node, ast_path)
+        VisitAstPath::visit_object_pat(&mut **self, node, ast_path)
     }
 
     fn visit_object_pat_prop<'ast: 'r, 'r>(
@@ -17507,7 +17507,7 @@ where
         node: &'ast ObjectPatProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_object_pat_prop(self, node, ast_path)
+        VisitAstPath::visit_object_pat_prop(&mut **self, node, ast_path)
     }
 
     fn visit_object_pat_props<'ast: 'r, 'r>(
@@ -17515,7 +17515,7 @@ where
         node: &'ast [ObjectPatProp],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_object_pat_props(self, node, ast_path)
+        VisitAstPath::visit_object_pat_props(&mut **self, node, ast_path)
     }
 
     fn visit_opt_accessibility<'ast: 'r, 'r>(
@@ -17523,7 +17523,7 @@ where
         node: &'ast Option<Accessibility>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_accessibility(self, node, ast_path)
+        VisitAstPath::visit_opt_accessibility(&mut **self, node, ast_path)
     }
 
     fn visit_opt_atom<'ast: 'r, 'r>(
@@ -17531,7 +17531,7 @@ where
         node: &'ast Option<swc_atoms::Atom>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_atom(self, node, ast_path)
+        VisitAstPath::visit_opt_atom(&mut **self, node, ast_path)
     }
 
     fn visit_opt_block_stmt<'ast: 'r, 'r>(
@@ -17539,7 +17539,7 @@ where
         node: &'ast Option<BlockStmt>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_block_stmt(self, node, ast_path)
+        VisitAstPath::visit_opt_block_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_opt_call<'ast: 'r, 'r>(
@@ -17547,7 +17547,7 @@ where
         node: &'ast OptCall,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_call(self, node, ast_path)
+        VisitAstPath::visit_opt_call(&mut **self, node, ast_path)
     }
 
     fn visit_opt_catch_clause<'ast: 'r, 'r>(
@@ -17555,7 +17555,7 @@ where
         node: &'ast Option<CatchClause>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_catch_clause(self, node, ast_path)
+        VisitAstPath::visit_opt_catch_clause(&mut **self, node, ast_path)
     }
 
     fn visit_opt_chain_base<'ast: 'r, 'r>(
@@ -17563,7 +17563,7 @@ where
         node: &'ast OptChainBase,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_chain_base(self, node, ast_path)
+        VisitAstPath::visit_opt_chain_base(&mut **self, node, ast_path)
     }
 
     fn visit_opt_chain_expr<'ast: 'r, 'r>(
@@ -17571,7 +17571,7 @@ where
         node: &'ast OptChainExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_chain_expr(self, node, ast_path)
+        VisitAstPath::visit_opt_chain_expr(&mut **self, node, ast_path)
     }
 
     fn visit_opt_expr<'ast: 'r, 'r>(
@@ -17579,7 +17579,7 @@ where
         node: &'ast Option<Box<Expr>>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_expr(self, node, ast_path)
+        VisitAstPath::visit_opt_expr(&mut **self, node, ast_path)
     }
 
     fn visit_opt_expr_or_spread<'ast: 'r, 'r>(
@@ -17587,7 +17587,7 @@ where
         node: &'ast Option<ExprOrSpread>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_expr_or_spread(self, node, ast_path)
+        VisitAstPath::visit_opt_expr_or_spread(&mut **self, node, ast_path)
     }
 
     fn visit_opt_expr_or_spreads<'ast: 'r, 'r>(
@@ -17595,7 +17595,7 @@ where
         node: &'ast Option<Vec<ExprOrSpread>>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_expr_or_spreads(self, node, ast_path)
+        VisitAstPath::visit_opt_expr_or_spreads(&mut **self, node, ast_path)
     }
 
     fn visit_opt_ident<'ast: 'r, 'r>(
@@ -17603,7 +17603,7 @@ where
         node: &'ast Option<Ident>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_ident(self, node, ast_path)
+        VisitAstPath::visit_opt_ident(&mut **self, node, ast_path)
     }
 
     fn visit_opt_jsx_attr_value<'ast: 'r, 'r>(
@@ -17611,7 +17611,7 @@ where
         node: &'ast Option<JSXAttrValue>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_jsx_attr_value(self, node, ast_path)
+        VisitAstPath::visit_opt_jsx_attr_value(&mut **self, node, ast_path)
     }
 
     fn visit_opt_jsx_closing_element<'ast: 'r, 'r>(
@@ -17619,7 +17619,7 @@ where
         node: &'ast Option<JSXClosingElement>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_jsx_closing_element(self, node, ast_path)
+        VisitAstPath::visit_opt_jsx_closing_element(&mut **self, node, ast_path)
     }
 
     fn visit_opt_module_export_name<'ast: 'r, 'r>(
@@ -17627,7 +17627,7 @@ where
         node: &'ast Option<ModuleExportName>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_module_export_name(self, node, ast_path)
+        VisitAstPath::visit_opt_module_export_name(&mut **self, node, ast_path)
     }
 
     fn visit_opt_module_items<'ast: 'r, 'r>(
@@ -17635,7 +17635,7 @@ where
         node: &'ast Option<Vec<ModuleItem>>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_module_items(self, node, ast_path)
+        VisitAstPath::visit_opt_module_items(&mut **self, node, ast_path)
     }
 
     fn visit_opt_object_lit<'ast: 'r, 'r>(
@@ -17643,7 +17643,7 @@ where
         node: &'ast Option<Box<ObjectLit>>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_object_lit(self, node, ast_path)
+        VisitAstPath::visit_opt_object_lit(&mut **self, node, ast_path)
     }
 
     fn visit_opt_pat<'ast: 'r, 'r>(
@@ -17651,7 +17651,7 @@ where
         node: &'ast Option<Pat>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_pat(self, node, ast_path)
+        VisitAstPath::visit_opt_pat(&mut **self, node, ast_path)
     }
 
     fn visit_opt_span<'ast: 'r, 'r>(
@@ -17659,7 +17659,7 @@ where
         node: &'ast Option<swc_common::Span>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_span(self, node, ast_path)
+        VisitAstPath::visit_opt_span(&mut **self, node, ast_path)
     }
 
     fn visit_opt_stmt<'ast: 'r, 'r>(
@@ -17667,7 +17667,7 @@ where
         node: &'ast Option<Box<Stmt>>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_stmt(self, node, ast_path)
+        VisitAstPath::visit_opt_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_opt_str<'ast: 'r, 'r>(
@@ -17675,7 +17675,7 @@ where
         node: &'ast Option<Box<Str>>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_str(self, node, ast_path)
+        VisitAstPath::visit_opt_str(&mut **self, node, ast_path)
     }
 
     fn visit_opt_true_plus_minus<'ast: 'r, 'r>(
@@ -17683,7 +17683,7 @@ where
         node: &'ast Option<TruePlusMinus>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_true_plus_minus(self, node, ast_path)
+        VisitAstPath::visit_opt_true_plus_minus(&mut **self, node, ast_path)
     }
 
     fn visit_opt_ts_entity_name<'ast: 'r, 'r>(
@@ -17691,7 +17691,7 @@ where
         node: &'ast Option<TsEntityName>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_ts_entity_name(self, node, ast_path)
+        VisitAstPath::visit_opt_ts_entity_name(&mut **self, node, ast_path)
     }
 
     fn visit_opt_ts_namespace_body<'ast: 'r, 'r>(
@@ -17699,7 +17699,7 @@ where
         node: &'ast Option<TsNamespaceBody>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_ts_namespace_body(self, node, ast_path)
+        VisitAstPath::visit_opt_ts_namespace_body(&mut **self, node, ast_path)
     }
 
     fn visit_opt_ts_type<'ast: 'r, 'r>(
@@ -17707,7 +17707,7 @@ where
         node: &'ast Option<Box<TsType>>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_ts_type(self, node, ast_path)
+        VisitAstPath::visit_opt_ts_type(&mut **self, node, ast_path)
     }
 
     fn visit_opt_ts_type_ann<'ast: 'r, 'r>(
@@ -17715,7 +17715,7 @@ where
         node: &'ast Option<Box<TsTypeAnn>>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_ts_type_ann(self, node, ast_path)
+        VisitAstPath::visit_opt_ts_type_ann(&mut **self, node, ast_path)
     }
 
     fn visit_opt_ts_type_param_decl<'ast: 'r, 'r>(
@@ -17723,7 +17723,7 @@ where
         node: &'ast Option<Box<TsTypeParamDecl>>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_ts_type_param_decl(self, node, ast_path)
+        VisitAstPath::visit_opt_ts_type_param_decl(&mut **self, node, ast_path)
     }
 
     fn visit_opt_ts_type_param_instantiation<'ast: 'r, 'r>(
@@ -17731,7 +17731,7 @@ where
         node: &'ast Option<Box<TsTypeParamInstantiation>>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_ts_type_param_instantiation(self, node, ast_path)
+        VisitAstPath::visit_opt_ts_type_param_instantiation(&mut **self, node, ast_path)
     }
 
     fn visit_opt_var_decl_or_expr<'ast: 'r, 'r>(
@@ -17739,7 +17739,7 @@ where
         node: &'ast Option<VarDeclOrExpr>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_var_decl_or_expr(self, node, ast_path)
+        VisitAstPath::visit_opt_var_decl_or_expr(&mut **self, node, ast_path)
     }
 
     fn visit_opt_vec_expr_or_spreads<'ast: 'r, 'r>(
@@ -17747,7 +17747,7 @@ where
         node: &'ast [Option<ExprOrSpread>],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_vec_expr_or_spreads(self, node, ast_path)
+        VisitAstPath::visit_opt_vec_expr_or_spreads(&mut **self, node, ast_path)
     }
 
     fn visit_opt_vec_pats<'ast: 'r, 'r>(
@@ -17755,11 +17755,11 @@ where
         node: &'ast [Option<Pat>],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_vec_pats(self, node, ast_path)
+        VisitAstPath::visit_opt_vec_pats(&mut **self, node, ast_path)
     }
 
     fn visit_param<'ast: 'r, 'r>(&mut self, node: &'ast Param, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_param(self, node, ast_path)
+        VisitAstPath::visit_param(&mut **self, node, ast_path)
     }
 
     fn visit_param_or_ts_param_prop<'ast: 'r, 'r>(
@@ -17767,7 +17767,7 @@ where
         node: &'ast ParamOrTsParamProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_param_or_ts_param_prop(self, node, ast_path)
+        VisitAstPath::visit_param_or_ts_param_prop(&mut **self, node, ast_path)
     }
 
     fn visit_param_or_ts_param_props<'ast: 'r, 'r>(
@@ -17775,11 +17775,11 @@ where
         node: &'ast [ParamOrTsParamProp],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_param_or_ts_param_props(self, node, ast_path)
+        VisitAstPath::visit_param_or_ts_param_props(&mut **self, node, ast_path)
     }
 
     fn visit_params<'ast: 'r, 'r>(&mut self, node: &'ast [Param], ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_params(self, node, ast_path)
+        VisitAstPath::visit_params(&mut **self, node, ast_path)
     }
 
     fn visit_paren_expr<'ast: 'r, 'r>(
@@ -17787,15 +17787,15 @@ where
         node: &'ast ParenExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_paren_expr(self, node, ast_path)
+        VisitAstPath::visit_paren_expr(&mut **self, node, ast_path)
     }
 
     fn visit_pat<'ast: 'r, 'r>(&mut self, node: &'ast Pat, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_pat(self, node, ast_path)
+        VisitAstPath::visit_pat(&mut **self, node, ast_path)
     }
 
     fn visit_pats<'ast: 'r, 'r>(&mut self, node: &'ast [Pat], ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_pats(self, node, ast_path)
+        VisitAstPath::visit_pats(&mut **self, node, ast_path)
     }
 
     fn visit_private_method<'ast: 'r, 'r>(
@@ -17803,7 +17803,7 @@ where
         node: &'ast PrivateMethod,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_private_method(self, node, ast_path)
+        VisitAstPath::visit_private_method(&mut **self, node, ast_path)
     }
 
     fn visit_private_name<'ast: 'r, 'r>(
@@ -17811,7 +17811,7 @@ where
         node: &'ast PrivateName,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_private_name(self, node, ast_path)
+        VisitAstPath::visit_private_name(&mut **self, node, ast_path)
     }
 
     fn visit_private_prop<'ast: 'r, 'r>(
@@ -17819,15 +17819,15 @@ where
         node: &'ast PrivateProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_private_prop(self, node, ast_path)
+        VisitAstPath::visit_private_prop(&mut **self, node, ast_path)
     }
 
     fn visit_program<'ast: 'r, 'r>(&mut self, node: &'ast Program, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_program(self, node, ast_path)
+        VisitAstPath::visit_program(&mut **self, node, ast_path)
     }
 
     fn visit_prop<'ast: 'r, 'r>(&mut self, node: &'ast Prop, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_prop(self, node, ast_path)
+        VisitAstPath::visit_prop(&mut **self, node, ast_path)
     }
 
     fn visit_prop_name<'ast: 'r, 'r>(
@@ -17835,7 +17835,7 @@ where
         node: &'ast PropName,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_prop_name(self, node, ast_path)
+        VisitAstPath::visit_prop_name(&mut **self, node, ast_path)
     }
 
     fn visit_prop_or_spread<'ast: 'r, 'r>(
@@ -17843,7 +17843,7 @@ where
         node: &'ast PropOrSpread,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_prop_or_spread(self, node, ast_path)
+        VisitAstPath::visit_prop_or_spread(&mut **self, node, ast_path)
     }
 
     fn visit_prop_or_spreads<'ast: 'r, 'r>(
@@ -17851,11 +17851,11 @@ where
         node: &'ast [PropOrSpread],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_prop_or_spreads(self, node, ast_path)
+        VisitAstPath::visit_prop_or_spreads(&mut **self, node, ast_path)
     }
 
     fn visit_regex<'ast: 'r, 'r>(&mut self, node: &'ast Regex, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_regex(self, node, ast_path)
+        VisitAstPath::visit_regex(&mut **self, node, ast_path)
     }
 
     fn visit_reserved_unused<'ast: 'r, 'r>(
@@ -17863,7 +17863,7 @@ where
         node: &'ast ReservedUnused,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_reserved_unused(self, node, ast_path)
+        VisitAstPath::visit_reserved_unused(&mut **self, node, ast_path)
     }
 
     fn visit_rest_pat<'ast: 'r, 'r>(
@@ -17871,7 +17871,7 @@ where
         node: &'ast RestPat,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_rest_pat(self, node, ast_path)
+        VisitAstPath::visit_rest_pat(&mut **self, node, ast_path)
     }
 
     fn visit_return_stmt<'ast: 'r, 'r>(
@@ -17879,11 +17879,11 @@ where
         node: &'ast ReturnStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_return_stmt(self, node, ast_path)
+        VisitAstPath::visit_return_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_script<'ast: 'r, 'r>(&mut self, node: &'ast Script, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_script(self, node, ast_path)
+        VisitAstPath::visit_script(&mut **self, node, ast_path)
     }
 
     fn visit_seq_expr<'ast: 'r, 'r>(
@@ -17891,7 +17891,7 @@ where
         node: &'ast SeqExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_seq_expr(self, node, ast_path)
+        VisitAstPath::visit_seq_expr(&mut **self, node, ast_path)
     }
 
     fn visit_setter_prop<'ast: 'r, 'r>(
@@ -17899,7 +17899,7 @@ where
         node: &'ast SetterProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_setter_prop(self, node, ast_path)
+        VisitAstPath::visit_setter_prop(&mut **self, node, ast_path)
     }
 
     fn visit_simple_assign_target<'ast: 'r, 'r>(
@@ -17907,7 +17907,7 @@ where
         node: &'ast SimpleAssignTarget,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_simple_assign_target(self, node, ast_path)
+        VisitAstPath::visit_simple_assign_target(&mut **self, node, ast_path)
     }
 
     fn visit_span<'ast: 'r, 'r>(
@@ -17915,7 +17915,7 @@ where
         node: &'ast swc_common::Span,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_span(self, node, ast_path)
+        VisitAstPath::visit_span(&mut **self, node, ast_path)
     }
 
     fn visit_spread_element<'ast: 'r, 'r>(
@@ -17923,7 +17923,7 @@ where
         node: &'ast SpreadElement,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_spread_element(self, node, ast_path)
+        VisitAstPath::visit_spread_element(&mut **self, node, ast_path)
     }
 
     fn visit_static_block<'ast: 'r, 'r>(
@@ -17931,23 +17931,23 @@ where
         node: &'ast StaticBlock,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_static_block(self, node, ast_path)
+        VisitAstPath::visit_static_block(&mut **self, node, ast_path)
     }
 
     fn visit_stmt<'ast: 'r, 'r>(&mut self, node: &'ast Stmt, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_stmt(self, node, ast_path)
+        VisitAstPath::visit_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_stmts<'ast: 'r, 'r>(&mut self, node: &'ast [Stmt], ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_stmts(self, node, ast_path)
+        VisitAstPath::visit_stmts(&mut **self, node, ast_path)
     }
 
     fn visit_str<'ast: 'r, 'r>(&mut self, node: &'ast Str, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_str(self, node, ast_path)
+        VisitAstPath::visit_str(&mut **self, node, ast_path)
     }
 
     fn visit_super<'ast: 'r, 'r>(&mut self, node: &'ast Super, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_super(self, node, ast_path)
+        VisitAstPath::visit_super(&mut **self, node, ast_path)
     }
 
     fn visit_super_prop<'ast: 'r, 'r>(
@@ -17955,7 +17955,7 @@ where
         node: &'ast SuperProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_super_prop(self, node, ast_path)
+        VisitAstPath::visit_super_prop(&mut **self, node, ast_path)
     }
 
     fn visit_super_prop_expr<'ast: 'r, 'r>(
@@ -17963,7 +17963,7 @@ where
         node: &'ast SuperPropExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_super_prop_expr(self, node, ast_path)
+        VisitAstPath::visit_super_prop_expr(&mut **self, node, ast_path)
     }
 
     fn visit_switch_case<'ast: 'r, 'r>(
@@ -17971,7 +17971,7 @@ where
         node: &'ast SwitchCase,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_switch_case(self, node, ast_path)
+        VisitAstPath::visit_switch_case(&mut **self, node, ast_path)
     }
 
     fn visit_switch_cases<'ast: 'r, 'r>(
@@ -17979,7 +17979,7 @@ where
         node: &'ast [SwitchCase],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_switch_cases(self, node, ast_path)
+        VisitAstPath::visit_switch_cases(&mut **self, node, ast_path)
     }
 
     fn visit_switch_stmt<'ast: 'r, 'r>(
@@ -17987,7 +17987,7 @@ where
         node: &'ast SwitchStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_switch_stmt(self, node, ast_path)
+        VisitAstPath::visit_switch_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_syntax_context<'ast: 'r, 'r>(
@@ -17995,7 +17995,7 @@ where
         node: &'ast swc_common::SyntaxContext,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_syntax_context(self, node, ast_path)
+        VisitAstPath::visit_syntax_context(&mut **self, node, ast_path)
     }
 
     fn visit_tagged_tpl<'ast: 'r, 'r>(
@@ -18003,7 +18003,7 @@ where
         node: &'ast TaggedTpl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_tagged_tpl(self, node, ast_path)
+        VisitAstPath::visit_tagged_tpl(&mut **self, node, ast_path)
     }
 
     fn visit_this_expr<'ast: 'r, 'r>(
@@ -18011,7 +18011,7 @@ where
         node: &'ast ThisExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_this_expr(self, node, ast_path)
+        VisitAstPath::visit_this_expr(&mut **self, node, ast_path)
     }
 
     fn visit_throw_stmt<'ast: 'r, 'r>(
@@ -18019,11 +18019,11 @@ where
         node: &'ast ThrowStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_throw_stmt(self, node, ast_path)
+        VisitAstPath::visit_throw_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_tpl<'ast: 'r, 'r>(&mut self, node: &'ast Tpl, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_tpl(self, node, ast_path)
+        VisitAstPath::visit_tpl(&mut **self, node, ast_path)
     }
 
     fn visit_tpl_element<'ast: 'r, 'r>(
@@ -18031,7 +18031,7 @@ where
         node: &'ast TplElement,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_tpl_element(self, node, ast_path)
+        VisitAstPath::visit_tpl_element(&mut **self, node, ast_path)
     }
 
     fn visit_tpl_elements<'ast: 'r, 'r>(
@@ -18039,7 +18039,7 @@ where
         node: &'ast [TplElement],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_tpl_elements(self, node, ast_path)
+        VisitAstPath::visit_tpl_elements(&mut **self, node, ast_path)
     }
 
     fn visit_true_plus_minus<'ast: 'r, 'r>(
@@ -18047,7 +18047,7 @@ where
         node: &'ast TruePlusMinus,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_true_plus_minus(self, node, ast_path)
+        VisitAstPath::visit_true_plus_minus(&mut **self, node, ast_path)
     }
 
     fn visit_try_stmt<'ast: 'r, 'r>(
@@ -18055,7 +18055,7 @@ where
         node: &'ast TryStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_try_stmt(self, node, ast_path)
+        VisitAstPath::visit_try_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_ts_array_type<'ast: 'r, 'r>(
@@ -18063,7 +18063,7 @@ where
         node: &'ast TsArrayType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_array_type(self, node, ast_path)
+        VisitAstPath::visit_ts_array_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_as_expr<'ast: 'r, 'r>(
@@ -18071,7 +18071,7 @@ where
         node: &'ast TsAsExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_as_expr(self, node, ast_path)
+        VisitAstPath::visit_ts_as_expr(&mut **self, node, ast_path)
     }
 
     fn visit_ts_call_signature_decl<'ast: 'r, 'r>(
@@ -18079,7 +18079,7 @@ where
         node: &'ast TsCallSignatureDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_call_signature_decl(self, node, ast_path)
+        VisitAstPath::visit_ts_call_signature_decl(&mut **self, node, ast_path)
     }
 
     fn visit_ts_conditional_type<'ast: 'r, 'r>(
@@ -18087,7 +18087,7 @@ where
         node: &'ast TsConditionalType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_conditional_type(self, node, ast_path)
+        VisitAstPath::visit_ts_conditional_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_const_assertion<'ast: 'r, 'r>(
@@ -18095,7 +18095,7 @@ where
         node: &'ast TsConstAssertion,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_const_assertion(self, node, ast_path)
+        VisitAstPath::visit_ts_const_assertion(&mut **self, node, ast_path)
     }
 
     fn visit_ts_construct_signature_decl<'ast: 'r, 'r>(
@@ -18103,7 +18103,7 @@ where
         node: &'ast TsConstructSignatureDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_construct_signature_decl(self, node, ast_path)
+        VisitAstPath::visit_ts_construct_signature_decl(&mut **self, node, ast_path)
     }
 
     fn visit_ts_constructor_type<'ast: 'r, 'r>(
@@ -18111,7 +18111,7 @@ where
         node: &'ast TsConstructorType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_constructor_type(self, node, ast_path)
+        VisitAstPath::visit_ts_constructor_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_entity_name<'ast: 'r, 'r>(
@@ -18119,7 +18119,7 @@ where
         node: &'ast TsEntityName,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_entity_name(self, node, ast_path)
+        VisitAstPath::visit_ts_entity_name(&mut **self, node, ast_path)
     }
 
     fn visit_ts_enum_decl<'ast: 'r, 'r>(
@@ -18127,7 +18127,7 @@ where
         node: &'ast TsEnumDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_enum_decl(self, node, ast_path)
+        VisitAstPath::visit_ts_enum_decl(&mut **self, node, ast_path)
     }
 
     fn visit_ts_enum_member<'ast: 'r, 'r>(
@@ -18135,7 +18135,7 @@ where
         node: &'ast TsEnumMember,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_enum_member(self, node, ast_path)
+        VisitAstPath::visit_ts_enum_member(&mut **self, node, ast_path)
     }
 
     fn visit_ts_enum_member_id<'ast: 'r, 'r>(
@@ -18143,7 +18143,7 @@ where
         node: &'ast TsEnumMemberId,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_enum_member_id(self, node, ast_path)
+        VisitAstPath::visit_ts_enum_member_id(&mut **self, node, ast_path)
     }
 
     fn visit_ts_enum_members<'ast: 'r, 'r>(
@@ -18151,7 +18151,7 @@ where
         node: &'ast [TsEnumMember],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_enum_members(self, node, ast_path)
+        VisitAstPath::visit_ts_enum_members(&mut **self, node, ast_path)
     }
 
     fn visit_ts_export_assignment<'ast: 'r, 'r>(
@@ -18159,7 +18159,7 @@ where
         node: &'ast TsExportAssignment,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_export_assignment(self, node, ast_path)
+        VisitAstPath::visit_ts_export_assignment(&mut **self, node, ast_path)
     }
 
     fn visit_ts_expr_with_type_args<'ast: 'r, 'r>(
@@ -18167,7 +18167,7 @@ where
         node: &'ast TsExprWithTypeArgs,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_expr_with_type_args(self, node, ast_path)
+        VisitAstPath::visit_ts_expr_with_type_args(&mut **self, node, ast_path)
     }
 
     fn visit_ts_expr_with_type_argss<'ast: 'r, 'r>(
@@ -18175,7 +18175,7 @@ where
         node: &'ast [TsExprWithTypeArgs],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_expr_with_type_argss(self, node, ast_path)
+        VisitAstPath::visit_ts_expr_with_type_argss(&mut **self, node, ast_path)
     }
 
     fn visit_ts_external_module_ref<'ast: 'r, 'r>(
@@ -18183,7 +18183,7 @@ where
         node: &'ast TsExternalModuleRef,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_external_module_ref(self, node, ast_path)
+        VisitAstPath::visit_ts_external_module_ref(&mut **self, node, ast_path)
     }
 
     fn visit_ts_fn_or_constructor_type<'ast: 'r, 'r>(
@@ -18191,7 +18191,7 @@ where
         node: &'ast TsFnOrConstructorType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_fn_or_constructor_type(self, node, ast_path)
+        VisitAstPath::visit_ts_fn_or_constructor_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_fn_param<'ast: 'r, 'r>(
@@ -18199,7 +18199,7 @@ where
         node: &'ast TsFnParam,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_fn_param(self, node, ast_path)
+        VisitAstPath::visit_ts_fn_param(&mut **self, node, ast_path)
     }
 
     fn visit_ts_fn_params<'ast: 'r, 'r>(
@@ -18207,7 +18207,7 @@ where
         node: &'ast [TsFnParam],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_fn_params(self, node, ast_path)
+        VisitAstPath::visit_ts_fn_params(&mut **self, node, ast_path)
     }
 
     fn visit_ts_fn_type<'ast: 'r, 'r>(
@@ -18215,7 +18215,7 @@ where
         node: &'ast TsFnType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_fn_type(self, node, ast_path)
+        VisitAstPath::visit_ts_fn_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_getter_signature<'ast: 'r, 'r>(
@@ -18223,7 +18223,7 @@ where
         node: &'ast TsGetterSignature,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_getter_signature(self, node, ast_path)
+        VisitAstPath::visit_ts_getter_signature(&mut **self, node, ast_path)
     }
 
     fn visit_ts_import_equals_decl<'ast: 'r, 'r>(
@@ -18231,7 +18231,7 @@ where
         node: &'ast TsImportEqualsDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_import_equals_decl(self, node, ast_path)
+        VisitAstPath::visit_ts_import_equals_decl(&mut **self, node, ast_path)
     }
 
     fn visit_ts_import_type<'ast: 'r, 'r>(
@@ -18239,7 +18239,7 @@ where
         node: &'ast TsImportType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_import_type(self, node, ast_path)
+        VisitAstPath::visit_ts_import_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_index_signature<'ast: 'r, 'r>(
@@ -18247,7 +18247,7 @@ where
         node: &'ast TsIndexSignature,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_index_signature(self, node, ast_path)
+        VisitAstPath::visit_ts_index_signature(&mut **self, node, ast_path)
     }
 
     fn visit_ts_indexed_access_type<'ast: 'r, 'r>(
@@ -18255,7 +18255,7 @@ where
         node: &'ast TsIndexedAccessType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_indexed_access_type(self, node, ast_path)
+        VisitAstPath::visit_ts_indexed_access_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_infer_type<'ast: 'r, 'r>(
@@ -18263,7 +18263,7 @@ where
         node: &'ast TsInferType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_infer_type(self, node, ast_path)
+        VisitAstPath::visit_ts_infer_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_instantiation<'ast: 'r, 'r>(
@@ -18271,7 +18271,7 @@ where
         node: &'ast TsInstantiation,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_instantiation(self, node, ast_path)
+        VisitAstPath::visit_ts_instantiation(&mut **self, node, ast_path)
     }
 
     fn visit_ts_interface_body<'ast: 'r, 'r>(
@@ -18279,7 +18279,7 @@ where
         node: &'ast TsInterfaceBody,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_interface_body(self, node, ast_path)
+        VisitAstPath::visit_ts_interface_body(&mut **self, node, ast_path)
     }
 
     fn visit_ts_interface_decl<'ast: 'r, 'r>(
@@ -18287,7 +18287,7 @@ where
         node: &'ast TsInterfaceDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_interface_decl(self, node, ast_path)
+        VisitAstPath::visit_ts_interface_decl(&mut **self, node, ast_path)
     }
 
     fn visit_ts_intersection_type<'ast: 'r, 'r>(
@@ -18295,7 +18295,7 @@ where
         node: &'ast TsIntersectionType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_intersection_type(self, node, ast_path)
+        VisitAstPath::visit_ts_intersection_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_keyword_type<'ast: 'r, 'r>(
@@ -18303,7 +18303,7 @@ where
         node: &'ast TsKeywordType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_keyword_type(self, node, ast_path)
+        VisitAstPath::visit_ts_keyword_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_keyword_type_kind<'ast: 'r, 'r>(
@@ -18311,11 +18311,11 @@ where
         node: &'ast TsKeywordTypeKind,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_keyword_type_kind(self, node, ast_path)
+        VisitAstPath::visit_ts_keyword_type_kind(&mut **self, node, ast_path)
     }
 
     fn visit_ts_lit<'ast: 'r, 'r>(&mut self, node: &'ast TsLit, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_ts_lit(self, node, ast_path)
+        VisitAstPath::visit_ts_lit(&mut **self, node, ast_path)
     }
 
     fn visit_ts_lit_type<'ast: 'r, 'r>(
@@ -18323,7 +18323,7 @@ where
         node: &'ast TsLitType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_lit_type(self, node, ast_path)
+        VisitAstPath::visit_ts_lit_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_mapped_type<'ast: 'r, 'r>(
@@ -18331,7 +18331,7 @@ where
         node: &'ast TsMappedType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_mapped_type(self, node, ast_path)
+        VisitAstPath::visit_ts_mapped_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_method_signature<'ast: 'r, 'r>(
@@ -18339,7 +18339,7 @@ where
         node: &'ast TsMethodSignature,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_method_signature(self, node, ast_path)
+        VisitAstPath::visit_ts_method_signature(&mut **self, node, ast_path)
     }
 
     fn visit_ts_module_block<'ast: 'r, 'r>(
@@ -18347,7 +18347,7 @@ where
         node: &'ast TsModuleBlock,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_module_block(self, node, ast_path)
+        VisitAstPath::visit_ts_module_block(&mut **self, node, ast_path)
     }
 
     fn visit_ts_module_decl<'ast: 'r, 'r>(
@@ -18355,7 +18355,7 @@ where
         node: &'ast TsModuleDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_module_decl(self, node, ast_path)
+        VisitAstPath::visit_ts_module_decl(&mut **self, node, ast_path)
     }
 
     fn visit_ts_module_name<'ast: 'r, 'r>(
@@ -18363,7 +18363,7 @@ where
         node: &'ast TsModuleName,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_module_name(self, node, ast_path)
+        VisitAstPath::visit_ts_module_name(&mut **self, node, ast_path)
     }
 
     fn visit_ts_module_ref<'ast: 'r, 'r>(
@@ -18371,7 +18371,7 @@ where
         node: &'ast TsModuleRef,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_module_ref(self, node, ast_path)
+        VisitAstPath::visit_ts_module_ref(&mut **self, node, ast_path)
     }
 
     fn visit_ts_namespace_body<'ast: 'r, 'r>(
@@ -18379,7 +18379,7 @@ where
         node: &'ast TsNamespaceBody,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_namespace_body(self, node, ast_path)
+        VisitAstPath::visit_ts_namespace_body(&mut **self, node, ast_path)
     }
 
     fn visit_ts_namespace_decl<'ast: 'r, 'r>(
@@ -18387,7 +18387,7 @@ where
         node: &'ast TsNamespaceDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_namespace_decl(self, node, ast_path)
+        VisitAstPath::visit_ts_namespace_decl(&mut **self, node, ast_path)
     }
 
     fn visit_ts_namespace_export_decl<'ast: 'r, 'r>(
@@ -18395,7 +18395,7 @@ where
         node: &'ast TsNamespaceExportDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_namespace_export_decl(self, node, ast_path)
+        VisitAstPath::visit_ts_namespace_export_decl(&mut **self, node, ast_path)
     }
 
     fn visit_ts_non_null_expr<'ast: 'r, 'r>(
@@ -18403,7 +18403,7 @@ where
         node: &'ast TsNonNullExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_non_null_expr(self, node, ast_path)
+        VisitAstPath::visit_ts_non_null_expr(&mut **self, node, ast_path)
     }
 
     fn visit_ts_optional_type<'ast: 'r, 'r>(
@@ -18411,7 +18411,7 @@ where
         node: &'ast TsOptionalType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_optional_type(self, node, ast_path)
+        VisitAstPath::visit_ts_optional_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_param_prop<'ast: 'r, 'r>(
@@ -18419,7 +18419,7 @@ where
         node: &'ast TsParamProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_param_prop(self, node, ast_path)
+        VisitAstPath::visit_ts_param_prop(&mut **self, node, ast_path)
     }
 
     fn visit_ts_param_prop_param<'ast: 'r, 'r>(
@@ -18427,7 +18427,7 @@ where
         node: &'ast TsParamPropParam,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_param_prop_param(self, node, ast_path)
+        VisitAstPath::visit_ts_param_prop_param(&mut **self, node, ast_path)
     }
 
     fn visit_ts_parenthesized_type<'ast: 'r, 'r>(
@@ -18435,7 +18435,7 @@ where
         node: &'ast TsParenthesizedType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_parenthesized_type(self, node, ast_path)
+        VisitAstPath::visit_ts_parenthesized_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_property_signature<'ast: 'r, 'r>(
@@ -18443,7 +18443,7 @@ where
         node: &'ast TsPropertySignature,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_property_signature(self, node, ast_path)
+        VisitAstPath::visit_ts_property_signature(&mut **self, node, ast_path)
     }
 
     fn visit_ts_qualified_name<'ast: 'r, 'r>(
@@ -18451,7 +18451,7 @@ where
         node: &'ast TsQualifiedName,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_qualified_name(self, node, ast_path)
+        VisitAstPath::visit_ts_qualified_name(&mut **self, node, ast_path)
     }
 
     fn visit_ts_rest_type<'ast: 'r, 'r>(
@@ -18459,7 +18459,7 @@ where
         node: &'ast TsRestType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_rest_type(self, node, ast_path)
+        VisitAstPath::visit_ts_rest_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_satisfies_expr<'ast: 'r, 'r>(
@@ -18467,7 +18467,7 @@ where
         node: &'ast TsSatisfiesExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_satisfies_expr(self, node, ast_path)
+        VisitAstPath::visit_ts_satisfies_expr(&mut **self, node, ast_path)
     }
 
     fn visit_ts_setter_signature<'ast: 'r, 'r>(
@@ -18475,7 +18475,7 @@ where
         node: &'ast TsSetterSignature,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_setter_signature(self, node, ast_path)
+        VisitAstPath::visit_ts_setter_signature(&mut **self, node, ast_path)
     }
 
     fn visit_ts_this_type<'ast: 'r, 'r>(
@@ -18483,7 +18483,7 @@ where
         node: &'ast TsThisType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_this_type(self, node, ast_path)
+        VisitAstPath::visit_ts_this_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_this_type_or_ident<'ast: 'r, 'r>(
@@ -18491,7 +18491,7 @@ where
         node: &'ast TsThisTypeOrIdent,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_this_type_or_ident(self, node, ast_path)
+        VisitAstPath::visit_ts_this_type_or_ident(&mut **self, node, ast_path)
     }
 
     fn visit_ts_tpl_lit_type<'ast: 'r, 'r>(
@@ -18499,7 +18499,7 @@ where
         node: &'ast TsTplLitType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_tpl_lit_type(self, node, ast_path)
+        VisitAstPath::visit_ts_tpl_lit_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_tuple_element<'ast: 'r, 'r>(
@@ -18507,7 +18507,7 @@ where
         node: &'ast TsTupleElement,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_tuple_element(self, node, ast_path)
+        VisitAstPath::visit_ts_tuple_element(&mut **self, node, ast_path)
     }
 
     fn visit_ts_tuple_elements<'ast: 'r, 'r>(
@@ -18515,7 +18515,7 @@ where
         node: &'ast [TsTupleElement],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_tuple_elements(self, node, ast_path)
+        VisitAstPath::visit_ts_tuple_elements(&mut **self, node, ast_path)
     }
 
     fn visit_ts_tuple_type<'ast: 'r, 'r>(
@@ -18523,11 +18523,11 @@ where
         node: &'ast TsTupleType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_tuple_type(self, node, ast_path)
+        VisitAstPath::visit_ts_tuple_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_type<'ast: 'r, 'r>(&mut self, node: &'ast TsType, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_ts_type(self, node, ast_path)
+        VisitAstPath::visit_ts_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_type_alias_decl<'ast: 'r, 'r>(
@@ -18535,7 +18535,7 @@ where
         node: &'ast TsTypeAliasDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_type_alias_decl(self, node, ast_path)
+        VisitAstPath::visit_ts_type_alias_decl(&mut **self, node, ast_path)
     }
 
     fn visit_ts_type_ann<'ast: 'r, 'r>(
@@ -18543,7 +18543,7 @@ where
         node: &'ast TsTypeAnn,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_type_ann(self, node, ast_path)
+        VisitAstPath::visit_ts_type_ann(&mut **self, node, ast_path)
     }
 
     fn visit_ts_type_assertion<'ast: 'r, 'r>(
@@ -18551,7 +18551,7 @@ where
         node: &'ast TsTypeAssertion,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_type_assertion(self, node, ast_path)
+        VisitAstPath::visit_ts_type_assertion(&mut **self, node, ast_path)
     }
 
     fn visit_ts_type_element<'ast: 'r, 'r>(
@@ -18559,7 +18559,7 @@ where
         node: &'ast TsTypeElement,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_type_element(self, node, ast_path)
+        VisitAstPath::visit_ts_type_element(&mut **self, node, ast_path)
     }
 
     fn visit_ts_type_elements<'ast: 'r, 'r>(
@@ -18567,7 +18567,7 @@ where
         node: &'ast [TsTypeElement],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_type_elements(self, node, ast_path)
+        VisitAstPath::visit_ts_type_elements(&mut **self, node, ast_path)
     }
 
     fn visit_ts_type_lit<'ast: 'r, 'r>(
@@ -18575,7 +18575,7 @@ where
         node: &'ast TsTypeLit,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_type_lit(self, node, ast_path)
+        VisitAstPath::visit_ts_type_lit(&mut **self, node, ast_path)
     }
 
     fn visit_ts_type_operator<'ast: 'r, 'r>(
@@ -18583,7 +18583,7 @@ where
         node: &'ast TsTypeOperator,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_type_operator(self, node, ast_path)
+        VisitAstPath::visit_ts_type_operator(&mut **self, node, ast_path)
     }
 
     fn visit_ts_type_operator_op<'ast: 'r, 'r>(
@@ -18591,7 +18591,7 @@ where
         node: &'ast TsTypeOperatorOp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_type_operator_op(self, node, ast_path)
+        VisitAstPath::visit_ts_type_operator_op(&mut **self, node, ast_path)
     }
 
     fn visit_ts_type_param<'ast: 'r, 'r>(
@@ -18599,7 +18599,7 @@ where
         node: &'ast TsTypeParam,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_type_param(self, node, ast_path)
+        VisitAstPath::visit_ts_type_param(&mut **self, node, ast_path)
     }
 
     fn visit_ts_type_param_decl<'ast: 'r, 'r>(
@@ -18607,7 +18607,7 @@ where
         node: &'ast TsTypeParamDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_type_param_decl(self, node, ast_path)
+        VisitAstPath::visit_ts_type_param_decl(&mut **self, node, ast_path)
     }
 
     fn visit_ts_type_param_instantiation<'ast: 'r, 'r>(
@@ -18615,7 +18615,7 @@ where
         node: &'ast TsTypeParamInstantiation,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_type_param_instantiation(self, node, ast_path)
+        VisitAstPath::visit_ts_type_param_instantiation(&mut **self, node, ast_path)
     }
 
     fn visit_ts_type_params<'ast: 'r, 'r>(
@@ -18623,7 +18623,7 @@ where
         node: &'ast [TsTypeParam],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_type_params(self, node, ast_path)
+        VisitAstPath::visit_ts_type_params(&mut **self, node, ast_path)
     }
 
     fn visit_ts_type_predicate<'ast: 'r, 'r>(
@@ -18631,7 +18631,7 @@ where
         node: &'ast TsTypePredicate,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_type_predicate(self, node, ast_path)
+        VisitAstPath::visit_ts_type_predicate(&mut **self, node, ast_path)
     }
 
     fn visit_ts_type_query<'ast: 'r, 'r>(
@@ -18639,7 +18639,7 @@ where
         node: &'ast TsTypeQuery,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_type_query(self, node, ast_path)
+        VisitAstPath::visit_ts_type_query(&mut **self, node, ast_path)
     }
 
     fn visit_ts_type_query_expr<'ast: 'r, 'r>(
@@ -18647,7 +18647,7 @@ where
         node: &'ast TsTypeQueryExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_type_query_expr(self, node, ast_path)
+        VisitAstPath::visit_ts_type_query_expr(&mut **self, node, ast_path)
     }
 
     fn visit_ts_type_ref<'ast: 'r, 'r>(
@@ -18655,7 +18655,7 @@ where
         node: &'ast TsTypeRef,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_type_ref(self, node, ast_path)
+        VisitAstPath::visit_ts_type_ref(&mut **self, node, ast_path)
     }
 
     fn visit_ts_types<'ast: 'r, 'r>(
@@ -18663,7 +18663,7 @@ where
         node: &'ast [Box<TsType>],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_types(self, node, ast_path)
+        VisitAstPath::visit_ts_types(&mut **self, node, ast_path)
     }
 
     fn visit_ts_union_or_intersection_type<'ast: 'r, 'r>(
@@ -18671,7 +18671,7 @@ where
         node: &'ast TsUnionOrIntersectionType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_union_or_intersection_type(self, node, ast_path)
+        VisitAstPath::visit_ts_union_or_intersection_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_union_type<'ast: 'r, 'r>(
@@ -18679,7 +18679,7 @@ where
         node: &'ast TsUnionType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_union_type(self, node, ast_path)
+        VisitAstPath::visit_ts_union_type(&mut **self, node, ast_path)
     }
 
     fn visit_unary_expr<'ast: 'r, 'r>(
@@ -18687,7 +18687,7 @@ where
         node: &'ast UnaryExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_unary_expr(self, node, ast_path)
+        VisitAstPath::visit_unary_expr(&mut **self, node, ast_path)
     }
 
     fn visit_unary_op<'ast: 'r, 'r>(
@@ -18695,7 +18695,7 @@ where
         node: &'ast UnaryOp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_unary_op(self, node, ast_path)
+        VisitAstPath::visit_unary_op(&mut **self, node, ast_path)
     }
 
     fn visit_update_expr<'ast: 'r, 'r>(
@@ -18703,7 +18703,7 @@ where
         node: &'ast UpdateExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_update_expr(self, node, ast_path)
+        VisitAstPath::visit_update_expr(&mut **self, node, ast_path)
     }
 
     fn visit_update_op<'ast: 'r, 'r>(
@@ -18711,7 +18711,7 @@ where
         node: &'ast UpdateOp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_update_op(self, node, ast_path)
+        VisitAstPath::visit_update_op(&mut **self, node, ast_path)
     }
 
     fn visit_using_decl<'ast: 'r, 'r>(
@@ -18719,7 +18719,7 @@ where
         node: &'ast UsingDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_using_decl(self, node, ast_path)
+        VisitAstPath::visit_using_decl(&mut **self, node, ast_path)
     }
 
     fn visit_var_decl<'ast: 'r, 'r>(
@@ -18727,7 +18727,7 @@ where
         node: &'ast VarDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_var_decl(self, node, ast_path)
+        VisitAstPath::visit_var_decl(&mut **self, node, ast_path)
     }
 
     fn visit_var_decl_kind<'ast: 'r, 'r>(
@@ -18735,7 +18735,7 @@ where
         node: &'ast VarDeclKind,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_var_decl_kind(self, node, ast_path)
+        VisitAstPath::visit_var_decl_kind(&mut **self, node, ast_path)
     }
 
     fn visit_var_decl_or_expr<'ast: 'r, 'r>(
@@ -18743,7 +18743,7 @@ where
         node: &'ast VarDeclOrExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_var_decl_or_expr(self, node, ast_path)
+        VisitAstPath::visit_var_decl_or_expr(&mut **self, node, ast_path)
     }
 
     fn visit_var_declarator<'ast: 'r, 'r>(
@@ -18751,7 +18751,7 @@ where
         node: &'ast VarDeclarator,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_var_declarator(self, node, ast_path)
+        VisitAstPath::visit_var_declarator(&mut **self, node, ast_path)
     }
 
     fn visit_var_declarators<'ast: 'r, 'r>(
@@ -18759,7 +18759,7 @@ where
         node: &'ast [VarDeclarator],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_var_declarators(self, node, ast_path)
+        VisitAstPath::visit_var_declarators(&mut **self, node, ast_path)
     }
 
     fn visit_while_stmt<'ast: 'r, 'r>(
@@ -18767,7 +18767,7 @@ where
         node: &'ast WhileStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_while_stmt(self, node, ast_path)
+        VisitAstPath::visit_while_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_with_stmt<'ast: 'r, 'r>(
@@ -18775,7 +18775,7 @@ where
         node: &'ast WithStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_with_stmt(self, node, ast_path)
+        VisitAstPath::visit_with_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_yield_expr<'ast: 'r, 'r>(
@@ -18783,7 +18783,7 @@ where
         node: &'ast YieldExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_yield_expr(self, node, ast_path)
+        VisitAstPath::visit_yield_expr(&mut **self, node, ast_path)
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -18797,7 +18797,7 @@ where
         node: &'ast Accessibility,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_accessibility(self, node, ast_path)
+        VisitAstPath::visit_accessibility(&mut **self, node, ast_path)
     }
 
     fn visit_array_lit<'ast: 'r, 'r>(
@@ -18805,7 +18805,7 @@ where
         node: &'ast ArrayLit,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_array_lit(self, node, ast_path)
+        VisitAstPath::visit_array_lit(&mut **self, node, ast_path)
     }
 
     fn visit_array_pat<'ast: 'r, 'r>(
@@ -18813,7 +18813,7 @@ where
         node: &'ast ArrayPat,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_array_pat(self, node, ast_path)
+        VisitAstPath::visit_array_pat(&mut **self, node, ast_path)
     }
 
     fn visit_arrow_expr<'ast: 'r, 'r>(
@@ -18821,7 +18821,7 @@ where
         node: &'ast ArrowExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_arrow_expr(self, node, ast_path)
+        VisitAstPath::visit_arrow_expr(&mut **self, node, ast_path)
     }
 
     fn visit_assign_expr<'ast: 'r, 'r>(
@@ -18829,7 +18829,7 @@ where
         node: &'ast AssignExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_assign_expr(self, node, ast_path)
+        VisitAstPath::visit_assign_expr(&mut **self, node, ast_path)
     }
 
     fn visit_assign_op<'ast: 'r, 'r>(
@@ -18837,7 +18837,7 @@ where
         node: &'ast AssignOp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_assign_op(self, node, ast_path)
+        VisitAstPath::visit_assign_op(&mut **self, node, ast_path)
     }
 
     fn visit_assign_pat<'ast: 'r, 'r>(
@@ -18845,7 +18845,7 @@ where
         node: &'ast AssignPat,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_assign_pat(self, node, ast_path)
+        VisitAstPath::visit_assign_pat(&mut **self, node, ast_path)
     }
 
     fn visit_assign_pat_prop<'ast: 'r, 'r>(
@@ -18853,7 +18853,7 @@ where
         node: &'ast AssignPatProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_assign_pat_prop(self, node, ast_path)
+        VisitAstPath::visit_assign_pat_prop(&mut **self, node, ast_path)
     }
 
     fn visit_assign_prop<'ast: 'r, 'r>(
@@ -18861,7 +18861,7 @@ where
         node: &'ast AssignProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_assign_prop(self, node, ast_path)
+        VisitAstPath::visit_assign_prop(&mut **self, node, ast_path)
     }
 
     fn visit_assign_target<'ast: 'r, 'r>(
@@ -18869,7 +18869,7 @@ where
         node: &'ast AssignTarget,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_assign_target(self, node, ast_path)
+        VisitAstPath::visit_assign_target(&mut **self, node, ast_path)
     }
 
     fn visit_assign_target_pat<'ast: 'r, 'r>(
@@ -18877,7 +18877,7 @@ where
         node: &'ast AssignTargetPat,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_assign_target_pat(self, node, ast_path)
+        VisitAstPath::visit_assign_target_pat(&mut **self, node, ast_path)
     }
 
     fn visit_atom<'ast: 'r, 'r>(
@@ -18885,7 +18885,7 @@ where
         node: &'ast swc_atoms::Atom,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_atom(self, node, ast_path)
+        VisitAstPath::visit_atom(&mut **self, node, ast_path)
     }
 
     fn visit_auto_accessor<'ast: 'r, 'r>(
@@ -18893,7 +18893,7 @@ where
         node: &'ast AutoAccessor,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_auto_accessor(self, node, ast_path)
+        VisitAstPath::visit_auto_accessor(&mut **self, node, ast_path)
     }
 
     fn visit_await_expr<'ast: 'r, 'r>(
@@ -18901,11 +18901,11 @@ where
         node: &'ast AwaitExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_await_expr(self, node, ast_path)
+        VisitAstPath::visit_await_expr(&mut **self, node, ast_path)
     }
 
     fn visit_big_int<'ast: 'r, 'r>(&mut self, node: &'ast BigInt, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_big_int(self, node, ast_path)
+        VisitAstPath::visit_big_int(&mut **self, node, ast_path)
     }
 
     fn visit_big_int_value<'ast: 'r, 'r>(
@@ -18913,7 +18913,7 @@ where
         node: &'ast BigIntValue,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_big_int_value(self, node, ast_path)
+        VisitAstPath::visit_big_int_value(&mut **self, node, ast_path)
     }
 
     fn visit_bin_expr<'ast: 'r, 'r>(
@@ -18921,7 +18921,7 @@ where
         node: &'ast BinExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_bin_expr(self, node, ast_path)
+        VisitAstPath::visit_bin_expr(&mut **self, node, ast_path)
     }
 
     fn visit_binary_op<'ast: 'r, 'r>(
@@ -18929,7 +18929,7 @@ where
         node: &'ast BinaryOp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_binary_op(self, node, ast_path)
+        VisitAstPath::visit_binary_op(&mut **self, node, ast_path)
     }
 
     fn visit_binding_ident<'ast: 'r, 'r>(
@@ -18937,7 +18937,7 @@ where
         node: &'ast BindingIdent,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_binding_ident(self, node, ast_path)
+        VisitAstPath::visit_binding_ident(&mut **self, node, ast_path)
     }
 
     fn visit_block_stmt<'ast: 'r, 'r>(
@@ -18945,7 +18945,7 @@ where
         node: &'ast BlockStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_block_stmt(self, node, ast_path)
+        VisitAstPath::visit_block_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_block_stmt_or_expr<'ast: 'r, 'r>(
@@ -18953,11 +18953,11 @@ where
         node: &'ast BlockStmtOrExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_block_stmt_or_expr(self, node, ast_path)
+        VisitAstPath::visit_block_stmt_or_expr(&mut **self, node, ast_path)
     }
 
     fn visit_bool<'ast: 'r, 'r>(&mut self, node: &'ast Bool, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_bool(self, node, ast_path)
+        VisitAstPath::visit_bool(&mut **self, node, ast_path)
     }
 
     fn visit_break_stmt<'ast: 'r, 'r>(
@@ -18965,7 +18965,7 @@ where
         node: &'ast BreakStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_break_stmt(self, node, ast_path)
+        VisitAstPath::visit_break_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_call_expr<'ast: 'r, 'r>(
@@ -18973,11 +18973,11 @@ where
         node: &'ast CallExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_call_expr(self, node, ast_path)
+        VisitAstPath::visit_call_expr(&mut **self, node, ast_path)
     }
 
     fn visit_callee<'ast: 'r, 'r>(&mut self, node: &'ast Callee, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_callee(self, node, ast_path)
+        VisitAstPath::visit_callee(&mut **self, node, ast_path)
     }
 
     fn visit_catch_clause<'ast: 'r, 'r>(
@@ -18985,11 +18985,11 @@ where
         node: &'ast CatchClause,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_catch_clause(self, node, ast_path)
+        VisitAstPath::visit_catch_clause(&mut **self, node, ast_path)
     }
 
     fn visit_class<'ast: 'r, 'r>(&mut self, node: &'ast Class, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_class(self, node, ast_path)
+        VisitAstPath::visit_class(&mut **self, node, ast_path)
     }
 
     fn visit_class_decl<'ast: 'r, 'r>(
@@ -18997,7 +18997,7 @@ where
         node: &'ast ClassDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_class_decl(self, node, ast_path)
+        VisitAstPath::visit_class_decl(&mut **self, node, ast_path)
     }
 
     fn visit_class_expr<'ast: 'r, 'r>(
@@ -19005,7 +19005,7 @@ where
         node: &'ast ClassExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_class_expr(self, node, ast_path)
+        VisitAstPath::visit_class_expr(&mut **self, node, ast_path)
     }
 
     fn visit_class_member<'ast: 'r, 'r>(
@@ -19013,7 +19013,7 @@ where
         node: &'ast ClassMember,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_class_member(self, node, ast_path)
+        VisitAstPath::visit_class_member(&mut **self, node, ast_path)
     }
 
     fn visit_class_members<'ast: 'r, 'r>(
@@ -19021,7 +19021,7 @@ where
         node: &'ast [ClassMember],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_class_members(self, node, ast_path)
+        VisitAstPath::visit_class_members(&mut **self, node, ast_path)
     }
 
     fn visit_class_method<'ast: 'r, 'r>(
@@ -19029,7 +19029,7 @@ where
         node: &'ast ClassMethod,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_class_method(self, node, ast_path)
+        VisitAstPath::visit_class_method(&mut **self, node, ast_path)
     }
 
     fn visit_class_prop<'ast: 'r, 'r>(
@@ -19037,7 +19037,7 @@ where
         node: &'ast ClassProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_class_prop(self, node, ast_path)
+        VisitAstPath::visit_class_prop(&mut **self, node, ast_path)
     }
 
     fn visit_computed_prop_name<'ast: 'r, 'r>(
@@ -19045,7 +19045,7 @@ where
         node: &'ast ComputedPropName,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_computed_prop_name(self, node, ast_path)
+        VisitAstPath::visit_computed_prop_name(&mut **self, node, ast_path)
     }
 
     fn visit_cond_expr<'ast: 'r, 'r>(
@@ -19053,7 +19053,7 @@ where
         node: &'ast CondExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_cond_expr(self, node, ast_path)
+        VisitAstPath::visit_cond_expr(&mut **self, node, ast_path)
     }
 
     fn visit_constructor<'ast: 'r, 'r>(
@@ -19061,7 +19061,7 @@ where
         node: &'ast Constructor,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_constructor(self, node, ast_path)
+        VisitAstPath::visit_constructor(&mut **self, node, ast_path)
     }
 
     fn visit_continue_stmt<'ast: 'r, 'r>(
@@ -19069,7 +19069,7 @@ where
         node: &'ast ContinueStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_continue_stmt(self, node, ast_path)
+        VisitAstPath::visit_continue_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_debugger_stmt<'ast: 'r, 'r>(
@@ -19077,11 +19077,11 @@ where
         node: &'ast DebuggerStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_debugger_stmt(self, node, ast_path)
+        VisitAstPath::visit_debugger_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_decl<'ast: 'r, 'r>(&mut self, node: &'ast Decl, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_decl(self, node, ast_path)
+        VisitAstPath::visit_decl(&mut **self, node, ast_path)
     }
 
     fn visit_decorator<'ast: 'r, 'r>(
@@ -19089,7 +19089,7 @@ where
         node: &'ast Decorator,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_decorator(self, node, ast_path)
+        VisitAstPath::visit_decorator(&mut **self, node, ast_path)
     }
 
     fn visit_decorators<'ast: 'r, 'r>(
@@ -19097,7 +19097,7 @@ where
         node: &'ast [Decorator],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_decorators(self, node, ast_path)
+        VisitAstPath::visit_decorators(&mut **self, node, ast_path)
     }
 
     fn visit_default_decl<'ast: 'r, 'r>(
@@ -19105,7 +19105,7 @@ where
         node: &'ast DefaultDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_default_decl(self, node, ast_path)
+        VisitAstPath::visit_default_decl(&mut **self, node, ast_path)
     }
 
     fn visit_do_while_stmt<'ast: 'r, 'r>(
@@ -19113,7 +19113,7 @@ where
         node: &'ast DoWhileStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_do_while_stmt(self, node, ast_path)
+        VisitAstPath::visit_do_while_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_empty_stmt<'ast: 'r, 'r>(
@@ -19121,7 +19121,7 @@ where
         node: &'ast EmptyStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_empty_stmt(self, node, ast_path)
+        VisitAstPath::visit_empty_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_es_version<'ast: 'r, 'r>(
@@ -19129,7 +19129,7 @@ where
         node: &'ast EsVersion,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_es_version(self, node, ast_path)
+        VisitAstPath::visit_es_version(&mut **self, node, ast_path)
     }
 
     fn visit_export_all<'ast: 'r, 'r>(
@@ -19137,7 +19137,7 @@ where
         node: &'ast ExportAll,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_export_all(self, node, ast_path)
+        VisitAstPath::visit_export_all(&mut **self, node, ast_path)
     }
 
     fn visit_export_decl<'ast: 'r, 'r>(
@@ -19145,7 +19145,7 @@ where
         node: &'ast ExportDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_export_decl(self, node, ast_path)
+        VisitAstPath::visit_export_decl(&mut **self, node, ast_path)
     }
 
     fn visit_export_default_decl<'ast: 'r, 'r>(
@@ -19153,7 +19153,7 @@ where
         node: &'ast ExportDefaultDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_export_default_decl(self, node, ast_path)
+        VisitAstPath::visit_export_default_decl(&mut **self, node, ast_path)
     }
 
     fn visit_export_default_expr<'ast: 'r, 'r>(
@@ -19161,7 +19161,7 @@ where
         node: &'ast ExportDefaultExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_export_default_expr(self, node, ast_path)
+        VisitAstPath::visit_export_default_expr(&mut **self, node, ast_path)
     }
 
     fn visit_export_default_specifier<'ast: 'r, 'r>(
@@ -19169,7 +19169,7 @@ where
         node: &'ast ExportDefaultSpecifier,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_export_default_specifier(self, node, ast_path)
+        VisitAstPath::visit_export_default_specifier(&mut **self, node, ast_path)
     }
 
     fn visit_export_named_specifier<'ast: 'r, 'r>(
@@ -19177,7 +19177,7 @@ where
         node: &'ast ExportNamedSpecifier,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_export_named_specifier(self, node, ast_path)
+        VisitAstPath::visit_export_named_specifier(&mut **self, node, ast_path)
     }
 
     fn visit_export_namespace_specifier<'ast: 'r, 'r>(
@@ -19185,7 +19185,7 @@ where
         node: &'ast ExportNamespaceSpecifier,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_export_namespace_specifier(self, node, ast_path)
+        VisitAstPath::visit_export_namespace_specifier(&mut **self, node, ast_path)
     }
 
     fn visit_export_specifier<'ast: 'r, 'r>(
@@ -19193,7 +19193,7 @@ where
         node: &'ast ExportSpecifier,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_export_specifier(self, node, ast_path)
+        VisitAstPath::visit_export_specifier(&mut **self, node, ast_path)
     }
 
     fn visit_export_specifiers<'ast: 'r, 'r>(
@@ -19201,11 +19201,11 @@ where
         node: &'ast [ExportSpecifier],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_export_specifiers(self, node, ast_path)
+        VisitAstPath::visit_export_specifiers(&mut **self, node, ast_path)
     }
 
     fn visit_expr<'ast: 'r, 'r>(&mut self, node: &'ast Expr, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_expr(self, node, ast_path)
+        VisitAstPath::visit_expr(&mut **self, node, ast_path)
     }
 
     fn visit_expr_or_spread<'ast: 'r, 'r>(
@@ -19213,7 +19213,7 @@ where
         node: &'ast ExprOrSpread,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_expr_or_spread(self, node, ast_path)
+        VisitAstPath::visit_expr_or_spread(&mut **self, node, ast_path)
     }
 
     fn visit_expr_or_spreads<'ast: 'r, 'r>(
@@ -19221,7 +19221,7 @@ where
         node: &'ast [ExprOrSpread],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_expr_or_spreads(self, node, ast_path)
+        VisitAstPath::visit_expr_or_spreads(&mut **self, node, ast_path)
     }
 
     fn visit_expr_stmt<'ast: 'r, 'r>(
@@ -19229,7 +19229,7 @@ where
         node: &'ast ExprStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_expr_stmt(self, node, ast_path)
+        VisitAstPath::visit_expr_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_exprs<'ast: 'r, 'r>(
@@ -19237,15 +19237,15 @@ where
         node: &'ast [Box<Expr>],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_exprs(self, node, ast_path)
+        VisitAstPath::visit_exprs(&mut **self, node, ast_path)
     }
 
     fn visit_fn_decl<'ast: 'r, 'r>(&mut self, node: &'ast FnDecl, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_fn_decl(self, node, ast_path)
+        VisitAstPath::visit_fn_decl(&mut **self, node, ast_path)
     }
 
     fn visit_fn_expr<'ast: 'r, 'r>(&mut self, node: &'ast FnExpr, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_fn_expr(self, node, ast_path)
+        VisitAstPath::visit_fn_expr(&mut **self, node, ast_path)
     }
 
     fn visit_for_head<'ast: 'r, 'r>(
@@ -19253,7 +19253,7 @@ where
         node: &'ast ForHead,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_for_head(self, node, ast_path)
+        VisitAstPath::visit_for_head(&mut **self, node, ast_path)
     }
 
     fn visit_for_in_stmt<'ast: 'r, 'r>(
@@ -19261,7 +19261,7 @@ where
         node: &'ast ForInStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_for_in_stmt(self, node, ast_path)
+        VisitAstPath::visit_for_in_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_for_of_stmt<'ast: 'r, 'r>(
@@ -19269,7 +19269,7 @@ where
         node: &'ast ForOfStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_for_of_stmt(self, node, ast_path)
+        VisitAstPath::visit_for_of_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_for_stmt<'ast: 'r, 'r>(
@@ -19277,7 +19277,7 @@ where
         node: &'ast ForStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_for_stmt(self, node, ast_path)
+        VisitAstPath::visit_for_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_function<'ast: 'r, 'r>(
@@ -19285,7 +19285,7 @@ where
         node: &'ast Function,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_function(self, node, ast_path)
+        VisitAstPath::visit_function(&mut **self, node, ast_path)
     }
 
     fn visit_getter_prop<'ast: 'r, 'r>(
@@ -19293,11 +19293,11 @@ where
         node: &'ast GetterProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_getter_prop(self, node, ast_path)
+        VisitAstPath::visit_getter_prop(&mut **self, node, ast_path)
     }
 
     fn visit_ident<'ast: 'r, 'r>(&mut self, node: &'ast Ident, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_ident(self, node, ast_path)
+        VisitAstPath::visit_ident(&mut **self, node, ast_path)
     }
 
     fn visit_ident_name<'ast: 'r, 'r>(
@@ -19305,15 +19305,15 @@ where
         node: &'ast IdentName,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ident_name(self, node, ast_path)
+        VisitAstPath::visit_ident_name(&mut **self, node, ast_path)
     }
 
     fn visit_if_stmt<'ast: 'r, 'r>(&mut self, node: &'ast IfStmt, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_if_stmt(self, node, ast_path)
+        VisitAstPath::visit_if_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_import<'ast: 'r, 'r>(&mut self, node: &'ast Import, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_import(self, node, ast_path)
+        VisitAstPath::visit_import(&mut **self, node, ast_path)
     }
 
     fn visit_import_decl<'ast: 'r, 'r>(
@@ -19321,7 +19321,7 @@ where
         node: &'ast ImportDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_import_decl(self, node, ast_path)
+        VisitAstPath::visit_import_decl(&mut **self, node, ast_path)
     }
 
     fn visit_import_default_specifier<'ast: 'r, 'r>(
@@ -19329,7 +19329,7 @@ where
         node: &'ast ImportDefaultSpecifier,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_import_default_specifier(self, node, ast_path)
+        VisitAstPath::visit_import_default_specifier(&mut **self, node, ast_path)
     }
 
     fn visit_import_named_specifier<'ast: 'r, 'r>(
@@ -19337,7 +19337,7 @@ where
         node: &'ast ImportNamedSpecifier,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_import_named_specifier(self, node, ast_path)
+        VisitAstPath::visit_import_named_specifier(&mut **self, node, ast_path)
     }
 
     fn visit_import_phase<'ast: 'r, 'r>(
@@ -19345,7 +19345,7 @@ where
         node: &'ast ImportPhase,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_import_phase(self, node, ast_path)
+        VisitAstPath::visit_import_phase(&mut **self, node, ast_path)
     }
 
     fn visit_import_specifier<'ast: 'r, 'r>(
@@ -19353,7 +19353,7 @@ where
         node: &'ast ImportSpecifier,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_import_specifier(self, node, ast_path)
+        VisitAstPath::visit_import_specifier(&mut **self, node, ast_path)
     }
 
     fn visit_import_specifiers<'ast: 'r, 'r>(
@@ -19361,7 +19361,7 @@ where
         node: &'ast [ImportSpecifier],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_import_specifiers(self, node, ast_path)
+        VisitAstPath::visit_import_specifiers(&mut **self, node, ast_path)
     }
 
     fn visit_import_star_as_specifier<'ast: 'r, 'r>(
@@ -19369,7 +19369,7 @@ where
         node: &'ast ImportStarAsSpecifier,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_import_star_as_specifier(self, node, ast_path)
+        VisitAstPath::visit_import_star_as_specifier(&mut **self, node, ast_path)
     }
 
     fn visit_import_with<'ast: 'r, 'r>(
@@ -19377,7 +19377,7 @@ where
         node: &'ast ImportWith,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_import_with(self, node, ast_path)
+        VisitAstPath::visit_import_with(&mut **self, node, ast_path)
     }
 
     fn visit_import_with_item<'ast: 'r, 'r>(
@@ -19385,7 +19385,7 @@ where
         node: &'ast ImportWithItem,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_import_with_item(self, node, ast_path)
+        VisitAstPath::visit_import_with_item(&mut **self, node, ast_path)
     }
 
     fn visit_import_with_items<'ast: 'r, 'r>(
@@ -19393,11 +19393,11 @@ where
         node: &'ast [ImportWithItem],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_import_with_items(self, node, ast_path)
+        VisitAstPath::visit_import_with_items(&mut **self, node, ast_path)
     }
 
     fn visit_invalid<'ast: 'r, 'r>(&mut self, node: &'ast Invalid, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_invalid(self, node, ast_path)
+        VisitAstPath::visit_invalid(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_attr<'ast: 'r, 'r>(
@@ -19405,7 +19405,7 @@ where
         node: &'ast JSXAttr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_attr(self, node, ast_path)
+        VisitAstPath::visit_jsx_attr(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_attr_name<'ast: 'r, 'r>(
@@ -19413,7 +19413,7 @@ where
         node: &'ast JSXAttrName,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_attr_name(self, node, ast_path)
+        VisitAstPath::visit_jsx_attr_name(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_attr_or_spread<'ast: 'r, 'r>(
@@ -19421,7 +19421,7 @@ where
         node: &'ast JSXAttrOrSpread,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_attr_or_spread(self, node, ast_path)
+        VisitAstPath::visit_jsx_attr_or_spread(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_attr_or_spreads<'ast: 'r, 'r>(
@@ -19429,7 +19429,7 @@ where
         node: &'ast [JSXAttrOrSpread],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_attr_or_spreads(self, node, ast_path)
+        VisitAstPath::visit_jsx_attr_or_spreads(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_attr_value<'ast: 'r, 'r>(
@@ -19437,7 +19437,7 @@ where
         node: &'ast JSXAttrValue,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_attr_value(self, node, ast_path)
+        VisitAstPath::visit_jsx_attr_value(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_closing_element<'ast: 'r, 'r>(
@@ -19445,7 +19445,7 @@ where
         node: &'ast JSXClosingElement,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_closing_element(self, node, ast_path)
+        VisitAstPath::visit_jsx_closing_element(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_closing_fragment<'ast: 'r, 'r>(
@@ -19453,7 +19453,7 @@ where
         node: &'ast JSXClosingFragment,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_closing_fragment(self, node, ast_path)
+        VisitAstPath::visit_jsx_closing_fragment(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_element<'ast: 'r, 'r>(
@@ -19461,7 +19461,7 @@ where
         node: &'ast JSXElement,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_element(self, node, ast_path)
+        VisitAstPath::visit_jsx_element(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_element_child<'ast: 'r, 'r>(
@@ -19469,7 +19469,7 @@ where
         node: &'ast JSXElementChild,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_element_child(self, node, ast_path)
+        VisitAstPath::visit_jsx_element_child(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_element_childs<'ast: 'r, 'r>(
@@ -19477,7 +19477,7 @@ where
         node: &'ast [JSXElementChild],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_element_childs(self, node, ast_path)
+        VisitAstPath::visit_jsx_element_childs(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_element_name<'ast: 'r, 'r>(
@@ -19485,7 +19485,7 @@ where
         node: &'ast JSXElementName,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_element_name(self, node, ast_path)
+        VisitAstPath::visit_jsx_element_name(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_empty_expr<'ast: 'r, 'r>(
@@ -19493,7 +19493,7 @@ where
         node: &'ast JSXEmptyExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_empty_expr(self, node, ast_path)
+        VisitAstPath::visit_jsx_empty_expr(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_expr<'ast: 'r, 'r>(
@@ -19501,7 +19501,7 @@ where
         node: &'ast JSXExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_expr(self, node, ast_path)
+        VisitAstPath::visit_jsx_expr(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_expr_container<'ast: 'r, 'r>(
@@ -19509,7 +19509,7 @@ where
         node: &'ast JSXExprContainer,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_expr_container(self, node, ast_path)
+        VisitAstPath::visit_jsx_expr_container(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_fragment<'ast: 'r, 'r>(
@@ -19517,7 +19517,7 @@ where
         node: &'ast JSXFragment,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_fragment(self, node, ast_path)
+        VisitAstPath::visit_jsx_fragment(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_member_expr<'ast: 'r, 'r>(
@@ -19525,7 +19525,7 @@ where
         node: &'ast JSXMemberExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_member_expr(self, node, ast_path)
+        VisitAstPath::visit_jsx_member_expr(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_namespaced_name<'ast: 'r, 'r>(
@@ -19533,7 +19533,7 @@ where
         node: &'ast JSXNamespacedName,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_namespaced_name(self, node, ast_path)
+        VisitAstPath::visit_jsx_namespaced_name(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_object<'ast: 'r, 'r>(
@@ -19541,7 +19541,7 @@ where
         node: &'ast JSXObject,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_object(self, node, ast_path)
+        VisitAstPath::visit_jsx_object(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_opening_element<'ast: 'r, 'r>(
@@ -19549,7 +19549,7 @@ where
         node: &'ast JSXOpeningElement,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_opening_element(self, node, ast_path)
+        VisitAstPath::visit_jsx_opening_element(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_opening_fragment<'ast: 'r, 'r>(
@@ -19557,7 +19557,7 @@ where
         node: &'ast JSXOpeningFragment,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_opening_fragment(self, node, ast_path)
+        VisitAstPath::visit_jsx_opening_fragment(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_spread_child<'ast: 'r, 'r>(
@@ -19565,7 +19565,7 @@ where
         node: &'ast JSXSpreadChild,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_spread_child(self, node, ast_path)
+        VisitAstPath::visit_jsx_spread_child(&mut **self, node, ast_path)
     }
 
     fn visit_jsx_text<'ast: 'r, 'r>(
@@ -19573,11 +19573,11 @@ where
         node: &'ast JSXText,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_jsx_text(self, node, ast_path)
+        VisitAstPath::visit_jsx_text(&mut **self, node, ast_path)
     }
 
     fn visit_key<'ast: 'r, 'r>(&mut self, node: &'ast Key, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_key(self, node, ast_path)
+        VisitAstPath::visit_key(&mut **self, node, ast_path)
     }
 
     fn visit_key_value_pat_prop<'ast: 'r, 'r>(
@@ -19585,7 +19585,7 @@ where
         node: &'ast KeyValuePatProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_key_value_pat_prop(self, node, ast_path)
+        VisitAstPath::visit_key_value_pat_prop(&mut **self, node, ast_path)
     }
 
     fn visit_key_value_prop<'ast: 'r, 'r>(
@@ -19593,7 +19593,7 @@ where
         node: &'ast KeyValueProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_key_value_prop(self, node, ast_path)
+        VisitAstPath::visit_key_value_prop(&mut **self, node, ast_path)
     }
 
     fn visit_labeled_stmt<'ast: 'r, 'r>(
@@ -19601,11 +19601,11 @@ where
         node: &'ast LabeledStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_labeled_stmt(self, node, ast_path)
+        VisitAstPath::visit_labeled_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_lit<'ast: 'r, 'r>(&mut self, node: &'ast Lit, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_lit(self, node, ast_path)
+        VisitAstPath::visit_lit(&mut **self, node, ast_path)
     }
 
     fn visit_member_expr<'ast: 'r, 'r>(
@@ -19613,7 +19613,7 @@ where
         node: &'ast MemberExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_member_expr(self, node, ast_path)
+        VisitAstPath::visit_member_expr(&mut **self, node, ast_path)
     }
 
     fn visit_member_prop<'ast: 'r, 'r>(
@@ -19621,7 +19621,7 @@ where
         node: &'ast MemberProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_member_prop(self, node, ast_path)
+        VisitAstPath::visit_member_prop(&mut **self, node, ast_path)
     }
 
     fn visit_meta_prop_expr<'ast: 'r, 'r>(
@@ -19629,7 +19629,7 @@ where
         node: &'ast MetaPropExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_meta_prop_expr(self, node, ast_path)
+        VisitAstPath::visit_meta_prop_expr(&mut **self, node, ast_path)
     }
 
     fn visit_meta_prop_kind<'ast: 'r, 'r>(
@@ -19637,7 +19637,7 @@ where
         node: &'ast MetaPropKind,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_meta_prop_kind(self, node, ast_path)
+        VisitAstPath::visit_meta_prop_kind(&mut **self, node, ast_path)
     }
 
     fn visit_method_kind<'ast: 'r, 'r>(
@@ -19645,7 +19645,7 @@ where
         node: &'ast MethodKind,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_method_kind(self, node, ast_path)
+        VisitAstPath::visit_method_kind(&mut **self, node, ast_path)
     }
 
     fn visit_method_prop<'ast: 'r, 'r>(
@@ -19653,11 +19653,11 @@ where
         node: &'ast MethodProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_method_prop(self, node, ast_path)
+        VisitAstPath::visit_method_prop(&mut **self, node, ast_path)
     }
 
     fn visit_module<'ast: 'r, 'r>(&mut self, node: &'ast Module, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_module(self, node, ast_path)
+        VisitAstPath::visit_module(&mut **self, node, ast_path)
     }
 
     fn visit_module_decl<'ast: 'r, 'r>(
@@ -19665,7 +19665,7 @@ where
         node: &'ast ModuleDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_module_decl(self, node, ast_path)
+        VisitAstPath::visit_module_decl(&mut **self, node, ast_path)
     }
 
     fn visit_module_export_name<'ast: 'r, 'r>(
@@ -19673,7 +19673,7 @@ where
         node: &'ast ModuleExportName,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_module_export_name(self, node, ast_path)
+        VisitAstPath::visit_module_export_name(&mut **self, node, ast_path)
     }
 
     fn visit_module_item<'ast: 'r, 'r>(
@@ -19681,7 +19681,7 @@ where
         node: &'ast ModuleItem,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_module_item(self, node, ast_path)
+        VisitAstPath::visit_module_item(&mut **self, node, ast_path)
     }
 
     fn visit_module_items<'ast: 'r, 'r>(
@@ -19689,7 +19689,7 @@ where
         node: &'ast [ModuleItem],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_module_items(self, node, ast_path)
+        VisitAstPath::visit_module_items(&mut **self, node, ast_path)
     }
 
     fn visit_named_export<'ast: 'r, 'r>(
@@ -19697,7 +19697,7 @@ where
         node: &'ast NamedExport,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_named_export(self, node, ast_path)
+        VisitAstPath::visit_named_export(&mut **self, node, ast_path)
     }
 
     fn visit_new_expr<'ast: 'r, 'r>(
@@ -19705,15 +19705,15 @@ where
         node: &'ast NewExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_new_expr(self, node, ast_path)
+        VisitAstPath::visit_new_expr(&mut **self, node, ast_path)
     }
 
     fn visit_null<'ast: 'r, 'r>(&mut self, node: &'ast Null, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_null(self, node, ast_path)
+        VisitAstPath::visit_null(&mut **self, node, ast_path)
     }
 
     fn visit_number<'ast: 'r, 'r>(&mut self, node: &'ast Number, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_number(self, node, ast_path)
+        VisitAstPath::visit_number(&mut **self, node, ast_path)
     }
 
     fn visit_object_lit<'ast: 'r, 'r>(
@@ -19721,7 +19721,7 @@ where
         node: &'ast ObjectLit,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_object_lit(self, node, ast_path)
+        VisitAstPath::visit_object_lit(&mut **self, node, ast_path)
     }
 
     fn visit_object_pat<'ast: 'r, 'r>(
@@ -19729,7 +19729,7 @@ where
         node: &'ast ObjectPat,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_object_pat(self, node, ast_path)
+        VisitAstPath::visit_object_pat(&mut **self, node, ast_path)
     }
 
     fn visit_object_pat_prop<'ast: 'r, 'r>(
@@ -19737,7 +19737,7 @@ where
         node: &'ast ObjectPatProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_object_pat_prop(self, node, ast_path)
+        VisitAstPath::visit_object_pat_prop(&mut **self, node, ast_path)
     }
 
     fn visit_object_pat_props<'ast: 'r, 'r>(
@@ -19745,7 +19745,7 @@ where
         node: &'ast [ObjectPatProp],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_object_pat_props(self, node, ast_path)
+        VisitAstPath::visit_object_pat_props(&mut **self, node, ast_path)
     }
 
     fn visit_opt_accessibility<'ast: 'r, 'r>(
@@ -19753,7 +19753,7 @@ where
         node: &'ast Option<Accessibility>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_accessibility(self, node, ast_path)
+        VisitAstPath::visit_opt_accessibility(&mut **self, node, ast_path)
     }
 
     fn visit_opt_atom<'ast: 'r, 'r>(
@@ -19761,7 +19761,7 @@ where
         node: &'ast Option<swc_atoms::Atom>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_atom(self, node, ast_path)
+        VisitAstPath::visit_opt_atom(&mut **self, node, ast_path)
     }
 
     fn visit_opt_block_stmt<'ast: 'r, 'r>(
@@ -19769,7 +19769,7 @@ where
         node: &'ast Option<BlockStmt>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_block_stmt(self, node, ast_path)
+        VisitAstPath::visit_opt_block_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_opt_call<'ast: 'r, 'r>(
@@ -19777,7 +19777,7 @@ where
         node: &'ast OptCall,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_call(self, node, ast_path)
+        VisitAstPath::visit_opt_call(&mut **self, node, ast_path)
     }
 
     fn visit_opt_catch_clause<'ast: 'r, 'r>(
@@ -19785,7 +19785,7 @@ where
         node: &'ast Option<CatchClause>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_catch_clause(self, node, ast_path)
+        VisitAstPath::visit_opt_catch_clause(&mut **self, node, ast_path)
     }
 
     fn visit_opt_chain_base<'ast: 'r, 'r>(
@@ -19793,7 +19793,7 @@ where
         node: &'ast OptChainBase,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_chain_base(self, node, ast_path)
+        VisitAstPath::visit_opt_chain_base(&mut **self, node, ast_path)
     }
 
     fn visit_opt_chain_expr<'ast: 'r, 'r>(
@@ -19801,7 +19801,7 @@ where
         node: &'ast OptChainExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_chain_expr(self, node, ast_path)
+        VisitAstPath::visit_opt_chain_expr(&mut **self, node, ast_path)
     }
 
     fn visit_opt_expr<'ast: 'r, 'r>(
@@ -19809,7 +19809,7 @@ where
         node: &'ast Option<Box<Expr>>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_expr(self, node, ast_path)
+        VisitAstPath::visit_opt_expr(&mut **self, node, ast_path)
     }
 
     fn visit_opt_expr_or_spread<'ast: 'r, 'r>(
@@ -19817,7 +19817,7 @@ where
         node: &'ast Option<ExprOrSpread>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_expr_or_spread(self, node, ast_path)
+        VisitAstPath::visit_opt_expr_or_spread(&mut **self, node, ast_path)
     }
 
     fn visit_opt_expr_or_spreads<'ast: 'r, 'r>(
@@ -19825,7 +19825,7 @@ where
         node: &'ast Option<Vec<ExprOrSpread>>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_expr_or_spreads(self, node, ast_path)
+        VisitAstPath::visit_opt_expr_or_spreads(&mut **self, node, ast_path)
     }
 
     fn visit_opt_ident<'ast: 'r, 'r>(
@@ -19833,7 +19833,7 @@ where
         node: &'ast Option<Ident>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_ident(self, node, ast_path)
+        VisitAstPath::visit_opt_ident(&mut **self, node, ast_path)
     }
 
     fn visit_opt_jsx_attr_value<'ast: 'r, 'r>(
@@ -19841,7 +19841,7 @@ where
         node: &'ast Option<JSXAttrValue>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_jsx_attr_value(self, node, ast_path)
+        VisitAstPath::visit_opt_jsx_attr_value(&mut **self, node, ast_path)
     }
 
     fn visit_opt_jsx_closing_element<'ast: 'r, 'r>(
@@ -19849,7 +19849,7 @@ where
         node: &'ast Option<JSXClosingElement>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_jsx_closing_element(self, node, ast_path)
+        VisitAstPath::visit_opt_jsx_closing_element(&mut **self, node, ast_path)
     }
 
     fn visit_opt_module_export_name<'ast: 'r, 'r>(
@@ -19857,7 +19857,7 @@ where
         node: &'ast Option<ModuleExportName>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_module_export_name(self, node, ast_path)
+        VisitAstPath::visit_opt_module_export_name(&mut **self, node, ast_path)
     }
 
     fn visit_opt_module_items<'ast: 'r, 'r>(
@@ -19865,7 +19865,7 @@ where
         node: &'ast Option<Vec<ModuleItem>>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_module_items(self, node, ast_path)
+        VisitAstPath::visit_opt_module_items(&mut **self, node, ast_path)
     }
 
     fn visit_opt_object_lit<'ast: 'r, 'r>(
@@ -19873,7 +19873,7 @@ where
         node: &'ast Option<Box<ObjectLit>>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_object_lit(self, node, ast_path)
+        VisitAstPath::visit_opt_object_lit(&mut **self, node, ast_path)
     }
 
     fn visit_opt_pat<'ast: 'r, 'r>(
@@ -19881,7 +19881,7 @@ where
         node: &'ast Option<Pat>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_pat(self, node, ast_path)
+        VisitAstPath::visit_opt_pat(&mut **self, node, ast_path)
     }
 
     fn visit_opt_span<'ast: 'r, 'r>(
@@ -19889,7 +19889,7 @@ where
         node: &'ast Option<swc_common::Span>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_span(self, node, ast_path)
+        VisitAstPath::visit_opt_span(&mut **self, node, ast_path)
     }
 
     fn visit_opt_stmt<'ast: 'r, 'r>(
@@ -19897,7 +19897,7 @@ where
         node: &'ast Option<Box<Stmt>>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_stmt(self, node, ast_path)
+        VisitAstPath::visit_opt_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_opt_str<'ast: 'r, 'r>(
@@ -19905,7 +19905,7 @@ where
         node: &'ast Option<Box<Str>>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_str(self, node, ast_path)
+        VisitAstPath::visit_opt_str(&mut **self, node, ast_path)
     }
 
     fn visit_opt_true_plus_minus<'ast: 'r, 'r>(
@@ -19913,7 +19913,7 @@ where
         node: &'ast Option<TruePlusMinus>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_true_plus_minus(self, node, ast_path)
+        VisitAstPath::visit_opt_true_plus_minus(&mut **self, node, ast_path)
     }
 
     fn visit_opt_ts_entity_name<'ast: 'r, 'r>(
@@ -19921,7 +19921,7 @@ where
         node: &'ast Option<TsEntityName>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_ts_entity_name(self, node, ast_path)
+        VisitAstPath::visit_opt_ts_entity_name(&mut **self, node, ast_path)
     }
 
     fn visit_opt_ts_namespace_body<'ast: 'r, 'r>(
@@ -19929,7 +19929,7 @@ where
         node: &'ast Option<TsNamespaceBody>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_ts_namespace_body(self, node, ast_path)
+        VisitAstPath::visit_opt_ts_namespace_body(&mut **self, node, ast_path)
     }
 
     fn visit_opt_ts_type<'ast: 'r, 'r>(
@@ -19937,7 +19937,7 @@ where
         node: &'ast Option<Box<TsType>>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_ts_type(self, node, ast_path)
+        VisitAstPath::visit_opt_ts_type(&mut **self, node, ast_path)
     }
 
     fn visit_opt_ts_type_ann<'ast: 'r, 'r>(
@@ -19945,7 +19945,7 @@ where
         node: &'ast Option<Box<TsTypeAnn>>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_ts_type_ann(self, node, ast_path)
+        VisitAstPath::visit_opt_ts_type_ann(&mut **self, node, ast_path)
     }
 
     fn visit_opt_ts_type_param_decl<'ast: 'r, 'r>(
@@ -19953,7 +19953,7 @@ where
         node: &'ast Option<Box<TsTypeParamDecl>>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_ts_type_param_decl(self, node, ast_path)
+        VisitAstPath::visit_opt_ts_type_param_decl(&mut **self, node, ast_path)
     }
 
     fn visit_opt_ts_type_param_instantiation<'ast: 'r, 'r>(
@@ -19961,7 +19961,7 @@ where
         node: &'ast Option<Box<TsTypeParamInstantiation>>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_ts_type_param_instantiation(self, node, ast_path)
+        VisitAstPath::visit_opt_ts_type_param_instantiation(&mut **self, node, ast_path)
     }
 
     fn visit_opt_var_decl_or_expr<'ast: 'r, 'r>(
@@ -19969,7 +19969,7 @@ where
         node: &'ast Option<VarDeclOrExpr>,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_var_decl_or_expr(self, node, ast_path)
+        VisitAstPath::visit_opt_var_decl_or_expr(&mut **self, node, ast_path)
     }
 
     fn visit_opt_vec_expr_or_spreads<'ast: 'r, 'r>(
@@ -19977,7 +19977,7 @@ where
         node: &'ast [Option<ExprOrSpread>],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_vec_expr_or_spreads(self, node, ast_path)
+        VisitAstPath::visit_opt_vec_expr_or_spreads(&mut **self, node, ast_path)
     }
 
     fn visit_opt_vec_pats<'ast: 'r, 'r>(
@@ -19985,11 +19985,11 @@ where
         node: &'ast [Option<Pat>],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_opt_vec_pats(self, node, ast_path)
+        VisitAstPath::visit_opt_vec_pats(&mut **self, node, ast_path)
     }
 
     fn visit_param<'ast: 'r, 'r>(&mut self, node: &'ast Param, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_param(self, node, ast_path)
+        VisitAstPath::visit_param(&mut **self, node, ast_path)
     }
 
     fn visit_param_or_ts_param_prop<'ast: 'r, 'r>(
@@ -19997,7 +19997,7 @@ where
         node: &'ast ParamOrTsParamProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_param_or_ts_param_prop(self, node, ast_path)
+        VisitAstPath::visit_param_or_ts_param_prop(&mut **self, node, ast_path)
     }
 
     fn visit_param_or_ts_param_props<'ast: 'r, 'r>(
@@ -20005,11 +20005,11 @@ where
         node: &'ast [ParamOrTsParamProp],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_param_or_ts_param_props(self, node, ast_path)
+        VisitAstPath::visit_param_or_ts_param_props(&mut **self, node, ast_path)
     }
 
     fn visit_params<'ast: 'r, 'r>(&mut self, node: &'ast [Param], ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_params(self, node, ast_path)
+        VisitAstPath::visit_params(&mut **self, node, ast_path)
     }
 
     fn visit_paren_expr<'ast: 'r, 'r>(
@@ -20017,15 +20017,15 @@ where
         node: &'ast ParenExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_paren_expr(self, node, ast_path)
+        VisitAstPath::visit_paren_expr(&mut **self, node, ast_path)
     }
 
     fn visit_pat<'ast: 'r, 'r>(&mut self, node: &'ast Pat, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_pat(self, node, ast_path)
+        VisitAstPath::visit_pat(&mut **self, node, ast_path)
     }
 
     fn visit_pats<'ast: 'r, 'r>(&mut self, node: &'ast [Pat], ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_pats(self, node, ast_path)
+        VisitAstPath::visit_pats(&mut **self, node, ast_path)
     }
 
     fn visit_private_method<'ast: 'r, 'r>(
@@ -20033,7 +20033,7 @@ where
         node: &'ast PrivateMethod,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_private_method(self, node, ast_path)
+        VisitAstPath::visit_private_method(&mut **self, node, ast_path)
     }
 
     fn visit_private_name<'ast: 'r, 'r>(
@@ -20041,7 +20041,7 @@ where
         node: &'ast PrivateName,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_private_name(self, node, ast_path)
+        VisitAstPath::visit_private_name(&mut **self, node, ast_path)
     }
 
     fn visit_private_prop<'ast: 'r, 'r>(
@@ -20049,15 +20049,15 @@ where
         node: &'ast PrivateProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_private_prop(self, node, ast_path)
+        VisitAstPath::visit_private_prop(&mut **self, node, ast_path)
     }
 
     fn visit_program<'ast: 'r, 'r>(&mut self, node: &'ast Program, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_program(self, node, ast_path)
+        VisitAstPath::visit_program(&mut **self, node, ast_path)
     }
 
     fn visit_prop<'ast: 'r, 'r>(&mut self, node: &'ast Prop, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_prop(self, node, ast_path)
+        VisitAstPath::visit_prop(&mut **self, node, ast_path)
     }
 
     fn visit_prop_name<'ast: 'r, 'r>(
@@ -20065,7 +20065,7 @@ where
         node: &'ast PropName,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_prop_name(self, node, ast_path)
+        VisitAstPath::visit_prop_name(&mut **self, node, ast_path)
     }
 
     fn visit_prop_or_spread<'ast: 'r, 'r>(
@@ -20073,7 +20073,7 @@ where
         node: &'ast PropOrSpread,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_prop_or_spread(self, node, ast_path)
+        VisitAstPath::visit_prop_or_spread(&mut **self, node, ast_path)
     }
 
     fn visit_prop_or_spreads<'ast: 'r, 'r>(
@@ -20081,11 +20081,11 @@ where
         node: &'ast [PropOrSpread],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_prop_or_spreads(self, node, ast_path)
+        VisitAstPath::visit_prop_or_spreads(&mut **self, node, ast_path)
     }
 
     fn visit_regex<'ast: 'r, 'r>(&mut self, node: &'ast Regex, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_regex(self, node, ast_path)
+        VisitAstPath::visit_regex(&mut **self, node, ast_path)
     }
 
     fn visit_reserved_unused<'ast: 'r, 'r>(
@@ -20093,7 +20093,7 @@ where
         node: &'ast ReservedUnused,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_reserved_unused(self, node, ast_path)
+        VisitAstPath::visit_reserved_unused(&mut **self, node, ast_path)
     }
 
     fn visit_rest_pat<'ast: 'r, 'r>(
@@ -20101,7 +20101,7 @@ where
         node: &'ast RestPat,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_rest_pat(self, node, ast_path)
+        VisitAstPath::visit_rest_pat(&mut **self, node, ast_path)
     }
 
     fn visit_return_stmt<'ast: 'r, 'r>(
@@ -20109,11 +20109,11 @@ where
         node: &'ast ReturnStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_return_stmt(self, node, ast_path)
+        VisitAstPath::visit_return_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_script<'ast: 'r, 'r>(&mut self, node: &'ast Script, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_script(self, node, ast_path)
+        VisitAstPath::visit_script(&mut **self, node, ast_path)
     }
 
     fn visit_seq_expr<'ast: 'r, 'r>(
@@ -20121,7 +20121,7 @@ where
         node: &'ast SeqExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_seq_expr(self, node, ast_path)
+        VisitAstPath::visit_seq_expr(&mut **self, node, ast_path)
     }
 
     fn visit_setter_prop<'ast: 'r, 'r>(
@@ -20129,7 +20129,7 @@ where
         node: &'ast SetterProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_setter_prop(self, node, ast_path)
+        VisitAstPath::visit_setter_prop(&mut **self, node, ast_path)
     }
 
     fn visit_simple_assign_target<'ast: 'r, 'r>(
@@ -20137,7 +20137,7 @@ where
         node: &'ast SimpleAssignTarget,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_simple_assign_target(self, node, ast_path)
+        VisitAstPath::visit_simple_assign_target(&mut **self, node, ast_path)
     }
 
     fn visit_span<'ast: 'r, 'r>(
@@ -20145,7 +20145,7 @@ where
         node: &'ast swc_common::Span,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_span(self, node, ast_path)
+        VisitAstPath::visit_span(&mut **self, node, ast_path)
     }
 
     fn visit_spread_element<'ast: 'r, 'r>(
@@ -20153,7 +20153,7 @@ where
         node: &'ast SpreadElement,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_spread_element(self, node, ast_path)
+        VisitAstPath::visit_spread_element(&mut **self, node, ast_path)
     }
 
     fn visit_static_block<'ast: 'r, 'r>(
@@ -20161,23 +20161,23 @@ where
         node: &'ast StaticBlock,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_static_block(self, node, ast_path)
+        VisitAstPath::visit_static_block(&mut **self, node, ast_path)
     }
 
     fn visit_stmt<'ast: 'r, 'r>(&mut self, node: &'ast Stmt, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_stmt(self, node, ast_path)
+        VisitAstPath::visit_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_stmts<'ast: 'r, 'r>(&mut self, node: &'ast [Stmt], ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_stmts(self, node, ast_path)
+        VisitAstPath::visit_stmts(&mut **self, node, ast_path)
     }
 
     fn visit_str<'ast: 'r, 'r>(&mut self, node: &'ast Str, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_str(self, node, ast_path)
+        VisitAstPath::visit_str(&mut **self, node, ast_path)
     }
 
     fn visit_super<'ast: 'r, 'r>(&mut self, node: &'ast Super, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_super(self, node, ast_path)
+        VisitAstPath::visit_super(&mut **self, node, ast_path)
     }
 
     fn visit_super_prop<'ast: 'r, 'r>(
@@ -20185,7 +20185,7 @@ where
         node: &'ast SuperProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_super_prop(self, node, ast_path)
+        VisitAstPath::visit_super_prop(&mut **self, node, ast_path)
     }
 
     fn visit_super_prop_expr<'ast: 'r, 'r>(
@@ -20193,7 +20193,7 @@ where
         node: &'ast SuperPropExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_super_prop_expr(self, node, ast_path)
+        VisitAstPath::visit_super_prop_expr(&mut **self, node, ast_path)
     }
 
     fn visit_switch_case<'ast: 'r, 'r>(
@@ -20201,7 +20201,7 @@ where
         node: &'ast SwitchCase,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_switch_case(self, node, ast_path)
+        VisitAstPath::visit_switch_case(&mut **self, node, ast_path)
     }
 
     fn visit_switch_cases<'ast: 'r, 'r>(
@@ -20209,7 +20209,7 @@ where
         node: &'ast [SwitchCase],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_switch_cases(self, node, ast_path)
+        VisitAstPath::visit_switch_cases(&mut **self, node, ast_path)
     }
 
     fn visit_switch_stmt<'ast: 'r, 'r>(
@@ -20217,7 +20217,7 @@ where
         node: &'ast SwitchStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_switch_stmt(self, node, ast_path)
+        VisitAstPath::visit_switch_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_syntax_context<'ast: 'r, 'r>(
@@ -20225,7 +20225,7 @@ where
         node: &'ast swc_common::SyntaxContext,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_syntax_context(self, node, ast_path)
+        VisitAstPath::visit_syntax_context(&mut **self, node, ast_path)
     }
 
     fn visit_tagged_tpl<'ast: 'r, 'r>(
@@ -20233,7 +20233,7 @@ where
         node: &'ast TaggedTpl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_tagged_tpl(self, node, ast_path)
+        VisitAstPath::visit_tagged_tpl(&mut **self, node, ast_path)
     }
 
     fn visit_this_expr<'ast: 'r, 'r>(
@@ -20241,7 +20241,7 @@ where
         node: &'ast ThisExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_this_expr(self, node, ast_path)
+        VisitAstPath::visit_this_expr(&mut **self, node, ast_path)
     }
 
     fn visit_throw_stmt<'ast: 'r, 'r>(
@@ -20249,11 +20249,11 @@ where
         node: &'ast ThrowStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_throw_stmt(self, node, ast_path)
+        VisitAstPath::visit_throw_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_tpl<'ast: 'r, 'r>(&mut self, node: &'ast Tpl, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_tpl(self, node, ast_path)
+        VisitAstPath::visit_tpl(&mut **self, node, ast_path)
     }
 
     fn visit_tpl_element<'ast: 'r, 'r>(
@@ -20261,7 +20261,7 @@ where
         node: &'ast TplElement,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_tpl_element(self, node, ast_path)
+        VisitAstPath::visit_tpl_element(&mut **self, node, ast_path)
     }
 
     fn visit_tpl_elements<'ast: 'r, 'r>(
@@ -20269,7 +20269,7 @@ where
         node: &'ast [TplElement],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_tpl_elements(self, node, ast_path)
+        VisitAstPath::visit_tpl_elements(&mut **self, node, ast_path)
     }
 
     fn visit_true_plus_minus<'ast: 'r, 'r>(
@@ -20277,7 +20277,7 @@ where
         node: &'ast TruePlusMinus,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_true_plus_minus(self, node, ast_path)
+        VisitAstPath::visit_true_plus_minus(&mut **self, node, ast_path)
     }
 
     fn visit_try_stmt<'ast: 'r, 'r>(
@@ -20285,7 +20285,7 @@ where
         node: &'ast TryStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_try_stmt(self, node, ast_path)
+        VisitAstPath::visit_try_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_ts_array_type<'ast: 'r, 'r>(
@@ -20293,7 +20293,7 @@ where
         node: &'ast TsArrayType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_array_type(self, node, ast_path)
+        VisitAstPath::visit_ts_array_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_as_expr<'ast: 'r, 'r>(
@@ -20301,7 +20301,7 @@ where
         node: &'ast TsAsExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_as_expr(self, node, ast_path)
+        VisitAstPath::visit_ts_as_expr(&mut **self, node, ast_path)
     }
 
     fn visit_ts_call_signature_decl<'ast: 'r, 'r>(
@@ -20309,7 +20309,7 @@ where
         node: &'ast TsCallSignatureDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_call_signature_decl(self, node, ast_path)
+        VisitAstPath::visit_ts_call_signature_decl(&mut **self, node, ast_path)
     }
 
     fn visit_ts_conditional_type<'ast: 'r, 'r>(
@@ -20317,7 +20317,7 @@ where
         node: &'ast TsConditionalType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_conditional_type(self, node, ast_path)
+        VisitAstPath::visit_ts_conditional_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_const_assertion<'ast: 'r, 'r>(
@@ -20325,7 +20325,7 @@ where
         node: &'ast TsConstAssertion,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_const_assertion(self, node, ast_path)
+        VisitAstPath::visit_ts_const_assertion(&mut **self, node, ast_path)
     }
 
     fn visit_ts_construct_signature_decl<'ast: 'r, 'r>(
@@ -20333,7 +20333,7 @@ where
         node: &'ast TsConstructSignatureDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_construct_signature_decl(self, node, ast_path)
+        VisitAstPath::visit_ts_construct_signature_decl(&mut **self, node, ast_path)
     }
 
     fn visit_ts_constructor_type<'ast: 'r, 'r>(
@@ -20341,7 +20341,7 @@ where
         node: &'ast TsConstructorType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_constructor_type(self, node, ast_path)
+        VisitAstPath::visit_ts_constructor_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_entity_name<'ast: 'r, 'r>(
@@ -20349,7 +20349,7 @@ where
         node: &'ast TsEntityName,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_entity_name(self, node, ast_path)
+        VisitAstPath::visit_ts_entity_name(&mut **self, node, ast_path)
     }
 
     fn visit_ts_enum_decl<'ast: 'r, 'r>(
@@ -20357,7 +20357,7 @@ where
         node: &'ast TsEnumDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_enum_decl(self, node, ast_path)
+        VisitAstPath::visit_ts_enum_decl(&mut **self, node, ast_path)
     }
 
     fn visit_ts_enum_member<'ast: 'r, 'r>(
@@ -20365,7 +20365,7 @@ where
         node: &'ast TsEnumMember,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_enum_member(self, node, ast_path)
+        VisitAstPath::visit_ts_enum_member(&mut **self, node, ast_path)
     }
 
     fn visit_ts_enum_member_id<'ast: 'r, 'r>(
@@ -20373,7 +20373,7 @@ where
         node: &'ast TsEnumMemberId,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_enum_member_id(self, node, ast_path)
+        VisitAstPath::visit_ts_enum_member_id(&mut **self, node, ast_path)
     }
 
     fn visit_ts_enum_members<'ast: 'r, 'r>(
@@ -20381,7 +20381,7 @@ where
         node: &'ast [TsEnumMember],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_enum_members(self, node, ast_path)
+        VisitAstPath::visit_ts_enum_members(&mut **self, node, ast_path)
     }
 
     fn visit_ts_export_assignment<'ast: 'r, 'r>(
@@ -20389,7 +20389,7 @@ where
         node: &'ast TsExportAssignment,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_export_assignment(self, node, ast_path)
+        VisitAstPath::visit_ts_export_assignment(&mut **self, node, ast_path)
     }
 
     fn visit_ts_expr_with_type_args<'ast: 'r, 'r>(
@@ -20397,7 +20397,7 @@ where
         node: &'ast TsExprWithTypeArgs,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_expr_with_type_args(self, node, ast_path)
+        VisitAstPath::visit_ts_expr_with_type_args(&mut **self, node, ast_path)
     }
 
     fn visit_ts_expr_with_type_argss<'ast: 'r, 'r>(
@@ -20405,7 +20405,7 @@ where
         node: &'ast [TsExprWithTypeArgs],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_expr_with_type_argss(self, node, ast_path)
+        VisitAstPath::visit_ts_expr_with_type_argss(&mut **self, node, ast_path)
     }
 
     fn visit_ts_external_module_ref<'ast: 'r, 'r>(
@@ -20413,7 +20413,7 @@ where
         node: &'ast TsExternalModuleRef,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_external_module_ref(self, node, ast_path)
+        VisitAstPath::visit_ts_external_module_ref(&mut **self, node, ast_path)
     }
 
     fn visit_ts_fn_or_constructor_type<'ast: 'r, 'r>(
@@ -20421,7 +20421,7 @@ where
         node: &'ast TsFnOrConstructorType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_fn_or_constructor_type(self, node, ast_path)
+        VisitAstPath::visit_ts_fn_or_constructor_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_fn_param<'ast: 'r, 'r>(
@@ -20429,7 +20429,7 @@ where
         node: &'ast TsFnParam,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_fn_param(self, node, ast_path)
+        VisitAstPath::visit_ts_fn_param(&mut **self, node, ast_path)
     }
 
     fn visit_ts_fn_params<'ast: 'r, 'r>(
@@ -20437,7 +20437,7 @@ where
         node: &'ast [TsFnParam],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_fn_params(self, node, ast_path)
+        VisitAstPath::visit_ts_fn_params(&mut **self, node, ast_path)
     }
 
     fn visit_ts_fn_type<'ast: 'r, 'r>(
@@ -20445,7 +20445,7 @@ where
         node: &'ast TsFnType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_fn_type(self, node, ast_path)
+        VisitAstPath::visit_ts_fn_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_getter_signature<'ast: 'r, 'r>(
@@ -20453,7 +20453,7 @@ where
         node: &'ast TsGetterSignature,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_getter_signature(self, node, ast_path)
+        VisitAstPath::visit_ts_getter_signature(&mut **self, node, ast_path)
     }
 
     fn visit_ts_import_equals_decl<'ast: 'r, 'r>(
@@ -20461,7 +20461,7 @@ where
         node: &'ast TsImportEqualsDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_import_equals_decl(self, node, ast_path)
+        VisitAstPath::visit_ts_import_equals_decl(&mut **self, node, ast_path)
     }
 
     fn visit_ts_import_type<'ast: 'r, 'r>(
@@ -20469,7 +20469,7 @@ where
         node: &'ast TsImportType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_import_type(self, node, ast_path)
+        VisitAstPath::visit_ts_import_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_index_signature<'ast: 'r, 'r>(
@@ -20477,7 +20477,7 @@ where
         node: &'ast TsIndexSignature,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_index_signature(self, node, ast_path)
+        VisitAstPath::visit_ts_index_signature(&mut **self, node, ast_path)
     }
 
     fn visit_ts_indexed_access_type<'ast: 'r, 'r>(
@@ -20485,7 +20485,7 @@ where
         node: &'ast TsIndexedAccessType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_indexed_access_type(self, node, ast_path)
+        VisitAstPath::visit_ts_indexed_access_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_infer_type<'ast: 'r, 'r>(
@@ -20493,7 +20493,7 @@ where
         node: &'ast TsInferType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_infer_type(self, node, ast_path)
+        VisitAstPath::visit_ts_infer_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_instantiation<'ast: 'r, 'r>(
@@ -20501,7 +20501,7 @@ where
         node: &'ast TsInstantiation,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_instantiation(self, node, ast_path)
+        VisitAstPath::visit_ts_instantiation(&mut **self, node, ast_path)
     }
 
     fn visit_ts_interface_body<'ast: 'r, 'r>(
@@ -20509,7 +20509,7 @@ where
         node: &'ast TsInterfaceBody,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_interface_body(self, node, ast_path)
+        VisitAstPath::visit_ts_interface_body(&mut **self, node, ast_path)
     }
 
     fn visit_ts_interface_decl<'ast: 'r, 'r>(
@@ -20517,7 +20517,7 @@ where
         node: &'ast TsInterfaceDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_interface_decl(self, node, ast_path)
+        VisitAstPath::visit_ts_interface_decl(&mut **self, node, ast_path)
     }
 
     fn visit_ts_intersection_type<'ast: 'r, 'r>(
@@ -20525,7 +20525,7 @@ where
         node: &'ast TsIntersectionType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_intersection_type(self, node, ast_path)
+        VisitAstPath::visit_ts_intersection_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_keyword_type<'ast: 'r, 'r>(
@@ -20533,7 +20533,7 @@ where
         node: &'ast TsKeywordType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_keyword_type(self, node, ast_path)
+        VisitAstPath::visit_ts_keyword_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_keyword_type_kind<'ast: 'r, 'r>(
@@ -20541,11 +20541,11 @@ where
         node: &'ast TsKeywordTypeKind,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_keyword_type_kind(self, node, ast_path)
+        VisitAstPath::visit_ts_keyword_type_kind(&mut **self, node, ast_path)
     }
 
     fn visit_ts_lit<'ast: 'r, 'r>(&mut self, node: &'ast TsLit, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_ts_lit(self, node, ast_path)
+        VisitAstPath::visit_ts_lit(&mut **self, node, ast_path)
     }
 
     fn visit_ts_lit_type<'ast: 'r, 'r>(
@@ -20553,7 +20553,7 @@ where
         node: &'ast TsLitType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_lit_type(self, node, ast_path)
+        VisitAstPath::visit_ts_lit_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_mapped_type<'ast: 'r, 'r>(
@@ -20561,7 +20561,7 @@ where
         node: &'ast TsMappedType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_mapped_type(self, node, ast_path)
+        VisitAstPath::visit_ts_mapped_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_method_signature<'ast: 'r, 'r>(
@@ -20569,7 +20569,7 @@ where
         node: &'ast TsMethodSignature,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_method_signature(self, node, ast_path)
+        VisitAstPath::visit_ts_method_signature(&mut **self, node, ast_path)
     }
 
     fn visit_ts_module_block<'ast: 'r, 'r>(
@@ -20577,7 +20577,7 @@ where
         node: &'ast TsModuleBlock,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_module_block(self, node, ast_path)
+        VisitAstPath::visit_ts_module_block(&mut **self, node, ast_path)
     }
 
     fn visit_ts_module_decl<'ast: 'r, 'r>(
@@ -20585,7 +20585,7 @@ where
         node: &'ast TsModuleDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_module_decl(self, node, ast_path)
+        VisitAstPath::visit_ts_module_decl(&mut **self, node, ast_path)
     }
 
     fn visit_ts_module_name<'ast: 'r, 'r>(
@@ -20593,7 +20593,7 @@ where
         node: &'ast TsModuleName,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_module_name(self, node, ast_path)
+        VisitAstPath::visit_ts_module_name(&mut **self, node, ast_path)
     }
 
     fn visit_ts_module_ref<'ast: 'r, 'r>(
@@ -20601,7 +20601,7 @@ where
         node: &'ast TsModuleRef,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_module_ref(self, node, ast_path)
+        VisitAstPath::visit_ts_module_ref(&mut **self, node, ast_path)
     }
 
     fn visit_ts_namespace_body<'ast: 'r, 'r>(
@@ -20609,7 +20609,7 @@ where
         node: &'ast TsNamespaceBody,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_namespace_body(self, node, ast_path)
+        VisitAstPath::visit_ts_namespace_body(&mut **self, node, ast_path)
     }
 
     fn visit_ts_namespace_decl<'ast: 'r, 'r>(
@@ -20617,7 +20617,7 @@ where
         node: &'ast TsNamespaceDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_namespace_decl(self, node, ast_path)
+        VisitAstPath::visit_ts_namespace_decl(&mut **self, node, ast_path)
     }
 
     fn visit_ts_namespace_export_decl<'ast: 'r, 'r>(
@@ -20625,7 +20625,7 @@ where
         node: &'ast TsNamespaceExportDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_namespace_export_decl(self, node, ast_path)
+        VisitAstPath::visit_ts_namespace_export_decl(&mut **self, node, ast_path)
     }
 
     fn visit_ts_non_null_expr<'ast: 'r, 'r>(
@@ -20633,7 +20633,7 @@ where
         node: &'ast TsNonNullExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_non_null_expr(self, node, ast_path)
+        VisitAstPath::visit_ts_non_null_expr(&mut **self, node, ast_path)
     }
 
     fn visit_ts_optional_type<'ast: 'r, 'r>(
@@ -20641,7 +20641,7 @@ where
         node: &'ast TsOptionalType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_optional_type(self, node, ast_path)
+        VisitAstPath::visit_ts_optional_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_param_prop<'ast: 'r, 'r>(
@@ -20649,7 +20649,7 @@ where
         node: &'ast TsParamProp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_param_prop(self, node, ast_path)
+        VisitAstPath::visit_ts_param_prop(&mut **self, node, ast_path)
     }
 
     fn visit_ts_param_prop_param<'ast: 'r, 'r>(
@@ -20657,7 +20657,7 @@ where
         node: &'ast TsParamPropParam,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_param_prop_param(self, node, ast_path)
+        VisitAstPath::visit_ts_param_prop_param(&mut **self, node, ast_path)
     }
 
     fn visit_ts_parenthesized_type<'ast: 'r, 'r>(
@@ -20665,7 +20665,7 @@ where
         node: &'ast TsParenthesizedType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_parenthesized_type(self, node, ast_path)
+        VisitAstPath::visit_ts_parenthesized_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_property_signature<'ast: 'r, 'r>(
@@ -20673,7 +20673,7 @@ where
         node: &'ast TsPropertySignature,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_property_signature(self, node, ast_path)
+        VisitAstPath::visit_ts_property_signature(&mut **self, node, ast_path)
     }
 
     fn visit_ts_qualified_name<'ast: 'r, 'r>(
@@ -20681,7 +20681,7 @@ where
         node: &'ast TsQualifiedName,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_qualified_name(self, node, ast_path)
+        VisitAstPath::visit_ts_qualified_name(&mut **self, node, ast_path)
     }
 
     fn visit_ts_rest_type<'ast: 'r, 'r>(
@@ -20689,7 +20689,7 @@ where
         node: &'ast TsRestType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_rest_type(self, node, ast_path)
+        VisitAstPath::visit_ts_rest_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_satisfies_expr<'ast: 'r, 'r>(
@@ -20697,7 +20697,7 @@ where
         node: &'ast TsSatisfiesExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_satisfies_expr(self, node, ast_path)
+        VisitAstPath::visit_ts_satisfies_expr(&mut **self, node, ast_path)
     }
 
     fn visit_ts_setter_signature<'ast: 'r, 'r>(
@@ -20705,7 +20705,7 @@ where
         node: &'ast TsSetterSignature,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_setter_signature(self, node, ast_path)
+        VisitAstPath::visit_ts_setter_signature(&mut **self, node, ast_path)
     }
 
     fn visit_ts_this_type<'ast: 'r, 'r>(
@@ -20713,7 +20713,7 @@ where
         node: &'ast TsThisType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_this_type(self, node, ast_path)
+        VisitAstPath::visit_ts_this_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_this_type_or_ident<'ast: 'r, 'r>(
@@ -20721,7 +20721,7 @@ where
         node: &'ast TsThisTypeOrIdent,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_this_type_or_ident(self, node, ast_path)
+        VisitAstPath::visit_ts_this_type_or_ident(&mut **self, node, ast_path)
     }
 
     fn visit_ts_tpl_lit_type<'ast: 'r, 'r>(
@@ -20729,7 +20729,7 @@ where
         node: &'ast TsTplLitType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_tpl_lit_type(self, node, ast_path)
+        VisitAstPath::visit_ts_tpl_lit_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_tuple_element<'ast: 'r, 'r>(
@@ -20737,7 +20737,7 @@ where
         node: &'ast TsTupleElement,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_tuple_element(self, node, ast_path)
+        VisitAstPath::visit_ts_tuple_element(&mut **self, node, ast_path)
     }
 
     fn visit_ts_tuple_elements<'ast: 'r, 'r>(
@@ -20745,7 +20745,7 @@ where
         node: &'ast [TsTupleElement],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_tuple_elements(self, node, ast_path)
+        VisitAstPath::visit_ts_tuple_elements(&mut **self, node, ast_path)
     }
 
     fn visit_ts_tuple_type<'ast: 'r, 'r>(
@@ -20753,11 +20753,11 @@ where
         node: &'ast TsTupleType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_tuple_type(self, node, ast_path)
+        VisitAstPath::visit_ts_tuple_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_type<'ast: 'r, 'r>(&mut self, node: &'ast TsType, ast_path: &mut AstNodePath<'r>) {
-        VisitAstPath::visit_ts_type(self, node, ast_path)
+        VisitAstPath::visit_ts_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_type_alias_decl<'ast: 'r, 'r>(
@@ -20765,7 +20765,7 @@ where
         node: &'ast TsTypeAliasDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_type_alias_decl(self, node, ast_path)
+        VisitAstPath::visit_ts_type_alias_decl(&mut **self, node, ast_path)
     }
 
     fn visit_ts_type_ann<'ast: 'r, 'r>(
@@ -20773,7 +20773,7 @@ where
         node: &'ast TsTypeAnn,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_type_ann(self, node, ast_path)
+        VisitAstPath::visit_ts_type_ann(&mut **self, node, ast_path)
     }
 
     fn visit_ts_type_assertion<'ast: 'r, 'r>(
@@ -20781,7 +20781,7 @@ where
         node: &'ast TsTypeAssertion,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_type_assertion(self, node, ast_path)
+        VisitAstPath::visit_ts_type_assertion(&mut **self, node, ast_path)
     }
 
     fn visit_ts_type_element<'ast: 'r, 'r>(
@@ -20789,7 +20789,7 @@ where
         node: &'ast TsTypeElement,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_type_element(self, node, ast_path)
+        VisitAstPath::visit_ts_type_element(&mut **self, node, ast_path)
     }
 
     fn visit_ts_type_elements<'ast: 'r, 'r>(
@@ -20797,7 +20797,7 @@ where
         node: &'ast [TsTypeElement],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_type_elements(self, node, ast_path)
+        VisitAstPath::visit_ts_type_elements(&mut **self, node, ast_path)
     }
 
     fn visit_ts_type_lit<'ast: 'r, 'r>(
@@ -20805,7 +20805,7 @@ where
         node: &'ast TsTypeLit,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_type_lit(self, node, ast_path)
+        VisitAstPath::visit_ts_type_lit(&mut **self, node, ast_path)
     }
 
     fn visit_ts_type_operator<'ast: 'r, 'r>(
@@ -20813,7 +20813,7 @@ where
         node: &'ast TsTypeOperator,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_type_operator(self, node, ast_path)
+        VisitAstPath::visit_ts_type_operator(&mut **self, node, ast_path)
     }
 
     fn visit_ts_type_operator_op<'ast: 'r, 'r>(
@@ -20821,7 +20821,7 @@ where
         node: &'ast TsTypeOperatorOp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_type_operator_op(self, node, ast_path)
+        VisitAstPath::visit_ts_type_operator_op(&mut **self, node, ast_path)
     }
 
     fn visit_ts_type_param<'ast: 'r, 'r>(
@@ -20829,7 +20829,7 @@ where
         node: &'ast TsTypeParam,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_type_param(self, node, ast_path)
+        VisitAstPath::visit_ts_type_param(&mut **self, node, ast_path)
     }
 
     fn visit_ts_type_param_decl<'ast: 'r, 'r>(
@@ -20837,7 +20837,7 @@ where
         node: &'ast TsTypeParamDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_type_param_decl(self, node, ast_path)
+        VisitAstPath::visit_ts_type_param_decl(&mut **self, node, ast_path)
     }
 
     fn visit_ts_type_param_instantiation<'ast: 'r, 'r>(
@@ -20845,7 +20845,7 @@ where
         node: &'ast TsTypeParamInstantiation,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_type_param_instantiation(self, node, ast_path)
+        VisitAstPath::visit_ts_type_param_instantiation(&mut **self, node, ast_path)
     }
 
     fn visit_ts_type_params<'ast: 'r, 'r>(
@@ -20853,7 +20853,7 @@ where
         node: &'ast [TsTypeParam],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_type_params(self, node, ast_path)
+        VisitAstPath::visit_ts_type_params(&mut **self, node, ast_path)
     }
 
     fn visit_ts_type_predicate<'ast: 'r, 'r>(
@@ -20861,7 +20861,7 @@ where
         node: &'ast TsTypePredicate,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_type_predicate(self, node, ast_path)
+        VisitAstPath::visit_ts_type_predicate(&mut **self, node, ast_path)
     }
 
     fn visit_ts_type_query<'ast: 'r, 'r>(
@@ -20869,7 +20869,7 @@ where
         node: &'ast TsTypeQuery,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_type_query(self, node, ast_path)
+        VisitAstPath::visit_ts_type_query(&mut **self, node, ast_path)
     }
 
     fn visit_ts_type_query_expr<'ast: 'r, 'r>(
@@ -20877,7 +20877,7 @@ where
         node: &'ast TsTypeQueryExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_type_query_expr(self, node, ast_path)
+        VisitAstPath::visit_ts_type_query_expr(&mut **self, node, ast_path)
     }
 
     fn visit_ts_type_ref<'ast: 'r, 'r>(
@@ -20885,7 +20885,7 @@ where
         node: &'ast TsTypeRef,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_type_ref(self, node, ast_path)
+        VisitAstPath::visit_ts_type_ref(&mut **self, node, ast_path)
     }
 
     fn visit_ts_types<'ast: 'r, 'r>(
@@ -20893,7 +20893,7 @@ where
         node: &'ast [Box<TsType>],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_types(self, node, ast_path)
+        VisitAstPath::visit_ts_types(&mut **self, node, ast_path)
     }
 
     fn visit_ts_union_or_intersection_type<'ast: 'r, 'r>(
@@ -20901,7 +20901,7 @@ where
         node: &'ast TsUnionOrIntersectionType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_union_or_intersection_type(self, node, ast_path)
+        VisitAstPath::visit_ts_union_or_intersection_type(&mut **self, node, ast_path)
     }
 
     fn visit_ts_union_type<'ast: 'r, 'r>(
@@ -20909,7 +20909,7 @@ where
         node: &'ast TsUnionType,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_ts_union_type(self, node, ast_path)
+        VisitAstPath::visit_ts_union_type(&mut **self, node, ast_path)
     }
 
     fn visit_unary_expr<'ast: 'r, 'r>(
@@ -20917,7 +20917,7 @@ where
         node: &'ast UnaryExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_unary_expr(self, node, ast_path)
+        VisitAstPath::visit_unary_expr(&mut **self, node, ast_path)
     }
 
     fn visit_unary_op<'ast: 'r, 'r>(
@@ -20925,7 +20925,7 @@ where
         node: &'ast UnaryOp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_unary_op(self, node, ast_path)
+        VisitAstPath::visit_unary_op(&mut **self, node, ast_path)
     }
 
     fn visit_update_expr<'ast: 'r, 'r>(
@@ -20933,7 +20933,7 @@ where
         node: &'ast UpdateExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_update_expr(self, node, ast_path)
+        VisitAstPath::visit_update_expr(&mut **self, node, ast_path)
     }
 
     fn visit_update_op<'ast: 'r, 'r>(
@@ -20941,7 +20941,7 @@ where
         node: &'ast UpdateOp,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_update_op(self, node, ast_path)
+        VisitAstPath::visit_update_op(&mut **self, node, ast_path)
     }
 
     fn visit_using_decl<'ast: 'r, 'r>(
@@ -20949,7 +20949,7 @@ where
         node: &'ast UsingDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_using_decl(self, node, ast_path)
+        VisitAstPath::visit_using_decl(&mut **self, node, ast_path)
     }
 
     fn visit_var_decl<'ast: 'r, 'r>(
@@ -20957,7 +20957,7 @@ where
         node: &'ast VarDecl,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_var_decl(self, node, ast_path)
+        VisitAstPath::visit_var_decl(&mut **self, node, ast_path)
     }
 
     fn visit_var_decl_kind<'ast: 'r, 'r>(
@@ -20965,7 +20965,7 @@ where
         node: &'ast VarDeclKind,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_var_decl_kind(self, node, ast_path)
+        VisitAstPath::visit_var_decl_kind(&mut **self, node, ast_path)
     }
 
     fn visit_var_decl_or_expr<'ast: 'r, 'r>(
@@ -20973,7 +20973,7 @@ where
         node: &'ast VarDeclOrExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_var_decl_or_expr(self, node, ast_path)
+        VisitAstPath::visit_var_decl_or_expr(&mut **self, node, ast_path)
     }
 
     fn visit_var_declarator<'ast: 'r, 'r>(
@@ -20981,7 +20981,7 @@ where
         node: &'ast VarDeclarator,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_var_declarator(self, node, ast_path)
+        VisitAstPath::visit_var_declarator(&mut **self, node, ast_path)
     }
 
     fn visit_var_declarators<'ast: 'r, 'r>(
@@ -20989,7 +20989,7 @@ where
         node: &'ast [VarDeclarator],
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_var_declarators(self, node, ast_path)
+        VisitAstPath::visit_var_declarators(&mut **self, node, ast_path)
     }
 
     fn visit_while_stmt<'ast: 'r, 'r>(
@@ -20997,7 +20997,7 @@ where
         node: &'ast WhileStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_while_stmt(self, node, ast_path)
+        VisitAstPath::visit_while_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_with_stmt<'ast: 'r, 'r>(
@@ -21005,7 +21005,7 @@ where
         node: &'ast WithStmt,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_with_stmt(self, node, ast_path)
+        VisitAstPath::visit_with_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_yield_expr<'ast: 'r, 'r>(
@@ -21013,7 +21013,7 @@ where
         node: &'ast YieldExpr,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        VisitAstPath::visit_yield_expr(self, node, ast_path)
+        VisitAstPath::visit_yield_expr(&mut **self, node, ast_path)
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -38914,1182 +38914,1182 @@ where
     V: ?Sized + VisitMut,
 {
     fn visit_mut_accessibility(&mut self, node: &mut Accessibility) {
-        VisitMut::visit_mut_accessibility(self, node)
+        VisitMut::visit_mut_accessibility(&mut **self, node)
     }
 
     fn visit_mut_array_lit(&mut self, node: &mut ArrayLit) {
-        VisitMut::visit_mut_array_lit(self, node)
+        VisitMut::visit_mut_array_lit(&mut **self, node)
     }
 
     fn visit_mut_array_pat(&mut self, node: &mut ArrayPat) {
-        VisitMut::visit_mut_array_pat(self, node)
+        VisitMut::visit_mut_array_pat(&mut **self, node)
     }
 
     fn visit_mut_arrow_expr(&mut self, node: &mut ArrowExpr) {
-        VisitMut::visit_mut_arrow_expr(self, node)
+        VisitMut::visit_mut_arrow_expr(&mut **self, node)
     }
 
     fn visit_mut_assign_expr(&mut self, node: &mut AssignExpr) {
-        VisitMut::visit_mut_assign_expr(self, node)
+        VisitMut::visit_mut_assign_expr(&mut **self, node)
     }
 
     fn visit_mut_assign_op(&mut self, node: &mut AssignOp) {
-        VisitMut::visit_mut_assign_op(self, node)
+        VisitMut::visit_mut_assign_op(&mut **self, node)
     }
 
     fn visit_mut_assign_pat(&mut self, node: &mut AssignPat) {
-        VisitMut::visit_mut_assign_pat(self, node)
+        VisitMut::visit_mut_assign_pat(&mut **self, node)
     }
 
     fn visit_mut_assign_pat_prop(&mut self, node: &mut AssignPatProp) {
-        VisitMut::visit_mut_assign_pat_prop(self, node)
+        VisitMut::visit_mut_assign_pat_prop(&mut **self, node)
     }
 
     fn visit_mut_assign_prop(&mut self, node: &mut AssignProp) {
-        VisitMut::visit_mut_assign_prop(self, node)
+        VisitMut::visit_mut_assign_prop(&mut **self, node)
     }
 
     fn visit_mut_assign_target(&mut self, node: &mut AssignTarget) {
-        VisitMut::visit_mut_assign_target(self, node)
+        VisitMut::visit_mut_assign_target(&mut **self, node)
     }
 
     fn visit_mut_assign_target_pat(&mut self, node: &mut AssignTargetPat) {
-        VisitMut::visit_mut_assign_target_pat(self, node)
+        VisitMut::visit_mut_assign_target_pat(&mut **self, node)
     }
 
     fn visit_mut_atom(&mut self, node: &mut swc_atoms::Atom) {
-        VisitMut::visit_mut_atom(self, node)
+        VisitMut::visit_mut_atom(&mut **self, node)
     }
 
     fn visit_mut_auto_accessor(&mut self, node: &mut AutoAccessor) {
-        VisitMut::visit_mut_auto_accessor(self, node)
+        VisitMut::visit_mut_auto_accessor(&mut **self, node)
     }
 
     fn visit_mut_await_expr(&mut self, node: &mut AwaitExpr) {
-        VisitMut::visit_mut_await_expr(self, node)
+        VisitMut::visit_mut_await_expr(&mut **self, node)
     }
 
     fn visit_mut_big_int(&mut self, node: &mut BigInt) {
-        VisitMut::visit_mut_big_int(self, node)
+        VisitMut::visit_mut_big_int(&mut **self, node)
     }
 
     fn visit_mut_big_int_value(&mut self, node: &mut BigIntValue) {
-        VisitMut::visit_mut_big_int_value(self, node)
+        VisitMut::visit_mut_big_int_value(&mut **self, node)
     }
 
     fn visit_mut_bin_expr(&mut self, node: &mut BinExpr) {
-        VisitMut::visit_mut_bin_expr(self, node)
+        VisitMut::visit_mut_bin_expr(&mut **self, node)
     }
 
     fn visit_mut_binary_op(&mut self, node: &mut BinaryOp) {
-        VisitMut::visit_mut_binary_op(self, node)
+        VisitMut::visit_mut_binary_op(&mut **self, node)
     }
 
     fn visit_mut_binding_ident(&mut self, node: &mut BindingIdent) {
-        VisitMut::visit_mut_binding_ident(self, node)
+        VisitMut::visit_mut_binding_ident(&mut **self, node)
     }
 
     fn visit_mut_block_stmt(&mut self, node: &mut BlockStmt) {
-        VisitMut::visit_mut_block_stmt(self, node)
+        VisitMut::visit_mut_block_stmt(&mut **self, node)
     }
 
     fn visit_mut_block_stmt_or_expr(&mut self, node: &mut BlockStmtOrExpr) {
-        VisitMut::visit_mut_block_stmt_or_expr(self, node)
+        VisitMut::visit_mut_block_stmt_or_expr(&mut **self, node)
     }
 
     fn visit_mut_bool(&mut self, node: &mut Bool) {
-        VisitMut::visit_mut_bool(self, node)
+        VisitMut::visit_mut_bool(&mut **self, node)
     }
 
     fn visit_mut_break_stmt(&mut self, node: &mut BreakStmt) {
-        VisitMut::visit_mut_break_stmt(self, node)
+        VisitMut::visit_mut_break_stmt(&mut **self, node)
     }
 
     fn visit_mut_call_expr(&mut self, node: &mut CallExpr) {
-        VisitMut::visit_mut_call_expr(self, node)
+        VisitMut::visit_mut_call_expr(&mut **self, node)
     }
 
     fn visit_mut_callee(&mut self, node: &mut Callee) {
-        VisitMut::visit_mut_callee(self, node)
+        VisitMut::visit_mut_callee(&mut **self, node)
     }
 
     fn visit_mut_catch_clause(&mut self, node: &mut CatchClause) {
-        VisitMut::visit_mut_catch_clause(self, node)
+        VisitMut::visit_mut_catch_clause(&mut **self, node)
     }
 
     fn visit_mut_class(&mut self, node: &mut Class) {
-        VisitMut::visit_mut_class(self, node)
+        VisitMut::visit_mut_class(&mut **self, node)
     }
 
     fn visit_mut_class_decl(&mut self, node: &mut ClassDecl) {
-        VisitMut::visit_mut_class_decl(self, node)
+        VisitMut::visit_mut_class_decl(&mut **self, node)
     }
 
     fn visit_mut_class_expr(&mut self, node: &mut ClassExpr) {
-        VisitMut::visit_mut_class_expr(self, node)
+        VisitMut::visit_mut_class_expr(&mut **self, node)
     }
 
     fn visit_mut_class_member(&mut self, node: &mut ClassMember) {
-        VisitMut::visit_mut_class_member(self, node)
+        VisitMut::visit_mut_class_member(&mut **self, node)
     }
 
     fn visit_mut_class_members(&mut self, node: &mut Vec<ClassMember>) {
-        VisitMut::visit_mut_class_members(self, node)
+        VisitMut::visit_mut_class_members(&mut **self, node)
     }
 
     fn visit_mut_class_method(&mut self, node: &mut ClassMethod) {
-        VisitMut::visit_mut_class_method(self, node)
+        VisitMut::visit_mut_class_method(&mut **self, node)
     }
 
     fn visit_mut_class_prop(&mut self, node: &mut ClassProp) {
-        VisitMut::visit_mut_class_prop(self, node)
+        VisitMut::visit_mut_class_prop(&mut **self, node)
     }
 
     fn visit_mut_computed_prop_name(&mut self, node: &mut ComputedPropName) {
-        VisitMut::visit_mut_computed_prop_name(self, node)
+        VisitMut::visit_mut_computed_prop_name(&mut **self, node)
     }
 
     fn visit_mut_cond_expr(&mut self, node: &mut CondExpr) {
-        VisitMut::visit_mut_cond_expr(self, node)
+        VisitMut::visit_mut_cond_expr(&mut **self, node)
     }
 
     fn visit_mut_constructor(&mut self, node: &mut Constructor) {
-        VisitMut::visit_mut_constructor(self, node)
+        VisitMut::visit_mut_constructor(&mut **self, node)
     }
 
     fn visit_mut_continue_stmt(&mut self, node: &mut ContinueStmt) {
-        VisitMut::visit_mut_continue_stmt(self, node)
+        VisitMut::visit_mut_continue_stmt(&mut **self, node)
     }
 
     fn visit_mut_debugger_stmt(&mut self, node: &mut DebuggerStmt) {
-        VisitMut::visit_mut_debugger_stmt(self, node)
+        VisitMut::visit_mut_debugger_stmt(&mut **self, node)
     }
 
     fn visit_mut_decl(&mut self, node: &mut Decl) {
-        VisitMut::visit_mut_decl(self, node)
+        VisitMut::visit_mut_decl(&mut **self, node)
     }
 
     fn visit_mut_decorator(&mut self, node: &mut Decorator) {
-        VisitMut::visit_mut_decorator(self, node)
+        VisitMut::visit_mut_decorator(&mut **self, node)
     }
 
     fn visit_mut_decorators(&mut self, node: &mut Vec<Decorator>) {
-        VisitMut::visit_mut_decorators(self, node)
+        VisitMut::visit_mut_decorators(&mut **self, node)
     }
 
     fn visit_mut_default_decl(&mut self, node: &mut DefaultDecl) {
-        VisitMut::visit_mut_default_decl(self, node)
+        VisitMut::visit_mut_default_decl(&mut **self, node)
     }
 
     fn visit_mut_do_while_stmt(&mut self, node: &mut DoWhileStmt) {
-        VisitMut::visit_mut_do_while_stmt(self, node)
+        VisitMut::visit_mut_do_while_stmt(&mut **self, node)
     }
 
     fn visit_mut_empty_stmt(&mut self, node: &mut EmptyStmt) {
-        VisitMut::visit_mut_empty_stmt(self, node)
+        VisitMut::visit_mut_empty_stmt(&mut **self, node)
     }
 
     fn visit_mut_es_version(&mut self, node: &mut EsVersion) {
-        VisitMut::visit_mut_es_version(self, node)
+        VisitMut::visit_mut_es_version(&mut **self, node)
     }
 
     fn visit_mut_export_all(&mut self, node: &mut ExportAll) {
-        VisitMut::visit_mut_export_all(self, node)
+        VisitMut::visit_mut_export_all(&mut **self, node)
     }
 
     fn visit_mut_export_decl(&mut self, node: &mut ExportDecl) {
-        VisitMut::visit_mut_export_decl(self, node)
+        VisitMut::visit_mut_export_decl(&mut **self, node)
     }
 
     fn visit_mut_export_default_decl(&mut self, node: &mut ExportDefaultDecl) {
-        VisitMut::visit_mut_export_default_decl(self, node)
+        VisitMut::visit_mut_export_default_decl(&mut **self, node)
     }
 
     fn visit_mut_export_default_expr(&mut self, node: &mut ExportDefaultExpr) {
-        VisitMut::visit_mut_export_default_expr(self, node)
+        VisitMut::visit_mut_export_default_expr(&mut **self, node)
     }
 
     fn visit_mut_export_default_specifier(&mut self, node: &mut ExportDefaultSpecifier) {
-        VisitMut::visit_mut_export_default_specifier(self, node)
+        VisitMut::visit_mut_export_default_specifier(&mut **self, node)
     }
 
     fn visit_mut_export_named_specifier(&mut self, node: &mut ExportNamedSpecifier) {
-        VisitMut::visit_mut_export_named_specifier(self, node)
+        VisitMut::visit_mut_export_named_specifier(&mut **self, node)
     }
 
     fn visit_mut_export_namespace_specifier(&mut self, node: &mut ExportNamespaceSpecifier) {
-        VisitMut::visit_mut_export_namespace_specifier(self, node)
+        VisitMut::visit_mut_export_namespace_specifier(&mut **self, node)
     }
 
     fn visit_mut_export_specifier(&mut self, node: &mut ExportSpecifier) {
-        VisitMut::visit_mut_export_specifier(self, node)
+        VisitMut::visit_mut_export_specifier(&mut **self, node)
     }
 
     fn visit_mut_export_specifiers(&mut self, node: &mut Vec<ExportSpecifier>) {
-        VisitMut::visit_mut_export_specifiers(self, node)
+        VisitMut::visit_mut_export_specifiers(&mut **self, node)
     }
 
     fn visit_mut_expr(&mut self, node: &mut Expr) {
-        VisitMut::visit_mut_expr(self, node)
+        VisitMut::visit_mut_expr(&mut **self, node)
     }
 
     fn visit_mut_expr_or_spread(&mut self, node: &mut ExprOrSpread) {
-        VisitMut::visit_mut_expr_or_spread(self, node)
+        VisitMut::visit_mut_expr_or_spread(&mut **self, node)
     }
 
     fn visit_mut_expr_or_spreads(&mut self, node: &mut Vec<ExprOrSpread>) {
-        VisitMut::visit_mut_expr_or_spreads(self, node)
+        VisitMut::visit_mut_expr_or_spreads(&mut **self, node)
     }
 
     fn visit_mut_expr_stmt(&mut self, node: &mut ExprStmt) {
-        VisitMut::visit_mut_expr_stmt(self, node)
+        VisitMut::visit_mut_expr_stmt(&mut **self, node)
     }
 
     fn visit_mut_exprs(&mut self, node: &mut Vec<Box<Expr>>) {
-        VisitMut::visit_mut_exprs(self, node)
+        VisitMut::visit_mut_exprs(&mut **self, node)
     }
 
     fn visit_mut_fn_decl(&mut self, node: &mut FnDecl) {
-        VisitMut::visit_mut_fn_decl(self, node)
+        VisitMut::visit_mut_fn_decl(&mut **self, node)
     }
 
     fn visit_mut_fn_expr(&mut self, node: &mut FnExpr) {
-        VisitMut::visit_mut_fn_expr(self, node)
+        VisitMut::visit_mut_fn_expr(&mut **self, node)
     }
 
     fn visit_mut_for_head(&mut self, node: &mut ForHead) {
-        VisitMut::visit_mut_for_head(self, node)
+        VisitMut::visit_mut_for_head(&mut **self, node)
     }
 
     fn visit_mut_for_in_stmt(&mut self, node: &mut ForInStmt) {
-        VisitMut::visit_mut_for_in_stmt(self, node)
+        VisitMut::visit_mut_for_in_stmt(&mut **self, node)
     }
 
     fn visit_mut_for_of_stmt(&mut self, node: &mut ForOfStmt) {
-        VisitMut::visit_mut_for_of_stmt(self, node)
+        VisitMut::visit_mut_for_of_stmt(&mut **self, node)
     }
 
     fn visit_mut_for_stmt(&mut self, node: &mut ForStmt) {
-        VisitMut::visit_mut_for_stmt(self, node)
+        VisitMut::visit_mut_for_stmt(&mut **self, node)
     }
 
     fn visit_mut_function(&mut self, node: &mut Function) {
-        VisitMut::visit_mut_function(self, node)
+        VisitMut::visit_mut_function(&mut **self, node)
     }
 
     fn visit_mut_getter_prop(&mut self, node: &mut GetterProp) {
-        VisitMut::visit_mut_getter_prop(self, node)
+        VisitMut::visit_mut_getter_prop(&mut **self, node)
     }
 
     fn visit_mut_ident(&mut self, node: &mut Ident) {
-        VisitMut::visit_mut_ident(self, node)
+        VisitMut::visit_mut_ident(&mut **self, node)
     }
 
     fn visit_mut_ident_name(&mut self, node: &mut IdentName) {
-        VisitMut::visit_mut_ident_name(self, node)
+        VisitMut::visit_mut_ident_name(&mut **self, node)
     }
 
     fn visit_mut_if_stmt(&mut self, node: &mut IfStmt) {
-        VisitMut::visit_mut_if_stmt(self, node)
+        VisitMut::visit_mut_if_stmt(&mut **self, node)
     }
 
     fn visit_mut_import(&mut self, node: &mut Import) {
-        VisitMut::visit_mut_import(self, node)
+        VisitMut::visit_mut_import(&mut **self, node)
     }
 
     fn visit_mut_import_decl(&mut self, node: &mut ImportDecl) {
-        VisitMut::visit_mut_import_decl(self, node)
+        VisitMut::visit_mut_import_decl(&mut **self, node)
     }
 
     fn visit_mut_import_default_specifier(&mut self, node: &mut ImportDefaultSpecifier) {
-        VisitMut::visit_mut_import_default_specifier(self, node)
+        VisitMut::visit_mut_import_default_specifier(&mut **self, node)
     }
 
     fn visit_mut_import_named_specifier(&mut self, node: &mut ImportNamedSpecifier) {
-        VisitMut::visit_mut_import_named_specifier(self, node)
+        VisitMut::visit_mut_import_named_specifier(&mut **self, node)
     }
 
     fn visit_mut_import_phase(&mut self, node: &mut ImportPhase) {
-        VisitMut::visit_mut_import_phase(self, node)
+        VisitMut::visit_mut_import_phase(&mut **self, node)
     }
 
     fn visit_mut_import_specifier(&mut self, node: &mut ImportSpecifier) {
-        VisitMut::visit_mut_import_specifier(self, node)
+        VisitMut::visit_mut_import_specifier(&mut **self, node)
     }
 
     fn visit_mut_import_specifiers(&mut self, node: &mut Vec<ImportSpecifier>) {
-        VisitMut::visit_mut_import_specifiers(self, node)
+        VisitMut::visit_mut_import_specifiers(&mut **self, node)
     }
 
     fn visit_mut_import_star_as_specifier(&mut self, node: &mut ImportStarAsSpecifier) {
-        VisitMut::visit_mut_import_star_as_specifier(self, node)
+        VisitMut::visit_mut_import_star_as_specifier(&mut **self, node)
     }
 
     fn visit_mut_import_with(&mut self, node: &mut ImportWith) {
-        VisitMut::visit_mut_import_with(self, node)
+        VisitMut::visit_mut_import_with(&mut **self, node)
     }
 
     fn visit_mut_import_with_item(&mut self, node: &mut ImportWithItem) {
-        VisitMut::visit_mut_import_with_item(self, node)
+        VisitMut::visit_mut_import_with_item(&mut **self, node)
     }
 
     fn visit_mut_import_with_items(&mut self, node: &mut Vec<ImportWithItem>) {
-        VisitMut::visit_mut_import_with_items(self, node)
+        VisitMut::visit_mut_import_with_items(&mut **self, node)
     }
 
     fn visit_mut_invalid(&mut self, node: &mut Invalid) {
-        VisitMut::visit_mut_invalid(self, node)
+        VisitMut::visit_mut_invalid(&mut **self, node)
     }
 
     fn visit_mut_jsx_attr(&mut self, node: &mut JSXAttr) {
-        VisitMut::visit_mut_jsx_attr(self, node)
+        VisitMut::visit_mut_jsx_attr(&mut **self, node)
     }
 
     fn visit_mut_jsx_attr_name(&mut self, node: &mut JSXAttrName) {
-        VisitMut::visit_mut_jsx_attr_name(self, node)
+        VisitMut::visit_mut_jsx_attr_name(&mut **self, node)
     }
 
     fn visit_mut_jsx_attr_or_spread(&mut self, node: &mut JSXAttrOrSpread) {
-        VisitMut::visit_mut_jsx_attr_or_spread(self, node)
+        VisitMut::visit_mut_jsx_attr_or_spread(&mut **self, node)
     }
 
     fn visit_mut_jsx_attr_or_spreads(&mut self, node: &mut Vec<JSXAttrOrSpread>) {
-        VisitMut::visit_mut_jsx_attr_or_spreads(self, node)
+        VisitMut::visit_mut_jsx_attr_or_spreads(&mut **self, node)
     }
 
     fn visit_mut_jsx_attr_value(&mut self, node: &mut JSXAttrValue) {
-        VisitMut::visit_mut_jsx_attr_value(self, node)
+        VisitMut::visit_mut_jsx_attr_value(&mut **self, node)
     }
 
     fn visit_mut_jsx_closing_element(&mut self, node: &mut JSXClosingElement) {
-        VisitMut::visit_mut_jsx_closing_element(self, node)
+        VisitMut::visit_mut_jsx_closing_element(&mut **self, node)
     }
 
     fn visit_mut_jsx_closing_fragment(&mut self, node: &mut JSXClosingFragment) {
-        VisitMut::visit_mut_jsx_closing_fragment(self, node)
+        VisitMut::visit_mut_jsx_closing_fragment(&mut **self, node)
     }
 
     fn visit_mut_jsx_element(&mut self, node: &mut JSXElement) {
-        VisitMut::visit_mut_jsx_element(self, node)
+        VisitMut::visit_mut_jsx_element(&mut **self, node)
     }
 
     fn visit_mut_jsx_element_child(&mut self, node: &mut JSXElementChild) {
-        VisitMut::visit_mut_jsx_element_child(self, node)
+        VisitMut::visit_mut_jsx_element_child(&mut **self, node)
     }
 
     fn visit_mut_jsx_element_childs(&mut self, node: &mut Vec<JSXElementChild>) {
-        VisitMut::visit_mut_jsx_element_childs(self, node)
+        VisitMut::visit_mut_jsx_element_childs(&mut **self, node)
     }
 
     fn visit_mut_jsx_element_name(&mut self, node: &mut JSXElementName) {
-        VisitMut::visit_mut_jsx_element_name(self, node)
+        VisitMut::visit_mut_jsx_element_name(&mut **self, node)
     }
 
     fn visit_mut_jsx_empty_expr(&mut self, node: &mut JSXEmptyExpr) {
-        VisitMut::visit_mut_jsx_empty_expr(self, node)
+        VisitMut::visit_mut_jsx_empty_expr(&mut **self, node)
     }
 
     fn visit_mut_jsx_expr(&mut self, node: &mut JSXExpr) {
-        VisitMut::visit_mut_jsx_expr(self, node)
+        VisitMut::visit_mut_jsx_expr(&mut **self, node)
     }
 
     fn visit_mut_jsx_expr_container(&mut self, node: &mut JSXExprContainer) {
-        VisitMut::visit_mut_jsx_expr_container(self, node)
+        VisitMut::visit_mut_jsx_expr_container(&mut **self, node)
     }
 
     fn visit_mut_jsx_fragment(&mut self, node: &mut JSXFragment) {
-        VisitMut::visit_mut_jsx_fragment(self, node)
+        VisitMut::visit_mut_jsx_fragment(&mut **self, node)
     }
 
     fn visit_mut_jsx_member_expr(&mut self, node: &mut JSXMemberExpr) {
-        VisitMut::visit_mut_jsx_member_expr(self, node)
+        VisitMut::visit_mut_jsx_member_expr(&mut **self, node)
     }
 
     fn visit_mut_jsx_namespaced_name(&mut self, node: &mut JSXNamespacedName) {
-        VisitMut::visit_mut_jsx_namespaced_name(self, node)
+        VisitMut::visit_mut_jsx_namespaced_name(&mut **self, node)
     }
 
     fn visit_mut_jsx_object(&mut self, node: &mut JSXObject) {
-        VisitMut::visit_mut_jsx_object(self, node)
+        VisitMut::visit_mut_jsx_object(&mut **self, node)
     }
 
     fn visit_mut_jsx_opening_element(&mut self, node: &mut JSXOpeningElement) {
-        VisitMut::visit_mut_jsx_opening_element(self, node)
+        VisitMut::visit_mut_jsx_opening_element(&mut **self, node)
     }
 
     fn visit_mut_jsx_opening_fragment(&mut self, node: &mut JSXOpeningFragment) {
-        VisitMut::visit_mut_jsx_opening_fragment(self, node)
+        VisitMut::visit_mut_jsx_opening_fragment(&mut **self, node)
     }
 
     fn visit_mut_jsx_spread_child(&mut self, node: &mut JSXSpreadChild) {
-        VisitMut::visit_mut_jsx_spread_child(self, node)
+        VisitMut::visit_mut_jsx_spread_child(&mut **self, node)
     }
 
     fn visit_mut_jsx_text(&mut self, node: &mut JSXText) {
-        VisitMut::visit_mut_jsx_text(self, node)
+        VisitMut::visit_mut_jsx_text(&mut **self, node)
     }
 
     fn visit_mut_key(&mut self, node: &mut Key) {
-        VisitMut::visit_mut_key(self, node)
+        VisitMut::visit_mut_key(&mut **self, node)
     }
 
     fn visit_mut_key_value_pat_prop(&mut self, node: &mut KeyValuePatProp) {
-        VisitMut::visit_mut_key_value_pat_prop(self, node)
+        VisitMut::visit_mut_key_value_pat_prop(&mut **self, node)
     }
 
     fn visit_mut_key_value_prop(&mut self, node: &mut KeyValueProp) {
-        VisitMut::visit_mut_key_value_prop(self, node)
+        VisitMut::visit_mut_key_value_prop(&mut **self, node)
     }
 
     fn visit_mut_labeled_stmt(&mut self, node: &mut LabeledStmt) {
-        VisitMut::visit_mut_labeled_stmt(self, node)
+        VisitMut::visit_mut_labeled_stmt(&mut **self, node)
     }
 
     fn visit_mut_lit(&mut self, node: &mut Lit) {
-        VisitMut::visit_mut_lit(self, node)
+        VisitMut::visit_mut_lit(&mut **self, node)
     }
 
     fn visit_mut_member_expr(&mut self, node: &mut MemberExpr) {
-        VisitMut::visit_mut_member_expr(self, node)
+        VisitMut::visit_mut_member_expr(&mut **self, node)
     }
 
     fn visit_mut_member_prop(&mut self, node: &mut MemberProp) {
-        VisitMut::visit_mut_member_prop(self, node)
+        VisitMut::visit_mut_member_prop(&mut **self, node)
     }
 
     fn visit_mut_meta_prop_expr(&mut self, node: &mut MetaPropExpr) {
-        VisitMut::visit_mut_meta_prop_expr(self, node)
+        VisitMut::visit_mut_meta_prop_expr(&mut **self, node)
     }
 
     fn visit_mut_meta_prop_kind(&mut self, node: &mut MetaPropKind) {
-        VisitMut::visit_mut_meta_prop_kind(self, node)
+        VisitMut::visit_mut_meta_prop_kind(&mut **self, node)
     }
 
     fn visit_mut_method_kind(&mut self, node: &mut MethodKind) {
-        VisitMut::visit_mut_method_kind(self, node)
+        VisitMut::visit_mut_method_kind(&mut **self, node)
     }
 
     fn visit_mut_method_prop(&mut self, node: &mut MethodProp) {
-        VisitMut::visit_mut_method_prop(self, node)
+        VisitMut::visit_mut_method_prop(&mut **self, node)
     }
 
     fn visit_mut_module(&mut self, node: &mut Module) {
-        VisitMut::visit_mut_module(self, node)
+        VisitMut::visit_mut_module(&mut **self, node)
     }
 
     fn visit_mut_module_decl(&mut self, node: &mut ModuleDecl) {
-        VisitMut::visit_mut_module_decl(self, node)
+        VisitMut::visit_mut_module_decl(&mut **self, node)
     }
 
     fn visit_mut_module_export_name(&mut self, node: &mut ModuleExportName) {
-        VisitMut::visit_mut_module_export_name(self, node)
+        VisitMut::visit_mut_module_export_name(&mut **self, node)
     }
 
     fn visit_mut_module_item(&mut self, node: &mut ModuleItem) {
-        VisitMut::visit_mut_module_item(self, node)
+        VisitMut::visit_mut_module_item(&mut **self, node)
     }
 
     fn visit_mut_module_items(&mut self, node: &mut Vec<ModuleItem>) {
-        VisitMut::visit_mut_module_items(self, node)
+        VisitMut::visit_mut_module_items(&mut **self, node)
     }
 
     fn visit_mut_named_export(&mut self, node: &mut NamedExport) {
-        VisitMut::visit_mut_named_export(self, node)
+        VisitMut::visit_mut_named_export(&mut **self, node)
     }
 
     fn visit_mut_new_expr(&mut self, node: &mut NewExpr) {
-        VisitMut::visit_mut_new_expr(self, node)
+        VisitMut::visit_mut_new_expr(&mut **self, node)
     }
 
     fn visit_mut_null(&mut self, node: &mut Null) {
-        VisitMut::visit_mut_null(self, node)
+        VisitMut::visit_mut_null(&mut **self, node)
     }
 
     fn visit_mut_number(&mut self, node: &mut Number) {
-        VisitMut::visit_mut_number(self, node)
+        VisitMut::visit_mut_number(&mut **self, node)
     }
 
     fn visit_mut_object_lit(&mut self, node: &mut ObjectLit) {
-        VisitMut::visit_mut_object_lit(self, node)
+        VisitMut::visit_mut_object_lit(&mut **self, node)
     }
 
     fn visit_mut_object_pat(&mut self, node: &mut ObjectPat) {
-        VisitMut::visit_mut_object_pat(self, node)
+        VisitMut::visit_mut_object_pat(&mut **self, node)
     }
 
     fn visit_mut_object_pat_prop(&mut self, node: &mut ObjectPatProp) {
-        VisitMut::visit_mut_object_pat_prop(self, node)
+        VisitMut::visit_mut_object_pat_prop(&mut **self, node)
     }
 
     fn visit_mut_object_pat_props(&mut self, node: &mut Vec<ObjectPatProp>) {
-        VisitMut::visit_mut_object_pat_props(self, node)
+        VisitMut::visit_mut_object_pat_props(&mut **self, node)
     }
 
     fn visit_mut_opt_accessibility(&mut self, node: &mut Option<Accessibility>) {
-        VisitMut::visit_mut_opt_accessibility(self, node)
+        VisitMut::visit_mut_opt_accessibility(&mut **self, node)
     }
 
     fn visit_mut_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
-        VisitMut::visit_mut_opt_atom(self, node)
+        VisitMut::visit_mut_opt_atom(&mut **self, node)
     }
 
     fn visit_mut_opt_block_stmt(&mut self, node: &mut Option<BlockStmt>) {
-        VisitMut::visit_mut_opt_block_stmt(self, node)
+        VisitMut::visit_mut_opt_block_stmt(&mut **self, node)
     }
 
     fn visit_mut_opt_call(&mut self, node: &mut OptCall) {
-        VisitMut::visit_mut_opt_call(self, node)
+        VisitMut::visit_mut_opt_call(&mut **self, node)
     }
 
     fn visit_mut_opt_catch_clause(&mut self, node: &mut Option<CatchClause>) {
-        VisitMut::visit_mut_opt_catch_clause(self, node)
+        VisitMut::visit_mut_opt_catch_clause(&mut **self, node)
     }
 
     fn visit_mut_opt_chain_base(&mut self, node: &mut OptChainBase) {
-        VisitMut::visit_mut_opt_chain_base(self, node)
+        VisitMut::visit_mut_opt_chain_base(&mut **self, node)
     }
 
     fn visit_mut_opt_chain_expr(&mut self, node: &mut OptChainExpr) {
-        VisitMut::visit_mut_opt_chain_expr(self, node)
+        VisitMut::visit_mut_opt_chain_expr(&mut **self, node)
     }
 
     fn visit_mut_opt_expr(&mut self, node: &mut Option<Box<Expr>>) {
-        VisitMut::visit_mut_opt_expr(self, node)
+        VisitMut::visit_mut_opt_expr(&mut **self, node)
     }
 
     fn visit_mut_opt_expr_or_spread(&mut self, node: &mut Option<ExprOrSpread>) {
-        VisitMut::visit_mut_opt_expr_or_spread(self, node)
+        VisitMut::visit_mut_opt_expr_or_spread(&mut **self, node)
     }
 
     fn visit_mut_opt_expr_or_spreads(&mut self, node: &mut Option<Vec<ExprOrSpread>>) {
-        VisitMut::visit_mut_opt_expr_or_spreads(self, node)
+        VisitMut::visit_mut_opt_expr_or_spreads(&mut **self, node)
     }
 
     fn visit_mut_opt_ident(&mut self, node: &mut Option<Ident>) {
-        VisitMut::visit_mut_opt_ident(self, node)
+        VisitMut::visit_mut_opt_ident(&mut **self, node)
     }
 
     fn visit_mut_opt_jsx_attr_value(&mut self, node: &mut Option<JSXAttrValue>) {
-        VisitMut::visit_mut_opt_jsx_attr_value(self, node)
+        VisitMut::visit_mut_opt_jsx_attr_value(&mut **self, node)
     }
 
     fn visit_mut_opt_jsx_closing_element(&mut self, node: &mut Option<JSXClosingElement>) {
-        VisitMut::visit_mut_opt_jsx_closing_element(self, node)
+        VisitMut::visit_mut_opt_jsx_closing_element(&mut **self, node)
     }
 
     fn visit_mut_opt_module_export_name(&mut self, node: &mut Option<ModuleExportName>) {
-        VisitMut::visit_mut_opt_module_export_name(self, node)
+        VisitMut::visit_mut_opt_module_export_name(&mut **self, node)
     }
 
     fn visit_mut_opt_module_items(&mut self, node: &mut Option<Vec<ModuleItem>>) {
-        VisitMut::visit_mut_opt_module_items(self, node)
+        VisitMut::visit_mut_opt_module_items(&mut **self, node)
     }
 
     fn visit_mut_opt_object_lit(&mut self, node: &mut Option<Box<ObjectLit>>) {
-        VisitMut::visit_mut_opt_object_lit(self, node)
+        VisitMut::visit_mut_opt_object_lit(&mut **self, node)
     }
 
     fn visit_mut_opt_pat(&mut self, node: &mut Option<Pat>) {
-        VisitMut::visit_mut_opt_pat(self, node)
+        VisitMut::visit_mut_opt_pat(&mut **self, node)
     }
 
     fn visit_mut_opt_span(&mut self, node: &mut Option<swc_common::Span>) {
-        VisitMut::visit_mut_opt_span(self, node)
+        VisitMut::visit_mut_opt_span(&mut **self, node)
     }
 
     fn visit_mut_opt_stmt(&mut self, node: &mut Option<Box<Stmt>>) {
-        VisitMut::visit_mut_opt_stmt(self, node)
+        VisitMut::visit_mut_opt_stmt(&mut **self, node)
     }
 
     fn visit_mut_opt_str(&mut self, node: &mut Option<Box<Str>>) {
-        VisitMut::visit_mut_opt_str(self, node)
+        VisitMut::visit_mut_opt_str(&mut **self, node)
     }
 
     fn visit_mut_opt_true_plus_minus(&mut self, node: &mut Option<TruePlusMinus>) {
-        VisitMut::visit_mut_opt_true_plus_minus(self, node)
+        VisitMut::visit_mut_opt_true_plus_minus(&mut **self, node)
     }
 
     fn visit_mut_opt_ts_entity_name(&mut self, node: &mut Option<TsEntityName>) {
-        VisitMut::visit_mut_opt_ts_entity_name(self, node)
+        VisitMut::visit_mut_opt_ts_entity_name(&mut **self, node)
     }
 
     fn visit_mut_opt_ts_namespace_body(&mut self, node: &mut Option<TsNamespaceBody>) {
-        VisitMut::visit_mut_opt_ts_namespace_body(self, node)
+        VisitMut::visit_mut_opt_ts_namespace_body(&mut **self, node)
     }
 
     fn visit_mut_opt_ts_type(&mut self, node: &mut Option<Box<TsType>>) {
-        VisitMut::visit_mut_opt_ts_type(self, node)
+        VisitMut::visit_mut_opt_ts_type(&mut **self, node)
     }
 
     fn visit_mut_opt_ts_type_ann(&mut self, node: &mut Option<Box<TsTypeAnn>>) {
-        VisitMut::visit_mut_opt_ts_type_ann(self, node)
+        VisitMut::visit_mut_opt_ts_type_ann(&mut **self, node)
     }
 
     fn visit_mut_opt_ts_type_param_decl(&mut self, node: &mut Option<Box<TsTypeParamDecl>>) {
-        VisitMut::visit_mut_opt_ts_type_param_decl(self, node)
+        VisitMut::visit_mut_opt_ts_type_param_decl(&mut **self, node)
     }
 
     fn visit_mut_opt_ts_type_param_instantiation(
         &mut self,
         node: &mut Option<Box<TsTypeParamInstantiation>>,
     ) {
-        VisitMut::visit_mut_opt_ts_type_param_instantiation(self, node)
+        VisitMut::visit_mut_opt_ts_type_param_instantiation(&mut **self, node)
     }
 
     fn visit_mut_opt_var_decl_or_expr(&mut self, node: &mut Option<VarDeclOrExpr>) {
-        VisitMut::visit_mut_opt_var_decl_or_expr(self, node)
+        VisitMut::visit_mut_opt_var_decl_or_expr(&mut **self, node)
     }
 
     fn visit_mut_opt_vec_expr_or_spreads(&mut self, node: &mut Vec<Option<ExprOrSpread>>) {
-        VisitMut::visit_mut_opt_vec_expr_or_spreads(self, node)
+        VisitMut::visit_mut_opt_vec_expr_or_spreads(&mut **self, node)
     }
 
     fn visit_mut_opt_vec_pats(&mut self, node: &mut Vec<Option<Pat>>) {
-        VisitMut::visit_mut_opt_vec_pats(self, node)
+        VisitMut::visit_mut_opt_vec_pats(&mut **self, node)
     }
 
     fn visit_mut_param(&mut self, node: &mut Param) {
-        VisitMut::visit_mut_param(self, node)
+        VisitMut::visit_mut_param(&mut **self, node)
     }
 
     fn visit_mut_param_or_ts_param_prop(&mut self, node: &mut ParamOrTsParamProp) {
-        VisitMut::visit_mut_param_or_ts_param_prop(self, node)
+        VisitMut::visit_mut_param_or_ts_param_prop(&mut **self, node)
     }
 
     fn visit_mut_param_or_ts_param_props(&mut self, node: &mut Vec<ParamOrTsParamProp>) {
-        VisitMut::visit_mut_param_or_ts_param_props(self, node)
+        VisitMut::visit_mut_param_or_ts_param_props(&mut **self, node)
     }
 
     fn visit_mut_params(&mut self, node: &mut Vec<Param>) {
-        VisitMut::visit_mut_params(self, node)
+        VisitMut::visit_mut_params(&mut **self, node)
     }
 
     fn visit_mut_paren_expr(&mut self, node: &mut ParenExpr) {
-        VisitMut::visit_mut_paren_expr(self, node)
+        VisitMut::visit_mut_paren_expr(&mut **self, node)
     }
 
     fn visit_mut_pat(&mut self, node: &mut Pat) {
-        VisitMut::visit_mut_pat(self, node)
+        VisitMut::visit_mut_pat(&mut **self, node)
     }
 
     fn visit_mut_pats(&mut self, node: &mut Vec<Pat>) {
-        VisitMut::visit_mut_pats(self, node)
+        VisitMut::visit_mut_pats(&mut **self, node)
     }
 
     fn visit_mut_private_method(&mut self, node: &mut PrivateMethod) {
-        VisitMut::visit_mut_private_method(self, node)
+        VisitMut::visit_mut_private_method(&mut **self, node)
     }
 
     fn visit_mut_private_name(&mut self, node: &mut PrivateName) {
-        VisitMut::visit_mut_private_name(self, node)
+        VisitMut::visit_mut_private_name(&mut **self, node)
     }
 
     fn visit_mut_private_prop(&mut self, node: &mut PrivateProp) {
-        VisitMut::visit_mut_private_prop(self, node)
+        VisitMut::visit_mut_private_prop(&mut **self, node)
     }
 
     fn visit_mut_program(&mut self, node: &mut Program) {
-        VisitMut::visit_mut_program(self, node)
+        VisitMut::visit_mut_program(&mut **self, node)
     }
 
     fn visit_mut_prop(&mut self, node: &mut Prop) {
-        VisitMut::visit_mut_prop(self, node)
+        VisitMut::visit_mut_prop(&mut **self, node)
     }
 
     fn visit_mut_prop_name(&mut self, node: &mut PropName) {
-        VisitMut::visit_mut_prop_name(self, node)
+        VisitMut::visit_mut_prop_name(&mut **self, node)
     }
 
     fn visit_mut_prop_or_spread(&mut self, node: &mut PropOrSpread) {
-        VisitMut::visit_mut_prop_or_spread(self, node)
+        VisitMut::visit_mut_prop_or_spread(&mut **self, node)
     }
 
     fn visit_mut_prop_or_spreads(&mut self, node: &mut Vec<PropOrSpread>) {
-        VisitMut::visit_mut_prop_or_spreads(self, node)
+        VisitMut::visit_mut_prop_or_spreads(&mut **self, node)
     }
 
     fn visit_mut_regex(&mut self, node: &mut Regex) {
-        VisitMut::visit_mut_regex(self, node)
+        VisitMut::visit_mut_regex(&mut **self, node)
     }
 
     fn visit_mut_reserved_unused(&mut self, node: &mut ReservedUnused) {
-        VisitMut::visit_mut_reserved_unused(self, node)
+        VisitMut::visit_mut_reserved_unused(&mut **self, node)
     }
 
     fn visit_mut_rest_pat(&mut self, node: &mut RestPat) {
-        VisitMut::visit_mut_rest_pat(self, node)
+        VisitMut::visit_mut_rest_pat(&mut **self, node)
     }
 
     fn visit_mut_return_stmt(&mut self, node: &mut ReturnStmt) {
-        VisitMut::visit_mut_return_stmt(self, node)
+        VisitMut::visit_mut_return_stmt(&mut **self, node)
     }
 
     fn visit_mut_script(&mut self, node: &mut Script) {
-        VisitMut::visit_mut_script(self, node)
+        VisitMut::visit_mut_script(&mut **self, node)
     }
 
     fn visit_mut_seq_expr(&mut self, node: &mut SeqExpr) {
-        VisitMut::visit_mut_seq_expr(self, node)
+        VisitMut::visit_mut_seq_expr(&mut **self, node)
     }
 
     fn visit_mut_setter_prop(&mut self, node: &mut SetterProp) {
-        VisitMut::visit_mut_setter_prop(self, node)
+        VisitMut::visit_mut_setter_prop(&mut **self, node)
     }
 
     fn visit_mut_simple_assign_target(&mut self, node: &mut SimpleAssignTarget) {
-        VisitMut::visit_mut_simple_assign_target(self, node)
+        VisitMut::visit_mut_simple_assign_target(&mut **self, node)
     }
 
     fn visit_mut_span(&mut self, node: &mut swc_common::Span) {
-        VisitMut::visit_mut_span(self, node)
+        VisitMut::visit_mut_span(&mut **self, node)
     }
 
     fn visit_mut_spread_element(&mut self, node: &mut SpreadElement) {
-        VisitMut::visit_mut_spread_element(self, node)
+        VisitMut::visit_mut_spread_element(&mut **self, node)
     }
 
     fn visit_mut_static_block(&mut self, node: &mut StaticBlock) {
-        VisitMut::visit_mut_static_block(self, node)
+        VisitMut::visit_mut_static_block(&mut **self, node)
     }
 
     fn visit_mut_stmt(&mut self, node: &mut Stmt) {
-        VisitMut::visit_mut_stmt(self, node)
+        VisitMut::visit_mut_stmt(&mut **self, node)
     }
 
     fn visit_mut_stmts(&mut self, node: &mut Vec<Stmt>) {
-        VisitMut::visit_mut_stmts(self, node)
+        VisitMut::visit_mut_stmts(&mut **self, node)
     }
 
     fn visit_mut_str(&mut self, node: &mut Str) {
-        VisitMut::visit_mut_str(self, node)
+        VisitMut::visit_mut_str(&mut **self, node)
     }
 
     fn visit_mut_super(&mut self, node: &mut Super) {
-        VisitMut::visit_mut_super(self, node)
+        VisitMut::visit_mut_super(&mut **self, node)
     }
 
     fn visit_mut_super_prop(&mut self, node: &mut SuperProp) {
-        VisitMut::visit_mut_super_prop(self, node)
+        VisitMut::visit_mut_super_prop(&mut **self, node)
     }
 
     fn visit_mut_super_prop_expr(&mut self, node: &mut SuperPropExpr) {
-        VisitMut::visit_mut_super_prop_expr(self, node)
+        VisitMut::visit_mut_super_prop_expr(&mut **self, node)
     }
 
     fn visit_mut_switch_case(&mut self, node: &mut SwitchCase) {
-        VisitMut::visit_mut_switch_case(self, node)
+        VisitMut::visit_mut_switch_case(&mut **self, node)
     }
 
     fn visit_mut_switch_cases(&mut self, node: &mut Vec<SwitchCase>) {
-        VisitMut::visit_mut_switch_cases(self, node)
+        VisitMut::visit_mut_switch_cases(&mut **self, node)
     }
 
     fn visit_mut_switch_stmt(&mut self, node: &mut SwitchStmt) {
-        VisitMut::visit_mut_switch_stmt(self, node)
+        VisitMut::visit_mut_switch_stmt(&mut **self, node)
     }
 
     fn visit_mut_syntax_context(&mut self, node: &mut swc_common::SyntaxContext) {
-        VisitMut::visit_mut_syntax_context(self, node)
+        VisitMut::visit_mut_syntax_context(&mut **self, node)
     }
 
     fn visit_mut_tagged_tpl(&mut self, node: &mut TaggedTpl) {
-        VisitMut::visit_mut_tagged_tpl(self, node)
+        VisitMut::visit_mut_tagged_tpl(&mut **self, node)
     }
 
     fn visit_mut_this_expr(&mut self, node: &mut ThisExpr) {
-        VisitMut::visit_mut_this_expr(self, node)
+        VisitMut::visit_mut_this_expr(&mut **self, node)
     }
 
     fn visit_mut_throw_stmt(&mut self, node: &mut ThrowStmt) {
-        VisitMut::visit_mut_throw_stmt(self, node)
+        VisitMut::visit_mut_throw_stmt(&mut **self, node)
     }
 
     fn visit_mut_tpl(&mut self, node: &mut Tpl) {
-        VisitMut::visit_mut_tpl(self, node)
+        VisitMut::visit_mut_tpl(&mut **self, node)
     }
 
     fn visit_mut_tpl_element(&mut self, node: &mut TplElement) {
-        VisitMut::visit_mut_tpl_element(self, node)
+        VisitMut::visit_mut_tpl_element(&mut **self, node)
     }
 
     fn visit_mut_tpl_elements(&mut self, node: &mut Vec<TplElement>) {
-        VisitMut::visit_mut_tpl_elements(self, node)
+        VisitMut::visit_mut_tpl_elements(&mut **self, node)
     }
 
     fn visit_mut_true_plus_minus(&mut self, node: &mut TruePlusMinus) {
-        VisitMut::visit_mut_true_plus_minus(self, node)
+        VisitMut::visit_mut_true_plus_minus(&mut **self, node)
     }
 
     fn visit_mut_try_stmt(&mut self, node: &mut TryStmt) {
-        VisitMut::visit_mut_try_stmt(self, node)
+        VisitMut::visit_mut_try_stmt(&mut **self, node)
     }
 
     fn visit_mut_ts_array_type(&mut self, node: &mut TsArrayType) {
-        VisitMut::visit_mut_ts_array_type(self, node)
+        VisitMut::visit_mut_ts_array_type(&mut **self, node)
     }
 
     fn visit_mut_ts_as_expr(&mut self, node: &mut TsAsExpr) {
-        VisitMut::visit_mut_ts_as_expr(self, node)
+        VisitMut::visit_mut_ts_as_expr(&mut **self, node)
     }
 
     fn visit_mut_ts_call_signature_decl(&mut self, node: &mut TsCallSignatureDecl) {
-        VisitMut::visit_mut_ts_call_signature_decl(self, node)
+        VisitMut::visit_mut_ts_call_signature_decl(&mut **self, node)
     }
 
     fn visit_mut_ts_conditional_type(&mut self, node: &mut TsConditionalType) {
-        VisitMut::visit_mut_ts_conditional_type(self, node)
+        VisitMut::visit_mut_ts_conditional_type(&mut **self, node)
     }
 
     fn visit_mut_ts_const_assertion(&mut self, node: &mut TsConstAssertion) {
-        VisitMut::visit_mut_ts_const_assertion(self, node)
+        VisitMut::visit_mut_ts_const_assertion(&mut **self, node)
     }
 
     fn visit_mut_ts_construct_signature_decl(&mut self, node: &mut TsConstructSignatureDecl) {
-        VisitMut::visit_mut_ts_construct_signature_decl(self, node)
+        VisitMut::visit_mut_ts_construct_signature_decl(&mut **self, node)
     }
 
     fn visit_mut_ts_constructor_type(&mut self, node: &mut TsConstructorType) {
-        VisitMut::visit_mut_ts_constructor_type(self, node)
+        VisitMut::visit_mut_ts_constructor_type(&mut **self, node)
     }
 
     fn visit_mut_ts_entity_name(&mut self, node: &mut TsEntityName) {
-        VisitMut::visit_mut_ts_entity_name(self, node)
+        VisitMut::visit_mut_ts_entity_name(&mut **self, node)
     }
 
     fn visit_mut_ts_enum_decl(&mut self, node: &mut TsEnumDecl) {
-        VisitMut::visit_mut_ts_enum_decl(self, node)
+        VisitMut::visit_mut_ts_enum_decl(&mut **self, node)
     }
 
     fn visit_mut_ts_enum_member(&mut self, node: &mut TsEnumMember) {
-        VisitMut::visit_mut_ts_enum_member(self, node)
+        VisitMut::visit_mut_ts_enum_member(&mut **self, node)
     }
 
     fn visit_mut_ts_enum_member_id(&mut self, node: &mut TsEnumMemberId) {
-        VisitMut::visit_mut_ts_enum_member_id(self, node)
+        VisitMut::visit_mut_ts_enum_member_id(&mut **self, node)
     }
 
     fn visit_mut_ts_enum_members(&mut self, node: &mut Vec<TsEnumMember>) {
-        VisitMut::visit_mut_ts_enum_members(self, node)
+        VisitMut::visit_mut_ts_enum_members(&mut **self, node)
     }
 
     fn visit_mut_ts_export_assignment(&mut self, node: &mut TsExportAssignment) {
-        VisitMut::visit_mut_ts_export_assignment(self, node)
+        VisitMut::visit_mut_ts_export_assignment(&mut **self, node)
     }
 
     fn visit_mut_ts_expr_with_type_args(&mut self, node: &mut TsExprWithTypeArgs) {
-        VisitMut::visit_mut_ts_expr_with_type_args(self, node)
+        VisitMut::visit_mut_ts_expr_with_type_args(&mut **self, node)
     }
 
     fn visit_mut_ts_expr_with_type_argss(&mut self, node: &mut Vec<TsExprWithTypeArgs>) {
-        VisitMut::visit_mut_ts_expr_with_type_argss(self, node)
+        VisitMut::visit_mut_ts_expr_with_type_argss(&mut **self, node)
     }
 
     fn visit_mut_ts_external_module_ref(&mut self, node: &mut TsExternalModuleRef) {
-        VisitMut::visit_mut_ts_external_module_ref(self, node)
+        VisitMut::visit_mut_ts_external_module_ref(&mut **self, node)
     }
 
     fn visit_mut_ts_fn_or_constructor_type(&mut self, node: &mut TsFnOrConstructorType) {
-        VisitMut::visit_mut_ts_fn_or_constructor_type(self, node)
+        VisitMut::visit_mut_ts_fn_or_constructor_type(&mut **self, node)
     }
 
     fn visit_mut_ts_fn_param(&mut self, node: &mut TsFnParam) {
-        VisitMut::visit_mut_ts_fn_param(self, node)
+        VisitMut::visit_mut_ts_fn_param(&mut **self, node)
     }
 
     fn visit_mut_ts_fn_params(&mut self, node: &mut Vec<TsFnParam>) {
-        VisitMut::visit_mut_ts_fn_params(self, node)
+        VisitMut::visit_mut_ts_fn_params(&mut **self, node)
     }
 
     fn visit_mut_ts_fn_type(&mut self, node: &mut TsFnType) {
-        VisitMut::visit_mut_ts_fn_type(self, node)
+        VisitMut::visit_mut_ts_fn_type(&mut **self, node)
     }
 
     fn visit_mut_ts_getter_signature(&mut self, node: &mut TsGetterSignature) {
-        VisitMut::visit_mut_ts_getter_signature(self, node)
+        VisitMut::visit_mut_ts_getter_signature(&mut **self, node)
     }
 
     fn visit_mut_ts_import_equals_decl(&mut self, node: &mut TsImportEqualsDecl) {
-        VisitMut::visit_mut_ts_import_equals_decl(self, node)
+        VisitMut::visit_mut_ts_import_equals_decl(&mut **self, node)
     }
 
     fn visit_mut_ts_import_type(&mut self, node: &mut TsImportType) {
-        VisitMut::visit_mut_ts_import_type(self, node)
+        VisitMut::visit_mut_ts_import_type(&mut **self, node)
     }
 
     fn visit_mut_ts_index_signature(&mut self, node: &mut TsIndexSignature) {
-        VisitMut::visit_mut_ts_index_signature(self, node)
+        VisitMut::visit_mut_ts_index_signature(&mut **self, node)
     }
 
     fn visit_mut_ts_indexed_access_type(&mut self, node: &mut TsIndexedAccessType) {
-        VisitMut::visit_mut_ts_indexed_access_type(self, node)
+        VisitMut::visit_mut_ts_indexed_access_type(&mut **self, node)
     }
 
     fn visit_mut_ts_infer_type(&mut self, node: &mut TsInferType) {
-        VisitMut::visit_mut_ts_infer_type(self, node)
+        VisitMut::visit_mut_ts_infer_type(&mut **self, node)
     }
 
     fn visit_mut_ts_instantiation(&mut self, node: &mut TsInstantiation) {
-        VisitMut::visit_mut_ts_instantiation(self, node)
+        VisitMut::visit_mut_ts_instantiation(&mut **self, node)
     }
 
     fn visit_mut_ts_interface_body(&mut self, node: &mut TsInterfaceBody) {
-        VisitMut::visit_mut_ts_interface_body(self, node)
+        VisitMut::visit_mut_ts_interface_body(&mut **self, node)
     }
 
     fn visit_mut_ts_interface_decl(&mut self, node: &mut TsInterfaceDecl) {
-        VisitMut::visit_mut_ts_interface_decl(self, node)
+        VisitMut::visit_mut_ts_interface_decl(&mut **self, node)
     }
 
     fn visit_mut_ts_intersection_type(&mut self, node: &mut TsIntersectionType) {
-        VisitMut::visit_mut_ts_intersection_type(self, node)
+        VisitMut::visit_mut_ts_intersection_type(&mut **self, node)
     }
 
     fn visit_mut_ts_keyword_type(&mut self, node: &mut TsKeywordType) {
-        VisitMut::visit_mut_ts_keyword_type(self, node)
+        VisitMut::visit_mut_ts_keyword_type(&mut **self, node)
     }
 
     fn visit_mut_ts_keyword_type_kind(&mut self, node: &mut TsKeywordTypeKind) {
-        VisitMut::visit_mut_ts_keyword_type_kind(self, node)
+        VisitMut::visit_mut_ts_keyword_type_kind(&mut **self, node)
     }
 
     fn visit_mut_ts_lit(&mut self, node: &mut TsLit) {
-        VisitMut::visit_mut_ts_lit(self, node)
+        VisitMut::visit_mut_ts_lit(&mut **self, node)
     }
 
     fn visit_mut_ts_lit_type(&mut self, node: &mut TsLitType) {
-        VisitMut::visit_mut_ts_lit_type(self, node)
+        VisitMut::visit_mut_ts_lit_type(&mut **self, node)
     }
 
     fn visit_mut_ts_mapped_type(&mut self, node: &mut TsMappedType) {
-        VisitMut::visit_mut_ts_mapped_type(self, node)
+        VisitMut::visit_mut_ts_mapped_type(&mut **self, node)
     }
 
     fn visit_mut_ts_method_signature(&mut self, node: &mut TsMethodSignature) {
-        VisitMut::visit_mut_ts_method_signature(self, node)
+        VisitMut::visit_mut_ts_method_signature(&mut **self, node)
     }
 
     fn visit_mut_ts_module_block(&mut self, node: &mut TsModuleBlock) {
-        VisitMut::visit_mut_ts_module_block(self, node)
+        VisitMut::visit_mut_ts_module_block(&mut **self, node)
     }
 
     fn visit_mut_ts_module_decl(&mut self, node: &mut TsModuleDecl) {
-        VisitMut::visit_mut_ts_module_decl(self, node)
+        VisitMut::visit_mut_ts_module_decl(&mut **self, node)
     }
 
     fn visit_mut_ts_module_name(&mut self, node: &mut TsModuleName) {
-        VisitMut::visit_mut_ts_module_name(self, node)
+        VisitMut::visit_mut_ts_module_name(&mut **self, node)
     }
 
     fn visit_mut_ts_module_ref(&mut self, node: &mut TsModuleRef) {
-        VisitMut::visit_mut_ts_module_ref(self, node)
+        VisitMut::visit_mut_ts_module_ref(&mut **self, node)
     }
 
     fn visit_mut_ts_namespace_body(&mut self, node: &mut TsNamespaceBody) {
-        VisitMut::visit_mut_ts_namespace_body(self, node)
+        VisitMut::visit_mut_ts_namespace_body(&mut **self, node)
     }
 
     fn visit_mut_ts_namespace_decl(&mut self, node: &mut TsNamespaceDecl) {
-        VisitMut::visit_mut_ts_namespace_decl(self, node)
+        VisitMut::visit_mut_ts_namespace_decl(&mut **self, node)
     }
 
     fn visit_mut_ts_namespace_export_decl(&mut self, node: &mut TsNamespaceExportDecl) {
-        VisitMut::visit_mut_ts_namespace_export_decl(self, node)
+        VisitMut::visit_mut_ts_namespace_export_decl(&mut **self, node)
     }
 
     fn visit_mut_ts_non_null_expr(&mut self, node: &mut TsNonNullExpr) {
-        VisitMut::visit_mut_ts_non_null_expr(self, node)
+        VisitMut::visit_mut_ts_non_null_expr(&mut **self, node)
     }
 
     fn visit_mut_ts_optional_type(&mut self, node: &mut TsOptionalType) {
-        VisitMut::visit_mut_ts_optional_type(self, node)
+        VisitMut::visit_mut_ts_optional_type(&mut **self, node)
     }
 
     fn visit_mut_ts_param_prop(&mut self, node: &mut TsParamProp) {
-        VisitMut::visit_mut_ts_param_prop(self, node)
+        VisitMut::visit_mut_ts_param_prop(&mut **self, node)
     }
 
     fn visit_mut_ts_param_prop_param(&mut self, node: &mut TsParamPropParam) {
-        VisitMut::visit_mut_ts_param_prop_param(self, node)
+        VisitMut::visit_mut_ts_param_prop_param(&mut **self, node)
     }
 
     fn visit_mut_ts_parenthesized_type(&mut self, node: &mut TsParenthesizedType) {
-        VisitMut::visit_mut_ts_parenthesized_type(self, node)
+        VisitMut::visit_mut_ts_parenthesized_type(&mut **self, node)
     }
 
     fn visit_mut_ts_property_signature(&mut self, node: &mut TsPropertySignature) {
-        VisitMut::visit_mut_ts_property_signature(self, node)
+        VisitMut::visit_mut_ts_property_signature(&mut **self, node)
     }
 
     fn visit_mut_ts_qualified_name(&mut self, node: &mut TsQualifiedName) {
-        VisitMut::visit_mut_ts_qualified_name(self, node)
+        VisitMut::visit_mut_ts_qualified_name(&mut **self, node)
     }
 
     fn visit_mut_ts_rest_type(&mut self, node: &mut TsRestType) {
-        VisitMut::visit_mut_ts_rest_type(self, node)
+        VisitMut::visit_mut_ts_rest_type(&mut **self, node)
     }
 
     fn visit_mut_ts_satisfies_expr(&mut self, node: &mut TsSatisfiesExpr) {
-        VisitMut::visit_mut_ts_satisfies_expr(self, node)
+        VisitMut::visit_mut_ts_satisfies_expr(&mut **self, node)
     }
 
     fn visit_mut_ts_setter_signature(&mut self, node: &mut TsSetterSignature) {
-        VisitMut::visit_mut_ts_setter_signature(self, node)
+        VisitMut::visit_mut_ts_setter_signature(&mut **self, node)
     }
 
     fn visit_mut_ts_this_type(&mut self, node: &mut TsThisType) {
-        VisitMut::visit_mut_ts_this_type(self, node)
+        VisitMut::visit_mut_ts_this_type(&mut **self, node)
     }
 
     fn visit_mut_ts_this_type_or_ident(&mut self, node: &mut TsThisTypeOrIdent) {
-        VisitMut::visit_mut_ts_this_type_or_ident(self, node)
+        VisitMut::visit_mut_ts_this_type_or_ident(&mut **self, node)
     }
 
     fn visit_mut_ts_tpl_lit_type(&mut self, node: &mut TsTplLitType) {
-        VisitMut::visit_mut_ts_tpl_lit_type(self, node)
+        VisitMut::visit_mut_ts_tpl_lit_type(&mut **self, node)
     }
 
     fn visit_mut_ts_tuple_element(&mut self, node: &mut TsTupleElement) {
-        VisitMut::visit_mut_ts_tuple_element(self, node)
+        VisitMut::visit_mut_ts_tuple_element(&mut **self, node)
     }
 
     fn visit_mut_ts_tuple_elements(&mut self, node: &mut Vec<TsTupleElement>) {
-        VisitMut::visit_mut_ts_tuple_elements(self, node)
+        VisitMut::visit_mut_ts_tuple_elements(&mut **self, node)
     }
 
     fn visit_mut_ts_tuple_type(&mut self, node: &mut TsTupleType) {
-        VisitMut::visit_mut_ts_tuple_type(self, node)
+        VisitMut::visit_mut_ts_tuple_type(&mut **self, node)
     }
 
     fn visit_mut_ts_type(&mut self, node: &mut TsType) {
-        VisitMut::visit_mut_ts_type(self, node)
+        VisitMut::visit_mut_ts_type(&mut **self, node)
     }
 
     fn visit_mut_ts_type_alias_decl(&mut self, node: &mut TsTypeAliasDecl) {
-        VisitMut::visit_mut_ts_type_alias_decl(self, node)
+        VisitMut::visit_mut_ts_type_alias_decl(&mut **self, node)
     }
 
     fn visit_mut_ts_type_ann(&mut self, node: &mut TsTypeAnn) {
-        VisitMut::visit_mut_ts_type_ann(self, node)
+        VisitMut::visit_mut_ts_type_ann(&mut **self, node)
     }
 
     fn visit_mut_ts_type_assertion(&mut self, node: &mut TsTypeAssertion) {
-        VisitMut::visit_mut_ts_type_assertion(self, node)
+        VisitMut::visit_mut_ts_type_assertion(&mut **self, node)
     }
 
     fn visit_mut_ts_type_element(&mut self, node: &mut TsTypeElement) {
-        VisitMut::visit_mut_ts_type_element(self, node)
+        VisitMut::visit_mut_ts_type_element(&mut **self, node)
     }
 
     fn visit_mut_ts_type_elements(&mut self, node: &mut Vec<TsTypeElement>) {
-        VisitMut::visit_mut_ts_type_elements(self, node)
+        VisitMut::visit_mut_ts_type_elements(&mut **self, node)
     }
 
     fn visit_mut_ts_type_lit(&mut self, node: &mut TsTypeLit) {
-        VisitMut::visit_mut_ts_type_lit(self, node)
+        VisitMut::visit_mut_ts_type_lit(&mut **self, node)
     }
 
     fn visit_mut_ts_type_operator(&mut self, node: &mut TsTypeOperator) {
-        VisitMut::visit_mut_ts_type_operator(self, node)
+        VisitMut::visit_mut_ts_type_operator(&mut **self, node)
     }
 
     fn visit_mut_ts_type_operator_op(&mut self, node: &mut TsTypeOperatorOp) {
-        VisitMut::visit_mut_ts_type_operator_op(self, node)
+        VisitMut::visit_mut_ts_type_operator_op(&mut **self, node)
     }
 
     fn visit_mut_ts_type_param(&mut self, node: &mut TsTypeParam) {
-        VisitMut::visit_mut_ts_type_param(self, node)
+        VisitMut::visit_mut_ts_type_param(&mut **self, node)
     }
 
     fn visit_mut_ts_type_param_decl(&mut self, node: &mut TsTypeParamDecl) {
-        VisitMut::visit_mut_ts_type_param_decl(self, node)
+        VisitMut::visit_mut_ts_type_param_decl(&mut **self, node)
     }
 
     fn visit_mut_ts_type_param_instantiation(&mut self, node: &mut TsTypeParamInstantiation) {
-        VisitMut::visit_mut_ts_type_param_instantiation(self, node)
+        VisitMut::visit_mut_ts_type_param_instantiation(&mut **self, node)
     }
 
     fn visit_mut_ts_type_params(&mut self, node: &mut Vec<TsTypeParam>) {
-        VisitMut::visit_mut_ts_type_params(self, node)
+        VisitMut::visit_mut_ts_type_params(&mut **self, node)
     }
 
     fn visit_mut_ts_type_predicate(&mut self, node: &mut TsTypePredicate) {
-        VisitMut::visit_mut_ts_type_predicate(self, node)
+        VisitMut::visit_mut_ts_type_predicate(&mut **self, node)
     }
 
     fn visit_mut_ts_type_query(&mut self, node: &mut TsTypeQuery) {
-        VisitMut::visit_mut_ts_type_query(self, node)
+        VisitMut::visit_mut_ts_type_query(&mut **self, node)
     }
 
     fn visit_mut_ts_type_query_expr(&mut self, node: &mut TsTypeQueryExpr) {
-        VisitMut::visit_mut_ts_type_query_expr(self, node)
+        VisitMut::visit_mut_ts_type_query_expr(&mut **self, node)
     }
 
     fn visit_mut_ts_type_ref(&mut self, node: &mut TsTypeRef) {
-        VisitMut::visit_mut_ts_type_ref(self, node)
+        VisitMut::visit_mut_ts_type_ref(&mut **self, node)
     }
 
     fn visit_mut_ts_types(&mut self, node: &mut Vec<Box<TsType>>) {
-        VisitMut::visit_mut_ts_types(self, node)
+        VisitMut::visit_mut_ts_types(&mut **self, node)
     }
 
     fn visit_mut_ts_union_or_intersection_type(&mut self, node: &mut TsUnionOrIntersectionType) {
-        VisitMut::visit_mut_ts_union_or_intersection_type(self, node)
+        VisitMut::visit_mut_ts_union_or_intersection_type(&mut **self, node)
     }
 
     fn visit_mut_ts_union_type(&mut self, node: &mut TsUnionType) {
-        VisitMut::visit_mut_ts_union_type(self, node)
+        VisitMut::visit_mut_ts_union_type(&mut **self, node)
     }
 
     fn visit_mut_unary_expr(&mut self, node: &mut UnaryExpr) {
-        VisitMut::visit_mut_unary_expr(self, node)
+        VisitMut::visit_mut_unary_expr(&mut **self, node)
     }
 
     fn visit_mut_unary_op(&mut self, node: &mut UnaryOp) {
-        VisitMut::visit_mut_unary_op(self, node)
+        VisitMut::visit_mut_unary_op(&mut **self, node)
     }
 
     fn visit_mut_update_expr(&mut self, node: &mut UpdateExpr) {
-        VisitMut::visit_mut_update_expr(self, node)
+        VisitMut::visit_mut_update_expr(&mut **self, node)
     }
 
     fn visit_mut_update_op(&mut self, node: &mut UpdateOp) {
-        VisitMut::visit_mut_update_op(self, node)
+        VisitMut::visit_mut_update_op(&mut **self, node)
     }
 
     fn visit_mut_using_decl(&mut self, node: &mut UsingDecl) {
-        VisitMut::visit_mut_using_decl(self, node)
+        VisitMut::visit_mut_using_decl(&mut **self, node)
     }
 
     fn visit_mut_var_decl(&mut self, node: &mut VarDecl) {
-        VisitMut::visit_mut_var_decl(self, node)
+        VisitMut::visit_mut_var_decl(&mut **self, node)
     }
 
     fn visit_mut_var_decl_kind(&mut self, node: &mut VarDeclKind) {
-        VisitMut::visit_mut_var_decl_kind(self, node)
+        VisitMut::visit_mut_var_decl_kind(&mut **self, node)
     }
 
     fn visit_mut_var_decl_or_expr(&mut self, node: &mut VarDeclOrExpr) {
-        VisitMut::visit_mut_var_decl_or_expr(self, node)
+        VisitMut::visit_mut_var_decl_or_expr(&mut **self, node)
     }
 
     fn visit_mut_var_declarator(&mut self, node: &mut VarDeclarator) {
-        VisitMut::visit_mut_var_declarator(self, node)
+        VisitMut::visit_mut_var_declarator(&mut **self, node)
     }
 
     fn visit_mut_var_declarators(&mut self, node: &mut Vec<VarDeclarator>) {
-        VisitMut::visit_mut_var_declarators(self, node)
+        VisitMut::visit_mut_var_declarators(&mut **self, node)
     }
 
     fn visit_mut_while_stmt(&mut self, node: &mut WhileStmt) {
-        VisitMut::visit_mut_while_stmt(self, node)
+        VisitMut::visit_mut_while_stmt(&mut **self, node)
     }
 
     fn visit_mut_with_stmt(&mut self, node: &mut WithStmt) {
-        VisitMut::visit_mut_with_stmt(self, node)
+        VisitMut::visit_mut_with_stmt(&mut **self, node)
     }
 
     fn visit_mut_yield_expr(&mut self, node: &mut YieldExpr) {
-        VisitMut::visit_mut_yield_expr(self, node)
+        VisitMut::visit_mut_yield_expr(&mut **self, node)
     }
 }
 impl<V> VisitMut for Box<V>
@@ -40097,1182 +40097,1182 @@ where
     V: ?Sized + VisitMut,
 {
     fn visit_mut_accessibility(&mut self, node: &mut Accessibility) {
-        VisitMut::visit_mut_accessibility(self, node)
+        VisitMut::visit_mut_accessibility(&mut **self, node)
     }
 
     fn visit_mut_array_lit(&mut self, node: &mut ArrayLit) {
-        VisitMut::visit_mut_array_lit(self, node)
+        VisitMut::visit_mut_array_lit(&mut **self, node)
     }
 
     fn visit_mut_array_pat(&mut self, node: &mut ArrayPat) {
-        VisitMut::visit_mut_array_pat(self, node)
+        VisitMut::visit_mut_array_pat(&mut **self, node)
     }
 
     fn visit_mut_arrow_expr(&mut self, node: &mut ArrowExpr) {
-        VisitMut::visit_mut_arrow_expr(self, node)
+        VisitMut::visit_mut_arrow_expr(&mut **self, node)
     }
 
     fn visit_mut_assign_expr(&mut self, node: &mut AssignExpr) {
-        VisitMut::visit_mut_assign_expr(self, node)
+        VisitMut::visit_mut_assign_expr(&mut **self, node)
     }
 
     fn visit_mut_assign_op(&mut self, node: &mut AssignOp) {
-        VisitMut::visit_mut_assign_op(self, node)
+        VisitMut::visit_mut_assign_op(&mut **self, node)
     }
 
     fn visit_mut_assign_pat(&mut self, node: &mut AssignPat) {
-        VisitMut::visit_mut_assign_pat(self, node)
+        VisitMut::visit_mut_assign_pat(&mut **self, node)
     }
 
     fn visit_mut_assign_pat_prop(&mut self, node: &mut AssignPatProp) {
-        VisitMut::visit_mut_assign_pat_prop(self, node)
+        VisitMut::visit_mut_assign_pat_prop(&mut **self, node)
     }
 
     fn visit_mut_assign_prop(&mut self, node: &mut AssignProp) {
-        VisitMut::visit_mut_assign_prop(self, node)
+        VisitMut::visit_mut_assign_prop(&mut **self, node)
     }
 
     fn visit_mut_assign_target(&mut self, node: &mut AssignTarget) {
-        VisitMut::visit_mut_assign_target(self, node)
+        VisitMut::visit_mut_assign_target(&mut **self, node)
     }
 
     fn visit_mut_assign_target_pat(&mut self, node: &mut AssignTargetPat) {
-        VisitMut::visit_mut_assign_target_pat(self, node)
+        VisitMut::visit_mut_assign_target_pat(&mut **self, node)
     }
 
     fn visit_mut_atom(&mut self, node: &mut swc_atoms::Atom) {
-        VisitMut::visit_mut_atom(self, node)
+        VisitMut::visit_mut_atom(&mut **self, node)
     }
 
     fn visit_mut_auto_accessor(&mut self, node: &mut AutoAccessor) {
-        VisitMut::visit_mut_auto_accessor(self, node)
+        VisitMut::visit_mut_auto_accessor(&mut **self, node)
     }
 
     fn visit_mut_await_expr(&mut self, node: &mut AwaitExpr) {
-        VisitMut::visit_mut_await_expr(self, node)
+        VisitMut::visit_mut_await_expr(&mut **self, node)
     }
 
     fn visit_mut_big_int(&mut self, node: &mut BigInt) {
-        VisitMut::visit_mut_big_int(self, node)
+        VisitMut::visit_mut_big_int(&mut **self, node)
     }
 
     fn visit_mut_big_int_value(&mut self, node: &mut BigIntValue) {
-        VisitMut::visit_mut_big_int_value(self, node)
+        VisitMut::visit_mut_big_int_value(&mut **self, node)
     }
 
     fn visit_mut_bin_expr(&mut self, node: &mut BinExpr) {
-        VisitMut::visit_mut_bin_expr(self, node)
+        VisitMut::visit_mut_bin_expr(&mut **self, node)
     }
 
     fn visit_mut_binary_op(&mut self, node: &mut BinaryOp) {
-        VisitMut::visit_mut_binary_op(self, node)
+        VisitMut::visit_mut_binary_op(&mut **self, node)
     }
 
     fn visit_mut_binding_ident(&mut self, node: &mut BindingIdent) {
-        VisitMut::visit_mut_binding_ident(self, node)
+        VisitMut::visit_mut_binding_ident(&mut **self, node)
     }
 
     fn visit_mut_block_stmt(&mut self, node: &mut BlockStmt) {
-        VisitMut::visit_mut_block_stmt(self, node)
+        VisitMut::visit_mut_block_stmt(&mut **self, node)
     }
 
     fn visit_mut_block_stmt_or_expr(&mut self, node: &mut BlockStmtOrExpr) {
-        VisitMut::visit_mut_block_stmt_or_expr(self, node)
+        VisitMut::visit_mut_block_stmt_or_expr(&mut **self, node)
     }
 
     fn visit_mut_bool(&mut self, node: &mut Bool) {
-        VisitMut::visit_mut_bool(self, node)
+        VisitMut::visit_mut_bool(&mut **self, node)
     }
 
     fn visit_mut_break_stmt(&mut self, node: &mut BreakStmt) {
-        VisitMut::visit_mut_break_stmt(self, node)
+        VisitMut::visit_mut_break_stmt(&mut **self, node)
     }
 
     fn visit_mut_call_expr(&mut self, node: &mut CallExpr) {
-        VisitMut::visit_mut_call_expr(self, node)
+        VisitMut::visit_mut_call_expr(&mut **self, node)
     }
 
     fn visit_mut_callee(&mut self, node: &mut Callee) {
-        VisitMut::visit_mut_callee(self, node)
+        VisitMut::visit_mut_callee(&mut **self, node)
     }
 
     fn visit_mut_catch_clause(&mut self, node: &mut CatchClause) {
-        VisitMut::visit_mut_catch_clause(self, node)
+        VisitMut::visit_mut_catch_clause(&mut **self, node)
     }
 
     fn visit_mut_class(&mut self, node: &mut Class) {
-        VisitMut::visit_mut_class(self, node)
+        VisitMut::visit_mut_class(&mut **self, node)
     }
 
     fn visit_mut_class_decl(&mut self, node: &mut ClassDecl) {
-        VisitMut::visit_mut_class_decl(self, node)
+        VisitMut::visit_mut_class_decl(&mut **self, node)
     }
 
     fn visit_mut_class_expr(&mut self, node: &mut ClassExpr) {
-        VisitMut::visit_mut_class_expr(self, node)
+        VisitMut::visit_mut_class_expr(&mut **self, node)
     }
 
     fn visit_mut_class_member(&mut self, node: &mut ClassMember) {
-        VisitMut::visit_mut_class_member(self, node)
+        VisitMut::visit_mut_class_member(&mut **self, node)
     }
 
     fn visit_mut_class_members(&mut self, node: &mut Vec<ClassMember>) {
-        VisitMut::visit_mut_class_members(self, node)
+        VisitMut::visit_mut_class_members(&mut **self, node)
     }
 
     fn visit_mut_class_method(&mut self, node: &mut ClassMethod) {
-        VisitMut::visit_mut_class_method(self, node)
+        VisitMut::visit_mut_class_method(&mut **self, node)
     }
 
     fn visit_mut_class_prop(&mut self, node: &mut ClassProp) {
-        VisitMut::visit_mut_class_prop(self, node)
+        VisitMut::visit_mut_class_prop(&mut **self, node)
     }
 
     fn visit_mut_computed_prop_name(&mut self, node: &mut ComputedPropName) {
-        VisitMut::visit_mut_computed_prop_name(self, node)
+        VisitMut::visit_mut_computed_prop_name(&mut **self, node)
     }
 
     fn visit_mut_cond_expr(&mut self, node: &mut CondExpr) {
-        VisitMut::visit_mut_cond_expr(self, node)
+        VisitMut::visit_mut_cond_expr(&mut **self, node)
     }
 
     fn visit_mut_constructor(&mut self, node: &mut Constructor) {
-        VisitMut::visit_mut_constructor(self, node)
+        VisitMut::visit_mut_constructor(&mut **self, node)
     }
 
     fn visit_mut_continue_stmt(&mut self, node: &mut ContinueStmt) {
-        VisitMut::visit_mut_continue_stmt(self, node)
+        VisitMut::visit_mut_continue_stmt(&mut **self, node)
     }
 
     fn visit_mut_debugger_stmt(&mut self, node: &mut DebuggerStmt) {
-        VisitMut::visit_mut_debugger_stmt(self, node)
+        VisitMut::visit_mut_debugger_stmt(&mut **self, node)
     }
 
     fn visit_mut_decl(&mut self, node: &mut Decl) {
-        VisitMut::visit_mut_decl(self, node)
+        VisitMut::visit_mut_decl(&mut **self, node)
     }
 
     fn visit_mut_decorator(&mut self, node: &mut Decorator) {
-        VisitMut::visit_mut_decorator(self, node)
+        VisitMut::visit_mut_decorator(&mut **self, node)
     }
 
     fn visit_mut_decorators(&mut self, node: &mut Vec<Decorator>) {
-        VisitMut::visit_mut_decorators(self, node)
+        VisitMut::visit_mut_decorators(&mut **self, node)
     }
 
     fn visit_mut_default_decl(&mut self, node: &mut DefaultDecl) {
-        VisitMut::visit_mut_default_decl(self, node)
+        VisitMut::visit_mut_default_decl(&mut **self, node)
     }
 
     fn visit_mut_do_while_stmt(&mut self, node: &mut DoWhileStmt) {
-        VisitMut::visit_mut_do_while_stmt(self, node)
+        VisitMut::visit_mut_do_while_stmt(&mut **self, node)
     }
 
     fn visit_mut_empty_stmt(&mut self, node: &mut EmptyStmt) {
-        VisitMut::visit_mut_empty_stmt(self, node)
+        VisitMut::visit_mut_empty_stmt(&mut **self, node)
     }
 
     fn visit_mut_es_version(&mut self, node: &mut EsVersion) {
-        VisitMut::visit_mut_es_version(self, node)
+        VisitMut::visit_mut_es_version(&mut **self, node)
     }
 
     fn visit_mut_export_all(&mut self, node: &mut ExportAll) {
-        VisitMut::visit_mut_export_all(self, node)
+        VisitMut::visit_mut_export_all(&mut **self, node)
     }
 
     fn visit_mut_export_decl(&mut self, node: &mut ExportDecl) {
-        VisitMut::visit_mut_export_decl(self, node)
+        VisitMut::visit_mut_export_decl(&mut **self, node)
     }
 
     fn visit_mut_export_default_decl(&mut self, node: &mut ExportDefaultDecl) {
-        VisitMut::visit_mut_export_default_decl(self, node)
+        VisitMut::visit_mut_export_default_decl(&mut **self, node)
     }
 
     fn visit_mut_export_default_expr(&mut self, node: &mut ExportDefaultExpr) {
-        VisitMut::visit_mut_export_default_expr(self, node)
+        VisitMut::visit_mut_export_default_expr(&mut **self, node)
     }
 
     fn visit_mut_export_default_specifier(&mut self, node: &mut ExportDefaultSpecifier) {
-        VisitMut::visit_mut_export_default_specifier(self, node)
+        VisitMut::visit_mut_export_default_specifier(&mut **self, node)
     }
 
     fn visit_mut_export_named_specifier(&mut self, node: &mut ExportNamedSpecifier) {
-        VisitMut::visit_mut_export_named_specifier(self, node)
+        VisitMut::visit_mut_export_named_specifier(&mut **self, node)
     }
 
     fn visit_mut_export_namespace_specifier(&mut self, node: &mut ExportNamespaceSpecifier) {
-        VisitMut::visit_mut_export_namespace_specifier(self, node)
+        VisitMut::visit_mut_export_namespace_specifier(&mut **self, node)
     }
 
     fn visit_mut_export_specifier(&mut self, node: &mut ExportSpecifier) {
-        VisitMut::visit_mut_export_specifier(self, node)
+        VisitMut::visit_mut_export_specifier(&mut **self, node)
     }
 
     fn visit_mut_export_specifiers(&mut self, node: &mut Vec<ExportSpecifier>) {
-        VisitMut::visit_mut_export_specifiers(self, node)
+        VisitMut::visit_mut_export_specifiers(&mut **self, node)
     }
 
     fn visit_mut_expr(&mut self, node: &mut Expr) {
-        VisitMut::visit_mut_expr(self, node)
+        VisitMut::visit_mut_expr(&mut **self, node)
     }
 
     fn visit_mut_expr_or_spread(&mut self, node: &mut ExprOrSpread) {
-        VisitMut::visit_mut_expr_or_spread(self, node)
+        VisitMut::visit_mut_expr_or_spread(&mut **self, node)
     }
 
     fn visit_mut_expr_or_spreads(&mut self, node: &mut Vec<ExprOrSpread>) {
-        VisitMut::visit_mut_expr_or_spreads(self, node)
+        VisitMut::visit_mut_expr_or_spreads(&mut **self, node)
     }
 
     fn visit_mut_expr_stmt(&mut self, node: &mut ExprStmt) {
-        VisitMut::visit_mut_expr_stmt(self, node)
+        VisitMut::visit_mut_expr_stmt(&mut **self, node)
     }
 
     fn visit_mut_exprs(&mut self, node: &mut Vec<Box<Expr>>) {
-        VisitMut::visit_mut_exprs(self, node)
+        VisitMut::visit_mut_exprs(&mut **self, node)
     }
 
     fn visit_mut_fn_decl(&mut self, node: &mut FnDecl) {
-        VisitMut::visit_mut_fn_decl(self, node)
+        VisitMut::visit_mut_fn_decl(&mut **self, node)
     }
 
     fn visit_mut_fn_expr(&mut self, node: &mut FnExpr) {
-        VisitMut::visit_mut_fn_expr(self, node)
+        VisitMut::visit_mut_fn_expr(&mut **self, node)
     }
 
     fn visit_mut_for_head(&mut self, node: &mut ForHead) {
-        VisitMut::visit_mut_for_head(self, node)
+        VisitMut::visit_mut_for_head(&mut **self, node)
     }
 
     fn visit_mut_for_in_stmt(&mut self, node: &mut ForInStmt) {
-        VisitMut::visit_mut_for_in_stmt(self, node)
+        VisitMut::visit_mut_for_in_stmt(&mut **self, node)
     }
 
     fn visit_mut_for_of_stmt(&mut self, node: &mut ForOfStmt) {
-        VisitMut::visit_mut_for_of_stmt(self, node)
+        VisitMut::visit_mut_for_of_stmt(&mut **self, node)
     }
 
     fn visit_mut_for_stmt(&mut self, node: &mut ForStmt) {
-        VisitMut::visit_mut_for_stmt(self, node)
+        VisitMut::visit_mut_for_stmt(&mut **self, node)
     }
 
     fn visit_mut_function(&mut self, node: &mut Function) {
-        VisitMut::visit_mut_function(self, node)
+        VisitMut::visit_mut_function(&mut **self, node)
     }
 
     fn visit_mut_getter_prop(&mut self, node: &mut GetterProp) {
-        VisitMut::visit_mut_getter_prop(self, node)
+        VisitMut::visit_mut_getter_prop(&mut **self, node)
     }
 
     fn visit_mut_ident(&mut self, node: &mut Ident) {
-        VisitMut::visit_mut_ident(self, node)
+        VisitMut::visit_mut_ident(&mut **self, node)
     }
 
     fn visit_mut_ident_name(&mut self, node: &mut IdentName) {
-        VisitMut::visit_mut_ident_name(self, node)
+        VisitMut::visit_mut_ident_name(&mut **self, node)
     }
 
     fn visit_mut_if_stmt(&mut self, node: &mut IfStmt) {
-        VisitMut::visit_mut_if_stmt(self, node)
+        VisitMut::visit_mut_if_stmt(&mut **self, node)
     }
 
     fn visit_mut_import(&mut self, node: &mut Import) {
-        VisitMut::visit_mut_import(self, node)
+        VisitMut::visit_mut_import(&mut **self, node)
     }
 
     fn visit_mut_import_decl(&mut self, node: &mut ImportDecl) {
-        VisitMut::visit_mut_import_decl(self, node)
+        VisitMut::visit_mut_import_decl(&mut **self, node)
     }
 
     fn visit_mut_import_default_specifier(&mut self, node: &mut ImportDefaultSpecifier) {
-        VisitMut::visit_mut_import_default_specifier(self, node)
+        VisitMut::visit_mut_import_default_specifier(&mut **self, node)
     }
 
     fn visit_mut_import_named_specifier(&mut self, node: &mut ImportNamedSpecifier) {
-        VisitMut::visit_mut_import_named_specifier(self, node)
+        VisitMut::visit_mut_import_named_specifier(&mut **self, node)
     }
 
     fn visit_mut_import_phase(&mut self, node: &mut ImportPhase) {
-        VisitMut::visit_mut_import_phase(self, node)
+        VisitMut::visit_mut_import_phase(&mut **self, node)
     }
 
     fn visit_mut_import_specifier(&mut self, node: &mut ImportSpecifier) {
-        VisitMut::visit_mut_import_specifier(self, node)
+        VisitMut::visit_mut_import_specifier(&mut **self, node)
     }
 
     fn visit_mut_import_specifiers(&mut self, node: &mut Vec<ImportSpecifier>) {
-        VisitMut::visit_mut_import_specifiers(self, node)
+        VisitMut::visit_mut_import_specifiers(&mut **self, node)
     }
 
     fn visit_mut_import_star_as_specifier(&mut self, node: &mut ImportStarAsSpecifier) {
-        VisitMut::visit_mut_import_star_as_specifier(self, node)
+        VisitMut::visit_mut_import_star_as_specifier(&mut **self, node)
     }
 
     fn visit_mut_import_with(&mut self, node: &mut ImportWith) {
-        VisitMut::visit_mut_import_with(self, node)
+        VisitMut::visit_mut_import_with(&mut **self, node)
     }
 
     fn visit_mut_import_with_item(&mut self, node: &mut ImportWithItem) {
-        VisitMut::visit_mut_import_with_item(self, node)
+        VisitMut::visit_mut_import_with_item(&mut **self, node)
     }
 
     fn visit_mut_import_with_items(&mut self, node: &mut Vec<ImportWithItem>) {
-        VisitMut::visit_mut_import_with_items(self, node)
+        VisitMut::visit_mut_import_with_items(&mut **self, node)
     }
 
     fn visit_mut_invalid(&mut self, node: &mut Invalid) {
-        VisitMut::visit_mut_invalid(self, node)
+        VisitMut::visit_mut_invalid(&mut **self, node)
     }
 
     fn visit_mut_jsx_attr(&mut self, node: &mut JSXAttr) {
-        VisitMut::visit_mut_jsx_attr(self, node)
+        VisitMut::visit_mut_jsx_attr(&mut **self, node)
     }
 
     fn visit_mut_jsx_attr_name(&mut self, node: &mut JSXAttrName) {
-        VisitMut::visit_mut_jsx_attr_name(self, node)
+        VisitMut::visit_mut_jsx_attr_name(&mut **self, node)
     }
 
     fn visit_mut_jsx_attr_or_spread(&mut self, node: &mut JSXAttrOrSpread) {
-        VisitMut::visit_mut_jsx_attr_or_spread(self, node)
+        VisitMut::visit_mut_jsx_attr_or_spread(&mut **self, node)
     }
 
     fn visit_mut_jsx_attr_or_spreads(&mut self, node: &mut Vec<JSXAttrOrSpread>) {
-        VisitMut::visit_mut_jsx_attr_or_spreads(self, node)
+        VisitMut::visit_mut_jsx_attr_or_spreads(&mut **self, node)
     }
 
     fn visit_mut_jsx_attr_value(&mut self, node: &mut JSXAttrValue) {
-        VisitMut::visit_mut_jsx_attr_value(self, node)
+        VisitMut::visit_mut_jsx_attr_value(&mut **self, node)
     }
 
     fn visit_mut_jsx_closing_element(&mut self, node: &mut JSXClosingElement) {
-        VisitMut::visit_mut_jsx_closing_element(self, node)
+        VisitMut::visit_mut_jsx_closing_element(&mut **self, node)
     }
 
     fn visit_mut_jsx_closing_fragment(&mut self, node: &mut JSXClosingFragment) {
-        VisitMut::visit_mut_jsx_closing_fragment(self, node)
+        VisitMut::visit_mut_jsx_closing_fragment(&mut **self, node)
     }
 
     fn visit_mut_jsx_element(&mut self, node: &mut JSXElement) {
-        VisitMut::visit_mut_jsx_element(self, node)
+        VisitMut::visit_mut_jsx_element(&mut **self, node)
     }
 
     fn visit_mut_jsx_element_child(&mut self, node: &mut JSXElementChild) {
-        VisitMut::visit_mut_jsx_element_child(self, node)
+        VisitMut::visit_mut_jsx_element_child(&mut **self, node)
     }
 
     fn visit_mut_jsx_element_childs(&mut self, node: &mut Vec<JSXElementChild>) {
-        VisitMut::visit_mut_jsx_element_childs(self, node)
+        VisitMut::visit_mut_jsx_element_childs(&mut **self, node)
     }
 
     fn visit_mut_jsx_element_name(&mut self, node: &mut JSXElementName) {
-        VisitMut::visit_mut_jsx_element_name(self, node)
+        VisitMut::visit_mut_jsx_element_name(&mut **self, node)
     }
 
     fn visit_mut_jsx_empty_expr(&mut self, node: &mut JSXEmptyExpr) {
-        VisitMut::visit_mut_jsx_empty_expr(self, node)
+        VisitMut::visit_mut_jsx_empty_expr(&mut **self, node)
     }
 
     fn visit_mut_jsx_expr(&mut self, node: &mut JSXExpr) {
-        VisitMut::visit_mut_jsx_expr(self, node)
+        VisitMut::visit_mut_jsx_expr(&mut **self, node)
     }
 
     fn visit_mut_jsx_expr_container(&mut self, node: &mut JSXExprContainer) {
-        VisitMut::visit_mut_jsx_expr_container(self, node)
+        VisitMut::visit_mut_jsx_expr_container(&mut **self, node)
     }
 
     fn visit_mut_jsx_fragment(&mut self, node: &mut JSXFragment) {
-        VisitMut::visit_mut_jsx_fragment(self, node)
+        VisitMut::visit_mut_jsx_fragment(&mut **self, node)
     }
 
     fn visit_mut_jsx_member_expr(&mut self, node: &mut JSXMemberExpr) {
-        VisitMut::visit_mut_jsx_member_expr(self, node)
+        VisitMut::visit_mut_jsx_member_expr(&mut **self, node)
     }
 
     fn visit_mut_jsx_namespaced_name(&mut self, node: &mut JSXNamespacedName) {
-        VisitMut::visit_mut_jsx_namespaced_name(self, node)
+        VisitMut::visit_mut_jsx_namespaced_name(&mut **self, node)
     }
 
     fn visit_mut_jsx_object(&mut self, node: &mut JSXObject) {
-        VisitMut::visit_mut_jsx_object(self, node)
+        VisitMut::visit_mut_jsx_object(&mut **self, node)
     }
 
     fn visit_mut_jsx_opening_element(&mut self, node: &mut JSXOpeningElement) {
-        VisitMut::visit_mut_jsx_opening_element(self, node)
+        VisitMut::visit_mut_jsx_opening_element(&mut **self, node)
     }
 
     fn visit_mut_jsx_opening_fragment(&mut self, node: &mut JSXOpeningFragment) {
-        VisitMut::visit_mut_jsx_opening_fragment(self, node)
+        VisitMut::visit_mut_jsx_opening_fragment(&mut **self, node)
     }
 
     fn visit_mut_jsx_spread_child(&mut self, node: &mut JSXSpreadChild) {
-        VisitMut::visit_mut_jsx_spread_child(self, node)
+        VisitMut::visit_mut_jsx_spread_child(&mut **self, node)
     }
 
     fn visit_mut_jsx_text(&mut self, node: &mut JSXText) {
-        VisitMut::visit_mut_jsx_text(self, node)
+        VisitMut::visit_mut_jsx_text(&mut **self, node)
     }
 
     fn visit_mut_key(&mut self, node: &mut Key) {
-        VisitMut::visit_mut_key(self, node)
+        VisitMut::visit_mut_key(&mut **self, node)
     }
 
     fn visit_mut_key_value_pat_prop(&mut self, node: &mut KeyValuePatProp) {
-        VisitMut::visit_mut_key_value_pat_prop(self, node)
+        VisitMut::visit_mut_key_value_pat_prop(&mut **self, node)
     }
 
     fn visit_mut_key_value_prop(&mut self, node: &mut KeyValueProp) {
-        VisitMut::visit_mut_key_value_prop(self, node)
+        VisitMut::visit_mut_key_value_prop(&mut **self, node)
     }
 
     fn visit_mut_labeled_stmt(&mut self, node: &mut LabeledStmt) {
-        VisitMut::visit_mut_labeled_stmt(self, node)
+        VisitMut::visit_mut_labeled_stmt(&mut **self, node)
     }
 
     fn visit_mut_lit(&mut self, node: &mut Lit) {
-        VisitMut::visit_mut_lit(self, node)
+        VisitMut::visit_mut_lit(&mut **self, node)
     }
 
     fn visit_mut_member_expr(&mut self, node: &mut MemberExpr) {
-        VisitMut::visit_mut_member_expr(self, node)
+        VisitMut::visit_mut_member_expr(&mut **self, node)
     }
 
     fn visit_mut_member_prop(&mut self, node: &mut MemberProp) {
-        VisitMut::visit_mut_member_prop(self, node)
+        VisitMut::visit_mut_member_prop(&mut **self, node)
     }
 
     fn visit_mut_meta_prop_expr(&mut self, node: &mut MetaPropExpr) {
-        VisitMut::visit_mut_meta_prop_expr(self, node)
+        VisitMut::visit_mut_meta_prop_expr(&mut **self, node)
     }
 
     fn visit_mut_meta_prop_kind(&mut self, node: &mut MetaPropKind) {
-        VisitMut::visit_mut_meta_prop_kind(self, node)
+        VisitMut::visit_mut_meta_prop_kind(&mut **self, node)
     }
 
     fn visit_mut_method_kind(&mut self, node: &mut MethodKind) {
-        VisitMut::visit_mut_method_kind(self, node)
+        VisitMut::visit_mut_method_kind(&mut **self, node)
     }
 
     fn visit_mut_method_prop(&mut self, node: &mut MethodProp) {
-        VisitMut::visit_mut_method_prop(self, node)
+        VisitMut::visit_mut_method_prop(&mut **self, node)
     }
 
     fn visit_mut_module(&mut self, node: &mut Module) {
-        VisitMut::visit_mut_module(self, node)
+        VisitMut::visit_mut_module(&mut **self, node)
     }
 
     fn visit_mut_module_decl(&mut self, node: &mut ModuleDecl) {
-        VisitMut::visit_mut_module_decl(self, node)
+        VisitMut::visit_mut_module_decl(&mut **self, node)
     }
 
     fn visit_mut_module_export_name(&mut self, node: &mut ModuleExportName) {
-        VisitMut::visit_mut_module_export_name(self, node)
+        VisitMut::visit_mut_module_export_name(&mut **self, node)
     }
 
     fn visit_mut_module_item(&mut self, node: &mut ModuleItem) {
-        VisitMut::visit_mut_module_item(self, node)
+        VisitMut::visit_mut_module_item(&mut **self, node)
     }
 
     fn visit_mut_module_items(&mut self, node: &mut Vec<ModuleItem>) {
-        VisitMut::visit_mut_module_items(self, node)
+        VisitMut::visit_mut_module_items(&mut **self, node)
     }
 
     fn visit_mut_named_export(&mut self, node: &mut NamedExport) {
-        VisitMut::visit_mut_named_export(self, node)
+        VisitMut::visit_mut_named_export(&mut **self, node)
     }
 
     fn visit_mut_new_expr(&mut self, node: &mut NewExpr) {
-        VisitMut::visit_mut_new_expr(self, node)
+        VisitMut::visit_mut_new_expr(&mut **self, node)
     }
 
     fn visit_mut_null(&mut self, node: &mut Null) {
-        VisitMut::visit_mut_null(self, node)
+        VisitMut::visit_mut_null(&mut **self, node)
     }
 
     fn visit_mut_number(&mut self, node: &mut Number) {
-        VisitMut::visit_mut_number(self, node)
+        VisitMut::visit_mut_number(&mut **self, node)
     }
 
     fn visit_mut_object_lit(&mut self, node: &mut ObjectLit) {
-        VisitMut::visit_mut_object_lit(self, node)
+        VisitMut::visit_mut_object_lit(&mut **self, node)
     }
 
     fn visit_mut_object_pat(&mut self, node: &mut ObjectPat) {
-        VisitMut::visit_mut_object_pat(self, node)
+        VisitMut::visit_mut_object_pat(&mut **self, node)
     }
 
     fn visit_mut_object_pat_prop(&mut self, node: &mut ObjectPatProp) {
-        VisitMut::visit_mut_object_pat_prop(self, node)
+        VisitMut::visit_mut_object_pat_prop(&mut **self, node)
     }
 
     fn visit_mut_object_pat_props(&mut self, node: &mut Vec<ObjectPatProp>) {
-        VisitMut::visit_mut_object_pat_props(self, node)
+        VisitMut::visit_mut_object_pat_props(&mut **self, node)
     }
 
     fn visit_mut_opt_accessibility(&mut self, node: &mut Option<Accessibility>) {
-        VisitMut::visit_mut_opt_accessibility(self, node)
+        VisitMut::visit_mut_opt_accessibility(&mut **self, node)
     }
 
     fn visit_mut_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
-        VisitMut::visit_mut_opt_atom(self, node)
+        VisitMut::visit_mut_opt_atom(&mut **self, node)
     }
 
     fn visit_mut_opt_block_stmt(&mut self, node: &mut Option<BlockStmt>) {
-        VisitMut::visit_mut_opt_block_stmt(self, node)
+        VisitMut::visit_mut_opt_block_stmt(&mut **self, node)
     }
 
     fn visit_mut_opt_call(&mut self, node: &mut OptCall) {
-        VisitMut::visit_mut_opt_call(self, node)
+        VisitMut::visit_mut_opt_call(&mut **self, node)
     }
 
     fn visit_mut_opt_catch_clause(&mut self, node: &mut Option<CatchClause>) {
-        VisitMut::visit_mut_opt_catch_clause(self, node)
+        VisitMut::visit_mut_opt_catch_clause(&mut **self, node)
     }
 
     fn visit_mut_opt_chain_base(&mut self, node: &mut OptChainBase) {
-        VisitMut::visit_mut_opt_chain_base(self, node)
+        VisitMut::visit_mut_opt_chain_base(&mut **self, node)
     }
 
     fn visit_mut_opt_chain_expr(&mut self, node: &mut OptChainExpr) {
-        VisitMut::visit_mut_opt_chain_expr(self, node)
+        VisitMut::visit_mut_opt_chain_expr(&mut **self, node)
     }
 
     fn visit_mut_opt_expr(&mut self, node: &mut Option<Box<Expr>>) {
-        VisitMut::visit_mut_opt_expr(self, node)
+        VisitMut::visit_mut_opt_expr(&mut **self, node)
     }
 
     fn visit_mut_opt_expr_or_spread(&mut self, node: &mut Option<ExprOrSpread>) {
-        VisitMut::visit_mut_opt_expr_or_spread(self, node)
+        VisitMut::visit_mut_opt_expr_or_spread(&mut **self, node)
     }
 
     fn visit_mut_opt_expr_or_spreads(&mut self, node: &mut Option<Vec<ExprOrSpread>>) {
-        VisitMut::visit_mut_opt_expr_or_spreads(self, node)
+        VisitMut::visit_mut_opt_expr_or_spreads(&mut **self, node)
     }
 
     fn visit_mut_opt_ident(&mut self, node: &mut Option<Ident>) {
-        VisitMut::visit_mut_opt_ident(self, node)
+        VisitMut::visit_mut_opt_ident(&mut **self, node)
     }
 
     fn visit_mut_opt_jsx_attr_value(&mut self, node: &mut Option<JSXAttrValue>) {
-        VisitMut::visit_mut_opt_jsx_attr_value(self, node)
+        VisitMut::visit_mut_opt_jsx_attr_value(&mut **self, node)
     }
 
     fn visit_mut_opt_jsx_closing_element(&mut self, node: &mut Option<JSXClosingElement>) {
-        VisitMut::visit_mut_opt_jsx_closing_element(self, node)
+        VisitMut::visit_mut_opt_jsx_closing_element(&mut **self, node)
     }
 
     fn visit_mut_opt_module_export_name(&mut self, node: &mut Option<ModuleExportName>) {
-        VisitMut::visit_mut_opt_module_export_name(self, node)
+        VisitMut::visit_mut_opt_module_export_name(&mut **self, node)
     }
 
     fn visit_mut_opt_module_items(&mut self, node: &mut Option<Vec<ModuleItem>>) {
-        VisitMut::visit_mut_opt_module_items(self, node)
+        VisitMut::visit_mut_opt_module_items(&mut **self, node)
     }
 
     fn visit_mut_opt_object_lit(&mut self, node: &mut Option<Box<ObjectLit>>) {
-        VisitMut::visit_mut_opt_object_lit(self, node)
+        VisitMut::visit_mut_opt_object_lit(&mut **self, node)
     }
 
     fn visit_mut_opt_pat(&mut self, node: &mut Option<Pat>) {
-        VisitMut::visit_mut_opt_pat(self, node)
+        VisitMut::visit_mut_opt_pat(&mut **self, node)
     }
 
     fn visit_mut_opt_span(&mut self, node: &mut Option<swc_common::Span>) {
-        VisitMut::visit_mut_opt_span(self, node)
+        VisitMut::visit_mut_opt_span(&mut **self, node)
     }
 
     fn visit_mut_opt_stmt(&mut self, node: &mut Option<Box<Stmt>>) {
-        VisitMut::visit_mut_opt_stmt(self, node)
+        VisitMut::visit_mut_opt_stmt(&mut **self, node)
     }
 
     fn visit_mut_opt_str(&mut self, node: &mut Option<Box<Str>>) {
-        VisitMut::visit_mut_opt_str(self, node)
+        VisitMut::visit_mut_opt_str(&mut **self, node)
     }
 
     fn visit_mut_opt_true_plus_minus(&mut self, node: &mut Option<TruePlusMinus>) {
-        VisitMut::visit_mut_opt_true_plus_minus(self, node)
+        VisitMut::visit_mut_opt_true_plus_minus(&mut **self, node)
     }
 
     fn visit_mut_opt_ts_entity_name(&mut self, node: &mut Option<TsEntityName>) {
-        VisitMut::visit_mut_opt_ts_entity_name(self, node)
+        VisitMut::visit_mut_opt_ts_entity_name(&mut **self, node)
     }
 
     fn visit_mut_opt_ts_namespace_body(&mut self, node: &mut Option<TsNamespaceBody>) {
-        VisitMut::visit_mut_opt_ts_namespace_body(self, node)
+        VisitMut::visit_mut_opt_ts_namespace_body(&mut **self, node)
     }
 
     fn visit_mut_opt_ts_type(&mut self, node: &mut Option<Box<TsType>>) {
-        VisitMut::visit_mut_opt_ts_type(self, node)
+        VisitMut::visit_mut_opt_ts_type(&mut **self, node)
     }
 
     fn visit_mut_opt_ts_type_ann(&mut self, node: &mut Option<Box<TsTypeAnn>>) {
-        VisitMut::visit_mut_opt_ts_type_ann(self, node)
+        VisitMut::visit_mut_opt_ts_type_ann(&mut **self, node)
     }
 
     fn visit_mut_opt_ts_type_param_decl(&mut self, node: &mut Option<Box<TsTypeParamDecl>>) {
-        VisitMut::visit_mut_opt_ts_type_param_decl(self, node)
+        VisitMut::visit_mut_opt_ts_type_param_decl(&mut **self, node)
     }
 
     fn visit_mut_opt_ts_type_param_instantiation(
         &mut self,
         node: &mut Option<Box<TsTypeParamInstantiation>>,
     ) {
-        VisitMut::visit_mut_opt_ts_type_param_instantiation(self, node)
+        VisitMut::visit_mut_opt_ts_type_param_instantiation(&mut **self, node)
     }
 
     fn visit_mut_opt_var_decl_or_expr(&mut self, node: &mut Option<VarDeclOrExpr>) {
-        VisitMut::visit_mut_opt_var_decl_or_expr(self, node)
+        VisitMut::visit_mut_opt_var_decl_or_expr(&mut **self, node)
     }
 
     fn visit_mut_opt_vec_expr_or_spreads(&mut self, node: &mut Vec<Option<ExprOrSpread>>) {
-        VisitMut::visit_mut_opt_vec_expr_or_spreads(self, node)
+        VisitMut::visit_mut_opt_vec_expr_or_spreads(&mut **self, node)
     }
 
     fn visit_mut_opt_vec_pats(&mut self, node: &mut Vec<Option<Pat>>) {
-        VisitMut::visit_mut_opt_vec_pats(self, node)
+        VisitMut::visit_mut_opt_vec_pats(&mut **self, node)
     }
 
     fn visit_mut_param(&mut self, node: &mut Param) {
-        VisitMut::visit_mut_param(self, node)
+        VisitMut::visit_mut_param(&mut **self, node)
     }
 
     fn visit_mut_param_or_ts_param_prop(&mut self, node: &mut ParamOrTsParamProp) {
-        VisitMut::visit_mut_param_or_ts_param_prop(self, node)
+        VisitMut::visit_mut_param_or_ts_param_prop(&mut **self, node)
     }
 
     fn visit_mut_param_or_ts_param_props(&mut self, node: &mut Vec<ParamOrTsParamProp>) {
-        VisitMut::visit_mut_param_or_ts_param_props(self, node)
+        VisitMut::visit_mut_param_or_ts_param_props(&mut **self, node)
     }
 
     fn visit_mut_params(&mut self, node: &mut Vec<Param>) {
-        VisitMut::visit_mut_params(self, node)
+        VisitMut::visit_mut_params(&mut **self, node)
     }
 
     fn visit_mut_paren_expr(&mut self, node: &mut ParenExpr) {
-        VisitMut::visit_mut_paren_expr(self, node)
+        VisitMut::visit_mut_paren_expr(&mut **self, node)
     }
 
     fn visit_mut_pat(&mut self, node: &mut Pat) {
-        VisitMut::visit_mut_pat(self, node)
+        VisitMut::visit_mut_pat(&mut **self, node)
     }
 
     fn visit_mut_pats(&mut self, node: &mut Vec<Pat>) {
-        VisitMut::visit_mut_pats(self, node)
+        VisitMut::visit_mut_pats(&mut **self, node)
     }
 
     fn visit_mut_private_method(&mut self, node: &mut PrivateMethod) {
-        VisitMut::visit_mut_private_method(self, node)
+        VisitMut::visit_mut_private_method(&mut **self, node)
     }
 
     fn visit_mut_private_name(&mut self, node: &mut PrivateName) {
-        VisitMut::visit_mut_private_name(self, node)
+        VisitMut::visit_mut_private_name(&mut **self, node)
     }
 
     fn visit_mut_private_prop(&mut self, node: &mut PrivateProp) {
-        VisitMut::visit_mut_private_prop(self, node)
+        VisitMut::visit_mut_private_prop(&mut **self, node)
     }
 
     fn visit_mut_program(&mut self, node: &mut Program) {
-        VisitMut::visit_mut_program(self, node)
+        VisitMut::visit_mut_program(&mut **self, node)
     }
 
     fn visit_mut_prop(&mut self, node: &mut Prop) {
-        VisitMut::visit_mut_prop(self, node)
+        VisitMut::visit_mut_prop(&mut **self, node)
     }
 
     fn visit_mut_prop_name(&mut self, node: &mut PropName) {
-        VisitMut::visit_mut_prop_name(self, node)
+        VisitMut::visit_mut_prop_name(&mut **self, node)
     }
 
     fn visit_mut_prop_or_spread(&mut self, node: &mut PropOrSpread) {
-        VisitMut::visit_mut_prop_or_spread(self, node)
+        VisitMut::visit_mut_prop_or_spread(&mut **self, node)
     }
 
     fn visit_mut_prop_or_spreads(&mut self, node: &mut Vec<PropOrSpread>) {
-        VisitMut::visit_mut_prop_or_spreads(self, node)
+        VisitMut::visit_mut_prop_or_spreads(&mut **self, node)
     }
 
     fn visit_mut_regex(&mut self, node: &mut Regex) {
-        VisitMut::visit_mut_regex(self, node)
+        VisitMut::visit_mut_regex(&mut **self, node)
     }
 
     fn visit_mut_reserved_unused(&mut self, node: &mut ReservedUnused) {
-        VisitMut::visit_mut_reserved_unused(self, node)
+        VisitMut::visit_mut_reserved_unused(&mut **self, node)
     }
 
     fn visit_mut_rest_pat(&mut self, node: &mut RestPat) {
-        VisitMut::visit_mut_rest_pat(self, node)
+        VisitMut::visit_mut_rest_pat(&mut **self, node)
     }
 
     fn visit_mut_return_stmt(&mut self, node: &mut ReturnStmt) {
-        VisitMut::visit_mut_return_stmt(self, node)
+        VisitMut::visit_mut_return_stmt(&mut **self, node)
     }
 
     fn visit_mut_script(&mut self, node: &mut Script) {
-        VisitMut::visit_mut_script(self, node)
+        VisitMut::visit_mut_script(&mut **self, node)
     }
 
     fn visit_mut_seq_expr(&mut self, node: &mut SeqExpr) {
-        VisitMut::visit_mut_seq_expr(self, node)
+        VisitMut::visit_mut_seq_expr(&mut **self, node)
     }
 
     fn visit_mut_setter_prop(&mut self, node: &mut SetterProp) {
-        VisitMut::visit_mut_setter_prop(self, node)
+        VisitMut::visit_mut_setter_prop(&mut **self, node)
     }
 
     fn visit_mut_simple_assign_target(&mut self, node: &mut SimpleAssignTarget) {
-        VisitMut::visit_mut_simple_assign_target(self, node)
+        VisitMut::visit_mut_simple_assign_target(&mut **self, node)
     }
 
     fn visit_mut_span(&mut self, node: &mut swc_common::Span) {
-        VisitMut::visit_mut_span(self, node)
+        VisitMut::visit_mut_span(&mut **self, node)
     }
 
     fn visit_mut_spread_element(&mut self, node: &mut SpreadElement) {
-        VisitMut::visit_mut_spread_element(self, node)
+        VisitMut::visit_mut_spread_element(&mut **self, node)
     }
 
     fn visit_mut_static_block(&mut self, node: &mut StaticBlock) {
-        VisitMut::visit_mut_static_block(self, node)
+        VisitMut::visit_mut_static_block(&mut **self, node)
     }
 
     fn visit_mut_stmt(&mut self, node: &mut Stmt) {
-        VisitMut::visit_mut_stmt(self, node)
+        VisitMut::visit_mut_stmt(&mut **self, node)
     }
 
     fn visit_mut_stmts(&mut self, node: &mut Vec<Stmt>) {
-        VisitMut::visit_mut_stmts(self, node)
+        VisitMut::visit_mut_stmts(&mut **self, node)
     }
 
     fn visit_mut_str(&mut self, node: &mut Str) {
-        VisitMut::visit_mut_str(self, node)
+        VisitMut::visit_mut_str(&mut **self, node)
     }
 
     fn visit_mut_super(&mut self, node: &mut Super) {
-        VisitMut::visit_mut_super(self, node)
+        VisitMut::visit_mut_super(&mut **self, node)
     }
 
     fn visit_mut_super_prop(&mut self, node: &mut SuperProp) {
-        VisitMut::visit_mut_super_prop(self, node)
+        VisitMut::visit_mut_super_prop(&mut **self, node)
     }
 
     fn visit_mut_super_prop_expr(&mut self, node: &mut SuperPropExpr) {
-        VisitMut::visit_mut_super_prop_expr(self, node)
+        VisitMut::visit_mut_super_prop_expr(&mut **self, node)
     }
 
     fn visit_mut_switch_case(&mut self, node: &mut SwitchCase) {
-        VisitMut::visit_mut_switch_case(self, node)
+        VisitMut::visit_mut_switch_case(&mut **self, node)
     }
 
     fn visit_mut_switch_cases(&mut self, node: &mut Vec<SwitchCase>) {
-        VisitMut::visit_mut_switch_cases(self, node)
+        VisitMut::visit_mut_switch_cases(&mut **self, node)
     }
 
     fn visit_mut_switch_stmt(&mut self, node: &mut SwitchStmt) {
-        VisitMut::visit_mut_switch_stmt(self, node)
+        VisitMut::visit_mut_switch_stmt(&mut **self, node)
     }
 
     fn visit_mut_syntax_context(&mut self, node: &mut swc_common::SyntaxContext) {
-        VisitMut::visit_mut_syntax_context(self, node)
+        VisitMut::visit_mut_syntax_context(&mut **self, node)
     }
 
     fn visit_mut_tagged_tpl(&mut self, node: &mut TaggedTpl) {
-        VisitMut::visit_mut_tagged_tpl(self, node)
+        VisitMut::visit_mut_tagged_tpl(&mut **self, node)
     }
 
     fn visit_mut_this_expr(&mut self, node: &mut ThisExpr) {
-        VisitMut::visit_mut_this_expr(self, node)
+        VisitMut::visit_mut_this_expr(&mut **self, node)
     }
 
     fn visit_mut_throw_stmt(&mut self, node: &mut ThrowStmt) {
-        VisitMut::visit_mut_throw_stmt(self, node)
+        VisitMut::visit_mut_throw_stmt(&mut **self, node)
     }
 
     fn visit_mut_tpl(&mut self, node: &mut Tpl) {
-        VisitMut::visit_mut_tpl(self, node)
+        VisitMut::visit_mut_tpl(&mut **self, node)
     }
 
     fn visit_mut_tpl_element(&mut self, node: &mut TplElement) {
-        VisitMut::visit_mut_tpl_element(self, node)
+        VisitMut::visit_mut_tpl_element(&mut **self, node)
     }
 
     fn visit_mut_tpl_elements(&mut self, node: &mut Vec<TplElement>) {
-        VisitMut::visit_mut_tpl_elements(self, node)
+        VisitMut::visit_mut_tpl_elements(&mut **self, node)
     }
 
     fn visit_mut_true_plus_minus(&mut self, node: &mut TruePlusMinus) {
-        VisitMut::visit_mut_true_plus_minus(self, node)
+        VisitMut::visit_mut_true_plus_minus(&mut **self, node)
     }
 
     fn visit_mut_try_stmt(&mut self, node: &mut TryStmt) {
-        VisitMut::visit_mut_try_stmt(self, node)
+        VisitMut::visit_mut_try_stmt(&mut **self, node)
     }
 
     fn visit_mut_ts_array_type(&mut self, node: &mut TsArrayType) {
-        VisitMut::visit_mut_ts_array_type(self, node)
+        VisitMut::visit_mut_ts_array_type(&mut **self, node)
     }
 
     fn visit_mut_ts_as_expr(&mut self, node: &mut TsAsExpr) {
-        VisitMut::visit_mut_ts_as_expr(self, node)
+        VisitMut::visit_mut_ts_as_expr(&mut **self, node)
     }
 
     fn visit_mut_ts_call_signature_decl(&mut self, node: &mut TsCallSignatureDecl) {
-        VisitMut::visit_mut_ts_call_signature_decl(self, node)
+        VisitMut::visit_mut_ts_call_signature_decl(&mut **self, node)
     }
 
     fn visit_mut_ts_conditional_type(&mut self, node: &mut TsConditionalType) {
-        VisitMut::visit_mut_ts_conditional_type(self, node)
+        VisitMut::visit_mut_ts_conditional_type(&mut **self, node)
     }
 
     fn visit_mut_ts_const_assertion(&mut self, node: &mut TsConstAssertion) {
-        VisitMut::visit_mut_ts_const_assertion(self, node)
+        VisitMut::visit_mut_ts_const_assertion(&mut **self, node)
     }
 
     fn visit_mut_ts_construct_signature_decl(&mut self, node: &mut TsConstructSignatureDecl) {
-        VisitMut::visit_mut_ts_construct_signature_decl(self, node)
+        VisitMut::visit_mut_ts_construct_signature_decl(&mut **self, node)
     }
 
     fn visit_mut_ts_constructor_type(&mut self, node: &mut TsConstructorType) {
-        VisitMut::visit_mut_ts_constructor_type(self, node)
+        VisitMut::visit_mut_ts_constructor_type(&mut **self, node)
     }
 
     fn visit_mut_ts_entity_name(&mut self, node: &mut TsEntityName) {
-        VisitMut::visit_mut_ts_entity_name(self, node)
+        VisitMut::visit_mut_ts_entity_name(&mut **self, node)
     }
 
     fn visit_mut_ts_enum_decl(&mut self, node: &mut TsEnumDecl) {
-        VisitMut::visit_mut_ts_enum_decl(self, node)
+        VisitMut::visit_mut_ts_enum_decl(&mut **self, node)
     }
 
     fn visit_mut_ts_enum_member(&mut self, node: &mut TsEnumMember) {
-        VisitMut::visit_mut_ts_enum_member(self, node)
+        VisitMut::visit_mut_ts_enum_member(&mut **self, node)
     }
 
     fn visit_mut_ts_enum_member_id(&mut self, node: &mut TsEnumMemberId) {
-        VisitMut::visit_mut_ts_enum_member_id(self, node)
+        VisitMut::visit_mut_ts_enum_member_id(&mut **self, node)
     }
 
     fn visit_mut_ts_enum_members(&mut self, node: &mut Vec<TsEnumMember>) {
-        VisitMut::visit_mut_ts_enum_members(self, node)
+        VisitMut::visit_mut_ts_enum_members(&mut **self, node)
     }
 
     fn visit_mut_ts_export_assignment(&mut self, node: &mut TsExportAssignment) {
-        VisitMut::visit_mut_ts_export_assignment(self, node)
+        VisitMut::visit_mut_ts_export_assignment(&mut **self, node)
     }
 
     fn visit_mut_ts_expr_with_type_args(&mut self, node: &mut TsExprWithTypeArgs) {
-        VisitMut::visit_mut_ts_expr_with_type_args(self, node)
+        VisitMut::visit_mut_ts_expr_with_type_args(&mut **self, node)
     }
 
     fn visit_mut_ts_expr_with_type_argss(&mut self, node: &mut Vec<TsExprWithTypeArgs>) {
-        VisitMut::visit_mut_ts_expr_with_type_argss(self, node)
+        VisitMut::visit_mut_ts_expr_with_type_argss(&mut **self, node)
     }
 
     fn visit_mut_ts_external_module_ref(&mut self, node: &mut TsExternalModuleRef) {
-        VisitMut::visit_mut_ts_external_module_ref(self, node)
+        VisitMut::visit_mut_ts_external_module_ref(&mut **self, node)
     }
 
     fn visit_mut_ts_fn_or_constructor_type(&mut self, node: &mut TsFnOrConstructorType) {
-        VisitMut::visit_mut_ts_fn_or_constructor_type(self, node)
+        VisitMut::visit_mut_ts_fn_or_constructor_type(&mut **self, node)
     }
 
     fn visit_mut_ts_fn_param(&mut self, node: &mut TsFnParam) {
-        VisitMut::visit_mut_ts_fn_param(self, node)
+        VisitMut::visit_mut_ts_fn_param(&mut **self, node)
     }
 
     fn visit_mut_ts_fn_params(&mut self, node: &mut Vec<TsFnParam>) {
-        VisitMut::visit_mut_ts_fn_params(self, node)
+        VisitMut::visit_mut_ts_fn_params(&mut **self, node)
     }
 
     fn visit_mut_ts_fn_type(&mut self, node: &mut TsFnType) {
-        VisitMut::visit_mut_ts_fn_type(self, node)
+        VisitMut::visit_mut_ts_fn_type(&mut **self, node)
     }
 
     fn visit_mut_ts_getter_signature(&mut self, node: &mut TsGetterSignature) {
-        VisitMut::visit_mut_ts_getter_signature(self, node)
+        VisitMut::visit_mut_ts_getter_signature(&mut **self, node)
     }
 
     fn visit_mut_ts_import_equals_decl(&mut self, node: &mut TsImportEqualsDecl) {
-        VisitMut::visit_mut_ts_import_equals_decl(self, node)
+        VisitMut::visit_mut_ts_import_equals_decl(&mut **self, node)
     }
 
     fn visit_mut_ts_import_type(&mut self, node: &mut TsImportType) {
-        VisitMut::visit_mut_ts_import_type(self, node)
+        VisitMut::visit_mut_ts_import_type(&mut **self, node)
     }
 
     fn visit_mut_ts_index_signature(&mut self, node: &mut TsIndexSignature) {
-        VisitMut::visit_mut_ts_index_signature(self, node)
+        VisitMut::visit_mut_ts_index_signature(&mut **self, node)
     }
 
     fn visit_mut_ts_indexed_access_type(&mut self, node: &mut TsIndexedAccessType) {
-        VisitMut::visit_mut_ts_indexed_access_type(self, node)
+        VisitMut::visit_mut_ts_indexed_access_type(&mut **self, node)
     }
 
     fn visit_mut_ts_infer_type(&mut self, node: &mut TsInferType) {
-        VisitMut::visit_mut_ts_infer_type(self, node)
+        VisitMut::visit_mut_ts_infer_type(&mut **self, node)
     }
 
     fn visit_mut_ts_instantiation(&mut self, node: &mut TsInstantiation) {
-        VisitMut::visit_mut_ts_instantiation(self, node)
+        VisitMut::visit_mut_ts_instantiation(&mut **self, node)
     }
 
     fn visit_mut_ts_interface_body(&mut self, node: &mut TsInterfaceBody) {
-        VisitMut::visit_mut_ts_interface_body(self, node)
+        VisitMut::visit_mut_ts_interface_body(&mut **self, node)
     }
 
     fn visit_mut_ts_interface_decl(&mut self, node: &mut TsInterfaceDecl) {
-        VisitMut::visit_mut_ts_interface_decl(self, node)
+        VisitMut::visit_mut_ts_interface_decl(&mut **self, node)
     }
 
     fn visit_mut_ts_intersection_type(&mut self, node: &mut TsIntersectionType) {
-        VisitMut::visit_mut_ts_intersection_type(self, node)
+        VisitMut::visit_mut_ts_intersection_type(&mut **self, node)
     }
 
     fn visit_mut_ts_keyword_type(&mut self, node: &mut TsKeywordType) {
-        VisitMut::visit_mut_ts_keyword_type(self, node)
+        VisitMut::visit_mut_ts_keyword_type(&mut **self, node)
     }
 
     fn visit_mut_ts_keyword_type_kind(&mut self, node: &mut TsKeywordTypeKind) {
-        VisitMut::visit_mut_ts_keyword_type_kind(self, node)
+        VisitMut::visit_mut_ts_keyword_type_kind(&mut **self, node)
     }
 
     fn visit_mut_ts_lit(&mut self, node: &mut TsLit) {
-        VisitMut::visit_mut_ts_lit(self, node)
+        VisitMut::visit_mut_ts_lit(&mut **self, node)
     }
 
     fn visit_mut_ts_lit_type(&mut self, node: &mut TsLitType) {
-        VisitMut::visit_mut_ts_lit_type(self, node)
+        VisitMut::visit_mut_ts_lit_type(&mut **self, node)
     }
 
     fn visit_mut_ts_mapped_type(&mut self, node: &mut TsMappedType) {
-        VisitMut::visit_mut_ts_mapped_type(self, node)
+        VisitMut::visit_mut_ts_mapped_type(&mut **self, node)
     }
 
     fn visit_mut_ts_method_signature(&mut self, node: &mut TsMethodSignature) {
-        VisitMut::visit_mut_ts_method_signature(self, node)
+        VisitMut::visit_mut_ts_method_signature(&mut **self, node)
     }
 
     fn visit_mut_ts_module_block(&mut self, node: &mut TsModuleBlock) {
-        VisitMut::visit_mut_ts_module_block(self, node)
+        VisitMut::visit_mut_ts_module_block(&mut **self, node)
     }
 
     fn visit_mut_ts_module_decl(&mut self, node: &mut TsModuleDecl) {
-        VisitMut::visit_mut_ts_module_decl(self, node)
+        VisitMut::visit_mut_ts_module_decl(&mut **self, node)
     }
 
     fn visit_mut_ts_module_name(&mut self, node: &mut TsModuleName) {
-        VisitMut::visit_mut_ts_module_name(self, node)
+        VisitMut::visit_mut_ts_module_name(&mut **self, node)
     }
 
     fn visit_mut_ts_module_ref(&mut self, node: &mut TsModuleRef) {
-        VisitMut::visit_mut_ts_module_ref(self, node)
+        VisitMut::visit_mut_ts_module_ref(&mut **self, node)
     }
 
     fn visit_mut_ts_namespace_body(&mut self, node: &mut TsNamespaceBody) {
-        VisitMut::visit_mut_ts_namespace_body(self, node)
+        VisitMut::visit_mut_ts_namespace_body(&mut **self, node)
     }
 
     fn visit_mut_ts_namespace_decl(&mut self, node: &mut TsNamespaceDecl) {
-        VisitMut::visit_mut_ts_namespace_decl(self, node)
+        VisitMut::visit_mut_ts_namespace_decl(&mut **self, node)
     }
 
     fn visit_mut_ts_namespace_export_decl(&mut self, node: &mut TsNamespaceExportDecl) {
-        VisitMut::visit_mut_ts_namespace_export_decl(self, node)
+        VisitMut::visit_mut_ts_namespace_export_decl(&mut **self, node)
     }
 
     fn visit_mut_ts_non_null_expr(&mut self, node: &mut TsNonNullExpr) {
-        VisitMut::visit_mut_ts_non_null_expr(self, node)
+        VisitMut::visit_mut_ts_non_null_expr(&mut **self, node)
     }
 
     fn visit_mut_ts_optional_type(&mut self, node: &mut TsOptionalType) {
-        VisitMut::visit_mut_ts_optional_type(self, node)
+        VisitMut::visit_mut_ts_optional_type(&mut **self, node)
     }
 
     fn visit_mut_ts_param_prop(&mut self, node: &mut TsParamProp) {
-        VisitMut::visit_mut_ts_param_prop(self, node)
+        VisitMut::visit_mut_ts_param_prop(&mut **self, node)
     }
 
     fn visit_mut_ts_param_prop_param(&mut self, node: &mut TsParamPropParam) {
-        VisitMut::visit_mut_ts_param_prop_param(self, node)
+        VisitMut::visit_mut_ts_param_prop_param(&mut **self, node)
     }
 
     fn visit_mut_ts_parenthesized_type(&mut self, node: &mut TsParenthesizedType) {
-        VisitMut::visit_mut_ts_parenthesized_type(self, node)
+        VisitMut::visit_mut_ts_parenthesized_type(&mut **self, node)
     }
 
     fn visit_mut_ts_property_signature(&mut self, node: &mut TsPropertySignature) {
-        VisitMut::visit_mut_ts_property_signature(self, node)
+        VisitMut::visit_mut_ts_property_signature(&mut **self, node)
     }
 
     fn visit_mut_ts_qualified_name(&mut self, node: &mut TsQualifiedName) {
-        VisitMut::visit_mut_ts_qualified_name(self, node)
+        VisitMut::visit_mut_ts_qualified_name(&mut **self, node)
     }
 
     fn visit_mut_ts_rest_type(&mut self, node: &mut TsRestType) {
-        VisitMut::visit_mut_ts_rest_type(self, node)
+        VisitMut::visit_mut_ts_rest_type(&mut **self, node)
     }
 
     fn visit_mut_ts_satisfies_expr(&mut self, node: &mut TsSatisfiesExpr) {
-        VisitMut::visit_mut_ts_satisfies_expr(self, node)
+        VisitMut::visit_mut_ts_satisfies_expr(&mut **self, node)
     }
 
     fn visit_mut_ts_setter_signature(&mut self, node: &mut TsSetterSignature) {
-        VisitMut::visit_mut_ts_setter_signature(self, node)
+        VisitMut::visit_mut_ts_setter_signature(&mut **self, node)
     }
 
     fn visit_mut_ts_this_type(&mut self, node: &mut TsThisType) {
-        VisitMut::visit_mut_ts_this_type(self, node)
+        VisitMut::visit_mut_ts_this_type(&mut **self, node)
     }
 
     fn visit_mut_ts_this_type_or_ident(&mut self, node: &mut TsThisTypeOrIdent) {
-        VisitMut::visit_mut_ts_this_type_or_ident(self, node)
+        VisitMut::visit_mut_ts_this_type_or_ident(&mut **self, node)
     }
 
     fn visit_mut_ts_tpl_lit_type(&mut self, node: &mut TsTplLitType) {
-        VisitMut::visit_mut_ts_tpl_lit_type(self, node)
+        VisitMut::visit_mut_ts_tpl_lit_type(&mut **self, node)
     }
 
     fn visit_mut_ts_tuple_element(&mut self, node: &mut TsTupleElement) {
-        VisitMut::visit_mut_ts_tuple_element(self, node)
+        VisitMut::visit_mut_ts_tuple_element(&mut **self, node)
     }
 
     fn visit_mut_ts_tuple_elements(&mut self, node: &mut Vec<TsTupleElement>) {
-        VisitMut::visit_mut_ts_tuple_elements(self, node)
+        VisitMut::visit_mut_ts_tuple_elements(&mut **self, node)
     }
 
     fn visit_mut_ts_tuple_type(&mut self, node: &mut TsTupleType) {
-        VisitMut::visit_mut_ts_tuple_type(self, node)
+        VisitMut::visit_mut_ts_tuple_type(&mut **self, node)
     }
 
     fn visit_mut_ts_type(&mut self, node: &mut TsType) {
-        VisitMut::visit_mut_ts_type(self, node)
+        VisitMut::visit_mut_ts_type(&mut **self, node)
     }
 
     fn visit_mut_ts_type_alias_decl(&mut self, node: &mut TsTypeAliasDecl) {
-        VisitMut::visit_mut_ts_type_alias_decl(self, node)
+        VisitMut::visit_mut_ts_type_alias_decl(&mut **self, node)
     }
 
     fn visit_mut_ts_type_ann(&mut self, node: &mut TsTypeAnn) {
-        VisitMut::visit_mut_ts_type_ann(self, node)
+        VisitMut::visit_mut_ts_type_ann(&mut **self, node)
     }
 
     fn visit_mut_ts_type_assertion(&mut self, node: &mut TsTypeAssertion) {
-        VisitMut::visit_mut_ts_type_assertion(self, node)
+        VisitMut::visit_mut_ts_type_assertion(&mut **self, node)
     }
 
     fn visit_mut_ts_type_element(&mut self, node: &mut TsTypeElement) {
-        VisitMut::visit_mut_ts_type_element(self, node)
+        VisitMut::visit_mut_ts_type_element(&mut **self, node)
     }
 
     fn visit_mut_ts_type_elements(&mut self, node: &mut Vec<TsTypeElement>) {
-        VisitMut::visit_mut_ts_type_elements(self, node)
+        VisitMut::visit_mut_ts_type_elements(&mut **self, node)
     }
 
     fn visit_mut_ts_type_lit(&mut self, node: &mut TsTypeLit) {
-        VisitMut::visit_mut_ts_type_lit(self, node)
+        VisitMut::visit_mut_ts_type_lit(&mut **self, node)
     }
 
     fn visit_mut_ts_type_operator(&mut self, node: &mut TsTypeOperator) {
-        VisitMut::visit_mut_ts_type_operator(self, node)
+        VisitMut::visit_mut_ts_type_operator(&mut **self, node)
     }
 
     fn visit_mut_ts_type_operator_op(&mut self, node: &mut TsTypeOperatorOp) {
-        VisitMut::visit_mut_ts_type_operator_op(self, node)
+        VisitMut::visit_mut_ts_type_operator_op(&mut **self, node)
     }
 
     fn visit_mut_ts_type_param(&mut self, node: &mut TsTypeParam) {
-        VisitMut::visit_mut_ts_type_param(self, node)
+        VisitMut::visit_mut_ts_type_param(&mut **self, node)
     }
 
     fn visit_mut_ts_type_param_decl(&mut self, node: &mut TsTypeParamDecl) {
-        VisitMut::visit_mut_ts_type_param_decl(self, node)
+        VisitMut::visit_mut_ts_type_param_decl(&mut **self, node)
     }
 
     fn visit_mut_ts_type_param_instantiation(&mut self, node: &mut TsTypeParamInstantiation) {
-        VisitMut::visit_mut_ts_type_param_instantiation(self, node)
+        VisitMut::visit_mut_ts_type_param_instantiation(&mut **self, node)
     }
 
     fn visit_mut_ts_type_params(&mut self, node: &mut Vec<TsTypeParam>) {
-        VisitMut::visit_mut_ts_type_params(self, node)
+        VisitMut::visit_mut_ts_type_params(&mut **self, node)
     }
 
     fn visit_mut_ts_type_predicate(&mut self, node: &mut TsTypePredicate) {
-        VisitMut::visit_mut_ts_type_predicate(self, node)
+        VisitMut::visit_mut_ts_type_predicate(&mut **self, node)
     }
 
     fn visit_mut_ts_type_query(&mut self, node: &mut TsTypeQuery) {
-        VisitMut::visit_mut_ts_type_query(self, node)
+        VisitMut::visit_mut_ts_type_query(&mut **self, node)
     }
 
     fn visit_mut_ts_type_query_expr(&mut self, node: &mut TsTypeQueryExpr) {
-        VisitMut::visit_mut_ts_type_query_expr(self, node)
+        VisitMut::visit_mut_ts_type_query_expr(&mut **self, node)
     }
 
     fn visit_mut_ts_type_ref(&mut self, node: &mut TsTypeRef) {
-        VisitMut::visit_mut_ts_type_ref(self, node)
+        VisitMut::visit_mut_ts_type_ref(&mut **self, node)
     }
 
     fn visit_mut_ts_types(&mut self, node: &mut Vec<Box<TsType>>) {
-        VisitMut::visit_mut_ts_types(self, node)
+        VisitMut::visit_mut_ts_types(&mut **self, node)
     }
 
     fn visit_mut_ts_union_or_intersection_type(&mut self, node: &mut TsUnionOrIntersectionType) {
-        VisitMut::visit_mut_ts_union_or_intersection_type(self, node)
+        VisitMut::visit_mut_ts_union_or_intersection_type(&mut **self, node)
     }
 
     fn visit_mut_ts_union_type(&mut self, node: &mut TsUnionType) {
-        VisitMut::visit_mut_ts_union_type(self, node)
+        VisitMut::visit_mut_ts_union_type(&mut **self, node)
     }
 
     fn visit_mut_unary_expr(&mut self, node: &mut UnaryExpr) {
-        VisitMut::visit_mut_unary_expr(self, node)
+        VisitMut::visit_mut_unary_expr(&mut **self, node)
     }
 
     fn visit_mut_unary_op(&mut self, node: &mut UnaryOp) {
-        VisitMut::visit_mut_unary_op(self, node)
+        VisitMut::visit_mut_unary_op(&mut **self, node)
     }
 
     fn visit_mut_update_expr(&mut self, node: &mut UpdateExpr) {
-        VisitMut::visit_mut_update_expr(self, node)
+        VisitMut::visit_mut_update_expr(&mut **self, node)
     }
 
     fn visit_mut_update_op(&mut self, node: &mut UpdateOp) {
-        VisitMut::visit_mut_update_op(self, node)
+        VisitMut::visit_mut_update_op(&mut **self, node)
     }
 
     fn visit_mut_using_decl(&mut self, node: &mut UsingDecl) {
-        VisitMut::visit_mut_using_decl(self, node)
+        VisitMut::visit_mut_using_decl(&mut **self, node)
     }
 
     fn visit_mut_var_decl(&mut self, node: &mut VarDecl) {
-        VisitMut::visit_mut_var_decl(self, node)
+        VisitMut::visit_mut_var_decl(&mut **self, node)
     }
 
     fn visit_mut_var_decl_kind(&mut self, node: &mut VarDeclKind) {
-        VisitMut::visit_mut_var_decl_kind(self, node)
+        VisitMut::visit_mut_var_decl_kind(&mut **self, node)
     }
 
     fn visit_mut_var_decl_or_expr(&mut self, node: &mut VarDeclOrExpr) {
-        VisitMut::visit_mut_var_decl_or_expr(self, node)
+        VisitMut::visit_mut_var_decl_or_expr(&mut **self, node)
     }
 
     fn visit_mut_var_declarator(&mut self, node: &mut VarDeclarator) {
-        VisitMut::visit_mut_var_declarator(self, node)
+        VisitMut::visit_mut_var_declarator(&mut **self, node)
     }
 
     fn visit_mut_var_declarators(&mut self, node: &mut Vec<VarDeclarator>) {
-        VisitMut::visit_mut_var_declarators(self, node)
+        VisitMut::visit_mut_var_declarators(&mut **self, node)
     }
 
     fn visit_mut_while_stmt(&mut self, node: &mut WhileStmt) {
-        VisitMut::visit_mut_while_stmt(self, node)
+        VisitMut::visit_mut_while_stmt(&mut **self, node)
     }
 
     fn visit_mut_with_stmt(&mut self, node: &mut WithStmt) {
-        VisitMut::visit_mut_with_stmt(self, node)
+        VisitMut::visit_mut_with_stmt(&mut **self, node)
     }
 
     fn visit_mut_yield_expr(&mut self, node: &mut YieldExpr) {
-        VisitMut::visit_mut_yield_expr(self, node)
+        VisitMut::visit_mut_yield_expr(&mut **self, node)
     }
 }
 impl<A, B> VisitMut for ::swc_visit::Either<A, B>
@@ -53573,43 +53573,43 @@ where
     V: ?Sized + VisitMutAstPath,
 {
     fn visit_mut_accessibility(&mut self, node: &mut Accessibility, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_accessibility(self, node, ast_path)
+        VisitMutAstPath::visit_mut_accessibility(&mut **self, node, ast_path)
     }
 
     fn visit_mut_array_lit(&mut self, node: &mut ArrayLit, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_array_lit(self, node, ast_path)
+        VisitMutAstPath::visit_mut_array_lit(&mut **self, node, ast_path)
     }
 
     fn visit_mut_array_pat(&mut self, node: &mut ArrayPat, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_array_pat(self, node, ast_path)
+        VisitMutAstPath::visit_mut_array_pat(&mut **self, node, ast_path)
     }
 
     fn visit_mut_arrow_expr(&mut self, node: &mut ArrowExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_arrow_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_arrow_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_assign_expr(&mut self, node: &mut AssignExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_assign_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_assign_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_assign_op(&mut self, node: &mut AssignOp, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_assign_op(self, node, ast_path)
+        VisitMutAstPath::visit_mut_assign_op(&mut **self, node, ast_path)
     }
 
     fn visit_mut_assign_pat(&mut self, node: &mut AssignPat, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_assign_pat(self, node, ast_path)
+        VisitMutAstPath::visit_mut_assign_pat(&mut **self, node, ast_path)
     }
 
     fn visit_mut_assign_pat_prop(&mut self, node: &mut AssignPatProp, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_assign_pat_prop(self, node, ast_path)
+        VisitMutAstPath::visit_mut_assign_pat_prop(&mut **self, node, ast_path)
     }
 
     fn visit_mut_assign_prop(&mut self, node: &mut AssignProp, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_assign_prop(self, node, ast_path)
+        VisitMutAstPath::visit_mut_assign_prop(&mut **self, node, ast_path)
     }
 
     fn visit_mut_assign_target(&mut self, node: &mut AssignTarget, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_assign_target(self, node, ast_path)
+        VisitMutAstPath::visit_mut_assign_target(&mut **self, node, ast_path)
     }
 
     fn visit_mut_assign_target_pat(
@@ -53617,43 +53617,43 @@ where
         node: &mut AssignTargetPat,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_assign_target_pat(self, node, ast_path)
+        VisitMutAstPath::visit_mut_assign_target_pat(&mut **self, node, ast_path)
     }
 
     fn visit_mut_atom(&mut self, node: &mut swc_atoms::Atom, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_atom(self, node, ast_path)
+        VisitMutAstPath::visit_mut_atom(&mut **self, node, ast_path)
     }
 
     fn visit_mut_auto_accessor(&mut self, node: &mut AutoAccessor, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_auto_accessor(self, node, ast_path)
+        VisitMutAstPath::visit_mut_auto_accessor(&mut **self, node, ast_path)
     }
 
     fn visit_mut_await_expr(&mut self, node: &mut AwaitExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_await_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_await_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_big_int(&mut self, node: &mut BigInt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_big_int(self, node, ast_path)
+        VisitMutAstPath::visit_mut_big_int(&mut **self, node, ast_path)
     }
 
     fn visit_mut_big_int_value(&mut self, node: &mut BigIntValue, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_big_int_value(self, node, ast_path)
+        VisitMutAstPath::visit_mut_big_int_value(&mut **self, node, ast_path)
     }
 
     fn visit_mut_bin_expr(&mut self, node: &mut BinExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_bin_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_bin_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_binary_op(&mut self, node: &mut BinaryOp, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_binary_op(self, node, ast_path)
+        VisitMutAstPath::visit_mut_binary_op(&mut **self, node, ast_path)
     }
 
     fn visit_mut_binding_ident(&mut self, node: &mut BindingIdent, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_binding_ident(self, node, ast_path)
+        VisitMutAstPath::visit_mut_binding_ident(&mut **self, node, ast_path)
     }
 
     fn visit_mut_block_stmt(&mut self, node: &mut BlockStmt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_block_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_block_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_block_stmt_or_expr(
@@ -53661,55 +53661,55 @@ where
         node: &mut BlockStmtOrExpr,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_block_stmt_or_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_block_stmt_or_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_bool(&mut self, node: &mut Bool, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_bool(self, node, ast_path)
+        VisitMutAstPath::visit_mut_bool(&mut **self, node, ast_path)
     }
 
     fn visit_mut_break_stmt(&mut self, node: &mut BreakStmt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_break_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_break_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_call_expr(&mut self, node: &mut CallExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_call_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_call_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_callee(&mut self, node: &mut Callee, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_callee(self, node, ast_path)
+        VisitMutAstPath::visit_mut_callee(&mut **self, node, ast_path)
     }
 
     fn visit_mut_catch_clause(&mut self, node: &mut CatchClause, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_catch_clause(self, node, ast_path)
+        VisitMutAstPath::visit_mut_catch_clause(&mut **self, node, ast_path)
     }
 
     fn visit_mut_class(&mut self, node: &mut Class, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_class(self, node, ast_path)
+        VisitMutAstPath::visit_mut_class(&mut **self, node, ast_path)
     }
 
     fn visit_mut_class_decl(&mut self, node: &mut ClassDecl, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_class_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_class_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_class_expr(&mut self, node: &mut ClassExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_class_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_class_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_class_member(&mut self, node: &mut ClassMember, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_class_member(self, node, ast_path)
+        VisitMutAstPath::visit_mut_class_member(&mut **self, node, ast_path)
     }
 
     fn visit_mut_class_members(&mut self, node: &mut Vec<ClassMember>, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_class_members(self, node, ast_path)
+        VisitMutAstPath::visit_mut_class_members(&mut **self, node, ast_path)
     }
 
     fn visit_mut_class_method(&mut self, node: &mut ClassMethod, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_class_method(self, node, ast_path)
+        VisitMutAstPath::visit_mut_class_method(&mut **self, node, ast_path)
     }
 
     fn visit_mut_class_prop(&mut self, node: &mut ClassProp, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_class_prop(self, node, ast_path)
+        VisitMutAstPath::visit_mut_class_prop(&mut **self, node, ast_path)
     }
 
     fn visit_mut_computed_prop_name(
@@ -53717,59 +53717,59 @@ where
         node: &mut ComputedPropName,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_computed_prop_name(self, node, ast_path)
+        VisitMutAstPath::visit_mut_computed_prop_name(&mut **self, node, ast_path)
     }
 
     fn visit_mut_cond_expr(&mut self, node: &mut CondExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_cond_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_cond_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_constructor(&mut self, node: &mut Constructor, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_constructor(self, node, ast_path)
+        VisitMutAstPath::visit_mut_constructor(&mut **self, node, ast_path)
     }
 
     fn visit_mut_continue_stmt(&mut self, node: &mut ContinueStmt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_continue_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_continue_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_debugger_stmt(&mut self, node: &mut DebuggerStmt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_debugger_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_debugger_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_decl(&mut self, node: &mut Decl, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_decorator(&mut self, node: &mut Decorator, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_decorator(self, node, ast_path)
+        VisitMutAstPath::visit_mut_decorator(&mut **self, node, ast_path)
     }
 
     fn visit_mut_decorators(&mut self, node: &mut Vec<Decorator>, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_decorators(self, node, ast_path)
+        VisitMutAstPath::visit_mut_decorators(&mut **self, node, ast_path)
     }
 
     fn visit_mut_default_decl(&mut self, node: &mut DefaultDecl, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_default_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_default_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_do_while_stmt(&mut self, node: &mut DoWhileStmt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_do_while_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_do_while_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_empty_stmt(&mut self, node: &mut EmptyStmt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_empty_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_empty_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_es_version(&mut self, node: &mut EsVersion, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_es_version(self, node, ast_path)
+        VisitMutAstPath::visit_mut_es_version(&mut **self, node, ast_path)
     }
 
     fn visit_mut_export_all(&mut self, node: &mut ExportAll, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_export_all(self, node, ast_path)
+        VisitMutAstPath::visit_mut_export_all(&mut **self, node, ast_path)
     }
 
     fn visit_mut_export_decl(&mut self, node: &mut ExportDecl, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_export_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_export_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_export_default_decl(
@@ -53777,7 +53777,7 @@ where
         node: &mut ExportDefaultDecl,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_export_default_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_export_default_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_export_default_expr(
@@ -53785,7 +53785,7 @@ where
         node: &mut ExportDefaultExpr,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_export_default_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_export_default_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_export_default_specifier(
@@ -53793,7 +53793,7 @@ where
         node: &mut ExportDefaultSpecifier,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_export_default_specifier(self, node, ast_path)
+        VisitMutAstPath::visit_mut_export_default_specifier(&mut **self, node, ast_path)
     }
 
     fn visit_mut_export_named_specifier(
@@ -53801,7 +53801,7 @@ where
         node: &mut ExportNamedSpecifier,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_export_named_specifier(self, node, ast_path)
+        VisitMutAstPath::visit_mut_export_named_specifier(&mut **self, node, ast_path)
     }
 
     fn visit_mut_export_namespace_specifier(
@@ -53809,7 +53809,7 @@ where
         node: &mut ExportNamespaceSpecifier,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_export_namespace_specifier(self, node, ast_path)
+        VisitMutAstPath::visit_mut_export_namespace_specifier(&mut **self, node, ast_path)
     }
 
     fn visit_mut_export_specifier(
@@ -53817,7 +53817,7 @@ where
         node: &mut ExportSpecifier,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_export_specifier(self, node, ast_path)
+        VisitMutAstPath::visit_mut_export_specifier(&mut **self, node, ast_path)
     }
 
     fn visit_mut_export_specifiers(
@@ -53825,15 +53825,15 @@ where
         node: &mut Vec<ExportSpecifier>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_export_specifiers(self, node, ast_path)
+        VisitMutAstPath::visit_mut_export_specifiers(&mut **self, node, ast_path)
     }
 
     fn visit_mut_expr(&mut self, node: &mut Expr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_expr_or_spread(&mut self, node: &mut ExprOrSpread, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_expr_or_spread(self, node, ast_path)
+        VisitMutAstPath::visit_mut_expr_or_spread(&mut **self, node, ast_path)
     }
 
     fn visit_mut_expr_or_spreads(
@@ -53841,67 +53841,67 @@ where
         node: &mut Vec<ExprOrSpread>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_expr_or_spreads(self, node, ast_path)
+        VisitMutAstPath::visit_mut_expr_or_spreads(&mut **self, node, ast_path)
     }
 
     fn visit_mut_expr_stmt(&mut self, node: &mut ExprStmt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_expr_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_expr_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_exprs(&mut self, node: &mut Vec<Box<Expr>>, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_exprs(self, node, ast_path)
+        VisitMutAstPath::visit_mut_exprs(&mut **self, node, ast_path)
     }
 
     fn visit_mut_fn_decl(&mut self, node: &mut FnDecl, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_fn_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_fn_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_fn_expr(&mut self, node: &mut FnExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_fn_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_fn_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_for_head(&mut self, node: &mut ForHead, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_for_head(self, node, ast_path)
+        VisitMutAstPath::visit_mut_for_head(&mut **self, node, ast_path)
     }
 
     fn visit_mut_for_in_stmt(&mut self, node: &mut ForInStmt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_for_in_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_for_in_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_for_of_stmt(&mut self, node: &mut ForOfStmt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_for_of_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_for_of_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_for_stmt(&mut self, node: &mut ForStmt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_for_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_for_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_function(&mut self, node: &mut Function, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_function(self, node, ast_path)
+        VisitMutAstPath::visit_mut_function(&mut **self, node, ast_path)
     }
 
     fn visit_mut_getter_prop(&mut self, node: &mut GetterProp, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_getter_prop(self, node, ast_path)
+        VisitMutAstPath::visit_mut_getter_prop(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ident(&mut self, node: &mut Ident, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ident(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ident(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ident_name(&mut self, node: &mut IdentName, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ident_name(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ident_name(&mut **self, node, ast_path)
     }
 
     fn visit_mut_if_stmt(&mut self, node: &mut IfStmt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_if_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_if_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_import(&mut self, node: &mut Import, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_import(self, node, ast_path)
+        VisitMutAstPath::visit_mut_import(&mut **self, node, ast_path)
     }
 
     fn visit_mut_import_decl(&mut self, node: &mut ImportDecl, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_import_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_import_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_import_default_specifier(
@@ -53909,7 +53909,7 @@ where
         node: &mut ImportDefaultSpecifier,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_import_default_specifier(self, node, ast_path)
+        VisitMutAstPath::visit_mut_import_default_specifier(&mut **self, node, ast_path)
     }
 
     fn visit_mut_import_named_specifier(
@@ -53917,11 +53917,11 @@ where
         node: &mut ImportNamedSpecifier,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_import_named_specifier(self, node, ast_path)
+        VisitMutAstPath::visit_mut_import_named_specifier(&mut **self, node, ast_path)
     }
 
     fn visit_mut_import_phase(&mut self, node: &mut ImportPhase, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_import_phase(self, node, ast_path)
+        VisitMutAstPath::visit_mut_import_phase(&mut **self, node, ast_path)
     }
 
     fn visit_mut_import_specifier(
@@ -53929,7 +53929,7 @@ where
         node: &mut ImportSpecifier,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_import_specifier(self, node, ast_path)
+        VisitMutAstPath::visit_mut_import_specifier(&mut **self, node, ast_path)
     }
 
     fn visit_mut_import_specifiers(
@@ -53937,7 +53937,7 @@ where
         node: &mut Vec<ImportSpecifier>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_import_specifiers(self, node, ast_path)
+        VisitMutAstPath::visit_mut_import_specifiers(&mut **self, node, ast_path)
     }
 
     fn visit_mut_import_star_as_specifier(
@@ -53945,11 +53945,11 @@ where
         node: &mut ImportStarAsSpecifier,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_import_star_as_specifier(self, node, ast_path)
+        VisitMutAstPath::visit_mut_import_star_as_specifier(&mut **self, node, ast_path)
     }
 
     fn visit_mut_import_with(&mut self, node: &mut ImportWith, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_import_with(self, node, ast_path)
+        VisitMutAstPath::visit_mut_import_with(&mut **self, node, ast_path)
     }
 
     fn visit_mut_import_with_item(
@@ -53957,7 +53957,7 @@ where
         node: &mut ImportWithItem,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_import_with_item(self, node, ast_path)
+        VisitMutAstPath::visit_mut_import_with_item(&mut **self, node, ast_path)
     }
 
     fn visit_mut_import_with_items(
@@ -53965,19 +53965,19 @@ where
         node: &mut Vec<ImportWithItem>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_import_with_items(self, node, ast_path)
+        VisitMutAstPath::visit_mut_import_with_items(&mut **self, node, ast_path)
     }
 
     fn visit_mut_invalid(&mut self, node: &mut Invalid, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_invalid(self, node, ast_path)
+        VisitMutAstPath::visit_mut_invalid(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_attr(&mut self, node: &mut JSXAttr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_jsx_attr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_attr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_attr_name(&mut self, node: &mut JSXAttrName, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_jsx_attr_name(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_attr_name(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_attr_or_spread(
@@ -53985,7 +53985,7 @@ where
         node: &mut JSXAttrOrSpread,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_jsx_attr_or_spread(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_attr_or_spread(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_attr_or_spreads(
@@ -53993,11 +53993,11 @@ where
         node: &mut Vec<JSXAttrOrSpread>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_jsx_attr_or_spreads(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_attr_or_spreads(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_attr_value(&mut self, node: &mut JSXAttrValue, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_jsx_attr_value(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_attr_value(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_closing_element(
@@ -54005,7 +54005,7 @@ where
         node: &mut JSXClosingElement,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_jsx_closing_element(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_closing_element(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_closing_fragment(
@@ -54013,11 +54013,11 @@ where
         node: &mut JSXClosingFragment,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_jsx_closing_fragment(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_closing_fragment(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_element(&mut self, node: &mut JSXElement, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_jsx_element(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_element(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_element_child(
@@ -54025,7 +54025,7 @@ where
         node: &mut JSXElementChild,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_jsx_element_child(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_element_child(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_element_childs(
@@ -54033,7 +54033,7 @@ where
         node: &mut Vec<JSXElementChild>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_jsx_element_childs(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_element_childs(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_element_name(
@@ -54041,15 +54041,15 @@ where
         node: &mut JSXElementName,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_jsx_element_name(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_element_name(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_empty_expr(&mut self, node: &mut JSXEmptyExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_jsx_empty_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_empty_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_expr(&mut self, node: &mut JSXExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_jsx_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_expr_container(
@@ -54057,15 +54057,15 @@ where
         node: &mut JSXExprContainer,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_jsx_expr_container(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_expr_container(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_fragment(&mut self, node: &mut JSXFragment, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_jsx_fragment(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_fragment(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_member_expr(&mut self, node: &mut JSXMemberExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_jsx_member_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_member_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_namespaced_name(
@@ -54073,11 +54073,11 @@ where
         node: &mut JSXNamespacedName,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_jsx_namespaced_name(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_namespaced_name(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_object(&mut self, node: &mut JSXObject, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_jsx_object(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_object(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_opening_element(
@@ -54085,7 +54085,7 @@ where
         node: &mut JSXOpeningElement,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_jsx_opening_element(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_opening_element(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_opening_fragment(
@@ -54093,7 +54093,7 @@ where
         node: &mut JSXOpeningFragment,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_jsx_opening_fragment(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_opening_fragment(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_spread_child(
@@ -54101,15 +54101,15 @@ where
         node: &mut JSXSpreadChild,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_jsx_spread_child(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_spread_child(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_text(&mut self, node: &mut JSXText, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_jsx_text(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_text(&mut **self, node, ast_path)
     }
 
     fn visit_mut_key(&mut self, node: &mut Key, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_key(self, node, ast_path)
+        VisitMutAstPath::visit_mut_key(&mut **self, node, ast_path)
     }
 
     fn visit_mut_key_value_pat_prop(
@@ -54117,51 +54117,51 @@ where
         node: &mut KeyValuePatProp,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_key_value_pat_prop(self, node, ast_path)
+        VisitMutAstPath::visit_mut_key_value_pat_prop(&mut **self, node, ast_path)
     }
 
     fn visit_mut_key_value_prop(&mut self, node: &mut KeyValueProp, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_key_value_prop(self, node, ast_path)
+        VisitMutAstPath::visit_mut_key_value_prop(&mut **self, node, ast_path)
     }
 
     fn visit_mut_labeled_stmt(&mut self, node: &mut LabeledStmt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_labeled_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_labeled_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_lit(&mut self, node: &mut Lit, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_lit(self, node, ast_path)
+        VisitMutAstPath::visit_mut_lit(&mut **self, node, ast_path)
     }
 
     fn visit_mut_member_expr(&mut self, node: &mut MemberExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_member_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_member_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_member_prop(&mut self, node: &mut MemberProp, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_member_prop(self, node, ast_path)
+        VisitMutAstPath::visit_mut_member_prop(&mut **self, node, ast_path)
     }
 
     fn visit_mut_meta_prop_expr(&mut self, node: &mut MetaPropExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_meta_prop_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_meta_prop_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_meta_prop_kind(&mut self, node: &mut MetaPropKind, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_meta_prop_kind(self, node, ast_path)
+        VisitMutAstPath::visit_mut_meta_prop_kind(&mut **self, node, ast_path)
     }
 
     fn visit_mut_method_kind(&mut self, node: &mut MethodKind, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_method_kind(self, node, ast_path)
+        VisitMutAstPath::visit_mut_method_kind(&mut **self, node, ast_path)
     }
 
     fn visit_mut_method_prop(&mut self, node: &mut MethodProp, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_method_prop(self, node, ast_path)
+        VisitMutAstPath::visit_mut_method_prop(&mut **self, node, ast_path)
     }
 
     fn visit_mut_module(&mut self, node: &mut Module, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_module(self, node, ast_path)
+        VisitMutAstPath::visit_mut_module(&mut **self, node, ast_path)
     }
 
     fn visit_mut_module_decl(&mut self, node: &mut ModuleDecl, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_module_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_module_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_module_export_name(
@@ -54169,43 +54169,43 @@ where
         node: &mut ModuleExportName,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_module_export_name(self, node, ast_path)
+        VisitMutAstPath::visit_mut_module_export_name(&mut **self, node, ast_path)
     }
 
     fn visit_mut_module_item(&mut self, node: &mut ModuleItem, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_module_item(self, node, ast_path)
+        VisitMutAstPath::visit_mut_module_item(&mut **self, node, ast_path)
     }
 
     fn visit_mut_module_items(&mut self, node: &mut Vec<ModuleItem>, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_module_items(self, node, ast_path)
+        VisitMutAstPath::visit_mut_module_items(&mut **self, node, ast_path)
     }
 
     fn visit_mut_named_export(&mut self, node: &mut NamedExport, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_named_export(self, node, ast_path)
+        VisitMutAstPath::visit_mut_named_export(&mut **self, node, ast_path)
     }
 
     fn visit_mut_new_expr(&mut self, node: &mut NewExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_new_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_new_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_null(&mut self, node: &mut Null, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_null(self, node, ast_path)
+        VisitMutAstPath::visit_mut_null(&mut **self, node, ast_path)
     }
 
     fn visit_mut_number(&mut self, node: &mut Number, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_number(self, node, ast_path)
+        VisitMutAstPath::visit_mut_number(&mut **self, node, ast_path)
     }
 
     fn visit_mut_object_lit(&mut self, node: &mut ObjectLit, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_object_lit(self, node, ast_path)
+        VisitMutAstPath::visit_mut_object_lit(&mut **self, node, ast_path)
     }
 
     fn visit_mut_object_pat(&mut self, node: &mut ObjectPat, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_object_pat(self, node, ast_path)
+        VisitMutAstPath::visit_mut_object_pat(&mut **self, node, ast_path)
     }
 
     fn visit_mut_object_pat_prop(&mut self, node: &mut ObjectPatProp, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_object_pat_prop(self, node, ast_path)
+        VisitMutAstPath::visit_mut_object_pat_prop(&mut **self, node, ast_path)
     }
 
     fn visit_mut_object_pat_props(
@@ -54213,7 +54213,7 @@ where
         node: &mut Vec<ObjectPatProp>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_object_pat_props(self, node, ast_path)
+        VisitMutAstPath::visit_mut_object_pat_props(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_accessibility(
@@ -54221,7 +54221,7 @@ where
         node: &mut Option<Accessibility>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_accessibility(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_accessibility(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_atom(
@@ -54229,7 +54229,7 @@ where
         node: &mut Option<swc_atoms::Atom>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_atom(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_atom(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_block_stmt(
@@ -54237,11 +54237,11 @@ where
         node: &mut Option<BlockStmt>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_block_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_block_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_call(&mut self, node: &mut OptCall, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_opt_call(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_call(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_catch_clause(
@@ -54249,19 +54249,19 @@ where
         node: &mut Option<CatchClause>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_catch_clause(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_catch_clause(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_chain_base(&mut self, node: &mut OptChainBase, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_opt_chain_base(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_chain_base(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_chain_expr(&mut self, node: &mut OptChainExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_opt_chain_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_chain_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_expr(&mut self, node: &mut Option<Box<Expr>>, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_opt_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_expr_or_spread(
@@ -54269,7 +54269,7 @@ where
         node: &mut Option<ExprOrSpread>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_expr_or_spread(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_expr_or_spread(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_expr_or_spreads(
@@ -54277,11 +54277,11 @@ where
         node: &mut Option<Vec<ExprOrSpread>>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_expr_or_spreads(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_expr_or_spreads(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_ident(&mut self, node: &mut Option<Ident>, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_opt_ident(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_ident(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_jsx_attr_value(
@@ -54289,7 +54289,7 @@ where
         node: &mut Option<JSXAttrValue>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_jsx_attr_value(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_jsx_attr_value(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_jsx_closing_element(
@@ -54297,7 +54297,7 @@ where
         node: &mut Option<JSXClosingElement>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_jsx_closing_element(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_jsx_closing_element(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_module_export_name(
@@ -54305,7 +54305,7 @@ where
         node: &mut Option<ModuleExportName>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_module_export_name(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_module_export_name(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_module_items(
@@ -54313,7 +54313,7 @@ where
         node: &mut Option<Vec<ModuleItem>>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_module_items(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_module_items(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_object_lit(
@@ -54321,11 +54321,11 @@ where
         node: &mut Option<Box<ObjectLit>>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_object_lit(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_object_lit(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_pat(&mut self, node: &mut Option<Pat>, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_opt_pat(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_pat(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_span(
@@ -54333,15 +54333,15 @@ where
         node: &mut Option<swc_common::Span>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_span(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_span(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_stmt(&mut self, node: &mut Option<Box<Stmt>>, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_opt_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_str(&mut self, node: &mut Option<Box<Str>>, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_opt_str(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_str(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_true_plus_minus(
@@ -54349,7 +54349,7 @@ where
         node: &mut Option<TruePlusMinus>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_true_plus_minus(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_true_plus_minus(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_ts_entity_name(
@@ -54357,7 +54357,7 @@ where
         node: &mut Option<TsEntityName>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_ts_entity_name(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_ts_entity_name(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_ts_namespace_body(
@@ -54365,7 +54365,7 @@ where
         node: &mut Option<TsNamespaceBody>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_ts_namespace_body(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_ts_namespace_body(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_ts_type(
@@ -54373,7 +54373,7 @@ where
         node: &mut Option<Box<TsType>>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_ts_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_ts_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_ts_type_ann(
@@ -54381,7 +54381,7 @@ where
         node: &mut Option<Box<TsTypeAnn>>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_ts_type_ann(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_ts_type_ann(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_ts_type_param_decl(
@@ -54389,7 +54389,7 @@ where
         node: &mut Option<Box<TsTypeParamDecl>>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_ts_type_param_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_ts_type_param_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_ts_type_param_instantiation(
@@ -54397,7 +54397,7 @@ where
         node: &mut Option<Box<TsTypeParamInstantiation>>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_ts_type_param_instantiation(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_ts_type_param_instantiation(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_var_decl_or_expr(
@@ -54405,7 +54405,7 @@ where
         node: &mut Option<VarDeclOrExpr>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_var_decl_or_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_var_decl_or_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_vec_expr_or_spreads(
@@ -54413,15 +54413,15 @@ where
         node: &mut Vec<Option<ExprOrSpread>>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_vec_expr_or_spreads(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_vec_expr_or_spreads(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_vec_pats(&mut self, node: &mut Vec<Option<Pat>>, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_opt_vec_pats(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_vec_pats(&mut **self, node, ast_path)
     }
 
     fn visit_mut_param(&mut self, node: &mut Param, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_param(self, node, ast_path)
+        VisitMutAstPath::visit_mut_param(&mut **self, node, ast_path)
     }
 
     fn visit_mut_param_or_ts_param_prop(
@@ -54429,7 +54429,7 @@ where
         node: &mut ParamOrTsParamProp,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_param_or_ts_param_prop(self, node, ast_path)
+        VisitMutAstPath::visit_mut_param_or_ts_param_prop(&mut **self, node, ast_path)
     }
 
     fn visit_mut_param_or_ts_param_props(
@@ -54437,51 +54437,51 @@ where
         node: &mut Vec<ParamOrTsParamProp>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_param_or_ts_param_props(self, node, ast_path)
+        VisitMutAstPath::visit_mut_param_or_ts_param_props(&mut **self, node, ast_path)
     }
 
     fn visit_mut_params(&mut self, node: &mut Vec<Param>, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_params(self, node, ast_path)
+        VisitMutAstPath::visit_mut_params(&mut **self, node, ast_path)
     }
 
     fn visit_mut_paren_expr(&mut self, node: &mut ParenExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_paren_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_paren_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_pat(&mut self, node: &mut Pat, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_pat(self, node, ast_path)
+        VisitMutAstPath::visit_mut_pat(&mut **self, node, ast_path)
     }
 
     fn visit_mut_pats(&mut self, node: &mut Vec<Pat>, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_pats(self, node, ast_path)
+        VisitMutAstPath::visit_mut_pats(&mut **self, node, ast_path)
     }
 
     fn visit_mut_private_method(&mut self, node: &mut PrivateMethod, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_private_method(self, node, ast_path)
+        VisitMutAstPath::visit_mut_private_method(&mut **self, node, ast_path)
     }
 
     fn visit_mut_private_name(&mut self, node: &mut PrivateName, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_private_name(self, node, ast_path)
+        VisitMutAstPath::visit_mut_private_name(&mut **self, node, ast_path)
     }
 
     fn visit_mut_private_prop(&mut self, node: &mut PrivateProp, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_private_prop(self, node, ast_path)
+        VisitMutAstPath::visit_mut_private_prop(&mut **self, node, ast_path)
     }
 
     fn visit_mut_program(&mut self, node: &mut Program, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_program(self, node, ast_path)
+        VisitMutAstPath::visit_mut_program(&mut **self, node, ast_path)
     }
 
     fn visit_mut_prop(&mut self, node: &mut Prop, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_prop(self, node, ast_path)
+        VisitMutAstPath::visit_mut_prop(&mut **self, node, ast_path)
     }
 
     fn visit_mut_prop_name(&mut self, node: &mut PropName, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_prop_name(self, node, ast_path)
+        VisitMutAstPath::visit_mut_prop_name(&mut **self, node, ast_path)
     }
 
     fn visit_mut_prop_or_spread(&mut self, node: &mut PropOrSpread, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_prop_or_spread(self, node, ast_path)
+        VisitMutAstPath::visit_mut_prop_or_spread(&mut **self, node, ast_path)
     }
 
     fn visit_mut_prop_or_spreads(
@@ -54489,35 +54489,35 @@ where
         node: &mut Vec<PropOrSpread>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_prop_or_spreads(self, node, ast_path)
+        VisitMutAstPath::visit_mut_prop_or_spreads(&mut **self, node, ast_path)
     }
 
     fn visit_mut_regex(&mut self, node: &mut Regex, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_regex(self, node, ast_path)
+        VisitMutAstPath::visit_mut_regex(&mut **self, node, ast_path)
     }
 
     fn visit_mut_reserved_unused(&mut self, node: &mut ReservedUnused, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_reserved_unused(self, node, ast_path)
+        VisitMutAstPath::visit_mut_reserved_unused(&mut **self, node, ast_path)
     }
 
     fn visit_mut_rest_pat(&mut self, node: &mut RestPat, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_rest_pat(self, node, ast_path)
+        VisitMutAstPath::visit_mut_rest_pat(&mut **self, node, ast_path)
     }
 
     fn visit_mut_return_stmt(&mut self, node: &mut ReturnStmt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_return_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_return_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_script(&mut self, node: &mut Script, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_script(self, node, ast_path)
+        VisitMutAstPath::visit_mut_script(&mut **self, node, ast_path)
     }
 
     fn visit_mut_seq_expr(&mut self, node: &mut SeqExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_seq_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_seq_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_setter_prop(&mut self, node: &mut SetterProp, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_setter_prop(self, node, ast_path)
+        VisitMutAstPath::visit_mut_setter_prop(&mut **self, node, ast_path)
     }
 
     fn visit_mut_simple_assign_target(
@@ -54525,55 +54525,55 @@ where
         node: &mut SimpleAssignTarget,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_simple_assign_target(self, node, ast_path)
+        VisitMutAstPath::visit_mut_simple_assign_target(&mut **self, node, ast_path)
     }
 
     fn visit_mut_span(&mut self, node: &mut swc_common::Span, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_span(self, node, ast_path)
+        VisitMutAstPath::visit_mut_span(&mut **self, node, ast_path)
     }
 
     fn visit_mut_spread_element(&mut self, node: &mut SpreadElement, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_spread_element(self, node, ast_path)
+        VisitMutAstPath::visit_mut_spread_element(&mut **self, node, ast_path)
     }
 
     fn visit_mut_static_block(&mut self, node: &mut StaticBlock, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_static_block(self, node, ast_path)
+        VisitMutAstPath::visit_mut_static_block(&mut **self, node, ast_path)
     }
 
     fn visit_mut_stmt(&mut self, node: &mut Stmt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_stmts(&mut self, node: &mut Vec<Stmt>, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_stmts(self, node, ast_path)
+        VisitMutAstPath::visit_mut_stmts(&mut **self, node, ast_path)
     }
 
     fn visit_mut_str(&mut self, node: &mut Str, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_str(self, node, ast_path)
+        VisitMutAstPath::visit_mut_str(&mut **self, node, ast_path)
     }
 
     fn visit_mut_super(&mut self, node: &mut Super, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_super(self, node, ast_path)
+        VisitMutAstPath::visit_mut_super(&mut **self, node, ast_path)
     }
 
     fn visit_mut_super_prop(&mut self, node: &mut SuperProp, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_super_prop(self, node, ast_path)
+        VisitMutAstPath::visit_mut_super_prop(&mut **self, node, ast_path)
     }
 
     fn visit_mut_super_prop_expr(&mut self, node: &mut SuperPropExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_super_prop_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_super_prop_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_switch_case(&mut self, node: &mut SwitchCase, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_switch_case(self, node, ast_path)
+        VisitMutAstPath::visit_mut_switch_case(&mut **self, node, ast_path)
     }
 
     fn visit_mut_switch_cases(&mut self, node: &mut Vec<SwitchCase>, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_switch_cases(self, node, ast_path)
+        VisitMutAstPath::visit_mut_switch_cases(&mut **self, node, ast_path)
     }
 
     fn visit_mut_switch_stmt(&mut self, node: &mut SwitchStmt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_switch_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_switch_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_syntax_context(
@@ -54581,47 +54581,47 @@ where
         node: &mut swc_common::SyntaxContext,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_syntax_context(self, node, ast_path)
+        VisitMutAstPath::visit_mut_syntax_context(&mut **self, node, ast_path)
     }
 
     fn visit_mut_tagged_tpl(&mut self, node: &mut TaggedTpl, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_tagged_tpl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_tagged_tpl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_this_expr(&mut self, node: &mut ThisExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_this_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_this_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_throw_stmt(&mut self, node: &mut ThrowStmt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_throw_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_throw_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_tpl(&mut self, node: &mut Tpl, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_tpl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_tpl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_tpl_element(&mut self, node: &mut TplElement, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_tpl_element(self, node, ast_path)
+        VisitMutAstPath::visit_mut_tpl_element(&mut **self, node, ast_path)
     }
 
     fn visit_mut_tpl_elements(&mut self, node: &mut Vec<TplElement>, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_tpl_elements(self, node, ast_path)
+        VisitMutAstPath::visit_mut_tpl_elements(&mut **self, node, ast_path)
     }
 
     fn visit_mut_true_plus_minus(&mut self, node: &mut TruePlusMinus, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_true_plus_minus(self, node, ast_path)
+        VisitMutAstPath::visit_mut_true_plus_minus(&mut **self, node, ast_path)
     }
 
     fn visit_mut_try_stmt(&mut self, node: &mut TryStmt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_try_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_try_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_array_type(&mut self, node: &mut TsArrayType, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_array_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_array_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_as_expr(&mut self, node: &mut TsAsExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_as_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_as_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_call_signature_decl(
@@ -54629,7 +54629,7 @@ where
         node: &mut TsCallSignatureDecl,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_call_signature_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_call_signature_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_conditional_type(
@@ -54637,7 +54637,7 @@ where
         node: &mut TsConditionalType,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_conditional_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_conditional_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_const_assertion(
@@ -54645,7 +54645,7 @@ where
         node: &mut TsConstAssertion,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_const_assertion(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_const_assertion(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_construct_signature_decl(
@@ -54653,7 +54653,7 @@ where
         node: &mut TsConstructSignatureDecl,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_construct_signature_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_construct_signature_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_constructor_type(
@@ -54661,19 +54661,19 @@ where
         node: &mut TsConstructorType,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_constructor_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_constructor_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_entity_name(&mut self, node: &mut TsEntityName, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_entity_name(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_entity_name(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_enum_decl(&mut self, node: &mut TsEnumDecl, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_enum_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_enum_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_enum_member(&mut self, node: &mut TsEnumMember, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_enum_member(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_enum_member(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_enum_member_id(
@@ -54681,7 +54681,7 @@ where
         node: &mut TsEnumMemberId,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_enum_member_id(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_enum_member_id(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_enum_members(
@@ -54689,7 +54689,7 @@ where
         node: &mut Vec<TsEnumMember>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_enum_members(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_enum_members(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_export_assignment(
@@ -54697,7 +54697,7 @@ where
         node: &mut TsExportAssignment,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_export_assignment(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_export_assignment(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_expr_with_type_args(
@@ -54705,7 +54705,7 @@ where
         node: &mut TsExprWithTypeArgs,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_expr_with_type_args(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_expr_with_type_args(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_expr_with_type_argss(
@@ -54713,7 +54713,7 @@ where
         node: &mut Vec<TsExprWithTypeArgs>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_expr_with_type_argss(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_expr_with_type_argss(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_external_module_ref(
@@ -54721,7 +54721,7 @@ where
         node: &mut TsExternalModuleRef,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_external_module_ref(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_external_module_ref(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_fn_or_constructor_type(
@@ -54729,19 +54729,19 @@ where
         node: &mut TsFnOrConstructorType,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_fn_or_constructor_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_fn_or_constructor_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_fn_param(&mut self, node: &mut TsFnParam, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_fn_param(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_fn_param(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_fn_params(&mut self, node: &mut Vec<TsFnParam>, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_fn_params(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_fn_params(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_fn_type(&mut self, node: &mut TsFnType, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_fn_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_fn_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_getter_signature(
@@ -54749,7 +54749,7 @@ where
         node: &mut TsGetterSignature,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_getter_signature(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_getter_signature(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_import_equals_decl(
@@ -54757,11 +54757,11 @@ where
         node: &mut TsImportEqualsDecl,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_import_equals_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_import_equals_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_import_type(&mut self, node: &mut TsImportType, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_import_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_import_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_index_signature(
@@ -54769,7 +54769,7 @@ where
         node: &mut TsIndexSignature,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_index_signature(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_index_signature(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_indexed_access_type(
@@ -54777,11 +54777,11 @@ where
         node: &mut TsIndexedAccessType,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_indexed_access_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_indexed_access_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_infer_type(&mut self, node: &mut TsInferType, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_infer_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_infer_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_instantiation(
@@ -54789,7 +54789,7 @@ where
         node: &mut TsInstantiation,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_instantiation(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_instantiation(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_interface_body(
@@ -54797,7 +54797,7 @@ where
         node: &mut TsInterfaceBody,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_interface_body(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_interface_body(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_interface_decl(
@@ -54805,7 +54805,7 @@ where
         node: &mut TsInterfaceDecl,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_interface_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_interface_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_intersection_type(
@@ -54813,11 +54813,11 @@ where
         node: &mut TsIntersectionType,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_intersection_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_intersection_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_keyword_type(&mut self, node: &mut TsKeywordType, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_keyword_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_keyword_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_keyword_type_kind(
@@ -54825,19 +54825,19 @@ where
         node: &mut TsKeywordTypeKind,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_keyword_type_kind(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_keyword_type_kind(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_lit(&mut self, node: &mut TsLit, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_lit(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_lit(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_lit_type(&mut self, node: &mut TsLitType, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_lit_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_lit_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_mapped_type(&mut self, node: &mut TsMappedType, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_mapped_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_mapped_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_method_signature(
@@ -54845,23 +54845,23 @@ where
         node: &mut TsMethodSignature,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_method_signature(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_method_signature(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_module_block(&mut self, node: &mut TsModuleBlock, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_module_block(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_module_block(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_module_decl(&mut self, node: &mut TsModuleDecl, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_module_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_module_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_module_name(&mut self, node: &mut TsModuleName, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_module_name(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_module_name(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_module_ref(&mut self, node: &mut TsModuleRef, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_module_ref(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_module_ref(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_namespace_body(
@@ -54869,7 +54869,7 @@ where
         node: &mut TsNamespaceBody,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_namespace_body(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_namespace_body(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_namespace_decl(
@@ -54877,7 +54877,7 @@ where
         node: &mut TsNamespaceDecl,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_namespace_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_namespace_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_namespace_export_decl(
@@ -54885,11 +54885,11 @@ where
         node: &mut TsNamespaceExportDecl,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_namespace_export_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_namespace_export_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_non_null_expr(&mut self, node: &mut TsNonNullExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_non_null_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_non_null_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_optional_type(
@@ -54897,11 +54897,11 @@ where
         node: &mut TsOptionalType,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_optional_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_optional_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_param_prop(&mut self, node: &mut TsParamProp, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_param_prop(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_param_prop(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_param_prop_param(
@@ -54909,7 +54909,7 @@ where
         node: &mut TsParamPropParam,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_param_prop_param(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_param_prop_param(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_parenthesized_type(
@@ -54917,7 +54917,7 @@ where
         node: &mut TsParenthesizedType,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_parenthesized_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_parenthesized_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_property_signature(
@@ -54925,7 +54925,7 @@ where
         node: &mut TsPropertySignature,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_property_signature(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_property_signature(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_qualified_name(
@@ -54933,11 +54933,11 @@ where
         node: &mut TsQualifiedName,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_qualified_name(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_qualified_name(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_rest_type(&mut self, node: &mut TsRestType, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_rest_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_rest_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_satisfies_expr(
@@ -54945,7 +54945,7 @@ where
         node: &mut TsSatisfiesExpr,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_satisfies_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_satisfies_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_setter_signature(
@@ -54953,11 +54953,11 @@ where
         node: &mut TsSetterSignature,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_setter_signature(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_setter_signature(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_this_type(&mut self, node: &mut TsThisType, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_this_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_this_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_this_type_or_ident(
@@ -54965,11 +54965,11 @@ where
         node: &mut TsThisTypeOrIdent,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_this_type_or_ident(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_this_type_or_ident(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_tpl_lit_type(&mut self, node: &mut TsTplLitType, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_tpl_lit_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_tpl_lit_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_tuple_element(
@@ -54977,7 +54977,7 @@ where
         node: &mut TsTupleElement,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_tuple_element(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_tuple_element(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_tuple_elements(
@@ -54985,15 +54985,15 @@ where
         node: &mut Vec<TsTupleElement>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_tuple_elements(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_tuple_elements(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_tuple_type(&mut self, node: &mut TsTupleType, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_tuple_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_tuple_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_type(&mut self, node: &mut TsType, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_type_alias_decl(
@@ -55001,11 +55001,11 @@ where
         node: &mut TsTypeAliasDecl,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_type_alias_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_type_alias_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_type_ann(&mut self, node: &mut TsTypeAnn, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_type_ann(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_type_ann(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_type_assertion(
@@ -55013,11 +55013,11 @@ where
         node: &mut TsTypeAssertion,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_type_assertion(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_type_assertion(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_type_element(&mut self, node: &mut TsTypeElement, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_type_element(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_type_element(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_type_elements(
@@ -55025,11 +55025,11 @@ where
         node: &mut Vec<TsTypeElement>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_type_elements(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_type_elements(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_type_lit(&mut self, node: &mut TsTypeLit, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_type_lit(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_type_lit(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_type_operator(
@@ -55037,7 +55037,7 @@ where
         node: &mut TsTypeOperator,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_type_operator(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_type_operator(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_type_operator_op(
@@ -55045,11 +55045,11 @@ where
         node: &mut TsTypeOperatorOp,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_type_operator_op(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_type_operator_op(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_type_param(&mut self, node: &mut TsTypeParam, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_type_param(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_type_param(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_type_param_decl(
@@ -55057,7 +55057,7 @@ where
         node: &mut TsTypeParamDecl,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_type_param_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_type_param_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_type_param_instantiation(
@@ -55065,7 +55065,7 @@ where
         node: &mut TsTypeParamInstantiation,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_type_param_instantiation(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_type_param_instantiation(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_type_params(
@@ -55073,7 +55073,7 @@ where
         node: &mut Vec<TsTypeParam>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_type_params(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_type_params(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_type_predicate(
@@ -55081,11 +55081,11 @@ where
         node: &mut TsTypePredicate,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_type_predicate(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_type_predicate(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_type_query(&mut self, node: &mut TsTypeQuery, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_type_query(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_type_query(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_type_query_expr(
@@ -55093,15 +55093,15 @@ where
         node: &mut TsTypeQueryExpr,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_type_query_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_type_query_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_type_ref(&mut self, node: &mut TsTypeRef, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_type_ref(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_type_ref(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_types(&mut self, node: &mut Vec<Box<TsType>>, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_types(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_types(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_union_or_intersection_type(
@@ -55109,47 +55109,47 @@ where
         node: &mut TsUnionOrIntersectionType,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_union_or_intersection_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_union_or_intersection_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_union_type(&mut self, node: &mut TsUnionType, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_union_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_union_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_unary_expr(&mut self, node: &mut UnaryExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_unary_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_unary_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_unary_op(&mut self, node: &mut UnaryOp, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_unary_op(self, node, ast_path)
+        VisitMutAstPath::visit_mut_unary_op(&mut **self, node, ast_path)
     }
 
     fn visit_mut_update_expr(&mut self, node: &mut UpdateExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_update_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_update_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_update_op(&mut self, node: &mut UpdateOp, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_update_op(self, node, ast_path)
+        VisitMutAstPath::visit_mut_update_op(&mut **self, node, ast_path)
     }
 
     fn visit_mut_using_decl(&mut self, node: &mut UsingDecl, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_using_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_using_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_var_decl(&mut self, node: &mut VarDecl, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_var_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_var_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_var_decl_kind(&mut self, node: &mut VarDeclKind, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_var_decl_kind(self, node, ast_path)
+        VisitMutAstPath::visit_mut_var_decl_kind(&mut **self, node, ast_path)
     }
 
     fn visit_mut_var_decl_or_expr(&mut self, node: &mut VarDeclOrExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_var_decl_or_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_var_decl_or_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_var_declarator(&mut self, node: &mut VarDeclarator, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_var_declarator(self, node, ast_path)
+        VisitMutAstPath::visit_mut_var_declarator(&mut **self, node, ast_path)
     }
 
     fn visit_mut_var_declarators(
@@ -55157,19 +55157,19 @@ where
         node: &mut Vec<VarDeclarator>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_var_declarators(self, node, ast_path)
+        VisitMutAstPath::visit_mut_var_declarators(&mut **self, node, ast_path)
     }
 
     fn visit_mut_while_stmt(&mut self, node: &mut WhileStmt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_while_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_while_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_with_stmt(&mut self, node: &mut WithStmt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_with_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_with_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_yield_expr(&mut self, node: &mut YieldExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_yield_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_yield_expr(&mut **self, node, ast_path)
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -55179,43 +55179,43 @@ where
     V: ?Sized + VisitMutAstPath,
 {
     fn visit_mut_accessibility(&mut self, node: &mut Accessibility, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_accessibility(self, node, ast_path)
+        VisitMutAstPath::visit_mut_accessibility(&mut **self, node, ast_path)
     }
 
     fn visit_mut_array_lit(&mut self, node: &mut ArrayLit, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_array_lit(self, node, ast_path)
+        VisitMutAstPath::visit_mut_array_lit(&mut **self, node, ast_path)
     }
 
     fn visit_mut_array_pat(&mut self, node: &mut ArrayPat, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_array_pat(self, node, ast_path)
+        VisitMutAstPath::visit_mut_array_pat(&mut **self, node, ast_path)
     }
 
     fn visit_mut_arrow_expr(&mut self, node: &mut ArrowExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_arrow_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_arrow_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_assign_expr(&mut self, node: &mut AssignExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_assign_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_assign_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_assign_op(&mut self, node: &mut AssignOp, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_assign_op(self, node, ast_path)
+        VisitMutAstPath::visit_mut_assign_op(&mut **self, node, ast_path)
     }
 
     fn visit_mut_assign_pat(&mut self, node: &mut AssignPat, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_assign_pat(self, node, ast_path)
+        VisitMutAstPath::visit_mut_assign_pat(&mut **self, node, ast_path)
     }
 
     fn visit_mut_assign_pat_prop(&mut self, node: &mut AssignPatProp, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_assign_pat_prop(self, node, ast_path)
+        VisitMutAstPath::visit_mut_assign_pat_prop(&mut **self, node, ast_path)
     }
 
     fn visit_mut_assign_prop(&mut self, node: &mut AssignProp, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_assign_prop(self, node, ast_path)
+        VisitMutAstPath::visit_mut_assign_prop(&mut **self, node, ast_path)
     }
 
     fn visit_mut_assign_target(&mut self, node: &mut AssignTarget, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_assign_target(self, node, ast_path)
+        VisitMutAstPath::visit_mut_assign_target(&mut **self, node, ast_path)
     }
 
     fn visit_mut_assign_target_pat(
@@ -55223,43 +55223,43 @@ where
         node: &mut AssignTargetPat,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_assign_target_pat(self, node, ast_path)
+        VisitMutAstPath::visit_mut_assign_target_pat(&mut **self, node, ast_path)
     }
 
     fn visit_mut_atom(&mut self, node: &mut swc_atoms::Atom, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_atom(self, node, ast_path)
+        VisitMutAstPath::visit_mut_atom(&mut **self, node, ast_path)
     }
 
     fn visit_mut_auto_accessor(&mut self, node: &mut AutoAccessor, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_auto_accessor(self, node, ast_path)
+        VisitMutAstPath::visit_mut_auto_accessor(&mut **self, node, ast_path)
     }
 
     fn visit_mut_await_expr(&mut self, node: &mut AwaitExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_await_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_await_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_big_int(&mut self, node: &mut BigInt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_big_int(self, node, ast_path)
+        VisitMutAstPath::visit_mut_big_int(&mut **self, node, ast_path)
     }
 
     fn visit_mut_big_int_value(&mut self, node: &mut BigIntValue, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_big_int_value(self, node, ast_path)
+        VisitMutAstPath::visit_mut_big_int_value(&mut **self, node, ast_path)
     }
 
     fn visit_mut_bin_expr(&mut self, node: &mut BinExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_bin_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_bin_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_binary_op(&mut self, node: &mut BinaryOp, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_binary_op(self, node, ast_path)
+        VisitMutAstPath::visit_mut_binary_op(&mut **self, node, ast_path)
     }
 
     fn visit_mut_binding_ident(&mut self, node: &mut BindingIdent, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_binding_ident(self, node, ast_path)
+        VisitMutAstPath::visit_mut_binding_ident(&mut **self, node, ast_path)
     }
 
     fn visit_mut_block_stmt(&mut self, node: &mut BlockStmt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_block_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_block_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_block_stmt_or_expr(
@@ -55267,55 +55267,55 @@ where
         node: &mut BlockStmtOrExpr,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_block_stmt_or_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_block_stmt_or_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_bool(&mut self, node: &mut Bool, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_bool(self, node, ast_path)
+        VisitMutAstPath::visit_mut_bool(&mut **self, node, ast_path)
     }
 
     fn visit_mut_break_stmt(&mut self, node: &mut BreakStmt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_break_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_break_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_call_expr(&mut self, node: &mut CallExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_call_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_call_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_callee(&mut self, node: &mut Callee, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_callee(self, node, ast_path)
+        VisitMutAstPath::visit_mut_callee(&mut **self, node, ast_path)
     }
 
     fn visit_mut_catch_clause(&mut self, node: &mut CatchClause, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_catch_clause(self, node, ast_path)
+        VisitMutAstPath::visit_mut_catch_clause(&mut **self, node, ast_path)
     }
 
     fn visit_mut_class(&mut self, node: &mut Class, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_class(self, node, ast_path)
+        VisitMutAstPath::visit_mut_class(&mut **self, node, ast_path)
     }
 
     fn visit_mut_class_decl(&mut self, node: &mut ClassDecl, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_class_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_class_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_class_expr(&mut self, node: &mut ClassExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_class_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_class_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_class_member(&mut self, node: &mut ClassMember, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_class_member(self, node, ast_path)
+        VisitMutAstPath::visit_mut_class_member(&mut **self, node, ast_path)
     }
 
     fn visit_mut_class_members(&mut self, node: &mut Vec<ClassMember>, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_class_members(self, node, ast_path)
+        VisitMutAstPath::visit_mut_class_members(&mut **self, node, ast_path)
     }
 
     fn visit_mut_class_method(&mut self, node: &mut ClassMethod, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_class_method(self, node, ast_path)
+        VisitMutAstPath::visit_mut_class_method(&mut **self, node, ast_path)
     }
 
     fn visit_mut_class_prop(&mut self, node: &mut ClassProp, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_class_prop(self, node, ast_path)
+        VisitMutAstPath::visit_mut_class_prop(&mut **self, node, ast_path)
     }
 
     fn visit_mut_computed_prop_name(
@@ -55323,59 +55323,59 @@ where
         node: &mut ComputedPropName,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_computed_prop_name(self, node, ast_path)
+        VisitMutAstPath::visit_mut_computed_prop_name(&mut **self, node, ast_path)
     }
 
     fn visit_mut_cond_expr(&mut self, node: &mut CondExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_cond_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_cond_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_constructor(&mut self, node: &mut Constructor, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_constructor(self, node, ast_path)
+        VisitMutAstPath::visit_mut_constructor(&mut **self, node, ast_path)
     }
 
     fn visit_mut_continue_stmt(&mut self, node: &mut ContinueStmt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_continue_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_continue_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_debugger_stmt(&mut self, node: &mut DebuggerStmt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_debugger_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_debugger_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_decl(&mut self, node: &mut Decl, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_decorator(&mut self, node: &mut Decorator, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_decorator(self, node, ast_path)
+        VisitMutAstPath::visit_mut_decorator(&mut **self, node, ast_path)
     }
 
     fn visit_mut_decorators(&mut self, node: &mut Vec<Decorator>, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_decorators(self, node, ast_path)
+        VisitMutAstPath::visit_mut_decorators(&mut **self, node, ast_path)
     }
 
     fn visit_mut_default_decl(&mut self, node: &mut DefaultDecl, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_default_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_default_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_do_while_stmt(&mut self, node: &mut DoWhileStmt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_do_while_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_do_while_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_empty_stmt(&mut self, node: &mut EmptyStmt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_empty_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_empty_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_es_version(&mut self, node: &mut EsVersion, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_es_version(self, node, ast_path)
+        VisitMutAstPath::visit_mut_es_version(&mut **self, node, ast_path)
     }
 
     fn visit_mut_export_all(&mut self, node: &mut ExportAll, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_export_all(self, node, ast_path)
+        VisitMutAstPath::visit_mut_export_all(&mut **self, node, ast_path)
     }
 
     fn visit_mut_export_decl(&mut self, node: &mut ExportDecl, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_export_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_export_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_export_default_decl(
@@ -55383,7 +55383,7 @@ where
         node: &mut ExportDefaultDecl,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_export_default_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_export_default_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_export_default_expr(
@@ -55391,7 +55391,7 @@ where
         node: &mut ExportDefaultExpr,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_export_default_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_export_default_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_export_default_specifier(
@@ -55399,7 +55399,7 @@ where
         node: &mut ExportDefaultSpecifier,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_export_default_specifier(self, node, ast_path)
+        VisitMutAstPath::visit_mut_export_default_specifier(&mut **self, node, ast_path)
     }
 
     fn visit_mut_export_named_specifier(
@@ -55407,7 +55407,7 @@ where
         node: &mut ExportNamedSpecifier,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_export_named_specifier(self, node, ast_path)
+        VisitMutAstPath::visit_mut_export_named_specifier(&mut **self, node, ast_path)
     }
 
     fn visit_mut_export_namespace_specifier(
@@ -55415,7 +55415,7 @@ where
         node: &mut ExportNamespaceSpecifier,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_export_namespace_specifier(self, node, ast_path)
+        VisitMutAstPath::visit_mut_export_namespace_specifier(&mut **self, node, ast_path)
     }
 
     fn visit_mut_export_specifier(
@@ -55423,7 +55423,7 @@ where
         node: &mut ExportSpecifier,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_export_specifier(self, node, ast_path)
+        VisitMutAstPath::visit_mut_export_specifier(&mut **self, node, ast_path)
     }
 
     fn visit_mut_export_specifiers(
@@ -55431,15 +55431,15 @@ where
         node: &mut Vec<ExportSpecifier>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_export_specifiers(self, node, ast_path)
+        VisitMutAstPath::visit_mut_export_specifiers(&mut **self, node, ast_path)
     }
 
     fn visit_mut_expr(&mut self, node: &mut Expr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_expr_or_spread(&mut self, node: &mut ExprOrSpread, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_expr_or_spread(self, node, ast_path)
+        VisitMutAstPath::visit_mut_expr_or_spread(&mut **self, node, ast_path)
     }
 
     fn visit_mut_expr_or_spreads(
@@ -55447,67 +55447,67 @@ where
         node: &mut Vec<ExprOrSpread>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_expr_or_spreads(self, node, ast_path)
+        VisitMutAstPath::visit_mut_expr_or_spreads(&mut **self, node, ast_path)
     }
 
     fn visit_mut_expr_stmt(&mut self, node: &mut ExprStmt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_expr_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_expr_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_exprs(&mut self, node: &mut Vec<Box<Expr>>, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_exprs(self, node, ast_path)
+        VisitMutAstPath::visit_mut_exprs(&mut **self, node, ast_path)
     }
 
     fn visit_mut_fn_decl(&mut self, node: &mut FnDecl, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_fn_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_fn_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_fn_expr(&mut self, node: &mut FnExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_fn_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_fn_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_for_head(&mut self, node: &mut ForHead, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_for_head(self, node, ast_path)
+        VisitMutAstPath::visit_mut_for_head(&mut **self, node, ast_path)
     }
 
     fn visit_mut_for_in_stmt(&mut self, node: &mut ForInStmt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_for_in_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_for_in_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_for_of_stmt(&mut self, node: &mut ForOfStmt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_for_of_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_for_of_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_for_stmt(&mut self, node: &mut ForStmt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_for_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_for_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_function(&mut self, node: &mut Function, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_function(self, node, ast_path)
+        VisitMutAstPath::visit_mut_function(&mut **self, node, ast_path)
     }
 
     fn visit_mut_getter_prop(&mut self, node: &mut GetterProp, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_getter_prop(self, node, ast_path)
+        VisitMutAstPath::visit_mut_getter_prop(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ident(&mut self, node: &mut Ident, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ident(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ident(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ident_name(&mut self, node: &mut IdentName, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ident_name(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ident_name(&mut **self, node, ast_path)
     }
 
     fn visit_mut_if_stmt(&mut self, node: &mut IfStmt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_if_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_if_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_import(&mut self, node: &mut Import, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_import(self, node, ast_path)
+        VisitMutAstPath::visit_mut_import(&mut **self, node, ast_path)
     }
 
     fn visit_mut_import_decl(&mut self, node: &mut ImportDecl, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_import_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_import_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_import_default_specifier(
@@ -55515,7 +55515,7 @@ where
         node: &mut ImportDefaultSpecifier,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_import_default_specifier(self, node, ast_path)
+        VisitMutAstPath::visit_mut_import_default_specifier(&mut **self, node, ast_path)
     }
 
     fn visit_mut_import_named_specifier(
@@ -55523,11 +55523,11 @@ where
         node: &mut ImportNamedSpecifier,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_import_named_specifier(self, node, ast_path)
+        VisitMutAstPath::visit_mut_import_named_specifier(&mut **self, node, ast_path)
     }
 
     fn visit_mut_import_phase(&mut self, node: &mut ImportPhase, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_import_phase(self, node, ast_path)
+        VisitMutAstPath::visit_mut_import_phase(&mut **self, node, ast_path)
     }
 
     fn visit_mut_import_specifier(
@@ -55535,7 +55535,7 @@ where
         node: &mut ImportSpecifier,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_import_specifier(self, node, ast_path)
+        VisitMutAstPath::visit_mut_import_specifier(&mut **self, node, ast_path)
     }
 
     fn visit_mut_import_specifiers(
@@ -55543,7 +55543,7 @@ where
         node: &mut Vec<ImportSpecifier>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_import_specifiers(self, node, ast_path)
+        VisitMutAstPath::visit_mut_import_specifiers(&mut **self, node, ast_path)
     }
 
     fn visit_mut_import_star_as_specifier(
@@ -55551,11 +55551,11 @@ where
         node: &mut ImportStarAsSpecifier,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_import_star_as_specifier(self, node, ast_path)
+        VisitMutAstPath::visit_mut_import_star_as_specifier(&mut **self, node, ast_path)
     }
 
     fn visit_mut_import_with(&mut self, node: &mut ImportWith, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_import_with(self, node, ast_path)
+        VisitMutAstPath::visit_mut_import_with(&mut **self, node, ast_path)
     }
 
     fn visit_mut_import_with_item(
@@ -55563,7 +55563,7 @@ where
         node: &mut ImportWithItem,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_import_with_item(self, node, ast_path)
+        VisitMutAstPath::visit_mut_import_with_item(&mut **self, node, ast_path)
     }
 
     fn visit_mut_import_with_items(
@@ -55571,19 +55571,19 @@ where
         node: &mut Vec<ImportWithItem>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_import_with_items(self, node, ast_path)
+        VisitMutAstPath::visit_mut_import_with_items(&mut **self, node, ast_path)
     }
 
     fn visit_mut_invalid(&mut self, node: &mut Invalid, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_invalid(self, node, ast_path)
+        VisitMutAstPath::visit_mut_invalid(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_attr(&mut self, node: &mut JSXAttr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_jsx_attr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_attr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_attr_name(&mut self, node: &mut JSXAttrName, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_jsx_attr_name(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_attr_name(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_attr_or_spread(
@@ -55591,7 +55591,7 @@ where
         node: &mut JSXAttrOrSpread,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_jsx_attr_or_spread(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_attr_or_spread(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_attr_or_spreads(
@@ -55599,11 +55599,11 @@ where
         node: &mut Vec<JSXAttrOrSpread>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_jsx_attr_or_spreads(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_attr_or_spreads(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_attr_value(&mut self, node: &mut JSXAttrValue, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_jsx_attr_value(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_attr_value(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_closing_element(
@@ -55611,7 +55611,7 @@ where
         node: &mut JSXClosingElement,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_jsx_closing_element(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_closing_element(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_closing_fragment(
@@ -55619,11 +55619,11 @@ where
         node: &mut JSXClosingFragment,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_jsx_closing_fragment(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_closing_fragment(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_element(&mut self, node: &mut JSXElement, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_jsx_element(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_element(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_element_child(
@@ -55631,7 +55631,7 @@ where
         node: &mut JSXElementChild,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_jsx_element_child(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_element_child(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_element_childs(
@@ -55639,7 +55639,7 @@ where
         node: &mut Vec<JSXElementChild>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_jsx_element_childs(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_element_childs(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_element_name(
@@ -55647,15 +55647,15 @@ where
         node: &mut JSXElementName,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_jsx_element_name(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_element_name(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_empty_expr(&mut self, node: &mut JSXEmptyExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_jsx_empty_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_empty_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_expr(&mut self, node: &mut JSXExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_jsx_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_expr_container(
@@ -55663,15 +55663,15 @@ where
         node: &mut JSXExprContainer,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_jsx_expr_container(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_expr_container(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_fragment(&mut self, node: &mut JSXFragment, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_jsx_fragment(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_fragment(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_member_expr(&mut self, node: &mut JSXMemberExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_jsx_member_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_member_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_namespaced_name(
@@ -55679,11 +55679,11 @@ where
         node: &mut JSXNamespacedName,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_jsx_namespaced_name(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_namespaced_name(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_object(&mut self, node: &mut JSXObject, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_jsx_object(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_object(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_opening_element(
@@ -55691,7 +55691,7 @@ where
         node: &mut JSXOpeningElement,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_jsx_opening_element(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_opening_element(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_opening_fragment(
@@ -55699,7 +55699,7 @@ where
         node: &mut JSXOpeningFragment,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_jsx_opening_fragment(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_opening_fragment(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_spread_child(
@@ -55707,15 +55707,15 @@ where
         node: &mut JSXSpreadChild,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_jsx_spread_child(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_spread_child(&mut **self, node, ast_path)
     }
 
     fn visit_mut_jsx_text(&mut self, node: &mut JSXText, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_jsx_text(self, node, ast_path)
+        VisitMutAstPath::visit_mut_jsx_text(&mut **self, node, ast_path)
     }
 
     fn visit_mut_key(&mut self, node: &mut Key, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_key(self, node, ast_path)
+        VisitMutAstPath::visit_mut_key(&mut **self, node, ast_path)
     }
 
     fn visit_mut_key_value_pat_prop(
@@ -55723,51 +55723,51 @@ where
         node: &mut KeyValuePatProp,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_key_value_pat_prop(self, node, ast_path)
+        VisitMutAstPath::visit_mut_key_value_pat_prop(&mut **self, node, ast_path)
     }
 
     fn visit_mut_key_value_prop(&mut self, node: &mut KeyValueProp, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_key_value_prop(self, node, ast_path)
+        VisitMutAstPath::visit_mut_key_value_prop(&mut **self, node, ast_path)
     }
 
     fn visit_mut_labeled_stmt(&mut self, node: &mut LabeledStmt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_labeled_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_labeled_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_lit(&mut self, node: &mut Lit, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_lit(self, node, ast_path)
+        VisitMutAstPath::visit_mut_lit(&mut **self, node, ast_path)
     }
 
     fn visit_mut_member_expr(&mut self, node: &mut MemberExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_member_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_member_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_member_prop(&mut self, node: &mut MemberProp, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_member_prop(self, node, ast_path)
+        VisitMutAstPath::visit_mut_member_prop(&mut **self, node, ast_path)
     }
 
     fn visit_mut_meta_prop_expr(&mut self, node: &mut MetaPropExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_meta_prop_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_meta_prop_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_meta_prop_kind(&mut self, node: &mut MetaPropKind, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_meta_prop_kind(self, node, ast_path)
+        VisitMutAstPath::visit_mut_meta_prop_kind(&mut **self, node, ast_path)
     }
 
     fn visit_mut_method_kind(&mut self, node: &mut MethodKind, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_method_kind(self, node, ast_path)
+        VisitMutAstPath::visit_mut_method_kind(&mut **self, node, ast_path)
     }
 
     fn visit_mut_method_prop(&mut self, node: &mut MethodProp, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_method_prop(self, node, ast_path)
+        VisitMutAstPath::visit_mut_method_prop(&mut **self, node, ast_path)
     }
 
     fn visit_mut_module(&mut self, node: &mut Module, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_module(self, node, ast_path)
+        VisitMutAstPath::visit_mut_module(&mut **self, node, ast_path)
     }
 
     fn visit_mut_module_decl(&mut self, node: &mut ModuleDecl, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_module_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_module_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_module_export_name(
@@ -55775,43 +55775,43 @@ where
         node: &mut ModuleExportName,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_module_export_name(self, node, ast_path)
+        VisitMutAstPath::visit_mut_module_export_name(&mut **self, node, ast_path)
     }
 
     fn visit_mut_module_item(&mut self, node: &mut ModuleItem, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_module_item(self, node, ast_path)
+        VisitMutAstPath::visit_mut_module_item(&mut **self, node, ast_path)
     }
 
     fn visit_mut_module_items(&mut self, node: &mut Vec<ModuleItem>, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_module_items(self, node, ast_path)
+        VisitMutAstPath::visit_mut_module_items(&mut **self, node, ast_path)
     }
 
     fn visit_mut_named_export(&mut self, node: &mut NamedExport, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_named_export(self, node, ast_path)
+        VisitMutAstPath::visit_mut_named_export(&mut **self, node, ast_path)
     }
 
     fn visit_mut_new_expr(&mut self, node: &mut NewExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_new_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_new_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_null(&mut self, node: &mut Null, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_null(self, node, ast_path)
+        VisitMutAstPath::visit_mut_null(&mut **self, node, ast_path)
     }
 
     fn visit_mut_number(&mut self, node: &mut Number, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_number(self, node, ast_path)
+        VisitMutAstPath::visit_mut_number(&mut **self, node, ast_path)
     }
 
     fn visit_mut_object_lit(&mut self, node: &mut ObjectLit, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_object_lit(self, node, ast_path)
+        VisitMutAstPath::visit_mut_object_lit(&mut **self, node, ast_path)
     }
 
     fn visit_mut_object_pat(&mut self, node: &mut ObjectPat, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_object_pat(self, node, ast_path)
+        VisitMutAstPath::visit_mut_object_pat(&mut **self, node, ast_path)
     }
 
     fn visit_mut_object_pat_prop(&mut self, node: &mut ObjectPatProp, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_object_pat_prop(self, node, ast_path)
+        VisitMutAstPath::visit_mut_object_pat_prop(&mut **self, node, ast_path)
     }
 
     fn visit_mut_object_pat_props(
@@ -55819,7 +55819,7 @@ where
         node: &mut Vec<ObjectPatProp>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_object_pat_props(self, node, ast_path)
+        VisitMutAstPath::visit_mut_object_pat_props(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_accessibility(
@@ -55827,7 +55827,7 @@ where
         node: &mut Option<Accessibility>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_accessibility(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_accessibility(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_atom(
@@ -55835,7 +55835,7 @@ where
         node: &mut Option<swc_atoms::Atom>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_atom(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_atom(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_block_stmt(
@@ -55843,11 +55843,11 @@ where
         node: &mut Option<BlockStmt>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_block_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_block_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_call(&mut self, node: &mut OptCall, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_opt_call(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_call(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_catch_clause(
@@ -55855,19 +55855,19 @@ where
         node: &mut Option<CatchClause>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_catch_clause(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_catch_clause(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_chain_base(&mut self, node: &mut OptChainBase, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_opt_chain_base(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_chain_base(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_chain_expr(&mut self, node: &mut OptChainExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_opt_chain_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_chain_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_expr(&mut self, node: &mut Option<Box<Expr>>, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_opt_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_expr_or_spread(
@@ -55875,7 +55875,7 @@ where
         node: &mut Option<ExprOrSpread>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_expr_or_spread(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_expr_or_spread(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_expr_or_spreads(
@@ -55883,11 +55883,11 @@ where
         node: &mut Option<Vec<ExprOrSpread>>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_expr_or_spreads(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_expr_or_spreads(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_ident(&mut self, node: &mut Option<Ident>, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_opt_ident(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_ident(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_jsx_attr_value(
@@ -55895,7 +55895,7 @@ where
         node: &mut Option<JSXAttrValue>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_jsx_attr_value(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_jsx_attr_value(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_jsx_closing_element(
@@ -55903,7 +55903,7 @@ where
         node: &mut Option<JSXClosingElement>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_jsx_closing_element(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_jsx_closing_element(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_module_export_name(
@@ -55911,7 +55911,7 @@ where
         node: &mut Option<ModuleExportName>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_module_export_name(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_module_export_name(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_module_items(
@@ -55919,7 +55919,7 @@ where
         node: &mut Option<Vec<ModuleItem>>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_module_items(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_module_items(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_object_lit(
@@ -55927,11 +55927,11 @@ where
         node: &mut Option<Box<ObjectLit>>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_object_lit(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_object_lit(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_pat(&mut self, node: &mut Option<Pat>, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_opt_pat(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_pat(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_span(
@@ -55939,15 +55939,15 @@ where
         node: &mut Option<swc_common::Span>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_span(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_span(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_stmt(&mut self, node: &mut Option<Box<Stmt>>, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_opt_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_str(&mut self, node: &mut Option<Box<Str>>, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_opt_str(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_str(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_true_plus_minus(
@@ -55955,7 +55955,7 @@ where
         node: &mut Option<TruePlusMinus>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_true_plus_minus(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_true_plus_minus(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_ts_entity_name(
@@ -55963,7 +55963,7 @@ where
         node: &mut Option<TsEntityName>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_ts_entity_name(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_ts_entity_name(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_ts_namespace_body(
@@ -55971,7 +55971,7 @@ where
         node: &mut Option<TsNamespaceBody>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_ts_namespace_body(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_ts_namespace_body(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_ts_type(
@@ -55979,7 +55979,7 @@ where
         node: &mut Option<Box<TsType>>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_ts_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_ts_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_ts_type_ann(
@@ -55987,7 +55987,7 @@ where
         node: &mut Option<Box<TsTypeAnn>>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_ts_type_ann(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_ts_type_ann(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_ts_type_param_decl(
@@ -55995,7 +55995,7 @@ where
         node: &mut Option<Box<TsTypeParamDecl>>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_ts_type_param_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_ts_type_param_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_ts_type_param_instantiation(
@@ -56003,7 +56003,7 @@ where
         node: &mut Option<Box<TsTypeParamInstantiation>>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_ts_type_param_instantiation(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_ts_type_param_instantiation(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_var_decl_or_expr(
@@ -56011,7 +56011,7 @@ where
         node: &mut Option<VarDeclOrExpr>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_var_decl_or_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_var_decl_or_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_vec_expr_or_spreads(
@@ -56019,15 +56019,15 @@ where
         node: &mut Vec<Option<ExprOrSpread>>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_opt_vec_expr_or_spreads(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_vec_expr_or_spreads(&mut **self, node, ast_path)
     }
 
     fn visit_mut_opt_vec_pats(&mut self, node: &mut Vec<Option<Pat>>, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_opt_vec_pats(self, node, ast_path)
+        VisitMutAstPath::visit_mut_opt_vec_pats(&mut **self, node, ast_path)
     }
 
     fn visit_mut_param(&mut self, node: &mut Param, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_param(self, node, ast_path)
+        VisitMutAstPath::visit_mut_param(&mut **self, node, ast_path)
     }
 
     fn visit_mut_param_or_ts_param_prop(
@@ -56035,7 +56035,7 @@ where
         node: &mut ParamOrTsParamProp,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_param_or_ts_param_prop(self, node, ast_path)
+        VisitMutAstPath::visit_mut_param_or_ts_param_prop(&mut **self, node, ast_path)
     }
 
     fn visit_mut_param_or_ts_param_props(
@@ -56043,51 +56043,51 @@ where
         node: &mut Vec<ParamOrTsParamProp>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_param_or_ts_param_props(self, node, ast_path)
+        VisitMutAstPath::visit_mut_param_or_ts_param_props(&mut **self, node, ast_path)
     }
 
     fn visit_mut_params(&mut self, node: &mut Vec<Param>, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_params(self, node, ast_path)
+        VisitMutAstPath::visit_mut_params(&mut **self, node, ast_path)
     }
 
     fn visit_mut_paren_expr(&mut self, node: &mut ParenExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_paren_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_paren_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_pat(&mut self, node: &mut Pat, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_pat(self, node, ast_path)
+        VisitMutAstPath::visit_mut_pat(&mut **self, node, ast_path)
     }
 
     fn visit_mut_pats(&mut self, node: &mut Vec<Pat>, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_pats(self, node, ast_path)
+        VisitMutAstPath::visit_mut_pats(&mut **self, node, ast_path)
     }
 
     fn visit_mut_private_method(&mut self, node: &mut PrivateMethod, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_private_method(self, node, ast_path)
+        VisitMutAstPath::visit_mut_private_method(&mut **self, node, ast_path)
     }
 
     fn visit_mut_private_name(&mut self, node: &mut PrivateName, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_private_name(self, node, ast_path)
+        VisitMutAstPath::visit_mut_private_name(&mut **self, node, ast_path)
     }
 
     fn visit_mut_private_prop(&mut self, node: &mut PrivateProp, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_private_prop(self, node, ast_path)
+        VisitMutAstPath::visit_mut_private_prop(&mut **self, node, ast_path)
     }
 
     fn visit_mut_program(&mut self, node: &mut Program, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_program(self, node, ast_path)
+        VisitMutAstPath::visit_mut_program(&mut **self, node, ast_path)
     }
 
     fn visit_mut_prop(&mut self, node: &mut Prop, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_prop(self, node, ast_path)
+        VisitMutAstPath::visit_mut_prop(&mut **self, node, ast_path)
     }
 
     fn visit_mut_prop_name(&mut self, node: &mut PropName, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_prop_name(self, node, ast_path)
+        VisitMutAstPath::visit_mut_prop_name(&mut **self, node, ast_path)
     }
 
     fn visit_mut_prop_or_spread(&mut self, node: &mut PropOrSpread, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_prop_or_spread(self, node, ast_path)
+        VisitMutAstPath::visit_mut_prop_or_spread(&mut **self, node, ast_path)
     }
 
     fn visit_mut_prop_or_spreads(
@@ -56095,35 +56095,35 @@ where
         node: &mut Vec<PropOrSpread>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_prop_or_spreads(self, node, ast_path)
+        VisitMutAstPath::visit_mut_prop_or_spreads(&mut **self, node, ast_path)
     }
 
     fn visit_mut_regex(&mut self, node: &mut Regex, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_regex(self, node, ast_path)
+        VisitMutAstPath::visit_mut_regex(&mut **self, node, ast_path)
     }
 
     fn visit_mut_reserved_unused(&mut self, node: &mut ReservedUnused, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_reserved_unused(self, node, ast_path)
+        VisitMutAstPath::visit_mut_reserved_unused(&mut **self, node, ast_path)
     }
 
     fn visit_mut_rest_pat(&mut self, node: &mut RestPat, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_rest_pat(self, node, ast_path)
+        VisitMutAstPath::visit_mut_rest_pat(&mut **self, node, ast_path)
     }
 
     fn visit_mut_return_stmt(&mut self, node: &mut ReturnStmt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_return_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_return_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_script(&mut self, node: &mut Script, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_script(self, node, ast_path)
+        VisitMutAstPath::visit_mut_script(&mut **self, node, ast_path)
     }
 
     fn visit_mut_seq_expr(&mut self, node: &mut SeqExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_seq_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_seq_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_setter_prop(&mut self, node: &mut SetterProp, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_setter_prop(self, node, ast_path)
+        VisitMutAstPath::visit_mut_setter_prop(&mut **self, node, ast_path)
     }
 
     fn visit_mut_simple_assign_target(
@@ -56131,55 +56131,55 @@ where
         node: &mut SimpleAssignTarget,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_simple_assign_target(self, node, ast_path)
+        VisitMutAstPath::visit_mut_simple_assign_target(&mut **self, node, ast_path)
     }
 
     fn visit_mut_span(&mut self, node: &mut swc_common::Span, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_span(self, node, ast_path)
+        VisitMutAstPath::visit_mut_span(&mut **self, node, ast_path)
     }
 
     fn visit_mut_spread_element(&mut self, node: &mut SpreadElement, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_spread_element(self, node, ast_path)
+        VisitMutAstPath::visit_mut_spread_element(&mut **self, node, ast_path)
     }
 
     fn visit_mut_static_block(&mut self, node: &mut StaticBlock, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_static_block(self, node, ast_path)
+        VisitMutAstPath::visit_mut_static_block(&mut **self, node, ast_path)
     }
 
     fn visit_mut_stmt(&mut self, node: &mut Stmt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_stmts(&mut self, node: &mut Vec<Stmt>, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_stmts(self, node, ast_path)
+        VisitMutAstPath::visit_mut_stmts(&mut **self, node, ast_path)
     }
 
     fn visit_mut_str(&mut self, node: &mut Str, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_str(self, node, ast_path)
+        VisitMutAstPath::visit_mut_str(&mut **self, node, ast_path)
     }
 
     fn visit_mut_super(&mut self, node: &mut Super, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_super(self, node, ast_path)
+        VisitMutAstPath::visit_mut_super(&mut **self, node, ast_path)
     }
 
     fn visit_mut_super_prop(&mut self, node: &mut SuperProp, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_super_prop(self, node, ast_path)
+        VisitMutAstPath::visit_mut_super_prop(&mut **self, node, ast_path)
     }
 
     fn visit_mut_super_prop_expr(&mut self, node: &mut SuperPropExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_super_prop_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_super_prop_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_switch_case(&mut self, node: &mut SwitchCase, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_switch_case(self, node, ast_path)
+        VisitMutAstPath::visit_mut_switch_case(&mut **self, node, ast_path)
     }
 
     fn visit_mut_switch_cases(&mut self, node: &mut Vec<SwitchCase>, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_switch_cases(self, node, ast_path)
+        VisitMutAstPath::visit_mut_switch_cases(&mut **self, node, ast_path)
     }
 
     fn visit_mut_switch_stmt(&mut self, node: &mut SwitchStmt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_switch_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_switch_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_syntax_context(
@@ -56187,47 +56187,47 @@ where
         node: &mut swc_common::SyntaxContext,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_syntax_context(self, node, ast_path)
+        VisitMutAstPath::visit_mut_syntax_context(&mut **self, node, ast_path)
     }
 
     fn visit_mut_tagged_tpl(&mut self, node: &mut TaggedTpl, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_tagged_tpl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_tagged_tpl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_this_expr(&mut self, node: &mut ThisExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_this_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_this_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_throw_stmt(&mut self, node: &mut ThrowStmt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_throw_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_throw_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_tpl(&mut self, node: &mut Tpl, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_tpl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_tpl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_tpl_element(&mut self, node: &mut TplElement, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_tpl_element(self, node, ast_path)
+        VisitMutAstPath::visit_mut_tpl_element(&mut **self, node, ast_path)
     }
 
     fn visit_mut_tpl_elements(&mut self, node: &mut Vec<TplElement>, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_tpl_elements(self, node, ast_path)
+        VisitMutAstPath::visit_mut_tpl_elements(&mut **self, node, ast_path)
     }
 
     fn visit_mut_true_plus_minus(&mut self, node: &mut TruePlusMinus, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_true_plus_minus(self, node, ast_path)
+        VisitMutAstPath::visit_mut_true_plus_minus(&mut **self, node, ast_path)
     }
 
     fn visit_mut_try_stmt(&mut self, node: &mut TryStmt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_try_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_try_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_array_type(&mut self, node: &mut TsArrayType, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_array_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_array_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_as_expr(&mut self, node: &mut TsAsExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_as_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_as_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_call_signature_decl(
@@ -56235,7 +56235,7 @@ where
         node: &mut TsCallSignatureDecl,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_call_signature_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_call_signature_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_conditional_type(
@@ -56243,7 +56243,7 @@ where
         node: &mut TsConditionalType,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_conditional_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_conditional_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_const_assertion(
@@ -56251,7 +56251,7 @@ where
         node: &mut TsConstAssertion,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_const_assertion(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_const_assertion(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_construct_signature_decl(
@@ -56259,7 +56259,7 @@ where
         node: &mut TsConstructSignatureDecl,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_construct_signature_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_construct_signature_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_constructor_type(
@@ -56267,19 +56267,19 @@ where
         node: &mut TsConstructorType,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_constructor_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_constructor_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_entity_name(&mut self, node: &mut TsEntityName, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_entity_name(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_entity_name(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_enum_decl(&mut self, node: &mut TsEnumDecl, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_enum_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_enum_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_enum_member(&mut self, node: &mut TsEnumMember, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_enum_member(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_enum_member(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_enum_member_id(
@@ -56287,7 +56287,7 @@ where
         node: &mut TsEnumMemberId,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_enum_member_id(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_enum_member_id(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_enum_members(
@@ -56295,7 +56295,7 @@ where
         node: &mut Vec<TsEnumMember>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_enum_members(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_enum_members(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_export_assignment(
@@ -56303,7 +56303,7 @@ where
         node: &mut TsExportAssignment,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_export_assignment(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_export_assignment(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_expr_with_type_args(
@@ -56311,7 +56311,7 @@ where
         node: &mut TsExprWithTypeArgs,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_expr_with_type_args(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_expr_with_type_args(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_expr_with_type_argss(
@@ -56319,7 +56319,7 @@ where
         node: &mut Vec<TsExprWithTypeArgs>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_expr_with_type_argss(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_expr_with_type_argss(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_external_module_ref(
@@ -56327,7 +56327,7 @@ where
         node: &mut TsExternalModuleRef,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_external_module_ref(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_external_module_ref(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_fn_or_constructor_type(
@@ -56335,19 +56335,19 @@ where
         node: &mut TsFnOrConstructorType,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_fn_or_constructor_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_fn_or_constructor_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_fn_param(&mut self, node: &mut TsFnParam, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_fn_param(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_fn_param(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_fn_params(&mut self, node: &mut Vec<TsFnParam>, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_fn_params(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_fn_params(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_fn_type(&mut self, node: &mut TsFnType, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_fn_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_fn_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_getter_signature(
@@ -56355,7 +56355,7 @@ where
         node: &mut TsGetterSignature,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_getter_signature(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_getter_signature(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_import_equals_decl(
@@ -56363,11 +56363,11 @@ where
         node: &mut TsImportEqualsDecl,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_import_equals_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_import_equals_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_import_type(&mut self, node: &mut TsImportType, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_import_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_import_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_index_signature(
@@ -56375,7 +56375,7 @@ where
         node: &mut TsIndexSignature,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_index_signature(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_index_signature(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_indexed_access_type(
@@ -56383,11 +56383,11 @@ where
         node: &mut TsIndexedAccessType,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_indexed_access_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_indexed_access_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_infer_type(&mut self, node: &mut TsInferType, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_infer_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_infer_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_instantiation(
@@ -56395,7 +56395,7 @@ where
         node: &mut TsInstantiation,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_instantiation(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_instantiation(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_interface_body(
@@ -56403,7 +56403,7 @@ where
         node: &mut TsInterfaceBody,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_interface_body(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_interface_body(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_interface_decl(
@@ -56411,7 +56411,7 @@ where
         node: &mut TsInterfaceDecl,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_interface_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_interface_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_intersection_type(
@@ -56419,11 +56419,11 @@ where
         node: &mut TsIntersectionType,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_intersection_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_intersection_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_keyword_type(&mut self, node: &mut TsKeywordType, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_keyword_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_keyword_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_keyword_type_kind(
@@ -56431,19 +56431,19 @@ where
         node: &mut TsKeywordTypeKind,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_keyword_type_kind(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_keyword_type_kind(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_lit(&mut self, node: &mut TsLit, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_lit(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_lit(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_lit_type(&mut self, node: &mut TsLitType, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_lit_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_lit_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_mapped_type(&mut self, node: &mut TsMappedType, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_mapped_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_mapped_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_method_signature(
@@ -56451,23 +56451,23 @@ where
         node: &mut TsMethodSignature,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_method_signature(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_method_signature(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_module_block(&mut self, node: &mut TsModuleBlock, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_module_block(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_module_block(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_module_decl(&mut self, node: &mut TsModuleDecl, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_module_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_module_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_module_name(&mut self, node: &mut TsModuleName, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_module_name(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_module_name(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_module_ref(&mut self, node: &mut TsModuleRef, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_module_ref(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_module_ref(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_namespace_body(
@@ -56475,7 +56475,7 @@ where
         node: &mut TsNamespaceBody,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_namespace_body(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_namespace_body(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_namespace_decl(
@@ -56483,7 +56483,7 @@ where
         node: &mut TsNamespaceDecl,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_namespace_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_namespace_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_namespace_export_decl(
@@ -56491,11 +56491,11 @@ where
         node: &mut TsNamespaceExportDecl,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_namespace_export_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_namespace_export_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_non_null_expr(&mut self, node: &mut TsNonNullExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_non_null_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_non_null_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_optional_type(
@@ -56503,11 +56503,11 @@ where
         node: &mut TsOptionalType,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_optional_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_optional_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_param_prop(&mut self, node: &mut TsParamProp, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_param_prop(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_param_prop(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_param_prop_param(
@@ -56515,7 +56515,7 @@ where
         node: &mut TsParamPropParam,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_param_prop_param(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_param_prop_param(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_parenthesized_type(
@@ -56523,7 +56523,7 @@ where
         node: &mut TsParenthesizedType,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_parenthesized_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_parenthesized_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_property_signature(
@@ -56531,7 +56531,7 @@ where
         node: &mut TsPropertySignature,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_property_signature(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_property_signature(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_qualified_name(
@@ -56539,11 +56539,11 @@ where
         node: &mut TsQualifiedName,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_qualified_name(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_qualified_name(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_rest_type(&mut self, node: &mut TsRestType, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_rest_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_rest_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_satisfies_expr(
@@ -56551,7 +56551,7 @@ where
         node: &mut TsSatisfiesExpr,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_satisfies_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_satisfies_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_setter_signature(
@@ -56559,11 +56559,11 @@ where
         node: &mut TsSetterSignature,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_setter_signature(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_setter_signature(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_this_type(&mut self, node: &mut TsThisType, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_this_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_this_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_this_type_or_ident(
@@ -56571,11 +56571,11 @@ where
         node: &mut TsThisTypeOrIdent,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_this_type_or_ident(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_this_type_or_ident(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_tpl_lit_type(&mut self, node: &mut TsTplLitType, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_tpl_lit_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_tpl_lit_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_tuple_element(
@@ -56583,7 +56583,7 @@ where
         node: &mut TsTupleElement,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_tuple_element(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_tuple_element(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_tuple_elements(
@@ -56591,15 +56591,15 @@ where
         node: &mut Vec<TsTupleElement>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_tuple_elements(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_tuple_elements(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_tuple_type(&mut self, node: &mut TsTupleType, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_tuple_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_tuple_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_type(&mut self, node: &mut TsType, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_type_alias_decl(
@@ -56607,11 +56607,11 @@ where
         node: &mut TsTypeAliasDecl,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_type_alias_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_type_alias_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_type_ann(&mut self, node: &mut TsTypeAnn, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_type_ann(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_type_ann(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_type_assertion(
@@ -56619,11 +56619,11 @@ where
         node: &mut TsTypeAssertion,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_type_assertion(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_type_assertion(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_type_element(&mut self, node: &mut TsTypeElement, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_type_element(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_type_element(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_type_elements(
@@ -56631,11 +56631,11 @@ where
         node: &mut Vec<TsTypeElement>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_type_elements(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_type_elements(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_type_lit(&mut self, node: &mut TsTypeLit, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_type_lit(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_type_lit(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_type_operator(
@@ -56643,7 +56643,7 @@ where
         node: &mut TsTypeOperator,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_type_operator(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_type_operator(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_type_operator_op(
@@ -56651,11 +56651,11 @@ where
         node: &mut TsTypeOperatorOp,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_type_operator_op(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_type_operator_op(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_type_param(&mut self, node: &mut TsTypeParam, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_type_param(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_type_param(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_type_param_decl(
@@ -56663,7 +56663,7 @@ where
         node: &mut TsTypeParamDecl,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_type_param_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_type_param_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_type_param_instantiation(
@@ -56671,7 +56671,7 @@ where
         node: &mut TsTypeParamInstantiation,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_type_param_instantiation(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_type_param_instantiation(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_type_params(
@@ -56679,7 +56679,7 @@ where
         node: &mut Vec<TsTypeParam>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_type_params(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_type_params(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_type_predicate(
@@ -56687,11 +56687,11 @@ where
         node: &mut TsTypePredicate,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_type_predicate(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_type_predicate(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_type_query(&mut self, node: &mut TsTypeQuery, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_type_query(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_type_query(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_type_query_expr(
@@ -56699,15 +56699,15 @@ where
         node: &mut TsTypeQueryExpr,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_type_query_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_type_query_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_type_ref(&mut self, node: &mut TsTypeRef, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_type_ref(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_type_ref(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_types(&mut self, node: &mut Vec<Box<TsType>>, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_types(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_types(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_union_or_intersection_type(
@@ -56715,47 +56715,47 @@ where
         node: &mut TsUnionOrIntersectionType,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_ts_union_or_intersection_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_union_or_intersection_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_ts_union_type(&mut self, node: &mut TsUnionType, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_ts_union_type(self, node, ast_path)
+        VisitMutAstPath::visit_mut_ts_union_type(&mut **self, node, ast_path)
     }
 
     fn visit_mut_unary_expr(&mut self, node: &mut UnaryExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_unary_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_unary_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_unary_op(&mut self, node: &mut UnaryOp, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_unary_op(self, node, ast_path)
+        VisitMutAstPath::visit_mut_unary_op(&mut **self, node, ast_path)
     }
 
     fn visit_mut_update_expr(&mut self, node: &mut UpdateExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_update_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_update_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_update_op(&mut self, node: &mut UpdateOp, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_update_op(self, node, ast_path)
+        VisitMutAstPath::visit_mut_update_op(&mut **self, node, ast_path)
     }
 
     fn visit_mut_using_decl(&mut self, node: &mut UsingDecl, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_using_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_using_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_var_decl(&mut self, node: &mut VarDecl, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_var_decl(self, node, ast_path)
+        VisitMutAstPath::visit_mut_var_decl(&mut **self, node, ast_path)
     }
 
     fn visit_mut_var_decl_kind(&mut self, node: &mut VarDeclKind, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_var_decl_kind(self, node, ast_path)
+        VisitMutAstPath::visit_mut_var_decl_kind(&mut **self, node, ast_path)
     }
 
     fn visit_mut_var_decl_or_expr(&mut self, node: &mut VarDeclOrExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_var_decl_or_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_var_decl_or_expr(&mut **self, node, ast_path)
     }
 
     fn visit_mut_var_declarator(&mut self, node: &mut VarDeclarator, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_var_declarator(self, node, ast_path)
+        VisitMutAstPath::visit_mut_var_declarator(&mut **self, node, ast_path)
     }
 
     fn visit_mut_var_declarators(
@@ -56763,19 +56763,19 @@ where
         node: &mut Vec<VarDeclarator>,
         ast_path: &mut AstKindPath,
     ) {
-        VisitMutAstPath::visit_mut_var_declarators(self, node, ast_path)
+        VisitMutAstPath::visit_mut_var_declarators(&mut **self, node, ast_path)
     }
 
     fn visit_mut_while_stmt(&mut self, node: &mut WhileStmt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_while_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_while_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_with_stmt(&mut self, node: &mut WithStmt, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_with_stmt(self, node, ast_path)
+        VisitMutAstPath::visit_mut_with_stmt(&mut **self, node, ast_path)
     }
 
     fn visit_mut_yield_expr(&mut self, node: &mut YieldExpr, ast_path: &mut AstKindPath) {
-        VisitMutAstPath::visit_mut_yield_expr(self, node, ast_path)
+        VisitMutAstPath::visit_mut_yield_expr(&mut **self, node, ast_path)
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -71652,1236 +71652,1236 @@ where
     V: ?Sized + Fold,
 {
     fn fold_accessibility(&mut self, node: Accessibility) -> Accessibility {
-        Fold::fold_accessibility(self, node)
+        Fold::fold_accessibility(&mut **self, node)
     }
 
     fn fold_array_lit(&mut self, node: ArrayLit) -> ArrayLit {
-        Fold::fold_array_lit(self, node)
+        Fold::fold_array_lit(&mut **self, node)
     }
 
     fn fold_array_pat(&mut self, node: ArrayPat) -> ArrayPat {
-        Fold::fold_array_pat(self, node)
+        Fold::fold_array_pat(&mut **self, node)
     }
 
     fn fold_arrow_expr(&mut self, node: ArrowExpr) -> ArrowExpr {
-        Fold::fold_arrow_expr(self, node)
+        Fold::fold_arrow_expr(&mut **self, node)
     }
 
     fn fold_assign_expr(&mut self, node: AssignExpr) -> AssignExpr {
-        Fold::fold_assign_expr(self, node)
+        Fold::fold_assign_expr(&mut **self, node)
     }
 
     fn fold_assign_op(&mut self, node: AssignOp) -> AssignOp {
-        Fold::fold_assign_op(self, node)
+        Fold::fold_assign_op(&mut **self, node)
     }
 
     fn fold_assign_pat(&mut self, node: AssignPat) -> AssignPat {
-        Fold::fold_assign_pat(self, node)
+        Fold::fold_assign_pat(&mut **self, node)
     }
 
     fn fold_assign_pat_prop(&mut self, node: AssignPatProp) -> AssignPatProp {
-        Fold::fold_assign_pat_prop(self, node)
+        Fold::fold_assign_pat_prop(&mut **self, node)
     }
 
     fn fold_assign_prop(&mut self, node: AssignProp) -> AssignProp {
-        Fold::fold_assign_prop(self, node)
+        Fold::fold_assign_prop(&mut **self, node)
     }
 
     fn fold_assign_target(&mut self, node: AssignTarget) -> AssignTarget {
-        Fold::fold_assign_target(self, node)
+        Fold::fold_assign_target(&mut **self, node)
     }
 
     fn fold_assign_target_pat(&mut self, node: AssignTargetPat) -> AssignTargetPat {
-        Fold::fold_assign_target_pat(self, node)
+        Fold::fold_assign_target_pat(&mut **self, node)
     }
 
     fn fold_atom(&mut self, node: swc_atoms::Atom) -> swc_atoms::Atom {
-        Fold::fold_atom(self, node)
+        Fold::fold_atom(&mut **self, node)
     }
 
     fn fold_auto_accessor(&mut self, node: AutoAccessor) -> AutoAccessor {
-        Fold::fold_auto_accessor(self, node)
+        Fold::fold_auto_accessor(&mut **self, node)
     }
 
     fn fold_await_expr(&mut self, node: AwaitExpr) -> AwaitExpr {
-        Fold::fold_await_expr(self, node)
+        Fold::fold_await_expr(&mut **self, node)
     }
 
     fn fold_big_int(&mut self, node: BigInt) -> BigInt {
-        Fold::fold_big_int(self, node)
+        Fold::fold_big_int(&mut **self, node)
     }
 
     fn fold_big_int_value(&mut self, node: BigIntValue) -> BigIntValue {
-        Fold::fold_big_int_value(self, node)
+        Fold::fold_big_int_value(&mut **self, node)
     }
 
     fn fold_bin_expr(&mut self, node: BinExpr) -> BinExpr {
-        Fold::fold_bin_expr(self, node)
+        Fold::fold_bin_expr(&mut **self, node)
     }
 
     fn fold_binary_op(&mut self, node: BinaryOp) -> BinaryOp {
-        Fold::fold_binary_op(self, node)
+        Fold::fold_binary_op(&mut **self, node)
     }
 
     fn fold_binding_ident(&mut self, node: BindingIdent) -> BindingIdent {
-        Fold::fold_binding_ident(self, node)
+        Fold::fold_binding_ident(&mut **self, node)
     }
 
     fn fold_block_stmt(&mut self, node: BlockStmt) -> BlockStmt {
-        Fold::fold_block_stmt(self, node)
+        Fold::fold_block_stmt(&mut **self, node)
     }
 
     fn fold_block_stmt_or_expr(&mut self, node: BlockStmtOrExpr) -> BlockStmtOrExpr {
-        Fold::fold_block_stmt_or_expr(self, node)
+        Fold::fold_block_stmt_or_expr(&mut **self, node)
     }
 
     fn fold_bool(&mut self, node: Bool) -> Bool {
-        Fold::fold_bool(self, node)
+        Fold::fold_bool(&mut **self, node)
     }
 
     fn fold_break_stmt(&mut self, node: BreakStmt) -> BreakStmt {
-        Fold::fold_break_stmt(self, node)
+        Fold::fold_break_stmt(&mut **self, node)
     }
 
     fn fold_call_expr(&mut self, node: CallExpr) -> CallExpr {
-        Fold::fold_call_expr(self, node)
+        Fold::fold_call_expr(&mut **self, node)
     }
 
     fn fold_callee(&mut self, node: Callee) -> Callee {
-        Fold::fold_callee(self, node)
+        Fold::fold_callee(&mut **self, node)
     }
 
     fn fold_catch_clause(&mut self, node: CatchClause) -> CatchClause {
-        Fold::fold_catch_clause(self, node)
+        Fold::fold_catch_clause(&mut **self, node)
     }
 
     fn fold_class(&mut self, node: Class) -> Class {
-        Fold::fold_class(self, node)
+        Fold::fold_class(&mut **self, node)
     }
 
     fn fold_class_decl(&mut self, node: ClassDecl) -> ClassDecl {
-        Fold::fold_class_decl(self, node)
+        Fold::fold_class_decl(&mut **self, node)
     }
 
     fn fold_class_expr(&mut self, node: ClassExpr) -> ClassExpr {
-        Fold::fold_class_expr(self, node)
+        Fold::fold_class_expr(&mut **self, node)
     }
 
     fn fold_class_member(&mut self, node: ClassMember) -> ClassMember {
-        Fold::fold_class_member(self, node)
+        Fold::fold_class_member(&mut **self, node)
     }
 
     fn fold_class_members(&mut self, node: Vec<ClassMember>) -> Vec<ClassMember> {
-        Fold::fold_class_members(self, node)
+        Fold::fold_class_members(&mut **self, node)
     }
 
     fn fold_class_method(&mut self, node: ClassMethod) -> ClassMethod {
-        Fold::fold_class_method(self, node)
+        Fold::fold_class_method(&mut **self, node)
     }
 
     fn fold_class_prop(&mut self, node: ClassProp) -> ClassProp {
-        Fold::fold_class_prop(self, node)
+        Fold::fold_class_prop(&mut **self, node)
     }
 
     fn fold_computed_prop_name(&mut self, node: ComputedPropName) -> ComputedPropName {
-        Fold::fold_computed_prop_name(self, node)
+        Fold::fold_computed_prop_name(&mut **self, node)
     }
 
     fn fold_cond_expr(&mut self, node: CondExpr) -> CondExpr {
-        Fold::fold_cond_expr(self, node)
+        Fold::fold_cond_expr(&mut **self, node)
     }
 
     fn fold_constructor(&mut self, node: Constructor) -> Constructor {
-        Fold::fold_constructor(self, node)
+        Fold::fold_constructor(&mut **self, node)
     }
 
     fn fold_continue_stmt(&mut self, node: ContinueStmt) -> ContinueStmt {
-        Fold::fold_continue_stmt(self, node)
+        Fold::fold_continue_stmt(&mut **self, node)
     }
 
     fn fold_debugger_stmt(&mut self, node: DebuggerStmt) -> DebuggerStmt {
-        Fold::fold_debugger_stmt(self, node)
+        Fold::fold_debugger_stmt(&mut **self, node)
     }
 
     fn fold_decl(&mut self, node: Decl) -> Decl {
-        Fold::fold_decl(self, node)
+        Fold::fold_decl(&mut **self, node)
     }
 
     fn fold_decorator(&mut self, node: Decorator) -> Decorator {
-        Fold::fold_decorator(self, node)
+        Fold::fold_decorator(&mut **self, node)
     }
 
     fn fold_decorators(&mut self, node: Vec<Decorator>) -> Vec<Decorator> {
-        Fold::fold_decorators(self, node)
+        Fold::fold_decorators(&mut **self, node)
     }
 
     fn fold_default_decl(&mut self, node: DefaultDecl) -> DefaultDecl {
-        Fold::fold_default_decl(self, node)
+        Fold::fold_default_decl(&mut **self, node)
     }
 
     fn fold_do_while_stmt(&mut self, node: DoWhileStmt) -> DoWhileStmt {
-        Fold::fold_do_while_stmt(self, node)
+        Fold::fold_do_while_stmt(&mut **self, node)
     }
 
     fn fold_empty_stmt(&mut self, node: EmptyStmt) -> EmptyStmt {
-        Fold::fold_empty_stmt(self, node)
+        Fold::fold_empty_stmt(&mut **self, node)
     }
 
     fn fold_es_version(&mut self, node: EsVersion) -> EsVersion {
-        Fold::fold_es_version(self, node)
+        Fold::fold_es_version(&mut **self, node)
     }
 
     fn fold_export_all(&mut self, node: ExportAll) -> ExportAll {
-        Fold::fold_export_all(self, node)
+        Fold::fold_export_all(&mut **self, node)
     }
 
     fn fold_export_decl(&mut self, node: ExportDecl) -> ExportDecl {
-        Fold::fold_export_decl(self, node)
+        Fold::fold_export_decl(&mut **self, node)
     }
 
     fn fold_export_default_decl(&mut self, node: ExportDefaultDecl) -> ExportDefaultDecl {
-        Fold::fold_export_default_decl(self, node)
+        Fold::fold_export_default_decl(&mut **self, node)
     }
 
     fn fold_export_default_expr(&mut self, node: ExportDefaultExpr) -> ExportDefaultExpr {
-        Fold::fold_export_default_expr(self, node)
+        Fold::fold_export_default_expr(&mut **self, node)
     }
 
     fn fold_export_default_specifier(
         &mut self,
         node: ExportDefaultSpecifier,
     ) -> ExportDefaultSpecifier {
-        Fold::fold_export_default_specifier(self, node)
+        Fold::fold_export_default_specifier(&mut **self, node)
     }
 
     fn fold_export_named_specifier(&mut self, node: ExportNamedSpecifier) -> ExportNamedSpecifier {
-        Fold::fold_export_named_specifier(self, node)
+        Fold::fold_export_named_specifier(&mut **self, node)
     }
 
     fn fold_export_namespace_specifier(
         &mut self,
         node: ExportNamespaceSpecifier,
     ) -> ExportNamespaceSpecifier {
-        Fold::fold_export_namespace_specifier(self, node)
+        Fold::fold_export_namespace_specifier(&mut **self, node)
     }
 
     fn fold_export_specifier(&mut self, node: ExportSpecifier) -> ExportSpecifier {
-        Fold::fold_export_specifier(self, node)
+        Fold::fold_export_specifier(&mut **self, node)
     }
 
     fn fold_export_specifiers(&mut self, node: Vec<ExportSpecifier>) -> Vec<ExportSpecifier> {
-        Fold::fold_export_specifiers(self, node)
+        Fold::fold_export_specifiers(&mut **self, node)
     }
 
     fn fold_expr(&mut self, node: Expr) -> Expr {
-        Fold::fold_expr(self, node)
+        Fold::fold_expr(&mut **self, node)
     }
 
     fn fold_expr_or_spread(&mut self, node: ExprOrSpread) -> ExprOrSpread {
-        Fold::fold_expr_or_spread(self, node)
+        Fold::fold_expr_or_spread(&mut **self, node)
     }
 
     fn fold_expr_or_spreads(&mut self, node: Vec<ExprOrSpread>) -> Vec<ExprOrSpread> {
-        Fold::fold_expr_or_spreads(self, node)
+        Fold::fold_expr_or_spreads(&mut **self, node)
     }
 
     fn fold_expr_stmt(&mut self, node: ExprStmt) -> ExprStmt {
-        Fold::fold_expr_stmt(self, node)
+        Fold::fold_expr_stmt(&mut **self, node)
     }
 
     fn fold_exprs(&mut self, node: Vec<Box<Expr>>) -> Vec<Box<Expr>> {
-        Fold::fold_exprs(self, node)
+        Fold::fold_exprs(&mut **self, node)
     }
 
     fn fold_fn_decl(&mut self, node: FnDecl) -> FnDecl {
-        Fold::fold_fn_decl(self, node)
+        Fold::fold_fn_decl(&mut **self, node)
     }
 
     fn fold_fn_expr(&mut self, node: FnExpr) -> FnExpr {
-        Fold::fold_fn_expr(self, node)
+        Fold::fold_fn_expr(&mut **self, node)
     }
 
     fn fold_for_head(&mut self, node: ForHead) -> ForHead {
-        Fold::fold_for_head(self, node)
+        Fold::fold_for_head(&mut **self, node)
     }
 
     fn fold_for_in_stmt(&mut self, node: ForInStmt) -> ForInStmt {
-        Fold::fold_for_in_stmt(self, node)
+        Fold::fold_for_in_stmt(&mut **self, node)
     }
 
     fn fold_for_of_stmt(&mut self, node: ForOfStmt) -> ForOfStmt {
-        Fold::fold_for_of_stmt(self, node)
+        Fold::fold_for_of_stmt(&mut **self, node)
     }
 
     fn fold_for_stmt(&mut self, node: ForStmt) -> ForStmt {
-        Fold::fold_for_stmt(self, node)
+        Fold::fold_for_stmt(&mut **self, node)
     }
 
     fn fold_function(&mut self, node: Function) -> Function {
-        Fold::fold_function(self, node)
+        Fold::fold_function(&mut **self, node)
     }
 
     fn fold_getter_prop(&mut self, node: GetterProp) -> GetterProp {
-        Fold::fold_getter_prop(self, node)
+        Fold::fold_getter_prop(&mut **self, node)
     }
 
     fn fold_ident(&mut self, node: Ident) -> Ident {
-        Fold::fold_ident(self, node)
+        Fold::fold_ident(&mut **self, node)
     }
 
     fn fold_ident_name(&mut self, node: IdentName) -> IdentName {
-        Fold::fold_ident_name(self, node)
+        Fold::fold_ident_name(&mut **self, node)
     }
 
     fn fold_if_stmt(&mut self, node: IfStmt) -> IfStmt {
-        Fold::fold_if_stmt(self, node)
+        Fold::fold_if_stmt(&mut **self, node)
     }
 
     fn fold_import(&mut self, node: Import) -> Import {
-        Fold::fold_import(self, node)
+        Fold::fold_import(&mut **self, node)
     }
 
     fn fold_import_decl(&mut self, node: ImportDecl) -> ImportDecl {
-        Fold::fold_import_decl(self, node)
+        Fold::fold_import_decl(&mut **self, node)
     }
 
     fn fold_import_default_specifier(
         &mut self,
         node: ImportDefaultSpecifier,
     ) -> ImportDefaultSpecifier {
-        Fold::fold_import_default_specifier(self, node)
+        Fold::fold_import_default_specifier(&mut **self, node)
     }
 
     fn fold_import_named_specifier(&mut self, node: ImportNamedSpecifier) -> ImportNamedSpecifier {
-        Fold::fold_import_named_specifier(self, node)
+        Fold::fold_import_named_specifier(&mut **self, node)
     }
 
     fn fold_import_phase(&mut self, node: ImportPhase) -> ImportPhase {
-        Fold::fold_import_phase(self, node)
+        Fold::fold_import_phase(&mut **self, node)
     }
 
     fn fold_import_specifier(&mut self, node: ImportSpecifier) -> ImportSpecifier {
-        Fold::fold_import_specifier(self, node)
+        Fold::fold_import_specifier(&mut **self, node)
     }
 
     fn fold_import_specifiers(&mut self, node: Vec<ImportSpecifier>) -> Vec<ImportSpecifier> {
-        Fold::fold_import_specifiers(self, node)
+        Fold::fold_import_specifiers(&mut **self, node)
     }
 
     fn fold_import_star_as_specifier(
         &mut self,
         node: ImportStarAsSpecifier,
     ) -> ImportStarAsSpecifier {
-        Fold::fold_import_star_as_specifier(self, node)
+        Fold::fold_import_star_as_specifier(&mut **self, node)
     }
 
     fn fold_import_with(&mut self, node: ImportWith) -> ImportWith {
-        Fold::fold_import_with(self, node)
+        Fold::fold_import_with(&mut **self, node)
     }
 
     fn fold_import_with_item(&mut self, node: ImportWithItem) -> ImportWithItem {
-        Fold::fold_import_with_item(self, node)
+        Fold::fold_import_with_item(&mut **self, node)
     }
 
     fn fold_import_with_items(&mut self, node: Vec<ImportWithItem>) -> Vec<ImportWithItem> {
-        Fold::fold_import_with_items(self, node)
+        Fold::fold_import_with_items(&mut **self, node)
     }
 
     fn fold_invalid(&mut self, node: Invalid) -> Invalid {
-        Fold::fold_invalid(self, node)
+        Fold::fold_invalid(&mut **self, node)
     }
 
     fn fold_jsx_attr(&mut self, node: JSXAttr) -> JSXAttr {
-        Fold::fold_jsx_attr(self, node)
+        Fold::fold_jsx_attr(&mut **self, node)
     }
 
     fn fold_jsx_attr_name(&mut self, node: JSXAttrName) -> JSXAttrName {
-        Fold::fold_jsx_attr_name(self, node)
+        Fold::fold_jsx_attr_name(&mut **self, node)
     }
 
     fn fold_jsx_attr_or_spread(&mut self, node: JSXAttrOrSpread) -> JSXAttrOrSpread {
-        Fold::fold_jsx_attr_or_spread(self, node)
+        Fold::fold_jsx_attr_or_spread(&mut **self, node)
     }
 
     fn fold_jsx_attr_or_spreads(&mut self, node: Vec<JSXAttrOrSpread>) -> Vec<JSXAttrOrSpread> {
-        Fold::fold_jsx_attr_or_spreads(self, node)
+        Fold::fold_jsx_attr_or_spreads(&mut **self, node)
     }
 
     fn fold_jsx_attr_value(&mut self, node: JSXAttrValue) -> JSXAttrValue {
-        Fold::fold_jsx_attr_value(self, node)
+        Fold::fold_jsx_attr_value(&mut **self, node)
     }
 
     fn fold_jsx_closing_element(&mut self, node: JSXClosingElement) -> JSXClosingElement {
-        Fold::fold_jsx_closing_element(self, node)
+        Fold::fold_jsx_closing_element(&mut **self, node)
     }
 
     fn fold_jsx_closing_fragment(&mut self, node: JSXClosingFragment) -> JSXClosingFragment {
-        Fold::fold_jsx_closing_fragment(self, node)
+        Fold::fold_jsx_closing_fragment(&mut **self, node)
     }
 
     fn fold_jsx_element(&mut self, node: JSXElement) -> JSXElement {
-        Fold::fold_jsx_element(self, node)
+        Fold::fold_jsx_element(&mut **self, node)
     }
 
     fn fold_jsx_element_child(&mut self, node: JSXElementChild) -> JSXElementChild {
-        Fold::fold_jsx_element_child(self, node)
+        Fold::fold_jsx_element_child(&mut **self, node)
     }
 
     fn fold_jsx_element_childs(&mut self, node: Vec<JSXElementChild>) -> Vec<JSXElementChild> {
-        Fold::fold_jsx_element_childs(self, node)
+        Fold::fold_jsx_element_childs(&mut **self, node)
     }
 
     fn fold_jsx_element_name(&mut self, node: JSXElementName) -> JSXElementName {
-        Fold::fold_jsx_element_name(self, node)
+        Fold::fold_jsx_element_name(&mut **self, node)
     }
 
     fn fold_jsx_empty_expr(&mut self, node: JSXEmptyExpr) -> JSXEmptyExpr {
-        Fold::fold_jsx_empty_expr(self, node)
+        Fold::fold_jsx_empty_expr(&mut **self, node)
     }
 
     fn fold_jsx_expr(&mut self, node: JSXExpr) -> JSXExpr {
-        Fold::fold_jsx_expr(self, node)
+        Fold::fold_jsx_expr(&mut **self, node)
     }
 
     fn fold_jsx_expr_container(&mut self, node: JSXExprContainer) -> JSXExprContainer {
-        Fold::fold_jsx_expr_container(self, node)
+        Fold::fold_jsx_expr_container(&mut **self, node)
     }
 
     fn fold_jsx_fragment(&mut self, node: JSXFragment) -> JSXFragment {
-        Fold::fold_jsx_fragment(self, node)
+        Fold::fold_jsx_fragment(&mut **self, node)
     }
 
     fn fold_jsx_member_expr(&mut self, node: JSXMemberExpr) -> JSXMemberExpr {
-        Fold::fold_jsx_member_expr(self, node)
+        Fold::fold_jsx_member_expr(&mut **self, node)
     }
 
     fn fold_jsx_namespaced_name(&mut self, node: JSXNamespacedName) -> JSXNamespacedName {
-        Fold::fold_jsx_namespaced_name(self, node)
+        Fold::fold_jsx_namespaced_name(&mut **self, node)
     }
 
     fn fold_jsx_object(&mut self, node: JSXObject) -> JSXObject {
-        Fold::fold_jsx_object(self, node)
+        Fold::fold_jsx_object(&mut **self, node)
     }
 
     fn fold_jsx_opening_element(&mut self, node: JSXOpeningElement) -> JSXOpeningElement {
-        Fold::fold_jsx_opening_element(self, node)
+        Fold::fold_jsx_opening_element(&mut **self, node)
     }
 
     fn fold_jsx_opening_fragment(&mut self, node: JSXOpeningFragment) -> JSXOpeningFragment {
-        Fold::fold_jsx_opening_fragment(self, node)
+        Fold::fold_jsx_opening_fragment(&mut **self, node)
     }
 
     fn fold_jsx_spread_child(&mut self, node: JSXSpreadChild) -> JSXSpreadChild {
-        Fold::fold_jsx_spread_child(self, node)
+        Fold::fold_jsx_spread_child(&mut **self, node)
     }
 
     fn fold_jsx_text(&mut self, node: JSXText) -> JSXText {
-        Fold::fold_jsx_text(self, node)
+        Fold::fold_jsx_text(&mut **self, node)
     }
 
     fn fold_key(&mut self, node: Key) -> Key {
-        Fold::fold_key(self, node)
+        Fold::fold_key(&mut **self, node)
     }
 
     fn fold_key_value_pat_prop(&mut self, node: KeyValuePatProp) -> KeyValuePatProp {
-        Fold::fold_key_value_pat_prop(self, node)
+        Fold::fold_key_value_pat_prop(&mut **self, node)
     }
 
     fn fold_key_value_prop(&mut self, node: KeyValueProp) -> KeyValueProp {
-        Fold::fold_key_value_prop(self, node)
+        Fold::fold_key_value_prop(&mut **self, node)
     }
 
     fn fold_labeled_stmt(&mut self, node: LabeledStmt) -> LabeledStmt {
-        Fold::fold_labeled_stmt(self, node)
+        Fold::fold_labeled_stmt(&mut **self, node)
     }
 
     fn fold_lit(&mut self, node: Lit) -> Lit {
-        Fold::fold_lit(self, node)
+        Fold::fold_lit(&mut **self, node)
     }
 
     fn fold_member_expr(&mut self, node: MemberExpr) -> MemberExpr {
-        Fold::fold_member_expr(self, node)
+        Fold::fold_member_expr(&mut **self, node)
     }
 
     fn fold_member_prop(&mut self, node: MemberProp) -> MemberProp {
-        Fold::fold_member_prop(self, node)
+        Fold::fold_member_prop(&mut **self, node)
     }
 
     fn fold_meta_prop_expr(&mut self, node: MetaPropExpr) -> MetaPropExpr {
-        Fold::fold_meta_prop_expr(self, node)
+        Fold::fold_meta_prop_expr(&mut **self, node)
     }
 
     fn fold_meta_prop_kind(&mut self, node: MetaPropKind) -> MetaPropKind {
-        Fold::fold_meta_prop_kind(self, node)
+        Fold::fold_meta_prop_kind(&mut **self, node)
     }
 
     fn fold_method_kind(&mut self, node: MethodKind) -> MethodKind {
-        Fold::fold_method_kind(self, node)
+        Fold::fold_method_kind(&mut **self, node)
     }
 
     fn fold_method_prop(&mut self, node: MethodProp) -> MethodProp {
-        Fold::fold_method_prop(self, node)
+        Fold::fold_method_prop(&mut **self, node)
     }
 
     fn fold_module(&mut self, node: Module) -> Module {
-        Fold::fold_module(self, node)
+        Fold::fold_module(&mut **self, node)
     }
 
     fn fold_module_decl(&mut self, node: ModuleDecl) -> ModuleDecl {
-        Fold::fold_module_decl(self, node)
+        Fold::fold_module_decl(&mut **self, node)
     }
 
     fn fold_module_export_name(&mut self, node: ModuleExportName) -> ModuleExportName {
-        Fold::fold_module_export_name(self, node)
+        Fold::fold_module_export_name(&mut **self, node)
     }
 
     fn fold_module_item(&mut self, node: ModuleItem) -> ModuleItem {
-        Fold::fold_module_item(self, node)
+        Fold::fold_module_item(&mut **self, node)
     }
 
     fn fold_module_items(&mut self, node: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        Fold::fold_module_items(self, node)
+        Fold::fold_module_items(&mut **self, node)
     }
 
     fn fold_named_export(&mut self, node: NamedExport) -> NamedExport {
-        Fold::fold_named_export(self, node)
+        Fold::fold_named_export(&mut **self, node)
     }
 
     fn fold_new_expr(&mut self, node: NewExpr) -> NewExpr {
-        Fold::fold_new_expr(self, node)
+        Fold::fold_new_expr(&mut **self, node)
     }
 
     fn fold_null(&mut self, node: Null) -> Null {
-        Fold::fold_null(self, node)
+        Fold::fold_null(&mut **self, node)
     }
 
     fn fold_number(&mut self, node: Number) -> Number {
-        Fold::fold_number(self, node)
+        Fold::fold_number(&mut **self, node)
     }
 
     fn fold_object_lit(&mut self, node: ObjectLit) -> ObjectLit {
-        Fold::fold_object_lit(self, node)
+        Fold::fold_object_lit(&mut **self, node)
     }
 
     fn fold_object_pat(&mut self, node: ObjectPat) -> ObjectPat {
-        Fold::fold_object_pat(self, node)
+        Fold::fold_object_pat(&mut **self, node)
     }
 
     fn fold_object_pat_prop(&mut self, node: ObjectPatProp) -> ObjectPatProp {
-        Fold::fold_object_pat_prop(self, node)
+        Fold::fold_object_pat_prop(&mut **self, node)
     }
 
     fn fold_object_pat_props(&mut self, node: Vec<ObjectPatProp>) -> Vec<ObjectPatProp> {
-        Fold::fold_object_pat_props(self, node)
+        Fold::fold_object_pat_props(&mut **self, node)
     }
 
     fn fold_opt_accessibility(&mut self, node: Option<Accessibility>) -> Option<Accessibility> {
-        Fold::fold_opt_accessibility(self, node)
+        Fold::fold_opt_accessibility(&mut **self, node)
     }
 
     fn fold_opt_atom(&mut self, node: Option<swc_atoms::Atom>) -> Option<swc_atoms::Atom> {
-        Fold::fold_opt_atom(self, node)
+        Fold::fold_opt_atom(&mut **self, node)
     }
 
     fn fold_opt_block_stmt(&mut self, node: Option<BlockStmt>) -> Option<BlockStmt> {
-        Fold::fold_opt_block_stmt(self, node)
+        Fold::fold_opt_block_stmt(&mut **self, node)
     }
 
     fn fold_opt_call(&mut self, node: OptCall) -> OptCall {
-        Fold::fold_opt_call(self, node)
+        Fold::fold_opt_call(&mut **self, node)
     }
 
     fn fold_opt_catch_clause(&mut self, node: Option<CatchClause>) -> Option<CatchClause> {
-        Fold::fold_opt_catch_clause(self, node)
+        Fold::fold_opt_catch_clause(&mut **self, node)
     }
 
     fn fold_opt_chain_base(&mut self, node: OptChainBase) -> OptChainBase {
-        Fold::fold_opt_chain_base(self, node)
+        Fold::fold_opt_chain_base(&mut **self, node)
     }
 
     fn fold_opt_chain_expr(&mut self, node: OptChainExpr) -> OptChainExpr {
-        Fold::fold_opt_chain_expr(self, node)
+        Fold::fold_opt_chain_expr(&mut **self, node)
     }
 
     fn fold_opt_expr(&mut self, node: Option<Box<Expr>>) -> Option<Box<Expr>> {
-        Fold::fold_opt_expr(self, node)
+        Fold::fold_opt_expr(&mut **self, node)
     }
 
     fn fold_opt_expr_or_spread(&mut self, node: Option<ExprOrSpread>) -> Option<ExprOrSpread> {
-        Fold::fold_opt_expr_or_spread(self, node)
+        Fold::fold_opt_expr_or_spread(&mut **self, node)
     }
 
     fn fold_opt_expr_or_spreads(
         &mut self,
         node: Option<Vec<ExprOrSpread>>,
     ) -> Option<Vec<ExprOrSpread>> {
-        Fold::fold_opt_expr_or_spreads(self, node)
+        Fold::fold_opt_expr_or_spreads(&mut **self, node)
     }
 
     fn fold_opt_ident(&mut self, node: Option<Ident>) -> Option<Ident> {
-        Fold::fold_opt_ident(self, node)
+        Fold::fold_opt_ident(&mut **self, node)
     }
 
     fn fold_opt_jsx_attr_value(&mut self, node: Option<JSXAttrValue>) -> Option<JSXAttrValue> {
-        Fold::fold_opt_jsx_attr_value(self, node)
+        Fold::fold_opt_jsx_attr_value(&mut **self, node)
     }
 
     fn fold_opt_jsx_closing_element(
         &mut self,
         node: Option<JSXClosingElement>,
     ) -> Option<JSXClosingElement> {
-        Fold::fold_opt_jsx_closing_element(self, node)
+        Fold::fold_opt_jsx_closing_element(&mut **self, node)
     }
 
     fn fold_opt_module_export_name(
         &mut self,
         node: Option<ModuleExportName>,
     ) -> Option<ModuleExportName> {
-        Fold::fold_opt_module_export_name(self, node)
+        Fold::fold_opt_module_export_name(&mut **self, node)
     }
 
     fn fold_opt_module_items(&mut self, node: Option<Vec<ModuleItem>>) -> Option<Vec<ModuleItem>> {
-        Fold::fold_opt_module_items(self, node)
+        Fold::fold_opt_module_items(&mut **self, node)
     }
 
     fn fold_opt_object_lit(&mut self, node: Option<Box<ObjectLit>>) -> Option<Box<ObjectLit>> {
-        Fold::fold_opt_object_lit(self, node)
+        Fold::fold_opt_object_lit(&mut **self, node)
     }
 
     fn fold_opt_pat(&mut self, node: Option<Pat>) -> Option<Pat> {
-        Fold::fold_opt_pat(self, node)
+        Fold::fold_opt_pat(&mut **self, node)
     }
 
     fn fold_opt_span(&mut self, node: Option<swc_common::Span>) -> Option<swc_common::Span> {
-        Fold::fold_opt_span(self, node)
+        Fold::fold_opt_span(&mut **self, node)
     }
 
     fn fold_opt_stmt(&mut self, node: Option<Box<Stmt>>) -> Option<Box<Stmt>> {
-        Fold::fold_opt_stmt(self, node)
+        Fold::fold_opt_stmt(&mut **self, node)
     }
 
     fn fold_opt_str(&mut self, node: Option<Box<Str>>) -> Option<Box<Str>> {
-        Fold::fold_opt_str(self, node)
+        Fold::fold_opt_str(&mut **self, node)
     }
 
     fn fold_opt_true_plus_minus(&mut self, node: Option<TruePlusMinus>) -> Option<TruePlusMinus> {
-        Fold::fold_opt_true_plus_minus(self, node)
+        Fold::fold_opt_true_plus_minus(&mut **self, node)
     }
 
     fn fold_opt_ts_entity_name(&mut self, node: Option<TsEntityName>) -> Option<TsEntityName> {
-        Fold::fold_opt_ts_entity_name(self, node)
+        Fold::fold_opt_ts_entity_name(&mut **self, node)
     }
 
     fn fold_opt_ts_namespace_body(
         &mut self,
         node: Option<TsNamespaceBody>,
     ) -> Option<TsNamespaceBody> {
-        Fold::fold_opt_ts_namespace_body(self, node)
+        Fold::fold_opt_ts_namespace_body(&mut **self, node)
     }
 
     fn fold_opt_ts_type(&mut self, node: Option<Box<TsType>>) -> Option<Box<TsType>> {
-        Fold::fold_opt_ts_type(self, node)
+        Fold::fold_opt_ts_type(&mut **self, node)
     }
 
     fn fold_opt_ts_type_ann(&mut self, node: Option<Box<TsTypeAnn>>) -> Option<Box<TsTypeAnn>> {
-        Fold::fold_opt_ts_type_ann(self, node)
+        Fold::fold_opt_ts_type_ann(&mut **self, node)
     }
 
     fn fold_opt_ts_type_param_decl(
         &mut self,
         node: Option<Box<TsTypeParamDecl>>,
     ) -> Option<Box<TsTypeParamDecl>> {
-        Fold::fold_opt_ts_type_param_decl(self, node)
+        Fold::fold_opt_ts_type_param_decl(&mut **self, node)
     }
 
     fn fold_opt_ts_type_param_instantiation(
         &mut self,
         node: Option<Box<TsTypeParamInstantiation>>,
     ) -> Option<Box<TsTypeParamInstantiation>> {
-        Fold::fold_opt_ts_type_param_instantiation(self, node)
+        Fold::fold_opt_ts_type_param_instantiation(&mut **self, node)
     }
 
     fn fold_opt_var_decl_or_expr(&mut self, node: Option<VarDeclOrExpr>) -> Option<VarDeclOrExpr> {
-        Fold::fold_opt_var_decl_or_expr(self, node)
+        Fold::fold_opt_var_decl_or_expr(&mut **self, node)
     }
 
     fn fold_opt_vec_expr_or_spreads(
         &mut self,
         node: Vec<Option<ExprOrSpread>>,
     ) -> Vec<Option<ExprOrSpread>> {
-        Fold::fold_opt_vec_expr_or_spreads(self, node)
+        Fold::fold_opt_vec_expr_or_spreads(&mut **self, node)
     }
 
     fn fold_opt_vec_pats(&mut self, node: Vec<Option<Pat>>) -> Vec<Option<Pat>> {
-        Fold::fold_opt_vec_pats(self, node)
+        Fold::fold_opt_vec_pats(&mut **self, node)
     }
 
     fn fold_param(&mut self, node: Param) -> Param {
-        Fold::fold_param(self, node)
+        Fold::fold_param(&mut **self, node)
     }
 
     fn fold_param_or_ts_param_prop(&mut self, node: ParamOrTsParamProp) -> ParamOrTsParamProp {
-        Fold::fold_param_or_ts_param_prop(self, node)
+        Fold::fold_param_or_ts_param_prop(&mut **self, node)
     }
 
     fn fold_param_or_ts_param_props(
         &mut self,
         node: Vec<ParamOrTsParamProp>,
     ) -> Vec<ParamOrTsParamProp> {
-        Fold::fold_param_or_ts_param_props(self, node)
+        Fold::fold_param_or_ts_param_props(&mut **self, node)
     }
 
     fn fold_params(&mut self, node: Vec<Param>) -> Vec<Param> {
-        Fold::fold_params(self, node)
+        Fold::fold_params(&mut **self, node)
     }
 
     fn fold_paren_expr(&mut self, node: ParenExpr) -> ParenExpr {
-        Fold::fold_paren_expr(self, node)
+        Fold::fold_paren_expr(&mut **self, node)
     }
 
     fn fold_pat(&mut self, node: Pat) -> Pat {
-        Fold::fold_pat(self, node)
+        Fold::fold_pat(&mut **self, node)
     }
 
     fn fold_pats(&mut self, node: Vec<Pat>) -> Vec<Pat> {
-        Fold::fold_pats(self, node)
+        Fold::fold_pats(&mut **self, node)
     }
 
     fn fold_private_method(&mut self, node: PrivateMethod) -> PrivateMethod {
-        Fold::fold_private_method(self, node)
+        Fold::fold_private_method(&mut **self, node)
     }
 
     fn fold_private_name(&mut self, node: PrivateName) -> PrivateName {
-        Fold::fold_private_name(self, node)
+        Fold::fold_private_name(&mut **self, node)
     }
 
     fn fold_private_prop(&mut self, node: PrivateProp) -> PrivateProp {
-        Fold::fold_private_prop(self, node)
+        Fold::fold_private_prop(&mut **self, node)
     }
 
     fn fold_program(&mut self, node: Program) -> Program {
-        Fold::fold_program(self, node)
+        Fold::fold_program(&mut **self, node)
     }
 
     fn fold_prop(&mut self, node: Prop) -> Prop {
-        Fold::fold_prop(self, node)
+        Fold::fold_prop(&mut **self, node)
     }
 
     fn fold_prop_name(&mut self, node: PropName) -> PropName {
-        Fold::fold_prop_name(self, node)
+        Fold::fold_prop_name(&mut **self, node)
     }
 
     fn fold_prop_or_spread(&mut self, node: PropOrSpread) -> PropOrSpread {
-        Fold::fold_prop_or_spread(self, node)
+        Fold::fold_prop_or_spread(&mut **self, node)
     }
 
     fn fold_prop_or_spreads(&mut self, node: Vec<PropOrSpread>) -> Vec<PropOrSpread> {
-        Fold::fold_prop_or_spreads(self, node)
+        Fold::fold_prop_or_spreads(&mut **self, node)
     }
 
     fn fold_regex(&mut self, node: Regex) -> Regex {
-        Fold::fold_regex(self, node)
+        Fold::fold_regex(&mut **self, node)
     }
 
     fn fold_reserved_unused(&mut self, node: ReservedUnused) -> ReservedUnused {
-        Fold::fold_reserved_unused(self, node)
+        Fold::fold_reserved_unused(&mut **self, node)
     }
 
     fn fold_rest_pat(&mut self, node: RestPat) -> RestPat {
-        Fold::fold_rest_pat(self, node)
+        Fold::fold_rest_pat(&mut **self, node)
     }
 
     fn fold_return_stmt(&mut self, node: ReturnStmt) -> ReturnStmt {
-        Fold::fold_return_stmt(self, node)
+        Fold::fold_return_stmt(&mut **self, node)
     }
 
     fn fold_script(&mut self, node: Script) -> Script {
-        Fold::fold_script(self, node)
+        Fold::fold_script(&mut **self, node)
     }
 
     fn fold_seq_expr(&mut self, node: SeqExpr) -> SeqExpr {
-        Fold::fold_seq_expr(self, node)
+        Fold::fold_seq_expr(&mut **self, node)
     }
 
     fn fold_setter_prop(&mut self, node: SetterProp) -> SetterProp {
-        Fold::fold_setter_prop(self, node)
+        Fold::fold_setter_prop(&mut **self, node)
     }
 
     fn fold_simple_assign_target(&mut self, node: SimpleAssignTarget) -> SimpleAssignTarget {
-        Fold::fold_simple_assign_target(self, node)
+        Fold::fold_simple_assign_target(&mut **self, node)
     }
 
     fn fold_span(&mut self, node: swc_common::Span) -> swc_common::Span {
-        Fold::fold_span(self, node)
+        Fold::fold_span(&mut **self, node)
     }
 
     fn fold_spread_element(&mut self, node: SpreadElement) -> SpreadElement {
-        Fold::fold_spread_element(self, node)
+        Fold::fold_spread_element(&mut **self, node)
     }
 
     fn fold_static_block(&mut self, node: StaticBlock) -> StaticBlock {
-        Fold::fold_static_block(self, node)
+        Fold::fold_static_block(&mut **self, node)
     }
 
     fn fold_stmt(&mut self, node: Stmt) -> Stmt {
-        Fold::fold_stmt(self, node)
+        Fold::fold_stmt(&mut **self, node)
     }
 
     fn fold_stmts(&mut self, node: Vec<Stmt>) -> Vec<Stmt> {
-        Fold::fold_stmts(self, node)
+        Fold::fold_stmts(&mut **self, node)
     }
 
     fn fold_str(&mut self, node: Str) -> Str {
-        Fold::fold_str(self, node)
+        Fold::fold_str(&mut **self, node)
     }
 
     fn fold_super(&mut self, node: Super) -> Super {
-        Fold::fold_super(self, node)
+        Fold::fold_super(&mut **self, node)
     }
 
     fn fold_super_prop(&mut self, node: SuperProp) -> SuperProp {
-        Fold::fold_super_prop(self, node)
+        Fold::fold_super_prop(&mut **self, node)
     }
 
     fn fold_super_prop_expr(&mut self, node: SuperPropExpr) -> SuperPropExpr {
-        Fold::fold_super_prop_expr(self, node)
+        Fold::fold_super_prop_expr(&mut **self, node)
     }
 
     fn fold_switch_case(&mut self, node: SwitchCase) -> SwitchCase {
-        Fold::fold_switch_case(self, node)
+        Fold::fold_switch_case(&mut **self, node)
     }
 
     fn fold_switch_cases(&mut self, node: Vec<SwitchCase>) -> Vec<SwitchCase> {
-        Fold::fold_switch_cases(self, node)
+        Fold::fold_switch_cases(&mut **self, node)
     }
 
     fn fold_switch_stmt(&mut self, node: SwitchStmt) -> SwitchStmt {
-        Fold::fold_switch_stmt(self, node)
+        Fold::fold_switch_stmt(&mut **self, node)
     }
 
     fn fold_syntax_context(
         &mut self,
         node: swc_common::SyntaxContext,
     ) -> swc_common::SyntaxContext {
-        Fold::fold_syntax_context(self, node)
+        Fold::fold_syntax_context(&mut **self, node)
     }
 
     fn fold_tagged_tpl(&mut self, node: TaggedTpl) -> TaggedTpl {
-        Fold::fold_tagged_tpl(self, node)
+        Fold::fold_tagged_tpl(&mut **self, node)
     }
 
     fn fold_this_expr(&mut self, node: ThisExpr) -> ThisExpr {
-        Fold::fold_this_expr(self, node)
+        Fold::fold_this_expr(&mut **self, node)
     }
 
     fn fold_throw_stmt(&mut self, node: ThrowStmt) -> ThrowStmt {
-        Fold::fold_throw_stmt(self, node)
+        Fold::fold_throw_stmt(&mut **self, node)
     }
 
     fn fold_tpl(&mut self, node: Tpl) -> Tpl {
-        Fold::fold_tpl(self, node)
+        Fold::fold_tpl(&mut **self, node)
     }
 
     fn fold_tpl_element(&mut self, node: TplElement) -> TplElement {
-        Fold::fold_tpl_element(self, node)
+        Fold::fold_tpl_element(&mut **self, node)
     }
 
     fn fold_tpl_elements(&mut self, node: Vec<TplElement>) -> Vec<TplElement> {
-        Fold::fold_tpl_elements(self, node)
+        Fold::fold_tpl_elements(&mut **self, node)
     }
 
     fn fold_true_plus_minus(&mut self, node: TruePlusMinus) -> TruePlusMinus {
-        Fold::fold_true_plus_minus(self, node)
+        Fold::fold_true_plus_minus(&mut **self, node)
     }
 
     fn fold_try_stmt(&mut self, node: TryStmt) -> TryStmt {
-        Fold::fold_try_stmt(self, node)
+        Fold::fold_try_stmt(&mut **self, node)
     }
 
     fn fold_ts_array_type(&mut self, node: TsArrayType) -> TsArrayType {
-        Fold::fold_ts_array_type(self, node)
+        Fold::fold_ts_array_type(&mut **self, node)
     }
 
     fn fold_ts_as_expr(&mut self, node: TsAsExpr) -> TsAsExpr {
-        Fold::fold_ts_as_expr(self, node)
+        Fold::fold_ts_as_expr(&mut **self, node)
     }
 
     fn fold_ts_call_signature_decl(&mut self, node: TsCallSignatureDecl) -> TsCallSignatureDecl {
-        Fold::fold_ts_call_signature_decl(self, node)
+        Fold::fold_ts_call_signature_decl(&mut **self, node)
     }
 
     fn fold_ts_conditional_type(&mut self, node: TsConditionalType) -> TsConditionalType {
-        Fold::fold_ts_conditional_type(self, node)
+        Fold::fold_ts_conditional_type(&mut **self, node)
     }
 
     fn fold_ts_const_assertion(&mut self, node: TsConstAssertion) -> TsConstAssertion {
-        Fold::fold_ts_const_assertion(self, node)
+        Fold::fold_ts_const_assertion(&mut **self, node)
     }
 
     fn fold_ts_construct_signature_decl(
         &mut self,
         node: TsConstructSignatureDecl,
     ) -> TsConstructSignatureDecl {
-        Fold::fold_ts_construct_signature_decl(self, node)
+        Fold::fold_ts_construct_signature_decl(&mut **self, node)
     }
 
     fn fold_ts_constructor_type(&mut self, node: TsConstructorType) -> TsConstructorType {
-        Fold::fold_ts_constructor_type(self, node)
+        Fold::fold_ts_constructor_type(&mut **self, node)
     }
 
     fn fold_ts_entity_name(&mut self, node: TsEntityName) -> TsEntityName {
-        Fold::fold_ts_entity_name(self, node)
+        Fold::fold_ts_entity_name(&mut **self, node)
     }
 
     fn fold_ts_enum_decl(&mut self, node: TsEnumDecl) -> TsEnumDecl {
-        Fold::fold_ts_enum_decl(self, node)
+        Fold::fold_ts_enum_decl(&mut **self, node)
     }
 
     fn fold_ts_enum_member(&mut self, node: TsEnumMember) -> TsEnumMember {
-        Fold::fold_ts_enum_member(self, node)
+        Fold::fold_ts_enum_member(&mut **self, node)
     }
 
     fn fold_ts_enum_member_id(&mut self, node: TsEnumMemberId) -> TsEnumMemberId {
-        Fold::fold_ts_enum_member_id(self, node)
+        Fold::fold_ts_enum_member_id(&mut **self, node)
     }
 
     fn fold_ts_enum_members(&mut self, node: Vec<TsEnumMember>) -> Vec<TsEnumMember> {
-        Fold::fold_ts_enum_members(self, node)
+        Fold::fold_ts_enum_members(&mut **self, node)
     }
 
     fn fold_ts_export_assignment(&mut self, node: TsExportAssignment) -> TsExportAssignment {
-        Fold::fold_ts_export_assignment(self, node)
+        Fold::fold_ts_export_assignment(&mut **self, node)
     }
 
     fn fold_ts_expr_with_type_args(&mut self, node: TsExprWithTypeArgs) -> TsExprWithTypeArgs {
-        Fold::fold_ts_expr_with_type_args(self, node)
+        Fold::fold_ts_expr_with_type_args(&mut **self, node)
     }
 
     fn fold_ts_expr_with_type_argss(
         &mut self,
         node: Vec<TsExprWithTypeArgs>,
     ) -> Vec<TsExprWithTypeArgs> {
-        Fold::fold_ts_expr_with_type_argss(self, node)
+        Fold::fold_ts_expr_with_type_argss(&mut **self, node)
     }
 
     fn fold_ts_external_module_ref(&mut self, node: TsExternalModuleRef) -> TsExternalModuleRef {
-        Fold::fold_ts_external_module_ref(self, node)
+        Fold::fold_ts_external_module_ref(&mut **self, node)
     }
 
     fn fold_ts_fn_or_constructor_type(
         &mut self,
         node: TsFnOrConstructorType,
     ) -> TsFnOrConstructorType {
-        Fold::fold_ts_fn_or_constructor_type(self, node)
+        Fold::fold_ts_fn_or_constructor_type(&mut **self, node)
     }
 
     fn fold_ts_fn_param(&mut self, node: TsFnParam) -> TsFnParam {
-        Fold::fold_ts_fn_param(self, node)
+        Fold::fold_ts_fn_param(&mut **self, node)
     }
 
     fn fold_ts_fn_params(&mut self, node: Vec<TsFnParam>) -> Vec<TsFnParam> {
-        Fold::fold_ts_fn_params(self, node)
+        Fold::fold_ts_fn_params(&mut **self, node)
     }
 
     fn fold_ts_fn_type(&mut self, node: TsFnType) -> TsFnType {
-        Fold::fold_ts_fn_type(self, node)
+        Fold::fold_ts_fn_type(&mut **self, node)
     }
 
     fn fold_ts_getter_signature(&mut self, node: TsGetterSignature) -> TsGetterSignature {
-        Fold::fold_ts_getter_signature(self, node)
+        Fold::fold_ts_getter_signature(&mut **self, node)
     }
 
     fn fold_ts_import_equals_decl(&mut self, node: TsImportEqualsDecl) -> TsImportEqualsDecl {
-        Fold::fold_ts_import_equals_decl(self, node)
+        Fold::fold_ts_import_equals_decl(&mut **self, node)
     }
 
     fn fold_ts_import_type(&mut self, node: TsImportType) -> TsImportType {
-        Fold::fold_ts_import_type(self, node)
+        Fold::fold_ts_import_type(&mut **self, node)
     }
 
     fn fold_ts_index_signature(&mut self, node: TsIndexSignature) -> TsIndexSignature {
-        Fold::fold_ts_index_signature(self, node)
+        Fold::fold_ts_index_signature(&mut **self, node)
     }
 
     fn fold_ts_indexed_access_type(&mut self, node: TsIndexedAccessType) -> TsIndexedAccessType {
-        Fold::fold_ts_indexed_access_type(self, node)
+        Fold::fold_ts_indexed_access_type(&mut **self, node)
     }
 
     fn fold_ts_infer_type(&mut self, node: TsInferType) -> TsInferType {
-        Fold::fold_ts_infer_type(self, node)
+        Fold::fold_ts_infer_type(&mut **self, node)
     }
 
     fn fold_ts_instantiation(&mut self, node: TsInstantiation) -> TsInstantiation {
-        Fold::fold_ts_instantiation(self, node)
+        Fold::fold_ts_instantiation(&mut **self, node)
     }
 
     fn fold_ts_interface_body(&mut self, node: TsInterfaceBody) -> TsInterfaceBody {
-        Fold::fold_ts_interface_body(self, node)
+        Fold::fold_ts_interface_body(&mut **self, node)
     }
 
     fn fold_ts_interface_decl(&mut self, node: TsInterfaceDecl) -> TsInterfaceDecl {
-        Fold::fold_ts_interface_decl(self, node)
+        Fold::fold_ts_interface_decl(&mut **self, node)
     }
 
     fn fold_ts_intersection_type(&mut self, node: TsIntersectionType) -> TsIntersectionType {
-        Fold::fold_ts_intersection_type(self, node)
+        Fold::fold_ts_intersection_type(&mut **self, node)
     }
 
     fn fold_ts_keyword_type(&mut self, node: TsKeywordType) -> TsKeywordType {
-        Fold::fold_ts_keyword_type(self, node)
+        Fold::fold_ts_keyword_type(&mut **self, node)
     }
 
     fn fold_ts_keyword_type_kind(&mut self, node: TsKeywordTypeKind) -> TsKeywordTypeKind {
-        Fold::fold_ts_keyword_type_kind(self, node)
+        Fold::fold_ts_keyword_type_kind(&mut **self, node)
     }
 
     fn fold_ts_lit(&mut self, node: TsLit) -> TsLit {
-        Fold::fold_ts_lit(self, node)
+        Fold::fold_ts_lit(&mut **self, node)
     }
 
     fn fold_ts_lit_type(&mut self, node: TsLitType) -> TsLitType {
-        Fold::fold_ts_lit_type(self, node)
+        Fold::fold_ts_lit_type(&mut **self, node)
     }
 
     fn fold_ts_mapped_type(&mut self, node: TsMappedType) -> TsMappedType {
-        Fold::fold_ts_mapped_type(self, node)
+        Fold::fold_ts_mapped_type(&mut **self, node)
     }
 
     fn fold_ts_method_signature(&mut self, node: TsMethodSignature) -> TsMethodSignature {
-        Fold::fold_ts_method_signature(self, node)
+        Fold::fold_ts_method_signature(&mut **self, node)
     }
 
     fn fold_ts_module_block(&mut self, node: TsModuleBlock) -> TsModuleBlock {
-        Fold::fold_ts_module_block(self, node)
+        Fold::fold_ts_module_block(&mut **self, node)
     }
 
     fn fold_ts_module_decl(&mut self, node: TsModuleDecl) -> TsModuleDecl {
-        Fold::fold_ts_module_decl(self, node)
+        Fold::fold_ts_module_decl(&mut **self, node)
     }
 
     fn fold_ts_module_name(&mut self, node: TsModuleName) -> TsModuleName {
-        Fold::fold_ts_module_name(self, node)
+        Fold::fold_ts_module_name(&mut **self, node)
     }
 
     fn fold_ts_module_ref(&mut self, node: TsModuleRef) -> TsModuleRef {
-        Fold::fold_ts_module_ref(self, node)
+        Fold::fold_ts_module_ref(&mut **self, node)
     }
 
     fn fold_ts_namespace_body(&mut self, node: TsNamespaceBody) -> TsNamespaceBody {
-        Fold::fold_ts_namespace_body(self, node)
+        Fold::fold_ts_namespace_body(&mut **self, node)
     }
 
     fn fold_ts_namespace_decl(&mut self, node: TsNamespaceDecl) -> TsNamespaceDecl {
-        Fold::fold_ts_namespace_decl(self, node)
+        Fold::fold_ts_namespace_decl(&mut **self, node)
     }
 
     fn fold_ts_namespace_export_decl(
         &mut self,
         node: TsNamespaceExportDecl,
     ) -> TsNamespaceExportDecl {
-        Fold::fold_ts_namespace_export_decl(self, node)
+        Fold::fold_ts_namespace_export_decl(&mut **self, node)
     }
 
     fn fold_ts_non_null_expr(&mut self, node: TsNonNullExpr) -> TsNonNullExpr {
-        Fold::fold_ts_non_null_expr(self, node)
+        Fold::fold_ts_non_null_expr(&mut **self, node)
     }
 
     fn fold_ts_optional_type(&mut self, node: TsOptionalType) -> TsOptionalType {
-        Fold::fold_ts_optional_type(self, node)
+        Fold::fold_ts_optional_type(&mut **self, node)
     }
 
     fn fold_ts_param_prop(&mut self, node: TsParamProp) -> TsParamProp {
-        Fold::fold_ts_param_prop(self, node)
+        Fold::fold_ts_param_prop(&mut **self, node)
     }
 
     fn fold_ts_param_prop_param(&mut self, node: TsParamPropParam) -> TsParamPropParam {
-        Fold::fold_ts_param_prop_param(self, node)
+        Fold::fold_ts_param_prop_param(&mut **self, node)
     }
 
     fn fold_ts_parenthesized_type(&mut self, node: TsParenthesizedType) -> TsParenthesizedType {
-        Fold::fold_ts_parenthesized_type(self, node)
+        Fold::fold_ts_parenthesized_type(&mut **self, node)
     }
 
     fn fold_ts_property_signature(&mut self, node: TsPropertySignature) -> TsPropertySignature {
-        Fold::fold_ts_property_signature(self, node)
+        Fold::fold_ts_property_signature(&mut **self, node)
     }
 
     fn fold_ts_qualified_name(&mut self, node: TsQualifiedName) -> TsQualifiedName {
-        Fold::fold_ts_qualified_name(self, node)
+        Fold::fold_ts_qualified_name(&mut **self, node)
     }
 
     fn fold_ts_rest_type(&mut self, node: TsRestType) -> TsRestType {
-        Fold::fold_ts_rest_type(self, node)
+        Fold::fold_ts_rest_type(&mut **self, node)
     }
 
     fn fold_ts_satisfies_expr(&mut self, node: TsSatisfiesExpr) -> TsSatisfiesExpr {
-        Fold::fold_ts_satisfies_expr(self, node)
+        Fold::fold_ts_satisfies_expr(&mut **self, node)
     }
 
     fn fold_ts_setter_signature(&mut self, node: TsSetterSignature) -> TsSetterSignature {
-        Fold::fold_ts_setter_signature(self, node)
+        Fold::fold_ts_setter_signature(&mut **self, node)
     }
 
     fn fold_ts_this_type(&mut self, node: TsThisType) -> TsThisType {
-        Fold::fold_ts_this_type(self, node)
+        Fold::fold_ts_this_type(&mut **self, node)
     }
 
     fn fold_ts_this_type_or_ident(&mut self, node: TsThisTypeOrIdent) -> TsThisTypeOrIdent {
-        Fold::fold_ts_this_type_or_ident(self, node)
+        Fold::fold_ts_this_type_or_ident(&mut **self, node)
     }
 
     fn fold_ts_tpl_lit_type(&mut self, node: TsTplLitType) -> TsTplLitType {
-        Fold::fold_ts_tpl_lit_type(self, node)
+        Fold::fold_ts_tpl_lit_type(&mut **self, node)
     }
 
     fn fold_ts_tuple_element(&mut self, node: TsTupleElement) -> TsTupleElement {
-        Fold::fold_ts_tuple_element(self, node)
+        Fold::fold_ts_tuple_element(&mut **self, node)
     }
 
     fn fold_ts_tuple_elements(&mut self, node: Vec<TsTupleElement>) -> Vec<TsTupleElement> {
-        Fold::fold_ts_tuple_elements(self, node)
+        Fold::fold_ts_tuple_elements(&mut **self, node)
     }
 
     fn fold_ts_tuple_type(&mut self, node: TsTupleType) -> TsTupleType {
-        Fold::fold_ts_tuple_type(self, node)
+        Fold::fold_ts_tuple_type(&mut **self, node)
     }
 
     fn fold_ts_type(&mut self, node: TsType) -> TsType {
-        Fold::fold_ts_type(self, node)
+        Fold::fold_ts_type(&mut **self, node)
     }
 
     fn fold_ts_type_alias_decl(&mut self, node: TsTypeAliasDecl) -> TsTypeAliasDecl {
-        Fold::fold_ts_type_alias_decl(self, node)
+        Fold::fold_ts_type_alias_decl(&mut **self, node)
     }
 
     fn fold_ts_type_ann(&mut self, node: TsTypeAnn) -> TsTypeAnn {
-        Fold::fold_ts_type_ann(self, node)
+        Fold::fold_ts_type_ann(&mut **self, node)
     }
 
     fn fold_ts_type_assertion(&mut self, node: TsTypeAssertion) -> TsTypeAssertion {
-        Fold::fold_ts_type_assertion(self, node)
+        Fold::fold_ts_type_assertion(&mut **self, node)
     }
 
     fn fold_ts_type_element(&mut self, node: TsTypeElement) -> TsTypeElement {
-        Fold::fold_ts_type_element(self, node)
+        Fold::fold_ts_type_element(&mut **self, node)
     }
 
     fn fold_ts_type_elements(&mut self, node: Vec<TsTypeElement>) -> Vec<TsTypeElement> {
-        Fold::fold_ts_type_elements(self, node)
+        Fold::fold_ts_type_elements(&mut **self, node)
     }
 
     fn fold_ts_type_lit(&mut self, node: TsTypeLit) -> TsTypeLit {
-        Fold::fold_ts_type_lit(self, node)
+        Fold::fold_ts_type_lit(&mut **self, node)
     }
 
     fn fold_ts_type_operator(&mut self, node: TsTypeOperator) -> TsTypeOperator {
-        Fold::fold_ts_type_operator(self, node)
+        Fold::fold_ts_type_operator(&mut **self, node)
     }
 
     fn fold_ts_type_operator_op(&mut self, node: TsTypeOperatorOp) -> TsTypeOperatorOp {
-        Fold::fold_ts_type_operator_op(self, node)
+        Fold::fold_ts_type_operator_op(&mut **self, node)
     }
 
     fn fold_ts_type_param(&mut self, node: TsTypeParam) -> TsTypeParam {
-        Fold::fold_ts_type_param(self, node)
+        Fold::fold_ts_type_param(&mut **self, node)
     }
 
     fn fold_ts_type_param_decl(&mut self, node: TsTypeParamDecl) -> TsTypeParamDecl {
-        Fold::fold_ts_type_param_decl(self, node)
+        Fold::fold_ts_type_param_decl(&mut **self, node)
     }
 
     fn fold_ts_type_param_instantiation(
         &mut self,
         node: TsTypeParamInstantiation,
     ) -> TsTypeParamInstantiation {
-        Fold::fold_ts_type_param_instantiation(self, node)
+        Fold::fold_ts_type_param_instantiation(&mut **self, node)
     }
 
     fn fold_ts_type_params(&mut self, node: Vec<TsTypeParam>) -> Vec<TsTypeParam> {
-        Fold::fold_ts_type_params(self, node)
+        Fold::fold_ts_type_params(&mut **self, node)
     }
 
     fn fold_ts_type_predicate(&mut self, node: TsTypePredicate) -> TsTypePredicate {
-        Fold::fold_ts_type_predicate(self, node)
+        Fold::fold_ts_type_predicate(&mut **self, node)
     }
 
     fn fold_ts_type_query(&mut self, node: TsTypeQuery) -> TsTypeQuery {
-        Fold::fold_ts_type_query(self, node)
+        Fold::fold_ts_type_query(&mut **self, node)
     }
 
     fn fold_ts_type_query_expr(&mut self, node: TsTypeQueryExpr) -> TsTypeQueryExpr {
-        Fold::fold_ts_type_query_expr(self, node)
+        Fold::fold_ts_type_query_expr(&mut **self, node)
     }
 
     fn fold_ts_type_ref(&mut self, node: TsTypeRef) -> TsTypeRef {
-        Fold::fold_ts_type_ref(self, node)
+        Fold::fold_ts_type_ref(&mut **self, node)
     }
 
     fn fold_ts_types(&mut self, node: Vec<Box<TsType>>) -> Vec<Box<TsType>> {
-        Fold::fold_ts_types(self, node)
+        Fold::fold_ts_types(&mut **self, node)
     }
 
     fn fold_ts_union_or_intersection_type(
         &mut self,
         node: TsUnionOrIntersectionType,
     ) -> TsUnionOrIntersectionType {
-        Fold::fold_ts_union_or_intersection_type(self, node)
+        Fold::fold_ts_union_or_intersection_type(&mut **self, node)
     }
 
     fn fold_ts_union_type(&mut self, node: TsUnionType) -> TsUnionType {
-        Fold::fold_ts_union_type(self, node)
+        Fold::fold_ts_union_type(&mut **self, node)
     }
 
     fn fold_unary_expr(&mut self, node: UnaryExpr) -> UnaryExpr {
-        Fold::fold_unary_expr(self, node)
+        Fold::fold_unary_expr(&mut **self, node)
     }
 
     fn fold_unary_op(&mut self, node: UnaryOp) -> UnaryOp {
-        Fold::fold_unary_op(self, node)
+        Fold::fold_unary_op(&mut **self, node)
     }
 
     fn fold_update_expr(&mut self, node: UpdateExpr) -> UpdateExpr {
-        Fold::fold_update_expr(self, node)
+        Fold::fold_update_expr(&mut **self, node)
     }
 
     fn fold_update_op(&mut self, node: UpdateOp) -> UpdateOp {
-        Fold::fold_update_op(self, node)
+        Fold::fold_update_op(&mut **self, node)
     }
 
     fn fold_using_decl(&mut self, node: UsingDecl) -> UsingDecl {
-        Fold::fold_using_decl(self, node)
+        Fold::fold_using_decl(&mut **self, node)
     }
 
     fn fold_var_decl(&mut self, node: VarDecl) -> VarDecl {
-        Fold::fold_var_decl(self, node)
+        Fold::fold_var_decl(&mut **self, node)
     }
 
     fn fold_var_decl_kind(&mut self, node: VarDeclKind) -> VarDeclKind {
-        Fold::fold_var_decl_kind(self, node)
+        Fold::fold_var_decl_kind(&mut **self, node)
     }
 
     fn fold_var_decl_or_expr(&mut self, node: VarDeclOrExpr) -> VarDeclOrExpr {
-        Fold::fold_var_decl_or_expr(self, node)
+        Fold::fold_var_decl_or_expr(&mut **self, node)
     }
 
     fn fold_var_declarator(&mut self, node: VarDeclarator) -> VarDeclarator {
-        Fold::fold_var_declarator(self, node)
+        Fold::fold_var_declarator(&mut **self, node)
     }
 
     fn fold_var_declarators(&mut self, node: Vec<VarDeclarator>) -> Vec<VarDeclarator> {
-        Fold::fold_var_declarators(self, node)
+        Fold::fold_var_declarators(&mut **self, node)
     }
 
     fn fold_while_stmt(&mut self, node: WhileStmt) -> WhileStmt {
-        Fold::fold_while_stmt(self, node)
+        Fold::fold_while_stmt(&mut **self, node)
     }
 
     fn fold_with_stmt(&mut self, node: WithStmt) -> WithStmt {
-        Fold::fold_with_stmt(self, node)
+        Fold::fold_with_stmt(&mut **self, node)
     }
 
     fn fold_yield_expr(&mut self, node: YieldExpr) -> YieldExpr {
-        Fold::fold_yield_expr(self, node)
+        Fold::fold_yield_expr(&mut **self, node)
     }
 }
 impl<V> Fold for Box<V>
@@ -72889,1236 +72889,1236 @@ where
     V: ?Sized + Fold,
 {
     fn fold_accessibility(&mut self, node: Accessibility) -> Accessibility {
-        Fold::fold_accessibility(self, node)
+        Fold::fold_accessibility(&mut **self, node)
     }
 
     fn fold_array_lit(&mut self, node: ArrayLit) -> ArrayLit {
-        Fold::fold_array_lit(self, node)
+        Fold::fold_array_lit(&mut **self, node)
     }
 
     fn fold_array_pat(&mut self, node: ArrayPat) -> ArrayPat {
-        Fold::fold_array_pat(self, node)
+        Fold::fold_array_pat(&mut **self, node)
     }
 
     fn fold_arrow_expr(&mut self, node: ArrowExpr) -> ArrowExpr {
-        Fold::fold_arrow_expr(self, node)
+        Fold::fold_arrow_expr(&mut **self, node)
     }
 
     fn fold_assign_expr(&mut self, node: AssignExpr) -> AssignExpr {
-        Fold::fold_assign_expr(self, node)
+        Fold::fold_assign_expr(&mut **self, node)
     }
 
     fn fold_assign_op(&mut self, node: AssignOp) -> AssignOp {
-        Fold::fold_assign_op(self, node)
+        Fold::fold_assign_op(&mut **self, node)
     }
 
     fn fold_assign_pat(&mut self, node: AssignPat) -> AssignPat {
-        Fold::fold_assign_pat(self, node)
+        Fold::fold_assign_pat(&mut **self, node)
     }
 
     fn fold_assign_pat_prop(&mut self, node: AssignPatProp) -> AssignPatProp {
-        Fold::fold_assign_pat_prop(self, node)
+        Fold::fold_assign_pat_prop(&mut **self, node)
     }
 
     fn fold_assign_prop(&mut self, node: AssignProp) -> AssignProp {
-        Fold::fold_assign_prop(self, node)
+        Fold::fold_assign_prop(&mut **self, node)
     }
 
     fn fold_assign_target(&mut self, node: AssignTarget) -> AssignTarget {
-        Fold::fold_assign_target(self, node)
+        Fold::fold_assign_target(&mut **self, node)
     }
 
     fn fold_assign_target_pat(&mut self, node: AssignTargetPat) -> AssignTargetPat {
-        Fold::fold_assign_target_pat(self, node)
+        Fold::fold_assign_target_pat(&mut **self, node)
     }
 
     fn fold_atom(&mut self, node: swc_atoms::Atom) -> swc_atoms::Atom {
-        Fold::fold_atom(self, node)
+        Fold::fold_atom(&mut **self, node)
     }
 
     fn fold_auto_accessor(&mut self, node: AutoAccessor) -> AutoAccessor {
-        Fold::fold_auto_accessor(self, node)
+        Fold::fold_auto_accessor(&mut **self, node)
     }
 
     fn fold_await_expr(&mut self, node: AwaitExpr) -> AwaitExpr {
-        Fold::fold_await_expr(self, node)
+        Fold::fold_await_expr(&mut **self, node)
     }
 
     fn fold_big_int(&mut self, node: BigInt) -> BigInt {
-        Fold::fold_big_int(self, node)
+        Fold::fold_big_int(&mut **self, node)
     }
 
     fn fold_big_int_value(&mut self, node: BigIntValue) -> BigIntValue {
-        Fold::fold_big_int_value(self, node)
+        Fold::fold_big_int_value(&mut **self, node)
     }
 
     fn fold_bin_expr(&mut self, node: BinExpr) -> BinExpr {
-        Fold::fold_bin_expr(self, node)
+        Fold::fold_bin_expr(&mut **self, node)
     }
 
     fn fold_binary_op(&mut self, node: BinaryOp) -> BinaryOp {
-        Fold::fold_binary_op(self, node)
+        Fold::fold_binary_op(&mut **self, node)
     }
 
     fn fold_binding_ident(&mut self, node: BindingIdent) -> BindingIdent {
-        Fold::fold_binding_ident(self, node)
+        Fold::fold_binding_ident(&mut **self, node)
     }
 
     fn fold_block_stmt(&mut self, node: BlockStmt) -> BlockStmt {
-        Fold::fold_block_stmt(self, node)
+        Fold::fold_block_stmt(&mut **self, node)
     }
 
     fn fold_block_stmt_or_expr(&mut self, node: BlockStmtOrExpr) -> BlockStmtOrExpr {
-        Fold::fold_block_stmt_or_expr(self, node)
+        Fold::fold_block_stmt_or_expr(&mut **self, node)
     }
 
     fn fold_bool(&mut self, node: Bool) -> Bool {
-        Fold::fold_bool(self, node)
+        Fold::fold_bool(&mut **self, node)
     }
 
     fn fold_break_stmt(&mut self, node: BreakStmt) -> BreakStmt {
-        Fold::fold_break_stmt(self, node)
+        Fold::fold_break_stmt(&mut **self, node)
     }
 
     fn fold_call_expr(&mut self, node: CallExpr) -> CallExpr {
-        Fold::fold_call_expr(self, node)
+        Fold::fold_call_expr(&mut **self, node)
     }
 
     fn fold_callee(&mut self, node: Callee) -> Callee {
-        Fold::fold_callee(self, node)
+        Fold::fold_callee(&mut **self, node)
     }
 
     fn fold_catch_clause(&mut self, node: CatchClause) -> CatchClause {
-        Fold::fold_catch_clause(self, node)
+        Fold::fold_catch_clause(&mut **self, node)
     }
 
     fn fold_class(&mut self, node: Class) -> Class {
-        Fold::fold_class(self, node)
+        Fold::fold_class(&mut **self, node)
     }
 
     fn fold_class_decl(&mut self, node: ClassDecl) -> ClassDecl {
-        Fold::fold_class_decl(self, node)
+        Fold::fold_class_decl(&mut **self, node)
     }
 
     fn fold_class_expr(&mut self, node: ClassExpr) -> ClassExpr {
-        Fold::fold_class_expr(self, node)
+        Fold::fold_class_expr(&mut **self, node)
     }
 
     fn fold_class_member(&mut self, node: ClassMember) -> ClassMember {
-        Fold::fold_class_member(self, node)
+        Fold::fold_class_member(&mut **self, node)
     }
 
     fn fold_class_members(&mut self, node: Vec<ClassMember>) -> Vec<ClassMember> {
-        Fold::fold_class_members(self, node)
+        Fold::fold_class_members(&mut **self, node)
     }
 
     fn fold_class_method(&mut self, node: ClassMethod) -> ClassMethod {
-        Fold::fold_class_method(self, node)
+        Fold::fold_class_method(&mut **self, node)
     }
 
     fn fold_class_prop(&mut self, node: ClassProp) -> ClassProp {
-        Fold::fold_class_prop(self, node)
+        Fold::fold_class_prop(&mut **self, node)
     }
 
     fn fold_computed_prop_name(&mut self, node: ComputedPropName) -> ComputedPropName {
-        Fold::fold_computed_prop_name(self, node)
+        Fold::fold_computed_prop_name(&mut **self, node)
     }
 
     fn fold_cond_expr(&mut self, node: CondExpr) -> CondExpr {
-        Fold::fold_cond_expr(self, node)
+        Fold::fold_cond_expr(&mut **self, node)
     }
 
     fn fold_constructor(&mut self, node: Constructor) -> Constructor {
-        Fold::fold_constructor(self, node)
+        Fold::fold_constructor(&mut **self, node)
     }
 
     fn fold_continue_stmt(&mut self, node: ContinueStmt) -> ContinueStmt {
-        Fold::fold_continue_stmt(self, node)
+        Fold::fold_continue_stmt(&mut **self, node)
     }
 
     fn fold_debugger_stmt(&mut self, node: DebuggerStmt) -> DebuggerStmt {
-        Fold::fold_debugger_stmt(self, node)
+        Fold::fold_debugger_stmt(&mut **self, node)
     }
 
     fn fold_decl(&mut self, node: Decl) -> Decl {
-        Fold::fold_decl(self, node)
+        Fold::fold_decl(&mut **self, node)
     }
 
     fn fold_decorator(&mut self, node: Decorator) -> Decorator {
-        Fold::fold_decorator(self, node)
+        Fold::fold_decorator(&mut **self, node)
     }
 
     fn fold_decorators(&mut self, node: Vec<Decorator>) -> Vec<Decorator> {
-        Fold::fold_decorators(self, node)
+        Fold::fold_decorators(&mut **self, node)
     }
 
     fn fold_default_decl(&mut self, node: DefaultDecl) -> DefaultDecl {
-        Fold::fold_default_decl(self, node)
+        Fold::fold_default_decl(&mut **self, node)
     }
 
     fn fold_do_while_stmt(&mut self, node: DoWhileStmt) -> DoWhileStmt {
-        Fold::fold_do_while_stmt(self, node)
+        Fold::fold_do_while_stmt(&mut **self, node)
     }
 
     fn fold_empty_stmt(&mut self, node: EmptyStmt) -> EmptyStmt {
-        Fold::fold_empty_stmt(self, node)
+        Fold::fold_empty_stmt(&mut **self, node)
     }
 
     fn fold_es_version(&mut self, node: EsVersion) -> EsVersion {
-        Fold::fold_es_version(self, node)
+        Fold::fold_es_version(&mut **self, node)
     }
 
     fn fold_export_all(&mut self, node: ExportAll) -> ExportAll {
-        Fold::fold_export_all(self, node)
+        Fold::fold_export_all(&mut **self, node)
     }
 
     fn fold_export_decl(&mut self, node: ExportDecl) -> ExportDecl {
-        Fold::fold_export_decl(self, node)
+        Fold::fold_export_decl(&mut **self, node)
     }
 
     fn fold_export_default_decl(&mut self, node: ExportDefaultDecl) -> ExportDefaultDecl {
-        Fold::fold_export_default_decl(self, node)
+        Fold::fold_export_default_decl(&mut **self, node)
     }
 
     fn fold_export_default_expr(&mut self, node: ExportDefaultExpr) -> ExportDefaultExpr {
-        Fold::fold_export_default_expr(self, node)
+        Fold::fold_export_default_expr(&mut **self, node)
     }
 
     fn fold_export_default_specifier(
         &mut self,
         node: ExportDefaultSpecifier,
     ) -> ExportDefaultSpecifier {
-        Fold::fold_export_default_specifier(self, node)
+        Fold::fold_export_default_specifier(&mut **self, node)
     }
 
     fn fold_export_named_specifier(&mut self, node: ExportNamedSpecifier) -> ExportNamedSpecifier {
-        Fold::fold_export_named_specifier(self, node)
+        Fold::fold_export_named_specifier(&mut **self, node)
     }
 
     fn fold_export_namespace_specifier(
         &mut self,
         node: ExportNamespaceSpecifier,
     ) -> ExportNamespaceSpecifier {
-        Fold::fold_export_namespace_specifier(self, node)
+        Fold::fold_export_namespace_specifier(&mut **self, node)
     }
 
     fn fold_export_specifier(&mut self, node: ExportSpecifier) -> ExportSpecifier {
-        Fold::fold_export_specifier(self, node)
+        Fold::fold_export_specifier(&mut **self, node)
     }
 
     fn fold_export_specifiers(&mut self, node: Vec<ExportSpecifier>) -> Vec<ExportSpecifier> {
-        Fold::fold_export_specifiers(self, node)
+        Fold::fold_export_specifiers(&mut **self, node)
     }
 
     fn fold_expr(&mut self, node: Expr) -> Expr {
-        Fold::fold_expr(self, node)
+        Fold::fold_expr(&mut **self, node)
     }
 
     fn fold_expr_or_spread(&mut self, node: ExprOrSpread) -> ExprOrSpread {
-        Fold::fold_expr_or_spread(self, node)
+        Fold::fold_expr_or_spread(&mut **self, node)
     }
 
     fn fold_expr_or_spreads(&mut self, node: Vec<ExprOrSpread>) -> Vec<ExprOrSpread> {
-        Fold::fold_expr_or_spreads(self, node)
+        Fold::fold_expr_or_spreads(&mut **self, node)
     }
 
     fn fold_expr_stmt(&mut self, node: ExprStmt) -> ExprStmt {
-        Fold::fold_expr_stmt(self, node)
+        Fold::fold_expr_stmt(&mut **self, node)
     }
 
     fn fold_exprs(&mut self, node: Vec<Box<Expr>>) -> Vec<Box<Expr>> {
-        Fold::fold_exprs(self, node)
+        Fold::fold_exprs(&mut **self, node)
     }
 
     fn fold_fn_decl(&mut self, node: FnDecl) -> FnDecl {
-        Fold::fold_fn_decl(self, node)
+        Fold::fold_fn_decl(&mut **self, node)
     }
 
     fn fold_fn_expr(&mut self, node: FnExpr) -> FnExpr {
-        Fold::fold_fn_expr(self, node)
+        Fold::fold_fn_expr(&mut **self, node)
     }
 
     fn fold_for_head(&mut self, node: ForHead) -> ForHead {
-        Fold::fold_for_head(self, node)
+        Fold::fold_for_head(&mut **self, node)
     }
 
     fn fold_for_in_stmt(&mut self, node: ForInStmt) -> ForInStmt {
-        Fold::fold_for_in_stmt(self, node)
+        Fold::fold_for_in_stmt(&mut **self, node)
     }
 
     fn fold_for_of_stmt(&mut self, node: ForOfStmt) -> ForOfStmt {
-        Fold::fold_for_of_stmt(self, node)
+        Fold::fold_for_of_stmt(&mut **self, node)
     }
 
     fn fold_for_stmt(&mut self, node: ForStmt) -> ForStmt {
-        Fold::fold_for_stmt(self, node)
+        Fold::fold_for_stmt(&mut **self, node)
     }
 
     fn fold_function(&mut self, node: Function) -> Function {
-        Fold::fold_function(self, node)
+        Fold::fold_function(&mut **self, node)
     }
 
     fn fold_getter_prop(&mut self, node: GetterProp) -> GetterProp {
-        Fold::fold_getter_prop(self, node)
+        Fold::fold_getter_prop(&mut **self, node)
     }
 
     fn fold_ident(&mut self, node: Ident) -> Ident {
-        Fold::fold_ident(self, node)
+        Fold::fold_ident(&mut **self, node)
     }
 
     fn fold_ident_name(&mut self, node: IdentName) -> IdentName {
-        Fold::fold_ident_name(self, node)
+        Fold::fold_ident_name(&mut **self, node)
     }
 
     fn fold_if_stmt(&mut self, node: IfStmt) -> IfStmt {
-        Fold::fold_if_stmt(self, node)
+        Fold::fold_if_stmt(&mut **self, node)
     }
 
     fn fold_import(&mut self, node: Import) -> Import {
-        Fold::fold_import(self, node)
+        Fold::fold_import(&mut **self, node)
     }
 
     fn fold_import_decl(&mut self, node: ImportDecl) -> ImportDecl {
-        Fold::fold_import_decl(self, node)
+        Fold::fold_import_decl(&mut **self, node)
     }
 
     fn fold_import_default_specifier(
         &mut self,
         node: ImportDefaultSpecifier,
     ) -> ImportDefaultSpecifier {
-        Fold::fold_import_default_specifier(self, node)
+        Fold::fold_import_default_specifier(&mut **self, node)
     }
 
     fn fold_import_named_specifier(&mut self, node: ImportNamedSpecifier) -> ImportNamedSpecifier {
-        Fold::fold_import_named_specifier(self, node)
+        Fold::fold_import_named_specifier(&mut **self, node)
     }
 
     fn fold_import_phase(&mut self, node: ImportPhase) -> ImportPhase {
-        Fold::fold_import_phase(self, node)
+        Fold::fold_import_phase(&mut **self, node)
     }
 
     fn fold_import_specifier(&mut self, node: ImportSpecifier) -> ImportSpecifier {
-        Fold::fold_import_specifier(self, node)
+        Fold::fold_import_specifier(&mut **self, node)
     }
 
     fn fold_import_specifiers(&mut self, node: Vec<ImportSpecifier>) -> Vec<ImportSpecifier> {
-        Fold::fold_import_specifiers(self, node)
+        Fold::fold_import_specifiers(&mut **self, node)
     }
 
     fn fold_import_star_as_specifier(
         &mut self,
         node: ImportStarAsSpecifier,
     ) -> ImportStarAsSpecifier {
-        Fold::fold_import_star_as_specifier(self, node)
+        Fold::fold_import_star_as_specifier(&mut **self, node)
     }
 
     fn fold_import_with(&mut self, node: ImportWith) -> ImportWith {
-        Fold::fold_import_with(self, node)
+        Fold::fold_import_with(&mut **self, node)
     }
 
     fn fold_import_with_item(&mut self, node: ImportWithItem) -> ImportWithItem {
-        Fold::fold_import_with_item(self, node)
+        Fold::fold_import_with_item(&mut **self, node)
     }
 
     fn fold_import_with_items(&mut self, node: Vec<ImportWithItem>) -> Vec<ImportWithItem> {
-        Fold::fold_import_with_items(self, node)
+        Fold::fold_import_with_items(&mut **self, node)
     }
 
     fn fold_invalid(&mut self, node: Invalid) -> Invalid {
-        Fold::fold_invalid(self, node)
+        Fold::fold_invalid(&mut **self, node)
     }
 
     fn fold_jsx_attr(&mut self, node: JSXAttr) -> JSXAttr {
-        Fold::fold_jsx_attr(self, node)
+        Fold::fold_jsx_attr(&mut **self, node)
     }
 
     fn fold_jsx_attr_name(&mut self, node: JSXAttrName) -> JSXAttrName {
-        Fold::fold_jsx_attr_name(self, node)
+        Fold::fold_jsx_attr_name(&mut **self, node)
     }
 
     fn fold_jsx_attr_or_spread(&mut self, node: JSXAttrOrSpread) -> JSXAttrOrSpread {
-        Fold::fold_jsx_attr_or_spread(self, node)
+        Fold::fold_jsx_attr_or_spread(&mut **self, node)
     }
 
     fn fold_jsx_attr_or_spreads(&mut self, node: Vec<JSXAttrOrSpread>) -> Vec<JSXAttrOrSpread> {
-        Fold::fold_jsx_attr_or_spreads(self, node)
+        Fold::fold_jsx_attr_or_spreads(&mut **self, node)
     }
 
     fn fold_jsx_attr_value(&mut self, node: JSXAttrValue) -> JSXAttrValue {
-        Fold::fold_jsx_attr_value(self, node)
+        Fold::fold_jsx_attr_value(&mut **self, node)
     }
 
     fn fold_jsx_closing_element(&mut self, node: JSXClosingElement) -> JSXClosingElement {
-        Fold::fold_jsx_closing_element(self, node)
+        Fold::fold_jsx_closing_element(&mut **self, node)
     }
 
     fn fold_jsx_closing_fragment(&mut self, node: JSXClosingFragment) -> JSXClosingFragment {
-        Fold::fold_jsx_closing_fragment(self, node)
+        Fold::fold_jsx_closing_fragment(&mut **self, node)
     }
 
     fn fold_jsx_element(&mut self, node: JSXElement) -> JSXElement {
-        Fold::fold_jsx_element(self, node)
+        Fold::fold_jsx_element(&mut **self, node)
     }
 
     fn fold_jsx_element_child(&mut self, node: JSXElementChild) -> JSXElementChild {
-        Fold::fold_jsx_element_child(self, node)
+        Fold::fold_jsx_element_child(&mut **self, node)
     }
 
     fn fold_jsx_element_childs(&mut self, node: Vec<JSXElementChild>) -> Vec<JSXElementChild> {
-        Fold::fold_jsx_element_childs(self, node)
+        Fold::fold_jsx_element_childs(&mut **self, node)
     }
 
     fn fold_jsx_element_name(&mut self, node: JSXElementName) -> JSXElementName {
-        Fold::fold_jsx_element_name(self, node)
+        Fold::fold_jsx_element_name(&mut **self, node)
     }
 
     fn fold_jsx_empty_expr(&mut self, node: JSXEmptyExpr) -> JSXEmptyExpr {
-        Fold::fold_jsx_empty_expr(self, node)
+        Fold::fold_jsx_empty_expr(&mut **self, node)
     }
 
     fn fold_jsx_expr(&mut self, node: JSXExpr) -> JSXExpr {
-        Fold::fold_jsx_expr(self, node)
+        Fold::fold_jsx_expr(&mut **self, node)
     }
 
     fn fold_jsx_expr_container(&mut self, node: JSXExprContainer) -> JSXExprContainer {
-        Fold::fold_jsx_expr_container(self, node)
+        Fold::fold_jsx_expr_container(&mut **self, node)
     }
 
     fn fold_jsx_fragment(&mut self, node: JSXFragment) -> JSXFragment {
-        Fold::fold_jsx_fragment(self, node)
+        Fold::fold_jsx_fragment(&mut **self, node)
     }
 
     fn fold_jsx_member_expr(&mut self, node: JSXMemberExpr) -> JSXMemberExpr {
-        Fold::fold_jsx_member_expr(self, node)
+        Fold::fold_jsx_member_expr(&mut **self, node)
     }
 
     fn fold_jsx_namespaced_name(&mut self, node: JSXNamespacedName) -> JSXNamespacedName {
-        Fold::fold_jsx_namespaced_name(self, node)
+        Fold::fold_jsx_namespaced_name(&mut **self, node)
     }
 
     fn fold_jsx_object(&mut self, node: JSXObject) -> JSXObject {
-        Fold::fold_jsx_object(self, node)
+        Fold::fold_jsx_object(&mut **self, node)
     }
 
     fn fold_jsx_opening_element(&mut self, node: JSXOpeningElement) -> JSXOpeningElement {
-        Fold::fold_jsx_opening_element(self, node)
+        Fold::fold_jsx_opening_element(&mut **self, node)
     }
 
     fn fold_jsx_opening_fragment(&mut self, node: JSXOpeningFragment) -> JSXOpeningFragment {
-        Fold::fold_jsx_opening_fragment(self, node)
+        Fold::fold_jsx_opening_fragment(&mut **self, node)
     }
 
     fn fold_jsx_spread_child(&mut self, node: JSXSpreadChild) -> JSXSpreadChild {
-        Fold::fold_jsx_spread_child(self, node)
+        Fold::fold_jsx_spread_child(&mut **self, node)
     }
 
     fn fold_jsx_text(&mut self, node: JSXText) -> JSXText {
-        Fold::fold_jsx_text(self, node)
+        Fold::fold_jsx_text(&mut **self, node)
     }
 
     fn fold_key(&mut self, node: Key) -> Key {
-        Fold::fold_key(self, node)
+        Fold::fold_key(&mut **self, node)
     }
 
     fn fold_key_value_pat_prop(&mut self, node: KeyValuePatProp) -> KeyValuePatProp {
-        Fold::fold_key_value_pat_prop(self, node)
+        Fold::fold_key_value_pat_prop(&mut **self, node)
     }
 
     fn fold_key_value_prop(&mut self, node: KeyValueProp) -> KeyValueProp {
-        Fold::fold_key_value_prop(self, node)
+        Fold::fold_key_value_prop(&mut **self, node)
     }
 
     fn fold_labeled_stmt(&mut self, node: LabeledStmt) -> LabeledStmt {
-        Fold::fold_labeled_stmt(self, node)
+        Fold::fold_labeled_stmt(&mut **self, node)
     }
 
     fn fold_lit(&mut self, node: Lit) -> Lit {
-        Fold::fold_lit(self, node)
+        Fold::fold_lit(&mut **self, node)
     }
 
     fn fold_member_expr(&mut self, node: MemberExpr) -> MemberExpr {
-        Fold::fold_member_expr(self, node)
+        Fold::fold_member_expr(&mut **self, node)
     }
 
     fn fold_member_prop(&mut self, node: MemberProp) -> MemberProp {
-        Fold::fold_member_prop(self, node)
+        Fold::fold_member_prop(&mut **self, node)
     }
 
     fn fold_meta_prop_expr(&mut self, node: MetaPropExpr) -> MetaPropExpr {
-        Fold::fold_meta_prop_expr(self, node)
+        Fold::fold_meta_prop_expr(&mut **self, node)
     }
 
     fn fold_meta_prop_kind(&mut self, node: MetaPropKind) -> MetaPropKind {
-        Fold::fold_meta_prop_kind(self, node)
+        Fold::fold_meta_prop_kind(&mut **self, node)
     }
 
     fn fold_method_kind(&mut self, node: MethodKind) -> MethodKind {
-        Fold::fold_method_kind(self, node)
+        Fold::fold_method_kind(&mut **self, node)
     }
 
     fn fold_method_prop(&mut self, node: MethodProp) -> MethodProp {
-        Fold::fold_method_prop(self, node)
+        Fold::fold_method_prop(&mut **self, node)
     }
 
     fn fold_module(&mut self, node: Module) -> Module {
-        Fold::fold_module(self, node)
+        Fold::fold_module(&mut **self, node)
     }
 
     fn fold_module_decl(&mut self, node: ModuleDecl) -> ModuleDecl {
-        Fold::fold_module_decl(self, node)
+        Fold::fold_module_decl(&mut **self, node)
     }
 
     fn fold_module_export_name(&mut self, node: ModuleExportName) -> ModuleExportName {
-        Fold::fold_module_export_name(self, node)
+        Fold::fold_module_export_name(&mut **self, node)
     }
 
     fn fold_module_item(&mut self, node: ModuleItem) -> ModuleItem {
-        Fold::fold_module_item(self, node)
+        Fold::fold_module_item(&mut **self, node)
     }
 
     fn fold_module_items(&mut self, node: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        Fold::fold_module_items(self, node)
+        Fold::fold_module_items(&mut **self, node)
     }
 
     fn fold_named_export(&mut self, node: NamedExport) -> NamedExport {
-        Fold::fold_named_export(self, node)
+        Fold::fold_named_export(&mut **self, node)
     }
 
     fn fold_new_expr(&mut self, node: NewExpr) -> NewExpr {
-        Fold::fold_new_expr(self, node)
+        Fold::fold_new_expr(&mut **self, node)
     }
 
     fn fold_null(&mut self, node: Null) -> Null {
-        Fold::fold_null(self, node)
+        Fold::fold_null(&mut **self, node)
     }
 
     fn fold_number(&mut self, node: Number) -> Number {
-        Fold::fold_number(self, node)
+        Fold::fold_number(&mut **self, node)
     }
 
     fn fold_object_lit(&mut self, node: ObjectLit) -> ObjectLit {
-        Fold::fold_object_lit(self, node)
+        Fold::fold_object_lit(&mut **self, node)
     }
 
     fn fold_object_pat(&mut self, node: ObjectPat) -> ObjectPat {
-        Fold::fold_object_pat(self, node)
+        Fold::fold_object_pat(&mut **self, node)
     }
 
     fn fold_object_pat_prop(&mut self, node: ObjectPatProp) -> ObjectPatProp {
-        Fold::fold_object_pat_prop(self, node)
+        Fold::fold_object_pat_prop(&mut **self, node)
     }
 
     fn fold_object_pat_props(&mut self, node: Vec<ObjectPatProp>) -> Vec<ObjectPatProp> {
-        Fold::fold_object_pat_props(self, node)
+        Fold::fold_object_pat_props(&mut **self, node)
     }
 
     fn fold_opt_accessibility(&mut self, node: Option<Accessibility>) -> Option<Accessibility> {
-        Fold::fold_opt_accessibility(self, node)
+        Fold::fold_opt_accessibility(&mut **self, node)
     }
 
     fn fold_opt_atom(&mut self, node: Option<swc_atoms::Atom>) -> Option<swc_atoms::Atom> {
-        Fold::fold_opt_atom(self, node)
+        Fold::fold_opt_atom(&mut **self, node)
     }
 
     fn fold_opt_block_stmt(&mut self, node: Option<BlockStmt>) -> Option<BlockStmt> {
-        Fold::fold_opt_block_stmt(self, node)
+        Fold::fold_opt_block_stmt(&mut **self, node)
     }
 
     fn fold_opt_call(&mut self, node: OptCall) -> OptCall {
-        Fold::fold_opt_call(self, node)
+        Fold::fold_opt_call(&mut **self, node)
     }
 
     fn fold_opt_catch_clause(&mut self, node: Option<CatchClause>) -> Option<CatchClause> {
-        Fold::fold_opt_catch_clause(self, node)
+        Fold::fold_opt_catch_clause(&mut **self, node)
     }
 
     fn fold_opt_chain_base(&mut self, node: OptChainBase) -> OptChainBase {
-        Fold::fold_opt_chain_base(self, node)
+        Fold::fold_opt_chain_base(&mut **self, node)
     }
 
     fn fold_opt_chain_expr(&mut self, node: OptChainExpr) -> OptChainExpr {
-        Fold::fold_opt_chain_expr(self, node)
+        Fold::fold_opt_chain_expr(&mut **self, node)
     }
 
     fn fold_opt_expr(&mut self, node: Option<Box<Expr>>) -> Option<Box<Expr>> {
-        Fold::fold_opt_expr(self, node)
+        Fold::fold_opt_expr(&mut **self, node)
     }
 
     fn fold_opt_expr_or_spread(&mut self, node: Option<ExprOrSpread>) -> Option<ExprOrSpread> {
-        Fold::fold_opt_expr_or_spread(self, node)
+        Fold::fold_opt_expr_or_spread(&mut **self, node)
     }
 
     fn fold_opt_expr_or_spreads(
         &mut self,
         node: Option<Vec<ExprOrSpread>>,
     ) -> Option<Vec<ExprOrSpread>> {
-        Fold::fold_opt_expr_or_spreads(self, node)
+        Fold::fold_opt_expr_or_spreads(&mut **self, node)
     }
 
     fn fold_opt_ident(&mut self, node: Option<Ident>) -> Option<Ident> {
-        Fold::fold_opt_ident(self, node)
+        Fold::fold_opt_ident(&mut **self, node)
     }
 
     fn fold_opt_jsx_attr_value(&mut self, node: Option<JSXAttrValue>) -> Option<JSXAttrValue> {
-        Fold::fold_opt_jsx_attr_value(self, node)
+        Fold::fold_opt_jsx_attr_value(&mut **self, node)
     }
 
     fn fold_opt_jsx_closing_element(
         &mut self,
         node: Option<JSXClosingElement>,
     ) -> Option<JSXClosingElement> {
-        Fold::fold_opt_jsx_closing_element(self, node)
+        Fold::fold_opt_jsx_closing_element(&mut **self, node)
     }
 
     fn fold_opt_module_export_name(
         &mut self,
         node: Option<ModuleExportName>,
     ) -> Option<ModuleExportName> {
-        Fold::fold_opt_module_export_name(self, node)
+        Fold::fold_opt_module_export_name(&mut **self, node)
     }
 
     fn fold_opt_module_items(&mut self, node: Option<Vec<ModuleItem>>) -> Option<Vec<ModuleItem>> {
-        Fold::fold_opt_module_items(self, node)
+        Fold::fold_opt_module_items(&mut **self, node)
     }
 
     fn fold_opt_object_lit(&mut self, node: Option<Box<ObjectLit>>) -> Option<Box<ObjectLit>> {
-        Fold::fold_opt_object_lit(self, node)
+        Fold::fold_opt_object_lit(&mut **self, node)
     }
 
     fn fold_opt_pat(&mut self, node: Option<Pat>) -> Option<Pat> {
-        Fold::fold_opt_pat(self, node)
+        Fold::fold_opt_pat(&mut **self, node)
     }
 
     fn fold_opt_span(&mut self, node: Option<swc_common::Span>) -> Option<swc_common::Span> {
-        Fold::fold_opt_span(self, node)
+        Fold::fold_opt_span(&mut **self, node)
     }
 
     fn fold_opt_stmt(&mut self, node: Option<Box<Stmt>>) -> Option<Box<Stmt>> {
-        Fold::fold_opt_stmt(self, node)
+        Fold::fold_opt_stmt(&mut **self, node)
     }
 
     fn fold_opt_str(&mut self, node: Option<Box<Str>>) -> Option<Box<Str>> {
-        Fold::fold_opt_str(self, node)
+        Fold::fold_opt_str(&mut **self, node)
     }
 
     fn fold_opt_true_plus_minus(&mut self, node: Option<TruePlusMinus>) -> Option<TruePlusMinus> {
-        Fold::fold_opt_true_plus_minus(self, node)
+        Fold::fold_opt_true_plus_minus(&mut **self, node)
     }
 
     fn fold_opt_ts_entity_name(&mut self, node: Option<TsEntityName>) -> Option<TsEntityName> {
-        Fold::fold_opt_ts_entity_name(self, node)
+        Fold::fold_opt_ts_entity_name(&mut **self, node)
     }
 
     fn fold_opt_ts_namespace_body(
         &mut self,
         node: Option<TsNamespaceBody>,
     ) -> Option<TsNamespaceBody> {
-        Fold::fold_opt_ts_namespace_body(self, node)
+        Fold::fold_opt_ts_namespace_body(&mut **self, node)
     }
 
     fn fold_opt_ts_type(&mut self, node: Option<Box<TsType>>) -> Option<Box<TsType>> {
-        Fold::fold_opt_ts_type(self, node)
+        Fold::fold_opt_ts_type(&mut **self, node)
     }
 
     fn fold_opt_ts_type_ann(&mut self, node: Option<Box<TsTypeAnn>>) -> Option<Box<TsTypeAnn>> {
-        Fold::fold_opt_ts_type_ann(self, node)
+        Fold::fold_opt_ts_type_ann(&mut **self, node)
     }
 
     fn fold_opt_ts_type_param_decl(
         &mut self,
         node: Option<Box<TsTypeParamDecl>>,
     ) -> Option<Box<TsTypeParamDecl>> {
-        Fold::fold_opt_ts_type_param_decl(self, node)
+        Fold::fold_opt_ts_type_param_decl(&mut **self, node)
     }
 
     fn fold_opt_ts_type_param_instantiation(
         &mut self,
         node: Option<Box<TsTypeParamInstantiation>>,
     ) -> Option<Box<TsTypeParamInstantiation>> {
-        Fold::fold_opt_ts_type_param_instantiation(self, node)
+        Fold::fold_opt_ts_type_param_instantiation(&mut **self, node)
     }
 
     fn fold_opt_var_decl_or_expr(&mut self, node: Option<VarDeclOrExpr>) -> Option<VarDeclOrExpr> {
-        Fold::fold_opt_var_decl_or_expr(self, node)
+        Fold::fold_opt_var_decl_or_expr(&mut **self, node)
     }
 
     fn fold_opt_vec_expr_or_spreads(
         &mut self,
         node: Vec<Option<ExprOrSpread>>,
     ) -> Vec<Option<ExprOrSpread>> {
-        Fold::fold_opt_vec_expr_or_spreads(self, node)
+        Fold::fold_opt_vec_expr_or_spreads(&mut **self, node)
     }
 
     fn fold_opt_vec_pats(&mut self, node: Vec<Option<Pat>>) -> Vec<Option<Pat>> {
-        Fold::fold_opt_vec_pats(self, node)
+        Fold::fold_opt_vec_pats(&mut **self, node)
     }
 
     fn fold_param(&mut self, node: Param) -> Param {
-        Fold::fold_param(self, node)
+        Fold::fold_param(&mut **self, node)
     }
 
     fn fold_param_or_ts_param_prop(&mut self, node: ParamOrTsParamProp) -> ParamOrTsParamProp {
-        Fold::fold_param_or_ts_param_prop(self, node)
+        Fold::fold_param_or_ts_param_prop(&mut **self, node)
     }
 
     fn fold_param_or_ts_param_props(
         &mut self,
         node: Vec<ParamOrTsParamProp>,
     ) -> Vec<ParamOrTsParamProp> {
-        Fold::fold_param_or_ts_param_props(self, node)
+        Fold::fold_param_or_ts_param_props(&mut **self, node)
     }
 
     fn fold_params(&mut self, node: Vec<Param>) -> Vec<Param> {
-        Fold::fold_params(self, node)
+        Fold::fold_params(&mut **self, node)
     }
 
     fn fold_paren_expr(&mut self, node: ParenExpr) -> ParenExpr {
-        Fold::fold_paren_expr(self, node)
+        Fold::fold_paren_expr(&mut **self, node)
     }
 
     fn fold_pat(&mut self, node: Pat) -> Pat {
-        Fold::fold_pat(self, node)
+        Fold::fold_pat(&mut **self, node)
     }
 
     fn fold_pats(&mut self, node: Vec<Pat>) -> Vec<Pat> {
-        Fold::fold_pats(self, node)
+        Fold::fold_pats(&mut **self, node)
     }
 
     fn fold_private_method(&mut self, node: PrivateMethod) -> PrivateMethod {
-        Fold::fold_private_method(self, node)
+        Fold::fold_private_method(&mut **self, node)
     }
 
     fn fold_private_name(&mut self, node: PrivateName) -> PrivateName {
-        Fold::fold_private_name(self, node)
+        Fold::fold_private_name(&mut **self, node)
     }
 
     fn fold_private_prop(&mut self, node: PrivateProp) -> PrivateProp {
-        Fold::fold_private_prop(self, node)
+        Fold::fold_private_prop(&mut **self, node)
     }
 
     fn fold_program(&mut self, node: Program) -> Program {
-        Fold::fold_program(self, node)
+        Fold::fold_program(&mut **self, node)
     }
 
     fn fold_prop(&mut self, node: Prop) -> Prop {
-        Fold::fold_prop(self, node)
+        Fold::fold_prop(&mut **self, node)
     }
 
     fn fold_prop_name(&mut self, node: PropName) -> PropName {
-        Fold::fold_prop_name(self, node)
+        Fold::fold_prop_name(&mut **self, node)
     }
 
     fn fold_prop_or_spread(&mut self, node: PropOrSpread) -> PropOrSpread {
-        Fold::fold_prop_or_spread(self, node)
+        Fold::fold_prop_or_spread(&mut **self, node)
     }
 
     fn fold_prop_or_spreads(&mut self, node: Vec<PropOrSpread>) -> Vec<PropOrSpread> {
-        Fold::fold_prop_or_spreads(self, node)
+        Fold::fold_prop_or_spreads(&mut **self, node)
     }
 
     fn fold_regex(&mut self, node: Regex) -> Regex {
-        Fold::fold_regex(self, node)
+        Fold::fold_regex(&mut **self, node)
     }
 
     fn fold_reserved_unused(&mut self, node: ReservedUnused) -> ReservedUnused {
-        Fold::fold_reserved_unused(self, node)
+        Fold::fold_reserved_unused(&mut **self, node)
     }
 
     fn fold_rest_pat(&mut self, node: RestPat) -> RestPat {
-        Fold::fold_rest_pat(self, node)
+        Fold::fold_rest_pat(&mut **self, node)
     }
 
     fn fold_return_stmt(&mut self, node: ReturnStmt) -> ReturnStmt {
-        Fold::fold_return_stmt(self, node)
+        Fold::fold_return_stmt(&mut **self, node)
     }
 
     fn fold_script(&mut self, node: Script) -> Script {
-        Fold::fold_script(self, node)
+        Fold::fold_script(&mut **self, node)
     }
 
     fn fold_seq_expr(&mut self, node: SeqExpr) -> SeqExpr {
-        Fold::fold_seq_expr(self, node)
+        Fold::fold_seq_expr(&mut **self, node)
     }
 
     fn fold_setter_prop(&mut self, node: SetterProp) -> SetterProp {
-        Fold::fold_setter_prop(self, node)
+        Fold::fold_setter_prop(&mut **self, node)
     }
 
     fn fold_simple_assign_target(&mut self, node: SimpleAssignTarget) -> SimpleAssignTarget {
-        Fold::fold_simple_assign_target(self, node)
+        Fold::fold_simple_assign_target(&mut **self, node)
     }
 
     fn fold_span(&mut self, node: swc_common::Span) -> swc_common::Span {
-        Fold::fold_span(self, node)
+        Fold::fold_span(&mut **self, node)
     }
 
     fn fold_spread_element(&mut self, node: SpreadElement) -> SpreadElement {
-        Fold::fold_spread_element(self, node)
+        Fold::fold_spread_element(&mut **self, node)
     }
 
     fn fold_static_block(&mut self, node: StaticBlock) -> StaticBlock {
-        Fold::fold_static_block(self, node)
+        Fold::fold_static_block(&mut **self, node)
     }
 
     fn fold_stmt(&mut self, node: Stmt) -> Stmt {
-        Fold::fold_stmt(self, node)
+        Fold::fold_stmt(&mut **self, node)
     }
 
     fn fold_stmts(&mut self, node: Vec<Stmt>) -> Vec<Stmt> {
-        Fold::fold_stmts(self, node)
+        Fold::fold_stmts(&mut **self, node)
     }
 
     fn fold_str(&mut self, node: Str) -> Str {
-        Fold::fold_str(self, node)
+        Fold::fold_str(&mut **self, node)
     }
 
     fn fold_super(&mut self, node: Super) -> Super {
-        Fold::fold_super(self, node)
+        Fold::fold_super(&mut **self, node)
     }
 
     fn fold_super_prop(&mut self, node: SuperProp) -> SuperProp {
-        Fold::fold_super_prop(self, node)
+        Fold::fold_super_prop(&mut **self, node)
     }
 
     fn fold_super_prop_expr(&mut self, node: SuperPropExpr) -> SuperPropExpr {
-        Fold::fold_super_prop_expr(self, node)
+        Fold::fold_super_prop_expr(&mut **self, node)
     }
 
     fn fold_switch_case(&mut self, node: SwitchCase) -> SwitchCase {
-        Fold::fold_switch_case(self, node)
+        Fold::fold_switch_case(&mut **self, node)
     }
 
     fn fold_switch_cases(&mut self, node: Vec<SwitchCase>) -> Vec<SwitchCase> {
-        Fold::fold_switch_cases(self, node)
+        Fold::fold_switch_cases(&mut **self, node)
     }
 
     fn fold_switch_stmt(&mut self, node: SwitchStmt) -> SwitchStmt {
-        Fold::fold_switch_stmt(self, node)
+        Fold::fold_switch_stmt(&mut **self, node)
     }
 
     fn fold_syntax_context(
         &mut self,
         node: swc_common::SyntaxContext,
     ) -> swc_common::SyntaxContext {
-        Fold::fold_syntax_context(self, node)
+        Fold::fold_syntax_context(&mut **self, node)
     }
 
     fn fold_tagged_tpl(&mut self, node: TaggedTpl) -> TaggedTpl {
-        Fold::fold_tagged_tpl(self, node)
+        Fold::fold_tagged_tpl(&mut **self, node)
     }
 
     fn fold_this_expr(&mut self, node: ThisExpr) -> ThisExpr {
-        Fold::fold_this_expr(self, node)
+        Fold::fold_this_expr(&mut **self, node)
     }
 
     fn fold_throw_stmt(&mut self, node: ThrowStmt) -> ThrowStmt {
-        Fold::fold_throw_stmt(self, node)
+        Fold::fold_throw_stmt(&mut **self, node)
     }
 
     fn fold_tpl(&mut self, node: Tpl) -> Tpl {
-        Fold::fold_tpl(self, node)
+        Fold::fold_tpl(&mut **self, node)
     }
 
     fn fold_tpl_element(&mut self, node: TplElement) -> TplElement {
-        Fold::fold_tpl_element(self, node)
+        Fold::fold_tpl_element(&mut **self, node)
     }
 
     fn fold_tpl_elements(&mut self, node: Vec<TplElement>) -> Vec<TplElement> {
-        Fold::fold_tpl_elements(self, node)
+        Fold::fold_tpl_elements(&mut **self, node)
     }
 
     fn fold_true_plus_minus(&mut self, node: TruePlusMinus) -> TruePlusMinus {
-        Fold::fold_true_plus_minus(self, node)
+        Fold::fold_true_plus_minus(&mut **self, node)
     }
 
     fn fold_try_stmt(&mut self, node: TryStmt) -> TryStmt {
-        Fold::fold_try_stmt(self, node)
+        Fold::fold_try_stmt(&mut **self, node)
     }
 
     fn fold_ts_array_type(&mut self, node: TsArrayType) -> TsArrayType {
-        Fold::fold_ts_array_type(self, node)
+        Fold::fold_ts_array_type(&mut **self, node)
     }
 
     fn fold_ts_as_expr(&mut self, node: TsAsExpr) -> TsAsExpr {
-        Fold::fold_ts_as_expr(self, node)
+        Fold::fold_ts_as_expr(&mut **self, node)
     }
 
     fn fold_ts_call_signature_decl(&mut self, node: TsCallSignatureDecl) -> TsCallSignatureDecl {
-        Fold::fold_ts_call_signature_decl(self, node)
+        Fold::fold_ts_call_signature_decl(&mut **self, node)
     }
 
     fn fold_ts_conditional_type(&mut self, node: TsConditionalType) -> TsConditionalType {
-        Fold::fold_ts_conditional_type(self, node)
+        Fold::fold_ts_conditional_type(&mut **self, node)
     }
 
     fn fold_ts_const_assertion(&mut self, node: TsConstAssertion) -> TsConstAssertion {
-        Fold::fold_ts_const_assertion(self, node)
+        Fold::fold_ts_const_assertion(&mut **self, node)
     }
 
     fn fold_ts_construct_signature_decl(
         &mut self,
         node: TsConstructSignatureDecl,
     ) -> TsConstructSignatureDecl {
-        Fold::fold_ts_construct_signature_decl(self, node)
+        Fold::fold_ts_construct_signature_decl(&mut **self, node)
     }
 
     fn fold_ts_constructor_type(&mut self, node: TsConstructorType) -> TsConstructorType {
-        Fold::fold_ts_constructor_type(self, node)
+        Fold::fold_ts_constructor_type(&mut **self, node)
     }
 
     fn fold_ts_entity_name(&mut self, node: TsEntityName) -> TsEntityName {
-        Fold::fold_ts_entity_name(self, node)
+        Fold::fold_ts_entity_name(&mut **self, node)
     }
 
     fn fold_ts_enum_decl(&mut self, node: TsEnumDecl) -> TsEnumDecl {
-        Fold::fold_ts_enum_decl(self, node)
+        Fold::fold_ts_enum_decl(&mut **self, node)
     }
 
     fn fold_ts_enum_member(&mut self, node: TsEnumMember) -> TsEnumMember {
-        Fold::fold_ts_enum_member(self, node)
+        Fold::fold_ts_enum_member(&mut **self, node)
     }
 
     fn fold_ts_enum_member_id(&mut self, node: TsEnumMemberId) -> TsEnumMemberId {
-        Fold::fold_ts_enum_member_id(self, node)
+        Fold::fold_ts_enum_member_id(&mut **self, node)
     }
 
     fn fold_ts_enum_members(&mut self, node: Vec<TsEnumMember>) -> Vec<TsEnumMember> {
-        Fold::fold_ts_enum_members(self, node)
+        Fold::fold_ts_enum_members(&mut **self, node)
     }
 
     fn fold_ts_export_assignment(&mut self, node: TsExportAssignment) -> TsExportAssignment {
-        Fold::fold_ts_export_assignment(self, node)
+        Fold::fold_ts_export_assignment(&mut **self, node)
     }
 
     fn fold_ts_expr_with_type_args(&mut self, node: TsExprWithTypeArgs) -> TsExprWithTypeArgs {
-        Fold::fold_ts_expr_with_type_args(self, node)
+        Fold::fold_ts_expr_with_type_args(&mut **self, node)
     }
 
     fn fold_ts_expr_with_type_argss(
         &mut self,
         node: Vec<TsExprWithTypeArgs>,
     ) -> Vec<TsExprWithTypeArgs> {
-        Fold::fold_ts_expr_with_type_argss(self, node)
+        Fold::fold_ts_expr_with_type_argss(&mut **self, node)
     }
 
     fn fold_ts_external_module_ref(&mut self, node: TsExternalModuleRef) -> TsExternalModuleRef {
-        Fold::fold_ts_external_module_ref(self, node)
+        Fold::fold_ts_external_module_ref(&mut **self, node)
     }
 
     fn fold_ts_fn_or_constructor_type(
         &mut self,
         node: TsFnOrConstructorType,
     ) -> TsFnOrConstructorType {
-        Fold::fold_ts_fn_or_constructor_type(self, node)
+        Fold::fold_ts_fn_or_constructor_type(&mut **self, node)
     }
 
     fn fold_ts_fn_param(&mut self, node: TsFnParam) -> TsFnParam {
-        Fold::fold_ts_fn_param(self, node)
+        Fold::fold_ts_fn_param(&mut **self, node)
     }
 
     fn fold_ts_fn_params(&mut self, node: Vec<TsFnParam>) -> Vec<TsFnParam> {
-        Fold::fold_ts_fn_params(self, node)
+        Fold::fold_ts_fn_params(&mut **self, node)
     }
 
     fn fold_ts_fn_type(&mut self, node: TsFnType) -> TsFnType {
-        Fold::fold_ts_fn_type(self, node)
+        Fold::fold_ts_fn_type(&mut **self, node)
     }
 
     fn fold_ts_getter_signature(&mut self, node: TsGetterSignature) -> TsGetterSignature {
-        Fold::fold_ts_getter_signature(self, node)
+        Fold::fold_ts_getter_signature(&mut **self, node)
     }
 
     fn fold_ts_import_equals_decl(&mut self, node: TsImportEqualsDecl) -> TsImportEqualsDecl {
-        Fold::fold_ts_import_equals_decl(self, node)
+        Fold::fold_ts_import_equals_decl(&mut **self, node)
     }
 
     fn fold_ts_import_type(&mut self, node: TsImportType) -> TsImportType {
-        Fold::fold_ts_import_type(self, node)
+        Fold::fold_ts_import_type(&mut **self, node)
     }
 
     fn fold_ts_index_signature(&mut self, node: TsIndexSignature) -> TsIndexSignature {
-        Fold::fold_ts_index_signature(self, node)
+        Fold::fold_ts_index_signature(&mut **self, node)
     }
 
     fn fold_ts_indexed_access_type(&mut self, node: TsIndexedAccessType) -> TsIndexedAccessType {
-        Fold::fold_ts_indexed_access_type(self, node)
+        Fold::fold_ts_indexed_access_type(&mut **self, node)
     }
 
     fn fold_ts_infer_type(&mut self, node: TsInferType) -> TsInferType {
-        Fold::fold_ts_infer_type(self, node)
+        Fold::fold_ts_infer_type(&mut **self, node)
     }
 
     fn fold_ts_instantiation(&mut self, node: TsInstantiation) -> TsInstantiation {
-        Fold::fold_ts_instantiation(self, node)
+        Fold::fold_ts_instantiation(&mut **self, node)
     }
 
     fn fold_ts_interface_body(&mut self, node: TsInterfaceBody) -> TsInterfaceBody {
-        Fold::fold_ts_interface_body(self, node)
+        Fold::fold_ts_interface_body(&mut **self, node)
     }
 
     fn fold_ts_interface_decl(&mut self, node: TsInterfaceDecl) -> TsInterfaceDecl {
-        Fold::fold_ts_interface_decl(self, node)
+        Fold::fold_ts_interface_decl(&mut **self, node)
     }
 
     fn fold_ts_intersection_type(&mut self, node: TsIntersectionType) -> TsIntersectionType {
-        Fold::fold_ts_intersection_type(self, node)
+        Fold::fold_ts_intersection_type(&mut **self, node)
     }
 
     fn fold_ts_keyword_type(&mut self, node: TsKeywordType) -> TsKeywordType {
-        Fold::fold_ts_keyword_type(self, node)
+        Fold::fold_ts_keyword_type(&mut **self, node)
     }
 
     fn fold_ts_keyword_type_kind(&mut self, node: TsKeywordTypeKind) -> TsKeywordTypeKind {
-        Fold::fold_ts_keyword_type_kind(self, node)
+        Fold::fold_ts_keyword_type_kind(&mut **self, node)
     }
 
     fn fold_ts_lit(&mut self, node: TsLit) -> TsLit {
-        Fold::fold_ts_lit(self, node)
+        Fold::fold_ts_lit(&mut **self, node)
     }
 
     fn fold_ts_lit_type(&mut self, node: TsLitType) -> TsLitType {
-        Fold::fold_ts_lit_type(self, node)
+        Fold::fold_ts_lit_type(&mut **self, node)
     }
 
     fn fold_ts_mapped_type(&mut self, node: TsMappedType) -> TsMappedType {
-        Fold::fold_ts_mapped_type(self, node)
+        Fold::fold_ts_mapped_type(&mut **self, node)
     }
 
     fn fold_ts_method_signature(&mut self, node: TsMethodSignature) -> TsMethodSignature {
-        Fold::fold_ts_method_signature(self, node)
+        Fold::fold_ts_method_signature(&mut **self, node)
     }
 
     fn fold_ts_module_block(&mut self, node: TsModuleBlock) -> TsModuleBlock {
-        Fold::fold_ts_module_block(self, node)
+        Fold::fold_ts_module_block(&mut **self, node)
     }
 
     fn fold_ts_module_decl(&mut self, node: TsModuleDecl) -> TsModuleDecl {
-        Fold::fold_ts_module_decl(self, node)
+        Fold::fold_ts_module_decl(&mut **self, node)
     }
 
     fn fold_ts_module_name(&mut self, node: TsModuleName) -> TsModuleName {
-        Fold::fold_ts_module_name(self, node)
+        Fold::fold_ts_module_name(&mut **self, node)
     }
 
     fn fold_ts_module_ref(&mut self, node: TsModuleRef) -> TsModuleRef {
-        Fold::fold_ts_module_ref(self, node)
+        Fold::fold_ts_module_ref(&mut **self, node)
     }
 
     fn fold_ts_namespace_body(&mut self, node: TsNamespaceBody) -> TsNamespaceBody {
-        Fold::fold_ts_namespace_body(self, node)
+        Fold::fold_ts_namespace_body(&mut **self, node)
     }
 
     fn fold_ts_namespace_decl(&mut self, node: TsNamespaceDecl) -> TsNamespaceDecl {
-        Fold::fold_ts_namespace_decl(self, node)
+        Fold::fold_ts_namespace_decl(&mut **self, node)
     }
 
     fn fold_ts_namespace_export_decl(
         &mut self,
         node: TsNamespaceExportDecl,
     ) -> TsNamespaceExportDecl {
-        Fold::fold_ts_namespace_export_decl(self, node)
+        Fold::fold_ts_namespace_export_decl(&mut **self, node)
     }
 
     fn fold_ts_non_null_expr(&mut self, node: TsNonNullExpr) -> TsNonNullExpr {
-        Fold::fold_ts_non_null_expr(self, node)
+        Fold::fold_ts_non_null_expr(&mut **self, node)
     }
 
     fn fold_ts_optional_type(&mut self, node: TsOptionalType) -> TsOptionalType {
-        Fold::fold_ts_optional_type(self, node)
+        Fold::fold_ts_optional_type(&mut **self, node)
     }
 
     fn fold_ts_param_prop(&mut self, node: TsParamProp) -> TsParamProp {
-        Fold::fold_ts_param_prop(self, node)
+        Fold::fold_ts_param_prop(&mut **self, node)
     }
 
     fn fold_ts_param_prop_param(&mut self, node: TsParamPropParam) -> TsParamPropParam {
-        Fold::fold_ts_param_prop_param(self, node)
+        Fold::fold_ts_param_prop_param(&mut **self, node)
     }
 
     fn fold_ts_parenthesized_type(&mut self, node: TsParenthesizedType) -> TsParenthesizedType {
-        Fold::fold_ts_parenthesized_type(self, node)
+        Fold::fold_ts_parenthesized_type(&mut **self, node)
     }
 
     fn fold_ts_property_signature(&mut self, node: TsPropertySignature) -> TsPropertySignature {
-        Fold::fold_ts_property_signature(self, node)
+        Fold::fold_ts_property_signature(&mut **self, node)
     }
 
     fn fold_ts_qualified_name(&mut self, node: TsQualifiedName) -> TsQualifiedName {
-        Fold::fold_ts_qualified_name(self, node)
+        Fold::fold_ts_qualified_name(&mut **self, node)
     }
 
     fn fold_ts_rest_type(&mut self, node: TsRestType) -> TsRestType {
-        Fold::fold_ts_rest_type(self, node)
+        Fold::fold_ts_rest_type(&mut **self, node)
     }
 
     fn fold_ts_satisfies_expr(&mut self, node: TsSatisfiesExpr) -> TsSatisfiesExpr {
-        Fold::fold_ts_satisfies_expr(self, node)
+        Fold::fold_ts_satisfies_expr(&mut **self, node)
     }
 
     fn fold_ts_setter_signature(&mut self, node: TsSetterSignature) -> TsSetterSignature {
-        Fold::fold_ts_setter_signature(self, node)
+        Fold::fold_ts_setter_signature(&mut **self, node)
     }
 
     fn fold_ts_this_type(&mut self, node: TsThisType) -> TsThisType {
-        Fold::fold_ts_this_type(self, node)
+        Fold::fold_ts_this_type(&mut **self, node)
     }
 
     fn fold_ts_this_type_or_ident(&mut self, node: TsThisTypeOrIdent) -> TsThisTypeOrIdent {
-        Fold::fold_ts_this_type_or_ident(self, node)
+        Fold::fold_ts_this_type_or_ident(&mut **self, node)
     }
 
     fn fold_ts_tpl_lit_type(&mut self, node: TsTplLitType) -> TsTplLitType {
-        Fold::fold_ts_tpl_lit_type(self, node)
+        Fold::fold_ts_tpl_lit_type(&mut **self, node)
     }
 
     fn fold_ts_tuple_element(&mut self, node: TsTupleElement) -> TsTupleElement {
-        Fold::fold_ts_tuple_element(self, node)
+        Fold::fold_ts_tuple_element(&mut **self, node)
     }
 
     fn fold_ts_tuple_elements(&mut self, node: Vec<TsTupleElement>) -> Vec<TsTupleElement> {
-        Fold::fold_ts_tuple_elements(self, node)
+        Fold::fold_ts_tuple_elements(&mut **self, node)
     }
 
     fn fold_ts_tuple_type(&mut self, node: TsTupleType) -> TsTupleType {
-        Fold::fold_ts_tuple_type(self, node)
+        Fold::fold_ts_tuple_type(&mut **self, node)
     }
 
     fn fold_ts_type(&mut self, node: TsType) -> TsType {
-        Fold::fold_ts_type(self, node)
+        Fold::fold_ts_type(&mut **self, node)
     }
 
     fn fold_ts_type_alias_decl(&mut self, node: TsTypeAliasDecl) -> TsTypeAliasDecl {
-        Fold::fold_ts_type_alias_decl(self, node)
+        Fold::fold_ts_type_alias_decl(&mut **self, node)
     }
 
     fn fold_ts_type_ann(&mut self, node: TsTypeAnn) -> TsTypeAnn {
-        Fold::fold_ts_type_ann(self, node)
+        Fold::fold_ts_type_ann(&mut **self, node)
     }
 
     fn fold_ts_type_assertion(&mut self, node: TsTypeAssertion) -> TsTypeAssertion {
-        Fold::fold_ts_type_assertion(self, node)
+        Fold::fold_ts_type_assertion(&mut **self, node)
     }
 
     fn fold_ts_type_element(&mut self, node: TsTypeElement) -> TsTypeElement {
-        Fold::fold_ts_type_element(self, node)
+        Fold::fold_ts_type_element(&mut **self, node)
     }
 
     fn fold_ts_type_elements(&mut self, node: Vec<TsTypeElement>) -> Vec<TsTypeElement> {
-        Fold::fold_ts_type_elements(self, node)
+        Fold::fold_ts_type_elements(&mut **self, node)
     }
 
     fn fold_ts_type_lit(&mut self, node: TsTypeLit) -> TsTypeLit {
-        Fold::fold_ts_type_lit(self, node)
+        Fold::fold_ts_type_lit(&mut **self, node)
     }
 
     fn fold_ts_type_operator(&mut self, node: TsTypeOperator) -> TsTypeOperator {
-        Fold::fold_ts_type_operator(self, node)
+        Fold::fold_ts_type_operator(&mut **self, node)
     }
 
     fn fold_ts_type_operator_op(&mut self, node: TsTypeOperatorOp) -> TsTypeOperatorOp {
-        Fold::fold_ts_type_operator_op(self, node)
+        Fold::fold_ts_type_operator_op(&mut **self, node)
     }
 
     fn fold_ts_type_param(&mut self, node: TsTypeParam) -> TsTypeParam {
-        Fold::fold_ts_type_param(self, node)
+        Fold::fold_ts_type_param(&mut **self, node)
     }
 
     fn fold_ts_type_param_decl(&mut self, node: TsTypeParamDecl) -> TsTypeParamDecl {
-        Fold::fold_ts_type_param_decl(self, node)
+        Fold::fold_ts_type_param_decl(&mut **self, node)
     }
 
     fn fold_ts_type_param_instantiation(
         &mut self,
         node: TsTypeParamInstantiation,
     ) -> TsTypeParamInstantiation {
-        Fold::fold_ts_type_param_instantiation(self, node)
+        Fold::fold_ts_type_param_instantiation(&mut **self, node)
     }
 
     fn fold_ts_type_params(&mut self, node: Vec<TsTypeParam>) -> Vec<TsTypeParam> {
-        Fold::fold_ts_type_params(self, node)
+        Fold::fold_ts_type_params(&mut **self, node)
     }
 
     fn fold_ts_type_predicate(&mut self, node: TsTypePredicate) -> TsTypePredicate {
-        Fold::fold_ts_type_predicate(self, node)
+        Fold::fold_ts_type_predicate(&mut **self, node)
     }
 
     fn fold_ts_type_query(&mut self, node: TsTypeQuery) -> TsTypeQuery {
-        Fold::fold_ts_type_query(self, node)
+        Fold::fold_ts_type_query(&mut **self, node)
     }
 
     fn fold_ts_type_query_expr(&mut self, node: TsTypeQueryExpr) -> TsTypeQueryExpr {
-        Fold::fold_ts_type_query_expr(self, node)
+        Fold::fold_ts_type_query_expr(&mut **self, node)
     }
 
     fn fold_ts_type_ref(&mut self, node: TsTypeRef) -> TsTypeRef {
-        Fold::fold_ts_type_ref(self, node)
+        Fold::fold_ts_type_ref(&mut **self, node)
     }
 
     fn fold_ts_types(&mut self, node: Vec<Box<TsType>>) -> Vec<Box<TsType>> {
-        Fold::fold_ts_types(self, node)
+        Fold::fold_ts_types(&mut **self, node)
     }
 
     fn fold_ts_union_or_intersection_type(
         &mut self,
         node: TsUnionOrIntersectionType,
     ) -> TsUnionOrIntersectionType {
-        Fold::fold_ts_union_or_intersection_type(self, node)
+        Fold::fold_ts_union_or_intersection_type(&mut **self, node)
     }
 
     fn fold_ts_union_type(&mut self, node: TsUnionType) -> TsUnionType {
-        Fold::fold_ts_union_type(self, node)
+        Fold::fold_ts_union_type(&mut **self, node)
     }
 
     fn fold_unary_expr(&mut self, node: UnaryExpr) -> UnaryExpr {
-        Fold::fold_unary_expr(self, node)
+        Fold::fold_unary_expr(&mut **self, node)
     }
 
     fn fold_unary_op(&mut self, node: UnaryOp) -> UnaryOp {
-        Fold::fold_unary_op(self, node)
+        Fold::fold_unary_op(&mut **self, node)
     }
 
     fn fold_update_expr(&mut self, node: UpdateExpr) -> UpdateExpr {
-        Fold::fold_update_expr(self, node)
+        Fold::fold_update_expr(&mut **self, node)
     }
 
     fn fold_update_op(&mut self, node: UpdateOp) -> UpdateOp {
-        Fold::fold_update_op(self, node)
+        Fold::fold_update_op(&mut **self, node)
     }
 
     fn fold_using_decl(&mut self, node: UsingDecl) -> UsingDecl {
-        Fold::fold_using_decl(self, node)
+        Fold::fold_using_decl(&mut **self, node)
     }
 
     fn fold_var_decl(&mut self, node: VarDecl) -> VarDecl {
-        Fold::fold_var_decl(self, node)
+        Fold::fold_var_decl(&mut **self, node)
     }
 
     fn fold_var_decl_kind(&mut self, node: VarDeclKind) -> VarDeclKind {
-        Fold::fold_var_decl_kind(self, node)
+        Fold::fold_var_decl_kind(&mut **self, node)
     }
 
     fn fold_var_decl_or_expr(&mut self, node: VarDeclOrExpr) -> VarDeclOrExpr {
-        Fold::fold_var_decl_or_expr(self, node)
+        Fold::fold_var_decl_or_expr(&mut **self, node)
     }
 
     fn fold_var_declarator(&mut self, node: VarDeclarator) -> VarDeclarator {
-        Fold::fold_var_declarator(self, node)
+        Fold::fold_var_declarator(&mut **self, node)
     }
 
     fn fold_var_declarators(&mut self, node: Vec<VarDeclarator>) -> Vec<VarDeclarator> {
-        Fold::fold_var_declarators(self, node)
+        Fold::fold_var_declarators(&mut **self, node)
     }
 
     fn fold_while_stmt(&mut self, node: WhileStmt) -> WhileStmt {
-        Fold::fold_while_stmt(self, node)
+        Fold::fold_while_stmt(&mut **self, node)
     }
 
     fn fold_with_stmt(&mut self, node: WithStmt) -> WithStmt {
-        Fold::fold_with_stmt(self, node)
+        Fold::fold_with_stmt(&mut **self, node)
     }
 
     fn fold_yield_expr(&mut self, node: YieldExpr) -> YieldExpr {
-        Fold::fold_yield_expr(self, node)
+        Fold::fold_yield_expr(&mut **self, node)
     }
 }
 impl<A, B> Fold for ::swc_visit::Either<A, B>
@@ -87324,31 +87324,31 @@ where
         node: Accessibility,
         ast_path: &mut AstKindPath,
     ) -> Accessibility {
-        FoldAstPath::fold_accessibility(self, node, ast_path)
+        FoldAstPath::fold_accessibility(&mut **self, node, ast_path)
     }
 
     fn fold_array_lit(&mut self, node: ArrayLit, ast_path: &mut AstKindPath) -> ArrayLit {
-        FoldAstPath::fold_array_lit(self, node, ast_path)
+        FoldAstPath::fold_array_lit(&mut **self, node, ast_path)
     }
 
     fn fold_array_pat(&mut self, node: ArrayPat, ast_path: &mut AstKindPath) -> ArrayPat {
-        FoldAstPath::fold_array_pat(self, node, ast_path)
+        FoldAstPath::fold_array_pat(&mut **self, node, ast_path)
     }
 
     fn fold_arrow_expr(&mut self, node: ArrowExpr, ast_path: &mut AstKindPath) -> ArrowExpr {
-        FoldAstPath::fold_arrow_expr(self, node, ast_path)
+        FoldAstPath::fold_arrow_expr(&mut **self, node, ast_path)
     }
 
     fn fold_assign_expr(&mut self, node: AssignExpr, ast_path: &mut AstKindPath) -> AssignExpr {
-        FoldAstPath::fold_assign_expr(self, node, ast_path)
+        FoldAstPath::fold_assign_expr(&mut **self, node, ast_path)
     }
 
     fn fold_assign_op(&mut self, node: AssignOp, ast_path: &mut AstKindPath) -> AssignOp {
-        FoldAstPath::fold_assign_op(self, node, ast_path)
+        FoldAstPath::fold_assign_op(&mut **self, node, ast_path)
     }
 
     fn fold_assign_pat(&mut self, node: AssignPat, ast_path: &mut AstKindPath) -> AssignPat {
-        FoldAstPath::fold_assign_pat(self, node, ast_path)
+        FoldAstPath::fold_assign_pat(&mut **self, node, ast_path)
     }
 
     fn fold_assign_pat_prop(
@@ -87356,11 +87356,11 @@ where
         node: AssignPatProp,
         ast_path: &mut AstKindPath,
     ) -> AssignPatProp {
-        FoldAstPath::fold_assign_pat_prop(self, node, ast_path)
+        FoldAstPath::fold_assign_pat_prop(&mut **self, node, ast_path)
     }
 
     fn fold_assign_prop(&mut self, node: AssignProp, ast_path: &mut AstKindPath) -> AssignProp {
-        FoldAstPath::fold_assign_prop(self, node, ast_path)
+        FoldAstPath::fold_assign_prop(&mut **self, node, ast_path)
     }
 
     fn fold_assign_target(
@@ -87368,7 +87368,7 @@ where
         node: AssignTarget,
         ast_path: &mut AstKindPath,
     ) -> AssignTarget {
-        FoldAstPath::fold_assign_target(self, node, ast_path)
+        FoldAstPath::fold_assign_target(&mut **self, node, ast_path)
     }
 
     fn fold_assign_target_pat(
@@ -87376,11 +87376,11 @@ where
         node: AssignTargetPat,
         ast_path: &mut AstKindPath,
     ) -> AssignTargetPat {
-        FoldAstPath::fold_assign_target_pat(self, node, ast_path)
+        FoldAstPath::fold_assign_target_pat(&mut **self, node, ast_path)
     }
 
     fn fold_atom(&mut self, node: swc_atoms::Atom, ast_path: &mut AstKindPath) -> swc_atoms::Atom {
-        FoldAstPath::fold_atom(self, node, ast_path)
+        FoldAstPath::fold_atom(&mut **self, node, ast_path)
     }
 
     fn fold_auto_accessor(
@@ -87388,27 +87388,27 @@ where
         node: AutoAccessor,
         ast_path: &mut AstKindPath,
     ) -> AutoAccessor {
-        FoldAstPath::fold_auto_accessor(self, node, ast_path)
+        FoldAstPath::fold_auto_accessor(&mut **self, node, ast_path)
     }
 
     fn fold_await_expr(&mut self, node: AwaitExpr, ast_path: &mut AstKindPath) -> AwaitExpr {
-        FoldAstPath::fold_await_expr(self, node, ast_path)
+        FoldAstPath::fold_await_expr(&mut **self, node, ast_path)
     }
 
     fn fold_big_int(&mut self, node: BigInt, ast_path: &mut AstKindPath) -> BigInt {
-        FoldAstPath::fold_big_int(self, node, ast_path)
+        FoldAstPath::fold_big_int(&mut **self, node, ast_path)
     }
 
     fn fold_big_int_value(&mut self, node: BigIntValue, ast_path: &mut AstKindPath) -> BigIntValue {
-        FoldAstPath::fold_big_int_value(self, node, ast_path)
+        FoldAstPath::fold_big_int_value(&mut **self, node, ast_path)
     }
 
     fn fold_bin_expr(&mut self, node: BinExpr, ast_path: &mut AstKindPath) -> BinExpr {
-        FoldAstPath::fold_bin_expr(self, node, ast_path)
+        FoldAstPath::fold_bin_expr(&mut **self, node, ast_path)
     }
 
     fn fold_binary_op(&mut self, node: BinaryOp, ast_path: &mut AstKindPath) -> BinaryOp {
-        FoldAstPath::fold_binary_op(self, node, ast_path)
+        FoldAstPath::fold_binary_op(&mut **self, node, ast_path)
     }
 
     fn fold_binding_ident(
@@ -87416,11 +87416,11 @@ where
         node: BindingIdent,
         ast_path: &mut AstKindPath,
     ) -> BindingIdent {
-        FoldAstPath::fold_binding_ident(self, node, ast_path)
+        FoldAstPath::fold_binding_ident(&mut **self, node, ast_path)
     }
 
     fn fold_block_stmt(&mut self, node: BlockStmt, ast_path: &mut AstKindPath) -> BlockStmt {
-        FoldAstPath::fold_block_stmt(self, node, ast_path)
+        FoldAstPath::fold_block_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_block_stmt_or_expr(
@@ -87428,43 +87428,43 @@ where
         node: BlockStmtOrExpr,
         ast_path: &mut AstKindPath,
     ) -> BlockStmtOrExpr {
-        FoldAstPath::fold_block_stmt_or_expr(self, node, ast_path)
+        FoldAstPath::fold_block_stmt_or_expr(&mut **self, node, ast_path)
     }
 
     fn fold_bool(&mut self, node: Bool, ast_path: &mut AstKindPath) -> Bool {
-        FoldAstPath::fold_bool(self, node, ast_path)
+        FoldAstPath::fold_bool(&mut **self, node, ast_path)
     }
 
     fn fold_break_stmt(&mut self, node: BreakStmt, ast_path: &mut AstKindPath) -> BreakStmt {
-        FoldAstPath::fold_break_stmt(self, node, ast_path)
+        FoldAstPath::fold_break_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_call_expr(&mut self, node: CallExpr, ast_path: &mut AstKindPath) -> CallExpr {
-        FoldAstPath::fold_call_expr(self, node, ast_path)
+        FoldAstPath::fold_call_expr(&mut **self, node, ast_path)
     }
 
     fn fold_callee(&mut self, node: Callee, ast_path: &mut AstKindPath) -> Callee {
-        FoldAstPath::fold_callee(self, node, ast_path)
+        FoldAstPath::fold_callee(&mut **self, node, ast_path)
     }
 
     fn fold_catch_clause(&mut self, node: CatchClause, ast_path: &mut AstKindPath) -> CatchClause {
-        FoldAstPath::fold_catch_clause(self, node, ast_path)
+        FoldAstPath::fold_catch_clause(&mut **self, node, ast_path)
     }
 
     fn fold_class(&mut self, node: Class, ast_path: &mut AstKindPath) -> Class {
-        FoldAstPath::fold_class(self, node, ast_path)
+        FoldAstPath::fold_class(&mut **self, node, ast_path)
     }
 
     fn fold_class_decl(&mut self, node: ClassDecl, ast_path: &mut AstKindPath) -> ClassDecl {
-        FoldAstPath::fold_class_decl(self, node, ast_path)
+        FoldAstPath::fold_class_decl(&mut **self, node, ast_path)
     }
 
     fn fold_class_expr(&mut self, node: ClassExpr, ast_path: &mut AstKindPath) -> ClassExpr {
-        FoldAstPath::fold_class_expr(self, node, ast_path)
+        FoldAstPath::fold_class_expr(&mut **self, node, ast_path)
     }
 
     fn fold_class_member(&mut self, node: ClassMember, ast_path: &mut AstKindPath) -> ClassMember {
-        FoldAstPath::fold_class_member(self, node, ast_path)
+        FoldAstPath::fold_class_member(&mut **self, node, ast_path)
     }
 
     fn fold_class_members(
@@ -87472,15 +87472,15 @@ where
         node: Vec<ClassMember>,
         ast_path: &mut AstKindPath,
     ) -> Vec<ClassMember> {
-        FoldAstPath::fold_class_members(self, node, ast_path)
+        FoldAstPath::fold_class_members(&mut **self, node, ast_path)
     }
 
     fn fold_class_method(&mut self, node: ClassMethod, ast_path: &mut AstKindPath) -> ClassMethod {
-        FoldAstPath::fold_class_method(self, node, ast_path)
+        FoldAstPath::fold_class_method(&mut **self, node, ast_path)
     }
 
     fn fold_class_prop(&mut self, node: ClassProp, ast_path: &mut AstKindPath) -> ClassProp {
-        FoldAstPath::fold_class_prop(self, node, ast_path)
+        FoldAstPath::fold_class_prop(&mut **self, node, ast_path)
     }
 
     fn fold_computed_prop_name(
@@ -87488,15 +87488,15 @@ where
         node: ComputedPropName,
         ast_path: &mut AstKindPath,
     ) -> ComputedPropName {
-        FoldAstPath::fold_computed_prop_name(self, node, ast_path)
+        FoldAstPath::fold_computed_prop_name(&mut **self, node, ast_path)
     }
 
     fn fold_cond_expr(&mut self, node: CondExpr, ast_path: &mut AstKindPath) -> CondExpr {
-        FoldAstPath::fold_cond_expr(self, node, ast_path)
+        FoldAstPath::fold_cond_expr(&mut **self, node, ast_path)
     }
 
     fn fold_constructor(&mut self, node: Constructor, ast_path: &mut AstKindPath) -> Constructor {
-        FoldAstPath::fold_constructor(self, node, ast_path)
+        FoldAstPath::fold_constructor(&mut **self, node, ast_path)
     }
 
     fn fold_continue_stmt(
@@ -87504,7 +87504,7 @@ where
         node: ContinueStmt,
         ast_path: &mut AstKindPath,
     ) -> ContinueStmt {
-        FoldAstPath::fold_continue_stmt(self, node, ast_path)
+        FoldAstPath::fold_continue_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_debugger_stmt(
@@ -87512,15 +87512,15 @@ where
         node: DebuggerStmt,
         ast_path: &mut AstKindPath,
     ) -> DebuggerStmt {
-        FoldAstPath::fold_debugger_stmt(self, node, ast_path)
+        FoldAstPath::fold_debugger_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_decl(&mut self, node: Decl, ast_path: &mut AstKindPath) -> Decl {
-        FoldAstPath::fold_decl(self, node, ast_path)
+        FoldAstPath::fold_decl(&mut **self, node, ast_path)
     }
 
     fn fold_decorator(&mut self, node: Decorator, ast_path: &mut AstKindPath) -> Decorator {
-        FoldAstPath::fold_decorator(self, node, ast_path)
+        FoldAstPath::fold_decorator(&mut **self, node, ast_path)
     }
 
     fn fold_decorators(
@@ -87528,31 +87528,31 @@ where
         node: Vec<Decorator>,
         ast_path: &mut AstKindPath,
     ) -> Vec<Decorator> {
-        FoldAstPath::fold_decorators(self, node, ast_path)
+        FoldAstPath::fold_decorators(&mut **self, node, ast_path)
     }
 
     fn fold_default_decl(&mut self, node: DefaultDecl, ast_path: &mut AstKindPath) -> DefaultDecl {
-        FoldAstPath::fold_default_decl(self, node, ast_path)
+        FoldAstPath::fold_default_decl(&mut **self, node, ast_path)
     }
 
     fn fold_do_while_stmt(&mut self, node: DoWhileStmt, ast_path: &mut AstKindPath) -> DoWhileStmt {
-        FoldAstPath::fold_do_while_stmt(self, node, ast_path)
+        FoldAstPath::fold_do_while_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_empty_stmt(&mut self, node: EmptyStmt, ast_path: &mut AstKindPath) -> EmptyStmt {
-        FoldAstPath::fold_empty_stmt(self, node, ast_path)
+        FoldAstPath::fold_empty_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_es_version(&mut self, node: EsVersion, ast_path: &mut AstKindPath) -> EsVersion {
-        FoldAstPath::fold_es_version(self, node, ast_path)
+        FoldAstPath::fold_es_version(&mut **self, node, ast_path)
     }
 
     fn fold_export_all(&mut self, node: ExportAll, ast_path: &mut AstKindPath) -> ExportAll {
-        FoldAstPath::fold_export_all(self, node, ast_path)
+        FoldAstPath::fold_export_all(&mut **self, node, ast_path)
     }
 
     fn fold_export_decl(&mut self, node: ExportDecl, ast_path: &mut AstKindPath) -> ExportDecl {
-        FoldAstPath::fold_export_decl(self, node, ast_path)
+        FoldAstPath::fold_export_decl(&mut **self, node, ast_path)
     }
 
     fn fold_export_default_decl(
@@ -87560,7 +87560,7 @@ where
         node: ExportDefaultDecl,
         ast_path: &mut AstKindPath,
     ) -> ExportDefaultDecl {
-        FoldAstPath::fold_export_default_decl(self, node, ast_path)
+        FoldAstPath::fold_export_default_decl(&mut **self, node, ast_path)
     }
 
     fn fold_export_default_expr(
@@ -87568,7 +87568,7 @@ where
         node: ExportDefaultExpr,
         ast_path: &mut AstKindPath,
     ) -> ExportDefaultExpr {
-        FoldAstPath::fold_export_default_expr(self, node, ast_path)
+        FoldAstPath::fold_export_default_expr(&mut **self, node, ast_path)
     }
 
     fn fold_export_default_specifier(
@@ -87576,7 +87576,7 @@ where
         node: ExportDefaultSpecifier,
         ast_path: &mut AstKindPath,
     ) -> ExportDefaultSpecifier {
-        FoldAstPath::fold_export_default_specifier(self, node, ast_path)
+        FoldAstPath::fold_export_default_specifier(&mut **self, node, ast_path)
     }
 
     fn fold_export_named_specifier(
@@ -87584,7 +87584,7 @@ where
         node: ExportNamedSpecifier,
         ast_path: &mut AstKindPath,
     ) -> ExportNamedSpecifier {
-        FoldAstPath::fold_export_named_specifier(self, node, ast_path)
+        FoldAstPath::fold_export_named_specifier(&mut **self, node, ast_path)
     }
 
     fn fold_export_namespace_specifier(
@@ -87592,7 +87592,7 @@ where
         node: ExportNamespaceSpecifier,
         ast_path: &mut AstKindPath,
     ) -> ExportNamespaceSpecifier {
-        FoldAstPath::fold_export_namespace_specifier(self, node, ast_path)
+        FoldAstPath::fold_export_namespace_specifier(&mut **self, node, ast_path)
     }
 
     fn fold_export_specifier(
@@ -87600,7 +87600,7 @@ where
         node: ExportSpecifier,
         ast_path: &mut AstKindPath,
     ) -> ExportSpecifier {
-        FoldAstPath::fold_export_specifier(self, node, ast_path)
+        FoldAstPath::fold_export_specifier(&mut **self, node, ast_path)
     }
 
     fn fold_export_specifiers(
@@ -87608,11 +87608,11 @@ where
         node: Vec<ExportSpecifier>,
         ast_path: &mut AstKindPath,
     ) -> Vec<ExportSpecifier> {
-        FoldAstPath::fold_export_specifiers(self, node, ast_path)
+        FoldAstPath::fold_export_specifiers(&mut **self, node, ast_path)
     }
 
     fn fold_expr(&mut self, node: Expr, ast_path: &mut AstKindPath) -> Expr {
-        FoldAstPath::fold_expr(self, node, ast_path)
+        FoldAstPath::fold_expr(&mut **self, node, ast_path)
     }
 
     fn fold_expr_or_spread(
@@ -87620,7 +87620,7 @@ where
         node: ExprOrSpread,
         ast_path: &mut AstKindPath,
     ) -> ExprOrSpread {
-        FoldAstPath::fold_expr_or_spread(self, node, ast_path)
+        FoldAstPath::fold_expr_or_spread(&mut **self, node, ast_path)
     }
 
     fn fold_expr_or_spreads(
@@ -87628,67 +87628,67 @@ where
         node: Vec<ExprOrSpread>,
         ast_path: &mut AstKindPath,
     ) -> Vec<ExprOrSpread> {
-        FoldAstPath::fold_expr_or_spreads(self, node, ast_path)
+        FoldAstPath::fold_expr_or_spreads(&mut **self, node, ast_path)
     }
 
     fn fold_expr_stmt(&mut self, node: ExprStmt, ast_path: &mut AstKindPath) -> ExprStmt {
-        FoldAstPath::fold_expr_stmt(self, node, ast_path)
+        FoldAstPath::fold_expr_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_exprs(&mut self, node: Vec<Box<Expr>>, ast_path: &mut AstKindPath) -> Vec<Box<Expr>> {
-        FoldAstPath::fold_exprs(self, node, ast_path)
+        FoldAstPath::fold_exprs(&mut **self, node, ast_path)
     }
 
     fn fold_fn_decl(&mut self, node: FnDecl, ast_path: &mut AstKindPath) -> FnDecl {
-        FoldAstPath::fold_fn_decl(self, node, ast_path)
+        FoldAstPath::fold_fn_decl(&mut **self, node, ast_path)
     }
 
     fn fold_fn_expr(&mut self, node: FnExpr, ast_path: &mut AstKindPath) -> FnExpr {
-        FoldAstPath::fold_fn_expr(self, node, ast_path)
+        FoldAstPath::fold_fn_expr(&mut **self, node, ast_path)
     }
 
     fn fold_for_head(&mut self, node: ForHead, ast_path: &mut AstKindPath) -> ForHead {
-        FoldAstPath::fold_for_head(self, node, ast_path)
+        FoldAstPath::fold_for_head(&mut **self, node, ast_path)
     }
 
     fn fold_for_in_stmt(&mut self, node: ForInStmt, ast_path: &mut AstKindPath) -> ForInStmt {
-        FoldAstPath::fold_for_in_stmt(self, node, ast_path)
+        FoldAstPath::fold_for_in_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_for_of_stmt(&mut self, node: ForOfStmt, ast_path: &mut AstKindPath) -> ForOfStmt {
-        FoldAstPath::fold_for_of_stmt(self, node, ast_path)
+        FoldAstPath::fold_for_of_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_for_stmt(&mut self, node: ForStmt, ast_path: &mut AstKindPath) -> ForStmt {
-        FoldAstPath::fold_for_stmt(self, node, ast_path)
+        FoldAstPath::fold_for_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_function(&mut self, node: Function, ast_path: &mut AstKindPath) -> Function {
-        FoldAstPath::fold_function(self, node, ast_path)
+        FoldAstPath::fold_function(&mut **self, node, ast_path)
     }
 
     fn fold_getter_prop(&mut self, node: GetterProp, ast_path: &mut AstKindPath) -> GetterProp {
-        FoldAstPath::fold_getter_prop(self, node, ast_path)
+        FoldAstPath::fold_getter_prop(&mut **self, node, ast_path)
     }
 
     fn fold_ident(&mut self, node: Ident, ast_path: &mut AstKindPath) -> Ident {
-        FoldAstPath::fold_ident(self, node, ast_path)
+        FoldAstPath::fold_ident(&mut **self, node, ast_path)
     }
 
     fn fold_ident_name(&mut self, node: IdentName, ast_path: &mut AstKindPath) -> IdentName {
-        FoldAstPath::fold_ident_name(self, node, ast_path)
+        FoldAstPath::fold_ident_name(&mut **self, node, ast_path)
     }
 
     fn fold_if_stmt(&mut self, node: IfStmt, ast_path: &mut AstKindPath) -> IfStmt {
-        FoldAstPath::fold_if_stmt(self, node, ast_path)
+        FoldAstPath::fold_if_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_import(&mut self, node: Import, ast_path: &mut AstKindPath) -> Import {
-        FoldAstPath::fold_import(self, node, ast_path)
+        FoldAstPath::fold_import(&mut **self, node, ast_path)
     }
 
     fn fold_import_decl(&mut self, node: ImportDecl, ast_path: &mut AstKindPath) -> ImportDecl {
-        FoldAstPath::fold_import_decl(self, node, ast_path)
+        FoldAstPath::fold_import_decl(&mut **self, node, ast_path)
     }
 
     fn fold_import_default_specifier(
@@ -87696,7 +87696,7 @@ where
         node: ImportDefaultSpecifier,
         ast_path: &mut AstKindPath,
     ) -> ImportDefaultSpecifier {
-        FoldAstPath::fold_import_default_specifier(self, node, ast_path)
+        FoldAstPath::fold_import_default_specifier(&mut **self, node, ast_path)
     }
 
     fn fold_import_named_specifier(
@@ -87704,11 +87704,11 @@ where
         node: ImportNamedSpecifier,
         ast_path: &mut AstKindPath,
     ) -> ImportNamedSpecifier {
-        FoldAstPath::fold_import_named_specifier(self, node, ast_path)
+        FoldAstPath::fold_import_named_specifier(&mut **self, node, ast_path)
     }
 
     fn fold_import_phase(&mut self, node: ImportPhase, ast_path: &mut AstKindPath) -> ImportPhase {
-        FoldAstPath::fold_import_phase(self, node, ast_path)
+        FoldAstPath::fold_import_phase(&mut **self, node, ast_path)
     }
 
     fn fold_import_specifier(
@@ -87716,7 +87716,7 @@ where
         node: ImportSpecifier,
         ast_path: &mut AstKindPath,
     ) -> ImportSpecifier {
-        FoldAstPath::fold_import_specifier(self, node, ast_path)
+        FoldAstPath::fold_import_specifier(&mut **self, node, ast_path)
     }
 
     fn fold_import_specifiers(
@@ -87724,7 +87724,7 @@ where
         node: Vec<ImportSpecifier>,
         ast_path: &mut AstKindPath,
     ) -> Vec<ImportSpecifier> {
-        FoldAstPath::fold_import_specifiers(self, node, ast_path)
+        FoldAstPath::fold_import_specifiers(&mut **self, node, ast_path)
     }
 
     fn fold_import_star_as_specifier(
@@ -87732,11 +87732,11 @@ where
         node: ImportStarAsSpecifier,
         ast_path: &mut AstKindPath,
     ) -> ImportStarAsSpecifier {
-        FoldAstPath::fold_import_star_as_specifier(self, node, ast_path)
+        FoldAstPath::fold_import_star_as_specifier(&mut **self, node, ast_path)
     }
 
     fn fold_import_with(&mut self, node: ImportWith, ast_path: &mut AstKindPath) -> ImportWith {
-        FoldAstPath::fold_import_with(self, node, ast_path)
+        FoldAstPath::fold_import_with(&mut **self, node, ast_path)
     }
 
     fn fold_import_with_item(
@@ -87744,7 +87744,7 @@ where
         node: ImportWithItem,
         ast_path: &mut AstKindPath,
     ) -> ImportWithItem {
-        FoldAstPath::fold_import_with_item(self, node, ast_path)
+        FoldAstPath::fold_import_with_item(&mut **self, node, ast_path)
     }
 
     fn fold_import_with_items(
@@ -87752,19 +87752,19 @@ where
         node: Vec<ImportWithItem>,
         ast_path: &mut AstKindPath,
     ) -> Vec<ImportWithItem> {
-        FoldAstPath::fold_import_with_items(self, node, ast_path)
+        FoldAstPath::fold_import_with_items(&mut **self, node, ast_path)
     }
 
     fn fold_invalid(&mut self, node: Invalid, ast_path: &mut AstKindPath) -> Invalid {
-        FoldAstPath::fold_invalid(self, node, ast_path)
+        FoldAstPath::fold_invalid(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_attr(&mut self, node: JSXAttr, ast_path: &mut AstKindPath) -> JSXAttr {
-        FoldAstPath::fold_jsx_attr(self, node, ast_path)
+        FoldAstPath::fold_jsx_attr(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_attr_name(&mut self, node: JSXAttrName, ast_path: &mut AstKindPath) -> JSXAttrName {
-        FoldAstPath::fold_jsx_attr_name(self, node, ast_path)
+        FoldAstPath::fold_jsx_attr_name(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_attr_or_spread(
@@ -87772,7 +87772,7 @@ where
         node: JSXAttrOrSpread,
         ast_path: &mut AstKindPath,
     ) -> JSXAttrOrSpread {
-        FoldAstPath::fold_jsx_attr_or_spread(self, node, ast_path)
+        FoldAstPath::fold_jsx_attr_or_spread(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_attr_or_spreads(
@@ -87780,7 +87780,7 @@ where
         node: Vec<JSXAttrOrSpread>,
         ast_path: &mut AstKindPath,
     ) -> Vec<JSXAttrOrSpread> {
-        FoldAstPath::fold_jsx_attr_or_spreads(self, node, ast_path)
+        FoldAstPath::fold_jsx_attr_or_spreads(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_attr_value(
@@ -87788,7 +87788,7 @@ where
         node: JSXAttrValue,
         ast_path: &mut AstKindPath,
     ) -> JSXAttrValue {
-        FoldAstPath::fold_jsx_attr_value(self, node, ast_path)
+        FoldAstPath::fold_jsx_attr_value(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_closing_element(
@@ -87796,7 +87796,7 @@ where
         node: JSXClosingElement,
         ast_path: &mut AstKindPath,
     ) -> JSXClosingElement {
-        FoldAstPath::fold_jsx_closing_element(self, node, ast_path)
+        FoldAstPath::fold_jsx_closing_element(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_closing_fragment(
@@ -87804,11 +87804,11 @@ where
         node: JSXClosingFragment,
         ast_path: &mut AstKindPath,
     ) -> JSXClosingFragment {
-        FoldAstPath::fold_jsx_closing_fragment(self, node, ast_path)
+        FoldAstPath::fold_jsx_closing_fragment(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_element(&mut self, node: JSXElement, ast_path: &mut AstKindPath) -> JSXElement {
-        FoldAstPath::fold_jsx_element(self, node, ast_path)
+        FoldAstPath::fold_jsx_element(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_element_child(
@@ -87816,7 +87816,7 @@ where
         node: JSXElementChild,
         ast_path: &mut AstKindPath,
     ) -> JSXElementChild {
-        FoldAstPath::fold_jsx_element_child(self, node, ast_path)
+        FoldAstPath::fold_jsx_element_child(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_element_childs(
@@ -87824,7 +87824,7 @@ where
         node: Vec<JSXElementChild>,
         ast_path: &mut AstKindPath,
     ) -> Vec<JSXElementChild> {
-        FoldAstPath::fold_jsx_element_childs(self, node, ast_path)
+        FoldAstPath::fold_jsx_element_childs(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_element_name(
@@ -87832,7 +87832,7 @@ where
         node: JSXElementName,
         ast_path: &mut AstKindPath,
     ) -> JSXElementName {
-        FoldAstPath::fold_jsx_element_name(self, node, ast_path)
+        FoldAstPath::fold_jsx_element_name(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_empty_expr(
@@ -87840,11 +87840,11 @@ where
         node: JSXEmptyExpr,
         ast_path: &mut AstKindPath,
     ) -> JSXEmptyExpr {
-        FoldAstPath::fold_jsx_empty_expr(self, node, ast_path)
+        FoldAstPath::fold_jsx_empty_expr(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_expr(&mut self, node: JSXExpr, ast_path: &mut AstKindPath) -> JSXExpr {
-        FoldAstPath::fold_jsx_expr(self, node, ast_path)
+        FoldAstPath::fold_jsx_expr(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_expr_container(
@@ -87852,11 +87852,11 @@ where
         node: JSXExprContainer,
         ast_path: &mut AstKindPath,
     ) -> JSXExprContainer {
-        FoldAstPath::fold_jsx_expr_container(self, node, ast_path)
+        FoldAstPath::fold_jsx_expr_container(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_fragment(&mut self, node: JSXFragment, ast_path: &mut AstKindPath) -> JSXFragment {
-        FoldAstPath::fold_jsx_fragment(self, node, ast_path)
+        FoldAstPath::fold_jsx_fragment(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_member_expr(
@@ -87864,7 +87864,7 @@ where
         node: JSXMemberExpr,
         ast_path: &mut AstKindPath,
     ) -> JSXMemberExpr {
-        FoldAstPath::fold_jsx_member_expr(self, node, ast_path)
+        FoldAstPath::fold_jsx_member_expr(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_namespaced_name(
@@ -87872,11 +87872,11 @@ where
         node: JSXNamespacedName,
         ast_path: &mut AstKindPath,
     ) -> JSXNamespacedName {
-        FoldAstPath::fold_jsx_namespaced_name(self, node, ast_path)
+        FoldAstPath::fold_jsx_namespaced_name(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_object(&mut self, node: JSXObject, ast_path: &mut AstKindPath) -> JSXObject {
-        FoldAstPath::fold_jsx_object(self, node, ast_path)
+        FoldAstPath::fold_jsx_object(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_opening_element(
@@ -87884,7 +87884,7 @@ where
         node: JSXOpeningElement,
         ast_path: &mut AstKindPath,
     ) -> JSXOpeningElement {
-        FoldAstPath::fold_jsx_opening_element(self, node, ast_path)
+        FoldAstPath::fold_jsx_opening_element(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_opening_fragment(
@@ -87892,7 +87892,7 @@ where
         node: JSXOpeningFragment,
         ast_path: &mut AstKindPath,
     ) -> JSXOpeningFragment {
-        FoldAstPath::fold_jsx_opening_fragment(self, node, ast_path)
+        FoldAstPath::fold_jsx_opening_fragment(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_spread_child(
@@ -87900,15 +87900,15 @@ where
         node: JSXSpreadChild,
         ast_path: &mut AstKindPath,
     ) -> JSXSpreadChild {
-        FoldAstPath::fold_jsx_spread_child(self, node, ast_path)
+        FoldAstPath::fold_jsx_spread_child(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_text(&mut self, node: JSXText, ast_path: &mut AstKindPath) -> JSXText {
-        FoldAstPath::fold_jsx_text(self, node, ast_path)
+        FoldAstPath::fold_jsx_text(&mut **self, node, ast_path)
     }
 
     fn fold_key(&mut self, node: Key, ast_path: &mut AstKindPath) -> Key {
-        FoldAstPath::fold_key(self, node, ast_path)
+        FoldAstPath::fold_key(&mut **self, node, ast_path)
     }
 
     fn fold_key_value_pat_prop(
@@ -87916,7 +87916,7 @@ where
         node: KeyValuePatProp,
         ast_path: &mut AstKindPath,
     ) -> KeyValuePatProp {
-        FoldAstPath::fold_key_value_pat_prop(self, node, ast_path)
+        FoldAstPath::fold_key_value_pat_prop(&mut **self, node, ast_path)
     }
 
     fn fold_key_value_prop(
@@ -87924,23 +87924,23 @@ where
         node: KeyValueProp,
         ast_path: &mut AstKindPath,
     ) -> KeyValueProp {
-        FoldAstPath::fold_key_value_prop(self, node, ast_path)
+        FoldAstPath::fold_key_value_prop(&mut **self, node, ast_path)
     }
 
     fn fold_labeled_stmt(&mut self, node: LabeledStmt, ast_path: &mut AstKindPath) -> LabeledStmt {
-        FoldAstPath::fold_labeled_stmt(self, node, ast_path)
+        FoldAstPath::fold_labeled_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_lit(&mut self, node: Lit, ast_path: &mut AstKindPath) -> Lit {
-        FoldAstPath::fold_lit(self, node, ast_path)
+        FoldAstPath::fold_lit(&mut **self, node, ast_path)
     }
 
     fn fold_member_expr(&mut self, node: MemberExpr, ast_path: &mut AstKindPath) -> MemberExpr {
-        FoldAstPath::fold_member_expr(self, node, ast_path)
+        FoldAstPath::fold_member_expr(&mut **self, node, ast_path)
     }
 
     fn fold_member_prop(&mut self, node: MemberProp, ast_path: &mut AstKindPath) -> MemberProp {
-        FoldAstPath::fold_member_prop(self, node, ast_path)
+        FoldAstPath::fold_member_prop(&mut **self, node, ast_path)
     }
 
     fn fold_meta_prop_expr(
@@ -87948,7 +87948,7 @@ where
         node: MetaPropExpr,
         ast_path: &mut AstKindPath,
     ) -> MetaPropExpr {
-        FoldAstPath::fold_meta_prop_expr(self, node, ast_path)
+        FoldAstPath::fold_meta_prop_expr(&mut **self, node, ast_path)
     }
 
     fn fold_meta_prop_kind(
@@ -87956,23 +87956,23 @@ where
         node: MetaPropKind,
         ast_path: &mut AstKindPath,
     ) -> MetaPropKind {
-        FoldAstPath::fold_meta_prop_kind(self, node, ast_path)
+        FoldAstPath::fold_meta_prop_kind(&mut **self, node, ast_path)
     }
 
     fn fold_method_kind(&mut self, node: MethodKind, ast_path: &mut AstKindPath) -> MethodKind {
-        FoldAstPath::fold_method_kind(self, node, ast_path)
+        FoldAstPath::fold_method_kind(&mut **self, node, ast_path)
     }
 
     fn fold_method_prop(&mut self, node: MethodProp, ast_path: &mut AstKindPath) -> MethodProp {
-        FoldAstPath::fold_method_prop(self, node, ast_path)
+        FoldAstPath::fold_method_prop(&mut **self, node, ast_path)
     }
 
     fn fold_module(&mut self, node: Module, ast_path: &mut AstKindPath) -> Module {
-        FoldAstPath::fold_module(self, node, ast_path)
+        FoldAstPath::fold_module(&mut **self, node, ast_path)
     }
 
     fn fold_module_decl(&mut self, node: ModuleDecl, ast_path: &mut AstKindPath) -> ModuleDecl {
-        FoldAstPath::fold_module_decl(self, node, ast_path)
+        FoldAstPath::fold_module_decl(&mut **self, node, ast_path)
     }
 
     fn fold_module_export_name(
@@ -87980,11 +87980,11 @@ where
         node: ModuleExportName,
         ast_path: &mut AstKindPath,
     ) -> ModuleExportName {
-        FoldAstPath::fold_module_export_name(self, node, ast_path)
+        FoldAstPath::fold_module_export_name(&mut **self, node, ast_path)
     }
 
     fn fold_module_item(&mut self, node: ModuleItem, ast_path: &mut AstKindPath) -> ModuleItem {
-        FoldAstPath::fold_module_item(self, node, ast_path)
+        FoldAstPath::fold_module_item(&mut **self, node, ast_path)
     }
 
     fn fold_module_items(
@@ -87992,31 +87992,31 @@ where
         node: Vec<ModuleItem>,
         ast_path: &mut AstKindPath,
     ) -> Vec<ModuleItem> {
-        FoldAstPath::fold_module_items(self, node, ast_path)
+        FoldAstPath::fold_module_items(&mut **self, node, ast_path)
     }
 
     fn fold_named_export(&mut self, node: NamedExport, ast_path: &mut AstKindPath) -> NamedExport {
-        FoldAstPath::fold_named_export(self, node, ast_path)
+        FoldAstPath::fold_named_export(&mut **self, node, ast_path)
     }
 
     fn fold_new_expr(&mut self, node: NewExpr, ast_path: &mut AstKindPath) -> NewExpr {
-        FoldAstPath::fold_new_expr(self, node, ast_path)
+        FoldAstPath::fold_new_expr(&mut **self, node, ast_path)
     }
 
     fn fold_null(&mut self, node: Null, ast_path: &mut AstKindPath) -> Null {
-        FoldAstPath::fold_null(self, node, ast_path)
+        FoldAstPath::fold_null(&mut **self, node, ast_path)
     }
 
     fn fold_number(&mut self, node: Number, ast_path: &mut AstKindPath) -> Number {
-        FoldAstPath::fold_number(self, node, ast_path)
+        FoldAstPath::fold_number(&mut **self, node, ast_path)
     }
 
     fn fold_object_lit(&mut self, node: ObjectLit, ast_path: &mut AstKindPath) -> ObjectLit {
-        FoldAstPath::fold_object_lit(self, node, ast_path)
+        FoldAstPath::fold_object_lit(&mut **self, node, ast_path)
     }
 
     fn fold_object_pat(&mut self, node: ObjectPat, ast_path: &mut AstKindPath) -> ObjectPat {
-        FoldAstPath::fold_object_pat(self, node, ast_path)
+        FoldAstPath::fold_object_pat(&mut **self, node, ast_path)
     }
 
     fn fold_object_pat_prop(
@@ -88024,7 +88024,7 @@ where
         node: ObjectPatProp,
         ast_path: &mut AstKindPath,
     ) -> ObjectPatProp {
-        FoldAstPath::fold_object_pat_prop(self, node, ast_path)
+        FoldAstPath::fold_object_pat_prop(&mut **self, node, ast_path)
     }
 
     fn fold_object_pat_props(
@@ -88032,7 +88032,7 @@ where
         node: Vec<ObjectPatProp>,
         ast_path: &mut AstKindPath,
     ) -> Vec<ObjectPatProp> {
-        FoldAstPath::fold_object_pat_props(self, node, ast_path)
+        FoldAstPath::fold_object_pat_props(&mut **self, node, ast_path)
     }
 
     fn fold_opt_accessibility(
@@ -88040,7 +88040,7 @@ where
         node: Option<Accessibility>,
         ast_path: &mut AstKindPath,
     ) -> Option<Accessibility> {
-        FoldAstPath::fold_opt_accessibility(self, node, ast_path)
+        FoldAstPath::fold_opt_accessibility(&mut **self, node, ast_path)
     }
 
     fn fold_opt_atom(
@@ -88048,7 +88048,7 @@ where
         node: Option<swc_atoms::Atom>,
         ast_path: &mut AstKindPath,
     ) -> Option<swc_atoms::Atom> {
-        FoldAstPath::fold_opt_atom(self, node, ast_path)
+        FoldAstPath::fold_opt_atom(&mut **self, node, ast_path)
     }
 
     fn fold_opt_block_stmt(
@@ -88056,11 +88056,11 @@ where
         node: Option<BlockStmt>,
         ast_path: &mut AstKindPath,
     ) -> Option<BlockStmt> {
-        FoldAstPath::fold_opt_block_stmt(self, node, ast_path)
+        FoldAstPath::fold_opt_block_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_opt_call(&mut self, node: OptCall, ast_path: &mut AstKindPath) -> OptCall {
-        FoldAstPath::fold_opt_call(self, node, ast_path)
+        FoldAstPath::fold_opt_call(&mut **self, node, ast_path)
     }
 
     fn fold_opt_catch_clause(
@@ -88068,7 +88068,7 @@ where
         node: Option<CatchClause>,
         ast_path: &mut AstKindPath,
     ) -> Option<CatchClause> {
-        FoldAstPath::fold_opt_catch_clause(self, node, ast_path)
+        FoldAstPath::fold_opt_catch_clause(&mut **self, node, ast_path)
     }
 
     fn fold_opt_chain_base(
@@ -88076,7 +88076,7 @@ where
         node: OptChainBase,
         ast_path: &mut AstKindPath,
     ) -> OptChainBase {
-        FoldAstPath::fold_opt_chain_base(self, node, ast_path)
+        FoldAstPath::fold_opt_chain_base(&mut **self, node, ast_path)
     }
 
     fn fold_opt_chain_expr(
@@ -88084,7 +88084,7 @@ where
         node: OptChainExpr,
         ast_path: &mut AstKindPath,
     ) -> OptChainExpr {
-        FoldAstPath::fold_opt_chain_expr(self, node, ast_path)
+        FoldAstPath::fold_opt_chain_expr(&mut **self, node, ast_path)
     }
 
     fn fold_opt_expr(
@@ -88092,7 +88092,7 @@ where
         node: Option<Box<Expr>>,
         ast_path: &mut AstKindPath,
     ) -> Option<Box<Expr>> {
-        FoldAstPath::fold_opt_expr(self, node, ast_path)
+        FoldAstPath::fold_opt_expr(&mut **self, node, ast_path)
     }
 
     fn fold_opt_expr_or_spread(
@@ -88100,7 +88100,7 @@ where
         node: Option<ExprOrSpread>,
         ast_path: &mut AstKindPath,
     ) -> Option<ExprOrSpread> {
-        FoldAstPath::fold_opt_expr_or_spread(self, node, ast_path)
+        FoldAstPath::fold_opt_expr_or_spread(&mut **self, node, ast_path)
     }
 
     fn fold_opt_expr_or_spreads(
@@ -88108,11 +88108,11 @@ where
         node: Option<Vec<ExprOrSpread>>,
         ast_path: &mut AstKindPath,
     ) -> Option<Vec<ExprOrSpread>> {
-        FoldAstPath::fold_opt_expr_or_spreads(self, node, ast_path)
+        FoldAstPath::fold_opt_expr_or_spreads(&mut **self, node, ast_path)
     }
 
     fn fold_opt_ident(&mut self, node: Option<Ident>, ast_path: &mut AstKindPath) -> Option<Ident> {
-        FoldAstPath::fold_opt_ident(self, node, ast_path)
+        FoldAstPath::fold_opt_ident(&mut **self, node, ast_path)
     }
 
     fn fold_opt_jsx_attr_value(
@@ -88120,7 +88120,7 @@ where
         node: Option<JSXAttrValue>,
         ast_path: &mut AstKindPath,
     ) -> Option<JSXAttrValue> {
-        FoldAstPath::fold_opt_jsx_attr_value(self, node, ast_path)
+        FoldAstPath::fold_opt_jsx_attr_value(&mut **self, node, ast_path)
     }
 
     fn fold_opt_jsx_closing_element(
@@ -88128,7 +88128,7 @@ where
         node: Option<JSXClosingElement>,
         ast_path: &mut AstKindPath,
     ) -> Option<JSXClosingElement> {
-        FoldAstPath::fold_opt_jsx_closing_element(self, node, ast_path)
+        FoldAstPath::fold_opt_jsx_closing_element(&mut **self, node, ast_path)
     }
 
     fn fold_opt_module_export_name(
@@ -88136,7 +88136,7 @@ where
         node: Option<ModuleExportName>,
         ast_path: &mut AstKindPath,
     ) -> Option<ModuleExportName> {
-        FoldAstPath::fold_opt_module_export_name(self, node, ast_path)
+        FoldAstPath::fold_opt_module_export_name(&mut **self, node, ast_path)
     }
 
     fn fold_opt_module_items(
@@ -88144,7 +88144,7 @@ where
         node: Option<Vec<ModuleItem>>,
         ast_path: &mut AstKindPath,
     ) -> Option<Vec<ModuleItem>> {
-        FoldAstPath::fold_opt_module_items(self, node, ast_path)
+        FoldAstPath::fold_opt_module_items(&mut **self, node, ast_path)
     }
 
     fn fold_opt_object_lit(
@@ -88152,11 +88152,11 @@ where
         node: Option<Box<ObjectLit>>,
         ast_path: &mut AstKindPath,
     ) -> Option<Box<ObjectLit>> {
-        FoldAstPath::fold_opt_object_lit(self, node, ast_path)
+        FoldAstPath::fold_opt_object_lit(&mut **self, node, ast_path)
     }
 
     fn fold_opt_pat(&mut self, node: Option<Pat>, ast_path: &mut AstKindPath) -> Option<Pat> {
-        FoldAstPath::fold_opt_pat(self, node, ast_path)
+        FoldAstPath::fold_opt_pat(&mut **self, node, ast_path)
     }
 
     fn fold_opt_span(
@@ -88164,7 +88164,7 @@ where
         node: Option<swc_common::Span>,
         ast_path: &mut AstKindPath,
     ) -> Option<swc_common::Span> {
-        FoldAstPath::fold_opt_span(self, node, ast_path)
+        FoldAstPath::fold_opt_span(&mut **self, node, ast_path)
     }
 
     fn fold_opt_stmt(
@@ -88172,7 +88172,7 @@ where
         node: Option<Box<Stmt>>,
         ast_path: &mut AstKindPath,
     ) -> Option<Box<Stmt>> {
-        FoldAstPath::fold_opt_stmt(self, node, ast_path)
+        FoldAstPath::fold_opt_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_opt_str(
@@ -88180,7 +88180,7 @@ where
         node: Option<Box<Str>>,
         ast_path: &mut AstKindPath,
     ) -> Option<Box<Str>> {
-        FoldAstPath::fold_opt_str(self, node, ast_path)
+        FoldAstPath::fold_opt_str(&mut **self, node, ast_path)
     }
 
     fn fold_opt_true_plus_minus(
@@ -88188,7 +88188,7 @@ where
         node: Option<TruePlusMinus>,
         ast_path: &mut AstKindPath,
     ) -> Option<TruePlusMinus> {
-        FoldAstPath::fold_opt_true_plus_minus(self, node, ast_path)
+        FoldAstPath::fold_opt_true_plus_minus(&mut **self, node, ast_path)
     }
 
     fn fold_opt_ts_entity_name(
@@ -88196,7 +88196,7 @@ where
         node: Option<TsEntityName>,
         ast_path: &mut AstKindPath,
     ) -> Option<TsEntityName> {
-        FoldAstPath::fold_opt_ts_entity_name(self, node, ast_path)
+        FoldAstPath::fold_opt_ts_entity_name(&mut **self, node, ast_path)
     }
 
     fn fold_opt_ts_namespace_body(
@@ -88204,7 +88204,7 @@ where
         node: Option<TsNamespaceBody>,
         ast_path: &mut AstKindPath,
     ) -> Option<TsNamespaceBody> {
-        FoldAstPath::fold_opt_ts_namespace_body(self, node, ast_path)
+        FoldAstPath::fold_opt_ts_namespace_body(&mut **self, node, ast_path)
     }
 
     fn fold_opt_ts_type(
@@ -88212,7 +88212,7 @@ where
         node: Option<Box<TsType>>,
         ast_path: &mut AstKindPath,
     ) -> Option<Box<TsType>> {
-        FoldAstPath::fold_opt_ts_type(self, node, ast_path)
+        FoldAstPath::fold_opt_ts_type(&mut **self, node, ast_path)
     }
 
     fn fold_opt_ts_type_ann(
@@ -88220,7 +88220,7 @@ where
         node: Option<Box<TsTypeAnn>>,
         ast_path: &mut AstKindPath,
     ) -> Option<Box<TsTypeAnn>> {
-        FoldAstPath::fold_opt_ts_type_ann(self, node, ast_path)
+        FoldAstPath::fold_opt_ts_type_ann(&mut **self, node, ast_path)
     }
 
     fn fold_opt_ts_type_param_decl(
@@ -88228,7 +88228,7 @@ where
         node: Option<Box<TsTypeParamDecl>>,
         ast_path: &mut AstKindPath,
     ) -> Option<Box<TsTypeParamDecl>> {
-        FoldAstPath::fold_opt_ts_type_param_decl(self, node, ast_path)
+        FoldAstPath::fold_opt_ts_type_param_decl(&mut **self, node, ast_path)
     }
 
     fn fold_opt_ts_type_param_instantiation(
@@ -88236,7 +88236,7 @@ where
         node: Option<Box<TsTypeParamInstantiation>>,
         ast_path: &mut AstKindPath,
     ) -> Option<Box<TsTypeParamInstantiation>> {
-        FoldAstPath::fold_opt_ts_type_param_instantiation(self, node, ast_path)
+        FoldAstPath::fold_opt_ts_type_param_instantiation(&mut **self, node, ast_path)
     }
 
     fn fold_opt_var_decl_or_expr(
@@ -88244,7 +88244,7 @@ where
         node: Option<VarDeclOrExpr>,
         ast_path: &mut AstKindPath,
     ) -> Option<VarDeclOrExpr> {
-        FoldAstPath::fold_opt_var_decl_or_expr(self, node, ast_path)
+        FoldAstPath::fold_opt_var_decl_or_expr(&mut **self, node, ast_path)
     }
 
     fn fold_opt_vec_expr_or_spreads(
@@ -88252,7 +88252,7 @@ where
         node: Vec<Option<ExprOrSpread>>,
         ast_path: &mut AstKindPath,
     ) -> Vec<Option<ExprOrSpread>> {
-        FoldAstPath::fold_opt_vec_expr_or_spreads(self, node, ast_path)
+        FoldAstPath::fold_opt_vec_expr_or_spreads(&mut **self, node, ast_path)
     }
 
     fn fold_opt_vec_pats(
@@ -88260,11 +88260,11 @@ where
         node: Vec<Option<Pat>>,
         ast_path: &mut AstKindPath,
     ) -> Vec<Option<Pat>> {
-        FoldAstPath::fold_opt_vec_pats(self, node, ast_path)
+        FoldAstPath::fold_opt_vec_pats(&mut **self, node, ast_path)
     }
 
     fn fold_param(&mut self, node: Param, ast_path: &mut AstKindPath) -> Param {
-        FoldAstPath::fold_param(self, node, ast_path)
+        FoldAstPath::fold_param(&mut **self, node, ast_path)
     }
 
     fn fold_param_or_ts_param_prop(
@@ -88272,7 +88272,7 @@ where
         node: ParamOrTsParamProp,
         ast_path: &mut AstKindPath,
     ) -> ParamOrTsParamProp {
-        FoldAstPath::fold_param_or_ts_param_prop(self, node, ast_path)
+        FoldAstPath::fold_param_or_ts_param_prop(&mut **self, node, ast_path)
     }
 
     fn fold_param_or_ts_param_props(
@@ -88280,23 +88280,23 @@ where
         node: Vec<ParamOrTsParamProp>,
         ast_path: &mut AstKindPath,
     ) -> Vec<ParamOrTsParamProp> {
-        FoldAstPath::fold_param_or_ts_param_props(self, node, ast_path)
+        FoldAstPath::fold_param_or_ts_param_props(&mut **self, node, ast_path)
     }
 
     fn fold_params(&mut self, node: Vec<Param>, ast_path: &mut AstKindPath) -> Vec<Param> {
-        FoldAstPath::fold_params(self, node, ast_path)
+        FoldAstPath::fold_params(&mut **self, node, ast_path)
     }
 
     fn fold_paren_expr(&mut self, node: ParenExpr, ast_path: &mut AstKindPath) -> ParenExpr {
-        FoldAstPath::fold_paren_expr(self, node, ast_path)
+        FoldAstPath::fold_paren_expr(&mut **self, node, ast_path)
     }
 
     fn fold_pat(&mut self, node: Pat, ast_path: &mut AstKindPath) -> Pat {
-        FoldAstPath::fold_pat(self, node, ast_path)
+        FoldAstPath::fold_pat(&mut **self, node, ast_path)
     }
 
     fn fold_pats(&mut self, node: Vec<Pat>, ast_path: &mut AstKindPath) -> Vec<Pat> {
-        FoldAstPath::fold_pats(self, node, ast_path)
+        FoldAstPath::fold_pats(&mut **self, node, ast_path)
     }
 
     fn fold_private_method(
@@ -88304,27 +88304,27 @@ where
         node: PrivateMethod,
         ast_path: &mut AstKindPath,
     ) -> PrivateMethod {
-        FoldAstPath::fold_private_method(self, node, ast_path)
+        FoldAstPath::fold_private_method(&mut **self, node, ast_path)
     }
 
     fn fold_private_name(&mut self, node: PrivateName, ast_path: &mut AstKindPath) -> PrivateName {
-        FoldAstPath::fold_private_name(self, node, ast_path)
+        FoldAstPath::fold_private_name(&mut **self, node, ast_path)
     }
 
     fn fold_private_prop(&mut self, node: PrivateProp, ast_path: &mut AstKindPath) -> PrivateProp {
-        FoldAstPath::fold_private_prop(self, node, ast_path)
+        FoldAstPath::fold_private_prop(&mut **self, node, ast_path)
     }
 
     fn fold_program(&mut self, node: Program, ast_path: &mut AstKindPath) -> Program {
-        FoldAstPath::fold_program(self, node, ast_path)
+        FoldAstPath::fold_program(&mut **self, node, ast_path)
     }
 
     fn fold_prop(&mut self, node: Prop, ast_path: &mut AstKindPath) -> Prop {
-        FoldAstPath::fold_prop(self, node, ast_path)
+        FoldAstPath::fold_prop(&mut **self, node, ast_path)
     }
 
     fn fold_prop_name(&mut self, node: PropName, ast_path: &mut AstKindPath) -> PropName {
-        FoldAstPath::fold_prop_name(self, node, ast_path)
+        FoldAstPath::fold_prop_name(&mut **self, node, ast_path)
     }
 
     fn fold_prop_or_spread(
@@ -88332,7 +88332,7 @@ where
         node: PropOrSpread,
         ast_path: &mut AstKindPath,
     ) -> PropOrSpread {
-        FoldAstPath::fold_prop_or_spread(self, node, ast_path)
+        FoldAstPath::fold_prop_or_spread(&mut **self, node, ast_path)
     }
 
     fn fold_prop_or_spreads(
@@ -88340,11 +88340,11 @@ where
         node: Vec<PropOrSpread>,
         ast_path: &mut AstKindPath,
     ) -> Vec<PropOrSpread> {
-        FoldAstPath::fold_prop_or_spreads(self, node, ast_path)
+        FoldAstPath::fold_prop_or_spreads(&mut **self, node, ast_path)
     }
 
     fn fold_regex(&mut self, node: Regex, ast_path: &mut AstKindPath) -> Regex {
-        FoldAstPath::fold_regex(self, node, ast_path)
+        FoldAstPath::fold_regex(&mut **self, node, ast_path)
     }
 
     fn fold_reserved_unused(
@@ -88352,27 +88352,27 @@ where
         node: ReservedUnused,
         ast_path: &mut AstKindPath,
     ) -> ReservedUnused {
-        FoldAstPath::fold_reserved_unused(self, node, ast_path)
+        FoldAstPath::fold_reserved_unused(&mut **self, node, ast_path)
     }
 
     fn fold_rest_pat(&mut self, node: RestPat, ast_path: &mut AstKindPath) -> RestPat {
-        FoldAstPath::fold_rest_pat(self, node, ast_path)
+        FoldAstPath::fold_rest_pat(&mut **self, node, ast_path)
     }
 
     fn fold_return_stmt(&mut self, node: ReturnStmt, ast_path: &mut AstKindPath) -> ReturnStmt {
-        FoldAstPath::fold_return_stmt(self, node, ast_path)
+        FoldAstPath::fold_return_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_script(&mut self, node: Script, ast_path: &mut AstKindPath) -> Script {
-        FoldAstPath::fold_script(self, node, ast_path)
+        FoldAstPath::fold_script(&mut **self, node, ast_path)
     }
 
     fn fold_seq_expr(&mut self, node: SeqExpr, ast_path: &mut AstKindPath) -> SeqExpr {
-        FoldAstPath::fold_seq_expr(self, node, ast_path)
+        FoldAstPath::fold_seq_expr(&mut **self, node, ast_path)
     }
 
     fn fold_setter_prop(&mut self, node: SetterProp, ast_path: &mut AstKindPath) -> SetterProp {
-        FoldAstPath::fold_setter_prop(self, node, ast_path)
+        FoldAstPath::fold_setter_prop(&mut **self, node, ast_path)
     }
 
     fn fold_simple_assign_target(
@@ -88380,7 +88380,7 @@ where
         node: SimpleAssignTarget,
         ast_path: &mut AstKindPath,
     ) -> SimpleAssignTarget {
-        FoldAstPath::fold_simple_assign_target(self, node, ast_path)
+        FoldAstPath::fold_simple_assign_target(&mut **self, node, ast_path)
     }
 
     fn fold_span(
@@ -88388,7 +88388,7 @@ where
         node: swc_common::Span,
         ast_path: &mut AstKindPath,
     ) -> swc_common::Span {
-        FoldAstPath::fold_span(self, node, ast_path)
+        FoldAstPath::fold_span(&mut **self, node, ast_path)
     }
 
     fn fold_spread_element(
@@ -88396,31 +88396,31 @@ where
         node: SpreadElement,
         ast_path: &mut AstKindPath,
     ) -> SpreadElement {
-        FoldAstPath::fold_spread_element(self, node, ast_path)
+        FoldAstPath::fold_spread_element(&mut **self, node, ast_path)
     }
 
     fn fold_static_block(&mut self, node: StaticBlock, ast_path: &mut AstKindPath) -> StaticBlock {
-        FoldAstPath::fold_static_block(self, node, ast_path)
+        FoldAstPath::fold_static_block(&mut **self, node, ast_path)
     }
 
     fn fold_stmt(&mut self, node: Stmt, ast_path: &mut AstKindPath) -> Stmt {
-        FoldAstPath::fold_stmt(self, node, ast_path)
+        FoldAstPath::fold_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_stmts(&mut self, node: Vec<Stmt>, ast_path: &mut AstKindPath) -> Vec<Stmt> {
-        FoldAstPath::fold_stmts(self, node, ast_path)
+        FoldAstPath::fold_stmts(&mut **self, node, ast_path)
     }
 
     fn fold_str(&mut self, node: Str, ast_path: &mut AstKindPath) -> Str {
-        FoldAstPath::fold_str(self, node, ast_path)
+        FoldAstPath::fold_str(&mut **self, node, ast_path)
     }
 
     fn fold_super(&mut self, node: Super, ast_path: &mut AstKindPath) -> Super {
-        FoldAstPath::fold_super(self, node, ast_path)
+        FoldAstPath::fold_super(&mut **self, node, ast_path)
     }
 
     fn fold_super_prop(&mut self, node: SuperProp, ast_path: &mut AstKindPath) -> SuperProp {
-        FoldAstPath::fold_super_prop(self, node, ast_path)
+        FoldAstPath::fold_super_prop(&mut **self, node, ast_path)
     }
 
     fn fold_super_prop_expr(
@@ -88428,11 +88428,11 @@ where
         node: SuperPropExpr,
         ast_path: &mut AstKindPath,
     ) -> SuperPropExpr {
-        FoldAstPath::fold_super_prop_expr(self, node, ast_path)
+        FoldAstPath::fold_super_prop_expr(&mut **self, node, ast_path)
     }
 
     fn fold_switch_case(&mut self, node: SwitchCase, ast_path: &mut AstKindPath) -> SwitchCase {
-        FoldAstPath::fold_switch_case(self, node, ast_path)
+        FoldAstPath::fold_switch_case(&mut **self, node, ast_path)
     }
 
     fn fold_switch_cases(
@@ -88440,11 +88440,11 @@ where
         node: Vec<SwitchCase>,
         ast_path: &mut AstKindPath,
     ) -> Vec<SwitchCase> {
-        FoldAstPath::fold_switch_cases(self, node, ast_path)
+        FoldAstPath::fold_switch_cases(&mut **self, node, ast_path)
     }
 
     fn fold_switch_stmt(&mut self, node: SwitchStmt, ast_path: &mut AstKindPath) -> SwitchStmt {
-        FoldAstPath::fold_switch_stmt(self, node, ast_path)
+        FoldAstPath::fold_switch_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_syntax_context(
@@ -88452,27 +88452,27 @@ where
         node: swc_common::SyntaxContext,
         ast_path: &mut AstKindPath,
     ) -> swc_common::SyntaxContext {
-        FoldAstPath::fold_syntax_context(self, node, ast_path)
+        FoldAstPath::fold_syntax_context(&mut **self, node, ast_path)
     }
 
     fn fold_tagged_tpl(&mut self, node: TaggedTpl, ast_path: &mut AstKindPath) -> TaggedTpl {
-        FoldAstPath::fold_tagged_tpl(self, node, ast_path)
+        FoldAstPath::fold_tagged_tpl(&mut **self, node, ast_path)
     }
 
     fn fold_this_expr(&mut self, node: ThisExpr, ast_path: &mut AstKindPath) -> ThisExpr {
-        FoldAstPath::fold_this_expr(self, node, ast_path)
+        FoldAstPath::fold_this_expr(&mut **self, node, ast_path)
     }
 
     fn fold_throw_stmt(&mut self, node: ThrowStmt, ast_path: &mut AstKindPath) -> ThrowStmt {
-        FoldAstPath::fold_throw_stmt(self, node, ast_path)
+        FoldAstPath::fold_throw_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_tpl(&mut self, node: Tpl, ast_path: &mut AstKindPath) -> Tpl {
-        FoldAstPath::fold_tpl(self, node, ast_path)
+        FoldAstPath::fold_tpl(&mut **self, node, ast_path)
     }
 
     fn fold_tpl_element(&mut self, node: TplElement, ast_path: &mut AstKindPath) -> TplElement {
-        FoldAstPath::fold_tpl_element(self, node, ast_path)
+        FoldAstPath::fold_tpl_element(&mut **self, node, ast_path)
     }
 
     fn fold_tpl_elements(
@@ -88480,7 +88480,7 @@ where
         node: Vec<TplElement>,
         ast_path: &mut AstKindPath,
     ) -> Vec<TplElement> {
-        FoldAstPath::fold_tpl_elements(self, node, ast_path)
+        FoldAstPath::fold_tpl_elements(&mut **self, node, ast_path)
     }
 
     fn fold_true_plus_minus(
@@ -88488,19 +88488,19 @@ where
         node: TruePlusMinus,
         ast_path: &mut AstKindPath,
     ) -> TruePlusMinus {
-        FoldAstPath::fold_true_plus_minus(self, node, ast_path)
+        FoldAstPath::fold_true_plus_minus(&mut **self, node, ast_path)
     }
 
     fn fold_try_stmt(&mut self, node: TryStmt, ast_path: &mut AstKindPath) -> TryStmt {
-        FoldAstPath::fold_try_stmt(self, node, ast_path)
+        FoldAstPath::fold_try_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_ts_array_type(&mut self, node: TsArrayType, ast_path: &mut AstKindPath) -> TsArrayType {
-        FoldAstPath::fold_ts_array_type(self, node, ast_path)
+        FoldAstPath::fold_ts_array_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_as_expr(&mut self, node: TsAsExpr, ast_path: &mut AstKindPath) -> TsAsExpr {
-        FoldAstPath::fold_ts_as_expr(self, node, ast_path)
+        FoldAstPath::fold_ts_as_expr(&mut **self, node, ast_path)
     }
 
     fn fold_ts_call_signature_decl(
@@ -88508,7 +88508,7 @@ where
         node: TsCallSignatureDecl,
         ast_path: &mut AstKindPath,
     ) -> TsCallSignatureDecl {
-        FoldAstPath::fold_ts_call_signature_decl(self, node, ast_path)
+        FoldAstPath::fold_ts_call_signature_decl(&mut **self, node, ast_path)
     }
 
     fn fold_ts_conditional_type(
@@ -88516,7 +88516,7 @@ where
         node: TsConditionalType,
         ast_path: &mut AstKindPath,
     ) -> TsConditionalType {
-        FoldAstPath::fold_ts_conditional_type(self, node, ast_path)
+        FoldAstPath::fold_ts_conditional_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_const_assertion(
@@ -88524,7 +88524,7 @@ where
         node: TsConstAssertion,
         ast_path: &mut AstKindPath,
     ) -> TsConstAssertion {
-        FoldAstPath::fold_ts_const_assertion(self, node, ast_path)
+        FoldAstPath::fold_ts_const_assertion(&mut **self, node, ast_path)
     }
 
     fn fold_ts_construct_signature_decl(
@@ -88532,7 +88532,7 @@ where
         node: TsConstructSignatureDecl,
         ast_path: &mut AstKindPath,
     ) -> TsConstructSignatureDecl {
-        FoldAstPath::fold_ts_construct_signature_decl(self, node, ast_path)
+        FoldAstPath::fold_ts_construct_signature_decl(&mut **self, node, ast_path)
     }
 
     fn fold_ts_constructor_type(
@@ -88540,7 +88540,7 @@ where
         node: TsConstructorType,
         ast_path: &mut AstKindPath,
     ) -> TsConstructorType {
-        FoldAstPath::fold_ts_constructor_type(self, node, ast_path)
+        FoldAstPath::fold_ts_constructor_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_entity_name(
@@ -88548,11 +88548,11 @@ where
         node: TsEntityName,
         ast_path: &mut AstKindPath,
     ) -> TsEntityName {
-        FoldAstPath::fold_ts_entity_name(self, node, ast_path)
+        FoldAstPath::fold_ts_entity_name(&mut **self, node, ast_path)
     }
 
     fn fold_ts_enum_decl(&mut self, node: TsEnumDecl, ast_path: &mut AstKindPath) -> TsEnumDecl {
-        FoldAstPath::fold_ts_enum_decl(self, node, ast_path)
+        FoldAstPath::fold_ts_enum_decl(&mut **self, node, ast_path)
     }
 
     fn fold_ts_enum_member(
@@ -88560,7 +88560,7 @@ where
         node: TsEnumMember,
         ast_path: &mut AstKindPath,
     ) -> TsEnumMember {
-        FoldAstPath::fold_ts_enum_member(self, node, ast_path)
+        FoldAstPath::fold_ts_enum_member(&mut **self, node, ast_path)
     }
 
     fn fold_ts_enum_member_id(
@@ -88568,7 +88568,7 @@ where
         node: TsEnumMemberId,
         ast_path: &mut AstKindPath,
     ) -> TsEnumMemberId {
-        FoldAstPath::fold_ts_enum_member_id(self, node, ast_path)
+        FoldAstPath::fold_ts_enum_member_id(&mut **self, node, ast_path)
     }
 
     fn fold_ts_enum_members(
@@ -88576,7 +88576,7 @@ where
         node: Vec<TsEnumMember>,
         ast_path: &mut AstKindPath,
     ) -> Vec<TsEnumMember> {
-        FoldAstPath::fold_ts_enum_members(self, node, ast_path)
+        FoldAstPath::fold_ts_enum_members(&mut **self, node, ast_path)
     }
 
     fn fold_ts_export_assignment(
@@ -88584,7 +88584,7 @@ where
         node: TsExportAssignment,
         ast_path: &mut AstKindPath,
     ) -> TsExportAssignment {
-        FoldAstPath::fold_ts_export_assignment(self, node, ast_path)
+        FoldAstPath::fold_ts_export_assignment(&mut **self, node, ast_path)
     }
 
     fn fold_ts_expr_with_type_args(
@@ -88592,7 +88592,7 @@ where
         node: TsExprWithTypeArgs,
         ast_path: &mut AstKindPath,
     ) -> TsExprWithTypeArgs {
-        FoldAstPath::fold_ts_expr_with_type_args(self, node, ast_path)
+        FoldAstPath::fold_ts_expr_with_type_args(&mut **self, node, ast_path)
     }
 
     fn fold_ts_expr_with_type_argss(
@@ -88600,7 +88600,7 @@ where
         node: Vec<TsExprWithTypeArgs>,
         ast_path: &mut AstKindPath,
     ) -> Vec<TsExprWithTypeArgs> {
-        FoldAstPath::fold_ts_expr_with_type_argss(self, node, ast_path)
+        FoldAstPath::fold_ts_expr_with_type_argss(&mut **self, node, ast_path)
     }
 
     fn fold_ts_external_module_ref(
@@ -88608,7 +88608,7 @@ where
         node: TsExternalModuleRef,
         ast_path: &mut AstKindPath,
     ) -> TsExternalModuleRef {
-        FoldAstPath::fold_ts_external_module_ref(self, node, ast_path)
+        FoldAstPath::fold_ts_external_module_ref(&mut **self, node, ast_path)
     }
 
     fn fold_ts_fn_or_constructor_type(
@@ -88616,11 +88616,11 @@ where
         node: TsFnOrConstructorType,
         ast_path: &mut AstKindPath,
     ) -> TsFnOrConstructorType {
-        FoldAstPath::fold_ts_fn_or_constructor_type(self, node, ast_path)
+        FoldAstPath::fold_ts_fn_or_constructor_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_fn_param(&mut self, node: TsFnParam, ast_path: &mut AstKindPath) -> TsFnParam {
-        FoldAstPath::fold_ts_fn_param(self, node, ast_path)
+        FoldAstPath::fold_ts_fn_param(&mut **self, node, ast_path)
     }
 
     fn fold_ts_fn_params(
@@ -88628,11 +88628,11 @@ where
         node: Vec<TsFnParam>,
         ast_path: &mut AstKindPath,
     ) -> Vec<TsFnParam> {
-        FoldAstPath::fold_ts_fn_params(self, node, ast_path)
+        FoldAstPath::fold_ts_fn_params(&mut **self, node, ast_path)
     }
 
     fn fold_ts_fn_type(&mut self, node: TsFnType, ast_path: &mut AstKindPath) -> TsFnType {
-        FoldAstPath::fold_ts_fn_type(self, node, ast_path)
+        FoldAstPath::fold_ts_fn_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_getter_signature(
@@ -88640,7 +88640,7 @@ where
         node: TsGetterSignature,
         ast_path: &mut AstKindPath,
     ) -> TsGetterSignature {
-        FoldAstPath::fold_ts_getter_signature(self, node, ast_path)
+        FoldAstPath::fold_ts_getter_signature(&mut **self, node, ast_path)
     }
 
     fn fold_ts_import_equals_decl(
@@ -88648,7 +88648,7 @@ where
         node: TsImportEqualsDecl,
         ast_path: &mut AstKindPath,
     ) -> TsImportEqualsDecl {
-        FoldAstPath::fold_ts_import_equals_decl(self, node, ast_path)
+        FoldAstPath::fold_ts_import_equals_decl(&mut **self, node, ast_path)
     }
 
     fn fold_ts_import_type(
@@ -88656,7 +88656,7 @@ where
         node: TsImportType,
         ast_path: &mut AstKindPath,
     ) -> TsImportType {
-        FoldAstPath::fold_ts_import_type(self, node, ast_path)
+        FoldAstPath::fold_ts_import_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_index_signature(
@@ -88664,7 +88664,7 @@ where
         node: TsIndexSignature,
         ast_path: &mut AstKindPath,
     ) -> TsIndexSignature {
-        FoldAstPath::fold_ts_index_signature(self, node, ast_path)
+        FoldAstPath::fold_ts_index_signature(&mut **self, node, ast_path)
     }
 
     fn fold_ts_indexed_access_type(
@@ -88672,11 +88672,11 @@ where
         node: TsIndexedAccessType,
         ast_path: &mut AstKindPath,
     ) -> TsIndexedAccessType {
-        FoldAstPath::fold_ts_indexed_access_type(self, node, ast_path)
+        FoldAstPath::fold_ts_indexed_access_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_infer_type(&mut self, node: TsInferType, ast_path: &mut AstKindPath) -> TsInferType {
-        FoldAstPath::fold_ts_infer_type(self, node, ast_path)
+        FoldAstPath::fold_ts_infer_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_instantiation(
@@ -88684,7 +88684,7 @@ where
         node: TsInstantiation,
         ast_path: &mut AstKindPath,
     ) -> TsInstantiation {
-        FoldAstPath::fold_ts_instantiation(self, node, ast_path)
+        FoldAstPath::fold_ts_instantiation(&mut **self, node, ast_path)
     }
 
     fn fold_ts_interface_body(
@@ -88692,7 +88692,7 @@ where
         node: TsInterfaceBody,
         ast_path: &mut AstKindPath,
     ) -> TsInterfaceBody {
-        FoldAstPath::fold_ts_interface_body(self, node, ast_path)
+        FoldAstPath::fold_ts_interface_body(&mut **self, node, ast_path)
     }
 
     fn fold_ts_interface_decl(
@@ -88700,7 +88700,7 @@ where
         node: TsInterfaceDecl,
         ast_path: &mut AstKindPath,
     ) -> TsInterfaceDecl {
-        FoldAstPath::fold_ts_interface_decl(self, node, ast_path)
+        FoldAstPath::fold_ts_interface_decl(&mut **self, node, ast_path)
     }
 
     fn fold_ts_intersection_type(
@@ -88708,7 +88708,7 @@ where
         node: TsIntersectionType,
         ast_path: &mut AstKindPath,
     ) -> TsIntersectionType {
-        FoldAstPath::fold_ts_intersection_type(self, node, ast_path)
+        FoldAstPath::fold_ts_intersection_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_keyword_type(
@@ -88716,7 +88716,7 @@ where
         node: TsKeywordType,
         ast_path: &mut AstKindPath,
     ) -> TsKeywordType {
-        FoldAstPath::fold_ts_keyword_type(self, node, ast_path)
+        FoldAstPath::fold_ts_keyword_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_keyword_type_kind(
@@ -88724,15 +88724,15 @@ where
         node: TsKeywordTypeKind,
         ast_path: &mut AstKindPath,
     ) -> TsKeywordTypeKind {
-        FoldAstPath::fold_ts_keyword_type_kind(self, node, ast_path)
+        FoldAstPath::fold_ts_keyword_type_kind(&mut **self, node, ast_path)
     }
 
     fn fold_ts_lit(&mut self, node: TsLit, ast_path: &mut AstKindPath) -> TsLit {
-        FoldAstPath::fold_ts_lit(self, node, ast_path)
+        FoldAstPath::fold_ts_lit(&mut **self, node, ast_path)
     }
 
     fn fold_ts_lit_type(&mut self, node: TsLitType, ast_path: &mut AstKindPath) -> TsLitType {
-        FoldAstPath::fold_ts_lit_type(self, node, ast_path)
+        FoldAstPath::fold_ts_lit_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_mapped_type(
@@ -88740,7 +88740,7 @@ where
         node: TsMappedType,
         ast_path: &mut AstKindPath,
     ) -> TsMappedType {
-        FoldAstPath::fold_ts_mapped_type(self, node, ast_path)
+        FoldAstPath::fold_ts_mapped_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_method_signature(
@@ -88748,7 +88748,7 @@ where
         node: TsMethodSignature,
         ast_path: &mut AstKindPath,
     ) -> TsMethodSignature {
-        FoldAstPath::fold_ts_method_signature(self, node, ast_path)
+        FoldAstPath::fold_ts_method_signature(&mut **self, node, ast_path)
     }
 
     fn fold_ts_module_block(
@@ -88756,7 +88756,7 @@ where
         node: TsModuleBlock,
         ast_path: &mut AstKindPath,
     ) -> TsModuleBlock {
-        FoldAstPath::fold_ts_module_block(self, node, ast_path)
+        FoldAstPath::fold_ts_module_block(&mut **self, node, ast_path)
     }
 
     fn fold_ts_module_decl(
@@ -88764,7 +88764,7 @@ where
         node: TsModuleDecl,
         ast_path: &mut AstKindPath,
     ) -> TsModuleDecl {
-        FoldAstPath::fold_ts_module_decl(self, node, ast_path)
+        FoldAstPath::fold_ts_module_decl(&mut **self, node, ast_path)
     }
 
     fn fold_ts_module_name(
@@ -88772,11 +88772,11 @@ where
         node: TsModuleName,
         ast_path: &mut AstKindPath,
     ) -> TsModuleName {
-        FoldAstPath::fold_ts_module_name(self, node, ast_path)
+        FoldAstPath::fold_ts_module_name(&mut **self, node, ast_path)
     }
 
     fn fold_ts_module_ref(&mut self, node: TsModuleRef, ast_path: &mut AstKindPath) -> TsModuleRef {
-        FoldAstPath::fold_ts_module_ref(self, node, ast_path)
+        FoldAstPath::fold_ts_module_ref(&mut **self, node, ast_path)
     }
 
     fn fold_ts_namespace_body(
@@ -88784,7 +88784,7 @@ where
         node: TsNamespaceBody,
         ast_path: &mut AstKindPath,
     ) -> TsNamespaceBody {
-        FoldAstPath::fold_ts_namespace_body(self, node, ast_path)
+        FoldAstPath::fold_ts_namespace_body(&mut **self, node, ast_path)
     }
 
     fn fold_ts_namespace_decl(
@@ -88792,7 +88792,7 @@ where
         node: TsNamespaceDecl,
         ast_path: &mut AstKindPath,
     ) -> TsNamespaceDecl {
-        FoldAstPath::fold_ts_namespace_decl(self, node, ast_path)
+        FoldAstPath::fold_ts_namespace_decl(&mut **self, node, ast_path)
     }
 
     fn fold_ts_namespace_export_decl(
@@ -88800,7 +88800,7 @@ where
         node: TsNamespaceExportDecl,
         ast_path: &mut AstKindPath,
     ) -> TsNamespaceExportDecl {
-        FoldAstPath::fold_ts_namespace_export_decl(self, node, ast_path)
+        FoldAstPath::fold_ts_namespace_export_decl(&mut **self, node, ast_path)
     }
 
     fn fold_ts_non_null_expr(
@@ -88808,7 +88808,7 @@ where
         node: TsNonNullExpr,
         ast_path: &mut AstKindPath,
     ) -> TsNonNullExpr {
-        FoldAstPath::fold_ts_non_null_expr(self, node, ast_path)
+        FoldAstPath::fold_ts_non_null_expr(&mut **self, node, ast_path)
     }
 
     fn fold_ts_optional_type(
@@ -88816,11 +88816,11 @@ where
         node: TsOptionalType,
         ast_path: &mut AstKindPath,
     ) -> TsOptionalType {
-        FoldAstPath::fold_ts_optional_type(self, node, ast_path)
+        FoldAstPath::fold_ts_optional_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_param_prop(&mut self, node: TsParamProp, ast_path: &mut AstKindPath) -> TsParamProp {
-        FoldAstPath::fold_ts_param_prop(self, node, ast_path)
+        FoldAstPath::fold_ts_param_prop(&mut **self, node, ast_path)
     }
 
     fn fold_ts_param_prop_param(
@@ -88828,7 +88828,7 @@ where
         node: TsParamPropParam,
         ast_path: &mut AstKindPath,
     ) -> TsParamPropParam {
-        FoldAstPath::fold_ts_param_prop_param(self, node, ast_path)
+        FoldAstPath::fold_ts_param_prop_param(&mut **self, node, ast_path)
     }
 
     fn fold_ts_parenthesized_type(
@@ -88836,7 +88836,7 @@ where
         node: TsParenthesizedType,
         ast_path: &mut AstKindPath,
     ) -> TsParenthesizedType {
-        FoldAstPath::fold_ts_parenthesized_type(self, node, ast_path)
+        FoldAstPath::fold_ts_parenthesized_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_property_signature(
@@ -88844,7 +88844,7 @@ where
         node: TsPropertySignature,
         ast_path: &mut AstKindPath,
     ) -> TsPropertySignature {
-        FoldAstPath::fold_ts_property_signature(self, node, ast_path)
+        FoldAstPath::fold_ts_property_signature(&mut **self, node, ast_path)
     }
 
     fn fold_ts_qualified_name(
@@ -88852,11 +88852,11 @@ where
         node: TsQualifiedName,
         ast_path: &mut AstKindPath,
     ) -> TsQualifiedName {
-        FoldAstPath::fold_ts_qualified_name(self, node, ast_path)
+        FoldAstPath::fold_ts_qualified_name(&mut **self, node, ast_path)
     }
 
     fn fold_ts_rest_type(&mut self, node: TsRestType, ast_path: &mut AstKindPath) -> TsRestType {
-        FoldAstPath::fold_ts_rest_type(self, node, ast_path)
+        FoldAstPath::fold_ts_rest_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_satisfies_expr(
@@ -88864,7 +88864,7 @@ where
         node: TsSatisfiesExpr,
         ast_path: &mut AstKindPath,
     ) -> TsSatisfiesExpr {
-        FoldAstPath::fold_ts_satisfies_expr(self, node, ast_path)
+        FoldAstPath::fold_ts_satisfies_expr(&mut **self, node, ast_path)
     }
 
     fn fold_ts_setter_signature(
@@ -88872,11 +88872,11 @@ where
         node: TsSetterSignature,
         ast_path: &mut AstKindPath,
     ) -> TsSetterSignature {
-        FoldAstPath::fold_ts_setter_signature(self, node, ast_path)
+        FoldAstPath::fold_ts_setter_signature(&mut **self, node, ast_path)
     }
 
     fn fold_ts_this_type(&mut self, node: TsThisType, ast_path: &mut AstKindPath) -> TsThisType {
-        FoldAstPath::fold_ts_this_type(self, node, ast_path)
+        FoldAstPath::fold_ts_this_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_this_type_or_ident(
@@ -88884,7 +88884,7 @@ where
         node: TsThisTypeOrIdent,
         ast_path: &mut AstKindPath,
     ) -> TsThisTypeOrIdent {
-        FoldAstPath::fold_ts_this_type_or_ident(self, node, ast_path)
+        FoldAstPath::fold_ts_this_type_or_ident(&mut **self, node, ast_path)
     }
 
     fn fold_ts_tpl_lit_type(
@@ -88892,7 +88892,7 @@ where
         node: TsTplLitType,
         ast_path: &mut AstKindPath,
     ) -> TsTplLitType {
-        FoldAstPath::fold_ts_tpl_lit_type(self, node, ast_path)
+        FoldAstPath::fold_ts_tpl_lit_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_tuple_element(
@@ -88900,7 +88900,7 @@ where
         node: TsTupleElement,
         ast_path: &mut AstKindPath,
     ) -> TsTupleElement {
-        FoldAstPath::fold_ts_tuple_element(self, node, ast_path)
+        FoldAstPath::fold_ts_tuple_element(&mut **self, node, ast_path)
     }
 
     fn fold_ts_tuple_elements(
@@ -88908,15 +88908,15 @@ where
         node: Vec<TsTupleElement>,
         ast_path: &mut AstKindPath,
     ) -> Vec<TsTupleElement> {
-        FoldAstPath::fold_ts_tuple_elements(self, node, ast_path)
+        FoldAstPath::fold_ts_tuple_elements(&mut **self, node, ast_path)
     }
 
     fn fold_ts_tuple_type(&mut self, node: TsTupleType, ast_path: &mut AstKindPath) -> TsTupleType {
-        FoldAstPath::fold_ts_tuple_type(self, node, ast_path)
+        FoldAstPath::fold_ts_tuple_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_type(&mut self, node: TsType, ast_path: &mut AstKindPath) -> TsType {
-        FoldAstPath::fold_ts_type(self, node, ast_path)
+        FoldAstPath::fold_ts_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_type_alias_decl(
@@ -88924,11 +88924,11 @@ where
         node: TsTypeAliasDecl,
         ast_path: &mut AstKindPath,
     ) -> TsTypeAliasDecl {
-        FoldAstPath::fold_ts_type_alias_decl(self, node, ast_path)
+        FoldAstPath::fold_ts_type_alias_decl(&mut **self, node, ast_path)
     }
 
     fn fold_ts_type_ann(&mut self, node: TsTypeAnn, ast_path: &mut AstKindPath) -> TsTypeAnn {
-        FoldAstPath::fold_ts_type_ann(self, node, ast_path)
+        FoldAstPath::fold_ts_type_ann(&mut **self, node, ast_path)
     }
 
     fn fold_ts_type_assertion(
@@ -88936,7 +88936,7 @@ where
         node: TsTypeAssertion,
         ast_path: &mut AstKindPath,
     ) -> TsTypeAssertion {
-        FoldAstPath::fold_ts_type_assertion(self, node, ast_path)
+        FoldAstPath::fold_ts_type_assertion(&mut **self, node, ast_path)
     }
 
     fn fold_ts_type_element(
@@ -88944,7 +88944,7 @@ where
         node: TsTypeElement,
         ast_path: &mut AstKindPath,
     ) -> TsTypeElement {
-        FoldAstPath::fold_ts_type_element(self, node, ast_path)
+        FoldAstPath::fold_ts_type_element(&mut **self, node, ast_path)
     }
 
     fn fold_ts_type_elements(
@@ -88952,11 +88952,11 @@ where
         node: Vec<TsTypeElement>,
         ast_path: &mut AstKindPath,
     ) -> Vec<TsTypeElement> {
-        FoldAstPath::fold_ts_type_elements(self, node, ast_path)
+        FoldAstPath::fold_ts_type_elements(&mut **self, node, ast_path)
     }
 
     fn fold_ts_type_lit(&mut self, node: TsTypeLit, ast_path: &mut AstKindPath) -> TsTypeLit {
-        FoldAstPath::fold_ts_type_lit(self, node, ast_path)
+        FoldAstPath::fold_ts_type_lit(&mut **self, node, ast_path)
     }
 
     fn fold_ts_type_operator(
@@ -88964,7 +88964,7 @@ where
         node: TsTypeOperator,
         ast_path: &mut AstKindPath,
     ) -> TsTypeOperator {
-        FoldAstPath::fold_ts_type_operator(self, node, ast_path)
+        FoldAstPath::fold_ts_type_operator(&mut **self, node, ast_path)
     }
 
     fn fold_ts_type_operator_op(
@@ -88972,11 +88972,11 @@ where
         node: TsTypeOperatorOp,
         ast_path: &mut AstKindPath,
     ) -> TsTypeOperatorOp {
-        FoldAstPath::fold_ts_type_operator_op(self, node, ast_path)
+        FoldAstPath::fold_ts_type_operator_op(&mut **self, node, ast_path)
     }
 
     fn fold_ts_type_param(&mut self, node: TsTypeParam, ast_path: &mut AstKindPath) -> TsTypeParam {
-        FoldAstPath::fold_ts_type_param(self, node, ast_path)
+        FoldAstPath::fold_ts_type_param(&mut **self, node, ast_path)
     }
 
     fn fold_ts_type_param_decl(
@@ -88984,7 +88984,7 @@ where
         node: TsTypeParamDecl,
         ast_path: &mut AstKindPath,
     ) -> TsTypeParamDecl {
-        FoldAstPath::fold_ts_type_param_decl(self, node, ast_path)
+        FoldAstPath::fold_ts_type_param_decl(&mut **self, node, ast_path)
     }
 
     fn fold_ts_type_param_instantiation(
@@ -88992,7 +88992,7 @@ where
         node: TsTypeParamInstantiation,
         ast_path: &mut AstKindPath,
     ) -> TsTypeParamInstantiation {
-        FoldAstPath::fold_ts_type_param_instantiation(self, node, ast_path)
+        FoldAstPath::fold_ts_type_param_instantiation(&mut **self, node, ast_path)
     }
 
     fn fold_ts_type_params(
@@ -89000,7 +89000,7 @@ where
         node: Vec<TsTypeParam>,
         ast_path: &mut AstKindPath,
     ) -> Vec<TsTypeParam> {
-        FoldAstPath::fold_ts_type_params(self, node, ast_path)
+        FoldAstPath::fold_ts_type_params(&mut **self, node, ast_path)
     }
 
     fn fold_ts_type_predicate(
@@ -89008,11 +89008,11 @@ where
         node: TsTypePredicate,
         ast_path: &mut AstKindPath,
     ) -> TsTypePredicate {
-        FoldAstPath::fold_ts_type_predicate(self, node, ast_path)
+        FoldAstPath::fold_ts_type_predicate(&mut **self, node, ast_path)
     }
 
     fn fold_ts_type_query(&mut self, node: TsTypeQuery, ast_path: &mut AstKindPath) -> TsTypeQuery {
-        FoldAstPath::fold_ts_type_query(self, node, ast_path)
+        FoldAstPath::fold_ts_type_query(&mut **self, node, ast_path)
     }
 
     fn fold_ts_type_query_expr(
@@ -89020,11 +89020,11 @@ where
         node: TsTypeQueryExpr,
         ast_path: &mut AstKindPath,
     ) -> TsTypeQueryExpr {
-        FoldAstPath::fold_ts_type_query_expr(self, node, ast_path)
+        FoldAstPath::fold_ts_type_query_expr(&mut **self, node, ast_path)
     }
 
     fn fold_ts_type_ref(&mut self, node: TsTypeRef, ast_path: &mut AstKindPath) -> TsTypeRef {
-        FoldAstPath::fold_ts_type_ref(self, node, ast_path)
+        FoldAstPath::fold_ts_type_ref(&mut **self, node, ast_path)
     }
 
     fn fold_ts_types(
@@ -89032,7 +89032,7 @@ where
         node: Vec<Box<TsType>>,
         ast_path: &mut AstKindPath,
     ) -> Vec<Box<TsType>> {
-        FoldAstPath::fold_ts_types(self, node, ast_path)
+        FoldAstPath::fold_ts_types(&mut **self, node, ast_path)
     }
 
     fn fold_ts_union_or_intersection_type(
@@ -89040,39 +89040,39 @@ where
         node: TsUnionOrIntersectionType,
         ast_path: &mut AstKindPath,
     ) -> TsUnionOrIntersectionType {
-        FoldAstPath::fold_ts_union_or_intersection_type(self, node, ast_path)
+        FoldAstPath::fold_ts_union_or_intersection_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_union_type(&mut self, node: TsUnionType, ast_path: &mut AstKindPath) -> TsUnionType {
-        FoldAstPath::fold_ts_union_type(self, node, ast_path)
+        FoldAstPath::fold_ts_union_type(&mut **self, node, ast_path)
     }
 
     fn fold_unary_expr(&mut self, node: UnaryExpr, ast_path: &mut AstKindPath) -> UnaryExpr {
-        FoldAstPath::fold_unary_expr(self, node, ast_path)
+        FoldAstPath::fold_unary_expr(&mut **self, node, ast_path)
     }
 
     fn fold_unary_op(&mut self, node: UnaryOp, ast_path: &mut AstKindPath) -> UnaryOp {
-        FoldAstPath::fold_unary_op(self, node, ast_path)
+        FoldAstPath::fold_unary_op(&mut **self, node, ast_path)
     }
 
     fn fold_update_expr(&mut self, node: UpdateExpr, ast_path: &mut AstKindPath) -> UpdateExpr {
-        FoldAstPath::fold_update_expr(self, node, ast_path)
+        FoldAstPath::fold_update_expr(&mut **self, node, ast_path)
     }
 
     fn fold_update_op(&mut self, node: UpdateOp, ast_path: &mut AstKindPath) -> UpdateOp {
-        FoldAstPath::fold_update_op(self, node, ast_path)
+        FoldAstPath::fold_update_op(&mut **self, node, ast_path)
     }
 
     fn fold_using_decl(&mut self, node: UsingDecl, ast_path: &mut AstKindPath) -> UsingDecl {
-        FoldAstPath::fold_using_decl(self, node, ast_path)
+        FoldAstPath::fold_using_decl(&mut **self, node, ast_path)
     }
 
     fn fold_var_decl(&mut self, node: VarDecl, ast_path: &mut AstKindPath) -> VarDecl {
-        FoldAstPath::fold_var_decl(self, node, ast_path)
+        FoldAstPath::fold_var_decl(&mut **self, node, ast_path)
     }
 
     fn fold_var_decl_kind(&mut self, node: VarDeclKind, ast_path: &mut AstKindPath) -> VarDeclKind {
-        FoldAstPath::fold_var_decl_kind(self, node, ast_path)
+        FoldAstPath::fold_var_decl_kind(&mut **self, node, ast_path)
     }
 
     fn fold_var_decl_or_expr(
@@ -89080,7 +89080,7 @@ where
         node: VarDeclOrExpr,
         ast_path: &mut AstKindPath,
     ) -> VarDeclOrExpr {
-        FoldAstPath::fold_var_decl_or_expr(self, node, ast_path)
+        FoldAstPath::fold_var_decl_or_expr(&mut **self, node, ast_path)
     }
 
     fn fold_var_declarator(
@@ -89088,7 +89088,7 @@ where
         node: VarDeclarator,
         ast_path: &mut AstKindPath,
     ) -> VarDeclarator {
-        FoldAstPath::fold_var_declarator(self, node, ast_path)
+        FoldAstPath::fold_var_declarator(&mut **self, node, ast_path)
     }
 
     fn fold_var_declarators(
@@ -89096,19 +89096,19 @@ where
         node: Vec<VarDeclarator>,
         ast_path: &mut AstKindPath,
     ) -> Vec<VarDeclarator> {
-        FoldAstPath::fold_var_declarators(self, node, ast_path)
+        FoldAstPath::fold_var_declarators(&mut **self, node, ast_path)
     }
 
     fn fold_while_stmt(&mut self, node: WhileStmt, ast_path: &mut AstKindPath) -> WhileStmt {
-        FoldAstPath::fold_while_stmt(self, node, ast_path)
+        FoldAstPath::fold_while_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_with_stmt(&mut self, node: WithStmt, ast_path: &mut AstKindPath) -> WithStmt {
-        FoldAstPath::fold_with_stmt(self, node, ast_path)
+        FoldAstPath::fold_with_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_yield_expr(&mut self, node: YieldExpr, ast_path: &mut AstKindPath) -> YieldExpr {
-        FoldAstPath::fold_yield_expr(self, node, ast_path)
+        FoldAstPath::fold_yield_expr(&mut **self, node, ast_path)
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -89122,31 +89122,31 @@ where
         node: Accessibility,
         ast_path: &mut AstKindPath,
     ) -> Accessibility {
-        FoldAstPath::fold_accessibility(self, node, ast_path)
+        FoldAstPath::fold_accessibility(&mut **self, node, ast_path)
     }
 
     fn fold_array_lit(&mut self, node: ArrayLit, ast_path: &mut AstKindPath) -> ArrayLit {
-        FoldAstPath::fold_array_lit(self, node, ast_path)
+        FoldAstPath::fold_array_lit(&mut **self, node, ast_path)
     }
 
     fn fold_array_pat(&mut self, node: ArrayPat, ast_path: &mut AstKindPath) -> ArrayPat {
-        FoldAstPath::fold_array_pat(self, node, ast_path)
+        FoldAstPath::fold_array_pat(&mut **self, node, ast_path)
     }
 
     fn fold_arrow_expr(&mut self, node: ArrowExpr, ast_path: &mut AstKindPath) -> ArrowExpr {
-        FoldAstPath::fold_arrow_expr(self, node, ast_path)
+        FoldAstPath::fold_arrow_expr(&mut **self, node, ast_path)
     }
 
     fn fold_assign_expr(&mut self, node: AssignExpr, ast_path: &mut AstKindPath) -> AssignExpr {
-        FoldAstPath::fold_assign_expr(self, node, ast_path)
+        FoldAstPath::fold_assign_expr(&mut **self, node, ast_path)
     }
 
     fn fold_assign_op(&mut self, node: AssignOp, ast_path: &mut AstKindPath) -> AssignOp {
-        FoldAstPath::fold_assign_op(self, node, ast_path)
+        FoldAstPath::fold_assign_op(&mut **self, node, ast_path)
     }
 
     fn fold_assign_pat(&mut self, node: AssignPat, ast_path: &mut AstKindPath) -> AssignPat {
-        FoldAstPath::fold_assign_pat(self, node, ast_path)
+        FoldAstPath::fold_assign_pat(&mut **self, node, ast_path)
     }
 
     fn fold_assign_pat_prop(
@@ -89154,11 +89154,11 @@ where
         node: AssignPatProp,
         ast_path: &mut AstKindPath,
     ) -> AssignPatProp {
-        FoldAstPath::fold_assign_pat_prop(self, node, ast_path)
+        FoldAstPath::fold_assign_pat_prop(&mut **self, node, ast_path)
     }
 
     fn fold_assign_prop(&mut self, node: AssignProp, ast_path: &mut AstKindPath) -> AssignProp {
-        FoldAstPath::fold_assign_prop(self, node, ast_path)
+        FoldAstPath::fold_assign_prop(&mut **self, node, ast_path)
     }
 
     fn fold_assign_target(
@@ -89166,7 +89166,7 @@ where
         node: AssignTarget,
         ast_path: &mut AstKindPath,
     ) -> AssignTarget {
-        FoldAstPath::fold_assign_target(self, node, ast_path)
+        FoldAstPath::fold_assign_target(&mut **self, node, ast_path)
     }
 
     fn fold_assign_target_pat(
@@ -89174,11 +89174,11 @@ where
         node: AssignTargetPat,
         ast_path: &mut AstKindPath,
     ) -> AssignTargetPat {
-        FoldAstPath::fold_assign_target_pat(self, node, ast_path)
+        FoldAstPath::fold_assign_target_pat(&mut **self, node, ast_path)
     }
 
     fn fold_atom(&mut self, node: swc_atoms::Atom, ast_path: &mut AstKindPath) -> swc_atoms::Atom {
-        FoldAstPath::fold_atom(self, node, ast_path)
+        FoldAstPath::fold_atom(&mut **self, node, ast_path)
     }
 
     fn fold_auto_accessor(
@@ -89186,27 +89186,27 @@ where
         node: AutoAccessor,
         ast_path: &mut AstKindPath,
     ) -> AutoAccessor {
-        FoldAstPath::fold_auto_accessor(self, node, ast_path)
+        FoldAstPath::fold_auto_accessor(&mut **self, node, ast_path)
     }
 
     fn fold_await_expr(&mut self, node: AwaitExpr, ast_path: &mut AstKindPath) -> AwaitExpr {
-        FoldAstPath::fold_await_expr(self, node, ast_path)
+        FoldAstPath::fold_await_expr(&mut **self, node, ast_path)
     }
 
     fn fold_big_int(&mut self, node: BigInt, ast_path: &mut AstKindPath) -> BigInt {
-        FoldAstPath::fold_big_int(self, node, ast_path)
+        FoldAstPath::fold_big_int(&mut **self, node, ast_path)
     }
 
     fn fold_big_int_value(&mut self, node: BigIntValue, ast_path: &mut AstKindPath) -> BigIntValue {
-        FoldAstPath::fold_big_int_value(self, node, ast_path)
+        FoldAstPath::fold_big_int_value(&mut **self, node, ast_path)
     }
 
     fn fold_bin_expr(&mut self, node: BinExpr, ast_path: &mut AstKindPath) -> BinExpr {
-        FoldAstPath::fold_bin_expr(self, node, ast_path)
+        FoldAstPath::fold_bin_expr(&mut **self, node, ast_path)
     }
 
     fn fold_binary_op(&mut self, node: BinaryOp, ast_path: &mut AstKindPath) -> BinaryOp {
-        FoldAstPath::fold_binary_op(self, node, ast_path)
+        FoldAstPath::fold_binary_op(&mut **self, node, ast_path)
     }
 
     fn fold_binding_ident(
@@ -89214,11 +89214,11 @@ where
         node: BindingIdent,
         ast_path: &mut AstKindPath,
     ) -> BindingIdent {
-        FoldAstPath::fold_binding_ident(self, node, ast_path)
+        FoldAstPath::fold_binding_ident(&mut **self, node, ast_path)
     }
 
     fn fold_block_stmt(&mut self, node: BlockStmt, ast_path: &mut AstKindPath) -> BlockStmt {
-        FoldAstPath::fold_block_stmt(self, node, ast_path)
+        FoldAstPath::fold_block_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_block_stmt_or_expr(
@@ -89226,43 +89226,43 @@ where
         node: BlockStmtOrExpr,
         ast_path: &mut AstKindPath,
     ) -> BlockStmtOrExpr {
-        FoldAstPath::fold_block_stmt_or_expr(self, node, ast_path)
+        FoldAstPath::fold_block_stmt_or_expr(&mut **self, node, ast_path)
     }
 
     fn fold_bool(&mut self, node: Bool, ast_path: &mut AstKindPath) -> Bool {
-        FoldAstPath::fold_bool(self, node, ast_path)
+        FoldAstPath::fold_bool(&mut **self, node, ast_path)
     }
 
     fn fold_break_stmt(&mut self, node: BreakStmt, ast_path: &mut AstKindPath) -> BreakStmt {
-        FoldAstPath::fold_break_stmt(self, node, ast_path)
+        FoldAstPath::fold_break_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_call_expr(&mut self, node: CallExpr, ast_path: &mut AstKindPath) -> CallExpr {
-        FoldAstPath::fold_call_expr(self, node, ast_path)
+        FoldAstPath::fold_call_expr(&mut **self, node, ast_path)
     }
 
     fn fold_callee(&mut self, node: Callee, ast_path: &mut AstKindPath) -> Callee {
-        FoldAstPath::fold_callee(self, node, ast_path)
+        FoldAstPath::fold_callee(&mut **self, node, ast_path)
     }
 
     fn fold_catch_clause(&mut self, node: CatchClause, ast_path: &mut AstKindPath) -> CatchClause {
-        FoldAstPath::fold_catch_clause(self, node, ast_path)
+        FoldAstPath::fold_catch_clause(&mut **self, node, ast_path)
     }
 
     fn fold_class(&mut self, node: Class, ast_path: &mut AstKindPath) -> Class {
-        FoldAstPath::fold_class(self, node, ast_path)
+        FoldAstPath::fold_class(&mut **self, node, ast_path)
     }
 
     fn fold_class_decl(&mut self, node: ClassDecl, ast_path: &mut AstKindPath) -> ClassDecl {
-        FoldAstPath::fold_class_decl(self, node, ast_path)
+        FoldAstPath::fold_class_decl(&mut **self, node, ast_path)
     }
 
     fn fold_class_expr(&mut self, node: ClassExpr, ast_path: &mut AstKindPath) -> ClassExpr {
-        FoldAstPath::fold_class_expr(self, node, ast_path)
+        FoldAstPath::fold_class_expr(&mut **self, node, ast_path)
     }
 
     fn fold_class_member(&mut self, node: ClassMember, ast_path: &mut AstKindPath) -> ClassMember {
-        FoldAstPath::fold_class_member(self, node, ast_path)
+        FoldAstPath::fold_class_member(&mut **self, node, ast_path)
     }
 
     fn fold_class_members(
@@ -89270,15 +89270,15 @@ where
         node: Vec<ClassMember>,
         ast_path: &mut AstKindPath,
     ) -> Vec<ClassMember> {
-        FoldAstPath::fold_class_members(self, node, ast_path)
+        FoldAstPath::fold_class_members(&mut **self, node, ast_path)
     }
 
     fn fold_class_method(&mut self, node: ClassMethod, ast_path: &mut AstKindPath) -> ClassMethod {
-        FoldAstPath::fold_class_method(self, node, ast_path)
+        FoldAstPath::fold_class_method(&mut **self, node, ast_path)
     }
 
     fn fold_class_prop(&mut self, node: ClassProp, ast_path: &mut AstKindPath) -> ClassProp {
-        FoldAstPath::fold_class_prop(self, node, ast_path)
+        FoldAstPath::fold_class_prop(&mut **self, node, ast_path)
     }
 
     fn fold_computed_prop_name(
@@ -89286,15 +89286,15 @@ where
         node: ComputedPropName,
         ast_path: &mut AstKindPath,
     ) -> ComputedPropName {
-        FoldAstPath::fold_computed_prop_name(self, node, ast_path)
+        FoldAstPath::fold_computed_prop_name(&mut **self, node, ast_path)
     }
 
     fn fold_cond_expr(&mut self, node: CondExpr, ast_path: &mut AstKindPath) -> CondExpr {
-        FoldAstPath::fold_cond_expr(self, node, ast_path)
+        FoldAstPath::fold_cond_expr(&mut **self, node, ast_path)
     }
 
     fn fold_constructor(&mut self, node: Constructor, ast_path: &mut AstKindPath) -> Constructor {
-        FoldAstPath::fold_constructor(self, node, ast_path)
+        FoldAstPath::fold_constructor(&mut **self, node, ast_path)
     }
 
     fn fold_continue_stmt(
@@ -89302,7 +89302,7 @@ where
         node: ContinueStmt,
         ast_path: &mut AstKindPath,
     ) -> ContinueStmt {
-        FoldAstPath::fold_continue_stmt(self, node, ast_path)
+        FoldAstPath::fold_continue_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_debugger_stmt(
@@ -89310,15 +89310,15 @@ where
         node: DebuggerStmt,
         ast_path: &mut AstKindPath,
     ) -> DebuggerStmt {
-        FoldAstPath::fold_debugger_stmt(self, node, ast_path)
+        FoldAstPath::fold_debugger_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_decl(&mut self, node: Decl, ast_path: &mut AstKindPath) -> Decl {
-        FoldAstPath::fold_decl(self, node, ast_path)
+        FoldAstPath::fold_decl(&mut **self, node, ast_path)
     }
 
     fn fold_decorator(&mut self, node: Decorator, ast_path: &mut AstKindPath) -> Decorator {
-        FoldAstPath::fold_decorator(self, node, ast_path)
+        FoldAstPath::fold_decorator(&mut **self, node, ast_path)
     }
 
     fn fold_decorators(
@@ -89326,31 +89326,31 @@ where
         node: Vec<Decorator>,
         ast_path: &mut AstKindPath,
     ) -> Vec<Decorator> {
-        FoldAstPath::fold_decorators(self, node, ast_path)
+        FoldAstPath::fold_decorators(&mut **self, node, ast_path)
     }
 
     fn fold_default_decl(&mut self, node: DefaultDecl, ast_path: &mut AstKindPath) -> DefaultDecl {
-        FoldAstPath::fold_default_decl(self, node, ast_path)
+        FoldAstPath::fold_default_decl(&mut **self, node, ast_path)
     }
 
     fn fold_do_while_stmt(&mut self, node: DoWhileStmt, ast_path: &mut AstKindPath) -> DoWhileStmt {
-        FoldAstPath::fold_do_while_stmt(self, node, ast_path)
+        FoldAstPath::fold_do_while_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_empty_stmt(&mut self, node: EmptyStmt, ast_path: &mut AstKindPath) -> EmptyStmt {
-        FoldAstPath::fold_empty_stmt(self, node, ast_path)
+        FoldAstPath::fold_empty_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_es_version(&mut self, node: EsVersion, ast_path: &mut AstKindPath) -> EsVersion {
-        FoldAstPath::fold_es_version(self, node, ast_path)
+        FoldAstPath::fold_es_version(&mut **self, node, ast_path)
     }
 
     fn fold_export_all(&mut self, node: ExportAll, ast_path: &mut AstKindPath) -> ExportAll {
-        FoldAstPath::fold_export_all(self, node, ast_path)
+        FoldAstPath::fold_export_all(&mut **self, node, ast_path)
     }
 
     fn fold_export_decl(&mut self, node: ExportDecl, ast_path: &mut AstKindPath) -> ExportDecl {
-        FoldAstPath::fold_export_decl(self, node, ast_path)
+        FoldAstPath::fold_export_decl(&mut **self, node, ast_path)
     }
 
     fn fold_export_default_decl(
@@ -89358,7 +89358,7 @@ where
         node: ExportDefaultDecl,
         ast_path: &mut AstKindPath,
     ) -> ExportDefaultDecl {
-        FoldAstPath::fold_export_default_decl(self, node, ast_path)
+        FoldAstPath::fold_export_default_decl(&mut **self, node, ast_path)
     }
 
     fn fold_export_default_expr(
@@ -89366,7 +89366,7 @@ where
         node: ExportDefaultExpr,
         ast_path: &mut AstKindPath,
     ) -> ExportDefaultExpr {
-        FoldAstPath::fold_export_default_expr(self, node, ast_path)
+        FoldAstPath::fold_export_default_expr(&mut **self, node, ast_path)
     }
 
     fn fold_export_default_specifier(
@@ -89374,7 +89374,7 @@ where
         node: ExportDefaultSpecifier,
         ast_path: &mut AstKindPath,
     ) -> ExportDefaultSpecifier {
-        FoldAstPath::fold_export_default_specifier(self, node, ast_path)
+        FoldAstPath::fold_export_default_specifier(&mut **self, node, ast_path)
     }
 
     fn fold_export_named_specifier(
@@ -89382,7 +89382,7 @@ where
         node: ExportNamedSpecifier,
         ast_path: &mut AstKindPath,
     ) -> ExportNamedSpecifier {
-        FoldAstPath::fold_export_named_specifier(self, node, ast_path)
+        FoldAstPath::fold_export_named_specifier(&mut **self, node, ast_path)
     }
 
     fn fold_export_namespace_specifier(
@@ -89390,7 +89390,7 @@ where
         node: ExportNamespaceSpecifier,
         ast_path: &mut AstKindPath,
     ) -> ExportNamespaceSpecifier {
-        FoldAstPath::fold_export_namespace_specifier(self, node, ast_path)
+        FoldAstPath::fold_export_namespace_specifier(&mut **self, node, ast_path)
     }
 
     fn fold_export_specifier(
@@ -89398,7 +89398,7 @@ where
         node: ExportSpecifier,
         ast_path: &mut AstKindPath,
     ) -> ExportSpecifier {
-        FoldAstPath::fold_export_specifier(self, node, ast_path)
+        FoldAstPath::fold_export_specifier(&mut **self, node, ast_path)
     }
 
     fn fold_export_specifiers(
@@ -89406,11 +89406,11 @@ where
         node: Vec<ExportSpecifier>,
         ast_path: &mut AstKindPath,
     ) -> Vec<ExportSpecifier> {
-        FoldAstPath::fold_export_specifiers(self, node, ast_path)
+        FoldAstPath::fold_export_specifiers(&mut **self, node, ast_path)
     }
 
     fn fold_expr(&mut self, node: Expr, ast_path: &mut AstKindPath) -> Expr {
-        FoldAstPath::fold_expr(self, node, ast_path)
+        FoldAstPath::fold_expr(&mut **self, node, ast_path)
     }
 
     fn fold_expr_or_spread(
@@ -89418,7 +89418,7 @@ where
         node: ExprOrSpread,
         ast_path: &mut AstKindPath,
     ) -> ExprOrSpread {
-        FoldAstPath::fold_expr_or_spread(self, node, ast_path)
+        FoldAstPath::fold_expr_or_spread(&mut **self, node, ast_path)
     }
 
     fn fold_expr_or_spreads(
@@ -89426,67 +89426,67 @@ where
         node: Vec<ExprOrSpread>,
         ast_path: &mut AstKindPath,
     ) -> Vec<ExprOrSpread> {
-        FoldAstPath::fold_expr_or_spreads(self, node, ast_path)
+        FoldAstPath::fold_expr_or_spreads(&mut **self, node, ast_path)
     }
 
     fn fold_expr_stmt(&mut self, node: ExprStmt, ast_path: &mut AstKindPath) -> ExprStmt {
-        FoldAstPath::fold_expr_stmt(self, node, ast_path)
+        FoldAstPath::fold_expr_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_exprs(&mut self, node: Vec<Box<Expr>>, ast_path: &mut AstKindPath) -> Vec<Box<Expr>> {
-        FoldAstPath::fold_exprs(self, node, ast_path)
+        FoldAstPath::fold_exprs(&mut **self, node, ast_path)
     }
 
     fn fold_fn_decl(&mut self, node: FnDecl, ast_path: &mut AstKindPath) -> FnDecl {
-        FoldAstPath::fold_fn_decl(self, node, ast_path)
+        FoldAstPath::fold_fn_decl(&mut **self, node, ast_path)
     }
 
     fn fold_fn_expr(&mut self, node: FnExpr, ast_path: &mut AstKindPath) -> FnExpr {
-        FoldAstPath::fold_fn_expr(self, node, ast_path)
+        FoldAstPath::fold_fn_expr(&mut **self, node, ast_path)
     }
 
     fn fold_for_head(&mut self, node: ForHead, ast_path: &mut AstKindPath) -> ForHead {
-        FoldAstPath::fold_for_head(self, node, ast_path)
+        FoldAstPath::fold_for_head(&mut **self, node, ast_path)
     }
 
     fn fold_for_in_stmt(&mut self, node: ForInStmt, ast_path: &mut AstKindPath) -> ForInStmt {
-        FoldAstPath::fold_for_in_stmt(self, node, ast_path)
+        FoldAstPath::fold_for_in_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_for_of_stmt(&mut self, node: ForOfStmt, ast_path: &mut AstKindPath) -> ForOfStmt {
-        FoldAstPath::fold_for_of_stmt(self, node, ast_path)
+        FoldAstPath::fold_for_of_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_for_stmt(&mut self, node: ForStmt, ast_path: &mut AstKindPath) -> ForStmt {
-        FoldAstPath::fold_for_stmt(self, node, ast_path)
+        FoldAstPath::fold_for_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_function(&mut self, node: Function, ast_path: &mut AstKindPath) -> Function {
-        FoldAstPath::fold_function(self, node, ast_path)
+        FoldAstPath::fold_function(&mut **self, node, ast_path)
     }
 
     fn fold_getter_prop(&mut self, node: GetterProp, ast_path: &mut AstKindPath) -> GetterProp {
-        FoldAstPath::fold_getter_prop(self, node, ast_path)
+        FoldAstPath::fold_getter_prop(&mut **self, node, ast_path)
     }
 
     fn fold_ident(&mut self, node: Ident, ast_path: &mut AstKindPath) -> Ident {
-        FoldAstPath::fold_ident(self, node, ast_path)
+        FoldAstPath::fold_ident(&mut **self, node, ast_path)
     }
 
     fn fold_ident_name(&mut self, node: IdentName, ast_path: &mut AstKindPath) -> IdentName {
-        FoldAstPath::fold_ident_name(self, node, ast_path)
+        FoldAstPath::fold_ident_name(&mut **self, node, ast_path)
     }
 
     fn fold_if_stmt(&mut self, node: IfStmt, ast_path: &mut AstKindPath) -> IfStmt {
-        FoldAstPath::fold_if_stmt(self, node, ast_path)
+        FoldAstPath::fold_if_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_import(&mut self, node: Import, ast_path: &mut AstKindPath) -> Import {
-        FoldAstPath::fold_import(self, node, ast_path)
+        FoldAstPath::fold_import(&mut **self, node, ast_path)
     }
 
     fn fold_import_decl(&mut self, node: ImportDecl, ast_path: &mut AstKindPath) -> ImportDecl {
-        FoldAstPath::fold_import_decl(self, node, ast_path)
+        FoldAstPath::fold_import_decl(&mut **self, node, ast_path)
     }
 
     fn fold_import_default_specifier(
@@ -89494,7 +89494,7 @@ where
         node: ImportDefaultSpecifier,
         ast_path: &mut AstKindPath,
     ) -> ImportDefaultSpecifier {
-        FoldAstPath::fold_import_default_specifier(self, node, ast_path)
+        FoldAstPath::fold_import_default_specifier(&mut **self, node, ast_path)
     }
 
     fn fold_import_named_specifier(
@@ -89502,11 +89502,11 @@ where
         node: ImportNamedSpecifier,
         ast_path: &mut AstKindPath,
     ) -> ImportNamedSpecifier {
-        FoldAstPath::fold_import_named_specifier(self, node, ast_path)
+        FoldAstPath::fold_import_named_specifier(&mut **self, node, ast_path)
     }
 
     fn fold_import_phase(&mut self, node: ImportPhase, ast_path: &mut AstKindPath) -> ImportPhase {
-        FoldAstPath::fold_import_phase(self, node, ast_path)
+        FoldAstPath::fold_import_phase(&mut **self, node, ast_path)
     }
 
     fn fold_import_specifier(
@@ -89514,7 +89514,7 @@ where
         node: ImportSpecifier,
         ast_path: &mut AstKindPath,
     ) -> ImportSpecifier {
-        FoldAstPath::fold_import_specifier(self, node, ast_path)
+        FoldAstPath::fold_import_specifier(&mut **self, node, ast_path)
     }
 
     fn fold_import_specifiers(
@@ -89522,7 +89522,7 @@ where
         node: Vec<ImportSpecifier>,
         ast_path: &mut AstKindPath,
     ) -> Vec<ImportSpecifier> {
-        FoldAstPath::fold_import_specifiers(self, node, ast_path)
+        FoldAstPath::fold_import_specifiers(&mut **self, node, ast_path)
     }
 
     fn fold_import_star_as_specifier(
@@ -89530,11 +89530,11 @@ where
         node: ImportStarAsSpecifier,
         ast_path: &mut AstKindPath,
     ) -> ImportStarAsSpecifier {
-        FoldAstPath::fold_import_star_as_specifier(self, node, ast_path)
+        FoldAstPath::fold_import_star_as_specifier(&mut **self, node, ast_path)
     }
 
     fn fold_import_with(&mut self, node: ImportWith, ast_path: &mut AstKindPath) -> ImportWith {
-        FoldAstPath::fold_import_with(self, node, ast_path)
+        FoldAstPath::fold_import_with(&mut **self, node, ast_path)
     }
 
     fn fold_import_with_item(
@@ -89542,7 +89542,7 @@ where
         node: ImportWithItem,
         ast_path: &mut AstKindPath,
     ) -> ImportWithItem {
-        FoldAstPath::fold_import_with_item(self, node, ast_path)
+        FoldAstPath::fold_import_with_item(&mut **self, node, ast_path)
     }
 
     fn fold_import_with_items(
@@ -89550,19 +89550,19 @@ where
         node: Vec<ImportWithItem>,
         ast_path: &mut AstKindPath,
     ) -> Vec<ImportWithItem> {
-        FoldAstPath::fold_import_with_items(self, node, ast_path)
+        FoldAstPath::fold_import_with_items(&mut **self, node, ast_path)
     }
 
     fn fold_invalid(&mut self, node: Invalid, ast_path: &mut AstKindPath) -> Invalid {
-        FoldAstPath::fold_invalid(self, node, ast_path)
+        FoldAstPath::fold_invalid(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_attr(&mut self, node: JSXAttr, ast_path: &mut AstKindPath) -> JSXAttr {
-        FoldAstPath::fold_jsx_attr(self, node, ast_path)
+        FoldAstPath::fold_jsx_attr(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_attr_name(&mut self, node: JSXAttrName, ast_path: &mut AstKindPath) -> JSXAttrName {
-        FoldAstPath::fold_jsx_attr_name(self, node, ast_path)
+        FoldAstPath::fold_jsx_attr_name(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_attr_or_spread(
@@ -89570,7 +89570,7 @@ where
         node: JSXAttrOrSpread,
         ast_path: &mut AstKindPath,
     ) -> JSXAttrOrSpread {
-        FoldAstPath::fold_jsx_attr_or_spread(self, node, ast_path)
+        FoldAstPath::fold_jsx_attr_or_spread(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_attr_or_spreads(
@@ -89578,7 +89578,7 @@ where
         node: Vec<JSXAttrOrSpread>,
         ast_path: &mut AstKindPath,
     ) -> Vec<JSXAttrOrSpread> {
-        FoldAstPath::fold_jsx_attr_or_spreads(self, node, ast_path)
+        FoldAstPath::fold_jsx_attr_or_spreads(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_attr_value(
@@ -89586,7 +89586,7 @@ where
         node: JSXAttrValue,
         ast_path: &mut AstKindPath,
     ) -> JSXAttrValue {
-        FoldAstPath::fold_jsx_attr_value(self, node, ast_path)
+        FoldAstPath::fold_jsx_attr_value(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_closing_element(
@@ -89594,7 +89594,7 @@ where
         node: JSXClosingElement,
         ast_path: &mut AstKindPath,
     ) -> JSXClosingElement {
-        FoldAstPath::fold_jsx_closing_element(self, node, ast_path)
+        FoldAstPath::fold_jsx_closing_element(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_closing_fragment(
@@ -89602,11 +89602,11 @@ where
         node: JSXClosingFragment,
         ast_path: &mut AstKindPath,
     ) -> JSXClosingFragment {
-        FoldAstPath::fold_jsx_closing_fragment(self, node, ast_path)
+        FoldAstPath::fold_jsx_closing_fragment(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_element(&mut self, node: JSXElement, ast_path: &mut AstKindPath) -> JSXElement {
-        FoldAstPath::fold_jsx_element(self, node, ast_path)
+        FoldAstPath::fold_jsx_element(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_element_child(
@@ -89614,7 +89614,7 @@ where
         node: JSXElementChild,
         ast_path: &mut AstKindPath,
     ) -> JSXElementChild {
-        FoldAstPath::fold_jsx_element_child(self, node, ast_path)
+        FoldAstPath::fold_jsx_element_child(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_element_childs(
@@ -89622,7 +89622,7 @@ where
         node: Vec<JSXElementChild>,
         ast_path: &mut AstKindPath,
     ) -> Vec<JSXElementChild> {
-        FoldAstPath::fold_jsx_element_childs(self, node, ast_path)
+        FoldAstPath::fold_jsx_element_childs(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_element_name(
@@ -89630,7 +89630,7 @@ where
         node: JSXElementName,
         ast_path: &mut AstKindPath,
     ) -> JSXElementName {
-        FoldAstPath::fold_jsx_element_name(self, node, ast_path)
+        FoldAstPath::fold_jsx_element_name(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_empty_expr(
@@ -89638,11 +89638,11 @@ where
         node: JSXEmptyExpr,
         ast_path: &mut AstKindPath,
     ) -> JSXEmptyExpr {
-        FoldAstPath::fold_jsx_empty_expr(self, node, ast_path)
+        FoldAstPath::fold_jsx_empty_expr(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_expr(&mut self, node: JSXExpr, ast_path: &mut AstKindPath) -> JSXExpr {
-        FoldAstPath::fold_jsx_expr(self, node, ast_path)
+        FoldAstPath::fold_jsx_expr(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_expr_container(
@@ -89650,11 +89650,11 @@ where
         node: JSXExprContainer,
         ast_path: &mut AstKindPath,
     ) -> JSXExprContainer {
-        FoldAstPath::fold_jsx_expr_container(self, node, ast_path)
+        FoldAstPath::fold_jsx_expr_container(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_fragment(&mut self, node: JSXFragment, ast_path: &mut AstKindPath) -> JSXFragment {
-        FoldAstPath::fold_jsx_fragment(self, node, ast_path)
+        FoldAstPath::fold_jsx_fragment(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_member_expr(
@@ -89662,7 +89662,7 @@ where
         node: JSXMemberExpr,
         ast_path: &mut AstKindPath,
     ) -> JSXMemberExpr {
-        FoldAstPath::fold_jsx_member_expr(self, node, ast_path)
+        FoldAstPath::fold_jsx_member_expr(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_namespaced_name(
@@ -89670,11 +89670,11 @@ where
         node: JSXNamespacedName,
         ast_path: &mut AstKindPath,
     ) -> JSXNamespacedName {
-        FoldAstPath::fold_jsx_namespaced_name(self, node, ast_path)
+        FoldAstPath::fold_jsx_namespaced_name(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_object(&mut self, node: JSXObject, ast_path: &mut AstKindPath) -> JSXObject {
-        FoldAstPath::fold_jsx_object(self, node, ast_path)
+        FoldAstPath::fold_jsx_object(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_opening_element(
@@ -89682,7 +89682,7 @@ where
         node: JSXOpeningElement,
         ast_path: &mut AstKindPath,
     ) -> JSXOpeningElement {
-        FoldAstPath::fold_jsx_opening_element(self, node, ast_path)
+        FoldAstPath::fold_jsx_opening_element(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_opening_fragment(
@@ -89690,7 +89690,7 @@ where
         node: JSXOpeningFragment,
         ast_path: &mut AstKindPath,
     ) -> JSXOpeningFragment {
-        FoldAstPath::fold_jsx_opening_fragment(self, node, ast_path)
+        FoldAstPath::fold_jsx_opening_fragment(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_spread_child(
@@ -89698,15 +89698,15 @@ where
         node: JSXSpreadChild,
         ast_path: &mut AstKindPath,
     ) -> JSXSpreadChild {
-        FoldAstPath::fold_jsx_spread_child(self, node, ast_path)
+        FoldAstPath::fold_jsx_spread_child(&mut **self, node, ast_path)
     }
 
     fn fold_jsx_text(&mut self, node: JSXText, ast_path: &mut AstKindPath) -> JSXText {
-        FoldAstPath::fold_jsx_text(self, node, ast_path)
+        FoldAstPath::fold_jsx_text(&mut **self, node, ast_path)
     }
 
     fn fold_key(&mut self, node: Key, ast_path: &mut AstKindPath) -> Key {
-        FoldAstPath::fold_key(self, node, ast_path)
+        FoldAstPath::fold_key(&mut **self, node, ast_path)
     }
 
     fn fold_key_value_pat_prop(
@@ -89714,7 +89714,7 @@ where
         node: KeyValuePatProp,
         ast_path: &mut AstKindPath,
     ) -> KeyValuePatProp {
-        FoldAstPath::fold_key_value_pat_prop(self, node, ast_path)
+        FoldAstPath::fold_key_value_pat_prop(&mut **self, node, ast_path)
     }
 
     fn fold_key_value_prop(
@@ -89722,23 +89722,23 @@ where
         node: KeyValueProp,
         ast_path: &mut AstKindPath,
     ) -> KeyValueProp {
-        FoldAstPath::fold_key_value_prop(self, node, ast_path)
+        FoldAstPath::fold_key_value_prop(&mut **self, node, ast_path)
     }
 
     fn fold_labeled_stmt(&mut self, node: LabeledStmt, ast_path: &mut AstKindPath) -> LabeledStmt {
-        FoldAstPath::fold_labeled_stmt(self, node, ast_path)
+        FoldAstPath::fold_labeled_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_lit(&mut self, node: Lit, ast_path: &mut AstKindPath) -> Lit {
-        FoldAstPath::fold_lit(self, node, ast_path)
+        FoldAstPath::fold_lit(&mut **self, node, ast_path)
     }
 
     fn fold_member_expr(&mut self, node: MemberExpr, ast_path: &mut AstKindPath) -> MemberExpr {
-        FoldAstPath::fold_member_expr(self, node, ast_path)
+        FoldAstPath::fold_member_expr(&mut **self, node, ast_path)
     }
 
     fn fold_member_prop(&mut self, node: MemberProp, ast_path: &mut AstKindPath) -> MemberProp {
-        FoldAstPath::fold_member_prop(self, node, ast_path)
+        FoldAstPath::fold_member_prop(&mut **self, node, ast_path)
     }
 
     fn fold_meta_prop_expr(
@@ -89746,7 +89746,7 @@ where
         node: MetaPropExpr,
         ast_path: &mut AstKindPath,
     ) -> MetaPropExpr {
-        FoldAstPath::fold_meta_prop_expr(self, node, ast_path)
+        FoldAstPath::fold_meta_prop_expr(&mut **self, node, ast_path)
     }
 
     fn fold_meta_prop_kind(
@@ -89754,23 +89754,23 @@ where
         node: MetaPropKind,
         ast_path: &mut AstKindPath,
     ) -> MetaPropKind {
-        FoldAstPath::fold_meta_prop_kind(self, node, ast_path)
+        FoldAstPath::fold_meta_prop_kind(&mut **self, node, ast_path)
     }
 
     fn fold_method_kind(&mut self, node: MethodKind, ast_path: &mut AstKindPath) -> MethodKind {
-        FoldAstPath::fold_method_kind(self, node, ast_path)
+        FoldAstPath::fold_method_kind(&mut **self, node, ast_path)
     }
 
     fn fold_method_prop(&mut self, node: MethodProp, ast_path: &mut AstKindPath) -> MethodProp {
-        FoldAstPath::fold_method_prop(self, node, ast_path)
+        FoldAstPath::fold_method_prop(&mut **self, node, ast_path)
     }
 
     fn fold_module(&mut self, node: Module, ast_path: &mut AstKindPath) -> Module {
-        FoldAstPath::fold_module(self, node, ast_path)
+        FoldAstPath::fold_module(&mut **self, node, ast_path)
     }
 
     fn fold_module_decl(&mut self, node: ModuleDecl, ast_path: &mut AstKindPath) -> ModuleDecl {
-        FoldAstPath::fold_module_decl(self, node, ast_path)
+        FoldAstPath::fold_module_decl(&mut **self, node, ast_path)
     }
 
     fn fold_module_export_name(
@@ -89778,11 +89778,11 @@ where
         node: ModuleExportName,
         ast_path: &mut AstKindPath,
     ) -> ModuleExportName {
-        FoldAstPath::fold_module_export_name(self, node, ast_path)
+        FoldAstPath::fold_module_export_name(&mut **self, node, ast_path)
     }
 
     fn fold_module_item(&mut self, node: ModuleItem, ast_path: &mut AstKindPath) -> ModuleItem {
-        FoldAstPath::fold_module_item(self, node, ast_path)
+        FoldAstPath::fold_module_item(&mut **self, node, ast_path)
     }
 
     fn fold_module_items(
@@ -89790,31 +89790,31 @@ where
         node: Vec<ModuleItem>,
         ast_path: &mut AstKindPath,
     ) -> Vec<ModuleItem> {
-        FoldAstPath::fold_module_items(self, node, ast_path)
+        FoldAstPath::fold_module_items(&mut **self, node, ast_path)
     }
 
     fn fold_named_export(&mut self, node: NamedExport, ast_path: &mut AstKindPath) -> NamedExport {
-        FoldAstPath::fold_named_export(self, node, ast_path)
+        FoldAstPath::fold_named_export(&mut **self, node, ast_path)
     }
 
     fn fold_new_expr(&mut self, node: NewExpr, ast_path: &mut AstKindPath) -> NewExpr {
-        FoldAstPath::fold_new_expr(self, node, ast_path)
+        FoldAstPath::fold_new_expr(&mut **self, node, ast_path)
     }
 
     fn fold_null(&mut self, node: Null, ast_path: &mut AstKindPath) -> Null {
-        FoldAstPath::fold_null(self, node, ast_path)
+        FoldAstPath::fold_null(&mut **self, node, ast_path)
     }
 
     fn fold_number(&mut self, node: Number, ast_path: &mut AstKindPath) -> Number {
-        FoldAstPath::fold_number(self, node, ast_path)
+        FoldAstPath::fold_number(&mut **self, node, ast_path)
     }
 
     fn fold_object_lit(&mut self, node: ObjectLit, ast_path: &mut AstKindPath) -> ObjectLit {
-        FoldAstPath::fold_object_lit(self, node, ast_path)
+        FoldAstPath::fold_object_lit(&mut **self, node, ast_path)
     }
 
     fn fold_object_pat(&mut self, node: ObjectPat, ast_path: &mut AstKindPath) -> ObjectPat {
-        FoldAstPath::fold_object_pat(self, node, ast_path)
+        FoldAstPath::fold_object_pat(&mut **self, node, ast_path)
     }
 
     fn fold_object_pat_prop(
@@ -89822,7 +89822,7 @@ where
         node: ObjectPatProp,
         ast_path: &mut AstKindPath,
     ) -> ObjectPatProp {
-        FoldAstPath::fold_object_pat_prop(self, node, ast_path)
+        FoldAstPath::fold_object_pat_prop(&mut **self, node, ast_path)
     }
 
     fn fold_object_pat_props(
@@ -89830,7 +89830,7 @@ where
         node: Vec<ObjectPatProp>,
         ast_path: &mut AstKindPath,
     ) -> Vec<ObjectPatProp> {
-        FoldAstPath::fold_object_pat_props(self, node, ast_path)
+        FoldAstPath::fold_object_pat_props(&mut **self, node, ast_path)
     }
 
     fn fold_opt_accessibility(
@@ -89838,7 +89838,7 @@ where
         node: Option<Accessibility>,
         ast_path: &mut AstKindPath,
     ) -> Option<Accessibility> {
-        FoldAstPath::fold_opt_accessibility(self, node, ast_path)
+        FoldAstPath::fold_opt_accessibility(&mut **self, node, ast_path)
     }
 
     fn fold_opt_atom(
@@ -89846,7 +89846,7 @@ where
         node: Option<swc_atoms::Atom>,
         ast_path: &mut AstKindPath,
     ) -> Option<swc_atoms::Atom> {
-        FoldAstPath::fold_opt_atom(self, node, ast_path)
+        FoldAstPath::fold_opt_atom(&mut **self, node, ast_path)
     }
 
     fn fold_opt_block_stmt(
@@ -89854,11 +89854,11 @@ where
         node: Option<BlockStmt>,
         ast_path: &mut AstKindPath,
     ) -> Option<BlockStmt> {
-        FoldAstPath::fold_opt_block_stmt(self, node, ast_path)
+        FoldAstPath::fold_opt_block_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_opt_call(&mut self, node: OptCall, ast_path: &mut AstKindPath) -> OptCall {
-        FoldAstPath::fold_opt_call(self, node, ast_path)
+        FoldAstPath::fold_opt_call(&mut **self, node, ast_path)
     }
 
     fn fold_opt_catch_clause(
@@ -89866,7 +89866,7 @@ where
         node: Option<CatchClause>,
         ast_path: &mut AstKindPath,
     ) -> Option<CatchClause> {
-        FoldAstPath::fold_opt_catch_clause(self, node, ast_path)
+        FoldAstPath::fold_opt_catch_clause(&mut **self, node, ast_path)
     }
 
     fn fold_opt_chain_base(
@@ -89874,7 +89874,7 @@ where
         node: OptChainBase,
         ast_path: &mut AstKindPath,
     ) -> OptChainBase {
-        FoldAstPath::fold_opt_chain_base(self, node, ast_path)
+        FoldAstPath::fold_opt_chain_base(&mut **self, node, ast_path)
     }
 
     fn fold_opt_chain_expr(
@@ -89882,7 +89882,7 @@ where
         node: OptChainExpr,
         ast_path: &mut AstKindPath,
     ) -> OptChainExpr {
-        FoldAstPath::fold_opt_chain_expr(self, node, ast_path)
+        FoldAstPath::fold_opt_chain_expr(&mut **self, node, ast_path)
     }
 
     fn fold_opt_expr(
@@ -89890,7 +89890,7 @@ where
         node: Option<Box<Expr>>,
         ast_path: &mut AstKindPath,
     ) -> Option<Box<Expr>> {
-        FoldAstPath::fold_opt_expr(self, node, ast_path)
+        FoldAstPath::fold_opt_expr(&mut **self, node, ast_path)
     }
 
     fn fold_opt_expr_or_spread(
@@ -89898,7 +89898,7 @@ where
         node: Option<ExprOrSpread>,
         ast_path: &mut AstKindPath,
     ) -> Option<ExprOrSpread> {
-        FoldAstPath::fold_opt_expr_or_spread(self, node, ast_path)
+        FoldAstPath::fold_opt_expr_or_spread(&mut **self, node, ast_path)
     }
 
     fn fold_opt_expr_or_spreads(
@@ -89906,11 +89906,11 @@ where
         node: Option<Vec<ExprOrSpread>>,
         ast_path: &mut AstKindPath,
     ) -> Option<Vec<ExprOrSpread>> {
-        FoldAstPath::fold_opt_expr_or_spreads(self, node, ast_path)
+        FoldAstPath::fold_opt_expr_or_spreads(&mut **self, node, ast_path)
     }
 
     fn fold_opt_ident(&mut self, node: Option<Ident>, ast_path: &mut AstKindPath) -> Option<Ident> {
-        FoldAstPath::fold_opt_ident(self, node, ast_path)
+        FoldAstPath::fold_opt_ident(&mut **self, node, ast_path)
     }
 
     fn fold_opt_jsx_attr_value(
@@ -89918,7 +89918,7 @@ where
         node: Option<JSXAttrValue>,
         ast_path: &mut AstKindPath,
     ) -> Option<JSXAttrValue> {
-        FoldAstPath::fold_opt_jsx_attr_value(self, node, ast_path)
+        FoldAstPath::fold_opt_jsx_attr_value(&mut **self, node, ast_path)
     }
 
     fn fold_opt_jsx_closing_element(
@@ -89926,7 +89926,7 @@ where
         node: Option<JSXClosingElement>,
         ast_path: &mut AstKindPath,
     ) -> Option<JSXClosingElement> {
-        FoldAstPath::fold_opt_jsx_closing_element(self, node, ast_path)
+        FoldAstPath::fold_opt_jsx_closing_element(&mut **self, node, ast_path)
     }
 
     fn fold_opt_module_export_name(
@@ -89934,7 +89934,7 @@ where
         node: Option<ModuleExportName>,
         ast_path: &mut AstKindPath,
     ) -> Option<ModuleExportName> {
-        FoldAstPath::fold_opt_module_export_name(self, node, ast_path)
+        FoldAstPath::fold_opt_module_export_name(&mut **self, node, ast_path)
     }
 
     fn fold_opt_module_items(
@@ -89942,7 +89942,7 @@ where
         node: Option<Vec<ModuleItem>>,
         ast_path: &mut AstKindPath,
     ) -> Option<Vec<ModuleItem>> {
-        FoldAstPath::fold_opt_module_items(self, node, ast_path)
+        FoldAstPath::fold_opt_module_items(&mut **self, node, ast_path)
     }
 
     fn fold_opt_object_lit(
@@ -89950,11 +89950,11 @@ where
         node: Option<Box<ObjectLit>>,
         ast_path: &mut AstKindPath,
     ) -> Option<Box<ObjectLit>> {
-        FoldAstPath::fold_opt_object_lit(self, node, ast_path)
+        FoldAstPath::fold_opt_object_lit(&mut **self, node, ast_path)
     }
 
     fn fold_opt_pat(&mut self, node: Option<Pat>, ast_path: &mut AstKindPath) -> Option<Pat> {
-        FoldAstPath::fold_opt_pat(self, node, ast_path)
+        FoldAstPath::fold_opt_pat(&mut **self, node, ast_path)
     }
 
     fn fold_opt_span(
@@ -89962,7 +89962,7 @@ where
         node: Option<swc_common::Span>,
         ast_path: &mut AstKindPath,
     ) -> Option<swc_common::Span> {
-        FoldAstPath::fold_opt_span(self, node, ast_path)
+        FoldAstPath::fold_opt_span(&mut **self, node, ast_path)
     }
 
     fn fold_opt_stmt(
@@ -89970,7 +89970,7 @@ where
         node: Option<Box<Stmt>>,
         ast_path: &mut AstKindPath,
     ) -> Option<Box<Stmt>> {
-        FoldAstPath::fold_opt_stmt(self, node, ast_path)
+        FoldAstPath::fold_opt_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_opt_str(
@@ -89978,7 +89978,7 @@ where
         node: Option<Box<Str>>,
         ast_path: &mut AstKindPath,
     ) -> Option<Box<Str>> {
-        FoldAstPath::fold_opt_str(self, node, ast_path)
+        FoldAstPath::fold_opt_str(&mut **self, node, ast_path)
     }
 
     fn fold_opt_true_plus_minus(
@@ -89986,7 +89986,7 @@ where
         node: Option<TruePlusMinus>,
         ast_path: &mut AstKindPath,
     ) -> Option<TruePlusMinus> {
-        FoldAstPath::fold_opt_true_plus_minus(self, node, ast_path)
+        FoldAstPath::fold_opt_true_plus_minus(&mut **self, node, ast_path)
     }
 
     fn fold_opt_ts_entity_name(
@@ -89994,7 +89994,7 @@ where
         node: Option<TsEntityName>,
         ast_path: &mut AstKindPath,
     ) -> Option<TsEntityName> {
-        FoldAstPath::fold_opt_ts_entity_name(self, node, ast_path)
+        FoldAstPath::fold_opt_ts_entity_name(&mut **self, node, ast_path)
     }
 
     fn fold_opt_ts_namespace_body(
@@ -90002,7 +90002,7 @@ where
         node: Option<TsNamespaceBody>,
         ast_path: &mut AstKindPath,
     ) -> Option<TsNamespaceBody> {
-        FoldAstPath::fold_opt_ts_namespace_body(self, node, ast_path)
+        FoldAstPath::fold_opt_ts_namespace_body(&mut **self, node, ast_path)
     }
 
     fn fold_opt_ts_type(
@@ -90010,7 +90010,7 @@ where
         node: Option<Box<TsType>>,
         ast_path: &mut AstKindPath,
     ) -> Option<Box<TsType>> {
-        FoldAstPath::fold_opt_ts_type(self, node, ast_path)
+        FoldAstPath::fold_opt_ts_type(&mut **self, node, ast_path)
     }
 
     fn fold_opt_ts_type_ann(
@@ -90018,7 +90018,7 @@ where
         node: Option<Box<TsTypeAnn>>,
         ast_path: &mut AstKindPath,
     ) -> Option<Box<TsTypeAnn>> {
-        FoldAstPath::fold_opt_ts_type_ann(self, node, ast_path)
+        FoldAstPath::fold_opt_ts_type_ann(&mut **self, node, ast_path)
     }
 
     fn fold_opt_ts_type_param_decl(
@@ -90026,7 +90026,7 @@ where
         node: Option<Box<TsTypeParamDecl>>,
         ast_path: &mut AstKindPath,
     ) -> Option<Box<TsTypeParamDecl>> {
-        FoldAstPath::fold_opt_ts_type_param_decl(self, node, ast_path)
+        FoldAstPath::fold_opt_ts_type_param_decl(&mut **self, node, ast_path)
     }
 
     fn fold_opt_ts_type_param_instantiation(
@@ -90034,7 +90034,7 @@ where
         node: Option<Box<TsTypeParamInstantiation>>,
         ast_path: &mut AstKindPath,
     ) -> Option<Box<TsTypeParamInstantiation>> {
-        FoldAstPath::fold_opt_ts_type_param_instantiation(self, node, ast_path)
+        FoldAstPath::fold_opt_ts_type_param_instantiation(&mut **self, node, ast_path)
     }
 
     fn fold_opt_var_decl_or_expr(
@@ -90042,7 +90042,7 @@ where
         node: Option<VarDeclOrExpr>,
         ast_path: &mut AstKindPath,
     ) -> Option<VarDeclOrExpr> {
-        FoldAstPath::fold_opt_var_decl_or_expr(self, node, ast_path)
+        FoldAstPath::fold_opt_var_decl_or_expr(&mut **self, node, ast_path)
     }
 
     fn fold_opt_vec_expr_or_spreads(
@@ -90050,7 +90050,7 @@ where
         node: Vec<Option<ExprOrSpread>>,
         ast_path: &mut AstKindPath,
     ) -> Vec<Option<ExprOrSpread>> {
-        FoldAstPath::fold_opt_vec_expr_or_spreads(self, node, ast_path)
+        FoldAstPath::fold_opt_vec_expr_or_spreads(&mut **self, node, ast_path)
     }
 
     fn fold_opt_vec_pats(
@@ -90058,11 +90058,11 @@ where
         node: Vec<Option<Pat>>,
         ast_path: &mut AstKindPath,
     ) -> Vec<Option<Pat>> {
-        FoldAstPath::fold_opt_vec_pats(self, node, ast_path)
+        FoldAstPath::fold_opt_vec_pats(&mut **self, node, ast_path)
     }
 
     fn fold_param(&mut self, node: Param, ast_path: &mut AstKindPath) -> Param {
-        FoldAstPath::fold_param(self, node, ast_path)
+        FoldAstPath::fold_param(&mut **self, node, ast_path)
     }
 
     fn fold_param_or_ts_param_prop(
@@ -90070,7 +90070,7 @@ where
         node: ParamOrTsParamProp,
         ast_path: &mut AstKindPath,
     ) -> ParamOrTsParamProp {
-        FoldAstPath::fold_param_or_ts_param_prop(self, node, ast_path)
+        FoldAstPath::fold_param_or_ts_param_prop(&mut **self, node, ast_path)
     }
 
     fn fold_param_or_ts_param_props(
@@ -90078,23 +90078,23 @@ where
         node: Vec<ParamOrTsParamProp>,
         ast_path: &mut AstKindPath,
     ) -> Vec<ParamOrTsParamProp> {
-        FoldAstPath::fold_param_or_ts_param_props(self, node, ast_path)
+        FoldAstPath::fold_param_or_ts_param_props(&mut **self, node, ast_path)
     }
 
     fn fold_params(&mut self, node: Vec<Param>, ast_path: &mut AstKindPath) -> Vec<Param> {
-        FoldAstPath::fold_params(self, node, ast_path)
+        FoldAstPath::fold_params(&mut **self, node, ast_path)
     }
 
     fn fold_paren_expr(&mut self, node: ParenExpr, ast_path: &mut AstKindPath) -> ParenExpr {
-        FoldAstPath::fold_paren_expr(self, node, ast_path)
+        FoldAstPath::fold_paren_expr(&mut **self, node, ast_path)
     }
 
     fn fold_pat(&mut self, node: Pat, ast_path: &mut AstKindPath) -> Pat {
-        FoldAstPath::fold_pat(self, node, ast_path)
+        FoldAstPath::fold_pat(&mut **self, node, ast_path)
     }
 
     fn fold_pats(&mut self, node: Vec<Pat>, ast_path: &mut AstKindPath) -> Vec<Pat> {
-        FoldAstPath::fold_pats(self, node, ast_path)
+        FoldAstPath::fold_pats(&mut **self, node, ast_path)
     }
 
     fn fold_private_method(
@@ -90102,27 +90102,27 @@ where
         node: PrivateMethod,
         ast_path: &mut AstKindPath,
     ) -> PrivateMethod {
-        FoldAstPath::fold_private_method(self, node, ast_path)
+        FoldAstPath::fold_private_method(&mut **self, node, ast_path)
     }
 
     fn fold_private_name(&mut self, node: PrivateName, ast_path: &mut AstKindPath) -> PrivateName {
-        FoldAstPath::fold_private_name(self, node, ast_path)
+        FoldAstPath::fold_private_name(&mut **self, node, ast_path)
     }
 
     fn fold_private_prop(&mut self, node: PrivateProp, ast_path: &mut AstKindPath) -> PrivateProp {
-        FoldAstPath::fold_private_prop(self, node, ast_path)
+        FoldAstPath::fold_private_prop(&mut **self, node, ast_path)
     }
 
     fn fold_program(&mut self, node: Program, ast_path: &mut AstKindPath) -> Program {
-        FoldAstPath::fold_program(self, node, ast_path)
+        FoldAstPath::fold_program(&mut **self, node, ast_path)
     }
 
     fn fold_prop(&mut self, node: Prop, ast_path: &mut AstKindPath) -> Prop {
-        FoldAstPath::fold_prop(self, node, ast_path)
+        FoldAstPath::fold_prop(&mut **self, node, ast_path)
     }
 
     fn fold_prop_name(&mut self, node: PropName, ast_path: &mut AstKindPath) -> PropName {
-        FoldAstPath::fold_prop_name(self, node, ast_path)
+        FoldAstPath::fold_prop_name(&mut **self, node, ast_path)
     }
 
     fn fold_prop_or_spread(
@@ -90130,7 +90130,7 @@ where
         node: PropOrSpread,
         ast_path: &mut AstKindPath,
     ) -> PropOrSpread {
-        FoldAstPath::fold_prop_or_spread(self, node, ast_path)
+        FoldAstPath::fold_prop_or_spread(&mut **self, node, ast_path)
     }
 
     fn fold_prop_or_spreads(
@@ -90138,11 +90138,11 @@ where
         node: Vec<PropOrSpread>,
         ast_path: &mut AstKindPath,
     ) -> Vec<PropOrSpread> {
-        FoldAstPath::fold_prop_or_spreads(self, node, ast_path)
+        FoldAstPath::fold_prop_or_spreads(&mut **self, node, ast_path)
     }
 
     fn fold_regex(&mut self, node: Regex, ast_path: &mut AstKindPath) -> Regex {
-        FoldAstPath::fold_regex(self, node, ast_path)
+        FoldAstPath::fold_regex(&mut **self, node, ast_path)
     }
 
     fn fold_reserved_unused(
@@ -90150,27 +90150,27 @@ where
         node: ReservedUnused,
         ast_path: &mut AstKindPath,
     ) -> ReservedUnused {
-        FoldAstPath::fold_reserved_unused(self, node, ast_path)
+        FoldAstPath::fold_reserved_unused(&mut **self, node, ast_path)
     }
 
     fn fold_rest_pat(&mut self, node: RestPat, ast_path: &mut AstKindPath) -> RestPat {
-        FoldAstPath::fold_rest_pat(self, node, ast_path)
+        FoldAstPath::fold_rest_pat(&mut **self, node, ast_path)
     }
 
     fn fold_return_stmt(&mut self, node: ReturnStmt, ast_path: &mut AstKindPath) -> ReturnStmt {
-        FoldAstPath::fold_return_stmt(self, node, ast_path)
+        FoldAstPath::fold_return_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_script(&mut self, node: Script, ast_path: &mut AstKindPath) -> Script {
-        FoldAstPath::fold_script(self, node, ast_path)
+        FoldAstPath::fold_script(&mut **self, node, ast_path)
     }
 
     fn fold_seq_expr(&mut self, node: SeqExpr, ast_path: &mut AstKindPath) -> SeqExpr {
-        FoldAstPath::fold_seq_expr(self, node, ast_path)
+        FoldAstPath::fold_seq_expr(&mut **self, node, ast_path)
     }
 
     fn fold_setter_prop(&mut self, node: SetterProp, ast_path: &mut AstKindPath) -> SetterProp {
-        FoldAstPath::fold_setter_prop(self, node, ast_path)
+        FoldAstPath::fold_setter_prop(&mut **self, node, ast_path)
     }
 
     fn fold_simple_assign_target(
@@ -90178,7 +90178,7 @@ where
         node: SimpleAssignTarget,
         ast_path: &mut AstKindPath,
     ) -> SimpleAssignTarget {
-        FoldAstPath::fold_simple_assign_target(self, node, ast_path)
+        FoldAstPath::fold_simple_assign_target(&mut **self, node, ast_path)
     }
 
     fn fold_span(
@@ -90186,7 +90186,7 @@ where
         node: swc_common::Span,
         ast_path: &mut AstKindPath,
     ) -> swc_common::Span {
-        FoldAstPath::fold_span(self, node, ast_path)
+        FoldAstPath::fold_span(&mut **self, node, ast_path)
     }
 
     fn fold_spread_element(
@@ -90194,31 +90194,31 @@ where
         node: SpreadElement,
         ast_path: &mut AstKindPath,
     ) -> SpreadElement {
-        FoldAstPath::fold_spread_element(self, node, ast_path)
+        FoldAstPath::fold_spread_element(&mut **self, node, ast_path)
     }
 
     fn fold_static_block(&mut self, node: StaticBlock, ast_path: &mut AstKindPath) -> StaticBlock {
-        FoldAstPath::fold_static_block(self, node, ast_path)
+        FoldAstPath::fold_static_block(&mut **self, node, ast_path)
     }
 
     fn fold_stmt(&mut self, node: Stmt, ast_path: &mut AstKindPath) -> Stmt {
-        FoldAstPath::fold_stmt(self, node, ast_path)
+        FoldAstPath::fold_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_stmts(&mut self, node: Vec<Stmt>, ast_path: &mut AstKindPath) -> Vec<Stmt> {
-        FoldAstPath::fold_stmts(self, node, ast_path)
+        FoldAstPath::fold_stmts(&mut **self, node, ast_path)
     }
 
     fn fold_str(&mut self, node: Str, ast_path: &mut AstKindPath) -> Str {
-        FoldAstPath::fold_str(self, node, ast_path)
+        FoldAstPath::fold_str(&mut **self, node, ast_path)
     }
 
     fn fold_super(&mut self, node: Super, ast_path: &mut AstKindPath) -> Super {
-        FoldAstPath::fold_super(self, node, ast_path)
+        FoldAstPath::fold_super(&mut **self, node, ast_path)
     }
 
     fn fold_super_prop(&mut self, node: SuperProp, ast_path: &mut AstKindPath) -> SuperProp {
-        FoldAstPath::fold_super_prop(self, node, ast_path)
+        FoldAstPath::fold_super_prop(&mut **self, node, ast_path)
     }
 
     fn fold_super_prop_expr(
@@ -90226,11 +90226,11 @@ where
         node: SuperPropExpr,
         ast_path: &mut AstKindPath,
     ) -> SuperPropExpr {
-        FoldAstPath::fold_super_prop_expr(self, node, ast_path)
+        FoldAstPath::fold_super_prop_expr(&mut **self, node, ast_path)
     }
 
     fn fold_switch_case(&mut self, node: SwitchCase, ast_path: &mut AstKindPath) -> SwitchCase {
-        FoldAstPath::fold_switch_case(self, node, ast_path)
+        FoldAstPath::fold_switch_case(&mut **self, node, ast_path)
     }
 
     fn fold_switch_cases(
@@ -90238,11 +90238,11 @@ where
         node: Vec<SwitchCase>,
         ast_path: &mut AstKindPath,
     ) -> Vec<SwitchCase> {
-        FoldAstPath::fold_switch_cases(self, node, ast_path)
+        FoldAstPath::fold_switch_cases(&mut **self, node, ast_path)
     }
 
     fn fold_switch_stmt(&mut self, node: SwitchStmt, ast_path: &mut AstKindPath) -> SwitchStmt {
-        FoldAstPath::fold_switch_stmt(self, node, ast_path)
+        FoldAstPath::fold_switch_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_syntax_context(
@@ -90250,27 +90250,27 @@ where
         node: swc_common::SyntaxContext,
         ast_path: &mut AstKindPath,
     ) -> swc_common::SyntaxContext {
-        FoldAstPath::fold_syntax_context(self, node, ast_path)
+        FoldAstPath::fold_syntax_context(&mut **self, node, ast_path)
     }
 
     fn fold_tagged_tpl(&mut self, node: TaggedTpl, ast_path: &mut AstKindPath) -> TaggedTpl {
-        FoldAstPath::fold_tagged_tpl(self, node, ast_path)
+        FoldAstPath::fold_tagged_tpl(&mut **self, node, ast_path)
     }
 
     fn fold_this_expr(&mut self, node: ThisExpr, ast_path: &mut AstKindPath) -> ThisExpr {
-        FoldAstPath::fold_this_expr(self, node, ast_path)
+        FoldAstPath::fold_this_expr(&mut **self, node, ast_path)
     }
 
     fn fold_throw_stmt(&mut self, node: ThrowStmt, ast_path: &mut AstKindPath) -> ThrowStmt {
-        FoldAstPath::fold_throw_stmt(self, node, ast_path)
+        FoldAstPath::fold_throw_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_tpl(&mut self, node: Tpl, ast_path: &mut AstKindPath) -> Tpl {
-        FoldAstPath::fold_tpl(self, node, ast_path)
+        FoldAstPath::fold_tpl(&mut **self, node, ast_path)
     }
 
     fn fold_tpl_element(&mut self, node: TplElement, ast_path: &mut AstKindPath) -> TplElement {
-        FoldAstPath::fold_tpl_element(self, node, ast_path)
+        FoldAstPath::fold_tpl_element(&mut **self, node, ast_path)
     }
 
     fn fold_tpl_elements(
@@ -90278,7 +90278,7 @@ where
         node: Vec<TplElement>,
         ast_path: &mut AstKindPath,
     ) -> Vec<TplElement> {
-        FoldAstPath::fold_tpl_elements(self, node, ast_path)
+        FoldAstPath::fold_tpl_elements(&mut **self, node, ast_path)
     }
 
     fn fold_true_plus_minus(
@@ -90286,19 +90286,19 @@ where
         node: TruePlusMinus,
         ast_path: &mut AstKindPath,
     ) -> TruePlusMinus {
-        FoldAstPath::fold_true_plus_minus(self, node, ast_path)
+        FoldAstPath::fold_true_plus_minus(&mut **self, node, ast_path)
     }
 
     fn fold_try_stmt(&mut self, node: TryStmt, ast_path: &mut AstKindPath) -> TryStmt {
-        FoldAstPath::fold_try_stmt(self, node, ast_path)
+        FoldAstPath::fold_try_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_ts_array_type(&mut self, node: TsArrayType, ast_path: &mut AstKindPath) -> TsArrayType {
-        FoldAstPath::fold_ts_array_type(self, node, ast_path)
+        FoldAstPath::fold_ts_array_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_as_expr(&mut self, node: TsAsExpr, ast_path: &mut AstKindPath) -> TsAsExpr {
-        FoldAstPath::fold_ts_as_expr(self, node, ast_path)
+        FoldAstPath::fold_ts_as_expr(&mut **self, node, ast_path)
     }
 
     fn fold_ts_call_signature_decl(
@@ -90306,7 +90306,7 @@ where
         node: TsCallSignatureDecl,
         ast_path: &mut AstKindPath,
     ) -> TsCallSignatureDecl {
-        FoldAstPath::fold_ts_call_signature_decl(self, node, ast_path)
+        FoldAstPath::fold_ts_call_signature_decl(&mut **self, node, ast_path)
     }
 
     fn fold_ts_conditional_type(
@@ -90314,7 +90314,7 @@ where
         node: TsConditionalType,
         ast_path: &mut AstKindPath,
     ) -> TsConditionalType {
-        FoldAstPath::fold_ts_conditional_type(self, node, ast_path)
+        FoldAstPath::fold_ts_conditional_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_const_assertion(
@@ -90322,7 +90322,7 @@ where
         node: TsConstAssertion,
         ast_path: &mut AstKindPath,
     ) -> TsConstAssertion {
-        FoldAstPath::fold_ts_const_assertion(self, node, ast_path)
+        FoldAstPath::fold_ts_const_assertion(&mut **self, node, ast_path)
     }
 
     fn fold_ts_construct_signature_decl(
@@ -90330,7 +90330,7 @@ where
         node: TsConstructSignatureDecl,
         ast_path: &mut AstKindPath,
     ) -> TsConstructSignatureDecl {
-        FoldAstPath::fold_ts_construct_signature_decl(self, node, ast_path)
+        FoldAstPath::fold_ts_construct_signature_decl(&mut **self, node, ast_path)
     }
 
     fn fold_ts_constructor_type(
@@ -90338,7 +90338,7 @@ where
         node: TsConstructorType,
         ast_path: &mut AstKindPath,
     ) -> TsConstructorType {
-        FoldAstPath::fold_ts_constructor_type(self, node, ast_path)
+        FoldAstPath::fold_ts_constructor_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_entity_name(
@@ -90346,11 +90346,11 @@ where
         node: TsEntityName,
         ast_path: &mut AstKindPath,
     ) -> TsEntityName {
-        FoldAstPath::fold_ts_entity_name(self, node, ast_path)
+        FoldAstPath::fold_ts_entity_name(&mut **self, node, ast_path)
     }
 
     fn fold_ts_enum_decl(&mut self, node: TsEnumDecl, ast_path: &mut AstKindPath) -> TsEnumDecl {
-        FoldAstPath::fold_ts_enum_decl(self, node, ast_path)
+        FoldAstPath::fold_ts_enum_decl(&mut **self, node, ast_path)
     }
 
     fn fold_ts_enum_member(
@@ -90358,7 +90358,7 @@ where
         node: TsEnumMember,
         ast_path: &mut AstKindPath,
     ) -> TsEnumMember {
-        FoldAstPath::fold_ts_enum_member(self, node, ast_path)
+        FoldAstPath::fold_ts_enum_member(&mut **self, node, ast_path)
     }
 
     fn fold_ts_enum_member_id(
@@ -90366,7 +90366,7 @@ where
         node: TsEnumMemberId,
         ast_path: &mut AstKindPath,
     ) -> TsEnumMemberId {
-        FoldAstPath::fold_ts_enum_member_id(self, node, ast_path)
+        FoldAstPath::fold_ts_enum_member_id(&mut **self, node, ast_path)
     }
 
     fn fold_ts_enum_members(
@@ -90374,7 +90374,7 @@ where
         node: Vec<TsEnumMember>,
         ast_path: &mut AstKindPath,
     ) -> Vec<TsEnumMember> {
-        FoldAstPath::fold_ts_enum_members(self, node, ast_path)
+        FoldAstPath::fold_ts_enum_members(&mut **self, node, ast_path)
     }
 
     fn fold_ts_export_assignment(
@@ -90382,7 +90382,7 @@ where
         node: TsExportAssignment,
         ast_path: &mut AstKindPath,
     ) -> TsExportAssignment {
-        FoldAstPath::fold_ts_export_assignment(self, node, ast_path)
+        FoldAstPath::fold_ts_export_assignment(&mut **self, node, ast_path)
     }
 
     fn fold_ts_expr_with_type_args(
@@ -90390,7 +90390,7 @@ where
         node: TsExprWithTypeArgs,
         ast_path: &mut AstKindPath,
     ) -> TsExprWithTypeArgs {
-        FoldAstPath::fold_ts_expr_with_type_args(self, node, ast_path)
+        FoldAstPath::fold_ts_expr_with_type_args(&mut **self, node, ast_path)
     }
 
     fn fold_ts_expr_with_type_argss(
@@ -90398,7 +90398,7 @@ where
         node: Vec<TsExprWithTypeArgs>,
         ast_path: &mut AstKindPath,
     ) -> Vec<TsExprWithTypeArgs> {
-        FoldAstPath::fold_ts_expr_with_type_argss(self, node, ast_path)
+        FoldAstPath::fold_ts_expr_with_type_argss(&mut **self, node, ast_path)
     }
 
     fn fold_ts_external_module_ref(
@@ -90406,7 +90406,7 @@ where
         node: TsExternalModuleRef,
         ast_path: &mut AstKindPath,
     ) -> TsExternalModuleRef {
-        FoldAstPath::fold_ts_external_module_ref(self, node, ast_path)
+        FoldAstPath::fold_ts_external_module_ref(&mut **self, node, ast_path)
     }
 
     fn fold_ts_fn_or_constructor_type(
@@ -90414,11 +90414,11 @@ where
         node: TsFnOrConstructorType,
         ast_path: &mut AstKindPath,
     ) -> TsFnOrConstructorType {
-        FoldAstPath::fold_ts_fn_or_constructor_type(self, node, ast_path)
+        FoldAstPath::fold_ts_fn_or_constructor_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_fn_param(&mut self, node: TsFnParam, ast_path: &mut AstKindPath) -> TsFnParam {
-        FoldAstPath::fold_ts_fn_param(self, node, ast_path)
+        FoldAstPath::fold_ts_fn_param(&mut **self, node, ast_path)
     }
 
     fn fold_ts_fn_params(
@@ -90426,11 +90426,11 @@ where
         node: Vec<TsFnParam>,
         ast_path: &mut AstKindPath,
     ) -> Vec<TsFnParam> {
-        FoldAstPath::fold_ts_fn_params(self, node, ast_path)
+        FoldAstPath::fold_ts_fn_params(&mut **self, node, ast_path)
     }
 
     fn fold_ts_fn_type(&mut self, node: TsFnType, ast_path: &mut AstKindPath) -> TsFnType {
-        FoldAstPath::fold_ts_fn_type(self, node, ast_path)
+        FoldAstPath::fold_ts_fn_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_getter_signature(
@@ -90438,7 +90438,7 @@ where
         node: TsGetterSignature,
         ast_path: &mut AstKindPath,
     ) -> TsGetterSignature {
-        FoldAstPath::fold_ts_getter_signature(self, node, ast_path)
+        FoldAstPath::fold_ts_getter_signature(&mut **self, node, ast_path)
     }
 
     fn fold_ts_import_equals_decl(
@@ -90446,7 +90446,7 @@ where
         node: TsImportEqualsDecl,
         ast_path: &mut AstKindPath,
     ) -> TsImportEqualsDecl {
-        FoldAstPath::fold_ts_import_equals_decl(self, node, ast_path)
+        FoldAstPath::fold_ts_import_equals_decl(&mut **self, node, ast_path)
     }
 
     fn fold_ts_import_type(
@@ -90454,7 +90454,7 @@ where
         node: TsImportType,
         ast_path: &mut AstKindPath,
     ) -> TsImportType {
-        FoldAstPath::fold_ts_import_type(self, node, ast_path)
+        FoldAstPath::fold_ts_import_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_index_signature(
@@ -90462,7 +90462,7 @@ where
         node: TsIndexSignature,
         ast_path: &mut AstKindPath,
     ) -> TsIndexSignature {
-        FoldAstPath::fold_ts_index_signature(self, node, ast_path)
+        FoldAstPath::fold_ts_index_signature(&mut **self, node, ast_path)
     }
 
     fn fold_ts_indexed_access_type(
@@ -90470,11 +90470,11 @@ where
         node: TsIndexedAccessType,
         ast_path: &mut AstKindPath,
     ) -> TsIndexedAccessType {
-        FoldAstPath::fold_ts_indexed_access_type(self, node, ast_path)
+        FoldAstPath::fold_ts_indexed_access_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_infer_type(&mut self, node: TsInferType, ast_path: &mut AstKindPath) -> TsInferType {
-        FoldAstPath::fold_ts_infer_type(self, node, ast_path)
+        FoldAstPath::fold_ts_infer_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_instantiation(
@@ -90482,7 +90482,7 @@ where
         node: TsInstantiation,
         ast_path: &mut AstKindPath,
     ) -> TsInstantiation {
-        FoldAstPath::fold_ts_instantiation(self, node, ast_path)
+        FoldAstPath::fold_ts_instantiation(&mut **self, node, ast_path)
     }
 
     fn fold_ts_interface_body(
@@ -90490,7 +90490,7 @@ where
         node: TsInterfaceBody,
         ast_path: &mut AstKindPath,
     ) -> TsInterfaceBody {
-        FoldAstPath::fold_ts_interface_body(self, node, ast_path)
+        FoldAstPath::fold_ts_interface_body(&mut **self, node, ast_path)
     }
 
     fn fold_ts_interface_decl(
@@ -90498,7 +90498,7 @@ where
         node: TsInterfaceDecl,
         ast_path: &mut AstKindPath,
     ) -> TsInterfaceDecl {
-        FoldAstPath::fold_ts_interface_decl(self, node, ast_path)
+        FoldAstPath::fold_ts_interface_decl(&mut **self, node, ast_path)
     }
 
     fn fold_ts_intersection_type(
@@ -90506,7 +90506,7 @@ where
         node: TsIntersectionType,
         ast_path: &mut AstKindPath,
     ) -> TsIntersectionType {
-        FoldAstPath::fold_ts_intersection_type(self, node, ast_path)
+        FoldAstPath::fold_ts_intersection_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_keyword_type(
@@ -90514,7 +90514,7 @@ where
         node: TsKeywordType,
         ast_path: &mut AstKindPath,
     ) -> TsKeywordType {
-        FoldAstPath::fold_ts_keyword_type(self, node, ast_path)
+        FoldAstPath::fold_ts_keyword_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_keyword_type_kind(
@@ -90522,15 +90522,15 @@ where
         node: TsKeywordTypeKind,
         ast_path: &mut AstKindPath,
     ) -> TsKeywordTypeKind {
-        FoldAstPath::fold_ts_keyword_type_kind(self, node, ast_path)
+        FoldAstPath::fold_ts_keyword_type_kind(&mut **self, node, ast_path)
     }
 
     fn fold_ts_lit(&mut self, node: TsLit, ast_path: &mut AstKindPath) -> TsLit {
-        FoldAstPath::fold_ts_lit(self, node, ast_path)
+        FoldAstPath::fold_ts_lit(&mut **self, node, ast_path)
     }
 
     fn fold_ts_lit_type(&mut self, node: TsLitType, ast_path: &mut AstKindPath) -> TsLitType {
-        FoldAstPath::fold_ts_lit_type(self, node, ast_path)
+        FoldAstPath::fold_ts_lit_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_mapped_type(
@@ -90538,7 +90538,7 @@ where
         node: TsMappedType,
         ast_path: &mut AstKindPath,
     ) -> TsMappedType {
-        FoldAstPath::fold_ts_mapped_type(self, node, ast_path)
+        FoldAstPath::fold_ts_mapped_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_method_signature(
@@ -90546,7 +90546,7 @@ where
         node: TsMethodSignature,
         ast_path: &mut AstKindPath,
     ) -> TsMethodSignature {
-        FoldAstPath::fold_ts_method_signature(self, node, ast_path)
+        FoldAstPath::fold_ts_method_signature(&mut **self, node, ast_path)
     }
 
     fn fold_ts_module_block(
@@ -90554,7 +90554,7 @@ where
         node: TsModuleBlock,
         ast_path: &mut AstKindPath,
     ) -> TsModuleBlock {
-        FoldAstPath::fold_ts_module_block(self, node, ast_path)
+        FoldAstPath::fold_ts_module_block(&mut **self, node, ast_path)
     }
 
     fn fold_ts_module_decl(
@@ -90562,7 +90562,7 @@ where
         node: TsModuleDecl,
         ast_path: &mut AstKindPath,
     ) -> TsModuleDecl {
-        FoldAstPath::fold_ts_module_decl(self, node, ast_path)
+        FoldAstPath::fold_ts_module_decl(&mut **self, node, ast_path)
     }
 
     fn fold_ts_module_name(
@@ -90570,11 +90570,11 @@ where
         node: TsModuleName,
         ast_path: &mut AstKindPath,
     ) -> TsModuleName {
-        FoldAstPath::fold_ts_module_name(self, node, ast_path)
+        FoldAstPath::fold_ts_module_name(&mut **self, node, ast_path)
     }
 
     fn fold_ts_module_ref(&mut self, node: TsModuleRef, ast_path: &mut AstKindPath) -> TsModuleRef {
-        FoldAstPath::fold_ts_module_ref(self, node, ast_path)
+        FoldAstPath::fold_ts_module_ref(&mut **self, node, ast_path)
     }
 
     fn fold_ts_namespace_body(
@@ -90582,7 +90582,7 @@ where
         node: TsNamespaceBody,
         ast_path: &mut AstKindPath,
     ) -> TsNamespaceBody {
-        FoldAstPath::fold_ts_namespace_body(self, node, ast_path)
+        FoldAstPath::fold_ts_namespace_body(&mut **self, node, ast_path)
     }
 
     fn fold_ts_namespace_decl(
@@ -90590,7 +90590,7 @@ where
         node: TsNamespaceDecl,
         ast_path: &mut AstKindPath,
     ) -> TsNamespaceDecl {
-        FoldAstPath::fold_ts_namespace_decl(self, node, ast_path)
+        FoldAstPath::fold_ts_namespace_decl(&mut **self, node, ast_path)
     }
 
     fn fold_ts_namespace_export_decl(
@@ -90598,7 +90598,7 @@ where
         node: TsNamespaceExportDecl,
         ast_path: &mut AstKindPath,
     ) -> TsNamespaceExportDecl {
-        FoldAstPath::fold_ts_namespace_export_decl(self, node, ast_path)
+        FoldAstPath::fold_ts_namespace_export_decl(&mut **self, node, ast_path)
     }
 
     fn fold_ts_non_null_expr(
@@ -90606,7 +90606,7 @@ where
         node: TsNonNullExpr,
         ast_path: &mut AstKindPath,
     ) -> TsNonNullExpr {
-        FoldAstPath::fold_ts_non_null_expr(self, node, ast_path)
+        FoldAstPath::fold_ts_non_null_expr(&mut **self, node, ast_path)
     }
 
     fn fold_ts_optional_type(
@@ -90614,11 +90614,11 @@ where
         node: TsOptionalType,
         ast_path: &mut AstKindPath,
     ) -> TsOptionalType {
-        FoldAstPath::fold_ts_optional_type(self, node, ast_path)
+        FoldAstPath::fold_ts_optional_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_param_prop(&mut self, node: TsParamProp, ast_path: &mut AstKindPath) -> TsParamProp {
-        FoldAstPath::fold_ts_param_prop(self, node, ast_path)
+        FoldAstPath::fold_ts_param_prop(&mut **self, node, ast_path)
     }
 
     fn fold_ts_param_prop_param(
@@ -90626,7 +90626,7 @@ where
         node: TsParamPropParam,
         ast_path: &mut AstKindPath,
     ) -> TsParamPropParam {
-        FoldAstPath::fold_ts_param_prop_param(self, node, ast_path)
+        FoldAstPath::fold_ts_param_prop_param(&mut **self, node, ast_path)
     }
 
     fn fold_ts_parenthesized_type(
@@ -90634,7 +90634,7 @@ where
         node: TsParenthesizedType,
         ast_path: &mut AstKindPath,
     ) -> TsParenthesizedType {
-        FoldAstPath::fold_ts_parenthesized_type(self, node, ast_path)
+        FoldAstPath::fold_ts_parenthesized_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_property_signature(
@@ -90642,7 +90642,7 @@ where
         node: TsPropertySignature,
         ast_path: &mut AstKindPath,
     ) -> TsPropertySignature {
-        FoldAstPath::fold_ts_property_signature(self, node, ast_path)
+        FoldAstPath::fold_ts_property_signature(&mut **self, node, ast_path)
     }
 
     fn fold_ts_qualified_name(
@@ -90650,11 +90650,11 @@ where
         node: TsQualifiedName,
         ast_path: &mut AstKindPath,
     ) -> TsQualifiedName {
-        FoldAstPath::fold_ts_qualified_name(self, node, ast_path)
+        FoldAstPath::fold_ts_qualified_name(&mut **self, node, ast_path)
     }
 
     fn fold_ts_rest_type(&mut self, node: TsRestType, ast_path: &mut AstKindPath) -> TsRestType {
-        FoldAstPath::fold_ts_rest_type(self, node, ast_path)
+        FoldAstPath::fold_ts_rest_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_satisfies_expr(
@@ -90662,7 +90662,7 @@ where
         node: TsSatisfiesExpr,
         ast_path: &mut AstKindPath,
     ) -> TsSatisfiesExpr {
-        FoldAstPath::fold_ts_satisfies_expr(self, node, ast_path)
+        FoldAstPath::fold_ts_satisfies_expr(&mut **self, node, ast_path)
     }
 
     fn fold_ts_setter_signature(
@@ -90670,11 +90670,11 @@ where
         node: TsSetterSignature,
         ast_path: &mut AstKindPath,
     ) -> TsSetterSignature {
-        FoldAstPath::fold_ts_setter_signature(self, node, ast_path)
+        FoldAstPath::fold_ts_setter_signature(&mut **self, node, ast_path)
     }
 
     fn fold_ts_this_type(&mut self, node: TsThisType, ast_path: &mut AstKindPath) -> TsThisType {
-        FoldAstPath::fold_ts_this_type(self, node, ast_path)
+        FoldAstPath::fold_ts_this_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_this_type_or_ident(
@@ -90682,7 +90682,7 @@ where
         node: TsThisTypeOrIdent,
         ast_path: &mut AstKindPath,
     ) -> TsThisTypeOrIdent {
-        FoldAstPath::fold_ts_this_type_or_ident(self, node, ast_path)
+        FoldAstPath::fold_ts_this_type_or_ident(&mut **self, node, ast_path)
     }
 
     fn fold_ts_tpl_lit_type(
@@ -90690,7 +90690,7 @@ where
         node: TsTplLitType,
         ast_path: &mut AstKindPath,
     ) -> TsTplLitType {
-        FoldAstPath::fold_ts_tpl_lit_type(self, node, ast_path)
+        FoldAstPath::fold_ts_tpl_lit_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_tuple_element(
@@ -90698,7 +90698,7 @@ where
         node: TsTupleElement,
         ast_path: &mut AstKindPath,
     ) -> TsTupleElement {
-        FoldAstPath::fold_ts_tuple_element(self, node, ast_path)
+        FoldAstPath::fold_ts_tuple_element(&mut **self, node, ast_path)
     }
 
     fn fold_ts_tuple_elements(
@@ -90706,15 +90706,15 @@ where
         node: Vec<TsTupleElement>,
         ast_path: &mut AstKindPath,
     ) -> Vec<TsTupleElement> {
-        FoldAstPath::fold_ts_tuple_elements(self, node, ast_path)
+        FoldAstPath::fold_ts_tuple_elements(&mut **self, node, ast_path)
     }
 
     fn fold_ts_tuple_type(&mut self, node: TsTupleType, ast_path: &mut AstKindPath) -> TsTupleType {
-        FoldAstPath::fold_ts_tuple_type(self, node, ast_path)
+        FoldAstPath::fold_ts_tuple_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_type(&mut self, node: TsType, ast_path: &mut AstKindPath) -> TsType {
-        FoldAstPath::fold_ts_type(self, node, ast_path)
+        FoldAstPath::fold_ts_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_type_alias_decl(
@@ -90722,11 +90722,11 @@ where
         node: TsTypeAliasDecl,
         ast_path: &mut AstKindPath,
     ) -> TsTypeAliasDecl {
-        FoldAstPath::fold_ts_type_alias_decl(self, node, ast_path)
+        FoldAstPath::fold_ts_type_alias_decl(&mut **self, node, ast_path)
     }
 
     fn fold_ts_type_ann(&mut self, node: TsTypeAnn, ast_path: &mut AstKindPath) -> TsTypeAnn {
-        FoldAstPath::fold_ts_type_ann(self, node, ast_path)
+        FoldAstPath::fold_ts_type_ann(&mut **self, node, ast_path)
     }
 
     fn fold_ts_type_assertion(
@@ -90734,7 +90734,7 @@ where
         node: TsTypeAssertion,
         ast_path: &mut AstKindPath,
     ) -> TsTypeAssertion {
-        FoldAstPath::fold_ts_type_assertion(self, node, ast_path)
+        FoldAstPath::fold_ts_type_assertion(&mut **self, node, ast_path)
     }
 
     fn fold_ts_type_element(
@@ -90742,7 +90742,7 @@ where
         node: TsTypeElement,
         ast_path: &mut AstKindPath,
     ) -> TsTypeElement {
-        FoldAstPath::fold_ts_type_element(self, node, ast_path)
+        FoldAstPath::fold_ts_type_element(&mut **self, node, ast_path)
     }
 
     fn fold_ts_type_elements(
@@ -90750,11 +90750,11 @@ where
         node: Vec<TsTypeElement>,
         ast_path: &mut AstKindPath,
     ) -> Vec<TsTypeElement> {
-        FoldAstPath::fold_ts_type_elements(self, node, ast_path)
+        FoldAstPath::fold_ts_type_elements(&mut **self, node, ast_path)
     }
 
     fn fold_ts_type_lit(&mut self, node: TsTypeLit, ast_path: &mut AstKindPath) -> TsTypeLit {
-        FoldAstPath::fold_ts_type_lit(self, node, ast_path)
+        FoldAstPath::fold_ts_type_lit(&mut **self, node, ast_path)
     }
 
     fn fold_ts_type_operator(
@@ -90762,7 +90762,7 @@ where
         node: TsTypeOperator,
         ast_path: &mut AstKindPath,
     ) -> TsTypeOperator {
-        FoldAstPath::fold_ts_type_operator(self, node, ast_path)
+        FoldAstPath::fold_ts_type_operator(&mut **self, node, ast_path)
     }
 
     fn fold_ts_type_operator_op(
@@ -90770,11 +90770,11 @@ where
         node: TsTypeOperatorOp,
         ast_path: &mut AstKindPath,
     ) -> TsTypeOperatorOp {
-        FoldAstPath::fold_ts_type_operator_op(self, node, ast_path)
+        FoldAstPath::fold_ts_type_operator_op(&mut **self, node, ast_path)
     }
 
     fn fold_ts_type_param(&mut self, node: TsTypeParam, ast_path: &mut AstKindPath) -> TsTypeParam {
-        FoldAstPath::fold_ts_type_param(self, node, ast_path)
+        FoldAstPath::fold_ts_type_param(&mut **self, node, ast_path)
     }
 
     fn fold_ts_type_param_decl(
@@ -90782,7 +90782,7 @@ where
         node: TsTypeParamDecl,
         ast_path: &mut AstKindPath,
     ) -> TsTypeParamDecl {
-        FoldAstPath::fold_ts_type_param_decl(self, node, ast_path)
+        FoldAstPath::fold_ts_type_param_decl(&mut **self, node, ast_path)
     }
 
     fn fold_ts_type_param_instantiation(
@@ -90790,7 +90790,7 @@ where
         node: TsTypeParamInstantiation,
         ast_path: &mut AstKindPath,
     ) -> TsTypeParamInstantiation {
-        FoldAstPath::fold_ts_type_param_instantiation(self, node, ast_path)
+        FoldAstPath::fold_ts_type_param_instantiation(&mut **self, node, ast_path)
     }
 
     fn fold_ts_type_params(
@@ -90798,7 +90798,7 @@ where
         node: Vec<TsTypeParam>,
         ast_path: &mut AstKindPath,
     ) -> Vec<TsTypeParam> {
-        FoldAstPath::fold_ts_type_params(self, node, ast_path)
+        FoldAstPath::fold_ts_type_params(&mut **self, node, ast_path)
     }
 
     fn fold_ts_type_predicate(
@@ -90806,11 +90806,11 @@ where
         node: TsTypePredicate,
         ast_path: &mut AstKindPath,
     ) -> TsTypePredicate {
-        FoldAstPath::fold_ts_type_predicate(self, node, ast_path)
+        FoldAstPath::fold_ts_type_predicate(&mut **self, node, ast_path)
     }
 
     fn fold_ts_type_query(&mut self, node: TsTypeQuery, ast_path: &mut AstKindPath) -> TsTypeQuery {
-        FoldAstPath::fold_ts_type_query(self, node, ast_path)
+        FoldAstPath::fold_ts_type_query(&mut **self, node, ast_path)
     }
 
     fn fold_ts_type_query_expr(
@@ -90818,11 +90818,11 @@ where
         node: TsTypeQueryExpr,
         ast_path: &mut AstKindPath,
     ) -> TsTypeQueryExpr {
-        FoldAstPath::fold_ts_type_query_expr(self, node, ast_path)
+        FoldAstPath::fold_ts_type_query_expr(&mut **self, node, ast_path)
     }
 
     fn fold_ts_type_ref(&mut self, node: TsTypeRef, ast_path: &mut AstKindPath) -> TsTypeRef {
-        FoldAstPath::fold_ts_type_ref(self, node, ast_path)
+        FoldAstPath::fold_ts_type_ref(&mut **self, node, ast_path)
     }
 
     fn fold_ts_types(
@@ -90830,7 +90830,7 @@ where
         node: Vec<Box<TsType>>,
         ast_path: &mut AstKindPath,
     ) -> Vec<Box<TsType>> {
-        FoldAstPath::fold_ts_types(self, node, ast_path)
+        FoldAstPath::fold_ts_types(&mut **self, node, ast_path)
     }
 
     fn fold_ts_union_or_intersection_type(
@@ -90838,39 +90838,39 @@ where
         node: TsUnionOrIntersectionType,
         ast_path: &mut AstKindPath,
     ) -> TsUnionOrIntersectionType {
-        FoldAstPath::fold_ts_union_or_intersection_type(self, node, ast_path)
+        FoldAstPath::fold_ts_union_or_intersection_type(&mut **self, node, ast_path)
     }
 
     fn fold_ts_union_type(&mut self, node: TsUnionType, ast_path: &mut AstKindPath) -> TsUnionType {
-        FoldAstPath::fold_ts_union_type(self, node, ast_path)
+        FoldAstPath::fold_ts_union_type(&mut **self, node, ast_path)
     }
 
     fn fold_unary_expr(&mut self, node: UnaryExpr, ast_path: &mut AstKindPath) -> UnaryExpr {
-        FoldAstPath::fold_unary_expr(self, node, ast_path)
+        FoldAstPath::fold_unary_expr(&mut **self, node, ast_path)
     }
 
     fn fold_unary_op(&mut self, node: UnaryOp, ast_path: &mut AstKindPath) -> UnaryOp {
-        FoldAstPath::fold_unary_op(self, node, ast_path)
+        FoldAstPath::fold_unary_op(&mut **self, node, ast_path)
     }
 
     fn fold_update_expr(&mut self, node: UpdateExpr, ast_path: &mut AstKindPath) -> UpdateExpr {
-        FoldAstPath::fold_update_expr(self, node, ast_path)
+        FoldAstPath::fold_update_expr(&mut **self, node, ast_path)
     }
 
     fn fold_update_op(&mut self, node: UpdateOp, ast_path: &mut AstKindPath) -> UpdateOp {
-        FoldAstPath::fold_update_op(self, node, ast_path)
+        FoldAstPath::fold_update_op(&mut **self, node, ast_path)
     }
 
     fn fold_using_decl(&mut self, node: UsingDecl, ast_path: &mut AstKindPath) -> UsingDecl {
-        FoldAstPath::fold_using_decl(self, node, ast_path)
+        FoldAstPath::fold_using_decl(&mut **self, node, ast_path)
     }
 
     fn fold_var_decl(&mut self, node: VarDecl, ast_path: &mut AstKindPath) -> VarDecl {
-        FoldAstPath::fold_var_decl(self, node, ast_path)
+        FoldAstPath::fold_var_decl(&mut **self, node, ast_path)
     }
 
     fn fold_var_decl_kind(&mut self, node: VarDeclKind, ast_path: &mut AstKindPath) -> VarDeclKind {
-        FoldAstPath::fold_var_decl_kind(self, node, ast_path)
+        FoldAstPath::fold_var_decl_kind(&mut **self, node, ast_path)
     }
 
     fn fold_var_decl_or_expr(
@@ -90878,7 +90878,7 @@ where
         node: VarDeclOrExpr,
         ast_path: &mut AstKindPath,
     ) -> VarDeclOrExpr {
-        FoldAstPath::fold_var_decl_or_expr(self, node, ast_path)
+        FoldAstPath::fold_var_decl_or_expr(&mut **self, node, ast_path)
     }
 
     fn fold_var_declarator(
@@ -90886,7 +90886,7 @@ where
         node: VarDeclarator,
         ast_path: &mut AstKindPath,
     ) -> VarDeclarator {
-        FoldAstPath::fold_var_declarator(self, node, ast_path)
+        FoldAstPath::fold_var_declarator(&mut **self, node, ast_path)
     }
 
     fn fold_var_declarators(
@@ -90894,19 +90894,19 @@ where
         node: Vec<VarDeclarator>,
         ast_path: &mut AstKindPath,
     ) -> Vec<VarDeclarator> {
-        FoldAstPath::fold_var_declarators(self, node, ast_path)
+        FoldAstPath::fold_var_declarators(&mut **self, node, ast_path)
     }
 
     fn fold_while_stmt(&mut self, node: WhileStmt, ast_path: &mut AstKindPath) -> WhileStmt {
-        FoldAstPath::fold_while_stmt(self, node, ast_path)
+        FoldAstPath::fold_while_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_with_stmt(&mut self, node: WithStmt, ast_path: &mut AstKindPath) -> WithStmt {
-        FoldAstPath::fold_with_stmt(self, node, ast_path)
+        FoldAstPath::fold_with_stmt(&mut **self, node, ast_path)
     }
 
     fn fold_yield_expr(&mut self, node: YieldExpr, ast_path: &mut AstKindPath) -> YieldExpr {
-        FoldAstPath::fold_yield_expr(self, node, ast_path)
+        FoldAstPath::fold_yield_expr(&mut **self, node, ast_path)
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
