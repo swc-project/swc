@@ -6,7 +6,7 @@ authors = [
 description = "Implementation of Comments of swc_common"
 documentation = "https://rustdoc.swc.rs/swc_node_comments/"
 edition = "2021"
-license = "Apache-2.0"
+license = { workspace = true }
 name = "swc_node_comments"
 repository = "https://github.com/swc-project/swc.git"
 version = "0.22.0"

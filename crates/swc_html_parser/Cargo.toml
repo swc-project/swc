@@ -7,7 +7,7 @@ description = "HTML parser"
 documentation = "https://rustdoc.swc.rs/swc_html_parser/"
 edition = "2021"
 include = ["Cargo.toml", "src/**/*.rs", "src/**/*.json"]
-license = "Apache-2.0"
+license = { workspace = true }
 name = "swc_html_parser"
 repository = "https://github.com/swc-project/swc.git"
 version = "0.41.0"

@@ -1,5 +1,6 @@
 [package]
 edition    = "2021"
+license    = { workspace = true }
 name       = "generate-code"
 publish    = false
 repository = { workspace = true }

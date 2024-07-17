@@ -31,7 +31,9 @@ members = [
 resolver = "2"
 
   [workspace.package]
+  license    = "Apache-2.0"
   repository = "https://github.com/swc-project/swc.git"
+
 
   [workspace.dependencies]
   # bytecheck version should be in sync with rkyv version. Do not bump individually.

@@ -6,7 +6,7 @@ authors = [
 description = "ESTree AST node definitions"
 documentation = "https://rustdoc.swc.rs/swc_estree_ast/"
 edition = "2021"
-license = "Apache-2.0"
+license = { workspace = true }
 name = "swc_estree_ast"
 repository = "https://github.com/swc-project/swc.git"
 version = "0.25.0"
