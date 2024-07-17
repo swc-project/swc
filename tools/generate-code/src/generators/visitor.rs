@@ -130,7 +130,7 @@ impl FieldType {
                     // Vec<Option<Foo>> => opt_vec_foo
                     match &**ty {
                         FieldType::Generic(name, ty) if name == "Option" => {
-                            return format!("opt_vec_{}", ty.method_name())
+                            return format!("opt_vec_{}s", ty.method_name())
                         }
                         _ => {}
                     }
@@ -985,7 +985,7 @@ fn field_variant(type_name: &Ident, field: &Field) -> Option<TokenStream> {
         let variant_name = Ident::new(&field_name.to_string().to_pascal_case(), Span::call_site());
         let variant_doc = doc(&format!("Represents [`{type_name}::{field_name}`]"));
 
-        if let Some(ty) = extract_vec(&field.ty) {
+        if let Some(..) = extract_vec(&field.ty) {
             return Some(quote!(
                 #variant_doc
                 #variant_name(usize)
