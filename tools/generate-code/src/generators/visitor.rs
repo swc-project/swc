@@ -122,7 +122,16 @@ impl FieldType {
             FieldType::Normal(name) => name.split("::").last().unwrap().to_snake_case(),
             FieldType::Generic(name, ty) => match &**name {
                 "Option" => format!("opt_{}", ty.method_name()),
-                "Vec" => format!("{}s", ty.method_name()),
+                "Vec" => {
+                    // Vec<Option<Foo>> => opt_vec_foo
+                    match &**ty {
+                        FieldType::Generic(name, ty) if name == "Option" => {
+                            return format!("opt_vec_{}", ty.method_name())
+                        }
+                        _ => {}
+                    }
+                    format!("{}s", ty.method_name())
+                }
                 "Box" => ty.method_name(),
                 _ => todo!("method_name for generic type: {}", name),
             },
