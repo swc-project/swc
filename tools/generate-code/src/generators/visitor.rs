@@ -14,35 +14,27 @@ pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
         attrs: Vec::new(),
         items: Vec::new(),
     };
-    let (leaf_types, _non_leaf_types) = split_types(node_types);
     let mut all_types = all_field_types(node_types).into_iter().collect::<Vec<_>>();
     all_types.sort_by_cached_key(|v| v.method_name());
+
+    let mut typedefs = HashSet::new();
+
+    for node_type in node_types {
+        match node_type {
+            Item::Enum(data) => {
+                typedefs.insert(FieldType::Normal(data.ident.to_string()));
+            }
+            Item::Struct(data) => {
+                typedefs.insert(FieldType::Normal(data.ident.to_string()));
+            }
+            _ => {}
+        }
+    }
 
     let field_only_types = {
         let mut all = all_types.clone();
 
-        all.retain(|ty| match ty {
-            FieldType::Normal(name) => {
-                for node_type in node_types {
-                    match node_type {
-                        Item::Enum(data) => {
-                            if data.ident == name {
-                                return false;
-                            }
-                        }
-                        Item::Struct(data) => {
-                            if data.ident == name {
-                                return false;
-                            }
-                        }
-                        _ => {}
-                    }
-                }
-
-                true
-            }
-            _ => true,
-        });
+        all.retain(|ty| !typedefs.contains(ty));
 
         all
     };
@@ -80,7 +72,7 @@ pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
             let g = Generator {
                 kind,
                 variant,
-                leaf_types: &leaf_types,
+                skip_types: &typedefs,
             };
 
             output.items.extend(g.declare_visit_trait(&all_types));
@@ -157,27 +149,6 @@ impl FieldType {
             },
         }
     }
-}
-
-/// Leaf types has a visitor method but does not have any children.
-fn split_types(node_types: &[&Item]) -> (HashSet<FieldType>, HashSet<FieldType>) {
-    let mut non_leaf_types = HashSet::new();
-
-    for ty in node_types {
-        let type_name = match ty {
-            Item::Enum(data) => data.ident.to_string(),
-            Item::Struct(data) => data.ident.to_string(),
-            _ => continue,
-        };
-
-        non_leaf_types.insert(FieldType::Normal(type_name));
-    }
-
-    let mut leaf_types = all_field_types(node_types);
-
-    leaf_types.retain(|ty| !non_leaf_types.contains(ty));
-
-    (leaf_types, non_leaf_types)
 }
 
 fn all_field_types(node_types: &[&Item]) -> HashSet<FieldType> {
@@ -332,7 +303,7 @@ impl Variant {
 struct Generator<'a> {
     kind: TraitKind,
     variant: Variant,
-    leaf_types: &'a HashSet<FieldType>,
+    skip_types: &'a HashSet<FieldType>,
 }
 
 impl Generator<'_> {
@@ -354,7 +325,7 @@ impl Generator<'_> {
             Some(ty) => ty,
             None => return true,
         };
-        self.leaf_types.contains(&ty)
+        self.skip_types.contains(&ty)
     }
 
     fn method_lifetime(&self) -> TokenStream {
