@@ -59,6 +59,7 @@ pub struct Tester<'a> {
 }
 
 /// Used to determine how src for a test should be parsed.
+#[derive(Debug, Clone, Copy)]
 pub enum SrcType {
     /// Parsed using `parse_program`.
     Program,
@@ -1056,7 +1057,7 @@ fn test_fixture_inner<'a>(
 
         eprintln!("----- {} -----", Color::Green.paint("Actual"));
 
-        let actual = tester.apply_transform(tr, "input.js", syntax, input)?;
+        let actual = tester.apply_transform_with(tr, "input.js", syntax, input, src_type)?;
 
         eprintln!("----- {} -----", Color::Green.paint("Comments"));
         eprintln!("{:?}", tester.comments);
