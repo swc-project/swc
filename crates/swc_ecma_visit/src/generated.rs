@@ -7079,7 +7079,7 @@ where
     #[inline]
     fn visit_accessibility(&mut self, node: &Accessibility) {
         if self.enabled {
-            <V as Visit>::visit_accessibility(self, node)
+            <V as Visit>::visit_accessibility(&mut self.visitor, node)
         } else {
         }
     }
@@ -7087,7 +7087,7 @@ where
     #[inline]
     fn visit_array_lit(&mut self, node: &ArrayLit) {
         if self.enabled {
-            <V as Visit>::visit_array_lit(self, node)
+            <V as Visit>::visit_array_lit(&mut self.visitor, node)
         } else {
         }
     }
@@ -7095,7 +7095,7 @@ where
     #[inline]
     fn visit_array_pat(&mut self, node: &ArrayPat) {
         if self.enabled {
-            <V as Visit>::visit_array_pat(self, node)
+            <V as Visit>::visit_array_pat(&mut self.visitor, node)
         } else {
         }
     }
@@ -7103,7 +7103,7 @@ where
     #[inline]
     fn visit_arrow_expr(&mut self, node: &ArrowExpr) {
         if self.enabled {
-            <V as Visit>::visit_arrow_expr(self, node)
+            <V as Visit>::visit_arrow_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -7111,7 +7111,7 @@ where
     #[inline]
     fn visit_assign_expr(&mut self, node: &AssignExpr) {
         if self.enabled {
-            <V as Visit>::visit_assign_expr(self, node)
+            <V as Visit>::visit_assign_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -7119,7 +7119,7 @@ where
     #[inline]
     fn visit_assign_op(&mut self, node: &AssignOp) {
         if self.enabled {
-            <V as Visit>::visit_assign_op(self, node)
+            <V as Visit>::visit_assign_op(&mut self.visitor, node)
         } else {
         }
     }
@@ -7127,7 +7127,7 @@ where
     #[inline]
     fn visit_assign_pat(&mut self, node: &AssignPat) {
         if self.enabled {
-            <V as Visit>::visit_assign_pat(self, node)
+            <V as Visit>::visit_assign_pat(&mut self.visitor, node)
         } else {
         }
     }
@@ -7135,7 +7135,7 @@ where
     #[inline]
     fn visit_assign_pat_prop(&mut self, node: &AssignPatProp) {
         if self.enabled {
-            <V as Visit>::visit_assign_pat_prop(self, node)
+            <V as Visit>::visit_assign_pat_prop(&mut self.visitor, node)
         } else {
         }
     }
@@ -7143,7 +7143,7 @@ where
     #[inline]
     fn visit_assign_prop(&mut self, node: &AssignProp) {
         if self.enabled {
-            <V as Visit>::visit_assign_prop(self, node)
+            <V as Visit>::visit_assign_prop(&mut self.visitor, node)
         } else {
         }
     }
@@ -7151,7 +7151,7 @@ where
     #[inline]
     fn visit_assign_target(&mut self, node: &AssignTarget) {
         if self.enabled {
-            <V as Visit>::visit_assign_target(self, node)
+            <V as Visit>::visit_assign_target(&mut self.visitor, node)
         } else {
         }
     }
@@ -7159,7 +7159,7 @@ where
     #[inline]
     fn visit_assign_target_pat(&mut self, node: &AssignTargetPat) {
         if self.enabled {
-            <V as Visit>::visit_assign_target_pat(self, node)
+            <V as Visit>::visit_assign_target_pat(&mut self.visitor, node)
         } else {
         }
     }
@@ -7167,7 +7167,7 @@ where
     #[inline]
     fn visit_atom(&mut self, node: &swc_atoms::Atom) {
         if self.enabled {
-            <V as Visit>::visit_atom(self, node)
+            <V as Visit>::visit_atom(&mut self.visitor, node)
         } else {
         }
     }
@@ -7175,7 +7175,7 @@ where
     #[inline]
     fn visit_auto_accessor(&mut self, node: &AutoAccessor) {
         if self.enabled {
-            <V as Visit>::visit_auto_accessor(self, node)
+            <V as Visit>::visit_auto_accessor(&mut self.visitor, node)
         } else {
         }
     }
@@ -7183,7 +7183,7 @@ where
     #[inline]
     fn visit_await_expr(&mut self, node: &AwaitExpr) {
         if self.enabled {
-            <V as Visit>::visit_await_expr(self, node)
+            <V as Visit>::visit_await_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -7191,7 +7191,7 @@ where
     #[inline]
     fn visit_big_int(&mut self, node: &BigInt) {
         if self.enabled {
-            <V as Visit>::visit_big_int(self, node)
+            <V as Visit>::visit_big_int(&mut self.visitor, node)
         } else {
         }
     }
@@ -7199,7 +7199,7 @@ where
     #[inline]
     fn visit_big_int_value(&mut self, node: &BigIntValue) {
         if self.enabled {
-            <V as Visit>::visit_big_int_value(self, node)
+            <V as Visit>::visit_big_int_value(&mut self.visitor, node)
         } else {
         }
     }
@@ -7207,7 +7207,7 @@ where
     #[inline]
     fn visit_bin_expr(&mut self, node: &BinExpr) {
         if self.enabled {
-            <V as Visit>::visit_bin_expr(self, node)
+            <V as Visit>::visit_bin_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -7215,7 +7215,7 @@ where
     #[inline]
     fn visit_binary_op(&mut self, node: &BinaryOp) {
         if self.enabled {
-            <V as Visit>::visit_binary_op(self, node)
+            <V as Visit>::visit_binary_op(&mut self.visitor, node)
         } else {
         }
     }
@@ -7223,7 +7223,7 @@ where
     #[inline]
     fn visit_binding_ident(&mut self, node: &BindingIdent) {
         if self.enabled {
-            <V as Visit>::visit_binding_ident(self, node)
+            <V as Visit>::visit_binding_ident(&mut self.visitor, node)
         } else {
         }
     }
@@ -7231,7 +7231,7 @@ where
     #[inline]
     fn visit_block_stmt(&mut self, node: &BlockStmt) {
         if self.enabled {
-            <V as Visit>::visit_block_stmt(self, node)
+            <V as Visit>::visit_block_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -7239,7 +7239,7 @@ where
     #[inline]
     fn visit_block_stmt_or_expr(&mut self, node: &BlockStmtOrExpr) {
         if self.enabled {
-            <V as Visit>::visit_block_stmt_or_expr(self, node)
+            <V as Visit>::visit_block_stmt_or_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -7247,7 +7247,7 @@ where
     #[inline]
     fn visit_bool(&mut self, node: &Bool) {
         if self.enabled {
-            <V as Visit>::visit_bool(self, node)
+            <V as Visit>::visit_bool(&mut self.visitor, node)
         } else {
         }
     }
@@ -7255,7 +7255,7 @@ where
     #[inline]
     fn visit_break_stmt(&mut self, node: &BreakStmt) {
         if self.enabled {
-            <V as Visit>::visit_break_stmt(self, node)
+            <V as Visit>::visit_break_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -7263,7 +7263,7 @@ where
     #[inline]
     fn visit_call_expr(&mut self, node: &CallExpr) {
         if self.enabled {
-            <V as Visit>::visit_call_expr(self, node)
+            <V as Visit>::visit_call_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -7271,7 +7271,7 @@ where
     #[inline]
     fn visit_callee(&mut self, node: &Callee) {
         if self.enabled {
-            <V as Visit>::visit_callee(self, node)
+            <V as Visit>::visit_callee(&mut self.visitor, node)
         } else {
         }
     }
@@ -7279,7 +7279,7 @@ where
     #[inline]
     fn visit_catch_clause(&mut self, node: &CatchClause) {
         if self.enabled {
-            <V as Visit>::visit_catch_clause(self, node)
+            <V as Visit>::visit_catch_clause(&mut self.visitor, node)
         } else {
         }
     }
@@ -7287,7 +7287,7 @@ where
     #[inline]
     fn visit_class(&mut self, node: &Class) {
         if self.enabled {
-            <V as Visit>::visit_class(self, node)
+            <V as Visit>::visit_class(&mut self.visitor, node)
         } else {
         }
     }
@@ -7295,7 +7295,7 @@ where
     #[inline]
     fn visit_class_decl(&mut self, node: &ClassDecl) {
         if self.enabled {
-            <V as Visit>::visit_class_decl(self, node)
+            <V as Visit>::visit_class_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -7303,7 +7303,7 @@ where
     #[inline]
     fn visit_class_expr(&mut self, node: &ClassExpr) {
         if self.enabled {
-            <V as Visit>::visit_class_expr(self, node)
+            <V as Visit>::visit_class_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -7311,7 +7311,7 @@ where
     #[inline]
     fn visit_class_member(&mut self, node: &ClassMember) {
         if self.enabled {
-            <V as Visit>::visit_class_member(self, node)
+            <V as Visit>::visit_class_member(&mut self.visitor, node)
         } else {
         }
     }
@@ -7319,7 +7319,7 @@ where
     #[inline]
     fn visit_class_members(&mut self, node: &[ClassMember]) {
         if self.enabled {
-            <V as Visit>::visit_class_members(self, node)
+            <V as Visit>::visit_class_members(&mut self.visitor, node)
         } else {
         }
     }
@@ -7327,7 +7327,7 @@ where
     #[inline]
     fn visit_class_method(&mut self, node: &ClassMethod) {
         if self.enabled {
-            <V as Visit>::visit_class_method(self, node)
+            <V as Visit>::visit_class_method(&mut self.visitor, node)
         } else {
         }
     }
@@ -7335,7 +7335,7 @@ where
     #[inline]
     fn visit_class_prop(&mut self, node: &ClassProp) {
         if self.enabled {
-            <V as Visit>::visit_class_prop(self, node)
+            <V as Visit>::visit_class_prop(&mut self.visitor, node)
         } else {
         }
     }
@@ -7343,7 +7343,7 @@ where
     #[inline]
     fn visit_computed_prop_name(&mut self, node: &ComputedPropName) {
         if self.enabled {
-            <V as Visit>::visit_computed_prop_name(self, node)
+            <V as Visit>::visit_computed_prop_name(&mut self.visitor, node)
         } else {
         }
     }
@@ -7351,7 +7351,7 @@ where
     #[inline]
     fn visit_cond_expr(&mut self, node: &CondExpr) {
         if self.enabled {
-            <V as Visit>::visit_cond_expr(self, node)
+            <V as Visit>::visit_cond_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -7359,7 +7359,7 @@ where
     #[inline]
     fn visit_constructor(&mut self, node: &Constructor) {
         if self.enabled {
-            <V as Visit>::visit_constructor(self, node)
+            <V as Visit>::visit_constructor(&mut self.visitor, node)
         } else {
         }
     }
@@ -7367,7 +7367,7 @@ where
     #[inline]
     fn visit_continue_stmt(&mut self, node: &ContinueStmt) {
         if self.enabled {
-            <V as Visit>::visit_continue_stmt(self, node)
+            <V as Visit>::visit_continue_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -7375,7 +7375,7 @@ where
     #[inline]
     fn visit_debugger_stmt(&mut self, node: &DebuggerStmt) {
         if self.enabled {
-            <V as Visit>::visit_debugger_stmt(self, node)
+            <V as Visit>::visit_debugger_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -7383,7 +7383,7 @@ where
     #[inline]
     fn visit_decl(&mut self, node: &Decl) {
         if self.enabled {
-            <V as Visit>::visit_decl(self, node)
+            <V as Visit>::visit_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -7391,7 +7391,7 @@ where
     #[inline]
     fn visit_decorator(&mut self, node: &Decorator) {
         if self.enabled {
-            <V as Visit>::visit_decorator(self, node)
+            <V as Visit>::visit_decorator(&mut self.visitor, node)
         } else {
         }
     }
@@ -7399,7 +7399,7 @@ where
     #[inline]
     fn visit_decorators(&mut self, node: &[Decorator]) {
         if self.enabled {
-            <V as Visit>::visit_decorators(self, node)
+            <V as Visit>::visit_decorators(&mut self.visitor, node)
         } else {
         }
     }
@@ -7407,7 +7407,7 @@ where
     #[inline]
     fn visit_default_decl(&mut self, node: &DefaultDecl) {
         if self.enabled {
-            <V as Visit>::visit_default_decl(self, node)
+            <V as Visit>::visit_default_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -7415,7 +7415,7 @@ where
     #[inline]
     fn visit_do_while_stmt(&mut self, node: &DoWhileStmt) {
         if self.enabled {
-            <V as Visit>::visit_do_while_stmt(self, node)
+            <V as Visit>::visit_do_while_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -7423,7 +7423,7 @@ where
     #[inline]
     fn visit_empty_stmt(&mut self, node: &EmptyStmt) {
         if self.enabled {
-            <V as Visit>::visit_empty_stmt(self, node)
+            <V as Visit>::visit_empty_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -7431,7 +7431,7 @@ where
     #[inline]
     fn visit_es_version(&mut self, node: &EsVersion) {
         if self.enabled {
-            <V as Visit>::visit_es_version(self, node)
+            <V as Visit>::visit_es_version(&mut self.visitor, node)
         } else {
         }
     }
@@ -7439,7 +7439,7 @@ where
     #[inline]
     fn visit_export_all(&mut self, node: &ExportAll) {
         if self.enabled {
-            <V as Visit>::visit_export_all(self, node)
+            <V as Visit>::visit_export_all(&mut self.visitor, node)
         } else {
         }
     }
@@ -7447,7 +7447,7 @@ where
     #[inline]
     fn visit_export_decl(&mut self, node: &ExportDecl) {
         if self.enabled {
-            <V as Visit>::visit_export_decl(self, node)
+            <V as Visit>::visit_export_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -7455,7 +7455,7 @@ where
     #[inline]
     fn visit_export_default_decl(&mut self, node: &ExportDefaultDecl) {
         if self.enabled {
-            <V as Visit>::visit_export_default_decl(self, node)
+            <V as Visit>::visit_export_default_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -7463,7 +7463,7 @@ where
     #[inline]
     fn visit_export_default_expr(&mut self, node: &ExportDefaultExpr) {
         if self.enabled {
-            <V as Visit>::visit_export_default_expr(self, node)
+            <V as Visit>::visit_export_default_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -7471,7 +7471,7 @@ where
     #[inline]
     fn visit_export_default_specifier(&mut self, node: &ExportDefaultSpecifier) {
         if self.enabled {
-            <V as Visit>::visit_export_default_specifier(self, node)
+            <V as Visit>::visit_export_default_specifier(&mut self.visitor, node)
         } else {
         }
     }
@@ -7479,7 +7479,7 @@ where
     #[inline]
     fn visit_export_named_specifier(&mut self, node: &ExportNamedSpecifier) {
         if self.enabled {
-            <V as Visit>::visit_export_named_specifier(self, node)
+            <V as Visit>::visit_export_named_specifier(&mut self.visitor, node)
         } else {
         }
     }
@@ -7487,7 +7487,7 @@ where
     #[inline]
     fn visit_export_namespace_specifier(&mut self, node: &ExportNamespaceSpecifier) {
         if self.enabled {
-            <V as Visit>::visit_export_namespace_specifier(self, node)
+            <V as Visit>::visit_export_namespace_specifier(&mut self.visitor, node)
         } else {
         }
     }
@@ -7495,7 +7495,7 @@ where
     #[inline]
     fn visit_export_specifier(&mut self, node: &ExportSpecifier) {
         if self.enabled {
-            <V as Visit>::visit_export_specifier(self, node)
+            <V as Visit>::visit_export_specifier(&mut self.visitor, node)
         } else {
         }
     }
@@ -7503,7 +7503,7 @@ where
     #[inline]
     fn visit_export_specifiers(&mut self, node: &[ExportSpecifier]) {
         if self.enabled {
-            <V as Visit>::visit_export_specifiers(self, node)
+            <V as Visit>::visit_export_specifiers(&mut self.visitor, node)
         } else {
         }
     }
@@ -7511,7 +7511,7 @@ where
     #[inline]
     fn visit_expr(&mut self, node: &Expr) {
         if self.enabled {
-            <V as Visit>::visit_expr(self, node)
+            <V as Visit>::visit_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -7519,7 +7519,7 @@ where
     #[inline]
     fn visit_expr_or_spread(&mut self, node: &ExprOrSpread) {
         if self.enabled {
-            <V as Visit>::visit_expr_or_spread(self, node)
+            <V as Visit>::visit_expr_or_spread(&mut self.visitor, node)
         } else {
         }
     }
@@ -7527,7 +7527,7 @@ where
     #[inline]
     fn visit_expr_or_spreads(&mut self, node: &[ExprOrSpread]) {
         if self.enabled {
-            <V as Visit>::visit_expr_or_spreads(self, node)
+            <V as Visit>::visit_expr_or_spreads(&mut self.visitor, node)
         } else {
         }
     }
@@ -7535,7 +7535,7 @@ where
     #[inline]
     fn visit_expr_stmt(&mut self, node: &ExprStmt) {
         if self.enabled {
-            <V as Visit>::visit_expr_stmt(self, node)
+            <V as Visit>::visit_expr_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -7543,7 +7543,7 @@ where
     #[inline]
     fn visit_exprs(&mut self, node: &[Box<Expr>]) {
         if self.enabled {
-            <V as Visit>::visit_exprs(self, node)
+            <V as Visit>::visit_exprs(&mut self.visitor, node)
         } else {
         }
     }
@@ -7551,7 +7551,7 @@ where
     #[inline]
     fn visit_fn_decl(&mut self, node: &FnDecl) {
         if self.enabled {
-            <V as Visit>::visit_fn_decl(self, node)
+            <V as Visit>::visit_fn_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -7559,7 +7559,7 @@ where
     #[inline]
     fn visit_fn_expr(&mut self, node: &FnExpr) {
         if self.enabled {
-            <V as Visit>::visit_fn_expr(self, node)
+            <V as Visit>::visit_fn_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -7567,7 +7567,7 @@ where
     #[inline]
     fn visit_for_head(&mut self, node: &ForHead) {
         if self.enabled {
-            <V as Visit>::visit_for_head(self, node)
+            <V as Visit>::visit_for_head(&mut self.visitor, node)
         } else {
         }
     }
@@ -7575,7 +7575,7 @@ where
     #[inline]
     fn visit_for_in_stmt(&mut self, node: &ForInStmt) {
         if self.enabled {
-            <V as Visit>::visit_for_in_stmt(self, node)
+            <V as Visit>::visit_for_in_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -7583,7 +7583,7 @@ where
     #[inline]
     fn visit_for_of_stmt(&mut self, node: &ForOfStmt) {
         if self.enabled {
-            <V as Visit>::visit_for_of_stmt(self, node)
+            <V as Visit>::visit_for_of_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -7591,7 +7591,7 @@ where
     #[inline]
     fn visit_for_stmt(&mut self, node: &ForStmt) {
         if self.enabled {
-            <V as Visit>::visit_for_stmt(self, node)
+            <V as Visit>::visit_for_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -7599,7 +7599,7 @@ where
     #[inline]
     fn visit_function(&mut self, node: &Function) {
         if self.enabled {
-            <V as Visit>::visit_function(self, node)
+            <V as Visit>::visit_function(&mut self.visitor, node)
         } else {
         }
     }
@@ -7607,7 +7607,7 @@ where
     #[inline]
     fn visit_getter_prop(&mut self, node: &GetterProp) {
         if self.enabled {
-            <V as Visit>::visit_getter_prop(self, node)
+            <V as Visit>::visit_getter_prop(&mut self.visitor, node)
         } else {
         }
     }
@@ -7615,7 +7615,7 @@ where
     #[inline]
     fn visit_ident(&mut self, node: &Ident) {
         if self.enabled {
-            <V as Visit>::visit_ident(self, node)
+            <V as Visit>::visit_ident(&mut self.visitor, node)
         } else {
         }
     }
@@ -7623,7 +7623,7 @@ where
     #[inline]
     fn visit_ident_name(&mut self, node: &IdentName) {
         if self.enabled {
-            <V as Visit>::visit_ident_name(self, node)
+            <V as Visit>::visit_ident_name(&mut self.visitor, node)
         } else {
         }
     }
@@ -7631,7 +7631,7 @@ where
     #[inline]
     fn visit_if_stmt(&mut self, node: &IfStmt) {
         if self.enabled {
-            <V as Visit>::visit_if_stmt(self, node)
+            <V as Visit>::visit_if_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -7639,7 +7639,7 @@ where
     #[inline]
     fn visit_import(&mut self, node: &Import) {
         if self.enabled {
-            <V as Visit>::visit_import(self, node)
+            <V as Visit>::visit_import(&mut self.visitor, node)
         } else {
         }
     }
@@ -7647,7 +7647,7 @@ where
     #[inline]
     fn visit_import_decl(&mut self, node: &ImportDecl) {
         if self.enabled {
-            <V as Visit>::visit_import_decl(self, node)
+            <V as Visit>::visit_import_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -7655,7 +7655,7 @@ where
     #[inline]
     fn visit_import_default_specifier(&mut self, node: &ImportDefaultSpecifier) {
         if self.enabled {
-            <V as Visit>::visit_import_default_specifier(self, node)
+            <V as Visit>::visit_import_default_specifier(&mut self.visitor, node)
         } else {
         }
     }
@@ -7663,7 +7663,7 @@ where
     #[inline]
     fn visit_import_named_specifier(&mut self, node: &ImportNamedSpecifier) {
         if self.enabled {
-            <V as Visit>::visit_import_named_specifier(self, node)
+            <V as Visit>::visit_import_named_specifier(&mut self.visitor, node)
         } else {
         }
     }
@@ -7671,7 +7671,7 @@ where
     #[inline]
     fn visit_import_phase(&mut self, node: &ImportPhase) {
         if self.enabled {
-            <V as Visit>::visit_import_phase(self, node)
+            <V as Visit>::visit_import_phase(&mut self.visitor, node)
         } else {
         }
     }
@@ -7679,7 +7679,7 @@ where
     #[inline]
     fn visit_import_specifier(&mut self, node: &ImportSpecifier) {
         if self.enabled {
-            <V as Visit>::visit_import_specifier(self, node)
+            <V as Visit>::visit_import_specifier(&mut self.visitor, node)
         } else {
         }
     }
@@ -7687,7 +7687,7 @@ where
     #[inline]
     fn visit_import_specifiers(&mut self, node: &[ImportSpecifier]) {
         if self.enabled {
-            <V as Visit>::visit_import_specifiers(self, node)
+            <V as Visit>::visit_import_specifiers(&mut self.visitor, node)
         } else {
         }
     }
@@ -7695,7 +7695,7 @@ where
     #[inline]
     fn visit_import_star_as_specifier(&mut self, node: &ImportStarAsSpecifier) {
         if self.enabled {
-            <V as Visit>::visit_import_star_as_specifier(self, node)
+            <V as Visit>::visit_import_star_as_specifier(&mut self.visitor, node)
         } else {
         }
     }
@@ -7703,7 +7703,7 @@ where
     #[inline]
     fn visit_import_with(&mut self, node: &ImportWith) {
         if self.enabled {
-            <V as Visit>::visit_import_with(self, node)
+            <V as Visit>::visit_import_with(&mut self.visitor, node)
         } else {
         }
     }
@@ -7711,7 +7711,7 @@ where
     #[inline]
     fn visit_import_with_item(&mut self, node: &ImportWithItem) {
         if self.enabled {
-            <V as Visit>::visit_import_with_item(self, node)
+            <V as Visit>::visit_import_with_item(&mut self.visitor, node)
         } else {
         }
     }
@@ -7719,7 +7719,7 @@ where
     #[inline]
     fn visit_import_with_items(&mut self, node: &[ImportWithItem]) {
         if self.enabled {
-            <V as Visit>::visit_import_with_items(self, node)
+            <V as Visit>::visit_import_with_items(&mut self.visitor, node)
         } else {
         }
     }
@@ -7727,7 +7727,7 @@ where
     #[inline]
     fn visit_invalid(&mut self, node: &Invalid) {
         if self.enabled {
-            <V as Visit>::visit_invalid(self, node)
+            <V as Visit>::visit_invalid(&mut self.visitor, node)
         } else {
         }
     }
@@ -7735,7 +7735,7 @@ where
     #[inline]
     fn visit_jsx_attr(&mut self, node: &JSXAttr) {
         if self.enabled {
-            <V as Visit>::visit_jsx_attr(self, node)
+            <V as Visit>::visit_jsx_attr(&mut self.visitor, node)
         } else {
         }
     }
@@ -7743,7 +7743,7 @@ where
     #[inline]
     fn visit_jsx_attr_name(&mut self, node: &JSXAttrName) {
         if self.enabled {
-            <V as Visit>::visit_jsx_attr_name(self, node)
+            <V as Visit>::visit_jsx_attr_name(&mut self.visitor, node)
         } else {
         }
     }
@@ -7751,7 +7751,7 @@ where
     #[inline]
     fn visit_jsx_attr_or_spread(&mut self, node: &JSXAttrOrSpread) {
         if self.enabled {
-            <V as Visit>::visit_jsx_attr_or_spread(self, node)
+            <V as Visit>::visit_jsx_attr_or_spread(&mut self.visitor, node)
         } else {
         }
     }
@@ -7759,7 +7759,7 @@ where
     #[inline]
     fn visit_jsx_attr_or_spreads(&mut self, node: &[JSXAttrOrSpread]) {
         if self.enabled {
-            <V as Visit>::visit_jsx_attr_or_spreads(self, node)
+            <V as Visit>::visit_jsx_attr_or_spreads(&mut self.visitor, node)
         } else {
         }
     }
@@ -7767,7 +7767,7 @@ where
     #[inline]
     fn visit_jsx_attr_value(&mut self, node: &JSXAttrValue) {
         if self.enabled {
-            <V as Visit>::visit_jsx_attr_value(self, node)
+            <V as Visit>::visit_jsx_attr_value(&mut self.visitor, node)
         } else {
         }
     }
@@ -7775,7 +7775,7 @@ where
     #[inline]
     fn visit_jsx_closing_element(&mut self, node: &JSXClosingElement) {
         if self.enabled {
-            <V as Visit>::visit_jsx_closing_element(self, node)
+            <V as Visit>::visit_jsx_closing_element(&mut self.visitor, node)
         } else {
         }
     }
@@ -7783,7 +7783,7 @@ where
     #[inline]
     fn visit_jsx_closing_fragment(&mut self, node: &JSXClosingFragment) {
         if self.enabled {
-            <V as Visit>::visit_jsx_closing_fragment(self, node)
+            <V as Visit>::visit_jsx_closing_fragment(&mut self.visitor, node)
         } else {
         }
     }
@@ -7791,7 +7791,7 @@ where
     #[inline]
     fn visit_jsx_element(&mut self, node: &JSXElement) {
         if self.enabled {
-            <V as Visit>::visit_jsx_element(self, node)
+            <V as Visit>::visit_jsx_element(&mut self.visitor, node)
         } else {
         }
     }
@@ -7799,7 +7799,7 @@ where
     #[inline]
     fn visit_jsx_element_child(&mut self, node: &JSXElementChild) {
         if self.enabled {
-            <V as Visit>::visit_jsx_element_child(self, node)
+            <V as Visit>::visit_jsx_element_child(&mut self.visitor, node)
         } else {
         }
     }
@@ -7807,7 +7807,7 @@ where
     #[inline]
     fn visit_jsx_element_childs(&mut self, node: &[JSXElementChild]) {
         if self.enabled {
-            <V as Visit>::visit_jsx_element_childs(self, node)
+            <V as Visit>::visit_jsx_element_childs(&mut self.visitor, node)
         } else {
         }
     }
@@ -7815,7 +7815,7 @@ where
     #[inline]
     fn visit_jsx_element_name(&mut self, node: &JSXElementName) {
         if self.enabled {
-            <V as Visit>::visit_jsx_element_name(self, node)
+            <V as Visit>::visit_jsx_element_name(&mut self.visitor, node)
         } else {
         }
     }
@@ -7823,7 +7823,7 @@ where
     #[inline]
     fn visit_jsx_empty_expr(&mut self, node: &JSXEmptyExpr) {
         if self.enabled {
-            <V as Visit>::visit_jsx_empty_expr(self, node)
+            <V as Visit>::visit_jsx_empty_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -7831,7 +7831,7 @@ where
     #[inline]
     fn visit_jsx_expr(&mut self, node: &JSXExpr) {
         if self.enabled {
-            <V as Visit>::visit_jsx_expr(self, node)
+            <V as Visit>::visit_jsx_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -7839,7 +7839,7 @@ where
     #[inline]
     fn visit_jsx_expr_container(&mut self, node: &JSXExprContainer) {
         if self.enabled {
-            <V as Visit>::visit_jsx_expr_container(self, node)
+            <V as Visit>::visit_jsx_expr_container(&mut self.visitor, node)
         } else {
         }
     }
@@ -7847,7 +7847,7 @@ where
     #[inline]
     fn visit_jsx_fragment(&mut self, node: &JSXFragment) {
         if self.enabled {
-            <V as Visit>::visit_jsx_fragment(self, node)
+            <V as Visit>::visit_jsx_fragment(&mut self.visitor, node)
         } else {
         }
     }
@@ -7855,7 +7855,7 @@ where
     #[inline]
     fn visit_jsx_member_expr(&mut self, node: &JSXMemberExpr) {
         if self.enabled {
-            <V as Visit>::visit_jsx_member_expr(self, node)
+            <V as Visit>::visit_jsx_member_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -7863,7 +7863,7 @@ where
     #[inline]
     fn visit_jsx_namespaced_name(&mut self, node: &JSXNamespacedName) {
         if self.enabled {
-            <V as Visit>::visit_jsx_namespaced_name(self, node)
+            <V as Visit>::visit_jsx_namespaced_name(&mut self.visitor, node)
         } else {
         }
     }
@@ -7871,7 +7871,7 @@ where
     #[inline]
     fn visit_jsx_object(&mut self, node: &JSXObject) {
         if self.enabled {
-            <V as Visit>::visit_jsx_object(self, node)
+            <V as Visit>::visit_jsx_object(&mut self.visitor, node)
         } else {
         }
     }
@@ -7879,7 +7879,7 @@ where
     #[inline]
     fn visit_jsx_opening_element(&mut self, node: &JSXOpeningElement) {
         if self.enabled {
-            <V as Visit>::visit_jsx_opening_element(self, node)
+            <V as Visit>::visit_jsx_opening_element(&mut self.visitor, node)
         } else {
         }
     }
@@ -7887,7 +7887,7 @@ where
     #[inline]
     fn visit_jsx_opening_fragment(&mut self, node: &JSXOpeningFragment) {
         if self.enabled {
-            <V as Visit>::visit_jsx_opening_fragment(self, node)
+            <V as Visit>::visit_jsx_opening_fragment(&mut self.visitor, node)
         } else {
         }
     }
@@ -7895,7 +7895,7 @@ where
     #[inline]
     fn visit_jsx_spread_child(&mut self, node: &JSXSpreadChild) {
         if self.enabled {
-            <V as Visit>::visit_jsx_spread_child(self, node)
+            <V as Visit>::visit_jsx_spread_child(&mut self.visitor, node)
         } else {
         }
     }
@@ -7903,7 +7903,7 @@ where
     #[inline]
     fn visit_jsx_text(&mut self, node: &JSXText) {
         if self.enabled {
-            <V as Visit>::visit_jsx_text(self, node)
+            <V as Visit>::visit_jsx_text(&mut self.visitor, node)
         } else {
         }
     }
@@ -7911,7 +7911,7 @@ where
     #[inline]
     fn visit_key(&mut self, node: &Key) {
         if self.enabled {
-            <V as Visit>::visit_key(self, node)
+            <V as Visit>::visit_key(&mut self.visitor, node)
         } else {
         }
     }
@@ -7919,7 +7919,7 @@ where
     #[inline]
     fn visit_key_value_pat_prop(&mut self, node: &KeyValuePatProp) {
         if self.enabled {
-            <V as Visit>::visit_key_value_pat_prop(self, node)
+            <V as Visit>::visit_key_value_pat_prop(&mut self.visitor, node)
         } else {
         }
     }
@@ -7927,7 +7927,7 @@ where
     #[inline]
     fn visit_key_value_prop(&mut self, node: &KeyValueProp) {
         if self.enabled {
-            <V as Visit>::visit_key_value_prop(self, node)
+            <V as Visit>::visit_key_value_prop(&mut self.visitor, node)
         } else {
         }
     }
@@ -7935,7 +7935,7 @@ where
     #[inline]
     fn visit_labeled_stmt(&mut self, node: &LabeledStmt) {
         if self.enabled {
-            <V as Visit>::visit_labeled_stmt(self, node)
+            <V as Visit>::visit_labeled_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -7943,7 +7943,7 @@ where
     #[inline]
     fn visit_lit(&mut self, node: &Lit) {
         if self.enabled {
-            <V as Visit>::visit_lit(self, node)
+            <V as Visit>::visit_lit(&mut self.visitor, node)
         } else {
         }
     }
@@ -7951,7 +7951,7 @@ where
     #[inline]
     fn visit_member_expr(&mut self, node: &MemberExpr) {
         if self.enabled {
-            <V as Visit>::visit_member_expr(self, node)
+            <V as Visit>::visit_member_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -7959,7 +7959,7 @@ where
     #[inline]
     fn visit_member_prop(&mut self, node: &MemberProp) {
         if self.enabled {
-            <V as Visit>::visit_member_prop(self, node)
+            <V as Visit>::visit_member_prop(&mut self.visitor, node)
         } else {
         }
     }
@@ -7967,7 +7967,7 @@ where
     #[inline]
     fn visit_meta_prop_expr(&mut self, node: &MetaPropExpr) {
         if self.enabled {
-            <V as Visit>::visit_meta_prop_expr(self, node)
+            <V as Visit>::visit_meta_prop_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -7975,7 +7975,7 @@ where
     #[inline]
     fn visit_meta_prop_kind(&mut self, node: &MetaPropKind) {
         if self.enabled {
-            <V as Visit>::visit_meta_prop_kind(self, node)
+            <V as Visit>::visit_meta_prop_kind(&mut self.visitor, node)
         } else {
         }
     }
@@ -7983,7 +7983,7 @@ where
     #[inline]
     fn visit_method_kind(&mut self, node: &MethodKind) {
         if self.enabled {
-            <V as Visit>::visit_method_kind(self, node)
+            <V as Visit>::visit_method_kind(&mut self.visitor, node)
         } else {
         }
     }
@@ -7991,7 +7991,7 @@ where
     #[inline]
     fn visit_method_prop(&mut self, node: &MethodProp) {
         if self.enabled {
-            <V as Visit>::visit_method_prop(self, node)
+            <V as Visit>::visit_method_prop(&mut self.visitor, node)
         } else {
         }
     }
@@ -7999,7 +7999,7 @@ where
     #[inline]
     fn visit_module(&mut self, node: &Module) {
         if self.enabled {
-            <V as Visit>::visit_module(self, node)
+            <V as Visit>::visit_module(&mut self.visitor, node)
         } else {
         }
     }
@@ -8007,7 +8007,7 @@ where
     #[inline]
     fn visit_module_decl(&mut self, node: &ModuleDecl) {
         if self.enabled {
-            <V as Visit>::visit_module_decl(self, node)
+            <V as Visit>::visit_module_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -8015,7 +8015,7 @@ where
     #[inline]
     fn visit_module_export_name(&mut self, node: &ModuleExportName) {
         if self.enabled {
-            <V as Visit>::visit_module_export_name(self, node)
+            <V as Visit>::visit_module_export_name(&mut self.visitor, node)
         } else {
         }
     }
@@ -8023,7 +8023,7 @@ where
     #[inline]
     fn visit_module_item(&mut self, node: &ModuleItem) {
         if self.enabled {
-            <V as Visit>::visit_module_item(self, node)
+            <V as Visit>::visit_module_item(&mut self.visitor, node)
         } else {
         }
     }
@@ -8031,7 +8031,7 @@ where
     #[inline]
     fn visit_module_items(&mut self, node: &[ModuleItem]) {
         if self.enabled {
-            <V as Visit>::visit_module_items(self, node)
+            <V as Visit>::visit_module_items(&mut self.visitor, node)
         } else {
         }
     }
@@ -8039,7 +8039,7 @@ where
     #[inline]
     fn visit_named_export(&mut self, node: &NamedExport) {
         if self.enabled {
-            <V as Visit>::visit_named_export(self, node)
+            <V as Visit>::visit_named_export(&mut self.visitor, node)
         } else {
         }
     }
@@ -8047,7 +8047,7 @@ where
     #[inline]
     fn visit_new_expr(&mut self, node: &NewExpr) {
         if self.enabled {
-            <V as Visit>::visit_new_expr(self, node)
+            <V as Visit>::visit_new_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -8055,7 +8055,7 @@ where
     #[inline]
     fn visit_null(&mut self, node: &Null) {
         if self.enabled {
-            <V as Visit>::visit_null(self, node)
+            <V as Visit>::visit_null(&mut self.visitor, node)
         } else {
         }
     }
@@ -8063,7 +8063,7 @@ where
     #[inline]
     fn visit_number(&mut self, node: &Number) {
         if self.enabled {
-            <V as Visit>::visit_number(self, node)
+            <V as Visit>::visit_number(&mut self.visitor, node)
         } else {
         }
     }
@@ -8071,7 +8071,7 @@ where
     #[inline]
     fn visit_object_lit(&mut self, node: &ObjectLit) {
         if self.enabled {
-            <V as Visit>::visit_object_lit(self, node)
+            <V as Visit>::visit_object_lit(&mut self.visitor, node)
         } else {
         }
     }
@@ -8079,7 +8079,7 @@ where
     #[inline]
     fn visit_object_pat(&mut self, node: &ObjectPat) {
         if self.enabled {
-            <V as Visit>::visit_object_pat(self, node)
+            <V as Visit>::visit_object_pat(&mut self.visitor, node)
         } else {
         }
     }
@@ -8087,7 +8087,7 @@ where
     #[inline]
     fn visit_object_pat_prop(&mut self, node: &ObjectPatProp) {
         if self.enabled {
-            <V as Visit>::visit_object_pat_prop(self, node)
+            <V as Visit>::visit_object_pat_prop(&mut self.visitor, node)
         } else {
         }
     }
@@ -8095,7 +8095,7 @@ where
     #[inline]
     fn visit_object_pat_props(&mut self, node: &[ObjectPatProp]) {
         if self.enabled {
-            <V as Visit>::visit_object_pat_props(self, node)
+            <V as Visit>::visit_object_pat_props(&mut self.visitor, node)
         } else {
         }
     }
@@ -8103,7 +8103,7 @@ where
     #[inline]
     fn visit_opt_accessibility(&mut self, node: &Option<Accessibility>) {
         if self.enabled {
-            <V as Visit>::visit_opt_accessibility(self, node)
+            <V as Visit>::visit_opt_accessibility(&mut self.visitor, node)
         } else {
         }
     }
@@ -8111,7 +8111,7 @@ where
     #[inline]
     fn visit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
         if self.enabled {
-            <V as Visit>::visit_opt_atom(self, node)
+            <V as Visit>::visit_opt_atom(&mut self.visitor, node)
         } else {
         }
     }
@@ -8119,7 +8119,7 @@ where
     #[inline]
     fn visit_opt_block_stmt(&mut self, node: &Option<BlockStmt>) {
         if self.enabled {
-            <V as Visit>::visit_opt_block_stmt(self, node)
+            <V as Visit>::visit_opt_block_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -8127,7 +8127,7 @@ where
     #[inline]
     fn visit_opt_call(&mut self, node: &OptCall) {
         if self.enabled {
-            <V as Visit>::visit_opt_call(self, node)
+            <V as Visit>::visit_opt_call(&mut self.visitor, node)
         } else {
         }
     }
@@ -8135,7 +8135,7 @@ where
     #[inline]
     fn visit_opt_catch_clause(&mut self, node: &Option<CatchClause>) {
         if self.enabled {
-            <V as Visit>::visit_opt_catch_clause(self, node)
+            <V as Visit>::visit_opt_catch_clause(&mut self.visitor, node)
         } else {
         }
     }
@@ -8143,7 +8143,7 @@ where
     #[inline]
     fn visit_opt_chain_base(&mut self, node: &OptChainBase) {
         if self.enabled {
-            <V as Visit>::visit_opt_chain_base(self, node)
+            <V as Visit>::visit_opt_chain_base(&mut self.visitor, node)
         } else {
         }
     }
@@ -8151,7 +8151,7 @@ where
     #[inline]
     fn visit_opt_chain_expr(&mut self, node: &OptChainExpr) {
         if self.enabled {
-            <V as Visit>::visit_opt_chain_expr(self, node)
+            <V as Visit>::visit_opt_chain_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -8159,7 +8159,7 @@ where
     #[inline]
     fn visit_opt_expr(&mut self, node: &Option<Box<Expr>>) {
         if self.enabled {
-            <V as Visit>::visit_opt_expr(self, node)
+            <V as Visit>::visit_opt_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -8167,7 +8167,7 @@ where
     #[inline]
     fn visit_opt_expr_or_spread(&mut self, node: &Option<ExprOrSpread>) {
         if self.enabled {
-            <V as Visit>::visit_opt_expr_or_spread(self, node)
+            <V as Visit>::visit_opt_expr_or_spread(&mut self.visitor, node)
         } else {
         }
     }
@@ -8175,7 +8175,7 @@ where
     #[inline]
     fn visit_opt_expr_or_spreads(&mut self, node: &Option<Vec<ExprOrSpread>>) {
         if self.enabled {
-            <V as Visit>::visit_opt_expr_or_spreads(self, node)
+            <V as Visit>::visit_opt_expr_or_spreads(&mut self.visitor, node)
         } else {
         }
     }
@@ -8183,7 +8183,7 @@ where
     #[inline]
     fn visit_opt_ident(&mut self, node: &Option<Ident>) {
         if self.enabled {
-            <V as Visit>::visit_opt_ident(self, node)
+            <V as Visit>::visit_opt_ident(&mut self.visitor, node)
         } else {
         }
     }
@@ -8191,7 +8191,7 @@ where
     #[inline]
     fn visit_opt_jsx_attr_value(&mut self, node: &Option<JSXAttrValue>) {
         if self.enabled {
-            <V as Visit>::visit_opt_jsx_attr_value(self, node)
+            <V as Visit>::visit_opt_jsx_attr_value(&mut self.visitor, node)
         } else {
         }
     }
@@ -8199,7 +8199,7 @@ where
     #[inline]
     fn visit_opt_jsx_closing_element(&mut self, node: &Option<JSXClosingElement>) {
         if self.enabled {
-            <V as Visit>::visit_opt_jsx_closing_element(self, node)
+            <V as Visit>::visit_opt_jsx_closing_element(&mut self.visitor, node)
         } else {
         }
     }
@@ -8207,7 +8207,7 @@ where
     #[inline]
     fn visit_opt_module_export_name(&mut self, node: &Option<ModuleExportName>) {
         if self.enabled {
-            <V as Visit>::visit_opt_module_export_name(self, node)
+            <V as Visit>::visit_opt_module_export_name(&mut self.visitor, node)
         } else {
         }
     }
@@ -8215,7 +8215,7 @@ where
     #[inline]
     fn visit_opt_module_items(&mut self, node: &Option<Vec<ModuleItem>>) {
         if self.enabled {
-            <V as Visit>::visit_opt_module_items(self, node)
+            <V as Visit>::visit_opt_module_items(&mut self.visitor, node)
         } else {
         }
     }
@@ -8223,7 +8223,7 @@ where
     #[inline]
     fn visit_opt_object_lit(&mut self, node: &Option<Box<ObjectLit>>) {
         if self.enabled {
-            <V as Visit>::visit_opt_object_lit(self, node)
+            <V as Visit>::visit_opt_object_lit(&mut self.visitor, node)
         } else {
         }
     }
@@ -8231,7 +8231,7 @@ where
     #[inline]
     fn visit_opt_pat(&mut self, node: &Option<Pat>) {
         if self.enabled {
-            <V as Visit>::visit_opt_pat(self, node)
+            <V as Visit>::visit_opt_pat(&mut self.visitor, node)
         } else {
         }
     }
@@ -8239,7 +8239,7 @@ where
     #[inline]
     fn visit_opt_span(&mut self, node: &Option<swc_common::Span>) {
         if self.enabled {
-            <V as Visit>::visit_opt_span(self, node)
+            <V as Visit>::visit_opt_span(&mut self.visitor, node)
         } else {
         }
     }
@@ -8247,7 +8247,7 @@ where
     #[inline]
     fn visit_opt_stmt(&mut self, node: &Option<Box<Stmt>>) {
         if self.enabled {
-            <V as Visit>::visit_opt_stmt(self, node)
+            <V as Visit>::visit_opt_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -8255,7 +8255,7 @@ where
     #[inline]
     fn visit_opt_str(&mut self, node: &Option<Box<Str>>) {
         if self.enabled {
-            <V as Visit>::visit_opt_str(self, node)
+            <V as Visit>::visit_opt_str(&mut self.visitor, node)
         } else {
         }
     }
@@ -8263,7 +8263,7 @@ where
     #[inline]
     fn visit_opt_true_plus_minus(&mut self, node: &Option<TruePlusMinus>) {
         if self.enabled {
-            <V as Visit>::visit_opt_true_plus_minus(self, node)
+            <V as Visit>::visit_opt_true_plus_minus(&mut self.visitor, node)
         } else {
         }
     }
@@ -8271,7 +8271,7 @@ where
     #[inline]
     fn visit_opt_ts_entity_name(&mut self, node: &Option<TsEntityName>) {
         if self.enabled {
-            <V as Visit>::visit_opt_ts_entity_name(self, node)
+            <V as Visit>::visit_opt_ts_entity_name(&mut self.visitor, node)
         } else {
         }
     }
@@ -8279,7 +8279,7 @@ where
     #[inline]
     fn visit_opt_ts_namespace_body(&mut self, node: &Option<TsNamespaceBody>) {
         if self.enabled {
-            <V as Visit>::visit_opt_ts_namespace_body(self, node)
+            <V as Visit>::visit_opt_ts_namespace_body(&mut self.visitor, node)
         } else {
         }
     }
@@ -8287,7 +8287,7 @@ where
     #[inline]
     fn visit_opt_ts_type(&mut self, node: &Option<Box<TsType>>) {
         if self.enabled {
-            <V as Visit>::visit_opt_ts_type(self, node)
+            <V as Visit>::visit_opt_ts_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -8295,7 +8295,7 @@ where
     #[inline]
     fn visit_opt_ts_type_ann(&mut self, node: &Option<Box<TsTypeAnn>>) {
         if self.enabled {
-            <V as Visit>::visit_opt_ts_type_ann(self, node)
+            <V as Visit>::visit_opt_ts_type_ann(&mut self.visitor, node)
         } else {
         }
     }
@@ -8303,7 +8303,7 @@ where
     #[inline]
     fn visit_opt_ts_type_param_decl(&mut self, node: &Option<Box<TsTypeParamDecl>>) {
         if self.enabled {
-            <V as Visit>::visit_opt_ts_type_param_decl(self, node)
+            <V as Visit>::visit_opt_ts_type_param_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -8314,7 +8314,7 @@ where
         node: &Option<Box<TsTypeParamInstantiation>>,
     ) {
         if self.enabled {
-            <V as Visit>::visit_opt_ts_type_param_instantiation(self, node)
+            <V as Visit>::visit_opt_ts_type_param_instantiation(&mut self.visitor, node)
         } else {
         }
     }
@@ -8322,7 +8322,7 @@ where
     #[inline]
     fn visit_opt_var_decl_or_expr(&mut self, node: &Option<VarDeclOrExpr>) {
         if self.enabled {
-            <V as Visit>::visit_opt_var_decl_or_expr(self, node)
+            <V as Visit>::visit_opt_var_decl_or_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -8330,7 +8330,7 @@ where
     #[inline]
     fn visit_opt_vec_expr_or_spreads(&mut self, node: &[Option<ExprOrSpread>]) {
         if self.enabled {
-            <V as Visit>::visit_opt_vec_expr_or_spreads(self, node)
+            <V as Visit>::visit_opt_vec_expr_or_spreads(&mut self.visitor, node)
         } else {
         }
     }
@@ -8338,7 +8338,7 @@ where
     #[inline]
     fn visit_opt_vec_pats(&mut self, node: &[Option<Pat>]) {
         if self.enabled {
-            <V as Visit>::visit_opt_vec_pats(self, node)
+            <V as Visit>::visit_opt_vec_pats(&mut self.visitor, node)
         } else {
         }
     }
@@ -8346,7 +8346,7 @@ where
     #[inline]
     fn visit_param(&mut self, node: &Param) {
         if self.enabled {
-            <V as Visit>::visit_param(self, node)
+            <V as Visit>::visit_param(&mut self.visitor, node)
         } else {
         }
     }
@@ -8354,7 +8354,7 @@ where
     #[inline]
     fn visit_param_or_ts_param_prop(&mut self, node: &ParamOrTsParamProp) {
         if self.enabled {
-            <V as Visit>::visit_param_or_ts_param_prop(self, node)
+            <V as Visit>::visit_param_or_ts_param_prop(&mut self.visitor, node)
         } else {
         }
     }
@@ -8362,7 +8362,7 @@ where
     #[inline]
     fn visit_param_or_ts_param_props(&mut self, node: &[ParamOrTsParamProp]) {
         if self.enabled {
-            <V as Visit>::visit_param_or_ts_param_props(self, node)
+            <V as Visit>::visit_param_or_ts_param_props(&mut self.visitor, node)
         } else {
         }
     }
@@ -8370,7 +8370,7 @@ where
     #[inline]
     fn visit_params(&mut self, node: &[Param]) {
         if self.enabled {
-            <V as Visit>::visit_params(self, node)
+            <V as Visit>::visit_params(&mut self.visitor, node)
         } else {
         }
     }
@@ -8378,7 +8378,7 @@ where
     #[inline]
     fn visit_paren_expr(&mut self, node: &ParenExpr) {
         if self.enabled {
-            <V as Visit>::visit_paren_expr(self, node)
+            <V as Visit>::visit_paren_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -8386,7 +8386,7 @@ where
     #[inline]
     fn visit_pat(&mut self, node: &Pat) {
         if self.enabled {
-            <V as Visit>::visit_pat(self, node)
+            <V as Visit>::visit_pat(&mut self.visitor, node)
         } else {
         }
     }
@@ -8394,7 +8394,7 @@ where
     #[inline]
     fn visit_pats(&mut self, node: &[Pat]) {
         if self.enabled {
-            <V as Visit>::visit_pats(self, node)
+            <V as Visit>::visit_pats(&mut self.visitor, node)
         } else {
         }
     }
@@ -8402,7 +8402,7 @@ where
     #[inline]
     fn visit_private_method(&mut self, node: &PrivateMethod) {
         if self.enabled {
-            <V as Visit>::visit_private_method(self, node)
+            <V as Visit>::visit_private_method(&mut self.visitor, node)
         } else {
         }
     }
@@ -8410,7 +8410,7 @@ where
     #[inline]
     fn visit_private_name(&mut self, node: &PrivateName) {
         if self.enabled {
-            <V as Visit>::visit_private_name(self, node)
+            <V as Visit>::visit_private_name(&mut self.visitor, node)
         } else {
         }
     }
@@ -8418,7 +8418,7 @@ where
     #[inline]
     fn visit_private_prop(&mut self, node: &PrivateProp) {
         if self.enabled {
-            <V as Visit>::visit_private_prop(self, node)
+            <V as Visit>::visit_private_prop(&mut self.visitor, node)
         } else {
         }
     }
@@ -8426,7 +8426,7 @@ where
     #[inline]
     fn visit_program(&mut self, node: &Program) {
         if self.enabled {
-            <V as Visit>::visit_program(self, node)
+            <V as Visit>::visit_program(&mut self.visitor, node)
         } else {
         }
     }
@@ -8434,7 +8434,7 @@ where
     #[inline]
     fn visit_prop(&mut self, node: &Prop) {
         if self.enabled {
-            <V as Visit>::visit_prop(self, node)
+            <V as Visit>::visit_prop(&mut self.visitor, node)
         } else {
         }
     }
@@ -8442,7 +8442,7 @@ where
     #[inline]
     fn visit_prop_name(&mut self, node: &PropName) {
         if self.enabled {
-            <V as Visit>::visit_prop_name(self, node)
+            <V as Visit>::visit_prop_name(&mut self.visitor, node)
         } else {
         }
     }
@@ -8450,7 +8450,7 @@ where
     #[inline]
     fn visit_prop_or_spread(&mut self, node: &PropOrSpread) {
         if self.enabled {
-            <V as Visit>::visit_prop_or_spread(self, node)
+            <V as Visit>::visit_prop_or_spread(&mut self.visitor, node)
         } else {
         }
     }
@@ -8458,7 +8458,7 @@ where
     #[inline]
     fn visit_prop_or_spreads(&mut self, node: &[PropOrSpread]) {
         if self.enabled {
-            <V as Visit>::visit_prop_or_spreads(self, node)
+            <V as Visit>::visit_prop_or_spreads(&mut self.visitor, node)
         } else {
         }
     }
@@ -8466,7 +8466,7 @@ where
     #[inline]
     fn visit_regex(&mut self, node: &Regex) {
         if self.enabled {
-            <V as Visit>::visit_regex(self, node)
+            <V as Visit>::visit_regex(&mut self.visitor, node)
         } else {
         }
     }
@@ -8474,7 +8474,7 @@ where
     #[inline]
     fn visit_reserved_unused(&mut self, node: &ReservedUnused) {
         if self.enabled {
-            <V as Visit>::visit_reserved_unused(self, node)
+            <V as Visit>::visit_reserved_unused(&mut self.visitor, node)
         } else {
         }
     }
@@ -8482,7 +8482,7 @@ where
     #[inline]
     fn visit_rest_pat(&mut self, node: &RestPat) {
         if self.enabled {
-            <V as Visit>::visit_rest_pat(self, node)
+            <V as Visit>::visit_rest_pat(&mut self.visitor, node)
         } else {
         }
     }
@@ -8490,7 +8490,7 @@ where
     #[inline]
     fn visit_return_stmt(&mut self, node: &ReturnStmt) {
         if self.enabled {
-            <V as Visit>::visit_return_stmt(self, node)
+            <V as Visit>::visit_return_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -8498,7 +8498,7 @@ where
     #[inline]
     fn visit_script(&mut self, node: &Script) {
         if self.enabled {
-            <V as Visit>::visit_script(self, node)
+            <V as Visit>::visit_script(&mut self.visitor, node)
         } else {
         }
     }
@@ -8506,7 +8506,7 @@ where
     #[inline]
     fn visit_seq_expr(&mut self, node: &SeqExpr) {
         if self.enabled {
-            <V as Visit>::visit_seq_expr(self, node)
+            <V as Visit>::visit_seq_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -8514,7 +8514,7 @@ where
     #[inline]
     fn visit_setter_prop(&mut self, node: &SetterProp) {
         if self.enabled {
-            <V as Visit>::visit_setter_prop(self, node)
+            <V as Visit>::visit_setter_prop(&mut self.visitor, node)
         } else {
         }
     }
@@ -8522,7 +8522,7 @@ where
     #[inline]
     fn visit_simple_assign_target(&mut self, node: &SimpleAssignTarget) {
         if self.enabled {
-            <V as Visit>::visit_simple_assign_target(self, node)
+            <V as Visit>::visit_simple_assign_target(&mut self.visitor, node)
         } else {
         }
     }
@@ -8530,7 +8530,7 @@ where
     #[inline]
     fn visit_span(&mut self, node: &swc_common::Span) {
         if self.enabled {
-            <V as Visit>::visit_span(self, node)
+            <V as Visit>::visit_span(&mut self.visitor, node)
         } else {
         }
     }
@@ -8538,7 +8538,7 @@ where
     #[inline]
     fn visit_spread_element(&mut self, node: &SpreadElement) {
         if self.enabled {
-            <V as Visit>::visit_spread_element(self, node)
+            <V as Visit>::visit_spread_element(&mut self.visitor, node)
         } else {
         }
     }
@@ -8546,7 +8546,7 @@ where
     #[inline]
     fn visit_static_block(&mut self, node: &StaticBlock) {
         if self.enabled {
-            <V as Visit>::visit_static_block(self, node)
+            <V as Visit>::visit_static_block(&mut self.visitor, node)
         } else {
         }
     }
@@ -8554,7 +8554,7 @@ where
     #[inline]
     fn visit_stmt(&mut self, node: &Stmt) {
         if self.enabled {
-            <V as Visit>::visit_stmt(self, node)
+            <V as Visit>::visit_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -8562,7 +8562,7 @@ where
     #[inline]
     fn visit_stmts(&mut self, node: &[Stmt]) {
         if self.enabled {
-            <V as Visit>::visit_stmts(self, node)
+            <V as Visit>::visit_stmts(&mut self.visitor, node)
         } else {
         }
     }
@@ -8570,7 +8570,7 @@ where
     #[inline]
     fn visit_str(&mut self, node: &Str) {
         if self.enabled {
-            <V as Visit>::visit_str(self, node)
+            <V as Visit>::visit_str(&mut self.visitor, node)
         } else {
         }
     }
@@ -8578,7 +8578,7 @@ where
     #[inline]
     fn visit_super(&mut self, node: &Super) {
         if self.enabled {
-            <V as Visit>::visit_super(self, node)
+            <V as Visit>::visit_super(&mut self.visitor, node)
         } else {
         }
     }
@@ -8586,7 +8586,7 @@ where
     #[inline]
     fn visit_super_prop(&mut self, node: &SuperProp) {
         if self.enabled {
-            <V as Visit>::visit_super_prop(self, node)
+            <V as Visit>::visit_super_prop(&mut self.visitor, node)
         } else {
         }
     }
@@ -8594,7 +8594,7 @@ where
     #[inline]
     fn visit_super_prop_expr(&mut self, node: &SuperPropExpr) {
         if self.enabled {
-            <V as Visit>::visit_super_prop_expr(self, node)
+            <V as Visit>::visit_super_prop_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -8602,7 +8602,7 @@ where
     #[inline]
     fn visit_switch_case(&mut self, node: &SwitchCase) {
         if self.enabled {
-            <V as Visit>::visit_switch_case(self, node)
+            <V as Visit>::visit_switch_case(&mut self.visitor, node)
         } else {
         }
     }
@@ -8610,7 +8610,7 @@ where
     #[inline]
     fn visit_switch_cases(&mut self, node: &[SwitchCase]) {
         if self.enabled {
-            <V as Visit>::visit_switch_cases(self, node)
+            <V as Visit>::visit_switch_cases(&mut self.visitor, node)
         } else {
         }
     }
@@ -8618,7 +8618,7 @@ where
     #[inline]
     fn visit_switch_stmt(&mut self, node: &SwitchStmt) {
         if self.enabled {
-            <V as Visit>::visit_switch_stmt(self, node)
+            <V as Visit>::visit_switch_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -8626,7 +8626,7 @@ where
     #[inline]
     fn visit_syntax_context(&mut self, node: &swc_common::SyntaxContext) {
         if self.enabled {
-            <V as Visit>::visit_syntax_context(self, node)
+            <V as Visit>::visit_syntax_context(&mut self.visitor, node)
         } else {
         }
     }
@@ -8634,7 +8634,7 @@ where
     #[inline]
     fn visit_tagged_tpl(&mut self, node: &TaggedTpl) {
         if self.enabled {
-            <V as Visit>::visit_tagged_tpl(self, node)
+            <V as Visit>::visit_tagged_tpl(&mut self.visitor, node)
         } else {
         }
     }
@@ -8642,7 +8642,7 @@ where
     #[inline]
     fn visit_this_expr(&mut self, node: &ThisExpr) {
         if self.enabled {
-            <V as Visit>::visit_this_expr(self, node)
+            <V as Visit>::visit_this_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -8650,7 +8650,7 @@ where
     #[inline]
     fn visit_throw_stmt(&mut self, node: &ThrowStmt) {
         if self.enabled {
-            <V as Visit>::visit_throw_stmt(self, node)
+            <V as Visit>::visit_throw_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -8658,7 +8658,7 @@ where
     #[inline]
     fn visit_tpl(&mut self, node: &Tpl) {
         if self.enabled {
-            <V as Visit>::visit_tpl(self, node)
+            <V as Visit>::visit_tpl(&mut self.visitor, node)
         } else {
         }
     }
@@ -8666,7 +8666,7 @@ where
     #[inline]
     fn visit_tpl_element(&mut self, node: &TplElement) {
         if self.enabled {
-            <V as Visit>::visit_tpl_element(self, node)
+            <V as Visit>::visit_tpl_element(&mut self.visitor, node)
         } else {
         }
     }
@@ -8674,7 +8674,7 @@ where
     #[inline]
     fn visit_tpl_elements(&mut self, node: &[TplElement]) {
         if self.enabled {
-            <V as Visit>::visit_tpl_elements(self, node)
+            <V as Visit>::visit_tpl_elements(&mut self.visitor, node)
         } else {
         }
     }
@@ -8682,7 +8682,7 @@ where
     #[inline]
     fn visit_true_plus_minus(&mut self, node: &TruePlusMinus) {
         if self.enabled {
-            <V as Visit>::visit_true_plus_minus(self, node)
+            <V as Visit>::visit_true_plus_minus(&mut self.visitor, node)
         } else {
         }
     }
@@ -8690,7 +8690,7 @@ where
     #[inline]
     fn visit_try_stmt(&mut self, node: &TryStmt) {
         if self.enabled {
-            <V as Visit>::visit_try_stmt(self, node)
+            <V as Visit>::visit_try_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -8698,7 +8698,7 @@ where
     #[inline]
     fn visit_ts_array_type(&mut self, node: &TsArrayType) {
         if self.enabled {
-            <V as Visit>::visit_ts_array_type(self, node)
+            <V as Visit>::visit_ts_array_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -8706,7 +8706,7 @@ where
     #[inline]
     fn visit_ts_as_expr(&mut self, node: &TsAsExpr) {
         if self.enabled {
-            <V as Visit>::visit_ts_as_expr(self, node)
+            <V as Visit>::visit_ts_as_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -8714,7 +8714,7 @@ where
     #[inline]
     fn visit_ts_call_signature_decl(&mut self, node: &TsCallSignatureDecl) {
         if self.enabled {
-            <V as Visit>::visit_ts_call_signature_decl(self, node)
+            <V as Visit>::visit_ts_call_signature_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -8722,7 +8722,7 @@ where
     #[inline]
     fn visit_ts_conditional_type(&mut self, node: &TsConditionalType) {
         if self.enabled {
-            <V as Visit>::visit_ts_conditional_type(self, node)
+            <V as Visit>::visit_ts_conditional_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -8730,7 +8730,7 @@ where
     #[inline]
     fn visit_ts_const_assertion(&mut self, node: &TsConstAssertion) {
         if self.enabled {
-            <V as Visit>::visit_ts_const_assertion(self, node)
+            <V as Visit>::visit_ts_const_assertion(&mut self.visitor, node)
         } else {
         }
     }
@@ -8738,7 +8738,7 @@ where
     #[inline]
     fn visit_ts_construct_signature_decl(&mut self, node: &TsConstructSignatureDecl) {
         if self.enabled {
-            <V as Visit>::visit_ts_construct_signature_decl(self, node)
+            <V as Visit>::visit_ts_construct_signature_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -8746,7 +8746,7 @@ where
     #[inline]
     fn visit_ts_constructor_type(&mut self, node: &TsConstructorType) {
         if self.enabled {
-            <V as Visit>::visit_ts_constructor_type(self, node)
+            <V as Visit>::visit_ts_constructor_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -8754,7 +8754,7 @@ where
     #[inline]
     fn visit_ts_entity_name(&mut self, node: &TsEntityName) {
         if self.enabled {
-            <V as Visit>::visit_ts_entity_name(self, node)
+            <V as Visit>::visit_ts_entity_name(&mut self.visitor, node)
         } else {
         }
     }
@@ -8762,7 +8762,7 @@ where
     #[inline]
     fn visit_ts_enum_decl(&mut self, node: &TsEnumDecl) {
         if self.enabled {
-            <V as Visit>::visit_ts_enum_decl(self, node)
+            <V as Visit>::visit_ts_enum_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -8770,7 +8770,7 @@ where
     #[inline]
     fn visit_ts_enum_member(&mut self, node: &TsEnumMember) {
         if self.enabled {
-            <V as Visit>::visit_ts_enum_member(self, node)
+            <V as Visit>::visit_ts_enum_member(&mut self.visitor, node)
         } else {
         }
     }
@@ -8778,7 +8778,7 @@ where
     #[inline]
     fn visit_ts_enum_member_id(&mut self, node: &TsEnumMemberId) {
         if self.enabled {
-            <V as Visit>::visit_ts_enum_member_id(self, node)
+            <V as Visit>::visit_ts_enum_member_id(&mut self.visitor, node)
         } else {
         }
     }
@@ -8786,7 +8786,7 @@ where
     #[inline]
     fn visit_ts_enum_members(&mut self, node: &[TsEnumMember]) {
         if self.enabled {
-            <V as Visit>::visit_ts_enum_members(self, node)
+            <V as Visit>::visit_ts_enum_members(&mut self.visitor, node)
         } else {
         }
     }
@@ -8794,7 +8794,7 @@ where
     #[inline]
     fn visit_ts_export_assignment(&mut self, node: &TsExportAssignment) {
         if self.enabled {
-            <V as Visit>::visit_ts_export_assignment(self, node)
+            <V as Visit>::visit_ts_export_assignment(&mut self.visitor, node)
         } else {
         }
     }
@@ -8802,7 +8802,7 @@ where
     #[inline]
     fn visit_ts_expr_with_type_args(&mut self, node: &TsExprWithTypeArgs) {
         if self.enabled {
-            <V as Visit>::visit_ts_expr_with_type_args(self, node)
+            <V as Visit>::visit_ts_expr_with_type_args(&mut self.visitor, node)
         } else {
         }
     }
@@ -8810,7 +8810,7 @@ where
     #[inline]
     fn visit_ts_expr_with_type_argss(&mut self, node: &[TsExprWithTypeArgs]) {
         if self.enabled {
-            <V as Visit>::visit_ts_expr_with_type_argss(self, node)
+            <V as Visit>::visit_ts_expr_with_type_argss(&mut self.visitor, node)
         } else {
         }
     }
@@ -8818,7 +8818,7 @@ where
     #[inline]
     fn visit_ts_external_module_ref(&mut self, node: &TsExternalModuleRef) {
         if self.enabled {
-            <V as Visit>::visit_ts_external_module_ref(self, node)
+            <V as Visit>::visit_ts_external_module_ref(&mut self.visitor, node)
         } else {
         }
     }
@@ -8826,7 +8826,7 @@ where
     #[inline]
     fn visit_ts_fn_or_constructor_type(&mut self, node: &TsFnOrConstructorType) {
         if self.enabled {
-            <V as Visit>::visit_ts_fn_or_constructor_type(self, node)
+            <V as Visit>::visit_ts_fn_or_constructor_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -8834,7 +8834,7 @@ where
     #[inline]
     fn visit_ts_fn_param(&mut self, node: &TsFnParam) {
         if self.enabled {
-            <V as Visit>::visit_ts_fn_param(self, node)
+            <V as Visit>::visit_ts_fn_param(&mut self.visitor, node)
         } else {
         }
     }
@@ -8842,7 +8842,7 @@ where
     #[inline]
     fn visit_ts_fn_params(&mut self, node: &[TsFnParam]) {
         if self.enabled {
-            <V as Visit>::visit_ts_fn_params(self, node)
+            <V as Visit>::visit_ts_fn_params(&mut self.visitor, node)
         } else {
         }
     }
@@ -8850,7 +8850,7 @@ where
     #[inline]
     fn visit_ts_fn_type(&mut self, node: &TsFnType) {
         if self.enabled {
-            <V as Visit>::visit_ts_fn_type(self, node)
+            <V as Visit>::visit_ts_fn_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -8858,7 +8858,7 @@ where
     #[inline]
     fn visit_ts_getter_signature(&mut self, node: &TsGetterSignature) {
         if self.enabled {
-            <V as Visit>::visit_ts_getter_signature(self, node)
+            <V as Visit>::visit_ts_getter_signature(&mut self.visitor, node)
         } else {
         }
     }
@@ -8866,7 +8866,7 @@ where
     #[inline]
     fn visit_ts_import_equals_decl(&mut self, node: &TsImportEqualsDecl) {
         if self.enabled {
-            <V as Visit>::visit_ts_import_equals_decl(self, node)
+            <V as Visit>::visit_ts_import_equals_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -8874,7 +8874,7 @@ where
     #[inline]
     fn visit_ts_import_type(&mut self, node: &TsImportType) {
         if self.enabled {
-            <V as Visit>::visit_ts_import_type(self, node)
+            <V as Visit>::visit_ts_import_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -8882,7 +8882,7 @@ where
     #[inline]
     fn visit_ts_index_signature(&mut self, node: &TsIndexSignature) {
         if self.enabled {
-            <V as Visit>::visit_ts_index_signature(self, node)
+            <V as Visit>::visit_ts_index_signature(&mut self.visitor, node)
         } else {
         }
     }
@@ -8890,7 +8890,7 @@ where
     #[inline]
     fn visit_ts_indexed_access_type(&mut self, node: &TsIndexedAccessType) {
         if self.enabled {
-            <V as Visit>::visit_ts_indexed_access_type(self, node)
+            <V as Visit>::visit_ts_indexed_access_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -8898,7 +8898,7 @@ where
     #[inline]
     fn visit_ts_infer_type(&mut self, node: &TsInferType) {
         if self.enabled {
-            <V as Visit>::visit_ts_infer_type(self, node)
+            <V as Visit>::visit_ts_infer_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -8906,7 +8906,7 @@ where
     #[inline]
     fn visit_ts_instantiation(&mut self, node: &TsInstantiation) {
         if self.enabled {
-            <V as Visit>::visit_ts_instantiation(self, node)
+            <V as Visit>::visit_ts_instantiation(&mut self.visitor, node)
         } else {
         }
     }
@@ -8914,7 +8914,7 @@ where
     #[inline]
     fn visit_ts_interface_body(&mut self, node: &TsInterfaceBody) {
         if self.enabled {
-            <V as Visit>::visit_ts_interface_body(self, node)
+            <V as Visit>::visit_ts_interface_body(&mut self.visitor, node)
         } else {
         }
     }
@@ -8922,7 +8922,7 @@ where
     #[inline]
     fn visit_ts_interface_decl(&mut self, node: &TsInterfaceDecl) {
         if self.enabled {
-            <V as Visit>::visit_ts_interface_decl(self, node)
+            <V as Visit>::visit_ts_interface_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -8930,7 +8930,7 @@ where
     #[inline]
     fn visit_ts_intersection_type(&mut self, node: &TsIntersectionType) {
         if self.enabled {
-            <V as Visit>::visit_ts_intersection_type(self, node)
+            <V as Visit>::visit_ts_intersection_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -8938,7 +8938,7 @@ where
     #[inline]
     fn visit_ts_keyword_type(&mut self, node: &TsKeywordType) {
         if self.enabled {
-            <V as Visit>::visit_ts_keyword_type(self, node)
+            <V as Visit>::visit_ts_keyword_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -8946,7 +8946,7 @@ where
     #[inline]
     fn visit_ts_keyword_type_kind(&mut self, node: &TsKeywordTypeKind) {
         if self.enabled {
-            <V as Visit>::visit_ts_keyword_type_kind(self, node)
+            <V as Visit>::visit_ts_keyword_type_kind(&mut self.visitor, node)
         } else {
         }
     }
@@ -8954,7 +8954,7 @@ where
     #[inline]
     fn visit_ts_lit(&mut self, node: &TsLit) {
         if self.enabled {
-            <V as Visit>::visit_ts_lit(self, node)
+            <V as Visit>::visit_ts_lit(&mut self.visitor, node)
         } else {
         }
     }
@@ -8962,7 +8962,7 @@ where
     #[inline]
     fn visit_ts_lit_type(&mut self, node: &TsLitType) {
         if self.enabled {
-            <V as Visit>::visit_ts_lit_type(self, node)
+            <V as Visit>::visit_ts_lit_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -8970,7 +8970,7 @@ where
     #[inline]
     fn visit_ts_mapped_type(&mut self, node: &TsMappedType) {
         if self.enabled {
-            <V as Visit>::visit_ts_mapped_type(self, node)
+            <V as Visit>::visit_ts_mapped_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -8978,7 +8978,7 @@ where
     #[inline]
     fn visit_ts_method_signature(&mut self, node: &TsMethodSignature) {
         if self.enabled {
-            <V as Visit>::visit_ts_method_signature(self, node)
+            <V as Visit>::visit_ts_method_signature(&mut self.visitor, node)
         } else {
         }
     }
@@ -8986,7 +8986,7 @@ where
     #[inline]
     fn visit_ts_module_block(&mut self, node: &TsModuleBlock) {
         if self.enabled {
-            <V as Visit>::visit_ts_module_block(self, node)
+            <V as Visit>::visit_ts_module_block(&mut self.visitor, node)
         } else {
         }
     }
@@ -8994,7 +8994,7 @@ where
     #[inline]
     fn visit_ts_module_decl(&mut self, node: &TsModuleDecl) {
         if self.enabled {
-            <V as Visit>::visit_ts_module_decl(self, node)
+            <V as Visit>::visit_ts_module_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -9002,7 +9002,7 @@ where
     #[inline]
     fn visit_ts_module_name(&mut self, node: &TsModuleName) {
         if self.enabled {
-            <V as Visit>::visit_ts_module_name(self, node)
+            <V as Visit>::visit_ts_module_name(&mut self.visitor, node)
         } else {
         }
     }
@@ -9010,7 +9010,7 @@ where
     #[inline]
     fn visit_ts_module_ref(&mut self, node: &TsModuleRef) {
         if self.enabled {
-            <V as Visit>::visit_ts_module_ref(self, node)
+            <V as Visit>::visit_ts_module_ref(&mut self.visitor, node)
         } else {
         }
     }
@@ -9018,7 +9018,7 @@ where
     #[inline]
     fn visit_ts_namespace_body(&mut self, node: &TsNamespaceBody) {
         if self.enabled {
-            <V as Visit>::visit_ts_namespace_body(self, node)
+            <V as Visit>::visit_ts_namespace_body(&mut self.visitor, node)
         } else {
         }
     }
@@ -9026,7 +9026,7 @@ where
     #[inline]
     fn visit_ts_namespace_decl(&mut self, node: &TsNamespaceDecl) {
         if self.enabled {
-            <V as Visit>::visit_ts_namespace_decl(self, node)
+            <V as Visit>::visit_ts_namespace_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -9034,7 +9034,7 @@ where
     #[inline]
     fn visit_ts_namespace_export_decl(&mut self, node: &TsNamespaceExportDecl) {
         if self.enabled {
-            <V as Visit>::visit_ts_namespace_export_decl(self, node)
+            <V as Visit>::visit_ts_namespace_export_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -9042,7 +9042,7 @@ where
     #[inline]
     fn visit_ts_non_null_expr(&mut self, node: &TsNonNullExpr) {
         if self.enabled {
-            <V as Visit>::visit_ts_non_null_expr(self, node)
+            <V as Visit>::visit_ts_non_null_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -9050,7 +9050,7 @@ where
     #[inline]
     fn visit_ts_optional_type(&mut self, node: &TsOptionalType) {
         if self.enabled {
-            <V as Visit>::visit_ts_optional_type(self, node)
+            <V as Visit>::visit_ts_optional_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -9058,7 +9058,7 @@ where
     #[inline]
     fn visit_ts_param_prop(&mut self, node: &TsParamProp) {
         if self.enabled {
-            <V as Visit>::visit_ts_param_prop(self, node)
+            <V as Visit>::visit_ts_param_prop(&mut self.visitor, node)
         } else {
         }
     }
@@ -9066,7 +9066,7 @@ where
     #[inline]
     fn visit_ts_param_prop_param(&mut self, node: &TsParamPropParam) {
         if self.enabled {
-            <V as Visit>::visit_ts_param_prop_param(self, node)
+            <V as Visit>::visit_ts_param_prop_param(&mut self.visitor, node)
         } else {
         }
     }
@@ -9074,7 +9074,7 @@ where
     #[inline]
     fn visit_ts_parenthesized_type(&mut self, node: &TsParenthesizedType) {
         if self.enabled {
-            <V as Visit>::visit_ts_parenthesized_type(self, node)
+            <V as Visit>::visit_ts_parenthesized_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -9082,7 +9082,7 @@ where
     #[inline]
     fn visit_ts_property_signature(&mut self, node: &TsPropertySignature) {
         if self.enabled {
-            <V as Visit>::visit_ts_property_signature(self, node)
+            <V as Visit>::visit_ts_property_signature(&mut self.visitor, node)
         } else {
         }
     }
@@ -9090,7 +9090,7 @@ where
     #[inline]
     fn visit_ts_qualified_name(&mut self, node: &TsQualifiedName) {
         if self.enabled {
-            <V as Visit>::visit_ts_qualified_name(self, node)
+            <V as Visit>::visit_ts_qualified_name(&mut self.visitor, node)
         } else {
         }
     }
@@ -9098,7 +9098,7 @@ where
     #[inline]
     fn visit_ts_rest_type(&mut self, node: &TsRestType) {
         if self.enabled {
-            <V as Visit>::visit_ts_rest_type(self, node)
+            <V as Visit>::visit_ts_rest_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -9106,7 +9106,7 @@ where
     #[inline]
     fn visit_ts_satisfies_expr(&mut self, node: &TsSatisfiesExpr) {
         if self.enabled {
-            <V as Visit>::visit_ts_satisfies_expr(self, node)
+            <V as Visit>::visit_ts_satisfies_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -9114,7 +9114,7 @@ where
     #[inline]
     fn visit_ts_setter_signature(&mut self, node: &TsSetterSignature) {
         if self.enabled {
-            <V as Visit>::visit_ts_setter_signature(self, node)
+            <V as Visit>::visit_ts_setter_signature(&mut self.visitor, node)
         } else {
         }
     }
@@ -9122,7 +9122,7 @@ where
     #[inline]
     fn visit_ts_this_type(&mut self, node: &TsThisType) {
         if self.enabled {
-            <V as Visit>::visit_ts_this_type(self, node)
+            <V as Visit>::visit_ts_this_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -9130,7 +9130,7 @@ where
     #[inline]
     fn visit_ts_this_type_or_ident(&mut self, node: &TsThisTypeOrIdent) {
         if self.enabled {
-            <V as Visit>::visit_ts_this_type_or_ident(self, node)
+            <V as Visit>::visit_ts_this_type_or_ident(&mut self.visitor, node)
         } else {
         }
     }
@@ -9138,7 +9138,7 @@ where
     #[inline]
     fn visit_ts_tpl_lit_type(&mut self, node: &TsTplLitType) {
         if self.enabled {
-            <V as Visit>::visit_ts_tpl_lit_type(self, node)
+            <V as Visit>::visit_ts_tpl_lit_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -9146,7 +9146,7 @@ where
     #[inline]
     fn visit_ts_tuple_element(&mut self, node: &TsTupleElement) {
         if self.enabled {
-            <V as Visit>::visit_ts_tuple_element(self, node)
+            <V as Visit>::visit_ts_tuple_element(&mut self.visitor, node)
         } else {
         }
     }
@@ -9154,7 +9154,7 @@ where
     #[inline]
     fn visit_ts_tuple_elements(&mut self, node: &[TsTupleElement]) {
         if self.enabled {
-            <V as Visit>::visit_ts_tuple_elements(self, node)
+            <V as Visit>::visit_ts_tuple_elements(&mut self.visitor, node)
         } else {
         }
     }
@@ -9162,7 +9162,7 @@ where
     #[inline]
     fn visit_ts_tuple_type(&mut self, node: &TsTupleType) {
         if self.enabled {
-            <V as Visit>::visit_ts_tuple_type(self, node)
+            <V as Visit>::visit_ts_tuple_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -9170,7 +9170,7 @@ where
     #[inline]
     fn visit_ts_type(&mut self, node: &TsType) {
         if self.enabled {
-            <V as Visit>::visit_ts_type(self, node)
+            <V as Visit>::visit_ts_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -9178,7 +9178,7 @@ where
     #[inline]
     fn visit_ts_type_alias_decl(&mut self, node: &TsTypeAliasDecl) {
         if self.enabled {
-            <V as Visit>::visit_ts_type_alias_decl(self, node)
+            <V as Visit>::visit_ts_type_alias_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -9186,7 +9186,7 @@ where
     #[inline]
     fn visit_ts_type_ann(&mut self, node: &TsTypeAnn) {
         if self.enabled {
-            <V as Visit>::visit_ts_type_ann(self, node)
+            <V as Visit>::visit_ts_type_ann(&mut self.visitor, node)
         } else {
         }
     }
@@ -9194,7 +9194,7 @@ where
     #[inline]
     fn visit_ts_type_assertion(&mut self, node: &TsTypeAssertion) {
         if self.enabled {
-            <V as Visit>::visit_ts_type_assertion(self, node)
+            <V as Visit>::visit_ts_type_assertion(&mut self.visitor, node)
         } else {
         }
     }
@@ -9202,7 +9202,7 @@ where
     #[inline]
     fn visit_ts_type_element(&mut self, node: &TsTypeElement) {
         if self.enabled {
-            <V as Visit>::visit_ts_type_element(self, node)
+            <V as Visit>::visit_ts_type_element(&mut self.visitor, node)
         } else {
         }
     }
@@ -9210,7 +9210,7 @@ where
     #[inline]
     fn visit_ts_type_elements(&mut self, node: &[TsTypeElement]) {
         if self.enabled {
-            <V as Visit>::visit_ts_type_elements(self, node)
+            <V as Visit>::visit_ts_type_elements(&mut self.visitor, node)
         } else {
         }
     }
@@ -9218,7 +9218,7 @@ where
     #[inline]
     fn visit_ts_type_lit(&mut self, node: &TsTypeLit) {
         if self.enabled {
-            <V as Visit>::visit_ts_type_lit(self, node)
+            <V as Visit>::visit_ts_type_lit(&mut self.visitor, node)
         } else {
         }
     }
@@ -9226,7 +9226,7 @@ where
     #[inline]
     fn visit_ts_type_operator(&mut self, node: &TsTypeOperator) {
         if self.enabled {
-            <V as Visit>::visit_ts_type_operator(self, node)
+            <V as Visit>::visit_ts_type_operator(&mut self.visitor, node)
         } else {
         }
     }
@@ -9234,7 +9234,7 @@ where
     #[inline]
     fn visit_ts_type_operator_op(&mut self, node: &TsTypeOperatorOp) {
         if self.enabled {
-            <V as Visit>::visit_ts_type_operator_op(self, node)
+            <V as Visit>::visit_ts_type_operator_op(&mut self.visitor, node)
         } else {
         }
     }
@@ -9242,7 +9242,7 @@ where
     #[inline]
     fn visit_ts_type_param(&mut self, node: &TsTypeParam) {
         if self.enabled {
-            <V as Visit>::visit_ts_type_param(self, node)
+            <V as Visit>::visit_ts_type_param(&mut self.visitor, node)
         } else {
         }
     }
@@ -9250,7 +9250,7 @@ where
     #[inline]
     fn visit_ts_type_param_decl(&mut self, node: &TsTypeParamDecl) {
         if self.enabled {
-            <V as Visit>::visit_ts_type_param_decl(self, node)
+            <V as Visit>::visit_ts_type_param_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -9258,7 +9258,7 @@ where
     #[inline]
     fn visit_ts_type_param_instantiation(&mut self, node: &TsTypeParamInstantiation) {
         if self.enabled {
-            <V as Visit>::visit_ts_type_param_instantiation(self, node)
+            <V as Visit>::visit_ts_type_param_instantiation(&mut self.visitor, node)
         } else {
         }
     }
@@ -9266,7 +9266,7 @@ where
     #[inline]
     fn visit_ts_type_params(&mut self, node: &[TsTypeParam]) {
         if self.enabled {
-            <V as Visit>::visit_ts_type_params(self, node)
+            <V as Visit>::visit_ts_type_params(&mut self.visitor, node)
         } else {
         }
     }
@@ -9274,7 +9274,7 @@ where
     #[inline]
     fn visit_ts_type_predicate(&mut self, node: &TsTypePredicate) {
         if self.enabled {
-            <V as Visit>::visit_ts_type_predicate(self, node)
+            <V as Visit>::visit_ts_type_predicate(&mut self.visitor, node)
         } else {
         }
     }
@@ -9282,7 +9282,7 @@ where
     #[inline]
     fn visit_ts_type_query(&mut self, node: &TsTypeQuery) {
         if self.enabled {
-            <V as Visit>::visit_ts_type_query(self, node)
+            <V as Visit>::visit_ts_type_query(&mut self.visitor, node)
         } else {
         }
     }
@@ -9290,7 +9290,7 @@ where
     #[inline]
     fn visit_ts_type_query_expr(&mut self, node: &TsTypeQueryExpr) {
         if self.enabled {
-            <V as Visit>::visit_ts_type_query_expr(self, node)
+            <V as Visit>::visit_ts_type_query_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -9298,7 +9298,7 @@ where
     #[inline]
     fn visit_ts_type_ref(&mut self, node: &TsTypeRef) {
         if self.enabled {
-            <V as Visit>::visit_ts_type_ref(self, node)
+            <V as Visit>::visit_ts_type_ref(&mut self.visitor, node)
         } else {
         }
     }
@@ -9306,7 +9306,7 @@ where
     #[inline]
     fn visit_ts_types(&mut self, node: &[Box<TsType>]) {
         if self.enabled {
-            <V as Visit>::visit_ts_types(self, node)
+            <V as Visit>::visit_ts_types(&mut self.visitor, node)
         } else {
         }
     }
@@ -9314,7 +9314,7 @@ where
     #[inline]
     fn visit_ts_union_or_intersection_type(&mut self, node: &TsUnionOrIntersectionType) {
         if self.enabled {
-            <V as Visit>::visit_ts_union_or_intersection_type(self, node)
+            <V as Visit>::visit_ts_union_or_intersection_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -9322,7 +9322,7 @@ where
     #[inline]
     fn visit_ts_union_type(&mut self, node: &TsUnionType) {
         if self.enabled {
-            <V as Visit>::visit_ts_union_type(self, node)
+            <V as Visit>::visit_ts_union_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -9330,7 +9330,7 @@ where
     #[inline]
     fn visit_unary_expr(&mut self, node: &UnaryExpr) {
         if self.enabled {
-            <V as Visit>::visit_unary_expr(self, node)
+            <V as Visit>::visit_unary_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -9338,7 +9338,7 @@ where
     #[inline]
     fn visit_unary_op(&mut self, node: &UnaryOp) {
         if self.enabled {
-            <V as Visit>::visit_unary_op(self, node)
+            <V as Visit>::visit_unary_op(&mut self.visitor, node)
         } else {
         }
     }
@@ -9346,7 +9346,7 @@ where
     #[inline]
     fn visit_update_expr(&mut self, node: &UpdateExpr) {
         if self.enabled {
-            <V as Visit>::visit_update_expr(self, node)
+            <V as Visit>::visit_update_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -9354,7 +9354,7 @@ where
     #[inline]
     fn visit_update_op(&mut self, node: &UpdateOp) {
         if self.enabled {
-            <V as Visit>::visit_update_op(self, node)
+            <V as Visit>::visit_update_op(&mut self.visitor, node)
         } else {
         }
     }
@@ -9362,7 +9362,7 @@ where
     #[inline]
     fn visit_using_decl(&mut self, node: &UsingDecl) {
         if self.enabled {
-            <V as Visit>::visit_using_decl(self, node)
+            <V as Visit>::visit_using_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -9370,7 +9370,7 @@ where
     #[inline]
     fn visit_var_decl(&mut self, node: &VarDecl) {
         if self.enabled {
-            <V as Visit>::visit_var_decl(self, node)
+            <V as Visit>::visit_var_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -9378,7 +9378,7 @@ where
     #[inline]
     fn visit_var_decl_kind(&mut self, node: &VarDeclKind) {
         if self.enabled {
-            <V as Visit>::visit_var_decl_kind(self, node)
+            <V as Visit>::visit_var_decl_kind(&mut self.visitor, node)
         } else {
         }
     }
@@ -9386,7 +9386,7 @@ where
     #[inline]
     fn visit_var_decl_or_expr(&mut self, node: &VarDeclOrExpr) {
         if self.enabled {
-            <V as Visit>::visit_var_decl_or_expr(self, node)
+            <V as Visit>::visit_var_decl_or_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -9394,7 +9394,7 @@ where
     #[inline]
     fn visit_var_declarator(&mut self, node: &VarDeclarator) {
         if self.enabled {
-            <V as Visit>::visit_var_declarator(self, node)
+            <V as Visit>::visit_var_declarator(&mut self.visitor, node)
         } else {
         }
     }
@@ -9402,7 +9402,7 @@ where
     #[inline]
     fn visit_var_declarators(&mut self, node: &[VarDeclarator]) {
         if self.enabled {
-            <V as Visit>::visit_var_declarators(self, node)
+            <V as Visit>::visit_var_declarators(&mut self.visitor, node)
         } else {
         }
     }
@@ -9410,7 +9410,7 @@ where
     #[inline]
     fn visit_while_stmt(&mut self, node: &WhileStmt) {
         if self.enabled {
-            <V as Visit>::visit_while_stmt(self, node)
+            <V as Visit>::visit_while_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -9418,7 +9418,7 @@ where
     #[inline]
     fn visit_with_stmt(&mut self, node: &WithStmt) {
         if self.enabled {
-            <V as Visit>::visit_with_stmt(self, node)
+            <V as Visit>::visit_with_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -9426,7 +9426,7 @@ where
     #[inline]
     fn visit_yield_expr(&mut self, node: &YieldExpr) {
         if self.enabled {
-            <V as Visit>::visit_yield_expr(self, node)
+            <V as Visit>::visit_yield_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -27126,7 +27126,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_accessibility(self, node, ast_path)
+            <V as VisitAstPath>::visit_accessibility(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27138,7 +27138,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_array_lit(self, node, ast_path)
+            <V as VisitAstPath>::visit_array_lit(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27150,7 +27150,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_array_pat(self, node, ast_path)
+            <V as VisitAstPath>::visit_array_pat(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27162,7 +27162,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_arrow_expr(self, node, ast_path)
+            <V as VisitAstPath>::visit_arrow_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27174,7 +27174,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_assign_expr(self, node, ast_path)
+            <V as VisitAstPath>::visit_assign_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27186,7 +27186,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_assign_op(self, node, ast_path)
+            <V as VisitAstPath>::visit_assign_op(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27198,7 +27198,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_assign_pat(self, node, ast_path)
+            <V as VisitAstPath>::visit_assign_pat(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27210,7 +27210,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_assign_pat_prop(self, node, ast_path)
+            <V as VisitAstPath>::visit_assign_pat_prop(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27222,7 +27222,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_assign_prop(self, node, ast_path)
+            <V as VisitAstPath>::visit_assign_prop(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27234,7 +27234,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_assign_target(self, node, ast_path)
+            <V as VisitAstPath>::visit_assign_target(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27246,7 +27246,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_assign_target_pat(self, node, ast_path)
+            <V as VisitAstPath>::visit_assign_target_pat(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27258,7 +27258,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_atom(self, node, ast_path)
+            <V as VisitAstPath>::visit_atom(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27270,7 +27270,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_auto_accessor(self, node, ast_path)
+            <V as VisitAstPath>::visit_auto_accessor(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27282,7 +27282,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_await_expr(self, node, ast_path)
+            <V as VisitAstPath>::visit_await_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27290,7 +27290,7 @@ where
     #[inline]
     fn visit_big_int<'ast: 'r, 'r>(&mut self, node: &'ast BigInt, ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
-            <V as VisitAstPath>::visit_big_int(self, node, ast_path)
+            <V as VisitAstPath>::visit_big_int(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27302,7 +27302,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_big_int_value(self, node, ast_path)
+            <V as VisitAstPath>::visit_big_int_value(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27314,7 +27314,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_bin_expr(self, node, ast_path)
+            <V as VisitAstPath>::visit_bin_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27326,7 +27326,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_binary_op(self, node, ast_path)
+            <V as VisitAstPath>::visit_binary_op(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27338,7 +27338,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_binding_ident(self, node, ast_path)
+            <V as VisitAstPath>::visit_binding_ident(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27350,7 +27350,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_block_stmt(self, node, ast_path)
+            <V as VisitAstPath>::visit_block_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27362,7 +27362,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_block_stmt_or_expr(self, node, ast_path)
+            <V as VisitAstPath>::visit_block_stmt_or_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27370,7 +27370,7 @@ where
     #[inline]
     fn visit_bool<'ast: 'r, 'r>(&mut self, node: &'ast Bool, ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
-            <V as VisitAstPath>::visit_bool(self, node, ast_path)
+            <V as VisitAstPath>::visit_bool(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27382,7 +27382,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_break_stmt(self, node, ast_path)
+            <V as VisitAstPath>::visit_break_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27394,7 +27394,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_call_expr(self, node, ast_path)
+            <V as VisitAstPath>::visit_call_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27402,7 +27402,7 @@ where
     #[inline]
     fn visit_callee<'ast: 'r, 'r>(&mut self, node: &'ast Callee, ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
-            <V as VisitAstPath>::visit_callee(self, node, ast_path)
+            <V as VisitAstPath>::visit_callee(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27414,7 +27414,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_catch_clause(self, node, ast_path)
+            <V as VisitAstPath>::visit_catch_clause(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27422,7 +27422,7 @@ where
     #[inline]
     fn visit_class<'ast: 'r, 'r>(&mut self, node: &'ast Class, ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
-            <V as VisitAstPath>::visit_class(self, node, ast_path)
+            <V as VisitAstPath>::visit_class(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27434,7 +27434,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_class_decl(self, node, ast_path)
+            <V as VisitAstPath>::visit_class_decl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27446,7 +27446,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_class_expr(self, node, ast_path)
+            <V as VisitAstPath>::visit_class_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27458,7 +27458,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_class_member(self, node, ast_path)
+            <V as VisitAstPath>::visit_class_member(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27470,7 +27470,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_class_members(self, node, ast_path)
+            <V as VisitAstPath>::visit_class_members(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27482,7 +27482,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_class_method(self, node, ast_path)
+            <V as VisitAstPath>::visit_class_method(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27494,7 +27494,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_class_prop(self, node, ast_path)
+            <V as VisitAstPath>::visit_class_prop(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27506,7 +27506,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_computed_prop_name(self, node, ast_path)
+            <V as VisitAstPath>::visit_computed_prop_name(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27518,7 +27518,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_cond_expr(self, node, ast_path)
+            <V as VisitAstPath>::visit_cond_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27530,7 +27530,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_constructor(self, node, ast_path)
+            <V as VisitAstPath>::visit_constructor(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27542,7 +27542,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_continue_stmt(self, node, ast_path)
+            <V as VisitAstPath>::visit_continue_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27554,7 +27554,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_debugger_stmt(self, node, ast_path)
+            <V as VisitAstPath>::visit_debugger_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27562,7 +27562,7 @@ where
     #[inline]
     fn visit_decl<'ast: 'r, 'r>(&mut self, node: &'ast Decl, ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
-            <V as VisitAstPath>::visit_decl(self, node, ast_path)
+            <V as VisitAstPath>::visit_decl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27574,7 +27574,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_decorator(self, node, ast_path)
+            <V as VisitAstPath>::visit_decorator(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27586,7 +27586,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_decorators(self, node, ast_path)
+            <V as VisitAstPath>::visit_decorators(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27598,7 +27598,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_default_decl(self, node, ast_path)
+            <V as VisitAstPath>::visit_default_decl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27610,7 +27610,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_do_while_stmt(self, node, ast_path)
+            <V as VisitAstPath>::visit_do_while_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27622,7 +27622,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_empty_stmt(self, node, ast_path)
+            <V as VisitAstPath>::visit_empty_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27634,7 +27634,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_es_version(self, node, ast_path)
+            <V as VisitAstPath>::visit_es_version(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27646,7 +27646,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_export_all(self, node, ast_path)
+            <V as VisitAstPath>::visit_export_all(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27658,7 +27658,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_export_decl(self, node, ast_path)
+            <V as VisitAstPath>::visit_export_decl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27670,7 +27670,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_export_default_decl(self, node, ast_path)
+            <V as VisitAstPath>::visit_export_default_decl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27682,7 +27682,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_export_default_expr(self, node, ast_path)
+            <V as VisitAstPath>::visit_export_default_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27694,7 +27694,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_export_default_specifier(self, node, ast_path)
+            <V as VisitAstPath>::visit_export_default_specifier(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27706,7 +27706,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_export_named_specifier(self, node, ast_path)
+            <V as VisitAstPath>::visit_export_named_specifier(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27718,7 +27718,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_export_namespace_specifier(self, node, ast_path)
+            <V as VisitAstPath>::visit_export_namespace_specifier(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27730,7 +27730,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_export_specifier(self, node, ast_path)
+            <V as VisitAstPath>::visit_export_specifier(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27742,7 +27742,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_export_specifiers(self, node, ast_path)
+            <V as VisitAstPath>::visit_export_specifiers(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27750,7 +27750,7 @@ where
     #[inline]
     fn visit_expr<'ast: 'r, 'r>(&mut self, node: &'ast Expr, ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
-            <V as VisitAstPath>::visit_expr(self, node, ast_path)
+            <V as VisitAstPath>::visit_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27762,7 +27762,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_expr_or_spread(self, node, ast_path)
+            <V as VisitAstPath>::visit_expr_or_spread(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27774,7 +27774,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_expr_or_spreads(self, node, ast_path)
+            <V as VisitAstPath>::visit_expr_or_spreads(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27786,7 +27786,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_expr_stmt(self, node, ast_path)
+            <V as VisitAstPath>::visit_expr_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27798,7 +27798,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_exprs(self, node, ast_path)
+            <V as VisitAstPath>::visit_exprs(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27806,7 +27806,7 @@ where
     #[inline]
     fn visit_fn_decl<'ast: 'r, 'r>(&mut self, node: &'ast FnDecl, ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
-            <V as VisitAstPath>::visit_fn_decl(self, node, ast_path)
+            <V as VisitAstPath>::visit_fn_decl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27814,7 +27814,7 @@ where
     #[inline]
     fn visit_fn_expr<'ast: 'r, 'r>(&mut self, node: &'ast FnExpr, ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
-            <V as VisitAstPath>::visit_fn_expr(self, node, ast_path)
+            <V as VisitAstPath>::visit_fn_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27826,7 +27826,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_for_head(self, node, ast_path)
+            <V as VisitAstPath>::visit_for_head(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27838,7 +27838,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_for_in_stmt(self, node, ast_path)
+            <V as VisitAstPath>::visit_for_in_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27850,7 +27850,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_for_of_stmt(self, node, ast_path)
+            <V as VisitAstPath>::visit_for_of_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27862,7 +27862,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_for_stmt(self, node, ast_path)
+            <V as VisitAstPath>::visit_for_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27874,7 +27874,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_function(self, node, ast_path)
+            <V as VisitAstPath>::visit_function(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27886,7 +27886,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_getter_prop(self, node, ast_path)
+            <V as VisitAstPath>::visit_getter_prop(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27894,7 +27894,7 @@ where
     #[inline]
     fn visit_ident<'ast: 'r, 'r>(&mut self, node: &'ast Ident, ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ident(self, node, ast_path)
+            <V as VisitAstPath>::visit_ident(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27906,7 +27906,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ident_name(self, node, ast_path)
+            <V as VisitAstPath>::visit_ident_name(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27914,7 +27914,7 @@ where
     #[inline]
     fn visit_if_stmt<'ast: 'r, 'r>(&mut self, node: &'ast IfStmt, ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
-            <V as VisitAstPath>::visit_if_stmt(self, node, ast_path)
+            <V as VisitAstPath>::visit_if_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27922,7 +27922,7 @@ where
     #[inline]
     fn visit_import<'ast: 'r, 'r>(&mut self, node: &'ast Import, ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
-            <V as VisitAstPath>::visit_import(self, node, ast_path)
+            <V as VisitAstPath>::visit_import(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27934,7 +27934,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_import_decl(self, node, ast_path)
+            <V as VisitAstPath>::visit_import_decl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27946,7 +27946,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_import_default_specifier(self, node, ast_path)
+            <V as VisitAstPath>::visit_import_default_specifier(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27958,7 +27958,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_import_named_specifier(self, node, ast_path)
+            <V as VisitAstPath>::visit_import_named_specifier(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27970,7 +27970,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_import_phase(self, node, ast_path)
+            <V as VisitAstPath>::visit_import_phase(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27982,7 +27982,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_import_specifier(self, node, ast_path)
+            <V as VisitAstPath>::visit_import_specifier(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -27994,7 +27994,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_import_specifiers(self, node, ast_path)
+            <V as VisitAstPath>::visit_import_specifiers(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28006,7 +28006,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_import_star_as_specifier(self, node, ast_path)
+            <V as VisitAstPath>::visit_import_star_as_specifier(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28018,7 +28018,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_import_with(self, node, ast_path)
+            <V as VisitAstPath>::visit_import_with(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28030,7 +28030,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_import_with_item(self, node, ast_path)
+            <V as VisitAstPath>::visit_import_with_item(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28042,7 +28042,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_import_with_items(self, node, ast_path)
+            <V as VisitAstPath>::visit_import_with_items(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28050,7 +28050,7 @@ where
     #[inline]
     fn visit_invalid<'ast: 'r, 'r>(&mut self, node: &'ast Invalid, ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
-            <V as VisitAstPath>::visit_invalid(self, node, ast_path)
+            <V as VisitAstPath>::visit_invalid(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28062,7 +28062,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_jsx_attr(self, node, ast_path)
+            <V as VisitAstPath>::visit_jsx_attr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28074,7 +28074,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_jsx_attr_name(self, node, ast_path)
+            <V as VisitAstPath>::visit_jsx_attr_name(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28086,7 +28086,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_jsx_attr_or_spread(self, node, ast_path)
+            <V as VisitAstPath>::visit_jsx_attr_or_spread(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28098,7 +28098,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_jsx_attr_or_spreads(self, node, ast_path)
+            <V as VisitAstPath>::visit_jsx_attr_or_spreads(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28110,7 +28110,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_jsx_attr_value(self, node, ast_path)
+            <V as VisitAstPath>::visit_jsx_attr_value(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28122,7 +28122,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_jsx_closing_element(self, node, ast_path)
+            <V as VisitAstPath>::visit_jsx_closing_element(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28134,7 +28134,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_jsx_closing_fragment(self, node, ast_path)
+            <V as VisitAstPath>::visit_jsx_closing_fragment(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28146,7 +28146,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_jsx_element(self, node, ast_path)
+            <V as VisitAstPath>::visit_jsx_element(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28158,7 +28158,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_jsx_element_child(self, node, ast_path)
+            <V as VisitAstPath>::visit_jsx_element_child(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28170,7 +28170,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_jsx_element_childs(self, node, ast_path)
+            <V as VisitAstPath>::visit_jsx_element_childs(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28182,7 +28182,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_jsx_element_name(self, node, ast_path)
+            <V as VisitAstPath>::visit_jsx_element_name(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28194,7 +28194,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_jsx_empty_expr(self, node, ast_path)
+            <V as VisitAstPath>::visit_jsx_empty_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28206,7 +28206,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_jsx_expr(self, node, ast_path)
+            <V as VisitAstPath>::visit_jsx_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28218,7 +28218,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_jsx_expr_container(self, node, ast_path)
+            <V as VisitAstPath>::visit_jsx_expr_container(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28230,7 +28230,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_jsx_fragment(self, node, ast_path)
+            <V as VisitAstPath>::visit_jsx_fragment(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28242,7 +28242,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_jsx_member_expr(self, node, ast_path)
+            <V as VisitAstPath>::visit_jsx_member_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28254,7 +28254,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_jsx_namespaced_name(self, node, ast_path)
+            <V as VisitAstPath>::visit_jsx_namespaced_name(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28266,7 +28266,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_jsx_object(self, node, ast_path)
+            <V as VisitAstPath>::visit_jsx_object(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28278,7 +28278,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_jsx_opening_element(self, node, ast_path)
+            <V as VisitAstPath>::visit_jsx_opening_element(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28290,7 +28290,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_jsx_opening_fragment(self, node, ast_path)
+            <V as VisitAstPath>::visit_jsx_opening_fragment(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28302,7 +28302,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_jsx_spread_child(self, node, ast_path)
+            <V as VisitAstPath>::visit_jsx_spread_child(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28314,7 +28314,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_jsx_text(self, node, ast_path)
+            <V as VisitAstPath>::visit_jsx_text(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28322,7 +28322,7 @@ where
     #[inline]
     fn visit_key<'ast: 'r, 'r>(&mut self, node: &'ast Key, ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
-            <V as VisitAstPath>::visit_key(self, node, ast_path)
+            <V as VisitAstPath>::visit_key(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28334,7 +28334,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_key_value_pat_prop(self, node, ast_path)
+            <V as VisitAstPath>::visit_key_value_pat_prop(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28346,7 +28346,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_key_value_prop(self, node, ast_path)
+            <V as VisitAstPath>::visit_key_value_prop(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28358,7 +28358,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_labeled_stmt(self, node, ast_path)
+            <V as VisitAstPath>::visit_labeled_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28366,7 +28366,7 @@ where
     #[inline]
     fn visit_lit<'ast: 'r, 'r>(&mut self, node: &'ast Lit, ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
-            <V as VisitAstPath>::visit_lit(self, node, ast_path)
+            <V as VisitAstPath>::visit_lit(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28378,7 +28378,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_member_expr(self, node, ast_path)
+            <V as VisitAstPath>::visit_member_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28390,7 +28390,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_member_prop(self, node, ast_path)
+            <V as VisitAstPath>::visit_member_prop(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28402,7 +28402,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_meta_prop_expr(self, node, ast_path)
+            <V as VisitAstPath>::visit_meta_prop_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28414,7 +28414,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_meta_prop_kind(self, node, ast_path)
+            <V as VisitAstPath>::visit_meta_prop_kind(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28426,7 +28426,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_method_kind(self, node, ast_path)
+            <V as VisitAstPath>::visit_method_kind(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28438,7 +28438,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_method_prop(self, node, ast_path)
+            <V as VisitAstPath>::visit_method_prop(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28446,7 +28446,7 @@ where
     #[inline]
     fn visit_module<'ast: 'r, 'r>(&mut self, node: &'ast Module, ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
-            <V as VisitAstPath>::visit_module(self, node, ast_path)
+            <V as VisitAstPath>::visit_module(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28458,7 +28458,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_module_decl(self, node, ast_path)
+            <V as VisitAstPath>::visit_module_decl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28470,7 +28470,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_module_export_name(self, node, ast_path)
+            <V as VisitAstPath>::visit_module_export_name(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28482,7 +28482,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_module_item(self, node, ast_path)
+            <V as VisitAstPath>::visit_module_item(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28494,7 +28494,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_module_items(self, node, ast_path)
+            <V as VisitAstPath>::visit_module_items(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28506,7 +28506,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_named_export(self, node, ast_path)
+            <V as VisitAstPath>::visit_named_export(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28518,7 +28518,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_new_expr(self, node, ast_path)
+            <V as VisitAstPath>::visit_new_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28526,7 +28526,7 @@ where
     #[inline]
     fn visit_null<'ast: 'r, 'r>(&mut self, node: &'ast Null, ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
-            <V as VisitAstPath>::visit_null(self, node, ast_path)
+            <V as VisitAstPath>::visit_null(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28534,7 +28534,7 @@ where
     #[inline]
     fn visit_number<'ast: 'r, 'r>(&mut self, node: &'ast Number, ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
-            <V as VisitAstPath>::visit_number(self, node, ast_path)
+            <V as VisitAstPath>::visit_number(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28546,7 +28546,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_object_lit(self, node, ast_path)
+            <V as VisitAstPath>::visit_object_lit(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28558,7 +28558,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_object_pat(self, node, ast_path)
+            <V as VisitAstPath>::visit_object_pat(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28570,7 +28570,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_object_pat_prop(self, node, ast_path)
+            <V as VisitAstPath>::visit_object_pat_prop(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28582,7 +28582,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_object_pat_props(self, node, ast_path)
+            <V as VisitAstPath>::visit_object_pat_props(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28594,7 +28594,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_opt_accessibility(self, node, ast_path)
+            <V as VisitAstPath>::visit_opt_accessibility(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28606,7 +28606,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_opt_atom(self, node, ast_path)
+            <V as VisitAstPath>::visit_opt_atom(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28618,7 +28618,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_opt_block_stmt(self, node, ast_path)
+            <V as VisitAstPath>::visit_opt_block_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28630,7 +28630,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_opt_call(self, node, ast_path)
+            <V as VisitAstPath>::visit_opt_call(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28642,7 +28642,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_opt_catch_clause(self, node, ast_path)
+            <V as VisitAstPath>::visit_opt_catch_clause(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28654,7 +28654,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_opt_chain_base(self, node, ast_path)
+            <V as VisitAstPath>::visit_opt_chain_base(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28666,7 +28666,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_opt_chain_expr(self, node, ast_path)
+            <V as VisitAstPath>::visit_opt_chain_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28678,7 +28678,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_opt_expr(self, node, ast_path)
+            <V as VisitAstPath>::visit_opt_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28690,7 +28690,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_opt_expr_or_spread(self, node, ast_path)
+            <V as VisitAstPath>::visit_opt_expr_or_spread(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28702,7 +28702,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_opt_expr_or_spreads(self, node, ast_path)
+            <V as VisitAstPath>::visit_opt_expr_or_spreads(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28714,7 +28714,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_opt_ident(self, node, ast_path)
+            <V as VisitAstPath>::visit_opt_ident(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28726,7 +28726,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_opt_jsx_attr_value(self, node, ast_path)
+            <V as VisitAstPath>::visit_opt_jsx_attr_value(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28738,7 +28738,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_opt_jsx_closing_element(self, node, ast_path)
+            <V as VisitAstPath>::visit_opt_jsx_closing_element(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28750,7 +28750,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_opt_module_export_name(self, node, ast_path)
+            <V as VisitAstPath>::visit_opt_module_export_name(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28762,7 +28762,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_opt_module_items(self, node, ast_path)
+            <V as VisitAstPath>::visit_opt_module_items(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28774,7 +28774,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_opt_object_lit(self, node, ast_path)
+            <V as VisitAstPath>::visit_opt_object_lit(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28786,7 +28786,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_opt_pat(self, node, ast_path)
+            <V as VisitAstPath>::visit_opt_pat(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28798,7 +28798,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_opt_span(self, node, ast_path)
+            <V as VisitAstPath>::visit_opt_span(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28810,7 +28810,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_opt_stmt(self, node, ast_path)
+            <V as VisitAstPath>::visit_opt_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28822,7 +28822,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_opt_str(self, node, ast_path)
+            <V as VisitAstPath>::visit_opt_str(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28834,7 +28834,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_opt_true_plus_minus(self, node, ast_path)
+            <V as VisitAstPath>::visit_opt_true_plus_minus(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28846,7 +28846,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_opt_ts_entity_name(self, node, ast_path)
+            <V as VisitAstPath>::visit_opt_ts_entity_name(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28858,7 +28858,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_opt_ts_namespace_body(self, node, ast_path)
+            <V as VisitAstPath>::visit_opt_ts_namespace_body(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28870,7 +28870,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_opt_ts_type(self, node, ast_path)
+            <V as VisitAstPath>::visit_opt_ts_type(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28882,7 +28882,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_opt_ts_type_ann(self, node, ast_path)
+            <V as VisitAstPath>::visit_opt_ts_type_ann(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28894,7 +28894,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_opt_ts_type_param_decl(self, node, ast_path)
+            <V as VisitAstPath>::visit_opt_ts_type_param_decl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28906,7 +28906,11 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_opt_ts_type_param_instantiation(self, node, ast_path)
+            <V as VisitAstPath>::visit_opt_ts_type_param_instantiation(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -28918,7 +28922,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_opt_var_decl_or_expr(self, node, ast_path)
+            <V as VisitAstPath>::visit_opt_var_decl_or_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28930,7 +28934,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_opt_vec_expr_or_spreads(self, node, ast_path)
+            <V as VisitAstPath>::visit_opt_vec_expr_or_spreads(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28942,7 +28946,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_opt_vec_pats(self, node, ast_path)
+            <V as VisitAstPath>::visit_opt_vec_pats(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28950,7 +28954,7 @@ where
     #[inline]
     fn visit_param<'ast: 'r, 'r>(&mut self, node: &'ast Param, ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
-            <V as VisitAstPath>::visit_param(self, node, ast_path)
+            <V as VisitAstPath>::visit_param(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28962,7 +28966,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_param_or_ts_param_prop(self, node, ast_path)
+            <V as VisitAstPath>::visit_param_or_ts_param_prop(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28974,7 +28978,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_param_or_ts_param_props(self, node, ast_path)
+            <V as VisitAstPath>::visit_param_or_ts_param_props(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28982,7 +28986,7 @@ where
     #[inline]
     fn visit_params<'ast: 'r, 'r>(&mut self, node: &'ast [Param], ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
-            <V as VisitAstPath>::visit_params(self, node, ast_path)
+            <V as VisitAstPath>::visit_params(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -28994,7 +28998,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_paren_expr(self, node, ast_path)
+            <V as VisitAstPath>::visit_paren_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29002,7 +29006,7 @@ where
     #[inline]
     fn visit_pat<'ast: 'r, 'r>(&mut self, node: &'ast Pat, ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
-            <V as VisitAstPath>::visit_pat(self, node, ast_path)
+            <V as VisitAstPath>::visit_pat(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29010,7 +29014,7 @@ where
     #[inline]
     fn visit_pats<'ast: 'r, 'r>(&mut self, node: &'ast [Pat], ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
-            <V as VisitAstPath>::visit_pats(self, node, ast_path)
+            <V as VisitAstPath>::visit_pats(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29022,7 +29026,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_private_method(self, node, ast_path)
+            <V as VisitAstPath>::visit_private_method(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29034,7 +29038,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_private_name(self, node, ast_path)
+            <V as VisitAstPath>::visit_private_name(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29046,7 +29050,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_private_prop(self, node, ast_path)
+            <V as VisitAstPath>::visit_private_prop(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29054,7 +29058,7 @@ where
     #[inline]
     fn visit_program<'ast: 'r, 'r>(&mut self, node: &'ast Program, ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
-            <V as VisitAstPath>::visit_program(self, node, ast_path)
+            <V as VisitAstPath>::visit_program(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29062,7 +29066,7 @@ where
     #[inline]
     fn visit_prop<'ast: 'r, 'r>(&mut self, node: &'ast Prop, ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
-            <V as VisitAstPath>::visit_prop(self, node, ast_path)
+            <V as VisitAstPath>::visit_prop(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29074,7 +29078,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_prop_name(self, node, ast_path)
+            <V as VisitAstPath>::visit_prop_name(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29086,7 +29090,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_prop_or_spread(self, node, ast_path)
+            <V as VisitAstPath>::visit_prop_or_spread(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29098,7 +29102,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_prop_or_spreads(self, node, ast_path)
+            <V as VisitAstPath>::visit_prop_or_spreads(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29106,7 +29110,7 @@ where
     #[inline]
     fn visit_regex<'ast: 'r, 'r>(&mut self, node: &'ast Regex, ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
-            <V as VisitAstPath>::visit_regex(self, node, ast_path)
+            <V as VisitAstPath>::visit_regex(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29118,7 +29122,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_reserved_unused(self, node, ast_path)
+            <V as VisitAstPath>::visit_reserved_unused(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29130,7 +29134,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_rest_pat(self, node, ast_path)
+            <V as VisitAstPath>::visit_rest_pat(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29142,7 +29146,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_return_stmt(self, node, ast_path)
+            <V as VisitAstPath>::visit_return_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29150,7 +29154,7 @@ where
     #[inline]
     fn visit_script<'ast: 'r, 'r>(&mut self, node: &'ast Script, ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
-            <V as VisitAstPath>::visit_script(self, node, ast_path)
+            <V as VisitAstPath>::visit_script(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29162,7 +29166,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_seq_expr(self, node, ast_path)
+            <V as VisitAstPath>::visit_seq_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29174,7 +29178,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_setter_prop(self, node, ast_path)
+            <V as VisitAstPath>::visit_setter_prop(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29186,7 +29190,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_simple_assign_target(self, node, ast_path)
+            <V as VisitAstPath>::visit_simple_assign_target(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29198,7 +29202,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_span(self, node, ast_path)
+            <V as VisitAstPath>::visit_span(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29210,7 +29214,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_spread_element(self, node, ast_path)
+            <V as VisitAstPath>::visit_spread_element(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29222,7 +29226,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_static_block(self, node, ast_path)
+            <V as VisitAstPath>::visit_static_block(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29230,7 +29234,7 @@ where
     #[inline]
     fn visit_stmt<'ast: 'r, 'r>(&mut self, node: &'ast Stmt, ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
-            <V as VisitAstPath>::visit_stmt(self, node, ast_path)
+            <V as VisitAstPath>::visit_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29238,7 +29242,7 @@ where
     #[inline]
     fn visit_stmts<'ast: 'r, 'r>(&mut self, node: &'ast [Stmt], ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
-            <V as VisitAstPath>::visit_stmts(self, node, ast_path)
+            <V as VisitAstPath>::visit_stmts(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29246,7 +29250,7 @@ where
     #[inline]
     fn visit_str<'ast: 'r, 'r>(&mut self, node: &'ast Str, ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
-            <V as VisitAstPath>::visit_str(self, node, ast_path)
+            <V as VisitAstPath>::visit_str(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29254,7 +29258,7 @@ where
     #[inline]
     fn visit_super<'ast: 'r, 'r>(&mut self, node: &'ast Super, ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
-            <V as VisitAstPath>::visit_super(self, node, ast_path)
+            <V as VisitAstPath>::visit_super(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29266,7 +29270,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_super_prop(self, node, ast_path)
+            <V as VisitAstPath>::visit_super_prop(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29278,7 +29282,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_super_prop_expr(self, node, ast_path)
+            <V as VisitAstPath>::visit_super_prop_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29290,7 +29294,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_switch_case(self, node, ast_path)
+            <V as VisitAstPath>::visit_switch_case(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29302,7 +29306,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_switch_cases(self, node, ast_path)
+            <V as VisitAstPath>::visit_switch_cases(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29314,7 +29318,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_switch_stmt(self, node, ast_path)
+            <V as VisitAstPath>::visit_switch_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29326,7 +29330,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_syntax_context(self, node, ast_path)
+            <V as VisitAstPath>::visit_syntax_context(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29338,7 +29342,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_tagged_tpl(self, node, ast_path)
+            <V as VisitAstPath>::visit_tagged_tpl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29350,7 +29354,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_this_expr(self, node, ast_path)
+            <V as VisitAstPath>::visit_this_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29362,7 +29366,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_throw_stmt(self, node, ast_path)
+            <V as VisitAstPath>::visit_throw_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29370,7 +29374,7 @@ where
     #[inline]
     fn visit_tpl<'ast: 'r, 'r>(&mut self, node: &'ast Tpl, ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
-            <V as VisitAstPath>::visit_tpl(self, node, ast_path)
+            <V as VisitAstPath>::visit_tpl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29382,7 +29386,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_tpl_element(self, node, ast_path)
+            <V as VisitAstPath>::visit_tpl_element(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29394,7 +29398,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_tpl_elements(self, node, ast_path)
+            <V as VisitAstPath>::visit_tpl_elements(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29406,7 +29410,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_true_plus_minus(self, node, ast_path)
+            <V as VisitAstPath>::visit_true_plus_minus(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29418,7 +29422,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_try_stmt(self, node, ast_path)
+            <V as VisitAstPath>::visit_try_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29430,7 +29434,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_array_type(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_array_type(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29442,7 +29446,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_as_expr(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_as_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29454,7 +29458,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_call_signature_decl(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_call_signature_decl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29466,7 +29470,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_conditional_type(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_conditional_type(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29478,7 +29482,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_const_assertion(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_const_assertion(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29490,7 +29494,11 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_construct_signature_decl(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_construct_signature_decl(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -29502,7 +29510,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_constructor_type(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_constructor_type(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29514,7 +29522,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_entity_name(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_entity_name(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29526,7 +29534,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_enum_decl(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_enum_decl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29538,7 +29546,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_enum_member(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_enum_member(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29550,7 +29558,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_enum_member_id(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_enum_member_id(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29562,7 +29570,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_enum_members(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_enum_members(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29574,7 +29582,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_export_assignment(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_export_assignment(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29586,7 +29594,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_expr_with_type_args(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_expr_with_type_args(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29598,7 +29606,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_expr_with_type_argss(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_expr_with_type_argss(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29610,7 +29618,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_external_module_ref(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_external_module_ref(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29622,7 +29630,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_fn_or_constructor_type(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_fn_or_constructor_type(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29634,7 +29642,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_fn_param(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_fn_param(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29646,7 +29654,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_fn_params(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_fn_params(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29658,7 +29666,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_fn_type(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_fn_type(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29670,7 +29678,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_getter_signature(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_getter_signature(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29682,7 +29690,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_import_equals_decl(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_import_equals_decl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29694,7 +29702,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_import_type(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_import_type(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29706,7 +29714,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_index_signature(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_index_signature(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29718,7 +29726,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_indexed_access_type(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_indexed_access_type(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29730,7 +29738,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_infer_type(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_infer_type(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29742,7 +29750,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_instantiation(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_instantiation(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29754,7 +29762,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_interface_body(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_interface_body(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29766,7 +29774,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_interface_decl(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_interface_decl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29778,7 +29786,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_intersection_type(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_intersection_type(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29790,7 +29798,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_keyword_type(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_keyword_type(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29802,7 +29810,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_keyword_type_kind(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_keyword_type_kind(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29810,7 +29818,7 @@ where
     #[inline]
     fn visit_ts_lit<'ast: 'r, 'r>(&mut self, node: &'ast TsLit, ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_lit(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_lit(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29822,7 +29830,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_lit_type(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_lit_type(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29834,7 +29842,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_mapped_type(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_mapped_type(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29846,7 +29854,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_method_signature(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_method_signature(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29858,7 +29866,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_module_block(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_module_block(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29870,7 +29878,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_module_decl(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_module_decl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29882,7 +29890,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_module_name(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_module_name(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29894,7 +29902,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_module_ref(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_module_ref(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29906,7 +29914,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_namespace_body(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_namespace_body(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29918,7 +29926,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_namespace_decl(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_namespace_decl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29930,7 +29938,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_namespace_export_decl(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_namespace_export_decl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29942,7 +29950,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_non_null_expr(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_non_null_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29954,7 +29962,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_optional_type(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_optional_type(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29966,7 +29974,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_param_prop(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_param_prop(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29978,7 +29986,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_param_prop_param(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_param_prop_param(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -29990,7 +29998,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_parenthesized_type(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_parenthesized_type(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30002,7 +30010,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_property_signature(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_property_signature(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30014,7 +30022,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_qualified_name(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_qualified_name(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30026,7 +30034,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_rest_type(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_rest_type(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30038,7 +30046,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_satisfies_expr(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_satisfies_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30050,7 +30058,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_setter_signature(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_setter_signature(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30062,7 +30070,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_this_type(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_this_type(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30074,7 +30082,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_this_type_or_ident(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_this_type_or_ident(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30086,7 +30094,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_tpl_lit_type(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_tpl_lit_type(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30098,7 +30106,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_tuple_element(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_tuple_element(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30110,7 +30118,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_tuple_elements(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_tuple_elements(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30122,7 +30130,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_tuple_type(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_tuple_type(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30130,7 +30138,7 @@ where
     #[inline]
     fn visit_ts_type<'ast: 'r, 'r>(&mut self, node: &'ast TsType, ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_type(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_type(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30142,7 +30150,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_type_alias_decl(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_type_alias_decl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30154,7 +30162,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_type_ann(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_type_ann(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30166,7 +30174,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_type_assertion(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_type_assertion(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30178,7 +30186,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_type_element(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_type_element(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30190,7 +30198,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_type_elements(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_type_elements(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30202,7 +30210,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_type_lit(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_type_lit(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30214,7 +30222,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_type_operator(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_type_operator(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30226,7 +30234,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_type_operator_op(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_type_operator_op(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30238,7 +30246,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_type_param(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_type_param(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30250,7 +30258,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_type_param_decl(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_type_param_decl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30262,7 +30270,11 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_type_param_instantiation(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_type_param_instantiation(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -30274,7 +30286,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_type_params(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_type_params(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30286,7 +30298,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_type_predicate(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_type_predicate(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30298,7 +30310,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_type_query(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_type_query(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30310,7 +30322,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_type_query_expr(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_type_query_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30322,7 +30334,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_type_ref(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_type_ref(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30334,7 +30346,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_types(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_types(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30346,7 +30358,11 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_union_or_intersection_type(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_union_or_intersection_type(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -30358,7 +30374,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_ts_union_type(self, node, ast_path)
+            <V as VisitAstPath>::visit_ts_union_type(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30370,7 +30386,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_unary_expr(self, node, ast_path)
+            <V as VisitAstPath>::visit_unary_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30382,7 +30398,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_unary_op(self, node, ast_path)
+            <V as VisitAstPath>::visit_unary_op(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30394,7 +30410,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_update_expr(self, node, ast_path)
+            <V as VisitAstPath>::visit_update_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30406,7 +30422,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_update_op(self, node, ast_path)
+            <V as VisitAstPath>::visit_update_op(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30418,7 +30434,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_using_decl(self, node, ast_path)
+            <V as VisitAstPath>::visit_using_decl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30430,7 +30446,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_var_decl(self, node, ast_path)
+            <V as VisitAstPath>::visit_var_decl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30442,7 +30458,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_var_decl_kind(self, node, ast_path)
+            <V as VisitAstPath>::visit_var_decl_kind(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30454,7 +30470,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_var_decl_or_expr(self, node, ast_path)
+            <V as VisitAstPath>::visit_var_decl_or_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30466,7 +30482,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_var_declarator(self, node, ast_path)
+            <V as VisitAstPath>::visit_var_declarator(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30478,7 +30494,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_var_declarators(self, node, ast_path)
+            <V as VisitAstPath>::visit_var_declarators(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30490,7 +30506,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_while_stmt(self, node, ast_path)
+            <V as VisitAstPath>::visit_while_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30502,7 +30518,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_with_stmt(self, node, ast_path)
+            <V as VisitAstPath>::visit_with_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -30514,7 +30530,7 @@ where
         ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
-            <V as VisitAstPath>::visit_yield_expr(self, node, ast_path)
+            <V as VisitAstPath>::visit_yield_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -46752,7 +46768,7 @@ where
     #[inline]
     fn visit_mut_accessibility(&mut self, node: &mut Accessibility) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_accessibility(self, node)
+            <V as VisitMut>::visit_mut_accessibility(&mut self.visitor, node)
         } else {
         }
     }
@@ -46760,7 +46776,7 @@ where
     #[inline]
     fn visit_mut_array_lit(&mut self, node: &mut ArrayLit) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_array_lit(self, node)
+            <V as VisitMut>::visit_mut_array_lit(&mut self.visitor, node)
         } else {
         }
     }
@@ -46768,7 +46784,7 @@ where
     #[inline]
     fn visit_mut_array_pat(&mut self, node: &mut ArrayPat) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_array_pat(self, node)
+            <V as VisitMut>::visit_mut_array_pat(&mut self.visitor, node)
         } else {
         }
     }
@@ -46776,7 +46792,7 @@ where
     #[inline]
     fn visit_mut_arrow_expr(&mut self, node: &mut ArrowExpr) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_arrow_expr(self, node)
+            <V as VisitMut>::visit_mut_arrow_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -46784,7 +46800,7 @@ where
     #[inline]
     fn visit_mut_assign_expr(&mut self, node: &mut AssignExpr) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_assign_expr(self, node)
+            <V as VisitMut>::visit_mut_assign_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -46792,7 +46808,7 @@ where
     #[inline]
     fn visit_mut_assign_op(&mut self, node: &mut AssignOp) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_assign_op(self, node)
+            <V as VisitMut>::visit_mut_assign_op(&mut self.visitor, node)
         } else {
         }
     }
@@ -46800,7 +46816,7 @@ where
     #[inline]
     fn visit_mut_assign_pat(&mut self, node: &mut AssignPat) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_assign_pat(self, node)
+            <V as VisitMut>::visit_mut_assign_pat(&mut self.visitor, node)
         } else {
         }
     }
@@ -46808,7 +46824,7 @@ where
     #[inline]
     fn visit_mut_assign_pat_prop(&mut self, node: &mut AssignPatProp) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_assign_pat_prop(self, node)
+            <V as VisitMut>::visit_mut_assign_pat_prop(&mut self.visitor, node)
         } else {
         }
     }
@@ -46816,7 +46832,7 @@ where
     #[inline]
     fn visit_mut_assign_prop(&mut self, node: &mut AssignProp) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_assign_prop(self, node)
+            <V as VisitMut>::visit_mut_assign_prop(&mut self.visitor, node)
         } else {
         }
     }
@@ -46824,7 +46840,7 @@ where
     #[inline]
     fn visit_mut_assign_target(&mut self, node: &mut AssignTarget) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_assign_target(self, node)
+            <V as VisitMut>::visit_mut_assign_target(&mut self.visitor, node)
         } else {
         }
     }
@@ -46832,7 +46848,7 @@ where
     #[inline]
     fn visit_mut_assign_target_pat(&mut self, node: &mut AssignTargetPat) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_assign_target_pat(self, node)
+            <V as VisitMut>::visit_mut_assign_target_pat(&mut self.visitor, node)
         } else {
         }
     }
@@ -46840,7 +46856,7 @@ where
     #[inline]
     fn visit_mut_atom(&mut self, node: &mut swc_atoms::Atom) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_atom(self, node)
+            <V as VisitMut>::visit_mut_atom(&mut self.visitor, node)
         } else {
         }
     }
@@ -46848,7 +46864,7 @@ where
     #[inline]
     fn visit_mut_auto_accessor(&mut self, node: &mut AutoAccessor) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_auto_accessor(self, node)
+            <V as VisitMut>::visit_mut_auto_accessor(&mut self.visitor, node)
         } else {
         }
     }
@@ -46856,7 +46872,7 @@ where
     #[inline]
     fn visit_mut_await_expr(&mut self, node: &mut AwaitExpr) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_await_expr(self, node)
+            <V as VisitMut>::visit_mut_await_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -46864,7 +46880,7 @@ where
     #[inline]
     fn visit_mut_big_int(&mut self, node: &mut BigInt) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_big_int(self, node)
+            <V as VisitMut>::visit_mut_big_int(&mut self.visitor, node)
         } else {
         }
     }
@@ -46872,7 +46888,7 @@ where
     #[inline]
     fn visit_mut_big_int_value(&mut self, node: &mut BigIntValue) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_big_int_value(self, node)
+            <V as VisitMut>::visit_mut_big_int_value(&mut self.visitor, node)
         } else {
         }
     }
@@ -46880,7 +46896,7 @@ where
     #[inline]
     fn visit_mut_bin_expr(&mut self, node: &mut BinExpr) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_bin_expr(self, node)
+            <V as VisitMut>::visit_mut_bin_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -46888,7 +46904,7 @@ where
     #[inline]
     fn visit_mut_binary_op(&mut self, node: &mut BinaryOp) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_binary_op(self, node)
+            <V as VisitMut>::visit_mut_binary_op(&mut self.visitor, node)
         } else {
         }
     }
@@ -46896,7 +46912,7 @@ where
     #[inline]
     fn visit_mut_binding_ident(&mut self, node: &mut BindingIdent) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_binding_ident(self, node)
+            <V as VisitMut>::visit_mut_binding_ident(&mut self.visitor, node)
         } else {
         }
     }
@@ -46904,7 +46920,7 @@ where
     #[inline]
     fn visit_mut_block_stmt(&mut self, node: &mut BlockStmt) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_block_stmt(self, node)
+            <V as VisitMut>::visit_mut_block_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -46912,7 +46928,7 @@ where
     #[inline]
     fn visit_mut_block_stmt_or_expr(&mut self, node: &mut BlockStmtOrExpr) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_block_stmt_or_expr(self, node)
+            <V as VisitMut>::visit_mut_block_stmt_or_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -46920,7 +46936,7 @@ where
     #[inline]
     fn visit_mut_bool(&mut self, node: &mut Bool) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_bool(self, node)
+            <V as VisitMut>::visit_mut_bool(&mut self.visitor, node)
         } else {
         }
     }
@@ -46928,7 +46944,7 @@ where
     #[inline]
     fn visit_mut_break_stmt(&mut self, node: &mut BreakStmt) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_break_stmt(self, node)
+            <V as VisitMut>::visit_mut_break_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -46936,7 +46952,7 @@ where
     #[inline]
     fn visit_mut_call_expr(&mut self, node: &mut CallExpr) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_call_expr(self, node)
+            <V as VisitMut>::visit_mut_call_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -46944,7 +46960,7 @@ where
     #[inline]
     fn visit_mut_callee(&mut self, node: &mut Callee) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_callee(self, node)
+            <V as VisitMut>::visit_mut_callee(&mut self.visitor, node)
         } else {
         }
     }
@@ -46952,7 +46968,7 @@ where
     #[inline]
     fn visit_mut_catch_clause(&mut self, node: &mut CatchClause) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_catch_clause(self, node)
+            <V as VisitMut>::visit_mut_catch_clause(&mut self.visitor, node)
         } else {
         }
     }
@@ -46960,7 +46976,7 @@ where
     #[inline]
     fn visit_mut_class(&mut self, node: &mut Class) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_class(self, node)
+            <V as VisitMut>::visit_mut_class(&mut self.visitor, node)
         } else {
         }
     }
@@ -46968,7 +46984,7 @@ where
     #[inline]
     fn visit_mut_class_decl(&mut self, node: &mut ClassDecl) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_class_decl(self, node)
+            <V as VisitMut>::visit_mut_class_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -46976,7 +46992,7 @@ where
     #[inline]
     fn visit_mut_class_expr(&mut self, node: &mut ClassExpr) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_class_expr(self, node)
+            <V as VisitMut>::visit_mut_class_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -46984,7 +47000,7 @@ where
     #[inline]
     fn visit_mut_class_member(&mut self, node: &mut ClassMember) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_class_member(self, node)
+            <V as VisitMut>::visit_mut_class_member(&mut self.visitor, node)
         } else {
         }
     }
@@ -46992,7 +47008,7 @@ where
     #[inline]
     fn visit_mut_class_members(&mut self, node: &mut Vec<ClassMember>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_class_members(self, node)
+            <V as VisitMut>::visit_mut_class_members(&mut self.visitor, node)
         } else {
         }
     }
@@ -47000,7 +47016,7 @@ where
     #[inline]
     fn visit_mut_class_method(&mut self, node: &mut ClassMethod) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_class_method(self, node)
+            <V as VisitMut>::visit_mut_class_method(&mut self.visitor, node)
         } else {
         }
     }
@@ -47008,7 +47024,7 @@ where
     #[inline]
     fn visit_mut_class_prop(&mut self, node: &mut ClassProp) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_class_prop(self, node)
+            <V as VisitMut>::visit_mut_class_prop(&mut self.visitor, node)
         } else {
         }
     }
@@ -47016,7 +47032,7 @@ where
     #[inline]
     fn visit_mut_computed_prop_name(&mut self, node: &mut ComputedPropName) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_computed_prop_name(self, node)
+            <V as VisitMut>::visit_mut_computed_prop_name(&mut self.visitor, node)
         } else {
         }
     }
@@ -47024,7 +47040,7 @@ where
     #[inline]
     fn visit_mut_cond_expr(&mut self, node: &mut CondExpr) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_cond_expr(self, node)
+            <V as VisitMut>::visit_mut_cond_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -47032,7 +47048,7 @@ where
     #[inline]
     fn visit_mut_constructor(&mut self, node: &mut Constructor) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_constructor(self, node)
+            <V as VisitMut>::visit_mut_constructor(&mut self.visitor, node)
         } else {
         }
     }
@@ -47040,7 +47056,7 @@ where
     #[inline]
     fn visit_mut_continue_stmt(&mut self, node: &mut ContinueStmt) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_continue_stmt(self, node)
+            <V as VisitMut>::visit_mut_continue_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -47048,7 +47064,7 @@ where
     #[inline]
     fn visit_mut_debugger_stmt(&mut self, node: &mut DebuggerStmt) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_debugger_stmt(self, node)
+            <V as VisitMut>::visit_mut_debugger_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -47056,7 +47072,7 @@ where
     #[inline]
     fn visit_mut_decl(&mut self, node: &mut Decl) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_decl(self, node)
+            <V as VisitMut>::visit_mut_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -47064,7 +47080,7 @@ where
     #[inline]
     fn visit_mut_decorator(&mut self, node: &mut Decorator) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_decorator(self, node)
+            <V as VisitMut>::visit_mut_decorator(&mut self.visitor, node)
         } else {
         }
     }
@@ -47072,7 +47088,7 @@ where
     #[inline]
     fn visit_mut_decorators(&mut self, node: &mut Vec<Decorator>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_decorators(self, node)
+            <V as VisitMut>::visit_mut_decorators(&mut self.visitor, node)
         } else {
         }
     }
@@ -47080,7 +47096,7 @@ where
     #[inline]
     fn visit_mut_default_decl(&mut self, node: &mut DefaultDecl) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_default_decl(self, node)
+            <V as VisitMut>::visit_mut_default_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -47088,7 +47104,7 @@ where
     #[inline]
     fn visit_mut_do_while_stmt(&mut self, node: &mut DoWhileStmt) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_do_while_stmt(self, node)
+            <V as VisitMut>::visit_mut_do_while_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -47096,7 +47112,7 @@ where
     #[inline]
     fn visit_mut_empty_stmt(&mut self, node: &mut EmptyStmt) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_empty_stmt(self, node)
+            <V as VisitMut>::visit_mut_empty_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -47104,7 +47120,7 @@ where
     #[inline]
     fn visit_mut_es_version(&mut self, node: &mut EsVersion) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_es_version(self, node)
+            <V as VisitMut>::visit_mut_es_version(&mut self.visitor, node)
         } else {
         }
     }
@@ -47112,7 +47128,7 @@ where
     #[inline]
     fn visit_mut_export_all(&mut self, node: &mut ExportAll) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_export_all(self, node)
+            <V as VisitMut>::visit_mut_export_all(&mut self.visitor, node)
         } else {
         }
     }
@@ -47120,7 +47136,7 @@ where
     #[inline]
     fn visit_mut_export_decl(&mut self, node: &mut ExportDecl) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_export_decl(self, node)
+            <V as VisitMut>::visit_mut_export_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -47128,7 +47144,7 @@ where
     #[inline]
     fn visit_mut_export_default_decl(&mut self, node: &mut ExportDefaultDecl) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_export_default_decl(self, node)
+            <V as VisitMut>::visit_mut_export_default_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -47136,7 +47152,7 @@ where
     #[inline]
     fn visit_mut_export_default_expr(&mut self, node: &mut ExportDefaultExpr) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_export_default_expr(self, node)
+            <V as VisitMut>::visit_mut_export_default_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -47144,7 +47160,7 @@ where
     #[inline]
     fn visit_mut_export_default_specifier(&mut self, node: &mut ExportDefaultSpecifier) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_export_default_specifier(self, node)
+            <V as VisitMut>::visit_mut_export_default_specifier(&mut self.visitor, node)
         } else {
         }
     }
@@ -47152,7 +47168,7 @@ where
     #[inline]
     fn visit_mut_export_named_specifier(&mut self, node: &mut ExportNamedSpecifier) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_export_named_specifier(self, node)
+            <V as VisitMut>::visit_mut_export_named_specifier(&mut self.visitor, node)
         } else {
         }
     }
@@ -47160,7 +47176,7 @@ where
     #[inline]
     fn visit_mut_export_namespace_specifier(&mut self, node: &mut ExportNamespaceSpecifier) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_export_namespace_specifier(self, node)
+            <V as VisitMut>::visit_mut_export_namespace_specifier(&mut self.visitor, node)
         } else {
         }
     }
@@ -47168,7 +47184,7 @@ where
     #[inline]
     fn visit_mut_export_specifier(&mut self, node: &mut ExportSpecifier) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_export_specifier(self, node)
+            <V as VisitMut>::visit_mut_export_specifier(&mut self.visitor, node)
         } else {
         }
     }
@@ -47176,7 +47192,7 @@ where
     #[inline]
     fn visit_mut_export_specifiers(&mut self, node: &mut Vec<ExportSpecifier>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_export_specifiers(self, node)
+            <V as VisitMut>::visit_mut_export_specifiers(&mut self.visitor, node)
         } else {
         }
     }
@@ -47184,7 +47200,7 @@ where
     #[inline]
     fn visit_mut_expr(&mut self, node: &mut Expr) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_expr(self, node)
+            <V as VisitMut>::visit_mut_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -47192,7 +47208,7 @@ where
     #[inline]
     fn visit_mut_expr_or_spread(&mut self, node: &mut ExprOrSpread) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_expr_or_spread(self, node)
+            <V as VisitMut>::visit_mut_expr_or_spread(&mut self.visitor, node)
         } else {
         }
     }
@@ -47200,7 +47216,7 @@ where
     #[inline]
     fn visit_mut_expr_or_spreads(&mut self, node: &mut Vec<ExprOrSpread>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_expr_or_spreads(self, node)
+            <V as VisitMut>::visit_mut_expr_or_spreads(&mut self.visitor, node)
         } else {
         }
     }
@@ -47208,7 +47224,7 @@ where
     #[inline]
     fn visit_mut_expr_stmt(&mut self, node: &mut ExprStmt) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_expr_stmt(self, node)
+            <V as VisitMut>::visit_mut_expr_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -47216,7 +47232,7 @@ where
     #[inline]
     fn visit_mut_exprs(&mut self, node: &mut Vec<Box<Expr>>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_exprs(self, node)
+            <V as VisitMut>::visit_mut_exprs(&mut self.visitor, node)
         } else {
         }
     }
@@ -47224,7 +47240,7 @@ where
     #[inline]
     fn visit_mut_fn_decl(&mut self, node: &mut FnDecl) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_fn_decl(self, node)
+            <V as VisitMut>::visit_mut_fn_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -47232,7 +47248,7 @@ where
     #[inline]
     fn visit_mut_fn_expr(&mut self, node: &mut FnExpr) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_fn_expr(self, node)
+            <V as VisitMut>::visit_mut_fn_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -47240,7 +47256,7 @@ where
     #[inline]
     fn visit_mut_for_head(&mut self, node: &mut ForHead) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_for_head(self, node)
+            <V as VisitMut>::visit_mut_for_head(&mut self.visitor, node)
         } else {
         }
     }
@@ -47248,7 +47264,7 @@ where
     #[inline]
     fn visit_mut_for_in_stmt(&mut self, node: &mut ForInStmt) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_for_in_stmt(self, node)
+            <V as VisitMut>::visit_mut_for_in_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -47256,7 +47272,7 @@ where
     #[inline]
     fn visit_mut_for_of_stmt(&mut self, node: &mut ForOfStmt) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_for_of_stmt(self, node)
+            <V as VisitMut>::visit_mut_for_of_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -47264,7 +47280,7 @@ where
     #[inline]
     fn visit_mut_for_stmt(&mut self, node: &mut ForStmt) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_for_stmt(self, node)
+            <V as VisitMut>::visit_mut_for_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -47272,7 +47288,7 @@ where
     #[inline]
     fn visit_mut_function(&mut self, node: &mut Function) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_function(self, node)
+            <V as VisitMut>::visit_mut_function(&mut self.visitor, node)
         } else {
         }
     }
@@ -47280,7 +47296,7 @@ where
     #[inline]
     fn visit_mut_getter_prop(&mut self, node: &mut GetterProp) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_getter_prop(self, node)
+            <V as VisitMut>::visit_mut_getter_prop(&mut self.visitor, node)
         } else {
         }
     }
@@ -47288,7 +47304,7 @@ where
     #[inline]
     fn visit_mut_ident(&mut self, node: &mut Ident) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ident(self, node)
+            <V as VisitMut>::visit_mut_ident(&mut self.visitor, node)
         } else {
         }
     }
@@ -47296,7 +47312,7 @@ where
     #[inline]
     fn visit_mut_ident_name(&mut self, node: &mut IdentName) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ident_name(self, node)
+            <V as VisitMut>::visit_mut_ident_name(&mut self.visitor, node)
         } else {
         }
     }
@@ -47304,7 +47320,7 @@ where
     #[inline]
     fn visit_mut_if_stmt(&mut self, node: &mut IfStmt) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_if_stmt(self, node)
+            <V as VisitMut>::visit_mut_if_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -47312,7 +47328,7 @@ where
     #[inline]
     fn visit_mut_import(&mut self, node: &mut Import) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_import(self, node)
+            <V as VisitMut>::visit_mut_import(&mut self.visitor, node)
         } else {
         }
     }
@@ -47320,7 +47336,7 @@ where
     #[inline]
     fn visit_mut_import_decl(&mut self, node: &mut ImportDecl) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_import_decl(self, node)
+            <V as VisitMut>::visit_mut_import_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -47328,7 +47344,7 @@ where
     #[inline]
     fn visit_mut_import_default_specifier(&mut self, node: &mut ImportDefaultSpecifier) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_import_default_specifier(self, node)
+            <V as VisitMut>::visit_mut_import_default_specifier(&mut self.visitor, node)
         } else {
         }
     }
@@ -47336,7 +47352,7 @@ where
     #[inline]
     fn visit_mut_import_named_specifier(&mut self, node: &mut ImportNamedSpecifier) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_import_named_specifier(self, node)
+            <V as VisitMut>::visit_mut_import_named_specifier(&mut self.visitor, node)
         } else {
         }
     }
@@ -47344,7 +47360,7 @@ where
     #[inline]
     fn visit_mut_import_phase(&mut self, node: &mut ImportPhase) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_import_phase(self, node)
+            <V as VisitMut>::visit_mut_import_phase(&mut self.visitor, node)
         } else {
         }
     }
@@ -47352,7 +47368,7 @@ where
     #[inline]
     fn visit_mut_import_specifier(&mut self, node: &mut ImportSpecifier) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_import_specifier(self, node)
+            <V as VisitMut>::visit_mut_import_specifier(&mut self.visitor, node)
         } else {
         }
     }
@@ -47360,7 +47376,7 @@ where
     #[inline]
     fn visit_mut_import_specifiers(&mut self, node: &mut Vec<ImportSpecifier>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_import_specifiers(self, node)
+            <V as VisitMut>::visit_mut_import_specifiers(&mut self.visitor, node)
         } else {
         }
     }
@@ -47368,7 +47384,7 @@ where
     #[inline]
     fn visit_mut_import_star_as_specifier(&mut self, node: &mut ImportStarAsSpecifier) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_import_star_as_specifier(self, node)
+            <V as VisitMut>::visit_mut_import_star_as_specifier(&mut self.visitor, node)
         } else {
         }
     }
@@ -47376,7 +47392,7 @@ where
     #[inline]
     fn visit_mut_import_with(&mut self, node: &mut ImportWith) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_import_with(self, node)
+            <V as VisitMut>::visit_mut_import_with(&mut self.visitor, node)
         } else {
         }
     }
@@ -47384,7 +47400,7 @@ where
     #[inline]
     fn visit_mut_import_with_item(&mut self, node: &mut ImportWithItem) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_import_with_item(self, node)
+            <V as VisitMut>::visit_mut_import_with_item(&mut self.visitor, node)
         } else {
         }
     }
@@ -47392,7 +47408,7 @@ where
     #[inline]
     fn visit_mut_import_with_items(&mut self, node: &mut Vec<ImportWithItem>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_import_with_items(self, node)
+            <V as VisitMut>::visit_mut_import_with_items(&mut self.visitor, node)
         } else {
         }
     }
@@ -47400,7 +47416,7 @@ where
     #[inline]
     fn visit_mut_invalid(&mut self, node: &mut Invalid) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_invalid(self, node)
+            <V as VisitMut>::visit_mut_invalid(&mut self.visitor, node)
         } else {
         }
     }
@@ -47408,7 +47424,7 @@ where
     #[inline]
     fn visit_mut_jsx_attr(&mut self, node: &mut JSXAttr) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_jsx_attr(self, node)
+            <V as VisitMut>::visit_mut_jsx_attr(&mut self.visitor, node)
         } else {
         }
     }
@@ -47416,7 +47432,7 @@ where
     #[inline]
     fn visit_mut_jsx_attr_name(&mut self, node: &mut JSXAttrName) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_jsx_attr_name(self, node)
+            <V as VisitMut>::visit_mut_jsx_attr_name(&mut self.visitor, node)
         } else {
         }
     }
@@ -47424,7 +47440,7 @@ where
     #[inline]
     fn visit_mut_jsx_attr_or_spread(&mut self, node: &mut JSXAttrOrSpread) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_jsx_attr_or_spread(self, node)
+            <V as VisitMut>::visit_mut_jsx_attr_or_spread(&mut self.visitor, node)
         } else {
         }
     }
@@ -47432,7 +47448,7 @@ where
     #[inline]
     fn visit_mut_jsx_attr_or_spreads(&mut self, node: &mut Vec<JSXAttrOrSpread>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_jsx_attr_or_spreads(self, node)
+            <V as VisitMut>::visit_mut_jsx_attr_or_spreads(&mut self.visitor, node)
         } else {
         }
     }
@@ -47440,7 +47456,7 @@ where
     #[inline]
     fn visit_mut_jsx_attr_value(&mut self, node: &mut JSXAttrValue) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_jsx_attr_value(self, node)
+            <V as VisitMut>::visit_mut_jsx_attr_value(&mut self.visitor, node)
         } else {
         }
     }
@@ -47448,7 +47464,7 @@ where
     #[inline]
     fn visit_mut_jsx_closing_element(&mut self, node: &mut JSXClosingElement) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_jsx_closing_element(self, node)
+            <V as VisitMut>::visit_mut_jsx_closing_element(&mut self.visitor, node)
         } else {
         }
     }
@@ -47456,7 +47472,7 @@ where
     #[inline]
     fn visit_mut_jsx_closing_fragment(&mut self, node: &mut JSXClosingFragment) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_jsx_closing_fragment(self, node)
+            <V as VisitMut>::visit_mut_jsx_closing_fragment(&mut self.visitor, node)
         } else {
         }
     }
@@ -47464,7 +47480,7 @@ where
     #[inline]
     fn visit_mut_jsx_element(&mut self, node: &mut JSXElement) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_jsx_element(self, node)
+            <V as VisitMut>::visit_mut_jsx_element(&mut self.visitor, node)
         } else {
         }
     }
@@ -47472,7 +47488,7 @@ where
     #[inline]
     fn visit_mut_jsx_element_child(&mut self, node: &mut JSXElementChild) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_jsx_element_child(self, node)
+            <V as VisitMut>::visit_mut_jsx_element_child(&mut self.visitor, node)
         } else {
         }
     }
@@ -47480,7 +47496,7 @@ where
     #[inline]
     fn visit_mut_jsx_element_childs(&mut self, node: &mut Vec<JSXElementChild>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_jsx_element_childs(self, node)
+            <V as VisitMut>::visit_mut_jsx_element_childs(&mut self.visitor, node)
         } else {
         }
     }
@@ -47488,7 +47504,7 @@ where
     #[inline]
     fn visit_mut_jsx_element_name(&mut self, node: &mut JSXElementName) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_jsx_element_name(self, node)
+            <V as VisitMut>::visit_mut_jsx_element_name(&mut self.visitor, node)
         } else {
         }
     }
@@ -47496,7 +47512,7 @@ where
     #[inline]
     fn visit_mut_jsx_empty_expr(&mut self, node: &mut JSXEmptyExpr) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_jsx_empty_expr(self, node)
+            <V as VisitMut>::visit_mut_jsx_empty_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -47504,7 +47520,7 @@ where
     #[inline]
     fn visit_mut_jsx_expr(&mut self, node: &mut JSXExpr) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_jsx_expr(self, node)
+            <V as VisitMut>::visit_mut_jsx_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -47512,7 +47528,7 @@ where
     #[inline]
     fn visit_mut_jsx_expr_container(&mut self, node: &mut JSXExprContainer) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_jsx_expr_container(self, node)
+            <V as VisitMut>::visit_mut_jsx_expr_container(&mut self.visitor, node)
         } else {
         }
     }
@@ -47520,7 +47536,7 @@ where
     #[inline]
     fn visit_mut_jsx_fragment(&mut self, node: &mut JSXFragment) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_jsx_fragment(self, node)
+            <V as VisitMut>::visit_mut_jsx_fragment(&mut self.visitor, node)
         } else {
         }
     }
@@ -47528,7 +47544,7 @@ where
     #[inline]
     fn visit_mut_jsx_member_expr(&mut self, node: &mut JSXMemberExpr) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_jsx_member_expr(self, node)
+            <V as VisitMut>::visit_mut_jsx_member_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -47536,7 +47552,7 @@ where
     #[inline]
     fn visit_mut_jsx_namespaced_name(&mut self, node: &mut JSXNamespacedName) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_jsx_namespaced_name(self, node)
+            <V as VisitMut>::visit_mut_jsx_namespaced_name(&mut self.visitor, node)
         } else {
         }
     }
@@ -47544,7 +47560,7 @@ where
     #[inline]
     fn visit_mut_jsx_object(&mut self, node: &mut JSXObject) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_jsx_object(self, node)
+            <V as VisitMut>::visit_mut_jsx_object(&mut self.visitor, node)
         } else {
         }
     }
@@ -47552,7 +47568,7 @@ where
     #[inline]
     fn visit_mut_jsx_opening_element(&mut self, node: &mut JSXOpeningElement) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_jsx_opening_element(self, node)
+            <V as VisitMut>::visit_mut_jsx_opening_element(&mut self.visitor, node)
         } else {
         }
     }
@@ -47560,7 +47576,7 @@ where
     #[inline]
     fn visit_mut_jsx_opening_fragment(&mut self, node: &mut JSXOpeningFragment) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_jsx_opening_fragment(self, node)
+            <V as VisitMut>::visit_mut_jsx_opening_fragment(&mut self.visitor, node)
         } else {
         }
     }
@@ -47568,7 +47584,7 @@ where
     #[inline]
     fn visit_mut_jsx_spread_child(&mut self, node: &mut JSXSpreadChild) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_jsx_spread_child(self, node)
+            <V as VisitMut>::visit_mut_jsx_spread_child(&mut self.visitor, node)
         } else {
         }
     }
@@ -47576,7 +47592,7 @@ where
     #[inline]
     fn visit_mut_jsx_text(&mut self, node: &mut JSXText) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_jsx_text(self, node)
+            <V as VisitMut>::visit_mut_jsx_text(&mut self.visitor, node)
         } else {
         }
     }
@@ -47584,7 +47600,7 @@ where
     #[inline]
     fn visit_mut_key(&mut self, node: &mut Key) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_key(self, node)
+            <V as VisitMut>::visit_mut_key(&mut self.visitor, node)
         } else {
         }
     }
@@ -47592,7 +47608,7 @@ where
     #[inline]
     fn visit_mut_key_value_pat_prop(&mut self, node: &mut KeyValuePatProp) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_key_value_pat_prop(self, node)
+            <V as VisitMut>::visit_mut_key_value_pat_prop(&mut self.visitor, node)
         } else {
         }
     }
@@ -47600,7 +47616,7 @@ where
     #[inline]
     fn visit_mut_key_value_prop(&mut self, node: &mut KeyValueProp) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_key_value_prop(self, node)
+            <V as VisitMut>::visit_mut_key_value_prop(&mut self.visitor, node)
         } else {
         }
     }
@@ -47608,7 +47624,7 @@ where
     #[inline]
     fn visit_mut_labeled_stmt(&mut self, node: &mut LabeledStmt) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_labeled_stmt(self, node)
+            <V as VisitMut>::visit_mut_labeled_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -47616,7 +47632,7 @@ where
     #[inline]
     fn visit_mut_lit(&mut self, node: &mut Lit) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_lit(self, node)
+            <V as VisitMut>::visit_mut_lit(&mut self.visitor, node)
         } else {
         }
     }
@@ -47624,7 +47640,7 @@ where
     #[inline]
     fn visit_mut_member_expr(&mut self, node: &mut MemberExpr) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_member_expr(self, node)
+            <V as VisitMut>::visit_mut_member_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -47632,7 +47648,7 @@ where
     #[inline]
     fn visit_mut_member_prop(&mut self, node: &mut MemberProp) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_member_prop(self, node)
+            <V as VisitMut>::visit_mut_member_prop(&mut self.visitor, node)
         } else {
         }
     }
@@ -47640,7 +47656,7 @@ where
     #[inline]
     fn visit_mut_meta_prop_expr(&mut self, node: &mut MetaPropExpr) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_meta_prop_expr(self, node)
+            <V as VisitMut>::visit_mut_meta_prop_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -47648,7 +47664,7 @@ where
     #[inline]
     fn visit_mut_meta_prop_kind(&mut self, node: &mut MetaPropKind) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_meta_prop_kind(self, node)
+            <V as VisitMut>::visit_mut_meta_prop_kind(&mut self.visitor, node)
         } else {
         }
     }
@@ -47656,7 +47672,7 @@ where
     #[inline]
     fn visit_mut_method_kind(&mut self, node: &mut MethodKind) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_method_kind(self, node)
+            <V as VisitMut>::visit_mut_method_kind(&mut self.visitor, node)
         } else {
         }
     }
@@ -47664,7 +47680,7 @@ where
     #[inline]
     fn visit_mut_method_prop(&mut self, node: &mut MethodProp) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_method_prop(self, node)
+            <V as VisitMut>::visit_mut_method_prop(&mut self.visitor, node)
         } else {
         }
     }
@@ -47672,7 +47688,7 @@ where
     #[inline]
     fn visit_mut_module(&mut self, node: &mut Module) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_module(self, node)
+            <V as VisitMut>::visit_mut_module(&mut self.visitor, node)
         } else {
         }
     }
@@ -47680,7 +47696,7 @@ where
     #[inline]
     fn visit_mut_module_decl(&mut self, node: &mut ModuleDecl) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_module_decl(self, node)
+            <V as VisitMut>::visit_mut_module_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -47688,7 +47704,7 @@ where
     #[inline]
     fn visit_mut_module_export_name(&mut self, node: &mut ModuleExportName) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_module_export_name(self, node)
+            <V as VisitMut>::visit_mut_module_export_name(&mut self.visitor, node)
         } else {
         }
     }
@@ -47696,7 +47712,7 @@ where
     #[inline]
     fn visit_mut_module_item(&mut self, node: &mut ModuleItem) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_module_item(self, node)
+            <V as VisitMut>::visit_mut_module_item(&mut self.visitor, node)
         } else {
         }
     }
@@ -47704,7 +47720,7 @@ where
     #[inline]
     fn visit_mut_module_items(&mut self, node: &mut Vec<ModuleItem>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_module_items(self, node)
+            <V as VisitMut>::visit_mut_module_items(&mut self.visitor, node)
         } else {
         }
     }
@@ -47712,7 +47728,7 @@ where
     #[inline]
     fn visit_mut_named_export(&mut self, node: &mut NamedExport) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_named_export(self, node)
+            <V as VisitMut>::visit_mut_named_export(&mut self.visitor, node)
         } else {
         }
     }
@@ -47720,7 +47736,7 @@ where
     #[inline]
     fn visit_mut_new_expr(&mut self, node: &mut NewExpr) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_new_expr(self, node)
+            <V as VisitMut>::visit_mut_new_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -47728,7 +47744,7 @@ where
     #[inline]
     fn visit_mut_null(&mut self, node: &mut Null) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_null(self, node)
+            <V as VisitMut>::visit_mut_null(&mut self.visitor, node)
         } else {
         }
     }
@@ -47736,7 +47752,7 @@ where
     #[inline]
     fn visit_mut_number(&mut self, node: &mut Number) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_number(self, node)
+            <V as VisitMut>::visit_mut_number(&mut self.visitor, node)
         } else {
         }
     }
@@ -47744,7 +47760,7 @@ where
     #[inline]
     fn visit_mut_object_lit(&mut self, node: &mut ObjectLit) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_object_lit(self, node)
+            <V as VisitMut>::visit_mut_object_lit(&mut self.visitor, node)
         } else {
         }
     }
@@ -47752,7 +47768,7 @@ where
     #[inline]
     fn visit_mut_object_pat(&mut self, node: &mut ObjectPat) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_object_pat(self, node)
+            <V as VisitMut>::visit_mut_object_pat(&mut self.visitor, node)
         } else {
         }
     }
@@ -47760,7 +47776,7 @@ where
     #[inline]
     fn visit_mut_object_pat_prop(&mut self, node: &mut ObjectPatProp) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_object_pat_prop(self, node)
+            <V as VisitMut>::visit_mut_object_pat_prop(&mut self.visitor, node)
         } else {
         }
     }
@@ -47768,7 +47784,7 @@ where
     #[inline]
     fn visit_mut_object_pat_props(&mut self, node: &mut Vec<ObjectPatProp>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_object_pat_props(self, node)
+            <V as VisitMut>::visit_mut_object_pat_props(&mut self.visitor, node)
         } else {
         }
     }
@@ -47776,7 +47792,7 @@ where
     #[inline]
     fn visit_mut_opt_accessibility(&mut self, node: &mut Option<Accessibility>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_opt_accessibility(self, node)
+            <V as VisitMut>::visit_mut_opt_accessibility(&mut self.visitor, node)
         } else {
         }
     }
@@ -47784,7 +47800,7 @@ where
     #[inline]
     fn visit_mut_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_opt_atom(self, node)
+            <V as VisitMut>::visit_mut_opt_atom(&mut self.visitor, node)
         } else {
         }
     }
@@ -47792,7 +47808,7 @@ where
     #[inline]
     fn visit_mut_opt_block_stmt(&mut self, node: &mut Option<BlockStmt>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_opt_block_stmt(self, node)
+            <V as VisitMut>::visit_mut_opt_block_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -47800,7 +47816,7 @@ where
     #[inline]
     fn visit_mut_opt_call(&mut self, node: &mut OptCall) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_opt_call(self, node)
+            <V as VisitMut>::visit_mut_opt_call(&mut self.visitor, node)
         } else {
         }
     }
@@ -47808,7 +47824,7 @@ where
     #[inline]
     fn visit_mut_opt_catch_clause(&mut self, node: &mut Option<CatchClause>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_opt_catch_clause(self, node)
+            <V as VisitMut>::visit_mut_opt_catch_clause(&mut self.visitor, node)
         } else {
         }
     }
@@ -47816,7 +47832,7 @@ where
     #[inline]
     fn visit_mut_opt_chain_base(&mut self, node: &mut OptChainBase) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_opt_chain_base(self, node)
+            <V as VisitMut>::visit_mut_opt_chain_base(&mut self.visitor, node)
         } else {
         }
     }
@@ -47824,7 +47840,7 @@ where
     #[inline]
     fn visit_mut_opt_chain_expr(&mut self, node: &mut OptChainExpr) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_opt_chain_expr(self, node)
+            <V as VisitMut>::visit_mut_opt_chain_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -47832,7 +47848,7 @@ where
     #[inline]
     fn visit_mut_opt_expr(&mut self, node: &mut Option<Box<Expr>>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_opt_expr(self, node)
+            <V as VisitMut>::visit_mut_opt_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -47840,7 +47856,7 @@ where
     #[inline]
     fn visit_mut_opt_expr_or_spread(&mut self, node: &mut Option<ExprOrSpread>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_opt_expr_or_spread(self, node)
+            <V as VisitMut>::visit_mut_opt_expr_or_spread(&mut self.visitor, node)
         } else {
         }
     }
@@ -47848,7 +47864,7 @@ where
     #[inline]
     fn visit_mut_opt_expr_or_spreads(&mut self, node: &mut Option<Vec<ExprOrSpread>>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_opt_expr_or_spreads(self, node)
+            <V as VisitMut>::visit_mut_opt_expr_or_spreads(&mut self.visitor, node)
         } else {
         }
     }
@@ -47856,7 +47872,7 @@ where
     #[inline]
     fn visit_mut_opt_ident(&mut self, node: &mut Option<Ident>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_opt_ident(self, node)
+            <V as VisitMut>::visit_mut_opt_ident(&mut self.visitor, node)
         } else {
         }
     }
@@ -47864,7 +47880,7 @@ where
     #[inline]
     fn visit_mut_opt_jsx_attr_value(&mut self, node: &mut Option<JSXAttrValue>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_opt_jsx_attr_value(self, node)
+            <V as VisitMut>::visit_mut_opt_jsx_attr_value(&mut self.visitor, node)
         } else {
         }
     }
@@ -47872,7 +47888,7 @@ where
     #[inline]
     fn visit_mut_opt_jsx_closing_element(&mut self, node: &mut Option<JSXClosingElement>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_opt_jsx_closing_element(self, node)
+            <V as VisitMut>::visit_mut_opt_jsx_closing_element(&mut self.visitor, node)
         } else {
         }
     }
@@ -47880,7 +47896,7 @@ where
     #[inline]
     fn visit_mut_opt_module_export_name(&mut self, node: &mut Option<ModuleExportName>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_opt_module_export_name(self, node)
+            <V as VisitMut>::visit_mut_opt_module_export_name(&mut self.visitor, node)
         } else {
         }
     }
@@ -47888,7 +47904,7 @@ where
     #[inline]
     fn visit_mut_opt_module_items(&mut self, node: &mut Option<Vec<ModuleItem>>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_opt_module_items(self, node)
+            <V as VisitMut>::visit_mut_opt_module_items(&mut self.visitor, node)
         } else {
         }
     }
@@ -47896,7 +47912,7 @@ where
     #[inline]
     fn visit_mut_opt_object_lit(&mut self, node: &mut Option<Box<ObjectLit>>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_opt_object_lit(self, node)
+            <V as VisitMut>::visit_mut_opt_object_lit(&mut self.visitor, node)
         } else {
         }
     }
@@ -47904,7 +47920,7 @@ where
     #[inline]
     fn visit_mut_opt_pat(&mut self, node: &mut Option<Pat>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_opt_pat(self, node)
+            <V as VisitMut>::visit_mut_opt_pat(&mut self.visitor, node)
         } else {
         }
     }
@@ -47912,7 +47928,7 @@ where
     #[inline]
     fn visit_mut_opt_span(&mut self, node: &mut Option<swc_common::Span>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_opt_span(self, node)
+            <V as VisitMut>::visit_mut_opt_span(&mut self.visitor, node)
         } else {
         }
     }
@@ -47920,7 +47936,7 @@ where
     #[inline]
     fn visit_mut_opt_stmt(&mut self, node: &mut Option<Box<Stmt>>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_opt_stmt(self, node)
+            <V as VisitMut>::visit_mut_opt_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -47928,7 +47944,7 @@ where
     #[inline]
     fn visit_mut_opt_str(&mut self, node: &mut Option<Box<Str>>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_opt_str(self, node)
+            <V as VisitMut>::visit_mut_opt_str(&mut self.visitor, node)
         } else {
         }
     }
@@ -47936,7 +47952,7 @@ where
     #[inline]
     fn visit_mut_opt_true_plus_minus(&mut self, node: &mut Option<TruePlusMinus>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_opt_true_plus_minus(self, node)
+            <V as VisitMut>::visit_mut_opt_true_plus_minus(&mut self.visitor, node)
         } else {
         }
     }
@@ -47944,7 +47960,7 @@ where
     #[inline]
     fn visit_mut_opt_ts_entity_name(&mut self, node: &mut Option<TsEntityName>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_opt_ts_entity_name(self, node)
+            <V as VisitMut>::visit_mut_opt_ts_entity_name(&mut self.visitor, node)
         } else {
         }
     }
@@ -47952,7 +47968,7 @@ where
     #[inline]
     fn visit_mut_opt_ts_namespace_body(&mut self, node: &mut Option<TsNamespaceBody>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_opt_ts_namespace_body(self, node)
+            <V as VisitMut>::visit_mut_opt_ts_namespace_body(&mut self.visitor, node)
         } else {
         }
     }
@@ -47960,7 +47976,7 @@ where
     #[inline]
     fn visit_mut_opt_ts_type(&mut self, node: &mut Option<Box<TsType>>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_opt_ts_type(self, node)
+            <V as VisitMut>::visit_mut_opt_ts_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -47968,7 +47984,7 @@ where
     #[inline]
     fn visit_mut_opt_ts_type_ann(&mut self, node: &mut Option<Box<TsTypeAnn>>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_opt_ts_type_ann(self, node)
+            <V as VisitMut>::visit_mut_opt_ts_type_ann(&mut self.visitor, node)
         } else {
         }
     }
@@ -47976,7 +47992,7 @@ where
     #[inline]
     fn visit_mut_opt_ts_type_param_decl(&mut self, node: &mut Option<Box<TsTypeParamDecl>>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_opt_ts_type_param_decl(self, node)
+            <V as VisitMut>::visit_mut_opt_ts_type_param_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -47987,7 +48003,7 @@ where
         node: &mut Option<Box<TsTypeParamInstantiation>>,
     ) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_opt_ts_type_param_instantiation(self, node)
+            <V as VisitMut>::visit_mut_opt_ts_type_param_instantiation(&mut self.visitor, node)
         } else {
         }
     }
@@ -47995,7 +48011,7 @@ where
     #[inline]
     fn visit_mut_opt_var_decl_or_expr(&mut self, node: &mut Option<VarDeclOrExpr>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_opt_var_decl_or_expr(self, node)
+            <V as VisitMut>::visit_mut_opt_var_decl_or_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -48003,7 +48019,7 @@ where
     #[inline]
     fn visit_mut_opt_vec_expr_or_spreads(&mut self, node: &mut Vec<Option<ExprOrSpread>>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_opt_vec_expr_or_spreads(self, node)
+            <V as VisitMut>::visit_mut_opt_vec_expr_or_spreads(&mut self.visitor, node)
         } else {
         }
     }
@@ -48011,7 +48027,7 @@ where
     #[inline]
     fn visit_mut_opt_vec_pats(&mut self, node: &mut Vec<Option<Pat>>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_opt_vec_pats(self, node)
+            <V as VisitMut>::visit_mut_opt_vec_pats(&mut self.visitor, node)
         } else {
         }
     }
@@ -48019,7 +48035,7 @@ where
     #[inline]
     fn visit_mut_param(&mut self, node: &mut Param) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_param(self, node)
+            <V as VisitMut>::visit_mut_param(&mut self.visitor, node)
         } else {
         }
     }
@@ -48027,7 +48043,7 @@ where
     #[inline]
     fn visit_mut_param_or_ts_param_prop(&mut self, node: &mut ParamOrTsParamProp) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_param_or_ts_param_prop(self, node)
+            <V as VisitMut>::visit_mut_param_or_ts_param_prop(&mut self.visitor, node)
         } else {
         }
     }
@@ -48035,7 +48051,7 @@ where
     #[inline]
     fn visit_mut_param_or_ts_param_props(&mut self, node: &mut Vec<ParamOrTsParamProp>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_param_or_ts_param_props(self, node)
+            <V as VisitMut>::visit_mut_param_or_ts_param_props(&mut self.visitor, node)
         } else {
         }
     }
@@ -48043,7 +48059,7 @@ where
     #[inline]
     fn visit_mut_params(&mut self, node: &mut Vec<Param>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_params(self, node)
+            <V as VisitMut>::visit_mut_params(&mut self.visitor, node)
         } else {
         }
     }
@@ -48051,7 +48067,7 @@ where
     #[inline]
     fn visit_mut_paren_expr(&mut self, node: &mut ParenExpr) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_paren_expr(self, node)
+            <V as VisitMut>::visit_mut_paren_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -48059,7 +48075,7 @@ where
     #[inline]
     fn visit_mut_pat(&mut self, node: &mut Pat) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_pat(self, node)
+            <V as VisitMut>::visit_mut_pat(&mut self.visitor, node)
         } else {
         }
     }
@@ -48067,7 +48083,7 @@ where
     #[inline]
     fn visit_mut_pats(&mut self, node: &mut Vec<Pat>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_pats(self, node)
+            <V as VisitMut>::visit_mut_pats(&mut self.visitor, node)
         } else {
         }
     }
@@ -48075,7 +48091,7 @@ where
     #[inline]
     fn visit_mut_private_method(&mut self, node: &mut PrivateMethod) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_private_method(self, node)
+            <V as VisitMut>::visit_mut_private_method(&mut self.visitor, node)
         } else {
         }
     }
@@ -48083,7 +48099,7 @@ where
     #[inline]
     fn visit_mut_private_name(&mut self, node: &mut PrivateName) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_private_name(self, node)
+            <V as VisitMut>::visit_mut_private_name(&mut self.visitor, node)
         } else {
         }
     }
@@ -48091,7 +48107,7 @@ where
     #[inline]
     fn visit_mut_private_prop(&mut self, node: &mut PrivateProp) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_private_prop(self, node)
+            <V as VisitMut>::visit_mut_private_prop(&mut self.visitor, node)
         } else {
         }
     }
@@ -48099,7 +48115,7 @@ where
     #[inline]
     fn visit_mut_program(&mut self, node: &mut Program) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_program(self, node)
+            <V as VisitMut>::visit_mut_program(&mut self.visitor, node)
         } else {
         }
     }
@@ -48107,7 +48123,7 @@ where
     #[inline]
     fn visit_mut_prop(&mut self, node: &mut Prop) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_prop(self, node)
+            <V as VisitMut>::visit_mut_prop(&mut self.visitor, node)
         } else {
         }
     }
@@ -48115,7 +48131,7 @@ where
     #[inline]
     fn visit_mut_prop_name(&mut self, node: &mut PropName) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_prop_name(self, node)
+            <V as VisitMut>::visit_mut_prop_name(&mut self.visitor, node)
         } else {
         }
     }
@@ -48123,7 +48139,7 @@ where
     #[inline]
     fn visit_mut_prop_or_spread(&mut self, node: &mut PropOrSpread) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_prop_or_spread(self, node)
+            <V as VisitMut>::visit_mut_prop_or_spread(&mut self.visitor, node)
         } else {
         }
     }
@@ -48131,7 +48147,7 @@ where
     #[inline]
     fn visit_mut_prop_or_spreads(&mut self, node: &mut Vec<PropOrSpread>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_prop_or_spreads(self, node)
+            <V as VisitMut>::visit_mut_prop_or_spreads(&mut self.visitor, node)
         } else {
         }
     }
@@ -48139,7 +48155,7 @@ where
     #[inline]
     fn visit_mut_regex(&mut self, node: &mut Regex) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_regex(self, node)
+            <V as VisitMut>::visit_mut_regex(&mut self.visitor, node)
         } else {
         }
     }
@@ -48147,7 +48163,7 @@ where
     #[inline]
     fn visit_mut_reserved_unused(&mut self, node: &mut ReservedUnused) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_reserved_unused(self, node)
+            <V as VisitMut>::visit_mut_reserved_unused(&mut self.visitor, node)
         } else {
         }
     }
@@ -48155,7 +48171,7 @@ where
     #[inline]
     fn visit_mut_rest_pat(&mut self, node: &mut RestPat) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_rest_pat(self, node)
+            <V as VisitMut>::visit_mut_rest_pat(&mut self.visitor, node)
         } else {
         }
     }
@@ -48163,7 +48179,7 @@ where
     #[inline]
     fn visit_mut_return_stmt(&mut self, node: &mut ReturnStmt) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_return_stmt(self, node)
+            <V as VisitMut>::visit_mut_return_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -48171,7 +48187,7 @@ where
     #[inline]
     fn visit_mut_script(&mut self, node: &mut Script) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_script(self, node)
+            <V as VisitMut>::visit_mut_script(&mut self.visitor, node)
         } else {
         }
     }
@@ -48179,7 +48195,7 @@ where
     #[inline]
     fn visit_mut_seq_expr(&mut self, node: &mut SeqExpr) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_seq_expr(self, node)
+            <V as VisitMut>::visit_mut_seq_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -48187,7 +48203,7 @@ where
     #[inline]
     fn visit_mut_setter_prop(&mut self, node: &mut SetterProp) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_setter_prop(self, node)
+            <V as VisitMut>::visit_mut_setter_prop(&mut self.visitor, node)
         } else {
         }
     }
@@ -48195,7 +48211,7 @@ where
     #[inline]
     fn visit_mut_simple_assign_target(&mut self, node: &mut SimpleAssignTarget) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_simple_assign_target(self, node)
+            <V as VisitMut>::visit_mut_simple_assign_target(&mut self.visitor, node)
         } else {
         }
     }
@@ -48203,7 +48219,7 @@ where
     #[inline]
     fn visit_mut_span(&mut self, node: &mut swc_common::Span) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_span(self, node)
+            <V as VisitMut>::visit_mut_span(&mut self.visitor, node)
         } else {
         }
     }
@@ -48211,7 +48227,7 @@ where
     #[inline]
     fn visit_mut_spread_element(&mut self, node: &mut SpreadElement) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_spread_element(self, node)
+            <V as VisitMut>::visit_mut_spread_element(&mut self.visitor, node)
         } else {
         }
     }
@@ -48219,7 +48235,7 @@ where
     #[inline]
     fn visit_mut_static_block(&mut self, node: &mut StaticBlock) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_static_block(self, node)
+            <V as VisitMut>::visit_mut_static_block(&mut self.visitor, node)
         } else {
         }
     }
@@ -48227,7 +48243,7 @@ where
     #[inline]
     fn visit_mut_stmt(&mut self, node: &mut Stmt) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_stmt(self, node)
+            <V as VisitMut>::visit_mut_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -48235,7 +48251,7 @@ where
     #[inline]
     fn visit_mut_stmts(&mut self, node: &mut Vec<Stmt>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_stmts(self, node)
+            <V as VisitMut>::visit_mut_stmts(&mut self.visitor, node)
         } else {
         }
     }
@@ -48243,7 +48259,7 @@ where
     #[inline]
     fn visit_mut_str(&mut self, node: &mut Str) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_str(self, node)
+            <V as VisitMut>::visit_mut_str(&mut self.visitor, node)
         } else {
         }
     }
@@ -48251,7 +48267,7 @@ where
     #[inline]
     fn visit_mut_super(&mut self, node: &mut Super) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_super(self, node)
+            <V as VisitMut>::visit_mut_super(&mut self.visitor, node)
         } else {
         }
     }
@@ -48259,7 +48275,7 @@ where
     #[inline]
     fn visit_mut_super_prop(&mut self, node: &mut SuperProp) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_super_prop(self, node)
+            <V as VisitMut>::visit_mut_super_prop(&mut self.visitor, node)
         } else {
         }
     }
@@ -48267,7 +48283,7 @@ where
     #[inline]
     fn visit_mut_super_prop_expr(&mut self, node: &mut SuperPropExpr) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_super_prop_expr(self, node)
+            <V as VisitMut>::visit_mut_super_prop_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -48275,7 +48291,7 @@ where
     #[inline]
     fn visit_mut_switch_case(&mut self, node: &mut SwitchCase) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_switch_case(self, node)
+            <V as VisitMut>::visit_mut_switch_case(&mut self.visitor, node)
         } else {
         }
     }
@@ -48283,7 +48299,7 @@ where
     #[inline]
     fn visit_mut_switch_cases(&mut self, node: &mut Vec<SwitchCase>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_switch_cases(self, node)
+            <V as VisitMut>::visit_mut_switch_cases(&mut self.visitor, node)
         } else {
         }
     }
@@ -48291,7 +48307,7 @@ where
     #[inline]
     fn visit_mut_switch_stmt(&mut self, node: &mut SwitchStmt) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_switch_stmt(self, node)
+            <V as VisitMut>::visit_mut_switch_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -48299,7 +48315,7 @@ where
     #[inline]
     fn visit_mut_syntax_context(&mut self, node: &mut swc_common::SyntaxContext) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_syntax_context(self, node)
+            <V as VisitMut>::visit_mut_syntax_context(&mut self.visitor, node)
         } else {
         }
     }
@@ -48307,7 +48323,7 @@ where
     #[inline]
     fn visit_mut_tagged_tpl(&mut self, node: &mut TaggedTpl) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_tagged_tpl(self, node)
+            <V as VisitMut>::visit_mut_tagged_tpl(&mut self.visitor, node)
         } else {
         }
     }
@@ -48315,7 +48331,7 @@ where
     #[inline]
     fn visit_mut_this_expr(&mut self, node: &mut ThisExpr) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_this_expr(self, node)
+            <V as VisitMut>::visit_mut_this_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -48323,7 +48339,7 @@ where
     #[inline]
     fn visit_mut_throw_stmt(&mut self, node: &mut ThrowStmt) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_throw_stmt(self, node)
+            <V as VisitMut>::visit_mut_throw_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -48331,7 +48347,7 @@ where
     #[inline]
     fn visit_mut_tpl(&mut self, node: &mut Tpl) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_tpl(self, node)
+            <V as VisitMut>::visit_mut_tpl(&mut self.visitor, node)
         } else {
         }
     }
@@ -48339,7 +48355,7 @@ where
     #[inline]
     fn visit_mut_tpl_element(&mut self, node: &mut TplElement) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_tpl_element(self, node)
+            <V as VisitMut>::visit_mut_tpl_element(&mut self.visitor, node)
         } else {
         }
     }
@@ -48347,7 +48363,7 @@ where
     #[inline]
     fn visit_mut_tpl_elements(&mut self, node: &mut Vec<TplElement>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_tpl_elements(self, node)
+            <V as VisitMut>::visit_mut_tpl_elements(&mut self.visitor, node)
         } else {
         }
     }
@@ -48355,7 +48371,7 @@ where
     #[inline]
     fn visit_mut_true_plus_minus(&mut self, node: &mut TruePlusMinus) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_true_plus_minus(self, node)
+            <V as VisitMut>::visit_mut_true_plus_minus(&mut self.visitor, node)
         } else {
         }
     }
@@ -48363,7 +48379,7 @@ where
     #[inline]
     fn visit_mut_try_stmt(&mut self, node: &mut TryStmt) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_try_stmt(self, node)
+            <V as VisitMut>::visit_mut_try_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -48371,7 +48387,7 @@ where
     #[inline]
     fn visit_mut_ts_array_type(&mut self, node: &mut TsArrayType) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_array_type(self, node)
+            <V as VisitMut>::visit_mut_ts_array_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -48379,7 +48395,7 @@ where
     #[inline]
     fn visit_mut_ts_as_expr(&mut self, node: &mut TsAsExpr) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_as_expr(self, node)
+            <V as VisitMut>::visit_mut_ts_as_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -48387,7 +48403,7 @@ where
     #[inline]
     fn visit_mut_ts_call_signature_decl(&mut self, node: &mut TsCallSignatureDecl) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_call_signature_decl(self, node)
+            <V as VisitMut>::visit_mut_ts_call_signature_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -48395,7 +48411,7 @@ where
     #[inline]
     fn visit_mut_ts_conditional_type(&mut self, node: &mut TsConditionalType) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_conditional_type(self, node)
+            <V as VisitMut>::visit_mut_ts_conditional_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -48403,7 +48419,7 @@ where
     #[inline]
     fn visit_mut_ts_const_assertion(&mut self, node: &mut TsConstAssertion) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_const_assertion(self, node)
+            <V as VisitMut>::visit_mut_ts_const_assertion(&mut self.visitor, node)
         } else {
         }
     }
@@ -48411,7 +48427,7 @@ where
     #[inline]
     fn visit_mut_ts_construct_signature_decl(&mut self, node: &mut TsConstructSignatureDecl) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_construct_signature_decl(self, node)
+            <V as VisitMut>::visit_mut_ts_construct_signature_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -48419,7 +48435,7 @@ where
     #[inline]
     fn visit_mut_ts_constructor_type(&mut self, node: &mut TsConstructorType) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_constructor_type(self, node)
+            <V as VisitMut>::visit_mut_ts_constructor_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -48427,7 +48443,7 @@ where
     #[inline]
     fn visit_mut_ts_entity_name(&mut self, node: &mut TsEntityName) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_entity_name(self, node)
+            <V as VisitMut>::visit_mut_ts_entity_name(&mut self.visitor, node)
         } else {
         }
     }
@@ -48435,7 +48451,7 @@ where
     #[inline]
     fn visit_mut_ts_enum_decl(&mut self, node: &mut TsEnumDecl) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_enum_decl(self, node)
+            <V as VisitMut>::visit_mut_ts_enum_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -48443,7 +48459,7 @@ where
     #[inline]
     fn visit_mut_ts_enum_member(&mut self, node: &mut TsEnumMember) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_enum_member(self, node)
+            <V as VisitMut>::visit_mut_ts_enum_member(&mut self.visitor, node)
         } else {
         }
     }
@@ -48451,7 +48467,7 @@ where
     #[inline]
     fn visit_mut_ts_enum_member_id(&mut self, node: &mut TsEnumMemberId) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_enum_member_id(self, node)
+            <V as VisitMut>::visit_mut_ts_enum_member_id(&mut self.visitor, node)
         } else {
         }
     }
@@ -48459,7 +48475,7 @@ where
     #[inline]
     fn visit_mut_ts_enum_members(&mut self, node: &mut Vec<TsEnumMember>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_enum_members(self, node)
+            <V as VisitMut>::visit_mut_ts_enum_members(&mut self.visitor, node)
         } else {
         }
     }
@@ -48467,7 +48483,7 @@ where
     #[inline]
     fn visit_mut_ts_export_assignment(&mut self, node: &mut TsExportAssignment) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_export_assignment(self, node)
+            <V as VisitMut>::visit_mut_ts_export_assignment(&mut self.visitor, node)
         } else {
         }
     }
@@ -48475,7 +48491,7 @@ where
     #[inline]
     fn visit_mut_ts_expr_with_type_args(&mut self, node: &mut TsExprWithTypeArgs) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_expr_with_type_args(self, node)
+            <V as VisitMut>::visit_mut_ts_expr_with_type_args(&mut self.visitor, node)
         } else {
         }
     }
@@ -48483,7 +48499,7 @@ where
     #[inline]
     fn visit_mut_ts_expr_with_type_argss(&mut self, node: &mut Vec<TsExprWithTypeArgs>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_expr_with_type_argss(self, node)
+            <V as VisitMut>::visit_mut_ts_expr_with_type_argss(&mut self.visitor, node)
         } else {
         }
     }
@@ -48491,7 +48507,7 @@ where
     #[inline]
     fn visit_mut_ts_external_module_ref(&mut self, node: &mut TsExternalModuleRef) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_external_module_ref(self, node)
+            <V as VisitMut>::visit_mut_ts_external_module_ref(&mut self.visitor, node)
         } else {
         }
     }
@@ -48499,7 +48515,7 @@ where
     #[inline]
     fn visit_mut_ts_fn_or_constructor_type(&mut self, node: &mut TsFnOrConstructorType) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_fn_or_constructor_type(self, node)
+            <V as VisitMut>::visit_mut_ts_fn_or_constructor_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -48507,7 +48523,7 @@ where
     #[inline]
     fn visit_mut_ts_fn_param(&mut self, node: &mut TsFnParam) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_fn_param(self, node)
+            <V as VisitMut>::visit_mut_ts_fn_param(&mut self.visitor, node)
         } else {
         }
     }
@@ -48515,7 +48531,7 @@ where
     #[inline]
     fn visit_mut_ts_fn_params(&mut self, node: &mut Vec<TsFnParam>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_fn_params(self, node)
+            <V as VisitMut>::visit_mut_ts_fn_params(&mut self.visitor, node)
         } else {
         }
     }
@@ -48523,7 +48539,7 @@ where
     #[inline]
     fn visit_mut_ts_fn_type(&mut self, node: &mut TsFnType) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_fn_type(self, node)
+            <V as VisitMut>::visit_mut_ts_fn_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -48531,7 +48547,7 @@ where
     #[inline]
     fn visit_mut_ts_getter_signature(&mut self, node: &mut TsGetterSignature) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_getter_signature(self, node)
+            <V as VisitMut>::visit_mut_ts_getter_signature(&mut self.visitor, node)
         } else {
         }
     }
@@ -48539,7 +48555,7 @@ where
     #[inline]
     fn visit_mut_ts_import_equals_decl(&mut self, node: &mut TsImportEqualsDecl) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_import_equals_decl(self, node)
+            <V as VisitMut>::visit_mut_ts_import_equals_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -48547,7 +48563,7 @@ where
     #[inline]
     fn visit_mut_ts_import_type(&mut self, node: &mut TsImportType) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_import_type(self, node)
+            <V as VisitMut>::visit_mut_ts_import_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -48555,7 +48571,7 @@ where
     #[inline]
     fn visit_mut_ts_index_signature(&mut self, node: &mut TsIndexSignature) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_index_signature(self, node)
+            <V as VisitMut>::visit_mut_ts_index_signature(&mut self.visitor, node)
         } else {
         }
     }
@@ -48563,7 +48579,7 @@ where
     #[inline]
     fn visit_mut_ts_indexed_access_type(&mut self, node: &mut TsIndexedAccessType) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_indexed_access_type(self, node)
+            <V as VisitMut>::visit_mut_ts_indexed_access_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -48571,7 +48587,7 @@ where
     #[inline]
     fn visit_mut_ts_infer_type(&mut self, node: &mut TsInferType) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_infer_type(self, node)
+            <V as VisitMut>::visit_mut_ts_infer_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -48579,7 +48595,7 @@ where
     #[inline]
     fn visit_mut_ts_instantiation(&mut self, node: &mut TsInstantiation) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_instantiation(self, node)
+            <V as VisitMut>::visit_mut_ts_instantiation(&mut self.visitor, node)
         } else {
         }
     }
@@ -48587,7 +48603,7 @@ where
     #[inline]
     fn visit_mut_ts_interface_body(&mut self, node: &mut TsInterfaceBody) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_interface_body(self, node)
+            <V as VisitMut>::visit_mut_ts_interface_body(&mut self.visitor, node)
         } else {
         }
     }
@@ -48595,7 +48611,7 @@ where
     #[inline]
     fn visit_mut_ts_interface_decl(&mut self, node: &mut TsInterfaceDecl) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_interface_decl(self, node)
+            <V as VisitMut>::visit_mut_ts_interface_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -48603,7 +48619,7 @@ where
     #[inline]
     fn visit_mut_ts_intersection_type(&mut self, node: &mut TsIntersectionType) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_intersection_type(self, node)
+            <V as VisitMut>::visit_mut_ts_intersection_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -48611,7 +48627,7 @@ where
     #[inline]
     fn visit_mut_ts_keyword_type(&mut self, node: &mut TsKeywordType) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_keyword_type(self, node)
+            <V as VisitMut>::visit_mut_ts_keyword_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -48619,7 +48635,7 @@ where
     #[inline]
     fn visit_mut_ts_keyword_type_kind(&mut self, node: &mut TsKeywordTypeKind) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_keyword_type_kind(self, node)
+            <V as VisitMut>::visit_mut_ts_keyword_type_kind(&mut self.visitor, node)
         } else {
         }
     }
@@ -48627,7 +48643,7 @@ where
     #[inline]
     fn visit_mut_ts_lit(&mut self, node: &mut TsLit) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_lit(self, node)
+            <V as VisitMut>::visit_mut_ts_lit(&mut self.visitor, node)
         } else {
         }
     }
@@ -48635,7 +48651,7 @@ where
     #[inline]
     fn visit_mut_ts_lit_type(&mut self, node: &mut TsLitType) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_lit_type(self, node)
+            <V as VisitMut>::visit_mut_ts_lit_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -48643,7 +48659,7 @@ where
     #[inline]
     fn visit_mut_ts_mapped_type(&mut self, node: &mut TsMappedType) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_mapped_type(self, node)
+            <V as VisitMut>::visit_mut_ts_mapped_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -48651,7 +48667,7 @@ where
     #[inline]
     fn visit_mut_ts_method_signature(&mut self, node: &mut TsMethodSignature) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_method_signature(self, node)
+            <V as VisitMut>::visit_mut_ts_method_signature(&mut self.visitor, node)
         } else {
         }
     }
@@ -48659,7 +48675,7 @@ where
     #[inline]
     fn visit_mut_ts_module_block(&mut self, node: &mut TsModuleBlock) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_module_block(self, node)
+            <V as VisitMut>::visit_mut_ts_module_block(&mut self.visitor, node)
         } else {
         }
     }
@@ -48667,7 +48683,7 @@ where
     #[inline]
     fn visit_mut_ts_module_decl(&mut self, node: &mut TsModuleDecl) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_module_decl(self, node)
+            <V as VisitMut>::visit_mut_ts_module_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -48675,7 +48691,7 @@ where
     #[inline]
     fn visit_mut_ts_module_name(&mut self, node: &mut TsModuleName) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_module_name(self, node)
+            <V as VisitMut>::visit_mut_ts_module_name(&mut self.visitor, node)
         } else {
         }
     }
@@ -48683,7 +48699,7 @@ where
     #[inline]
     fn visit_mut_ts_module_ref(&mut self, node: &mut TsModuleRef) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_module_ref(self, node)
+            <V as VisitMut>::visit_mut_ts_module_ref(&mut self.visitor, node)
         } else {
         }
     }
@@ -48691,7 +48707,7 @@ where
     #[inline]
     fn visit_mut_ts_namespace_body(&mut self, node: &mut TsNamespaceBody) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_namespace_body(self, node)
+            <V as VisitMut>::visit_mut_ts_namespace_body(&mut self.visitor, node)
         } else {
         }
     }
@@ -48699,7 +48715,7 @@ where
     #[inline]
     fn visit_mut_ts_namespace_decl(&mut self, node: &mut TsNamespaceDecl) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_namespace_decl(self, node)
+            <V as VisitMut>::visit_mut_ts_namespace_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -48707,7 +48723,7 @@ where
     #[inline]
     fn visit_mut_ts_namespace_export_decl(&mut self, node: &mut TsNamespaceExportDecl) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_namespace_export_decl(self, node)
+            <V as VisitMut>::visit_mut_ts_namespace_export_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -48715,7 +48731,7 @@ where
     #[inline]
     fn visit_mut_ts_non_null_expr(&mut self, node: &mut TsNonNullExpr) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_non_null_expr(self, node)
+            <V as VisitMut>::visit_mut_ts_non_null_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -48723,7 +48739,7 @@ where
     #[inline]
     fn visit_mut_ts_optional_type(&mut self, node: &mut TsOptionalType) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_optional_type(self, node)
+            <V as VisitMut>::visit_mut_ts_optional_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -48731,7 +48747,7 @@ where
     #[inline]
     fn visit_mut_ts_param_prop(&mut self, node: &mut TsParamProp) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_param_prop(self, node)
+            <V as VisitMut>::visit_mut_ts_param_prop(&mut self.visitor, node)
         } else {
         }
     }
@@ -48739,7 +48755,7 @@ where
     #[inline]
     fn visit_mut_ts_param_prop_param(&mut self, node: &mut TsParamPropParam) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_param_prop_param(self, node)
+            <V as VisitMut>::visit_mut_ts_param_prop_param(&mut self.visitor, node)
         } else {
         }
     }
@@ -48747,7 +48763,7 @@ where
     #[inline]
     fn visit_mut_ts_parenthesized_type(&mut self, node: &mut TsParenthesizedType) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_parenthesized_type(self, node)
+            <V as VisitMut>::visit_mut_ts_parenthesized_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -48755,7 +48771,7 @@ where
     #[inline]
     fn visit_mut_ts_property_signature(&mut self, node: &mut TsPropertySignature) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_property_signature(self, node)
+            <V as VisitMut>::visit_mut_ts_property_signature(&mut self.visitor, node)
         } else {
         }
     }
@@ -48763,7 +48779,7 @@ where
     #[inline]
     fn visit_mut_ts_qualified_name(&mut self, node: &mut TsQualifiedName) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_qualified_name(self, node)
+            <V as VisitMut>::visit_mut_ts_qualified_name(&mut self.visitor, node)
         } else {
         }
     }
@@ -48771,7 +48787,7 @@ where
     #[inline]
     fn visit_mut_ts_rest_type(&mut self, node: &mut TsRestType) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_rest_type(self, node)
+            <V as VisitMut>::visit_mut_ts_rest_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -48779,7 +48795,7 @@ where
     #[inline]
     fn visit_mut_ts_satisfies_expr(&mut self, node: &mut TsSatisfiesExpr) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_satisfies_expr(self, node)
+            <V as VisitMut>::visit_mut_ts_satisfies_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -48787,7 +48803,7 @@ where
     #[inline]
     fn visit_mut_ts_setter_signature(&mut self, node: &mut TsSetterSignature) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_setter_signature(self, node)
+            <V as VisitMut>::visit_mut_ts_setter_signature(&mut self.visitor, node)
         } else {
         }
     }
@@ -48795,7 +48811,7 @@ where
     #[inline]
     fn visit_mut_ts_this_type(&mut self, node: &mut TsThisType) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_this_type(self, node)
+            <V as VisitMut>::visit_mut_ts_this_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -48803,7 +48819,7 @@ where
     #[inline]
     fn visit_mut_ts_this_type_or_ident(&mut self, node: &mut TsThisTypeOrIdent) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_this_type_or_ident(self, node)
+            <V as VisitMut>::visit_mut_ts_this_type_or_ident(&mut self.visitor, node)
         } else {
         }
     }
@@ -48811,7 +48827,7 @@ where
     #[inline]
     fn visit_mut_ts_tpl_lit_type(&mut self, node: &mut TsTplLitType) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_tpl_lit_type(self, node)
+            <V as VisitMut>::visit_mut_ts_tpl_lit_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -48819,7 +48835,7 @@ where
     #[inline]
     fn visit_mut_ts_tuple_element(&mut self, node: &mut TsTupleElement) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_tuple_element(self, node)
+            <V as VisitMut>::visit_mut_ts_tuple_element(&mut self.visitor, node)
         } else {
         }
     }
@@ -48827,7 +48843,7 @@ where
     #[inline]
     fn visit_mut_ts_tuple_elements(&mut self, node: &mut Vec<TsTupleElement>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_tuple_elements(self, node)
+            <V as VisitMut>::visit_mut_ts_tuple_elements(&mut self.visitor, node)
         } else {
         }
     }
@@ -48835,7 +48851,7 @@ where
     #[inline]
     fn visit_mut_ts_tuple_type(&mut self, node: &mut TsTupleType) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_tuple_type(self, node)
+            <V as VisitMut>::visit_mut_ts_tuple_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -48843,7 +48859,7 @@ where
     #[inline]
     fn visit_mut_ts_type(&mut self, node: &mut TsType) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_type(self, node)
+            <V as VisitMut>::visit_mut_ts_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -48851,7 +48867,7 @@ where
     #[inline]
     fn visit_mut_ts_type_alias_decl(&mut self, node: &mut TsTypeAliasDecl) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_type_alias_decl(self, node)
+            <V as VisitMut>::visit_mut_ts_type_alias_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -48859,7 +48875,7 @@ where
     #[inline]
     fn visit_mut_ts_type_ann(&mut self, node: &mut TsTypeAnn) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_type_ann(self, node)
+            <V as VisitMut>::visit_mut_ts_type_ann(&mut self.visitor, node)
         } else {
         }
     }
@@ -48867,7 +48883,7 @@ where
     #[inline]
     fn visit_mut_ts_type_assertion(&mut self, node: &mut TsTypeAssertion) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_type_assertion(self, node)
+            <V as VisitMut>::visit_mut_ts_type_assertion(&mut self.visitor, node)
         } else {
         }
     }
@@ -48875,7 +48891,7 @@ where
     #[inline]
     fn visit_mut_ts_type_element(&mut self, node: &mut TsTypeElement) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_type_element(self, node)
+            <V as VisitMut>::visit_mut_ts_type_element(&mut self.visitor, node)
         } else {
         }
     }
@@ -48883,7 +48899,7 @@ where
     #[inline]
     fn visit_mut_ts_type_elements(&mut self, node: &mut Vec<TsTypeElement>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_type_elements(self, node)
+            <V as VisitMut>::visit_mut_ts_type_elements(&mut self.visitor, node)
         } else {
         }
     }
@@ -48891,7 +48907,7 @@ where
     #[inline]
     fn visit_mut_ts_type_lit(&mut self, node: &mut TsTypeLit) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_type_lit(self, node)
+            <V as VisitMut>::visit_mut_ts_type_lit(&mut self.visitor, node)
         } else {
         }
     }
@@ -48899,7 +48915,7 @@ where
     #[inline]
     fn visit_mut_ts_type_operator(&mut self, node: &mut TsTypeOperator) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_type_operator(self, node)
+            <V as VisitMut>::visit_mut_ts_type_operator(&mut self.visitor, node)
         } else {
         }
     }
@@ -48907,7 +48923,7 @@ where
     #[inline]
     fn visit_mut_ts_type_operator_op(&mut self, node: &mut TsTypeOperatorOp) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_type_operator_op(self, node)
+            <V as VisitMut>::visit_mut_ts_type_operator_op(&mut self.visitor, node)
         } else {
         }
     }
@@ -48915,7 +48931,7 @@ where
     #[inline]
     fn visit_mut_ts_type_param(&mut self, node: &mut TsTypeParam) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_type_param(self, node)
+            <V as VisitMut>::visit_mut_ts_type_param(&mut self.visitor, node)
         } else {
         }
     }
@@ -48923,7 +48939,7 @@ where
     #[inline]
     fn visit_mut_ts_type_param_decl(&mut self, node: &mut TsTypeParamDecl) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_type_param_decl(self, node)
+            <V as VisitMut>::visit_mut_ts_type_param_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -48931,7 +48947,7 @@ where
     #[inline]
     fn visit_mut_ts_type_param_instantiation(&mut self, node: &mut TsTypeParamInstantiation) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_type_param_instantiation(self, node)
+            <V as VisitMut>::visit_mut_ts_type_param_instantiation(&mut self.visitor, node)
         } else {
         }
     }
@@ -48939,7 +48955,7 @@ where
     #[inline]
     fn visit_mut_ts_type_params(&mut self, node: &mut Vec<TsTypeParam>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_type_params(self, node)
+            <V as VisitMut>::visit_mut_ts_type_params(&mut self.visitor, node)
         } else {
         }
     }
@@ -48947,7 +48963,7 @@ where
     #[inline]
     fn visit_mut_ts_type_predicate(&mut self, node: &mut TsTypePredicate) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_type_predicate(self, node)
+            <V as VisitMut>::visit_mut_ts_type_predicate(&mut self.visitor, node)
         } else {
         }
     }
@@ -48955,7 +48971,7 @@ where
     #[inline]
     fn visit_mut_ts_type_query(&mut self, node: &mut TsTypeQuery) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_type_query(self, node)
+            <V as VisitMut>::visit_mut_ts_type_query(&mut self.visitor, node)
         } else {
         }
     }
@@ -48963,7 +48979,7 @@ where
     #[inline]
     fn visit_mut_ts_type_query_expr(&mut self, node: &mut TsTypeQueryExpr) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_type_query_expr(self, node)
+            <V as VisitMut>::visit_mut_ts_type_query_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -48971,7 +48987,7 @@ where
     #[inline]
     fn visit_mut_ts_type_ref(&mut self, node: &mut TsTypeRef) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_type_ref(self, node)
+            <V as VisitMut>::visit_mut_ts_type_ref(&mut self.visitor, node)
         } else {
         }
     }
@@ -48979,7 +48995,7 @@ where
     #[inline]
     fn visit_mut_ts_types(&mut self, node: &mut Vec<Box<TsType>>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_types(self, node)
+            <V as VisitMut>::visit_mut_ts_types(&mut self.visitor, node)
         } else {
         }
     }
@@ -48987,7 +49003,7 @@ where
     #[inline]
     fn visit_mut_ts_union_or_intersection_type(&mut self, node: &mut TsUnionOrIntersectionType) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_union_or_intersection_type(self, node)
+            <V as VisitMut>::visit_mut_ts_union_or_intersection_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -48995,7 +49011,7 @@ where
     #[inline]
     fn visit_mut_ts_union_type(&mut self, node: &mut TsUnionType) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_ts_union_type(self, node)
+            <V as VisitMut>::visit_mut_ts_union_type(&mut self.visitor, node)
         } else {
         }
     }
@@ -49003,7 +49019,7 @@ where
     #[inline]
     fn visit_mut_unary_expr(&mut self, node: &mut UnaryExpr) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_unary_expr(self, node)
+            <V as VisitMut>::visit_mut_unary_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -49011,7 +49027,7 @@ where
     #[inline]
     fn visit_mut_unary_op(&mut self, node: &mut UnaryOp) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_unary_op(self, node)
+            <V as VisitMut>::visit_mut_unary_op(&mut self.visitor, node)
         } else {
         }
     }
@@ -49019,7 +49035,7 @@ where
     #[inline]
     fn visit_mut_update_expr(&mut self, node: &mut UpdateExpr) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_update_expr(self, node)
+            <V as VisitMut>::visit_mut_update_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -49027,7 +49043,7 @@ where
     #[inline]
     fn visit_mut_update_op(&mut self, node: &mut UpdateOp) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_update_op(self, node)
+            <V as VisitMut>::visit_mut_update_op(&mut self.visitor, node)
         } else {
         }
     }
@@ -49035,7 +49051,7 @@ where
     #[inline]
     fn visit_mut_using_decl(&mut self, node: &mut UsingDecl) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_using_decl(self, node)
+            <V as VisitMut>::visit_mut_using_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -49043,7 +49059,7 @@ where
     #[inline]
     fn visit_mut_var_decl(&mut self, node: &mut VarDecl) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_var_decl(self, node)
+            <V as VisitMut>::visit_mut_var_decl(&mut self.visitor, node)
         } else {
         }
     }
@@ -49051,7 +49067,7 @@ where
     #[inline]
     fn visit_mut_var_decl_kind(&mut self, node: &mut VarDeclKind) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_var_decl_kind(self, node)
+            <V as VisitMut>::visit_mut_var_decl_kind(&mut self.visitor, node)
         } else {
         }
     }
@@ -49059,7 +49075,7 @@ where
     #[inline]
     fn visit_mut_var_decl_or_expr(&mut self, node: &mut VarDeclOrExpr) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_var_decl_or_expr(self, node)
+            <V as VisitMut>::visit_mut_var_decl_or_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -49067,7 +49083,7 @@ where
     #[inline]
     fn visit_mut_var_declarator(&mut self, node: &mut VarDeclarator) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_var_declarator(self, node)
+            <V as VisitMut>::visit_mut_var_declarator(&mut self.visitor, node)
         } else {
         }
     }
@@ -49075,7 +49091,7 @@ where
     #[inline]
     fn visit_mut_var_declarators(&mut self, node: &mut Vec<VarDeclarator>) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_var_declarators(self, node)
+            <V as VisitMut>::visit_mut_var_declarators(&mut self.visitor, node)
         } else {
         }
     }
@@ -49083,7 +49099,7 @@ where
     #[inline]
     fn visit_mut_while_stmt(&mut self, node: &mut WhileStmt) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_while_stmt(self, node)
+            <V as VisitMut>::visit_mut_while_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -49091,7 +49107,7 @@ where
     #[inline]
     fn visit_mut_with_stmt(&mut self, node: &mut WithStmt) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_with_stmt(self, node)
+            <V as VisitMut>::visit_mut_with_stmt(&mut self.visitor, node)
         } else {
         }
     }
@@ -49099,7 +49115,7 @@ where
     #[inline]
     fn visit_mut_yield_expr(&mut self, node: &mut YieldExpr) {
         if self.enabled {
-            <V as VisitMut>::visit_mut_yield_expr(self, node)
+            <V as VisitMut>::visit_mut_yield_expr(&mut self.visitor, node)
         } else {
         }
     }
@@ -64870,7 +64886,7 @@ where
     #[inline]
     fn visit_mut_accessibility(&mut self, node: &mut Accessibility, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_accessibility(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_accessibility(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -64878,7 +64894,7 @@ where
     #[inline]
     fn visit_mut_array_lit(&mut self, node: &mut ArrayLit, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_array_lit(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_array_lit(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -64886,7 +64902,7 @@ where
     #[inline]
     fn visit_mut_array_pat(&mut self, node: &mut ArrayPat, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_array_pat(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_array_pat(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -64894,7 +64910,7 @@ where
     #[inline]
     fn visit_mut_arrow_expr(&mut self, node: &mut ArrowExpr, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_arrow_expr(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_arrow_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -64902,7 +64918,7 @@ where
     #[inline]
     fn visit_mut_assign_expr(&mut self, node: &mut AssignExpr, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_assign_expr(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_assign_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -64910,7 +64926,7 @@ where
     #[inline]
     fn visit_mut_assign_op(&mut self, node: &mut AssignOp, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_assign_op(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_assign_op(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -64918,7 +64934,7 @@ where
     #[inline]
     fn visit_mut_assign_pat(&mut self, node: &mut AssignPat, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_assign_pat(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_assign_pat(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -64926,7 +64942,7 @@ where
     #[inline]
     fn visit_mut_assign_pat_prop(&mut self, node: &mut AssignPatProp, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_assign_pat_prop(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_assign_pat_prop(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -64934,7 +64950,7 @@ where
     #[inline]
     fn visit_mut_assign_prop(&mut self, node: &mut AssignProp, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_assign_prop(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_assign_prop(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -64942,7 +64958,7 @@ where
     #[inline]
     fn visit_mut_assign_target(&mut self, node: &mut AssignTarget, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_assign_target(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_assign_target(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -64954,7 +64970,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_assign_target_pat(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_assign_target_pat(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -64962,7 +64978,7 @@ where
     #[inline]
     fn visit_mut_atom(&mut self, node: &mut swc_atoms::Atom, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_atom(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_atom(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -64970,7 +64986,7 @@ where
     #[inline]
     fn visit_mut_auto_accessor(&mut self, node: &mut AutoAccessor, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_auto_accessor(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_auto_accessor(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -64978,7 +64994,7 @@ where
     #[inline]
     fn visit_mut_await_expr(&mut self, node: &mut AwaitExpr, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_await_expr(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_await_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -64986,7 +65002,7 @@ where
     #[inline]
     fn visit_mut_big_int(&mut self, node: &mut BigInt, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_big_int(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_big_int(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -64994,7 +65010,7 @@ where
     #[inline]
     fn visit_mut_big_int_value(&mut self, node: &mut BigIntValue, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_big_int_value(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_big_int_value(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65002,7 +65018,7 @@ where
     #[inline]
     fn visit_mut_bin_expr(&mut self, node: &mut BinExpr, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_bin_expr(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_bin_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65010,7 +65026,7 @@ where
     #[inline]
     fn visit_mut_binary_op(&mut self, node: &mut BinaryOp, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_binary_op(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_binary_op(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65018,7 +65034,7 @@ where
     #[inline]
     fn visit_mut_binding_ident(&mut self, node: &mut BindingIdent, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_binding_ident(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_binding_ident(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65026,7 +65042,7 @@ where
     #[inline]
     fn visit_mut_block_stmt(&mut self, node: &mut BlockStmt, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_block_stmt(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_block_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65038,7 +65054,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_block_stmt_or_expr(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_block_stmt_or_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65046,7 +65062,7 @@ where
     #[inline]
     fn visit_mut_bool(&mut self, node: &mut Bool, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_bool(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_bool(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65054,7 +65070,7 @@ where
     #[inline]
     fn visit_mut_break_stmt(&mut self, node: &mut BreakStmt, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_break_stmt(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_break_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65062,7 +65078,7 @@ where
     #[inline]
     fn visit_mut_call_expr(&mut self, node: &mut CallExpr, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_call_expr(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_call_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65070,7 +65086,7 @@ where
     #[inline]
     fn visit_mut_callee(&mut self, node: &mut Callee, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_callee(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_callee(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65078,7 +65094,7 @@ where
     #[inline]
     fn visit_mut_catch_clause(&mut self, node: &mut CatchClause, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_catch_clause(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_catch_clause(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65086,7 +65102,7 @@ where
     #[inline]
     fn visit_mut_class(&mut self, node: &mut Class, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_class(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_class(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65094,7 +65110,7 @@ where
     #[inline]
     fn visit_mut_class_decl(&mut self, node: &mut ClassDecl, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_class_decl(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_class_decl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65102,7 +65118,7 @@ where
     #[inline]
     fn visit_mut_class_expr(&mut self, node: &mut ClassExpr, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_class_expr(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_class_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65110,7 +65126,7 @@ where
     #[inline]
     fn visit_mut_class_member(&mut self, node: &mut ClassMember, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_class_member(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_class_member(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65118,7 +65134,7 @@ where
     #[inline]
     fn visit_mut_class_members(&mut self, node: &mut Vec<ClassMember>, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_class_members(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_class_members(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65126,7 +65142,7 @@ where
     #[inline]
     fn visit_mut_class_method(&mut self, node: &mut ClassMethod, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_class_method(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_class_method(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65134,7 +65150,7 @@ where
     #[inline]
     fn visit_mut_class_prop(&mut self, node: &mut ClassProp, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_class_prop(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_class_prop(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65146,7 +65162,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_computed_prop_name(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_computed_prop_name(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65154,7 +65170,7 @@ where
     #[inline]
     fn visit_mut_cond_expr(&mut self, node: &mut CondExpr, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_cond_expr(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_cond_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65162,7 +65178,7 @@ where
     #[inline]
     fn visit_mut_constructor(&mut self, node: &mut Constructor, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_constructor(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_constructor(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65170,7 +65186,7 @@ where
     #[inline]
     fn visit_mut_continue_stmt(&mut self, node: &mut ContinueStmt, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_continue_stmt(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_continue_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65178,7 +65194,7 @@ where
     #[inline]
     fn visit_mut_debugger_stmt(&mut self, node: &mut DebuggerStmt, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_debugger_stmt(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_debugger_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65186,7 +65202,7 @@ where
     #[inline]
     fn visit_mut_decl(&mut self, node: &mut Decl, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_decl(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_decl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65194,7 +65210,7 @@ where
     #[inline]
     fn visit_mut_decorator(&mut self, node: &mut Decorator, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_decorator(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_decorator(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65202,7 +65218,7 @@ where
     #[inline]
     fn visit_mut_decorators(&mut self, node: &mut Vec<Decorator>, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_decorators(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_decorators(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65210,7 +65226,7 @@ where
     #[inline]
     fn visit_mut_default_decl(&mut self, node: &mut DefaultDecl, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_default_decl(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_default_decl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65218,7 +65234,7 @@ where
     #[inline]
     fn visit_mut_do_while_stmt(&mut self, node: &mut DoWhileStmt, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_do_while_stmt(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_do_while_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65226,7 +65242,7 @@ where
     #[inline]
     fn visit_mut_empty_stmt(&mut self, node: &mut EmptyStmt, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_empty_stmt(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_empty_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65234,7 +65250,7 @@ where
     #[inline]
     fn visit_mut_es_version(&mut self, node: &mut EsVersion, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_es_version(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_es_version(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65242,7 +65258,7 @@ where
     #[inline]
     fn visit_mut_export_all(&mut self, node: &mut ExportAll, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_export_all(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_export_all(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65250,7 +65266,7 @@ where
     #[inline]
     fn visit_mut_export_decl(&mut self, node: &mut ExportDecl, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_export_decl(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_export_decl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65262,7 +65278,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_export_default_decl(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_export_default_decl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65274,7 +65290,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_export_default_expr(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_export_default_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65286,7 +65302,11 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_export_default_specifier(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_export_default_specifier(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -65298,7 +65318,11 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_export_named_specifier(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_export_named_specifier(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -65310,7 +65334,11 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_export_namespace_specifier(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_export_namespace_specifier(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -65322,7 +65350,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_export_specifier(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_export_specifier(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65334,7 +65362,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_export_specifiers(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_export_specifiers(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65342,7 +65370,7 @@ where
     #[inline]
     fn visit_mut_expr(&mut self, node: &mut Expr, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_expr(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65350,7 +65378,7 @@ where
     #[inline]
     fn visit_mut_expr_or_spread(&mut self, node: &mut ExprOrSpread, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_expr_or_spread(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_expr_or_spread(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65362,7 +65390,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_expr_or_spreads(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_expr_or_spreads(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65370,7 +65398,7 @@ where
     #[inline]
     fn visit_mut_expr_stmt(&mut self, node: &mut ExprStmt, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_expr_stmt(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_expr_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65378,7 +65406,7 @@ where
     #[inline]
     fn visit_mut_exprs(&mut self, node: &mut Vec<Box<Expr>>, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_exprs(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_exprs(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65386,7 +65414,7 @@ where
     #[inline]
     fn visit_mut_fn_decl(&mut self, node: &mut FnDecl, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_fn_decl(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_fn_decl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65394,7 +65422,7 @@ where
     #[inline]
     fn visit_mut_fn_expr(&mut self, node: &mut FnExpr, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_fn_expr(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_fn_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65402,7 +65430,7 @@ where
     #[inline]
     fn visit_mut_for_head(&mut self, node: &mut ForHead, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_for_head(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_for_head(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65410,7 +65438,7 @@ where
     #[inline]
     fn visit_mut_for_in_stmt(&mut self, node: &mut ForInStmt, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_for_in_stmt(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_for_in_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65418,7 +65446,7 @@ where
     #[inline]
     fn visit_mut_for_of_stmt(&mut self, node: &mut ForOfStmt, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_for_of_stmt(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_for_of_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65426,7 +65454,7 @@ where
     #[inline]
     fn visit_mut_for_stmt(&mut self, node: &mut ForStmt, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_for_stmt(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_for_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65434,7 +65462,7 @@ where
     #[inline]
     fn visit_mut_function(&mut self, node: &mut Function, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_function(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_function(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65442,7 +65470,7 @@ where
     #[inline]
     fn visit_mut_getter_prop(&mut self, node: &mut GetterProp, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_getter_prop(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_getter_prop(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65450,7 +65478,7 @@ where
     #[inline]
     fn visit_mut_ident(&mut self, node: &mut Ident, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ident(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ident(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65458,7 +65486,7 @@ where
     #[inline]
     fn visit_mut_ident_name(&mut self, node: &mut IdentName, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ident_name(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ident_name(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65466,7 +65494,7 @@ where
     #[inline]
     fn visit_mut_if_stmt(&mut self, node: &mut IfStmt, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_if_stmt(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_if_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65474,7 +65502,7 @@ where
     #[inline]
     fn visit_mut_import(&mut self, node: &mut Import, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_import(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_import(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65482,7 +65510,7 @@ where
     #[inline]
     fn visit_mut_import_decl(&mut self, node: &mut ImportDecl, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_import_decl(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_import_decl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65494,7 +65522,11 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_import_default_specifier(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_import_default_specifier(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -65506,7 +65538,11 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_import_named_specifier(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_import_named_specifier(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -65514,7 +65550,7 @@ where
     #[inline]
     fn visit_mut_import_phase(&mut self, node: &mut ImportPhase, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_import_phase(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_import_phase(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65526,7 +65562,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_import_specifier(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_import_specifier(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65538,7 +65574,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_import_specifiers(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_import_specifiers(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65550,7 +65586,11 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_import_star_as_specifier(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_import_star_as_specifier(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -65558,7 +65598,7 @@ where
     #[inline]
     fn visit_mut_import_with(&mut self, node: &mut ImportWith, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_import_with(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_import_with(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65570,7 +65610,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_import_with_item(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_import_with_item(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65582,7 +65622,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_import_with_items(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_import_with_items(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65590,7 +65630,7 @@ where
     #[inline]
     fn visit_mut_invalid(&mut self, node: &mut Invalid, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_invalid(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_invalid(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65598,7 +65638,7 @@ where
     #[inline]
     fn visit_mut_jsx_attr(&mut self, node: &mut JSXAttr, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_jsx_attr(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_jsx_attr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65606,7 +65646,7 @@ where
     #[inline]
     fn visit_mut_jsx_attr_name(&mut self, node: &mut JSXAttrName, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_jsx_attr_name(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_jsx_attr_name(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65618,7 +65658,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_jsx_attr_or_spread(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_jsx_attr_or_spread(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65630,7 +65670,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_jsx_attr_or_spreads(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_jsx_attr_or_spreads(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65638,7 +65678,7 @@ where
     #[inline]
     fn visit_mut_jsx_attr_value(&mut self, node: &mut JSXAttrValue, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_jsx_attr_value(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_jsx_attr_value(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65650,7 +65690,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_jsx_closing_element(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_jsx_closing_element(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65662,7 +65702,11 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_jsx_closing_fragment(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_jsx_closing_fragment(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -65670,7 +65714,7 @@ where
     #[inline]
     fn visit_mut_jsx_element(&mut self, node: &mut JSXElement, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_jsx_element(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_jsx_element(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65682,7 +65726,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_jsx_element_child(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_jsx_element_child(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65694,7 +65738,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_jsx_element_childs(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_jsx_element_childs(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65706,7 +65750,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_jsx_element_name(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_jsx_element_name(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65714,7 +65758,7 @@ where
     #[inline]
     fn visit_mut_jsx_empty_expr(&mut self, node: &mut JSXEmptyExpr, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_jsx_empty_expr(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_jsx_empty_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65722,7 +65766,7 @@ where
     #[inline]
     fn visit_mut_jsx_expr(&mut self, node: &mut JSXExpr, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_jsx_expr(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_jsx_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65734,7 +65778,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_jsx_expr_container(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_jsx_expr_container(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65742,7 +65786,7 @@ where
     #[inline]
     fn visit_mut_jsx_fragment(&mut self, node: &mut JSXFragment, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_jsx_fragment(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_jsx_fragment(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65750,7 +65794,7 @@ where
     #[inline]
     fn visit_mut_jsx_member_expr(&mut self, node: &mut JSXMemberExpr, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_jsx_member_expr(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_jsx_member_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65762,7 +65806,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_jsx_namespaced_name(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_jsx_namespaced_name(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65770,7 +65814,7 @@ where
     #[inline]
     fn visit_mut_jsx_object(&mut self, node: &mut JSXObject, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_jsx_object(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_jsx_object(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65782,7 +65826,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_jsx_opening_element(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_jsx_opening_element(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65794,7 +65838,11 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_jsx_opening_fragment(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_jsx_opening_fragment(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -65806,7 +65854,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_jsx_spread_child(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_jsx_spread_child(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65814,7 +65862,7 @@ where
     #[inline]
     fn visit_mut_jsx_text(&mut self, node: &mut JSXText, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_jsx_text(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_jsx_text(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65822,7 +65870,7 @@ where
     #[inline]
     fn visit_mut_key(&mut self, node: &mut Key, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_key(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_key(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65834,7 +65882,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_key_value_pat_prop(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_key_value_pat_prop(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65842,7 +65890,7 @@ where
     #[inline]
     fn visit_mut_key_value_prop(&mut self, node: &mut KeyValueProp, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_key_value_prop(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_key_value_prop(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65850,7 +65898,7 @@ where
     #[inline]
     fn visit_mut_labeled_stmt(&mut self, node: &mut LabeledStmt, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_labeled_stmt(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_labeled_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65858,7 +65906,7 @@ where
     #[inline]
     fn visit_mut_lit(&mut self, node: &mut Lit, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_lit(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_lit(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65866,7 +65914,7 @@ where
     #[inline]
     fn visit_mut_member_expr(&mut self, node: &mut MemberExpr, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_member_expr(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_member_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65874,7 +65922,7 @@ where
     #[inline]
     fn visit_mut_member_prop(&mut self, node: &mut MemberProp, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_member_prop(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_member_prop(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65882,7 +65930,7 @@ where
     #[inline]
     fn visit_mut_meta_prop_expr(&mut self, node: &mut MetaPropExpr, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_meta_prop_expr(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_meta_prop_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65890,7 +65938,7 @@ where
     #[inline]
     fn visit_mut_meta_prop_kind(&mut self, node: &mut MetaPropKind, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_meta_prop_kind(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_meta_prop_kind(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65898,7 +65946,7 @@ where
     #[inline]
     fn visit_mut_method_kind(&mut self, node: &mut MethodKind, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_method_kind(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_method_kind(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65906,7 +65954,7 @@ where
     #[inline]
     fn visit_mut_method_prop(&mut self, node: &mut MethodProp, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_method_prop(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_method_prop(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65914,7 +65962,7 @@ where
     #[inline]
     fn visit_mut_module(&mut self, node: &mut Module, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_module(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_module(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65922,7 +65970,7 @@ where
     #[inline]
     fn visit_mut_module_decl(&mut self, node: &mut ModuleDecl, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_module_decl(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_module_decl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65934,7 +65982,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_module_export_name(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_module_export_name(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65942,7 +65990,7 @@ where
     #[inline]
     fn visit_mut_module_item(&mut self, node: &mut ModuleItem, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_module_item(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_module_item(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65950,7 +65998,7 @@ where
     #[inline]
     fn visit_mut_module_items(&mut self, node: &mut Vec<ModuleItem>, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_module_items(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_module_items(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65958,7 +66006,7 @@ where
     #[inline]
     fn visit_mut_named_export(&mut self, node: &mut NamedExport, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_named_export(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_named_export(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65966,7 +66014,7 @@ where
     #[inline]
     fn visit_mut_new_expr(&mut self, node: &mut NewExpr, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_new_expr(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_new_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65974,7 +66022,7 @@ where
     #[inline]
     fn visit_mut_null(&mut self, node: &mut Null, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_null(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_null(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65982,7 +66030,7 @@ where
     #[inline]
     fn visit_mut_number(&mut self, node: &mut Number, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_number(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_number(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65990,7 +66038,7 @@ where
     #[inline]
     fn visit_mut_object_lit(&mut self, node: &mut ObjectLit, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_object_lit(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_object_lit(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -65998,7 +66046,7 @@ where
     #[inline]
     fn visit_mut_object_pat(&mut self, node: &mut ObjectPat, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_object_pat(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_object_pat(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66006,7 +66054,7 @@ where
     #[inline]
     fn visit_mut_object_pat_prop(&mut self, node: &mut ObjectPatProp, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_object_pat_prop(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_object_pat_prop(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66018,7 +66066,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_object_pat_props(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_object_pat_props(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66030,7 +66078,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_opt_accessibility(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_opt_accessibility(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66042,7 +66090,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_opt_atom(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_opt_atom(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66054,7 +66102,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_opt_block_stmt(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_opt_block_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66062,7 +66110,7 @@ where
     #[inline]
     fn visit_mut_opt_call(&mut self, node: &mut OptCall, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_opt_call(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_opt_call(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66074,7 +66122,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_opt_catch_clause(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_opt_catch_clause(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66082,7 +66130,7 @@ where
     #[inline]
     fn visit_mut_opt_chain_base(&mut self, node: &mut OptChainBase, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_opt_chain_base(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_opt_chain_base(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66090,7 +66138,7 @@ where
     #[inline]
     fn visit_mut_opt_chain_expr(&mut self, node: &mut OptChainExpr, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_opt_chain_expr(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_opt_chain_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66098,7 +66146,7 @@ where
     #[inline]
     fn visit_mut_opt_expr(&mut self, node: &mut Option<Box<Expr>>, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_opt_expr(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_opt_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66110,7 +66158,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_opt_expr_or_spread(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_opt_expr_or_spread(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66122,7 +66170,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_opt_expr_or_spreads(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_opt_expr_or_spreads(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66130,7 +66178,7 @@ where
     #[inline]
     fn visit_mut_opt_ident(&mut self, node: &mut Option<Ident>, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_opt_ident(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_opt_ident(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66142,7 +66190,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_opt_jsx_attr_value(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_opt_jsx_attr_value(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66154,7 +66202,11 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_opt_jsx_closing_element(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_opt_jsx_closing_element(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -66166,7 +66218,11 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_opt_module_export_name(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_opt_module_export_name(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -66178,7 +66234,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_opt_module_items(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_opt_module_items(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66190,7 +66246,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_opt_object_lit(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_opt_object_lit(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66198,7 +66254,7 @@ where
     #[inline]
     fn visit_mut_opt_pat(&mut self, node: &mut Option<Pat>, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_opt_pat(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_opt_pat(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66210,7 +66266,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_opt_span(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_opt_span(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66218,7 +66274,7 @@ where
     #[inline]
     fn visit_mut_opt_stmt(&mut self, node: &mut Option<Box<Stmt>>, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_opt_stmt(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_opt_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66226,7 +66282,7 @@ where
     #[inline]
     fn visit_mut_opt_str(&mut self, node: &mut Option<Box<Str>>, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_opt_str(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_opt_str(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66238,7 +66294,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_opt_true_plus_minus(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_opt_true_plus_minus(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66250,7 +66306,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_opt_ts_entity_name(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_opt_ts_entity_name(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66262,7 +66318,11 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_opt_ts_namespace_body(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_opt_ts_namespace_body(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -66274,7 +66334,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_opt_ts_type(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_opt_ts_type(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66286,7 +66346,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_opt_ts_type_ann(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_opt_ts_type_ann(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66298,7 +66358,11 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_opt_ts_type_param_decl(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_opt_ts_type_param_decl(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -66310,7 +66374,11 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_opt_ts_type_param_instantiation(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_opt_ts_type_param_instantiation(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -66322,7 +66390,11 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_opt_var_decl_or_expr(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_opt_var_decl_or_expr(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -66334,7 +66406,11 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_opt_vec_expr_or_spreads(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_opt_vec_expr_or_spreads(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -66342,7 +66418,7 @@ where
     #[inline]
     fn visit_mut_opt_vec_pats(&mut self, node: &mut Vec<Option<Pat>>, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_opt_vec_pats(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_opt_vec_pats(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66350,7 +66426,7 @@ where
     #[inline]
     fn visit_mut_param(&mut self, node: &mut Param, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_param(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_param(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66362,7 +66438,11 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_param_or_ts_param_prop(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_param_or_ts_param_prop(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -66374,7 +66454,11 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_param_or_ts_param_props(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_param_or_ts_param_props(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -66382,7 +66466,7 @@ where
     #[inline]
     fn visit_mut_params(&mut self, node: &mut Vec<Param>, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_params(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_params(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66390,7 +66474,7 @@ where
     #[inline]
     fn visit_mut_paren_expr(&mut self, node: &mut ParenExpr, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_paren_expr(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_paren_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66398,7 +66482,7 @@ where
     #[inline]
     fn visit_mut_pat(&mut self, node: &mut Pat, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_pat(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_pat(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66406,7 +66490,7 @@ where
     #[inline]
     fn visit_mut_pats(&mut self, node: &mut Vec<Pat>, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_pats(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_pats(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66414,7 +66498,7 @@ where
     #[inline]
     fn visit_mut_private_method(&mut self, node: &mut PrivateMethod, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_private_method(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_private_method(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66422,7 +66506,7 @@ where
     #[inline]
     fn visit_mut_private_name(&mut self, node: &mut PrivateName, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_private_name(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_private_name(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66430,7 +66514,7 @@ where
     #[inline]
     fn visit_mut_private_prop(&mut self, node: &mut PrivateProp, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_private_prop(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_private_prop(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66438,7 +66522,7 @@ where
     #[inline]
     fn visit_mut_program(&mut self, node: &mut Program, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_program(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_program(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66446,7 +66530,7 @@ where
     #[inline]
     fn visit_mut_prop(&mut self, node: &mut Prop, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_prop(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_prop(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66454,7 +66538,7 @@ where
     #[inline]
     fn visit_mut_prop_name(&mut self, node: &mut PropName, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_prop_name(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_prop_name(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66462,7 +66546,7 @@ where
     #[inline]
     fn visit_mut_prop_or_spread(&mut self, node: &mut PropOrSpread, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_prop_or_spread(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_prop_or_spread(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66474,7 +66558,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_prop_or_spreads(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_prop_or_spreads(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66482,7 +66566,7 @@ where
     #[inline]
     fn visit_mut_regex(&mut self, node: &mut Regex, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_regex(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_regex(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66490,7 +66574,7 @@ where
     #[inline]
     fn visit_mut_reserved_unused(&mut self, node: &mut ReservedUnused, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_reserved_unused(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_reserved_unused(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66498,7 +66582,7 @@ where
     #[inline]
     fn visit_mut_rest_pat(&mut self, node: &mut RestPat, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_rest_pat(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_rest_pat(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66506,7 +66590,7 @@ where
     #[inline]
     fn visit_mut_return_stmt(&mut self, node: &mut ReturnStmt, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_return_stmt(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_return_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66514,7 +66598,7 @@ where
     #[inline]
     fn visit_mut_script(&mut self, node: &mut Script, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_script(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_script(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66522,7 +66606,7 @@ where
     #[inline]
     fn visit_mut_seq_expr(&mut self, node: &mut SeqExpr, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_seq_expr(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_seq_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66530,7 +66614,7 @@ where
     #[inline]
     fn visit_mut_setter_prop(&mut self, node: &mut SetterProp, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_setter_prop(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_setter_prop(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66542,7 +66626,11 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_simple_assign_target(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_simple_assign_target(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -66550,7 +66638,7 @@ where
     #[inline]
     fn visit_mut_span(&mut self, node: &mut swc_common::Span, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_span(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_span(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66558,7 +66646,7 @@ where
     #[inline]
     fn visit_mut_spread_element(&mut self, node: &mut SpreadElement, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_spread_element(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_spread_element(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66566,7 +66654,7 @@ where
     #[inline]
     fn visit_mut_static_block(&mut self, node: &mut StaticBlock, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_static_block(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_static_block(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66574,7 +66662,7 @@ where
     #[inline]
     fn visit_mut_stmt(&mut self, node: &mut Stmt, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_stmt(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66582,7 +66670,7 @@ where
     #[inline]
     fn visit_mut_stmts(&mut self, node: &mut Vec<Stmt>, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_stmts(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_stmts(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66590,7 +66678,7 @@ where
     #[inline]
     fn visit_mut_str(&mut self, node: &mut Str, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_str(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_str(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66598,7 +66686,7 @@ where
     #[inline]
     fn visit_mut_super(&mut self, node: &mut Super, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_super(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_super(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66606,7 +66694,7 @@ where
     #[inline]
     fn visit_mut_super_prop(&mut self, node: &mut SuperProp, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_super_prop(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_super_prop(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66614,7 +66702,7 @@ where
     #[inline]
     fn visit_mut_super_prop_expr(&mut self, node: &mut SuperPropExpr, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_super_prop_expr(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_super_prop_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66622,7 +66710,7 @@ where
     #[inline]
     fn visit_mut_switch_case(&mut self, node: &mut SwitchCase, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_switch_case(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_switch_case(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66630,7 +66718,7 @@ where
     #[inline]
     fn visit_mut_switch_cases(&mut self, node: &mut Vec<SwitchCase>, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_switch_cases(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_switch_cases(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66638,7 +66726,7 @@ where
     #[inline]
     fn visit_mut_switch_stmt(&mut self, node: &mut SwitchStmt, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_switch_stmt(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_switch_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66650,7 +66738,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_syntax_context(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_syntax_context(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66658,7 +66746,7 @@ where
     #[inline]
     fn visit_mut_tagged_tpl(&mut self, node: &mut TaggedTpl, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_tagged_tpl(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_tagged_tpl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66666,7 +66754,7 @@ where
     #[inline]
     fn visit_mut_this_expr(&mut self, node: &mut ThisExpr, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_this_expr(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_this_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66674,7 +66762,7 @@ where
     #[inline]
     fn visit_mut_throw_stmt(&mut self, node: &mut ThrowStmt, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_throw_stmt(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_throw_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66682,7 +66770,7 @@ where
     #[inline]
     fn visit_mut_tpl(&mut self, node: &mut Tpl, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_tpl(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_tpl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66690,7 +66778,7 @@ where
     #[inline]
     fn visit_mut_tpl_element(&mut self, node: &mut TplElement, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_tpl_element(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_tpl_element(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66698,7 +66786,7 @@ where
     #[inline]
     fn visit_mut_tpl_elements(&mut self, node: &mut Vec<TplElement>, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_tpl_elements(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_tpl_elements(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66706,7 +66794,7 @@ where
     #[inline]
     fn visit_mut_true_plus_minus(&mut self, node: &mut TruePlusMinus, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_true_plus_minus(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_true_plus_minus(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66714,7 +66802,7 @@ where
     #[inline]
     fn visit_mut_try_stmt(&mut self, node: &mut TryStmt, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_try_stmt(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_try_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66722,7 +66810,7 @@ where
     #[inline]
     fn visit_mut_ts_array_type(&mut self, node: &mut TsArrayType, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_array_type(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_array_type(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66730,7 +66818,7 @@ where
     #[inline]
     fn visit_mut_ts_as_expr(&mut self, node: &mut TsAsExpr, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_as_expr(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_as_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66742,7 +66830,11 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_call_signature_decl(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_call_signature_decl(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -66754,7 +66846,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_conditional_type(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_conditional_type(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66766,7 +66858,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_const_assertion(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_const_assertion(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66778,7 +66870,11 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_construct_signature_decl(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_construct_signature_decl(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -66790,7 +66886,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_constructor_type(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_constructor_type(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66798,7 +66894,7 @@ where
     #[inline]
     fn visit_mut_ts_entity_name(&mut self, node: &mut TsEntityName, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_entity_name(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_entity_name(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66806,7 +66902,7 @@ where
     #[inline]
     fn visit_mut_ts_enum_decl(&mut self, node: &mut TsEnumDecl, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_enum_decl(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_enum_decl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66814,7 +66910,7 @@ where
     #[inline]
     fn visit_mut_ts_enum_member(&mut self, node: &mut TsEnumMember, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_enum_member(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_enum_member(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66826,7 +66922,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_enum_member_id(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_enum_member_id(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66838,7 +66934,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_enum_members(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_enum_members(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66850,7 +66946,11 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_export_assignment(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_export_assignment(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -66862,7 +66962,11 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_expr_with_type_args(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_expr_with_type_args(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -66874,7 +66978,11 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_expr_with_type_argss(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_expr_with_type_argss(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -66886,7 +66994,11 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_external_module_ref(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_external_module_ref(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -66898,7 +67010,11 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_fn_or_constructor_type(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_fn_or_constructor_type(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -66906,7 +67022,7 @@ where
     #[inline]
     fn visit_mut_ts_fn_param(&mut self, node: &mut TsFnParam, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_fn_param(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_fn_param(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66914,7 +67030,7 @@ where
     #[inline]
     fn visit_mut_ts_fn_params(&mut self, node: &mut Vec<TsFnParam>, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_fn_params(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_fn_params(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66922,7 +67038,7 @@ where
     #[inline]
     fn visit_mut_ts_fn_type(&mut self, node: &mut TsFnType, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_fn_type(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_fn_type(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66934,7 +67050,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_getter_signature(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_getter_signature(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66946,7 +67062,11 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_import_equals_decl(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_import_equals_decl(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -66954,7 +67074,7 @@ where
     #[inline]
     fn visit_mut_ts_import_type(&mut self, node: &mut TsImportType, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_import_type(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_import_type(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66966,7 +67086,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_index_signature(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_index_signature(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66978,7 +67098,11 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_indexed_access_type(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_indexed_access_type(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -66986,7 +67110,7 @@ where
     #[inline]
     fn visit_mut_ts_infer_type(&mut self, node: &mut TsInferType, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_infer_type(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_infer_type(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -66998,7 +67122,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_instantiation(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_instantiation(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67010,7 +67134,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_interface_body(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_interface_body(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67022,7 +67146,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_interface_decl(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_interface_decl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67034,7 +67158,11 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_intersection_type(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_intersection_type(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -67042,7 +67170,7 @@ where
     #[inline]
     fn visit_mut_ts_keyword_type(&mut self, node: &mut TsKeywordType, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_keyword_type(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_keyword_type(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67054,7 +67182,11 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_keyword_type_kind(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_keyword_type_kind(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -67062,7 +67194,7 @@ where
     #[inline]
     fn visit_mut_ts_lit(&mut self, node: &mut TsLit, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_lit(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_lit(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67070,7 +67202,7 @@ where
     #[inline]
     fn visit_mut_ts_lit_type(&mut self, node: &mut TsLitType, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_lit_type(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_lit_type(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67078,7 +67210,7 @@ where
     #[inline]
     fn visit_mut_ts_mapped_type(&mut self, node: &mut TsMappedType, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_mapped_type(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_mapped_type(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67090,7 +67222,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_method_signature(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_method_signature(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67098,7 +67230,7 @@ where
     #[inline]
     fn visit_mut_ts_module_block(&mut self, node: &mut TsModuleBlock, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_module_block(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_module_block(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67106,7 +67238,7 @@ where
     #[inline]
     fn visit_mut_ts_module_decl(&mut self, node: &mut TsModuleDecl, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_module_decl(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_module_decl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67114,7 +67246,7 @@ where
     #[inline]
     fn visit_mut_ts_module_name(&mut self, node: &mut TsModuleName, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_module_name(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_module_name(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67122,7 +67254,7 @@ where
     #[inline]
     fn visit_mut_ts_module_ref(&mut self, node: &mut TsModuleRef, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_module_ref(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_module_ref(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67134,7 +67266,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_namespace_body(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_namespace_body(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67146,7 +67278,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_namespace_decl(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_namespace_decl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67158,7 +67290,11 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_namespace_export_decl(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_namespace_export_decl(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -67166,7 +67302,7 @@ where
     #[inline]
     fn visit_mut_ts_non_null_expr(&mut self, node: &mut TsNonNullExpr, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_non_null_expr(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_non_null_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67178,7 +67314,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_optional_type(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_optional_type(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67186,7 +67322,7 @@ where
     #[inline]
     fn visit_mut_ts_param_prop(&mut self, node: &mut TsParamProp, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_param_prop(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_param_prop(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67198,7 +67334,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_param_prop_param(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_param_prop_param(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67210,7 +67346,11 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_parenthesized_type(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_parenthesized_type(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -67222,7 +67362,11 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_property_signature(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_property_signature(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -67234,7 +67378,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_qualified_name(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_qualified_name(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67242,7 +67386,7 @@ where
     #[inline]
     fn visit_mut_ts_rest_type(&mut self, node: &mut TsRestType, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_rest_type(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_rest_type(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67254,7 +67398,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_satisfies_expr(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_satisfies_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67266,7 +67410,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_setter_signature(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_setter_signature(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67274,7 +67418,7 @@ where
     #[inline]
     fn visit_mut_ts_this_type(&mut self, node: &mut TsThisType, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_this_type(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_this_type(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67286,7 +67430,11 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_this_type_or_ident(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_this_type_or_ident(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -67294,7 +67442,7 @@ where
     #[inline]
     fn visit_mut_ts_tpl_lit_type(&mut self, node: &mut TsTplLitType, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_tpl_lit_type(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_tpl_lit_type(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67306,7 +67454,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_tuple_element(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_tuple_element(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67318,7 +67466,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_tuple_elements(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_tuple_elements(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67326,7 +67474,7 @@ where
     #[inline]
     fn visit_mut_ts_tuple_type(&mut self, node: &mut TsTupleType, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_tuple_type(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_tuple_type(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67334,7 +67482,7 @@ where
     #[inline]
     fn visit_mut_ts_type(&mut self, node: &mut TsType, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_type(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_type(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67346,7 +67494,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_type_alias_decl(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_type_alias_decl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67354,7 +67502,7 @@ where
     #[inline]
     fn visit_mut_ts_type_ann(&mut self, node: &mut TsTypeAnn, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_type_ann(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_type_ann(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67366,7 +67514,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_type_assertion(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_type_assertion(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67374,7 +67522,7 @@ where
     #[inline]
     fn visit_mut_ts_type_element(&mut self, node: &mut TsTypeElement, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_type_element(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_type_element(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67386,7 +67534,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_type_elements(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_type_elements(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67394,7 +67542,7 @@ where
     #[inline]
     fn visit_mut_ts_type_lit(&mut self, node: &mut TsTypeLit, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_type_lit(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_type_lit(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67406,7 +67554,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_type_operator(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_type_operator(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67418,7 +67566,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_type_operator_op(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_type_operator_op(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67426,7 +67574,7 @@ where
     #[inline]
     fn visit_mut_ts_type_param(&mut self, node: &mut TsTypeParam, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_type_param(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_type_param(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67438,7 +67586,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_type_param_decl(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_type_param_decl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67450,7 +67598,11 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_type_param_instantiation(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_type_param_instantiation(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -67462,7 +67614,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_type_params(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_type_params(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67474,7 +67626,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_type_predicate(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_type_predicate(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67482,7 +67634,7 @@ where
     #[inline]
     fn visit_mut_ts_type_query(&mut self, node: &mut TsTypeQuery, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_type_query(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_type_query(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67494,7 +67646,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_type_query_expr(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_type_query_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67502,7 +67654,7 @@ where
     #[inline]
     fn visit_mut_ts_type_ref(&mut self, node: &mut TsTypeRef, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_type_ref(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_type_ref(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67510,7 +67662,7 @@ where
     #[inline]
     fn visit_mut_ts_types(&mut self, node: &mut Vec<Box<TsType>>, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_types(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_types(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67522,7 +67674,11 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_union_or_intersection_type(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_union_or_intersection_type(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
         }
     }
@@ -67530,7 +67686,7 @@ where
     #[inline]
     fn visit_mut_ts_union_type(&mut self, node: &mut TsUnionType, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_ts_union_type(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_ts_union_type(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67538,7 +67694,7 @@ where
     #[inline]
     fn visit_mut_unary_expr(&mut self, node: &mut UnaryExpr, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_unary_expr(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_unary_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67546,7 +67702,7 @@ where
     #[inline]
     fn visit_mut_unary_op(&mut self, node: &mut UnaryOp, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_unary_op(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_unary_op(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67554,7 +67710,7 @@ where
     #[inline]
     fn visit_mut_update_expr(&mut self, node: &mut UpdateExpr, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_update_expr(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_update_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67562,7 +67718,7 @@ where
     #[inline]
     fn visit_mut_update_op(&mut self, node: &mut UpdateOp, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_update_op(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_update_op(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67570,7 +67726,7 @@ where
     #[inline]
     fn visit_mut_using_decl(&mut self, node: &mut UsingDecl, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_using_decl(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_using_decl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67578,7 +67734,7 @@ where
     #[inline]
     fn visit_mut_var_decl(&mut self, node: &mut VarDecl, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_var_decl(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_var_decl(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67586,7 +67742,7 @@ where
     #[inline]
     fn visit_mut_var_decl_kind(&mut self, node: &mut VarDeclKind, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_var_decl_kind(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_var_decl_kind(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67594,7 +67750,7 @@ where
     #[inline]
     fn visit_mut_var_decl_or_expr(&mut self, node: &mut VarDeclOrExpr, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_var_decl_or_expr(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_var_decl_or_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67602,7 +67758,7 @@ where
     #[inline]
     fn visit_mut_var_declarator(&mut self, node: &mut VarDeclarator, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_var_declarator(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_var_declarator(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67614,7 +67770,7 @@ where
         ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_var_declarators(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_var_declarators(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67622,7 +67778,7 @@ where
     #[inline]
     fn visit_mut_while_stmt(&mut self, node: &mut WhileStmt, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_while_stmt(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_while_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67630,7 +67786,7 @@ where
     #[inline]
     fn visit_mut_with_stmt(&mut self, node: &mut WithStmt, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_with_stmt(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_with_stmt(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -67638,7 +67794,7 @@ where
     #[inline]
     fn visit_mut_yield_expr(&mut self, node: &mut YieldExpr, ast_path: &mut AstKindPath) {
         if self.enabled {
-            <V as VisitMutAstPath>::visit_mut_yield_expr(self, node, ast_path)
+            <V as VisitMutAstPath>::visit_mut_yield_expr(&mut self.visitor, node, ast_path)
         } else {
         }
     }
@@ -81850,7 +82006,7 @@ where
     #[inline]
     fn fold_accessibility(&mut self, node: Accessibility) -> Accessibility {
         if self.enabled {
-            <V as Fold>::fold_accessibility(self, node)
+            <V as Fold>::fold_accessibility(&mut self.visitor, node)
         } else {
             node
         }
@@ -81859,7 +82015,7 @@ where
     #[inline]
     fn fold_array_lit(&mut self, node: ArrayLit) -> ArrayLit {
         if self.enabled {
-            <V as Fold>::fold_array_lit(self, node)
+            <V as Fold>::fold_array_lit(&mut self.visitor, node)
         } else {
             node
         }
@@ -81868,7 +82024,7 @@ where
     #[inline]
     fn fold_array_pat(&mut self, node: ArrayPat) -> ArrayPat {
         if self.enabled {
-            <V as Fold>::fold_array_pat(self, node)
+            <V as Fold>::fold_array_pat(&mut self.visitor, node)
         } else {
             node
         }
@@ -81877,7 +82033,7 @@ where
     #[inline]
     fn fold_arrow_expr(&mut self, node: ArrowExpr) -> ArrowExpr {
         if self.enabled {
-            <V as Fold>::fold_arrow_expr(self, node)
+            <V as Fold>::fold_arrow_expr(&mut self.visitor, node)
         } else {
             node
         }
@@ -81886,7 +82042,7 @@ where
     #[inline]
     fn fold_assign_expr(&mut self, node: AssignExpr) -> AssignExpr {
         if self.enabled {
-            <V as Fold>::fold_assign_expr(self, node)
+            <V as Fold>::fold_assign_expr(&mut self.visitor, node)
         } else {
             node
         }
@@ -81895,7 +82051,7 @@ where
     #[inline]
     fn fold_assign_op(&mut self, node: AssignOp) -> AssignOp {
         if self.enabled {
-            <V as Fold>::fold_assign_op(self, node)
+            <V as Fold>::fold_assign_op(&mut self.visitor, node)
         } else {
             node
         }
@@ -81904,7 +82060,7 @@ where
     #[inline]
     fn fold_assign_pat(&mut self, node: AssignPat) -> AssignPat {
         if self.enabled {
-            <V as Fold>::fold_assign_pat(self, node)
+            <V as Fold>::fold_assign_pat(&mut self.visitor, node)
         } else {
             node
         }
@@ -81913,7 +82069,7 @@ where
     #[inline]
     fn fold_assign_pat_prop(&mut self, node: AssignPatProp) -> AssignPatProp {
         if self.enabled {
-            <V as Fold>::fold_assign_pat_prop(self, node)
+            <V as Fold>::fold_assign_pat_prop(&mut self.visitor, node)
         } else {
             node
         }
@@ -81922,7 +82078,7 @@ where
     #[inline]
     fn fold_assign_prop(&mut self, node: AssignProp) -> AssignProp {
         if self.enabled {
-            <V as Fold>::fold_assign_prop(self, node)
+            <V as Fold>::fold_assign_prop(&mut self.visitor, node)
         } else {
             node
         }
@@ -81931,7 +82087,7 @@ where
     #[inline]
     fn fold_assign_target(&mut self, node: AssignTarget) -> AssignTarget {
         if self.enabled {
-            <V as Fold>::fold_assign_target(self, node)
+            <V as Fold>::fold_assign_target(&mut self.visitor, node)
         } else {
             node
         }
@@ -81940,7 +82096,7 @@ where
     #[inline]
     fn fold_assign_target_pat(&mut self, node: AssignTargetPat) -> AssignTargetPat {
         if self.enabled {
-            <V as Fold>::fold_assign_target_pat(self, node)
+            <V as Fold>::fold_assign_target_pat(&mut self.visitor, node)
         } else {
             node
         }
@@ -81949,7 +82105,7 @@ where
     #[inline]
     fn fold_atom(&mut self, node: swc_atoms::Atom) -> swc_atoms::Atom {
         if self.enabled {
-            <V as Fold>::fold_atom(self, node)
+            <V as Fold>::fold_atom(&mut self.visitor, node)
         } else {
             node
         }
@@ -81958,7 +82114,7 @@ where
     #[inline]
     fn fold_auto_accessor(&mut self, node: AutoAccessor) -> AutoAccessor {
         if self.enabled {
-            <V as Fold>::fold_auto_accessor(self, node)
+            <V as Fold>::fold_auto_accessor(&mut self.visitor, node)
         } else {
             node
         }
@@ -81967,7 +82123,7 @@ where
     #[inline]
     fn fold_await_expr(&mut self, node: AwaitExpr) -> AwaitExpr {
         if self.enabled {
-            <V as Fold>::fold_await_expr(self, node)
+            <V as Fold>::fold_await_expr(&mut self.visitor, node)
         } else {
             node
         }
@@ -81976,7 +82132,7 @@ where
     #[inline]
     fn fold_big_int(&mut self, node: BigInt) -> BigInt {
         if self.enabled {
-            <V as Fold>::fold_big_int(self, node)
+            <V as Fold>::fold_big_int(&mut self.visitor, node)
         } else {
             node
         }
@@ -81985,7 +82141,7 @@ where
     #[inline]
     fn fold_big_int_value(&mut self, node: BigIntValue) -> BigIntValue {
         if self.enabled {
-            <V as Fold>::fold_big_int_value(self, node)
+            <V as Fold>::fold_big_int_value(&mut self.visitor, node)
         } else {
             node
         }
@@ -81994,7 +82150,7 @@ where
     #[inline]
     fn fold_bin_expr(&mut self, node: BinExpr) -> BinExpr {
         if self.enabled {
-            <V as Fold>::fold_bin_expr(self, node)
+            <V as Fold>::fold_bin_expr(&mut self.visitor, node)
         } else {
             node
         }
@@ -82003,7 +82159,7 @@ where
     #[inline]
     fn fold_binary_op(&mut self, node: BinaryOp) -> BinaryOp {
         if self.enabled {
-            <V as Fold>::fold_binary_op(self, node)
+            <V as Fold>::fold_binary_op(&mut self.visitor, node)
         } else {
             node
         }
@@ -82012,7 +82168,7 @@ where
     #[inline]
     fn fold_binding_ident(&mut self, node: BindingIdent) -> BindingIdent {
         if self.enabled {
-            <V as Fold>::fold_binding_ident(self, node)
+            <V as Fold>::fold_binding_ident(&mut self.visitor, node)
         } else {
             node
         }
@@ -82021,7 +82177,7 @@ where
     #[inline]
     fn fold_block_stmt(&mut self, node: BlockStmt) -> BlockStmt {
         if self.enabled {
-            <V as Fold>::fold_block_stmt(self, node)
+            <V as Fold>::fold_block_stmt(&mut self.visitor, node)
         } else {
             node
         }
@@ -82030,7 +82186,7 @@ where
     #[inline]
     fn fold_block_stmt_or_expr(&mut self, node: BlockStmtOrExpr) -> BlockStmtOrExpr {
         if self.enabled {
-            <V as Fold>::fold_block_stmt_or_expr(self, node)
+            <V as Fold>::fold_block_stmt_or_expr(&mut self.visitor, node)
         } else {
             node
         }
@@ -82039,7 +82195,7 @@ where
     #[inline]
     fn fold_bool(&mut self, node: Bool) -> Bool {
         if self.enabled {
-            <V as Fold>::fold_bool(self, node)
+            <V as Fold>::fold_bool(&mut self.visitor, node)
         } else {
             node
         }
@@ -82048,7 +82204,7 @@ where
     #[inline]
     fn fold_break_stmt(&mut self, node: BreakStmt) -> BreakStmt {
         if self.enabled {
-            <V as Fold>::fold_break_stmt(self, node)
+            <V as Fold>::fold_break_stmt(&mut self.visitor, node)
         } else {
             node
         }
@@ -82057,7 +82213,7 @@ where
     #[inline]
     fn fold_call_expr(&mut self, node: CallExpr) -> CallExpr {
         if self.enabled {
-            <V as Fold>::fold_call_expr(self, node)
+            <V as Fold>::fold_call_expr(&mut self.visitor, node)
         } else {
             node
         }
@@ -82066,7 +82222,7 @@ where
     #[inline]
     fn fold_callee(&mut self, node: Callee) -> Callee {
         if self.enabled {
-            <V as Fold>::fold_callee(self, node)
+            <V as Fold>::fold_callee(&mut self.visitor, node)
         } else {
             node
         }
@@ -82075,7 +82231,7 @@ where
     #[inline]
     fn fold_catch_clause(&mut self, node: CatchClause) -> CatchClause {
         if self.enabled {
-            <V as Fold>::fold_catch_clause(self, node)
+            <V as Fold>::fold_catch_clause(&mut self.visitor, node)
         } else {
             node
         }
@@ -82084,7 +82240,7 @@ where
     #[inline]
     fn fold_class(&mut self, node: Class) -> Class {
         if self.enabled {
-            <V as Fold>::fold_class(self, node)
+            <V as Fold>::fold_class(&mut self.visitor, node)
         } else {
             node
         }
@@ -82093,7 +82249,7 @@ where
     #[inline]
     fn fold_class_decl(&mut self, node: ClassDecl) -> ClassDecl {
         if self.enabled {
-            <V as Fold>::fold_class_decl(self, node)
+            <V as Fold>::fold_class_decl(&mut self.visitor, node)
         } else {
             node
         }
@@ -82102,7 +82258,7 @@ where
     #[inline]
     fn fold_class_expr(&mut self, node: ClassExpr) -> ClassExpr {
         if self.enabled {
-            <V as Fold>::fold_class_expr(self, node)
+            <V as Fold>::fold_class_expr(&mut self.visitor, node)
         } else {
             node
         }
@@ -82111,7 +82267,7 @@ where
     #[inline]
     fn fold_class_member(&mut self, node: ClassMember) -> ClassMember {
         if self.enabled {
-            <V as Fold>::fold_class_member(self, node)
+            <V as Fold>::fold_class_member(&mut self.visitor, node)
         } else {
             node
         }
@@ -82120,7 +82276,7 @@ where
     #[inline]
     fn fold_class_members(&mut self, node: Vec<ClassMember>) -> Vec<ClassMember> {
         if self.enabled {
-            <V as Fold>::fold_class_members(self, node)
+            <V as Fold>::fold_class_members(&mut self.visitor, node)
         } else {
             node
         }
@@ -82129,7 +82285,7 @@ where
     #[inline]
     fn fold_class_method(&mut self, node: ClassMethod) -> ClassMethod {
         if self.enabled {
-            <V as Fold>::fold_class_method(self, node)
+            <V as Fold>::fold_class_method(&mut self.visitor, node)
         } else {
             node
         }
@@ -82138,7 +82294,7 @@ where
     #[inline]
     fn fold_class_prop(&mut self, node: ClassProp) -> ClassProp {
         if self.enabled {
-            <V as Fold>::fold_class_prop(self, node)
+            <V as Fold>::fold_class_prop(&mut self.visitor, node)
         } else {
             node
         }
@@ -82147,7 +82303,7 @@ where
     #[inline]
     fn fold_computed_prop_name(&mut self, node: ComputedPropName) -> ComputedPropName {
         if self.enabled {
-            <V as Fold>::fold_computed_prop_name(self, node)
+            <V as Fold>::fold_computed_prop_name(&mut self.visitor, node)
         } else {
             node
         }
@@ -82156,7 +82312,7 @@ where
     #[inline]
     fn fold_cond_expr(&mut self, node: CondExpr) -> CondExpr {
         if self.enabled {
-            <V as Fold>::fold_cond_expr(self, node)
+            <V as Fold>::fold_cond_expr(&mut self.visitor, node)
         } else {
             node
         }
@@ -82165,7 +82321,7 @@ where
     #[inline]
     fn fold_constructor(&mut self, node: Constructor) -> Constructor {
         if self.enabled {
-            <V as Fold>::fold_constructor(self, node)
+            <V as Fold>::fold_constructor(&mut self.visitor, node)
         } else {
             node
         }
@@ -82174,7 +82330,7 @@ where
     #[inline]
     fn fold_continue_stmt(&mut self, node: ContinueStmt) -> ContinueStmt {
         if self.enabled {
-            <V as Fold>::fold_continue_stmt(self, node)
+            <V as Fold>::fold_continue_stmt(&mut self.visitor, node)
         } else {
             node
         }
@@ -82183,7 +82339,7 @@ where
     #[inline]
     fn fold_debugger_stmt(&mut self, node: DebuggerStmt) -> DebuggerStmt {
         if self.enabled {
-            <V as Fold>::fold_debugger_stmt(self, node)
+            <V as Fold>::fold_debugger_stmt(&mut self.visitor, node)
         } else {
             node
         }
@@ -82192,7 +82348,7 @@ where
     #[inline]
     fn fold_decl(&mut self, node: Decl) -> Decl {
         if self.enabled {
-            <V as Fold>::fold_decl(self, node)
+            <V as Fold>::fold_decl(&mut self.visitor, node)
         } else {
             node
         }
@@ -82201,7 +82357,7 @@ where
     #[inline]
     fn fold_decorator(&mut self, node: Decorator) -> Decorator {
         if self.enabled {
-            <V as Fold>::fold_decorator(self, node)
+            <V as Fold>::fold_decorator(&mut self.visitor, node)
         } else {
             node
         }
@@ -82210,7 +82366,7 @@ where
     #[inline]
     fn fold_decorators(&mut self, node: Vec<Decorator>) -> Vec<Decorator> {
         if self.enabled {
-            <V as Fold>::fold_decorators(self, node)
+            <V as Fold>::fold_decorators(&mut self.visitor, node)
         } else {
             node
         }
@@ -82219,7 +82375,7 @@ where
     #[inline]
     fn fold_default_decl(&mut self, node: DefaultDecl) -> DefaultDecl {
         if self.enabled {
-            <V as Fold>::fold_default_decl(self, node)
+            <V as Fold>::fold_default_decl(&mut self.visitor, node)
         } else {
             node
         }
@@ -82228,7 +82384,7 @@ where
     #[inline]
     fn fold_do_while_stmt(&mut self, node: DoWhileStmt) -> DoWhileStmt {
         if self.enabled {
-            <V as Fold>::fold_do_while_stmt(self, node)
+            <V as Fold>::fold_do_while_stmt(&mut self.visitor, node)
         } else {
             node
         }
@@ -82237,7 +82393,7 @@ where
     #[inline]
     fn fold_empty_stmt(&mut self, node: EmptyStmt) -> EmptyStmt {
         if self.enabled {
-            <V as Fold>::fold_empty_stmt(self, node)
+            <V as Fold>::fold_empty_stmt(&mut self.visitor, node)
         } else {
             node
         }
@@ -82246,7 +82402,7 @@ where
     #[inline]
     fn fold_es_version(&mut self, node: EsVersion) -> EsVersion {
         if self.enabled {
-            <V as Fold>::fold_es_version(self, node)
+            <V as Fold>::fold_es_version(&mut self.visitor, node)
         } else {
             node
         }
@@ -82255,7 +82411,7 @@ where
     #[inline]
     fn fold_export_all(&mut self, node: ExportAll) -> ExportAll {
         if self.enabled {
-            <V as Fold>::fold_export_all(self, node)
+            <V as Fold>::fold_export_all(&mut self.visitor, node)
         } else {
             node
         }
@@ -82264,7 +82420,7 @@ where
     #[inline]
     fn fold_export_decl(&mut self, node: ExportDecl) -> ExportDecl {
         if self.enabled {
-            <V as Fold>::fold_export_decl(self, node)
+            <V as Fold>::fold_export_decl(&mut self.visitor, node)
         } else {
             node
         }
@@ -82273,7 +82429,7 @@ where
     #[inline]
     fn fold_export_default_decl(&mut self, node: ExportDefaultDecl) -> ExportDefaultDecl {
         if self.enabled {
-            <V as Fold>::fold_export_default_decl(self, node)
+            <V as Fold>::fold_export_default_decl(&mut self.visitor, node)
         } else {
             node
         }
@@ -82282,7 +82438,7 @@ where
     #[inline]
     fn fold_export_default_expr(&mut self, node: ExportDefaultExpr) -> ExportDefaultExpr {
         if self.enabled {
-            <V as Fold>::fold_export_default_expr(self, node)
+            <V as Fold>::fold_export_default_expr(&mut self.visitor, node)
         } else {
             node
         }
@@ -82294,7 +82450,7 @@ where
         node: ExportDefaultSpecifier,
     ) -> ExportDefaultSpecifier {
         if self.enabled {
-            <V as Fold>::fold_export_default_specifier(self, node)
+            <V as Fold>::fold_export_default_specifier(&mut self.visitor, node)
         } else {
             node
         }
@@ -82303,7 +82459,7 @@ where
     #[inline]
     fn fold_export_named_specifier(&mut self, node: ExportNamedSpecifier) -> ExportNamedSpecifier {
         if self.enabled {
-            <V as Fold>::fold_export_named_specifier(self, node)
+            <V as Fold>::fold_export_named_specifier(&mut self.visitor, node)
         } else {
             node
         }
@@ -82315,7 +82471,7 @@ where
         node: ExportNamespaceSpecifier,
     ) -> ExportNamespaceSpecifier {
         if self.enabled {
-            <V as Fold>::fold_export_namespace_specifier(self, node)
+            <V as Fold>::fold_export_namespace_specifier(&mut self.visitor, node)
         } else {
             node
         }
@@ -82324,7 +82480,7 @@ where
     #[inline]
     fn fold_export_specifier(&mut self, node: ExportSpecifier) -> ExportSpecifier {
         if self.enabled {
-            <V as Fold>::fold_export_specifier(self, node)
+            <V as Fold>::fold_export_specifier(&mut self.visitor, node)
         } else {
             node
         }
@@ -82333,7 +82489,7 @@ where
     #[inline]
     fn fold_export_specifiers(&mut self, node: Vec<ExportSpecifier>) -> Vec<ExportSpecifier> {
         if self.enabled {
-            <V as Fold>::fold_export_specifiers(self, node)
+            <V as Fold>::fold_export_specifiers(&mut self.visitor, node)
         } else {
             node
         }
@@ -82342,7 +82498,7 @@ where
     #[inline]
     fn fold_expr(&mut self, node: Expr) -> Expr {
         if self.enabled {
-            <V as Fold>::fold_expr(self, node)
+            <V as Fold>::fold_expr(&mut self.visitor, node)
         } else {
             node
         }
@@ -82351,7 +82507,7 @@ where
     #[inline]
     fn fold_expr_or_spread(&mut self, node: ExprOrSpread) -> ExprOrSpread {
         if self.enabled {
-            <V as Fold>::fold_expr_or_spread(self, node)
+            <V as Fold>::fold_expr_or_spread(&mut self.visitor, node)
         } else {
             node
         }
@@ -82360,7 +82516,7 @@ where
     #[inline]
     fn fold_expr_or_spreads(&mut self, node: Vec<ExprOrSpread>) -> Vec<ExprOrSpread> {
         if self.enabled {
-            <V as Fold>::fold_expr_or_spreads(self, node)
+            <V as Fold>::fold_expr_or_spreads(&mut self.visitor, node)
         } else {
             node
         }
@@ -82369,7 +82525,7 @@ where
     #[inline]
     fn fold_expr_stmt(&mut self, node: ExprStmt) -> ExprStmt {
         if self.enabled {
-            <V as Fold>::fold_expr_stmt(self, node)
+            <V as Fold>::fold_expr_stmt(&mut self.visitor, node)
         } else {
             node
         }
@@ -82378,7 +82534,7 @@ where
     #[inline]
     fn fold_exprs(&mut self, node: Vec<Box<Expr>>) -> Vec<Box<Expr>> {
         if self.enabled {
-            <V as Fold>::fold_exprs(self, node)
+            <V as Fold>::fold_exprs(&mut self.visitor, node)
         } else {
             node
         }
@@ -82387,7 +82543,7 @@ where
     #[inline]
     fn fold_fn_decl(&mut self, node: FnDecl) -> FnDecl {
         if self.enabled {
-            <V as Fold>::fold_fn_decl(self, node)
+            <V as Fold>::fold_fn_decl(&mut self.visitor, node)
         } else {
             node
         }
@@ -82396,7 +82552,7 @@ where
     #[inline]
     fn fold_fn_expr(&mut self, node: FnExpr) -> FnExpr {
         if self.enabled {
-            <V as Fold>::fold_fn_expr(self, node)
+            <V as Fold>::fold_fn_expr(&mut self.visitor, node)
         } else {
             node
         }
@@ -82405,7 +82561,7 @@ where
     #[inline]
     fn fold_for_head(&mut self, node: ForHead) -> ForHead {
         if self.enabled {
-            <V as Fold>::fold_for_head(self, node)
+            <V as Fold>::fold_for_head(&mut self.visitor, node)
         } else {
             node
         }
@@ -82414,7 +82570,7 @@ where
     #[inline]
     fn fold_for_in_stmt(&mut self, node: ForInStmt) -> ForInStmt {
         if self.enabled {
-            <V as Fold>::fold_for_in_stmt(self, node)
+            <V as Fold>::fold_for_in_stmt(&mut self.visitor, node)
         } else {
             node
         }
@@ -82423,7 +82579,7 @@ where
     #[inline]
     fn fold_for_of_stmt(&mut self, node: ForOfStmt) -> ForOfStmt {
         if self.enabled {
-            <V as Fold>::fold_for_of_stmt(self, node)
+            <V as Fold>::fold_for_of_stmt(&mut self.visitor, node)
         } else {
             node
         }
@@ -82432,7 +82588,7 @@ where
     #[inline]
     fn fold_for_stmt(&mut self, node: ForStmt) -> ForStmt {
         if self.enabled {
-            <V as Fold>::fold_for_stmt(self, node)
+            <V as Fold>::fold_for_stmt(&mut self.visitor, node)
         } else {
             node
         }
@@ -82441,7 +82597,7 @@ where
     #[inline]
     fn fold_function(&mut self, node: Function) -> Function {
         if self.enabled {
-            <V as Fold>::fold_function(self, node)
+            <V as Fold>::fold_function(&mut self.visitor, node)
         } else {
             node
         }
@@ -82450,7 +82606,7 @@ where
     #[inline]
     fn fold_getter_prop(&mut self, node: GetterProp) -> GetterProp {
         if self.enabled {
-            <V as Fold>::fold_getter_prop(self, node)
+            <V as Fold>::fold_getter_prop(&mut self.visitor, node)
         } else {
             node
         }
@@ -82459,7 +82615,7 @@ where
     #[inline]
     fn fold_ident(&mut self, node: Ident) -> Ident {
         if self.enabled {
-            <V as Fold>::fold_ident(self, node)
+            <V as Fold>::fold_ident(&mut self.visitor, node)
         } else {
             node
         }
@@ -82468,7 +82624,7 @@ where
     #[inline]
     fn fold_ident_name(&mut self, node: IdentName) -> IdentName {
         if self.enabled {
-            <V as Fold>::fold_ident_name(self, node)
+            <V as Fold>::fold_ident_name(&mut self.visitor, node)
         } else {
             node
         }
@@ -82477,7 +82633,7 @@ where
     #[inline]
     fn fold_if_stmt(&mut self, node: IfStmt) -> IfStmt {
         if self.enabled {
-            <V as Fold>::fold_if_stmt(self, node)
+            <V as Fold>::fold_if_stmt(&mut self.visitor, node)
         } else {
             node
         }
@@ -82486,7 +82642,7 @@ where
     #[inline]
     fn fold_import(&mut self, node: Import) -> Import {
         if self.enabled {
-            <V as Fold>::fold_import(self, node)
+            <V as Fold>::fold_import(&mut self.visitor, node)
         } else {
             node
         }
@@ -82495,7 +82651,7 @@ where
     #[inline]
     fn fold_import_decl(&mut self, node: ImportDecl) -> ImportDecl {
         if self.enabled {
-            <V as Fold>::fold_import_decl(self, node)
+            <V as Fold>::fold_import_decl(&mut self.visitor, node)
         } else {
             node
         }
@@ -82507,7 +82663,7 @@ where
         node: ImportDefaultSpecifier,
     ) -> ImportDefaultSpecifier {
         if self.enabled {
-            <V as Fold>::fold_import_default_specifier(self, node)
+            <V as Fold>::fold_import_default_specifier(&mut self.visitor, node)
         } else {
             node
         }
@@ -82516,7 +82672,7 @@ where
     #[inline]
     fn fold_import_named_specifier(&mut self, node: ImportNamedSpecifier) -> ImportNamedSpecifier {
         if self.enabled {
-            <V as Fold>::fold_import_named_specifier(self, node)
+            <V as Fold>::fold_import_named_specifier(&mut self.visitor, node)
         } else {
             node
         }
@@ -82525,7 +82681,7 @@ where
     #[inline]
     fn fold_import_phase(&mut self, node: ImportPhase) -> ImportPhase {
         if self.enabled {
-            <V as Fold>::fold_import_phase(self, node)
+            <V as Fold>::fold_import_phase(&mut self.visitor, node)
         } else {
             node
         }
@@ -82534,7 +82690,7 @@ where
     #[inline]
     fn fold_import_specifier(&mut self, node: ImportSpecifier) -> ImportSpecifier {
         if self.enabled {
-            <V as Fold>::fold_import_specifier(self, node)
+            <V as Fold>::fold_import_specifier(&mut self.visitor, node)
         } else {
             node
         }
@@ -82543,7 +82699,7 @@ where
     #[inline]
     fn fold_import_specifiers(&mut self, node: Vec<ImportSpecifier>) -> Vec<ImportSpecifier> {
         if self.enabled {
-            <V as Fold>::fold_import_specifiers(self, node)
+            <V as Fold>::fold_import_specifiers(&mut self.visitor, node)
         } else {
             node
         }
@@ -82555,7 +82711,7 @@ where
         node: ImportStarAsSpecifier,
     ) -> ImportStarAsSpecifier {
         if self.enabled {
-            <V as Fold>::fold_import_star_as_specifier(self, node)
+            <V as Fold>::fold_import_star_as_specifier(&mut self.visitor, node)
         } else {
             node
         }
@@ -82564,7 +82720,7 @@ where
     #[inline]
     fn fold_import_with(&mut self, node: ImportWith) -> ImportWith {
         if self.enabled {
-            <V as Fold>::fold_import_with(self, node)
+            <V as Fold>::fold_import_with(&mut self.visitor, node)
         } else {
             node
         }
@@ -82573,7 +82729,7 @@ where
     #[inline]
     fn fold_import_with_item(&mut self, node: ImportWithItem) -> ImportWithItem {
         if self.enabled {
-            <V as Fold>::fold_import_with_item(self, node)
+            <V as Fold>::fold_import_with_item(&mut self.visitor, node)
         } else {
             node
         }
@@ -82582,7 +82738,7 @@ where
     #[inline]
     fn fold_import_with_items(&mut self, node: Vec<ImportWithItem>) -> Vec<ImportWithItem> {
         if self.enabled {
-            <V as Fold>::fold_import_with_items(self, node)
+            <V as Fold>::fold_import_with_items(&mut self.visitor, node)
         } else {
             node
         }
@@ -82591,7 +82747,7 @@ where
     #[inline]
     fn fold_invalid(&mut self, node: Invalid) -> Invalid {
         if self.enabled {
-            <V as Fold>::fold_invalid(self, node)
+            <V as Fold>::fold_invalid(&mut self.visitor, node)
         } else {
             node
         }
@@ -82600,7 +82756,7 @@ where
     #[inline]
     fn fold_jsx_attr(&mut self, node: JSXAttr) -> JSXAttr {
         if self.enabled {
-            <V as Fold>::fold_jsx_attr(self, node)
+            <V as Fold>::fold_jsx_attr(&mut self.visitor, node)
         } else {
             node
         }
@@ -82609,7 +82765,7 @@ where
     #[inline]
     fn fold_jsx_attr_name(&mut self, node: JSXAttrName) -> JSXAttrName {
         if self.enabled {
-            <V as Fold>::fold_jsx_attr_name(self, node)
+            <V as Fold>::fold_jsx_attr_name(&mut self.visitor, node)
         } else {
             node
         }
@@ -82618,7 +82774,7 @@ where
     #[inline]
     fn fold_jsx_attr_or_spread(&mut self, node: JSXAttrOrSpread) -> JSXAttrOrSpread {
         if self.enabled {
-            <V as Fold>::fold_jsx_attr_or_spread(self, node)
+            <V as Fold>::fold_jsx_attr_or_spread(&mut self.visitor, node)
         } else {
             node
         }
@@ -82627,7 +82783,7 @@ where
     #[inline]
     fn fold_jsx_attr_or_spreads(&mut self, node: Vec<JSXAttrOrSpread>) -> Vec<JSXAttrOrSpread> {
         if self.enabled {
-            <V as Fold>::fold_jsx_attr_or_spreads(self, node)
+            <V as Fold>::fold_jsx_attr_or_spreads(&mut self.visitor, node)
         } else {
             node
         }
@@ -82636,7 +82792,7 @@ where
     #[inline]
     fn fold_jsx_attr_value(&mut self, node: JSXAttrValue) -> JSXAttrValue {
         if self.enabled {
-            <V as Fold>::fold_jsx_attr_value(self, node)
+            <V as Fold>::fold_jsx_attr_value(&mut self.visitor, node)
         } else {
             node
         }
@@ -82645,7 +82801,7 @@ where
     #[inline]
     fn fold_jsx_closing_element(&mut self, node: JSXClosingElement) -> JSXClosingElement {
         if self.enabled {
-            <V as Fold>::fold_jsx_closing_element(self, node)
+            <V as Fold>::fold_jsx_closing_element(&mut self.visitor, node)
         } else {
             node
         }
@@ -82654,7 +82810,7 @@ where
     #[inline]
     fn fold_jsx_closing_fragment(&mut self, node: JSXClosingFragment) -> JSXClosingFragment {
         if self.enabled {
-            <V as Fold>::fold_jsx_closing_fragment(self, node)
+            <V as Fold>::fold_jsx_closing_fragment(&mut self.visitor, node)
         } else {
             node
         }
@@ -82663,7 +82819,7 @@ where
     #[inline]
     fn fold_jsx_element(&mut self, node: JSXElement) -> JSXElement {
         if self.enabled {
-            <V as Fold>::fold_jsx_element(self, node)
+            <V as Fold>::fold_jsx_element(&mut self.visitor, node)
         } else {
             node
         }
@@ -82672,7 +82828,7 @@ where
     #[inline]
     fn fold_jsx_element_child(&mut self, node: JSXElementChild) -> JSXElementChild {
         if self.enabled {
-            <V as Fold>::fold_jsx_element_child(self, node)
+            <V as Fold>::fold_jsx_element_child(&mut self.visitor, node)
         } else {
             node
         }
@@ -82681,7 +82837,7 @@ where
     #[inline]
     fn fold_jsx_element_childs(&mut self, node: Vec<JSXElementChild>) -> Vec<JSXElementChild> {
         if self.enabled {
-            <V as Fold>::fold_jsx_element_childs(self, node)
+            <V as Fold>::fold_jsx_element_childs(&mut self.visitor, node)
         } else {
             node
         }
@@ -82690,7 +82846,7 @@ where
     #[inline]
     fn fold_jsx_element_name(&mut self, node: JSXElementName) -> JSXElementName {
         if self.enabled {
-            <V as Fold>::fold_jsx_element_name(self, node)
+            <V as Fold>::fold_jsx_element_name(&mut self.visitor, node)
         } else {
             node
         }
@@ -82699,7 +82855,7 @@ where
     #[inline]
     fn fold_jsx_empty_expr(&mut self, node: JSXEmptyExpr) -> JSXEmptyExpr {
         if self.enabled {
-            <V as Fold>::fold_jsx_empty_expr(self, node)
+            <V as Fold>::fold_jsx_empty_expr(&mut self.visitor, node)
         } else {
             node
         }
@@ -82708,7 +82864,7 @@ where
     #[inline]
     fn fold_jsx_expr(&mut self, node: JSXExpr) -> JSXExpr {
         if self.enabled {
-            <V as Fold>::fold_jsx_expr(self, node)
+            <V as Fold>::fold_jsx_expr(&mut self.visitor, node)
         } else {
             node
         }
@@ -82717,7 +82873,7 @@ where
     #[inline]
     fn fold_jsx_expr_container(&mut self, node: JSXExprContainer) -> JSXExprContainer {
         if self.enabled {
-            <V as Fold>::fold_jsx_expr_container(self, node)
+            <V as Fold>::fold_jsx_expr_container(&mut self.visitor, node)
         } else {
             node
         }
@@ -82726,7 +82882,7 @@ where
     #[inline]
     fn fold_jsx_fragment(&mut self, node: JSXFragment) -> JSXFragment {
         if self.enabled {
-            <V as Fold>::fold_jsx_fragment(self, node)
+            <V as Fold>::fold_jsx_fragment(&mut self.visitor, node)
         } else {
             node
         }
@@ -82735,7 +82891,7 @@ where
     #[inline]
     fn fold_jsx_member_expr(&mut self, node: JSXMemberExpr) -> JSXMemberExpr {
         if self.enabled {
-            <V as Fold>::fold_jsx_member_expr(self, node)
+            <V as Fold>::fold_jsx_member_expr(&mut self.visitor, node)
         } else {
             node
         }
@@ -82744,7 +82900,7 @@ where
     #[inline]
     fn fold_jsx_namespaced_name(&mut self, node: JSXNamespacedName) -> JSXNamespacedName {
         if self.enabled {
-            <V as Fold>::fold_jsx_namespaced_name(self, node)
+            <V as Fold>::fold_jsx_namespaced_name(&mut self.visitor, node)
         } else {
             node
         }
@@ -82753,7 +82909,7 @@ where
     #[inline]
     fn fold_jsx_object(&mut self, node: JSXObject) -> JSXObject {
         if self.enabled {
-            <V as Fold>::fold_jsx_object(self, node)
+            <V as Fold>::fold_jsx_object(&mut self.visitor, node)
         } else {
             node
         }
@@ -82762,7 +82918,7 @@ where
     #[inline]
     fn fold_jsx_opening_element(&mut self, node: JSXOpeningElement) -> JSXOpeningElement {
         if self.enabled {
-            <V as Fold>::fold_jsx_opening_element(self, node)
+            <V as Fold>::fold_jsx_opening_element(&mut self.visitor, node)
         } else {
             node
         }
@@ -82771,7 +82927,7 @@ where
     #[inline]
     fn fold_jsx_opening_fragment(&mut self, node: JSXOpeningFragment) -> JSXOpeningFragment {
         if self.enabled {
-            <V as Fold>::fold_jsx_opening_fragment(self, node)
+            <V as Fold>::fold_jsx_opening_fragment(&mut self.visitor, node)
         } else {
             node
         }
@@ -82780,7 +82936,7 @@ where
     #[inline]
     fn fold_jsx_spread_child(&mut self, node: JSXSpreadChild) -> JSXSpreadChild {
         if self.enabled {
-            <V as Fold>::fold_jsx_spread_child(self, node)
+            <V as Fold>::fold_jsx_spread_child(&mut self.visitor, node)
         } else {
             node
         }
@@ -82789,7 +82945,7 @@ where
     #[inline]
     fn fold_jsx_text(&mut self, node: JSXText) -> JSXText {
         if self.enabled {
-            <V as Fold>::fold_jsx_text(self, node)
+            <V as Fold>::fold_jsx_text(&mut self.visitor, node)
         } else {
             node
         }
@@ -82798,7 +82954,7 @@ where
     #[inline]
     fn fold_key(&mut self, node: Key) -> Key {
         if self.enabled {
-            <V as Fold>::fold_key(self, node)
+            <V as Fold>::fold_key(&mut self.visitor, node)
         } else {
             node
         }
@@ -82807,7 +82963,7 @@ where
     #[inline]
     fn fold_key_value_pat_prop(&mut self, node: KeyValuePatProp) -> KeyValuePatProp {
         if self.enabled {
-            <V as Fold>::fold_key_value_pat_prop(self, node)
+            <V as Fold>::fold_key_value_pat_prop(&mut self.visitor, node)
         } else {
             node
         }
@@ -82816,7 +82972,7 @@ where
     #[inline]
     fn fold_key_value_prop(&mut self, node: KeyValueProp) -> KeyValueProp {
         if self.enabled {
-            <V as Fold>::fold_key_value_prop(self, node)
+            <V as Fold>::fold_key_value_prop(&mut self.visitor, node)
         } else {
             node
         }
@@ -82825,7 +82981,7 @@ where
     #[inline]
     fn fold_labeled_stmt(&mut self, node: LabeledStmt) -> LabeledStmt {
         if self.enabled {
-            <V as Fold>::fold_labeled_stmt(self, node)
+            <V as Fold>::fold_labeled_stmt(&mut self.visitor, node)
         } else {
             node
         }
@@ -82834,7 +82990,7 @@ where
     #[inline]
     fn fold_lit(&mut self, node: Lit) -> Lit {
         if self.enabled {
-            <V as Fold>::fold_lit(self, node)
+            <V as Fold>::fold_lit(&mut self.visitor, node)
         } else {
             node
         }
@@ -82843,7 +82999,7 @@ where
     #[inline]
     fn fold_member_expr(&mut self, node: MemberExpr) -> MemberExpr {
         if self.enabled {
-            <V as Fold>::fold_member_expr(self, node)
+            <V as Fold>::fold_member_expr(&mut self.visitor, node)
         } else {
             node
         }
@@ -82852,7 +83008,7 @@ where
     #[inline]
     fn fold_member_prop(&mut self, node: MemberProp) -> MemberProp {
         if self.enabled {
-            <V as Fold>::fold_member_prop(self, node)
+            <V as Fold>::fold_member_prop(&mut self.visitor, node)
         } else {
             node
         }
@@ -82861,7 +83017,7 @@ where
     #[inline]
     fn fold_meta_prop_expr(&mut self, node: MetaPropExpr) -> MetaPropExpr {
         if self.enabled {
-            <V as Fold>::fold_meta_prop_expr(self, node)
+            <V as Fold>::fold_meta_prop_expr(&mut self.visitor, node)
         } else {
             node
         }
@@ -82870,7 +83026,7 @@ where
     #[inline]
     fn fold_meta_prop_kind(&mut self, node: MetaPropKind) -> MetaPropKind {
         if self.enabled {
-            <V as Fold>::fold_meta_prop_kind(self, node)
+            <V as Fold>::fold_meta_prop_kind(&mut self.visitor, node)
         } else {
             node
         }
@@ -82879,7 +83035,7 @@ where
     #[inline]
     fn fold_method_kind(&mut self, node: MethodKind) -> MethodKind {
         if self.enabled {
-            <V as Fold>::fold_method_kind(self, node)
+            <V as Fold>::fold_method_kind(&mut self.visitor, node)
         } else {
             node
         }
@@ -82888,7 +83044,7 @@ where
     #[inline]
     fn fold_method_prop(&mut self, node: MethodProp) -> MethodProp {
         if self.enabled {
-            <V as Fold>::fold_method_prop(self, node)
+            <V as Fold>::fold_method_prop(&mut self.visitor, node)
         } else {
             node
         }
@@ -82897,7 +83053,7 @@ where
     #[inline]
     fn fold_module(&mut self, node: Module) -> Module {
         if self.enabled {
-            <V as Fold>::fold_module(self, node)
+            <V as Fold>::fold_module(&mut self.visitor, node)
         } else {
             node
         }
@@ -82906,7 +83062,7 @@ where
     #[inline]
     fn fold_module_decl(&mut self, node: ModuleDecl) -> ModuleDecl {
         if self.enabled {
-            <V as Fold>::fold_module_decl(self, node)
+            <V as Fold>::fold_module_decl(&mut self.visitor, node)
         } else {
             node
         }
@@ -82915,7 +83071,7 @@ where
     #[inline]
     fn fold_module_export_name(&mut self, node: ModuleExportName) -> ModuleExportName {
         if self.enabled {
-            <V as Fold>::fold_module_export_name(self, node)
+            <V as Fold>::fold_module_export_name(&mut self.visitor, node)
         } else {
             node
         }
@@ -82924,7 +83080,7 @@ where
     #[inline]
     fn fold_module_item(&mut self, node: ModuleItem) -> ModuleItem {
         if self.enabled {
-            <V as Fold>::fold_module_item(self, node)
+            <V as Fold>::fold_module_item(&mut self.visitor, node)
         } else {
             node
         }
@@ -82933,7 +83089,7 @@ where
     #[inline]
     fn fold_module_items(&mut self, node: Vec<ModuleItem>) -> Vec<ModuleItem> {
         if self.enabled {
-            <V as Fold>::fold_module_items(self, node)
+            <V as Fold>::fold_module_items(&mut self.visitor, node)
         } else {
             node
         }
@@ -82942,7 +83098,7 @@ where
     #[inline]
     fn fold_named_export(&mut self, node: NamedExport) -> NamedExport {
         if self.enabled {
-            <V as Fold>::fold_named_export(self, node)
+            <V as Fold>::fold_named_export(&mut self.visitor, node)
         } else {
             node
         }
@@ -82951,7 +83107,7 @@ where
     #[inline]
     fn fold_new_expr(&mut self, node: NewExpr) -> NewExpr {
         if self.enabled {
-            <V as Fold>::fold_new_expr(self, node)
+            <V as Fold>::fold_new_expr(&mut self.visitor, node)
         } else {
             node
         }
@@ -82960,7 +83116,7 @@ where
     #[inline]
     fn fold_null(&mut self, node: Null) -> Null {
         if self.enabled {
-            <V as Fold>::fold_null(self, node)
+            <V as Fold>::fold_null(&mut self.visitor, node)
         } else {
             node
         }
@@ -82969,7 +83125,7 @@ where
     #[inline]
     fn fold_number(&mut self, node: Number) -> Number {
         if self.enabled {
-            <V as Fold>::fold_number(self, node)
+            <V as Fold>::fold_number(&mut self.visitor, node)
         } else {
             node
         }
@@ -82978,7 +83134,7 @@ where
     #[inline]
     fn fold_object_lit(&mut self, node: ObjectLit) -> ObjectLit {
         if self.enabled {
-            <V as Fold>::fold_object_lit(self, node)
+            <V as Fold>::fold_object_lit(&mut self.visitor, node)
         } else {
             node
         }
@@ -82987,7 +83143,7 @@ where
     #[inline]
     fn fold_object_pat(&mut self, node: ObjectPat) -> ObjectPat {
         if self.enabled {
-            <V as Fold>::fold_object_pat(self, node)
+            <V as Fold>::fold_object_pat(&mut self.visitor, node)
         } else {
             node
         }
@@ -82996,7 +83152,7 @@ where
     #[inline]
     fn fold_object_pat_prop(&mut self, node: ObjectPatProp) -> ObjectPatProp {
         if self.enabled {
-            <V as Fold>::fold_object_pat_prop(self, node)
+            <V as Fold>::fold_object_pat_prop(&mut self.visitor, node)
         } else {
             node
         }
@@ -83005,7 +83161,7 @@ where
     #[inline]
     fn fold_object_pat_props(&mut self, node: Vec<ObjectPatProp>) -> Vec<ObjectPatProp> {
         if self.enabled {
-            <V as Fold>::fold_object_pat_props(self, node)
+            <V as Fold>::fold_object_pat_props(&mut self.visitor, node)
         } else {
             node
         }
@@ -83014,7 +83170,7 @@ where
     #[inline]
     fn fold_opt_accessibility(&mut self, node: Option<Accessibility>) -> Option<Accessibility> {
         if self.enabled {
-            <V as Fold>::fold_opt_accessibility(self, node)
+            <V as Fold>::fold_opt_accessibility(&mut self.visitor, node)
         } else {
             node
         }
@@ -83023,7 +83179,7 @@ where
     #[inline]
     fn fold_opt_atom(&mut self, node: Option<swc_atoms::Atom>) -> Option<swc_atoms::Atom> {
         if self.enabled {
-            <V as Fold>::fold_opt_atom(self, node)
+            <V as Fold>::fold_opt_atom(&mut self.visitor, node)
         } else {
             node
         }
@@ -83032,7 +83188,7 @@ where
     #[inline]
     fn fold_opt_block_stmt(&mut self, node: Option<BlockStmt>) -> Option<BlockStmt> {
         if self.enabled {
-            <V as Fold>::fold_opt_block_stmt(self, node)
+            <V as Fold>::fold_opt_block_stmt(&mut self.visitor, node)
         } else {
             node
         }
@@ -83041,7 +83197,7 @@ where
     #[inline]
     fn fold_opt_call(&mut self, node: OptCall) -> OptCall {
         if self.enabled {
-            <V as Fold>::fold_opt_call(self, node)
+            <V as Fold>::fold_opt_call(&mut self.visitor, node)
         } else {
             node
         }
@@ -83050,7 +83206,7 @@ where
     #[inline]
     fn fold_opt_catch_clause(&mut self, node: Option<CatchClause>) -> Option<CatchClause> {
         if self.enabled {
-            <V as Fold>::fold_opt_catch_clause(self, node)
+            <V as Fold>::fold_opt_catch_clause(&mut self.visitor, node)
         } else {
             node
         }
@@ -83059,7 +83215,7 @@ where
     #[inline]
     fn fold_opt_chain_base(&mut self, node: OptChainBase) -> OptChainBase {
         if self.enabled {
-            <V as Fold>::fold_opt_chain_base(self, node)
+            <V as Fold>::fold_opt_chain_base(&mut self.visitor, node)
         } else {
             node
         }
@@ -83068,7 +83224,7 @@ where
     #[inline]
     fn fold_opt_chain_expr(&mut self, node: OptChainExpr) -> OptChainExpr {
         if self.enabled {
-            <V as Fold>::fold_opt_chain_expr(self, node)
+            <V as Fold>::fold_opt_chain_expr(&mut self.visitor, node)
         } else {
             node
         }
@@ -83077,7 +83233,7 @@ where
     #[inline]
     fn fold_opt_expr(&mut self, node: Option<Box<Expr>>) -> Option<Box<Expr>> {
         if self.enabled {
-            <V as Fold>::fold_opt_expr(self, node)
+            <V as Fold>::fold_opt_expr(&mut self.visitor, node)
         } else {
             node
         }
@@ -83086,7 +83242,7 @@ where
     #[inline]
     fn fold_opt_expr_or_spread(&mut self, node: Option<ExprOrSpread>) -> Option<ExprOrSpread> {
         if self.enabled {
-            <V as Fold>::fold_opt_expr_or_spread(self, node)
+            <V as Fold>::fold_opt_expr_or_spread(&mut self.visitor, node)
         } else {
             node
         }
@@ -83098,7 +83254,7 @@ where
         node: Option<Vec<ExprOrSpread>>,
     ) -> Option<Vec<ExprOrSpread>> {
         if self.enabled {
-            <V as Fold>::fold_opt_expr_or_spreads(self, node)
+            <V as Fold>::fold_opt_expr_or_spreads(&mut self.visitor, node)
         } else {
             node
         }
@@ -83107,7 +83263,7 @@ where
     #[inline]
     fn fold_opt_ident(&mut self, node: Option<Ident>) -> Option<Ident> {
         if self.enabled {
-            <V as Fold>::fold_opt_ident(self, node)
+            <V as Fold>::fold_opt_ident(&mut self.visitor, node)
         } else {
             node
         }
@@ -83116,7 +83272,7 @@ where
     #[inline]
     fn fold_opt_jsx_attr_value(&mut self, node: Option<JSXAttrValue>) -> Option<JSXAttrValue> {
         if self.enabled {
-            <V as Fold>::fold_opt_jsx_attr_value(self, node)
+            <V as Fold>::fold_opt_jsx_attr_value(&mut self.visitor, node)
         } else {
             node
         }
@@ -83128,7 +83284,7 @@ where
         node: Option<JSXClosingElement>,
     ) -> Option<JSXClosingElement> {
         if self.enabled {
-            <V as Fold>::fold_opt_jsx_closing_element(self, node)
+            <V as Fold>::fold_opt_jsx_closing_element(&mut self.visitor, node)
         } else {
             node
         }
@@ -83140,7 +83296,7 @@ where
         node: Option<ModuleExportName>,
     ) -> Option<ModuleExportName> {
         if self.enabled {
-            <V as Fold>::fold_opt_module_export_name(self, node)
+            <V as Fold>::fold_opt_module_export_name(&mut self.visitor, node)
         } else {
             node
         }
@@ -83149,7 +83305,7 @@ where
     #[inline]
     fn fold_opt_module_items(&mut self, node: Option<Vec<ModuleItem>>) -> Option<Vec<ModuleItem>> {
         if self.enabled {
-            <V as Fold>::fold_opt_module_items(self, node)
+            <V as Fold>::fold_opt_module_items(&mut self.visitor, node)
         } else {
             node
         }
@@ -83158,7 +83314,7 @@ where
     #[inline]
     fn fold_opt_object_lit(&mut self, node: Option<Box<ObjectLit>>) -> Option<Box<ObjectLit>> {
         if self.enabled {
-            <V as Fold>::fold_opt_object_lit(self, node)
+            <V as Fold>::fold_opt_object_lit(&mut self.visitor, node)
         } else {
             node
         }
@@ -83167,7 +83323,7 @@ where
     #[inline]
     fn fold_opt_pat(&mut self, node: Option<Pat>) -> Option<Pat> {
         if self.enabled {
-            <V as Fold>::fold_opt_pat(self, node)
+            <V as Fold>::fold_opt_pat(&mut self.visitor, node)
         } else {
             node
         }
@@ -83176,7 +83332,7 @@ where
     #[inline]
     fn fold_opt_span(&mut self, node: Option<swc_common::Span>) -> Option<swc_common::Span> {
         if self.enabled {
-            <V as Fold>::fold_opt_span(self, node)
+            <V as Fold>::fold_opt_span(&mut self.visitor, node)
         } else {
             node
         }
@@ -83185,7 +83341,7 @@ where
     #[inline]
     fn fold_opt_stmt(&mut self, node: Option<Box<Stmt>>) -> Option<Box<Stmt>> {
         if self.enabled {
-            <V as Fold>::fold_opt_stmt(self, node)
+            <V as Fold>::fold_opt_stmt(&mut self.visitor, node)
         } else {
             node
         }
@@ -83194,7 +83350,7 @@ where
     #[inline]
     fn fold_opt_str(&mut self, node: Option<Box<Str>>) -> Option<Box<Str>> {
         if self.enabled {
-            <V as Fold>::fold_opt_str(self, node)
+            <V as Fold>::fold_opt_str(&mut self.visitor, node)
         } else {
             node
         }
@@ -83203,7 +83359,7 @@ where
     #[inline]
     fn fold_opt_true_plus_minus(&mut self, node: Option<TruePlusMinus>) -> Option<TruePlusMinus> {
         if self.enabled {
-            <V as Fold>::fold_opt_true_plus_minus(self, node)
+            <V as Fold>::fold_opt_true_plus_minus(&mut self.visitor, node)
         } else {
             node
         }
@@ -83212,7 +83368,7 @@ where
     #[inline]
     fn fold_opt_ts_entity_name(&mut self, node: Option<TsEntityName>) -> Option<TsEntityName> {
         if self.enabled {
-            <V as Fold>::fold_opt_ts_entity_name(self, node)
+            <V as Fold>::fold_opt_ts_entity_name(&mut self.visitor, node)
         } else {
             node
         }
@@ -83224,7 +83380,7 @@ where
         node: Option<TsNamespaceBody>,
     ) -> Option<TsNamespaceBody> {
         if self.enabled {
-            <V as Fold>::fold_opt_ts_namespace_body(self, node)
+            <V as Fold>::fold_opt_ts_namespace_body(&mut self.visitor, node)
         } else {
             node
         }
@@ -83233,7 +83389,7 @@ where
     #[inline]
     fn fold_opt_ts_type(&mut self, node: Option<Box<TsType>>) -> Option<Box<TsType>> {
         if self.enabled {
-            <V as Fold>::fold_opt_ts_type(self, node)
+            <V as Fold>::fold_opt_ts_type(&mut self.visitor, node)
         } else {
             node
         }
@@ -83242,7 +83398,7 @@ where
     #[inline]
     fn fold_opt_ts_type_ann(&mut self, node: Option<Box<TsTypeAnn>>) -> Option<Box<TsTypeAnn>> {
         if self.enabled {
-            <V as Fold>::fold_opt_ts_type_ann(self, node)
+            <V as Fold>::fold_opt_ts_type_ann(&mut self.visitor, node)
         } else {
             node
         }
@@ -83254,7 +83410,7 @@ where
         node: Option<Box<TsTypeParamDecl>>,
     ) -> Option<Box<TsTypeParamDecl>> {
         if self.enabled {
-            <V as Fold>::fold_opt_ts_type_param_decl(self, node)
+            <V as Fold>::fold_opt_ts_type_param_decl(&mut self.visitor, node)
         } else {
             node
         }
@@ -83266,7 +83422,7 @@ where
         node: Option<Box<TsTypeParamInstantiation>>,
     ) -> Option<Box<TsTypeParamInstantiation>> {
         if self.enabled {
-            <V as Fold>::fold_opt_ts_type_param_instantiation(self, node)
+            <V as Fold>::fold_opt_ts_type_param_instantiation(&mut self.visitor, node)
         } else {
             node
         }
@@ -83275,7 +83431,7 @@ where
     #[inline]
     fn fold_opt_var_decl_or_expr(&mut self, node: Option<VarDeclOrExpr>) -> Option<VarDeclOrExpr> {
         if self.enabled {
-            <V as Fold>::fold_opt_var_decl_or_expr(self, node)
+            <V as Fold>::fold_opt_var_decl_or_expr(&mut self.visitor, node)
         } else {
             node
         }
@@ -83287,7 +83443,7 @@ where
         node: Vec<Option<ExprOrSpread>>,
     ) -> Vec<Option<ExprOrSpread>> {
         if self.enabled {
-            <V as Fold>::fold_opt_vec_expr_or_spreads(self, node)
+            <V as Fold>::fold_opt_vec_expr_or_spreads(&mut self.visitor, node)
         } else {
             node
         }
@@ -83296,7 +83452,7 @@ where
     #[inline]
     fn fold_opt_vec_pats(&mut self, node: Vec<Option<Pat>>) -> Vec<Option<Pat>> {
         if self.enabled {
-            <V as Fold>::fold_opt_vec_pats(self, node)
+            <V as Fold>::fold_opt_vec_pats(&mut self.visitor, node)
         } else {
             node
         }
@@ -83305,7 +83461,7 @@ where
     #[inline]
     fn fold_param(&mut self, node: Param) -> Param {
         if self.enabled {
-            <V as Fold>::fold_param(self, node)
+            <V as Fold>::fold_param(&mut self.visitor, node)
         } else {
             node
         }
@@ -83314,7 +83470,7 @@ where
     #[inline]
     fn fold_param_or_ts_param_prop(&mut self, node: ParamOrTsParamProp) -> ParamOrTsParamProp {
         if self.enabled {
-            <V as Fold>::fold_param_or_ts_param_prop(self, node)
+            <V as Fold>::fold_param_or_ts_param_prop(&mut self.visitor, node)
         } else {
             node
         }
@@ -83326,7 +83482,7 @@ where
         node: Vec<ParamOrTsParamProp>,
     ) -> Vec<ParamOrTsParamProp> {
         if self.enabled {
-            <V as Fold>::fold_param_or_ts_param_props(self, node)
+            <V as Fold>::fold_param_or_ts_param_props(&mut self.visitor, node)
         } else {
             node
         }
@@ -83335,7 +83491,7 @@ where
     #[inline]
     fn fold_params(&mut self, node: Vec<Param>) -> Vec<Param> {
         if self.enabled {
-            <V as Fold>::fold_params(self, node)
+            <V as Fold>::fold_params(&mut self.visitor, node)
         } else {
             node
         }
@@ -83344,7 +83500,7 @@ where
     #[inline]
     fn fold_paren_expr(&mut self, node: ParenExpr) -> ParenExpr {
         if self.enabled {
-            <V as Fold>::fold_paren_expr(self, node)
+            <V as Fold>::fold_paren_expr(&mut self.visitor, node)
         } else {
             node
         }
@@ -83353,7 +83509,7 @@ where
     #[inline]
     fn fold_pat(&mut self, node: Pat) -> Pat {
         if self.enabled {
-            <V as Fold>::fold_pat(self, node)
+            <V as Fold>::fold_pat(&mut self.visitor, node)
         } else {
             node
         }
@@ -83362,7 +83518,7 @@ where
     #[inline]
     fn fold_pats(&mut self, node: Vec<Pat>) -> Vec<Pat> {
         if self.enabled {
-            <V as Fold>::fold_pats(self, node)
+            <V as Fold>::fold_pats(&mut self.visitor, node)
         } else {
             node
         }
@@ -83371,7 +83527,7 @@ where
     #[inline]
     fn fold_private_method(&mut self, node: PrivateMethod) -> PrivateMethod {
         if self.enabled {
-            <V as Fold>::fold_private_method(self, node)
+            <V as Fold>::fold_private_method(&mut self.visitor, node)
         } else {
             node
         }
@@ -83380,7 +83536,7 @@ where
     #[inline]
     fn fold_private_name(&mut self, node: PrivateName) -> PrivateName {
         if self.enabled {
-            <V as Fold>::fold_private_name(self, node)
+            <V as Fold>::fold_private_name(&mut self.visitor, node)
         } else {
             node
         }
@@ -83389,7 +83545,7 @@ where
     #[inline]
     fn fold_private_prop(&mut self, node: PrivateProp) -> PrivateProp {
         if self.enabled {
-            <V as Fold>::fold_private_prop(self, node)
+            <V as Fold>::fold_private_prop(&mut self.visitor, node)
         } else {
             node
         }
@@ -83398,7 +83554,7 @@ where
     #[inline]
     fn fold_program(&mut self, node: Program) -> Program {
         if self.enabled {
-            <V as Fold>::fold_program(self, node)
+            <V as Fold>::fold_program(&mut self.visitor, node)
         } else {
             node
         }
@@ -83407,7 +83563,7 @@ where
     #[inline]
     fn fold_prop(&mut self, node: Prop) -> Prop {
         if self.enabled {
-            <V as Fold>::fold_prop(self, node)
+            <V as Fold>::fold_prop(&mut self.visitor, node)
         } else {
             node
         }
@@ -83416,7 +83572,7 @@ where
     #[inline]
     fn fold_prop_name(&mut self, node: PropName) -> PropName {
         if self.enabled {
-            <V as Fold>::fold_prop_name(self, node)
+            <V as Fold>::fold_prop_name(&mut self.visitor, node)
         } else {
             node
         }
@@ -83425,7 +83581,7 @@ where
     #[inline]
     fn fold_prop_or_spread(&mut self, node: PropOrSpread) -> PropOrSpread {
         if self.enabled {
-            <V as Fold>::fold_prop_or_spread(self, node)
+            <V as Fold>::fold_prop_or_spread(&mut self.visitor, node)
         } else {
             node
         }
@@ -83434,7 +83590,7 @@ where
     #[inline]
     fn fold_prop_or_spreads(&mut self, node: Vec<PropOrSpread>) -> Vec<PropOrSpread> {
         if self.enabled {
-            <V as Fold>::fold_prop_or_spreads(self, node)
+            <V as Fold>::fold_prop_or_spreads(&mut self.visitor, node)
         } else {
             node
         }
@@ -83443,7 +83599,7 @@ where
     #[inline]
     fn fold_regex(&mut self, node: Regex) -> Regex {
         if self.enabled {
-            <V as Fold>::fold_regex(self, node)
+            <V as Fold>::fold_regex(&mut self.visitor, node)
         } else {
             node
         }
@@ -83452,7 +83608,7 @@ where
     #[inline]
     fn fold_reserved_unused(&mut self, node: ReservedUnused) -> ReservedUnused {
         if self.enabled {
-            <V as Fold>::fold_reserved_unused(self, node)
+            <V as Fold>::fold_reserved_unused(&mut self.visitor, node)
         } else {
             node
         }
@@ -83461,7 +83617,7 @@ where
     #[inline]
     fn fold_rest_pat(&mut self, node: RestPat) -> RestPat {
         if self.enabled {
-            <V as Fold>::fold_rest_pat(self, node)
+            <V as Fold>::fold_rest_pat(&mut self.visitor, node)
         } else {
             node
         }
@@ -83470,7 +83626,7 @@ where
     #[inline]
     fn fold_return_stmt(&mut self, node: ReturnStmt) -> ReturnStmt {
         if self.enabled {
-            <V as Fold>::fold_return_stmt(self, node)
+            <V as Fold>::fold_return_stmt(&mut self.visitor, node)
         } else {
             node
         }
@@ -83479,7 +83635,7 @@ where
     #[inline]
     fn fold_script(&mut self, node: Script) -> Script {
         if self.enabled {
-            <V as Fold>::fold_script(self, node)
+            <V as Fold>::fold_script(&mut self.visitor, node)
         } else {
             node
         }
@@ -83488,7 +83644,7 @@ where
     #[inline]
     fn fold_seq_expr(&mut self, node: SeqExpr) -> SeqExpr {
         if self.enabled {
-            <V as Fold>::fold_seq_expr(self, node)
+            <V as Fold>::fold_seq_expr(&mut self.visitor, node)
         } else {
             node
         }
@@ -83497,7 +83653,7 @@ where
     #[inline]
     fn fold_setter_prop(&mut self, node: SetterProp) -> SetterProp {
         if self.enabled {
-            <V as Fold>::fold_setter_prop(self, node)
+            <V as Fold>::fold_setter_prop(&mut self.visitor, node)
         } else {
             node
         }
@@ -83506,7 +83662,7 @@ where
     #[inline]
     fn fold_simple_assign_target(&mut self, node: SimpleAssignTarget) -> SimpleAssignTarget {
         if self.enabled {
-            <V as Fold>::fold_simple_assign_target(self, node)
+            <V as Fold>::fold_simple_assign_target(&mut self.visitor, node)
         } else {
             node
         }
@@ -83515,7 +83671,7 @@ where
     #[inline]
     fn fold_span(&mut self, node: swc_common::Span) -> swc_common::Span {
         if self.enabled {
-            <V as Fold>::fold_span(self, node)
+            <V as Fold>::fold_span(&mut self.visitor, node)
         } else {
             node
         }
@@ -83524,7 +83680,7 @@ where
     #[inline]
     fn fold_spread_element(&mut self, node: SpreadElement) -> SpreadElement {
         if self.enabled {
-            <V as Fold>::fold_spread_element(self, node)
+            <V as Fold>::fold_spread_element(&mut self.visitor, node)
         } else {
             node
         }
@@ -83533,7 +83689,7 @@ where
     #[inline]
     fn fold_static_block(&mut self, node: StaticBlock) -> StaticBlock {
         if self.enabled {
-            <V as Fold>::fold_static_block(self, node)
+            <V as Fold>::fold_static_block(&mut self.visitor, node)
         } else {
             node
         }
@@ -83542,7 +83698,7 @@ where
     #[inline]
     fn fold_stmt(&mut self, node: Stmt) -> Stmt {
         if self.enabled {
-            <V as Fold>::fold_stmt(self, node)
+            <V as Fold>::fold_stmt(&mut self.visitor, node)
         } else {
             node
         }
@@ -83551,7 +83707,7 @@ where
     #[inline]
     fn fold_stmts(&mut self, node: Vec<Stmt>) -> Vec<Stmt> {
         if self.enabled {
-            <V as Fold>::fold_stmts(self, node)
+            <V as Fold>::fold_stmts(&mut self.visitor, node)
         } else {
             node
         }
@@ -83560,7 +83716,7 @@ where
     #[inline]
     fn fold_str(&mut self, node: Str) -> Str {
         if self.enabled {
-            <V as Fold>::fold_str(self, node)
+            <V as Fold>::fold_str(&mut self.visitor, node)
         } else {
             node
         }
@@ -83569,7 +83725,7 @@ where
     #[inline]
     fn fold_super(&mut self, node: Super) -> Super {
         if self.enabled {
-            <V as Fold>::fold_super(self, node)
+            <V as Fold>::fold_super(&mut self.visitor, node)
         } else {
             node
         }
@@ -83578,7 +83734,7 @@ where
     #[inline]
     fn fold_super_prop(&mut self, node: SuperProp) -> SuperProp {
         if self.enabled {
-            <V as Fold>::fold_super_prop(self, node)
+            <V as Fold>::fold_super_prop(&mut self.visitor, node)
         } else {
             node
         }
@@ -83587,7 +83743,7 @@ where
     #[inline]
     fn fold_super_prop_expr(&mut self, node: SuperPropExpr) -> SuperPropExpr {
         if self.enabled {
-            <V as Fold>::fold_super_prop_expr(self, node)
+            <V as Fold>::fold_super_prop_expr(&mut self.visitor, node)
         } else {
             node
         }
@@ -83596,7 +83752,7 @@ where
     #[inline]
     fn fold_switch_case(&mut self, node: SwitchCase) -> SwitchCase {
         if self.enabled {
-            <V as Fold>::fold_switch_case(self, node)
+            <V as Fold>::fold_switch_case(&mut self.visitor, node)
         } else {
             node
         }
@@ -83605,7 +83761,7 @@ where
     #[inline]
     fn fold_switch_cases(&mut self, node: Vec<SwitchCase>) -> Vec<SwitchCase> {
         if self.enabled {
-            <V as Fold>::fold_switch_cases(self, node)
+            <V as Fold>::fold_switch_cases(&mut self.visitor, node)
         } else {
             node
         }
@@ -83614,7 +83770,7 @@ where
     #[inline]
     fn fold_switch_stmt(&mut self, node: SwitchStmt) -> SwitchStmt {
         if self.enabled {
-            <V as Fold>::fold_switch_stmt(self, node)
+            <V as Fold>::fold_switch_stmt(&mut self.visitor, node)
         } else {
             node
         }
@@ -83626,7 +83782,7 @@ where
         node: swc_common::SyntaxContext,
     ) -> swc_common::SyntaxContext {
         if self.enabled {
-            <V as Fold>::fold_syntax_context(self, node)
+            <V as Fold>::fold_syntax_context(&mut self.visitor, node)
         } else {
             node
         }
@@ -83635,7 +83791,7 @@ where
     #[inline]
     fn fold_tagged_tpl(&mut self, node: TaggedTpl) -> TaggedTpl {
         if self.enabled {
-            <V as Fold>::fold_tagged_tpl(self, node)
+            <V as Fold>::fold_tagged_tpl(&mut self.visitor, node)
         } else {
             node
         }
@@ -83644,7 +83800,7 @@ where
     #[inline]
     fn fold_this_expr(&mut self, node: ThisExpr) -> ThisExpr {
         if self.enabled {
-            <V as Fold>::fold_this_expr(self, node)
+            <V as Fold>::fold_this_expr(&mut self.visitor, node)
         } else {
             node
         }
@@ -83653,7 +83809,7 @@ where
     #[inline]
     fn fold_throw_stmt(&mut self, node: ThrowStmt) -> ThrowStmt {
         if self.enabled {
-            <V as Fold>::fold_throw_stmt(self, node)
+            <V as Fold>::fold_throw_stmt(&mut self.visitor, node)
         } else {
             node
         }
@@ -83662,7 +83818,7 @@ where
     #[inline]
     fn fold_tpl(&mut self, node: Tpl) -> Tpl {
         if self.enabled {
-            <V as Fold>::fold_tpl(self, node)
+            <V as Fold>::fold_tpl(&mut self.visitor, node)
         } else {
             node
         }
@@ -83671,7 +83827,7 @@ where
     #[inline]
     fn fold_tpl_element(&mut self, node: TplElement) -> TplElement {
         if self.enabled {
-            <V as Fold>::fold_tpl_element(self, node)
+            <V as Fold>::fold_tpl_element(&mut self.visitor, node)
         } else {
             node
         }
@@ -83680,7 +83836,7 @@ where
     #[inline]
     fn fold_tpl_elements(&mut self, node: Vec<TplElement>) -> Vec<TplElement> {
         if self.enabled {
-            <V as Fold>::fold_tpl_elements(self, node)
+            <V as Fold>::fold_tpl_elements(&mut self.visitor, node)
         } else {
             node
         }
@@ -83689,7 +83845,7 @@ where
     #[inline]
     fn fold_true_plus_minus(&mut self, node: TruePlusMinus) -> TruePlusMinus {
         if self.enabled {
-            <V as Fold>::fold_true_plus_minus(self, node)
+            <V as Fold>::fold_true_plus_minus(&mut self.visitor, node)
         } else {
             node
         }
@@ -83698,7 +83854,7 @@ where
     #[inline]
     fn fold_try_stmt(&mut self, node: TryStmt) -> TryStmt {
         if self.enabled {
-            <V as Fold>::fold_try_stmt(self, node)
+            <V as Fold>::fold_try_stmt(&mut self.visitor, node)
         } else {
             node
         }
@@ -83707,7 +83863,7 @@ where
     #[inline]
     fn fold_ts_array_type(&mut self, node: TsArrayType) -> TsArrayType {
         if self.enabled {
-            <V as Fold>::fold_ts_array_type(self, node)
+            <V as Fold>::fold_ts_array_type(&mut self.visitor, node)
         } else {
             node
         }
@@ -83716,7 +83872,7 @@ where
     #[inline]
     fn fold_ts_as_expr(&mut self, node: TsAsExpr) -> TsAsExpr {
         if self.enabled {
-            <V as Fold>::fold_ts_as_expr(self, node)
+            <V as Fold>::fold_ts_as_expr(&mut self.visitor, node)
         } else {
             node
         }
@@ -83725,7 +83881,7 @@ where
     #[inline]
     fn fold_ts_call_signature_decl(&mut self, node: TsCallSignatureDecl) -> TsCallSignatureDecl {
         if self.enabled {
-            <V as Fold>::fold_ts_call_signature_decl(self, node)
+            <V as Fold>::fold_ts_call_signature_decl(&mut self.visitor, node)
         } else {
             node
         }
@@ -83734,7 +83890,7 @@ where
     #[inline]
     fn fold_ts_conditional_type(&mut self, node: TsConditionalType) -> TsConditionalType {
         if self.enabled {
-            <V as Fold>::fold_ts_conditional_type(self, node)
+            <V as Fold>::fold_ts_conditional_type(&mut self.visitor, node)
         } else {
             node
         }
@@ -83743,7 +83899,7 @@ where
     #[inline]
     fn fold_ts_const_assertion(&mut self, node: TsConstAssertion) -> TsConstAssertion {
         if self.enabled {
-            <V as Fold>::fold_ts_const_assertion(self, node)
+            <V as Fold>::fold_ts_const_assertion(&mut self.visitor, node)
         } else {
             node
         }
@@ -83755,7 +83911,7 @@ where
         node: TsConstructSignatureDecl,
     ) -> TsConstructSignatureDecl {
         if self.enabled {
-            <V as Fold>::fold_ts_construct_signature_decl(self, node)
+            <V as Fold>::fold_ts_construct_signature_decl(&mut self.visitor, node)
         } else {
             node
         }
@@ -83764,7 +83920,7 @@ where
     #[inline]
     fn fold_ts_constructor_type(&mut self, node: TsConstructorType) -> TsConstructorType {
         if self.enabled {
-            <V as Fold>::fold_ts_constructor_type(self, node)
+            <V as Fold>::fold_ts_constructor_type(&mut self.visitor, node)
         } else {
             node
         }
@@ -83773,7 +83929,7 @@ where
     #[inline]
     fn fold_ts_entity_name(&mut self, node: TsEntityName) -> TsEntityName {
         if self.enabled {
-            <V as Fold>::fold_ts_entity_name(self, node)
+            <V as Fold>::fold_ts_entity_name(&mut self.visitor, node)
         } else {
             node
         }
@@ -83782,7 +83938,7 @@ where
     #[inline]
     fn fold_ts_enum_decl(&mut self, node: TsEnumDecl) -> TsEnumDecl {
         if self.enabled {
-            <V as Fold>::fold_ts_enum_decl(self, node)
+            <V as Fold>::fold_ts_enum_decl(&mut self.visitor, node)
         } else {
             node
         }
@@ -83791,7 +83947,7 @@ where
     #[inline]
     fn fold_ts_enum_member(&mut self, node: TsEnumMember) -> TsEnumMember {
         if self.enabled {
-            <V as Fold>::fold_ts_enum_member(self, node)
+            <V as Fold>::fold_ts_enum_member(&mut self.visitor, node)
         } else {
             node
         }
@@ -83800,7 +83956,7 @@ where
     #[inline]
     fn fold_ts_enum_member_id(&mut self, node: TsEnumMemberId) -> TsEnumMemberId {
         if self.enabled {
-            <V as Fold>::fold_ts_enum_member_id(self, node)
+            <V as Fold>::fold_ts_enum_member_id(&mut self.visitor, node)
         } else {
             node
         }
@@ -83809,7 +83965,7 @@ where
     #[inline]
     fn fold_ts_enum_members(&mut self, node: Vec<TsEnumMember>) -> Vec<TsEnumMember> {
         if self.enabled {
-            <V as Fold>::fold_ts_enum_members(self, node)
+            <V as Fold>::fold_ts_enum_members(&mut self.visitor, node)
         } else {
             node
         }
@@ -83818,7 +83974,7 @@ where
     #[inline]
     fn fold_ts_export_assignment(&mut self, node: TsExportAssignment) -> TsExportAssignment {
         if self.enabled {
-            <V as Fold>::fold_ts_export_assignment(self, node)
+            <V as Fold>::fold_ts_export_assignment(&mut self.visitor, node)
         } else {
             node
         }
@@ -83827,7 +83983,7 @@ where
     #[inline]
     fn fold_ts_expr_with_type_args(&mut self, node: TsExprWithTypeArgs) -> TsExprWithTypeArgs {
         if self.enabled {
-            <V as Fold>::fold_ts_expr_with_type_args(self, node)
+            <V as Fold>::fold_ts_expr_with_type_args(&mut self.visitor, node)
         } else {
             node
         }
@@ -83839,7 +83995,7 @@ where
         node: Vec<TsExprWithTypeArgs>,
     ) -> Vec<TsExprWithTypeArgs> {
         if self.enabled {
-            <V as Fold>::fold_ts_expr_with_type_argss(self, node)
+            <V as Fold>::fold_ts_expr_with_type_argss(&mut self.visitor, node)
         } else {
             node
         }
@@ -83848,7 +84004,7 @@ where
     #[inline]
     fn fold_ts_external_module_ref(&mut self, node: TsExternalModuleRef) -> TsExternalModuleRef {
         if self.enabled {
-            <V as Fold>::fold_ts_external_module_ref(self, node)
+            <V as Fold>::fold_ts_external_module_ref(&mut self.visitor, node)
         } else {
             node
         }
@@ -83860,7 +84016,7 @@ where
         node: TsFnOrConstructorType,
     ) -> TsFnOrConstructorType {
         if self.enabled {
-            <V as Fold>::fold_ts_fn_or_constructor_type(self, node)
+            <V as Fold>::fold_ts_fn_or_constructor_type(&mut self.visitor, node)
         } else {
             node
         }
@@ -83869,7 +84025,7 @@ where
     #[inline]
     fn fold_ts_fn_param(&mut self, node: TsFnParam) -> TsFnParam {
         if self.enabled {
-            <V as Fold>::fold_ts_fn_param(self, node)
+            <V as Fold>::fold_ts_fn_param(&mut self.visitor, node)
         } else {
             node
         }
@@ -83878,7 +84034,7 @@ where
     #[inline]
     fn fold_ts_fn_params(&mut self, node: Vec<TsFnParam>) -> Vec<TsFnParam> {
         if self.enabled {
-            <V as Fold>::fold_ts_fn_params(self, node)
+            <V as Fold>::fold_ts_fn_params(&mut self.visitor, node)
         } else {
             node
         }
@@ -83887,7 +84043,7 @@ where
     #[inline]
     fn fold_ts_fn_type(&mut self, node: TsFnType) -> TsFnType {
         if self.enabled {
-            <V as Fold>::fold_ts_fn_type(self, node)
+            <V as Fold>::fold_ts_fn_type(&mut self.visitor, node)
         } else {
             node
         }
@@ -83896,7 +84052,7 @@ where
     #[inline]
     fn fold_ts_getter_signature(&mut self, node: TsGetterSignature) -> TsGetterSignature {
         if self.enabled {
-            <V as Fold>::fold_ts_getter_signature(self, node)
+            <V as Fold>::fold_ts_getter_signature(&mut self.visitor, node)
         } else {
             node
         }
@@ -83905,7 +84061,7 @@ where
     #[inline]
     fn fold_ts_import_equals_decl(&mut self, node: TsImportEqualsDecl) -> TsImportEqualsDecl {
         if self.enabled {
-            <V as Fold>::fold_ts_import_equals_decl(self, node)
+            <V as Fold>::fold_ts_import_equals_decl(&mut self.visitor, node)
         } else {
             node
         }
@@ -83914,7 +84070,7 @@ where
     #[inline]
     fn fold_ts_import_type(&mut self, node: TsImportType) -> TsImportType {
         if self.enabled {
-            <V as Fold>::fold_ts_import_type(self, node)
+            <V as Fold>::fold_ts_import_type(&mut self.visitor, node)
         } else {
             node
         }
@@ -83923,7 +84079,7 @@ where
     #[inline]
     fn fold_ts_index_signature(&mut self, node: TsIndexSignature) -> TsIndexSignature {
         if self.enabled {
-            <V as Fold>::fold_ts_index_signature(self, node)
+            <V as Fold>::fold_ts_index_signature(&mut self.visitor, node)
         } else {
             node
         }
@@ -83932,7 +84088,7 @@ where
     #[inline]
     fn fold_ts_indexed_access_type(&mut self, node: TsIndexedAccessType) -> TsIndexedAccessType {
         if self.enabled {
-            <V as Fold>::fold_ts_indexed_access_type(self, node)
+            <V as Fold>::fold_ts_indexed_access_type(&mut self.visitor, node)
         } else {
             node
         }
@@ -83941,7 +84097,7 @@ where
     #[inline]
     fn fold_ts_infer_type(&mut self, node: TsInferType) -> TsInferType {
         if self.enabled {
-            <V as Fold>::fold_ts_infer_type(self, node)
+            <V as Fold>::fold_ts_infer_type(&mut self.visitor, node)
         } else {
             node
         }
@@ -83950,7 +84106,7 @@ where
     #[inline]
     fn fold_ts_instantiation(&mut self, node: TsInstantiation) -> TsInstantiation {
         if self.enabled {
-            <V as Fold>::fold_ts_instantiation(self, node)
+            <V as Fold>::fold_ts_instantiation(&mut self.visitor, node)
         } else {
             node
         }
@@ -83959,7 +84115,7 @@ where
     #[inline]
     fn fold_ts_interface_body(&mut self, node: TsInterfaceBody) -> TsInterfaceBody {
         if self.enabled {
-            <V as Fold>::fold_ts_interface_body(self, node)
+            <V as Fold>::fold_ts_interface_body(&mut self.visitor, node)
         } else {
             node
         }
@@ -83968,7 +84124,7 @@ where
     #[inline]
     fn fold_ts_interface_decl(&mut self, node: TsInterfaceDecl) -> TsInterfaceDecl {
         if self.enabled {
-            <V as Fold>::fold_ts_interface_decl(self, node)
+            <V as Fold>::fold_ts_interface_decl(&mut self.visitor, node)
         } else {
             node
         }
@@ -83977,7 +84133,7 @@ where
     #[inline]
     fn fold_ts_intersection_type(&mut self, node: TsIntersectionType) -> TsIntersectionType {
         if self.enabled {
-            <V as Fold>::fold_ts_intersection_type(self, node)
+            <V as Fold>::fold_ts_intersection_type(&mut self.visitor, node)
         } else {
             node
         }
@@ -83986,7 +84142,7 @@ where
     #[inline]
     fn fold_ts_keyword_type(&mut self, node: TsKeywordType) -> TsKeywordType {
         if self.enabled {
-            <V as Fold>::fold_ts_keyword_type(self, node)
+            <V as Fold>::fold_ts_keyword_type(&mut self.visitor, node)
         } else {
             node
         }
@@ -83995,7 +84151,7 @@ where
     #[inline]
     fn fold_ts_keyword_type_kind(&mut self, node: TsKeywordTypeKind) -> TsKeywordTypeKind {
         if self.enabled {
-            <V as Fold>::fold_ts_keyword_type_kind(self, node)
+            <V as Fold>::fold_ts_keyword_type_kind(&mut self.visitor, node)
         } else {
             node
         }
@@ -84004,7 +84160,7 @@ where
     #[inline]
     fn fold_ts_lit(&mut self, node: TsLit) -> TsLit {
         if self.enabled {
-            <V as Fold>::fold_ts_lit(self, node)
+            <V as Fold>::fold_ts_lit(&mut self.visitor, node)
         } else {
             node
         }
@@ -84013,7 +84169,7 @@ where
     #[inline]
     fn fold_ts_lit_type(&mut self, node: TsLitType) -> TsLitType {
         if self.enabled {
-            <V as Fold>::fold_ts_lit_type(self, node)
+            <V as Fold>::fold_ts_lit_type(&mut self.visitor, node)
         } else {
             node
         }
@@ -84022,7 +84178,7 @@ where
     #[inline]
     fn fold_ts_mapped_type(&mut self, node: TsMappedType) -> TsMappedType {
         if self.enabled {
-            <V as Fold>::fold_ts_mapped_type(self, node)
+            <V as Fold>::fold_ts_mapped_type(&mut self.visitor, node)
         } else {
             node
         }
@@ -84031,7 +84187,7 @@ where
     #[inline]
     fn fold_ts_method_signature(&mut self, node: TsMethodSignature) -> TsMethodSignature {
         if self.enabled {
-            <V as Fold>::fold_ts_method_signature(self, node)
+            <V as Fold>::fold_ts_method_signature(&mut self.visitor, node)
         } else {
             node
         }
@@ -84040,7 +84196,7 @@ where
     #[inline]
     fn fold_ts_module_block(&mut self, node: TsModuleBlock) -> TsModuleBlock {
         if self.enabled {
-            <V as Fold>::fold_ts_module_block(self, node)
+            <V as Fold>::fold_ts_module_block(&mut self.visitor, node)
         } else {
             node
         }
@@ -84049,7 +84205,7 @@ where
     #[inline]
     fn fold_ts_module_decl(&mut self, node: TsModuleDecl) -> TsModuleDecl {
         if self.enabled {
-            <V as Fold>::fold_ts_module_decl(self, node)
+            <V as Fold>::fold_ts_module_decl(&mut self.visitor, node)
         } else {
             node
         }
@@ -84058,7 +84214,7 @@ where
     #[inline]
     fn fold_ts_module_name(&mut self, node: TsModuleName) -> TsModuleName {
         if self.enabled {
-            <V as Fold>::fold_ts_module_name(self, node)
+            <V as Fold>::fold_ts_module_name(&mut self.visitor, node)
         } else {
             node
         }
@@ -84067,7 +84223,7 @@ where
     #[inline]
     fn fold_ts_module_ref(&mut self, node: TsModuleRef) -> TsModuleRef {
         if self.enabled {
-            <V as Fold>::fold_ts_module_ref(self, node)
+            <V as Fold>::fold_ts_module_ref(&mut self.visitor, node)
         } else {
             node
         }
@@ -84076,7 +84232,7 @@ where
     #[inline]
     fn fold_ts_namespace_body(&mut self, node: TsNamespaceBody) -> TsNamespaceBody {
         if self.enabled {
-            <V as Fold>::fold_ts_namespace_body(self, node)
+            <V as Fold>::fold_ts_namespace_body(&mut self.visitor, node)
         } else {
             node
         }
@@ -84085,7 +84241,7 @@ where
     #[inline]
     fn fold_ts_namespace_decl(&mut self, node: TsNamespaceDecl) -> TsNamespaceDecl {
         if self.enabled {
-            <V as Fold>::fold_ts_namespace_decl(self, node)
+            <V as Fold>::fold_ts_namespace_decl(&mut self.visitor, node)
         } else {
             node
         }
@@ -84097,7 +84253,7 @@ where
         node: TsNamespaceExportDecl,
     ) -> TsNamespaceExportDecl {
         if self.enabled {
-            <V as Fold>::fold_ts_namespace_export_decl(self, node)
+            <V as Fold>::fold_ts_namespace_export_decl(&mut self.visitor, node)
         } else {
             node
         }
@@ -84106,7 +84262,7 @@ where
     #[inline]
     fn fold_ts_non_null_expr(&mut self, node: TsNonNullExpr) -> TsNonNullExpr {
         if self.enabled {
-            <V as Fold>::fold_ts_non_null_expr(self, node)
+            <V as Fold>::fold_ts_non_null_expr(&mut self.visitor, node)
         } else {
             node
         }
@@ -84115,7 +84271,7 @@ where
     #[inline]
     fn fold_ts_optional_type(&mut self, node: TsOptionalType) -> TsOptionalType {
         if self.enabled {
-            <V as Fold>::fold_ts_optional_type(self, node)
+            <V as Fold>::fold_ts_optional_type(&mut self.visitor, node)
         } else {
             node
         }
@@ -84124,7 +84280,7 @@ where
     #[inline]
     fn fold_ts_param_prop(&mut self, node: TsParamProp) -> TsParamProp {
         if self.enabled {
-            <V as Fold>::fold_ts_param_prop(self, node)
+            <V as Fold>::fold_ts_param_prop(&mut self.visitor, node)
         } else {
             node
         }
@@ -84133,7 +84289,7 @@ where
     #[inline]
     fn fold_ts_param_prop_param(&mut self, node: TsParamPropParam) -> TsParamPropParam {
         if self.enabled {
-            <V as Fold>::fold_ts_param_prop_param(self, node)
+            <V as Fold>::fold_ts_param_prop_param(&mut self.visitor, node)
         } else {
             node
         }
@@ -84142,7 +84298,7 @@ where
     #[inline]
     fn fold_ts_parenthesized_type(&mut self, node: TsParenthesizedType) -> TsParenthesizedType {
         if self.enabled {
-            <V as Fold>::fold_ts_parenthesized_type(self, node)
+            <V as Fold>::fold_ts_parenthesized_type(&mut self.visitor, node)
         } else {
             node
         }
@@ -84151,7 +84307,7 @@ where
     #[inline]
     fn fold_ts_property_signature(&mut self, node: TsPropertySignature) -> TsPropertySignature {
         if self.enabled {
-            <V as Fold>::fold_ts_property_signature(self, node)
+            <V as Fold>::fold_ts_property_signature(&mut self.visitor, node)
         } else {
             node
         }
@@ -84160,7 +84316,7 @@ where
     #[inline]
     fn fold_ts_qualified_name(&mut self, node: TsQualifiedName) -> TsQualifiedName {
         if self.enabled {
-            <V as Fold>::fold_ts_qualified_name(self, node)
+            <V as Fold>::fold_ts_qualified_name(&mut self.visitor, node)
         } else {
             node
         }
@@ -84169,7 +84325,7 @@ where
     #[inline]
     fn fold_ts_rest_type(&mut self, node: TsRestType) -> TsRestType {
         if self.enabled {
-            <V as Fold>::fold_ts_rest_type(self, node)
+            <V as Fold>::fold_ts_rest_type(&mut self.visitor, node)
         } else {
             node
         }
@@ -84178,7 +84334,7 @@ where
     #[inline]
     fn fold_ts_satisfies_expr(&mut self, node: TsSatisfiesExpr) -> TsSatisfiesExpr {
         if self.enabled {
-            <V as Fold>::fold_ts_satisfies_expr(self, node)
+            <V as Fold>::fold_ts_satisfies_expr(&mut self.visitor, node)
         } else {
             node
         }
@@ -84187,7 +84343,7 @@ where
     #[inline]
     fn fold_ts_setter_signature(&mut self, node: TsSetterSignature) -> TsSetterSignature {
         if self.enabled {
-            <V as Fold>::fold_ts_setter_signature(self, node)
+            <V as Fold>::fold_ts_setter_signature(&mut self.visitor, node)
         } else {
             node
         }
@@ -84196,7 +84352,7 @@ where
     #[inline]
     fn fold_ts_this_type(&mut self, node: TsThisType) -> TsThisType {
         if self.enabled {
-            <V as Fold>::fold_ts_this_type(self, node)
+            <V as Fold>::fold_ts_this_type(&mut self.visitor, node)
         } else {
             node
         }
@@ -84205,7 +84361,7 @@ where
     #[inline]
     fn fold_ts_this_type_or_ident(&mut self, node: TsThisTypeOrIdent) -> TsThisTypeOrIdent {
         if self.enabled {
-            <V as Fold>::fold_ts_this_type_or_ident(self, node)
+            <V as Fold>::fold_ts_this_type_or_ident(&mut self.visitor, node)
         } else {
             node
         }
@@ -84214,7 +84370,7 @@ where
     #[inline]
     fn fold_ts_tpl_lit_type(&mut self, node: TsTplLitType) -> TsTplLitType {
         if self.enabled {
-            <V as Fold>::fold_ts_tpl_lit_type(self, node)
+            <V as Fold>::fold_ts_tpl_lit_type(&mut self.visitor, node)
         } else {
             node
         }
@@ -84223,7 +84379,7 @@ where
     #[inline]
     fn fold_ts_tuple_element(&mut self, node: TsTupleElement) -> TsTupleElement {
         if self.enabled {
-            <V as Fold>::fold_ts_tuple_element(self, node)
+            <V as Fold>::fold_ts_tuple_element(&mut self.visitor, node)
         } else {
             node
         }
@@ -84232,7 +84388,7 @@ where
     #[inline]
     fn fold_ts_tuple_elements(&mut self, node: Vec<TsTupleElement>) -> Vec<TsTupleElement> {
         if self.enabled {
-            <V as Fold>::fold_ts_tuple_elements(self, node)
+            <V as Fold>::fold_ts_tuple_elements(&mut self.visitor, node)
         } else {
             node
         }
@@ -84241,7 +84397,7 @@ where
     #[inline]
     fn fold_ts_tuple_type(&mut self, node: TsTupleType) -> TsTupleType {
         if self.enabled {
-            <V as Fold>::fold_ts_tuple_type(self, node)
+            <V as Fold>::fold_ts_tuple_type(&mut self.visitor, node)
         } else {
             node
         }
@@ -84250,7 +84406,7 @@ where
     #[inline]
     fn fold_ts_type(&mut self, node: TsType) -> TsType {
         if self.enabled {
-            <V as Fold>::fold_ts_type(self, node)
+            <V as Fold>::fold_ts_type(&mut self.visitor, node)
         } else {
             node
         }
@@ -84259,7 +84415,7 @@ where
     #[inline]
     fn fold_ts_type_alias_decl(&mut self, node: TsTypeAliasDecl) -> TsTypeAliasDecl {
         if self.enabled {
-            <V as Fold>::fold_ts_type_alias_decl(self, node)
+            <V as Fold>::fold_ts_type_alias_decl(&mut self.visitor, node)
         } else {
             node
         }
@@ -84268,7 +84424,7 @@ where
     #[inline]
     fn fold_ts_type_ann(&mut self, node: TsTypeAnn) -> TsTypeAnn {
         if self.enabled {
-            <V as Fold>::fold_ts_type_ann(self, node)
+            <V as Fold>::fold_ts_type_ann(&mut self.visitor, node)
         } else {
             node
         }
@@ -84277,7 +84433,7 @@ where
     #[inline]
     fn fold_ts_type_assertion(&mut self, node: TsTypeAssertion) -> TsTypeAssertion {
         if self.enabled {
-            <V as Fold>::fold_ts_type_assertion(self, node)
+            <V as Fold>::fold_ts_type_assertion(&mut self.visitor, node)
         } else {
             node
         }
@@ -84286,7 +84442,7 @@ where
     #[inline]
     fn fold_ts_type_element(&mut self, node: TsTypeElement) -> TsTypeElement {
         if self.enabled {
-            <V as Fold>::fold_ts_type_element(self, node)
+            <V as Fold>::fold_ts_type_element(&mut self.visitor, node)
         } else {
             node
         }
@@ -84295,7 +84451,7 @@ where
     #[inline]
     fn fold_ts_type_elements(&mut self, node: Vec<TsTypeElement>) -> Vec<TsTypeElement> {
         if self.enabled {
-            <V as Fold>::fold_ts_type_elements(self, node)
+            <V as Fold>::fold_ts_type_elements(&mut self.visitor, node)
         } else {
             node
         }
@@ -84304,7 +84460,7 @@ where
     #[inline]
     fn fold_ts_type_lit(&mut self, node: TsTypeLit) -> TsTypeLit {
         if self.enabled {
-            <V as Fold>::fold_ts_type_lit(self, node)
+            <V as Fold>::fold_ts_type_lit(&mut self.visitor, node)
         } else {
             node
         }
@@ -84313,7 +84469,7 @@ where
     #[inline]
     fn fold_ts_type_operator(&mut self, node: TsTypeOperator) -> TsTypeOperator {
         if self.enabled {
-            <V as Fold>::fold_ts_type_operator(self, node)
+            <V as Fold>::fold_ts_type_operator(&mut self.visitor, node)
         } else {
             node
         }
@@ -84322,7 +84478,7 @@ where
     #[inline]
     fn fold_ts_type_operator_op(&mut self, node: TsTypeOperatorOp) -> TsTypeOperatorOp {
         if self.enabled {
-            <V as Fold>::fold_ts_type_operator_op(self, node)
+            <V as Fold>::fold_ts_type_operator_op(&mut self.visitor, node)
         } else {
             node
         }
@@ -84331,7 +84487,7 @@ where
     #[inline]
     fn fold_ts_type_param(&mut self, node: TsTypeParam) -> TsTypeParam {
         if self.enabled {
-            <V as Fold>::fold_ts_type_param(self, node)
+            <V as Fold>::fold_ts_type_param(&mut self.visitor, node)
         } else {
             node
         }
@@ -84340,7 +84496,7 @@ where
     #[inline]
     fn fold_ts_type_param_decl(&mut self, node: TsTypeParamDecl) -> TsTypeParamDecl {
         if self.enabled {
-            <V as Fold>::fold_ts_type_param_decl(self, node)
+            <V as Fold>::fold_ts_type_param_decl(&mut self.visitor, node)
         } else {
             node
         }
@@ -84352,7 +84508,7 @@ where
         node: TsTypeParamInstantiation,
     ) -> TsTypeParamInstantiation {
         if self.enabled {
-            <V as Fold>::fold_ts_type_param_instantiation(self, node)
+            <V as Fold>::fold_ts_type_param_instantiation(&mut self.visitor, node)
         } else {
             node
         }
@@ -84361,7 +84517,7 @@ where
     #[inline]
     fn fold_ts_type_params(&mut self, node: Vec<TsTypeParam>) -> Vec<TsTypeParam> {
         if self.enabled {
-            <V as Fold>::fold_ts_type_params(self, node)
+            <V as Fold>::fold_ts_type_params(&mut self.visitor, node)
         } else {
             node
         }
@@ -84370,7 +84526,7 @@ where
     #[inline]
     fn fold_ts_type_predicate(&mut self, node: TsTypePredicate) -> TsTypePredicate {
         if self.enabled {
-            <V as Fold>::fold_ts_type_predicate(self, node)
+            <V as Fold>::fold_ts_type_predicate(&mut self.visitor, node)
         } else {
             node
         }
@@ -84379,7 +84535,7 @@ where
     #[inline]
     fn fold_ts_type_query(&mut self, node: TsTypeQuery) -> TsTypeQuery {
         if self.enabled {
-            <V as Fold>::fold_ts_type_query(self, node)
+            <V as Fold>::fold_ts_type_query(&mut self.visitor, node)
         } else {
             node
         }
@@ -84388,7 +84544,7 @@ where
     #[inline]
     fn fold_ts_type_query_expr(&mut self, node: TsTypeQueryExpr) -> TsTypeQueryExpr {
         if self.enabled {
-            <V as Fold>::fold_ts_type_query_expr(self, node)
+            <V as Fold>::fold_ts_type_query_expr(&mut self.visitor, node)
         } else {
             node
         }
@@ -84397,7 +84553,7 @@ where
     #[inline]
     fn fold_ts_type_ref(&mut self, node: TsTypeRef) -> TsTypeRef {
         if self.enabled {
-            <V as Fold>::fold_ts_type_ref(self, node)
+            <V as Fold>::fold_ts_type_ref(&mut self.visitor, node)
         } else {
             node
         }
@@ -84406,7 +84562,7 @@ where
     #[inline]
     fn fold_ts_types(&mut self, node: Vec<Box<TsType>>) -> Vec<Box<TsType>> {
         if self.enabled {
-            <V as Fold>::fold_ts_types(self, node)
+            <V as Fold>::fold_ts_types(&mut self.visitor, node)
         } else {
             node
         }
@@ -84418,7 +84574,7 @@ where
         node: TsUnionOrIntersectionType,
     ) -> TsUnionOrIntersectionType {
         if self.enabled {
-            <V as Fold>::fold_ts_union_or_intersection_type(self, node)
+            <V as Fold>::fold_ts_union_or_intersection_type(&mut self.visitor, node)
         } else {
             node
         }
@@ -84427,7 +84583,7 @@ where
     #[inline]
     fn fold_ts_union_type(&mut self, node: TsUnionType) -> TsUnionType {
         if self.enabled {
-            <V as Fold>::fold_ts_union_type(self, node)
+            <V as Fold>::fold_ts_union_type(&mut self.visitor, node)
         } else {
             node
         }
@@ -84436,7 +84592,7 @@ where
     #[inline]
     fn fold_unary_expr(&mut self, node: UnaryExpr) -> UnaryExpr {
         if self.enabled {
-            <V as Fold>::fold_unary_expr(self, node)
+            <V as Fold>::fold_unary_expr(&mut self.visitor, node)
         } else {
             node
         }
@@ -84445,7 +84601,7 @@ where
     #[inline]
     fn fold_unary_op(&mut self, node: UnaryOp) -> UnaryOp {
         if self.enabled {
-            <V as Fold>::fold_unary_op(self, node)
+            <V as Fold>::fold_unary_op(&mut self.visitor, node)
         } else {
             node
         }
@@ -84454,7 +84610,7 @@ where
     #[inline]
     fn fold_update_expr(&mut self, node: UpdateExpr) -> UpdateExpr {
         if self.enabled {
-            <V as Fold>::fold_update_expr(self, node)
+            <V as Fold>::fold_update_expr(&mut self.visitor, node)
         } else {
             node
         }
@@ -84463,7 +84619,7 @@ where
     #[inline]
     fn fold_update_op(&mut self, node: UpdateOp) -> UpdateOp {
         if self.enabled {
-            <V as Fold>::fold_update_op(self, node)
+            <V as Fold>::fold_update_op(&mut self.visitor, node)
         } else {
             node
         }
@@ -84472,7 +84628,7 @@ where
     #[inline]
     fn fold_using_decl(&mut self, node: UsingDecl) -> UsingDecl {
         if self.enabled {
-            <V as Fold>::fold_using_decl(self, node)
+            <V as Fold>::fold_using_decl(&mut self.visitor, node)
         } else {
             node
         }
@@ -84481,7 +84637,7 @@ where
     #[inline]
     fn fold_var_decl(&mut self, node: VarDecl) -> VarDecl {
         if self.enabled {
-            <V as Fold>::fold_var_decl(self, node)
+            <V as Fold>::fold_var_decl(&mut self.visitor, node)
         } else {
             node
         }
@@ -84490,7 +84646,7 @@ where
     #[inline]
     fn fold_var_decl_kind(&mut self, node: VarDeclKind) -> VarDeclKind {
         if self.enabled {
-            <V as Fold>::fold_var_decl_kind(self, node)
+            <V as Fold>::fold_var_decl_kind(&mut self.visitor, node)
         } else {
             node
         }
@@ -84499,7 +84655,7 @@ where
     #[inline]
     fn fold_var_decl_or_expr(&mut self, node: VarDeclOrExpr) -> VarDeclOrExpr {
         if self.enabled {
-            <V as Fold>::fold_var_decl_or_expr(self, node)
+            <V as Fold>::fold_var_decl_or_expr(&mut self.visitor, node)
         } else {
             node
         }
@@ -84508,7 +84664,7 @@ where
     #[inline]
     fn fold_var_declarator(&mut self, node: VarDeclarator) -> VarDeclarator {
         if self.enabled {
-            <V as Fold>::fold_var_declarator(self, node)
+            <V as Fold>::fold_var_declarator(&mut self.visitor, node)
         } else {
             node
         }
@@ -84517,7 +84673,7 @@ where
     #[inline]
     fn fold_var_declarators(&mut self, node: Vec<VarDeclarator>) -> Vec<VarDeclarator> {
         if self.enabled {
-            <V as Fold>::fold_var_declarators(self, node)
+            <V as Fold>::fold_var_declarators(&mut self.visitor, node)
         } else {
             node
         }
@@ -84526,7 +84682,7 @@ where
     #[inline]
     fn fold_while_stmt(&mut self, node: WhileStmt) -> WhileStmt {
         if self.enabled {
-            <V as Fold>::fold_while_stmt(self, node)
+            <V as Fold>::fold_while_stmt(&mut self.visitor, node)
         } else {
             node
         }
@@ -84535,7 +84691,7 @@ where
     #[inline]
     fn fold_with_stmt(&mut self, node: WithStmt) -> WithStmt {
         if self.enabled {
-            <V as Fold>::fold_with_stmt(self, node)
+            <V as Fold>::fold_with_stmt(&mut self.visitor, node)
         } else {
             node
         }
@@ -84544,7 +84700,7 @@ where
     #[inline]
     fn fold_yield_expr(&mut self, node: YieldExpr) -> YieldExpr {
         if self.enabled {
-            <V as Fold>::fold_yield_expr(self, node)
+            <V as Fold>::fold_yield_expr(&mut self.visitor, node)
         } else {
             node
         }
@@ -101113,7 +101269,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Accessibility {
         if self.enabled {
-            <V as FoldAstPath>::fold_accessibility(self, node, ast_path)
+            <V as FoldAstPath>::fold_accessibility(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101122,7 +101278,7 @@ where
     #[inline]
     fn fold_array_lit(&mut self, node: ArrayLit, ast_path: &mut AstKindPath) -> ArrayLit {
         if self.enabled {
-            <V as FoldAstPath>::fold_array_lit(self, node, ast_path)
+            <V as FoldAstPath>::fold_array_lit(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101131,7 +101287,7 @@ where
     #[inline]
     fn fold_array_pat(&mut self, node: ArrayPat, ast_path: &mut AstKindPath) -> ArrayPat {
         if self.enabled {
-            <V as FoldAstPath>::fold_array_pat(self, node, ast_path)
+            <V as FoldAstPath>::fold_array_pat(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101140,7 +101296,7 @@ where
     #[inline]
     fn fold_arrow_expr(&mut self, node: ArrowExpr, ast_path: &mut AstKindPath) -> ArrowExpr {
         if self.enabled {
-            <V as FoldAstPath>::fold_arrow_expr(self, node, ast_path)
+            <V as FoldAstPath>::fold_arrow_expr(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101149,7 +101305,7 @@ where
     #[inline]
     fn fold_assign_expr(&mut self, node: AssignExpr, ast_path: &mut AstKindPath) -> AssignExpr {
         if self.enabled {
-            <V as FoldAstPath>::fold_assign_expr(self, node, ast_path)
+            <V as FoldAstPath>::fold_assign_expr(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101158,7 +101314,7 @@ where
     #[inline]
     fn fold_assign_op(&mut self, node: AssignOp, ast_path: &mut AstKindPath) -> AssignOp {
         if self.enabled {
-            <V as FoldAstPath>::fold_assign_op(self, node, ast_path)
+            <V as FoldAstPath>::fold_assign_op(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101167,7 +101323,7 @@ where
     #[inline]
     fn fold_assign_pat(&mut self, node: AssignPat, ast_path: &mut AstKindPath) -> AssignPat {
         if self.enabled {
-            <V as FoldAstPath>::fold_assign_pat(self, node, ast_path)
+            <V as FoldAstPath>::fold_assign_pat(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101180,7 +101336,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> AssignPatProp {
         if self.enabled {
-            <V as FoldAstPath>::fold_assign_pat_prop(self, node, ast_path)
+            <V as FoldAstPath>::fold_assign_pat_prop(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101189,7 +101345,7 @@ where
     #[inline]
     fn fold_assign_prop(&mut self, node: AssignProp, ast_path: &mut AstKindPath) -> AssignProp {
         if self.enabled {
-            <V as FoldAstPath>::fold_assign_prop(self, node, ast_path)
+            <V as FoldAstPath>::fold_assign_prop(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101202,7 +101358,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> AssignTarget {
         if self.enabled {
-            <V as FoldAstPath>::fold_assign_target(self, node, ast_path)
+            <V as FoldAstPath>::fold_assign_target(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101215,7 +101371,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> AssignTargetPat {
         if self.enabled {
-            <V as FoldAstPath>::fold_assign_target_pat(self, node, ast_path)
+            <V as FoldAstPath>::fold_assign_target_pat(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101224,7 +101380,7 @@ where
     #[inline]
     fn fold_atom(&mut self, node: swc_atoms::Atom, ast_path: &mut AstKindPath) -> swc_atoms::Atom {
         if self.enabled {
-            <V as FoldAstPath>::fold_atom(self, node, ast_path)
+            <V as FoldAstPath>::fold_atom(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101237,7 +101393,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> AutoAccessor {
         if self.enabled {
-            <V as FoldAstPath>::fold_auto_accessor(self, node, ast_path)
+            <V as FoldAstPath>::fold_auto_accessor(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101246,7 +101402,7 @@ where
     #[inline]
     fn fold_await_expr(&mut self, node: AwaitExpr, ast_path: &mut AstKindPath) -> AwaitExpr {
         if self.enabled {
-            <V as FoldAstPath>::fold_await_expr(self, node, ast_path)
+            <V as FoldAstPath>::fold_await_expr(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101255,7 +101411,7 @@ where
     #[inline]
     fn fold_big_int(&mut self, node: BigInt, ast_path: &mut AstKindPath) -> BigInt {
         if self.enabled {
-            <V as FoldAstPath>::fold_big_int(self, node, ast_path)
+            <V as FoldAstPath>::fold_big_int(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101264,7 +101420,7 @@ where
     #[inline]
     fn fold_big_int_value(&mut self, node: BigIntValue, ast_path: &mut AstKindPath) -> BigIntValue {
         if self.enabled {
-            <V as FoldAstPath>::fold_big_int_value(self, node, ast_path)
+            <V as FoldAstPath>::fold_big_int_value(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101273,7 +101429,7 @@ where
     #[inline]
     fn fold_bin_expr(&mut self, node: BinExpr, ast_path: &mut AstKindPath) -> BinExpr {
         if self.enabled {
-            <V as FoldAstPath>::fold_bin_expr(self, node, ast_path)
+            <V as FoldAstPath>::fold_bin_expr(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101282,7 +101438,7 @@ where
     #[inline]
     fn fold_binary_op(&mut self, node: BinaryOp, ast_path: &mut AstKindPath) -> BinaryOp {
         if self.enabled {
-            <V as FoldAstPath>::fold_binary_op(self, node, ast_path)
+            <V as FoldAstPath>::fold_binary_op(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101295,7 +101451,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> BindingIdent {
         if self.enabled {
-            <V as FoldAstPath>::fold_binding_ident(self, node, ast_path)
+            <V as FoldAstPath>::fold_binding_ident(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101304,7 +101460,7 @@ where
     #[inline]
     fn fold_block_stmt(&mut self, node: BlockStmt, ast_path: &mut AstKindPath) -> BlockStmt {
         if self.enabled {
-            <V as FoldAstPath>::fold_block_stmt(self, node, ast_path)
+            <V as FoldAstPath>::fold_block_stmt(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101317,7 +101473,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> BlockStmtOrExpr {
         if self.enabled {
-            <V as FoldAstPath>::fold_block_stmt_or_expr(self, node, ast_path)
+            <V as FoldAstPath>::fold_block_stmt_or_expr(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101326,7 +101482,7 @@ where
     #[inline]
     fn fold_bool(&mut self, node: Bool, ast_path: &mut AstKindPath) -> Bool {
         if self.enabled {
-            <V as FoldAstPath>::fold_bool(self, node, ast_path)
+            <V as FoldAstPath>::fold_bool(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101335,7 +101491,7 @@ where
     #[inline]
     fn fold_break_stmt(&mut self, node: BreakStmt, ast_path: &mut AstKindPath) -> BreakStmt {
         if self.enabled {
-            <V as FoldAstPath>::fold_break_stmt(self, node, ast_path)
+            <V as FoldAstPath>::fold_break_stmt(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101344,7 +101500,7 @@ where
     #[inline]
     fn fold_call_expr(&mut self, node: CallExpr, ast_path: &mut AstKindPath) -> CallExpr {
         if self.enabled {
-            <V as FoldAstPath>::fold_call_expr(self, node, ast_path)
+            <V as FoldAstPath>::fold_call_expr(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101353,7 +101509,7 @@ where
     #[inline]
     fn fold_callee(&mut self, node: Callee, ast_path: &mut AstKindPath) -> Callee {
         if self.enabled {
-            <V as FoldAstPath>::fold_callee(self, node, ast_path)
+            <V as FoldAstPath>::fold_callee(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101362,7 +101518,7 @@ where
     #[inline]
     fn fold_catch_clause(&mut self, node: CatchClause, ast_path: &mut AstKindPath) -> CatchClause {
         if self.enabled {
-            <V as FoldAstPath>::fold_catch_clause(self, node, ast_path)
+            <V as FoldAstPath>::fold_catch_clause(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101371,7 +101527,7 @@ where
     #[inline]
     fn fold_class(&mut self, node: Class, ast_path: &mut AstKindPath) -> Class {
         if self.enabled {
-            <V as FoldAstPath>::fold_class(self, node, ast_path)
+            <V as FoldAstPath>::fold_class(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101380,7 +101536,7 @@ where
     #[inline]
     fn fold_class_decl(&mut self, node: ClassDecl, ast_path: &mut AstKindPath) -> ClassDecl {
         if self.enabled {
-            <V as FoldAstPath>::fold_class_decl(self, node, ast_path)
+            <V as FoldAstPath>::fold_class_decl(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101389,7 +101545,7 @@ where
     #[inline]
     fn fold_class_expr(&mut self, node: ClassExpr, ast_path: &mut AstKindPath) -> ClassExpr {
         if self.enabled {
-            <V as FoldAstPath>::fold_class_expr(self, node, ast_path)
+            <V as FoldAstPath>::fold_class_expr(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101398,7 +101554,7 @@ where
     #[inline]
     fn fold_class_member(&mut self, node: ClassMember, ast_path: &mut AstKindPath) -> ClassMember {
         if self.enabled {
-            <V as FoldAstPath>::fold_class_member(self, node, ast_path)
+            <V as FoldAstPath>::fold_class_member(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101411,7 +101567,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Vec<ClassMember> {
         if self.enabled {
-            <V as FoldAstPath>::fold_class_members(self, node, ast_path)
+            <V as FoldAstPath>::fold_class_members(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101420,7 +101576,7 @@ where
     #[inline]
     fn fold_class_method(&mut self, node: ClassMethod, ast_path: &mut AstKindPath) -> ClassMethod {
         if self.enabled {
-            <V as FoldAstPath>::fold_class_method(self, node, ast_path)
+            <V as FoldAstPath>::fold_class_method(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101429,7 +101585,7 @@ where
     #[inline]
     fn fold_class_prop(&mut self, node: ClassProp, ast_path: &mut AstKindPath) -> ClassProp {
         if self.enabled {
-            <V as FoldAstPath>::fold_class_prop(self, node, ast_path)
+            <V as FoldAstPath>::fold_class_prop(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101442,7 +101598,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> ComputedPropName {
         if self.enabled {
-            <V as FoldAstPath>::fold_computed_prop_name(self, node, ast_path)
+            <V as FoldAstPath>::fold_computed_prop_name(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101451,7 +101607,7 @@ where
     #[inline]
     fn fold_cond_expr(&mut self, node: CondExpr, ast_path: &mut AstKindPath) -> CondExpr {
         if self.enabled {
-            <V as FoldAstPath>::fold_cond_expr(self, node, ast_path)
+            <V as FoldAstPath>::fold_cond_expr(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101460,7 +101616,7 @@ where
     #[inline]
     fn fold_constructor(&mut self, node: Constructor, ast_path: &mut AstKindPath) -> Constructor {
         if self.enabled {
-            <V as FoldAstPath>::fold_constructor(self, node, ast_path)
+            <V as FoldAstPath>::fold_constructor(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101473,7 +101629,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> ContinueStmt {
         if self.enabled {
-            <V as FoldAstPath>::fold_continue_stmt(self, node, ast_path)
+            <V as FoldAstPath>::fold_continue_stmt(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101486,7 +101642,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> DebuggerStmt {
         if self.enabled {
-            <V as FoldAstPath>::fold_debugger_stmt(self, node, ast_path)
+            <V as FoldAstPath>::fold_debugger_stmt(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101495,7 +101651,7 @@ where
     #[inline]
     fn fold_decl(&mut self, node: Decl, ast_path: &mut AstKindPath) -> Decl {
         if self.enabled {
-            <V as FoldAstPath>::fold_decl(self, node, ast_path)
+            <V as FoldAstPath>::fold_decl(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101504,7 +101660,7 @@ where
     #[inline]
     fn fold_decorator(&mut self, node: Decorator, ast_path: &mut AstKindPath) -> Decorator {
         if self.enabled {
-            <V as FoldAstPath>::fold_decorator(self, node, ast_path)
+            <V as FoldAstPath>::fold_decorator(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101517,7 +101673,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Vec<Decorator> {
         if self.enabled {
-            <V as FoldAstPath>::fold_decorators(self, node, ast_path)
+            <V as FoldAstPath>::fold_decorators(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101526,7 +101682,7 @@ where
     #[inline]
     fn fold_default_decl(&mut self, node: DefaultDecl, ast_path: &mut AstKindPath) -> DefaultDecl {
         if self.enabled {
-            <V as FoldAstPath>::fold_default_decl(self, node, ast_path)
+            <V as FoldAstPath>::fold_default_decl(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101535,7 +101691,7 @@ where
     #[inline]
     fn fold_do_while_stmt(&mut self, node: DoWhileStmt, ast_path: &mut AstKindPath) -> DoWhileStmt {
         if self.enabled {
-            <V as FoldAstPath>::fold_do_while_stmt(self, node, ast_path)
+            <V as FoldAstPath>::fold_do_while_stmt(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101544,7 +101700,7 @@ where
     #[inline]
     fn fold_empty_stmt(&mut self, node: EmptyStmt, ast_path: &mut AstKindPath) -> EmptyStmt {
         if self.enabled {
-            <V as FoldAstPath>::fold_empty_stmt(self, node, ast_path)
+            <V as FoldAstPath>::fold_empty_stmt(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101553,7 +101709,7 @@ where
     #[inline]
     fn fold_es_version(&mut self, node: EsVersion, ast_path: &mut AstKindPath) -> EsVersion {
         if self.enabled {
-            <V as FoldAstPath>::fold_es_version(self, node, ast_path)
+            <V as FoldAstPath>::fold_es_version(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101562,7 +101718,7 @@ where
     #[inline]
     fn fold_export_all(&mut self, node: ExportAll, ast_path: &mut AstKindPath) -> ExportAll {
         if self.enabled {
-            <V as FoldAstPath>::fold_export_all(self, node, ast_path)
+            <V as FoldAstPath>::fold_export_all(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101571,7 +101727,7 @@ where
     #[inline]
     fn fold_export_decl(&mut self, node: ExportDecl, ast_path: &mut AstKindPath) -> ExportDecl {
         if self.enabled {
-            <V as FoldAstPath>::fold_export_decl(self, node, ast_path)
+            <V as FoldAstPath>::fold_export_decl(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101584,7 +101740,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> ExportDefaultDecl {
         if self.enabled {
-            <V as FoldAstPath>::fold_export_default_decl(self, node, ast_path)
+            <V as FoldAstPath>::fold_export_default_decl(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101597,7 +101753,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> ExportDefaultExpr {
         if self.enabled {
-            <V as FoldAstPath>::fold_export_default_expr(self, node, ast_path)
+            <V as FoldAstPath>::fold_export_default_expr(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101610,7 +101766,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> ExportDefaultSpecifier {
         if self.enabled {
-            <V as FoldAstPath>::fold_export_default_specifier(self, node, ast_path)
+            <V as FoldAstPath>::fold_export_default_specifier(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101623,7 +101779,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> ExportNamedSpecifier {
         if self.enabled {
-            <V as FoldAstPath>::fold_export_named_specifier(self, node, ast_path)
+            <V as FoldAstPath>::fold_export_named_specifier(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101636,7 +101792,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> ExportNamespaceSpecifier {
         if self.enabled {
-            <V as FoldAstPath>::fold_export_namespace_specifier(self, node, ast_path)
+            <V as FoldAstPath>::fold_export_namespace_specifier(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101649,7 +101805,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> ExportSpecifier {
         if self.enabled {
-            <V as FoldAstPath>::fold_export_specifier(self, node, ast_path)
+            <V as FoldAstPath>::fold_export_specifier(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101662,7 +101818,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Vec<ExportSpecifier> {
         if self.enabled {
-            <V as FoldAstPath>::fold_export_specifiers(self, node, ast_path)
+            <V as FoldAstPath>::fold_export_specifiers(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101671,7 +101827,7 @@ where
     #[inline]
     fn fold_expr(&mut self, node: Expr, ast_path: &mut AstKindPath) -> Expr {
         if self.enabled {
-            <V as FoldAstPath>::fold_expr(self, node, ast_path)
+            <V as FoldAstPath>::fold_expr(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101684,7 +101840,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> ExprOrSpread {
         if self.enabled {
-            <V as FoldAstPath>::fold_expr_or_spread(self, node, ast_path)
+            <V as FoldAstPath>::fold_expr_or_spread(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101697,7 +101853,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Vec<ExprOrSpread> {
         if self.enabled {
-            <V as FoldAstPath>::fold_expr_or_spreads(self, node, ast_path)
+            <V as FoldAstPath>::fold_expr_or_spreads(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101706,7 +101862,7 @@ where
     #[inline]
     fn fold_expr_stmt(&mut self, node: ExprStmt, ast_path: &mut AstKindPath) -> ExprStmt {
         if self.enabled {
-            <V as FoldAstPath>::fold_expr_stmt(self, node, ast_path)
+            <V as FoldAstPath>::fold_expr_stmt(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101715,7 +101871,7 @@ where
     #[inline]
     fn fold_exprs(&mut self, node: Vec<Box<Expr>>, ast_path: &mut AstKindPath) -> Vec<Box<Expr>> {
         if self.enabled {
-            <V as FoldAstPath>::fold_exprs(self, node, ast_path)
+            <V as FoldAstPath>::fold_exprs(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101724,7 +101880,7 @@ where
     #[inline]
     fn fold_fn_decl(&mut self, node: FnDecl, ast_path: &mut AstKindPath) -> FnDecl {
         if self.enabled {
-            <V as FoldAstPath>::fold_fn_decl(self, node, ast_path)
+            <V as FoldAstPath>::fold_fn_decl(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101733,7 +101889,7 @@ where
     #[inline]
     fn fold_fn_expr(&mut self, node: FnExpr, ast_path: &mut AstKindPath) -> FnExpr {
         if self.enabled {
-            <V as FoldAstPath>::fold_fn_expr(self, node, ast_path)
+            <V as FoldAstPath>::fold_fn_expr(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101742,7 +101898,7 @@ where
     #[inline]
     fn fold_for_head(&mut self, node: ForHead, ast_path: &mut AstKindPath) -> ForHead {
         if self.enabled {
-            <V as FoldAstPath>::fold_for_head(self, node, ast_path)
+            <V as FoldAstPath>::fold_for_head(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101751,7 +101907,7 @@ where
     #[inline]
     fn fold_for_in_stmt(&mut self, node: ForInStmt, ast_path: &mut AstKindPath) -> ForInStmt {
         if self.enabled {
-            <V as FoldAstPath>::fold_for_in_stmt(self, node, ast_path)
+            <V as FoldAstPath>::fold_for_in_stmt(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101760,7 +101916,7 @@ where
     #[inline]
     fn fold_for_of_stmt(&mut self, node: ForOfStmt, ast_path: &mut AstKindPath) -> ForOfStmt {
         if self.enabled {
-            <V as FoldAstPath>::fold_for_of_stmt(self, node, ast_path)
+            <V as FoldAstPath>::fold_for_of_stmt(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101769,7 +101925,7 @@ where
     #[inline]
     fn fold_for_stmt(&mut self, node: ForStmt, ast_path: &mut AstKindPath) -> ForStmt {
         if self.enabled {
-            <V as FoldAstPath>::fold_for_stmt(self, node, ast_path)
+            <V as FoldAstPath>::fold_for_stmt(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101778,7 +101934,7 @@ where
     #[inline]
     fn fold_function(&mut self, node: Function, ast_path: &mut AstKindPath) -> Function {
         if self.enabled {
-            <V as FoldAstPath>::fold_function(self, node, ast_path)
+            <V as FoldAstPath>::fold_function(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101787,7 +101943,7 @@ where
     #[inline]
     fn fold_getter_prop(&mut self, node: GetterProp, ast_path: &mut AstKindPath) -> GetterProp {
         if self.enabled {
-            <V as FoldAstPath>::fold_getter_prop(self, node, ast_path)
+            <V as FoldAstPath>::fold_getter_prop(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101796,7 +101952,7 @@ where
     #[inline]
     fn fold_ident(&mut self, node: Ident, ast_path: &mut AstKindPath) -> Ident {
         if self.enabled {
-            <V as FoldAstPath>::fold_ident(self, node, ast_path)
+            <V as FoldAstPath>::fold_ident(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101805,7 +101961,7 @@ where
     #[inline]
     fn fold_ident_name(&mut self, node: IdentName, ast_path: &mut AstKindPath) -> IdentName {
         if self.enabled {
-            <V as FoldAstPath>::fold_ident_name(self, node, ast_path)
+            <V as FoldAstPath>::fold_ident_name(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101814,7 +101970,7 @@ where
     #[inline]
     fn fold_if_stmt(&mut self, node: IfStmt, ast_path: &mut AstKindPath) -> IfStmt {
         if self.enabled {
-            <V as FoldAstPath>::fold_if_stmt(self, node, ast_path)
+            <V as FoldAstPath>::fold_if_stmt(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101823,7 +101979,7 @@ where
     #[inline]
     fn fold_import(&mut self, node: Import, ast_path: &mut AstKindPath) -> Import {
         if self.enabled {
-            <V as FoldAstPath>::fold_import(self, node, ast_path)
+            <V as FoldAstPath>::fold_import(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101832,7 +101988,7 @@ where
     #[inline]
     fn fold_import_decl(&mut self, node: ImportDecl, ast_path: &mut AstKindPath) -> ImportDecl {
         if self.enabled {
-            <V as FoldAstPath>::fold_import_decl(self, node, ast_path)
+            <V as FoldAstPath>::fold_import_decl(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101845,7 +102001,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> ImportDefaultSpecifier {
         if self.enabled {
-            <V as FoldAstPath>::fold_import_default_specifier(self, node, ast_path)
+            <V as FoldAstPath>::fold_import_default_specifier(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101858,7 +102014,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> ImportNamedSpecifier {
         if self.enabled {
-            <V as FoldAstPath>::fold_import_named_specifier(self, node, ast_path)
+            <V as FoldAstPath>::fold_import_named_specifier(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101867,7 +102023,7 @@ where
     #[inline]
     fn fold_import_phase(&mut self, node: ImportPhase, ast_path: &mut AstKindPath) -> ImportPhase {
         if self.enabled {
-            <V as FoldAstPath>::fold_import_phase(self, node, ast_path)
+            <V as FoldAstPath>::fold_import_phase(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101880,7 +102036,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> ImportSpecifier {
         if self.enabled {
-            <V as FoldAstPath>::fold_import_specifier(self, node, ast_path)
+            <V as FoldAstPath>::fold_import_specifier(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101893,7 +102049,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Vec<ImportSpecifier> {
         if self.enabled {
-            <V as FoldAstPath>::fold_import_specifiers(self, node, ast_path)
+            <V as FoldAstPath>::fold_import_specifiers(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101906,7 +102062,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> ImportStarAsSpecifier {
         if self.enabled {
-            <V as FoldAstPath>::fold_import_star_as_specifier(self, node, ast_path)
+            <V as FoldAstPath>::fold_import_star_as_specifier(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101915,7 +102071,7 @@ where
     #[inline]
     fn fold_import_with(&mut self, node: ImportWith, ast_path: &mut AstKindPath) -> ImportWith {
         if self.enabled {
-            <V as FoldAstPath>::fold_import_with(self, node, ast_path)
+            <V as FoldAstPath>::fold_import_with(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101928,7 +102084,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> ImportWithItem {
         if self.enabled {
-            <V as FoldAstPath>::fold_import_with_item(self, node, ast_path)
+            <V as FoldAstPath>::fold_import_with_item(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101941,7 +102097,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Vec<ImportWithItem> {
         if self.enabled {
-            <V as FoldAstPath>::fold_import_with_items(self, node, ast_path)
+            <V as FoldAstPath>::fold_import_with_items(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101950,7 +102106,7 @@ where
     #[inline]
     fn fold_invalid(&mut self, node: Invalid, ast_path: &mut AstKindPath) -> Invalid {
         if self.enabled {
-            <V as FoldAstPath>::fold_invalid(self, node, ast_path)
+            <V as FoldAstPath>::fold_invalid(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101959,7 +102115,7 @@ where
     #[inline]
     fn fold_jsx_attr(&mut self, node: JSXAttr, ast_path: &mut AstKindPath) -> JSXAttr {
         if self.enabled {
-            <V as FoldAstPath>::fold_jsx_attr(self, node, ast_path)
+            <V as FoldAstPath>::fold_jsx_attr(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101968,7 +102124,7 @@ where
     #[inline]
     fn fold_jsx_attr_name(&mut self, node: JSXAttrName, ast_path: &mut AstKindPath) -> JSXAttrName {
         if self.enabled {
-            <V as FoldAstPath>::fold_jsx_attr_name(self, node, ast_path)
+            <V as FoldAstPath>::fold_jsx_attr_name(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101981,7 +102137,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> JSXAttrOrSpread {
         if self.enabled {
-            <V as FoldAstPath>::fold_jsx_attr_or_spread(self, node, ast_path)
+            <V as FoldAstPath>::fold_jsx_attr_or_spread(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -101994,7 +102150,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Vec<JSXAttrOrSpread> {
         if self.enabled {
-            <V as FoldAstPath>::fold_jsx_attr_or_spreads(self, node, ast_path)
+            <V as FoldAstPath>::fold_jsx_attr_or_spreads(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102007,7 +102163,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> JSXAttrValue {
         if self.enabled {
-            <V as FoldAstPath>::fold_jsx_attr_value(self, node, ast_path)
+            <V as FoldAstPath>::fold_jsx_attr_value(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102020,7 +102176,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> JSXClosingElement {
         if self.enabled {
-            <V as FoldAstPath>::fold_jsx_closing_element(self, node, ast_path)
+            <V as FoldAstPath>::fold_jsx_closing_element(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102033,7 +102189,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> JSXClosingFragment {
         if self.enabled {
-            <V as FoldAstPath>::fold_jsx_closing_fragment(self, node, ast_path)
+            <V as FoldAstPath>::fold_jsx_closing_fragment(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102042,7 +102198,7 @@ where
     #[inline]
     fn fold_jsx_element(&mut self, node: JSXElement, ast_path: &mut AstKindPath) -> JSXElement {
         if self.enabled {
-            <V as FoldAstPath>::fold_jsx_element(self, node, ast_path)
+            <V as FoldAstPath>::fold_jsx_element(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102055,7 +102211,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> JSXElementChild {
         if self.enabled {
-            <V as FoldAstPath>::fold_jsx_element_child(self, node, ast_path)
+            <V as FoldAstPath>::fold_jsx_element_child(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102068,7 +102224,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Vec<JSXElementChild> {
         if self.enabled {
-            <V as FoldAstPath>::fold_jsx_element_childs(self, node, ast_path)
+            <V as FoldAstPath>::fold_jsx_element_childs(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102081,7 +102237,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> JSXElementName {
         if self.enabled {
-            <V as FoldAstPath>::fold_jsx_element_name(self, node, ast_path)
+            <V as FoldAstPath>::fold_jsx_element_name(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102094,7 +102250,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> JSXEmptyExpr {
         if self.enabled {
-            <V as FoldAstPath>::fold_jsx_empty_expr(self, node, ast_path)
+            <V as FoldAstPath>::fold_jsx_empty_expr(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102103,7 +102259,7 @@ where
     #[inline]
     fn fold_jsx_expr(&mut self, node: JSXExpr, ast_path: &mut AstKindPath) -> JSXExpr {
         if self.enabled {
-            <V as FoldAstPath>::fold_jsx_expr(self, node, ast_path)
+            <V as FoldAstPath>::fold_jsx_expr(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102116,7 +102272,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> JSXExprContainer {
         if self.enabled {
-            <V as FoldAstPath>::fold_jsx_expr_container(self, node, ast_path)
+            <V as FoldAstPath>::fold_jsx_expr_container(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102125,7 +102281,7 @@ where
     #[inline]
     fn fold_jsx_fragment(&mut self, node: JSXFragment, ast_path: &mut AstKindPath) -> JSXFragment {
         if self.enabled {
-            <V as FoldAstPath>::fold_jsx_fragment(self, node, ast_path)
+            <V as FoldAstPath>::fold_jsx_fragment(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102138,7 +102294,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> JSXMemberExpr {
         if self.enabled {
-            <V as FoldAstPath>::fold_jsx_member_expr(self, node, ast_path)
+            <V as FoldAstPath>::fold_jsx_member_expr(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102151,7 +102307,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> JSXNamespacedName {
         if self.enabled {
-            <V as FoldAstPath>::fold_jsx_namespaced_name(self, node, ast_path)
+            <V as FoldAstPath>::fold_jsx_namespaced_name(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102160,7 +102316,7 @@ where
     #[inline]
     fn fold_jsx_object(&mut self, node: JSXObject, ast_path: &mut AstKindPath) -> JSXObject {
         if self.enabled {
-            <V as FoldAstPath>::fold_jsx_object(self, node, ast_path)
+            <V as FoldAstPath>::fold_jsx_object(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102173,7 +102329,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> JSXOpeningElement {
         if self.enabled {
-            <V as FoldAstPath>::fold_jsx_opening_element(self, node, ast_path)
+            <V as FoldAstPath>::fold_jsx_opening_element(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102186,7 +102342,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> JSXOpeningFragment {
         if self.enabled {
-            <V as FoldAstPath>::fold_jsx_opening_fragment(self, node, ast_path)
+            <V as FoldAstPath>::fold_jsx_opening_fragment(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102199,7 +102355,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> JSXSpreadChild {
         if self.enabled {
-            <V as FoldAstPath>::fold_jsx_spread_child(self, node, ast_path)
+            <V as FoldAstPath>::fold_jsx_spread_child(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102208,7 +102364,7 @@ where
     #[inline]
     fn fold_jsx_text(&mut self, node: JSXText, ast_path: &mut AstKindPath) -> JSXText {
         if self.enabled {
-            <V as FoldAstPath>::fold_jsx_text(self, node, ast_path)
+            <V as FoldAstPath>::fold_jsx_text(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102217,7 +102373,7 @@ where
     #[inline]
     fn fold_key(&mut self, node: Key, ast_path: &mut AstKindPath) -> Key {
         if self.enabled {
-            <V as FoldAstPath>::fold_key(self, node, ast_path)
+            <V as FoldAstPath>::fold_key(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102230,7 +102386,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> KeyValuePatProp {
         if self.enabled {
-            <V as FoldAstPath>::fold_key_value_pat_prop(self, node, ast_path)
+            <V as FoldAstPath>::fold_key_value_pat_prop(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102243,7 +102399,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> KeyValueProp {
         if self.enabled {
-            <V as FoldAstPath>::fold_key_value_prop(self, node, ast_path)
+            <V as FoldAstPath>::fold_key_value_prop(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102252,7 +102408,7 @@ where
     #[inline]
     fn fold_labeled_stmt(&mut self, node: LabeledStmt, ast_path: &mut AstKindPath) -> LabeledStmt {
         if self.enabled {
-            <V as FoldAstPath>::fold_labeled_stmt(self, node, ast_path)
+            <V as FoldAstPath>::fold_labeled_stmt(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102261,7 +102417,7 @@ where
     #[inline]
     fn fold_lit(&mut self, node: Lit, ast_path: &mut AstKindPath) -> Lit {
         if self.enabled {
-            <V as FoldAstPath>::fold_lit(self, node, ast_path)
+            <V as FoldAstPath>::fold_lit(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102270,7 +102426,7 @@ where
     #[inline]
     fn fold_member_expr(&mut self, node: MemberExpr, ast_path: &mut AstKindPath) -> MemberExpr {
         if self.enabled {
-            <V as FoldAstPath>::fold_member_expr(self, node, ast_path)
+            <V as FoldAstPath>::fold_member_expr(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102279,7 +102435,7 @@ where
     #[inline]
     fn fold_member_prop(&mut self, node: MemberProp, ast_path: &mut AstKindPath) -> MemberProp {
         if self.enabled {
-            <V as FoldAstPath>::fold_member_prop(self, node, ast_path)
+            <V as FoldAstPath>::fold_member_prop(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102292,7 +102448,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> MetaPropExpr {
         if self.enabled {
-            <V as FoldAstPath>::fold_meta_prop_expr(self, node, ast_path)
+            <V as FoldAstPath>::fold_meta_prop_expr(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102305,7 +102461,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> MetaPropKind {
         if self.enabled {
-            <V as FoldAstPath>::fold_meta_prop_kind(self, node, ast_path)
+            <V as FoldAstPath>::fold_meta_prop_kind(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102314,7 +102470,7 @@ where
     #[inline]
     fn fold_method_kind(&mut self, node: MethodKind, ast_path: &mut AstKindPath) -> MethodKind {
         if self.enabled {
-            <V as FoldAstPath>::fold_method_kind(self, node, ast_path)
+            <V as FoldAstPath>::fold_method_kind(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102323,7 +102479,7 @@ where
     #[inline]
     fn fold_method_prop(&mut self, node: MethodProp, ast_path: &mut AstKindPath) -> MethodProp {
         if self.enabled {
-            <V as FoldAstPath>::fold_method_prop(self, node, ast_path)
+            <V as FoldAstPath>::fold_method_prop(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102332,7 +102488,7 @@ where
     #[inline]
     fn fold_module(&mut self, node: Module, ast_path: &mut AstKindPath) -> Module {
         if self.enabled {
-            <V as FoldAstPath>::fold_module(self, node, ast_path)
+            <V as FoldAstPath>::fold_module(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102341,7 +102497,7 @@ where
     #[inline]
     fn fold_module_decl(&mut self, node: ModuleDecl, ast_path: &mut AstKindPath) -> ModuleDecl {
         if self.enabled {
-            <V as FoldAstPath>::fold_module_decl(self, node, ast_path)
+            <V as FoldAstPath>::fold_module_decl(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102354,7 +102510,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> ModuleExportName {
         if self.enabled {
-            <V as FoldAstPath>::fold_module_export_name(self, node, ast_path)
+            <V as FoldAstPath>::fold_module_export_name(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102363,7 +102519,7 @@ where
     #[inline]
     fn fold_module_item(&mut self, node: ModuleItem, ast_path: &mut AstKindPath) -> ModuleItem {
         if self.enabled {
-            <V as FoldAstPath>::fold_module_item(self, node, ast_path)
+            <V as FoldAstPath>::fold_module_item(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102376,7 +102532,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Vec<ModuleItem> {
         if self.enabled {
-            <V as FoldAstPath>::fold_module_items(self, node, ast_path)
+            <V as FoldAstPath>::fold_module_items(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102385,7 +102541,7 @@ where
     #[inline]
     fn fold_named_export(&mut self, node: NamedExport, ast_path: &mut AstKindPath) -> NamedExport {
         if self.enabled {
-            <V as FoldAstPath>::fold_named_export(self, node, ast_path)
+            <V as FoldAstPath>::fold_named_export(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102394,7 +102550,7 @@ where
     #[inline]
     fn fold_new_expr(&mut self, node: NewExpr, ast_path: &mut AstKindPath) -> NewExpr {
         if self.enabled {
-            <V as FoldAstPath>::fold_new_expr(self, node, ast_path)
+            <V as FoldAstPath>::fold_new_expr(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102403,7 +102559,7 @@ where
     #[inline]
     fn fold_null(&mut self, node: Null, ast_path: &mut AstKindPath) -> Null {
         if self.enabled {
-            <V as FoldAstPath>::fold_null(self, node, ast_path)
+            <V as FoldAstPath>::fold_null(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102412,7 +102568,7 @@ where
     #[inline]
     fn fold_number(&mut self, node: Number, ast_path: &mut AstKindPath) -> Number {
         if self.enabled {
-            <V as FoldAstPath>::fold_number(self, node, ast_path)
+            <V as FoldAstPath>::fold_number(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102421,7 +102577,7 @@ where
     #[inline]
     fn fold_object_lit(&mut self, node: ObjectLit, ast_path: &mut AstKindPath) -> ObjectLit {
         if self.enabled {
-            <V as FoldAstPath>::fold_object_lit(self, node, ast_path)
+            <V as FoldAstPath>::fold_object_lit(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102430,7 +102586,7 @@ where
     #[inline]
     fn fold_object_pat(&mut self, node: ObjectPat, ast_path: &mut AstKindPath) -> ObjectPat {
         if self.enabled {
-            <V as FoldAstPath>::fold_object_pat(self, node, ast_path)
+            <V as FoldAstPath>::fold_object_pat(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102443,7 +102599,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> ObjectPatProp {
         if self.enabled {
-            <V as FoldAstPath>::fold_object_pat_prop(self, node, ast_path)
+            <V as FoldAstPath>::fold_object_pat_prop(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102456,7 +102612,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Vec<ObjectPatProp> {
         if self.enabled {
-            <V as FoldAstPath>::fold_object_pat_props(self, node, ast_path)
+            <V as FoldAstPath>::fold_object_pat_props(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102469,7 +102625,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Option<Accessibility> {
         if self.enabled {
-            <V as FoldAstPath>::fold_opt_accessibility(self, node, ast_path)
+            <V as FoldAstPath>::fold_opt_accessibility(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102482,7 +102638,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Option<swc_atoms::Atom> {
         if self.enabled {
-            <V as FoldAstPath>::fold_opt_atom(self, node, ast_path)
+            <V as FoldAstPath>::fold_opt_atom(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102495,7 +102651,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Option<BlockStmt> {
         if self.enabled {
-            <V as FoldAstPath>::fold_opt_block_stmt(self, node, ast_path)
+            <V as FoldAstPath>::fold_opt_block_stmt(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102504,7 +102660,7 @@ where
     #[inline]
     fn fold_opt_call(&mut self, node: OptCall, ast_path: &mut AstKindPath) -> OptCall {
         if self.enabled {
-            <V as FoldAstPath>::fold_opt_call(self, node, ast_path)
+            <V as FoldAstPath>::fold_opt_call(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102517,7 +102673,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Option<CatchClause> {
         if self.enabled {
-            <V as FoldAstPath>::fold_opt_catch_clause(self, node, ast_path)
+            <V as FoldAstPath>::fold_opt_catch_clause(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102530,7 +102686,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> OptChainBase {
         if self.enabled {
-            <V as FoldAstPath>::fold_opt_chain_base(self, node, ast_path)
+            <V as FoldAstPath>::fold_opt_chain_base(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102543,7 +102699,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> OptChainExpr {
         if self.enabled {
-            <V as FoldAstPath>::fold_opt_chain_expr(self, node, ast_path)
+            <V as FoldAstPath>::fold_opt_chain_expr(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102556,7 +102712,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Option<Box<Expr>> {
         if self.enabled {
-            <V as FoldAstPath>::fold_opt_expr(self, node, ast_path)
+            <V as FoldAstPath>::fold_opt_expr(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102569,7 +102725,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Option<ExprOrSpread> {
         if self.enabled {
-            <V as FoldAstPath>::fold_opt_expr_or_spread(self, node, ast_path)
+            <V as FoldAstPath>::fold_opt_expr_or_spread(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102582,7 +102738,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Option<Vec<ExprOrSpread>> {
         if self.enabled {
-            <V as FoldAstPath>::fold_opt_expr_or_spreads(self, node, ast_path)
+            <V as FoldAstPath>::fold_opt_expr_or_spreads(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102591,7 +102747,7 @@ where
     #[inline]
     fn fold_opt_ident(&mut self, node: Option<Ident>, ast_path: &mut AstKindPath) -> Option<Ident> {
         if self.enabled {
-            <V as FoldAstPath>::fold_opt_ident(self, node, ast_path)
+            <V as FoldAstPath>::fold_opt_ident(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102604,7 +102760,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Option<JSXAttrValue> {
         if self.enabled {
-            <V as FoldAstPath>::fold_opt_jsx_attr_value(self, node, ast_path)
+            <V as FoldAstPath>::fold_opt_jsx_attr_value(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102617,7 +102773,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Option<JSXClosingElement> {
         if self.enabled {
-            <V as FoldAstPath>::fold_opt_jsx_closing_element(self, node, ast_path)
+            <V as FoldAstPath>::fold_opt_jsx_closing_element(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102630,7 +102786,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Option<ModuleExportName> {
         if self.enabled {
-            <V as FoldAstPath>::fold_opt_module_export_name(self, node, ast_path)
+            <V as FoldAstPath>::fold_opt_module_export_name(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102643,7 +102799,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Option<Vec<ModuleItem>> {
         if self.enabled {
-            <V as FoldAstPath>::fold_opt_module_items(self, node, ast_path)
+            <V as FoldAstPath>::fold_opt_module_items(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102656,7 +102812,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Option<Box<ObjectLit>> {
         if self.enabled {
-            <V as FoldAstPath>::fold_opt_object_lit(self, node, ast_path)
+            <V as FoldAstPath>::fold_opt_object_lit(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102665,7 +102821,7 @@ where
     #[inline]
     fn fold_opt_pat(&mut self, node: Option<Pat>, ast_path: &mut AstKindPath) -> Option<Pat> {
         if self.enabled {
-            <V as FoldAstPath>::fold_opt_pat(self, node, ast_path)
+            <V as FoldAstPath>::fold_opt_pat(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102678,7 +102834,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Option<swc_common::Span> {
         if self.enabled {
-            <V as FoldAstPath>::fold_opt_span(self, node, ast_path)
+            <V as FoldAstPath>::fold_opt_span(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102691,7 +102847,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Option<Box<Stmt>> {
         if self.enabled {
-            <V as FoldAstPath>::fold_opt_stmt(self, node, ast_path)
+            <V as FoldAstPath>::fold_opt_stmt(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102704,7 +102860,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Option<Box<Str>> {
         if self.enabled {
-            <V as FoldAstPath>::fold_opt_str(self, node, ast_path)
+            <V as FoldAstPath>::fold_opt_str(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102717,7 +102873,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Option<TruePlusMinus> {
         if self.enabled {
-            <V as FoldAstPath>::fold_opt_true_plus_minus(self, node, ast_path)
+            <V as FoldAstPath>::fold_opt_true_plus_minus(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102730,7 +102886,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Option<TsEntityName> {
         if self.enabled {
-            <V as FoldAstPath>::fold_opt_ts_entity_name(self, node, ast_path)
+            <V as FoldAstPath>::fold_opt_ts_entity_name(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102743,7 +102899,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Option<TsNamespaceBody> {
         if self.enabled {
-            <V as FoldAstPath>::fold_opt_ts_namespace_body(self, node, ast_path)
+            <V as FoldAstPath>::fold_opt_ts_namespace_body(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102756,7 +102912,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Option<Box<TsType>> {
         if self.enabled {
-            <V as FoldAstPath>::fold_opt_ts_type(self, node, ast_path)
+            <V as FoldAstPath>::fold_opt_ts_type(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102769,7 +102925,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Option<Box<TsTypeAnn>> {
         if self.enabled {
-            <V as FoldAstPath>::fold_opt_ts_type_ann(self, node, ast_path)
+            <V as FoldAstPath>::fold_opt_ts_type_ann(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102782,7 +102938,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Option<Box<TsTypeParamDecl>> {
         if self.enabled {
-            <V as FoldAstPath>::fold_opt_ts_type_param_decl(self, node, ast_path)
+            <V as FoldAstPath>::fold_opt_ts_type_param_decl(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102795,7 +102951,11 @@ where
         ast_path: &mut AstKindPath,
     ) -> Option<Box<TsTypeParamInstantiation>> {
         if self.enabled {
-            <V as FoldAstPath>::fold_opt_ts_type_param_instantiation(self, node, ast_path)
+            <V as FoldAstPath>::fold_opt_ts_type_param_instantiation(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
             node
         }
@@ -102808,7 +102968,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Option<VarDeclOrExpr> {
         if self.enabled {
-            <V as FoldAstPath>::fold_opt_var_decl_or_expr(self, node, ast_path)
+            <V as FoldAstPath>::fold_opt_var_decl_or_expr(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102821,7 +102981,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Vec<Option<ExprOrSpread>> {
         if self.enabled {
-            <V as FoldAstPath>::fold_opt_vec_expr_or_spreads(self, node, ast_path)
+            <V as FoldAstPath>::fold_opt_vec_expr_or_spreads(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102834,7 +102994,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Vec<Option<Pat>> {
         if self.enabled {
-            <V as FoldAstPath>::fold_opt_vec_pats(self, node, ast_path)
+            <V as FoldAstPath>::fold_opt_vec_pats(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102843,7 +103003,7 @@ where
     #[inline]
     fn fold_param(&mut self, node: Param, ast_path: &mut AstKindPath) -> Param {
         if self.enabled {
-            <V as FoldAstPath>::fold_param(self, node, ast_path)
+            <V as FoldAstPath>::fold_param(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102856,7 +103016,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> ParamOrTsParamProp {
         if self.enabled {
-            <V as FoldAstPath>::fold_param_or_ts_param_prop(self, node, ast_path)
+            <V as FoldAstPath>::fold_param_or_ts_param_prop(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102869,7 +103029,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Vec<ParamOrTsParamProp> {
         if self.enabled {
-            <V as FoldAstPath>::fold_param_or_ts_param_props(self, node, ast_path)
+            <V as FoldAstPath>::fold_param_or_ts_param_props(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102878,7 +103038,7 @@ where
     #[inline]
     fn fold_params(&mut self, node: Vec<Param>, ast_path: &mut AstKindPath) -> Vec<Param> {
         if self.enabled {
-            <V as FoldAstPath>::fold_params(self, node, ast_path)
+            <V as FoldAstPath>::fold_params(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102887,7 +103047,7 @@ where
     #[inline]
     fn fold_paren_expr(&mut self, node: ParenExpr, ast_path: &mut AstKindPath) -> ParenExpr {
         if self.enabled {
-            <V as FoldAstPath>::fold_paren_expr(self, node, ast_path)
+            <V as FoldAstPath>::fold_paren_expr(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102896,7 +103056,7 @@ where
     #[inline]
     fn fold_pat(&mut self, node: Pat, ast_path: &mut AstKindPath) -> Pat {
         if self.enabled {
-            <V as FoldAstPath>::fold_pat(self, node, ast_path)
+            <V as FoldAstPath>::fold_pat(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102905,7 +103065,7 @@ where
     #[inline]
     fn fold_pats(&mut self, node: Vec<Pat>, ast_path: &mut AstKindPath) -> Vec<Pat> {
         if self.enabled {
-            <V as FoldAstPath>::fold_pats(self, node, ast_path)
+            <V as FoldAstPath>::fold_pats(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102918,7 +103078,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> PrivateMethod {
         if self.enabled {
-            <V as FoldAstPath>::fold_private_method(self, node, ast_path)
+            <V as FoldAstPath>::fold_private_method(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102927,7 +103087,7 @@ where
     #[inline]
     fn fold_private_name(&mut self, node: PrivateName, ast_path: &mut AstKindPath) -> PrivateName {
         if self.enabled {
-            <V as FoldAstPath>::fold_private_name(self, node, ast_path)
+            <V as FoldAstPath>::fold_private_name(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102936,7 +103096,7 @@ where
     #[inline]
     fn fold_private_prop(&mut self, node: PrivateProp, ast_path: &mut AstKindPath) -> PrivateProp {
         if self.enabled {
-            <V as FoldAstPath>::fold_private_prop(self, node, ast_path)
+            <V as FoldAstPath>::fold_private_prop(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102945,7 +103105,7 @@ where
     #[inline]
     fn fold_program(&mut self, node: Program, ast_path: &mut AstKindPath) -> Program {
         if self.enabled {
-            <V as FoldAstPath>::fold_program(self, node, ast_path)
+            <V as FoldAstPath>::fold_program(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102954,7 +103114,7 @@ where
     #[inline]
     fn fold_prop(&mut self, node: Prop, ast_path: &mut AstKindPath) -> Prop {
         if self.enabled {
-            <V as FoldAstPath>::fold_prop(self, node, ast_path)
+            <V as FoldAstPath>::fold_prop(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102963,7 +103123,7 @@ where
     #[inline]
     fn fold_prop_name(&mut self, node: PropName, ast_path: &mut AstKindPath) -> PropName {
         if self.enabled {
-            <V as FoldAstPath>::fold_prop_name(self, node, ast_path)
+            <V as FoldAstPath>::fold_prop_name(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102976,7 +103136,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> PropOrSpread {
         if self.enabled {
-            <V as FoldAstPath>::fold_prop_or_spread(self, node, ast_path)
+            <V as FoldAstPath>::fold_prop_or_spread(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102989,7 +103149,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Vec<PropOrSpread> {
         if self.enabled {
-            <V as FoldAstPath>::fold_prop_or_spreads(self, node, ast_path)
+            <V as FoldAstPath>::fold_prop_or_spreads(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -102998,7 +103158,7 @@ where
     #[inline]
     fn fold_regex(&mut self, node: Regex, ast_path: &mut AstKindPath) -> Regex {
         if self.enabled {
-            <V as FoldAstPath>::fold_regex(self, node, ast_path)
+            <V as FoldAstPath>::fold_regex(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103011,7 +103171,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> ReservedUnused {
         if self.enabled {
-            <V as FoldAstPath>::fold_reserved_unused(self, node, ast_path)
+            <V as FoldAstPath>::fold_reserved_unused(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103020,7 +103180,7 @@ where
     #[inline]
     fn fold_rest_pat(&mut self, node: RestPat, ast_path: &mut AstKindPath) -> RestPat {
         if self.enabled {
-            <V as FoldAstPath>::fold_rest_pat(self, node, ast_path)
+            <V as FoldAstPath>::fold_rest_pat(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103029,7 +103189,7 @@ where
     #[inline]
     fn fold_return_stmt(&mut self, node: ReturnStmt, ast_path: &mut AstKindPath) -> ReturnStmt {
         if self.enabled {
-            <V as FoldAstPath>::fold_return_stmt(self, node, ast_path)
+            <V as FoldAstPath>::fold_return_stmt(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103038,7 +103198,7 @@ where
     #[inline]
     fn fold_script(&mut self, node: Script, ast_path: &mut AstKindPath) -> Script {
         if self.enabled {
-            <V as FoldAstPath>::fold_script(self, node, ast_path)
+            <V as FoldAstPath>::fold_script(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103047,7 +103207,7 @@ where
     #[inline]
     fn fold_seq_expr(&mut self, node: SeqExpr, ast_path: &mut AstKindPath) -> SeqExpr {
         if self.enabled {
-            <V as FoldAstPath>::fold_seq_expr(self, node, ast_path)
+            <V as FoldAstPath>::fold_seq_expr(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103056,7 +103216,7 @@ where
     #[inline]
     fn fold_setter_prop(&mut self, node: SetterProp, ast_path: &mut AstKindPath) -> SetterProp {
         if self.enabled {
-            <V as FoldAstPath>::fold_setter_prop(self, node, ast_path)
+            <V as FoldAstPath>::fold_setter_prop(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103069,7 +103229,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> SimpleAssignTarget {
         if self.enabled {
-            <V as FoldAstPath>::fold_simple_assign_target(self, node, ast_path)
+            <V as FoldAstPath>::fold_simple_assign_target(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103082,7 +103242,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> swc_common::Span {
         if self.enabled {
-            <V as FoldAstPath>::fold_span(self, node, ast_path)
+            <V as FoldAstPath>::fold_span(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103095,7 +103255,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> SpreadElement {
         if self.enabled {
-            <V as FoldAstPath>::fold_spread_element(self, node, ast_path)
+            <V as FoldAstPath>::fold_spread_element(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103104,7 +103264,7 @@ where
     #[inline]
     fn fold_static_block(&mut self, node: StaticBlock, ast_path: &mut AstKindPath) -> StaticBlock {
         if self.enabled {
-            <V as FoldAstPath>::fold_static_block(self, node, ast_path)
+            <V as FoldAstPath>::fold_static_block(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103113,7 +103273,7 @@ where
     #[inline]
     fn fold_stmt(&mut self, node: Stmt, ast_path: &mut AstKindPath) -> Stmt {
         if self.enabled {
-            <V as FoldAstPath>::fold_stmt(self, node, ast_path)
+            <V as FoldAstPath>::fold_stmt(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103122,7 +103282,7 @@ where
     #[inline]
     fn fold_stmts(&mut self, node: Vec<Stmt>, ast_path: &mut AstKindPath) -> Vec<Stmt> {
         if self.enabled {
-            <V as FoldAstPath>::fold_stmts(self, node, ast_path)
+            <V as FoldAstPath>::fold_stmts(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103131,7 +103291,7 @@ where
     #[inline]
     fn fold_str(&mut self, node: Str, ast_path: &mut AstKindPath) -> Str {
         if self.enabled {
-            <V as FoldAstPath>::fold_str(self, node, ast_path)
+            <V as FoldAstPath>::fold_str(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103140,7 +103300,7 @@ where
     #[inline]
     fn fold_super(&mut self, node: Super, ast_path: &mut AstKindPath) -> Super {
         if self.enabled {
-            <V as FoldAstPath>::fold_super(self, node, ast_path)
+            <V as FoldAstPath>::fold_super(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103149,7 +103309,7 @@ where
     #[inline]
     fn fold_super_prop(&mut self, node: SuperProp, ast_path: &mut AstKindPath) -> SuperProp {
         if self.enabled {
-            <V as FoldAstPath>::fold_super_prop(self, node, ast_path)
+            <V as FoldAstPath>::fold_super_prop(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103162,7 +103322,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> SuperPropExpr {
         if self.enabled {
-            <V as FoldAstPath>::fold_super_prop_expr(self, node, ast_path)
+            <V as FoldAstPath>::fold_super_prop_expr(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103171,7 +103331,7 @@ where
     #[inline]
     fn fold_switch_case(&mut self, node: SwitchCase, ast_path: &mut AstKindPath) -> SwitchCase {
         if self.enabled {
-            <V as FoldAstPath>::fold_switch_case(self, node, ast_path)
+            <V as FoldAstPath>::fold_switch_case(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103184,7 +103344,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Vec<SwitchCase> {
         if self.enabled {
-            <V as FoldAstPath>::fold_switch_cases(self, node, ast_path)
+            <V as FoldAstPath>::fold_switch_cases(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103193,7 +103353,7 @@ where
     #[inline]
     fn fold_switch_stmt(&mut self, node: SwitchStmt, ast_path: &mut AstKindPath) -> SwitchStmt {
         if self.enabled {
-            <V as FoldAstPath>::fold_switch_stmt(self, node, ast_path)
+            <V as FoldAstPath>::fold_switch_stmt(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103206,7 +103366,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> swc_common::SyntaxContext {
         if self.enabled {
-            <V as FoldAstPath>::fold_syntax_context(self, node, ast_path)
+            <V as FoldAstPath>::fold_syntax_context(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103215,7 +103375,7 @@ where
     #[inline]
     fn fold_tagged_tpl(&mut self, node: TaggedTpl, ast_path: &mut AstKindPath) -> TaggedTpl {
         if self.enabled {
-            <V as FoldAstPath>::fold_tagged_tpl(self, node, ast_path)
+            <V as FoldAstPath>::fold_tagged_tpl(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103224,7 +103384,7 @@ where
     #[inline]
     fn fold_this_expr(&mut self, node: ThisExpr, ast_path: &mut AstKindPath) -> ThisExpr {
         if self.enabled {
-            <V as FoldAstPath>::fold_this_expr(self, node, ast_path)
+            <V as FoldAstPath>::fold_this_expr(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103233,7 +103393,7 @@ where
     #[inline]
     fn fold_throw_stmt(&mut self, node: ThrowStmt, ast_path: &mut AstKindPath) -> ThrowStmt {
         if self.enabled {
-            <V as FoldAstPath>::fold_throw_stmt(self, node, ast_path)
+            <V as FoldAstPath>::fold_throw_stmt(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103242,7 +103402,7 @@ where
     #[inline]
     fn fold_tpl(&mut self, node: Tpl, ast_path: &mut AstKindPath) -> Tpl {
         if self.enabled {
-            <V as FoldAstPath>::fold_tpl(self, node, ast_path)
+            <V as FoldAstPath>::fold_tpl(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103251,7 +103411,7 @@ where
     #[inline]
     fn fold_tpl_element(&mut self, node: TplElement, ast_path: &mut AstKindPath) -> TplElement {
         if self.enabled {
-            <V as FoldAstPath>::fold_tpl_element(self, node, ast_path)
+            <V as FoldAstPath>::fold_tpl_element(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103264,7 +103424,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Vec<TplElement> {
         if self.enabled {
-            <V as FoldAstPath>::fold_tpl_elements(self, node, ast_path)
+            <V as FoldAstPath>::fold_tpl_elements(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103277,7 +103437,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TruePlusMinus {
         if self.enabled {
-            <V as FoldAstPath>::fold_true_plus_minus(self, node, ast_path)
+            <V as FoldAstPath>::fold_true_plus_minus(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103286,7 +103446,7 @@ where
     #[inline]
     fn fold_try_stmt(&mut self, node: TryStmt, ast_path: &mut AstKindPath) -> TryStmt {
         if self.enabled {
-            <V as FoldAstPath>::fold_try_stmt(self, node, ast_path)
+            <V as FoldAstPath>::fold_try_stmt(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103295,7 +103455,7 @@ where
     #[inline]
     fn fold_ts_array_type(&mut self, node: TsArrayType, ast_path: &mut AstKindPath) -> TsArrayType {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_array_type(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_array_type(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103304,7 +103464,7 @@ where
     #[inline]
     fn fold_ts_as_expr(&mut self, node: TsAsExpr, ast_path: &mut AstKindPath) -> TsAsExpr {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_as_expr(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_as_expr(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103317,7 +103477,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsCallSignatureDecl {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_call_signature_decl(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_call_signature_decl(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103330,7 +103490,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsConditionalType {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_conditional_type(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_conditional_type(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103343,7 +103503,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsConstAssertion {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_const_assertion(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_const_assertion(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103356,7 +103516,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsConstructSignatureDecl {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_construct_signature_decl(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_construct_signature_decl(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103369,7 +103529,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsConstructorType {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_constructor_type(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_constructor_type(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103382,7 +103542,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsEntityName {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_entity_name(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_entity_name(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103391,7 +103551,7 @@ where
     #[inline]
     fn fold_ts_enum_decl(&mut self, node: TsEnumDecl, ast_path: &mut AstKindPath) -> TsEnumDecl {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_enum_decl(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_enum_decl(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103404,7 +103564,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsEnumMember {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_enum_member(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_enum_member(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103417,7 +103577,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsEnumMemberId {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_enum_member_id(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_enum_member_id(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103430,7 +103590,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Vec<TsEnumMember> {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_enum_members(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_enum_members(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103443,7 +103603,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsExportAssignment {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_export_assignment(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_export_assignment(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103456,7 +103616,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsExprWithTypeArgs {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_expr_with_type_args(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_expr_with_type_args(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103469,7 +103629,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Vec<TsExprWithTypeArgs> {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_expr_with_type_argss(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_expr_with_type_argss(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103482,7 +103642,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsExternalModuleRef {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_external_module_ref(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_external_module_ref(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103495,7 +103655,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsFnOrConstructorType {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_fn_or_constructor_type(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_fn_or_constructor_type(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103504,7 +103664,7 @@ where
     #[inline]
     fn fold_ts_fn_param(&mut self, node: TsFnParam, ast_path: &mut AstKindPath) -> TsFnParam {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_fn_param(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_fn_param(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103517,7 +103677,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Vec<TsFnParam> {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_fn_params(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_fn_params(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103526,7 +103686,7 @@ where
     #[inline]
     fn fold_ts_fn_type(&mut self, node: TsFnType, ast_path: &mut AstKindPath) -> TsFnType {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_fn_type(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_fn_type(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103539,7 +103699,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsGetterSignature {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_getter_signature(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_getter_signature(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103552,7 +103712,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsImportEqualsDecl {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_import_equals_decl(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_import_equals_decl(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103565,7 +103725,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsImportType {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_import_type(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_import_type(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103578,7 +103738,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsIndexSignature {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_index_signature(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_index_signature(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103591,7 +103751,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsIndexedAccessType {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_indexed_access_type(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_indexed_access_type(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103600,7 +103760,7 @@ where
     #[inline]
     fn fold_ts_infer_type(&mut self, node: TsInferType, ast_path: &mut AstKindPath) -> TsInferType {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_infer_type(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_infer_type(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103613,7 +103773,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsInstantiation {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_instantiation(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_instantiation(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103626,7 +103786,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsInterfaceBody {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_interface_body(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_interface_body(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103639,7 +103799,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsInterfaceDecl {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_interface_decl(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_interface_decl(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103652,7 +103812,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsIntersectionType {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_intersection_type(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_intersection_type(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103665,7 +103825,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsKeywordType {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_keyword_type(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_keyword_type(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103678,7 +103838,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsKeywordTypeKind {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_keyword_type_kind(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_keyword_type_kind(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103687,7 +103847,7 @@ where
     #[inline]
     fn fold_ts_lit(&mut self, node: TsLit, ast_path: &mut AstKindPath) -> TsLit {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_lit(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_lit(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103696,7 +103856,7 @@ where
     #[inline]
     fn fold_ts_lit_type(&mut self, node: TsLitType, ast_path: &mut AstKindPath) -> TsLitType {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_lit_type(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_lit_type(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103709,7 +103869,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsMappedType {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_mapped_type(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_mapped_type(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103722,7 +103882,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsMethodSignature {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_method_signature(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_method_signature(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103735,7 +103895,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsModuleBlock {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_module_block(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_module_block(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103748,7 +103908,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsModuleDecl {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_module_decl(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_module_decl(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103761,7 +103921,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsModuleName {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_module_name(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_module_name(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103770,7 +103930,7 @@ where
     #[inline]
     fn fold_ts_module_ref(&mut self, node: TsModuleRef, ast_path: &mut AstKindPath) -> TsModuleRef {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_module_ref(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_module_ref(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103783,7 +103943,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsNamespaceBody {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_namespace_body(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_namespace_body(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103796,7 +103956,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsNamespaceDecl {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_namespace_decl(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_namespace_decl(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103809,7 +103969,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsNamespaceExportDecl {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_namespace_export_decl(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_namespace_export_decl(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103822,7 +103982,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsNonNullExpr {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_non_null_expr(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_non_null_expr(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103835,7 +103995,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsOptionalType {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_optional_type(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_optional_type(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103844,7 +104004,7 @@ where
     #[inline]
     fn fold_ts_param_prop(&mut self, node: TsParamProp, ast_path: &mut AstKindPath) -> TsParamProp {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_param_prop(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_param_prop(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103857,7 +104017,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsParamPropParam {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_param_prop_param(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_param_prop_param(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103870,7 +104030,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsParenthesizedType {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_parenthesized_type(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_parenthesized_type(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103883,7 +104043,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsPropertySignature {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_property_signature(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_property_signature(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103896,7 +104056,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsQualifiedName {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_qualified_name(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_qualified_name(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103905,7 +104065,7 @@ where
     #[inline]
     fn fold_ts_rest_type(&mut self, node: TsRestType, ast_path: &mut AstKindPath) -> TsRestType {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_rest_type(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_rest_type(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103918,7 +104078,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsSatisfiesExpr {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_satisfies_expr(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_satisfies_expr(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103931,7 +104091,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsSetterSignature {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_setter_signature(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_setter_signature(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103940,7 +104100,7 @@ where
     #[inline]
     fn fold_ts_this_type(&mut self, node: TsThisType, ast_path: &mut AstKindPath) -> TsThisType {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_this_type(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_this_type(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103953,7 +104113,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsThisTypeOrIdent {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_this_type_or_ident(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_this_type_or_ident(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103966,7 +104126,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsTplLitType {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_tpl_lit_type(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_tpl_lit_type(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103979,7 +104139,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsTupleElement {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_tuple_element(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_tuple_element(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -103992,7 +104152,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Vec<TsTupleElement> {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_tuple_elements(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_tuple_elements(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -104001,7 +104161,7 @@ where
     #[inline]
     fn fold_ts_tuple_type(&mut self, node: TsTupleType, ast_path: &mut AstKindPath) -> TsTupleType {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_tuple_type(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_tuple_type(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -104010,7 +104170,7 @@ where
     #[inline]
     fn fold_ts_type(&mut self, node: TsType, ast_path: &mut AstKindPath) -> TsType {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_type(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_type(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -104023,7 +104183,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsTypeAliasDecl {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_type_alias_decl(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_type_alias_decl(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -104032,7 +104192,7 @@ where
     #[inline]
     fn fold_ts_type_ann(&mut self, node: TsTypeAnn, ast_path: &mut AstKindPath) -> TsTypeAnn {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_type_ann(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_type_ann(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -104045,7 +104205,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsTypeAssertion {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_type_assertion(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_type_assertion(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -104058,7 +104218,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsTypeElement {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_type_element(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_type_element(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -104071,7 +104231,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Vec<TsTypeElement> {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_type_elements(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_type_elements(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -104080,7 +104240,7 @@ where
     #[inline]
     fn fold_ts_type_lit(&mut self, node: TsTypeLit, ast_path: &mut AstKindPath) -> TsTypeLit {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_type_lit(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_type_lit(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -104093,7 +104253,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsTypeOperator {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_type_operator(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_type_operator(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -104106,7 +104266,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsTypeOperatorOp {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_type_operator_op(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_type_operator_op(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -104115,7 +104275,7 @@ where
     #[inline]
     fn fold_ts_type_param(&mut self, node: TsTypeParam, ast_path: &mut AstKindPath) -> TsTypeParam {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_type_param(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_type_param(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -104128,7 +104288,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsTypeParamDecl {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_type_param_decl(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_type_param_decl(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -104141,7 +104301,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsTypeParamInstantiation {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_type_param_instantiation(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_type_param_instantiation(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -104154,7 +104314,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Vec<TsTypeParam> {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_type_params(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_type_params(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -104167,7 +104327,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsTypePredicate {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_type_predicate(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_type_predicate(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -104176,7 +104336,7 @@ where
     #[inline]
     fn fold_ts_type_query(&mut self, node: TsTypeQuery, ast_path: &mut AstKindPath) -> TsTypeQuery {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_type_query(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_type_query(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -104189,7 +104349,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsTypeQueryExpr {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_type_query_expr(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_type_query_expr(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -104198,7 +104358,7 @@ where
     #[inline]
     fn fold_ts_type_ref(&mut self, node: TsTypeRef, ast_path: &mut AstKindPath) -> TsTypeRef {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_type_ref(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_type_ref(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -104211,7 +104371,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Vec<Box<TsType>> {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_types(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_types(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -104224,7 +104384,11 @@ where
         ast_path: &mut AstKindPath,
     ) -> TsUnionOrIntersectionType {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_union_or_intersection_type(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_union_or_intersection_type(
+                &mut self.visitor,
+                node,
+                ast_path,
+            )
         } else {
             node
         }
@@ -104233,7 +104397,7 @@ where
     #[inline]
     fn fold_ts_union_type(&mut self, node: TsUnionType, ast_path: &mut AstKindPath) -> TsUnionType {
         if self.enabled {
-            <V as FoldAstPath>::fold_ts_union_type(self, node, ast_path)
+            <V as FoldAstPath>::fold_ts_union_type(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -104242,7 +104406,7 @@ where
     #[inline]
     fn fold_unary_expr(&mut self, node: UnaryExpr, ast_path: &mut AstKindPath) -> UnaryExpr {
         if self.enabled {
-            <V as FoldAstPath>::fold_unary_expr(self, node, ast_path)
+            <V as FoldAstPath>::fold_unary_expr(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -104251,7 +104415,7 @@ where
     #[inline]
     fn fold_unary_op(&mut self, node: UnaryOp, ast_path: &mut AstKindPath) -> UnaryOp {
         if self.enabled {
-            <V as FoldAstPath>::fold_unary_op(self, node, ast_path)
+            <V as FoldAstPath>::fold_unary_op(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -104260,7 +104424,7 @@ where
     #[inline]
     fn fold_update_expr(&mut self, node: UpdateExpr, ast_path: &mut AstKindPath) -> UpdateExpr {
         if self.enabled {
-            <V as FoldAstPath>::fold_update_expr(self, node, ast_path)
+            <V as FoldAstPath>::fold_update_expr(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -104269,7 +104433,7 @@ where
     #[inline]
     fn fold_update_op(&mut self, node: UpdateOp, ast_path: &mut AstKindPath) -> UpdateOp {
         if self.enabled {
-            <V as FoldAstPath>::fold_update_op(self, node, ast_path)
+            <V as FoldAstPath>::fold_update_op(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -104278,7 +104442,7 @@ where
     #[inline]
     fn fold_using_decl(&mut self, node: UsingDecl, ast_path: &mut AstKindPath) -> UsingDecl {
         if self.enabled {
-            <V as FoldAstPath>::fold_using_decl(self, node, ast_path)
+            <V as FoldAstPath>::fold_using_decl(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -104287,7 +104451,7 @@ where
     #[inline]
     fn fold_var_decl(&mut self, node: VarDecl, ast_path: &mut AstKindPath) -> VarDecl {
         if self.enabled {
-            <V as FoldAstPath>::fold_var_decl(self, node, ast_path)
+            <V as FoldAstPath>::fold_var_decl(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -104296,7 +104460,7 @@ where
     #[inline]
     fn fold_var_decl_kind(&mut self, node: VarDeclKind, ast_path: &mut AstKindPath) -> VarDeclKind {
         if self.enabled {
-            <V as FoldAstPath>::fold_var_decl_kind(self, node, ast_path)
+            <V as FoldAstPath>::fold_var_decl_kind(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -104309,7 +104473,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> VarDeclOrExpr {
         if self.enabled {
-            <V as FoldAstPath>::fold_var_decl_or_expr(self, node, ast_path)
+            <V as FoldAstPath>::fold_var_decl_or_expr(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -104322,7 +104486,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> VarDeclarator {
         if self.enabled {
-            <V as FoldAstPath>::fold_var_declarator(self, node, ast_path)
+            <V as FoldAstPath>::fold_var_declarator(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -104335,7 +104499,7 @@ where
         ast_path: &mut AstKindPath,
     ) -> Vec<VarDeclarator> {
         if self.enabled {
-            <V as FoldAstPath>::fold_var_declarators(self, node, ast_path)
+            <V as FoldAstPath>::fold_var_declarators(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -104344,7 +104508,7 @@ where
     #[inline]
     fn fold_while_stmt(&mut self, node: WhileStmt, ast_path: &mut AstKindPath) -> WhileStmt {
         if self.enabled {
-            <V as FoldAstPath>::fold_while_stmt(self, node, ast_path)
+            <V as FoldAstPath>::fold_while_stmt(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -104353,7 +104517,7 @@ where
     #[inline]
     fn fold_with_stmt(&mut self, node: WithStmt, ast_path: &mut AstKindPath) -> WithStmt {
         if self.enabled {
-            <V as FoldAstPath>::fold_with_stmt(self, node, ast_path)
+            <V as FoldAstPath>::fold_with_stmt(&mut self.visitor, node, ast_path)
         } else {
             node
         }
@@ -104362,7 +104526,7 @@ where
     #[inline]
     fn fold_yield_expr(&mut self, node: YieldExpr, ast_path: &mut AstKindPath) -> YieldExpr {
         if self.enabled {
-            <V as FoldAstPath>::fold_yield_expr(self, node, ast_path)
+            <V as FoldAstPath>::fold_yield_expr(&mut self.visitor, node, ast_path)
         } else {
             node
         }
