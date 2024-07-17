@@ -165,7 +165,7 @@ fn to_field_ty(ty: &Type) -> Option<FieldType> {
     }
 
     if let Some(ty) = extract_generic("Option", ty) {
-        return to_field_ty(ty).map(|ty| FieldType::Generic("Box".into(), Box::new(ty)));
+        return to_field_ty(ty).map(|ty| FieldType::Generic("Option".into(), Box::new(ty)));
     }
 
     match ty {
