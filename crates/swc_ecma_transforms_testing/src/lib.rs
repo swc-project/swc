@@ -690,8 +690,7 @@ where
     })
 }
 
-/// Execute `jest` after transpiling `input` using `tr`.
-pub fn exec_tr<F, P>(_test_name: &str, syntax: Syntax, tr: F, input: &str)
+fn exec_tr_with<F, P>(syntax: Syntax, src_type: SrcType, tr: F, input: &str)
 where
     F: FnOnce(&mut Tester<'_>) -> P,
     P: Fold,
@@ -699,7 +698,7 @@ where
     Tester::run(|tester| {
         let tr = make_tr(tr, tester);
 
-        let program = tester.apply_transform(
+        let program = tester.apply_transform_with(
             tr,
             "input.js",
             syntax,
@@ -709,6 +708,7 @@ where
                 }})",
                 input
             ),
+            src_type
         )?;
         match ::std::env::var("PRINT_HYGIENE") {
             Ok(ref s) if s == "1" => {
@@ -740,6 +740,33 @@ where
 
         exec_with_node_test_runner(&src).map(|_| {})
     })
+}
+
+/// Execute `jest` after transpiling `input` using `tr`.
+pub fn exec_tr<F, P>(_test_name: &str, syntax: Syntax, tr: F, input: &str)
+where
+    F: FnOnce(&mut Tester<'_>) -> P,
+    P: Fold,
+{
+    exec_tr_with(syntax, SrcType::Program, tr, input)
+}
+
+/// Same as [exec_tr], but parses input as a [Module][Program::Module].
+pub fn exec_module_tr<F, P>(_test_name: &str, syntax: Syntax, tr: F, input: &str)
+    where
+        F: FnOnce(&mut Tester<'_>) -> P,
+        P: Fold,
+{
+    exec_tr_with(syntax, SrcType::Module, tr, input)
+}
+
+/// Same as [exec_tr], but parses input as a [Script][Program::Script].
+pub fn exec_script_tr<F, P>(_test_name: &str, syntax: Syntax, tr: F, input: &str)
+    where
+        F: FnOnce(&mut Tester<'_>) -> P,
+        P: Fold,
+{
+    exec_tr_with(syntax, SrcType::Script, tr, input)
 }
 
 fn calc_hash(s: &str) -> String {
