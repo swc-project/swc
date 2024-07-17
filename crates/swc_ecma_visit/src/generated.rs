@@ -6263,18 +6263,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for num_bigint::BigInt {
         {}
     }
 }
-impl<V: ?Sized + Visit> VisitWith<V> for Box<BigIntValue> {
-    #[doc = "Calls [Visit`::visit_big_int_value`] with `self`. (Extra impl)"]
-    fn visit_with(&self, visitor: &mut V) {
-        <V as Visit>::visit_big_int_value(visitor, self)
-    }
-
-    fn visit_children_with(&self, visitor: &mut V) {
-        {
-            <V as VisitWith>::visit_with(&**self, visitor)
-        }
-    }
-}
 impl<V: ?Sized + Visit> VisitWith<V> for BigIntValue {
     #[doc = "Calls [Visit`::visit_big_int_value`] with `self`. (Extra impl)"]
     fn visit_with(&self, visitor: &mut V) {
@@ -6285,6 +6273,18 @@ impl<V: ?Sized + Visit> VisitWith<V> for BigIntValue {
         {}
     }
 }
+impl<V: ?Sized + Visit> VisitWith<V> for Box<BigIntValue> {
+    #[doc = "Calls [Visit`::visit_big_int_value`] with `self`. (Extra impl)"]
+    fn visit_with(&self, visitor: &mut V) {
+        <V as Visit>::visit_big_int_value(visitor, self)
+    }
+
+    fn visit_children_with(&self, visitor: &mut V) {
+        {
+            <BigIntValue as VisitWith<V>>::visit_with(&**self, visitor)
+        }
+    }
+}
 impl<V: ?Sized + Visit> VisitWith<V> for Box<BlockStmtOrExpr> {
     #[doc = "Calls [Visit`::visit_block_stmt_or_expr`] with `self`. (Extra impl)"]
     fn visit_with(&self, visitor: &mut V) {
@@ -6293,7 +6293,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Box<BlockStmtOrExpr> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         {
-            <V as VisitWith>::visit_with(&**self, visitor)
+            <BlockStmtOrExpr as VisitWith<V>>::visit_with(&**self, visitor)
         }
     }
 }
@@ -6305,7 +6305,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Box<Class> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         {
-            <V as VisitWith>::visit_with(&**self, visitor)
+            <Class as VisitWith<V>>::visit_with(&**self, visitor)
         }
     }
 }
@@ -6317,7 +6317,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Vec<ClassMember> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         self.iter()
-            .for_each(|item| <V as VisitWith>::visit_with(item, visitor))
+            .for_each(|item| <ClassMember as VisitWith<V>>::visit_with(item, visitor))
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for ClassMethod {
@@ -6338,7 +6338,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Vec<Decorator> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         self.iter()
-            .for_each(|item| <V as VisitWith>::visit_with(item, visitor))
+            .for_each(|item| <Decorator as VisitWith<V>>::visit_with(item, visitor))
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for Vec<ExportSpecifier> {
@@ -6349,7 +6349,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Vec<ExportSpecifier> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         self.iter()
-            .for_each(|item| <V as VisitWith>::visit_with(item, visitor))
+            .for_each(|item| <ExportSpecifier as VisitWith<V>>::visit_with(item, visitor))
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for Box<Expr> {
@@ -6360,7 +6360,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Box<Expr> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         {
-            <V as VisitWith>::visit_with(&**self, visitor)
+            <Expr as VisitWith<V>>::visit_with(&**self, visitor)
         }
     }
 }
@@ -6372,7 +6372,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Vec<ExprOrSpread> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         self.iter()
-            .for_each(|item| <V as VisitWith>::visit_with(item, visitor))
+            .for_each(|item| <ExprOrSpread as VisitWith<V>>::visit_with(item, visitor))
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for Vec<Box<Expr>> {
@@ -6383,7 +6383,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Vec<Box<Expr>> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         self.iter()
-            .for_each(|item| <V as VisitWith>::visit_with(item, visitor))
+            .for_each(|item| <Box<Expr> as VisitWith<V>>::visit_with(item, visitor))
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for Box<Function> {
@@ -6394,7 +6394,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Box<Function> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         {
-            <V as VisitWith>::visit_with(&**self, visitor)
+            <Function as VisitWith<V>>::visit_with(&**self, visitor)
         }
     }
 }
@@ -6406,7 +6406,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Vec<ImportSpecifier> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         self.iter()
-            .for_each(|item| <V as VisitWith>::visit_with(item, visitor))
+            .for_each(|item| <ImportSpecifier as VisitWith<V>>::visit_with(item, visitor))
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for Vec<ImportWithItem> {
@@ -6417,7 +6417,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Vec<ImportWithItem> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         self.iter()
-            .for_each(|item| <V as VisitWith>::visit_with(item, visitor))
+            .for_each(|item| <ImportWithItem as VisitWith<V>>::visit_with(item, visitor))
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for Vec<JSXAttrOrSpread> {
@@ -6428,7 +6428,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Vec<JSXAttrOrSpread> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         self.iter()
-            .for_each(|item| <V as VisitWith>::visit_with(item, visitor))
+            .for_each(|item| <JSXAttrOrSpread as VisitWith<V>>::visit_with(item, visitor))
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for Box<JSXElement> {
@@ -6439,7 +6439,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Box<JSXElement> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         {
-            <V as VisitWith>::visit_with(&**self, visitor)
+            <JSXElement as VisitWith<V>>::visit_with(&**self, visitor)
         }
     }
 }
@@ -6451,7 +6451,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Vec<JSXElementChild> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         self.iter()
-            .for_each(|item| <V as VisitWith>::visit_with(item, visitor))
+            .for_each(|item| <JSXElementChild as VisitWith<V>>::visit_with(item, visitor))
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for Box<JSXMemberExpr> {
@@ -6462,7 +6462,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Box<JSXMemberExpr> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         {
-            <V as VisitWith>::visit_with(&**self, visitor)
+            <JSXMemberExpr as VisitWith<V>>::visit_with(&**self, visitor)
         }
     }
 }
@@ -6474,7 +6474,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Vec<ModuleItem> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         self.iter()
-            .for_each(|item| <V as VisitWith>::visit_with(item, visitor))
+            .for_each(|item| <ModuleItem as VisitWith<V>>::visit_with(item, visitor))
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for Box<ObjectLit> {
@@ -6485,7 +6485,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Box<ObjectLit> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         {
-            <V as VisitWith>::visit_with(&**self, visitor)
+            <ObjectLit as VisitWith<V>>::visit_with(&**self, visitor)
         }
     }
 }
@@ -6497,7 +6497,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Vec<ObjectPatProp> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         self.iter()
-            .for_each(|item| <V as VisitWith>::visit_with(item, visitor))
+            .for_each(|item| <ObjectPatProp as VisitWith<V>>::visit_with(item, visitor))
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for Option<Accessibility> {
@@ -6509,7 +6509,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Option<Accessibility> {
     fn visit_children_with(&self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitWith>::visit_with(visitor, inner),
+                Some(inner) => <Accessibility as VisitWith<V>>::visit_with(visitor, inner),
                 None => {}
             }
         }
@@ -6524,7 +6524,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Option<swc_atoms::Atom> {
     fn visit_children_with(&self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitWith>::visit_with(visitor, inner),
+                Some(inner) => <swc_atoms::Atom as VisitWith<V>>::visit_with(visitor, inner),
                 None => {}
             }
         }
@@ -6539,7 +6539,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Option<BlockStmt> {
     fn visit_children_with(&self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitWith>::visit_with(visitor, inner),
+                Some(inner) => <BlockStmt as VisitWith<V>>::visit_with(visitor, inner),
                 None => {}
             }
         }
@@ -6554,7 +6554,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Option<CatchClause> {
     fn visit_children_with(&self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitWith>::visit_with(visitor, inner),
+                Some(inner) => <CatchClause as VisitWith<V>>::visit_with(visitor, inner),
                 None => {}
             }
         }
@@ -6568,7 +6568,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Box<OptChainBase> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         {
-            <V as VisitWith>::visit_with(&**self, visitor)
+            <OptChainBase as VisitWith<V>>::visit_with(&**self, visitor)
         }
     }
 }
@@ -6581,7 +6581,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Option<Box<Expr>> {
     fn visit_children_with(&self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitWith>::visit_with(visitor, inner),
+                Some(inner) => <Box<Expr> as VisitWith<V>>::visit_with(visitor, inner),
                 None => {}
             }
         }
@@ -6596,7 +6596,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Option<ExprOrSpread> {
     fn visit_children_with(&self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitWith>::visit_with(visitor, inner),
+                Some(inner) => <ExprOrSpread as VisitWith<V>>::visit_with(visitor, inner),
                 None => {}
             }
         }
@@ -6611,7 +6611,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Option<Vec<ExprOrSpread>> {
     fn visit_children_with(&self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitWith>::visit_with(visitor, inner),
+                Some(inner) => <Vec<ExprOrSpread> as VisitWith<V>>::visit_with(visitor, inner),
                 None => {}
             }
         }
@@ -6625,7 +6625,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Vec<Option<ExprOrSpread>> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         self.iter()
-            .for_each(|item| <V as VisitWith>::visit_with(item, visitor))
+            .for_each(|item| <Option<ExprOrSpread> as VisitWith<V>>::visit_with(item, visitor))
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for Option<Ident> {
@@ -6637,7 +6637,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Option<Ident> {
     fn visit_children_with(&self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitWith>::visit_with(visitor, inner),
+                Some(inner) => <Ident as VisitWith<V>>::visit_with(visitor, inner),
                 None => {}
             }
         }
@@ -6652,7 +6652,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Option<JSXAttrValue> {
     fn visit_children_with(&self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitWith>::visit_with(visitor, inner),
+                Some(inner) => <JSXAttrValue as VisitWith<V>>::visit_with(visitor, inner),
                 None => {}
             }
         }
@@ -6667,7 +6667,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Option<JSXClosingElement> {
     fn visit_children_with(&self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitWith>::visit_with(visitor, inner),
+                Some(inner) => <JSXClosingElement as VisitWith<V>>::visit_with(visitor, inner),
                 None => {}
             }
         }
@@ -6682,7 +6682,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Option<ModuleExportName> {
     fn visit_children_with(&self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitWith>::visit_with(visitor, inner),
+                Some(inner) => <ModuleExportName as VisitWith<V>>::visit_with(visitor, inner),
                 None => {}
             }
         }
@@ -6697,7 +6697,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Option<Vec<ModuleItem>> {
     fn visit_children_with(&self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitWith>::visit_with(visitor, inner),
+                Some(inner) => <Vec<ModuleItem> as VisitWith<V>>::visit_with(visitor, inner),
                 None => {}
             }
         }
@@ -6712,7 +6712,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Option<Box<ObjectLit>> {
     fn visit_children_with(&self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitWith>::visit_with(visitor, inner),
+                Some(inner) => <Box<ObjectLit> as VisitWith<V>>::visit_with(visitor, inner),
                 None => {}
             }
         }
@@ -6727,7 +6727,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Option<Pat> {
     fn visit_children_with(&self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitWith>::visit_with(visitor, inner),
+                Some(inner) => <Pat as VisitWith<V>>::visit_with(visitor, inner),
                 None => {}
             }
         }
@@ -6741,7 +6741,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Vec<Option<Pat>> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         self.iter()
-            .for_each(|item| <V as VisitWith>::visit_with(item, visitor))
+            .for_each(|item| <Option<Pat> as VisitWith<V>>::visit_with(item, visitor))
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for Option<swc_common::Span> {
@@ -6753,7 +6753,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Option<swc_common::Span> {
     fn visit_children_with(&self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitWith>::visit_with(visitor, inner),
+                Some(inner) => <swc_common::Span as VisitWith<V>>::visit_with(visitor, inner),
                 None => {}
             }
         }
@@ -6768,7 +6768,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Option<Box<Stmt>> {
     fn visit_children_with(&self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitWith>::visit_with(visitor, inner),
+                Some(inner) => <Box<Stmt> as VisitWith<V>>::visit_with(visitor, inner),
                 None => {}
             }
         }
@@ -6783,7 +6783,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Option<Box<Str>> {
     fn visit_children_with(&self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitWith>::visit_with(visitor, inner),
+                Some(inner) => <Box<Str> as VisitWith<V>>::visit_with(visitor, inner),
                 None => {}
             }
         }
@@ -6798,7 +6798,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Option<TruePlusMinus> {
     fn visit_children_with(&self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitWith>::visit_with(visitor, inner),
+                Some(inner) => <TruePlusMinus as VisitWith<V>>::visit_with(visitor, inner),
                 None => {}
             }
         }
@@ -6813,7 +6813,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Option<TsEntityName> {
     fn visit_children_with(&self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitWith>::visit_with(visitor, inner),
+                Some(inner) => <TsEntityName as VisitWith<V>>::visit_with(visitor, inner),
                 None => {}
             }
         }
@@ -6828,7 +6828,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Option<TsNamespaceBody> {
     fn visit_children_with(&self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitWith>::visit_with(visitor, inner),
+                Some(inner) => <TsNamespaceBody as VisitWith<V>>::visit_with(visitor, inner),
                 None => {}
             }
         }
@@ -6843,7 +6843,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Option<Box<TsType>> {
     fn visit_children_with(&self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitWith>::visit_with(visitor, inner),
+                Some(inner) => <Box<TsType> as VisitWith<V>>::visit_with(visitor, inner),
                 None => {}
             }
         }
@@ -6858,7 +6858,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Option<Box<TsTypeAnn>> {
     fn visit_children_with(&self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitWith>::visit_with(visitor, inner),
+                Some(inner) => <Box<TsTypeAnn> as VisitWith<V>>::visit_with(visitor, inner),
                 None => {}
             }
         }
@@ -6873,7 +6873,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Option<Box<TsTypeParamDecl>> {
     fn visit_children_with(&self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitWith>::visit_with(visitor, inner),
+                Some(inner) => <Box<TsTypeParamDecl> as VisitWith<V>>::visit_with(visitor, inner),
                 None => {}
             }
         }
@@ -6888,7 +6888,9 @@ impl<V: ?Sized + Visit> VisitWith<V> for Option<Box<TsTypeParamInstantiation>> {
     fn visit_children_with(&self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitWith>::visit_with(visitor, inner),
+                Some(inner) => {
+                    <Box<TsTypeParamInstantiation> as VisitWith<V>>::visit_with(visitor, inner)
+                }
                 None => {}
             }
         }
@@ -6903,7 +6905,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Option<VarDeclOrExpr> {
     fn visit_children_with(&self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitWith>::visit_with(visitor, inner),
+                Some(inner) => <VarDeclOrExpr as VisitWith<V>>::visit_with(visitor, inner),
                 None => {}
             }
         }
@@ -6917,7 +6919,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Vec<ParamOrTsParamProp> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         self.iter()
-            .for_each(|item| <V as VisitWith>::visit_with(item, visitor))
+            .for_each(|item| <ParamOrTsParamProp as VisitWith<V>>::visit_with(item, visitor))
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for Vec<Param> {
@@ -6928,7 +6930,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Vec<Param> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         self.iter()
-            .for_each(|item| <V as VisitWith>::visit_with(item, visitor))
+            .for_each(|item| <Param as VisitWith<V>>::visit_with(item, visitor))
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for Box<Pat> {
@@ -6939,7 +6941,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Box<Pat> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         {
-            <V as VisitWith>::visit_with(&**self, visitor)
+            <Pat as VisitWith<V>>::visit_with(&**self, visitor)
         }
     }
 }
@@ -6951,7 +6953,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Vec<Pat> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         self.iter()
-            .for_each(|item| <V as VisitWith>::visit_with(item, visitor))
+            .for_each(|item| <Pat as VisitWith<V>>::visit_with(item, visitor))
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for PrivateMethod {
@@ -6972,7 +6974,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Box<Prop> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         {
-            <V as VisitWith>::visit_with(&**self, visitor)
+            <Prop as VisitWith<V>>::visit_with(&**self, visitor)
         }
     }
 }
@@ -6984,7 +6986,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Vec<PropOrSpread> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         self.iter()
-            .for_each(|item| <V as VisitWith>::visit_with(item, visitor))
+            .for_each(|item| <PropOrSpread as VisitWith<V>>::visit_with(item, visitor))
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for swc_common::Span {
@@ -7005,7 +7007,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Box<Stmt> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         {
-            <V as VisitWith>::visit_with(&**self, visitor)
+            <Stmt as VisitWith<V>>::visit_with(&**self, visitor)
         }
     }
 }
@@ -7017,7 +7019,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Vec<Stmt> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         self.iter()
-            .for_each(|item| <V as VisitWith>::visit_with(item, visitor))
+            .for_each(|item| <Stmt as VisitWith<V>>::visit_with(item, visitor))
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for Box<Str> {
@@ -7028,7 +7030,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Box<Str> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         {
-            <V as VisitWith>::visit_with(&**self, visitor)
+            <Str as VisitWith<V>>::visit_with(&**self, visitor)
         }
     }
 }
@@ -7040,7 +7042,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Vec<SwitchCase> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         self.iter()
-            .for_each(|item| <V as VisitWith>::visit_with(item, visitor))
+            .for_each(|item| <SwitchCase as VisitWith<V>>::visit_with(item, visitor))
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for swc_common::SyntaxContext {
@@ -7061,7 +7063,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Box<Tpl> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         {
-            <V as VisitWith>::visit_with(&**self, visitor)
+            <Tpl as VisitWith<V>>::visit_with(&**self, visitor)
         }
     }
 }
@@ -7073,7 +7075,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Vec<TplElement> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         self.iter()
-            .for_each(|item| <V as VisitWith>::visit_with(item, visitor))
+            .for_each(|item| <TplElement as VisitWith<V>>::visit_with(item, visitor))
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for Box<TryStmt> {
@@ -7084,7 +7086,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Box<TryStmt> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         {
-            <V as VisitWith>::visit_with(&**self, visitor)
+            <TryStmt as VisitWith<V>>::visit_with(&**self, visitor)
         }
     }
 }
@@ -7096,7 +7098,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Box<TsEnumDecl> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         {
-            <V as VisitWith>::visit_with(&**self, visitor)
+            <TsEnumDecl as VisitWith<V>>::visit_with(&**self, visitor)
         }
     }
 }
@@ -7108,7 +7110,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Vec<TsEnumMember> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         self.iter()
-            .for_each(|item| <V as VisitWith>::visit_with(item, visitor))
+            .for_each(|item| <TsEnumMember as VisitWith<V>>::visit_with(item, visitor))
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for Vec<TsExprWithTypeArgs> {
@@ -7119,7 +7121,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Vec<TsExprWithTypeArgs> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         self.iter()
-            .for_each(|item| <V as VisitWith>::visit_with(item, visitor))
+            .for_each(|item| <TsExprWithTypeArgs as VisitWith<V>>::visit_with(item, visitor))
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for Vec<TsFnParam> {
@@ -7130,7 +7132,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Vec<TsFnParam> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         self.iter()
-            .for_each(|item| <V as VisitWith>::visit_with(item, visitor))
+            .for_each(|item| <TsFnParam as VisitWith<V>>::visit_with(item, visitor))
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for Box<TsImportEqualsDecl> {
@@ -7141,7 +7143,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Box<TsImportEqualsDecl> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         {
-            <V as VisitWith>::visit_with(&**self, visitor)
+            <TsImportEqualsDecl as VisitWith<V>>::visit_with(&**self, visitor)
         }
     }
 }
@@ -7153,7 +7155,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Box<TsInterfaceDecl> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         {
-            <V as VisitWith>::visit_with(&**self, visitor)
+            <TsInterfaceDecl as VisitWith<V>>::visit_with(&**self, visitor)
         }
     }
 }
@@ -7165,7 +7167,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Box<TsModuleDecl> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         {
-            <V as VisitWith>::visit_with(&**self, visitor)
+            <TsModuleDecl as VisitWith<V>>::visit_with(&**self, visitor)
         }
     }
 }
@@ -7177,7 +7179,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Box<TsNamespaceBody> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         {
-            <V as VisitWith>::visit_with(&**self, visitor)
+            <TsNamespaceBody as VisitWith<V>>::visit_with(&**self, visitor)
         }
     }
 }
@@ -7189,7 +7191,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Box<TsQualifiedName> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         {
-            <V as VisitWith>::visit_with(&**self, visitor)
+            <TsQualifiedName as VisitWith<V>>::visit_with(&**self, visitor)
         }
     }
 }
@@ -7201,7 +7203,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Vec<TsTupleElement> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         self.iter()
-            .for_each(|item| <V as VisitWith>::visit_with(item, visitor))
+            .for_each(|item| <TsTupleElement as VisitWith<V>>::visit_with(item, visitor))
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for Box<TsType> {
@@ -7212,7 +7214,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Box<TsType> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         {
-            <V as VisitWith>::visit_with(&**self, visitor)
+            <TsType as VisitWith<V>>::visit_with(&**self, visitor)
         }
     }
 }
@@ -7224,7 +7226,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Box<TsTypeAliasDecl> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         {
-            <V as VisitWith>::visit_with(&**self, visitor)
+            <TsTypeAliasDecl as VisitWith<V>>::visit_with(&**self, visitor)
         }
     }
 }
@@ -7236,7 +7238,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Box<TsTypeAnn> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         {
-            <V as VisitWith>::visit_with(&**self, visitor)
+            <TsTypeAnn as VisitWith<V>>::visit_with(&**self, visitor)
         }
     }
 }
@@ -7248,7 +7250,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Vec<TsTypeElement> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         self.iter()
-            .for_each(|item| <V as VisitWith>::visit_with(item, visitor))
+            .for_each(|item| <TsTypeElement as VisitWith<V>>::visit_with(item, visitor))
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for Box<TsTypeParamDecl> {
@@ -7259,7 +7261,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Box<TsTypeParamDecl> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         {
-            <V as VisitWith>::visit_with(&**self, visitor)
+            <TsTypeParamDecl as VisitWith<V>>::visit_with(&**self, visitor)
         }
     }
 }
@@ -7271,7 +7273,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Box<TsTypeParamInstantiation> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         {
-            <V as VisitWith>::visit_with(&**self, visitor)
+            <TsTypeParamInstantiation as VisitWith<V>>::visit_with(&**self, visitor)
         }
     }
 }
@@ -7283,7 +7285,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Vec<TsTypeParam> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         self.iter()
-            .for_each(|item| <V as VisitWith>::visit_with(item, visitor))
+            .for_each(|item| <TsTypeParam as VisitWith<V>>::visit_with(item, visitor))
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for Vec<Box<TsType>> {
@@ -7294,7 +7296,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Vec<Box<TsType>> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         self.iter()
-            .for_each(|item| <V as VisitWith>::visit_with(item, visitor))
+            .for_each(|item| <Box<TsType> as VisitWith<V>>::visit_with(item, visitor))
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for Box<UsingDecl> {
@@ -7305,7 +7307,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Box<UsingDecl> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         {
-            <V as VisitWith>::visit_with(&**self, visitor)
+            <UsingDecl as VisitWith<V>>::visit_with(&**self, visitor)
         }
     }
 }
@@ -7317,7 +7319,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Box<VarDecl> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         {
-            <V as VisitWith>::visit_with(&**self, visitor)
+            <VarDecl as VisitWith<V>>::visit_with(&**self, visitor)
         }
     }
 }
@@ -7329,7 +7331,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Vec<VarDeclarator> {
 
     fn visit_children_with(&self, visitor: &mut V) {
         self.iter()
-            .for_each(|item| <V as VisitWith>::visit_with(item, visitor))
+            .for_each(|item| <VarDeclarator as VisitWith<V>>::visit_with(item, visitor))
     }
 }
 #[doc = r" A visitor trait for traversing the AST."]
@@ -18051,28 +18053,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for num_bigint::BigInt {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<BigIntValue> {
-    #[doc = "Calls [VisitAstPath`::visit_big_int_value`] with `self`. (Extra impl)"]
-    fn visit_with_ast_path<'ast: 'r, 'r>(
-        &'ast self,
-        visitor: &mut V,
-        ast_path: &mut AstNodePath<'r>,
-    ) {
-        <V as VisitAstPath>::visit_big_int_value(visitor, self, ast_path)
-    }
-
-    fn visit_children_with_ast_path<'ast: 'r, 'r>(
-        &'ast self,
-        visitor: &mut V,
-        ast_path: &mut AstNodePath<'r>,
-    ) {
-        {
-            <V as VisitWithAstPath>::visit_with(&**self, visitor, ast_path)
-        }
-    }
-}
-#[cfg(any(docsrs, feature = "path"))]
-#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for BigIntValue {
     #[doc = "Calls [VisitAstPath`::visit_big_int_value`] with `self`. (Extra impl)"]
     fn visit_with_ast_path<'ast: 'r, 'r>(
@@ -18093,6 +18073,28 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for BigIntValue {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<BigIntValue> {
+    #[doc = "Calls [VisitAstPath`::visit_big_int_value`] with `self`. (Extra impl)"]
+    fn visit_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::visit_big_int_value(visitor, self, ast_path)
+    }
+
+    fn visit_children_with_ast_path<'ast: 'r, 'r>(
+        &'ast self,
+        visitor: &mut V,
+        ast_path: &mut AstNodePath<'r>,
+    ) {
+        {
+            <BigIntValue as VisitWithAstPath<V>>::visit_with(&**self, visitor, ast_path)
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<BlockStmtOrExpr> {
     #[doc = "Calls [VisitAstPath`::visit_block_stmt_or_expr`] with `self`. (Extra impl)"]
     fn visit_with_ast_path<'ast: 'r, 'r>(
@@ -18109,7 +18111,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<BlockStmtOrExpr> {
         ast_path: &mut AstNodePath<'r>,
     ) {
         {
-            <V as VisitWithAstPath>::visit_with(&**self, visitor, ast_path)
+            <BlockStmtOrExpr as VisitWithAstPath<V>>::visit_with(&**self, visitor, ast_path)
         }
     }
 }
@@ -18131,7 +18133,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<Class> {
         ast_path: &mut AstNodePath<'r>,
     ) {
         {
-            <V as VisitWithAstPath>::visit_with(&**self, visitor, ast_path)
+            <Class as VisitWithAstPath<V>>::visit_with(&**self, visitor, ast_path)
         }
     }
 }
@@ -18152,8 +18154,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<ClassMember> {
         visitor: &mut V,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        self.iter()
-            .for_each(|item| <V as VisitWithAstPath>::visit_with(item, visitor, ast_path))
+        self.iter().for_each(|item| {
+            <ClassMember as VisitWithAstPath<V>>::visit_with(item, visitor, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -18193,8 +18196,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<Decorator> {
         visitor: &mut V,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        self.iter()
-            .for_each(|item| <V as VisitWithAstPath>::visit_with(item, visitor, ast_path))
+        self.iter().for_each(|item| {
+            <Decorator as VisitWithAstPath<V>>::visit_with(item, visitor, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -18214,8 +18218,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<ExportSpecifier> {
         visitor: &mut V,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        self.iter()
-            .for_each(|item| <V as VisitWithAstPath>::visit_with(item, visitor, ast_path))
+        self.iter().for_each(|item| {
+            <ExportSpecifier as VisitWithAstPath<V>>::visit_with(item, visitor, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -18236,7 +18241,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<Expr> {
         ast_path: &mut AstNodePath<'r>,
     ) {
         {
-            <V as VisitWithAstPath>::visit_with(&**self, visitor, ast_path)
+            <Expr as VisitWithAstPath<V>>::visit_with(&**self, visitor, ast_path)
         }
     }
 }
@@ -18257,8 +18262,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<ExprOrSpread> {
         visitor: &mut V,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        self.iter()
-            .for_each(|item| <V as VisitWithAstPath>::visit_with(item, visitor, ast_path))
+        self.iter().for_each(|item| {
+            <ExprOrSpread as VisitWithAstPath<V>>::visit_with(item, visitor, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -18278,8 +18284,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<Box<Expr>> {
         visitor: &mut V,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        self.iter()
-            .for_each(|item| <V as VisitWithAstPath>::visit_with(item, visitor, ast_path))
+        self.iter().for_each(|item| {
+            <Box<Expr> as VisitWithAstPath<V>>::visit_with(item, visitor, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -18300,7 +18307,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<Function> {
         ast_path: &mut AstNodePath<'r>,
     ) {
         {
-            <V as VisitWithAstPath>::visit_with(&**self, visitor, ast_path)
+            <Function as VisitWithAstPath<V>>::visit_with(&**self, visitor, ast_path)
         }
     }
 }
@@ -18321,8 +18328,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<ImportSpecifier> {
         visitor: &mut V,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        self.iter()
-            .for_each(|item| <V as VisitWithAstPath>::visit_with(item, visitor, ast_path))
+        self.iter().for_each(|item| {
+            <ImportSpecifier as VisitWithAstPath<V>>::visit_with(item, visitor, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -18342,8 +18350,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<ImportWithItem> {
         visitor: &mut V,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        self.iter()
-            .for_each(|item| <V as VisitWithAstPath>::visit_with(item, visitor, ast_path))
+        self.iter().for_each(|item| {
+            <ImportWithItem as VisitWithAstPath<V>>::visit_with(item, visitor, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -18363,8 +18372,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<JSXAttrOrSpread> {
         visitor: &mut V,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        self.iter()
-            .for_each(|item| <V as VisitWithAstPath>::visit_with(item, visitor, ast_path))
+        self.iter().for_each(|item| {
+            <JSXAttrOrSpread as VisitWithAstPath<V>>::visit_with(item, visitor, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -18385,7 +18395,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<JSXElement> {
         ast_path: &mut AstNodePath<'r>,
     ) {
         {
-            <V as VisitWithAstPath>::visit_with(&**self, visitor, ast_path)
+            <JSXElement as VisitWithAstPath<V>>::visit_with(&**self, visitor, ast_path)
         }
     }
 }
@@ -18406,8 +18416,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<JSXElementChild> {
         visitor: &mut V,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        self.iter()
-            .for_each(|item| <V as VisitWithAstPath>::visit_with(item, visitor, ast_path))
+        self.iter().for_each(|item| {
+            <JSXElementChild as VisitWithAstPath<V>>::visit_with(item, visitor, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -18428,7 +18439,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<JSXMemberExpr> {
         ast_path: &mut AstNodePath<'r>,
     ) {
         {
-            <V as VisitWithAstPath>::visit_with(&**self, visitor, ast_path)
+            <JSXMemberExpr as VisitWithAstPath<V>>::visit_with(&**self, visitor, ast_path)
         }
     }
 }
@@ -18449,8 +18460,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<ModuleItem> {
         visitor: &mut V,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        self.iter()
-            .for_each(|item| <V as VisitWithAstPath>::visit_with(item, visitor, ast_path))
+        self.iter().for_each(|item| {
+            <ModuleItem as VisitWithAstPath<V>>::visit_with(item, visitor, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -18471,7 +18483,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<ObjectLit> {
         ast_path: &mut AstNodePath<'r>,
     ) {
         {
-            <V as VisitWithAstPath>::visit_with(&**self, visitor, ast_path)
+            <ObjectLit as VisitWithAstPath<V>>::visit_with(&**self, visitor, ast_path)
         }
     }
 }
@@ -18492,8 +18504,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<ObjectPatProp> {
         visitor: &mut V,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        self.iter()
-            .for_each(|item| <V as VisitWithAstPath>::visit_with(item, visitor, ast_path))
+        self.iter().for_each(|item| {
+            <ObjectPatProp as VisitWithAstPath<V>>::visit_with(item, visitor, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -18515,7 +18528,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Accessibility> {
     ) {
         {
             match self {
-                Some(inner) => <V as VisitWithAstPath>::visit_with(visitor, inner, ast_path),
+                Some(inner) => {
+                    <Accessibility as VisitWithAstPath<V>>::visit_with(visitor, inner, ast_path)
+                }
                 None => {}
             }
         }
@@ -18540,7 +18555,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<swc_atoms::Atom> {
     ) {
         {
             match self {
-                Some(inner) => <V as VisitWithAstPath>::visit_with(visitor, inner, ast_path),
+                Some(inner) => {
+                    <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with(visitor, inner, ast_path)
+                }
                 None => {}
             }
         }
@@ -18565,7 +18582,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<BlockStmt> {
     ) {
         {
             match self {
-                Some(inner) => <V as VisitWithAstPath>::visit_with(visitor, inner, ast_path),
+                Some(inner) => {
+                    <BlockStmt as VisitWithAstPath<V>>::visit_with(visitor, inner, ast_path)
+                }
                 None => {}
             }
         }
@@ -18590,7 +18609,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<CatchClause> {
     ) {
         {
             match self {
-                Some(inner) => <V as VisitWithAstPath>::visit_with(visitor, inner, ast_path),
+                Some(inner) => {
+                    <CatchClause as VisitWithAstPath<V>>::visit_with(visitor, inner, ast_path)
+                }
                 None => {}
             }
         }
@@ -18614,7 +18635,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<OptChainBase> {
         ast_path: &mut AstNodePath<'r>,
     ) {
         {
-            <V as VisitWithAstPath>::visit_with(&**self, visitor, ast_path)
+            <OptChainBase as VisitWithAstPath<V>>::visit_with(&**self, visitor, ast_path)
         }
     }
 }
@@ -18637,7 +18658,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Box<Expr>> {
     ) {
         {
             match self {
-                Some(inner) => <V as VisitWithAstPath>::visit_with(visitor, inner, ast_path),
+                Some(inner) => {
+                    <Box<Expr> as VisitWithAstPath<V>>::visit_with(visitor, inner, ast_path)
+                }
                 None => {}
             }
         }
@@ -18662,7 +18685,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<ExprOrSpread> {
     ) {
         {
             match self {
-                Some(inner) => <V as VisitWithAstPath>::visit_with(visitor, inner, ast_path),
+                Some(inner) => {
+                    <ExprOrSpread as VisitWithAstPath<V>>::visit_with(visitor, inner, ast_path)
+                }
                 None => {}
             }
         }
@@ -18687,7 +18712,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Vec<ExprOrSpread>>
     ) {
         {
             match self {
-                Some(inner) => <V as VisitWithAstPath>::visit_with(visitor, inner, ast_path),
+                Some(inner) => {
+                    <Vec<ExprOrSpread> as VisitWithAstPath<V>>::visit_with(visitor, inner, ast_path)
+                }
                 None => {}
             }
         }
@@ -18710,8 +18737,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<Option<ExprOrSpread>>
         visitor: &mut V,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        self.iter()
-            .for_each(|item| <V as VisitWithAstPath>::visit_with(item, visitor, ast_path))
+        self.iter().for_each(|item| {
+            <Option<ExprOrSpread> as VisitWithAstPath<V>>::visit_with(item, visitor, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -18733,7 +18761,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Ident> {
     ) {
         {
             match self {
-                Some(inner) => <V as VisitWithAstPath>::visit_with(visitor, inner, ast_path),
+                Some(inner) => <Ident as VisitWithAstPath<V>>::visit_with(visitor, inner, ast_path),
                 None => {}
             }
         }
@@ -18758,7 +18786,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<JSXAttrValue> {
     ) {
         {
             match self {
-                Some(inner) => <V as VisitWithAstPath>::visit_with(visitor, inner, ast_path),
+                Some(inner) => {
+                    <JSXAttrValue as VisitWithAstPath<V>>::visit_with(visitor, inner, ast_path)
+                }
                 None => {}
             }
         }
@@ -18783,7 +18813,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<JSXClosingElement>
     ) {
         {
             match self {
-                Some(inner) => <V as VisitWithAstPath>::visit_with(visitor, inner, ast_path),
+                Some(inner) => {
+                    <JSXClosingElement as VisitWithAstPath<V>>::visit_with(visitor, inner, ast_path)
+                }
                 None => {}
             }
         }
@@ -18808,7 +18840,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<ModuleExportName> 
     ) {
         {
             match self {
-                Some(inner) => <V as VisitWithAstPath>::visit_with(visitor, inner, ast_path),
+                Some(inner) => {
+                    <ModuleExportName as VisitWithAstPath<V>>::visit_with(visitor, inner, ast_path)
+                }
                 None => {}
             }
         }
@@ -18833,7 +18867,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Vec<ModuleItem>> {
     ) {
         {
             match self {
-                Some(inner) => <V as VisitWithAstPath>::visit_with(visitor, inner, ast_path),
+                Some(inner) => {
+                    <Vec<ModuleItem> as VisitWithAstPath<V>>::visit_with(visitor, inner, ast_path)
+                }
                 None => {}
             }
         }
@@ -18858,7 +18894,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Box<ObjectLit>> {
     ) {
         {
             match self {
-                Some(inner) => <V as VisitWithAstPath>::visit_with(visitor, inner, ast_path),
+                Some(inner) => {
+                    <Box<ObjectLit> as VisitWithAstPath<V>>::visit_with(visitor, inner, ast_path)
+                }
                 None => {}
             }
         }
@@ -18883,7 +18921,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Pat> {
     ) {
         {
             match self {
-                Some(inner) => <V as VisitWithAstPath>::visit_with(visitor, inner, ast_path),
+                Some(inner) => <Pat as VisitWithAstPath<V>>::visit_with(visitor, inner, ast_path),
                 None => {}
             }
         }
@@ -18906,8 +18944,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<Option<Pat>> {
         visitor: &mut V,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        self.iter()
-            .for_each(|item| <V as VisitWithAstPath>::visit_with(item, visitor, ast_path))
+        self.iter().for_each(|item| {
+            <Option<Pat> as VisitWithAstPath<V>>::visit_with(item, visitor, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -18929,7 +18968,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<swc_common::Span> 
     ) {
         {
             match self {
-                Some(inner) => <V as VisitWithAstPath>::visit_with(visitor, inner, ast_path),
+                Some(inner) => {
+                    <swc_common::Span as VisitWithAstPath<V>>::visit_with(visitor, inner, ast_path)
+                }
                 None => {}
             }
         }
@@ -18954,7 +18995,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Box<Stmt>> {
     ) {
         {
             match self {
-                Some(inner) => <V as VisitWithAstPath>::visit_with(visitor, inner, ast_path),
+                Some(inner) => {
+                    <Box<Stmt> as VisitWithAstPath<V>>::visit_with(visitor, inner, ast_path)
+                }
                 None => {}
             }
         }
@@ -18979,7 +19022,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Box<Str>> {
     ) {
         {
             match self {
-                Some(inner) => <V as VisitWithAstPath>::visit_with(visitor, inner, ast_path),
+                Some(inner) => {
+                    <Box<Str> as VisitWithAstPath<V>>::visit_with(visitor, inner, ast_path)
+                }
                 None => {}
             }
         }
@@ -19004,7 +19049,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<TruePlusMinus> {
     ) {
         {
             match self {
-                Some(inner) => <V as VisitWithAstPath>::visit_with(visitor, inner, ast_path),
+                Some(inner) => {
+                    <TruePlusMinus as VisitWithAstPath<V>>::visit_with(visitor, inner, ast_path)
+                }
                 None => {}
             }
         }
@@ -19029,7 +19076,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<TsEntityName> {
     ) {
         {
             match self {
-                Some(inner) => <V as VisitWithAstPath>::visit_with(visitor, inner, ast_path),
+                Some(inner) => {
+                    <TsEntityName as VisitWithAstPath<V>>::visit_with(visitor, inner, ast_path)
+                }
                 None => {}
             }
         }
@@ -19054,7 +19103,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<TsNamespaceBody> {
     ) {
         {
             match self {
-                Some(inner) => <V as VisitWithAstPath>::visit_with(visitor, inner, ast_path),
+                Some(inner) => {
+                    <TsNamespaceBody as VisitWithAstPath<V>>::visit_with(visitor, inner, ast_path)
+                }
                 None => {}
             }
         }
@@ -19079,7 +19130,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Box<TsType>> {
     ) {
         {
             match self {
-                Some(inner) => <V as VisitWithAstPath>::visit_with(visitor, inner, ast_path),
+                Some(inner) => {
+                    <Box<TsType> as VisitWithAstPath<V>>::visit_with(visitor, inner, ast_path)
+                }
                 None => {}
             }
         }
@@ -19104,7 +19157,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Box<TsTypeAnn>> {
     ) {
         {
             match self {
-                Some(inner) => <V as VisitWithAstPath>::visit_with(visitor, inner, ast_path),
+                Some(inner) => {
+                    <Box<TsTypeAnn> as VisitWithAstPath<V>>::visit_with(visitor, inner, ast_path)
+                }
                 None => {}
             }
         }
@@ -19129,7 +19184,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Box<TsTypeParamDec
     ) {
         {
             match self {
-                Some(inner) => <V as VisitWithAstPath>::visit_with(visitor, inner, ast_path),
+                Some(inner) => <Box<TsTypeParamDecl> as VisitWithAstPath<V>>::visit_with(
+                    visitor, inner, ast_path,
+                ),
                 None => {}
             }
         }
@@ -19155,7 +19212,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Box<TsTypeParamIns
     ) {
         {
             match self {
-                Some(inner) => <V as VisitWithAstPath>::visit_with(visitor, inner, ast_path),
+                Some(inner) => <Box<TsTypeParamInstantiation> as VisitWithAstPath<V>>::visit_with(
+                    visitor, inner, ast_path,
+                ),
                 None => {}
             }
         }
@@ -19180,7 +19239,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<VarDeclOrExpr> {
     ) {
         {
             match self {
-                Some(inner) => <V as VisitWithAstPath>::visit_with(visitor, inner, ast_path),
+                Some(inner) => {
+                    <VarDeclOrExpr as VisitWithAstPath<V>>::visit_with(visitor, inner, ast_path)
+                }
                 None => {}
             }
         }
@@ -19203,8 +19264,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<ParamOrTsParamProp> {
         visitor: &mut V,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        self.iter()
-            .for_each(|item| <V as VisitWithAstPath>::visit_with(item, visitor, ast_path))
+        self.iter().for_each(|item| {
+            <ParamOrTsParamProp as VisitWithAstPath<V>>::visit_with(item, visitor, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -19225,7 +19287,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<Param> {
         ast_path: &mut AstNodePath<'r>,
     ) {
         self.iter()
-            .for_each(|item| <V as VisitWithAstPath>::visit_with(item, visitor, ast_path))
+            .for_each(|item| <Param as VisitWithAstPath<V>>::visit_with(item, visitor, ast_path))
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -19246,7 +19308,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<Pat> {
         ast_path: &mut AstNodePath<'r>,
     ) {
         {
-            <V as VisitWithAstPath>::visit_with(&**self, visitor, ast_path)
+            <Pat as VisitWithAstPath<V>>::visit_with(&**self, visitor, ast_path)
         }
     }
 }
@@ -19268,7 +19330,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<Pat> {
         ast_path: &mut AstNodePath<'r>,
     ) {
         self.iter()
-            .for_each(|item| <V as VisitWithAstPath>::visit_with(item, visitor, ast_path))
+            .for_each(|item| <Pat as VisitWithAstPath<V>>::visit_with(item, visitor, ast_path))
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -19309,7 +19371,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<Prop> {
         ast_path: &mut AstNodePath<'r>,
     ) {
         {
-            <V as VisitWithAstPath>::visit_with(&**self, visitor, ast_path)
+            <Prop as VisitWithAstPath<V>>::visit_with(&**self, visitor, ast_path)
         }
     }
 }
@@ -19330,8 +19392,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<PropOrSpread> {
         visitor: &mut V,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        self.iter()
-            .for_each(|item| <V as VisitWithAstPath>::visit_with(item, visitor, ast_path))
+        self.iter().for_each(|item| {
+            <PropOrSpread as VisitWithAstPath<V>>::visit_with(item, visitor, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -19372,7 +19435,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<Stmt> {
         ast_path: &mut AstNodePath<'r>,
     ) {
         {
-            <V as VisitWithAstPath>::visit_with(&**self, visitor, ast_path)
+            <Stmt as VisitWithAstPath<V>>::visit_with(&**self, visitor, ast_path)
         }
     }
 }
@@ -19394,7 +19457,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<Stmt> {
         ast_path: &mut AstNodePath<'r>,
     ) {
         self.iter()
-            .for_each(|item| <V as VisitWithAstPath>::visit_with(item, visitor, ast_path))
+            .for_each(|item| <Stmt as VisitWithAstPath<V>>::visit_with(item, visitor, ast_path))
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -19415,7 +19478,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<Str> {
         ast_path: &mut AstNodePath<'r>,
     ) {
         {
-            <V as VisitWithAstPath>::visit_with(&**self, visitor, ast_path)
+            <Str as VisitWithAstPath<V>>::visit_with(&**self, visitor, ast_path)
         }
     }
 }
@@ -19436,8 +19499,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<SwitchCase> {
         visitor: &mut V,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        self.iter()
-            .for_each(|item| <V as VisitWithAstPath>::visit_with(item, visitor, ast_path))
+        self.iter().for_each(|item| {
+            <SwitchCase as VisitWithAstPath<V>>::visit_with(item, visitor, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -19478,7 +19542,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<Tpl> {
         ast_path: &mut AstNodePath<'r>,
     ) {
         {
-            <V as VisitWithAstPath>::visit_with(&**self, visitor, ast_path)
+            <Tpl as VisitWithAstPath<V>>::visit_with(&**self, visitor, ast_path)
         }
     }
 }
@@ -19499,8 +19563,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<TplElement> {
         visitor: &mut V,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        self.iter()
-            .for_each(|item| <V as VisitWithAstPath>::visit_with(item, visitor, ast_path))
+        self.iter().for_each(|item| {
+            <TplElement as VisitWithAstPath<V>>::visit_with(item, visitor, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -19521,7 +19586,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<TryStmt> {
         ast_path: &mut AstNodePath<'r>,
     ) {
         {
-            <V as VisitWithAstPath>::visit_with(&**self, visitor, ast_path)
+            <TryStmt as VisitWithAstPath<V>>::visit_with(&**self, visitor, ast_path)
         }
     }
 }
@@ -19543,7 +19608,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<TsEnumDecl> {
         ast_path: &mut AstNodePath<'r>,
     ) {
         {
-            <V as VisitWithAstPath>::visit_with(&**self, visitor, ast_path)
+            <TsEnumDecl as VisitWithAstPath<V>>::visit_with(&**self, visitor, ast_path)
         }
     }
 }
@@ -19564,8 +19629,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<TsEnumMember> {
         visitor: &mut V,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        self.iter()
-            .for_each(|item| <V as VisitWithAstPath>::visit_with(item, visitor, ast_path))
+        self.iter().for_each(|item| {
+            <TsEnumMember as VisitWithAstPath<V>>::visit_with(item, visitor, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -19585,8 +19651,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<TsExprWithTypeArgs> {
         visitor: &mut V,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        self.iter()
-            .for_each(|item| <V as VisitWithAstPath>::visit_with(item, visitor, ast_path))
+        self.iter().for_each(|item| {
+            <TsExprWithTypeArgs as VisitWithAstPath<V>>::visit_with(item, visitor, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -19606,8 +19673,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<TsFnParam> {
         visitor: &mut V,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        self.iter()
-            .for_each(|item| <V as VisitWithAstPath>::visit_with(item, visitor, ast_path))
+        self.iter().for_each(|item| {
+            <TsFnParam as VisitWithAstPath<V>>::visit_with(item, visitor, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -19628,7 +19696,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<TsImportEqualsDecl> {
         ast_path: &mut AstNodePath<'r>,
     ) {
         {
-            <V as VisitWithAstPath>::visit_with(&**self, visitor, ast_path)
+            <TsImportEqualsDecl as VisitWithAstPath<V>>::visit_with(&**self, visitor, ast_path)
         }
     }
 }
@@ -19650,7 +19718,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<TsInterfaceDecl> {
         ast_path: &mut AstNodePath<'r>,
     ) {
         {
-            <V as VisitWithAstPath>::visit_with(&**self, visitor, ast_path)
+            <TsInterfaceDecl as VisitWithAstPath<V>>::visit_with(&**self, visitor, ast_path)
         }
     }
 }
@@ -19672,7 +19740,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<TsModuleDecl> {
         ast_path: &mut AstNodePath<'r>,
     ) {
         {
-            <V as VisitWithAstPath>::visit_with(&**self, visitor, ast_path)
+            <TsModuleDecl as VisitWithAstPath<V>>::visit_with(&**self, visitor, ast_path)
         }
     }
 }
@@ -19694,7 +19762,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<TsNamespaceBody> {
         ast_path: &mut AstNodePath<'r>,
     ) {
         {
-            <V as VisitWithAstPath>::visit_with(&**self, visitor, ast_path)
+            <TsNamespaceBody as VisitWithAstPath<V>>::visit_with(&**self, visitor, ast_path)
         }
     }
 }
@@ -19716,7 +19784,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<TsQualifiedName> {
         ast_path: &mut AstNodePath<'r>,
     ) {
         {
-            <V as VisitWithAstPath>::visit_with(&**self, visitor, ast_path)
+            <TsQualifiedName as VisitWithAstPath<V>>::visit_with(&**self, visitor, ast_path)
         }
     }
 }
@@ -19737,8 +19805,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<TsTupleElement> {
         visitor: &mut V,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        self.iter()
-            .for_each(|item| <V as VisitWithAstPath>::visit_with(item, visitor, ast_path))
+        self.iter().for_each(|item| {
+            <TsTupleElement as VisitWithAstPath<V>>::visit_with(item, visitor, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -19759,7 +19828,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<TsType> {
         ast_path: &mut AstNodePath<'r>,
     ) {
         {
-            <V as VisitWithAstPath>::visit_with(&**self, visitor, ast_path)
+            <TsType as VisitWithAstPath<V>>::visit_with(&**self, visitor, ast_path)
         }
     }
 }
@@ -19781,7 +19850,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<TsTypeAliasDecl> {
         ast_path: &mut AstNodePath<'r>,
     ) {
         {
-            <V as VisitWithAstPath>::visit_with(&**self, visitor, ast_path)
+            <TsTypeAliasDecl as VisitWithAstPath<V>>::visit_with(&**self, visitor, ast_path)
         }
     }
 }
@@ -19803,7 +19872,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<TsTypeAnn> {
         ast_path: &mut AstNodePath<'r>,
     ) {
         {
-            <V as VisitWithAstPath>::visit_with(&**self, visitor, ast_path)
+            <TsTypeAnn as VisitWithAstPath<V>>::visit_with(&**self, visitor, ast_path)
         }
     }
 }
@@ -19824,8 +19893,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<TsTypeElement> {
         visitor: &mut V,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        self.iter()
-            .for_each(|item| <V as VisitWithAstPath>::visit_with(item, visitor, ast_path))
+        self.iter().for_each(|item| {
+            <TsTypeElement as VisitWithAstPath<V>>::visit_with(item, visitor, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -19846,7 +19916,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<TsTypeParamDecl> {
         ast_path: &mut AstNodePath<'r>,
     ) {
         {
-            <V as VisitWithAstPath>::visit_with(&**self, visitor, ast_path)
+            <TsTypeParamDecl as VisitWithAstPath<V>>::visit_with(&**self, visitor, ast_path)
         }
     }
 }
@@ -19868,7 +19938,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<TsTypeParamInstantiat
         ast_path: &mut AstNodePath<'r>,
     ) {
         {
-            <V as VisitWithAstPath>::visit_with(&**self, visitor, ast_path)
+            <TsTypeParamInstantiation as VisitWithAstPath<V>>::visit_with(
+                &**self, visitor, ast_path,
+            )
         }
     }
 }
@@ -19889,8 +19961,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<TsTypeParam> {
         visitor: &mut V,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        self.iter()
-            .for_each(|item| <V as VisitWithAstPath>::visit_with(item, visitor, ast_path))
+        self.iter().for_each(|item| {
+            <TsTypeParam as VisitWithAstPath<V>>::visit_with(item, visitor, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -19910,8 +19983,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<Box<TsType>> {
         visitor: &mut V,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        self.iter()
-            .for_each(|item| <V as VisitWithAstPath>::visit_with(item, visitor, ast_path))
+        self.iter().for_each(|item| {
+            <Box<TsType> as VisitWithAstPath<V>>::visit_with(item, visitor, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -19932,7 +20006,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<UsingDecl> {
         ast_path: &mut AstNodePath<'r>,
     ) {
         {
-            <V as VisitWithAstPath>::visit_with(&**self, visitor, ast_path)
+            <UsingDecl as VisitWithAstPath<V>>::visit_with(&**self, visitor, ast_path)
         }
     }
 }
@@ -19954,7 +20028,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Box<VarDecl> {
         ast_path: &mut AstNodePath<'r>,
     ) {
         {
-            <V as VisitWithAstPath>::visit_with(&**self, visitor, ast_path)
+            <VarDecl as VisitWithAstPath<V>>::visit_with(&**self, visitor, ast_path)
         }
     }
 }
@@ -19975,8 +20049,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Vec<VarDeclarator> {
         visitor: &mut V,
         ast_path: &mut AstNodePath<'r>,
     ) {
-        self.iter()
-            .for_each(|item| <V as VisitWithAstPath>::visit_with(item, visitor, ast_path))
+        self.iter().for_each(|item| {
+            <VarDeclarator as VisitWithAstPath<V>>::visit_with(item, visitor, ast_path)
+        })
     }
 }
 #[doc = r" A visitor trait for traversing the AST."]
@@ -26304,18 +26379,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for num_bigint::BigInt {
         {}
     }
 }
-impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<BigIntValue> {
-    #[doc = "Calls [VisitMut`::visit_mut_big_int_value`] with `self`. (Extra impl)"]
-    fn visit_mut_with(&mut self, visitor: &mut V) {
-        <V as VisitMut>::visit_mut_big_int_value(visitor, self)
-    }
-
-    fn visit_mut_children_with(&mut self, visitor: &mut V) {
-        {
-            <V as VisitMutWith>::visit_mut_big_int_value(&mut **self, visitor)
-        }
-    }
-}
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for BigIntValue {
     #[doc = "Calls [VisitMut`::visit_mut_big_int_value`] with `self`. (Extra impl)"]
     fn visit_mut_with(&mut self, visitor: &mut V) {
@@ -26326,6 +26389,18 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for BigIntValue {
         {}
     }
 }
+impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<BigIntValue> {
+    #[doc = "Calls [VisitMut`::visit_mut_big_int_value`] with `self`. (Extra impl)"]
+    fn visit_mut_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::visit_mut_big_int_value(visitor, self)
+    }
+
+    fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        {
+            <BigIntValue as VisitMutWith<V>>::visit_mut_big_int_value(&mut **self, visitor)
+        }
+    }
+}
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<BlockStmtOrExpr> {
     #[doc = "Calls [VisitMut`::visit_mut_block_stmt_or_expr`] with `self`. (Extra impl)"]
     fn visit_mut_with(&mut self, visitor: &mut V) {
@@ -26334,7 +26409,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<BlockStmtOrExpr> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
-            <V as VisitMutWith>::visit_mut_block_stmt_or_expr(&mut **self, visitor)
+            <BlockStmtOrExpr as VisitMutWith<V>>::visit_mut_block_stmt_or_expr(&mut **self, visitor)
         }
     }
 }
@@ -26346,7 +26421,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<Class> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
-            <V as VisitMutWith>::visit_mut_class(&mut **self, visitor)
+            <Class as VisitMutWith<V>>::visit_mut_class(&mut **self, visitor)
         }
     }
 }
@@ -26358,7 +26433,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<ClassMember> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         self.iter_mut()
-            .for_each(|item| <V as VisitMutWith>::visit_mut_with(visitor, item))
+            .for_each(|item| <ClassMember as VisitMutWith<V>>::visit_mut_with(visitor, item))
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for ClassMethod {
@@ -26379,7 +26454,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<Decorator> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         self.iter_mut()
-            .for_each(|item| <V as VisitMutWith>::visit_mut_with(visitor, item))
+            .for_each(|item| <Decorator as VisitMutWith<V>>::visit_mut_with(visitor, item))
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<ExportSpecifier> {
@@ -26390,7 +26465,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<ExportSpecifier> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         self.iter_mut()
-            .for_each(|item| <V as VisitMutWith>::visit_mut_with(visitor, item))
+            .for_each(|item| <ExportSpecifier as VisitMutWith<V>>::visit_mut_with(visitor, item))
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<Expr> {
@@ -26401,7 +26476,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<Expr> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
-            <V as VisitMutWith>::visit_mut_expr(&mut **self, visitor)
+            <Expr as VisitMutWith<V>>::visit_mut_expr(&mut **self, visitor)
         }
     }
 }
@@ -26413,7 +26488,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<ExprOrSpread> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         self.iter_mut()
-            .for_each(|item| <V as VisitMutWith>::visit_mut_with(visitor, item))
+            .for_each(|item| <ExprOrSpread as VisitMutWith<V>>::visit_mut_with(visitor, item))
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<Box<Expr>> {
@@ -26424,7 +26499,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<Box<Expr>> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         self.iter_mut()
-            .for_each(|item| <V as VisitMutWith>::visit_mut_with(visitor, item))
+            .for_each(|item| <Box<Expr> as VisitMutWith<V>>::visit_mut_with(visitor, item))
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<Function> {
@@ -26435,7 +26510,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<Function> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
-            <V as VisitMutWith>::visit_mut_function(&mut **self, visitor)
+            <Function as VisitMutWith<V>>::visit_mut_function(&mut **self, visitor)
         }
     }
 }
@@ -26447,7 +26522,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<ImportSpecifier> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         self.iter_mut()
-            .for_each(|item| <V as VisitMutWith>::visit_mut_with(visitor, item))
+            .for_each(|item| <ImportSpecifier as VisitMutWith<V>>::visit_mut_with(visitor, item))
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<ImportWithItem> {
@@ -26458,7 +26533,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<ImportWithItem> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         self.iter_mut()
-            .for_each(|item| <V as VisitMutWith>::visit_mut_with(visitor, item))
+            .for_each(|item| <ImportWithItem as VisitMutWith<V>>::visit_mut_with(visitor, item))
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<JSXAttrOrSpread> {
@@ -26469,7 +26544,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<JSXAttrOrSpread> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         self.iter_mut()
-            .for_each(|item| <V as VisitMutWith>::visit_mut_with(visitor, item))
+            .for_each(|item| <JSXAttrOrSpread as VisitMutWith<V>>::visit_mut_with(visitor, item))
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<JSXElement> {
@@ -26480,7 +26555,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<JSXElement> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
-            <V as VisitMutWith>::visit_mut_jsx_element(&mut **self, visitor)
+            <JSXElement as VisitMutWith<V>>::visit_mut_jsx_element(&mut **self, visitor)
         }
     }
 }
@@ -26492,7 +26567,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<JSXElementChild> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         self.iter_mut()
-            .for_each(|item| <V as VisitMutWith>::visit_mut_with(visitor, item))
+            .for_each(|item| <JSXElementChild as VisitMutWith<V>>::visit_mut_with(visitor, item))
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<JSXMemberExpr> {
@@ -26503,7 +26578,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<JSXMemberExpr> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
-            <V as VisitMutWith>::visit_mut_jsx_member_expr(&mut **self, visitor)
+            <JSXMemberExpr as VisitMutWith<V>>::visit_mut_jsx_member_expr(&mut **self, visitor)
         }
     }
 }
@@ -26515,7 +26590,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<ModuleItem> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         self.iter_mut()
-            .for_each(|item| <V as VisitMutWith>::visit_mut_with(visitor, item))
+            .for_each(|item| <ModuleItem as VisitMutWith<V>>::visit_mut_with(visitor, item))
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<ObjectLit> {
@@ -26526,7 +26601,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<ObjectLit> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
-            <V as VisitMutWith>::visit_mut_object_lit(&mut **self, visitor)
+            <ObjectLit as VisitMutWith<V>>::visit_mut_object_lit(&mut **self, visitor)
         }
     }
 }
@@ -26538,7 +26613,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<ObjectPatProp> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         self.iter_mut()
-            .for_each(|item| <V as VisitMutWith>::visit_mut_with(visitor, item))
+            .for_each(|item| <ObjectPatProp as VisitMutWith<V>>::visit_mut_with(visitor, item))
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Accessibility> {
@@ -26550,7 +26625,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Accessibility> {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitMutWith>::visit_mut_with(visitor, inner),
+                Some(inner) => <Accessibility as VisitMutWith<V>>::visit_mut_with(visitor, inner),
                 None => {}
             }
         }
@@ -26565,7 +26640,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<swc_atoms::Atom> {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitMutWith>::visit_mut_with(visitor, inner),
+                Some(inner) => <swc_atoms::Atom as VisitMutWith<V>>::visit_mut_with(visitor, inner),
                 None => {}
             }
         }
@@ -26580,7 +26655,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<BlockStmt> {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitMutWith>::visit_mut_with(visitor, inner),
+                Some(inner) => <BlockStmt as VisitMutWith<V>>::visit_mut_with(visitor, inner),
                 None => {}
             }
         }
@@ -26595,7 +26670,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<CatchClause> {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitMutWith>::visit_mut_with(visitor, inner),
+                Some(inner) => <CatchClause as VisitMutWith<V>>::visit_mut_with(visitor, inner),
                 None => {}
             }
         }
@@ -26609,7 +26684,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<OptChainBase> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
-            <V as VisitMutWith>::visit_mut_opt_chain_base(&mut **self, visitor)
+            <OptChainBase as VisitMutWith<V>>::visit_mut_opt_chain_base(&mut **self, visitor)
         }
     }
 }
@@ -26622,7 +26697,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Box<Expr>> {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitMutWith>::visit_mut_with(visitor, inner),
+                Some(inner) => <Box<Expr> as VisitMutWith<V>>::visit_mut_with(visitor, inner),
                 None => {}
             }
         }
@@ -26637,7 +26712,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<ExprOrSpread> {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitMutWith>::visit_mut_with(visitor, inner),
+                Some(inner) => <ExprOrSpread as VisitMutWith<V>>::visit_mut_with(visitor, inner),
                 None => {}
             }
         }
@@ -26652,7 +26727,9 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Vec<ExprOrSpread>> {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitMutWith>::visit_mut_with(visitor, inner),
+                Some(inner) => {
+                    <Vec<ExprOrSpread> as VisitMutWith<V>>::visit_mut_with(visitor, inner)
+                }
                 None => {}
             }
         }
@@ -26665,8 +26742,9 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<Option<ExprOrSpread>> {
     }
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
-        self.iter_mut()
-            .for_each(|item| <V as VisitMutWith>::visit_mut_with(visitor, item))
+        self.iter_mut().for_each(|item| {
+            <Option<ExprOrSpread> as VisitMutWith<V>>::visit_mut_with(visitor, item)
+        })
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Ident> {
@@ -26678,7 +26756,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Ident> {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitMutWith>::visit_mut_with(visitor, inner),
+                Some(inner) => <Ident as VisitMutWith<V>>::visit_mut_with(visitor, inner),
                 None => {}
             }
         }
@@ -26693,7 +26771,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<JSXAttrValue> {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitMutWith>::visit_mut_with(visitor, inner),
+                Some(inner) => <JSXAttrValue as VisitMutWith<V>>::visit_mut_with(visitor, inner),
                 None => {}
             }
         }
@@ -26708,7 +26786,9 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<JSXClosingElement> {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitMutWith>::visit_mut_with(visitor, inner),
+                Some(inner) => {
+                    <JSXClosingElement as VisitMutWith<V>>::visit_mut_with(visitor, inner)
+                }
                 None => {}
             }
         }
@@ -26723,7 +26803,9 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<ModuleExportName> {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitMutWith>::visit_mut_with(visitor, inner),
+                Some(inner) => {
+                    <ModuleExportName as VisitMutWith<V>>::visit_mut_with(visitor, inner)
+                }
                 None => {}
             }
         }
@@ -26738,7 +26820,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Vec<ModuleItem>> {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitMutWith>::visit_mut_with(visitor, inner),
+                Some(inner) => <Vec<ModuleItem> as VisitMutWith<V>>::visit_mut_with(visitor, inner),
                 None => {}
             }
         }
@@ -26753,7 +26835,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Box<ObjectLit>> {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitMutWith>::visit_mut_with(visitor, inner),
+                Some(inner) => <Box<ObjectLit> as VisitMutWith<V>>::visit_mut_with(visitor, inner),
                 None => {}
             }
         }
@@ -26768,7 +26850,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Pat> {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitMutWith>::visit_mut_with(visitor, inner),
+                Some(inner) => <Pat as VisitMutWith<V>>::visit_mut_with(visitor, inner),
                 None => {}
             }
         }
@@ -26782,7 +26864,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<Option<Pat>> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         self.iter_mut()
-            .for_each(|item| <V as VisitMutWith>::visit_mut_with(visitor, item))
+            .for_each(|item| <Option<Pat> as VisitMutWith<V>>::visit_mut_with(visitor, item))
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<swc_common::Span> {
@@ -26794,7 +26876,9 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<swc_common::Span> {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitMutWith>::visit_mut_with(visitor, inner),
+                Some(inner) => {
+                    <swc_common::Span as VisitMutWith<V>>::visit_mut_with(visitor, inner)
+                }
                 None => {}
             }
         }
@@ -26809,7 +26893,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Box<Stmt>> {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitMutWith>::visit_mut_with(visitor, inner),
+                Some(inner) => <Box<Stmt> as VisitMutWith<V>>::visit_mut_with(visitor, inner),
                 None => {}
             }
         }
@@ -26824,7 +26908,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Box<Str>> {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitMutWith>::visit_mut_with(visitor, inner),
+                Some(inner) => <Box<Str> as VisitMutWith<V>>::visit_mut_with(visitor, inner),
                 None => {}
             }
         }
@@ -26839,7 +26923,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<TruePlusMinus> {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitMutWith>::visit_mut_with(visitor, inner),
+                Some(inner) => <TruePlusMinus as VisitMutWith<V>>::visit_mut_with(visitor, inner),
                 None => {}
             }
         }
@@ -26854,7 +26938,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<TsEntityName> {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitMutWith>::visit_mut_with(visitor, inner),
+                Some(inner) => <TsEntityName as VisitMutWith<V>>::visit_mut_with(visitor, inner),
                 None => {}
             }
         }
@@ -26869,7 +26953,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<TsNamespaceBody> {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitMutWith>::visit_mut_with(visitor, inner),
+                Some(inner) => <TsNamespaceBody as VisitMutWith<V>>::visit_mut_with(visitor, inner),
                 None => {}
             }
         }
@@ -26884,7 +26968,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Box<TsType>> {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitMutWith>::visit_mut_with(visitor, inner),
+                Some(inner) => <Box<TsType> as VisitMutWith<V>>::visit_mut_with(visitor, inner),
                 None => {}
             }
         }
@@ -26899,7 +26983,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Box<TsTypeAnn>> {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitMutWith>::visit_mut_with(visitor, inner),
+                Some(inner) => <Box<TsTypeAnn> as VisitMutWith<V>>::visit_mut_with(visitor, inner),
                 None => {}
             }
         }
@@ -26914,7 +26998,9 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Box<TsTypeParamDecl>> {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitMutWith>::visit_mut_with(visitor, inner),
+                Some(inner) => {
+                    <Box<TsTypeParamDecl> as VisitMutWith<V>>::visit_mut_with(visitor, inner)
+                }
                 None => {}
             }
         }
@@ -26930,7 +27016,9 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Box<TsTypeParamInstantiati
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitMutWith>::visit_mut_with(visitor, inner),
+                Some(inner) => <Box<TsTypeParamInstantiation> as VisitMutWith<V>>::visit_mut_with(
+                    visitor, inner,
+                ),
                 None => {}
             }
         }
@@ -26945,7 +27033,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<VarDeclOrExpr> {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
             match self {
-                Some(inner) => <V as VisitMutWith>::visit_mut_with(visitor, inner),
+                Some(inner) => <VarDeclOrExpr as VisitMutWith<V>>::visit_mut_with(visitor, inner),
                 None => {}
             }
         }
@@ -26959,7 +27047,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<ParamOrTsParamProp> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         self.iter_mut()
-            .for_each(|item| <V as VisitMutWith>::visit_mut_with(visitor, item))
+            .for_each(|item| <ParamOrTsParamProp as VisitMutWith<V>>::visit_mut_with(visitor, item))
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<Param> {
@@ -26970,7 +27058,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<Param> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         self.iter_mut()
-            .for_each(|item| <V as VisitMutWith>::visit_mut_with(visitor, item))
+            .for_each(|item| <Param as VisitMutWith<V>>::visit_mut_with(visitor, item))
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<Pat> {
@@ -26981,7 +27069,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<Pat> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
-            <V as VisitMutWith>::visit_mut_pat(&mut **self, visitor)
+            <Pat as VisitMutWith<V>>::visit_mut_pat(&mut **self, visitor)
         }
     }
 }
@@ -26993,7 +27081,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<Pat> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         self.iter_mut()
-            .for_each(|item| <V as VisitMutWith>::visit_mut_with(visitor, item))
+            .for_each(|item| <Pat as VisitMutWith<V>>::visit_mut_with(visitor, item))
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for PrivateMethod {
@@ -27014,7 +27102,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<Prop> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
-            <V as VisitMutWith>::visit_mut_prop(&mut **self, visitor)
+            <Prop as VisitMutWith<V>>::visit_mut_prop(&mut **self, visitor)
         }
     }
 }
@@ -27026,7 +27114,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<PropOrSpread> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         self.iter_mut()
-            .for_each(|item| <V as VisitMutWith>::visit_mut_with(visitor, item))
+            .for_each(|item| <PropOrSpread as VisitMutWith<V>>::visit_mut_with(visitor, item))
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for swc_common::Span {
@@ -27047,7 +27135,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<Stmt> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
-            <V as VisitMutWith>::visit_mut_stmt(&mut **self, visitor)
+            <Stmt as VisitMutWith<V>>::visit_mut_stmt(&mut **self, visitor)
         }
     }
 }
@@ -27059,7 +27147,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<Stmt> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         self.iter_mut()
-            .for_each(|item| <V as VisitMutWith>::visit_mut_with(visitor, item))
+            .for_each(|item| <Stmt as VisitMutWith<V>>::visit_mut_with(visitor, item))
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<Str> {
@@ -27070,7 +27158,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<Str> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
-            <V as VisitMutWith>::visit_mut_str(&mut **self, visitor)
+            <Str as VisitMutWith<V>>::visit_mut_str(&mut **self, visitor)
         }
     }
 }
@@ -27082,7 +27170,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<SwitchCase> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         self.iter_mut()
-            .for_each(|item| <V as VisitMutWith>::visit_mut_with(visitor, item))
+            .for_each(|item| <SwitchCase as VisitMutWith<V>>::visit_mut_with(visitor, item))
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for swc_common::SyntaxContext {
@@ -27103,7 +27191,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<Tpl> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
-            <V as VisitMutWith>::visit_mut_tpl(&mut **self, visitor)
+            <Tpl as VisitMutWith<V>>::visit_mut_tpl(&mut **self, visitor)
         }
     }
 }
@@ -27115,7 +27203,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<TplElement> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         self.iter_mut()
-            .for_each(|item| <V as VisitMutWith>::visit_mut_with(visitor, item))
+            .for_each(|item| <TplElement as VisitMutWith<V>>::visit_mut_with(visitor, item))
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<TryStmt> {
@@ -27126,7 +27214,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<TryStmt> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
-            <V as VisitMutWith>::visit_mut_try_stmt(&mut **self, visitor)
+            <TryStmt as VisitMutWith<V>>::visit_mut_try_stmt(&mut **self, visitor)
         }
     }
 }
@@ -27138,7 +27226,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<TsEnumDecl> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
-            <V as VisitMutWith>::visit_mut_ts_enum_decl(&mut **self, visitor)
+            <TsEnumDecl as VisitMutWith<V>>::visit_mut_ts_enum_decl(&mut **self, visitor)
         }
     }
 }
@@ -27150,7 +27238,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<TsEnumMember> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         self.iter_mut()
-            .for_each(|item| <V as VisitMutWith>::visit_mut_with(visitor, item))
+            .for_each(|item| <TsEnumMember as VisitMutWith<V>>::visit_mut_with(visitor, item))
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<TsExprWithTypeArgs> {
@@ -27161,7 +27249,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<TsExprWithTypeArgs> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         self.iter_mut()
-            .for_each(|item| <V as VisitMutWith>::visit_mut_with(visitor, item))
+            .for_each(|item| <TsExprWithTypeArgs as VisitMutWith<V>>::visit_mut_with(visitor, item))
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<TsFnParam> {
@@ -27172,7 +27260,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<TsFnParam> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         self.iter_mut()
-            .for_each(|item| <V as VisitMutWith>::visit_mut_with(visitor, item))
+            .for_each(|item| <TsFnParam as VisitMutWith<V>>::visit_mut_with(visitor, item))
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<TsImportEqualsDecl> {
@@ -27183,7 +27271,10 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<TsImportEqualsDecl> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
-            <V as VisitMutWith>::visit_mut_ts_import_equals_decl(&mut **self, visitor)
+            <TsImportEqualsDecl as VisitMutWith<V>>::visit_mut_ts_import_equals_decl(
+                &mut **self,
+                visitor,
+            )
         }
     }
 }
@@ -27195,7 +27286,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<TsInterfaceDecl> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
-            <V as VisitMutWith>::visit_mut_ts_interface_decl(&mut **self, visitor)
+            <TsInterfaceDecl as VisitMutWith<V>>::visit_mut_ts_interface_decl(&mut **self, visitor)
         }
     }
 }
@@ -27207,7 +27298,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<TsModuleDecl> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
-            <V as VisitMutWith>::visit_mut_ts_module_decl(&mut **self, visitor)
+            <TsModuleDecl as VisitMutWith<V>>::visit_mut_ts_module_decl(&mut **self, visitor)
         }
     }
 }
@@ -27219,7 +27310,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<TsNamespaceBody> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
-            <V as VisitMutWith>::visit_mut_ts_namespace_body(&mut **self, visitor)
+            <TsNamespaceBody as VisitMutWith<V>>::visit_mut_ts_namespace_body(&mut **self, visitor)
         }
     }
 }
@@ -27231,7 +27322,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<TsQualifiedName> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
-            <V as VisitMutWith>::visit_mut_ts_qualified_name(&mut **self, visitor)
+            <TsQualifiedName as VisitMutWith<V>>::visit_mut_ts_qualified_name(&mut **self, visitor)
         }
     }
 }
@@ -27243,7 +27334,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<TsTupleElement> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         self.iter_mut()
-            .for_each(|item| <V as VisitMutWith>::visit_mut_with(visitor, item))
+            .for_each(|item| <TsTupleElement as VisitMutWith<V>>::visit_mut_with(visitor, item))
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<TsType> {
@@ -27254,7 +27345,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<TsType> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
-            <V as VisitMutWith>::visit_mut_ts_type(&mut **self, visitor)
+            <TsType as VisitMutWith<V>>::visit_mut_ts_type(&mut **self, visitor)
         }
     }
 }
@@ -27266,7 +27357,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<TsTypeAliasDecl> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
-            <V as VisitMutWith>::visit_mut_ts_type_alias_decl(&mut **self, visitor)
+            <TsTypeAliasDecl as VisitMutWith<V>>::visit_mut_ts_type_alias_decl(&mut **self, visitor)
         }
     }
 }
@@ -27278,7 +27369,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<TsTypeAnn> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
-            <V as VisitMutWith>::visit_mut_ts_type_ann(&mut **self, visitor)
+            <TsTypeAnn as VisitMutWith<V>>::visit_mut_ts_type_ann(&mut **self, visitor)
         }
     }
 }
@@ -27290,7 +27381,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<TsTypeElement> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         self.iter_mut()
-            .for_each(|item| <V as VisitMutWith>::visit_mut_with(visitor, item))
+            .for_each(|item| <TsTypeElement as VisitMutWith<V>>::visit_mut_with(visitor, item))
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<TsTypeParamDecl> {
@@ -27301,7 +27392,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<TsTypeParamDecl> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
-            <V as VisitMutWith>::visit_mut_ts_type_param_decl(&mut **self, visitor)
+            <TsTypeParamDecl as VisitMutWith<V>>::visit_mut_ts_type_param_decl(&mut **self, visitor)
         }
     }
 }
@@ -27313,7 +27404,10 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<TsTypeParamInstantiation> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
-            <V as VisitMutWith>::visit_mut_ts_type_param_instantiation(&mut **self, visitor)
+            <TsTypeParamInstantiation as VisitMutWith<V>>::visit_mut_ts_type_param_instantiation(
+                &mut **self,
+                visitor,
+            )
         }
     }
 }
@@ -27325,7 +27419,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<TsTypeParam> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         self.iter_mut()
-            .for_each(|item| <V as VisitMutWith>::visit_mut_with(visitor, item))
+            .for_each(|item| <TsTypeParam as VisitMutWith<V>>::visit_mut_with(visitor, item))
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<Box<TsType>> {
@@ -27336,7 +27430,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<Box<TsType>> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         self.iter_mut()
-            .for_each(|item| <V as VisitMutWith>::visit_mut_with(visitor, item))
+            .for_each(|item| <Box<TsType> as VisitMutWith<V>>::visit_mut_with(visitor, item))
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<UsingDecl> {
@@ -27347,7 +27441,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<UsingDecl> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
-            <V as VisitMutWith>::visit_mut_using_decl(&mut **self, visitor)
+            <UsingDecl as VisitMutWith<V>>::visit_mut_using_decl(&mut **self, visitor)
         }
     }
 }
@@ -27359,7 +27453,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Box<VarDecl> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {
-            <V as VisitMutWith>::visit_mut_var_decl(&mut **self, visitor)
+            <VarDecl as VisitMutWith<V>>::visit_mut_var_decl(&mut **self, visitor)
         }
     }
 }
@@ -27371,7 +27465,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<VarDeclarator> {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         self.iter_mut()
-            .for_each(|item| <V as VisitMutWith>::visit_mut_with(visitor, item))
+            .for_each(|item| <VarDeclarator as VisitMutWith<V>>::visit_mut_with(visitor, item))
     }
 }
 #[doc = r" A visitor trait for traversing the AST."]
@@ -36171,20 +36265,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for num_bigint::BigInt 
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<BigIntValue> {
-    #[doc = "Calls [VisitMutAstPath`::visit_mut_big_int_value`] with `self`. (Extra impl)"]
-    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        <V as VisitMutAstPath>::visit_mut_big_int_value(visitor, self, ast_path)
-    }
-
-    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        {
-            <V as VisitMutWithAstPath>::visit_mut_big_int_value(&mut **self, visitor, ast_path)
-        }
-    }
-}
-#[cfg(any(docsrs, feature = "path"))]
-#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for BigIntValue {
     #[doc = "Calls [VisitMutAstPath`::visit_mut_big_int_value`] with `self`. (Extra impl)"]
     fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
@@ -36197,6 +36277,24 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for BigIntValue {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<BigIntValue> {
+    #[doc = "Calls [VisitMutAstPath`::visit_mut_big_int_value`] with `self`. (Extra impl)"]
+    fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::visit_mut_big_int_value(visitor, self, ast_path)
+    }
+
+    fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
+        {
+            <BigIntValue as VisitMutWithAstPath<V>>::visit_mut_big_int_value(
+                &mut **self,
+                visitor,
+                ast_path,
+            )
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<BlockStmtOrExpr> {
     #[doc = "Calls [VisitMutAstPath`::visit_mut_block_stmt_or_expr`] with `self`. (Extra impl)"]
     fn visit_mut_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
@@ -36205,7 +36303,11 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<BlockStmtOrExpr
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
-            <V as VisitMutWithAstPath>::visit_mut_block_stmt_or_expr(&mut **self, visitor, ast_path)
+            <BlockStmtOrExpr as VisitMutWithAstPath<V>>::visit_mut_block_stmt_or_expr(
+                &mut **self,
+                visitor,
+                ast_path,
+            )
         }
     }
 }
@@ -36219,7 +36321,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<Class> {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
-            <V as VisitMutWithAstPath>::visit_mut_class(&mut **self, visitor, ast_path)
+            <Class as VisitMutWithAstPath<V>>::visit_mut_class(&mut **self, visitor, ast_path)
         }
     }
 }
@@ -36232,8 +36334,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<ClassMember> {
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        self.iter_mut()
-            .for_each(|item| <V as VisitMutWithAstPath>::visit_mut_with(visitor, item, ast_path))
+        self.iter_mut().for_each(|item| {
+            <ClassMember as VisitMutWithAstPath<V>>::visit_mut_with(visitor, item, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -36257,8 +36360,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<Decorator> {
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        self.iter_mut()
-            .for_each(|item| <V as VisitMutWithAstPath>::visit_mut_with(visitor, item, ast_path))
+        self.iter_mut().for_each(|item| {
+            <Decorator as VisitMutWithAstPath<V>>::visit_mut_with(visitor, item, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -36270,8 +36374,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<ExportSpecifier
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        self.iter_mut()
-            .for_each(|item| <V as VisitMutWithAstPath>::visit_mut_with(visitor, item, ast_path))
+        self.iter_mut().for_each(|item| {
+            <ExportSpecifier as VisitMutWithAstPath<V>>::visit_mut_with(visitor, item, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -36284,7 +36389,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<Expr> {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
-            <V as VisitMutWithAstPath>::visit_mut_expr(&mut **self, visitor, ast_path)
+            <Expr as VisitMutWithAstPath<V>>::visit_mut_expr(&mut **self, visitor, ast_path)
         }
     }
 }
@@ -36297,8 +36402,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<ExprOrSpread> {
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        self.iter_mut()
-            .for_each(|item| <V as VisitMutWithAstPath>::visit_mut_with(visitor, item, ast_path))
+        self.iter_mut().for_each(|item| {
+            <ExprOrSpread as VisitMutWithAstPath<V>>::visit_mut_with(visitor, item, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -36310,8 +36416,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<Box<Expr>> {
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        self.iter_mut()
-            .for_each(|item| <V as VisitMutWithAstPath>::visit_mut_with(visitor, item, ast_path))
+        self.iter_mut().for_each(|item| {
+            <Box<Expr> as VisitMutWithAstPath<V>>::visit_mut_with(visitor, item, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -36324,7 +36431,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<Function> {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
-            <V as VisitMutWithAstPath>::visit_mut_function(&mut **self, visitor, ast_path)
+            <Function as VisitMutWithAstPath<V>>::visit_mut_function(&mut **self, visitor, ast_path)
         }
     }
 }
@@ -36337,8 +36444,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<ImportSpecifier
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        self.iter_mut()
-            .for_each(|item| <V as VisitMutWithAstPath>::visit_mut_with(visitor, item, ast_path))
+        self.iter_mut().for_each(|item| {
+            <ImportSpecifier as VisitMutWithAstPath<V>>::visit_mut_with(visitor, item, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -36350,8 +36458,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<ImportWithItem>
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        self.iter_mut()
-            .for_each(|item| <V as VisitMutWithAstPath>::visit_mut_with(visitor, item, ast_path))
+        self.iter_mut().for_each(|item| {
+            <ImportWithItem as VisitMutWithAstPath<V>>::visit_mut_with(visitor, item, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -36363,8 +36472,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<JSXAttrOrSpread
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        self.iter_mut()
-            .for_each(|item| <V as VisitMutWithAstPath>::visit_mut_with(visitor, item, ast_path))
+        self.iter_mut().for_each(|item| {
+            <JSXAttrOrSpread as VisitMutWithAstPath<V>>::visit_mut_with(visitor, item, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -36377,7 +36487,11 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<JSXElement> {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
-            <V as VisitMutWithAstPath>::visit_mut_jsx_element(&mut **self, visitor, ast_path)
+            <JSXElement as VisitMutWithAstPath<V>>::visit_mut_jsx_element(
+                &mut **self,
+                visitor,
+                ast_path,
+            )
         }
     }
 }
@@ -36390,8 +36504,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<JSXElementChild
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        self.iter_mut()
-            .for_each(|item| <V as VisitMutWithAstPath>::visit_mut_with(visitor, item, ast_path))
+        self.iter_mut().for_each(|item| {
+            <JSXElementChild as VisitMutWithAstPath<V>>::visit_mut_with(visitor, item, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -36404,7 +36519,11 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<JSXMemberExpr> 
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
-            <V as VisitMutWithAstPath>::visit_mut_jsx_member_expr(&mut **self, visitor, ast_path)
+            <JSXMemberExpr as VisitMutWithAstPath<V>>::visit_mut_jsx_member_expr(
+                &mut **self,
+                visitor,
+                ast_path,
+            )
         }
     }
 }
@@ -36417,8 +36536,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<ModuleItem> {
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        self.iter_mut()
-            .for_each(|item| <V as VisitMutWithAstPath>::visit_mut_with(visitor, item, ast_path))
+        self.iter_mut().for_each(|item| {
+            <ModuleItem as VisitMutWithAstPath<V>>::visit_mut_with(visitor, item, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -36431,7 +36551,11 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<ObjectLit> {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
-            <V as VisitMutWithAstPath>::visit_mut_object_lit(&mut **self, visitor, ast_path)
+            <ObjectLit as VisitMutWithAstPath<V>>::visit_mut_object_lit(
+                &mut **self,
+                visitor,
+                ast_path,
+            )
         }
     }
 }
@@ -36444,8 +36568,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<ObjectPatProp> 
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        self.iter_mut()
-            .for_each(|item| <V as VisitMutWithAstPath>::visit_mut_with(visitor, item, ast_path))
+        self.iter_mut().for_each(|item| {
+            <ObjectPatProp as VisitMutWithAstPath<V>>::visit_mut_with(visitor, item, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -36459,7 +36584,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Accessibilit
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
             match self {
-                Some(inner) => <V as VisitMutWithAstPath>::visit_mut_with(visitor, inner, ast_path),
+                Some(inner) => <Accessibility as VisitMutWithAstPath<V>>::visit_mut_with(
+                    visitor, inner, ast_path,
+                ),
                 None => {}
             }
         }
@@ -36476,7 +36603,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<swc_atoms::A
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
             match self {
-                Some(inner) => <V as VisitMutWithAstPath>::visit_mut_with(visitor, inner, ast_path),
+                Some(inner) => <swc_atoms::Atom as VisitMutWithAstPath<V>>::visit_mut_with(
+                    visitor, inner, ast_path,
+                ),
                 None => {}
             }
         }
@@ -36493,7 +36622,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<BlockStmt> {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
             match self {
-                Some(inner) => <V as VisitMutWithAstPath>::visit_mut_with(visitor, inner, ast_path),
+                Some(inner) => {
+                    <BlockStmt as VisitMutWithAstPath<V>>::visit_mut_with(visitor, inner, ast_path)
+                }
                 None => {}
             }
         }
@@ -36510,7 +36641,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<CatchClause>
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
             match self {
-                Some(inner) => <V as VisitMutWithAstPath>::visit_mut_with(visitor, inner, ast_path),
+                Some(inner) => <CatchClause as VisitMutWithAstPath<V>>::visit_mut_with(
+                    visitor, inner, ast_path,
+                ),
                 None => {}
             }
         }
@@ -36526,7 +36659,11 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<OptChainBase> {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
-            <V as VisitMutWithAstPath>::visit_mut_opt_chain_base(&mut **self, visitor, ast_path)
+            <OptChainBase as VisitMutWithAstPath<V>>::visit_mut_opt_chain_base(
+                &mut **self,
+                visitor,
+                ast_path,
+            )
         }
     }
 }
@@ -36541,7 +36678,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Box<Expr>> {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
             match self {
-                Some(inner) => <V as VisitMutWithAstPath>::visit_mut_with(visitor, inner, ast_path),
+                Some(inner) => {
+                    <Box<Expr> as VisitMutWithAstPath<V>>::visit_mut_with(visitor, inner, ast_path)
+                }
                 None => {}
             }
         }
@@ -36558,7 +36697,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<ExprOrSpread
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
             match self {
-                Some(inner) => <V as VisitMutWithAstPath>::visit_mut_with(visitor, inner, ast_path),
+                Some(inner) => <ExprOrSpread as VisitMutWithAstPath<V>>::visit_mut_with(
+                    visitor, inner, ast_path,
+                ),
                 None => {}
             }
         }
@@ -36575,7 +36716,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Vec<ExprOrSp
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
             match self {
-                Some(inner) => <V as VisitMutWithAstPath>::visit_mut_with(visitor, inner, ast_path),
+                Some(inner) => <Vec<ExprOrSpread> as VisitMutWithAstPath<V>>::visit_mut_with(
+                    visitor, inner, ast_path,
+                ),
                 None => {}
             }
         }
@@ -36590,8 +36733,11 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<Option<ExprOrSp
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        self.iter_mut()
-            .for_each(|item| <V as VisitMutWithAstPath>::visit_mut_with(visitor, item, ast_path))
+        self.iter_mut().for_each(|item| {
+            <Option<ExprOrSpread> as VisitMutWithAstPath<V>>::visit_mut_with(
+                visitor, item, ast_path,
+            )
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -36605,7 +36751,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Ident> {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
             match self {
-                Some(inner) => <V as VisitMutWithAstPath>::visit_mut_with(visitor, inner, ast_path),
+                Some(inner) => {
+                    <Ident as VisitMutWithAstPath<V>>::visit_mut_with(visitor, inner, ast_path)
+                }
                 None => {}
             }
         }
@@ -36622,7 +36770,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<JSXAttrValue
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
             match self {
-                Some(inner) => <V as VisitMutWithAstPath>::visit_mut_with(visitor, inner, ast_path),
+                Some(inner) => <JSXAttrValue as VisitMutWithAstPath<V>>::visit_mut_with(
+                    visitor, inner, ast_path,
+                ),
                 None => {}
             }
         }
@@ -36639,7 +36789,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<JSXClosingEl
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
             match self {
-                Some(inner) => <V as VisitMutWithAstPath>::visit_mut_with(visitor, inner, ast_path),
+                Some(inner) => <JSXClosingElement as VisitMutWithAstPath<V>>::visit_mut_with(
+                    visitor, inner, ast_path,
+                ),
                 None => {}
             }
         }
@@ -36656,7 +36808,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<ModuleExport
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
             match self {
-                Some(inner) => <V as VisitMutWithAstPath>::visit_mut_with(visitor, inner, ast_path),
+                Some(inner) => <ModuleExportName as VisitMutWithAstPath<V>>::visit_mut_with(
+                    visitor, inner, ast_path,
+                ),
                 None => {}
             }
         }
@@ -36673,7 +36827,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Vec<ModuleIt
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
             match self {
-                Some(inner) => <V as VisitMutWithAstPath>::visit_mut_with(visitor, inner, ast_path),
+                Some(inner) => <Vec<ModuleItem> as VisitMutWithAstPath<V>>::visit_mut_with(
+                    visitor, inner, ast_path,
+                ),
                 None => {}
             }
         }
@@ -36690,7 +36846,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Box<ObjectLi
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
             match self {
-                Some(inner) => <V as VisitMutWithAstPath>::visit_mut_with(visitor, inner, ast_path),
+                Some(inner) => <Box<ObjectLit> as VisitMutWithAstPath<V>>::visit_mut_with(
+                    visitor, inner, ast_path,
+                ),
                 None => {}
             }
         }
@@ -36707,7 +36865,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Pat> {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
             match self {
-                Some(inner) => <V as VisitMutWithAstPath>::visit_mut_with(visitor, inner, ast_path),
+                Some(inner) => {
+                    <Pat as VisitMutWithAstPath<V>>::visit_mut_with(visitor, inner, ast_path)
+                }
                 None => {}
             }
         }
@@ -36722,8 +36882,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<Option<Pat>> {
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        self.iter_mut()
-            .for_each(|item| <V as VisitMutWithAstPath>::visit_mut_with(visitor, item, ast_path))
+        self.iter_mut().for_each(|item| {
+            <Option<Pat> as VisitMutWithAstPath<V>>::visit_mut_with(visitor, item, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -36737,7 +36898,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<swc_common::
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
             match self {
-                Some(inner) => <V as VisitMutWithAstPath>::visit_mut_with(visitor, inner, ast_path),
+                Some(inner) => <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_with(
+                    visitor, inner, ast_path,
+                ),
                 None => {}
             }
         }
@@ -36754,7 +36917,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Box<Stmt>> {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
             match self {
-                Some(inner) => <V as VisitMutWithAstPath>::visit_mut_with(visitor, inner, ast_path),
+                Some(inner) => {
+                    <Box<Stmt> as VisitMutWithAstPath<V>>::visit_mut_with(visitor, inner, ast_path)
+                }
                 None => {}
             }
         }
@@ -36771,7 +36936,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Box<Str>> {
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
             match self {
-                Some(inner) => <V as VisitMutWithAstPath>::visit_mut_with(visitor, inner, ast_path),
+                Some(inner) => {
+                    <Box<Str> as VisitMutWithAstPath<V>>::visit_mut_with(visitor, inner, ast_path)
+                }
                 None => {}
             }
         }
@@ -36788,7 +36955,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<TruePlusMinu
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
             match self {
-                Some(inner) => <V as VisitMutWithAstPath>::visit_mut_with(visitor, inner, ast_path),
+                Some(inner) => <TruePlusMinus as VisitMutWithAstPath<V>>::visit_mut_with(
+                    visitor, inner, ast_path,
+                ),
                 None => {}
             }
         }
@@ -36805,7 +36974,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<TsEntityName
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
             match self {
-                Some(inner) => <V as VisitMutWithAstPath>::visit_mut_with(visitor, inner, ast_path),
+                Some(inner) => <TsEntityName as VisitMutWithAstPath<V>>::visit_mut_with(
+                    visitor, inner, ast_path,
+                ),
                 None => {}
             }
         }
@@ -36822,7 +36993,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<TsNamespaceB
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
             match self {
-                Some(inner) => <V as VisitMutWithAstPath>::visit_mut_with(visitor, inner, ast_path),
+                Some(inner) => <TsNamespaceBody as VisitMutWithAstPath<V>>::visit_mut_with(
+                    visitor, inner, ast_path,
+                ),
                 None => {}
             }
         }
@@ -36839,7 +37012,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Box<TsType>>
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
             match self {
-                Some(inner) => <V as VisitMutWithAstPath>::visit_mut_with(visitor, inner, ast_path),
+                Some(inner) => <Box<TsType> as VisitMutWithAstPath<V>>::visit_mut_with(
+                    visitor, inner, ast_path,
+                ),
                 None => {}
             }
         }
@@ -36856,7 +37031,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Box<TsTypeAn
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
             match self {
-                Some(inner) => <V as VisitMutWithAstPath>::visit_mut_with(visitor, inner, ast_path),
+                Some(inner) => <Box<TsTypeAnn> as VisitMutWithAstPath<V>>::visit_mut_with(
+                    visitor, inner, ast_path,
+                ),
                 None => {}
             }
         }
@@ -36873,7 +37050,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Box<TsTypePa
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
             match self {
-                Some(inner) => <V as VisitMutWithAstPath>::visit_mut_with(visitor, inner, ast_path),
+                Some(inner) => <Box<TsTypeParamDecl> as VisitMutWithAstPath<V>>::visit_mut_with(
+                    visitor, inner, ast_path,
+                ),
                 None => {}
             }
         }
@@ -36891,7 +37070,11 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Box<TsTypePa
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
             match self {
-                Some(inner) => <V as VisitMutWithAstPath>::visit_mut_with(visitor, inner, ast_path),
+                Some(inner) => {
+                    <Box<TsTypeParamInstantiation> as VisitMutWithAstPath<V>>::visit_mut_with(
+                        visitor, inner, ast_path,
+                    )
+                }
                 None => {}
             }
         }
@@ -36908,7 +37091,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<VarDeclOrExp
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
             match self {
-                Some(inner) => <V as VisitMutWithAstPath>::visit_mut_with(visitor, inner, ast_path),
+                Some(inner) => <VarDeclOrExpr as VisitMutWithAstPath<V>>::visit_mut_with(
+                    visitor, inner, ast_path,
+                ),
                 None => {}
             }
         }
@@ -36923,8 +37108,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<ParamOrTsParamP
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        self.iter_mut()
-            .for_each(|item| <V as VisitMutWithAstPath>::visit_mut_with(visitor, item, ast_path))
+        self.iter_mut().for_each(|item| {
+            <ParamOrTsParamProp as VisitMutWithAstPath<V>>::visit_mut_with(visitor, item, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -36936,8 +37122,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<Param> {
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        self.iter_mut()
-            .for_each(|item| <V as VisitMutWithAstPath>::visit_mut_with(visitor, item, ast_path))
+        self.iter_mut().for_each(|item| {
+            <Param as VisitMutWithAstPath<V>>::visit_mut_with(visitor, item, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -36950,7 +37137,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<Pat> {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
-            <V as VisitMutWithAstPath>::visit_mut_pat(&mut **self, visitor, ast_path)
+            <Pat as VisitMutWithAstPath<V>>::visit_mut_pat(&mut **self, visitor, ast_path)
         }
     }
 }
@@ -36963,8 +37150,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<Pat> {
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        self.iter_mut()
-            .for_each(|item| <V as VisitMutWithAstPath>::visit_mut_with(visitor, item, ast_path))
+        self.iter_mut().for_each(|item| {
+            <Pat as VisitMutWithAstPath<V>>::visit_mut_with(visitor, item, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -36989,7 +37177,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<Prop> {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
-            <V as VisitMutWithAstPath>::visit_mut_prop(&mut **self, visitor, ast_path)
+            <Prop as VisitMutWithAstPath<V>>::visit_mut_prop(&mut **self, visitor, ast_path)
         }
     }
 }
@@ -37002,8 +37190,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<PropOrSpread> {
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        self.iter_mut()
-            .for_each(|item| <V as VisitMutWithAstPath>::visit_mut_with(visitor, item, ast_path))
+        self.iter_mut().for_each(|item| {
+            <PropOrSpread as VisitMutWithAstPath<V>>::visit_mut_with(visitor, item, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -37028,7 +37217,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<Stmt> {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
-            <V as VisitMutWithAstPath>::visit_mut_stmt(&mut **self, visitor, ast_path)
+            <Stmt as VisitMutWithAstPath<V>>::visit_mut_stmt(&mut **self, visitor, ast_path)
         }
     }
 }
@@ -37041,8 +37230,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<Stmt> {
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        self.iter_mut()
-            .for_each(|item| <V as VisitMutWithAstPath>::visit_mut_with(visitor, item, ast_path))
+        self.iter_mut().for_each(|item| {
+            <Stmt as VisitMutWithAstPath<V>>::visit_mut_with(visitor, item, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -37055,7 +37245,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<Str> {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
-            <V as VisitMutWithAstPath>::visit_mut_str(&mut **self, visitor, ast_path)
+            <Str as VisitMutWithAstPath<V>>::visit_mut_str(&mut **self, visitor, ast_path)
         }
     }
 }
@@ -37068,8 +37258,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<SwitchCase> {
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        self.iter_mut()
-            .for_each(|item| <V as VisitMutWithAstPath>::visit_mut_with(visitor, item, ast_path))
+        self.iter_mut().for_each(|item| {
+            <SwitchCase as VisitMutWithAstPath<V>>::visit_mut_with(visitor, item, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -37094,7 +37285,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<Tpl> {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
-            <V as VisitMutWithAstPath>::visit_mut_tpl(&mut **self, visitor, ast_path)
+            <Tpl as VisitMutWithAstPath<V>>::visit_mut_tpl(&mut **self, visitor, ast_path)
         }
     }
 }
@@ -37107,8 +37298,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<TplElement> {
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        self.iter_mut()
-            .for_each(|item| <V as VisitMutWithAstPath>::visit_mut_with(visitor, item, ast_path))
+        self.iter_mut().for_each(|item| {
+            <TplElement as VisitMutWithAstPath<V>>::visit_mut_with(visitor, item, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -37121,7 +37313,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<TryStmt> {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
-            <V as VisitMutWithAstPath>::visit_mut_try_stmt(&mut **self, visitor, ast_path)
+            <TryStmt as VisitMutWithAstPath<V>>::visit_mut_try_stmt(&mut **self, visitor, ast_path)
         }
     }
 }
@@ -37135,7 +37327,11 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<TsEnumDecl> {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
-            <V as VisitMutWithAstPath>::visit_mut_ts_enum_decl(&mut **self, visitor, ast_path)
+            <TsEnumDecl as VisitMutWithAstPath<V>>::visit_mut_ts_enum_decl(
+                &mut **self,
+                visitor,
+                ast_path,
+            )
         }
     }
 }
@@ -37148,8 +37344,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<TsEnumMember> {
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        self.iter_mut()
-            .for_each(|item| <V as VisitMutWithAstPath>::visit_mut_with(visitor, item, ast_path))
+        self.iter_mut().for_each(|item| {
+            <TsEnumMember as VisitMutWithAstPath<V>>::visit_mut_with(visitor, item, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -37161,8 +37358,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<TsExprWithTypeA
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        self.iter_mut()
-            .for_each(|item| <V as VisitMutWithAstPath>::visit_mut_with(visitor, item, ast_path))
+        self.iter_mut().for_each(|item| {
+            <TsExprWithTypeArgs as VisitMutWithAstPath<V>>::visit_mut_with(visitor, item, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -37174,8 +37372,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<TsFnParam> {
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        self.iter_mut()
-            .for_each(|item| <V as VisitMutWithAstPath>::visit_mut_with(visitor, item, ast_path))
+        self.iter_mut().for_each(|item| {
+            <TsFnParam as VisitMutWithAstPath<V>>::visit_mut_with(visitor, item, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -37188,7 +37387,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<TsImportEqualsD
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
-            <V as VisitMutWithAstPath>::visit_mut_ts_import_equals_decl(
+            <TsImportEqualsDecl as VisitMutWithAstPath<V>>::visit_mut_ts_import_equals_decl(
                 &mut **self,
                 visitor,
                 ast_path,
@@ -37206,7 +37405,11 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<TsInterfaceDecl
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
-            <V as VisitMutWithAstPath>::visit_mut_ts_interface_decl(&mut **self, visitor, ast_path)
+            <TsInterfaceDecl as VisitMutWithAstPath<V>>::visit_mut_ts_interface_decl(
+                &mut **self,
+                visitor,
+                ast_path,
+            )
         }
     }
 }
@@ -37220,7 +37423,11 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<TsModuleDecl> {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
-            <V as VisitMutWithAstPath>::visit_mut_ts_module_decl(&mut **self, visitor, ast_path)
+            <TsModuleDecl as VisitMutWithAstPath<V>>::visit_mut_ts_module_decl(
+                &mut **self,
+                visitor,
+                ast_path,
+            )
         }
     }
 }
@@ -37234,7 +37441,11 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<TsNamespaceBody
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
-            <V as VisitMutWithAstPath>::visit_mut_ts_namespace_body(&mut **self, visitor, ast_path)
+            <TsNamespaceBody as VisitMutWithAstPath<V>>::visit_mut_ts_namespace_body(
+                &mut **self,
+                visitor,
+                ast_path,
+            )
         }
     }
 }
@@ -37248,7 +37459,11 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<TsQualifiedName
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
-            <V as VisitMutWithAstPath>::visit_mut_ts_qualified_name(&mut **self, visitor, ast_path)
+            <TsQualifiedName as VisitMutWithAstPath<V>>::visit_mut_ts_qualified_name(
+                &mut **self,
+                visitor,
+                ast_path,
+            )
         }
     }
 }
@@ -37261,8 +37476,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<TsTupleElement>
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        self.iter_mut()
-            .for_each(|item| <V as VisitMutWithAstPath>::visit_mut_with(visitor, item, ast_path))
+        self.iter_mut().for_each(|item| {
+            <TsTupleElement as VisitMutWithAstPath<V>>::visit_mut_with(visitor, item, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -37275,7 +37491,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<TsType> {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
-            <V as VisitMutWithAstPath>::visit_mut_ts_type(&mut **self, visitor, ast_path)
+            <TsType as VisitMutWithAstPath<V>>::visit_mut_ts_type(&mut **self, visitor, ast_path)
         }
     }
 }
@@ -37289,7 +37505,11 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<TsTypeAliasDecl
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
-            <V as VisitMutWithAstPath>::visit_mut_ts_type_alias_decl(&mut **self, visitor, ast_path)
+            <TsTypeAliasDecl as VisitMutWithAstPath<V>>::visit_mut_ts_type_alias_decl(
+                &mut **self,
+                visitor,
+                ast_path,
+            )
         }
     }
 }
@@ -37303,7 +37523,11 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<TsTypeAnn> {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
-            <V as VisitMutWithAstPath>::visit_mut_ts_type_ann(&mut **self, visitor, ast_path)
+            <TsTypeAnn as VisitMutWithAstPath<V>>::visit_mut_ts_type_ann(
+                &mut **self,
+                visitor,
+                ast_path,
+            )
         }
     }
 }
@@ -37316,8 +37540,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<TsTypeElement> 
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        self.iter_mut()
-            .for_each(|item| <V as VisitMutWithAstPath>::visit_mut_with(visitor, item, ast_path))
+        self.iter_mut().for_each(|item| {
+            <TsTypeElement as VisitMutWithAstPath<V>>::visit_mut_with(visitor, item, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -37330,7 +37555,11 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<TsTypeParamDecl
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
-            <V as VisitMutWithAstPath>::visit_mut_ts_type_param_decl(&mut **self, visitor, ast_path)
+            <TsTypeParamDecl as VisitMutWithAstPath<V>>::visit_mut_ts_type_param_decl(
+                &mut **self,
+                visitor,
+                ast_path,
+            )
         }
     }
 }
@@ -37345,11 +37574,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<TsTypeParamInst
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
-            <V as VisitMutWithAstPath>::visit_mut_ts_type_param_instantiation(
-                &mut **self,
-                visitor,
-                ast_path,
-            )
+            < TsTypeParamInstantiation as VisitMutWithAstPath < V > > :: visit_mut_ts_type_param_instantiation (& mut * * self , visitor , ast_path)
         }
     }
 }
@@ -37362,8 +37587,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<TsTypeParam> {
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        self.iter_mut()
-            .for_each(|item| <V as VisitMutWithAstPath>::visit_mut_with(visitor, item, ast_path))
+        self.iter_mut().for_each(|item| {
+            <TsTypeParam as VisitMutWithAstPath<V>>::visit_mut_with(visitor, item, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -37375,8 +37601,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<Box<TsType>> {
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        self.iter_mut()
-            .for_each(|item| <V as VisitMutWithAstPath>::visit_mut_with(visitor, item, ast_path))
+        self.iter_mut().for_each(|item| {
+            <Box<TsType> as VisitMutWithAstPath<V>>::visit_mut_with(visitor, item, ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -37389,7 +37616,11 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<UsingDecl> {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
-            <V as VisitMutWithAstPath>::visit_mut_using_decl(&mut **self, visitor, ast_path)
+            <UsingDecl as VisitMutWithAstPath<V>>::visit_mut_using_decl(
+                &mut **self,
+                visitor,
+                ast_path,
+            )
         }
     }
 }
@@ -37403,7 +37634,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Box<VarDecl> {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
         {
-            <V as VisitMutWithAstPath>::visit_mut_var_decl(&mut **self, visitor, ast_path)
+            <VarDecl as VisitMutWithAstPath<V>>::visit_mut_var_decl(&mut **self, visitor, ast_path)
         }
     }
 }
@@ -37416,8 +37647,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<VarDeclarator> 
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, ast_path: &mut AstKindPath) {
-        self.iter_mut()
-            .for_each(|item| <V as VisitMutWithAstPath>::visit_mut_with(visitor, item, ast_path))
+        self.iter_mut().for_each(|item| {
+            <VarDeclarator as VisitMutWithAstPath<V>>::visit_mut_with(visitor, item, ast_path)
+        })
     }
 }
 #[doc = r" A visitor trait for traversing the AST."]
@@ -44604,18 +44836,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for num_bigint::BigInt {
         self
     }
 }
-impl<V: ?Sized + Fold> FoldWith<V> for Box<BigIntValue> {
-    #[doc = "Calls [Fold`::fold_big_int_value`] with `self`. (Extra impl)"]
-    fn fold_with(self, visitor: &mut V) -> Self {
-        <V as Fold>::fold_big_int_value(visitor, self)
-    }
-
-    fn fold_children_with(self, visitor: &mut V) -> Self {
-        {
-            Box::new(<V as FoldWith>::fold_with(*self, visitor))
-        }
-    }
-}
 impl<V: ?Sized + Fold> FoldWith<V> for BigIntValue {
     #[doc = "Calls [Fold`::fold_big_int_value`] with `self`. (Extra impl)"]
     fn fold_with(self, visitor: &mut V) -> Self {
@@ -44626,6 +44846,18 @@ impl<V: ?Sized + Fold> FoldWith<V> for BigIntValue {
         self
     }
 }
+impl<V: ?Sized + Fold> FoldWith<V> for Box<BigIntValue> {
+    #[doc = "Calls [Fold`::fold_big_int_value`] with `self`. (Extra impl)"]
+    fn fold_with(self, visitor: &mut V) -> Self {
+        <V as Fold>::fold_big_int_value(visitor, self)
+    }
+
+    fn fold_children_with(self, visitor: &mut V) -> Self {
+        {
+            Box::new(<BigIntValue as FoldWith<V>>::fold_with(*self, visitor))
+        }
+    }
+}
 impl<V: ?Sized + Fold> FoldWith<V> for Box<BlockStmtOrExpr> {
     #[doc = "Calls [Fold`::fold_block_stmt_or_expr`] with `self`. (Extra impl)"]
     fn fold_with(self, visitor: &mut V) -> Self {
@@ -44634,7 +44866,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Box<BlockStmtOrExpr> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            Box::new(<V as FoldWith>::fold_with(*self, visitor))
+            Box::new(<BlockStmtOrExpr as FoldWith<V>>::fold_with(*self, visitor))
         }
     }
 }
@@ -44646,7 +44878,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Box<Class> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            Box::new(<V as FoldWith>::fold_with(*self, visitor))
+            Box::new(<Class as FoldWith<V>>::fold_with(*self, visitor))
         }
     }
 }
@@ -44658,7 +44890,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<ClassMember> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWith>::fold_with(visitor, item))
+            .map(|item| <ClassMember as FoldWith<V>>::fold_with(visitor, item))
             .collect()
     }
 }
@@ -44680,7 +44912,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<Decorator> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWith>::fold_with(visitor, item))
+            .map(|item| <Decorator as FoldWith<V>>::fold_with(visitor, item))
             .collect()
     }
 }
@@ -44692,7 +44924,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<ExportSpecifier> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWith>::fold_with(visitor, item))
+            .map(|item| <ExportSpecifier as FoldWith<V>>::fold_with(visitor, item))
             .collect()
     }
 }
@@ -44704,7 +44936,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Box<Expr> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            Box::new(<V as FoldWith>::fold_with(*self, visitor))
+            Box::new(<Expr as FoldWith<V>>::fold_with(*self, visitor))
         }
     }
 }
@@ -44716,7 +44948,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<ExprOrSpread> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWith>::fold_with(visitor, item))
+            .map(|item| <ExprOrSpread as FoldWith<V>>::fold_with(visitor, item))
             .collect()
     }
 }
@@ -44728,7 +44960,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<Box<Expr>> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWith>::fold_with(visitor, item))
+            .map(|item| <Box<Expr> as FoldWith<V>>::fold_with(visitor, item))
             .collect()
     }
 }
@@ -44740,7 +44972,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Box<Function> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            Box::new(<V as FoldWith>::fold_with(*self, visitor))
+            Box::new(<Function as FoldWith<V>>::fold_with(*self, visitor))
         }
     }
 }
@@ -44752,7 +44984,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<ImportSpecifier> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWith>::fold_with(visitor, item))
+            .map(|item| <ImportSpecifier as FoldWith<V>>::fold_with(visitor, item))
             .collect()
     }
 }
@@ -44764,7 +44996,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<ImportWithItem> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWith>::fold_with(visitor, item))
+            .map(|item| <ImportWithItem as FoldWith<V>>::fold_with(visitor, item))
             .collect()
     }
 }
@@ -44776,7 +45008,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<JSXAttrOrSpread> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWith>::fold_with(visitor, item))
+            .map(|item| <JSXAttrOrSpread as FoldWith<V>>::fold_with(visitor, item))
             .collect()
     }
 }
@@ -44788,7 +45020,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Box<JSXElement> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            Box::new(<V as FoldWith>::fold_with(*self, visitor))
+            Box::new(<JSXElement as FoldWith<V>>::fold_with(*self, visitor))
         }
     }
 }
@@ -44800,7 +45032,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<JSXElementChild> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWith>::fold_with(visitor, item))
+            .map(|item| <JSXElementChild as FoldWith<V>>::fold_with(visitor, item))
             .collect()
     }
 }
@@ -44812,7 +45044,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Box<JSXMemberExpr> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            Box::new(<V as FoldWith>::fold_with(*self, visitor))
+            Box::new(<JSXMemberExpr as FoldWith<V>>::fold_with(*self, visitor))
         }
     }
 }
@@ -44824,7 +45056,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<ModuleItem> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWith>::fold_with(visitor, item))
+            .map(|item| <ModuleItem as FoldWith<V>>::fold_with(visitor, item))
             .collect()
     }
 }
@@ -44836,7 +45068,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Box<ObjectLit> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            Box::new(<V as FoldWith>::fold_with(*self, visitor))
+            Box::new(<ObjectLit as FoldWith<V>>::fold_with(*self, visitor))
         }
     }
 }
@@ -44848,7 +45080,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<ObjectPatProp> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWith>::fold_with(visitor, item))
+            .map(|item| <ObjectPatProp as FoldWith<V>>::fold_with(visitor, item))
             .collect()
     }
 }
@@ -44860,7 +45092,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Option<Accessibility> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            self.map(|inner| <V as FoldWith>::fold_with(visitor, inner))
+            self.map(|inner| <Accessibility as FoldWith<V>>::fold_with(visitor, inner))
         }
     }
 }
@@ -44872,7 +45104,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Option<swc_atoms::Atom> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            self.map(|inner| <V as FoldWith>::fold_with(visitor, inner))
+            self.map(|inner| <swc_atoms::Atom as FoldWith<V>>::fold_with(visitor, inner))
         }
     }
 }
@@ -44884,7 +45116,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Option<BlockStmt> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            self.map(|inner| <V as FoldWith>::fold_with(visitor, inner))
+            self.map(|inner| <BlockStmt as FoldWith<V>>::fold_with(visitor, inner))
         }
     }
 }
@@ -44896,7 +45128,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Option<CatchClause> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            self.map(|inner| <V as FoldWith>::fold_with(visitor, inner))
+            self.map(|inner| <CatchClause as FoldWith<V>>::fold_with(visitor, inner))
         }
     }
 }
@@ -44908,7 +45140,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Box<OptChainBase> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            Box::new(<V as FoldWith>::fold_with(*self, visitor))
+            Box::new(<OptChainBase as FoldWith<V>>::fold_with(*self, visitor))
         }
     }
 }
@@ -44920,7 +45152,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Option<Box<Expr>> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            self.map(|inner| <V as FoldWith>::fold_with(visitor, inner))
+            self.map(|inner| <Box<Expr> as FoldWith<V>>::fold_with(visitor, inner))
         }
     }
 }
@@ -44932,7 +45164,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Option<ExprOrSpread> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            self.map(|inner| <V as FoldWith>::fold_with(visitor, inner))
+            self.map(|inner| <ExprOrSpread as FoldWith<V>>::fold_with(visitor, inner))
         }
     }
 }
@@ -44944,7 +45176,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Option<Vec<ExprOrSpread>> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            self.map(|inner| <V as FoldWith>::fold_with(visitor, inner))
+            self.map(|inner| <Vec<ExprOrSpread> as FoldWith<V>>::fold_with(visitor, inner))
         }
     }
 }
@@ -44956,7 +45188,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<Option<ExprOrSpread>> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWith>::fold_with(visitor, item))
+            .map(|item| <Option<ExprOrSpread> as FoldWith<V>>::fold_with(visitor, item))
             .collect()
     }
 }
@@ -44968,7 +45200,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Option<Ident> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            self.map(|inner| <V as FoldWith>::fold_with(visitor, inner))
+            self.map(|inner| <Ident as FoldWith<V>>::fold_with(visitor, inner))
         }
     }
 }
@@ -44980,7 +45212,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Option<JSXAttrValue> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            self.map(|inner| <V as FoldWith>::fold_with(visitor, inner))
+            self.map(|inner| <JSXAttrValue as FoldWith<V>>::fold_with(visitor, inner))
         }
     }
 }
@@ -44992,7 +45224,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Option<JSXClosingElement> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            self.map(|inner| <V as FoldWith>::fold_with(visitor, inner))
+            self.map(|inner| <JSXClosingElement as FoldWith<V>>::fold_with(visitor, inner))
         }
     }
 }
@@ -45004,7 +45236,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Option<ModuleExportName> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            self.map(|inner| <V as FoldWith>::fold_with(visitor, inner))
+            self.map(|inner| <ModuleExportName as FoldWith<V>>::fold_with(visitor, inner))
         }
     }
 }
@@ -45016,7 +45248,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Option<Vec<ModuleItem>> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            self.map(|inner| <V as FoldWith>::fold_with(visitor, inner))
+            self.map(|inner| <Vec<ModuleItem> as FoldWith<V>>::fold_with(visitor, inner))
         }
     }
 }
@@ -45028,7 +45260,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Option<Box<ObjectLit>> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            self.map(|inner| <V as FoldWith>::fold_with(visitor, inner))
+            self.map(|inner| <Box<ObjectLit> as FoldWith<V>>::fold_with(visitor, inner))
         }
     }
 }
@@ -45040,7 +45272,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Option<Pat> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            self.map(|inner| <V as FoldWith>::fold_with(visitor, inner))
+            self.map(|inner| <Pat as FoldWith<V>>::fold_with(visitor, inner))
         }
     }
 }
@@ -45052,7 +45284,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<Option<Pat>> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWith>::fold_with(visitor, item))
+            .map(|item| <Option<Pat> as FoldWith<V>>::fold_with(visitor, item))
             .collect()
     }
 }
@@ -45064,7 +45296,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Option<swc_common::Span> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            self.map(|inner| <V as FoldWith>::fold_with(visitor, inner))
+            self.map(|inner| <swc_common::Span as FoldWith<V>>::fold_with(visitor, inner))
         }
     }
 }
@@ -45076,7 +45308,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Option<Box<Stmt>> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            self.map(|inner| <V as FoldWith>::fold_with(visitor, inner))
+            self.map(|inner| <Box<Stmt> as FoldWith<V>>::fold_with(visitor, inner))
         }
     }
 }
@@ -45088,7 +45320,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Option<Box<Str>> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            self.map(|inner| <V as FoldWith>::fold_with(visitor, inner))
+            self.map(|inner| <Box<Str> as FoldWith<V>>::fold_with(visitor, inner))
         }
     }
 }
@@ -45100,7 +45332,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Option<TruePlusMinus> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            self.map(|inner| <V as FoldWith>::fold_with(visitor, inner))
+            self.map(|inner| <TruePlusMinus as FoldWith<V>>::fold_with(visitor, inner))
         }
     }
 }
@@ -45112,7 +45344,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Option<TsEntityName> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            self.map(|inner| <V as FoldWith>::fold_with(visitor, inner))
+            self.map(|inner| <TsEntityName as FoldWith<V>>::fold_with(visitor, inner))
         }
     }
 }
@@ -45124,7 +45356,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Option<TsNamespaceBody> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            self.map(|inner| <V as FoldWith>::fold_with(visitor, inner))
+            self.map(|inner| <TsNamespaceBody as FoldWith<V>>::fold_with(visitor, inner))
         }
     }
 }
@@ -45136,7 +45368,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Option<Box<TsType>> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            self.map(|inner| <V as FoldWith>::fold_with(visitor, inner))
+            self.map(|inner| <Box<TsType> as FoldWith<V>>::fold_with(visitor, inner))
         }
     }
 }
@@ -45148,7 +45380,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Option<Box<TsTypeAnn>> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            self.map(|inner| <V as FoldWith>::fold_with(visitor, inner))
+            self.map(|inner| <Box<TsTypeAnn> as FoldWith<V>>::fold_with(visitor, inner))
         }
     }
 }
@@ -45160,7 +45392,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Option<Box<TsTypeParamDecl>> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            self.map(|inner| <V as FoldWith>::fold_with(visitor, inner))
+            self.map(|inner| <Box<TsTypeParamDecl> as FoldWith<V>>::fold_with(visitor, inner))
         }
     }
 }
@@ -45172,7 +45404,9 @@ impl<V: ?Sized + Fold> FoldWith<V> for Option<Box<TsTypeParamInstantiation>> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            self.map(|inner| <V as FoldWith>::fold_with(visitor, inner))
+            self.map(|inner| {
+                <Box<TsTypeParamInstantiation> as FoldWith<V>>::fold_with(visitor, inner)
+            })
         }
     }
 }
@@ -45184,7 +45418,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Option<VarDeclOrExpr> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            self.map(|inner| <V as FoldWith>::fold_with(visitor, inner))
+            self.map(|inner| <VarDeclOrExpr as FoldWith<V>>::fold_with(visitor, inner))
         }
     }
 }
@@ -45196,7 +45430,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<ParamOrTsParamProp> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWith>::fold_with(visitor, item))
+            .map(|item| <ParamOrTsParamProp as FoldWith<V>>::fold_with(visitor, item))
             .collect()
     }
 }
@@ -45208,7 +45442,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<Param> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWith>::fold_with(visitor, item))
+            .map(|item| <Param as FoldWith<V>>::fold_with(visitor, item))
             .collect()
     }
 }
@@ -45220,7 +45454,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Box<Pat> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            Box::new(<V as FoldWith>::fold_with(*self, visitor))
+            Box::new(<Pat as FoldWith<V>>::fold_with(*self, visitor))
         }
     }
 }
@@ -45232,7 +45466,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<Pat> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWith>::fold_with(visitor, item))
+            .map(|item| <Pat as FoldWith<V>>::fold_with(visitor, item))
             .collect()
     }
 }
@@ -45254,7 +45488,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Box<Prop> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            Box::new(<V as FoldWith>::fold_with(*self, visitor))
+            Box::new(<Prop as FoldWith<V>>::fold_with(*self, visitor))
         }
     }
 }
@@ -45266,7 +45500,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<PropOrSpread> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWith>::fold_with(visitor, item))
+            .map(|item| <PropOrSpread as FoldWith<V>>::fold_with(visitor, item))
             .collect()
     }
 }
@@ -45288,7 +45522,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Box<Stmt> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            Box::new(<V as FoldWith>::fold_with(*self, visitor))
+            Box::new(<Stmt as FoldWith<V>>::fold_with(*self, visitor))
         }
     }
 }
@@ -45300,7 +45534,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<Stmt> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWith>::fold_with(visitor, item))
+            .map(|item| <Stmt as FoldWith<V>>::fold_with(visitor, item))
             .collect()
     }
 }
@@ -45312,7 +45546,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Box<Str> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            Box::new(<V as FoldWith>::fold_with(*self, visitor))
+            Box::new(<Str as FoldWith<V>>::fold_with(*self, visitor))
         }
     }
 }
@@ -45324,7 +45558,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<SwitchCase> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWith>::fold_with(visitor, item))
+            .map(|item| <SwitchCase as FoldWith<V>>::fold_with(visitor, item))
             .collect()
     }
 }
@@ -45346,7 +45580,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Box<Tpl> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            Box::new(<V as FoldWith>::fold_with(*self, visitor))
+            Box::new(<Tpl as FoldWith<V>>::fold_with(*self, visitor))
         }
     }
 }
@@ -45358,7 +45592,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<TplElement> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWith>::fold_with(visitor, item))
+            .map(|item| <TplElement as FoldWith<V>>::fold_with(visitor, item))
             .collect()
     }
 }
@@ -45370,7 +45604,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Box<TryStmt> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            Box::new(<V as FoldWith>::fold_with(*self, visitor))
+            Box::new(<TryStmt as FoldWith<V>>::fold_with(*self, visitor))
         }
     }
 }
@@ -45382,7 +45616,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Box<TsEnumDecl> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            Box::new(<V as FoldWith>::fold_with(*self, visitor))
+            Box::new(<TsEnumDecl as FoldWith<V>>::fold_with(*self, visitor))
         }
     }
 }
@@ -45394,7 +45628,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<TsEnumMember> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWith>::fold_with(visitor, item))
+            .map(|item| <TsEnumMember as FoldWith<V>>::fold_with(visitor, item))
             .collect()
     }
 }
@@ -45406,7 +45640,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<TsExprWithTypeArgs> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWith>::fold_with(visitor, item))
+            .map(|item| <TsExprWithTypeArgs as FoldWith<V>>::fold_with(visitor, item))
             .collect()
     }
 }
@@ -45418,7 +45652,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<TsFnParam> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWith>::fold_with(visitor, item))
+            .map(|item| <TsFnParam as FoldWith<V>>::fold_with(visitor, item))
             .collect()
     }
 }
@@ -45430,7 +45664,9 @@ impl<V: ?Sized + Fold> FoldWith<V> for Box<TsImportEqualsDecl> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            Box::new(<V as FoldWith>::fold_with(*self, visitor))
+            Box::new(<TsImportEqualsDecl as FoldWith<V>>::fold_with(
+                *self, visitor,
+            ))
         }
     }
 }
@@ -45442,7 +45678,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Box<TsInterfaceDecl> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            Box::new(<V as FoldWith>::fold_with(*self, visitor))
+            Box::new(<TsInterfaceDecl as FoldWith<V>>::fold_with(*self, visitor))
         }
     }
 }
@@ -45454,7 +45690,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Box<TsModuleDecl> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            Box::new(<V as FoldWith>::fold_with(*self, visitor))
+            Box::new(<TsModuleDecl as FoldWith<V>>::fold_with(*self, visitor))
         }
     }
 }
@@ -45466,7 +45702,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Box<TsNamespaceBody> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            Box::new(<V as FoldWith>::fold_with(*self, visitor))
+            Box::new(<TsNamespaceBody as FoldWith<V>>::fold_with(*self, visitor))
         }
     }
 }
@@ -45478,7 +45714,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Box<TsQualifiedName> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            Box::new(<V as FoldWith>::fold_with(*self, visitor))
+            Box::new(<TsQualifiedName as FoldWith<V>>::fold_with(*self, visitor))
         }
     }
 }
@@ -45490,7 +45726,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<TsTupleElement> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWith>::fold_with(visitor, item))
+            .map(|item| <TsTupleElement as FoldWith<V>>::fold_with(visitor, item))
             .collect()
     }
 }
@@ -45502,7 +45738,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Box<TsType> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            Box::new(<V as FoldWith>::fold_with(*self, visitor))
+            Box::new(<TsType as FoldWith<V>>::fold_with(*self, visitor))
         }
     }
 }
@@ -45514,7 +45750,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Box<TsTypeAliasDecl> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            Box::new(<V as FoldWith>::fold_with(*self, visitor))
+            Box::new(<TsTypeAliasDecl as FoldWith<V>>::fold_with(*self, visitor))
         }
     }
 }
@@ -45526,7 +45762,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Box<TsTypeAnn> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            Box::new(<V as FoldWith>::fold_with(*self, visitor))
+            Box::new(<TsTypeAnn as FoldWith<V>>::fold_with(*self, visitor))
         }
     }
 }
@@ -45538,7 +45774,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<TsTypeElement> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWith>::fold_with(visitor, item))
+            .map(|item| <TsTypeElement as FoldWith<V>>::fold_with(visitor, item))
             .collect()
     }
 }
@@ -45550,7 +45786,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Box<TsTypeParamDecl> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            Box::new(<V as FoldWith>::fold_with(*self, visitor))
+            Box::new(<TsTypeParamDecl as FoldWith<V>>::fold_with(*self, visitor))
         }
     }
 }
@@ -45562,7 +45798,9 @@ impl<V: ?Sized + Fold> FoldWith<V> for Box<TsTypeParamInstantiation> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            Box::new(<V as FoldWith>::fold_with(*self, visitor))
+            Box::new(<TsTypeParamInstantiation as FoldWith<V>>::fold_with(
+                *self, visitor,
+            ))
         }
     }
 }
@@ -45574,7 +45812,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<TsTypeParam> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWith>::fold_with(visitor, item))
+            .map(|item| <TsTypeParam as FoldWith<V>>::fold_with(visitor, item))
             .collect()
     }
 }
@@ -45586,7 +45824,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<Box<TsType>> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWith>::fold_with(visitor, item))
+            .map(|item| <Box<TsType> as FoldWith<V>>::fold_with(visitor, item))
             .collect()
     }
 }
@@ -45598,7 +45836,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Box<UsingDecl> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            Box::new(<V as FoldWith>::fold_with(*self, visitor))
+            Box::new(<UsingDecl as FoldWith<V>>::fold_with(*self, visitor))
         }
     }
 }
@@ -45610,7 +45848,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Box<VarDecl> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         {
-            Box::new(<V as FoldWith>::fold_with(*self, visitor))
+            Box::new(<VarDecl as FoldWith<V>>::fold_with(*self, visitor))
         }
     }
 }
@@ -45622,7 +45860,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<VarDeclarator> {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWith>::fold_with(visitor, item))
+            .map(|item| <VarDeclarator as FoldWith<V>>::fold_with(visitor, item))
             .collect()
     }
 }
@@ -55009,20 +55247,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for num_bigint::BigInt {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<BigIntValue> {
-    #[doc = "Calls [FoldAstPath`::fold_big_int_value`] with `self`. (Extra impl)"]
-    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
-        <V as FoldAstPath>::fold_big_int_value(visitor, self, ast_path)
-    }
-
-    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
-        {
-            Box::new(<V as FoldWithAstPath>::fold_with(*self, visitor, ast_path))
-        }
-    }
-}
-#[cfg(any(docsrs, feature = "path"))]
-#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for BigIntValue {
     #[doc = "Calls [FoldAstPath`::fold_big_int_value`] with `self`. (Extra impl)"]
     fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
@@ -55035,6 +55259,22 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for BigIntValue {
 }
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<BigIntValue> {
+    #[doc = "Calls [FoldAstPath`::fold_big_int_value`] with `self`. (Extra impl)"]
+    fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        <V as FoldAstPath>::fold_big_int_value(visitor, self, ast_path)
+    }
+
+    fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
+        {
+            Box::new(<BigIntValue as FoldWithAstPath<V>>::fold_with(
+                *self, visitor, ast_path,
+            ))
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<BlockStmtOrExpr> {
     #[doc = "Calls [FoldAstPath`::fold_block_stmt_or_expr`] with `self`. (Extra impl)"]
     fn fold_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
@@ -55043,7 +55283,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<BlockStmtOrExpr> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            Box::new(<V as FoldWithAstPath>::fold_with(*self, visitor, ast_path))
+            Box::new(<BlockStmtOrExpr as FoldWithAstPath<V>>::fold_with(
+                *self, visitor, ast_path,
+            ))
         }
     }
 }
@@ -55057,7 +55299,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<Class> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            Box::new(<V as FoldWithAstPath>::fold_with(*self, visitor, ast_path))
+            Box::new(<Class as FoldWithAstPath<V>>::fold_with(
+                *self, visitor, ast_path,
+            ))
         }
     }
 }
@@ -55071,7 +55315,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<ClassMember> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWithAstPath>::fold_with(visitor, item, ast_path))
+            .map(|item| <ClassMember as FoldWithAstPath<V>>::fold_with(visitor, item, ast_path))
             .collect()
     }
 }
@@ -55097,7 +55341,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<Decorator> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWithAstPath>::fold_with(visitor, item, ast_path))
+            .map(|item| <Decorator as FoldWithAstPath<V>>::fold_with(visitor, item, ast_path))
             .collect()
     }
 }
@@ -55111,7 +55355,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<ExportSpecifier> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWithAstPath>::fold_with(visitor, item, ast_path))
+            .map(|item| <ExportSpecifier as FoldWithAstPath<V>>::fold_with(visitor, item, ast_path))
             .collect()
     }
 }
@@ -55125,7 +55369,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<Expr> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            Box::new(<V as FoldWithAstPath>::fold_with(*self, visitor, ast_path))
+            Box::new(<Expr as FoldWithAstPath<V>>::fold_with(
+                *self, visitor, ast_path,
+            ))
         }
     }
 }
@@ -55139,7 +55385,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<ExprOrSpread> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWithAstPath>::fold_with(visitor, item, ast_path))
+            .map(|item| <ExprOrSpread as FoldWithAstPath<V>>::fold_with(visitor, item, ast_path))
             .collect()
     }
 }
@@ -55153,7 +55399,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<Box<Expr>> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWithAstPath>::fold_with(visitor, item, ast_path))
+            .map(|item| <Box<Expr> as FoldWithAstPath<V>>::fold_with(visitor, item, ast_path))
             .collect()
     }
 }
@@ -55167,7 +55413,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<Function> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            Box::new(<V as FoldWithAstPath>::fold_with(*self, visitor, ast_path))
+            Box::new(<Function as FoldWithAstPath<V>>::fold_with(
+                *self, visitor, ast_path,
+            ))
         }
     }
 }
@@ -55181,7 +55429,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<ImportSpecifier> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWithAstPath>::fold_with(visitor, item, ast_path))
+            .map(|item| <ImportSpecifier as FoldWithAstPath<V>>::fold_with(visitor, item, ast_path))
             .collect()
     }
 }
@@ -55195,7 +55443,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<ImportWithItem> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWithAstPath>::fold_with(visitor, item, ast_path))
+            .map(|item| <ImportWithItem as FoldWithAstPath<V>>::fold_with(visitor, item, ast_path))
             .collect()
     }
 }
@@ -55209,7 +55457,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<JSXAttrOrSpread> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWithAstPath>::fold_with(visitor, item, ast_path))
+            .map(|item| <JSXAttrOrSpread as FoldWithAstPath<V>>::fold_with(visitor, item, ast_path))
             .collect()
     }
 }
@@ -55223,7 +55471,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<JSXElement> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            Box::new(<V as FoldWithAstPath>::fold_with(*self, visitor, ast_path))
+            Box::new(<JSXElement as FoldWithAstPath<V>>::fold_with(
+                *self, visitor, ast_path,
+            ))
         }
     }
 }
@@ -55237,7 +55487,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<JSXElementChild> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWithAstPath>::fold_with(visitor, item, ast_path))
+            .map(|item| <JSXElementChild as FoldWithAstPath<V>>::fold_with(visitor, item, ast_path))
             .collect()
     }
 }
@@ -55251,7 +55501,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<JSXMemberExpr> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            Box::new(<V as FoldWithAstPath>::fold_with(*self, visitor, ast_path))
+            Box::new(<JSXMemberExpr as FoldWithAstPath<V>>::fold_with(
+                *self, visitor, ast_path,
+            ))
         }
     }
 }
@@ -55265,7 +55517,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<ModuleItem> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWithAstPath>::fold_with(visitor, item, ast_path))
+            .map(|item| <ModuleItem as FoldWithAstPath<V>>::fold_with(visitor, item, ast_path))
             .collect()
     }
 }
@@ -55279,7 +55531,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<ObjectLit> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            Box::new(<V as FoldWithAstPath>::fold_with(*self, visitor, ast_path))
+            Box::new(<ObjectLit as FoldWithAstPath<V>>::fold_with(
+                *self, visitor, ast_path,
+            ))
         }
     }
 }
@@ -55293,7 +55547,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<ObjectPatProp> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWithAstPath>::fold_with(visitor, item, ast_path))
+            .map(|item| <ObjectPatProp as FoldWithAstPath<V>>::fold_with(visitor, item, ast_path))
             .collect()
     }
 }
@@ -55307,7 +55561,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Accessibility> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            self.map(|inner| <V as FoldWithAstPath>::fold_with(visitor, inner, ast_path))
+            self.map(|inner| {
+                <Accessibility as FoldWithAstPath<V>>::fold_with(visitor, inner, ast_path)
+            })
         }
     }
 }
@@ -55321,7 +55577,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<swc_atoms::Atom> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            self.map(|inner| <V as FoldWithAstPath>::fold_with(visitor, inner, ast_path))
+            self.map(|inner| {
+                <swc_atoms::Atom as FoldWithAstPath<V>>::fold_with(visitor, inner, ast_path)
+            })
         }
     }
 }
@@ -55335,7 +55593,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<BlockStmt> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            self.map(|inner| <V as FoldWithAstPath>::fold_with(visitor, inner, ast_path))
+            self.map(|inner| <BlockStmt as FoldWithAstPath<V>>::fold_with(visitor, inner, ast_path))
         }
     }
 }
@@ -55349,7 +55607,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<CatchClause> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            self.map(|inner| <V as FoldWithAstPath>::fold_with(visitor, inner, ast_path))
+            self.map(|inner| {
+                <CatchClause as FoldWithAstPath<V>>::fold_with(visitor, inner, ast_path)
+            })
         }
     }
 }
@@ -55363,7 +55623,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<OptChainBase> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            Box::new(<V as FoldWithAstPath>::fold_with(*self, visitor, ast_path))
+            Box::new(<OptChainBase as FoldWithAstPath<V>>::fold_with(
+                *self, visitor, ast_path,
+            ))
         }
     }
 }
@@ -55377,7 +55639,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Box<Expr>> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            self.map(|inner| <V as FoldWithAstPath>::fold_with(visitor, inner, ast_path))
+            self.map(|inner| <Box<Expr> as FoldWithAstPath<V>>::fold_with(visitor, inner, ast_path))
         }
     }
 }
@@ -55391,7 +55653,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<ExprOrSpread> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            self.map(|inner| <V as FoldWithAstPath>::fold_with(visitor, inner, ast_path))
+            self.map(|inner| {
+                <ExprOrSpread as FoldWithAstPath<V>>::fold_with(visitor, inner, ast_path)
+            })
         }
     }
 }
@@ -55405,7 +55669,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Vec<ExprOrSpread>> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            self.map(|inner| <V as FoldWithAstPath>::fold_with(visitor, inner, ast_path))
+            self.map(|inner| {
+                <Vec<ExprOrSpread> as FoldWithAstPath<V>>::fold_with(visitor, inner, ast_path)
+            })
         }
     }
 }
@@ -55419,7 +55685,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<Option<ExprOrSpread>> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWithAstPath>::fold_with(visitor, item, ast_path))
+            .map(|item| {
+                <Option<ExprOrSpread> as FoldWithAstPath<V>>::fold_with(visitor, item, ast_path)
+            })
             .collect()
     }
 }
@@ -55433,7 +55701,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Ident> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            self.map(|inner| <V as FoldWithAstPath>::fold_with(visitor, inner, ast_path))
+            self.map(|inner| <Ident as FoldWithAstPath<V>>::fold_with(visitor, inner, ast_path))
         }
     }
 }
@@ -55447,7 +55715,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<JSXAttrValue> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            self.map(|inner| <V as FoldWithAstPath>::fold_with(visitor, inner, ast_path))
+            self.map(|inner| {
+                <JSXAttrValue as FoldWithAstPath<V>>::fold_with(visitor, inner, ast_path)
+            })
         }
     }
 }
@@ -55461,7 +55731,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<JSXClosingElement> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            self.map(|inner| <V as FoldWithAstPath>::fold_with(visitor, inner, ast_path))
+            self.map(|inner| {
+                <JSXClosingElement as FoldWithAstPath<V>>::fold_with(visitor, inner, ast_path)
+            })
         }
     }
 }
@@ -55475,7 +55747,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<ModuleExportName> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            self.map(|inner| <V as FoldWithAstPath>::fold_with(visitor, inner, ast_path))
+            self.map(|inner| {
+                <ModuleExportName as FoldWithAstPath<V>>::fold_with(visitor, inner, ast_path)
+            })
         }
     }
 }
@@ -55489,7 +55763,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Vec<ModuleItem>> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            self.map(|inner| <V as FoldWithAstPath>::fold_with(visitor, inner, ast_path))
+            self.map(|inner| {
+                <Vec<ModuleItem> as FoldWithAstPath<V>>::fold_with(visitor, inner, ast_path)
+            })
         }
     }
 }
@@ -55503,7 +55779,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Box<ObjectLit>> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            self.map(|inner| <V as FoldWithAstPath>::fold_with(visitor, inner, ast_path))
+            self.map(|inner| {
+                <Box<ObjectLit> as FoldWithAstPath<V>>::fold_with(visitor, inner, ast_path)
+            })
         }
     }
 }
@@ -55517,7 +55795,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Pat> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            self.map(|inner| <V as FoldWithAstPath>::fold_with(visitor, inner, ast_path))
+            self.map(|inner| <Pat as FoldWithAstPath<V>>::fold_with(visitor, inner, ast_path))
         }
     }
 }
@@ -55531,7 +55809,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<Option<Pat>> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWithAstPath>::fold_with(visitor, item, ast_path))
+            .map(|item| <Option<Pat> as FoldWithAstPath<V>>::fold_with(visitor, item, ast_path))
             .collect()
     }
 }
@@ -55545,7 +55823,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<swc_common::Span> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            self.map(|inner| <V as FoldWithAstPath>::fold_with(visitor, inner, ast_path))
+            self.map(|inner| {
+                <swc_common::Span as FoldWithAstPath<V>>::fold_with(visitor, inner, ast_path)
+            })
         }
     }
 }
@@ -55559,7 +55839,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Box<Stmt>> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            self.map(|inner| <V as FoldWithAstPath>::fold_with(visitor, inner, ast_path))
+            self.map(|inner| <Box<Stmt> as FoldWithAstPath<V>>::fold_with(visitor, inner, ast_path))
         }
     }
 }
@@ -55573,7 +55853,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Box<Str>> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            self.map(|inner| <V as FoldWithAstPath>::fold_with(visitor, inner, ast_path))
+            self.map(|inner| <Box<Str> as FoldWithAstPath<V>>::fold_with(visitor, inner, ast_path))
         }
     }
 }
@@ -55587,7 +55867,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<TruePlusMinus> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            self.map(|inner| <V as FoldWithAstPath>::fold_with(visitor, inner, ast_path))
+            self.map(|inner| {
+                <TruePlusMinus as FoldWithAstPath<V>>::fold_with(visitor, inner, ast_path)
+            })
         }
     }
 }
@@ -55601,7 +55883,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<TsEntityName> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            self.map(|inner| <V as FoldWithAstPath>::fold_with(visitor, inner, ast_path))
+            self.map(|inner| {
+                <TsEntityName as FoldWithAstPath<V>>::fold_with(visitor, inner, ast_path)
+            })
         }
     }
 }
@@ -55615,7 +55899,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<TsNamespaceBody> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            self.map(|inner| <V as FoldWithAstPath>::fold_with(visitor, inner, ast_path))
+            self.map(|inner| {
+                <TsNamespaceBody as FoldWithAstPath<V>>::fold_with(visitor, inner, ast_path)
+            })
         }
     }
 }
@@ -55629,7 +55915,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Box<TsType>> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            self.map(|inner| <V as FoldWithAstPath>::fold_with(visitor, inner, ast_path))
+            self.map(|inner| {
+                <Box<TsType> as FoldWithAstPath<V>>::fold_with(visitor, inner, ast_path)
+            })
         }
     }
 }
@@ -55643,7 +55931,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Box<TsTypeAnn>> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            self.map(|inner| <V as FoldWithAstPath>::fold_with(visitor, inner, ast_path))
+            self.map(|inner| {
+                <Box<TsTypeAnn> as FoldWithAstPath<V>>::fold_with(visitor, inner, ast_path)
+            })
         }
     }
 }
@@ -55657,7 +55947,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Box<TsTypeParamDecl>
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            self.map(|inner| <V as FoldWithAstPath>::fold_with(visitor, inner, ast_path))
+            self.map(|inner| {
+                <Box<TsTypeParamDecl> as FoldWithAstPath<V>>::fold_with(visitor, inner, ast_path)
+            })
         }
     }
 }
@@ -55671,7 +55963,11 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Box<TsTypeParamInsta
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            self.map(|inner| <V as FoldWithAstPath>::fold_with(visitor, inner, ast_path))
+            self.map(|inner| {
+                <Box<TsTypeParamInstantiation> as FoldWithAstPath<V>>::fold_with(
+                    visitor, inner, ast_path,
+                )
+            })
         }
     }
 }
@@ -55685,7 +55981,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<VarDeclOrExpr> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            self.map(|inner| <V as FoldWithAstPath>::fold_with(visitor, inner, ast_path))
+            self.map(|inner| {
+                <VarDeclOrExpr as FoldWithAstPath<V>>::fold_with(visitor, inner, ast_path)
+            })
         }
     }
 }
@@ -55699,7 +55997,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<ParamOrTsParamProp> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWithAstPath>::fold_with(visitor, item, ast_path))
+            .map(|item| {
+                <ParamOrTsParamProp as FoldWithAstPath<V>>::fold_with(visitor, item, ast_path)
+            })
             .collect()
     }
 }
@@ -55713,7 +56013,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<Param> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWithAstPath>::fold_with(visitor, item, ast_path))
+            .map(|item| <Param as FoldWithAstPath<V>>::fold_with(visitor, item, ast_path))
             .collect()
     }
 }
@@ -55727,7 +56027,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<Pat> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            Box::new(<V as FoldWithAstPath>::fold_with(*self, visitor, ast_path))
+            Box::new(<Pat as FoldWithAstPath<V>>::fold_with(
+                *self, visitor, ast_path,
+            ))
         }
     }
 }
@@ -55741,7 +56043,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<Pat> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWithAstPath>::fold_with(visitor, item, ast_path))
+            .map(|item| <Pat as FoldWithAstPath<V>>::fold_with(visitor, item, ast_path))
             .collect()
     }
 }
@@ -55767,7 +56069,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<Prop> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            Box::new(<V as FoldWithAstPath>::fold_with(*self, visitor, ast_path))
+            Box::new(<Prop as FoldWithAstPath<V>>::fold_with(
+                *self, visitor, ast_path,
+            ))
         }
     }
 }
@@ -55781,7 +56085,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<PropOrSpread> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWithAstPath>::fold_with(visitor, item, ast_path))
+            .map(|item| <PropOrSpread as FoldWithAstPath<V>>::fold_with(visitor, item, ast_path))
             .collect()
     }
 }
@@ -55807,7 +56111,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<Stmt> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            Box::new(<V as FoldWithAstPath>::fold_with(*self, visitor, ast_path))
+            Box::new(<Stmt as FoldWithAstPath<V>>::fold_with(
+                *self, visitor, ast_path,
+            ))
         }
     }
 }
@@ -55821,7 +56127,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<Stmt> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWithAstPath>::fold_with(visitor, item, ast_path))
+            .map(|item| <Stmt as FoldWithAstPath<V>>::fold_with(visitor, item, ast_path))
             .collect()
     }
 }
@@ -55835,7 +56141,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<Str> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            Box::new(<V as FoldWithAstPath>::fold_with(*self, visitor, ast_path))
+            Box::new(<Str as FoldWithAstPath<V>>::fold_with(
+                *self, visitor, ast_path,
+            ))
         }
     }
 }
@@ -55849,7 +56157,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<SwitchCase> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWithAstPath>::fold_with(visitor, item, ast_path))
+            .map(|item| <SwitchCase as FoldWithAstPath<V>>::fold_with(visitor, item, ast_path))
             .collect()
     }
 }
@@ -55875,7 +56183,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<Tpl> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            Box::new(<V as FoldWithAstPath>::fold_with(*self, visitor, ast_path))
+            Box::new(<Tpl as FoldWithAstPath<V>>::fold_with(
+                *self, visitor, ast_path,
+            ))
         }
     }
 }
@@ -55889,7 +56199,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<TplElement> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWithAstPath>::fold_with(visitor, item, ast_path))
+            .map(|item| <TplElement as FoldWithAstPath<V>>::fold_with(visitor, item, ast_path))
             .collect()
     }
 }
@@ -55903,7 +56213,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<TryStmt> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            Box::new(<V as FoldWithAstPath>::fold_with(*self, visitor, ast_path))
+            Box::new(<TryStmt as FoldWithAstPath<V>>::fold_with(
+                *self, visitor, ast_path,
+            ))
         }
     }
 }
@@ -55917,7 +56229,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<TsEnumDecl> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            Box::new(<V as FoldWithAstPath>::fold_with(*self, visitor, ast_path))
+            Box::new(<TsEnumDecl as FoldWithAstPath<V>>::fold_with(
+                *self, visitor, ast_path,
+            ))
         }
     }
 }
@@ -55931,7 +56245,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<TsEnumMember> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWithAstPath>::fold_with(visitor, item, ast_path))
+            .map(|item| <TsEnumMember as FoldWithAstPath<V>>::fold_with(visitor, item, ast_path))
             .collect()
     }
 }
@@ -55945,7 +56259,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<TsExprWithTypeArgs> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWithAstPath>::fold_with(visitor, item, ast_path))
+            .map(|item| {
+                <TsExprWithTypeArgs as FoldWithAstPath<V>>::fold_with(visitor, item, ast_path)
+            })
             .collect()
     }
 }
@@ -55959,7 +56275,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<TsFnParam> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWithAstPath>::fold_with(visitor, item, ast_path))
+            .map(|item| <TsFnParam as FoldWithAstPath<V>>::fold_with(visitor, item, ast_path))
             .collect()
     }
 }
@@ -55973,7 +56289,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<TsImportEqualsDecl> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            Box::new(<V as FoldWithAstPath>::fold_with(*self, visitor, ast_path))
+            Box::new(<TsImportEqualsDecl as FoldWithAstPath<V>>::fold_with(
+                *self, visitor, ast_path,
+            ))
         }
     }
 }
@@ -55987,7 +56305,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<TsInterfaceDecl> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            Box::new(<V as FoldWithAstPath>::fold_with(*self, visitor, ast_path))
+            Box::new(<TsInterfaceDecl as FoldWithAstPath<V>>::fold_with(
+                *self, visitor, ast_path,
+            ))
         }
     }
 }
@@ -56001,7 +56321,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<TsModuleDecl> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            Box::new(<V as FoldWithAstPath>::fold_with(*self, visitor, ast_path))
+            Box::new(<TsModuleDecl as FoldWithAstPath<V>>::fold_with(
+                *self, visitor, ast_path,
+            ))
         }
     }
 }
@@ -56015,7 +56337,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<TsNamespaceBody> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            Box::new(<V as FoldWithAstPath>::fold_with(*self, visitor, ast_path))
+            Box::new(<TsNamespaceBody as FoldWithAstPath<V>>::fold_with(
+                *self, visitor, ast_path,
+            ))
         }
     }
 }
@@ -56029,7 +56353,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<TsQualifiedName> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            Box::new(<V as FoldWithAstPath>::fold_with(*self, visitor, ast_path))
+            Box::new(<TsQualifiedName as FoldWithAstPath<V>>::fold_with(
+                *self, visitor, ast_path,
+            ))
         }
     }
 }
@@ -56043,7 +56369,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<TsTupleElement> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWithAstPath>::fold_with(visitor, item, ast_path))
+            .map(|item| <TsTupleElement as FoldWithAstPath<V>>::fold_with(visitor, item, ast_path))
             .collect()
     }
 }
@@ -56057,7 +56383,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<TsType> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            Box::new(<V as FoldWithAstPath>::fold_with(*self, visitor, ast_path))
+            Box::new(<TsType as FoldWithAstPath<V>>::fold_with(
+                *self, visitor, ast_path,
+            ))
         }
     }
 }
@@ -56071,7 +56399,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<TsTypeAliasDecl> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            Box::new(<V as FoldWithAstPath>::fold_with(*self, visitor, ast_path))
+            Box::new(<TsTypeAliasDecl as FoldWithAstPath<V>>::fold_with(
+                *self, visitor, ast_path,
+            ))
         }
     }
 }
@@ -56085,7 +56415,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<TsTypeAnn> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            Box::new(<V as FoldWithAstPath>::fold_with(*self, visitor, ast_path))
+            Box::new(<TsTypeAnn as FoldWithAstPath<V>>::fold_with(
+                *self, visitor, ast_path,
+            ))
         }
     }
 }
@@ -56099,7 +56431,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<TsTypeElement> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWithAstPath>::fold_with(visitor, item, ast_path))
+            .map(|item| <TsTypeElement as FoldWithAstPath<V>>::fold_with(visitor, item, ast_path))
             .collect()
     }
 }
@@ -56113,7 +56445,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<TsTypeParamDecl> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            Box::new(<V as FoldWithAstPath>::fold_with(*self, visitor, ast_path))
+            Box::new(<TsTypeParamDecl as FoldWithAstPath<V>>::fold_with(
+                *self, visitor, ast_path,
+            ))
         }
     }
 }
@@ -56127,7 +56461,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<TsTypeParamInstantiatio
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            Box::new(<V as FoldWithAstPath>::fold_with(*self, visitor, ast_path))
+            Box::new(<TsTypeParamInstantiation as FoldWithAstPath<V>>::fold_with(
+                *self, visitor, ast_path,
+            ))
         }
     }
 }
@@ -56141,7 +56477,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<TsTypeParam> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWithAstPath>::fold_with(visitor, item, ast_path))
+            .map(|item| <TsTypeParam as FoldWithAstPath<V>>::fold_with(visitor, item, ast_path))
             .collect()
     }
 }
@@ -56155,7 +56491,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<Box<TsType>> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWithAstPath>::fold_with(visitor, item, ast_path))
+            .map(|item| <Box<TsType> as FoldWithAstPath<V>>::fold_with(visitor, item, ast_path))
             .collect()
     }
 }
@@ -56169,7 +56505,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<UsingDecl> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            Box::new(<V as FoldWithAstPath>::fold_with(*self, visitor, ast_path))
+            Box::new(<UsingDecl as FoldWithAstPath<V>>::fold_with(
+                *self, visitor, ast_path,
+            ))
         }
     }
 }
@@ -56183,7 +56521,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Box<VarDecl> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         {
-            Box::new(<V as FoldWithAstPath>::fold_with(*self, visitor, ast_path))
+            Box::new(<VarDecl as FoldWithAstPath<V>>::fold_with(
+                *self, visitor, ast_path,
+            ))
         }
     }
 }
@@ -56197,7 +56537,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<VarDeclarator> {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         self.into_iter()
-            .map(|item| <V as FoldWithAstPath>::fold_with(visitor, item, ast_path))
+            .map(|item| <VarDeclarator as FoldWithAstPath<V>>::fold_with(visitor, item, ast_path))
             .collect()
     }
 }
