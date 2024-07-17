@@ -122,6 +122,13 @@ fn all_field_types(node_types: &[&Item]) -> HashSet<FieldType> {
     let mut all_types = HashSet::new();
 
     for ty in node_types {
+        let type_name = match ty {
+            Item::Enum(data) => data.ident.to_string(),
+            Item::Struct(data) => data.ident.to_string(),
+            _ => continue,
+        };
+        all_types.insert(FieldType::Normal(type_name));
+
         match ty {
             Item::Enum(data) => {
                 for variant in &data.variants {
