@@ -6198,7 +6198,6 @@ where
         if self.enabled {
             Visit::visit_accessibility(self, node)
         } else {
-            node
         }
     }
 
@@ -6206,7 +6205,6 @@ where
         if self.enabled {
             Visit::visit_array_lit(self, node)
         } else {
-            node
         }
     }
 
@@ -6214,7 +6212,6 @@ where
         if self.enabled {
             Visit::visit_array_pat(self, node)
         } else {
-            node
         }
     }
 
@@ -6222,7 +6219,6 @@ where
         if self.enabled {
             Visit::visit_arrow_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -6230,7 +6226,6 @@ where
         if self.enabled {
             Visit::visit_assign_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -6238,7 +6233,6 @@ where
         if self.enabled {
             Visit::visit_assign_op(self, node)
         } else {
-            node
         }
     }
 
@@ -6246,7 +6240,6 @@ where
         if self.enabled {
             Visit::visit_assign_pat(self, node)
         } else {
-            node
         }
     }
 
@@ -6254,7 +6247,6 @@ where
         if self.enabled {
             Visit::visit_assign_pat_prop(self, node)
         } else {
-            node
         }
     }
 
@@ -6262,7 +6254,6 @@ where
         if self.enabled {
             Visit::visit_assign_prop(self, node)
         } else {
-            node
         }
     }
 
@@ -6270,7 +6261,6 @@ where
         if self.enabled {
             Visit::visit_assign_target(self, node)
         } else {
-            node
         }
     }
 
@@ -6278,7 +6268,6 @@ where
         if self.enabled {
             Visit::visit_assign_target_pat(self, node)
         } else {
-            node
         }
     }
 
@@ -6286,7 +6275,6 @@ where
         if self.enabled {
             Visit::visit_atom(self, node)
         } else {
-            node
         }
     }
 
@@ -6294,7 +6282,6 @@ where
         if self.enabled {
             Visit::visit_auto_accessor(self, node)
         } else {
-            node
         }
     }
 
@@ -6302,7 +6289,6 @@ where
         if self.enabled {
             Visit::visit_await_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -6310,7 +6296,6 @@ where
         if self.enabled {
             Visit::visit_big_int(self, node)
         } else {
-            node
         }
     }
 
@@ -6318,7 +6303,6 @@ where
         if self.enabled {
             Visit::visit_big_int_value(self, node)
         } else {
-            node
         }
     }
 
@@ -6326,7 +6310,6 @@ where
         if self.enabled {
             Visit::visit_bin_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -6334,7 +6317,6 @@ where
         if self.enabled {
             Visit::visit_binary_op(self, node)
         } else {
-            node
         }
     }
 
@@ -6342,7 +6324,6 @@ where
         if self.enabled {
             Visit::visit_binding_ident(self, node)
         } else {
-            node
         }
     }
 
@@ -6350,7 +6331,6 @@ where
         if self.enabled {
             Visit::visit_block_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -6358,7 +6338,6 @@ where
         if self.enabled {
             Visit::visit_block_stmt_or_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -6366,7 +6345,6 @@ where
         if self.enabled {
             Visit::visit_bool(self, node)
         } else {
-            node
         }
     }
 
@@ -6374,7 +6352,6 @@ where
         if self.enabled {
             Visit::visit_break_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -6382,7 +6359,6 @@ where
         if self.enabled {
             Visit::visit_call_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -6390,7 +6366,6 @@ where
         if self.enabled {
             Visit::visit_callee(self, node)
         } else {
-            node
         }
     }
 
@@ -6398,7 +6373,6 @@ where
         if self.enabled {
             Visit::visit_catch_clause(self, node)
         } else {
-            node
         }
     }
 
@@ -6406,7 +6380,6 @@ where
         if self.enabled {
             Visit::visit_class(self, node)
         } else {
-            node
         }
     }
 
@@ -6414,7 +6387,6 @@ where
         if self.enabled {
             Visit::visit_class_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -6422,7 +6394,6 @@ where
         if self.enabled {
             Visit::visit_class_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -6430,7 +6401,6 @@ where
         if self.enabled {
             Visit::visit_class_member(self, node)
         } else {
-            node
         }
     }
 
@@ -6438,7 +6408,6 @@ where
         if self.enabled {
             Visit::visit_class_members(self, node)
         } else {
-            node
         }
     }
 
@@ -6446,7 +6415,6 @@ where
         if self.enabled {
             Visit::visit_class_method(self, node)
         } else {
-            node
         }
     }
 
@@ -6454,7 +6422,6 @@ where
         if self.enabled {
             Visit::visit_class_prop(self, node)
         } else {
-            node
         }
     }
 
@@ -6462,7 +6429,6 @@ where
         if self.enabled {
             Visit::visit_computed_prop_name(self, node)
         } else {
-            node
         }
     }
 
@@ -6470,7 +6436,6 @@ where
         if self.enabled {
             Visit::visit_cond_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -6478,7 +6443,6 @@ where
         if self.enabled {
             Visit::visit_constructor(self, node)
         } else {
-            node
         }
     }
 
@@ -6486,7 +6450,6 @@ where
         if self.enabled {
             Visit::visit_continue_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -6494,7 +6457,6 @@ where
         if self.enabled {
             Visit::visit_debugger_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -6502,7 +6464,6 @@ where
         if self.enabled {
             Visit::visit_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -6510,7 +6471,6 @@ where
         if self.enabled {
             Visit::visit_decorator(self, node)
         } else {
-            node
         }
     }
 
@@ -6518,7 +6478,6 @@ where
         if self.enabled {
             Visit::visit_decorators(self, node)
         } else {
-            node
         }
     }
 
@@ -6526,7 +6485,6 @@ where
         if self.enabled {
             Visit::visit_default_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -6534,7 +6492,6 @@ where
         if self.enabled {
             Visit::visit_do_while_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -6542,7 +6499,6 @@ where
         if self.enabled {
             Visit::visit_empty_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -6550,7 +6506,6 @@ where
         if self.enabled {
             Visit::visit_es_version(self, node)
         } else {
-            node
         }
     }
 
@@ -6558,7 +6513,6 @@ where
         if self.enabled {
             Visit::visit_export_all(self, node)
         } else {
-            node
         }
     }
 
@@ -6566,7 +6520,6 @@ where
         if self.enabled {
             Visit::visit_export_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -6574,7 +6527,6 @@ where
         if self.enabled {
             Visit::visit_export_default_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -6582,7 +6534,6 @@ where
         if self.enabled {
             Visit::visit_export_default_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -6590,7 +6541,6 @@ where
         if self.enabled {
             Visit::visit_export_default_specifier(self, node)
         } else {
-            node
         }
     }
 
@@ -6598,7 +6548,6 @@ where
         if self.enabled {
             Visit::visit_export_named_specifier(self, node)
         } else {
-            node
         }
     }
 
@@ -6606,7 +6555,6 @@ where
         if self.enabled {
             Visit::visit_export_namespace_specifier(self, node)
         } else {
-            node
         }
     }
 
@@ -6614,7 +6562,6 @@ where
         if self.enabled {
             Visit::visit_export_specifier(self, node)
         } else {
-            node
         }
     }
 
@@ -6622,7 +6569,6 @@ where
         if self.enabled {
             Visit::visit_export_specifiers(self, node)
         } else {
-            node
         }
     }
 
@@ -6630,7 +6576,6 @@ where
         if self.enabled {
             Visit::visit_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -6638,7 +6583,6 @@ where
         if self.enabled {
             Visit::visit_expr_or_spread(self, node)
         } else {
-            node
         }
     }
 
@@ -6646,7 +6590,6 @@ where
         if self.enabled {
             Visit::visit_expr_or_spreads(self, node)
         } else {
-            node
         }
     }
 
@@ -6654,7 +6597,6 @@ where
         if self.enabled {
             Visit::visit_expr_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -6662,7 +6604,6 @@ where
         if self.enabled {
             Visit::visit_exprs(self, node)
         } else {
-            node
         }
     }
 
@@ -6670,7 +6611,6 @@ where
         if self.enabled {
             Visit::visit_fn_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -6678,7 +6618,6 @@ where
         if self.enabled {
             Visit::visit_fn_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -6686,7 +6625,6 @@ where
         if self.enabled {
             Visit::visit_for_head(self, node)
         } else {
-            node
         }
     }
 
@@ -6694,7 +6632,6 @@ where
         if self.enabled {
             Visit::visit_for_in_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -6702,7 +6639,6 @@ where
         if self.enabled {
             Visit::visit_for_of_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -6710,7 +6646,6 @@ where
         if self.enabled {
             Visit::visit_for_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -6718,7 +6653,6 @@ where
         if self.enabled {
             Visit::visit_function(self, node)
         } else {
-            node
         }
     }
 
@@ -6726,7 +6660,6 @@ where
         if self.enabled {
             Visit::visit_getter_prop(self, node)
         } else {
-            node
         }
     }
 
@@ -6734,7 +6667,6 @@ where
         if self.enabled {
             Visit::visit_ident(self, node)
         } else {
-            node
         }
     }
 
@@ -6742,7 +6674,6 @@ where
         if self.enabled {
             Visit::visit_ident_name(self, node)
         } else {
-            node
         }
     }
 
@@ -6750,7 +6681,6 @@ where
         if self.enabled {
             Visit::visit_if_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -6758,7 +6688,6 @@ where
         if self.enabled {
             Visit::visit_import(self, node)
         } else {
-            node
         }
     }
 
@@ -6766,7 +6695,6 @@ where
         if self.enabled {
             Visit::visit_import_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -6774,7 +6702,6 @@ where
         if self.enabled {
             Visit::visit_import_default_specifier(self, node)
         } else {
-            node
         }
     }
 
@@ -6782,7 +6709,6 @@ where
         if self.enabled {
             Visit::visit_import_named_specifier(self, node)
         } else {
-            node
         }
     }
 
@@ -6790,7 +6716,6 @@ where
         if self.enabled {
             Visit::visit_import_phase(self, node)
         } else {
-            node
         }
     }
 
@@ -6798,7 +6723,6 @@ where
         if self.enabled {
             Visit::visit_import_specifier(self, node)
         } else {
-            node
         }
     }
 
@@ -6806,7 +6730,6 @@ where
         if self.enabled {
             Visit::visit_import_specifiers(self, node)
         } else {
-            node
         }
     }
 
@@ -6814,7 +6737,6 @@ where
         if self.enabled {
             Visit::visit_import_star_as_specifier(self, node)
         } else {
-            node
         }
     }
 
@@ -6822,7 +6744,6 @@ where
         if self.enabled {
             Visit::visit_import_with(self, node)
         } else {
-            node
         }
     }
 
@@ -6830,7 +6751,6 @@ where
         if self.enabled {
             Visit::visit_import_with_item(self, node)
         } else {
-            node
         }
     }
 
@@ -6838,7 +6758,6 @@ where
         if self.enabled {
             Visit::visit_import_with_items(self, node)
         } else {
-            node
         }
     }
 
@@ -6846,7 +6765,6 @@ where
         if self.enabled {
             Visit::visit_invalid(self, node)
         } else {
-            node
         }
     }
 
@@ -6854,7 +6772,6 @@ where
         if self.enabled {
             Visit::visit_jsx_attr(self, node)
         } else {
-            node
         }
     }
 
@@ -6862,7 +6779,6 @@ where
         if self.enabled {
             Visit::visit_jsx_attr_name(self, node)
         } else {
-            node
         }
     }
 
@@ -6870,7 +6786,6 @@ where
         if self.enabled {
             Visit::visit_jsx_attr_or_spread(self, node)
         } else {
-            node
         }
     }
 
@@ -6878,7 +6793,6 @@ where
         if self.enabled {
             Visit::visit_jsx_attr_or_spreads(self, node)
         } else {
-            node
         }
     }
 
@@ -6886,7 +6800,6 @@ where
         if self.enabled {
             Visit::visit_jsx_attr_value(self, node)
         } else {
-            node
         }
     }
 
@@ -6894,7 +6807,6 @@ where
         if self.enabled {
             Visit::visit_jsx_closing_element(self, node)
         } else {
-            node
         }
     }
 
@@ -6902,7 +6814,6 @@ where
         if self.enabled {
             Visit::visit_jsx_closing_fragment(self, node)
         } else {
-            node
         }
     }
 
@@ -6910,7 +6821,6 @@ where
         if self.enabled {
             Visit::visit_jsx_element(self, node)
         } else {
-            node
         }
     }
 
@@ -6918,7 +6828,6 @@ where
         if self.enabled {
             Visit::visit_jsx_element_child(self, node)
         } else {
-            node
         }
     }
 
@@ -6926,7 +6835,6 @@ where
         if self.enabled {
             Visit::visit_jsx_element_childs(self, node)
         } else {
-            node
         }
     }
 
@@ -6934,7 +6842,6 @@ where
         if self.enabled {
             Visit::visit_jsx_element_name(self, node)
         } else {
-            node
         }
     }
 
@@ -6942,7 +6849,6 @@ where
         if self.enabled {
             Visit::visit_jsx_empty_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -6950,7 +6856,6 @@ where
         if self.enabled {
             Visit::visit_jsx_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -6958,7 +6863,6 @@ where
         if self.enabled {
             Visit::visit_jsx_expr_container(self, node)
         } else {
-            node
         }
     }
 
@@ -6966,7 +6870,6 @@ where
         if self.enabled {
             Visit::visit_jsx_fragment(self, node)
         } else {
-            node
         }
     }
 
@@ -6974,7 +6877,6 @@ where
         if self.enabled {
             Visit::visit_jsx_member_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -6982,7 +6884,6 @@ where
         if self.enabled {
             Visit::visit_jsx_namespaced_name(self, node)
         } else {
-            node
         }
     }
 
@@ -6990,7 +6891,6 @@ where
         if self.enabled {
             Visit::visit_jsx_object(self, node)
         } else {
-            node
         }
     }
 
@@ -6998,7 +6898,6 @@ where
         if self.enabled {
             Visit::visit_jsx_opening_element(self, node)
         } else {
-            node
         }
     }
 
@@ -7006,7 +6905,6 @@ where
         if self.enabled {
             Visit::visit_jsx_opening_fragment(self, node)
         } else {
-            node
         }
     }
 
@@ -7014,7 +6912,6 @@ where
         if self.enabled {
             Visit::visit_jsx_spread_child(self, node)
         } else {
-            node
         }
     }
 
@@ -7022,7 +6919,6 @@ where
         if self.enabled {
             Visit::visit_jsx_text(self, node)
         } else {
-            node
         }
     }
 
@@ -7030,7 +6926,6 @@ where
         if self.enabled {
             Visit::visit_key(self, node)
         } else {
-            node
         }
     }
 
@@ -7038,7 +6933,6 @@ where
         if self.enabled {
             Visit::visit_key_value_pat_prop(self, node)
         } else {
-            node
         }
     }
 
@@ -7046,7 +6940,6 @@ where
         if self.enabled {
             Visit::visit_key_value_prop(self, node)
         } else {
-            node
         }
     }
 
@@ -7054,7 +6947,6 @@ where
         if self.enabled {
             Visit::visit_labeled_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -7062,7 +6954,6 @@ where
         if self.enabled {
             Visit::visit_lit(self, node)
         } else {
-            node
         }
     }
 
@@ -7070,7 +6961,6 @@ where
         if self.enabled {
             Visit::visit_member_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -7078,7 +6968,6 @@ where
         if self.enabled {
             Visit::visit_member_prop(self, node)
         } else {
-            node
         }
     }
 
@@ -7086,7 +6975,6 @@ where
         if self.enabled {
             Visit::visit_meta_prop_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -7094,7 +6982,6 @@ where
         if self.enabled {
             Visit::visit_meta_prop_kind(self, node)
         } else {
-            node
         }
     }
 
@@ -7102,7 +6989,6 @@ where
         if self.enabled {
             Visit::visit_method_kind(self, node)
         } else {
-            node
         }
     }
 
@@ -7110,7 +6996,6 @@ where
         if self.enabled {
             Visit::visit_method_prop(self, node)
         } else {
-            node
         }
     }
 
@@ -7118,7 +7003,6 @@ where
         if self.enabled {
             Visit::visit_module(self, node)
         } else {
-            node
         }
     }
 
@@ -7126,7 +7010,6 @@ where
         if self.enabled {
             Visit::visit_module_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -7134,7 +7017,6 @@ where
         if self.enabled {
             Visit::visit_module_export_name(self, node)
         } else {
-            node
         }
     }
 
@@ -7142,7 +7024,6 @@ where
         if self.enabled {
             Visit::visit_module_item(self, node)
         } else {
-            node
         }
     }
 
@@ -7150,7 +7031,6 @@ where
         if self.enabled {
             Visit::visit_module_items(self, node)
         } else {
-            node
         }
     }
 
@@ -7158,7 +7038,6 @@ where
         if self.enabled {
             Visit::visit_named_export(self, node)
         } else {
-            node
         }
     }
 
@@ -7166,7 +7045,6 @@ where
         if self.enabled {
             Visit::visit_new_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -7174,7 +7052,6 @@ where
         if self.enabled {
             Visit::visit_null(self, node)
         } else {
-            node
         }
     }
 
@@ -7182,7 +7059,6 @@ where
         if self.enabled {
             Visit::visit_number(self, node)
         } else {
-            node
         }
     }
 
@@ -7190,7 +7066,6 @@ where
         if self.enabled {
             Visit::visit_object_lit(self, node)
         } else {
-            node
         }
     }
 
@@ -7198,7 +7073,6 @@ where
         if self.enabled {
             Visit::visit_object_pat(self, node)
         } else {
-            node
         }
     }
 
@@ -7206,7 +7080,6 @@ where
         if self.enabled {
             Visit::visit_object_pat_prop(self, node)
         } else {
-            node
         }
     }
 
@@ -7214,7 +7087,6 @@ where
         if self.enabled {
             Visit::visit_object_pat_props(self, node)
         } else {
-            node
         }
     }
 
@@ -7222,7 +7094,6 @@ where
         if self.enabled {
             Visit::visit_opt_accessibility(self, node)
         } else {
-            node
         }
     }
 
@@ -7230,7 +7101,6 @@ where
         if self.enabled {
             Visit::visit_opt_atom(self, node)
         } else {
-            node
         }
     }
 
@@ -7238,7 +7108,6 @@ where
         if self.enabled {
             Visit::visit_opt_block_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -7246,7 +7115,6 @@ where
         if self.enabled {
             Visit::visit_opt_call(self, node)
         } else {
-            node
         }
     }
 
@@ -7254,7 +7122,6 @@ where
         if self.enabled {
             Visit::visit_opt_catch_clause(self, node)
         } else {
-            node
         }
     }
 
@@ -7262,7 +7129,6 @@ where
         if self.enabled {
             Visit::visit_opt_chain_base(self, node)
         } else {
-            node
         }
     }
 
@@ -7270,7 +7136,6 @@ where
         if self.enabled {
             Visit::visit_opt_chain_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -7278,7 +7143,6 @@ where
         if self.enabled {
             Visit::visit_opt_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -7286,7 +7150,6 @@ where
         if self.enabled {
             Visit::visit_opt_expr_or_spread(self, node)
         } else {
-            node
         }
     }
 
@@ -7294,7 +7157,6 @@ where
         if self.enabled {
             Visit::visit_opt_expr_or_spreads(self, node)
         } else {
-            node
         }
     }
 
@@ -7302,7 +7164,6 @@ where
         if self.enabled {
             Visit::visit_opt_ident(self, node)
         } else {
-            node
         }
     }
 
@@ -7310,7 +7171,6 @@ where
         if self.enabled {
             Visit::visit_opt_jsx_attr_value(self, node)
         } else {
-            node
         }
     }
 
@@ -7318,7 +7178,6 @@ where
         if self.enabled {
             Visit::visit_opt_jsx_closing_element(self, node)
         } else {
-            node
         }
     }
 
@@ -7326,7 +7185,6 @@ where
         if self.enabled {
             Visit::visit_opt_module_export_name(self, node)
         } else {
-            node
         }
     }
 
@@ -7334,7 +7192,6 @@ where
         if self.enabled {
             Visit::visit_opt_module_items(self, node)
         } else {
-            node
         }
     }
 
@@ -7342,7 +7199,6 @@ where
         if self.enabled {
             Visit::visit_opt_object_lit(self, node)
         } else {
-            node
         }
     }
 
@@ -7350,7 +7206,6 @@ where
         if self.enabled {
             Visit::visit_opt_pat(self, node)
         } else {
-            node
         }
     }
 
@@ -7358,7 +7213,6 @@ where
         if self.enabled {
             Visit::visit_opt_span(self, node)
         } else {
-            node
         }
     }
 
@@ -7366,7 +7220,6 @@ where
         if self.enabled {
             Visit::visit_opt_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -7374,7 +7227,6 @@ where
         if self.enabled {
             Visit::visit_opt_str(self, node)
         } else {
-            node
         }
     }
 
@@ -7382,7 +7234,6 @@ where
         if self.enabled {
             Visit::visit_opt_true_plus_minus(self, node)
         } else {
-            node
         }
     }
 
@@ -7390,7 +7241,6 @@ where
         if self.enabled {
             Visit::visit_opt_ts_entity_name(self, node)
         } else {
-            node
         }
     }
 
@@ -7398,7 +7248,6 @@ where
         if self.enabled {
             Visit::visit_opt_ts_namespace_body(self, node)
         } else {
-            node
         }
     }
 
@@ -7406,7 +7255,6 @@ where
         if self.enabled {
             Visit::visit_opt_ts_type(self, node)
         } else {
-            node
         }
     }
 
@@ -7414,7 +7262,6 @@ where
         if self.enabled {
             Visit::visit_opt_ts_type_ann(self, node)
         } else {
-            node
         }
     }
 
@@ -7422,7 +7269,6 @@ where
         if self.enabled {
             Visit::visit_opt_ts_type_param_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -7433,7 +7279,6 @@ where
         if self.enabled {
             Visit::visit_opt_ts_type_param_instantiation(self, node)
         } else {
-            node
         }
     }
 
@@ -7441,7 +7286,6 @@ where
         if self.enabled {
             Visit::visit_opt_var_decl_or_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -7449,7 +7293,6 @@ where
         if self.enabled {
             Visit::visit_opt_vec_expr_or_spreads(self, node)
         } else {
-            node
         }
     }
 
@@ -7457,7 +7300,6 @@ where
         if self.enabled {
             Visit::visit_opt_vec_pats(self, node)
         } else {
-            node
         }
     }
 
@@ -7465,7 +7307,6 @@ where
         if self.enabled {
             Visit::visit_param(self, node)
         } else {
-            node
         }
     }
 
@@ -7473,7 +7314,6 @@ where
         if self.enabled {
             Visit::visit_param_or_ts_param_prop(self, node)
         } else {
-            node
         }
     }
 
@@ -7481,7 +7321,6 @@ where
         if self.enabled {
             Visit::visit_param_or_ts_param_props(self, node)
         } else {
-            node
         }
     }
 
@@ -7489,7 +7328,6 @@ where
         if self.enabled {
             Visit::visit_params(self, node)
         } else {
-            node
         }
     }
 
@@ -7497,7 +7335,6 @@ where
         if self.enabled {
             Visit::visit_paren_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -7505,7 +7342,6 @@ where
         if self.enabled {
             Visit::visit_pat(self, node)
         } else {
-            node
         }
     }
 
@@ -7513,7 +7349,6 @@ where
         if self.enabled {
             Visit::visit_pats(self, node)
         } else {
-            node
         }
     }
 
@@ -7521,7 +7356,6 @@ where
         if self.enabled {
             Visit::visit_private_method(self, node)
         } else {
-            node
         }
     }
 
@@ -7529,7 +7363,6 @@ where
         if self.enabled {
             Visit::visit_private_name(self, node)
         } else {
-            node
         }
     }
 
@@ -7537,7 +7370,6 @@ where
         if self.enabled {
             Visit::visit_private_prop(self, node)
         } else {
-            node
         }
     }
 
@@ -7545,7 +7377,6 @@ where
         if self.enabled {
             Visit::visit_program(self, node)
         } else {
-            node
         }
     }
 
@@ -7553,7 +7384,6 @@ where
         if self.enabled {
             Visit::visit_prop(self, node)
         } else {
-            node
         }
     }
 
@@ -7561,7 +7391,6 @@ where
         if self.enabled {
             Visit::visit_prop_name(self, node)
         } else {
-            node
         }
     }
 
@@ -7569,7 +7398,6 @@ where
         if self.enabled {
             Visit::visit_prop_or_spread(self, node)
         } else {
-            node
         }
     }
 
@@ -7577,7 +7405,6 @@ where
         if self.enabled {
             Visit::visit_prop_or_spreads(self, node)
         } else {
-            node
         }
     }
 
@@ -7585,7 +7412,6 @@ where
         if self.enabled {
             Visit::visit_regex(self, node)
         } else {
-            node
         }
     }
 
@@ -7593,7 +7419,6 @@ where
         if self.enabled {
             Visit::visit_reserved_unused(self, node)
         } else {
-            node
         }
     }
 
@@ -7601,7 +7426,6 @@ where
         if self.enabled {
             Visit::visit_rest_pat(self, node)
         } else {
-            node
         }
     }
 
@@ -7609,7 +7433,6 @@ where
         if self.enabled {
             Visit::visit_return_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -7617,7 +7440,6 @@ where
         if self.enabled {
             Visit::visit_script(self, node)
         } else {
-            node
         }
     }
 
@@ -7625,7 +7447,6 @@ where
         if self.enabled {
             Visit::visit_seq_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -7633,7 +7454,6 @@ where
         if self.enabled {
             Visit::visit_setter_prop(self, node)
         } else {
-            node
         }
     }
 
@@ -7641,7 +7461,6 @@ where
         if self.enabled {
             Visit::visit_simple_assign_target(self, node)
         } else {
-            node
         }
     }
 
@@ -7649,7 +7468,6 @@ where
         if self.enabled {
             Visit::visit_span(self, node)
         } else {
-            node
         }
     }
 
@@ -7657,7 +7475,6 @@ where
         if self.enabled {
             Visit::visit_spread_element(self, node)
         } else {
-            node
         }
     }
 
@@ -7665,7 +7482,6 @@ where
         if self.enabled {
             Visit::visit_static_block(self, node)
         } else {
-            node
         }
     }
 
@@ -7673,7 +7489,6 @@ where
         if self.enabled {
             Visit::visit_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -7681,7 +7496,6 @@ where
         if self.enabled {
             Visit::visit_stmts(self, node)
         } else {
-            node
         }
     }
 
@@ -7689,7 +7503,6 @@ where
         if self.enabled {
             Visit::visit_str(self, node)
         } else {
-            node
         }
     }
 
@@ -7697,7 +7510,6 @@ where
         if self.enabled {
             Visit::visit_super(self, node)
         } else {
-            node
         }
     }
 
@@ -7705,7 +7517,6 @@ where
         if self.enabled {
             Visit::visit_super_prop(self, node)
         } else {
-            node
         }
     }
 
@@ -7713,7 +7524,6 @@ where
         if self.enabled {
             Visit::visit_super_prop_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -7721,7 +7531,6 @@ where
         if self.enabled {
             Visit::visit_switch_case(self, node)
         } else {
-            node
         }
     }
 
@@ -7729,7 +7538,6 @@ where
         if self.enabled {
             Visit::visit_switch_cases(self, node)
         } else {
-            node
         }
     }
 
@@ -7737,7 +7545,6 @@ where
         if self.enabled {
             Visit::visit_switch_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -7745,7 +7552,6 @@ where
         if self.enabled {
             Visit::visit_syntax_context(self, node)
         } else {
-            node
         }
     }
 
@@ -7753,7 +7559,6 @@ where
         if self.enabled {
             Visit::visit_tagged_tpl(self, node)
         } else {
-            node
         }
     }
 
@@ -7761,7 +7566,6 @@ where
         if self.enabled {
             Visit::visit_this_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -7769,7 +7573,6 @@ where
         if self.enabled {
             Visit::visit_throw_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -7777,7 +7580,6 @@ where
         if self.enabled {
             Visit::visit_tpl(self, node)
         } else {
-            node
         }
     }
 
@@ -7785,7 +7587,6 @@ where
         if self.enabled {
             Visit::visit_tpl_element(self, node)
         } else {
-            node
         }
     }
 
@@ -7793,7 +7594,6 @@ where
         if self.enabled {
             Visit::visit_tpl_elements(self, node)
         } else {
-            node
         }
     }
 
@@ -7801,7 +7601,6 @@ where
         if self.enabled {
             Visit::visit_true_plus_minus(self, node)
         } else {
-            node
         }
     }
 
@@ -7809,7 +7608,6 @@ where
         if self.enabled {
             Visit::visit_try_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -7817,7 +7615,6 @@ where
         if self.enabled {
             Visit::visit_ts_array_type(self, node)
         } else {
-            node
         }
     }
 
@@ -7825,7 +7622,6 @@ where
         if self.enabled {
             Visit::visit_ts_as_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -7833,7 +7629,6 @@ where
         if self.enabled {
             Visit::visit_ts_call_signature_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -7841,7 +7636,6 @@ where
         if self.enabled {
             Visit::visit_ts_conditional_type(self, node)
         } else {
-            node
         }
     }
 
@@ -7849,7 +7643,6 @@ where
         if self.enabled {
             Visit::visit_ts_const_assertion(self, node)
         } else {
-            node
         }
     }
 
@@ -7857,7 +7650,6 @@ where
         if self.enabled {
             Visit::visit_ts_construct_signature_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -7865,7 +7657,6 @@ where
         if self.enabled {
             Visit::visit_ts_constructor_type(self, node)
         } else {
-            node
         }
     }
 
@@ -7873,7 +7664,6 @@ where
         if self.enabled {
             Visit::visit_ts_entity_name(self, node)
         } else {
-            node
         }
     }
 
@@ -7881,7 +7671,6 @@ where
         if self.enabled {
             Visit::visit_ts_enum_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -7889,7 +7678,6 @@ where
         if self.enabled {
             Visit::visit_ts_enum_member(self, node)
         } else {
-            node
         }
     }
 
@@ -7897,7 +7685,6 @@ where
         if self.enabled {
             Visit::visit_ts_enum_member_id(self, node)
         } else {
-            node
         }
     }
 
@@ -7905,7 +7692,6 @@ where
         if self.enabled {
             Visit::visit_ts_enum_members(self, node)
         } else {
-            node
         }
     }
 
@@ -7913,7 +7699,6 @@ where
         if self.enabled {
             Visit::visit_ts_export_assignment(self, node)
         } else {
-            node
         }
     }
 
@@ -7921,7 +7706,6 @@ where
         if self.enabled {
             Visit::visit_ts_expr_with_type_args(self, node)
         } else {
-            node
         }
     }
 
@@ -7929,7 +7713,6 @@ where
         if self.enabled {
             Visit::visit_ts_expr_with_type_argss(self, node)
         } else {
-            node
         }
     }
 
@@ -7937,7 +7720,6 @@ where
         if self.enabled {
             Visit::visit_ts_external_module_ref(self, node)
         } else {
-            node
         }
     }
 
@@ -7945,7 +7727,6 @@ where
         if self.enabled {
             Visit::visit_ts_fn_or_constructor_type(self, node)
         } else {
-            node
         }
     }
 
@@ -7953,7 +7734,6 @@ where
         if self.enabled {
             Visit::visit_ts_fn_param(self, node)
         } else {
-            node
         }
     }
 
@@ -7961,7 +7741,6 @@ where
         if self.enabled {
             Visit::visit_ts_fn_params(self, node)
         } else {
-            node
         }
     }
 
@@ -7969,7 +7748,6 @@ where
         if self.enabled {
             Visit::visit_ts_fn_type(self, node)
         } else {
-            node
         }
     }
 
@@ -7977,7 +7755,6 @@ where
         if self.enabled {
             Visit::visit_ts_getter_signature(self, node)
         } else {
-            node
         }
     }
 
@@ -7985,7 +7762,6 @@ where
         if self.enabled {
             Visit::visit_ts_import_equals_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -7993,7 +7769,6 @@ where
         if self.enabled {
             Visit::visit_ts_import_type(self, node)
         } else {
-            node
         }
     }
 
@@ -8001,7 +7776,6 @@ where
         if self.enabled {
             Visit::visit_ts_index_signature(self, node)
         } else {
-            node
         }
     }
 
@@ -8009,7 +7783,6 @@ where
         if self.enabled {
             Visit::visit_ts_indexed_access_type(self, node)
         } else {
-            node
         }
     }
 
@@ -8017,7 +7790,6 @@ where
         if self.enabled {
             Visit::visit_ts_infer_type(self, node)
         } else {
-            node
         }
     }
 
@@ -8025,7 +7797,6 @@ where
         if self.enabled {
             Visit::visit_ts_instantiation(self, node)
         } else {
-            node
         }
     }
 
@@ -8033,7 +7804,6 @@ where
         if self.enabled {
             Visit::visit_ts_interface_body(self, node)
         } else {
-            node
         }
     }
 
@@ -8041,7 +7811,6 @@ where
         if self.enabled {
             Visit::visit_ts_interface_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -8049,7 +7818,6 @@ where
         if self.enabled {
             Visit::visit_ts_intersection_type(self, node)
         } else {
-            node
         }
     }
 
@@ -8057,7 +7825,6 @@ where
         if self.enabled {
             Visit::visit_ts_keyword_type(self, node)
         } else {
-            node
         }
     }
 
@@ -8065,7 +7832,6 @@ where
         if self.enabled {
             Visit::visit_ts_keyword_type_kind(self, node)
         } else {
-            node
         }
     }
 
@@ -8073,7 +7839,6 @@ where
         if self.enabled {
             Visit::visit_ts_lit(self, node)
         } else {
-            node
         }
     }
 
@@ -8081,7 +7846,6 @@ where
         if self.enabled {
             Visit::visit_ts_lit_type(self, node)
         } else {
-            node
         }
     }
 
@@ -8089,7 +7853,6 @@ where
         if self.enabled {
             Visit::visit_ts_mapped_type(self, node)
         } else {
-            node
         }
     }
 
@@ -8097,7 +7860,6 @@ where
         if self.enabled {
             Visit::visit_ts_method_signature(self, node)
         } else {
-            node
         }
     }
 
@@ -8105,7 +7867,6 @@ where
         if self.enabled {
             Visit::visit_ts_module_block(self, node)
         } else {
-            node
         }
     }
 
@@ -8113,7 +7874,6 @@ where
         if self.enabled {
             Visit::visit_ts_module_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -8121,7 +7881,6 @@ where
         if self.enabled {
             Visit::visit_ts_module_name(self, node)
         } else {
-            node
         }
     }
 
@@ -8129,7 +7888,6 @@ where
         if self.enabled {
             Visit::visit_ts_module_ref(self, node)
         } else {
-            node
         }
     }
 
@@ -8137,7 +7895,6 @@ where
         if self.enabled {
             Visit::visit_ts_namespace_body(self, node)
         } else {
-            node
         }
     }
 
@@ -8145,7 +7902,6 @@ where
         if self.enabled {
             Visit::visit_ts_namespace_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -8153,7 +7909,6 @@ where
         if self.enabled {
             Visit::visit_ts_namespace_export_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -8161,7 +7916,6 @@ where
         if self.enabled {
             Visit::visit_ts_non_null_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -8169,7 +7923,6 @@ where
         if self.enabled {
             Visit::visit_ts_optional_type(self, node)
         } else {
-            node
         }
     }
 
@@ -8177,7 +7930,6 @@ where
         if self.enabled {
             Visit::visit_ts_param_prop(self, node)
         } else {
-            node
         }
     }
 
@@ -8185,7 +7937,6 @@ where
         if self.enabled {
             Visit::visit_ts_param_prop_param(self, node)
         } else {
-            node
         }
     }
 
@@ -8193,7 +7944,6 @@ where
         if self.enabled {
             Visit::visit_ts_parenthesized_type(self, node)
         } else {
-            node
         }
     }
 
@@ -8201,7 +7951,6 @@ where
         if self.enabled {
             Visit::visit_ts_property_signature(self, node)
         } else {
-            node
         }
     }
 
@@ -8209,7 +7958,6 @@ where
         if self.enabled {
             Visit::visit_ts_qualified_name(self, node)
         } else {
-            node
         }
     }
 
@@ -8217,7 +7965,6 @@ where
         if self.enabled {
             Visit::visit_ts_rest_type(self, node)
         } else {
-            node
         }
     }
 
@@ -8225,7 +7972,6 @@ where
         if self.enabled {
             Visit::visit_ts_satisfies_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -8233,7 +7979,6 @@ where
         if self.enabled {
             Visit::visit_ts_setter_signature(self, node)
         } else {
-            node
         }
     }
 
@@ -8241,7 +7986,6 @@ where
         if self.enabled {
             Visit::visit_ts_this_type(self, node)
         } else {
-            node
         }
     }
 
@@ -8249,7 +7993,6 @@ where
         if self.enabled {
             Visit::visit_ts_this_type_or_ident(self, node)
         } else {
-            node
         }
     }
 
@@ -8257,7 +8000,6 @@ where
         if self.enabled {
             Visit::visit_ts_tpl_lit_type(self, node)
         } else {
-            node
         }
     }
 
@@ -8265,7 +8007,6 @@ where
         if self.enabled {
             Visit::visit_ts_tuple_element(self, node)
         } else {
-            node
         }
     }
 
@@ -8273,7 +8014,6 @@ where
         if self.enabled {
             Visit::visit_ts_tuple_elements(self, node)
         } else {
-            node
         }
     }
 
@@ -8281,7 +8021,6 @@ where
         if self.enabled {
             Visit::visit_ts_tuple_type(self, node)
         } else {
-            node
         }
     }
 
@@ -8289,7 +8028,6 @@ where
         if self.enabled {
             Visit::visit_ts_type(self, node)
         } else {
-            node
         }
     }
 
@@ -8297,7 +8035,6 @@ where
         if self.enabled {
             Visit::visit_ts_type_alias_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -8305,7 +8042,6 @@ where
         if self.enabled {
             Visit::visit_ts_type_ann(self, node)
         } else {
-            node
         }
     }
 
@@ -8313,7 +8049,6 @@ where
         if self.enabled {
             Visit::visit_ts_type_assertion(self, node)
         } else {
-            node
         }
     }
 
@@ -8321,7 +8056,6 @@ where
         if self.enabled {
             Visit::visit_ts_type_element(self, node)
         } else {
-            node
         }
     }
 
@@ -8329,7 +8063,6 @@ where
         if self.enabled {
             Visit::visit_ts_type_elements(self, node)
         } else {
-            node
         }
     }
 
@@ -8337,7 +8070,6 @@ where
         if self.enabled {
             Visit::visit_ts_type_lit(self, node)
         } else {
-            node
         }
     }
 
@@ -8345,7 +8077,6 @@ where
         if self.enabled {
             Visit::visit_ts_type_operator(self, node)
         } else {
-            node
         }
     }
 
@@ -8353,7 +8084,6 @@ where
         if self.enabled {
             Visit::visit_ts_type_operator_op(self, node)
         } else {
-            node
         }
     }
 
@@ -8361,7 +8091,6 @@ where
         if self.enabled {
             Visit::visit_ts_type_param(self, node)
         } else {
-            node
         }
     }
 
@@ -8369,7 +8098,6 @@ where
         if self.enabled {
             Visit::visit_ts_type_param_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -8377,7 +8105,6 @@ where
         if self.enabled {
             Visit::visit_ts_type_param_instantiation(self, node)
         } else {
-            node
         }
     }
 
@@ -8385,7 +8112,6 @@ where
         if self.enabled {
             Visit::visit_ts_type_params(self, node)
         } else {
-            node
         }
     }
 
@@ -8393,7 +8119,6 @@ where
         if self.enabled {
             Visit::visit_ts_type_predicate(self, node)
         } else {
-            node
         }
     }
 
@@ -8401,7 +8126,6 @@ where
         if self.enabled {
             Visit::visit_ts_type_query(self, node)
         } else {
-            node
         }
     }
 
@@ -8409,7 +8133,6 @@ where
         if self.enabled {
             Visit::visit_ts_type_query_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -8417,7 +8140,6 @@ where
         if self.enabled {
             Visit::visit_ts_type_ref(self, node)
         } else {
-            node
         }
     }
 
@@ -8425,7 +8147,6 @@ where
         if self.enabled {
             Visit::visit_ts_types(self, node)
         } else {
-            node
         }
     }
 
@@ -8433,7 +8154,6 @@ where
         if self.enabled {
             Visit::visit_ts_union_or_intersection_type(self, node)
         } else {
-            node
         }
     }
 
@@ -8441,7 +8161,6 @@ where
         if self.enabled {
             Visit::visit_ts_union_type(self, node)
         } else {
-            node
         }
     }
 
@@ -8449,7 +8168,6 @@ where
         if self.enabled {
             Visit::visit_unary_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -8457,7 +8175,6 @@ where
         if self.enabled {
             Visit::visit_unary_op(self, node)
         } else {
-            node
         }
     }
 
@@ -8465,7 +8182,6 @@ where
         if self.enabled {
             Visit::visit_update_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -8473,7 +8189,6 @@ where
         if self.enabled {
             Visit::visit_update_op(self, node)
         } else {
-            node
         }
     }
 
@@ -8481,7 +8196,6 @@ where
         if self.enabled {
             Visit::visit_using_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -8489,7 +8203,6 @@ where
         if self.enabled {
             Visit::visit_var_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -8497,7 +8210,6 @@ where
         if self.enabled {
             Visit::visit_var_decl_kind(self, node)
         } else {
-            node
         }
     }
 
@@ -8505,7 +8217,6 @@ where
         if self.enabled {
             Visit::visit_var_decl_or_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -8513,7 +8224,6 @@ where
         if self.enabled {
             Visit::visit_var_declarator(self, node)
         } else {
-            node
         }
     }
 
@@ -8521,7 +8231,6 @@ where
         if self.enabled {
             Visit::visit_var_declarators(self, node)
         } else {
-            node
         }
     }
 
@@ -8529,7 +8238,6 @@ where
         if self.enabled {
             Visit::visit_while_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -8537,7 +8245,6 @@ where
         if self.enabled {
             Visit::visit_with_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -8545,7 +8252,6 @@ where
         if self.enabled {
             Visit::visit_yield_expr(self, node)
         } else {
-            node
         }
     }
 }
@@ -25363,7 +25069,6 @@ where
         if self.enabled {
             VisitAstPath::visit_accessibility(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25375,7 +25080,6 @@ where
         if self.enabled {
             VisitAstPath::visit_array_lit(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25387,7 +25091,6 @@ where
         if self.enabled {
             VisitAstPath::visit_array_pat(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25399,7 +25102,6 @@ where
         if self.enabled {
             VisitAstPath::visit_arrow_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25411,7 +25113,6 @@ where
         if self.enabled {
             VisitAstPath::visit_assign_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25423,7 +25124,6 @@ where
         if self.enabled {
             VisitAstPath::visit_assign_op(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25435,7 +25135,6 @@ where
         if self.enabled {
             VisitAstPath::visit_assign_pat(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25447,7 +25146,6 @@ where
         if self.enabled {
             VisitAstPath::visit_assign_pat_prop(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25459,7 +25157,6 @@ where
         if self.enabled {
             VisitAstPath::visit_assign_prop(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25471,7 +25168,6 @@ where
         if self.enabled {
             VisitAstPath::visit_assign_target(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25483,7 +25179,6 @@ where
         if self.enabled {
             VisitAstPath::visit_assign_target_pat(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25495,7 +25190,6 @@ where
         if self.enabled {
             VisitAstPath::visit_atom(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25507,7 +25201,6 @@ where
         if self.enabled {
             VisitAstPath::visit_auto_accessor(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25519,7 +25212,6 @@ where
         if self.enabled {
             VisitAstPath::visit_await_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25527,7 +25219,6 @@ where
         if self.enabled {
             VisitAstPath::visit_big_int(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25539,7 +25230,6 @@ where
         if self.enabled {
             VisitAstPath::visit_big_int_value(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25551,7 +25241,6 @@ where
         if self.enabled {
             VisitAstPath::visit_bin_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25563,7 +25252,6 @@ where
         if self.enabled {
             VisitAstPath::visit_binary_op(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25575,7 +25263,6 @@ where
         if self.enabled {
             VisitAstPath::visit_binding_ident(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25587,7 +25274,6 @@ where
         if self.enabled {
             VisitAstPath::visit_block_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25599,7 +25285,6 @@ where
         if self.enabled {
             VisitAstPath::visit_block_stmt_or_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25607,7 +25292,6 @@ where
         if self.enabled {
             VisitAstPath::visit_bool(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25619,7 +25303,6 @@ where
         if self.enabled {
             VisitAstPath::visit_break_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25631,7 +25314,6 @@ where
         if self.enabled {
             VisitAstPath::visit_call_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25639,7 +25321,6 @@ where
         if self.enabled {
             VisitAstPath::visit_callee(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25651,7 +25332,6 @@ where
         if self.enabled {
             VisitAstPath::visit_catch_clause(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25659,7 +25339,6 @@ where
         if self.enabled {
             VisitAstPath::visit_class(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25671,7 +25350,6 @@ where
         if self.enabled {
             VisitAstPath::visit_class_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25683,7 +25361,6 @@ where
         if self.enabled {
             VisitAstPath::visit_class_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25695,7 +25372,6 @@ where
         if self.enabled {
             VisitAstPath::visit_class_member(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25707,7 +25383,6 @@ where
         if self.enabled {
             VisitAstPath::visit_class_members(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25719,7 +25394,6 @@ where
         if self.enabled {
             VisitAstPath::visit_class_method(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25731,7 +25405,6 @@ where
         if self.enabled {
             VisitAstPath::visit_class_prop(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25743,7 +25416,6 @@ where
         if self.enabled {
             VisitAstPath::visit_computed_prop_name(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25755,7 +25427,6 @@ where
         if self.enabled {
             VisitAstPath::visit_cond_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25767,7 +25438,6 @@ where
         if self.enabled {
             VisitAstPath::visit_constructor(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25779,7 +25449,6 @@ where
         if self.enabled {
             VisitAstPath::visit_continue_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25791,7 +25460,6 @@ where
         if self.enabled {
             VisitAstPath::visit_debugger_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25799,7 +25467,6 @@ where
         if self.enabled {
             VisitAstPath::visit_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25811,7 +25478,6 @@ where
         if self.enabled {
             VisitAstPath::visit_decorator(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25823,7 +25489,6 @@ where
         if self.enabled {
             VisitAstPath::visit_decorators(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25835,7 +25500,6 @@ where
         if self.enabled {
             VisitAstPath::visit_default_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25847,7 +25511,6 @@ where
         if self.enabled {
             VisitAstPath::visit_do_while_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25859,7 +25522,6 @@ where
         if self.enabled {
             VisitAstPath::visit_empty_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25871,7 +25533,6 @@ where
         if self.enabled {
             VisitAstPath::visit_es_version(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25883,7 +25544,6 @@ where
         if self.enabled {
             VisitAstPath::visit_export_all(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25895,7 +25555,6 @@ where
         if self.enabled {
             VisitAstPath::visit_export_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25907,7 +25566,6 @@ where
         if self.enabled {
             VisitAstPath::visit_export_default_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25919,7 +25577,6 @@ where
         if self.enabled {
             VisitAstPath::visit_export_default_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25931,7 +25588,6 @@ where
         if self.enabled {
             VisitAstPath::visit_export_default_specifier(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25943,7 +25599,6 @@ where
         if self.enabled {
             VisitAstPath::visit_export_named_specifier(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25955,7 +25610,6 @@ where
         if self.enabled {
             VisitAstPath::visit_export_namespace_specifier(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25967,7 +25621,6 @@ where
         if self.enabled {
             VisitAstPath::visit_export_specifier(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25979,7 +25632,6 @@ where
         if self.enabled {
             VisitAstPath::visit_export_specifiers(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25987,7 +25639,6 @@ where
         if self.enabled {
             VisitAstPath::visit_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -25999,7 +25650,6 @@ where
         if self.enabled {
             VisitAstPath::visit_expr_or_spread(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26011,7 +25661,6 @@ where
         if self.enabled {
             VisitAstPath::visit_expr_or_spreads(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26023,7 +25672,6 @@ where
         if self.enabled {
             VisitAstPath::visit_expr_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26035,7 +25683,6 @@ where
         if self.enabled {
             VisitAstPath::visit_exprs(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26043,7 +25690,6 @@ where
         if self.enabled {
             VisitAstPath::visit_fn_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26051,7 +25697,6 @@ where
         if self.enabled {
             VisitAstPath::visit_fn_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26063,7 +25708,6 @@ where
         if self.enabled {
             VisitAstPath::visit_for_head(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26075,7 +25719,6 @@ where
         if self.enabled {
             VisitAstPath::visit_for_in_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26087,7 +25730,6 @@ where
         if self.enabled {
             VisitAstPath::visit_for_of_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26099,7 +25741,6 @@ where
         if self.enabled {
             VisitAstPath::visit_for_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26111,7 +25752,6 @@ where
         if self.enabled {
             VisitAstPath::visit_function(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26123,7 +25763,6 @@ where
         if self.enabled {
             VisitAstPath::visit_getter_prop(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26131,7 +25770,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ident(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26143,7 +25781,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ident_name(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26151,7 +25788,6 @@ where
         if self.enabled {
             VisitAstPath::visit_if_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26159,7 +25795,6 @@ where
         if self.enabled {
             VisitAstPath::visit_import(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26171,7 +25806,6 @@ where
         if self.enabled {
             VisitAstPath::visit_import_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26183,7 +25817,6 @@ where
         if self.enabled {
             VisitAstPath::visit_import_default_specifier(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26195,7 +25828,6 @@ where
         if self.enabled {
             VisitAstPath::visit_import_named_specifier(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26207,7 +25839,6 @@ where
         if self.enabled {
             VisitAstPath::visit_import_phase(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26219,7 +25850,6 @@ where
         if self.enabled {
             VisitAstPath::visit_import_specifier(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26231,7 +25861,6 @@ where
         if self.enabled {
             VisitAstPath::visit_import_specifiers(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26243,7 +25872,6 @@ where
         if self.enabled {
             VisitAstPath::visit_import_star_as_specifier(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26255,7 +25883,6 @@ where
         if self.enabled {
             VisitAstPath::visit_import_with(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26267,7 +25894,6 @@ where
         if self.enabled {
             VisitAstPath::visit_import_with_item(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26279,7 +25905,6 @@ where
         if self.enabled {
             VisitAstPath::visit_import_with_items(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26287,7 +25912,6 @@ where
         if self.enabled {
             VisitAstPath::visit_invalid(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26299,7 +25923,6 @@ where
         if self.enabled {
             VisitAstPath::visit_jsx_attr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26311,7 +25934,6 @@ where
         if self.enabled {
             VisitAstPath::visit_jsx_attr_name(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26323,7 +25945,6 @@ where
         if self.enabled {
             VisitAstPath::visit_jsx_attr_or_spread(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26335,7 +25956,6 @@ where
         if self.enabled {
             VisitAstPath::visit_jsx_attr_or_spreads(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26347,7 +25967,6 @@ where
         if self.enabled {
             VisitAstPath::visit_jsx_attr_value(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26359,7 +25978,6 @@ where
         if self.enabled {
             VisitAstPath::visit_jsx_closing_element(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26371,7 +25989,6 @@ where
         if self.enabled {
             VisitAstPath::visit_jsx_closing_fragment(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26383,7 +26000,6 @@ where
         if self.enabled {
             VisitAstPath::visit_jsx_element(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26395,7 +26011,6 @@ where
         if self.enabled {
             VisitAstPath::visit_jsx_element_child(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26407,7 +26022,6 @@ where
         if self.enabled {
             VisitAstPath::visit_jsx_element_childs(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26419,7 +26033,6 @@ where
         if self.enabled {
             VisitAstPath::visit_jsx_element_name(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26431,7 +26044,6 @@ where
         if self.enabled {
             VisitAstPath::visit_jsx_empty_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26443,7 +26055,6 @@ where
         if self.enabled {
             VisitAstPath::visit_jsx_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26455,7 +26066,6 @@ where
         if self.enabled {
             VisitAstPath::visit_jsx_expr_container(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26467,7 +26077,6 @@ where
         if self.enabled {
             VisitAstPath::visit_jsx_fragment(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26479,7 +26088,6 @@ where
         if self.enabled {
             VisitAstPath::visit_jsx_member_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26491,7 +26099,6 @@ where
         if self.enabled {
             VisitAstPath::visit_jsx_namespaced_name(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26503,7 +26110,6 @@ where
         if self.enabled {
             VisitAstPath::visit_jsx_object(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26515,7 +26121,6 @@ where
         if self.enabled {
             VisitAstPath::visit_jsx_opening_element(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26527,7 +26132,6 @@ where
         if self.enabled {
             VisitAstPath::visit_jsx_opening_fragment(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26539,7 +26143,6 @@ where
         if self.enabled {
             VisitAstPath::visit_jsx_spread_child(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26551,7 +26154,6 @@ where
         if self.enabled {
             VisitAstPath::visit_jsx_text(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26559,7 +26161,6 @@ where
         if self.enabled {
             VisitAstPath::visit_key(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26571,7 +26172,6 @@ where
         if self.enabled {
             VisitAstPath::visit_key_value_pat_prop(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26583,7 +26183,6 @@ where
         if self.enabled {
             VisitAstPath::visit_key_value_prop(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26595,7 +26194,6 @@ where
         if self.enabled {
             VisitAstPath::visit_labeled_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26603,7 +26201,6 @@ where
         if self.enabled {
             VisitAstPath::visit_lit(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26615,7 +26212,6 @@ where
         if self.enabled {
             VisitAstPath::visit_member_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26627,7 +26223,6 @@ where
         if self.enabled {
             VisitAstPath::visit_member_prop(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26639,7 +26234,6 @@ where
         if self.enabled {
             VisitAstPath::visit_meta_prop_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26651,7 +26245,6 @@ where
         if self.enabled {
             VisitAstPath::visit_meta_prop_kind(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26663,7 +26256,6 @@ where
         if self.enabled {
             VisitAstPath::visit_method_kind(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26675,7 +26267,6 @@ where
         if self.enabled {
             VisitAstPath::visit_method_prop(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26683,7 +26274,6 @@ where
         if self.enabled {
             VisitAstPath::visit_module(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26695,7 +26285,6 @@ where
         if self.enabled {
             VisitAstPath::visit_module_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26707,7 +26296,6 @@ where
         if self.enabled {
             VisitAstPath::visit_module_export_name(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26719,7 +26307,6 @@ where
         if self.enabled {
             VisitAstPath::visit_module_item(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26731,7 +26318,6 @@ where
         if self.enabled {
             VisitAstPath::visit_module_items(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26743,7 +26329,6 @@ where
         if self.enabled {
             VisitAstPath::visit_named_export(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26755,7 +26340,6 @@ where
         if self.enabled {
             VisitAstPath::visit_new_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26763,7 +26347,6 @@ where
         if self.enabled {
             VisitAstPath::visit_null(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26771,7 +26354,6 @@ where
         if self.enabled {
             VisitAstPath::visit_number(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26783,7 +26365,6 @@ where
         if self.enabled {
             VisitAstPath::visit_object_lit(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26795,7 +26376,6 @@ where
         if self.enabled {
             VisitAstPath::visit_object_pat(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26807,7 +26387,6 @@ where
         if self.enabled {
             VisitAstPath::visit_object_pat_prop(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26819,7 +26398,6 @@ where
         if self.enabled {
             VisitAstPath::visit_object_pat_props(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26831,7 +26409,6 @@ where
         if self.enabled {
             VisitAstPath::visit_opt_accessibility(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26843,7 +26420,6 @@ where
         if self.enabled {
             VisitAstPath::visit_opt_atom(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26855,7 +26431,6 @@ where
         if self.enabled {
             VisitAstPath::visit_opt_block_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26867,7 +26442,6 @@ where
         if self.enabled {
             VisitAstPath::visit_opt_call(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26879,7 +26453,6 @@ where
         if self.enabled {
             VisitAstPath::visit_opt_catch_clause(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26891,7 +26464,6 @@ where
         if self.enabled {
             VisitAstPath::visit_opt_chain_base(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26903,7 +26475,6 @@ where
         if self.enabled {
             VisitAstPath::visit_opt_chain_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26915,7 +26486,6 @@ where
         if self.enabled {
             VisitAstPath::visit_opt_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26927,7 +26497,6 @@ where
         if self.enabled {
             VisitAstPath::visit_opt_expr_or_spread(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26939,7 +26508,6 @@ where
         if self.enabled {
             VisitAstPath::visit_opt_expr_or_spreads(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26951,7 +26519,6 @@ where
         if self.enabled {
             VisitAstPath::visit_opt_ident(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26963,7 +26530,6 @@ where
         if self.enabled {
             VisitAstPath::visit_opt_jsx_attr_value(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26975,7 +26541,6 @@ where
         if self.enabled {
             VisitAstPath::visit_opt_jsx_closing_element(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26987,7 +26552,6 @@ where
         if self.enabled {
             VisitAstPath::visit_opt_module_export_name(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -26999,7 +26563,6 @@ where
         if self.enabled {
             VisitAstPath::visit_opt_module_items(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27011,7 +26574,6 @@ where
         if self.enabled {
             VisitAstPath::visit_opt_object_lit(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27023,7 +26585,6 @@ where
         if self.enabled {
             VisitAstPath::visit_opt_pat(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27035,7 +26596,6 @@ where
         if self.enabled {
             VisitAstPath::visit_opt_span(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27047,7 +26607,6 @@ where
         if self.enabled {
             VisitAstPath::visit_opt_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27059,7 +26618,6 @@ where
         if self.enabled {
             VisitAstPath::visit_opt_str(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27071,7 +26629,6 @@ where
         if self.enabled {
             VisitAstPath::visit_opt_true_plus_minus(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27083,7 +26640,6 @@ where
         if self.enabled {
             VisitAstPath::visit_opt_ts_entity_name(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27095,7 +26651,6 @@ where
         if self.enabled {
             VisitAstPath::visit_opt_ts_namespace_body(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27107,7 +26662,6 @@ where
         if self.enabled {
             VisitAstPath::visit_opt_ts_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27119,7 +26673,6 @@ where
         if self.enabled {
             VisitAstPath::visit_opt_ts_type_ann(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27131,7 +26684,6 @@ where
         if self.enabled {
             VisitAstPath::visit_opt_ts_type_param_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27143,7 +26695,6 @@ where
         if self.enabled {
             VisitAstPath::visit_opt_ts_type_param_instantiation(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27155,7 +26706,6 @@ where
         if self.enabled {
             VisitAstPath::visit_opt_var_decl_or_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27167,7 +26717,6 @@ where
         if self.enabled {
             VisitAstPath::visit_opt_vec_expr_or_spreads(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27179,7 +26728,6 @@ where
         if self.enabled {
             VisitAstPath::visit_opt_vec_pats(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27187,7 +26735,6 @@ where
         if self.enabled {
             VisitAstPath::visit_param(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27199,7 +26746,6 @@ where
         if self.enabled {
             VisitAstPath::visit_param_or_ts_param_prop(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27211,7 +26757,6 @@ where
         if self.enabled {
             VisitAstPath::visit_param_or_ts_param_props(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27219,7 +26764,6 @@ where
         if self.enabled {
             VisitAstPath::visit_params(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27231,7 +26775,6 @@ where
         if self.enabled {
             VisitAstPath::visit_paren_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27239,7 +26782,6 @@ where
         if self.enabled {
             VisitAstPath::visit_pat(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27247,7 +26789,6 @@ where
         if self.enabled {
             VisitAstPath::visit_pats(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27259,7 +26800,6 @@ where
         if self.enabled {
             VisitAstPath::visit_private_method(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27271,7 +26811,6 @@ where
         if self.enabled {
             VisitAstPath::visit_private_name(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27283,7 +26822,6 @@ where
         if self.enabled {
             VisitAstPath::visit_private_prop(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27291,7 +26829,6 @@ where
         if self.enabled {
             VisitAstPath::visit_program(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27299,7 +26836,6 @@ where
         if self.enabled {
             VisitAstPath::visit_prop(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27311,7 +26847,6 @@ where
         if self.enabled {
             VisitAstPath::visit_prop_name(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27323,7 +26858,6 @@ where
         if self.enabled {
             VisitAstPath::visit_prop_or_spread(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27335,7 +26869,6 @@ where
         if self.enabled {
             VisitAstPath::visit_prop_or_spreads(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27343,7 +26876,6 @@ where
         if self.enabled {
             VisitAstPath::visit_regex(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27355,7 +26887,6 @@ where
         if self.enabled {
             VisitAstPath::visit_reserved_unused(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27367,7 +26898,6 @@ where
         if self.enabled {
             VisitAstPath::visit_rest_pat(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27379,7 +26909,6 @@ where
         if self.enabled {
             VisitAstPath::visit_return_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27387,7 +26916,6 @@ where
         if self.enabled {
             VisitAstPath::visit_script(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27399,7 +26927,6 @@ where
         if self.enabled {
             VisitAstPath::visit_seq_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27411,7 +26938,6 @@ where
         if self.enabled {
             VisitAstPath::visit_setter_prop(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27423,7 +26949,6 @@ where
         if self.enabled {
             VisitAstPath::visit_simple_assign_target(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27435,7 +26960,6 @@ where
         if self.enabled {
             VisitAstPath::visit_span(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27447,7 +26971,6 @@ where
         if self.enabled {
             VisitAstPath::visit_spread_element(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27459,7 +26982,6 @@ where
         if self.enabled {
             VisitAstPath::visit_static_block(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27467,7 +26989,6 @@ where
         if self.enabled {
             VisitAstPath::visit_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27475,7 +26996,6 @@ where
         if self.enabled {
             VisitAstPath::visit_stmts(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27483,7 +27003,6 @@ where
         if self.enabled {
             VisitAstPath::visit_str(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27491,7 +27010,6 @@ where
         if self.enabled {
             VisitAstPath::visit_super(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27503,7 +27021,6 @@ where
         if self.enabled {
             VisitAstPath::visit_super_prop(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27515,7 +27032,6 @@ where
         if self.enabled {
             VisitAstPath::visit_super_prop_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27527,7 +27043,6 @@ where
         if self.enabled {
             VisitAstPath::visit_switch_case(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27539,7 +27054,6 @@ where
         if self.enabled {
             VisitAstPath::visit_switch_cases(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27551,7 +27065,6 @@ where
         if self.enabled {
             VisitAstPath::visit_switch_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27563,7 +27076,6 @@ where
         if self.enabled {
             VisitAstPath::visit_syntax_context(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27575,7 +27087,6 @@ where
         if self.enabled {
             VisitAstPath::visit_tagged_tpl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27587,7 +27098,6 @@ where
         if self.enabled {
             VisitAstPath::visit_this_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27599,7 +27109,6 @@ where
         if self.enabled {
             VisitAstPath::visit_throw_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27607,7 +27116,6 @@ where
         if self.enabled {
             VisitAstPath::visit_tpl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27619,7 +27127,6 @@ where
         if self.enabled {
             VisitAstPath::visit_tpl_element(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27631,7 +27138,6 @@ where
         if self.enabled {
             VisitAstPath::visit_tpl_elements(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27643,7 +27149,6 @@ where
         if self.enabled {
             VisitAstPath::visit_true_plus_minus(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27655,7 +27160,6 @@ where
         if self.enabled {
             VisitAstPath::visit_try_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27667,7 +27171,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_array_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27679,7 +27182,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_as_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27691,7 +27193,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_call_signature_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27703,7 +27204,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_conditional_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27715,7 +27215,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_const_assertion(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27727,7 +27226,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_construct_signature_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27739,7 +27237,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_constructor_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27751,7 +27248,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_entity_name(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27763,7 +27259,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_enum_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27775,7 +27270,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_enum_member(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27787,7 +27281,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_enum_member_id(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27799,7 +27292,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_enum_members(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27811,7 +27303,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_export_assignment(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27823,7 +27314,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_expr_with_type_args(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27835,7 +27325,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_expr_with_type_argss(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27847,7 +27336,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_external_module_ref(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27859,7 +27347,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_fn_or_constructor_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27871,7 +27358,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_fn_param(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27883,7 +27369,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_fn_params(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27895,7 +27380,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_fn_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27907,7 +27391,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_getter_signature(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27919,7 +27402,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_import_equals_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27931,7 +27413,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_import_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27943,7 +27424,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_index_signature(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27955,7 +27435,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_indexed_access_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27967,7 +27446,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_infer_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27979,7 +27457,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_instantiation(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -27991,7 +27468,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_interface_body(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28003,7 +27479,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_interface_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28015,7 +27490,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_intersection_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28027,7 +27501,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_keyword_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28039,7 +27512,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_keyword_type_kind(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28047,7 +27519,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_lit(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28059,7 +27530,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_lit_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28071,7 +27541,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_mapped_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28083,7 +27552,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_method_signature(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28095,7 +27563,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_module_block(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28107,7 +27574,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_module_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28119,7 +27585,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_module_name(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28131,7 +27596,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_module_ref(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28143,7 +27607,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_namespace_body(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28155,7 +27618,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_namespace_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28167,7 +27629,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_namespace_export_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28179,7 +27640,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_non_null_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28191,7 +27651,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_optional_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28203,7 +27662,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_param_prop(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28215,7 +27673,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_param_prop_param(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28227,7 +27684,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_parenthesized_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28239,7 +27695,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_property_signature(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28251,7 +27706,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_qualified_name(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28263,7 +27717,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_rest_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28275,7 +27728,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_satisfies_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28287,7 +27739,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_setter_signature(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28299,7 +27750,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_this_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28311,7 +27761,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_this_type_or_ident(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28323,7 +27772,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_tpl_lit_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28335,7 +27783,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_tuple_element(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28347,7 +27794,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_tuple_elements(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28359,7 +27805,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_tuple_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28367,7 +27812,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28379,7 +27823,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_type_alias_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28391,7 +27834,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_type_ann(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28403,7 +27845,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_type_assertion(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28415,7 +27856,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_type_element(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28427,7 +27867,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_type_elements(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28439,7 +27878,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_type_lit(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28451,7 +27889,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_type_operator(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28463,7 +27900,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_type_operator_op(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28475,7 +27911,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_type_param(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28487,7 +27922,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_type_param_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28499,7 +27933,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_type_param_instantiation(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28511,7 +27944,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_type_params(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28523,7 +27955,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_type_predicate(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28535,7 +27966,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_type_query(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28547,7 +27977,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_type_query_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28559,7 +27988,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_type_ref(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28571,7 +27999,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_types(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28583,7 +28010,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_union_or_intersection_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28595,7 +28021,6 @@ where
         if self.enabled {
             VisitAstPath::visit_ts_union_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28607,7 +28032,6 @@ where
         if self.enabled {
             VisitAstPath::visit_unary_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28619,7 +28043,6 @@ where
         if self.enabled {
             VisitAstPath::visit_unary_op(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28631,7 +28054,6 @@ where
         if self.enabled {
             VisitAstPath::visit_update_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28643,7 +28065,6 @@ where
         if self.enabled {
             VisitAstPath::visit_update_op(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28655,7 +28076,6 @@ where
         if self.enabled {
             VisitAstPath::visit_using_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28667,7 +28087,6 @@ where
         if self.enabled {
             VisitAstPath::visit_var_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28679,7 +28098,6 @@ where
         if self.enabled {
             VisitAstPath::visit_var_decl_kind(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28691,7 +28109,6 @@ where
         if self.enabled {
             VisitAstPath::visit_var_decl_or_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28703,7 +28120,6 @@ where
         if self.enabled {
             VisitAstPath::visit_var_declarator(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28715,7 +28131,6 @@ where
         if self.enabled {
             VisitAstPath::visit_var_declarators(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28727,7 +28142,6 @@ where
         if self.enabled {
             VisitAstPath::visit_while_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28739,7 +28153,6 @@ where
         if self.enabled {
             VisitAstPath::visit_with_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -28751,7 +28164,6 @@ where
         if self.enabled {
             VisitAstPath::visit_yield_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 }
@@ -44107,7 +43519,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_accessibility(self, node)
         } else {
-            node
         }
     }
 
@@ -44115,7 +43526,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_array_lit(self, node)
         } else {
-            node
         }
     }
 
@@ -44123,7 +43533,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_array_pat(self, node)
         } else {
-            node
         }
     }
 
@@ -44131,7 +43540,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_arrow_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -44139,7 +43547,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_assign_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -44147,7 +43554,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_assign_op(self, node)
         } else {
-            node
         }
     }
 
@@ -44155,7 +43561,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_assign_pat(self, node)
         } else {
-            node
         }
     }
 
@@ -44163,7 +43568,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_assign_pat_prop(self, node)
         } else {
-            node
         }
     }
 
@@ -44171,7 +43575,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_assign_prop(self, node)
         } else {
-            node
         }
     }
 
@@ -44179,7 +43582,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_assign_target(self, node)
         } else {
-            node
         }
     }
 
@@ -44187,7 +43589,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_assign_target_pat(self, node)
         } else {
-            node
         }
     }
 
@@ -44195,7 +43596,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_atom(self, node)
         } else {
-            node
         }
     }
 
@@ -44203,7 +43603,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_auto_accessor(self, node)
         } else {
-            node
         }
     }
 
@@ -44211,7 +43610,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_await_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -44219,7 +43617,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_big_int(self, node)
         } else {
-            node
         }
     }
 
@@ -44227,7 +43624,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_big_int_value(self, node)
         } else {
-            node
         }
     }
 
@@ -44235,7 +43631,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_bin_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -44243,7 +43638,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_binary_op(self, node)
         } else {
-            node
         }
     }
 
@@ -44251,7 +43645,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_binding_ident(self, node)
         } else {
-            node
         }
     }
 
@@ -44259,7 +43652,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_block_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -44267,7 +43659,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_block_stmt_or_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -44275,7 +43666,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_bool(self, node)
         } else {
-            node
         }
     }
 
@@ -44283,7 +43673,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_break_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -44291,7 +43680,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_call_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -44299,7 +43687,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_callee(self, node)
         } else {
-            node
         }
     }
 
@@ -44307,7 +43694,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_catch_clause(self, node)
         } else {
-            node
         }
     }
 
@@ -44315,7 +43701,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_class(self, node)
         } else {
-            node
         }
     }
 
@@ -44323,7 +43708,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_class_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -44331,7 +43715,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_class_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -44339,7 +43722,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_class_member(self, node)
         } else {
-            node
         }
     }
 
@@ -44347,7 +43729,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_class_members(self, node)
         } else {
-            node
         }
     }
 
@@ -44355,7 +43736,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_class_method(self, node)
         } else {
-            node
         }
     }
 
@@ -44363,7 +43743,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_class_prop(self, node)
         } else {
-            node
         }
     }
 
@@ -44371,7 +43750,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_computed_prop_name(self, node)
         } else {
-            node
         }
     }
 
@@ -44379,7 +43757,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_cond_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -44387,7 +43764,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_constructor(self, node)
         } else {
-            node
         }
     }
 
@@ -44395,7 +43771,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_continue_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -44403,7 +43778,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_debugger_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -44411,7 +43785,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -44419,7 +43792,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_decorator(self, node)
         } else {
-            node
         }
     }
 
@@ -44427,7 +43799,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_decorators(self, node)
         } else {
-            node
         }
     }
 
@@ -44435,7 +43806,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_default_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -44443,7 +43813,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_do_while_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -44451,7 +43820,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_empty_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -44459,7 +43827,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_es_version(self, node)
         } else {
-            node
         }
     }
 
@@ -44467,7 +43834,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_export_all(self, node)
         } else {
-            node
         }
     }
 
@@ -44475,7 +43841,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_export_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -44483,7 +43848,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_export_default_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -44491,7 +43855,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_export_default_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -44499,7 +43862,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_export_default_specifier(self, node)
         } else {
-            node
         }
     }
 
@@ -44507,7 +43869,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_export_named_specifier(self, node)
         } else {
-            node
         }
     }
 
@@ -44515,7 +43876,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_export_namespace_specifier(self, node)
         } else {
-            node
         }
     }
 
@@ -44523,7 +43883,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_export_specifier(self, node)
         } else {
-            node
         }
     }
 
@@ -44531,7 +43890,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_export_specifiers(self, node)
         } else {
-            node
         }
     }
 
@@ -44539,7 +43897,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -44547,7 +43904,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_expr_or_spread(self, node)
         } else {
-            node
         }
     }
 
@@ -44555,7 +43911,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_expr_or_spreads(self, node)
         } else {
-            node
         }
     }
 
@@ -44563,7 +43918,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_expr_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -44571,7 +43925,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_exprs(self, node)
         } else {
-            node
         }
     }
 
@@ -44579,7 +43932,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_fn_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -44587,7 +43939,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_fn_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -44595,7 +43946,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_for_head(self, node)
         } else {
-            node
         }
     }
 
@@ -44603,7 +43953,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_for_in_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -44611,7 +43960,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_for_of_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -44619,7 +43967,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_for_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -44627,7 +43974,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_function(self, node)
         } else {
-            node
         }
     }
 
@@ -44635,7 +43981,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_getter_prop(self, node)
         } else {
-            node
         }
     }
 
@@ -44643,7 +43988,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ident(self, node)
         } else {
-            node
         }
     }
 
@@ -44651,7 +43995,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ident_name(self, node)
         } else {
-            node
         }
     }
 
@@ -44659,7 +44002,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_if_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -44667,7 +44009,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_import(self, node)
         } else {
-            node
         }
     }
 
@@ -44675,7 +44016,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_import_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -44683,7 +44023,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_import_default_specifier(self, node)
         } else {
-            node
         }
     }
 
@@ -44691,7 +44030,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_import_named_specifier(self, node)
         } else {
-            node
         }
     }
 
@@ -44699,7 +44037,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_import_phase(self, node)
         } else {
-            node
         }
     }
 
@@ -44707,7 +44044,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_import_specifier(self, node)
         } else {
-            node
         }
     }
 
@@ -44715,7 +44051,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_import_specifiers(self, node)
         } else {
-            node
         }
     }
 
@@ -44723,7 +44058,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_import_star_as_specifier(self, node)
         } else {
-            node
         }
     }
 
@@ -44731,7 +44065,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_import_with(self, node)
         } else {
-            node
         }
     }
 
@@ -44739,7 +44072,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_import_with_item(self, node)
         } else {
-            node
         }
     }
 
@@ -44747,7 +44079,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_import_with_items(self, node)
         } else {
-            node
         }
     }
 
@@ -44755,7 +44086,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_invalid(self, node)
         } else {
-            node
         }
     }
 
@@ -44763,7 +44093,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_jsx_attr(self, node)
         } else {
-            node
         }
     }
 
@@ -44771,7 +44100,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_jsx_attr_name(self, node)
         } else {
-            node
         }
     }
 
@@ -44779,7 +44107,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_jsx_attr_or_spread(self, node)
         } else {
-            node
         }
     }
 
@@ -44787,7 +44114,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_jsx_attr_or_spreads(self, node)
         } else {
-            node
         }
     }
 
@@ -44795,7 +44121,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_jsx_attr_value(self, node)
         } else {
-            node
         }
     }
 
@@ -44803,7 +44128,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_jsx_closing_element(self, node)
         } else {
-            node
         }
     }
 
@@ -44811,7 +44135,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_jsx_closing_fragment(self, node)
         } else {
-            node
         }
     }
 
@@ -44819,7 +44142,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_jsx_element(self, node)
         } else {
-            node
         }
     }
 
@@ -44827,7 +44149,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_jsx_element_child(self, node)
         } else {
-            node
         }
     }
 
@@ -44835,7 +44156,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_jsx_element_childs(self, node)
         } else {
-            node
         }
     }
 
@@ -44843,7 +44163,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_jsx_element_name(self, node)
         } else {
-            node
         }
     }
 
@@ -44851,7 +44170,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_jsx_empty_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -44859,7 +44177,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_jsx_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -44867,7 +44184,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_jsx_expr_container(self, node)
         } else {
-            node
         }
     }
 
@@ -44875,7 +44191,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_jsx_fragment(self, node)
         } else {
-            node
         }
     }
 
@@ -44883,7 +44198,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_jsx_member_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -44891,7 +44205,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_jsx_namespaced_name(self, node)
         } else {
-            node
         }
     }
 
@@ -44899,7 +44212,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_jsx_object(self, node)
         } else {
-            node
         }
     }
 
@@ -44907,7 +44219,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_jsx_opening_element(self, node)
         } else {
-            node
         }
     }
 
@@ -44915,7 +44226,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_jsx_opening_fragment(self, node)
         } else {
-            node
         }
     }
 
@@ -44923,7 +44233,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_jsx_spread_child(self, node)
         } else {
-            node
         }
     }
 
@@ -44931,7 +44240,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_jsx_text(self, node)
         } else {
-            node
         }
     }
 
@@ -44939,7 +44247,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_key(self, node)
         } else {
-            node
         }
     }
 
@@ -44947,7 +44254,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_key_value_pat_prop(self, node)
         } else {
-            node
         }
     }
 
@@ -44955,7 +44261,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_key_value_prop(self, node)
         } else {
-            node
         }
     }
 
@@ -44963,7 +44268,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_labeled_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -44971,7 +44275,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_lit(self, node)
         } else {
-            node
         }
     }
 
@@ -44979,7 +44282,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_member_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -44987,7 +44289,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_member_prop(self, node)
         } else {
-            node
         }
     }
 
@@ -44995,7 +44296,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_meta_prop_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -45003,7 +44303,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_meta_prop_kind(self, node)
         } else {
-            node
         }
     }
 
@@ -45011,7 +44310,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_method_kind(self, node)
         } else {
-            node
         }
     }
 
@@ -45019,7 +44317,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_method_prop(self, node)
         } else {
-            node
         }
     }
 
@@ -45027,7 +44324,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_module(self, node)
         } else {
-            node
         }
     }
 
@@ -45035,7 +44331,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_module_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -45043,7 +44338,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_module_export_name(self, node)
         } else {
-            node
         }
     }
 
@@ -45051,7 +44345,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_module_item(self, node)
         } else {
-            node
         }
     }
 
@@ -45059,7 +44352,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_module_items(self, node)
         } else {
-            node
         }
     }
 
@@ -45067,7 +44359,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_named_export(self, node)
         } else {
-            node
         }
     }
 
@@ -45075,7 +44366,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_new_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -45083,7 +44373,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_null(self, node)
         } else {
-            node
         }
     }
 
@@ -45091,7 +44380,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_number(self, node)
         } else {
-            node
         }
     }
 
@@ -45099,7 +44387,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_object_lit(self, node)
         } else {
-            node
         }
     }
 
@@ -45107,7 +44394,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_object_pat(self, node)
         } else {
-            node
         }
     }
 
@@ -45115,7 +44401,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_object_pat_prop(self, node)
         } else {
-            node
         }
     }
 
@@ -45123,7 +44408,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_object_pat_props(self, node)
         } else {
-            node
         }
     }
 
@@ -45131,7 +44415,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_opt_accessibility(self, node)
         } else {
-            node
         }
     }
 
@@ -45139,7 +44422,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_opt_atom(self, node)
         } else {
-            node
         }
     }
 
@@ -45147,7 +44429,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_opt_block_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -45155,7 +44436,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_opt_call(self, node)
         } else {
-            node
         }
     }
 
@@ -45163,7 +44443,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_opt_catch_clause(self, node)
         } else {
-            node
         }
     }
 
@@ -45171,7 +44450,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_opt_chain_base(self, node)
         } else {
-            node
         }
     }
 
@@ -45179,7 +44457,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_opt_chain_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -45187,7 +44464,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_opt_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -45195,7 +44471,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_opt_expr_or_spread(self, node)
         } else {
-            node
         }
     }
 
@@ -45203,7 +44478,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_opt_expr_or_spreads(self, node)
         } else {
-            node
         }
     }
 
@@ -45211,7 +44485,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_opt_ident(self, node)
         } else {
-            node
         }
     }
 
@@ -45219,7 +44492,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_opt_jsx_attr_value(self, node)
         } else {
-            node
         }
     }
 
@@ -45227,7 +44499,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_opt_jsx_closing_element(self, node)
         } else {
-            node
         }
     }
 
@@ -45235,7 +44506,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_opt_module_export_name(self, node)
         } else {
-            node
         }
     }
 
@@ -45243,7 +44513,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_opt_module_items(self, node)
         } else {
-            node
         }
     }
 
@@ -45251,7 +44520,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_opt_object_lit(self, node)
         } else {
-            node
         }
     }
 
@@ -45259,7 +44527,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_opt_pat(self, node)
         } else {
-            node
         }
     }
 
@@ -45267,7 +44534,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_opt_span(self, node)
         } else {
-            node
         }
     }
 
@@ -45275,7 +44541,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_opt_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -45283,7 +44548,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_opt_str(self, node)
         } else {
-            node
         }
     }
 
@@ -45291,7 +44555,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_opt_true_plus_minus(self, node)
         } else {
-            node
         }
     }
 
@@ -45299,7 +44562,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_opt_ts_entity_name(self, node)
         } else {
-            node
         }
     }
 
@@ -45307,7 +44569,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_opt_ts_namespace_body(self, node)
         } else {
-            node
         }
     }
 
@@ -45315,7 +44576,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_opt_ts_type(self, node)
         } else {
-            node
         }
     }
 
@@ -45323,7 +44583,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_opt_ts_type_ann(self, node)
         } else {
-            node
         }
     }
 
@@ -45331,7 +44590,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_opt_ts_type_param_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -45342,7 +44600,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_opt_ts_type_param_instantiation(self, node)
         } else {
-            node
         }
     }
 
@@ -45350,7 +44607,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_opt_var_decl_or_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -45358,7 +44614,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_opt_vec_expr_or_spreads(self, node)
         } else {
-            node
         }
     }
 
@@ -45366,7 +44621,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_opt_vec_pats(self, node)
         } else {
-            node
         }
     }
 
@@ -45374,7 +44628,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_param(self, node)
         } else {
-            node
         }
     }
 
@@ -45382,7 +44635,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_param_or_ts_param_prop(self, node)
         } else {
-            node
         }
     }
 
@@ -45390,7 +44642,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_param_or_ts_param_props(self, node)
         } else {
-            node
         }
     }
 
@@ -45398,7 +44649,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_params(self, node)
         } else {
-            node
         }
     }
 
@@ -45406,7 +44656,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_paren_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -45414,7 +44663,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_pat(self, node)
         } else {
-            node
         }
     }
 
@@ -45422,7 +44670,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_pats(self, node)
         } else {
-            node
         }
     }
 
@@ -45430,7 +44677,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_private_method(self, node)
         } else {
-            node
         }
     }
 
@@ -45438,7 +44684,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_private_name(self, node)
         } else {
-            node
         }
     }
 
@@ -45446,7 +44691,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_private_prop(self, node)
         } else {
-            node
         }
     }
 
@@ -45454,7 +44698,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_program(self, node)
         } else {
-            node
         }
     }
 
@@ -45462,7 +44705,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_prop(self, node)
         } else {
-            node
         }
     }
 
@@ -45470,7 +44712,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_prop_name(self, node)
         } else {
-            node
         }
     }
 
@@ -45478,7 +44719,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_prop_or_spread(self, node)
         } else {
-            node
         }
     }
 
@@ -45486,7 +44726,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_prop_or_spreads(self, node)
         } else {
-            node
         }
     }
 
@@ -45494,7 +44733,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_regex(self, node)
         } else {
-            node
         }
     }
 
@@ -45502,7 +44740,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_reserved_unused(self, node)
         } else {
-            node
         }
     }
 
@@ -45510,7 +44747,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_rest_pat(self, node)
         } else {
-            node
         }
     }
 
@@ -45518,7 +44754,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_return_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -45526,7 +44761,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_script(self, node)
         } else {
-            node
         }
     }
 
@@ -45534,7 +44768,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_seq_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -45542,7 +44775,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_setter_prop(self, node)
         } else {
-            node
         }
     }
 
@@ -45550,7 +44782,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_simple_assign_target(self, node)
         } else {
-            node
         }
     }
 
@@ -45558,7 +44789,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_span(self, node)
         } else {
-            node
         }
     }
 
@@ -45566,7 +44796,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_spread_element(self, node)
         } else {
-            node
         }
     }
 
@@ -45574,7 +44803,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_static_block(self, node)
         } else {
-            node
         }
     }
 
@@ -45582,7 +44810,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -45590,7 +44817,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_stmts(self, node)
         } else {
-            node
         }
     }
 
@@ -45598,7 +44824,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_str(self, node)
         } else {
-            node
         }
     }
 
@@ -45606,7 +44831,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_super(self, node)
         } else {
-            node
         }
     }
 
@@ -45614,7 +44838,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_super_prop(self, node)
         } else {
-            node
         }
     }
 
@@ -45622,7 +44845,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_super_prop_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -45630,7 +44852,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_switch_case(self, node)
         } else {
-            node
         }
     }
 
@@ -45638,7 +44859,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_switch_cases(self, node)
         } else {
-            node
         }
     }
 
@@ -45646,7 +44866,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_switch_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -45654,7 +44873,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_syntax_context(self, node)
         } else {
-            node
         }
     }
 
@@ -45662,7 +44880,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_tagged_tpl(self, node)
         } else {
-            node
         }
     }
 
@@ -45670,7 +44887,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_this_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -45678,7 +44894,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_throw_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -45686,7 +44901,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_tpl(self, node)
         } else {
-            node
         }
     }
 
@@ -45694,7 +44908,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_tpl_element(self, node)
         } else {
-            node
         }
     }
 
@@ -45702,7 +44915,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_tpl_elements(self, node)
         } else {
-            node
         }
     }
 
@@ -45710,7 +44922,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_true_plus_minus(self, node)
         } else {
-            node
         }
     }
 
@@ -45718,7 +44929,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_try_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -45726,7 +44936,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_array_type(self, node)
         } else {
-            node
         }
     }
 
@@ -45734,7 +44943,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_as_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -45742,7 +44950,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_call_signature_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -45750,7 +44957,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_conditional_type(self, node)
         } else {
-            node
         }
     }
 
@@ -45758,7 +44964,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_const_assertion(self, node)
         } else {
-            node
         }
     }
 
@@ -45766,7 +44971,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_construct_signature_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -45774,7 +44978,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_constructor_type(self, node)
         } else {
-            node
         }
     }
 
@@ -45782,7 +44985,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_entity_name(self, node)
         } else {
-            node
         }
     }
 
@@ -45790,7 +44992,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_enum_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -45798,7 +44999,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_enum_member(self, node)
         } else {
-            node
         }
     }
 
@@ -45806,7 +45006,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_enum_member_id(self, node)
         } else {
-            node
         }
     }
 
@@ -45814,7 +45013,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_enum_members(self, node)
         } else {
-            node
         }
     }
 
@@ -45822,7 +45020,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_export_assignment(self, node)
         } else {
-            node
         }
     }
 
@@ -45830,7 +45027,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_expr_with_type_args(self, node)
         } else {
-            node
         }
     }
 
@@ -45838,7 +45034,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_expr_with_type_argss(self, node)
         } else {
-            node
         }
     }
 
@@ -45846,7 +45041,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_external_module_ref(self, node)
         } else {
-            node
         }
     }
 
@@ -45854,7 +45048,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_fn_or_constructor_type(self, node)
         } else {
-            node
         }
     }
 
@@ -45862,7 +45055,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_fn_param(self, node)
         } else {
-            node
         }
     }
 
@@ -45870,7 +45062,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_fn_params(self, node)
         } else {
-            node
         }
     }
 
@@ -45878,7 +45069,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_fn_type(self, node)
         } else {
-            node
         }
     }
 
@@ -45886,7 +45076,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_getter_signature(self, node)
         } else {
-            node
         }
     }
 
@@ -45894,7 +45083,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_import_equals_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -45902,7 +45090,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_import_type(self, node)
         } else {
-            node
         }
     }
 
@@ -45910,7 +45097,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_index_signature(self, node)
         } else {
-            node
         }
     }
 
@@ -45918,7 +45104,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_indexed_access_type(self, node)
         } else {
-            node
         }
     }
 
@@ -45926,7 +45111,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_infer_type(self, node)
         } else {
-            node
         }
     }
 
@@ -45934,7 +45118,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_instantiation(self, node)
         } else {
-            node
         }
     }
 
@@ -45942,7 +45125,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_interface_body(self, node)
         } else {
-            node
         }
     }
 
@@ -45950,7 +45132,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_interface_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -45958,7 +45139,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_intersection_type(self, node)
         } else {
-            node
         }
     }
 
@@ -45966,7 +45146,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_keyword_type(self, node)
         } else {
-            node
         }
     }
 
@@ -45974,7 +45153,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_keyword_type_kind(self, node)
         } else {
-            node
         }
     }
 
@@ -45982,7 +45160,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_lit(self, node)
         } else {
-            node
         }
     }
 
@@ -45990,7 +45167,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_lit_type(self, node)
         } else {
-            node
         }
     }
 
@@ -45998,7 +45174,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_mapped_type(self, node)
         } else {
-            node
         }
     }
 
@@ -46006,7 +45181,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_method_signature(self, node)
         } else {
-            node
         }
     }
 
@@ -46014,7 +45188,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_module_block(self, node)
         } else {
-            node
         }
     }
 
@@ -46022,7 +45195,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_module_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -46030,7 +45202,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_module_name(self, node)
         } else {
-            node
         }
     }
 
@@ -46038,7 +45209,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_module_ref(self, node)
         } else {
-            node
         }
     }
 
@@ -46046,7 +45216,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_namespace_body(self, node)
         } else {
-            node
         }
     }
 
@@ -46054,7 +45223,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_namespace_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -46062,7 +45230,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_namespace_export_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -46070,7 +45237,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_non_null_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -46078,7 +45244,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_optional_type(self, node)
         } else {
-            node
         }
     }
 
@@ -46086,7 +45251,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_param_prop(self, node)
         } else {
-            node
         }
     }
 
@@ -46094,7 +45258,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_param_prop_param(self, node)
         } else {
-            node
         }
     }
 
@@ -46102,7 +45265,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_parenthesized_type(self, node)
         } else {
-            node
         }
     }
 
@@ -46110,7 +45272,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_property_signature(self, node)
         } else {
-            node
         }
     }
 
@@ -46118,7 +45279,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_qualified_name(self, node)
         } else {
-            node
         }
     }
 
@@ -46126,7 +45286,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_rest_type(self, node)
         } else {
-            node
         }
     }
 
@@ -46134,7 +45293,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_satisfies_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -46142,7 +45300,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_setter_signature(self, node)
         } else {
-            node
         }
     }
 
@@ -46150,7 +45307,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_this_type(self, node)
         } else {
-            node
         }
     }
 
@@ -46158,7 +45314,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_this_type_or_ident(self, node)
         } else {
-            node
         }
     }
 
@@ -46166,7 +45321,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_tpl_lit_type(self, node)
         } else {
-            node
         }
     }
 
@@ -46174,7 +45328,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_tuple_element(self, node)
         } else {
-            node
         }
     }
 
@@ -46182,7 +45335,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_tuple_elements(self, node)
         } else {
-            node
         }
     }
 
@@ -46190,7 +45342,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_tuple_type(self, node)
         } else {
-            node
         }
     }
 
@@ -46198,7 +45349,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_type(self, node)
         } else {
-            node
         }
     }
 
@@ -46206,7 +45356,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_type_alias_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -46214,7 +45363,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_type_ann(self, node)
         } else {
-            node
         }
     }
 
@@ -46222,7 +45370,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_type_assertion(self, node)
         } else {
-            node
         }
     }
 
@@ -46230,7 +45377,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_type_element(self, node)
         } else {
-            node
         }
     }
 
@@ -46238,7 +45384,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_type_elements(self, node)
         } else {
-            node
         }
     }
 
@@ -46246,7 +45391,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_type_lit(self, node)
         } else {
-            node
         }
     }
 
@@ -46254,7 +45398,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_type_operator(self, node)
         } else {
-            node
         }
     }
 
@@ -46262,7 +45405,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_type_operator_op(self, node)
         } else {
-            node
         }
     }
 
@@ -46270,7 +45412,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_type_param(self, node)
         } else {
-            node
         }
     }
 
@@ -46278,7 +45419,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_type_param_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -46286,7 +45426,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_type_param_instantiation(self, node)
         } else {
-            node
         }
     }
 
@@ -46294,7 +45433,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_type_params(self, node)
         } else {
-            node
         }
     }
 
@@ -46302,7 +45440,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_type_predicate(self, node)
         } else {
-            node
         }
     }
 
@@ -46310,7 +45447,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_type_query(self, node)
         } else {
-            node
         }
     }
 
@@ -46318,7 +45454,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_type_query_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -46326,7 +45461,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_type_ref(self, node)
         } else {
-            node
         }
     }
 
@@ -46334,7 +45468,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_types(self, node)
         } else {
-            node
         }
     }
 
@@ -46342,7 +45475,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_union_or_intersection_type(self, node)
         } else {
-            node
         }
     }
 
@@ -46350,7 +45482,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_ts_union_type(self, node)
         } else {
-            node
         }
     }
 
@@ -46358,7 +45489,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_unary_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -46366,7 +45496,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_unary_op(self, node)
         } else {
-            node
         }
     }
 
@@ -46374,7 +45503,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_update_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -46382,7 +45510,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_update_op(self, node)
         } else {
-            node
         }
     }
 
@@ -46390,7 +45517,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_using_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -46398,7 +45524,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_var_decl(self, node)
         } else {
-            node
         }
     }
 
@@ -46406,7 +45531,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_var_decl_kind(self, node)
         } else {
-            node
         }
     }
 
@@ -46414,7 +45538,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_var_decl_or_expr(self, node)
         } else {
-            node
         }
     }
 
@@ -46422,7 +45545,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_var_declarator(self, node)
         } else {
-            node
         }
     }
 
@@ -46430,7 +45552,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_var_declarators(self, node)
         } else {
-            node
         }
     }
 
@@ -46438,7 +45559,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_while_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -46446,7 +45566,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_with_stmt(self, node)
         } else {
-            node
         }
     }
 
@@ -46454,7 +45573,6 @@ where
         if self.enabled {
             VisitMut::visit_mut_yield_expr(self, node)
         } else {
-            node
         }
     }
 }
@@ -61335,7 +60453,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_accessibility(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61343,7 +60460,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_array_lit(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61351,7 +60467,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_array_pat(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61359,7 +60474,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_arrow_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61367,7 +60481,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_assign_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61375,7 +60488,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_assign_op(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61383,7 +60495,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_assign_pat(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61391,7 +60502,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_assign_pat_prop(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61399,7 +60509,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_assign_prop(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61407,7 +60516,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_assign_target(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61419,7 +60527,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_assign_target_pat(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61427,7 +60534,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_atom(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61435,7 +60541,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_auto_accessor(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61443,7 +60548,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_await_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61451,7 +60555,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_big_int(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61459,7 +60562,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_big_int_value(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61467,7 +60569,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_bin_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61475,7 +60576,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_binary_op(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61483,7 +60583,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_binding_ident(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61491,7 +60590,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_block_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61503,7 +60601,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_block_stmt_or_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61511,7 +60608,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_bool(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61519,7 +60615,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_break_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61527,7 +60622,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_call_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61535,7 +60629,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_callee(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61543,7 +60636,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_catch_clause(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61551,7 +60643,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_class(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61559,7 +60650,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_class_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61567,7 +60657,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_class_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61575,7 +60664,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_class_member(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61583,7 +60671,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_class_members(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61591,7 +60678,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_class_method(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61599,7 +60685,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_class_prop(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61611,7 +60696,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_computed_prop_name(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61619,7 +60703,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_cond_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61627,7 +60710,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_constructor(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61635,7 +60717,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_continue_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61643,7 +60724,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_debugger_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61651,7 +60731,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61659,7 +60738,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_decorator(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61667,7 +60745,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_decorators(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61675,7 +60752,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_default_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61683,7 +60759,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_do_while_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61691,7 +60766,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_empty_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61699,7 +60773,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_es_version(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61707,7 +60780,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_export_all(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61715,7 +60787,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_export_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61727,7 +60798,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_export_default_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61739,7 +60809,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_export_default_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61751,7 +60820,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_export_default_specifier(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61763,7 +60831,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_export_named_specifier(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61775,7 +60842,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_export_namespace_specifier(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61787,7 +60853,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_export_specifier(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61799,7 +60864,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_export_specifiers(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61807,7 +60871,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61815,7 +60878,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_expr_or_spread(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61827,7 +60889,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_expr_or_spreads(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61835,7 +60896,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_expr_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61843,7 +60903,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_exprs(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61851,7 +60910,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_fn_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61859,7 +60917,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_fn_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61867,7 +60924,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_for_head(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61875,7 +60931,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_for_in_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61883,7 +60938,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_for_of_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61891,7 +60945,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_for_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61899,7 +60952,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_function(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61907,7 +60959,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_getter_prop(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61915,7 +60966,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ident(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61923,7 +60973,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ident_name(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61931,7 +60980,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_if_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61939,7 +60987,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_import(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61947,7 +60994,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_import_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61959,7 +61005,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_import_default_specifier(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61971,7 +61016,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_import_named_specifier(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61979,7 +61023,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_import_phase(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -61991,7 +61034,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_import_specifier(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62003,7 +61045,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_import_specifiers(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62015,7 +61056,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_import_star_as_specifier(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62023,7 +61063,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_import_with(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62035,7 +61074,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_import_with_item(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62047,7 +61085,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_import_with_items(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62055,7 +61092,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_invalid(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62063,7 +61099,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_jsx_attr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62071,7 +61106,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_jsx_attr_name(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62083,7 +61117,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_jsx_attr_or_spread(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62095,7 +61128,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_jsx_attr_or_spreads(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62103,7 +61135,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_jsx_attr_value(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62115,7 +61146,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_jsx_closing_element(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62127,7 +61157,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_jsx_closing_fragment(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62135,7 +61164,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_jsx_element(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62147,7 +61175,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_jsx_element_child(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62159,7 +61186,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_jsx_element_childs(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62171,7 +61197,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_jsx_element_name(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62179,7 +61204,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_jsx_empty_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62187,7 +61211,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_jsx_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62199,7 +61222,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_jsx_expr_container(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62207,7 +61229,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_jsx_fragment(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62215,7 +61236,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_jsx_member_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62227,7 +61247,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_jsx_namespaced_name(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62235,7 +61254,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_jsx_object(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62247,7 +61265,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_jsx_opening_element(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62259,7 +61276,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_jsx_opening_fragment(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62271,7 +61287,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_jsx_spread_child(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62279,7 +61294,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_jsx_text(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62287,7 +61301,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_key(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62299,7 +61312,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_key_value_pat_prop(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62307,7 +61319,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_key_value_prop(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62315,7 +61326,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_labeled_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62323,7 +61333,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_lit(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62331,7 +61340,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_member_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62339,7 +61347,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_member_prop(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62347,7 +61354,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_meta_prop_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62355,7 +61361,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_meta_prop_kind(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62363,7 +61368,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_method_kind(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62371,7 +61375,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_method_prop(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62379,7 +61382,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_module(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62387,7 +61389,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_module_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62399,7 +61400,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_module_export_name(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62407,7 +61407,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_module_item(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62415,7 +61414,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_module_items(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62423,7 +61421,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_named_export(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62431,7 +61428,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_new_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62439,7 +61435,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_null(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62447,7 +61442,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_number(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62455,7 +61449,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_object_lit(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62463,7 +61456,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_object_pat(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62471,7 +61463,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_object_pat_prop(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62483,7 +61474,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_object_pat_props(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62495,7 +61485,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_opt_accessibility(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62507,7 +61496,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_opt_atom(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62519,7 +61507,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_opt_block_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62527,7 +61514,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_opt_call(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62539,7 +61525,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_opt_catch_clause(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62547,7 +61532,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_opt_chain_base(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62555,7 +61539,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_opt_chain_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62563,7 +61546,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_opt_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62575,7 +61557,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_opt_expr_or_spread(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62587,7 +61568,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_opt_expr_or_spreads(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62595,7 +61575,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_opt_ident(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62607,7 +61586,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_opt_jsx_attr_value(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62619,7 +61597,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_opt_jsx_closing_element(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62631,7 +61608,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_opt_module_export_name(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62643,7 +61619,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_opt_module_items(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62655,7 +61630,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_opt_object_lit(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62663,7 +61637,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_opt_pat(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62675,7 +61648,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_opt_span(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62683,7 +61655,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_opt_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62691,7 +61662,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_opt_str(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62703,7 +61673,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_opt_true_plus_minus(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62715,7 +61684,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_opt_ts_entity_name(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62727,7 +61695,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_opt_ts_namespace_body(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62739,7 +61706,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_opt_ts_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62751,7 +61717,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_opt_ts_type_ann(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62763,7 +61728,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_opt_ts_type_param_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62775,7 +61739,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_opt_ts_type_param_instantiation(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62787,7 +61750,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_opt_var_decl_or_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62799,7 +61761,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_opt_vec_expr_or_spreads(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62807,7 +61768,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_opt_vec_pats(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62815,7 +61775,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_param(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62827,7 +61786,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_param_or_ts_param_prop(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62839,7 +61797,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_param_or_ts_param_props(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62847,7 +61804,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_params(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62855,7 +61811,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_paren_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62863,7 +61818,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_pat(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62871,7 +61825,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_pats(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62879,7 +61832,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_private_method(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62887,7 +61839,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_private_name(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62895,7 +61846,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_private_prop(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62903,7 +61853,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_program(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62911,7 +61860,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_prop(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62919,7 +61867,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_prop_name(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62927,7 +61874,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_prop_or_spread(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62939,7 +61885,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_prop_or_spreads(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62947,7 +61892,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_regex(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62955,7 +61899,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_reserved_unused(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62963,7 +61906,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_rest_pat(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62971,7 +61913,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_return_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62979,7 +61920,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_script(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62987,7 +61927,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_seq_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -62995,7 +61934,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_setter_prop(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63007,7 +61945,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_simple_assign_target(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63015,7 +61952,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_span(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63023,7 +61959,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_spread_element(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63031,7 +61966,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_static_block(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63039,7 +61973,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63047,7 +61980,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_stmts(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63055,7 +61987,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_str(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63063,7 +61994,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_super(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63071,7 +62001,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_super_prop(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63079,7 +62008,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_super_prop_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63087,7 +62015,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_switch_case(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63095,7 +62022,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_switch_cases(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63103,7 +62029,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_switch_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63115,7 +62040,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_syntax_context(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63123,7 +62047,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_tagged_tpl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63131,7 +62054,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_this_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63139,7 +62061,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_throw_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63147,7 +62068,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_tpl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63155,7 +62075,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_tpl_element(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63163,7 +62082,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_tpl_elements(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63171,7 +62089,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_true_plus_minus(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63179,7 +62096,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_try_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63187,7 +62103,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_array_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63195,7 +62110,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_as_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63207,7 +62121,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_call_signature_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63219,7 +62132,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_conditional_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63231,7 +62143,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_const_assertion(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63243,7 +62154,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_construct_signature_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63255,7 +62165,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_constructor_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63263,7 +62172,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_entity_name(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63271,7 +62179,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_enum_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63279,7 +62186,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_enum_member(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63291,7 +62197,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_enum_member_id(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63303,7 +62208,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_enum_members(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63315,7 +62219,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_export_assignment(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63327,7 +62230,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_expr_with_type_args(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63339,7 +62241,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_expr_with_type_argss(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63351,7 +62252,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_external_module_ref(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63363,7 +62263,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_fn_or_constructor_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63371,7 +62270,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_fn_param(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63379,7 +62277,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_fn_params(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63387,7 +62284,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_fn_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63399,7 +62295,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_getter_signature(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63411,7 +62306,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_import_equals_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63419,7 +62313,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_import_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63431,7 +62324,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_index_signature(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63443,7 +62335,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_indexed_access_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63451,7 +62342,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_infer_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63463,7 +62353,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_instantiation(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63475,7 +62364,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_interface_body(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63487,7 +62375,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_interface_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63499,7 +62386,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_intersection_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63507,7 +62393,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_keyword_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63519,7 +62404,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_keyword_type_kind(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63527,7 +62411,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_lit(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63535,7 +62418,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_lit_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63543,7 +62425,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_mapped_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63555,7 +62436,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_method_signature(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63563,7 +62443,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_module_block(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63571,7 +62450,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_module_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63579,7 +62457,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_module_name(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63587,7 +62464,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_module_ref(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63599,7 +62475,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_namespace_body(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63611,7 +62486,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_namespace_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63623,7 +62497,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_namespace_export_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63631,7 +62504,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_non_null_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63643,7 +62515,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_optional_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63651,7 +62522,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_param_prop(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63663,7 +62533,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_param_prop_param(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63675,7 +62544,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_parenthesized_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63687,7 +62555,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_property_signature(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63699,7 +62566,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_qualified_name(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63707,7 +62573,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_rest_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63719,7 +62584,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_satisfies_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63731,7 +62595,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_setter_signature(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63739,7 +62602,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_this_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63751,7 +62613,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_this_type_or_ident(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63759,7 +62620,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_tpl_lit_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63771,7 +62631,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_tuple_element(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63783,7 +62642,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_tuple_elements(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63791,7 +62649,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_tuple_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63799,7 +62656,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63811,7 +62667,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_type_alias_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63819,7 +62674,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_type_ann(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63831,7 +62685,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_type_assertion(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63839,7 +62692,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_type_element(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63851,7 +62703,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_type_elements(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63859,7 +62710,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_type_lit(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63871,7 +62721,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_type_operator(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63883,7 +62732,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_type_operator_op(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63891,7 +62739,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_type_param(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63903,7 +62750,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_type_param_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63915,7 +62761,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_type_param_instantiation(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63927,7 +62772,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_type_params(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63939,7 +62783,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_type_predicate(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63947,7 +62790,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_type_query(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63959,7 +62801,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_type_query_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63967,7 +62808,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_type_ref(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63975,7 +62815,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_types(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63987,7 +62826,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_union_or_intersection_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -63995,7 +62833,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_ts_union_type(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -64003,7 +62840,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_unary_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -64011,7 +62847,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_unary_op(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -64019,7 +62854,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_update_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -64027,7 +62861,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_update_op(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -64035,7 +62868,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_using_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -64043,7 +62875,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_var_decl(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -64051,7 +62882,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_var_decl_kind(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -64059,7 +62889,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_var_decl_or_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -64067,7 +62896,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_var_declarator(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -64079,7 +62907,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_var_declarators(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -64087,7 +62914,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_while_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -64095,7 +62921,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_with_stmt(self, node, ast_path)
         } else {
-            node
         }
     }
 
@@ -64103,7 +62928,6 @@ where
         if self.enabled {
             VisitMutAstPath::visit_mut_yield_expr(self, node, ast_path)
         } else {
-            node
         }
     }
 }

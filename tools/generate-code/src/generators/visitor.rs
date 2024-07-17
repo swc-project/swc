@@ -503,12 +503,17 @@ impl Generator<'_> {
                 }
             ));
 
+            let else_block = if self.kind == TraitKind::Fold {
+                quote!(node)
+            } else {
+                quote!()
+            };
             optional_impl_methods.push(parse_quote!(
                 fn #visit_method_name #lifetime (&mut self, node: #type_param #ast_path_params) #return_type {
                     if self.enabled {
                         #trait_name::#visit_method_name(self, node #ast_path_arg)
                     } else {
-                        node
+                        #else_block
                     }
                 }
             ));
