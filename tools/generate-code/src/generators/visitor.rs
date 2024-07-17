@@ -802,7 +802,7 @@ impl Generator {
                         && self.variant == Variant::AstPath
                         && !self.should_skip(ty)
                     {
-                        let mut kind = quote!(#fields_enum_name::#field_variant);
+                        let mut kind = quote!(self::fields::#fields_enum_name::#field_variant);
 
                         if extract_vec(ty).is_some() {
                             kind = quote!(#kind(usize::MAX));
