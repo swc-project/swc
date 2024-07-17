@@ -111,8 +111,8 @@ fn run_visitor_codegen(input_dir: &Path, output: &Path, excludes: &[String]) -> 
 #[test]
 fn test_ecmascript() {
     run_visitor_codegen(
-        Path::new("./crates/swc_ecma_ast"),
-        Path::new("./crates/swc_ecma_visit/src/generated.rs"),
+        Path::new("../../crates/swc_ecma_ast"),
+        Path::new("../../crates/swc_ecma_visit/src/generated.rs"),
         &["Align64".into(), "EncodeBigInt".into()],
     )
     .unwrap();
@@ -121,8 +121,8 @@ fn test_ecmascript() {
 #[test]
 fn test_css() {
     run_visitor_codegen(
-        Path::new("./crates/swc_css_ast"),
-        Path::new("./crates/swc_css_visit/src/generated.rs"),
+        Path::new("../../crates/swc_css_ast"),
+        Path::new("../../crates/swc_css_visit/src/generated.rs"),
         &[],
     )
     .unwrap();
@@ -131,8 +131,8 @@ fn test_css() {
 #[test]
 fn test_html() {
     run_visitor_codegen(
-        Path::new("./crates/swc_html_ast"),
-        Path::new("./crates/swc_html_visit/src/generated.rs"),
+        Path::new("../../crates/swc_html_ast"),
+        Path::new("../../crates/swc_html_visit/src/generated.rs"),
         &[],
     )
     .unwrap();
@@ -141,8 +141,8 @@ fn test_html() {
 #[test]
 fn test_xml() {
     run_visitor_codegen(
-        Path::new("./crates/swc_xml_ast"),
-        Path::new("./crates/swc_xml_visit/src/generated.rs"),
+        Path::new("../../crates/swc_xml_ast"),
+        Path::new("../../crates/swc_xml_visit/src/generated.rs"),
         &[],
     )
     .unwrap();
