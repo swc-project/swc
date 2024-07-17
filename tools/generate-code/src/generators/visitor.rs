@@ -2,7 +2,7 @@ use std::collections::HashSet;
 
 use inflector::Inflector;
 use proc_macro2::{Span, TokenStream};
-use quote::quote;
+use quote::{quote, ToTokens};
 use syn::{
     parse_quote, Arm, Attribute, Expr, Field, Fields, File, GenericArgument, Ident, Item, Lit,
     LitInt, PathArguments, Stmt, TraitItem, Type,
@@ -60,6 +60,36 @@ pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
 enum FieldType {
     Normal(String),
     Generic(String, Box<FieldType>),
+}
+
+impl ToTokens for FieldType {
+    fn to_tokens(&self, tokens: &mut TokenStream) {
+        match self {
+            FieldType::Normal(name) => {
+                let name = Ident::new(name, Span::call_site());
+                name.to_tokens(tokens);
+            }
+            FieldType::Generic(name, ty) => {
+                let name = Ident::new(name, Span::call_site());
+                let ty = &**ty;
+                quote!(#name<#ty>).to_tokens(tokens);
+            }
+        }
+    }
+}
+
+impl FieldType {
+    pub fn method_name(&self) -> String {
+        match self {
+            FieldType::Normal(name) => name.to_string().to_snake_case(),
+            FieldType::Generic(name, ty) => match &**name {
+                "Option" => format!("opt_{}", ty.method_name()),
+                "Vec" => format!("{}s", ty.method_name()),
+                "Box" => ty.method_name(),
+                _ => todo!("method_name for generic type: {}", name),
+            },
+        }
+    }
 }
 
 /// Leaf types has a visitor method but does not have any children.
@@ -318,10 +348,14 @@ impl Generator<'_> {
         let mut trait_methods: Vec<TraitItem> = vec![];
 
         let mut all_types = all_field_types(node_types).into_iter().collect::<Vec<_>>();
-        all_types.sort();
+        all_types.sort_by_cached_key(|v| v.method_name());
         for ty in all_types {
-            let type_name = Ident::new(&ty, Span::call_site());
-
+            if let FieldType::Generic(name, ..) = &ty {
+                if name == "Box" {
+                    continue;
+                }
+            }
+            let type_name = quote!(#ty);
             let return_type = self.return_type_token(quote!(#type_name));
             let type_param = self.parameter_type_token(quote!(#type_name));
 
@@ -329,7 +363,7 @@ impl Generator<'_> {
                 &format!(
                     "{}_{}{}",
                     self.kind.method_prefix(),
-                    type_name.to_string().to_snake_case(),
+                    ty.method_name(),
                     self.variant.method_suffix(true)
                 ),
                 Span::call_site(),
