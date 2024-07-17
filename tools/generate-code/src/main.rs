@@ -22,20 +22,23 @@ struct CliArgs {
 }
 
 fn main() -> Result<()> {
-    let CliArgs {
-        mut input_dir,
-        output,
-    } = CliArgs::parse();
+    let CliArgs { input_dir, output } = CliArgs::parse();
+
+    run_visitor_codegen(&input_dir, &output)?;
+
+    Ok(())
+}
+
+fn run_visitor_codegen(input_dir: &Path, output: &Path) -> Result<()> {
+    let input_dir = input_dir
+        .canonicalize()
+        .context("faield to canonicalize input directory")?
+        .join("src");
 
     let crate_name = Ident::new(
         input_dir.file_name().unwrap().to_str().unwrap(),
         Span::call_site(),
     );
-
-    input_dir = input_dir
-        .canonicalize()
-        .context("faield to canonicalize input directory")?
-        .join("src");
 
     eprintln!("Generating visitor for crate in directory: {:?}", input_dir);
     let input_files = collect_input_files(&input_dir)?;
