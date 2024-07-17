@@ -158,7 +158,30 @@ fn to_field_ty(ty: &Type) -> Option<FieldType> {
             let last = p.path.segments.last().unwrap();
 
             if last.arguments.is_empty() {
-                return Some(FieldType::Normal(last.ident.to_string()));
+                let i = &last.ident;
+
+                if i == "bool"
+                    || i == "char"
+                    || i == "f32"
+                    || i == "f64"
+                    || i == "i8"
+                    || i == "i16"
+                    || i == "i32"
+                    || i == "i64"
+                    || i == "i128"
+                    || i == "isize"
+                    || i == "str"
+                    || i == "u8"
+                    || i == "u16"
+                    || i == "u32"
+                    || i == "u64"
+                    || i == "u128"
+                    || i == "usize"
+                {
+                    return None;
+                }
+
+                return Some(FieldType::Normal(i.to_string()));
             }
 
             match &last.arguments {
@@ -670,16 +693,16 @@ impl Generator<'_> {
         let visitor_trait_name = self.trait_name(false);
         let trait_name = self.trait_name(true);
         let attrs = self.base_trait_attrs();
+        let lifetime = self.method_lifetime();
+        let ast_path_arg = self.arg_extra_token();
+        let ast_path_param = self.param_extra_token();
+        let return_type = self.return_type_token(quote!(Self));
+
+        let receiver = self.parameter_type_token(quote!(self));
 
         let mut items: Vec<Item> = vec![];
 
         for node_type in non_leaf_types {
-            let lifetime = self.method_lifetime();
-            let ast_path_arg = self.arg_extra_token();
-            let ast_path_param = self.param_extra_token();
-            let return_type = self.return_type_token(quote!(Self));
-
-            let receiver = self.parameter_type_token(quote!(self));
             let visit_with_name = Ident::new(
                 &format!(
                     "{}_with{}",
@@ -701,7 +724,7 @@ impl Generator<'_> {
                 &format!(
                     "{}_{}{}",
                     self.kind.method_prefix(),
-                    type_name.to_string().to_snake_case(),
+                    node_type.method_name(),
                     self.variant.method_suffix(true)
                 ),
                 Span::call_site(),
@@ -713,32 +736,98 @@ impl Generator<'_> {
             ));
 
             let default_body: Expr = match node_type {
-                Item::Enum(data) => {
-                    let name = &data.ident;
-                    let mut match_arms = vec![];
+                FieldType::Normal(..) => continue,
 
-                    for v in &data.variants {
-                        let variant_name = &v.ident;
+                FieldType::Generic(name, inner) => match &**name {
+                    "Vec" => {
+                        let inner = inner.as_ref();
+                        let inner_ty = quote!(#inner);
 
-                        match_arms
-                            .push(self.default_visit_body(quote!(#name::#variant_name), &v.fields));
+                        match self.kind {
+                            TraitKind::Visit => {
+                                parse_quote!(self.iter().for_each(|item| {
+                                    <V as #visitor_trait_name>::#visit_method_name(visitor, item #ast_path_arg)
+                                }))
+                            }
+                            TraitKind::VisitMut => {
+                                parse_quote!(
+                                    self.iter_mut().for_each(|item| {
+                                        <V as #visitor_trait_name>::#visit_method_name(visitor, item #ast_path_arg)
+                                    })
+                                )
+                            }
+                            TraitKind::Fold => {
+                                parse_quote!(
+                                    self.into_iter().map(|item| {
+                                        <V as #visitor_trait_name>::#visit_method_name(visitor, item #ast_path_arg)
+                                    }).collect()
+                                )
+                            }
+                        }
                     }
+                    "Option" => {
+                        let inner = inner.as_ref();
+                        let inner_ty = quote!(#inner);
 
-                    parse_quote!(match self { #(#match_arms)* })
-                }
-                Item::Struct(data) => {
-                    let name = &data.ident;
+                        match self.kind {
+                            TraitKind::Visit => {
+                                parse_quote!({
+                                    match self {
+                                        Some(inner) => {
+                                            <V as #visitor_trait_name>::#visit_method_name(visitor, inner #ast_path_arg)
+                                        }
+                                        None => {}
+                                    }
+                                })
+                            }
+                            TraitKind::VisitMut => {
+                                parse_quote!({
+                                    match self {
+                                        Some(inner) => {
+                                            <V as #visitor_trait_name>::#visit_method_name(visitor, inner #ast_path_arg)
+                                        }
+                                        None => {}
+                                    }
+                                })
+                            }
+                            TraitKind::Fold => {
+                                parse_quote!({
+                                    self.map(|inner| {
+                                        <V as #visitor_trait_name>::#visit_method_name(visitor, inner #ast_path_arg)
+                                    })
+                                })
+                            }
+                        }
+                    }
+                    "Box" => {
+                        let inner = inner.as_ref();
+                        let inner_ty = quote!(#inner);
 
-                    let arm = self.default_visit_body(quote!(#name), &data.fields);
-
-                    parse_quote!(match self { #arm })
-                }
-                _ => continue,
+                        match self.kind {
+                            TraitKind::Visit => {
+                                parse_quote!({
+                                    <V as #visitor_trait_name>::#visit_method_name(visitor, &**self #ast_path_arg)
+                                })
+                            }
+                            TraitKind::VisitMut => {
+                                parse_quote!({
+                                    <V as #visitor_trait_name>::#visit_method_name(visitor, &mut **self #ast_path_arg)
+                                })
+                            }
+                            TraitKind::Fold => {
+                                parse_quote!({
+                                    Box::new(<V as #visitor_trait_name>::#visit_method_name(visitor, *self #ast_path_arg))
+                                })
+                            }
+                        }
+                    }
+                    _ => unreachable!("unexpected generic type: {}", name),
+                },
             };
 
             items.push(parse_quote!(
                 #(#attrs)*
-                impl<V: ?Sized + #visitor_trait_name> #trait_name<V> for #type_name {
+                impl<V: ?Sized + #visitor_trait_name> #trait_name<V> for #node_type {
                     #visit_with_doc
                     fn #visit_with_name #lifetime (#receiver, visitor: &mut V #ast_path_param) #return_type {
                         <V as #visitor_trait_name>::#visit_method_name(visitor, self #ast_path_arg)
