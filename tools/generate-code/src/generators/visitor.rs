@@ -1315,6 +1315,8 @@ fn define_fields(node_types: &[&Item]) -> Vec<Item> {
                             pub(crate) fn set_index(&mut self, index: usize) {
                                 match self {
                                     #(#set_index_arms)*
+
+                                    _ => {}
                                 }
                             }
                         }
