@@ -742,9 +742,10 @@ impl Generator<'_> {
                     }
                 }
             }
-            Fields::Unit => {
-                parse_quote!(#path => {},)
-            }
+            Fields::Unit => match self.kind {
+                TraitKind::Visit | TraitKind::VisitMut => parse_quote!(#path => {}),
+                TraitKind::Fold => parse_quote!(#path => #path,),
+            },
         }
     }
 

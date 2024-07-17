@@ -87,16 +87,16 @@ pub trait Visit {
     fn visit_await_expr(&mut self, node: &AwaitExpr) {
         <AwaitExpr as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Visit a node of type `BigInt`.\n\nBy default, this method calls \
+             [`BigInt::visit_children_with`]. If you want to recurse, you need to call it manually."]
+    fn visit_big_int(&mut self, node: &BigInt) {
+        <BigInt as VisitWith<Self>>::visit_children_with(node, self)
+    }
     #[doc = "Visit a node of type `num_bigint :: BigInt`.\n\nBy default, this method calls \
              [`num_bigint :: BigInt::visit_children_with`]. If you want to recurse, you need to \
              call it manually."]
     fn visit_big_int(&mut self, node: &num_bigint::BigInt) {
         <num_bigint::BigInt as VisitWith<Self>>::visit_children_with(node, self)
-    }
-    #[doc = "Visit a node of type `BigInt`.\n\nBy default, this method calls \
-             [`BigInt::visit_children_with`]. If you want to recurse, you need to call it manually."]
-    fn visit_big_int(&mut self, node: &BigInt) {
-        <BigInt as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `BigIntValue`.\n\nBy default, this method calls \
              [`BigIntValue::visit_children_with`]. If you want to recurse, you need to call it \
@@ -7380,6 +7380,12 @@ pub trait VisitAstPath {
     ) {
         <AwaitExpr as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
     }
+    #[doc = "Visit a node of type `BigInt`.\n\nBy default, this method calls \
+             [`BigInt::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
+             manually."]
+    fn visit_big_int<'ast: 'r, 'r>(&mut self, node: &'ast BigInt, ast_path: &mut AstNodePath<'r>) {
+        <BigInt as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
+    }
     #[doc = "Visit a node of type `num_bigint :: BigInt`.\n\nBy default, this method calls \
              [`num_bigint :: BigInt::visit_children_with_ast_path`]. If you want to recurse, you \
              need to call it manually."]
@@ -7391,12 +7397,6 @@ pub trait VisitAstPath {
         <num_bigint::BigInt as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, ast_path,
         )
-    }
-    #[doc = "Visit a node of type `BigInt`.\n\nBy default, this method calls \
-             [`BigInt::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
-             manually."]
-    fn visit_big_int<'ast: 'r, 'r>(&mut self, node: &'ast BigInt, ast_path: &mut AstNodePath<'r>) {
-        <BigInt as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, ast_path)
     }
     #[doc = "Visit a node of type `BigIntValue`.\n\nBy default, this method calls \
              [`BigIntValue::visit_children_with_ast_path`]. If you want to recurse, you need to \
@@ -19918,17 +19918,17 @@ pub trait VisitMut {
     fn visit_mut_await_expr(&mut self, node: &mut AwaitExpr) {
         <AwaitExpr as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
-    #[doc = "Visit a node of type `num_bigint :: BigInt`.\n\nBy default, this method calls \
-             [`num_bigint :: BigInt::visit_mut_children_with`]. If you want to recurse, you need \
-             to call it manually."]
-    fn visit_mut_big_int(&mut self, node: &mut num_bigint::BigInt) {
-        <num_bigint::BigInt as VisitMutWith<Self>>::visit_mut_children_with(node, self)
-    }
     #[doc = "Visit a node of type `BigInt`.\n\nBy default, this method calls \
              [`BigInt::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
     fn visit_mut_big_int(&mut self, node: &mut BigInt) {
         <BigInt as VisitMutWith<Self>>::visit_mut_children_with(node, self)
+    }
+    #[doc = "Visit a node of type `num_bigint :: BigInt`.\n\nBy default, this method calls \
+             [`num_bigint :: BigInt::visit_mut_children_with`]. If you want to recurse, you need \
+             to call it manually."]
+    fn visit_mut_big_int(&mut self, node: &mut num_bigint::BigInt) {
+        <num_bigint::BigInt as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `BigIntValue`.\n\nBy default, this method calls \
              [`BigIntValue::visit_mut_children_with`]. If you want to recurse, you need to call it \
@@ -27246,19 +27246,19 @@ pub trait VisitMutAstPath {
             node, self, ast_path,
         )
     }
-    #[doc = "Visit a node of type `num_bigint :: BigInt`.\n\nBy default, this method calls \
-             [`num_bigint :: BigInt::visit_mut_children_with_ast_path`]. If you want to recurse, \
-             you need to call it manually."]
-    fn visit_mut_big_int(&mut self, node: &mut num_bigint::BigInt, ast_path: &mut AstKindPath) {
-        <num_bigint::BigInt as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
-            node, self, ast_path,
-        )
-    }
     #[doc = "Visit a node of type `BigInt`.\n\nBy default, this method calls \
              [`BigInt::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
     fn visit_mut_big_int(&mut self, node: &mut BigInt, ast_path: &mut AstKindPath) {
         <BigInt as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
+            node, self, ast_path,
+        )
+    }
+    #[doc = "Visit a node of type `num_bigint :: BigInt`.\n\nBy default, this method calls \
+             [`num_bigint :: BigInt::visit_mut_children_with_ast_path`]. If you want to recurse, \
+             you need to call it manually."]
+    fn visit_mut_big_int(&mut self, node: &mut num_bigint::BigInt, ast_path: &mut AstKindPath) {
+        <num_bigint::BigInt as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, ast_path,
         )
     }
@@ -37234,16 +37234,16 @@ pub trait Fold {
     fn fold_await_expr(&mut self, node: AwaitExpr) -> AwaitExpr {
         <AwaitExpr as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Visit a node of type `BigInt`.\n\nBy default, this method calls \
+             [`BigInt::fold_children_with`]. If you want to recurse, you need to call it manually."]
+    fn fold_big_int(&mut self, node: BigInt) -> BigInt {
+        <BigInt as FoldWith<Self>>::fold_children_with(node, self)
+    }
     #[doc = "Visit a node of type `num_bigint :: BigInt`.\n\nBy default, this method calls \
              [`num_bigint :: BigInt::fold_children_with`]. If you want to recurse, you need to \
              call it manually."]
     fn fold_big_int(&mut self, node: num_bigint::BigInt) -> num_bigint::BigInt {
         <num_bigint::BigInt as FoldWith<Self>>::fold_children_with(node, self)
-    }
-    #[doc = "Visit a node of type `BigInt`.\n\nBy default, this method calls \
-             [`BigInt::fold_children_with`]. If you want to recurse, you need to call it manually."]
-    fn fold_big_int(&mut self, node: BigInt) -> BigInt {
-        <BigInt as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `BigIntValue`.\n\nBy default, this method calls \
              [`BigIntValue::fold_children_with`]. If you want to recurse, you need to call it \
@@ -38946,9 +38946,9 @@ impl<V: ?Sized + Fold> FoldWith<V> for Accessibility {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            Accessibility::Public => {}
-            Accessibility::Protected => {}
-            Accessibility::Private => {}
+            Accessibility::Public => Accessibility::Public,
+            Accessibility::Protected => Accessibility::Protected,
+            Accessibility::Private => Accessibility::Private,
         }
     }
 }
@@ -39067,22 +39067,22 @@ impl<V: ?Sized + Fold> FoldWith<V> for AssignOp {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            AssignOp::Assign => {}
-            AssignOp::AddAssign => {}
-            AssignOp::SubAssign => {}
-            AssignOp::MulAssign => {}
-            AssignOp::DivAssign => {}
-            AssignOp::ModAssign => {}
-            AssignOp::LShiftAssign => {}
-            AssignOp::RShiftAssign => {}
-            AssignOp::ZeroFillRShiftAssign => {}
-            AssignOp::BitOrAssign => {}
-            AssignOp::BitXorAssign => {}
-            AssignOp::BitAndAssign => {}
-            AssignOp::ExpAssign => {}
-            AssignOp::AndAssign => {}
-            AssignOp::OrAssign => {}
-            AssignOp::NullishAssign => {}
+            AssignOp::Assign => AssignOp::Assign,
+            AssignOp::AddAssign => AssignOp::AddAssign,
+            AssignOp::SubAssign => AssignOp::SubAssign,
+            AssignOp::MulAssign => AssignOp::MulAssign,
+            AssignOp::DivAssign => AssignOp::DivAssign,
+            AssignOp::ModAssign => AssignOp::ModAssign,
+            AssignOp::LShiftAssign => AssignOp::LShiftAssign,
+            AssignOp::RShiftAssign => AssignOp::RShiftAssign,
+            AssignOp::ZeroFillRShiftAssign => AssignOp::ZeroFillRShiftAssign,
+            AssignOp::BitOrAssign => AssignOp::BitOrAssign,
+            AssignOp::BitXorAssign => AssignOp::BitXorAssign,
+            AssignOp::BitAndAssign => AssignOp::BitAndAssign,
+            AssignOp::ExpAssign => AssignOp::ExpAssign,
+            AssignOp::AndAssign => AssignOp::AndAssign,
+            AssignOp::OrAssign => AssignOp::OrAssign,
+            AssignOp::NullishAssign => AssignOp::NullishAssign,
         }
     }
 }
@@ -39281,31 +39281,31 @@ impl<V: ?Sized + Fold> FoldWith<V> for BinaryOp {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            BinaryOp::EqEq => {}
-            BinaryOp::NotEq => {}
-            BinaryOp::EqEqEq => {}
-            BinaryOp::NotEqEq => {}
-            BinaryOp::Lt => {}
-            BinaryOp::LtEq => {}
-            BinaryOp::Gt => {}
-            BinaryOp::GtEq => {}
-            BinaryOp::LShift => {}
-            BinaryOp::RShift => {}
-            BinaryOp::ZeroFillRShift => {}
-            BinaryOp::Add => {}
-            BinaryOp::Sub => {}
-            BinaryOp::Mul => {}
-            BinaryOp::Div => {}
-            BinaryOp::Mod => {}
-            BinaryOp::BitOr => {}
-            BinaryOp::BitXor => {}
-            BinaryOp::BitAnd => {}
-            BinaryOp::LogicalOr => {}
-            BinaryOp::LogicalAnd => {}
-            BinaryOp::In => {}
-            BinaryOp::InstanceOf => {}
-            BinaryOp::Exp => {}
-            BinaryOp::NullishCoalescing => {}
+            BinaryOp::EqEq => BinaryOp::EqEq,
+            BinaryOp::NotEq => BinaryOp::NotEq,
+            BinaryOp::EqEqEq => BinaryOp::EqEqEq,
+            BinaryOp::NotEqEq => BinaryOp::NotEqEq,
+            BinaryOp::Lt => BinaryOp::Lt,
+            BinaryOp::LtEq => BinaryOp::LtEq,
+            BinaryOp::Gt => BinaryOp::Gt,
+            BinaryOp::GtEq => BinaryOp::GtEq,
+            BinaryOp::LShift => BinaryOp::LShift,
+            BinaryOp::RShift => BinaryOp::RShift,
+            BinaryOp::ZeroFillRShift => BinaryOp::ZeroFillRShift,
+            BinaryOp::Add => BinaryOp::Add,
+            BinaryOp::Sub => BinaryOp::Sub,
+            BinaryOp::Mul => BinaryOp::Mul,
+            BinaryOp::Div => BinaryOp::Div,
+            BinaryOp::Mod => BinaryOp::Mod,
+            BinaryOp::BitOr => BinaryOp::BitOr,
+            BinaryOp::BitXor => BinaryOp::BitXor,
+            BinaryOp::BitAnd => BinaryOp::BitAnd,
+            BinaryOp::LogicalOr => BinaryOp::LogicalOr,
+            BinaryOp::LogicalAnd => BinaryOp::LogicalAnd,
+            BinaryOp::In => BinaryOp::In,
+            BinaryOp::InstanceOf => BinaryOp::InstanceOf,
+            BinaryOp::Exp => BinaryOp::Exp,
+            BinaryOp::NullishCoalescing => BinaryOp::NullishCoalescing,
         }
     }
 }
@@ -39857,17 +39857,17 @@ impl<V: ?Sized + Fold> FoldWith<V> for EsVersion {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            EsVersion::Es3 => {}
-            EsVersion::Es5 => {}
-            EsVersion::Es2015 => {}
-            EsVersion::Es2016 => {}
-            EsVersion::Es2017 => {}
-            EsVersion::Es2018 => {}
-            EsVersion::Es2019 => {}
-            EsVersion::Es2020 => {}
-            EsVersion::Es2021 => {}
-            EsVersion::Es2022 => {}
-            EsVersion::EsNext => {}
+            EsVersion::Es3 => EsVersion::Es3,
+            EsVersion::Es5 => EsVersion::Es5,
+            EsVersion::Es2015 => EsVersion::Es2015,
+            EsVersion::Es2016 => EsVersion::Es2016,
+            EsVersion::Es2017 => EsVersion::Es2017,
+            EsVersion::Es2018 => EsVersion::Es2018,
+            EsVersion::Es2019 => EsVersion::Es2019,
+            EsVersion::Es2020 => EsVersion::Es2020,
+            EsVersion::Es2021 => EsVersion::Es2021,
+            EsVersion::Es2022 => EsVersion::Es2022,
+            EsVersion::EsNext => EsVersion::EsNext,
         }
     }
 }
@@ -40594,9 +40594,9 @@ impl<V: ?Sized + Fold> FoldWith<V> for ImportPhase {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            ImportPhase::Evaluation => {}
-            ImportPhase::Source => {}
-            ImportPhase::Defer => {}
+            ImportPhase::Evaluation => ImportPhase::Evaluation,
+            ImportPhase::Source => ImportPhase::Source,
+            ImportPhase::Defer => ImportPhase::Defer,
         }
     }
 }
@@ -41231,8 +41231,8 @@ impl<V: ?Sized + Fold> FoldWith<V> for MetaPropKind {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            MetaPropKind::NewTarget => {}
-            MetaPropKind::ImportMeta => {}
+            MetaPropKind::NewTarget => MetaPropKind::NewTarget,
+            MetaPropKind::ImportMeta => MetaPropKind::ImportMeta,
         }
     }
 }
@@ -41244,9 +41244,9 @@ impl<V: ?Sized + Fold> FoldWith<V> for MethodKind {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            MethodKind::Method => {}
-            MethodKind::Getter => {}
-            MethodKind::Setter => {}
+            MethodKind::Method => MethodKind::Method,
+            MethodKind::Getter => MethodKind::Getter,
+            MethodKind::Setter => MethodKind::Setter,
         }
     }
 }
@@ -42379,9 +42379,9 @@ impl<V: ?Sized + Fold> FoldWith<V> for TruePlusMinus {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            TruePlusMinus::True => {}
-            TruePlusMinus::Plus => {}
-            TruePlusMinus::Minus => {}
+            TruePlusMinus::True => TruePlusMinus::True,
+            TruePlusMinus::Plus => TruePlusMinus::Plus,
+            TruePlusMinus::Minus => TruePlusMinus::Minus,
         }
     }
 }
@@ -43062,19 +43062,19 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsKeywordTypeKind {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            TsKeywordTypeKind::TsAnyKeyword => {}
-            TsKeywordTypeKind::TsUnknownKeyword => {}
-            TsKeywordTypeKind::TsNumberKeyword => {}
-            TsKeywordTypeKind::TsObjectKeyword => {}
-            TsKeywordTypeKind::TsBooleanKeyword => {}
-            TsKeywordTypeKind::TsBigIntKeyword => {}
-            TsKeywordTypeKind::TsStringKeyword => {}
-            TsKeywordTypeKind::TsSymbolKeyword => {}
-            TsKeywordTypeKind::TsVoidKeyword => {}
-            TsKeywordTypeKind::TsUndefinedKeyword => {}
-            TsKeywordTypeKind::TsNullKeyword => {}
-            TsKeywordTypeKind::TsNeverKeyword => {}
-            TsKeywordTypeKind::TsIntrinsicKeyword => {}
+            TsKeywordTypeKind::TsAnyKeyword => TsKeywordTypeKind::TsAnyKeyword,
+            TsKeywordTypeKind::TsUnknownKeyword => TsKeywordTypeKind::TsUnknownKeyword,
+            TsKeywordTypeKind::TsNumberKeyword => TsKeywordTypeKind::TsNumberKeyword,
+            TsKeywordTypeKind::TsObjectKeyword => TsKeywordTypeKind::TsObjectKeyword,
+            TsKeywordTypeKind::TsBooleanKeyword => TsKeywordTypeKind::TsBooleanKeyword,
+            TsKeywordTypeKind::TsBigIntKeyword => TsKeywordTypeKind::TsBigIntKeyword,
+            TsKeywordTypeKind::TsStringKeyword => TsKeywordTypeKind::TsStringKeyword,
+            TsKeywordTypeKind::TsSymbolKeyword => TsKeywordTypeKind::TsSymbolKeyword,
+            TsKeywordTypeKind::TsVoidKeyword => TsKeywordTypeKind::TsVoidKeyword,
+            TsKeywordTypeKind::TsUndefinedKeyword => TsKeywordTypeKind::TsUndefinedKeyword,
+            TsKeywordTypeKind::TsNullKeyword => TsKeywordTypeKind::TsNullKeyword,
+            TsKeywordTypeKind::TsNeverKeyword => TsKeywordTypeKind::TsNeverKeyword,
+            TsKeywordTypeKind::TsIntrinsicKeyword => TsKeywordTypeKind::TsIntrinsicKeyword,
         }
     }
 }
@@ -43871,9 +43871,9 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsTypeOperatorOp {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            TsTypeOperatorOp::KeyOf => {}
-            TsTypeOperatorOp::Unique => {}
-            TsTypeOperatorOp::ReadOnly => {}
+            TsTypeOperatorOp::KeyOf => TsTypeOperatorOp::KeyOf,
+            TsTypeOperatorOp::Unique => TsTypeOperatorOp::Unique,
+            TsTypeOperatorOp::ReadOnly => TsTypeOperatorOp::ReadOnly,
         }
     }
 }
@@ -44098,13 +44098,13 @@ impl<V: ?Sized + Fold> FoldWith<V> for UnaryOp {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            UnaryOp::Minus => {}
-            UnaryOp::Plus => {}
-            UnaryOp::Bang => {}
-            UnaryOp::Tilde => {}
-            UnaryOp::TypeOf => {}
-            UnaryOp::Void => {}
-            UnaryOp::Delete => {}
+            UnaryOp::Minus => UnaryOp::Minus,
+            UnaryOp::Plus => UnaryOp::Plus,
+            UnaryOp::Bang => UnaryOp::Bang,
+            UnaryOp::Tilde => UnaryOp::Tilde,
+            UnaryOp::TypeOf => UnaryOp::TypeOf,
+            UnaryOp::Void => UnaryOp::Void,
+            UnaryOp::Delete => UnaryOp::Delete,
         }
     }
 }
@@ -44142,8 +44142,8 @@ impl<V: ?Sized + Fold> FoldWith<V> for UpdateOp {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            UpdateOp::PlusPlus => {}
-            UpdateOp::MinusMinus => {}
+            UpdateOp::PlusPlus => UpdateOp::PlusPlus,
+            UpdateOp::MinusMinus => UpdateOp::MinusMinus,
         }
     }
 }
@@ -44206,9 +44206,9 @@ impl<V: ?Sized + Fold> FoldWith<V> for VarDeclKind {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            VarDeclKind::Var => {}
-            VarDeclKind::Let => {}
-            VarDeclKind::Const => {}
+            VarDeclKind::Var => VarDeclKind::Var,
+            VarDeclKind::Let => VarDeclKind::Let,
+            VarDeclKind::Const => VarDeclKind::Const,
         }
     }
 }
@@ -45364,6 +45364,12 @@ pub trait FoldAstPath {
     fn fold_await_expr(&mut self, node: AwaitExpr, ast_path: &mut AstKindPath) -> AwaitExpr {
         <AwaitExpr as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
     }
+    #[doc = "Visit a node of type `BigInt`.\n\nBy default, this method calls \
+             [`BigInt::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
+             manually."]
+    fn fold_big_int(&mut self, node: BigInt, ast_path: &mut AstKindPath) -> BigInt {
+        <BigInt as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
+    }
     #[doc = "Visit a node of type `num_bigint :: BigInt`.\n\nBy default, this method calls \
              [`num_bigint :: BigInt::fold_children_with_ast_path`]. If you want to recurse, you \
              need to call it manually."]
@@ -45375,12 +45381,6 @@ pub trait FoldAstPath {
         <num_bigint::BigInt as FoldWithAstPath<Self>>::fold_children_with_ast_path(
             node, self, ast_path,
         )
-    }
-    #[doc = "Visit a node of type `BigInt`.\n\nBy default, this method calls \
-             [`BigInt::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
-             manually."]
-    fn fold_big_int(&mut self, node: BigInt, ast_path: &mut AstKindPath) -> BigInt {
-        <BigInt as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, ast_path)
     }
     #[doc = "Visit a node of type `BigIntValue`.\n\nBy default, this method calls \
              [`BigIntValue::fold_children_with_ast_path`]. If you want to recurse, you need to \
@@ -47887,9 +47887,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Accessibility {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            Accessibility::Public => {}
-            Accessibility::Protected => {}
-            Accessibility::Private => {}
+            Accessibility::Public => Accessibility::Public,
+            Accessibility::Protected => Accessibility::Protected,
+            Accessibility::Private => Accessibility::Private,
         }
     }
 }
@@ -48038,22 +48038,22 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for AssignOp {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            AssignOp::Assign => {}
-            AssignOp::AddAssign => {}
-            AssignOp::SubAssign => {}
-            AssignOp::MulAssign => {}
-            AssignOp::DivAssign => {}
-            AssignOp::ModAssign => {}
-            AssignOp::LShiftAssign => {}
-            AssignOp::RShiftAssign => {}
-            AssignOp::ZeroFillRShiftAssign => {}
-            AssignOp::BitOrAssign => {}
-            AssignOp::BitXorAssign => {}
-            AssignOp::BitAndAssign => {}
-            AssignOp::ExpAssign => {}
-            AssignOp::AndAssign => {}
-            AssignOp::OrAssign => {}
-            AssignOp::NullishAssign => {}
+            AssignOp::Assign => AssignOp::Assign,
+            AssignOp::AddAssign => AssignOp::AddAssign,
+            AssignOp::SubAssign => AssignOp::SubAssign,
+            AssignOp::MulAssign => AssignOp::MulAssign,
+            AssignOp::DivAssign => AssignOp::DivAssign,
+            AssignOp::ModAssign => AssignOp::ModAssign,
+            AssignOp::LShiftAssign => AssignOp::LShiftAssign,
+            AssignOp::RShiftAssign => AssignOp::RShiftAssign,
+            AssignOp::ZeroFillRShiftAssign => AssignOp::ZeroFillRShiftAssign,
+            AssignOp::BitOrAssign => AssignOp::BitOrAssign,
+            AssignOp::BitXorAssign => AssignOp::BitXorAssign,
+            AssignOp::BitAndAssign => AssignOp::BitAndAssign,
+            AssignOp::ExpAssign => AssignOp::ExpAssign,
+            AssignOp::AndAssign => AssignOp::AndAssign,
+            AssignOp::OrAssign => AssignOp::OrAssign,
+            AssignOp::NullishAssign => AssignOp::NullishAssign,
         }
     }
 }
@@ -48302,31 +48302,31 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for BinaryOp {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            BinaryOp::EqEq => {}
-            BinaryOp::NotEq => {}
-            BinaryOp::EqEqEq => {}
-            BinaryOp::NotEqEq => {}
-            BinaryOp::Lt => {}
-            BinaryOp::LtEq => {}
-            BinaryOp::Gt => {}
-            BinaryOp::GtEq => {}
-            BinaryOp::LShift => {}
-            BinaryOp::RShift => {}
-            BinaryOp::ZeroFillRShift => {}
-            BinaryOp::Add => {}
-            BinaryOp::Sub => {}
-            BinaryOp::Mul => {}
-            BinaryOp::Div => {}
-            BinaryOp::Mod => {}
-            BinaryOp::BitOr => {}
-            BinaryOp::BitXor => {}
-            BinaryOp::BitAnd => {}
-            BinaryOp::LogicalOr => {}
-            BinaryOp::LogicalAnd => {}
-            BinaryOp::In => {}
-            BinaryOp::InstanceOf => {}
-            BinaryOp::Exp => {}
-            BinaryOp::NullishCoalescing => {}
+            BinaryOp::EqEq => BinaryOp::EqEq,
+            BinaryOp::NotEq => BinaryOp::NotEq,
+            BinaryOp::EqEqEq => BinaryOp::EqEqEq,
+            BinaryOp::NotEqEq => BinaryOp::NotEqEq,
+            BinaryOp::Lt => BinaryOp::Lt,
+            BinaryOp::LtEq => BinaryOp::LtEq,
+            BinaryOp::Gt => BinaryOp::Gt,
+            BinaryOp::GtEq => BinaryOp::GtEq,
+            BinaryOp::LShift => BinaryOp::LShift,
+            BinaryOp::RShift => BinaryOp::RShift,
+            BinaryOp::ZeroFillRShift => BinaryOp::ZeroFillRShift,
+            BinaryOp::Add => BinaryOp::Add,
+            BinaryOp::Sub => BinaryOp::Sub,
+            BinaryOp::Mul => BinaryOp::Mul,
+            BinaryOp::Div => BinaryOp::Div,
+            BinaryOp::Mod => BinaryOp::Mod,
+            BinaryOp::BitOr => BinaryOp::BitOr,
+            BinaryOp::BitXor => BinaryOp::BitXor,
+            BinaryOp::BitAnd => BinaryOp::BitAnd,
+            BinaryOp::LogicalOr => BinaryOp::LogicalOr,
+            BinaryOp::LogicalAnd => BinaryOp::LogicalAnd,
+            BinaryOp::In => BinaryOp::In,
+            BinaryOp::InstanceOf => BinaryOp::InstanceOf,
+            BinaryOp::Exp => BinaryOp::Exp,
+            BinaryOp::NullishCoalescing => BinaryOp::NullishCoalescing,
         }
     }
 }
@@ -49020,17 +49020,17 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for EsVersion {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            EsVersion::Es3 => {}
-            EsVersion::Es5 => {}
-            EsVersion::Es2015 => {}
-            EsVersion::Es2016 => {}
-            EsVersion::Es2017 => {}
-            EsVersion::Es2018 => {}
-            EsVersion::Es2019 => {}
-            EsVersion::Es2020 => {}
-            EsVersion::Es2021 => {}
-            EsVersion::Es2022 => {}
-            EsVersion::EsNext => {}
+            EsVersion::Es3 => EsVersion::Es3,
+            EsVersion::Es5 => EsVersion::Es5,
+            EsVersion::Es2015 => EsVersion::Es2015,
+            EsVersion::Es2016 => EsVersion::Es2016,
+            EsVersion::Es2017 => EsVersion::Es2017,
+            EsVersion::Es2018 => EsVersion::Es2018,
+            EsVersion::Es2019 => EsVersion::Es2019,
+            EsVersion::Es2020 => EsVersion::Es2020,
+            EsVersion::Es2021 => EsVersion::Es2021,
+            EsVersion::Es2022 => EsVersion::Es2022,
+            EsVersion::EsNext => EsVersion::EsNext,
         }
     }
 }
@@ -49961,9 +49961,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ImportPhase {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            ImportPhase::Evaluation => {}
-            ImportPhase::Source => {}
-            ImportPhase::Defer => {}
+            ImportPhase::Evaluation => ImportPhase::Evaluation,
+            ImportPhase::Source => ImportPhase::Source,
+            ImportPhase::Defer => ImportPhase::Defer,
         }
     }
 }
@@ -50765,8 +50765,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for MetaPropKind {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            MetaPropKind::NewTarget => {}
-            MetaPropKind::ImportMeta => {}
+            MetaPropKind::NewTarget => MetaPropKind::NewTarget,
+            MetaPropKind::ImportMeta => MetaPropKind::ImportMeta,
         }
     }
 }
@@ -50780,9 +50780,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for MethodKind {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            MethodKind::Method => {}
-            MethodKind::Getter => {}
-            MethodKind::Setter => {}
+            MethodKind::Method => MethodKind::Method,
+            MethodKind::Getter => MethodKind::Getter,
+            MethodKind::Setter => MethodKind::Setter,
         }
     }
 }
@@ -52211,9 +52211,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TruePlusMinus {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            TruePlusMinus::True => {}
-            TruePlusMinus::Plus => {}
-            TruePlusMinus::Minus => {}
+            TruePlusMinus::True => TruePlusMinus::True,
+            TruePlusMinus::Plus => TruePlusMinus::Plus,
+            TruePlusMinus::Minus => TruePlusMinus::Minus,
         }
     }
 }
@@ -53057,19 +53057,19 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsKeywordTypeKind {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            TsKeywordTypeKind::TsAnyKeyword => {}
-            TsKeywordTypeKind::TsUnknownKeyword => {}
-            TsKeywordTypeKind::TsNumberKeyword => {}
-            TsKeywordTypeKind::TsObjectKeyword => {}
-            TsKeywordTypeKind::TsBooleanKeyword => {}
-            TsKeywordTypeKind::TsBigIntKeyword => {}
-            TsKeywordTypeKind::TsStringKeyword => {}
-            TsKeywordTypeKind::TsSymbolKeyword => {}
-            TsKeywordTypeKind::TsVoidKeyword => {}
-            TsKeywordTypeKind::TsUndefinedKeyword => {}
-            TsKeywordTypeKind::TsNullKeyword => {}
-            TsKeywordTypeKind::TsNeverKeyword => {}
-            TsKeywordTypeKind::TsIntrinsicKeyword => {}
+            TsKeywordTypeKind::TsAnyKeyword => TsKeywordTypeKind::TsAnyKeyword,
+            TsKeywordTypeKind::TsUnknownKeyword => TsKeywordTypeKind::TsUnknownKeyword,
+            TsKeywordTypeKind::TsNumberKeyword => TsKeywordTypeKind::TsNumberKeyword,
+            TsKeywordTypeKind::TsObjectKeyword => TsKeywordTypeKind::TsObjectKeyword,
+            TsKeywordTypeKind::TsBooleanKeyword => TsKeywordTypeKind::TsBooleanKeyword,
+            TsKeywordTypeKind::TsBigIntKeyword => TsKeywordTypeKind::TsBigIntKeyword,
+            TsKeywordTypeKind::TsStringKeyword => TsKeywordTypeKind::TsStringKeyword,
+            TsKeywordTypeKind::TsSymbolKeyword => TsKeywordTypeKind::TsSymbolKeyword,
+            TsKeywordTypeKind::TsVoidKeyword => TsKeywordTypeKind::TsVoidKeyword,
+            TsKeywordTypeKind::TsUndefinedKeyword => TsKeywordTypeKind::TsUndefinedKeyword,
+            TsKeywordTypeKind::TsNullKeyword => TsKeywordTypeKind::TsNullKeyword,
+            TsKeywordTypeKind::TsNeverKeyword => TsKeywordTypeKind::TsNeverKeyword,
+            TsKeywordTypeKind::TsIntrinsicKeyword => TsKeywordTypeKind::TsIntrinsicKeyword,
         }
     }
 }
@@ -54085,9 +54085,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsTypeOperatorOp {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            TsTypeOperatorOp::KeyOf => {}
-            TsTypeOperatorOp::Unique => {}
-            TsTypeOperatorOp::ReadOnly => {}
+            TsTypeOperatorOp::KeyOf => TsTypeOperatorOp::KeyOf,
+            TsTypeOperatorOp::Unique => TsTypeOperatorOp::Unique,
+            TsTypeOperatorOp::ReadOnly => TsTypeOperatorOp::ReadOnly,
         }
     }
 }
@@ -54355,13 +54355,13 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for UnaryOp {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            UnaryOp::Minus => {}
-            UnaryOp::Plus => {}
-            UnaryOp::Bang => {}
-            UnaryOp::Tilde => {}
-            UnaryOp::TypeOf => {}
-            UnaryOp::Void => {}
-            UnaryOp::Delete => {}
+            UnaryOp::Minus => UnaryOp::Minus,
+            UnaryOp::Plus => UnaryOp::Plus,
+            UnaryOp::Bang => UnaryOp::Bang,
+            UnaryOp::Tilde => UnaryOp::Tilde,
+            UnaryOp::TypeOf => UnaryOp::TypeOf,
+            UnaryOp::Void => UnaryOp::Void,
+            UnaryOp::Delete => UnaryOp::Delete,
         }
     }
 }
@@ -54405,8 +54405,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for UpdateOp {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            UpdateOp::PlusPlus => {}
-            UpdateOp::MinusMinus => {}
+            UpdateOp::PlusPlus => UpdateOp::PlusPlus,
+            UpdateOp::MinusMinus => UpdateOp::MinusMinus,
         }
     }
 }
@@ -54481,9 +54481,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for VarDeclKind {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, ast_path: &mut AstKindPath) -> Self {
         match self {
-            VarDeclKind::Var => {}
-            VarDeclKind::Let => {}
-            VarDeclKind::Const => {}
+            VarDeclKind::Var => VarDeclKind::Var,
+            VarDeclKind::Let => VarDeclKind::Let,
+            VarDeclKind::Const => VarDeclKind::Const,
         }
     }
 }
