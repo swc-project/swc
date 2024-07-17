@@ -1405,61 +1405,66 @@ fn define_fields(node_types: &[&Item]) -> Vec<Item> {
             ))
         }
 
+        {
+            defs.push(parse_quote!(
+                #[cfg(feature = "path")]
+                #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+                pub enum AstParentKind {
+                    #(#kind_enum_members),*
+                }
+            ));
+
+            defs.push(parse_quote!(
+                impl ::swc_visit::ParentKind for AstParentKind {
+                    #[inline]
+                    fn set_index(&mut self, index: usize) {
+                        match self {
+                            #(#kind_set_index_arms)*
+                        }
+                    }
+                }
+            ));
+        }
+
+        {
+            defs.push(parse_quote!(
+                #[cfg(feature = "path")]
+                #[derive(Debug, Clone, Copy)]
+                pub enum AstParentNodeRef<'ast> {
+                    #(#node_ref_enum_members),*
+                }
+            ));
+
+            defs.push(parse_quote!(
+                impl<'ast> ::swc_visit::NodeRef for AstParentNodeRef<'ast> {
+                    type ParentKind = AstParentKind;
+
+                    #[inline]
+                    fn kind(&self) -> AstParentKind {
+                        match self {
+                            #(#node_ref_kind_arms)*
+                        }
+                    }
+
+                    fn set_index(&mut self, index: usize) {
+                        match self {
+                            #(#node_ref_set_index_arms)*
+                        }
+                    }
+                }
+            ));
+        }
+
         items.push(parse_quote!(
             #[cfg(feature = "path")]
             pub mod fields {
                 #(#defs)*
             }
         ));
-    }
 
-    {
         items.push(parse_quote!(
             #[cfg(feature = "path")]
-            #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
-            pub enum AstParentKind {
-                #(#kind_enum_members),*
-            }
-        ));
-
-        items.push(parse_quote!(
-            impl ::swc_visit::ParentKind for AstParentKind {
-                #[inline]
-                fn set_index(&mut self, index: usize) {
-                    match self {
-                        #(#kind_set_index_arms)*
-                    }
-                }
-            }
-        ));
-    }
-
-    {
-        items.push(parse_quote!(
-            #[cfg(feature = "path")]
-            #[derive(Debug, Clone, Copy)]
-            pub enum AstParentNodeRef<'ast> {
-                #(#node_ref_enum_members),*
-            }
-        ));
-
-        items.push(parse_quote!(
-            impl<'ast> ::swc_visit::NodeRef for AstParentNodeRef<'ast> {
-                type ParentKind = AstParentKind;
-
-                #[inline]
-                fn kind(&self) -> AstParentKind {
-                    match self {
-                        #(#node_ref_kind_arms)*
-                    }
-                }
-
-                fn set_index(&mut self, index: usize) {
-                    match self {
-                        #(#node_ref_set_index_arms)*
-                    }
-                }
-            }
+            pub use self::fields::{AstParentKind, AstParentNodeRef};
         ));
     }
 
