@@ -1158,21 +1158,37 @@ fn doc(s: &str) -> Attribute {
     parse_quote!(#[doc = #s])
 }
 
-fn field_variant(type_name: &Ident, field: &Field) -> Option<TokenStream> {
+fn field_variant(type_name: &Ident, field: &Field) -> Option<(TokenStream, Option<Arm>)> {
     if let Some(field_name) = &field.ident {
         let variant_name = Ident::new(&field_name.to_string().to_pascal_case(), Span::call_site());
         let variant_doc = doc(&format!("Represents [`{type_name}::{field_name}`]"));
 
         if extract_vec(&field.ty).is_some() {
-            return Some(quote!(
+            let v = quote!(
                 #variant_doc
                 #variant_name(usize)
-            ));
+            );
+            let arg = parse_quote!(
+                Self::#variant_name(idx) => {
+                    #[cfg(debug_assertions)]
+                    if !(*idx == usize::MAX || index == usize::MAX) {
+                        {
+                            panic!("Should be usize::MAX");
+                        }
+                    }
+
+                    *idx = index;
+                },
+            );
+            return Some((v, Some(arg)));
         }
 
-        return Some(quote!(
-            #variant_doc
-            #variant_name
+        return Some((
+            quote!(
+                #variant_doc
+                #variant_name
+            ),
+            None,
         ));
     }
 
@@ -1264,10 +1280,26 @@ fn define_fields(node_types: &[&Item]) -> Vec<Item> {
                     node_ref_enum_members.push(quote!(
                         #type_name(&'ast #type_name, self::fields::#fields_enum_name)
                     ));
+
+                    items.push(parse_quote!(
+                        impl #type_name {
+                            #[inline(always)]
+                            pub fn set_index(&mut self, _: usize) {}
+                        }
+                    ))
                 }
                 Item::Struct(data) => {
+                    let mut set_index_arms = Vec::<Arm>::new();
+
                     for field in &data.fields {
-                        variants.extend(field_variant(&type_name, field));
+                        let opt = field_variant(&type_name, field);
+                        let opt = match opt {
+                            Some(v) => v,
+                            None => continue,
+                        };
+                        variants.push(opt.0);
+
+                        set_index_arms.extend(opt.1);
                     }
 
                     kind_enum_members.push(quote!(
