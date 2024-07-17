@@ -814,13 +814,28 @@ impl Generator<'_> {
                     let field_variant =
                         Ident::new(&field_name.to_string().to_pascal_case(), Span::call_site());
 
-                    if self.variant == Variant::AstPath && !self.should_skip(ty) {
-                        stmts.push(parse_quote!(
-                            let mut __ast_path = __ast_path
-                                .with_guard(
-                                    AstParentKind::#type_name(self::fields::#fields_enum_name::#field_variant),
-                                );
-                        ));
+                    if self.kind != TraitKind::VisitAll
+                        && self.variant == Variant::AstPath
+                        && !self.should_skip(ty)
+                    {
+                        match self.kind {
+                            TraitKind::Visit => {
+                                stmts.push(parse_quote!(
+                                    let mut __ast_path = __ast_path
+                                        .with_guard(
+                                            AstParentNodeRef::#type_name(self, self::fields::#fields_enum_name::#field_variant),
+                                        );
+                                ));
+                            }
+                            _ => {
+                                stmts.push(parse_quote!(
+                                    let mut __ast_path = __ast_path
+                                        .with_guard(
+                                            AstParentKind::#type_name(self::fields::#fields_enum_name::#field_variant),
+                                        );
+                                ));
+                            }
+                        }
                     }
 
                     if let Some(reconstructor) = &mut reconstruct {
