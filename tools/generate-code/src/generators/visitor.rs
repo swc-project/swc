@@ -1231,6 +1231,16 @@ fn define_fields(node_types: &[&Item]) -> Vec<Item> {
 
             let mut variants = vec![];
 
+            kind_set_index_arms.push(parse_quote!(
+                Self::#type_name(v) => v.set_index(index),
+            ));
+            node_ref_kind_arms.push(parse_quote!(
+                Self::#type_name(_, __field_kind) => *kind,
+            ));
+            node_ref_set_index_arms.push(parse_quote!(
+                Self::#type_name(node, __field_kind) => node.set_index(index),
+            ));
+
             match ty {
                 Item::Enum(data) => {
                     for variant in &data.variants {
@@ -1290,6 +1300,7 @@ fn define_fields(node_types: &[&Item]) -> Vec<Item> {
     {
         items.push(parse_quote!(
             #[cfg(feature = "path")]
+            #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
             pub enum AstParentKind {
                 #(#kind_enum_members),*
             }
@@ -1298,7 +1309,7 @@ fn define_fields(node_types: &[&Item]) -> Vec<Item> {
         items.push(parse_quote!(
             impl ::swc_visit::ParentKind for AstParentKind {
                 #[inline]
-                fn kind(&self) -> AstParentKind {
+                fn set_index(&self, index: usize) -> AstParentKind {
                     match self {
                         #(#kind_set_index_arms)*
                     }
@@ -1310,6 +1321,7 @@ fn define_fields(node_types: &[&Item]) -> Vec<Item> {
     {
         items.push(parse_quote!(
             #[cfg(feature = "path")]
+            #[derive(Debug, Clone, Copy)]
             pub enum AstParentNodeRef<'ast> {
                 #(#node_ref_enum_members),*
             }
