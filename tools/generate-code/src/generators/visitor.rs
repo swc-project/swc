@@ -1213,6 +1213,10 @@ fn define_fields(node_types: &[&Item]) -> Vec<Item> {
     let mut kind_enum_members = vec![];
     let mut node_ref_enum_members = vec![];
 
+    let mut kind_set_index_arms = Vec::<Arm>::new();
+    let mut node_ref_set_index_arms = Vec::<Arm>::new();
+    let mut node_ref_kind_arms = Vec::<Arm>::new();
+
     {
         let mut defs = Vec::<Item>::new();
 
@@ -1292,7 +1296,14 @@ fn define_fields(node_types: &[&Item]) -> Vec<Item> {
         ));
 
         items.push(parse_quote!(
-            impl ::swc_visit::ParentKind for AstParentKind {}
+            impl ::swc_visit::ParentKind for AstParentKind {
+                #[inline]
+                fn kind(&self) -> AstParentKind {
+                    match self {
+                        #(#kind_set_index_arms)*
+                    }
+                }
+            }
         ));
     }
 
@@ -1305,7 +1316,22 @@ fn define_fields(node_types: &[&Item]) -> Vec<Item> {
         ));
 
         items.push(parse_quote!(
-            impl<'ast> ::swc_visit::NodeRef for AstParentNodeRef<'ast> {}
+            impl<'ast> ::swc_visit::NodeRef for AstParentNodeRef<'ast> {
+                type ParentKind = AstParentKind;
+
+                #[inline]
+                fn kind(&self) -> AstParentKind {
+                    match self {
+                        #(#node_ref_kind_arms)*
+                    }
+                }
+
+                fn set_index(&mut self, index: usize) {
+                    match self {
+                        #(#node_ref_set_index_arms)*
+                    }
+                }
+            }
         ));
     }
 
