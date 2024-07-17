@@ -875,7 +875,7 @@ impl Generator<'_> {
                             }
                             TraitKind::VisitMut => {
                                 parse_quote!(
-                                    <#inner_ty as #visit_with_trait_name<V>>::#visit_method_name(&mut **self, visitor #ast_path_arg)
+                                    <#inner_ty as #visit_with_trait_name<V>>::visit_mut_with(&mut **self, visitor #ast_path_arg)
                                 )
                             }
                             TraitKind::Fold => {
