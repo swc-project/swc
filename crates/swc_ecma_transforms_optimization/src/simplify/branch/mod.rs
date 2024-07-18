@@ -15,7 +15,7 @@ use swc_ecma_utils::{
     StmtExt, StmtLike, Value::Known,
 };
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, standard_only_visit, Visit, VisitMut, VisitMutWith, VisitWith,
+    as_folder, noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use tracing::{debug, trace};
 
@@ -1905,7 +1905,7 @@ fn check_for_stopper(s: &[Stmt], only_conditional: bool) -> bool {
     }
 
     impl Visit for Visitor {
-        standard_only_visit!();
+        noop_visit_type!(fail);
 
         fn visit_switch_case(&mut self, node: &SwitchCase) {
             let old = self.in_cond;

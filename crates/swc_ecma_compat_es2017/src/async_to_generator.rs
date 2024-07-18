@@ -13,7 +13,7 @@ use swc_ecma_utils::{
     private_ident, quote_ident, ExprFactory, Remapper, StmtLike,
 };
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, standard_only_visit, Fold, Visit, VisitMut, VisitMutWith,
+    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith,
     VisitWith,
 };
 use swc_trace_macro::swc_trace;
@@ -537,7 +537,7 @@ struct ShouldWork {
 
 #[swc_trace]
 impl Visit for ShouldWork {
-    standard_only_visit!();
+    noop_visit_type!(fail);
 
     fn visit_function(&mut self, f: &Function) {
         if f.is_async {

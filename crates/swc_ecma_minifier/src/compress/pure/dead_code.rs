@@ -3,7 +3,7 @@ use rayon::prelude::*;
 use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{extract_var_ids, ExprCtx, ExprExt, StmtExt, StmtLike, Value};
-use swc_ecma_visit::{standard_only_visit, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Pure;
 use crate::{compress::util::is_fine_for_if_cons, maybe_par, util::ModuleItemExt};
@@ -610,7 +610,7 @@ struct LabelFinder<'a> {
     found: bool,
 }
 impl Visit for LabelFinder<'_> {
-    standard_only_visit!();
+    noop_visit_type!(fail);
 
     fn visit_break_stmt(&mut self, s: &BreakStmt) {
         match &s.label {

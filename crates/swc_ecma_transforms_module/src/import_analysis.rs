@@ -3,7 +3,7 @@ use swc_common::collections::AHashMap;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::enable_helper;
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, standard_only_visit, Fold, Visit, VisitMut, VisitWith,
+    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitWith,
 };
 
 use crate::{module_decl_strip::LinkFlag, util::ImportInterop};
@@ -38,7 +38,7 @@ impl VisitMut for ImportAnalyzer {
 }
 
 impl Visit for ImportAnalyzer {
-    standard_only_visit!();
+    noop_visit_type!(fail);
 
     fn visit_module_items(&mut self, n: &[ModuleItem]) {
         for item in n.iter() {

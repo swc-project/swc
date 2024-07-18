@@ -1,5 +1,5 @@
 use swc_ecma_ast::*;
-use swc_ecma_visit::{standard_only_visit, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use crate::ident::IdentLike;
 
@@ -10,7 +10,7 @@ pub struct VarCollector<'a, I: IdentLike> {
 }
 
 impl<'a, I: IdentLike> Visit for VarCollector<'a, I> {
-    standard_only_visit!();
+    noop_visit_type!(fail);
 
     fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
 

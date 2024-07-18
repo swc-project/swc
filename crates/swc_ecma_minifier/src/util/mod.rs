@@ -7,7 +7,7 @@ use swc_atoms::Atom;
 use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{stack_size::maybe_grow_default, ModuleItemLike, StmtLike, Value};
-use swc_ecma_visit::{standard_only_visit, visit_obj_and_computed, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
 
 pub(crate) mod base54;
 pub(crate) mod size;
@@ -216,7 +216,7 @@ pub(crate) struct LeapFinder {
 }
 
 impl Visit for LeapFinder {
-    standard_only_visit!();
+    noop_visit_type!(fail);
 
     fn visit_await_expr(&mut self, n: &AwaitExpr) {
         n.visit_children_with(self);
@@ -308,7 +308,7 @@ pub struct DeepThisExprVisitor {
 }
 
 impl Visit for DeepThisExprVisitor {
-    standard_only_visit!();
+    noop_visit_type!(fail);
 
     fn visit_this_expr(&mut self, _: &ThisExpr) {
         self.found = true;
@@ -331,7 +331,7 @@ pub(crate) struct IdentUsageCollector {
 }
 
 impl Visit for IdentUsageCollector {
-    standard_only_visit!();
+    noop_visit_type!(fail);
 
     visit_obj_and_computed!();
 
@@ -399,7 +399,7 @@ pub(crate) struct CapturedIdCollector {
 }
 
 impl Visit for CapturedIdCollector {
-    standard_only_visit!();
+    noop_visit_type!(fail);
 
     visit_obj_and_computed!();
 
@@ -503,7 +503,7 @@ pub(crate) struct EvalFinder {
 }
 
 impl Visit for EvalFinder {
-    standard_only_visit!();
+    noop_visit_type!(fail);
 
     visit_obj_and_computed!();
 

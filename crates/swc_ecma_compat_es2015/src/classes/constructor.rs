@@ -6,7 +6,7 @@ use swc_ecma_transforms_base::helper;
 use swc_ecma_transforms_classes::{get_prototype_of, visit_mut_only_key};
 use swc_ecma_utils::{quote_ident, ExprFactory};
 use swc_ecma_visit::{
-    noop_visit_mut_type, standard_only_visit, Visit, VisitMut, VisitMutWith, VisitWith,
+    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use swc_trace_macro::swc_trace;
 
@@ -66,7 +66,7 @@ macro_rules! mark_as_complex {
 
 #[swc_trace]
 impl Visit for SuperCallFinder {
-    standard_only_visit!();
+    noop_visit_type!(fail);
 
     mark_as_complex!(visit_arrow_expr, ArrowExpr);
 

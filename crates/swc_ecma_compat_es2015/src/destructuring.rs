@@ -11,7 +11,7 @@ use swc_ecma_utils::{
     prop_name_to_expr, quote_ident, ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, standard_only_visit, Fold, Visit, VisitMut, VisitMutWith,
+    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith,
     VisitWith,
 };
 use swc_trace_macro::swc_trace;
@@ -1303,7 +1303,7 @@ struct DestructuringVisitor {
 }
 
 impl Visit for DestructuringVisitor {
-    standard_only_visit!();
+    noop_visit_type!(fail);
 
     fn visit_assign_target_pat(&mut self, _: &AssignTargetPat) {
         self.found = true;

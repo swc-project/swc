@@ -4,7 +4,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{quote_ident, ExprFactory, StmtLike};
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, standard_only_visit, Fold, Visit, VisitMut, VisitMutWith,
+    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith,
     VisitWith,
 };
 use swc_trace_macro::swc_trace;
@@ -356,7 +356,7 @@ struct ComplexVisitor {
 }
 
 impl Visit for ComplexVisitor {
-    standard_only_visit!();
+    noop_visit_type!(fail);
 
     fn visit_prop_name(&mut self, pn: &PropName) {
         if let PropName::Computed(..) = *pn {
@@ -443,7 +443,7 @@ struct ShouldWork {
 }
 
 impl Visit for ShouldWork {
-    standard_only_visit!();
+    noop_visit_type!(fail);
 
     fn visit_prop_name(&mut self, node: &PropName) {
         if let PropName::Computed(_) = *node {

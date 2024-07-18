@@ -8,7 +8,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{pass::RepeatedJsPass, scope::IdentType};
 use swc_ecma_utils::{contains_this_expr, find_pat_ids};
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, standard_only_visit, visit_obj_and_computed, Visit, VisitMut,
+    as_folder, noop_visit_mut_type, noop_visit_type, visit_obj_and_computed, Visit, VisitMut,
     VisitMutWith, VisitWith,
 };
 use tracing::{span, Level};
@@ -739,7 +739,7 @@ struct IdentListVisitor<'a, 'b> {
 }
 
 impl Visit for IdentListVisitor<'_, '_> {
-    standard_only_visit!();
+    noop_visit_type!(fail);
 
     visit_obj_and_computed!();
 
@@ -754,7 +754,7 @@ struct WriteVisitor<'a, 'b> {
 }
 
 impl Visit for WriteVisitor<'_, '_> {
-    standard_only_visit!();
+    noop_visit_type!(fail);
 
     visit_obj_and_computed!();
 

@@ -15,7 +15,7 @@ use swc_ecma_utils::{
     quote_str, replace_ident, ExprFactory, ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, standard_only_visit, Fold, Visit, VisitMut, VisitMutWith,
+    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith,
     VisitWith,
 };
 use swc_trace_macro::swc_trace;
@@ -1262,7 +1262,7 @@ fn is_always_initialized(body: &[Stmt]) -> bool {
     }
 
     impl Visit for SuperFinder {
-        standard_only_visit!();
+        noop_visit_type!(fail);
 
         fn visit_callee(&mut self, node: &Callee) {
             match *node {
@@ -1317,7 +1317,7 @@ struct ClassFinder {
 }
 
 impl Visit for ClassFinder {
-    standard_only_visit!();
+    noop_visit_type!(fail);
 
     fn visit_class(&mut self, _: &Class) {
         self.found = true

@@ -4,7 +4,7 @@ use rustc_hash::FxHashSet;
 use swc_common::{collections::AHashSet, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{collect_decls, BindingCollector};
-use swc_ecma_visit::{standard_only_visit, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 pub use self::ctx::Ctx;
 use crate::{marks::Marks, util::is_global_var_with_pure_property_access};
@@ -120,7 +120,7 @@ impl InfectionCollector<'_> {
 }
 
 impl Visit for InfectionCollector<'_> {
-    standard_only_visit!();
+    noop_visit_type!(fail);
 
     fn visit_bin_expr(&mut self, e: &BinExpr) {
         match e.op {

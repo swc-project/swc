@@ -410,9 +410,15 @@ macro_rules! noop_fold_type {
 /// Note: Ignoring more types is not considered as a breaking change.
 #[macro_export]
 macro_rules! noop_visit_type {
+    ($name:ident, $N:tt, fail) => {
+        fn $name(&mut self, _: &$crate::swc_ecma_ast::$N) {
+            $crate::fail_no_typescript();
+        }
+    };
     ($name:ident, $N:tt) => {
         fn $name(&mut self, _: &$crate::swc_ecma_ast::$N) {}
     };
+
     () => {
         noop_visit_type!(visit_accessibility, Accessibility);
         noop_visit_type!(visit_true_plus_minus, TruePlusMinus);
@@ -467,6 +473,70 @@ macro_rules! noop_visit_type {
         );
         noop_visit_type!(visit_ts_union_type, TsUnionType);
     };
+
+    (fail) => {
+        noop_visit_type!(visit_accessibility, Accessibility, fail);
+        noop_visit_type!(visit_true_plus_minus, TruePlusMinus, fail);
+        noop_visit_type!(visit_ts_array_type, TsArrayType, fail);
+        noop_visit_type!(visit_ts_call_signature_decl, TsCallSignatureDecl, fail);
+        noop_visit_type!(visit_ts_conditional_type, TsConditionalType, fail);
+        noop_visit_type!(
+            visit_ts_construct_signature_decl,
+            TsConstructSignatureDecl,
+            fail
+        );
+        noop_visit_type!(visit_ts_constructor_type, TsConstructorType, fail);
+        noop_visit_type!(visit_ts_entity_name, TsEntityName, fail);
+        noop_visit_type!(visit_ts_expr_with_type_args, TsExprWithTypeArgs, fail);
+        noop_visit_type!(visit_ts_external_module_ref, TsExternalModuleRef, fail);
+        noop_visit_type!(visit_ts_fn_or_constructor_type, TsFnOrConstructorType, fail);
+        noop_visit_type!(visit_ts_fn_param, TsFnParam, fail);
+        noop_visit_type!(visit_ts_fn_type, TsFnType, fail);
+        noop_visit_type!(visit_ts_import_type, TsImportType, fail);
+        noop_visit_type!(visit_ts_index_signature, TsIndexSignature, fail);
+        noop_visit_type!(visit_ts_indexed_access_type, TsIndexedAccessType, fail);
+        noop_visit_type!(visit_ts_infer_type, TsInferType, fail);
+        noop_visit_type!(visit_ts_interface_body, TsInterfaceBody, fail);
+        noop_visit_type!(visit_ts_interface_decl, TsInterfaceDecl, fail);
+        noop_visit_type!(visit_ts_intersection_type, TsIntersectionType, fail);
+        noop_visit_type!(visit_ts_keyword_type, TsKeywordType, fail);
+        noop_visit_type!(visit_ts_keyword_type_kind, TsKeywordTypeKind, fail);
+        noop_visit_type!(visit_ts_mapped_type, TsMappedType, fail);
+        noop_visit_type!(visit_ts_method_signature, TsMethodSignature, fail);
+        noop_visit_type!(visit_ts_module_ref, TsModuleRef, fail);
+        noop_visit_type!(visit_ts_optional_type, TsOptionalType, fail);
+        noop_visit_type!(visit_ts_parenthesized_type, TsParenthesizedType, fail);
+        noop_visit_type!(visit_ts_property_signature, TsPropertySignature, fail);
+        noop_visit_type!(visit_ts_qualified_name, TsQualifiedName, fail);
+        noop_visit_type!(visit_ts_rest_type, TsRestType, fail);
+        noop_visit_type!(visit_ts_this_type, TsThisType, fail);
+        noop_visit_type!(visit_ts_this_type_or_ident, TsThisTypeOrIdent, fail);
+        noop_visit_type!(visit_ts_tuple_type, TsTupleType, fail);
+        noop_visit_type!(visit_ts_type, TsType, fail);
+        noop_visit_type!(visit_ts_type_alias_decl, TsTypeAliasDecl, fail);
+        noop_visit_type!(visit_ts_type_ann, TsTypeAnn, fail);
+        noop_visit_type!(visit_ts_type_element, TsTypeElement, fail);
+        noop_visit_type!(visit_ts_type_lit, TsTypeLit, fail);
+        noop_visit_type!(visit_ts_type_operator, TsTypeOperator, fail);
+        noop_visit_type!(visit_ts_type_operator_op, TsTypeOperatorOp, fail);
+        noop_visit_type!(visit_ts_type_param, TsTypeParam, fail);
+        noop_visit_type!(visit_ts_type_param_decl, TsTypeParamDecl, fail);
+        noop_visit_type!(
+            visit_ts_type_param_instantiation,
+            TsTypeParamInstantiation,
+            fail
+        );
+        noop_visit_type!(visit_ts_type_predicate, TsTypePredicate, fail);
+        noop_visit_type!(visit_ts_type_query, TsTypeQuery, fail);
+        noop_visit_type!(visit_ts_type_query_expr, TsTypeQueryExpr, fail);
+        noop_visit_type!(visit_ts_type_ref, TsTypeRef, fail);
+        noop_visit_type!(
+            visit_ts_union_or_intersection_type,
+            TsUnionOrIntersectionType,
+            fail
+        );
+        noop_visit_type!(visit_ts_union_type, TsUnionType, fail);
+    };
 }
 
 /// NOT A PUBLIC API
@@ -475,7 +545,19 @@ macro_rules! noop_visit_type {
 pub fn fail_not_standard() {
     unsafe {
         debug_unreachable::debug_unreachable!(
-            "This visitor supports only standard ECMAScript types"
+            "This visitor supports only standard ECMAScript types. This method fails for \
+             optimization purpose."
+        )
+    }
+}
+
+/// NOT A PUBLIC API
+#[doc(hidden)]
+#[inline(always)]
+pub fn fail_no_typescript() {
+    unsafe {
+        debug_unreachable::debug_unreachable!(
+            "This visitor does not support typescript. This method fails for optimization purpose."
         )
     }
 }
@@ -703,68 +785,147 @@ macro_rules! standard_only_visit_mut {
 /// Note: Ignoring more types is not considered as a breaking change.
 #[macro_export]
 macro_rules! noop_visit_mut_type {
+    ($name:ident, $N:ident, fail) => {
+        fn $name(&mut self, _: &mut $crate::swc_ecma_ast::$N) {
+            $crate::fail_no_typescript();
+        }
+    };
     ($name:ident, $N:ident) => {
         fn $name(&mut self, _: &mut $crate::swc_ecma_ast::$N) {}
     };
-    () => {
-        noop_visit_mut_type!(visit_mut_accessibility, Accessibility);
-        noop_visit_mut_type!(visit_mut_true_plus_minus, TruePlusMinus);
-        noop_visit_mut_type!(visit_mut_ts_array_type, TsArrayType);
-        noop_visit_mut_type!(visit_mut_ts_call_signature_decl, TsCallSignatureDecl);
-        noop_visit_mut_type!(visit_mut_ts_conditional_type, TsConditionalType);
+    (fail) => {
+        noop_visit_mut_type!(visit_mut_accessibility, Accessibility, fail);
+        noop_visit_mut_type!(visit_mut_true_plus_minus, TruePlusMinus, fail);
+        noop_visit_mut_type!(visit_mut_ts_array_type, TsArrayType, fail);
+        noop_visit_mut_type!(visit_mut_ts_call_signature_decl, TsCallSignatureDecl, fail);
+        noop_visit_mut_type!(visit_mut_ts_conditional_type, TsConditionalType, fail);
         noop_visit_mut_type!(
             visit_mut_ts_construct_signature_decl,
-            TsConstructSignatureDecl
+            TsConstructSignatureDecl,
+            fail
         );
-        noop_visit_mut_type!(visit_mut_ts_constructor_type, TsConstructorType);
-        noop_visit_mut_type!(visit_mut_ts_entity_name, TsEntityName);
-        noop_visit_mut_type!(visit_mut_ts_expr_with_type_args, TsExprWithTypeArgs);
-        noop_visit_mut_type!(visit_mut_ts_external_module_ref, TsExternalModuleRef);
-        noop_visit_mut_type!(visit_mut_ts_fn_or_constructor_type, TsFnOrConstructorType);
-        noop_visit_mut_type!(visit_mut_ts_fn_param, TsFnParam);
-        noop_visit_mut_type!(visit_mut_ts_fn_type, TsFnType);
-        noop_visit_mut_type!(visit_mut_ts_import_type, TsImportType);
-        noop_visit_mut_type!(visit_mut_ts_index_signature, TsIndexSignature);
-        noop_visit_mut_type!(visit_mut_ts_indexed_access_type, TsIndexedAccessType);
-        noop_visit_mut_type!(visit_mut_ts_infer_type, TsInferType);
-        noop_visit_mut_type!(visit_mut_ts_interface_body, TsInterfaceBody);
-        noop_visit_mut_type!(visit_mut_ts_interface_decl, TsInterfaceDecl);
-        noop_visit_mut_type!(visit_mut_ts_intersection_type, TsIntersectionType);
-        noop_visit_mut_type!(visit_mut_ts_keyword_type, TsKeywordType);
-        noop_visit_mut_type!(visit_mut_ts_keyword_type_kind, TsKeywordTypeKind);
-        noop_visit_mut_type!(visit_mut_ts_mapped_type, TsMappedType);
-        noop_visit_mut_type!(visit_mut_ts_method_signature, TsMethodSignature);
-        noop_visit_mut_type!(visit_mut_ts_module_ref, TsModuleRef);
-        noop_visit_mut_type!(visit_mut_ts_optional_type, TsOptionalType);
-        noop_visit_mut_type!(visit_mut_ts_parenthesized_type, TsParenthesizedType);
-        noop_visit_mut_type!(visit_mut_ts_property_signature, TsPropertySignature);
-        noop_visit_mut_type!(visit_mut_ts_qualified_name, TsQualifiedName);
-        noop_visit_mut_type!(visit_mut_ts_rest_type, TsRestType);
-        noop_visit_mut_type!(visit_mut_ts_this_type, TsThisType);
-        noop_visit_mut_type!(visit_mut_ts_this_type_or_ident, TsThisTypeOrIdent);
-        noop_visit_mut_type!(visit_mut_ts_tuple_type, TsTupleType);
-        noop_visit_mut_type!(visit_mut_ts_type, TsType);
-        noop_visit_mut_type!(visit_mut_ts_type_alias_decl, TsTypeAliasDecl);
-        noop_visit_mut_type!(visit_mut_ts_type_ann, TsTypeAnn);
-        noop_visit_mut_type!(visit_mut_ts_type_element, TsTypeElement);
-        noop_visit_mut_type!(visit_mut_ts_type_lit, TsTypeLit);
-        noop_visit_mut_type!(visit_mut_ts_type_operator, TsTypeOperator);
-        noop_visit_mut_type!(visit_mut_ts_type_operator_op, TsTypeOperatorOp);
-        noop_visit_mut_type!(visit_mut_ts_type_param, TsTypeParam);
-        noop_visit_mut_type!(visit_mut_ts_type_param_decl, TsTypeParamDecl);
+        noop_visit_mut_type!(visit_mut_ts_constructor_type, TsConstructorType, fail);
+        noop_visit_mut_type!(visit_mut_ts_entity_name, TsEntityName, fail);
+        noop_visit_mut_type!(visit_mut_ts_expr_with_type_args, TsExprWithTypeArgs, fail);
+        noop_visit_mut_type!(visit_mut_ts_external_module_ref, TsExternalModuleRef, fail);
+        noop_visit_mut_type!(
+            visit_mut_ts_fn_or_constructor_type,
+            TsFnOrConstructorType,
+            fail
+        );
+        noop_visit_mut_type!(visit_mut_ts_fn_param, TsFnParam, fail);
+        noop_visit_mut_type!(visit_mut_ts_fn_type, TsFnType, fail);
+        noop_visit_mut_type!(visit_mut_ts_import_type, TsImportType, fail);
+        noop_visit_mut_type!(visit_mut_ts_index_signature, TsIndexSignature, fail);
+        noop_visit_mut_type!(visit_mut_ts_indexed_access_type, TsIndexedAccessType, fail);
+        noop_visit_mut_type!(visit_mut_ts_infer_type, TsInferType, fail);
+        noop_visit_mut_type!(visit_mut_ts_interface_body, TsInterfaceBody, fail);
+        noop_visit_mut_type!(visit_mut_ts_interface_decl, TsInterfaceDecl, fail);
+        noop_visit_mut_type!(visit_mut_ts_intersection_type, TsIntersectionType, fail);
+        noop_visit_mut_type!(visit_mut_ts_keyword_type, TsKeywordType, fail);
+        noop_visit_mut_type!(visit_mut_ts_keyword_type_kind, TsKeywordTypeKind, fail);
+        noop_visit_mut_type!(visit_mut_ts_mapped_type, TsMappedType, fail);
+        noop_visit_mut_type!(visit_mut_ts_method_signature, TsMethodSignature, fail);
+        noop_visit_mut_type!(visit_mut_ts_module_ref, TsModuleRef, fail);
+        noop_visit_mut_type!(visit_mut_ts_optional_type, TsOptionalType, fail);
+        noop_visit_mut_type!(visit_mut_ts_parenthesized_type, TsParenthesizedType, fail);
+        noop_visit_mut_type!(visit_mut_ts_property_signature, TsPropertySignature, fail);
+        noop_visit_mut_type!(visit_mut_ts_qualified_name, TsQualifiedName, fail);
+        noop_visit_mut_type!(visit_mut_ts_rest_type, TsRestType, fail);
+        noop_visit_mut_type!(visit_mut_ts_this_type, TsThisType, fail);
+        noop_visit_mut_type!(visit_mut_ts_this_type_or_ident, TsThisTypeOrIdent, fail);
+        noop_visit_mut_type!(visit_mut_ts_tuple_type, TsTupleType, fail);
+        noop_visit_mut_type!(visit_mut_ts_type, TsType, fail);
+        noop_visit_mut_type!(visit_mut_ts_type_alias_decl, TsTypeAliasDecl, fail);
+        noop_visit_mut_type!(visit_mut_ts_type_ann, TsTypeAnn, fail);
+        noop_visit_mut_type!(visit_mut_ts_type_element, TsTypeElement, fail);
+        noop_visit_mut_type!(visit_mut_ts_type_lit, TsTypeLit, fail);
+        noop_visit_mut_type!(visit_mut_ts_type_operator, TsTypeOperator, fail);
+        noop_visit_mut_type!(visit_mut_ts_type_operator_op, TsTypeOperatorOp, fail);
+        noop_visit_mut_type!(visit_mut_ts_type_param, TsTypeParam, fail);
+        noop_visit_mut_type!(visit_mut_ts_type_param_decl, TsTypeParamDecl, fail);
         noop_visit_mut_type!(
             visit_mut_ts_type_param_instantiation,
-            TsTypeParamInstantiation
+            TsTypeParamInstantiation,
+            fail
         );
-        noop_visit_mut_type!(visit_mut_ts_type_predicate, TsTypePredicate);
-        noop_visit_mut_type!(visit_mut_ts_type_query, TsTypeQuery);
-        noop_visit_mut_type!(visit_mut_ts_type_query_expr, TsTypeQueryExpr);
-        noop_visit_mut_type!(visit_mut_ts_type_ref, TsTypeRef);
+        noop_visit_mut_type!(visit_mut_ts_type_predicate, TsTypePredicate, fail);
+        noop_visit_mut_type!(visit_mut_ts_type_query, TsTypeQuery, fail);
+        noop_visit_mut_type!(visit_mut_ts_type_query_expr, TsTypeQueryExpr, fail);
+        noop_visit_mut_type!(visit_mut_ts_type_ref, TsTypeRef, fail);
         noop_visit_mut_type!(
             visit_mut_ts_union_or_intersection_type,
-            TsUnionOrIntersectionType
+            TsUnionOrIntersectionType,
+            fail
         );
-        noop_visit_mut_type!(visit_mut_ts_union_type, TsUnionType);
+        noop_visit_mut_type!(visit_mut_ts_union_type, TsUnionType, fail);
+    };
+    () => {
+        noop_visit_mut_type!(visit_mut_accessibility, Accessibility, fail);
+        noop_visit_mut_type!(visit_mut_true_plus_minus, TruePlusMinus, fail);
+        noop_visit_mut_type!(visit_mut_ts_array_type, TsArrayType, fail);
+        noop_visit_mut_type!(visit_mut_ts_call_signature_decl, TsCallSignatureDecl, fail);
+        noop_visit_mut_type!(visit_mut_ts_conditional_type, TsConditionalType, fail);
+        noop_visit_mut_type!(
+            visit_mut_ts_construct_signature_decl,
+            TsConstructSignatureDecl,
+            fail
+        );
+        noop_visit_mut_type!(visit_mut_ts_constructor_type, TsConstructorType, fail);
+        noop_visit_mut_type!(visit_mut_ts_entity_name, TsEntityName, fail);
+        noop_visit_mut_type!(visit_mut_ts_expr_with_type_args, TsExprWithTypeArgs, fail);
+        noop_visit_mut_type!(visit_mut_ts_external_module_ref, TsExternalModuleRef, fail);
+        noop_visit_mut_type!(
+            visit_mut_ts_fn_or_constructor_type,
+            TsFnOrConstructorType,
+            fail
+        );
+        noop_visit_mut_type!(visit_mut_ts_fn_param, TsFnParam, fail);
+        noop_visit_mut_type!(visit_mut_ts_fn_type, TsFnType, fail);
+        noop_visit_mut_type!(visit_mut_ts_import_type, TsImportType, fail);
+        noop_visit_mut_type!(visit_mut_ts_index_signature, TsIndexSignature, fail);
+        noop_visit_mut_type!(visit_mut_ts_indexed_access_type, TsIndexedAccessType, fail);
+        noop_visit_mut_type!(visit_mut_ts_infer_type, TsInferType, fail);
+        noop_visit_mut_type!(visit_mut_ts_interface_body, TsInterfaceBody, fail);
+        noop_visit_mut_type!(visit_mut_ts_interface_decl, TsInterfaceDecl, fail);
+        noop_visit_mut_type!(visit_mut_ts_intersection_type, TsIntersectionType, fail);
+        noop_visit_mut_type!(visit_mut_ts_keyword_type, TsKeywordType, fail);
+        noop_visit_mut_type!(visit_mut_ts_keyword_type_kind, TsKeywordTypeKind, fail);
+        noop_visit_mut_type!(visit_mut_ts_mapped_type, TsMappedType, fail);
+        noop_visit_mut_type!(visit_mut_ts_method_signature, TsMethodSignature, fail);
+        noop_visit_mut_type!(visit_mut_ts_module_ref, TsModuleRef, fail);
+        noop_visit_mut_type!(visit_mut_ts_optional_type, TsOptionalType, fail);
+        noop_visit_mut_type!(visit_mut_ts_parenthesized_type, TsParenthesizedType, fail);
+        noop_visit_mut_type!(visit_mut_ts_property_signature, TsPropertySignature, fail);
+        noop_visit_mut_type!(visit_mut_ts_qualified_name, TsQualifiedName, fail);
+        noop_visit_mut_type!(visit_mut_ts_rest_type, TsRestType, fail);
+        noop_visit_mut_type!(visit_mut_ts_this_type, TsThisType, fail);
+        noop_visit_mut_type!(visit_mut_ts_this_type_or_ident, TsThisTypeOrIdent, fail);
+        noop_visit_mut_type!(visit_mut_ts_tuple_type, TsTupleType, fail);
+        noop_visit_mut_type!(visit_mut_ts_type, TsType, fail);
+        noop_visit_mut_type!(visit_mut_ts_type_alias_decl, TsTypeAliasDecl, fail);
+        noop_visit_mut_type!(visit_mut_ts_type_ann, TsTypeAnn, fail);
+        noop_visit_mut_type!(visit_mut_ts_type_element, TsTypeElement, fail);
+        noop_visit_mut_type!(visit_mut_ts_type_lit, TsTypeLit, fail);
+        noop_visit_mut_type!(visit_mut_ts_type_operator, TsTypeOperator, fail);
+        noop_visit_mut_type!(visit_mut_ts_type_operator_op, TsTypeOperatorOp, fail);
+        noop_visit_mut_type!(visit_mut_ts_type_param, TsTypeParam, fail);
+        noop_visit_mut_type!(visit_mut_ts_type_param_decl, TsTypeParamDecl, fail);
+        noop_visit_mut_type!(
+            visit_mut_ts_type_param_instantiation,
+            TsTypeParamInstantiation,
+            fail
+        );
+        noop_visit_mut_type!(visit_mut_ts_type_predicate, TsTypePredicate, fail);
+        noop_visit_mut_type!(visit_mut_ts_type_query, TsTypeQuery, fail);
+        noop_visit_mut_type!(visit_mut_ts_type_query_expr, TsTypeQueryExpr, fail);
+        noop_visit_mut_type!(visit_mut_ts_type_ref, TsTypeRef, fail);
+        noop_visit_mut_type!(
+            visit_mut_ts_union_or_intersection_type,
+            TsUnionOrIntersectionType,
+            fail
+        );
+        noop_visit_mut_type!(visit_mut_ts_union_type, TsUnionType, fail);
     };
 }
 
