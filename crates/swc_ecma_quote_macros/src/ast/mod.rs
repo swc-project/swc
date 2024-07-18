@@ -65,10 +65,12 @@ macro_rules! impl_struct {
             fn to_code(&self, cx: &crate::ctxt::Ctx) -> syn::Expr {
                 let mut builder = crate::builder::Builder::new(stringify!($name));
 
+                let Self { $($v,)* } = self;
+
                 $(
                     builder.add(
                         stringify!($v),
-                        crate::ast::ToCode::to_code(&self.$v, cx),
+                        crate::ast::ToCode::to_code($v, cx),
                     );
                 )*
 

@@ -4,6 +4,7 @@ impl_struct!(
     Class,
     [
         span,
+        ctxt,
         decorators,
         body,
         super_class,
@@ -16,7 +17,7 @@ impl_struct!(
 
 impl_struct!(
     Constructor,
-    [span, key, params, body, accessibility, is_optional]
+    [span, ctxt, key, params, body, accessibility, is_optional]
 );
 
 impl_struct!(
@@ -74,6 +75,9 @@ impl_struct!(
     AutoAccessor,
     [
         span,
+        is_abstract,
+        is_override,
+        definite,
         key,
         value,
         type_ann,
