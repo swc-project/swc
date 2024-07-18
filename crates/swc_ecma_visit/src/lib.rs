@@ -524,6 +524,7 @@ macro_rules! noop_visit_type {
     };
 
     ($name:ident, $N:tt, fail) => {
+        #[cfg_attr(not(debug_assertions), inline(always))]
         fn $name(&mut self, _: &$crate::swc_ecma_ast::$N) {
             $crate::fail_no_typescript();
         }
@@ -535,7 +536,7 @@ macro_rules! noop_visit_type {
 
 /// NOT A PUBLIC API
 #[doc(hidden)]
-#[inline(always)]
+#[cfg_attr(not(debug_assertions), inline(always))]
 pub fn fail_not_standard() {
     unsafe {
         debug_unreachable::debug_unreachable!(
@@ -547,7 +548,7 @@ pub fn fail_not_standard() {
 
 /// NOT A PUBLIC API
 #[doc(hidden)]
-#[inline(always)]
+#[cfg_attr(not(debug_assertions), inline(always))]
 pub fn fail_no_typescript() {
     unsafe {
         debug_unreachable::debug_unreachable!(
@@ -904,6 +905,7 @@ macro_rules! noop_visit_mut_type {
     };
 
     ($name:ident, $N:ident, fail) => {
+        #[cfg_attr(not(debug_assertions), inline(always))]
         fn $name(&mut self, _: &mut $crate::swc_ecma_ast::$N) {
             $crate::fail_no_typescript();
         }
