@@ -15,8 +15,7 @@ use swc_ecma_utils::{
     quote_str, replace_ident, ExprFactory, ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith,
-    VisitWith,
+    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use swc_trace_macro::swc_trace;
 use tracing::debug;
