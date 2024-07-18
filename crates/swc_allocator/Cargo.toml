@@ -15,8 +15,9 @@ version       = "0.1.6"
 
 [features]
 default = ["scoped"]
+nightly = []
 rkyv    = ["dep:rkyv"]
-scoped  = []
+scoped  = ["nightly"]
 serde   = ["dep:serde", "dep:serde_derive"]
 
 [dependencies]
