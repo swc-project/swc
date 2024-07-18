@@ -69,6 +69,7 @@ impl Default for FastAlloc {
 impl FastAlloc {
     /// `true` is passed to `f` if the box is allocated with a custom allocator.
     fn with_allocator<T>(&self, f: impl FnOnce(&dyn std::alloc::Allocator, bool) -> T) -> T {
+        #[cfg(feature = "scoped")]
         if let Some(arena) = &self.alloc {
             return f((&&arena.alloc) as &dyn std::alloc::Allocator, true);
         }
