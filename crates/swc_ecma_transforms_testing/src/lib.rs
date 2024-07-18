@@ -853,6 +853,12 @@ fn stdout_of(code: &str) -> Result<String, Error> {
 /// Test transformation.
 #[macro_export]
 macro_rules! test_exec {
+    (@check) => {
+        if ::std::env::var("EXEC").unwrap_or(String::from("")) == "0" {
+            return;
+        }
+    };
+
     (ignore, $syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {
         #[test]
         #[ignore]
@@ -864,11 +870,24 @@ macro_rules! test_exec {
     ($syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {
         #[test]
         fn $test_name() {
-            if ::std::env::var("EXEC").unwrap_or(String::from("")) == "0" {
-                return;
-            }
-
+            test_exec!(@check);
             $crate::exec_tr(stringify!($test_name), $syntax, $tr, $input)
+        }
+    };
+
+    (module, $syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {
+        #[test]
+        fn $test_name() {
+            test_exec!(@check);
+            $crate::exec_module_tr(stringify!($test_name), $syntax, $tr, $input)
+        }
+    };
+
+    (script, $syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {
+        #[test]
+        fn $test_name() {
+            test_exec!(@check);
+            $crate::exec_script_tr(stringify!($test_name), $syntax, $tr, $input)
         }
     };
 }
