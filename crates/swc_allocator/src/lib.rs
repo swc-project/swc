@@ -81,6 +81,7 @@ impl FastAlloc {
 }
 
 /// This expands to the given tokens if the `nightly` feature is enabled.
+#[cfg(feature = "nightly")]
 #[macro_export]
 macro_rules! nightly_only {
     (
@@ -92,6 +93,15 @@ macro_rules! nightly_only {
             $item
         )*
     };
+}
+
+/// This expands to the given tokens if the `nightly` feature is enabled.
+#[cfg(not(feature = "nightly"))]
+#[macro_export]
+macro_rules! nightly_only {
+    (
+        $($item:item)*
+    ) => {};
 }
 
 /// Usage: `swc_allocator::Type!(Vec<T>)` or `swc_allocator::Type!(Box<T>)`.
