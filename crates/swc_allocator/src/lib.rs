@@ -88,7 +88,6 @@ macro_rules! nightly_only {
         $($item:item)*
     ) => {
         $(
-            #[cfg(any(docsrs, feature = "nightly"))]
             #[cfg_attr(docsrs, doc(cfg(feature = "nightly")))]
             $item
         )*
