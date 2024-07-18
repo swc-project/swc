@@ -6,7 +6,7 @@ use std::{
     ptr::NonNull,
 };
 
-use allocator_api2::alloc::Global;
+use allocator_api2::alloc::AllocError;
 use bumpalo::Bump;
 
 use crate::FastAlloc;
@@ -66,11 +66,11 @@ impl Default for FastAlloc {
 
 impl FastAlloc {
     /// `true` is passed to `f` if the box is allocated with a custom allocator.
-    #[cfg(feature = "scoped")]
     fn with_allocator<T>(
         &self,
         f: impl FnOnce(&dyn allocator_api2::alloc::Allocator, bool) -> T,
     ) -> T {
+        #[cfg(feature = "scoped")]
         if let Some(arena) = &self.alloc {
             return f(
                 (&&arena.alloc) as &dyn allocator_api2::alloc::Allocator,
@@ -80,13 +80,6 @@ impl FastAlloc {
 
         f(&allocator_api2::alloc::Global, false)
     }
-
-    /// `true` is passed to `f` if the box is allocated with a custom allocator.
-    #[cfg(not(feature = "scoped"))]
-    #[inline(always)]
-    fn with_allocator<T>(&self, f: impl FnOnce(allocator_api2::alloc::Global, bool) -> T) -> T {
-        f(allocator_api2::alloc::Global, false)
-    }
 }
 
 fn mark_ptr_as_arena_mode(ptr: NonNull<[u8]>) -> NonNull<[u8]> {
@@ -95,7 +88,7 @@ fn mark_ptr_as_arena_mode(ptr: NonNull<[u8]>) -> NonNull<[u8]> {
 
 unsafe impl allocator_api2::alloc::Allocator for FastAlloc {
     #[inline]
-    fn allocate(&self, layout: Layout) -> Result<NonNull<[u8]>, allocator_api2::alloc::AllocError> {
+    fn allocate(&self, layout: Layout) -> Result<NonNull<[u8]>, AllocError> {
         self.with_allocator(|a, is_arena_mode| {
             let ptr = a.allocate(layout)?;
 
@@ -108,10 +101,7 @@ unsafe impl allocator_api2::alloc::Allocator for FastAlloc {
     }
 
     #[inline]
-    fn allocate_zeroed(
-        &self,
-        layout: Layout,
-    ) -> Result<NonNull<[u8]>, allocator_api2::alloc::AllocError> {
+    fn allocate_zeroed(&self, layout: Layout) -> Result<NonNull<[u8]>, AllocError> {
         self.with_allocator(|a, is_arena_mode| {
             let ptr = a.allocate_zeroed(layout)?;
 
@@ -131,7 +121,7 @@ unsafe impl allocator_api2::alloc::Allocator for FastAlloc {
             return;
         }
 
-        Global.deallocate(ptr, layout)
+        allocator_api2::alloc::Global.deallocate(ptr, layout)
     }
 
     #[inline]
@@ -140,7 +130,7 @@ unsafe impl allocator_api2::alloc::Allocator for FastAlloc {
         ptr: NonNull<u8>,
         old_layout: Layout,
         new_layout: Layout,
-    ) -> Result<NonNull<[u8]>, allocator_api2::alloc::AllocError> {
+    ) -> Result<NonNull<[u8]>, AllocError> {
         self.with_allocator(|alloc, is_arena_mode| {
             let ptr = alloc.grow(ptr, old_layout, new_layout)?;
 
@@ -158,7 +148,7 @@ unsafe impl allocator_api2::alloc::Allocator for FastAlloc {
         ptr: NonNull<u8>,
         old_layout: Layout,
         new_layout: Layout,
-    ) -> Result<NonNull<[u8]>, allocator_api2::alloc::AllocError> {
+    ) -> Result<NonNull<[u8]>, AllocError> {
         self.with_allocator(|alloc, is_arena_mode| {
             let ptr = alloc.grow_zeroed(ptr, old_layout, new_layout)?;
 
@@ -176,7 +166,7 @@ unsafe impl allocator_api2::alloc::Allocator for FastAlloc {
         ptr: NonNull<u8>,
         old_layout: Layout,
         new_layout: Layout,
-    ) -> Result<NonNull<[u8]>, allocator_api2::alloc::AllocError> {
+    ) -> Result<NonNull<[u8]>, AllocError> {
         self.with_allocator(|alloc, is_arena_mode| {
             let ptr = alloc.shrink(ptr, old_layout, new_layout)?;
 
