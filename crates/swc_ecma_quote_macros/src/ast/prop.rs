@@ -6,6 +6,8 @@ impl_struct!(
     PrivateProp,
     [
         span,
+        ctxt,
+        definite,
         key,
         value,
         type_ann,
@@ -20,7 +22,7 @@ impl_struct!(
 
 impl_struct!(KeyValueProp, [key, value]);
 
-impl_struct!(AssignProp, [key, value]);
+impl_struct!(AssignProp, [span, key, value]);
 
 impl_struct!(GetterProp, [span, key, type_ann, body]);
 impl_struct!(SetterProp, [span, key, param, this_param, body]);
