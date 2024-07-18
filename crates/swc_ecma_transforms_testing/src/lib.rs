@@ -708,7 +708,7 @@ where
                 }})",
                 input
             ),
-            src_type
+            src_type,
         )?;
         match ::std::env::var("PRINT_HYGIENE") {
             Ok(ref s) if s == "1" => {
@@ -753,18 +753,18 @@ where
 
 /// Same as [exec_tr], but parses input as a [Module][Program::Module].
 pub fn exec_module_tr<F, P>(_test_name: &str, syntax: Syntax, tr: F, input: &str)
-    where
-        F: FnOnce(&mut Tester<'_>) -> P,
-        P: Fold,
+where
+    F: FnOnce(&mut Tester<'_>) -> P,
+    P: Fold,
 {
     exec_tr_with(syntax, SrcType::Module, tr, input)
 }
 
 /// Same as [exec_tr], but parses input as a [Script][Program::Script].
 pub fn exec_script_tr<F, P>(_test_name: &str, syntax: Syntax, tr: F, input: &str)
-    where
-        F: FnOnce(&mut Tester<'_>) -> P,
-        P: Fold,
+where
+    F: FnOnce(&mut Tester<'_>) -> P,
+    P: Fold,
 {
     exec_tr_with(syntax, SrcType::Script, tr, input)
 }
