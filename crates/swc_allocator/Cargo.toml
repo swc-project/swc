@@ -18,7 +18,7 @@ default = ["scoped"]
 nightly = []
 rkyv    = ["dep:rkyv"]
 scoped  = ["nightly"]
-serde   = ["dep:serde", "dep:serde_derive"]
+serde   = ["dep:serde", "dep:serde_derive", "allocator-api2/serde"]
 
 [dependencies]
 allocator-api2 = { workspace = true }
