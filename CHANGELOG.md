@@ -1355,9 +1355,6 @@
 
 - **(es/loader)** Don't use browser versions for `jsc.paths` ([#8548](https://github.com/swc-project/swc/issues/8548)) ([fab27da](https://github.com/swc-project/swc/commit/fab27dabed3a4d0478b28c86809cc06482b2c45c))
 
-
-- **(es/minifier)** Fix a bug related to inliner and the variable scoping ([#8542](https://github.com/swc-project/swc/issues/8542)) ([aa70131](https://github.com/swc-project/swc/commit/aa70131c558158abd3dcd3fca53dfe444c511ae1))
-
 ### Features
 
 
