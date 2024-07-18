@@ -136,7 +136,7 @@ pub fn get_esbuild_output(file: &Path, mangle: bool) -> Result<String> {
 struct Normalizer {}
 
 impl VisitMut for Normalizer {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_prop(&mut self, p: &mut Prop) {
         p.visit_mut_children_with(self);

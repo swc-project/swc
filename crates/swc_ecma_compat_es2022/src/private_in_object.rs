@@ -131,7 +131,7 @@ impl PrivateInObject {
 }
 
 impl VisitMut for PrivateInObject {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_class(&mut self, n: &mut Class) {
         {

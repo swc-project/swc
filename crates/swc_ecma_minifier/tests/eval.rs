@@ -169,7 +169,7 @@ impl PartialInliner {
 }
 
 impl VisitMut for PartialInliner {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);

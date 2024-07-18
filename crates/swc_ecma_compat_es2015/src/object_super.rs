@@ -21,7 +21,7 @@ pub fn object_super() -> impl Fold + VisitMut {
 
 #[swc_trace]
 impl VisitMut for ObjectSuper {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         n.visit_mut_children_with(self);
@@ -134,7 +134,7 @@ struct SuperReplacer {
 
 #[swc_trace]
 impl VisitMut for SuperReplacer {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_object_lit(&mut self, obj: &mut ObjectLit) {
         for prop_or_spread in obj.props.iter_mut() {

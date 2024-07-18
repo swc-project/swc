@@ -63,7 +63,7 @@ struct ComputedProps {
 
 #[swc_trace]
 impl VisitMut for ComputedProps {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         expr.visit_mut_children_with(self);

@@ -65,7 +65,7 @@ impl Entry {
 }
 
 impl VisitMut for Entry {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_import_decl(&mut self, i: &mut ImportDecl) {
         let remove = i.specifiers.is_empty() && self.add_all(&i.src.value);

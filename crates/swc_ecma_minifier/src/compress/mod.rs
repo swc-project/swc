@@ -325,7 +325,7 @@ impl Compressor<'_> {
 }
 
 impl VisitMut for Compressor<'_> {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_script(&mut self, n: &mut Script) {
         self.optimize_unit_repeatedly(n);

@@ -486,7 +486,7 @@ impl Visit for Es6ModuleDetector {
 #[derive(Clone, Copy)]
 struct ClearMark;
 impl VisitMut for ClearMark {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_ident(&mut self, ident: &mut Ident) {
         ident.ctxt = SyntaxContext::empty();

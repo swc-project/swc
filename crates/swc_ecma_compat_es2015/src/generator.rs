@@ -48,7 +48,7 @@ macro_rules! dev_span {
 }
 
 impl VisitMut for Wrapper {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_function(&mut self, f: &mut Function) {
         f.visit_mut_children_with(self);
@@ -397,7 +397,7 @@ impl Default for Generator {
 }
 
 impl VisitMut for Generator {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_arrow_expr(&mut self, e: &mut ArrowExpr) {
         e.params.visit_mut_with(self);
@@ -3642,7 +3642,7 @@ struct InvalidToLit<'a> {
 }
 
 impl VisitMut for InvalidToLit<'_> {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);

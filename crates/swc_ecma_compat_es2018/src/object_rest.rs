@@ -194,7 +194,7 @@ where
 #[swc_trace]
 #[fast_path(RestVisitor)]
 impl VisitMut for ObjectRest {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     impl_for_for_stmt!(visit_mut_for_in_stmt, ForInStmt);
 
@@ -1013,7 +1013,7 @@ struct PatSimplifier;
 
 #[swc_trace]
 impl VisitMut for PatSimplifier {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_pat(&mut self, pat: &mut Pat) {
         pat.visit_mut_children_with(self);

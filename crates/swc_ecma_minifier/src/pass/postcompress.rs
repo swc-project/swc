@@ -36,7 +36,7 @@ impl Parallel for PostcompressOptimizer<'_> {
 }
 
 impl VisitMut for PostcompressOptimizer<'_> {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_export_decl(&mut self, export: &mut ExportDecl) {
         match &mut export.decl {

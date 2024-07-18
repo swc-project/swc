@@ -15,7 +15,7 @@ use tracing::debug;
 pub(crate) struct Debugger {}
 
 impl VisitMut for Debugger {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_ident(&mut self, n: &mut Ident) {
         if !cfg!(feature = "debug") {

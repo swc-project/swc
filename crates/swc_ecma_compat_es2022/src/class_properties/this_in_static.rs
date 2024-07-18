@@ -8,7 +8,7 @@ pub(super) struct ThisInStaticFolder {
 
 #[swc_trace]
 impl VisitMut for ThisInStaticFolder {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     // once again, for computed props
     fn visit_mut_constructor(&mut self, _: &mut Constructor) {}
@@ -28,7 +28,7 @@ pub(super) struct NewTargetInProp;
 
 #[swc_trace]
 impl VisitMut for NewTargetInProp {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     // once again, for computed props
     fn visit_mut_constructor(&mut self, _: &mut Constructor) {}

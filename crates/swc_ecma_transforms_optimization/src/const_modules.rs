@@ -93,7 +93,7 @@ struct Scope {
 }
 
 impl VisitMut for ConstModules {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         *n = n.take().move_flat_map(|item| match item {

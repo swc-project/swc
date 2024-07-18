@@ -91,7 +91,7 @@ impl InfoMarker<'_> {
 }
 
 impl VisitMut for InfoMarker<'_> {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_call_expr(&mut self, n: &mut CallExpr) {
         n.visit_mut_children_with(self);

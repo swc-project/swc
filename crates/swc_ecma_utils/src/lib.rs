@@ -2678,7 +2678,7 @@ pub struct IdentReplacer<'a> {
 }
 
 impl VisitMut for IdentReplacer<'_> {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     visit_mut_obj_and_computed!();
 
@@ -2958,7 +2958,7 @@ impl<'a> Remapper<'a> {
 }
 
 impl VisitMut for Remapper<'_> {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
         if let Some(new_ctxt) = self.vars.get(&i.to_id()).copied() {

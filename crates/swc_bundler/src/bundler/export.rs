@@ -115,7 +115,7 @@ where
     L: Load,
     R: Resolve,
 {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_module_item(&mut self, item: &mut ModuleItem) {
         match item {

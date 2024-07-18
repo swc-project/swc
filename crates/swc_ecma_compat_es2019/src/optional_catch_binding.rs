@@ -11,7 +11,7 @@ pub fn optional_catch_binding() -> impl Fold + VisitMut {
 
 #[swc_trace]
 impl VisitMut for OptionalCatchBinding {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_catch_clause(&mut self, cc: &mut CatchClause) {
         cc.visit_mut_children_with(self);

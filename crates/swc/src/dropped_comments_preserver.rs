@@ -36,7 +36,7 @@ struct DroppedCommentsPreserver {
 type CommentEntries = Vec<(BytePos, Vec<Comment>)>;
 
 impl VisitMut for DroppedCommentsPreserver {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_module(&mut self, module: &mut Module) {
         module.visit_mut_children_with(self);

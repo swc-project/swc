@@ -149,7 +149,7 @@ where
 pub(crate) struct HygieneRemover;
 
 impl VisitMut for HygieneRemover {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_syntax_context(&mut self, n: &mut SyntaxContext) {
         *n = SyntaxContext::empty();

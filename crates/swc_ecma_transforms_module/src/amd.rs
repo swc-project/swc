@@ -135,7 +135,7 @@ impl<C> VisitMut for Amd<C>
 where
     C: Comments,
 {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_module(&mut self, n: &mut Module) {
         if self.module_id.is_none() {

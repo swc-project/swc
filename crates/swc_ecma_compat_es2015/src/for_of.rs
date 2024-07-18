@@ -687,7 +687,7 @@ impl ParExplode for ForOf {
 #[swc_trace]
 #[parallel(explode)]
 impl VisitMut for ForOf {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
         match s {

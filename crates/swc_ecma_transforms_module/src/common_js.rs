@@ -90,7 +90,7 @@ impl<C> VisitMut for Cjs<C>
 where
     C: Comments,
 {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_module(&mut self, n: &mut Module) {
         let mut stmts: Vec<ModuleItem> = Vec::with_capacity(n.body.len() + 6);

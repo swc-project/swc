@@ -30,7 +30,7 @@ pub struct ImportAnalyzer {
 
 /// Inject required helpers methods **for** module transform passes.
 impl VisitMut for ImportAnalyzer {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_module(&mut self, module: &mut Module) {
         self.visit_module(&*module);

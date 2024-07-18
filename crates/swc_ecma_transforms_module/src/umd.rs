@@ -107,7 +107,7 @@ impl<C> VisitMut for Umd<C>
 where
     C: Comments,
 {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_module(&mut self, module: &mut Module) {
         let module_items = &mut module.body;

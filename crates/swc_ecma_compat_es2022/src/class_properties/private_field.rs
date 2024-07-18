@@ -86,7 +86,7 @@ pub(super) struct BrandCheckHandler<'a> {
 
 #[swc_trace]
 impl VisitMut for BrandCheckHandler<'_> {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
@@ -205,7 +205,7 @@ macro_rules! take_vars {
 // super.#sdsa is invalid
 #[swc_trace]
 impl<'a> VisitMut for PrivateAccessVisitor<'a> {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     take_vars!(visit_mut_function, Function);
 

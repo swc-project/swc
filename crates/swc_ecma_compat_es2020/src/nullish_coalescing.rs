@@ -60,7 +60,7 @@ impl NullishCoalescing {
 
 #[swc_trace]
 impl VisitMut for NullishCoalescing {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     /// Prevents #1123
     fn visit_mut_block_stmt(&mut self, s: &mut BlockStmt) {

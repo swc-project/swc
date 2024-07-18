@@ -281,7 +281,7 @@ impl FnEnvHoister {
 }
 
 impl VisitMut for FnEnvHoister {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_assign_target_pat(&mut self, n: &mut AssignTargetPat) {
         let in_pat = self.in_pat;
@@ -603,7 +603,7 @@ struct InitThis<'a> {
 
 // babel is skip function and class property
 impl<'a> VisitMut for InitThis<'a> {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_class(&mut self, _: &mut Class) {}
 

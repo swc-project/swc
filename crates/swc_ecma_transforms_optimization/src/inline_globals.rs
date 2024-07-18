@@ -63,7 +63,7 @@ impl Parallel for InlineGlobals {
 }
 
 impl VisitMut for InlineGlobals {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         if let Expr::Ident(Ident { ref sym, ctxt, .. }) = expr {

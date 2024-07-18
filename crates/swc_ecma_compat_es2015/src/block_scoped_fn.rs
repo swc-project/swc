@@ -13,7 +13,7 @@ struct BlockScopedFns;
 
 #[swc_trace]
 impl VisitMut for BlockScopedFns {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_function(&mut self, n: &mut Function) {
         let Some(body) = &mut n.body else { return };
