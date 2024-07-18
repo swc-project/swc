@@ -3,7 +3,7 @@ use preset_env_base::{version::should_enable, Versions};
 use swc_atoms::JsWord;
 use swc_common::collections::ARandomState;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{standard_only_visit, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 pub(crate) use self::entry::Entry;
 use self::{
@@ -124,7 +124,7 @@ impl UsageVisitor {
 
 /// Detects usage of types
 impl Visit for UsageVisitor {
-    standard_only_visit!();
+    noop_visit_type!(fail);
 
     fn visit_ident(&mut self, node: &Ident) {
         node.visit_children_with(self);

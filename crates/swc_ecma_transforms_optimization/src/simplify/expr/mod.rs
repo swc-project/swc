@@ -16,7 +16,7 @@ use swc_ecma_utils::{
     is_literal, number::JsNumber, prop_name_eq, to_int32, BoolType, ExprCtx, ExprExt, NullType,
     NumberType, ObjectType, StringType, SymbolType, UndefinedType, Value,
 };
-use swc_ecma_visit::{as_folder, standard_only_visit_mut, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith};
 use Value::{Known, Unknown};
 
 use crate::debug::debug_assert_valid;
@@ -1213,7 +1213,7 @@ impl SimplifyExpr {
 }
 
 impl VisitMut for SimplifyExpr {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
         let old = self.is_modifying;

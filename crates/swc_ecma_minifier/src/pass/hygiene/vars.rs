@@ -51,10 +51,7 @@ impl<'a> Scope<'a> {
 
         while let Some(scope) = cur {
             let mut w = scope.data.borrow_mut();
-            w.decls
-                .entry(i.sym.clone())
-                .or_default()
-                .insert(i.ctxt);
+            w.decls.entry(i.sym.clone()).or_default().insert(i.ctxt);
 
             cur = scope.parent;
         }
@@ -86,7 +83,7 @@ macro_rules! scoped {
 }
 
 impl Visit for VarAnalyzer<'_> {
-    standard_only_visit!();
+    noop_visit_type!(fail);
 
     fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
         scoped!(self, n);

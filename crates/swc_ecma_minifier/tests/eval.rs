@@ -10,7 +10,7 @@ use swc_ecma_minifier::{
 };
 use swc_ecma_parser::{parse_file_as_expr, parse_file_as_module, EsSyntax, Syntax};
 use swc_ecma_transforms_base::resolver;
-use swc_ecma_visit::{standard_only_visit_mut, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use testing::{assert_eq, DebugUsingDisplay};
 
 fn eval(module: &str, expr: &str) -> Option<String> {
@@ -169,7 +169,7 @@ impl PartialInliner {
 }
 
 impl VisitMut for PartialInliner {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);

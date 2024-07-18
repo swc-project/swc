@@ -1,0 +1,64 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true
+        },
+        "target": "es2022",
+        "loose": false,
+        "minify": {
+            "compress": {
+                "arguments": true,
+                "arrows": true,
+                "booleans": true,
+                "booleans_as_integers": true,
+                "collapse_vars": true,
+                "comparisons": true,
+                "computed_props": true,
+                "conditionals": true,
+                "dead_code": false,
+                "directives": true,
+                "drop_console": true,
+                "drop_debugger": true,
+                "evaluate": true,
+                "expression": true,
+                "hoist_funs": true,
+                "hoist_props": true,
+                "hoist_vars": true,
+                "if_return": true,
+                "join_vars": false,
+                "keep_classnames": true,
+                "keep_fargs": true,
+                "keep_fnames": false,
+                "keep_infinity": true,
+                "loops": true,
+                "negate_iife": false,
+                "properties": true,
+                "reduce_funcs": true,
+                "reduce_vars": false,
+                "side_effects": true,
+                "switches": true,
+                "typeofs": true,
+                "unsafe": false,
+                "unsafe_arrows": false,
+                "unsafe_comps": false,
+                "unsafe_Function": false,
+                "unsafe_math": false,
+                "unsafe_symbols": false,
+                "unsafe_methods": false,
+                "unsafe_proto": false,
+                "unsafe_regexp": false,
+                "unsafe_undefined": false,
+                "unused": true,
+                "const_to_let": true,
+                "pristine_globals": true
+            },
+            "mangle": false
+        }
+    },
+    "module": {
+        "type": "es6"
+    },
+    "minify": false,
+    "isModule": true
+}

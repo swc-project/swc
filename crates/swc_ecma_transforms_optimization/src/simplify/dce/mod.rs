@@ -19,8 +19,7 @@ use swc_ecma_utils::{
     collect_decls, find_pat_ids, ExprCtx, ExprExt, IsEmpty, ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{
-    as_folder, standard_only_visit, standard_only_visit_mut, Fold, Visit, VisitMut, VisitMutWith,
-    VisitWith,
+    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use swc_fast_graph::digraph::FastDiGraphMap;
 use tracing::{debug, span, Level};
@@ -356,7 +355,7 @@ impl Analyzer<'_> {
 }
 
 impl Visit for Analyzer<'_> {
-    standard_only_visit!();
+    noop_visit_type!(fail);
 
     fn visit_callee(&mut self, n: &Callee) {
         n.visit_children_with(self);
@@ -659,7 +658,7 @@ impl TreeShaker {
 }
 
 impl VisitMut for TreeShaker {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
         n.visit_mut_children_with(self);

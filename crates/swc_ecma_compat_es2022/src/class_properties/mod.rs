@@ -12,8 +12,7 @@ use swc_ecma_utils::{
     ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{
-    as_folder, standard_only_visit, standard_only_visit_mut, Fold, Visit, VisitMut, VisitMutWith,
-    VisitWith,
+    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use swc_trace_macro::swc_trace;
 
@@ -160,7 +159,7 @@ impl Take for ClassExtra {
 #[swc_trace]
 #[fast_path(ShouldWork)]
 impl<C: Comments> VisitMut for ClassProperties<C> {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         self.visit_mut_stmt_like(n);
@@ -1081,7 +1080,7 @@ struct ShouldWork {
 
 #[swc_trace]
 impl Visit for ShouldWork {
-    standard_only_visit!();
+    noop_visit_type!(fail);
 
     fn visit_class_method(&mut self, _: &ClassMethod) {
         self.found = true;
@@ -1116,7 +1115,7 @@ struct SuperVisitor {
 }
 
 impl Visit for SuperVisitor {
-    standard_only_visit!();
+    noop_visit_type!(fail);
 
     /// Don't recurse into constructor
     fn visit_constructor(&mut self, _: &Constructor) {}

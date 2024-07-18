@@ -10,7 +10,7 @@ use swc_ecma_utils::{
     function::{init_this, FnEnvHoister},
     member_expr, prepend_stmt, prepend_stmts, private_ident, quote_ident, ExprFactory,
 };
-use swc_ecma_visit::{as_folder, standard_only_visit_mut, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 use tracing::trace;
 
@@ -466,7 +466,7 @@ impl Params {
 
 #[swc_trace]
 impl VisitMut for Params {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     // generally speaking, there won't be class field in here, but Safari 14.1
     // still has bugs in parameters

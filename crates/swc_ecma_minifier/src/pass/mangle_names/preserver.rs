@@ -1,7 +1,7 @@
 use rustc_hash::FxHashSet;
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_pat_ids;
-use swc_ecma_visit::{standard_only_visit, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use crate::option::MangleOptions;
 
@@ -35,7 +35,7 @@ impl Preserver {
 }
 
 impl Visit for Preserver {
-    standard_only_visit!();
+    noop_visit_type!(fail);
 
     fn visit_block_stmt(&mut self, n: &BlockStmt) {
         let old_top_level = self.in_top_level;

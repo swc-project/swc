@@ -1,5 +1,5 @@
 use swc_ecma_ast::*;
-use swc_ecma_visit::{standard_only_visit_mut, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 pub(super) struct ThisInStaticFolder {
@@ -8,7 +8,7 @@ pub(super) struct ThisInStaticFolder {
 
 #[swc_trace]
 impl VisitMut for ThisInStaticFolder {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     // once again, for computed props
     fn visit_mut_constructor(&mut self, _: &mut Constructor) {}
@@ -28,7 +28,7 @@ pub(super) struct NewTargetInProp;
 
 #[swc_trace]
 impl VisitMut for NewTargetInProp {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     // once again, for computed props
     fn visit_mut_constructor(&mut self, _: &mut Constructor) {}

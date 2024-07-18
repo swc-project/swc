@@ -17,8 +17,7 @@ use swc_ecma_utils::{
     function::FnEnvHoister, private_ident, prop_name_to_expr_value, quote_ident, ExprFactory,
 };
 use swc_ecma_visit::{
-    as_folder, standard_only_visit, standard_only_visit_mut, Fold, Visit, VisitMut, VisitMutWith,
-    VisitWith,
+    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use tracing::debug;
 
@@ -48,7 +47,7 @@ macro_rules! dev_span {
 }
 
 impl VisitMut for Wrapper {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_function(&mut self, f: &mut Function) {
         f.visit_mut_children_with(self);
@@ -397,7 +396,7 @@ impl Default for Generator {
 }
 
 impl VisitMut for Generator {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_arrow_expr(&mut self, e: &mut ArrowExpr) {
         e.params.visit_mut_with(self);
@@ -3613,7 +3612,7 @@ struct YieldFinder {
 }
 
 impl Visit for YieldFinder {
-    standard_only_visit!();
+    noop_visit_type!(fail);
 
     fn visit_yield_expr(&mut self, _: &YieldExpr) {
         self.found = true;
@@ -3642,7 +3641,7 @@ struct InvalidToLit<'a> {
 }
 
 impl VisitMut for InvalidToLit<'_> {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);

@@ -4,7 +4,7 @@ use serde::Deserialize;
 use swc_common::{util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{alias_ident_for_simple_assign_tatget, alias_if_required, StmtLike};
-use swc_ecma_visit::{as_folder, standard_only_visit_mut, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 pub fn nullish_coalescing(c: Config) -> impl Fold + VisitMut + 'static {
@@ -60,7 +60,7 @@ impl NullishCoalescing {
 
 #[swc_trace]
 impl VisitMut for NullishCoalescing {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     /// Prevents #1123
     fn visit_mut_block_stmt(&mut self, s: &mut BlockStmt) {

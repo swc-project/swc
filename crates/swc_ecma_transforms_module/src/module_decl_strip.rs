@@ -7,7 +7,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, private_ident, quote_ident, ExprFactory};
-use swc_ecma_visit::{standard_only_visit_mut, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use crate::{module_ref_rewriter::ImportMap, SpanCtx};
 
@@ -52,7 +52,7 @@ impl ModuleDeclStrip {
 }
 
 impl VisitMut for ModuleDeclStrip {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         let mut list = Vec::with_capacity(n.len());

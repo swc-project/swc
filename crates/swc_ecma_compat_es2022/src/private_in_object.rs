@@ -12,8 +12,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::pass::JsPass;
 use swc_ecma_utils::{default_constructor, prepend_stmt, private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{
-    as_folder, standard_only_visit, standard_only_visit_mut, Visit, VisitMut, VisitMutWith,
-    VisitWith,
+    as_folder, noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 
 /// https://github.com/tc39/proposal-private-fields-in-in
@@ -131,7 +130,7 @@ impl PrivateInObject {
 }
 
 impl VisitMut for PrivateInObject {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_class(&mut self, n: &mut Class) {
         {
@@ -496,7 +495,7 @@ struct ClassAnalyzer<'a> {
 }
 
 impl Visit for ClassAnalyzer<'_> {
-    standard_only_visit!();
+    noop_visit_type!(fail);
 
     fn visit_bin_expr(&mut self, n: &BinExpr) {
         n.visit_children_with(self);

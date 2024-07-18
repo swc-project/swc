@@ -3,7 +3,7 @@ use std::iter;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{
-    standard_only_fold, standard_only_visit_mut, Fold, FoldWith, VisitMut, VisitMutWith,
+    noop_visit_mut_type, standard_only_fold, Fold, FoldWith, VisitMut, VisitMutWith,
 };
 
 use crate::{prepend_stmts, ExprFactory};
@@ -119,7 +119,7 @@ struct ExprInjector<'a> {
 }
 
 impl VisitMut for ExprInjector<'_> {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_class(&mut self, c: &mut Class) {
         c.super_class.visit_mut_with(self);

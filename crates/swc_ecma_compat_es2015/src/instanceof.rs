@@ -2,7 +2,7 @@ use swc_common::{util::take::Take, Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Parallel};
 use swc_ecma_utils::ExprFactory;
-use swc_ecma_visit::{as_folder, standard_only_visit_mut, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 /// `@babel/plugin-transform-instanceof`
@@ -45,7 +45,7 @@ impl Parallel for InstanceOf {
 
 #[swc_trace]
 impl VisitMut for InstanceOf {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         expr.visit_mut_children_with(self);

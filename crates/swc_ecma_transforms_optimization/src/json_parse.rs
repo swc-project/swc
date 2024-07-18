@@ -3,7 +3,7 @@ use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_utils::{calc_literal_cost, member_expr, ExprFactory};
-use swc_ecma_visit::{as_folder, standard_only_visit_mut, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 /// Transform to optimize performance of literals.
 ///
@@ -52,7 +52,7 @@ impl Default for JsonParse {
 }
 
 impl VisitMut for JsonParse {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     /// Handles parent expressions before child expressions.
     fn visit_mut_expr(&mut self, expr: &mut Expr) {

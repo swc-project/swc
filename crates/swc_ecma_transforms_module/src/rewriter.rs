@@ -1,7 +1,7 @@
 use anyhow::Context;
 use swc_common::FileName;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{as_folder, standard_only_visit_mut, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 use crate::path::ImportResolver;
 
@@ -25,7 +25,7 @@ impl<R> VisitMut for Rewriter<R>
 where
     R: ImportResolver,
 {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_call_expr(&mut self, e: &mut CallExpr) {
         e.visit_mut_children_with(self);

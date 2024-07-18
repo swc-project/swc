@@ -3,7 +3,7 @@ use preset_env_base::version::{should_enable, Version};
 use swc_atoms::JsWord;
 use swc_common::collections::ARandomState;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{standard_only_visit, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::{
     builtin::{
@@ -154,7 +154,7 @@ impl UsageVisitor {
 }
 
 impl Visit for UsageVisitor {
-    standard_only_visit!();
+    noop_visit_type!(fail);
 
     /// `[a, b] = c`
     fn visit_array_pat(&mut self, p: &ArrayPat) {

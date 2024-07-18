@@ -1,6 +1,6 @@
 use swc_ecma_ast::*;
 use swc_ecma_utils::private_ident;
-use swc_ecma_visit::{as_folder, standard_only_visit_mut, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 struct OptionalCatchBinding;
@@ -11,7 +11,7 @@ pub fn optional_catch_binding() -> impl Fold + VisitMut {
 
 #[swc_trace]
 impl VisitMut for OptionalCatchBinding {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_catch_clause(&mut self, cc: &mut CatchClause) {
         cc.visit_mut_children_with(self);

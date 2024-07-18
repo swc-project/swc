@@ -13,7 +13,7 @@ use swc_ecma_utils::{
     var::VarCollector, ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{
-    standard_only_visit, standard_only_visit_mut, Visit, VisitMut, VisitMutWith, VisitWith,
+    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use swc_trace_macro::swc_trace;
 
@@ -166,7 +166,7 @@ struct RestVisitor {
 
 #[swc_trace]
 impl Visit for RestVisitor {
-    standard_only_visit!();
+    noop_visit_type!(fail);
 
     fn visit_object_pat_prop(&mut self, prop: &ObjectPatProp) {
         match *prop {
@@ -194,7 +194,7 @@ where
 #[swc_trace]
 #[fast_path(RestVisitor)]
 impl VisitMut for ObjectRest {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     impl_for_for_stmt!(visit_mut_for_in_stmt, ForInStmt);
 
@@ -1013,7 +1013,7 @@ struct PatSimplifier;
 
 #[swc_trace]
 impl VisitMut for PatSimplifier {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_pat(&mut self, pat: &mut Pat) {
         pat.visit_mut_children_with(self);

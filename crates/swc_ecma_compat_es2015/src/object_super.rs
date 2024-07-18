@@ -6,7 +6,7 @@ use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
     alias_ident_for, is_rest_arguments, prepend_stmt, private_ident, quote_ident, ExprFactory,
 };
-use swc_ecma_visit::{as_folder, standard_only_visit_mut, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 struct ObjectSuper {
@@ -21,7 +21,7 @@ pub fn object_super() -> impl Fold + VisitMut {
 
 #[swc_trace]
 impl VisitMut for ObjectSuper {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         n.visit_mut_children_with(self);
@@ -134,7 +134,7 @@ struct SuperReplacer {
 
 #[swc_trace]
 impl VisitMut for SuperReplacer {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_object_lit(&mut self, obj: &mut ObjectLit) {
         for prop_or_spread in obj.props.iter_mut() {

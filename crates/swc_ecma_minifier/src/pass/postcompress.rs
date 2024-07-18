@@ -1,7 +1,7 @@
 use swc_common::util::take::Take;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{Parallel, ParallelExt};
-use swc_ecma_visit::{standard_only_visit_mut, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use crate::{maybe_par, option::CompressOptions, LIGHT_TASK_PARALLELS};
 
@@ -36,7 +36,7 @@ impl Parallel for PostcompressOptimizer<'_> {
 }
 
 impl VisitMut for PostcompressOptimizer<'_> {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_export_decl(&mut self, export: &mut ExportDecl) {
         match &mut export.decl {

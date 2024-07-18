@@ -4,7 +4,7 @@ use anyhow::Error;
 use swc_common::{collections::AHashMap, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{quote_ident, ExprFactory};
-use swc_ecma_visit::{standard_only_visit_mut, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use crate::{
     bundler::{chunk::merge::Ctx, load::TransformedModule},
@@ -189,7 +189,7 @@ where
     L: Load,
     R: Resolve,
 {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_call_expr(&mut self, node: &mut CallExpr) {
         node.visit_mut_children_with(self);
@@ -352,7 +352,7 @@ struct DefaultHandler {
 }
 
 impl VisitMut for DefaultHandler {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
@@ -375,7 +375,7 @@ struct Remapper {
 }
 
 impl VisitMut for Remapper {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
         if let Some(v) = self.vars.get(&i.to_id()).copied() {

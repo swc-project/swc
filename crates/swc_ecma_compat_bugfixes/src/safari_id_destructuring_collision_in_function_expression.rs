@@ -4,7 +4,7 @@ use swc_atoms::JsWord;
 use swc_common::{collections::AHashSet, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::hygiene::rename;
-use swc_ecma_visit::{as_folder, standard_only_visit_mut, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 pub fn safari_id_destructuring_collision_in_function_expression() -> impl Fold + VisitMut {
@@ -31,7 +31,7 @@ impl SafariIdDestructuringCollisionInFunctionExpression {
 
 #[swc_trace]
 impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_assign_pat_prop(&mut self, n: &mut AssignPatProp) {
         self.visit_mut_pat_id(&Ident::from(&n.key));

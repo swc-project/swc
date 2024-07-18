@@ -1,7 +1,7 @@
 use swc_common::util::take::Take;
 use swc_ecma_ast::{CallExpr, Expr, Lit, Regex};
 use swc_ecma_utils::{quote_ident, ExprFactory};
-use swc_ecma_visit::{as_folder, standard_only_visit_mut, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub fn regexp(config: Config) -> impl Fold + VisitMut {
     as_folder(RegExp { config })
@@ -32,7 +32,7 @@ struct RegExp {
 }
 
 impl VisitMut for RegExp {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         expr.visit_mut_children_with(self);

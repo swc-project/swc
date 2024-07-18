@@ -9,7 +9,7 @@ use swc_common::{FileName, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_minifier::option::{CompressOptions, MangleOptions, MinifyOptions};
 use swc_ecma_transforms_base::fixer::fixer;
-use swc_ecma_visit::{standard_only_visit_mut, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use super::{parse_js, print_js, wrap_task, ModuleRecord};
 
@@ -136,7 +136,7 @@ pub fn get_esbuild_output(file: &Path, mangle: bool) -> Result<String> {
 struct Normalizer {}
 
 impl VisitMut for Normalizer {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_prop(&mut self, p: &mut Prop) {
         p.visit_mut_children_with(self);

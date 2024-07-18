@@ -3,7 +3,7 @@ use swc_common::{collections::AHashSet, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_utils::quote_str;
-use swc_ecma_visit::{as_folder, standard_only_visit_mut, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 pub fn duplicate_keys() -> impl Fold + VisitMut {
@@ -22,7 +22,7 @@ impl Parallel for DuplicateKeys {
 
 #[swc_trace]
 impl VisitMut for DuplicateKeys {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         expr.visit_mut_children_with(self);
@@ -42,7 +42,7 @@ struct PropFolder {
 
 #[swc_trace]
 impl VisitMut for PropFolder {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     /// Noop
     fn visit_mut_expr(&mut self, _: &mut Expr) {}
@@ -90,7 +90,7 @@ struct PropNameFolder<'a> {
 
 #[swc_trace]
 impl<'a> VisitMut for PropNameFolder<'a> {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_expr(&mut self, _: &mut Expr) {}
 

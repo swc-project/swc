@@ -1,7 +1,7 @@
 use swc_common::{collections::AHashMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, ExprCtx, ExprExt, IsEmpty, StmtExt};
-use swc_ecma_visit::{standard_only_visit, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use swc_timer::timer;
 
 pub use self::ctx::Ctx;
@@ -215,7 +215,7 @@ impl<S> Visit for UsageAnalyzer<S>
 where
     S: Storage,
 {
-    standard_only_visit!();
+    noop_visit_type!(fail);
 
     fn visit_array_lit(&mut self, n: &ArrayLit) {
         let ctx = Ctx {
@@ -894,6 +894,24 @@ where
 
     fn visit_import_star_as_specifier(&mut self, n: &ImportStarAsSpecifier) {
         self.declare_decl(&n.local, true, None, false);
+    }
+
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
+    fn visit_jsx_element_name(&mut self, n: &JSXElementName) {
+        let ctx = Ctx {
+            in_pat_of_var_decl: false,
+            in_pat_of_param: false,
+            in_catch_param: false,
+            var_decl_kind_of_pat: None,
+            in_pat_of_var_decl_with_init: false,
+            ..self.ctx
+        };
+
+        n.visit_children_with(&mut *self.with_ctx(ctx));
+
+        if let JSXElementName::Ident(i) = n {
+            self.with_ctx(ctx).report_usage(i);
+        }
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, e)))]

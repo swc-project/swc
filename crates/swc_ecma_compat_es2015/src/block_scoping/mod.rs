@@ -16,7 +16,7 @@ use swc_ecma_utils::{
     ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{
-    as_folder, standard_only_visit_mut, visit_mut_obj_and_computed, Fold, VisitMut, VisitMutWith,
+    as_folder, noop_visit_mut_type, visit_mut_obj_and_computed, Fold, VisitMut, VisitMutWith,
 };
 use swc_trace_macro::swc_trace;
 
@@ -435,7 +435,7 @@ impl BlockScoping {
 
 #[swc_trace]
 impl VisitMut for BlockScoping {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
         n.params.visit_mut_with(self);
@@ -685,7 +685,7 @@ impl<'a> FlowHelper<'a> {
 
 #[swc_trace]
 impl VisitMut for FlowHelper<'_> {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     /// noop
     fn visit_mut_arrow_expr(&mut self, _n: &mut ArrowExpr) {}
@@ -910,7 +910,7 @@ impl MutationHandler<'_> {
 
 #[swc_trace]
 impl VisitMut for MutationHandler<'_> {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     visit_mut_obj_and_computed!();
 

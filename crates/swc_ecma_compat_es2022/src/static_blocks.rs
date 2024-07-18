@@ -2,7 +2,7 @@ use swc_atoms::JsWord;
 use swc_common::{collections::AHashSet, util::take::Take, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprFactory;
-use swc_ecma_visit::{as_folder, standard_only_visit_mut, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 struct ClassStaticBlock {
@@ -71,7 +71,7 @@ impl ClassStaticBlock {
 
 #[swc_trace]
 impl VisitMut for ClassStaticBlock {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_class(&mut self, class: &mut Class) {
         class.visit_mut_children_with(self);

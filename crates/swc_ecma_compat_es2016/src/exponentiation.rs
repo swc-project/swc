@@ -3,7 +3,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{ParExplode, Parallel};
 use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{member_expr, private_ident, ExprFactory};
-use swc_ecma_visit::{as_folder, standard_only_visit_mut, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 /// `@babel/plugin-transform-exponentiation-operator`
@@ -80,7 +80,7 @@ impl ParExplode for Exponentiation {
 #[swc_trace]
 #[parallel(explode)]
 impl VisitMut for Exponentiation {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);

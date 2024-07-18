@@ -7,7 +7,7 @@ use swc_ecma_ast::{
     CallExpr, Callee, Expr, IdentName, KeyValueProp, Lit, MemberExpr, MemberProp, Program, Prop,
     PropName, Str, SuperProp, SuperPropExpr,
 };
-use swc_ecma_visit::{standard_only_visit_mut, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use crate::{
     option::ManglePropertiesOptions,
@@ -238,7 +238,7 @@ impl Mangler<'_> {
 }
 
 impl VisitMut for Mangler<'_> {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_call_expr(&mut self, call: &mut CallExpr) {
         call.visit_mut_children_with(self);

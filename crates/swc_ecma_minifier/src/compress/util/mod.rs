@@ -8,7 +8,7 @@ use swc_ecma_utils::{number::JsNumber, ExprCtx, ExprExt, IdentUsageFinder, Value
 #[cfg(feature = "debug")]
 use swc_ecma_visit::{as_folder, FoldWith};
 use swc_ecma_visit::{
-    standard_only_visit, standard_only_visit_mut, Visit, VisitMut, VisitMutWith, VisitWith,
+    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 
 #[cfg(feature = "debug")]
@@ -568,7 +568,7 @@ impl<F> VisitMut for ExprReplacer<F>
 where
     F: FnMut(&mut Expr),
 {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
@@ -687,7 +687,7 @@ impl UnreachableHandler {
 }
 
 impl VisitMut for UnreachableHandler {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}
 
@@ -737,7 +737,7 @@ pub struct SuperFinder {
 }
 
 impl Visit for SuperFinder {
-    standard_only_visit!();
+    noop_visit_type!(fail);
 
     /// Don't recurse into constructor
     fn visit_constructor(&mut self, _: &Constructor) {}

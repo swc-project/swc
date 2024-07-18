@@ -4,7 +4,7 @@ use swc_common::{util::take::Take, Mark, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{is_rest_arguments, quote_ident, ExprFactory};
-use swc_ecma_visit::{standard_only_visit_mut, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use super::get_prototype_of;
 
@@ -65,7 +65,7 @@ macro_rules! mark_nested {
 }
 
 impl<'a> VisitMut for SuperFieldAccessFolder<'a> {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     // mark_nested!(fold_function, Function);
     mark_nested!(visit_mut_class, Class);

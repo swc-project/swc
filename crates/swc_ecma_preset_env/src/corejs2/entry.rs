@@ -3,7 +3,7 @@ use preset_env_base::{version::should_enable, Versions};
 use swc_atoms::js_word;
 use swc_common::{collections::ARandomState, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{standard_only_visit_mut, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use super::builtin::BUILTINS;
 
@@ -65,7 +65,7 @@ impl Entry {
 }
 
 impl VisitMut for Entry {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_import_decl(&mut self, i: &mut ImportDecl) {
         let remove = i.specifiers.is_empty() && self.add_all(&i.src.value);
