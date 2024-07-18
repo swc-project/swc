@@ -324,6 +324,7 @@ expect(() => {
 );
 // duplicated_keys_computed_keys_same_value
 test!(
+    module,
     syntax(false),
     |t| tr(t),
     duplicated_keys_computed_keys_same_value,
@@ -910,6 +911,7 @@ expect(Object.getOwnPropertyDescriptor(A.prototype, "foo")).toEqual({
 );
 // transformation_extends
 test!(
+    module,
     syntax(false),
     |t| transformation(t),
     transformation_extends,
