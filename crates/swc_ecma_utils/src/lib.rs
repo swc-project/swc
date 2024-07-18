@@ -2983,10 +2983,6 @@ impl VisitMut for IdentRenamer<'_> {
 
     visit_mut_obj_and_computed!();
 
-    fn visit_mut_jsx_member_expr(&mut self, n: &mut JSXMemberExpr) {
-        n.obj.visit_mut_with(self);
-    }
-
     fn visit_mut_export_named_specifier(&mut self, node: &mut ExportNamedSpecifier) {
         if node.exported.is_some() {
             node.orig.visit_mut_children_with(self);
