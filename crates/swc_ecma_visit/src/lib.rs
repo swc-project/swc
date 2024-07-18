@@ -352,7 +352,6 @@ macro_rules! noop_fold_type {
         noop_fold_type!(fold_ts_enum_member, TsEnumMember);
         noop_fold_type!(fold_ts_enum_member_id, TsEnumMemberId);
         noop_fold_type!(fold_ts_expr_with_type_args, TsExprWithTypeArgs);
-        noop_fold_type!(fold_ts_external_module_ref, TsExternalModuleRef);
         noop_fold_type!(fold_ts_fn_or_constructor_type, TsFnOrConstructorType);
         noop_fold_type!(fold_ts_fn_param, TsFnParam);
         noop_fold_type!(fold_ts_fn_type, TsFnType);
@@ -424,7 +423,6 @@ macro_rules! noop_visit_type {
         noop_visit_type!(visit_ts_constructor_type, TsConstructorType, fail);
         noop_visit_type!(visit_ts_entity_name, TsEntityName, fail);
         noop_visit_type!(visit_ts_expr_with_type_args, TsExprWithTypeArgs, fail);
-        noop_visit_type!(visit_ts_external_module_ref, TsExternalModuleRef, fail);
         noop_visit_type!(visit_ts_fn_or_constructor_type, TsFnOrConstructorType, fail);
         noop_visit_type!(visit_ts_fn_param, TsFnParam, fail);
         noop_visit_type!(visit_ts_fn_type, TsFnType, fail);
@@ -439,7 +437,6 @@ macro_rules! noop_visit_type {
         noop_visit_type!(visit_ts_keyword_type_kind, TsKeywordTypeKind, fail);
         noop_visit_type!(visit_ts_mapped_type, TsMappedType, fail);
         noop_visit_type!(visit_ts_method_signature, TsMethodSignature, fail);
-        noop_visit_type!(visit_ts_module_ref, TsModuleRef, fail);
         noop_visit_type!(visit_ts_optional_type, TsOptionalType, fail);
         noop_visit_type!(visit_ts_parenthesized_type, TsParenthesizedType, fail);
         noop_visit_type!(visit_ts_property_signature, TsPropertySignature, fail);
@@ -483,7 +480,6 @@ macro_rules! noop_visit_type {
         noop_visit_type!(visit_ts_constructor_type, TsConstructorType);
         noop_visit_type!(visit_ts_entity_name, TsEntityName);
         noop_visit_type!(visit_ts_expr_with_type_args, TsExprWithTypeArgs);
-        noop_visit_type!(visit_ts_external_module_ref, TsExternalModuleRef);
         noop_visit_type!(visit_ts_fn_or_constructor_type, TsFnOrConstructorType);
         noop_visit_type!(visit_ts_fn_param, TsFnParam);
         noop_visit_type!(visit_ts_fn_type, TsFnType);
@@ -498,7 +494,6 @@ macro_rules! noop_visit_type {
         noop_visit_type!(visit_ts_keyword_type_kind, TsKeywordTypeKind);
         noop_visit_type!(visit_ts_mapped_type, TsMappedType);
         noop_visit_type!(visit_ts_method_signature, TsMethodSignature);
-        noop_visit_type!(visit_ts_module_ref, TsModuleRef);
         noop_visit_type!(visit_ts_optional_type, TsOptionalType);
         noop_visit_type!(visit_ts_parenthesized_type, TsParenthesizedType);
         noop_visit_type!(visit_ts_property_signature, TsPropertySignature);
@@ -798,7 +793,6 @@ macro_rules! noop_visit_mut_type {
         noop_visit_mut_type!(visit_mut_ts_constructor_type, TsConstructorType, fail);
         noop_visit_mut_type!(visit_mut_ts_entity_name, TsEntityName, fail);
         noop_visit_mut_type!(visit_mut_ts_expr_with_type_args, TsExprWithTypeArgs, fail);
-        noop_visit_mut_type!(visit_mut_ts_external_module_ref, TsExternalModuleRef, fail);
         noop_visit_mut_type!(
             visit_mut_ts_fn_or_constructor_type,
             TsFnOrConstructorType,
@@ -817,7 +811,6 @@ macro_rules! noop_visit_mut_type {
         noop_visit_mut_type!(visit_mut_ts_keyword_type_kind, TsKeywordTypeKind, fail);
         noop_visit_mut_type!(visit_mut_ts_mapped_type, TsMappedType, fail);
         noop_visit_mut_type!(visit_mut_ts_method_signature, TsMethodSignature, fail);
-        noop_visit_mut_type!(visit_mut_ts_module_ref, TsModuleRef, fail);
         noop_visit_mut_type!(visit_mut_ts_optional_type, TsOptionalType, fail);
         noop_visit_mut_type!(visit_mut_ts_parenthesized_type, TsParenthesizedType, fail);
         noop_visit_mut_type!(visit_mut_ts_property_signature, TsPropertySignature, fail);
@@ -864,7 +857,6 @@ macro_rules! noop_visit_mut_type {
         noop_visit_mut_type!(visit_mut_ts_constructor_type, TsConstructorType);
         noop_visit_mut_type!(visit_mut_ts_entity_name, TsEntityName);
         noop_visit_mut_type!(visit_mut_ts_expr_with_type_args, TsExprWithTypeArgs);
-        noop_visit_mut_type!(visit_mut_ts_external_module_ref, TsExternalModuleRef);
         noop_visit_mut_type!(visit_mut_ts_fn_or_constructor_type, TsFnOrConstructorType);
         noop_visit_mut_type!(visit_mut_ts_fn_param, TsFnParam);
         noop_visit_mut_type!(visit_mut_ts_fn_type, TsFnType);
@@ -879,7 +871,6 @@ macro_rules! noop_visit_mut_type {
         noop_visit_mut_type!(visit_mut_ts_keyword_type_kind, TsKeywordTypeKind);
         noop_visit_mut_type!(visit_mut_ts_mapped_type, TsMappedType);
         noop_visit_mut_type!(visit_mut_ts_method_signature, TsMethodSignature);
-        noop_visit_mut_type!(visit_mut_ts_module_ref, TsModuleRef);
         noop_visit_mut_type!(visit_mut_ts_optional_type, TsOptionalType);
         noop_visit_mut_type!(visit_mut_ts_parenthesized_type, TsParenthesizedType);
         noop_visit_mut_type!(visit_mut_ts_property_signature, TsPropertySignature);
