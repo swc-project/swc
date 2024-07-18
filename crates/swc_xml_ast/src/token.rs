@@ -1,6 +1,6 @@
 #[cfg(feature = "serde-impl")]
 use serde::{Deserialize, Serialize};
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 #[ast_node("TokenAndSpan")]
@@ -14,10 +14,10 @@ pub struct TokenAndSpan {
 #[cfg_attr(feature = "serde-impl", derive(Serialize, Deserialize))]
 pub struct AttributeToken {
     pub span: Span,
-    pub name: JsWord,
-    pub raw_name: Option<JsWord>,
-    pub value: Option<JsWord>,
-    pub raw_value: Option<JsWord>,
+    pub name: Atom,
+    pub raw_name: Option<Atom>,
+    pub value: Option<Atom>,
+    pub raw_value: Option<Atom>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash, EqIgnoreSpan)]
@@ -25,41 +25,41 @@ pub struct AttributeToken {
 pub enum Token {
     Doctype {
         // Name
-        name: Option<JsWord>,
+        name: Option<Atom>,
         // Public identifier
-        public_id: Option<JsWord>,
+        public_id: Option<Atom>,
         // System identifier
-        system_id: Option<JsWord>,
+        system_id: Option<Atom>,
         // Raw value
-        raw: Option<JsWord>,
+        raw: Option<Atom>,
     },
     StartTag {
-        tag_name: JsWord,
+        tag_name: Atom,
         attributes: Vec<AttributeToken>,
     },
     EndTag {
-        tag_name: JsWord,
+        tag_name: Atom,
         attributes: Vec<AttributeToken>,
     },
     EmptyTag {
-        tag_name: JsWord,
+        tag_name: Atom,
         attributes: Vec<AttributeToken>,
     },
     Comment {
-        data: JsWord,
-        raw: JsWord,
+        data: Atom,
+        raw: Atom,
     },
     Character {
         value: char,
-        raw: Option<JsWord>,
+        raw: Option<Atom>,
     },
     ProcessingInstruction {
-        target: JsWord,
-        data: JsWord,
+        target: Atom,
+        data: Atom,
     },
     Cdata {
-        data: JsWord,
-        raw: JsWord,
+        data: Atom,
+        raw: Atom,
     },
     Eof,
 }

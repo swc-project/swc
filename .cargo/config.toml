@@ -1,5 +1,6 @@
 [alias]
-xtask = "run --package xtask --"
+codegen = "run --package generate-code --"
+xtask   = "run --package xtask --"
 
 [build]
 

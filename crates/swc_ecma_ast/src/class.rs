@@ -175,43 +175,51 @@ pub struct PrivateProp {
     pub definite: bool,
 }
 
-macro_rules! method {
-    ($name:ident, $ty:literal, $KEY:ty) => {
-        #[ast_node($ty)]
-        #[derive(Eq, Hash, EqIgnoreSpan)]
-        #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-        pub struct $name {
-            #[cfg_attr(feature = "serde-impl", serde(default))]
-            pub span: Span,
-
-            pub key: $KEY,
-
-            pub function: Box<Function>,
-
-            pub kind: MethodKind,
-
-            #[cfg_attr(feature = "serde-impl", serde(default))]
-            pub is_static: bool,
-
-            /// Typescript extension.
-            #[cfg_attr(feature = "serde-impl", serde(default))]
-            pub accessibility: Option<Accessibility>,
-
-            /// Typescript extension.
-            #[cfg_attr(feature = "serde-impl", serde(default))]
-            pub is_abstract: bool,
-
-            #[cfg_attr(feature = "serde-impl", serde(default))]
-            pub is_optional: bool,
-
-            #[cfg_attr(feature = "serde-impl", serde(default))]
-            pub is_override: bool,
-        }
-    };
+#[ast_node("ClassMethod")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+pub struct ClassMethod {
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub span: Span,
+    pub key: PropName,
+    pub function: Box<Function>,
+    pub kind: MethodKind,
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub is_static: bool,
+    #[doc = r" Typescript extension."]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub accessibility: Option<Accessibility>,
+    #[doc = r" Typescript extension."]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub is_abstract: bool,
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub is_optional: bool,
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub is_override: bool,
 }
 
-method!(ClassMethod, "ClassMethod", PropName);
-method!(PrivateMethod, "PrivateMethod", PrivateName);
+#[ast_node("PrivateMethod")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+pub struct PrivateMethod {
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub span: Span,
+    pub key: PrivateName,
+    pub function: Box<Function>,
+    pub kind: MethodKind,
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub is_static: bool,
+    #[doc = r" Typescript extension."]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub accessibility: Option<Accessibility>,
+    #[doc = r" Typescript extension."]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub is_abstract: bool,
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub is_optional: bool,
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub is_override: bool,
+}
 
 #[ast_node("Constructor")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]

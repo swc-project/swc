@@ -71,6 +71,7 @@ impl_struct!(
     ArrowExpr,
     [
         span,
+        ctxt,
         params,
         body,
         is_async,
@@ -89,19 +90,19 @@ impl_struct!(MemberExpr, [span, obj, prop]);
 impl_struct!(SuperPropExpr, [span, obj, prop]);
 impl_struct!(CondExpr, [span, test, cons, alt]);
 
-impl_struct!(CallExpr, [span, callee, args, type_args]);
+impl_struct!(CallExpr, [span, ctxt, callee, args, type_args]);
 impl_struct!(ExprOrSpread, [spread, expr]);
 impl_struct!(Super, [span]);
 impl_struct!(Import, [span, phase]);
-impl_struct!(NewExpr, [span, callee, args, type_args]);
+impl_struct!(NewExpr, [span, ctxt, callee, args, type_args]);
 impl_struct!(SeqExpr, [span, exprs]);
 
-impl_struct!(TaggedTpl, [span, tag, type_params, tpl]);
+impl_struct!(TaggedTpl, [span, ctxt, tag, type_params, tpl]);
 impl_struct!(YieldExpr, [span, arg, delegate]);
 impl_struct!(MetaPropExpr, [span, kind]);
 impl_struct!(AwaitExpr, [span, arg]);
-impl_struct!(JSXMemberExpr, [obj, prop]);
-impl_struct!(JSXNamespacedName, [ns, name]);
+impl_struct!(JSXMemberExpr, [span, obj, prop]);
+impl_struct!(JSXNamespacedName, [span, ns, name]);
 impl_struct!(JSXEmptyExpr, [span]);
 impl_struct!(JSXElement, [span, opening, closing, children]);
 impl_struct!(JSXFragment, [span, opening, closing, children]);
@@ -111,6 +112,7 @@ impl_struct!(ParenExpr, [span, expr]);
 impl_struct!(
     Function,
     [
+        ctxt,
         params,
         decorators,
         span,
@@ -150,6 +152,6 @@ impl_enum!(JSXAttrName, [Ident, JSXNamespacedName]);
 
 impl_enum!(JSXExpr, [Expr, JSXEmptyExpr]);
 
-impl_struct!(OptCall, [span, callee, args, type_args]);
+impl_struct!(OptCall, [span, ctxt, callee, args, type_args]);
 
 impl_enum!(Callee, [Super, Import, Expr]);
