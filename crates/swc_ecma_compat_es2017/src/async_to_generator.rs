@@ -13,7 +13,7 @@ use swc_ecma_utils::{
     private_ident, quote_ident, ExprFactory, Remapper, StmtLike,
 };
 use swc_ecma_visit::{
-    as_folder, standard_only_visit, standard_only_visit_mut, Fold, Visit, VisitMut, VisitMutWith,
+    as_folder, noop_visit_mut_type, standard_only_visit, Fold, Visit, VisitMut, VisitMutWith,
     VisitWith,
 };
 use swc_trace_macro::swc_trace;

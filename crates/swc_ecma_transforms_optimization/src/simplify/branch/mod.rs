@@ -15,8 +15,7 @@ use swc_ecma_utils::{
     StmtExt, StmtLike, Value::Known,
 };
 use swc_ecma_visit::{
-    as_folder, standard_only_visit, standard_only_visit_mut, Visit, VisitMut, VisitMutWith,
-    VisitWith,
+    as_folder, noop_visit_mut_type, standard_only_visit, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use tracing::{debug, trace};
 

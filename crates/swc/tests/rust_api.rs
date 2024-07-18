@@ -6,7 +6,7 @@ use swc_common::{comments::SingleThreadedComments, FileName};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{EsSyntax, Syntax, TsSyntax};
 use swc_ecma_transforms::pass::noop;
-use swc_ecma_visit::{as_folder, standard_only_visit_mut, VisitMut};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut};
 
 struct PanicOnVisit;
 

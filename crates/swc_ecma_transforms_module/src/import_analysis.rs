@@ -3,7 +3,7 @@ use swc_common::collections::AHashMap;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::enable_helper;
 use swc_ecma_visit::{
-    as_folder, standard_only_visit, standard_only_visit_mut, Fold, Visit, VisitMut, VisitWith,
+    as_folder, noop_visit_mut_type, standard_only_visit, Fold, Visit, VisitMut, VisitWith,
 };
 
 use crate::{module_decl_strip::LinkFlag, util::ImportInterop};

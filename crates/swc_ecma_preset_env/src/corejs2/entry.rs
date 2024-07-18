@@ -3,7 +3,7 @@ use preset_env_base::{version::should_enable, Versions};
 use swc_atoms::js_word;
 use swc_common::{collections::ARandomState, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{standard_only_visit_mut, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use super::builtin::BUILTINS;
 

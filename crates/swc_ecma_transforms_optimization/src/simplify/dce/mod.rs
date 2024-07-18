@@ -19,7 +19,7 @@ use swc_ecma_utils::{
     collect_decls, find_pat_ids, ExprCtx, ExprExt, IsEmpty, ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{
-    as_folder, standard_only_visit, standard_only_visit_mut, Fold, Visit, VisitMut, VisitMutWith,
+    as_folder, noop_visit_mut_type, standard_only_visit, Fold, Visit, VisitMut, VisitMutWith,
     VisitWith,
 };
 use swc_fast_graph::digraph::FastDiGraphMap;

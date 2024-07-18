@@ -2,7 +2,7 @@ use swc_atoms::JsWord;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_visit::{
-    as_folder, standard_only_visit_mut, visit_mut_obj_and_computed, Fold, VisitMut, VisitMutWith,
+    as_folder, noop_visit_mut_type, visit_mut_obj_and_computed, Fold, VisitMut, VisitMutWith,
 };
 
 pub fn reserved_words() -> impl 'static + Fold + VisitMut {

@@ -15,7 +15,7 @@ use swc_ecma_transforms_optimization::simplify::{
     dead_branch_remover, expr_simplifier, ExprSimplifierConfig,
 };
 use swc_ecma_usage_analyzer::{analyzer::UsageAnalyzer, marks::Marks};
-use swc_ecma_visit::{as_folder, standard_only_visit_mut, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use swc_timer::timer;
 use tracing::{debug, error};
 

@@ -8,7 +8,7 @@ use swc_ecma_utils::{number::JsNumber, ExprCtx, ExprExt, IdentUsageFinder, Value
 #[cfg(feature = "debug")]
 use swc_ecma_visit::{as_folder, FoldWith};
 use swc_ecma_visit::{
-    standard_only_visit, standard_only_visit_mut, Visit, VisitMut, VisitMutWith, VisitWith,
+    noop_visit_mut_type, standard_only_visit, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 
 #[cfg(feature = "debug")]

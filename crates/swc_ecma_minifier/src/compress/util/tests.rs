@@ -3,7 +3,7 @@ use swc_ecma_ast::*;
 use swc_ecma_parser::parse_file_as_expr;
 use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_utils::ExprCtx;
-use swc_ecma_visit::{standard_only_visit_mut, FoldWith, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith};
 use tracing::{info, warn};
 
 use super::negate_cost;

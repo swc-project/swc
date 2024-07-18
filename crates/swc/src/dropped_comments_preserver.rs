@@ -3,7 +3,7 @@ use swc_common::{
     BytePos, Span, DUMMY_SP,
 };
 use swc_ecma_ast::{Module, Script};
-use swc_ecma_visit::{as_folder, standard_only_visit_mut, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 /// Preserves comments that would otherwise be dropped.
 ///

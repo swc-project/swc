@@ -6,7 +6,7 @@ use swc_ecma_transforms_base::helper;
 use swc_ecma_transforms_classes::{get_prototype_of, visit_mut_only_key};
 use swc_ecma_utils::{quote_ident, ExprFactory};
 use swc_ecma_visit::{
-    standard_only_visit, standard_only_visit_mut, Visit, VisitMut, VisitMutWith, VisitWith,
+    noop_visit_mut_type, standard_only_visit, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use swc_trace_macro::swc_trace;
 

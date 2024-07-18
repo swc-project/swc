@@ -4,7 +4,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{quote_ident, ExprFactory, StmtLike};
 use swc_ecma_visit::{
-    as_folder, standard_only_visit, standard_only_visit_mut, Fold, Visit, VisitMut, VisitMutWith,
+    as_folder, noop_visit_mut_type, standard_only_visit, Fold, Visit, VisitMut, VisitMutWith,
     VisitWith,
 };
 use swc_trace_macro::swc_trace;

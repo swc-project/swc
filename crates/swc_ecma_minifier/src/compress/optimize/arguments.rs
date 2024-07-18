@@ -3,7 +3,7 @@ use std::iter::repeat_with;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, is_valid_prop_ident, private_ident};
-use swc_ecma_visit::{standard_only_visit_mut, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use super::Optimizer;
 use crate::compress::optimize::is_left_access_to_arguments;
