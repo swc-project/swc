@@ -10,7 +10,7 @@ use swc_common::{chain, comments::SingleThreadedComments, Mark};
 use swc_ecma_parser::{EsSyntax, Syntax, TsSyntax};
 use swc_ecma_transforms_base::{assumptions::Assumptions, resolver};
 use swc_ecma_transforms_proposal::{decorator_2022_03::decorator_2022_03, DecoratorVersion};
-use swc_ecma_transforms_testing::{test_fixture, FixtureTestConfig};
+use swc_ecma_transforms_testing::{test_module_fixture, FixtureTestConfig};
 use swc_ecma_visit::Fold;
 
 fn syntax_default() -> Syntax {
@@ -65,7 +65,7 @@ fn fixture_inner(input: PathBuf) {
         input.extension().unwrap().to_string_lossy()
     ));
 
-    test_fixture(
+    test_module_fixture(
         if input.to_string_lossy().ends_with(".ts") {
             syntax_default_ts()
         } else {
