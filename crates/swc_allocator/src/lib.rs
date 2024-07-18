@@ -33,7 +33,9 @@
 pub use crate::alloc::Allocator;
 
 mod alloc;
+#[cfg(feature = "nightly")]
 pub mod boxed;
+#[cfg(feature = "nightly")]
 pub mod vec;
 
 /// Fast allocator, effectively working as a cache.
@@ -92,4 +94,28 @@ macro_rules! nightly_only {
     (
         $($tt:tt)*
     ) => {};
+}
+
+/// Usage: `swc_allocator::Type!(Vec<T>)` or `swc_allocator::Type!(Box<T>)`.
+#[macro_export]
+macro_rules! Type {
+    (Box<$($tt:tt)*>) => {
+        #[cfg(feature = "nightly")]
+        $crate::boxed::Box<$crate::Type!($($tt)*)>
+
+        #[cfg(not(feature = "nightly"))]
+        std::boxed::Box<$crate::Type!($($tt)*)>
+    };
+
+    (Vec<$($tt:tt)*>) => {
+        #[cfg(feature = "nightly")]
+        $crate::vec::Vec<$crate::Type!($($tt)*)>
+
+        #[cfg(not(feature = "nightly"))]
+        std::vec::Vec<$crate::Type!($($tt)*)>
+    };
+
+    ($t:ty) => {
+        $t
+    };
 }
