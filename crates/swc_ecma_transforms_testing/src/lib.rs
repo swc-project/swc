@@ -184,31 +184,17 @@ impl<'a> Tester<'a> {
         src: &str,
         src_type: SrcType,
     ) -> Result<Program, ()> {
-        let fm = self
-            .cm
-            .new_source_file(FileName::Real(name.into()).into(), src.into());
-
-        let program = {
-            let mut p = Parser::new_from(Lexer::new(
+        let program =
+            self.with_parser(
+                name,
                 syntax,
-                EsVersion::latest(),
-                StringInput::from(&*fm),
-                Some(&self.comments),
-            ));
-
-            let res = match src_type {
-                SrcType::Program => p.parse_program(),
-                SrcType::Module => p.parse_module().map(Program::Module),
-                SrcType::Script => p.parse_script().map(Program::Script),
-            }
-            .map_err(|e| e.into_diagnostic(self.handler).emit());
-
-            for e in p.take_errors() {
-                e.into_diagnostic(self.handler).emit()
-            }
-
-            res?
-        };
+                src,
+                |parser: &mut Parser<Lexer>| match src_type {
+                    SrcType::Program => parser.parse_program(),
+                    SrcType::Module => parser.parse_module().map(Program::Module),
+                    SrcType::Script => parser.parse_script().map(Program::Script),
+                },
+            )?;
 
         Ok(program.fold_with(&mut tr))
     }
