@@ -55,17 +55,19 @@ impl Take for Span {
     }
 }
 
-impl<T> Take for swc_allocator::boxed::Box<T>
-where
-    T: Take,
-{
-    fn dummy() -> Self {
-        swc_allocator::boxed::Box::new(T::dummy())
+swc_allocator::nightly_only!(
+    impl<T> Take for swc_allocator::boxed::Box<T>
+    where
+        T: Take,
+    {
+        fn dummy() -> Self {
+            swc_allocator::boxed::Box::new(T::dummy())
+        }
     }
-}
 
-impl<T> Take for swc_allocator::vec::Vec<T> {
-    fn dummy() -> Self {
-        Default::default()
+    impl<T> Take for swc_allocator::vec::Vec<T> {
+        fn dummy() -> Self {
+            Default::default()
+        }
     }
-}
+);
