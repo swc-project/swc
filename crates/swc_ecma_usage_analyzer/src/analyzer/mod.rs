@@ -896,6 +896,24 @@ where
         self.declare_decl(&n.local, true, None, false);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
+    fn visit_jsx_element_name(&mut self, n: &JSXElementName) {
+        let ctx = Ctx {
+            in_pat_of_var_decl: false,
+            in_pat_of_param: false,
+            in_catch_param: false,
+            var_decl_kind_of_pat: None,
+            in_pat_of_var_decl_with_init: false,
+            ..self.ctx
+        };
+
+        n.visit_children_with(&mut *self.with_ctx(ctx));
+
+        if let JSXElementName::Ident(i) = n {
+            self.with_ctx(ctx).report_usage(i);
+        }
+    }
+
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, e)))]
     fn visit_member_expr(&mut self, e: &MemberExpr) {
         {
