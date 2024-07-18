@@ -73,3 +73,23 @@ impl FastAlloc {
         }
     }
 }
+
+/// This expands to the given tokens if the `nightly` feature is enabled.
+#[macro_export]
+#[cfg(feature = "nightly")]
+macro_rules! nightly_only {
+    (
+        $($tt:tt)*
+    ) => {
+        $($tt)*
+    };
+}
+
+/// This expands to the given tokens if the `nightly` feature is enabled.
+#[macro_export]
+#[cfg(not(feature = "nightly"))]
+macro_rules! nightly_only {
+    (
+        $($tt:tt)*
+    ) => {};
+}
