@@ -19,8 +19,7 @@ mod serde;
 /// Faster alterantive for [`std::boxed::Box`].
 #[repr(transparent)]
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-#[fundamental]
-pub struct Box<T: ?Sized>(pub(crate) std::boxed::Box<T, FastAlloc>);
+pub struct Box<T: ?Sized>(pub(crate) allocator_api2::boxed::Box<T, FastAlloc>);
 
 impl<T> From<T> for Box<T> {
     #[inline(always)]
@@ -29,9 +28,9 @@ impl<T> From<T> for Box<T> {
     }
 }
 
-impl<T: ?Sized> From<std::boxed::Box<T, FastAlloc>> for Box<T> {
+impl<T: ?Sized> From<allocator_api2::boxed::Box<T, FastAlloc>> for Box<T> {
     #[inline(always)]
-    fn from(v: std::boxed::Box<T, FastAlloc>) -> Self {
+    fn from(v: allocator_api2::boxed::Box<T, FastAlloc>) -> Self {
         Box(v)
     }
 }
@@ -77,12 +76,12 @@ impl<T> Box<T> {
     /// ```
     #[inline(always)]
     pub fn new_in(value: T, alloc: FastAlloc) -> Self {
-        Self(std::boxed::Box::new_in(value, alloc))
+        Self(allocator_api2::boxed::Box::new_in(value, alloc))
     }
 
     /// Moves the value out of the box.
     pub fn unbox(self) -> T {
-        *self.0
+        allocator_api2::boxed::Box::into_inner(self.0)
     }
 }
 
@@ -129,7 +128,10 @@ impl<T: ?Sized> Box<T> {
     /// [memory layout]: self#memory-layout
     /// [`Layout`]: crate::Layout
     pub unsafe fn from_raw(raw: *mut T) -> Self {
-        Self(std::boxed::Box::from_raw_in(raw, FastAlloc::default()))
+        Self(allocator_api2::boxed::Box::from_raw_in(
+            raw,
+            FastAlloc::default(),
+        ))
     }
 
     /// Consumes the `Box`, returning a wrapped raw pointer.
@@ -180,7 +182,7 @@ impl<T: ?Sized> Box<T> {
     ///
     /// [memory layout]: self#memory-layout
     pub fn into_raw(b: Self) -> *mut T {
-        std::boxed::Box::into_raw(b.0)
+        allocator_api2::boxed::Box::into_raw(b.0)
     }
 
     /// Converts a `Box<T>` into a `Pin<Box<T>>`. If `T` does not implement
