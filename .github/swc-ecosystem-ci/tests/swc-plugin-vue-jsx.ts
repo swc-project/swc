@@ -8,5 +8,6 @@ export async function test(options: RunOptions) {
     branch: "main",
     build: ["rustup target add wasm32-unknown-unknown", "build"],
     test: ["test"],
+    isWasm: true,
   });
 }

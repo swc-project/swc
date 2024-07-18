@@ -124,6 +124,7 @@ jobs:
       version: ${{ needs.determine-nightly-version.outputs.version }}
       mode: "passing"
       suites: '["_"]'
+      allowBreakingWasm: ${{ inputs.allowBreakingWasm || false }}
 
   publish-npm-stable:
     name: "Publish ${{ inputs.version || 'stable' }} to npm"

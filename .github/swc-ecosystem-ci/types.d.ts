@@ -25,6 +25,7 @@ export interface RunOptions {
    * Passed to fnm
    */
   nodeVerison?: string;
+  isWasm?: boolean
 }
 
 type Task = string | { script: string; args?: string[] } | (() => Promise<any>);

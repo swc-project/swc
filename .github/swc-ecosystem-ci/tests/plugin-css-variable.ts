@@ -9,5 +9,6 @@ export async function test(options: RunOptions) {
     build: "build",
     beforeBuild: "rustup target add wasm32-wasi",
     test: ["test:swc"],
+    isWasm: true,
   });
 }

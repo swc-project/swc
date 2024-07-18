@@ -203,6 +203,10 @@ export async function runInRepo(options: RunOptions & RepoOptions) {
     options.branch = "main";
   }
 
+  if (process.env.ALLOW_BREAKING_WASM && options.isWasm) {
+    return;
+  }
+
   const {
     build,
     test,

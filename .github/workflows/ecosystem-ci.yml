@@ -24,6 +24,12 @@ on:
         required: true
         type: string
 
+      allowBreakingWasm:
+        description: "Allow wasm breakage"
+        required: false
+        type: boolean
+        default: false
+
       mode:
         type: string
         description: "Passing is a regular proces, and ignored is about ignored tests"
@@ -96,6 +102,7 @@ jobs:
         env:
           SWC_VERSION: ${{ inputs.version }}
           CI_MODE: ${{ inputs.mode }}
+          ALLOW_BREAKING_WASM: ${{ inputs.allowBreakingWasm || 'false' }}
 
       # - if: ${{ failure() && github.event.inputs.mode == 'passing' }}
       #   name: Notify failure
