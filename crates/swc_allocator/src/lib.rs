@@ -27,6 +27,7 @@
 
 #![allow(clippy::needless_doctest_main)]
 #![cfg_attr(docsrs, feature(doc_cfg))]
+#![cfg_attr(feature = "nightly", feature(allocator_api))]
 #![deny(missing_docs)]
 #![allow(clippy::derivable_impls)]
 
