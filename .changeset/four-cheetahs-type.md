@@ -1,4 +1,5 @@
 ---
+swc_allocator: patch
 swc_ecma_codegen: patch
 ---
 
