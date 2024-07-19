@@ -1,22 +1,44 @@
-use std::{env, path::PathBuf, process::Command};
+use std::{
+    env,
+    path::{Path, PathBuf},
+    process::Command,
+};
 
 use anyhow::{Context, Result};
 use changesets::ChangeType;
-use clap::Parser;
+use clap::{Parser, Subcommand};
 
 #[derive(Debug, Parser)]
 struct CliArs {
     #[clap(long)]
     pub dry_run: bool,
+
+    #[clap(subcommand)]
+    pub cmd: Cmd,
+}
+
+#[derive(Debug, Subcommand)]
+enum Cmd {
+    Bump,
 }
 
 fn main() -> Result<()> {
-    let CliArs { dry_run } = CliArs::parse();
+    let CliArs { dry_run, cmd } = CliArs::parse();
 
     let workspace_dir = env::var("CARGO_WORKSPACE_DIR")
         .map(PathBuf::from)
         .context("CARGO_WORKSPACE_DIR is not set")?;
 
+    match cmd {
+        Cmd::Bump => {
+            run_bump(&workspace_dir, dry_run)?;
+        }
+    }
+
+    Ok(())
+}
+
+fn run_bump(workspace_dir: &Path, dry_run: bool) -> Result<()> {
     let changeset_dir = workspace_dir.join(".changeset");
 
     let changeset = changesets::ChangeSet::from_directory(&changeset_dir)
@@ -28,7 +50,7 @@ fn main() -> Result<()> {
     }
 
     for (pkg_name, release) in changeset.releases {
-        bump(&pkg_name, release.change_type(), dry_run)
+        bump_crate(&pkg_name, release.change_type(), dry_run)
             .with_context(|| format!("failed to bump package {}", pkg_name))?;
     }
 
@@ -59,7 +81,7 @@ fn commit(dry_run: bool) -> Result<()> {
     Ok(())
 }
 
-fn bump(pkg_name: &str, change_type: Option<&ChangeType>, dry_run: bool) -> Result<()> {
+fn bump_crate(pkg_name: &str, change_type: Option<&ChangeType>, dry_run: bool) -> Result<()> {
     let mut cmd = Command::new("cargo");
     cmd.arg("mono").arg("bump").arg(pkg_name);
 
