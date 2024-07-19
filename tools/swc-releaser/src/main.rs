@@ -11,13 +11,15 @@ struct CliArs {
 }
 
 fn main() -> Result<()> {
-    let args = CliArs::parse();
+    let CliArs { dry_run } = CliArs::parse();
 
     let workspace_dir = env::var("CARGO_WORKSPACE_DIR")
         .map(PathBuf::from)
         .context("CARGO_WORKSPACE_DIR is not set")?;
 
-    let changeset = changesets::ChangeSet::from_directory(workspace_dir.join(".changeset"))
+    let changeset_dir = workspace_dir.join(".changeset");
+
+    let changeset = changesets::ChangeSet::from_directory(&changeset_dir)
         .context("failed to load changeset")?;
 
     if changeset.releases.is_empty() {
@@ -26,9 +28,33 @@ fn main() -> Result<()> {
     }
 
     for (pkg_name, release) in changeset.releases {
-        bump(&pkg_name, release.change_type(), args.dry_run)
+        bump(&pkg_name, release.change_type(), dry_run)
             .with_context(|| format!("failed to bump package {}", pkg_name))?;
     }
+
+    {
+        eprintln!("Removing changeset files... ");
+        if !dry_run {
+            std::fs::remove_dir_all(&changeset_dir).context("failed to remove changeset files")?;
+        }
+    }
+
+    commit(dry_run).context("failed to commit")?;
+
+    Ok(())
+}
+
+fn commit(dry_run: bool) -> Result<()> {
+    let mut cmd = Command::new("git");
+    cmd.arg("commit").arg("-am").arg("chore: Publish crates");
+
+    eprintln!("Running {:?}", cmd);
+
+    if dry_run {
+        return Ok(());
+    }
+
+    cmd.status().context("failed to run git commit")?;
 
     Ok(())
 }
