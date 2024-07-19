@@ -7,4 +7,5 @@ repository        = { workspace = true }
 version           = "0.1.0"
 
 [dependencies]
+anyhow     = { workspace = true }
 changesets = "0.2.2"
