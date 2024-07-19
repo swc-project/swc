@@ -1,6 +1,11 @@
+[env]
+CARGO_WORKSPACE_DIR = { value = "", relative = true }
+
 [alias]
-codegen = "run --package generate-code --"
-xtask   = "run --package xtask --"
+bump     = "run --package swc-releaser -- bump"
+codegen  = "run --package generate-code --"
+releaser = "run --package swc-releaser --"
+xtask    = "run --package xtask --"
 
 [build]
 
