@@ -95,7 +95,6 @@
 use std::ops::{Deref, DerefMut};
 
 pub use either::Either;
-pub use swc_visit_macros::define;
 
 pub mod util;
 
