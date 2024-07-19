@@ -26,6 +26,7 @@ bumpalo = { workspace = true, features = [
   "collections",
   "allocator-api2",
 ] }
+hashbrown = { workspace = true }
 ptr_meta = { workspace = true }
 rkyv = { workspace = true, optional = true }
 serde = { workspace = true, optional = true }
