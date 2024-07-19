@@ -13,7 +13,7 @@ use swc_common::{
 use crate::{typescript::TsTypeAnn, Expr};
 
 /// Identifier used as a pattern.
-#[derive(Spanned, Clone, Debug, PartialEq, Eq, Hash, EqIgnoreSpan, Default)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(
     any(feature = "rkyv-impl"),
@@ -31,7 +31,6 @@ use crate::{typescript::TsTypeAnn, Expr};
 #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 pub struct BindingIdent {
-    #[span]
     #[cfg_attr(feature = "serde-impl", serde(flatten))]
     #[cfg_attr(feature = "__rkyv", omit_bounds)]
     pub id: Ident,
@@ -39,6 +38,15 @@ pub struct BindingIdent {
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
     #[cfg_attr(feature = "__rkyv", omit_bounds)]
     pub type_ann: Option<Box<TsTypeAnn>>,
+}
+
+impl Spanned for BindingIdent {
+    fn span(&self) -> Span {
+        match &self.type_ann {
+            Some(ann) => Span::new(self.id.span.lo(), ann.span().hi()),
+            None => self.id.span,
+        }
+    }
 }
 
 impl Deref for BindingIdent {
