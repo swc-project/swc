@@ -9,7 +9,6 @@ use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
 #[allow(unused)]
 use serde::{Deserialize, Serialize};
-use swc_allocator::maybe::vec::Vec;
 use swc_atoms::JsWord;
 use swc_common::{
     collections::AHashMap,
