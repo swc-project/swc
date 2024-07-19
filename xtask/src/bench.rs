@@ -54,25 +54,26 @@ impl BenchCmd {
     }
 
     fn build_cmd(&self) -> Result<Command> {
-        let mut cmd = if self.instrument || self.samply {
+        let mut cmd = if self.samply {
             // ddt profile instruments cargo -t time
             let mut cmd = Command::new("ddt");
-            cmd.arg("profile")
-                .arg(if self.instrument {
-                    "instruments"
-                } else {
-                    "samply"
-                })
-                .arg("cargo");
+            cmd.arg("profile").arg("samply").arg("cargo");
+
+            if !self.debug {
+                cmd.arg("--release");
+            }
+
+            cmd
+        } else if self.instrument {
+            // ddt profile instruments cargo -t time
+            let mut cmd = Command::new("ddt");
+            cmd.arg("profile").arg("instruments").arg("cargo");
             cmd.arg("-t")
                 .arg(self.template.as_deref().unwrap_or("time"));
 
             if !self.debug {
                 cmd.arg("--release");
             }
-
-            // TODO: This should use cargo metadata
-            cmd.current_dir(repository_root()?.join("crates").join(&self.package));
 
             cmd
         } else {
@@ -105,6 +106,9 @@ impl BenchCmd {
         } else {
             cmd.arg("--").args(&self.args);
         }
+
+        // TODO: This should use cargo metadata
+        cmd.current_dir(repository_root()?.join("crates").join(&self.package));
 
         Ok(cmd)
     }
