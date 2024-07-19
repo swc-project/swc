@@ -507,6 +507,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 
 [[package]]
+name = "changesets"
+version = "0.2.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "dcf07f590d03d31b8c8fac9fbefead153de37cc9a621d294e20174fb7279f63e"
+
+[[package]]
 name = "chrono"
 version = "0.4.38"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3702,6 +3708,15 @@ dependencies = [
  "tracing",
  "url",
  "walkdir",
+]
+
+[[package]]
+name = "swc-releaser"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "changesets",
+ "clap 4.5.9",
 ]
 
 [[package]]
