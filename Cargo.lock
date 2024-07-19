@@ -3716,6 +3716,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "changesets",
+ "clap 4.5.9",
 ]
 
 [[package]]
