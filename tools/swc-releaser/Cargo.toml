@@ -9,3 +9,4 @@ version           = "0.1.0"
 [dependencies]
 anyhow     = { workspace = true }
 changesets = "0.2.2"
+clap       = { version = "4.5.9", features = ["derive"] }
