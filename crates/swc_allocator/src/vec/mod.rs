@@ -17,7 +17,7 @@ use crate::{boxed::Box, FastAlloc};
     feature = "serde",
     derive(serde_derive::Serialize, serde_derive::Deserialize)
 )]
-pub struct Vec<T>(allocator_api2::vec::Vec<T, FastAlloc>);
+pub struct Vec<T>(std::vec::Vec<T, FastAlloc>);
 
 impl<T> Vec<T> {
     /// Constructs a new, empty `Vec<T>`.
@@ -44,7 +44,7 @@ impl<T> Vec<T> {
     /// See [std::vec::Vec::new_in] for more information.
     #[inline(always)]
     pub fn new_in(alloc: FastAlloc) -> Self {
-        Self(allocator_api2::vec::Vec::new_in(alloc))
+        Self(std::vec::Vec::new_in(alloc))
     }
 
     /// Constructs a new, empty `Vec<T>` with at least the specified capacity.
@@ -133,7 +133,7 @@ impl<T> Vec<T> {
     /// See [std::vec::Vec::with_capacity_in] for more information.
     #[inline(always)]
     pub fn with_capacity_in(capacity: usize, alloc: FastAlloc) -> Self {
-        Self(allocator_api2::vec::Vec::with_capacity_in(capacity, alloc))
+        Self(std::vec::Vec::with_capacity_in(capacity, alloc))
     }
 
     /// Converts the vector into [`Box<[T]>`][owned slice].
@@ -277,7 +277,7 @@ impl<T> Vec<T> {
     /// ```
     #[inline(always)]
     pub unsafe fn from_raw_parts(ptr: *mut T, length: usize, capacity: usize) -> Self {
-        Self(allocator_api2::vec::Vec::from_raw_parts_in(
+        Self(std::vec::Vec::from_raw_parts_in(
             ptr,
             length,
             capacity,
@@ -287,7 +287,7 @@ impl<T> Vec<T> {
 }
 
 impl<T> Deref for Vec<T> {
-    type Target = allocator_api2::vec::Vec<T, FastAlloc>;
+    type Target = std::vec::Vec<T, FastAlloc>;
 
     #[inline(always)]
     fn deref(&self) -> &Self::Target {
@@ -305,12 +305,12 @@ impl<T> DerefMut for Vec<T> {
 impl<T> Default for Vec<T> {
     #[inline(always)]
     fn default() -> Self {
-        Self(allocator_api2::vec::Vec::new_in(FastAlloc::default()))
+        Self(std::vec::Vec::new_in(FastAlloc::default()))
     }
 }
 
 impl<T> IntoIterator for Vec<T> {
-    type IntoIter = allocator_api2::vec::IntoIter<T, FastAlloc>;
+    type IntoIter = std::vec::IntoIter<T, FastAlloc>;
     type Item = T;
 
     #[inline(always)]
@@ -350,7 +350,7 @@ impl<T> FromIterator<T> for Vec<T> {
 impl<T> From<Box<[T]>> for Vec<T> {
     #[inline(always)]
     fn from(v: Box<[T]>) -> Self {
-        Self(allocator_api2::vec::Vec::from(v.0))
+        Self(std::vec::Vec::from(v.0))
     }
 }
 

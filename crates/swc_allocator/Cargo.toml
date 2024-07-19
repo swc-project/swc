@@ -15,7 +15,7 @@ version       = "0.1.7"
 
 [features]
 default = ["scoped"]
-nightly = []
+nightly = ["bumpalo/allocator_api"]
 rkyv    = ["dep:rkyv"]
 scoped  = ["nightly"]
 serde   = ["dep:serde", "dep:serde_derive", "allocator-api2/serde"]
