@@ -9,6 +9,7 @@ use std::{
     time::Instant,
 };
 
+use swc_allocator::maybe::vec::Vec;
 use swc_common::input::SourceFileInput;
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
