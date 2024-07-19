@@ -4189,7 +4189,6 @@ dependencies = [
  "memchr",
  "num-bigint",
  "once_cell",
- "rustc-hash",
  "serde",
  "serde_json",
  "sourcemap",
