@@ -77,6 +77,7 @@ pretty_assertions = { workspace = true }
 walkdir           = { workspace = true }
 
 codspeed-criterion-compat = { workspace = true }
+swc_allocator             = { version = "0.1.7", path = "../swc_allocator" }
 swc_ecma_testing          = { version = "0.25.0", path = "../swc_ecma_testing" }
 swc_malloc                = { version = "0.5.10", path = "../swc_malloc" }
 testing                   = { version = "0.38.0", path = "../testing" }
