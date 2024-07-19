@@ -32,6 +32,7 @@ impl<T> Vec<T> {
     /// ```
     ///
     /// Note: This is slower than using [Self::new_in] with cached [FastAlloc].
+    #[inline(always)]
     pub fn new() -> Self {
         Self::new_in(Default::default())
     }
@@ -41,6 +42,7 @@ impl<T> Vec<T> {
     /// The vector will not allocate until elements are pushed onto it.
     ///
     /// See [std::vec::Vec::new_in] for more information.
+    #[inline(always)]
     pub fn new_in(alloc: FastAlloc) -> Self {
         Self(allocator_api2::vec::Vec::new_in(alloc))
     }
@@ -98,6 +100,7 @@ impl<T> Vec<T> {
     ///
     /// Note: This is slower than using [Self::with_capacity_in] with cached
     /// [FastAlloc].
+    #[inline(always)]
     pub fn with_capacity(capacity: usize) -> Self {
         Self::with_capacity_in(capacity, Default::default())
     }
@@ -128,6 +131,7 @@ impl<T> Vec<T> {
     /// Panics if the new capacity exceeds `isize::MAX` bytes.
     ///
     /// See [std::vec::Vec::with_capacity_in] for more information.
+    #[inline(always)]
     pub fn with_capacity_in(capacity: usize, alloc: FastAlloc) -> Self {
         Self(allocator_api2::vec::Vec::with_capacity_in(capacity, alloc))
     }
@@ -158,6 +162,7 @@ impl<T> Vec<T> {
     /// let slice = vec.into_boxed_slice();
     /// assert_eq!(slice.into_vec().capacity(), 3);
     /// ```
+    #[inline(always)]
     pub fn into_boxed_slice(self) -> Box<[T]> {
         self.0.into_boxed_slice().into()
     }
@@ -185,6 +190,7 @@ impl<T> Vec<T> {
     /// static_ref[0] += 1;
     /// assert_eq!(static_ref, &[2, 2, 3]);
     /// ```
+    #[inline(always)]
     pub fn leak(self) -> &'static mut [T] {
         self.0.leak()
     }
@@ -269,6 +275,7 @@ impl<T> Vec<T> {
     ///     assert_eq!(rebuilt, [4, 5, 6]);
     /// }
     /// ```
+    #[inline(always)]
     pub unsafe fn from_raw_parts(ptr: *mut T, length: usize, capacity: usize) -> Self {
         Self(allocator_api2::vec::Vec::from_raw_parts_in(
             ptr,
@@ -296,6 +303,7 @@ impl<T> DerefMut for Vec<T> {
 }
 
 impl<T> Default for Vec<T> {
+    #[inline(always)]
     fn default() -> Self {
         Self(allocator_api2::vec::Vec::new_in(FastAlloc::default()))
     }
@@ -305,6 +313,7 @@ impl<T> IntoIterator for Vec<T> {
     type IntoIter = allocator_api2::vec::IntoIter<T, FastAlloc>;
     type Item = T;
 
+    #[inline(always)]
     fn into_iter(self) -> Self::IntoIter {
         self.0.into_iter()
     }
@@ -313,6 +322,7 @@ impl<'a, T> IntoIterator for &'a Vec<T> {
     type IntoIter = std::slice::Iter<'a, T>;
     type Item = &'a T;
 
+    #[inline(always)]
     fn into_iter(self) -> Self::IntoIter {
         self.iter()
     }
@@ -322,12 +332,14 @@ impl<'a, T> IntoIterator for &'a mut Vec<T> {
     type IntoIter = std::slice::IterMut<'a, T>;
     type Item = &'a mut T;
 
+    #[inline(always)]
     fn into_iter(self) -> Self::IntoIter {
         self.iter_mut()
     }
 }
 
 impl<T> FromIterator<T> for Vec<T> {
+    #[inline(always)]
     fn from_iter<I: IntoIterator<Item = T>>(iter: I) -> Self {
         let mut vec = Vec::default();
         vec.extend(iter);
@@ -336,44 +348,53 @@ impl<T> FromIterator<T> for Vec<T> {
 }
 
 impl<T> From<Box<[T]>> for Vec<T> {
+    #[inline(always)]
     fn from(v: Box<[T]>) -> Self {
         Self(allocator_api2::vec::Vec::from(v.0))
     }
 }
 
 impl<T> From<Vec<T>> for Box<[T]> {
+    #[inline(always)]
     fn from(v: Vec<T>) -> Self {
         Box(v.0.into())
     }
 }
 
 impl<T> Extend<T> for Vec<T> {
+    #[inline(always)]
     fn extend<I: IntoIterator<Item = T>>(&mut self, iter: I) {
         self.0.extend(iter)
     }
 }
 
 impl io::Write for Vec<u8> {
+    #[inline(always)]
     fn write(&mut self, buf: &[u8]) -> io::Result<usize> {
         io::Write::write(&mut self.0, buf)
     }
 
+    #[inline(always)]
     fn flush(&mut self) -> io::Result<()> {
         io::Write::flush(&mut self.0)
     }
 
+    #[inline(always)]
     fn write_all(&mut self, buf: &[u8]) -> io::Result<()> {
         io::Write::write_all(&mut self.0, buf)
     }
 
+    #[inline(always)]
     fn write_vectored(&mut self, bufs: &[io::IoSlice<'_>]) -> io::Result<usize> {
         io::Write::write_vectored(&mut self.0, bufs)
     }
 
+    #[inline(always)]
     fn write_fmt(&mut self, fmt: fmt::Arguments<'_>) -> io::Result<()> {
         io::Write::write_fmt(&mut self.0, fmt)
     }
 
+    #[inline(always)]
     fn by_ref(&mut self) -> &mut Self
     where
         Self: Sized,
@@ -383,6 +404,7 @@ impl io::Write for Vec<u8> {
 }
 
 impl<T> AsRef<[T]> for Vec<T> {
+    #[inline(always)]
     fn as_ref(&self) -> &[T] {
         self.0.as_ref()
     }
