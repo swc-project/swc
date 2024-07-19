@@ -22,6 +22,6 @@ where
     where
         D: Deserializer<'de>,
     {
-        Ok(Box(allocator_api2::boxed::Box::deserialize(deserializer)?))
+        Ok(Box::new(T::deserialize(deserializer)?))
     }
 }

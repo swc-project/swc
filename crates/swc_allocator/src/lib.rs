@@ -29,7 +29,7 @@
 #![cfg_attr(docsrs, feature(doc_cfg))]
 #![cfg_attr(
     feature = "nightly",
-    feature(allocator_api, fundamental, with_negative_coherence)
+    feature(allocator_api, fundamental, with_negative_coherence, box_into_inner)
 )]
 #![deny(missing_docs)]
 #![allow(clippy::derivable_impls)]
@@ -66,9 +66,9 @@ pub mod maybe {
 ///
 /// # Misc
 ///
-/// It implements [`allocator_api2::alloc::Allocator`]. So it can be used as the
-/// second argument for [`allocator_api2::boxed::Box`] and
-/// [`allocator_api2::vec::Vec`]. But you should prefer using
+/// It implements [`std::alloc::Allocator`]. So it can be used as the
+/// second argument for [`std::boxed::Box`] and
+/// [`std::vec::Vec`]. But you should prefer using
 /// [`crate::boxed::Box`] and [`crate::vec::Vec`], which is a wrapper around the
 /// original types.
 #[derive(Clone, Copy)]
