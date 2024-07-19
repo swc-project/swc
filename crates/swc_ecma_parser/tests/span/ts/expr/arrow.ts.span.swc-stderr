@@ -37,7 +37,7 @@
   x Pat
    ,-[$DIR/tests/span/ts/expr/arrow.ts:1:1]
  1 | const a: () => any = () => {
-   :       ^
+   :       ^^^^^^^^^^^^
  2 |     return 'foo'
    `----
   x Ident

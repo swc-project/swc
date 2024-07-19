@@ -31,7 +31,7 @@
   x Pat
    ,-[$DIR/tests/span/ts/type/array.ts:1:1]
  1 | let a: string[] = foo
-   :     ^
+   :     ^^^^^^^^^^^
    `----
   x Ident
    ,-[$DIR/tests/span/ts/type/array.ts:1:1]

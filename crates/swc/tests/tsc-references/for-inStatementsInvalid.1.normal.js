@@ -5,7 +5,7 @@
 //!   8 | for (aRegExp in {}) { }
 //!   9 | 
 //!  10 | for (var idx : number in {}) { }
-//!     :          ^^^
+//!     :          ^^^^^^^^^^^^
 //!  11 | 
 //!  12 | function fn(): void { }
 //!  13 | for (var x in fn()) { }

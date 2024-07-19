@@ -370,7 +370,7 @@
    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:5:1]
  4 | export class CommentController {
  5 |     constructor(private commentService: CommentService) { }
-   :                         ^^^^^^^^^^^^^^
+   :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Ident
    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:5:1]
@@ -541,7 +541,7 @@
     ,-[$DIR/tests/span/ts/decl/decorated-class.ts:10:1]
   9 |     public updateComment(
  10 |         @Param('id') id: string,
-    :                      ^^
+    :                      ^^^^^^^^^^
  11 |         @Body() updateCommentDto: UpdateCommentDto,
     `----
   x Ident
@@ -625,7 +625,7 @@
     ,-[$DIR/tests/span/ts/decl/decorated-class.ts:11:1]
  10 |         @Param('id') id: string,
  11 |         @Body() updateCommentDto: UpdateCommentDto,
-    :                 ^^^^^^^^^^^^^^^^
+    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 |         @User() user: UserType,
     `----
   x Ident
@@ -723,7 +723,7 @@
     ,-[$DIR/tests/span/ts/decl/decorated-class.ts:12:1]
  11 |         @Body() updateCommentDto: UpdateCommentDto,
  12 |         @User() user: UserType,
-    :                 ^^^^
+    :                 ^^^^^^^^^^^^^^
  13 |     ) {
     `----
   x Ident
@@ -1173,7 +1173,7 @@
     ,-[$DIR/tests/span/ts/decl/decorated-class.ts:19:1]
  18 |     @Delete(COMMENT_DELETE_ENDPOINT)
  19 |     public deleteComment(@Param('id') id: string, @User() user: UserType) {
-    :                                       ^^
+    :                                       ^^^^^^^^^^
  20 |         return this.commentService.delete(id, user.id);
     `----
   x Ident
@@ -1257,7 +1257,7 @@
     ,-[$DIR/tests/span/ts/decl/decorated-class.ts:19:1]
  18 |     @Delete(COMMENT_DELETE_ENDPOINT)
  19 |     public deleteComment(@Param('id') id: string, @User() user: UserType) {
-    :                                                           ^^^^
+    :                                                           ^^^^^^^^^^^^^^
  20 |         return this.commentService.delete(id, user.id);
     `----
   x Ident
