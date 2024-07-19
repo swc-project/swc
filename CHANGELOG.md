@@ -16,6 +16,12 @@
 
 - **(allocator)** Add `maybe` types ([#9278](https://github.com/swc-project/swc/issues/9278)) ([a417ff4](https://github.com/swc-project/swc/commit/a417ff4d868b45a2157154e2334b8e1177c369e1))
 
+### Performance
+
+
+
+- Enable LTO for benchmarks ([#9279](https://github.com/swc-project/swc/issues/9279)) ([a3020b2](https://github.com/swc-project/swc/commit/a3020b2bc77d38fde772b98a14c80deb6c4a6911))
+
 ## [1.7.0] - 2024-07-18
 
 ### Bug Fixes
@@ -1351,9 +1357,6 @@
 
 
 - **(es/codegen)** Do not produce octal literals ([#8565](https://github.com/swc-project/swc/issues/8565)) ([07634a0](https://github.com/swc-project/swc/commit/07634a05ba9b989d68502953a69a40a2806e93d0))
-
-
-- **(es/decorator)** Skip TypeScript class method/prop declarations ([#8555](https://github.com/swc-project/swc/issues/8555)) ([6a8dd8c](https://github.com/swc-project/swc/commit/6a8dd8cbb384372657923d4c1094e8053661aa56))
 
 
 - **(es/decorator)** Preserve state while traversing the `module_items` scope ([#8556](https://github.com/swc-project/swc/issues/8556)) ([f416aff](https://github.com/swc-project/swc/commit/f416aff7d7036de72509132603d9b423a0b95f68))
