@@ -70,7 +70,7 @@ impl IntoIterator for Char {
         CharIter(match char::from_u32(self.0) {
             Some(c) => smallvec![c],
             None => {
-                let mut buf = smallVec::new();
+                let mut buf = smallvec![];
 
                 let high = self.0 & 0xffff0000 >> 16;
 
