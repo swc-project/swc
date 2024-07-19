@@ -147,7 +147,7 @@ resolver = "2"
   wasmer-wasix              = { version = "0.18.0", default-features = false }
 
 [profile.release]
-# lto = true
+lto = true
 
 # We use CARGO_PROFILE_RELEASE_LTO for production builds
 # lto = "fat"
@@ -157,7 +157,7 @@ resolver = "2"
 
 [profile.bench]
 debug = true
-# lto = true
+lto   = true
 
 # Optimize for iteration
 [profile.dev.build-override]
