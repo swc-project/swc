@@ -22,6 +22,6 @@ where
     where
         D: Deserializer<'de>,
     {
-        Ok(Box(std::boxed::Box::deserialize(deserializer)?))
+        Ok(Box::new(T::deserialize(deserializer)?))
     }
 }
