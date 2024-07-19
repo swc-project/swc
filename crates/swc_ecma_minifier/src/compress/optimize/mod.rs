@@ -244,7 +244,7 @@ struct Vars {
     ///
     /// We use this to distinguish [Callee::Expr] from other [Expr]s.
     simple_functions: FxHashMap<Id, Box<Expr>>,
-    vars_for_inlining: FxHashMap<Id, Box<Expr>>,
+    vars_for_inlining: swc_allocator::collections::FxHashMap<Id, Box<Expr>>,
 
     /// Variables which should be removed by [Finalizer] because of the order of
     /// visit.

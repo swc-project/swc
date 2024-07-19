@@ -1,6 +1,5 @@
-use std::{collections::HashMap, mem::swap};
+use std::mem::swap;
 
-use rustc_hash::FxHashMap;
 use swc_common::{pass::Either, util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_arguments, contains_this_expr, find_pat_ids, ExprFactory};
@@ -190,7 +189,7 @@ impl Optimizer<'_> {
 
         let params = find_params(callee);
         if let Some(mut params) = params {
-            let mut vars = HashMap::default();
+            let mut vars = swc_allocator::collections::FxHashMap::default();
             // We check for parameter and argument
             for (idx, param) in params.iter_mut().enumerate() {
                 match &mut **param {
@@ -406,8 +405,11 @@ impl Optimizer<'_> {
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
-    pub(super) fn inline_vars_in_node<N>(&mut self, n: &mut N, mut vars: FxHashMap<Id, Box<Expr>>)
-    where
+    pub(super) fn inline_vars_in_node<N>(
+        &mut self,
+        n: &mut N,
+        mut vars: swc_allocator::collections::FxHashMap<Id, Box<Expr>>,
+    ) where
         N: for<'aa> VisitMutWith<NormalMultiReplacer<'aa>>,
     {
         trace_op!("inline: inline_vars_in_node");
@@ -964,7 +966,7 @@ impl Optimizer<'_> {
                 Stmt::Decl(Decl::Var(ref mut var)) => {
                     for decl in &mut var.decls {
                         if decl.init.is_some() {
-                            let ids = find_pat_ids(decl);
+                            let ids: Vec<Id> = find_pat_ids(decl);
 
                             for id in ids {
                                 if let Some(usage) = self.data.vars.get_mut(&id) {

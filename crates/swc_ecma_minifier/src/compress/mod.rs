@@ -235,7 +235,6 @@ impl Compressor<'_> {
 
             let mut visitor = pure_optimizer(
                 self.options,
-                None,
                 self.marks,
                 PureOptimizerConfig {
                     enable_join_vars: self.pass > 1,

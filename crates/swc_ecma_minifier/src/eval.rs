@@ -242,7 +242,6 @@ impl Evaluator {
         {
             e.visit_mut_with(&mut pure_optimizer(
                 &Default::default(),
-                None,
                 self.marks,
                 PureOptimizerConfig {
                     enable_join_vars: false,
