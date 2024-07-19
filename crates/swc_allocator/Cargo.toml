@@ -29,6 +29,7 @@ bumpalo = { workspace = true, features = [
 hashbrown = { workspace = true }
 ptr_meta = { workspace = true }
 rkyv = { workspace = true, optional = true }
+rustc-hash = { workspace = true }
 serde = { workspace = true, optional = true }
 triomphe = { workspace = true }
 
