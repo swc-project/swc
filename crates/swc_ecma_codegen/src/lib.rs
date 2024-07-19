@@ -9,6 +9,7 @@ use std::{borrow::Cow, fmt::Write, io};
 
 use memchr::memmem::Finder;
 use once_cell::sync::Lazy;
+use swc_allocator::maybe::vec::Vec;
 use swc_atoms::Atom;
 use swc_common::{
     comments::{CommentKind, Comments},
@@ -44,7 +45,7 @@ pub fn to_code_default(
     comments: Option<&dyn Comments>,
     node: &impl Node,
 ) -> String {
-    let mut buf = Vec::new();
+    let mut buf = std::vec::Vec::new();
     {
         let mut emitter = Emitter {
             cfg: Default::default(),

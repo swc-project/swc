@@ -20,7 +20,6 @@ bench = false
 memchr     = { workspace = true }
 num-bigint = { workspace = true, features = ["serde"] }
 once_cell  = { workspace = true }
-rustc-hash = { workspace = true }
 serde      = { workspace = true }
 sourcemap  = { workspace = true }
 tracing    = { workspace = true }

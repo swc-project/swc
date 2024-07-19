@@ -15,7 +15,7 @@ version       = "0.1.7"
 
 [features]
 default = ["scoped"]
-nightly = ["bumpalo/allocator_api"]
+nightly = ["bumpalo/allocator_api", "hashbrown/nightly"]
 rkyv    = ["dep:rkyv"]
 scoped  = ["nightly"]
 serde   = ["dep:serde"]
@@ -26,8 +26,10 @@ bumpalo = { workspace = true, features = [
   "collections",
   "allocator-api2",
 ] }
+hashbrown = { workspace = true }
 ptr_meta = { workspace = true }
 rkyv = { workspace = true, optional = true }
+rustc-hash = { workspace = true }
 serde = { workspace = true, optional = true }
 triomphe = { workspace = true }
 

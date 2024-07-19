@@ -16,7 +16,7 @@ struct Builder {
 }
 
 impl Builder {
-    pub fn with<'a, F, Ret>(self, _: &str, s: &'a mut Vec<u8>, op: F) -> Ret
+    pub fn with<'a, F, Ret>(self, _: &str, s: &'a mut std::vec::Vec<u8>, op: F) -> Ret
     where
         F: for<'aa> FnOnce(&mut Emitter<'aa, Box<(dyn WriteJs + 'aa)>, SourceMap>) -> Ret,
         Ret: 'static,
@@ -44,7 +44,7 @@ impl Builder {
     where
         F: for<'aa> FnOnce(&mut Emitter<'aa, Box<(dyn WriteJs + 'aa)>, SourceMap>),
     {
-        let mut buf = Vec::new();
+        let mut buf = std::vec::Vec::new();
 
         self.with(src, &mut buf, op);
 
@@ -974,7 +974,7 @@ fn run_node(code: &str) -> String {
         JsExecOptions {
             cache: true,
             module: false,
-            args: Vec::new(),
+            args: Default::default(),
         },
     )
     .expect("failed to execute node.js")
