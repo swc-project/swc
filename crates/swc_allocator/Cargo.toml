@@ -18,10 +18,9 @@ default = ["scoped"]
 nightly = ["bumpalo/allocator_api"]
 rkyv    = ["dep:rkyv"]
 scoped  = ["nightly"]
-serde   = ["dep:serde", "dep:serde_derive", "allocator-api2/serde"]
+serde   = ["dep:serde"]
 
 [dependencies]
-allocator-api2 = { workspace = true }
 bumpalo = { workspace = true, features = [
   "boxed",
   "collections",
@@ -30,7 +29,6 @@ bumpalo = { workspace = true, features = [
 ptr_meta = { workspace = true }
 rkyv = { workspace = true, optional = true }
 serde = { workspace = true, optional = true }
-serde_derive = { workspace = true, optional = true }
 triomphe = { workspace = true }
 
 

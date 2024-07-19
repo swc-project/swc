@@ -7,6 +7,8 @@ use std::{
 
 #[cfg(feature = "rkyv")]
 mod rkyv;
+#[cfg(feature = "serde")]
+mod serde;
 
 use crate::{boxed::Box, FastAlloc};
 
