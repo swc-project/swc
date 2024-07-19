@@ -87,6 +87,7 @@ impl FastAlloc {
     }
 }
 
+#[cfg(feature = "nightly")]
 fn mark_ptr_as_arena_mode(ptr: NonNull<[u8]>) -> NonNull<[u8]> {
     ptr
 }
