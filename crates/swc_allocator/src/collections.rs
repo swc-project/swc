@@ -31,3 +31,6 @@ pub type FxHashMap<K, V> = HashMap<K, V, FxBuildHasher>;
 
 /// Faster `HashSet` which uses `FxHasher`.
 pub type FxHashSet<T> = HashSet<T, FxBuildHasher>;
+
+/// Re-export for convenience.
+pub use hashbrown::hash_map;
