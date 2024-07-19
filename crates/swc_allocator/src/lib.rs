@@ -42,6 +42,15 @@ pub mod boxed;
 #[cfg(feature = "nightly")]
 pub mod vec;
 
+/// Box<T> and Vec<T> depeding on the feature.
+pub mod maybe {
+    #[cfg(not(feature = "nightly"))]
+    pub use std::{boxed, vec};
+
+    #[cfg(feature = "nightly")]
+    pub use crate::{boxed, vec};
+}
+
 /// Fast allocator, effectively working as a cache.
 ///
 /// This type implements [Default] and [Copy]. This type is intended to stored
