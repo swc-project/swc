@@ -4082,7 +4082,7 @@ fn get_ascii_only_ident(sym: &str, may_need_quote: bool, target: EsVersion) -> C
 }
 
 fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
-    let mut buf = String::with_capacity(v.len() * 12 / 10);
+    let mut buf = String::with_capacity(v.len() + 2);
     let mut iter = v.chars().peekable();
 
     let mut single_quote_count = 0;
