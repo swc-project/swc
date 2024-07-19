@@ -84,7 +84,7 @@
    ,-[$DIR/tests/span/ts/type/interface.ts:3:1]
  2 |     new();
  3 |     (foo: string): void;
-   :      ^^^
+   :      ^^^^^^^^^^^
  4 |     [foo: string]: void;
    `----
   x Ident

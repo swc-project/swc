@@ -2,6 +2,6 @@
     ,-[$DIR/tests/typescript-errors/class/parameter-properties/input.ts:10:1]
   9 |         readonly x = 0,
  10 |         public y?: number = 0) {}
-    :                ^
+    :                ^^^^^^^^^^
  11 | }
     `----
