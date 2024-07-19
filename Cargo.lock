@@ -3705,6 +3705,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc-releaser"
+version = "0.1.0"
+
+[[package]]
 name = "swc_allocator"
 version = "0.1.7"
 dependencies = [
