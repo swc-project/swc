@@ -27,6 +27,7 @@ members = [
   "crates/swc_typescript",
   "crates/swc_fast_ts_strip",
   "tools/generate-code",
+  "tools/swc-releaser",
 ]
 resolver = "2"
 
