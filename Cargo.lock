@@ -3733,6 +3733,7 @@ dependencies = [
  "hashbrown 0.14.5",
  "ptr_meta",
  "rkyv",
+ "rustc-hash",
  "serde",
  "swc_malloc",
  "triomphe",
