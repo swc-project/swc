@@ -6,6 +6,7 @@ use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 /// Assert in debug mode. This is noop in release build.
+#[cfg_attr(not(debug_assertions), inline(always))]
 pub fn debug_assert_valid<N>(node: &N)
 where
     N: VisitWith<AssertValid>,
