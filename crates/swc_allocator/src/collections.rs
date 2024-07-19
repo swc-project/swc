@@ -4,13 +4,24 @@ use std::hash::BuildHasherDefault;
 
 use rustc_hash::FxHasher;
 
+#[cfg(feature = "nightly")]
 use crate::FastAlloc;
 
 /// See [std::collections::HashMap].
+#[cfg(feature = "nightly")]
 pub type HashMap<K, V, S> = hashbrown::HashMap<K, V, S, FastAlloc>;
 
 /// See [std::collections::HashSet].
+#[cfg(feature = "nightly")]
 pub type HashSet<T, S> = hashbrown::HashSet<T, S, FastAlloc>;
+
+/// See [std::collections::HashMap].
+#[cfg(not(feature = "nightly"))]
+pub type HashMap<K, V, S> = hashbrown::HashMap<K, V, S>;
+
+#[cfg(not(feature = "nightly"))]
+/// See [std::collections::HashSet].
+pub type HashSet<T, S> = hashbrown::HashSet<T, S>;
 
 /// Used for `FxHashMap` and `FxHashSet`.
 pub type FxBuildHasher = BuildHasherDefault<FxHasher>;
