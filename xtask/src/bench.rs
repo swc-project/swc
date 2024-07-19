@@ -32,6 +32,10 @@ pub(super) struct BenchCmd {
     #[clap(long)]
     instrument: bool,
 
+    /// Instrument using https://github.com/mstange/samply
+    #[clap(long)]
+    samply: bool,
+
     #[clap(long)]
     features: Vec<String>,
 
@@ -50,10 +54,16 @@ impl BenchCmd {
     }
 
     fn build_cmd(&self) -> Result<Command> {
-        let mut cmd = if self.instrument {
+        let mut cmd = if self.instrument || self.samply {
             // ddt profile instruments cargo -t time
             let mut cmd = Command::new("ddt");
-            cmd.arg("profile").arg("instruments").arg("cargo");
+            cmd.arg("profile")
+                .arg(if self.instrument {
+                    "instruments"
+                } else {
+                    "samply"
+                })
+                .arg("cargo");
             cmd.arg("-t")
                 .arg(self.template.as_deref().unwrap_or("time"));
 
