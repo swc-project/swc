@@ -1,5 +1,7 @@
+use std::collections::hash_map::Entry;
+
 use indexmap::IndexSet;
-use swc_allocator::collections::{hash_map::Entry, FxHashMap};
+use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
 use swc_common::{
     collections::{AHashMap, ARandomState},

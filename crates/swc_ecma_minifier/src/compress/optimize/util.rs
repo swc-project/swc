@@ -451,13 +451,13 @@ impl VisitMut for Finalizer<'_> {
 }
 
 pub(crate) struct NormalMultiReplacer<'a> {
-    pub vars: &'a mut swc_allocator::collections::FxHashMap<Id, Box<Expr>>,
+    pub vars: &'a mut FxHashMap<Id, Box<Expr>>,
     pub changed: bool,
 }
 
 impl<'a> NormalMultiReplacer<'a> {
     /// `worked` will be changed to `true` if any replacement is done
-    pub fn new(vars: &'a mut swc_allocator::collections::FxHashMap<Id, Box<Expr>>) -> Self {
+    pub fn new(vars: &'a mut FxHashMap<Id, Box<Expr>>) -> Self {
         NormalMultiReplacer {
             vars,
             changed: false,

@@ -202,6 +202,7 @@ pub fn optimize(
 
             let mut v = pure_optimizer(
                 c,
+                None,
                 marks,
                 PureOptimizerConfig {
                     force_str_for_tpl: Minification.force_str_for_tpl(),

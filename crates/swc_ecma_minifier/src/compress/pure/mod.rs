@@ -15,7 +15,10 @@ use self::{ctx::Ctx, misc::DropOpts};
 use super::util::is_pure_undefined_or_null;
 #[cfg(feature = "debug")]
 use crate::debug::dump;
-use crate::{debug::AssertValid, maybe_par, option::CompressOptions, util::ModuleItemExt};
+use crate::{
+    debug::AssertValid, maybe_par, option::CompressOptions, program_data::ProgramData,
+    util::ModuleItemExt,
+};
 
 mod arrows;
 mod bools;
@@ -49,6 +52,7 @@ pub(crate) struct PureOptimizerConfig {
 #[allow(clippy::needless_lifetimes)]
 pub(crate) fn pure_optimizer<'a>(
     options: &'a CompressOptions,
+    data: Option<&'a ProgramData>,
     marks: Marks,
     config: PureOptimizerConfig,
 ) -> impl 'a + VisitMut + Repeated {
@@ -60,6 +64,7 @@ pub(crate) fn pure_optimizer<'a>(
             unresolved_ctxt: SyntaxContext::empty().apply_mark(marks.unresolved_mark),
             is_unresolved_ref_safe: false,
         },
+        data,
         ctx: Default::default(),
         changed: Default::default(),
     }
@@ -71,6 +76,8 @@ struct Pure<'a> {
     marks: Marks,
     expr_ctx: ExprCtx,
 
+    #[allow(unused)]
+    data: Option<&'a ProgramData>,
     ctx: Ctx,
     changed: bool,
 }
