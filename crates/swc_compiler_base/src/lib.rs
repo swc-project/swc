@@ -9,6 +9,7 @@ use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
 #[allow(unused)]
 use serde::{Deserialize, Serialize};
+use swc_allocator::maybe::vec::Vec;
 use swc_atoms::JsWord;
 use swc_common::{
     collections::AHashMap,
@@ -65,7 +66,7 @@ pub fn parse_js(
     let mut res = (|| {
         let mut error = false;
 
-        let mut errors = Vec::new();
+        let mut errors = std::vec::Vec::new();
         let program_result = match is_module {
             IsModule::Bool(true) => {
                 parse_file_as_module(&fm, syntax, target, comments, &mut errors)
@@ -174,7 +175,7 @@ where
     let mut src_map_buf = Vec::new();
 
     let src = {
-        let mut buf = Vec::new();
+        let mut buf = std::vec::Vec::new();
         {
             let mut w = swc_ecma_codegen::text_writer::JsWriter::new(
                 cm.clone(),
@@ -241,7 +242,7 @@ where
     let (code, map) = match source_map {
         SourceMapsConfig::Bool(v) => {
             if v {
-                let mut buf = Vec::new();
+                let mut buf = std::vec::Vec::new();
 
                 map.unwrap()
                     .to_writer(&mut buf)
@@ -254,7 +255,7 @@ where
         }
         SourceMapsConfig::Str(_) => {
             let mut src = src;
-            let mut buf = Vec::new();
+            let mut buf = std::vec::Vec::new();
 
             map.unwrap()
                 .to_writer(&mut buf)
@@ -346,7 +347,7 @@ pub fn minify_file_comments(
         BoolOr::Bool(true) | BoolOr::Data(JsMinifyCommentOption::PreserveAllComments) => {}
 
         BoolOr::Data(JsMinifyCommentOption::PreserveSomeComments) => {
-            let preserve_excl = |_: &BytePos, vc: &mut Vec<Comment>| -> bool {
+            let preserve_excl = |_: &BytePos, vc: &mut std::vec::Vec<Comment>| -> bool {
                 // Preserve license comments.
                 //
                 // See https://github.com/terser/terser/blob/798135e04baddd94fea403cfaab4ba8b22b1b524/lib/output.js#L175-L181

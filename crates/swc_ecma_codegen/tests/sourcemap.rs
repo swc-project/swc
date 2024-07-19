@@ -3,6 +3,7 @@ use std::{fs::read_to_string, path::PathBuf};
 use base64::prelude::{Engine, BASE64_STANDARD};
 use rustc_hash::FxHashSet;
 use sourcemap::SourceMap;
+use swc_allocator::maybe::vec::Vec;
 use swc_common::{comments::SingleThreadedComments, source_map::SourceMapGenConfig};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
@@ -288,7 +289,7 @@ fn identity(entry: PathBuf) {
         "\n\n========== Running codegen test {}\nSource:\n{}\n",
         file_name, input
     );
-    let mut wr = Vec::new();
+    let mut wr = std::vec::Vec::new();
 
     ::testing::run_test(false, |cm, handler| {
         let fm = cm.load_file(&entry).expect("failed to load file");
@@ -488,7 +489,7 @@ fn assert_eq_same_map(expected: &SourceMap, actual: &SourceMap) {
 /// Creates a url for https://evanw.github.io/source-map-visualization/
 fn visualizer_url(code: &str, map: &SourceMap) -> String {
     let map = {
-        let mut buf = Vec::new();
+        let mut buf = std::vec::Vec::new();
         map.to_writer(&mut buf).unwrap();
         String::from_utf8(buf).unwrap()
     };
