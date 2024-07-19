@@ -11,8 +11,9 @@ version       = "0.4.0"
 
 
 [dependencies]
-anyhow = { workspace = true }
-serde  = { workspace = true, features = ["derive"] }
+anyhow        = { workspace = true }
+serde         = { workspace = true, features = ["derive"] }
+swc_allocator = { version = "0.1.7", path = "../swc_allocator", default-features = false }
 
 swc_common = { version = "0.36.0", path = "../swc_common", features = [
   "sourcemap",
