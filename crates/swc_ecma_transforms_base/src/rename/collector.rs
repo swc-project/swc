@@ -135,8 +135,12 @@ where
     fn visit_expr(&mut self, node: &Expr) {
         let old = self.is_pat_decl;
         self.is_pat_decl = false;
-        maybe_grow_default(|| node.visit_children_with(self));
+        node.visit_children_with(self);
         self.is_pat_decl = old;
+    }
+
+    fn visit_bin_expr(&mut self, node: &BinExpr) {
+        maybe_grow_default(|| node.visit_children_with(self));
     }
 
     fn visit_fn_decl(&mut self, node: &FnDecl) {
