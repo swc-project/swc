@@ -381,3 +381,9 @@ impl io::Write for Vec<u8> {
         self
     }
 }
+
+impl<T> AsRef<[T]> for Vec<T> {
+    fn as_ref(&self) -> &[T] {
+        self.0.as_ref()
+    }
+}
