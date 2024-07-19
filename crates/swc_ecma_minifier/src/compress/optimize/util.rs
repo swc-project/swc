@@ -533,6 +533,14 @@ impl VisitMut for NormalMultiReplacer<'_> {
             }
         }
     }
+
+    fn visit_mut_stmt(&mut self, node: &mut Stmt) {
+        if self.vars.is_empty() {
+            return;
+        }
+
+        node.visit_mut_children_with(self);
+    }
 }
 
 pub(crate) fn replace_id_with_expr<N>(node: &mut N, from: Id, to: Box<Expr>) -> Option<Box<Expr>>
