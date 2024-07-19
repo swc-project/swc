@@ -101,9 +101,7 @@ impl BenchCmd {
             cmd.arg("--features").arg(f);
         }
 
-        if self.samply {
-            cmd.arg("--bench").args(&self.args);
-        } else if self.instrument {
+        if self.samply || self.instrument {
             cmd.arg("--").arg("--bench").args(&self.args);
         } else {
             cmd.arg("--").args(&self.args);
