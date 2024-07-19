@@ -15,7 +15,7 @@ version       = "0.1.7"
 
 [features]
 default = ["scoped"]
-nightly = ["bumpalo/allocator_api"]
+nightly = ["bumpalo/allocator_api", "hashbrown/nightly"]
 rkyv    = ["dep:rkyv"]
 scoped  = ["nightly"]
 serde   = ["dep:serde"]
