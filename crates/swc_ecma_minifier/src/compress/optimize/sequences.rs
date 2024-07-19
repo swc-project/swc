@@ -1,6 +1,6 @@
-use std::mem::take;
+use std::{iter::once, mem::take};
 
-use swc_common::{util::take::Take, Spanned, DUMMY_SP};
+use swc_common::{pass::Either, util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::{
     alias::{collect_infects_from, AccessKind, AliasConfig},
@@ -565,61 +565,59 @@ impl Optimizer<'_> {
         &mut self,
         s: &'a mut Stmt,
         options: &CompressOptions,
-    ) -> Option<Vec<Mergable<'a>>> {
+    ) -> Option<Either<impl Iterator<Item = Mergable<'a>>, std::iter::Once<Mergable<'a>>>> {
         Some(match s {
             Stmt::Expr(e) => {
                 if self.options.sequences()
                     || self.options.collapse_vars
                     || self.options.side_effects
                 {
-                    vec![Mergable::Expr(&mut e.expr)]
+                    Either::Right(once(Mergable::Expr(&mut e.expr)))
                 } else {
                     return None;
                 }
             }
             Stmt::Decl(Decl::Var(v)) => {
                 if options.reduce_vars || options.collapse_vars {
-                    v.decls.iter_mut().map(Mergable::Var).collect()
+                    Either::Left(v.decls.iter_mut().map(Mergable::Var))
                 } else {
                     return None;
                 }
             }
             Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => {
-                vec![Mergable::Expr(arg)]
+                Either::Right(once(Mergable::Expr(arg)))
             }
 
-            Stmt::If(s) if options.sequences() => {
-                vec![Mergable::Expr(&mut s.test)]
-            }
+            Stmt::If(s) if options.sequences() => Either::Right(once(Mergable::Expr(&mut s.test))),
 
             Stmt::Switch(s) if options.sequences() => {
-                vec![Mergable::Expr(&mut s.discriminant)]
+                Either::Right(once(Mergable::Expr(&mut s.discriminant)))
             }
 
             Stmt::For(s) if options.sequences() => {
                 if let Some(VarDeclOrExpr::Expr(e)) = &mut s.init {
-                    vec![Mergable::Expr(e)]
+                    Either::Right(once(Mergable::Expr(e)))
                 } else {
                     return None;
                 }
             }
 
             Stmt::ForOf(s) if options.sequences() => {
-                vec![Mergable::Expr(&mut s.right)]
+                Either::Right(once(Mergable::Expr(&mut s.right)))
             }
 
             Stmt::ForIn(s) if options.sequences() => {
-                vec![Mergable::Expr(&mut s.right)]
+                Either::Right(once(Mergable::Expr(&mut s.right)))
             }
 
             Stmt::Throw(s) if options.sequences() => {
-                vec![Mergable::Expr(&mut s.arg)]
+                Either::Right(once(Mergable::Expr(&mut s.arg)))
             }
 
             Stmt::Decl(Decl::Fn(f)) => {
                 // Check for side effects
 
-                vec![Mergable::FnDecl(f)]
+                Either::Right(once(Mergable::FnDecl(f)))
             }
 
             _ => return None,
