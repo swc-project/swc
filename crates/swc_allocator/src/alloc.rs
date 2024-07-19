@@ -2,11 +2,11 @@
 use std::alloc::{AllocError, Layout};
 #[cfg(feature = "scoped")]
 use std::cell::Cell;
-use std::{
-    mem::transmute,
-    ops::{Deref, DerefMut},
-    ptr::NonNull,
-};
+#[cfg(feature = "scoped")]
+use std::mem::transmute;
+use std::ops::{Deref, DerefMut};
+#[cfg(feature = "nightly")]
+use std::ptr::NonNull;
 
 use bumpalo::Bump;
 

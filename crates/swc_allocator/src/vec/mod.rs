@@ -15,10 +15,7 @@ use crate::{boxed::Box, FastAlloc};
 /// Faster version of [`std::vec::Vec`].
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[repr(transparent)]
-#[cfg_attr(
-    feature = "serde",
-    derive(serde_derive::Serialize, serde_derive::Deserialize)
-)]
+
 pub struct Vec<T>(std::vec::Vec<T, FastAlloc>);
 
 impl<T> Vec<T> {
