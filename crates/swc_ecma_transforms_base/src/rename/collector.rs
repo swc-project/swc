@@ -21,7 +21,7 @@ impl Visit for IdCollector {
 
     fn visit_export_namespace_specifier(&mut self, _: &ExportNamespaceSpecifier) {}
 
-    fn visit_expr(&mut self, n: &Expr) {
+    fn visit_bin_expr(&mut self, n: &BinExpr) {
         maybe_grow_default(|| n.visit_children_with(self));
     }
 
