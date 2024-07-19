@@ -446,7 +446,7 @@ where
                 (params, vec![super_class.as_arg()], Some(super_param))
             }
         } else {
-            (vec![], vec![], None)
+            (Vec::new(), Vec::new(), None)
         };
 
         let mut stmts = self.class_to_stmts(class_name, super_ident, class);
@@ -532,9 +532,9 @@ where
         class: Box<Class>,
     ) -> Vec<Stmt> {
         let class_name = class_name.unwrap_or_else(|| quote_ident!("_class").into());
-        let mut stmts = vec![];
+        let mut stmts = Vec::new();
 
-        let mut methods = vec![];
+        let mut methods = Vec::new();
         let mut constructor = None;
         for member in class.body {
             match member {
@@ -632,7 +632,7 @@ where
             let is_constructor_default = constructor.span.is_dummy();
             if is_constructor_default {
                 debug!("Dropping constructor parameters because the constructor is injected");
-                constructor.params = vec![];
+                constructor.params = Vec::new();
             }
 
             let mut insert_this = false;
@@ -643,7 +643,7 @@ where
                 insert_this |= inserted_this;
             }
 
-            let mut vars = vec![];
+            let mut vars = Vec::new();
             let mut body = constructor.body.unwrap().stmts;
             // should we insert `var _this`?
 
@@ -835,7 +835,7 @@ where
         mut body: Vec<Stmt>,
         this_mark: Option<Mark>,
     ) -> Vec<Stmt> {
-        let mut vars = vec![];
+        let mut vars = Vec::new();
         let mut folder = SuperFieldAccessFolder {
             class_name,
             vars: &mut vars,
@@ -896,7 +896,7 @@ where
         methods: Vec<ClassMethod>,
     ) -> Vec<Stmt> {
         if methods.is_empty() {
-            return vec![];
+            return Vec::new();
         }
 
         /// { key: "prop" }
@@ -1038,7 +1038,7 @@ where
                 &mut props
             };
 
-            let mut vars = vec![];
+            let mut vars = Vec::new();
             let mut folder = SuperFieldAccessFolder {
                 class_name,
                 vars: &mut vars,

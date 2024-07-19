@@ -49,7 +49,7 @@ impl NoParamReassign {
         Self {
             expected_reaction: config.get_rule_reaction(),
             scoped_params: Default::default(),
-            scopes: vec![],
+            scopes: Vec::new(),
             check_props: rule_config.props.unwrap_or(true),
             ignore_names: rule_config.ignore_property_modifications_for.clone(),
             ignore_names_patterns: rule_config.ignore_property_modifications_for_regex.clone(),

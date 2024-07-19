@@ -98,7 +98,7 @@ impl VisitMut for Wrapper {
                 ..Default::default()
             }
             .into();
-            let mut stmts = vec![];
+            let mut stmts = Vec::new();
             if !v.hoisted_vars.is_empty() {
                 stmts.push(
                     VarDecl {
@@ -516,7 +516,7 @@ impl VisitMut for Generator {
 
             Expr::Seq(node) => {
                 //     // flattened version of `visitCommaExpression`
-                let mut pending_expressions = vec![];
+                let mut pending_expressions = Vec::new();
 
                 for mut elem in node.exprs.take() {
                     if let Expr::Seq(mut elem) = *elem {
@@ -741,7 +741,7 @@ impl VisitMut for Generator {
                         props
                     })
                     .into_iter()
-                    .fold(vec![], |exprs, property| {
+                    .fold(Vec::new(), |exprs, property| {
                         self.reduce_property(exprs, property, &mut temp)
                     });
 
@@ -1117,7 +1117,7 @@ impl Generator {
             .iter_mut()
             .skip(num_initial_elements)
             .map(|v| v.take())
-            .fold(vec![], |exprs, element| {
+            .fold(Vec::new(), |exprs, element| {
                 self.reduce_element(exprs, element, &mut leading_element, &mut temp)
             });
 
@@ -1285,7 +1285,7 @@ impl Generator {
                         .map(|g| KeyValueProp {
                             key: quote_ident!("get").into(),
                             value: Function {
-                                params: vec![],
+                                params: Vec::new(),
                                 span: g.span,
                                 body: g.body,
                                 is_generator: false,
@@ -1504,7 +1504,7 @@ impl Generator {
         let mut variables = self.get_initialized_variables(&mut node);
         let var_len = variables.len();
         let mut variables_written = 0;
-        let mut pending_expressions = vec![];
+        let mut pending_expressions = Vec::new();
         let mut cnt = 0;
 
         while variables_written < var_len {
@@ -1976,7 +1976,7 @@ impl Generator {
             // `yield` in its expression, up to the next case clause
             // with a `yield` in its expression.
             let mut clauses_written = 0;
-            let mut pending_clauses = vec![];
+            let mut pending_clauses = Vec::new();
 
             while clauses_written < node.cases.len() {
                 #[cfg(debug_assertions)]
@@ -2354,7 +2354,7 @@ impl Generator {
                     .clone()
                     .make_member(quote_ident!("sent"))
                     .as_callee(),
-                args: vec![],
+                args: Vec::new(),
                 ..Default::default()
             }
             .into(),
@@ -2630,7 +2630,7 @@ impl Generator {
                 };
                 if label_expressions.get(label.0 as usize).is_none() {
                     if label.0 as usize >= label_expressions.len() {
-                        label_expressions.resize(label.0 as usize + 1, vec![]);
+                        label_expressions.resize(label.0 as usize + 1, Vec::new());
                     }
 
                     label_expressions[label.0 as usize] = vec![expr];
@@ -2720,7 +2720,7 @@ impl Generator {
                 .clone()
                 .make_member(quote_ident!("sent"))
                 .as_callee(),
-            args: vec![],
+            args: Vec::new(),
             ..Default::default()
         }
         .into()
@@ -2831,9 +2831,9 @@ impl Generator {
     /// - `args`: The optional arguments for the operation.
     fn emit_worker(&mut self, code: OpCode, args: Option<OpArgs>, loc: Option<Span>) {
         if self.operations.is_none() {
-            self.operations = Some(vec![]);
-            self.operation_args = Some(vec![]);
-            self.operation_locs = Some(vec![]);
+            self.operations = Some(Vec::new());
+            self.operation_args = Some(Vec::new());
+            self.operation_locs = Some(Vec::new());
         }
         if self.label_offsets.is_none() {
             // mark entry point
@@ -2884,7 +2884,7 @@ impl Generator {
             return stmts;
         }
 
-        vec![]
+        Vec::new()
     }
 
     /// Flush the current label and advance to a new label.
@@ -3099,7 +3099,7 @@ impl Generator {
                 self.flush_label();
 
                 if self.label_numbers.is_none() {
-                    self.label_numbers = Some(vec![]);
+                    self.label_numbers = Some(Vec::new());
                 }
 
                 if let Some(v) = self
@@ -3114,7 +3114,7 @@ impl Generator {
                         self.label_numbers
                             .as_mut()
                             .unwrap()
-                            .resize(self.label_number + 1, vec![]);
+                            .resize(self.label_number + 1, Vec::new());
                     }
 
                     self.label_numbers.as_mut().unwrap()[self.label_number] = vec![label];

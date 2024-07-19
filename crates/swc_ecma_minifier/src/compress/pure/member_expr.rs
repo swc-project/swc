@@ -373,7 +373,7 @@ impl Pure<'_> {
                         // Replacement is certain at this point, and is always undefined
 
                         // Extract side effects
-                        let mut exprs = vec![];
+                        let mut exprs = Vec::new();
                         elems.drain(..).flatten().for_each(|elem| {
                             self.expr_ctx.extract_side_effects_to(&mut exprs, *elem.expr);
                         });
@@ -422,7 +422,7 @@ impl Pure<'_> {
                         }
 
                         // Extract side effects
-                        let mut exprs = vec![];
+                        let mut exprs = Vec::new();
                         elems.drain(..).flatten().for_each(|elem| {
                             self.expr_ctx.extract_side_effects_to(&mut exprs, *elem.expr);
                         });
@@ -532,7 +532,7 @@ impl Pure<'_> {
                             span: *span,
                             obj: ObjectLit {
                                 span: *span,
-                                props: vec![],
+                                props: Vec::new(),
                             }
                             .into(),
                             prop: MemberProp::Ident(IdentName::new(key, *span)),

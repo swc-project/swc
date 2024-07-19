@@ -92,7 +92,7 @@ fn internal(input: PathBuf) {
                 }),
                 EsVersion::latest(),
                 None,
-                &mut vec![],
+                &mut Vec::new(),
             )
             .unwrap();
 
@@ -149,7 +149,7 @@ fn internal(input: PathBuf) {
                 Syntax::Es(Default::default()),
                 EsVersion::latest(),
                 None,
-                &mut vec![],
+                &mut Vec::new(),
             )
             .unwrap();
 

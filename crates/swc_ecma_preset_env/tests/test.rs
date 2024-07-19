@@ -133,7 +133,7 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
                             UseBuiltIns::Str(ref s) if s == "entry" => Some(Mode::Entry),
                             v => unreachable!("invalid: {:?}", v),
                         },
-                        skip: vec![],
+                        skip: Vec::new(),
                         loose: true,
                         // TODO
                         dynamic_import: true,
@@ -156,7 +156,7 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
             );
 
             let print = |m: &Module| {
-                let mut buf = vec![];
+                let mut buf = Vec::new();
                 {
                     let mut emitter = Emitter {
                         cfg: swc_ecma_codegen::Config::default(),

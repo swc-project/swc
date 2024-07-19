@@ -68,7 +68,7 @@ impl CustomMediaHandler {
     }
 
     pub(crate) fn process_media_condition(&mut self, media_condition: &mut MediaCondition) {
-        let mut remove_rules_list = vec![];
+        let mut remove_rules_list = Vec::new();
 
         for (i, node) in media_condition.conditions.iter_mut().enumerate() {
             match node {
@@ -155,7 +155,7 @@ impl CustomMediaHandler {
         &mut self,
         media_condition: &mut MediaConditionWithoutOr,
     ) {
-        let mut remove_rules_list = vec![];
+        let mut remove_rules_list = Vec::new();
 
         for (i, node) in media_condition.conditions.iter_mut().enumerate() {
             match node {
@@ -233,7 +233,7 @@ impl CustomMediaHandler {
             if let Some(custom_media) = self.medias.iter().find(|m| m.name.value == name.value) {
                 let mut new_media_condition = MediaCondition {
                     span: DUMMY_SP,
-                    conditions: vec![],
+                    conditions: Vec::new(),
                 };
 
                 let queries = match &custom_media.media {
@@ -370,7 +370,7 @@ impl CustomMediaHandler {
     ) -> MediaCondition {
         let mut new_media_condition = MediaCondition {
             span: DUMMY_SP,
-            conditions: vec![],
+            conditions: Vec::new(),
         };
 
         for n in &media_condition.conditions {

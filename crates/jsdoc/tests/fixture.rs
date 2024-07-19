@@ -15,7 +15,7 @@ fn fixture(path: PathBuf) {
 
         let fm = cm.load_file(&path).expect("failed to load fixture file");
 
-        let mut errors = vec![];
+        let mut errors = Vec::new();
 
         if let Err(err) = parse_file_as_module(
             &fm,
@@ -35,7 +35,7 @@ fn fixture(path: PathBuf) {
         if handler.has_errors() {
             return Err(());
         }
-        let mut res = vec![];
+        let mut res = Vec::new();
         let mut comments: Vec<_> = comments.leading.into_iter().collect();
         comments.sort_by_key(|v| v.0);
 

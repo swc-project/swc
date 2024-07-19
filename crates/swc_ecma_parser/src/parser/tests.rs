@@ -24,7 +24,7 @@ fn assert_module_error(src: &'static str) -> Module {
         let program = p.parse_program()?;
 
         let errors = p.take_errors();
-        assert_ne!(errors, vec![]);
+        assert_ne!(errors, Vec::new());
 
         let module = program.expect_module();
 
@@ -274,8 +274,8 @@ fn issue_2853_1() {
         let program = p.parse_program()?;
 
         let errors = p.take_errors();
-        assert_eq!(errors, vec![]);
-        assert_eq!(errors, vec![]);
+        assert_eq!(errors, Vec::new());
+        assert_eq!(errors, Vec::new());
 
         Ok(program)
     });
@@ -287,7 +287,7 @@ fn issue_2853_2() {
         let program = p.parse_program()?;
 
         let errors = p.take_errors();
-        assert_eq!(errors, vec![]);
+        assert_eq!(errors, Vec::new());
 
         Ok(program)
     });

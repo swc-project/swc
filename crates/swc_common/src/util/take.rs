@@ -45,7 +45,7 @@ where
 
 impl<T> Take for Vec<T> {
     fn dummy() -> Self {
-        vec![]
+        Vec::new()
     }
 }
 

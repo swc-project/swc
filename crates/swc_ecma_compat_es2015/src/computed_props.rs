@@ -168,7 +168,7 @@ impl VisitMut for ComputedProps {
                                         body,
                                         is_async: false,
                                         is_generator: false,
-                                        params: vec![],
+                                        params: Vec::new(),
                                         ..Default::default()
                                     }),
                                 ),
@@ -210,7 +210,7 @@ impl VisitMut for ComputedProps {
                                             op: op!("||"),
                                             right: Box::new(Expr::Object(ObjectLit {
                                                 span,
-                                                props: vec![],
+                                                props: Vec::new(),
                                             })),
                                         }
                                         .into(),
@@ -307,7 +307,7 @@ impl VisitMut for ComputedProps {
                     init: Some(
                         ObjectLit {
                             span: DUMMY_SP,
-                            props: vec![],
+                            props: Vec::new(),
                         }
                         .into(),
                     ),

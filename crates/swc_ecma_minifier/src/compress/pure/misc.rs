@@ -66,7 +66,7 @@ impl Pure<'_> {
             return;
         }
 
-        let mut new_args = vec![];
+        let mut new_args = Vec::new();
         for arg in args.take() {
             match arg {
                 ExprOrSpread {
@@ -755,8 +755,8 @@ impl Pure<'_> {
 
         let mut new_tpl = Tpl {
             span,
-            quasis: vec![],
-            exprs: vec![],
+            quasis: Vec::new(),
+            exprs: Vec::new(),
         };
         let mut cur_raw = String::new();
         let mut cur_cooked = String::new();
@@ -1400,7 +1400,7 @@ impl Pure<'_> {
                             Prop::Shorthand(_) | Prop::KeyValue(_) | Prop::Method(..)
                         ),
                     }) {
-                        let mut exprs = vec![];
+                        let mut exprs = Vec::new();
 
                         for prop in obj.props.take() {
                             if let PropOrSpread::Prop(p) = prop {
@@ -1479,7 +1479,7 @@ impl Pure<'_> {
                         return;
                     }
 
-                    let mut exprs = vec![];
+                    let mut exprs = Vec::new();
 
                     //
 

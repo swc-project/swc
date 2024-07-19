@@ -25,7 +25,7 @@ pub(crate) struct UsageVisitor {
 
 impl UsageVisitor {
     pub fn new(target: Versions, shipped_proposals: bool, corejs_version: Version) -> Self {
-        //        let mut v = Self { required: vec![] };
+        //        let mut v = Self { required: Vec::new() };
         //
         //
         //        let is_web_target = target

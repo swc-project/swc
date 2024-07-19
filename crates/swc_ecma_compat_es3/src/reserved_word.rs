@@ -30,7 +30,7 @@ impl VisitMut for ReservedWord {
     noop_visit_mut_type!(fail);
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
-        let mut extra_exports = vec![];
+        let mut extra_exports = Vec::new();
 
         n.iter_mut().for_each(|module_item| {
             match module_item {

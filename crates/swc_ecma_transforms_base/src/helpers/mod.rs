@@ -33,7 +33,7 @@ fn parse(code: &str) -> Vec<Stmt> {
         Default::default(),
         Default::default(),
         None,
-        &mut vec![],
+        &mut Vec::new(),
     )
     .map(|mut script| {
         script.body.visit_mut_with(&mut DropSpan);
@@ -180,7 +180,7 @@ macro_rules! define_helpers {
             }
 
             fn build_helpers(&self) -> Vec<Stmt> {
-                let mut buf = vec![];
+                let mut buf = Vec::new();
 
                 HELPERS.with(|helpers|{
                     debug_assert!(!helpers.external);
@@ -193,7 +193,7 @@ macro_rules! define_helpers {
             }
 
             fn build_imports(&self) -> Vec<ModuleItem> {
-                let mut buf = vec![];
+                let mut buf = Vec::new();
 
                 HELPERS.with(|helpers|{
                     debug_assert!(helpers.external);
@@ -206,7 +206,7 @@ macro_rules! define_helpers {
             }
 
             fn build_requires(&self) -> Vec<Stmt>{
-                let mut buf = vec![];
+                let mut buf = Vec::new();
                 HELPERS.with(|helpers|{
                     debug_assert!(helpers.external);
                     $(
@@ -406,7 +406,7 @@ impl InjectHelpers {
                 self.helper_ctxt = Some(SyntaxContext::empty().apply_mark(helper_mark));
                 self.build_imports()
             } else {
-                vec![]
+                Vec::new()
             }
         } else {
             self.build_helpers()

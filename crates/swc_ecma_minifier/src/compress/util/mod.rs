@@ -473,7 +473,7 @@ pub(crate) fn eval_as_number(expr_ctx: &ExprCtx, e: &Expr) -> Option<f64> {
                         }
 
                         "max" => {
-                            let mut numbers = vec![];
+                            let mut numbers = Vec::new();
                             for arg in args {
                                 let v = eval_as_number(expr_ctx, &arg.expr)?;
                                 if v.is_infinite() || v.is_nan() {
@@ -491,7 +491,7 @@ pub(crate) fn eval_as_number(expr_ctx: &ExprCtx, e: &Expr) -> Option<f64> {
                         }
 
                         "min" => {
-                            let mut numbers = vec![];
+                            let mut numbers = Vec::new();
                             for arg in args {
                                 let v = eval_as_number(expr_ctx, &arg.expr)?;
                                 if v.is_infinite() || v.is_nan() {

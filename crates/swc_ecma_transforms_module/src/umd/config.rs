@@ -39,7 +39,7 @@ impl Config {
                             Syntax::default(),
                             Default::default(),
                             None,
-                            &mut vec![],
+                            &mut Vec::new(),
                         )
                         .map_err(|e| {
                             if HANDLER.is_set() {

@@ -296,7 +296,7 @@ impl Optimizer<'_> {
                 stmt
             };
             let is_nonconditional_return = matches!(stmt, Stmt::Return(..));
-            let new_expr = self.merge_if_returns_to(stmt, vec![]);
+            let new_expr = self.merge_if_returns_to(stmt, Vec::new());
             match new_expr {
                 Expr::Seq(v) => match &mut cur {
                     Some(cur) => match &mut **cur {
@@ -436,9 +436,9 @@ impl Optimizer<'_> {
                 alt,
                 ..
             }) => {
-                let cons = Box::new(self.merge_if_returns_to(*cons, vec![]));
+                let cons = Box::new(self.merge_if_returns_to(*cons, Vec::new()));
                 let alt = match alt {
-                    Some(alt) => Box::new(self.merge_if_returns_to(*alt, vec![])),
+                    Some(alt) => Box::new(self.merge_if_returns_to(*alt, Vec::new())),
                     None => Expr::undefined(DUMMY_SP),
                 };
 

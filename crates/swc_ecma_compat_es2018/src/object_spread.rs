@@ -43,10 +43,10 @@ impl VisitMut for ObjectSpread {
 
             // { foo, ...x } => ({ foo }, x)
             let args = {
-                let mut buf = vec![];
+                let mut buf = Vec::new();
                 let mut obj = ObjectLit {
                     span: DUMMY_SP,
-                    props: vec![],
+                    props: Vec::new(),
                 };
                 let mut first = true;
                 for prop in props.take() {

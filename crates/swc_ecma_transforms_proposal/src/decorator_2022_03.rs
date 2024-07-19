@@ -104,7 +104,7 @@ impl Decorator2022_03 {
             return;
         }
 
-        let mut e_lhs = vec![];
+        let mut e_lhs = Vec::new();
         let mut combined_args = vec![ThisExpr { span: DUMMY_SP }.as_arg()];
 
         for id in self
@@ -354,10 +354,10 @@ impl Decorator2022_03 {
             ClassMember::Constructor(Constructor {
                 span: DUMMY_SP,
                 key: PropName::Ident("constructor".into()),
-                params: vec![],
+                params: Vec::new(),
                 body: Some(BlockStmt {
                     span: DUMMY_SP,
-                    stmts: vec![],
+                    stmts: Vec::new(),
                     ..Default::default()
                 }),
                 ..Default::default()
@@ -439,7 +439,7 @@ impl Decorator2022_03 {
             let call_stmt = CallExpr {
                 span: DUMMY_SP,
                 callee: init_class.as_callee(),
-                args: vec![],
+                args: Vec::new(),
                 ..Default::default()
             }
             .into_stmt();
@@ -524,7 +524,7 @@ impl Decorator2022_03 {
                                             span: DUMMY_SP,
                                             callee: ArrowExpr {
                                                 span: DUMMY_SP,
-                                                params: vec![],
+                                                params: Vec::new(),
                                                 body: Box::new(BlockStmtOrExpr::BlockStmt(
                                                     BlockStmt {
                                                         span: DUMMY_SP,
@@ -537,7 +537,7 @@ impl Decorator2022_03 {
                                                 ..Default::default()
                                             }
                                             .as_callee(),
-                                            args: vec![],
+                                            args: Vec::new(),
                                             ..Default::default()
                                         })),
                                         value.take(),
@@ -579,7 +579,7 @@ impl Decorator2022_03 {
                 declare: Default::default(),
                 class: Box::new(Class {
                     span: DUMMY_SP,
-                    decorators: vec![],
+                    decorators: Vec::new(),
                     body,
                     super_class: c.class.super_class.take(),
                     ..Default::default()
@@ -648,7 +648,7 @@ impl Decorator2022_03 {
                         span: DUMMY_SP,
                         callee: ArrowExpr {
                             span: DUMMY_SP,
-                            params: vec![],
+                            params: Vec::new(),
                             body: Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
                                 span: DUMMY_SP,
                                 stmts: last,
@@ -659,7 +659,7 @@ impl Decorator2022_03 {
                             ..Default::default()
                         }
                         .as_callee(),
-                        args: vec![],
+                        args: Vec::new(),
                         ..Default::default()
                     }
                     .into()
@@ -699,7 +699,7 @@ impl Decorator2022_03 {
             return NewExpr {
                 span: DUMMY_SP,
                 callee: ClassExpr { ident: None, class }.into(),
-                args: Some(vec![]),
+                args: Some(Vec::new()),
                 ..Default::default()
             }
             .into_stmt();
@@ -721,7 +721,7 @@ impl Decorator2022_03 {
                 stmts: vec![CallExpr {
                     span: DUMMY_SP,
                     callee: init_class.as_callee(),
-                    args: vec![],
+                    args: Vec::new(),
                     ..Default::default()
                 }
                 .into_stmt()],
@@ -1205,7 +1205,7 @@ impl VisitMut for Decorator2022_03 {
                                         });
 
                                         getter_function = Box::new(Function {
-                                            params: vec![],
+                                            params: Vec::new(),
                                             span: DUMMY_SP,
                                             body: Some(BlockStmt {
                                                 span: DUMMY_SP,

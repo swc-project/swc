@@ -291,7 +291,7 @@ impl SimplifyExpr {
                         };
 
                         // Replacement expressions.
-                        let mut exprs = vec![];
+                        let mut exprs = Vec::new();
 
                         // Add before side effects.
                         for elem in before.into_iter().flatten() {

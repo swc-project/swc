@@ -118,7 +118,7 @@ impl SwcLoader {
                     Syntax::Es(Default::default()),
                     Default::default(),
                     None,
-                    &mut vec![],
+                    &mut Vec::new(),
                 )
                 .unwrap();
                 return Ok(ModuleData {

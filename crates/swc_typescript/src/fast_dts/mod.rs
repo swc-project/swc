@@ -37,7 +37,7 @@ impl FastDts {
             filename,
             is_top_level: false,
             id_counter: 0,
-            diagnostics: vec![],
+            diagnostics: Vec::new(),
         }
     }
 
@@ -249,7 +249,7 @@ impl FastDts {
     ) -> Option<Box<TsType>> {
         match *e {
             Expr::Array(arr) => {
-                let mut elem_types: Vec<TsTupleElement> = vec![];
+                let mut elem_types: Vec<TsTupleElement> = Vec::new();
 
                 for elems in arr.elems {
                     if let Some(expr_or_spread) = elems {
@@ -285,7 +285,7 @@ impl FastDts {
             }
 
             Expr::Object(obj) => {
-                let mut members: Vec<TsTypeElement> = vec![];
+                let mut members: Vec<TsTypeElement> = Vec::new();
 
                 // TODO: Prescan all object properties to know which ones
                 // have a getter or a setter. This allows us to apply

@@ -575,7 +575,7 @@ pub(super) fn visit_private_in_expr(
 ) -> Vec<VarDeclarator> {
     let mut priv_visitor = PrivateAccessVisitor {
         private,
-        vars: vec![],
+        vars: Vec::new(),
         private_access_type: Default::default(),
         c: config,
         unresolved_mark,

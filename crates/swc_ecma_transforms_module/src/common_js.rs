@@ -591,7 +591,7 @@ pub(crate) fn cjs_dynamic_import(
     let p = private_ident!("p");
 
     let (resolve_args, callback_params, require_args) = if is_lit_path {
-        (vec![], vec![], args)
+        (Vec::new(), Vec::new(), args)
     } else {
         (args, vec![p.clone().into()], vec![p.as_arg()])
     };

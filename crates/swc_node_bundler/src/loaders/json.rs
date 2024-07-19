@@ -6,8 +6,14 @@ use swc_ecma_ast::*;
 use swc_ecma_parser::{parse_file_as_expr, Syntax};
 
 pub(super) fn load_json_as_module(fm: &Arc<SourceFile>) -> Result<Module, Error> {
-    let expr = parse_file_as_expr(fm, Syntax::default(), EsVersion::Es2020, None, &mut vec![])
-        .map_err(|err| anyhow!("failed parse json as javascript object: {:#?}", err))?;
+    let expr = parse_file_as_expr(
+        fm,
+        Syntax::default(),
+        EsVersion::Es2020,
+        None,
+        &mut Vec::new(),
+    )
+    .map_err(|err| anyhow!("failed parse json as javascript object: {:#?}", err))?;
 
     let export = ExprStmt {
         span: DUMMY_SP,

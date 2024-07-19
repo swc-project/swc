@@ -67,7 +67,7 @@ impl VisitMut for OptionalChaining {
         match e {
             // foo?.bar -> foo == null ? void 0 : foo.bar
             Expr::OptChain(v) => {
-                let data = self.gather(v.take(), vec![]);
+                let data = self.gather(v.take(), Vec::new());
                 *e = self.construct(data, false);
             }
 
@@ -79,7 +79,7 @@ impl VisitMut for OptionalChaining {
                 match &mut **arg {
                     // delete foo?.bar -> foo == null ? true : delete foo.bar
                     Expr::OptChain(v) => {
-                        let data = self.gather(v.take(), vec![]);
+                        let data = self.gather(v.take(), Vec::new());
                         *e = self.construct(data, true);
                     }
                     _ => e.visit_mut_children_with(self),
@@ -120,7 +120,7 @@ impl VisitMut for OptionalChaining {
                 span: DUMMY_SP,
                 callee: ArrowExpr {
                     span: DUMMY_SP,
-                    params: vec![],
+                    params: Vec::new(),
                     body: Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
                         span: DUMMY_SP,
                         stmts,
@@ -131,7 +131,7 @@ impl VisitMut for OptionalChaining {
                     ..Default::default()
                 }
                 .as_callee(),
-                args: vec![],
+                args: Vec::new(),
                 ..Default::default()
             }
             .into();

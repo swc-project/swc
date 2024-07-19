@@ -126,7 +126,7 @@ pub fn parse_expr_for_jsx(
         Syntax::default(),
         Default::default(),
         None,
-        &mut vec![],
+        &mut Vec::new(),
     )
     .map_err(|e| {
         if HANDLER.is_set() {
@@ -493,7 +493,7 @@ where
 
                 let mut props_obj = ObjectLit {
                     span: DUMMY_SP,
-                    props: vec![],
+                    props: Vec::new(),
                 };
 
                 let children = el
@@ -615,7 +615,7 @@ where
 
                 let mut props_obj = ObjectLit {
                     span: DUMMY_SP,
-                    props: vec![],
+                    props: Vec::new(),
                 };
 
                 let mut key = None;
@@ -898,7 +898,7 @@ where
         }
         let attr_cnt = attrs.len();
 
-        let mut props = vec![];
+        let mut props = Vec::new();
         for attr in attrs {
             match attr {
                 JSXAttrOrSpread::JSXAttr(attr) => {

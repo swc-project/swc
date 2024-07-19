@@ -374,7 +374,7 @@ impl Compressor {
     pub(super) fn compress_stylesheet(&mut self, stylesheet: &mut Stylesheet) {
         let mut names: AHashMap<Name, isize> = Default::default();
         let mut prev_rule_idx = None;
-        let mut remove_rules_list = vec![];
+        let mut remove_rules_list = Vec::new();
         let mut prev_index = 0;
 
         for index in 0..stylesheet.rules.len() {
@@ -511,7 +511,7 @@ impl Compressor {
     pub(super) fn compress_simple_block(&mut self, simple_block: &mut SimpleBlock) {
         let mut names: AHashMap<Name, isize> = Default::default();
         let mut prev_rule_idx = None;
-        let mut remove_rules_list = vec![];
+        let mut remove_rules_list = Vec::new();
         let mut prev_index = 0;
 
         for index in 0..simple_block.value.len() {

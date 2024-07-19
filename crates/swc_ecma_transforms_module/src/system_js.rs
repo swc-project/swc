@@ -47,15 +47,15 @@ pub fn system_js(unresolved_mark: Mark, config: Config) -> impl Fold {
         resolver: Resolver::Default,
         config,
 
-        declare_var_idents: vec![],
+        declare_var_idents: Vec::new(),
         export_map: Default::default(),
-        export_names: vec![],
-        export_values: vec![],
+        export_names: Vec::new(),
+        export_values: Vec::new(),
         tla: false,
         enter_async_fn: 0,
-        root_fn_decl_idents: vec![],
-        module_item_meta_list: vec![],
-        import_idents: vec![],
+        root_fn_decl_idents: Vec::new(),
+        module_item_meta_list: Vec::new(),
+        import_idents: Vec::new(),
         export_ident: private_ident!("_export"),
         context_ident: private_ident!("_context"),
     }
@@ -71,15 +71,15 @@ pub fn system_js_with_resolver(
         unresolved_mark,
         resolver: Resolver::Real { base, resolver },
         config,
-        declare_var_idents: vec![],
+        declare_var_idents: Vec::new(),
         export_map: Default::default(),
-        export_names: vec![],
-        export_values: vec![],
+        export_names: Vec::new(),
+        export_values: Vec::new(),
         tla: false,
         enter_async_fn: 0,
-        root_fn_decl_idents: vec![],
-        module_item_meta_list: vec![],
-        import_idents: vec![],
+        root_fn_decl_idents: Vec::new(),
+        module_item_meta_list: Vec::new(),
+        import_idents: Vec::new(),
         export_ident: private_ident!("_export"),
         context_ident: private_ident!("_context"),
     }
@@ -132,7 +132,7 @@ impl SystemJs {
                 _ => assign_expr.into(),
             },
             AssignTarget::Pat(pat) => {
-                let mut to: Vec<Id> = vec![];
+                let mut to: Vec<Id> = Vec::new();
                 pat.visit_with(&mut VarCollector { to: &mut to });
 
                 match pat {
@@ -229,12 +229,12 @@ impl SystemJs {
         export_values: &mut Vec<Box<Expr>>,
     ) -> Vec<Stmt> {
         match export_names.len() {
-            0 => vec![],
+            0 => Vec::new(),
             1 => vec![self
                 .export_call(export_names.remove(0), DUMMY_SP, *export_values.remove(0))
                 .into_stmt()],
             _ => {
-                let mut props = vec![];
+                let mut props = Vec::new();
                 for (sym, value) in export_names.drain(..).zip(export_values.drain(..)) {
                     props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                         key: match Ident::verify_symbol(&sym) {
@@ -276,7 +276,7 @@ impl SystemJs {
                         name: export_obj.clone().into(),
                         init: Some(Box::new(Expr::Object(ObjectLit {
                             span: DUMMY_SP,
-                            props: vec![],
+                            props: Vec::new(),
                         }))),
                         definite: false,
                     }],
@@ -392,9 +392,9 @@ impl SystemJs {
 
     #[allow(clippy::boxed_local)]
     fn hoist_var_decl(&mut self, var_decl: Box<VarDecl>) -> Option<Expr> {
-        let mut exprs = vec![];
+        let mut exprs = Vec::new();
         for var_declarator in var_decl.decls {
-            let mut tos: Vec<Id> = vec![];
+            let mut tos: Vec<Id> = Vec::new();
             var_declarator.visit_with(&mut VarCollector { to: &mut tos });
 
             for (sym, ctxt) in tos {
@@ -441,7 +441,7 @@ impl SystemJs {
         if let ForHead::VarDecl(mut var_decl) = var_decl_or_pat {
             if var_decl.kind == VarDeclKind::Var {
                 let var_declarator = var_decl.decls.remove(0);
-                let mut tos: Vec<Id> = vec![];
+                let mut tos: Vec<Id> = Vec::new();
                 var_declarator.visit_with(&mut VarCollector { to: &mut tos });
 
                 for to in tos {
@@ -646,8 +646,8 @@ impl Fold for SystemJs {
             }
             module
         };
-        let mut before_body_stmts: Vec<Stmt> = vec![];
-        let mut execute_stmts = vec![];
+        let mut before_body_stmts: Vec<Stmt> = Vec::new();
+        let mut execute_stmts = Vec::new();
 
         // collect top level fn decl
         for item in &module.body {
@@ -672,7 +672,7 @@ impl Fold for SystemJs {
 
                         let source_alias = local_name_for_src(&src);
 
-                        let mut setter_fn_stmts = vec![];
+                        let mut setter_fn_stmts = Vec::new();
 
                         for specifier in import.specifiers {
                             match specifier {
@@ -732,8 +732,8 @@ impl Fold for SystemJs {
                         }
 
                         self.add_module_item_meta(ModuleItemMeta {
-                            export_names: vec![],
-                            export_values: vec![],
+                            export_names: Vec::new(),
+                            export_values: Vec::new(),
                             has_export_all: false,
                             src: src.clone(),
                             setter_fn_stmts,
@@ -752,8 +752,8 @@ impl Fold for SystemJs {
                             };
                             for specifier in decl.specifiers {
                                 let source_alias = local_name_for_src(&src);
-                                let mut export_names = vec![];
-                                let mut export_values = vec![];
+                                let mut export_names = Vec::new();
+                                let mut export_values = Vec::new();
 
                                 match specifier {
                                     ExportSpecifier::Named(specifier) => {
@@ -795,7 +795,7 @@ impl Fold for SystemJs {
                                     export_values,
                                     has_export_all: false,
                                     src: src.clone(),
-                                    setter_fn_stmts: vec![],
+                                    setter_fn_stmts: Vec::new(),
                                 });
                             }
                         }
@@ -871,11 +871,11 @@ impl Fold for SystemJs {
                             }
                             Decl::Var(var_decl) => {
                                 let mut decl = VarDecl {
-                                    decls: vec![],
+                                    decls: Vec::new(),
                                     ..*var_decl
                                 };
                                 for var_declarator in var_decl.decls {
-                                    let mut tos: Vec<Id> = vec![];
+                                    let mut tos: Vec<Id> = Vec::new();
                                     var_declarator.visit_with(&mut VarCollector { to: &mut tos });
                                     for to in tos {
                                         let ident = Ident::new(to.0.clone(), DUMMY_SP, to.1);
@@ -939,11 +939,11 @@ impl Fold for SystemJs {
                     }
                     ModuleDecl::ExportAll(decl) => {
                         self.add_module_item_meta(ModuleItemMeta {
-                            export_names: vec![],
-                            export_values: vec![],
+                            export_names: Vec::new(),
+                            export_values: Vec::new(),
                             has_export_all: true,
                             src: decl.src.value,
-                            setter_fn_stmts: vec![],
+                            setter_fn_stmts: Vec::new(),
                         });
                     }
                     _ => {}
@@ -1003,12 +1003,12 @@ impl Fold for SystemJs {
 
         let mut setters = ArrayLit {
             span: DUMMY_SP,
-            elems: vec![],
+            elems: Vec::new(),
         };
 
         let mut dep_module_names = ArrayLit {
             span: DUMMY_SP,
-            elems: vec![],
+            elems: Vec::new(),
         };
 
         let module_item_meta_list: Vec<ModuleItemMeta> =
@@ -1039,7 +1039,7 @@ impl Fold for SystemJs {
         }
 
         let execute = Box::new(Function {
-            params: vec![],
+            params: Vec::new(),
             decorators: Default::default(),
             span: DUMMY_SP,
             body: Some(BlockStmt {

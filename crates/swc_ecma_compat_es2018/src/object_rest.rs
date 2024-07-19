@@ -281,7 +281,7 @@ impl VisitMut for ObjectRest {
                 ..
             }) if var_decl.decls.iter().any(|v| v.name.is_object()) => {
                 let specifiers = {
-                    let mut found: Vec<Ident> = vec![];
+                    let mut found: Vec<Ident> = Vec::new();
                     let mut finder = VarCollector { to: &mut found };
                     var_decl.visit_with(&mut finder);
                     found
@@ -376,7 +376,7 @@ impl VisitMut for ObjectRest {
                                     args: vec![
                                         ObjectLit {
                                             span: DUMMY_SP,
-                                            props: vec![],
+                                            props: Vec::new(),
                                         }
                                         .as_arg(),
                                         helper_expr!(object_destructuring_empty)
@@ -902,7 +902,7 @@ fn object_without_properties(
             args: vec![
                 ObjectLit {
                     span: DUMMY_SP,
-                    props: vec![],
+                    props: Vec::new(),
                 }
                 .as_arg(),
                 helper_expr!(object_destructuring_empty)

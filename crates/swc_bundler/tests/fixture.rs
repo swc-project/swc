@@ -51,7 +51,7 @@ fn do_test(entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
 
             for bundled in modules {
                 let code = {
-                    let mut buf = vec![];
+                    let mut buf = Vec::new();
 
                     {
                         let mut emitter = Emitter {

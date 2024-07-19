@@ -8,12 +8,12 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_async_fn_expr(&mut self) -> PResult<Box<Expr>> {
         let start = cur_pos!(self);
         expect!(self, "async");
-        self.parse_fn(None, Some(start), vec![])
+        self.parse_fn(None, Some(start), Vec::new())
     }
 
     /// Parse function expression
     pub(super) fn parse_fn_expr(&mut self) -> PResult<Box<Expr>> {
-        self.parse_fn(None, None, vec![])
+        self.parse_fn(None, None, Vec::new())
     }
 
     pub(super) fn parse_async_fn_decl(&mut self, decorators: Vec<Decorator>) -> PResult<Decl> {
@@ -124,7 +124,7 @@ impl<I: Tokens> Parser<I> {
             let implements = if p.input.syntax().typescript() && eat!(p, "implements") {
                 p.parse_ts_heritage_clause()?
             } else {
-                vec![]
+                Vec::new()
             };
 
             {
@@ -251,11 +251,11 @@ impl<I: Tokens> Parser<I> {
 
     pub(super) fn parse_decorators(&mut self, allow_export: bool) -> PResult<Vec<Decorator>> {
         if !self.syntax().decorators() {
-            return Ok(vec![]);
+            return Ok(Vec::new());
         }
         trace_cur!(self, parse_decorators);
 
-        let mut decorators = vec![];
+        let mut decorators = Vec::new();
         let start = cur_pos!(self);
 
         while is!(self, '@') {
@@ -333,7 +333,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     fn parse_class_body(&mut self) -> PResult<Vec<ClassMember>> {
-        let mut elems = vec![];
+        let mut elems = Vec::new();
         let mut has_constructor_with_body = false;
         while !eof!(self) && !is!(self, '}') {
             if eat_exact!(self, ';') {
@@ -1413,7 +1413,7 @@ impl<I: Tokens> Parser<I> {
             ..self.ctx()
         };
         let state = State {
-            labels: vec![],
+            labels: Vec::new(),
             ..Default::default()
         };
         self.with_ctx(ctx)
@@ -1792,11 +1792,11 @@ mod tests {
                 expr: Box::new(Expr::Class(ClassExpr {
                     ident: None,
                     class: Box::new(Class {
-                        decorators: vec![],
+                        decorators: Vec::new(),
                         span,
-                        body: vec![],
+                        body: Vec::new(),
                         super_class: Some(expr("a")),
-                        implements: vec![],
+                        implements: Vec::new(),
                         is_abstract: false,
                         ..Default::default()
                     }),

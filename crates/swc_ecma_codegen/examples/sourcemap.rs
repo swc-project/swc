@@ -9,6 +9,7 @@ use std::{
     time::Instant,
 };
 
+use swc_allocator::maybe::vec::Vec;
 use swc_common::input::SourceFileInput;
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
@@ -29,8 +30,8 @@ fn parse_and_gen(entry: &Path) {
             .parse_module()
             .expect("failed to parse input as a module");
 
-        let mut code = vec![];
-        let mut srcmap = vec![];
+        let mut code = Vec::new();
+        let mut srcmap = Vec::new();
 
         {
             let mut emitter = Emitter {

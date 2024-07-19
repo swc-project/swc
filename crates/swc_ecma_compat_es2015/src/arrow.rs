@@ -138,7 +138,7 @@ impl VisitMut for Arrow {
                 body.visit_mut_with(&mut self.hoister);
 
                 let fn_expr = Function {
-                    decorators: vec![],
+                    decorators: Vec::new(),
                     span: *span,
                     params,
                     is_async: *is_async,

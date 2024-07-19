@@ -57,7 +57,7 @@ impl TscDecorator {
         let old_appended_exprs = self.appended_exprs.take();
         let old_prepended_exprs = self.prepended_exprs.take();
 
-        let mut new = vec![];
+        let mut new = Vec::new();
 
         for mut s in stmts.take() {
             debug_assert!(self.appended_exprs.is_empty());

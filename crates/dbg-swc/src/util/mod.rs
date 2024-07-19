@@ -49,7 +49,7 @@ pub fn parse_js(fm: Arc<SourceFile>) -> Result<ModuleRecord> {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
-    let mut errors = vec![];
+    let mut errors = Vec::new();
     let comments = SingleThreadedComments::default();
     let res = parse_file_as_module(
         &fm,
@@ -80,7 +80,7 @@ pub fn parse_js(fm: Arc<SourceFile>) -> Result<ModuleRecord> {
 }
 
 pub fn print_js(cm: Arc<SourceMap>, m: &Module, minify: bool) -> Result<String> {
-    let mut buf = vec![];
+    let mut buf = Vec::new();
 
     {
         let mut wr = Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)) as Box<dyn WriteJs>;
@@ -112,7 +112,7 @@ pub struct ModuleRecord {
 pub fn all_js_files(path: &Path) -> Result<Vec<PathBuf>> {
     wrap_task(|| {
         if path.is_dir() {
-            let mut files = vec![];
+            let mut files = Vec::new();
             for entry in path.read_dir().context("failed to read dir")? {
                 let entry = entry.context("read_dir returned an error")?;
                 let path = entry.path();
@@ -122,7 +122,7 @@ pub fn all_js_files(path: &Path) -> Result<Vec<PathBuf>> {
         } else if path.extension() == Some("js".as_ref()) {
             Ok(vec![path.to_path_buf()])
         } else {
-            Ok(vec![])
+            Ok(Vec::new())
         }
     })
     .with_context(|| format!("failed to get list of `.js` files in {}", path.display()))

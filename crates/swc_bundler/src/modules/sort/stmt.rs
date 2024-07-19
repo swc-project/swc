@@ -22,10 +22,10 @@ pub(super) fn sort_stmts(
 ) -> Vec<ModuleItem> {
     let total_len: usize = modules.iter().map(|v| v.len()).sum();
 
-    let mut stmts = vec![];
-    let mut free = vec![];
-    let mut same_module_ranges = vec![];
-    let mut module_starts = vec![];
+    let mut stmts = Vec::new();
+    let mut free = Vec::new();
+    let mut same_module_ranges = Vec::new();
+    let mut module_starts = Vec::new();
 
     for module in modules {
         let start = stmts.len();
@@ -226,7 +226,7 @@ fn iter<'a>(
                 // dbg!(&deps);
 
                 if !deps.is_empty() {
-                    let mut deps_to_push = vec![];
+                    let mut deps_to_push = Vec::new();
                     for dep in deps.iter().rev().copied() {
                         if deps_to_push.contains(&dep) {
                             continue;

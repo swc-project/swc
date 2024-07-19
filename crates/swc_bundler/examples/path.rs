@@ -14,7 +14,7 @@ fn main() {
     let globals = Globals::new();
     let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
     // This example does not use core modules.
-    let external_modules = vec![];
+    let external_modules = Vec::new();
     let mut bundler = Bundler::new(
         &globals,
         cm.clone(),
@@ -74,7 +74,7 @@ impl Load for PathLoader {
             Syntax::Es(Default::default()),
             Default::default(),
             None,
-            &mut vec![],
+            &mut Vec::new(),
         )
         .expect("This should not happen");
 

@@ -271,7 +271,7 @@ impl Optimizer<'_> {
                             _ => return,
                         };
 
-                        let mut keys = vec![];
+                        let mut keys = Vec::new();
 
                         for prop in &obj.props {
                             match prop {

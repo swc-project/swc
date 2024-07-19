@@ -172,8 +172,8 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                         .load_file(&normal.join(file_name))
                         .expect("failed to load reference file");
 
-                    let mut wr = Buf(Arc::new(RwLock::new(vec![])));
-                    let mut wr2 = Buf(Arc::new(RwLock::new(vec![])));
+                    let mut wr = Buf(Arc::new(RwLock::new(Vec::new())));
+                    let mut wr2 = Buf(Arc::new(RwLock::new(Vec::new())));
 
                     let mut parser: Parser<Lexer> =
                         Parser::new(Syntax::default(), (&*src).into(), None);
@@ -298,7 +298,7 @@ impl Fold for Normalizer {
 
         expr.args = match expr.args {
             Some(..) => expr.args,
-            None => Some(vec![]),
+            None => Some(Vec::new()),
         };
 
         expr

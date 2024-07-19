@@ -148,13 +148,13 @@ impl<'a> VariantBinder<'a> {
                 });
 
                 // Unit struct does not have any field to bind
-                (pat, vec![])
+                (pat, Vec::new())
             }
             Fields::Named(FieldsNamed {
                 named: ref fields,
                 brace_token,
             }) => {
-                let mut bindings = vec![];
+                let mut bindings = Vec::new();
 
                 let fields = fields
                     .pairs()
@@ -213,7 +213,7 @@ impl<'a> VariantBinder<'a> {
                 paren_token,
             }) => {
                 // TODO
-                let mut bindings = vec![];
+                let mut bindings = Vec::new();
 
                 let pats = fields
                     .pairs()

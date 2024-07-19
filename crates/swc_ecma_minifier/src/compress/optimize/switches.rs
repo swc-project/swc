@@ -36,7 +36,7 @@ impl Optimizer<'_> {
             return;
         };
 
-        let mut var_ids = vec![];
+        let mut var_ids = Vec::new();
         let mut cases = Vec::new();
         let mut exact = None;
         let mut may_match_other_than_exact = false;

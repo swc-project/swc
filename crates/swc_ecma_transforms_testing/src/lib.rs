@@ -866,7 +866,11 @@ fn test_fixture_inner<'a>(
         Ok(expected_src)
     });
 
-    let mut src_map = if config.sourcemap { Some(vec![]) } else { None };
+    let mut src_map = if config.sourcemap {
+        Some(Vec::new())
+    } else {
+        None
+    };
 
     let mut sourcemap = None;
 
@@ -944,7 +948,7 @@ fn test_fixture_inner<'a>(
 
     if let Some(sourcemap) = sourcemap {
         let map = {
-            let mut buf = vec![];
+            let mut buf = Vec::new();
             sourcemap.to_writer(&mut buf).unwrap();
             String::from_utf8(buf).unwrap()
         };
@@ -957,7 +961,7 @@ fn test_fixture_inner<'a>(
 /// Creates a url for https://evanw.github.io/source-map-visualization/
 fn visualizer_url(code: &str, map: &sourcemap::SourceMap) -> String {
     let map = {
-        let mut buf = vec![];
+        let mut buf = Vec::new();
         map.to_writer(&mut buf).unwrap();
         String::from_utf8(buf).unwrap()
     };

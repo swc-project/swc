@@ -41,9 +41,9 @@ impl VisitMut for ExportDefaultFrom {
                     type_only: false,
                     with,
                 })) if specifiers.iter().any(|s| s.is_default()) => {
-                    let mut origin_specifiers = vec![];
+                    let mut origin_specifiers = Vec::new();
 
-                    let mut export_specifiers = vec![];
+                    let mut export_specifiers = Vec::new();
 
                     let mut has_namespace = false;
 

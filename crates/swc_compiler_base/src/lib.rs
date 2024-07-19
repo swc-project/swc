@@ -65,7 +65,7 @@ pub fn parse_js(
     let mut res = (|| {
         let mut error = false;
 
-        let mut errors = vec![];
+        let mut errors = Vec::new();
         let program_result = match is_module {
             IsModule::Bool(true) => {
                 parse_file_as_module(&fm, syntax, target, comments, &mut errors)
@@ -171,10 +171,10 @@ where
 {
     let _timer = timer!("Compiler::print");
 
-    let mut src_map_buf = vec![];
+    let mut src_map_buf = Vec::new();
 
     let src = {
-        let mut buf = vec![];
+        let mut buf = Vec::new();
         {
             let mut w = swc_ecma_codegen::text_writer::JsWriter::new(
                 cm.clone(),
@@ -241,7 +241,7 @@ where
     let (code, map) = match source_map {
         SourceMapsConfig::Bool(v) => {
             if v {
-                let mut buf = vec![];
+                let mut buf = Vec::new();
 
                 map.unwrap()
                     .to_writer(&mut buf)
@@ -254,7 +254,7 @@ where
         }
         SourceMapsConfig::Str(_) => {
             let mut src = src;
-            let mut buf = vec![];
+            let mut buf = Vec::new();
 
             map.unwrap()
                 .to_writer(&mut buf)

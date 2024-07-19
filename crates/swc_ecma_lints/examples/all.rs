@@ -18,7 +18,7 @@ fn main() {
                 Syntax::default(),
                 EsVersion::latest(),
                 None,
-                &mut vec![],
+                &mut Vec::new(),
             );
             let mut program = match module {
                 Ok(v) => Program::Module(v),

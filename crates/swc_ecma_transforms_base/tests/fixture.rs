@@ -11,7 +11,7 @@ use swc_ecma_visit::{
 use testing::{fixture, run_test2, NormalizedOutput};
 
 pub fn print(cm: Lrc<SourceMap>, program: &Program) -> String {
-    let mut buf = vec![];
+    let mut buf = Vec::new();
     {
         let mut emitter = Emitter {
             cfg: Default::default(),

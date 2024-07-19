@@ -126,7 +126,7 @@ fn wrap_module(
                     pat: Pat::Ident(Ident::new("exports".into(), DUMMY_SP, local_ctxt).into()),
                 },
             ],
-            decorators: vec![],
+            decorators: Vec::new(),
             span: DUMMY_SP,
             body: Some(BlockStmt {
                 span: dep.span,
@@ -205,7 +205,7 @@ where
                         let load = CallExpr {
                             span: node.span,
                             callee: Ident::new("load".into(), i.span, i.ctxt).as_callee(),
-                            args: vec![],
+                            args: Vec::new(),
                             ..Default::default()
                         };
                         self.replaced = true;
@@ -253,7 +253,7 @@ where
                 *node = CallExpr {
                     span: DUMMY_SP,
                     callee: load_var.as_callee(),
-                    args: vec![],
+                    args: Vec::new(),
 
                     ..Default::default()
                 }
@@ -262,7 +262,7 @@ where
                 return;
             }
 
-            let mut props = vec![];
+            let mut props = Vec::new();
             // TODO
             for spec in i.specifiers.clone() {
                 match spec {
@@ -303,7 +303,7 @@ where
                                     CallExpr {
                                         span: DUMMY_SP,
                                         callee: load_var.as_callee(),
-                                        args: vec![],
+                                        args: Vec::new(),
 
                                         ..Default::default()
                                     }
@@ -335,7 +335,7 @@ where
                     init: Some(Box::new(Expr::Call(CallExpr {
                         span: DUMMY_SP,
                         callee: load_var.as_callee(),
-                        args: vec![],
+                        args: Vec::new(),
                         ..Default::default()
                     }))),
                     definite: false,

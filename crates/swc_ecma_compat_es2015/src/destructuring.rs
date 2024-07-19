@@ -494,8 +494,8 @@ impl Destructuring {
         ps: &mut Vec<Param>,
         body: &mut BlockStmt,
     ) -> (Vec<Param>, BlockStmt) {
-        let mut params = vec![];
-        let mut decls = vec![];
+        let mut params = Vec::new();
+        let mut decls = Vec::new();
 
         for param in ps.drain(..) {
             let span = param.span();
@@ -1077,7 +1077,7 @@ impl Destructuring {
             let mut folder = AssignFolder {
                 c: self.c,
                 exporting: false,
-                vars: vec![],
+                vars: Vec::new(),
                 ignore_return_value: None,
             };
 

@@ -89,7 +89,7 @@ impl VisitMut for Compiler {
 
     fn visit_mut_rules(&mut self, n: &mut Vec<Rule>) {
         if self.c.process.contains(Features::NESTING) {
-            let mut new = vec![];
+            let mut new = Vec::new();
 
             for n in n.take() {
                 match n {

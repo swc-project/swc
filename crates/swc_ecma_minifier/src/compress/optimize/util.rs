@@ -30,7 +30,7 @@ impl<'b> Optimizer<'b> {
                 }
 
                 if seq.exprs.iter().any(|v| v.is_seq()) {
-                    let mut new = vec![];
+                    let mut new = Vec::new();
 
                     for e in seq.exprs.take() {
                         match *e {

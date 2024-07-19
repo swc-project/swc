@@ -426,7 +426,7 @@ impl Optimizer<'_> {
                             .position(|(cons, alt)| !cons.eq_ignore_span(alt))
                             .unwrap();
 
-                        let mut new_args = vec![];
+                        let mut new_args = Vec::new();
 
                         for (idx, arg) in cons.args.take().into_iter().enumerate() {
                             if idx == diff_idx {
@@ -539,7 +539,7 @@ impl Optimizer<'_> {
                             .iter()
                             .all(|arg| arg.spread.is_none()))
                 {
-                    let mut args = vec![];
+                    let mut args = Vec::new();
 
                     if cons.args.as_ref().map(|v| v.len()).unwrap_or(0) == 1 {
                         args = vec![ExprOrSpread {

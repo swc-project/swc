@@ -221,7 +221,7 @@ impl TransformExecutor {
         // corresponding store
         let (mut store, module) = self.module_bytes.compile_module()?;
 
-        let context_key_buffer = Arc::new(Mutex::new(vec![]));
+        let context_key_buffer = Arc::new(Mutex::new(Vec::new()));
         let metadata_env = FunctionEnv::new(
             &mut store,
             MetadataContextHostEnvironment::new(
@@ -231,7 +231,7 @@ impl TransformExecutor {
             ),
         );
 
-        let transform_result: Arc<Mutex<Vec<u8>>> = Arc::new(Mutex::new(vec![]));
+        let transform_result: Arc<Mutex<Vec<u8>>> = Arc::new(Mutex::new(Vec::new()));
         let transform_env = FunctionEnv::new(
             &mut store,
             TransformResultHostEnvironment::new(&transform_result),
@@ -239,12 +239,12 @@ impl TransformExecutor {
 
         let base_env = FunctionEnv::new(&mut store, BaseHostEnvironment::new());
 
-        let comment_buffer = Arc::new(Mutex::new(vec![]));
+        let comment_buffer = Arc::new(Mutex::new(Vec::new()));
 
         let comments_env =
             FunctionEnv::new(&mut store, CommentHostEnvironment::new(&comment_buffer));
 
-        let source_map_buffer = Arc::new(Mutex::new(vec![]));
+        let source_map_buffer = Arc::new(Mutex::new(Vec::new()));
         let source_map = Arc::new(Mutex::new(self.source_map.clone()));
 
         let source_map_host_env = FunctionEnv::new(
@@ -252,7 +252,7 @@ impl TransformExecutor {
             SourceMapHostEnvironment::new(&source_map, &source_map_buffer),
         );
 
-        let diagnostics_buffer: Arc<Mutex<Vec<u8>>> = Arc::new(Mutex::new(vec![]));
+        let diagnostics_buffer: Arc<Mutex<Vec<u8>>> = Arc::new(Mutex::new(Vec::new()));
         let diagnostics_env = FunctionEnv::new(
             &mut store,
             DiagnosticContextHostEnvironment::new(&diagnostics_buffer),

@@ -239,7 +239,7 @@ where
 
                         let decl = ImportDecl {
                             span,
-                            specifiers: vec![],
+                            specifiers: Vec::new(),
                             src: Box::new(src.clone()),
                             type_only: false,
                             with: None,
@@ -544,7 +544,7 @@ where
         });
 
         if self.deglob_phase {
-            let mut wrapping_required = vec![];
+            let mut wrapping_required = Vec::new();
             for import in self.info.imports.iter_mut() {
                 let use_ns = self.info.forced_ns.contains(&import.src.value)
                     || self

@@ -36,7 +36,7 @@ use swc_ecma_visit::VisitMutWith;
 fn print_bundles(cm: Lrc<SourceMap>, modules: Vec<Bundle>, minify: bool) {
     for bundled in modules {
         let code = {
-            let mut buf = vec![];
+            let mut buf = Vec::new();
 
             {
                 let wr = JsWriter::new(cm.clone(), "\n", &mut buf, None);
@@ -232,7 +232,7 @@ impl Load for Loader {
             Syntax::Es(Default::default()),
             EsVersion::Es2020,
             None,
-            &mut vec![],
+            &mut Vec::new(),
         )
         .unwrap_or_else(|err| {
             let handler =

@@ -36,7 +36,7 @@ fn get_precision(n: f64) -> u32 {
 // https://www.w3.org/TR/css-values-4/#parse-a-calculation
 fn collect_calc_sum_into_calc_node(calc_sum: &CalcSum) -> CalcNode {
     let mut is_negated = false;
-    let mut operands: Vec<CalcNode> = vec![];
+    let mut operands: Vec<CalcNode> = Vec::new();
     for node in &calc_sum.expressions {
         match &node {
             CalcProductOrOperator::Product(calc_product) => {
@@ -71,7 +71,7 @@ fn collect_calc_sum_into_calc_node(calc_sum: &CalcSum) -> CalcNode {
 
 fn collect_calc_product_into_calc_node(calc_product: &CalcProduct) -> CalcNode {
     let mut is_inverted = false;
-    let mut operands: Vec<CalcNode> = vec![];
+    let mut operands: Vec<CalcNode> = Vec::new();
     for node in &calc_product.expressions {
         match &node {
             CalcValueOrOperator::Value(calc_value) => {
@@ -603,7 +603,7 @@ fn try_to_multiply_all_numeric_sum_children_by_value(
     nodes: &[CalcNode],
     value: f64,
 ) -> Option<CalcNode> {
-    let mut operands = vec![];
+    let mut operands = Vec::new();
 
     for calc_node in nodes {
         match calc_node {
@@ -837,7 +837,7 @@ fn serialize_calculation_node_into_calc_sum(calc_node: &CalcNode) -> CalcSum {
         },
         CalcNode::OperatorNode(op) => match &**op {
             CalcOperatorNode::Sum(nodes) => {
-                let mut expr: Vec<CalcProductOrOperator> = vec![];
+                let mut expr: Vec<CalcProductOrOperator> = Vec::new();
 
                 let nodes = sort_calculations_children(nodes);
 
@@ -951,7 +951,7 @@ fn serialize_calc_node_into_calc_product(calc_node: &CalcNode) -> CalcProductOrO
                 span: Span::dummy_with_cmt(),
             }),
             CalcOperatorNode::Product(nodes) => {
-                let mut expr: Vec<CalcValueOrOperator> = vec![];
+                let mut expr: Vec<CalcValueOrOperator> = Vec::new();
 
                 let nodes = sort_calculations_children(nodes);
 
@@ -1041,7 +1041,7 @@ fn serialize_calc_node_into_calc_value(calc_node: &CalcNode) -> CalcValue {
 // loss of precision), we need to keep all numbers, percentages, and so on
 // (instead of only one)
 fn sort_calculations_children(nodes: &[CalcNode]) -> Vec<CalcNode> {
-    let mut ret: Vec<CalcNode> = vec![];
+    let mut ret: Vec<CalcNode> = Vec::new();
 
     // If nodes contains a number, remove it from nodes and append it to ret.
     let mut numbers: Vec<CalcNode> = nodes

@@ -183,7 +183,7 @@ where
         {
             // Handle `export *` for non-wrapped modules.
 
-            let mut vars = vec![];
+            let mut vars = Vec::new();
             /// We recurse if `export *` is nested.
             fn add_var(
                 injected_ctxt: SyntaxContext,
@@ -568,7 +568,7 @@ where
             return;
         }
 
-        let mut extra = vec![];
+        let mut extra = Vec::new();
 
         module.map_any_items(|_, items| {
             let mut new = Vec::with_capacity(items.len() * 11 / 10);
@@ -977,7 +977,7 @@ where
                                 if !dep.is_es6 {
                                     dep.helpers.require.store(true, Ordering::SeqCst);
 
-                                    let mut vars = vec![];
+                                    let mut vars = Vec::new();
                                     let mod_var = private_ident!("_cjs_module_");
 
                                     vars.push(VarDeclarator {
@@ -1234,7 +1234,7 @@ where
     pub(super) fn replace_import_specifiers(&self, info: &TransformedModule, module: &mut Modules) {
         let injected_ctxt = self.injected_ctxt;
 
-        let mut vars = vec![];
+        let mut vars = Vec::new();
         module.map_any_items(|module_id, stmts| {
             let mut new = Vec::with_capacity(stmts.len() + 32);
 

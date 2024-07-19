@@ -60,7 +60,7 @@ fn run(src: &str) {
                 Default::default(),
                 Default::default(),
                 None,
-                &mut vec![],
+                &mut Vec::new(),
             )
             .map_err(|err| {
                 err.into_diagnostic(&handler).emit();
@@ -107,7 +107,7 @@ fn run(src: &str) {
 }
 
 fn print<N: swc_ecma_codegen::Node>(cm: Lrc<SourceMap>, nodes: &[N], minify: bool) -> String {
-    let mut buf = vec![];
+    let mut buf = Vec::new();
 
     {
         let mut emitter = swc_ecma_codegen::Emitter {

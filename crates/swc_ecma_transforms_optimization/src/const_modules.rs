@@ -59,7 +59,7 @@ fn parse_option(cm: &SourceMap, name: &str, src: String) -> Arc<Expr> {
         Default::default(),
         Default::default(),
         None,
-        &mut vec![],
+        &mut Vec::new(),
     )
     .map_err(|e| {
         if HANDLER.is_set() {

@@ -174,7 +174,7 @@ impl VisitMut for FieldsHandler {
     }
 
     fn visit_mut_class_members(&mut self, n: &mut Vec<ClassMember>) {
-        let mut constructor_inits = vec![];
+        let mut constructor_inits = Vec::new();
 
         for member in n.iter_mut() {
             match member {

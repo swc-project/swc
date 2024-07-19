@@ -44,7 +44,7 @@ pub fn to_code_default(
     comments: Option<&dyn Comments>,
     node: &impl Node,
 ) -> String {
-    let mut buf = vec![];
+    let mut buf = Vec::new();
     {
         let mut emitter = Emitter {
             cfg: Default::default(),
@@ -332,7 +332,7 @@ where
             formatting_space!();
         }
 
-        let mut specifiers = vec![];
+        let mut specifiers = Vec::new();
         let mut emitted_default = false;
         let mut emitted_ns = false;
         for specifier in &n.specifiers {
@@ -497,7 +497,7 @@ where
                 has_namespace_spec: false,
                 namespace_spec: None,
                 has_named_specs: false,
-                named_specs: vec![],
+                named_specs: Vec::new(),
             },
             |mut result, s| match s {
                 ExportSpecifier::Namespace(spec) => {
@@ -1290,7 +1290,7 @@ where
 
         {
             let mut left = Some(node);
-            let mut lefts = vec![];
+            let mut lefts = Vec::new();
             while let Some(l) = left {
                 lefts.push(l);
 

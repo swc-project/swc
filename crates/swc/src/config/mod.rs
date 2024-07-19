@@ -1548,7 +1548,7 @@ impl GlobalPassOption {
         fn expr(cm: &SourceMap, handler: &Handler, src: String) -> Box<Expr> {
             let fm = cm.new_source_file(FileName::Anon.into(), src);
 
-            let mut errors = vec![];
+            let mut errors = Vec::new();
             let expr = parse_file_as_expr(
                 &fm,
                 Syntax::Es(Default::default()),

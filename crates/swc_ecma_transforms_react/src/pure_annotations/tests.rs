@@ -40,8 +40,8 @@ fn emit(
     comments: Lrc<SingleThreadedComments>,
     program: &Module,
 ) -> String {
-    let mut src_map_buf = vec![];
-    let mut buf = vec![];
+    let mut src_map_buf = Vec::new();
+    let mut buf = Vec::new();
     {
         let writer = Box::new(JsWriter::new(
             source_map.clone(),

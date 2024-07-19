@@ -32,7 +32,7 @@ fn derive(
         _ => panic!("#[derive(FromVariant)] only works for an enum."),
     };
 
-    let mut from_impls: Vec<ItemImpl> = vec![];
+    let mut from_impls: Vec<ItemImpl> = Vec::new();
 
     for v in variants {
         let variant_name = v.ident;

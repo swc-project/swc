@@ -74,7 +74,7 @@ fn issue_6404() -> Result<(), Error> {
                 Syntax::Es(Default::default()),
                 EsVersion::latest(),
                 None,
-                &mut vec![],
+                &mut Vec::new(),
             )
             .unwrap();
 

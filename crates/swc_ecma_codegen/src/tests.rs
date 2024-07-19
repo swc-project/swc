@@ -44,7 +44,7 @@ impl Builder {
     where
         F: for<'aa> FnOnce(&mut Emitter<'aa, Box<(dyn WriteJs + 'aa)>, SourceMap>),
     {
-        let mut buf = vec![];
+        let mut buf = Vec::new();
 
         self.with(src, &mut buf, op);
 
@@ -974,7 +974,7 @@ fn run_node(code: &str) -> String {
         JsExecOptions {
             cache: true,
             module: false,
-            args: vec![],
+            args: Vec::new(),
         },
     )
     .expect("failed to execute node.js")

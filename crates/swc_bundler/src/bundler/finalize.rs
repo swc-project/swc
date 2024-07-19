@@ -150,7 +150,7 @@ where
         let is_async = contains_top_level_await(&module);
 
         // Properties of returned object
-        let mut props = vec![];
+        let mut props = Vec::new();
 
         let mut body = BlockStmt {
             span: module.span,

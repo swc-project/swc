@@ -78,7 +78,7 @@ fn load_url(url: Url) -> Result<String, Error> {
         .bytes()
         .with_context(|| format!("failed to read data from `{}`", url))?;
 
-    let mut content = vec![];
+    let mut content = Vec::new();
     write!(content, "// Loaded from {}\n\n\n", url).unwrap();
     content.extend_from_slice(&bytes);
 
@@ -124,7 +124,7 @@ impl Load for Loader {
             }),
             EsVersion::Es2020,
             None,
-            &mut vec![],
+            &mut Vec::new(),
         )
         .unwrap_or_else(|err| {
             let handler =

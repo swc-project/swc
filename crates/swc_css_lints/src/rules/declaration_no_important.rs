@@ -9,7 +9,7 @@ pub fn declaration_no_important(ctx: LintRuleContext<()>) -> Box<dyn LintRule> {
         ctx.reaction(),
         DeclarationNoImportant {
             ctx,
-            keyframe_rules: vec![],
+            keyframe_rules: Vec::new(),
         },
     )
 }

@@ -232,7 +232,7 @@ where
                         debug!("Extra: `{}`", extra);
                     }
 
-                    let mut errors = vec![];
+                    let mut errors = Vec::new();
                     for target in to {
                         let replaced = target.replace('*', extra);
 

@@ -181,7 +181,7 @@ impl<C: Comments> VisitMut for ClassProperties<C> {
             BlockStmtOrExpr::Expr(expr) if expr.is_class() => {
                 let ClassExpr { ident, class } = expr.take().class().unwrap();
 
-                let mut stmts = vec![];
+                let mut stmts = Vec::new();
                 let ident = ident.unwrap_or_else(|| private_ident!("_class"));
                 let (decl, extra) = self.visit_mut_class_as_decl(ident.clone(), class);
 
@@ -516,14 +516,14 @@ impl<C: Comments> ClassProperties<C> {
         let has_super = class.super_class.is_some();
 
         let mut constructor_inits = MemberInitRecord::new(self.c);
-        let mut vars = vec![];
-        let mut lets = vec![];
+        let mut vars = Vec::new();
+        let mut lets = Vec::new();
         let mut extra_inits = MemberInitRecord::new(self.c);
-        let mut private_method_fn_decls = vec![];
-        let mut members = vec![];
+        let mut private_method_fn_decls = Vec::new();
+        let mut members = Vec::new();
         let mut constructor = None;
-        let mut used_names = vec![];
-        let mut used_key_names = vec![];
+        let mut used_names = Vec::new();
+        let mut used_key_names = Vec::new();
         let mut super_ident = None;
 
         class.body.visit_mut_with(&mut BrandCheckHandler {
@@ -980,7 +980,7 @@ impl<C: Comments> ClassProperties<C> {
 
         private_method_fn_decls.visit_mut_with(&mut PrivateAccessVisitor {
             private: &self.private,
-            vars: vec![],
+            vars: Vec::new(),
             private_access_type: Default::default(),
             c: self.c,
             unresolved_mark: self.unresolved_mark,
@@ -992,7 +992,7 @@ impl<C: Comments> ClassProperties<C> {
 
         members.visit_mut_with(&mut PrivateAccessVisitor {
             private: &self.private,
-            vars: vec![],
+            vars: Vec::new(),
             private_access_type: Default::default(),
             c: self.c,
             unresolved_mark: self.unresolved_mark,

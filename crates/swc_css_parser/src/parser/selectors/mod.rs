@@ -68,7 +68,7 @@ where
                         parser.input.reset(&state);
 
                         let span = parser.input.cur_span();
-                        let mut children = vec![];
+                        let mut children = Vec::new();
 
                         while !is_one_of!(parser, EOF, ",", ")") {
                             if let Some(token_and_span) = parser.input.bump() {
@@ -223,7 +223,7 @@ where
                         parser.input.reset(&state);
 
                         let span = parser.input.cur_span();
-                        let mut children = vec![];
+                        let mut children = Vec::new();
 
                         while !is_one_of!(parser, EOF, ",", ")") {
                             if let Some(token_and_span) = parser.input.bump() {
@@ -420,7 +420,7 @@ where
         } else {
             None
         };
-        let mut subclass_selectors = vec![];
+        let mut subclass_selectors = Vec::new();
 
         loop {
             if !(is!(self, "#")
@@ -857,7 +857,7 @@ where
             let state = self.input.state();
             let mut parse_pseudo_class_children =
                 || -> PResult<Vec<PseudoClassSelectorChildren>> {
-                    let mut children = vec![];
+                    let mut children = Vec::new();
 
                     match &*names.0 {
                         "local" | "global" if self.config.css_modules => {
@@ -1090,7 +1090,7 @@ where
             let state = self.input.state();
             let mut parse_pseudo_element_children =
                 || -> PResult<Vec<PseudoElementSelectorChildren>> {
-                    let mut children = vec![];
+                    let mut children = Vec::new();
 
                     match &*names.0 {
                         "cue" | "cue-region" => {

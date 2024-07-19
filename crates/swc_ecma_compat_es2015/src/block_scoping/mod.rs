@@ -41,7 +41,7 @@ pub fn block_scoping(unresolved_mark: Mark) -> impl VisitMut + Fold {
         BlockScoping {
             unresolved_mark,
             scope: Default::default(),
-            vars: vec![],
+            vars: Vec::new(),
             var_decl_kind: VarDeclKind::Var,
         }
     ))
@@ -143,7 +143,7 @@ impl BlockScoping {
             let mut env_hoister =
                 FnEnvHoister::new(SyntaxContext::empty().apply_mark(self.unresolved_mark));
             body_stmt.visit_mut_with(&mut env_hoister);
-            let mut inits: Vec<Box<Expr>> = vec![];
+            let mut inits: Vec<Box<Expr>> = Vec::new();
 
             for mut var in env_hoister.to_decl() {
                 if let Some(init) = var.init.take() {
@@ -445,7 +445,7 @@ impl VisitMut for BlockScoping {
     fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
         let vars = take(&mut self.vars);
         n.visit_mut_children_with(self);
-        debug_assert_eq!(self.vars, vec![]);
+        debug_assert_eq!(self.vars, Vec::new());
         self.vars = vars;
     }
 
@@ -478,7 +478,7 @@ impl VisitMut for BlockScoping {
         let kind = ScopeKind::Loop {
             lexical_var,
             args,
-            used: vec![],
+            used: Vec::new(),
             mutated: Default::default(),
         };
 
@@ -504,7 +504,7 @@ impl VisitMut for BlockScoping {
         let kind = ScopeKind::Loop {
             lexical_var: vars,
             args,
-            used: vec![],
+            used: Vec::new(),
             mutated: Default::default(),
         };
 
@@ -530,7 +530,7 @@ impl VisitMut for BlockScoping {
         let kind = ScopeKind::Loop {
             lexical_var,
             args,
-            used: vec![],
+            used: Vec::new(),
             mutated: Default::default(),
         };
         self.visit_mut_with_scope(kind, &mut node.body);

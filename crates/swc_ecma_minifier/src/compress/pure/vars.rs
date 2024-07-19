@@ -459,7 +459,7 @@ impl VisitMut for VarMover {
             *d = new;
         }
 
-        let mut new = vec![];
+        let mut new = Vec::new();
 
         if has_init {
             new.append(&mut self.vars);

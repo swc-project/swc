@@ -14,7 +14,7 @@ mod input;
 pub fn parse(i: Input) -> IResult<Input, JsDoc> {
     let i = skip(i);
 
-    let mut tags = vec![];
+    let mut tags = Vec::new();
     let lo = i.span().lo;
     let (description, mut i) = take_while(|c| c != '@')(i)?;
     let description = trim(description).into();
@@ -546,7 +546,7 @@ fn parse_one_of<'i>(i: Input<'i>, list: &[&str]) -> IResult<Input<'i>, Text> {
 
 fn parse_name_path(mut i: Input) -> IResult<Input, NamePath> {
     let lo = i.span().lo;
-    let mut components = vec![];
+    let mut components = Vec::new();
 
     loop {
         let (input, component) = parse_word(i)?;

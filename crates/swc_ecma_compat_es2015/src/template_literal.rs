@@ -76,7 +76,7 @@ impl VisitMut for TemplateLiteral {
 
                 let len = quasis.len() + exprs.len();
 
-                let mut args = vec![];
+                let mut args = Vec::new();
                 let mut quasis = quasis.iter_mut();
                 let mut exprs = exprs.take().into_iter();
 
@@ -244,7 +244,7 @@ impl VisitMut for TemplateLiteral {
                     span: DUMMY_SP,
                     is_async: false,
                     is_generator: false,
-                    params: vec![],
+                    params: Vec::new(),
                     body: {
                         // const data = _tagged_template_literal(["first", "second"]);
                         let data_decl = VarDecl {
@@ -321,7 +321,7 @@ impl VisitMut for TemplateLiteral {
                                     span: DUMMY_SP,
                                     is_async: false,
                                     is_generator: false,
-                                    params: vec![],
+                                    params: Vec::new(),
                                     body: Some(BlockStmt {
                                         span: DUMMY_SP,
                                         stmts: vec![Stmt::Return(ReturnStmt {
@@ -370,7 +370,7 @@ impl VisitMut for TemplateLiteral {
                         CallExpr {
                             span: DUMMY_SP,
                             callee: fn_ident.as_callee(),
-                            args: vec![],
+                            args: Vec::new(),
                             ..Default::default()
                         }
                         .as_arg(),

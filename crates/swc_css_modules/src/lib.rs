@@ -61,7 +61,7 @@ pub fn compile<'a>(ss: &mut Stylesheet, config: impl 'a + TransformConfig) -> Tr
     ss.visit_mut_with(&mut compiler);
 
     fn add(result: &mut TransformResult, data: &Data, key: &JsWord, composes: &[CssClassName]) {
-        let mut extra_classes = vec![];
+        let mut extra_classes = Vec::new();
         {
             let class_names = result.renamed.entry(key.clone()).or_default();
 

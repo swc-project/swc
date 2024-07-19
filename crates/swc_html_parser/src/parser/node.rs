@@ -55,7 +55,7 @@ impl Node {
     pub fn new(data: Data, span: Span) -> Rc<Self> {
         Rc::new(Node {
             parent: Cell::new(None),
-            children: RefCell::new(vec![]),
+            children: RefCell::new(Vec::new()),
             start_span: RefCell::new(span),
             end_span: RefCell::new(None),
             data,

@@ -29,7 +29,7 @@ fn main() {
                                 Default::default(),
                                 Default::default(),
                                 None,
-                                &mut vec![],
+                                &mut Vec::new(),
                             )
                             .map_err(|err| {
                                 err.into_diagnostic(&handler).emit();

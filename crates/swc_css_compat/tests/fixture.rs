@@ -22,7 +22,7 @@ use swc_css_visit::VisitMutWith;
 use testing::NormalizedOutput;
 
 fn parse_stylesheet(fm: &Lrc<SourceFile>) -> Stylesheet {
-    let mut errors = vec![];
+    let mut errors = Vec::new();
     let ss: Stylesheet = parse_file(
         fm,
         None,

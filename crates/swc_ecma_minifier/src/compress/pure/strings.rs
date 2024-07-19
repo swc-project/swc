@@ -264,8 +264,8 @@ impl Pure<'_> {
 
         trace_op!("compress_tpl");
 
-        let mut quasis = vec![];
-        let mut exprs = vec![];
+        let mut quasis = Vec::new();
+        let mut exprs = Vec::new();
         let mut cur_raw = String::new();
         let mut cur_cooked = Some(String::new());
 

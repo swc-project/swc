@@ -31,7 +31,7 @@ fn assert_negate_cost(s: &str, in_bool_ctx: bool, is_ret_val_ignored: bool, expe
             Default::default(),
             swc_ecma_ast::EsVersion::latest(),
             None,
-            &mut vec![],
+            &mut Vec::new(),
         )
         .map_err(|e| {
             e.into_diagnostic(&handler).emit();

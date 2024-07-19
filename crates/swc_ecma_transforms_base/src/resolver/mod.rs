@@ -1913,7 +1913,7 @@ impl VisitMut for Hoister<'_, '_> {
     /// that there is already an global declaration of Ic when deal with the try
     /// block.
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
-        let mut other_items = vec![];
+        let mut other_items = Vec::new();
 
         for item in items {
             match item {
@@ -1952,7 +1952,7 @@ impl VisitMut for Hoister<'_, '_> {
 
     /// see docs for `self.visit_mut_module_items`
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
-        let mut other_stmts = vec![];
+        let mut other_stmts = Vec::new();
 
         for item in stmts {
             match item {

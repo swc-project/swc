@@ -30,7 +30,7 @@ impl Modules {
         cm: &Lrc<SourceMap>,
     ) -> Vec<Chunk> {
         let injected_ctxt = self.injected_ctxt;
-        let mut chunks = vec![];
+        let mut chunks = Vec::new();
 
         let mut modules = take(&mut self.modules);
 
@@ -69,7 +69,7 @@ fn toposort_real_modules<'a>(
     let mut queue = modules.iter().map(|v| v.0).collect::<VecDeque<_>>();
     queue.push_front(entry);
 
-    let mut chunks = vec![];
+    let mut chunks = Vec::new();
 
     tracing::debug!(
         "Topologically sorting modules based on the dependency graph: ({} items)",
@@ -88,7 +88,7 @@ fn toposort_real_modules<'a>(
             continue;
         }
 
-        let mut stmts = vec![];
+        let mut stmts = Vec::new();
 
         for id in ids.iter().copied().rev() {
             if let Some((_, module)) = modules.iter_mut().find(|(module_id, _)| *module_id == id) {

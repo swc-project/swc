@@ -98,7 +98,7 @@ fn async_call() {
         Box::new(Expr::Call(CallExpr {
             span,
             callee: Callee::Expr(expr("async")),
-            args: vec![],
+            args: Vec::new(),
             ..Default::default()
         }))
     );
@@ -112,7 +112,7 @@ fn async_arrow() {
             span,
             is_async: true,
             is_generator: false,
-            params: vec![],
+            params: Vec::new(),
             body: Box::new(BlockStmtOrExpr::Expr(expr("foo"))),
             ..Default::default()
         }))
@@ -188,7 +188,7 @@ fn lhs_expr_as_new_expr_prod() {
         Box::new(Expr::New(NewExpr {
             span,
             callee: lhs("Date.toString"),
-            args: Some(vec![]),
+            args: Some(Vec::new()),
             ..Default::default()
         }))
     );
@@ -201,7 +201,7 @@ fn lhs_expr_as_call() {
         Box::new(Expr::Call(CallExpr {
             span,
             callee: Callee::Expr(lhs("new Date.toString()")),
-            args: vec![],
+            args: Vec::new(),
             ..Default::default()
         }))
     )
@@ -215,7 +215,7 @@ fn arrow_fn_no_args() {
             span,
             is_async: false,
             is_generator: false,
-            params: vec![],
+            params: Vec::new(),
             body: Box::new(BlockStmtOrExpr::Expr(expr("1"))),
             ..Default::default()
         }))
@@ -342,7 +342,7 @@ fn iife() {
         Box::new(Expr::Call(CallExpr {
             span,
             callee: Callee::Expr(expr("(function(){})")),
-            args: vec![],
+            args: Vec::new(),
             ..Default::default()
         }))
     )
@@ -515,7 +515,7 @@ fn issue_5947() {
 fn issue_6781() {
     let cm = SourceMap::default();
     let fm = cm.new_source_file(FileName::Anon.into(), "import.meta.env".to_string());
-    let mut errors = vec![];
+    let mut errors = Vec::new();
     let expr = parse_file_as_expr(
         &fm,
         Default::default(),

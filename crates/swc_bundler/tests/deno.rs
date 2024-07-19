@@ -1074,7 +1074,7 @@ fn bundle(url: &str, minify: bool) -> String {
                     module.visit_mut_with(&mut fixer(None));
                 }
 
-                let mut buf = vec![];
+                let mut buf = Vec::new();
                 {
                     let mut wr: Box<dyn WriteJs> =
                         Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None));

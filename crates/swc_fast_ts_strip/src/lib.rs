@@ -239,9 +239,9 @@ pub fn operate(
                 program.visit_mut_with(&mut fixer(Some(&comments)));
             });
 
-            let mut src = vec![];
+            let mut src = Vec::new();
             let mut src_map_buf = if options.source_map {
-                Some(vec![])
+                Some(Vec::new())
             } else {
                 None
             };
@@ -270,7 +270,7 @@ pub fn operate(
                         let map =
                             cm.build_source_map_with_config(&map, None, DefaultSourceMapGenConfig);
 
-                        let mut s = vec![];
+                        let mut s = Vec::new();
                         map.to_writer(&mut s)
                             .context("failed to write source map")?;
 

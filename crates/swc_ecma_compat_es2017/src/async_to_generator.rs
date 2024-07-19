@@ -102,8 +102,8 @@ impl<C: Comments + Clone> AsyncToGenerator<C> {
                 c: self.c,
                 comments: self.comments.clone(),
                 unresolved_ctxt: self.unresolved_ctxt,
-                extra_stmts: vec![],
-                hoist_stmts: vec![],
+                extra_stmts: Vec::new(),
+                hoist_stmts: Vec::new(),
             };
 
             stmt.visit_mut_with(&mut actual);
@@ -160,7 +160,7 @@ impl<C: Comments> VisitMut for Actual<C> {
                                 CallExpr {
                                     span: DUMMY_SP,
                                     callee: expr.as_callee(),
-                                    args: vec![],
+                                    args: Vec::new(),
                                     ..Default::default()
                                 }
                                 .into(),
@@ -263,19 +263,19 @@ impl<C: Comments> VisitMut for Actual<C> {
 
         let fn_ref = make_fn_ref(
             Function {
-                params: vec![],
+                params: Vec::new(),
                 ..*prop.function.take()
             }
             .into(),
         );
 
         let fn_ref = if is_this_used {
-            fn_ref.apply(DUMMY_SP, ThisExpr { span: DUMMY_SP }.into(), vec![])
+            fn_ref.apply(DUMMY_SP, ThisExpr { span: DUMMY_SP }.into(), Vec::new())
         } else {
             CallExpr {
                 span: DUMMY_SP,
                 callee: fn_ref.as_callee(),
-                args: vec![],
+                args: Vec::new(),
                 ..Default::default()
             }
             .into()
@@ -583,7 +583,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             _ => vec![*s.body],
         };
 
-        let mut for_loop_body = vec![];
+        let mut for_loop_body = Vec::new();
         {
             // let value = _step.value;
             let value_var = VarDeclarator {
@@ -653,7 +653,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             ..Default::default()
         };
 
-        let mut init_var_decls = vec![];
+        let mut init_var_decls = Vec::new();
         // _iterator = _async_iterator(lol())
         init_var_decls.push(VarDeclarator {
             span: DUMMY_SP,
@@ -828,7 +828,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 .clone()
                 .make_member(quote_ident!("return"))
                 .as_callee(),
-            args: vec![],
+            args: Vec::new(),
             ..Default::default()
         }
         .into();

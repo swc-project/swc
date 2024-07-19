@@ -117,7 +117,7 @@ impl Optimizer<'_> {
                 self.mode.store(name.to_id(), init);
             }
 
-            let mut new_vars = vec![];
+            let mut new_vars = Vec::new();
 
             let object = n.init.as_mut()?.as_mut_object()?;
 

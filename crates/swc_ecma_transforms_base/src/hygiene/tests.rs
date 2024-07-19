@@ -418,7 +418,7 @@ fn mark_root() {
                         span: DUMMY_SP,
                         is_async: false,
                         is_generator: false,
-                        decorators: vec![],
+                        decorators: Vec::new(),
                         body: Some(BlockStmt {
                             stmts: vec![
                                 tester
@@ -431,7 +431,7 @@ fn mark_root() {
                             ],
                             ..Default::default()
                         }),
-                        params: vec![],
+                        params: Vec::new(),
                         ..Default::default()
                     }),
 
@@ -504,7 +504,7 @@ fn fn_args() {
                     span: DUMMY_SP,
                     is_async: false,
                     is_generator: false,
-                    decorators: vec![],
+                    decorators: Vec::new(),
                     body: Some(BlockStmt {
                         stmts: vec![tester
                             .parse_stmt("actual1.js", "_define_property(this, 'force', force);")?
@@ -513,7 +513,7 @@ fn fn_args() {
                     }),
                     params: vec![Param {
                         span: DUMMY_SP,
-                        decorators: vec![],
+                        decorators: Vec::new(),
                         pat: quote_ident!("force").into(),
                     }
                     .fold_with(&mut marker(&[("force", mark1)]))],
@@ -544,7 +544,7 @@ fn block_in_fn() {
                     span: DUMMY_SP,
                     is_async: false,
                     is_generator: false,
-                    decorators: vec![],
+                    decorators: Vec::new(),
                     body: Some(BlockStmt {
                         stmts: vec![
                             tester
@@ -556,7 +556,7 @@ fn block_in_fn() {
                         ],
                         ..Default::default()
                     }),
-                    params: vec![],
+                    params: Vec::new(),
                     ..Default::default()
                 }),
 
@@ -596,7 +596,7 @@ fn flat_in_fn() {
                     span: DUMMY_SP,
                     is_async: false,
                     is_generator: false,
-                    decorators: vec![],
+                    decorators: Vec::new(),
                     body: Some(BlockStmt {
                         stmts: vec![
                             tester
@@ -608,7 +608,7 @@ fn flat_in_fn() {
                         ],
                         ..Default::default()
                     }),
-                    params: vec![],
+                    params: Vec::new(),
                     ..Default::default()
                 }),
 
@@ -637,7 +637,7 @@ fn params_in_fn() {
                     span: DUMMY_SP,
                     is_async: false,
                     is_generator: false,
-                    decorators: vec![],
+                    decorators: Vec::new(),
                     body: Some(BlockStmt {
                         ..Default::default()
                     }),

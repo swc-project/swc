@@ -16,7 +16,7 @@ fn assert_sorted_with_free(src: &[&str], free: &str, res: &str) {
         s = s.file(&format!("{}.js", i), src);
     }
     s.run(|t| {
-        let mut modules = vec![];
+        let mut modules = Vec::new();
         let mut entry = None;
 
         let mut free: Module = drop_span(t.parse(free));

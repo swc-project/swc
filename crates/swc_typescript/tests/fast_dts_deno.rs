@@ -22,7 +22,7 @@ fn transform_dts_test(source: &str, expected: &str) {
             }),
             EsVersion::latest(),
             None,
-            &mut vec![],
+            &mut Vec::new(),
         )
         .unwrap();
 

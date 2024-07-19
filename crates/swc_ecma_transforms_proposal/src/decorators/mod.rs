@@ -327,7 +327,7 @@ impl Decorators {
             }
         };
 
-        let mut vars = vec![];
+        let mut vars = Vec::new();
 
         macro_rules! fold_method {
             ($method:expr, $fn_name:expr, $key_prop_value:expr) => {{
@@ -411,7 +411,7 @@ impl Decorators {
                                     FnExpr {
                                         ident: fn_name.map(Ident::from).map(Ident::into_private),
                                         function: Function {
-                                            decorators: vec![],
+                                            decorators: Vec::new(),
                                             ..*method.function
                                         }
                                         .into(),
@@ -524,8 +524,8 @@ impl Decorators {
                                             span: DUMMY_SP,
                                             is_async: false,
                                             is_generator: false,
-                                            decorators: vec![],
-                                            params: vec![],
+                                            decorators: Vec::new(),
+                                            params: Vec::new(),
 
                                             body: Some(BlockStmt {
                                                 span: DUMMY_SP,
@@ -568,7 +568,7 @@ impl Decorators {
                         .chain(super_class_ident.map(Pat::from))
                         .map(|pat| Param {
                             span: DUMMY_SP,
-                            decorators: vec![],
+                            decorators: Vec::new(),
                             pat,
                         })
                         .collect(),

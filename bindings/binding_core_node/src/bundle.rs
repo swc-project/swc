@@ -63,7 +63,7 @@ impl Task for BundleTask {
                 .map(JsWord::from)
                 .collect::<Vec<_>>()
         } else {
-            vec![]
+            Vec::new()
         };
 
         // Defaults to es3
