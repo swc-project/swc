@@ -646,12 +646,9 @@ impl Optimizer<'_> {
             return;
         }
 
-        let mut exprs = Vec::new();
-        let mut buf = Vec::new();
-
-        for stmt in stmts.iter_mut() {
-            let is_end = matches!(
-                stmt.as_stmt(),
+        fn is_end(s: Option<&Stmt>) -> bool {
+            matches!(
+                s,
                 Some(
                     Stmt::If(..)
                         | Stmt::Throw(..)
@@ -661,7 +658,14 @@ impl Optimizer<'_> {
                         | Stmt::ForIn(..)
                         | Stmt::ForOf(..)
                 ) | None
-            );
+            )
+        }
+
+        let mut exprs = Vec::new();
+        let mut buf = Vec::new();
+
+        for stmt in stmts.iter_mut() {
+            let is_end = is_end(stmt.as_stmt());
             let can_skip = match stmt.as_stmt() {
                 Some(Stmt::Decl(Decl::Fn(..))) => true,
                 _ => false,
