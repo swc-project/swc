@@ -37,6 +37,7 @@ codspeed-criterion-compat = { workspace = true }
 criterion                 = { workspace = true }
 serde_json                = { workspace = true }
 
+swc_allocator = { version = "0.1.7", path = "../swc_allocator" }
 swc_common = { version = "0.36.0", path = "../swc_common", features = [
   "sourcemap",
 ] }

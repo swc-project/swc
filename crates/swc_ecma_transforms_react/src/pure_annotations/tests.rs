@@ -1,3 +1,4 @@
+use swc_allocator::maybe::vec::Vec;
 use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName, Mark, SourceMap};
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::{Parser, StringInput};
