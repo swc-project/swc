@@ -136,7 +136,7 @@ impl<'a> BabelLikeFixtureTest<'a> {
                 src,
             );
 
-            let mut errors = vec![];
+            let mut errors = Vec::new();
             let input_program = parse_file_as_program(
                 &fm,
                 self.syntax,
@@ -273,7 +273,7 @@ pub struct PassContext {
 
 impl PassContext {
     fn print(&mut self, program: &Program) -> String {
-        let mut buf = vec![];
+        let mut buf = Vec::new();
         {
             let mut emitter = Emitter {
                 cfg: Default::default(),

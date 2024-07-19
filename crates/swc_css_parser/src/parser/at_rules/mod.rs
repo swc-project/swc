@@ -225,7 +225,7 @@ where
                 self.input.skip_ws();
 
                 if is!(self, Ident) {
-                    let mut name_list: Vec<LayerName> = vec![];
+                    let mut name_list: Vec<LayerName> = Vec::new();
 
                     name_list.push(self.parse()?);
 
@@ -976,7 +976,7 @@ where
     fn parse(&mut self) -> PResult<SupportsCondition> {
         let start_pos = self.input.cur_span().lo;
         let mut last_pos;
-        let mut conditions = vec![];
+        let mut conditions = Vec::new();
 
         if is_case_insensitive_ident!(self, "not") {
             let not = self.parse()?;
@@ -1462,7 +1462,7 @@ where
     fn parse(&mut self) -> PResult<MediaCondition> {
         let start_pos = self.input.cur_span().lo;
         let mut last_pos;
-        let mut conditions = vec![];
+        let mut conditions = Vec::new();
 
         if is_case_insensitive_ident!(self, "not") {
             let not = self.parse()?;
@@ -1516,7 +1516,7 @@ where
     fn parse(&mut self) -> PResult<MediaConditionWithoutOr> {
         let start_pos = self.input.cur_span().lo;
         let mut last_pos;
-        let mut conditions = vec![];
+        let mut conditions = Vec::new();
 
         if is_case_insensitive_ident!(self, "not") {
             let not = self.parse()?;
@@ -1978,7 +1978,7 @@ where
         };
 
         let pseudos = if is!(self, ":") {
-            let mut pseudos = vec![];
+            let mut pseudos = Vec::new();
 
             loop {
                 if !is!(self, ":") {
@@ -2058,7 +2058,7 @@ where
 {
     fn parse(&mut self) -> PResult<LayerName> {
         let start = self.input.cur_span().lo;
-        let mut name = vec![];
+        let mut name = Vec::new();
 
         while is!(self, Ident) {
             name.push(self.parse()?);
@@ -2128,7 +2128,7 @@ where
         let start_pos = self.input.cur_span().lo;
         let mut last_pos;
 
-        let mut queries = vec![];
+        let mut queries = Vec::new();
 
         if is_case_insensitive_ident!(self, "not") {
             let not = self.parse()?;

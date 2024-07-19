@@ -42,10 +42,10 @@ impl VisitMut for ExportNamespaceFrom {
                     type_only: false,
                     with,
                 })) if specifiers.iter().any(|s| s.is_namespace()) => {
-                    let mut origin_specifiers = vec![];
+                    let mut origin_specifiers = Vec::new();
 
-                    let mut import_specifiers = vec![];
-                    let mut export_specifiers = vec![];
+                    let mut import_specifiers = Vec::new();
+                    let mut export_specifiers = Vec::new();
 
                     for s in specifiers.into_iter() {
                         match s {

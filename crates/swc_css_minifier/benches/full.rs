@@ -38,7 +38,7 @@ fn run(src: &str) {
         HANDLER.set(&handler, || {
             let fm = cm.new_source_file(FileName::Anon.into(), src.into());
 
-            let mut errors = vec![];
+            let mut errors = Vec::new();
             let mut ss: Stylesheet =
                 parse_file(&fm, None, Default::default(), &mut errors).unwrap();
 

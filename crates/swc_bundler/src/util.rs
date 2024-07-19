@@ -204,7 +204,7 @@ impl ExportMetadata {
     pub fn into_with(self) -> Box<ObjectLit> {
         let mut obj = Some(Box::new(ObjectLit {
             span: DUMMY_SP,
-            props: vec![],
+            props: Vec::new(),
         }));
 
         self.encode(&mut obj);
@@ -213,7 +213,7 @@ impl ExportMetadata {
     }
 
     pub fn encode(&self, to: &mut Option<Box<ObjectLit>>) {
-        let mut props = vec![];
+        let mut props = Vec::new();
 
         if self.injected {
             props.push(metadata("__swc_bundler__injected__", "1"));

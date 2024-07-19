@@ -1355,7 +1355,7 @@ impl Minifier<'_> {
         }
 
         if data.is_empty() {
-            return Some(vec![]);
+            return Some(Vec::new());
         }
 
         Some(vec![Child::Text(Text {
@@ -1367,7 +1367,7 @@ impl Minifier<'_> {
 
     fn minify_children(&mut self, children: &mut Vec<Child>) -> Vec<Child> {
         if children.is_empty() {
-            return vec![];
+            return Vec::new();
         }
 
         let parent = match &self.current_element {
@@ -1821,7 +1821,7 @@ impl Minifier<'_> {
         let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
 
         // Left
-        let mut left_errors: Vec<_> = vec![];
+        let mut left_errors: Vec<_> = Vec::new();
         let left_fm = cm.new_source_file(FileName::Anon.into(), left);
         let syntax = swc_ecma_parser::Syntax::default();
         // Use the latest target for merging
@@ -1865,7 +1865,7 @@ impl Minifier<'_> {
         );
 
         // Right
-        let mut right_errors: Vec<_> = vec![];
+        let mut right_errors: Vec<_> = Vec::new();
         let right_fm = cm.new_source_file(FileName::Anon.into(), right);
 
         let mut right_program = if is_modules {
@@ -1936,7 +1936,7 @@ impl Minifier<'_> {
             &mut swc_ecma_transforms_base::fixer::fixer(Some(&comments)),
         );
 
-        let mut buf = vec![];
+        let mut buf = Vec::new();
 
         {
             let wr = Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
@@ -1966,7 +1966,7 @@ impl Minifier<'_> {
 
     // TODO source map url output for JS and CSS?
     fn minify_js(&self, data: String, is_module: bool, is_attribute: bool) -> Option<String> {
-        let mut errors: Vec<_> = vec![];
+        let mut errors: Vec<_> = Vec::new();
 
         let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
         let fm = cm.new_source_file(FileName::Anon.into(), data);
@@ -2059,7 +2059,7 @@ impl Minifier<'_> {
             &mut swc_ecma_transforms_base::fixer::fixer(Some(&comments)),
         );
 
-        let mut buf = vec![];
+        let mut buf = Vec::new();
 
         {
             let mut wr = Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
@@ -2148,7 +2148,7 @@ impl Minifier<'_> {
     }
 
     fn minify_css(&self, data: String, mode: CssMinificationMode) -> Option<String> {
-        let mut errors: Vec<_> = vec![];
+        let mut errors: Vec<_> = Vec::new();
 
         let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
         let fm = cm.new_source_file(FileName::Anon.into(), data);
@@ -2184,7 +2184,7 @@ impl Minifier<'_> {
                                     prelude: swc_css_ast::QualifiedRulePrelude::SelectorList(
                                         swc_css_ast::SelectorList {
                                             span: Default::default(),
-                                            children: vec![],
+                                            children: Vec::new(),
                                         },
                                     ),
                                     block: swc_css_ast::SimpleBlock {
@@ -2305,7 +2305,7 @@ impl Minifier<'_> {
     }
 
     fn minify_html(&self, data: String, mode: HtmlMinificationMode) -> Option<String> {
-        let mut errors: Vec<_> = vec![];
+        let mut errors: Vec<_> = Vec::new();
 
         let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
         let fm = cm.new_source_file(FileName::Anon.into(), data);
@@ -2322,8 +2322,8 @@ impl Minifier<'_> {
                     span: Default::default(),
                     tag_name: "template".into(),
                     namespace: Namespace::HTML,
-                    attributes: vec![],
-                    children: vec![],
+                    attributes: Vec::new(),
+                    children: Vec::new(),
                     content: None,
                     is_self_closing: false,
                 });
@@ -2489,7 +2489,7 @@ impl Minifier<'_> {
                         &["content-security-policy"],
                     ) =>
                 {
-                    let mut new_values = vec![];
+                    let mut new_values = Vec::new();
 
                     for value in value.trim().split(';') {
                         new_values.push(
@@ -2700,7 +2700,7 @@ impl VisitMut for Minifier<'_> {
             tag_name: n.tag_name.clone(),
             namespace: n.namespace,
             attributes: n.attributes.clone(),
-            children: vec![],
+            children: Vec::new(),
             content: None,
             is_self_closing: n.is_self_closing,
         });
@@ -2725,7 +2725,7 @@ impl VisitMut for Minifier<'_> {
             self.descendant_of_pre = old_descendant_of_pre;
         }
 
-        let mut remove_list = vec![];
+        let mut remove_list = Vec::new();
 
         for (i, i1) in n.attributes.iter().enumerate() {
             if i1.value.is_some() {

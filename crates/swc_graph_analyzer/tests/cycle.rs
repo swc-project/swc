@@ -54,11 +54,11 @@ fn stc_1() {
     assert_cycles(
         &[
             (0, vec![2]),
-            (1, vec![]),
+            (1, Vec::new()),
             (2, vec![1]),
             (3, vec![0]),
             (4, vec![2, 3]),
         ],
-        vec![],
+        Vec::new(),
     );
 }

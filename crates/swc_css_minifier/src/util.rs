@@ -6,7 +6,7 @@ pub(crate) fn dedup<T>(v: &mut Vec<T>)
 where
     T: EqIgnoreSpan,
 {
-    let mut remove_list = vec![];
+    let mut remove_list = Vec::new();
 
     for (i, i1) in v.iter().enumerate() {
         for (j, j1) in v.iter().enumerate() {

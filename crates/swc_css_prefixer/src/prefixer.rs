@@ -125,7 +125,7 @@ impl VisitMut for CrossFadeFunctionReplacerOnLegacyVariant<'_> {
         n.visit_mut_children_with(self);
 
         if n.name == *self.from {
-            let mut transparency_values = vec![];
+            let mut transparency_values = Vec::new();
 
             for group in n.value.split_mut(|n| {
                 matches!(
@@ -262,7 +262,7 @@ impl VisitMut for ImageSetFunctionReplacerOnLegacyVariant<'_> {
                     value: node.value.as_ref().into(),
                     raw: None,
                 }))),
-                modifiers: Some(vec![]),
+                modifiers: Some(Vec::new()),
             }))
         }
     }
@@ -467,7 +467,7 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
                 });
 
                 if let (Some(at_index), Some(first_comma_index)) = (at_index, first_comma_index) {
-                    let mut new_value = vec![];
+                    let mut new_value = Vec::new();
 
                     new_value.append(&mut n.value[at_index + 1..first_comma_index].to_vec());
                     new_value.append(&mut vec![ComponentValue::Delimiter(Box::new(Delimiter {
@@ -1104,7 +1104,7 @@ impl VisitMut for Prefixer {
     fn visit_mut_media_query_list(&mut self, media_query_list: &mut MediaQueryList) {
         media_query_list.visit_mut_children_with(self);
 
-        let mut new_queries = vec![];
+        let mut new_queries = Vec::new();
 
         for n in &media_query_list.queries {
             if should_prefix("-webkit-min-device-pixel-ratio", self.env, false) {

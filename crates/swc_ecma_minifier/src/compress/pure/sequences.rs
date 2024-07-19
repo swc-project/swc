@@ -91,7 +91,7 @@ impl Pure<'_> {
         if let Expr::Seq(test) = &mut *cond.test {
             //
             if test.exprs.len() >= 2 {
-                let mut new_seq = vec![];
+                let mut new_seq = Vec::new();
                 new_seq.extend(test.exprs.drain(..test.exprs.len() - 1));
 
                 self.changed = true;

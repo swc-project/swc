@@ -136,8 +136,8 @@ impl Diagnostic {
             message: vec![Message(message.to_owned(), Style::NoStyle)],
             code,
             span: MultiSpan::new(),
-            children: vec![],
-            suggestions: vec![],
+            children: Vec::new(),
+            suggestions: Vec::new(),
         }
     }
 

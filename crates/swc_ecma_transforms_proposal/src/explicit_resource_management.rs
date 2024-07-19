@@ -56,9 +56,9 @@ impl ExplicitResourceManagement {
     where
         T: StmtLike + ModuleItemLike,
     {
-        let mut new = vec![];
-        let mut extras = vec![];
-        let mut try_body = vec![];
+        let mut new = Vec::new();
+        let mut extras = Vec::new();
+        let mut try_body = Vec::new();
 
         let using_ctx_var = VarDeclarator {
             span: DUMMY_SP,
@@ -367,7 +367,7 @@ impl ExplicitResourceManagement {
                 .clone()
                 .make_member(quote_ident!("d"))
                 .as_callee(),
-            args: vec![],
+            args: Vec::new(),
             ..Default::default()
         };
         let dispose_stmt = if state.has_await {

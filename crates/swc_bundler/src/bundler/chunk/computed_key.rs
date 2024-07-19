@@ -48,7 +48,7 @@ where
 
         let is_async = module.iter().any(|m| contains_top_level_await(m.1));
 
-        let mut additional_items = vec![];
+        let mut additional_items = Vec::new();
 
         module.iter().for_each(|(module_id, item)| {
             match item {

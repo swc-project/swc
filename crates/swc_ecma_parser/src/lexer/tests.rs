@@ -1091,7 +1091,7 @@ fn shebang() {
 
 #[test]
 fn empty() {
-    assert_eq!(lex_tokens(crate::Syntax::default(), "",), vec![]);
+    assert_eq!(lex_tokens(crate::Syntax::default(), "",), Vec::new());
 }
 
 #[test]
@@ -1844,14 +1844,14 @@ fn lex_semicolons(b: &mut Bencher) {
 fn issue_1272_1_ts() {
     let (tokens, errors) = lex_errors(crate::Syntax::Typescript(Default::default()), "\\u{16}");
     assert_eq!(tokens.len(), 1);
-    assert_ne!(errors, vec![]);
+    assert_ne!(errors, Vec::new());
 }
 
 #[test]
 fn issue_1272_1_js() {
     let (tokens, errors) = lex_errors(crate::Syntax::Es(Default::default()), "\\u{16}");
     assert_eq!(tokens.len(), 1);
-    assert_ne!(errors, vec![]);
+    assert_ne!(errors, Vec::new());
 }
 
 #[test]
@@ -1859,7 +1859,7 @@ fn issue_1272_2_ts() {
     // Not recoverable yet
     let (tokens, errors) = lex_errors(crate::Syntax::Typescript(Default::default()), "\u{16}");
     assert_eq!(tokens.len(), 1);
-    assert_eq!(errors, vec![]);
+    assert_eq!(errors, Vec::new());
 }
 
 #[test]
@@ -1867,14 +1867,14 @@ fn issue_1272_2_js() {
     // Not recoverable yet
     let (tokens, errors) = lex_errors(crate::Syntax::Es(Default::default()), "\u{16}");
     assert_eq!(tokens.len(), 1);
-    assert_eq!(errors, vec![]);
+    assert_eq!(errors, Vec::new());
 }
 
 #[test]
 fn issue_2853_1_js() {
     let (tokens, errors) = lex_errors(crate::Syntax::Es(Default::default()), "const a = \"\\0a\"");
 
-    assert_eq!(errors, vec![]);
+    assert_eq!(errors, Vec::new());
     assert_eq!(
         tokens,
         vec![
@@ -1896,7 +1896,7 @@ fn issue_2853_2_ts() {
         "const a = \"\\0a\"",
     );
 
-    assert_eq!(errors, vec![]);
+    assert_eq!(errors, Vec::new());
     assert_eq!(
         tokens,
         vec![
@@ -1918,7 +1918,7 @@ fn issue_2853_3_js() {
         "const a = \"\u{0000}a\"",
     );
 
-    assert_eq!(errors, vec![]);
+    assert_eq!(errors, Vec::new());
     assert_eq!(
         tokens,
         vec![
@@ -1940,7 +1940,7 @@ fn issue_2853_4_ts() {
         "const a = \"\u{0000}a\"",
     );
 
-    assert_eq!(errors, vec![]);
+    assert_eq!(errors, Vec::new());
     assert_eq!(
         tokens,
         vec![
@@ -1965,7 +1965,7 @@ fn issue_2853_5_jsx() {
         "const a = \"\\0a\"",
     );
 
-    assert_eq!(errors, vec![]);
+    assert_eq!(errors, Vec::new());
     assert_eq!(
         tokens,
         vec![
@@ -1990,7 +1990,7 @@ fn issue_2853_6_tsx() {
         "const a = \"\\0a\"",
     );
 
-    assert_eq!(errors, vec![]);
+    assert_eq!(errors, Vec::new());
     assert_eq!(
         tokens,
         vec![
@@ -2015,7 +2015,7 @@ fn issue_2853_7_jsx() {
         "const a = \"\u{0000}a\"",
     );
 
-    assert_eq!(errors, vec![]);
+    assert_eq!(errors, Vec::new());
     assert_eq!(
         tokens,
         vec![
@@ -2040,7 +2040,7 @@ fn issue_2853_8_tsx() {
         "const a = \"\u{0000}a\"",
     );
 
-    assert_eq!(errors, vec![]);
+    assert_eq!(errors, Vec::new());
     assert_eq!(
         tokens,
         vec![

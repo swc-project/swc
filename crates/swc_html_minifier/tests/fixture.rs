@@ -37,7 +37,7 @@ fn test_minify_document(input: PathBuf) {
     testing::run_test(false, |cm, handler| {
         let fm = cm.load_file(&input).unwrap();
 
-        let mut errors = vec![];
+        let mut errors = Vec::new();
         let result: Result<Document, _> =
             parse_file_as_document(&fm, Default::default(), &mut errors);
 
@@ -131,13 +131,13 @@ fn test_minify_document_fragment(input: PathBuf) {
             span: Default::default(),
             namespace: context_element_namespace,
             tag_name: context_element_tag_name.into(),
-            attributes: vec![],
+            attributes: Vec::new(),
             is_self_closing: false,
-            children: vec![],
+            children: Vec::new(),
             content: None,
         };
 
-        let mut errors = vec![];
+        let mut errors = Vec::new();
         let result: Result<DocumentFragment, _> = parse_file_as_document_fragment(
             &fm,
             &context_element,
@@ -200,7 +200,7 @@ fn test_minify_recovery(input: PathBuf) {
     testing::run_test(false, |cm, handler| {
         let fm = cm.load_file(&input).unwrap();
 
-        let mut errors = vec![];
+        let mut errors = Vec::new();
         let result: Result<Document, _> =
             parse_file_as_document(&fm, Default::default(), &mut errors);
 

@@ -82,7 +82,7 @@ pub(super) fn prepare_vars(
     src: &dyn ToCode,
     vars: Punctuated<QuoteVar, Token![,]>,
 ) -> (Vec<syn::Stmt>, AHashMap<VarPos, Vars>) {
-    let mut stmts = vec![];
+    let mut stmts = Vec::new();
     let mut init_map = AHashMap::<_, Vars>::default();
 
     for var in vars {

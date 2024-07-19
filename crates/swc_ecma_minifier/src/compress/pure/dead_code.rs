@@ -517,7 +517,7 @@ impl Pure<'_> {
                 Ok(stmt) => match stmt {
                     Stmt::If(mut s) => {
                         if let Value::Known(v) = s.test.cast_to_bool(&self.expr_ctx).1 {
-                            let mut var_ids = vec![];
+                            let mut var_ids = Vec::new();
                             new.push(T::from(
                                 ExprStmt {
                                     span: DUMMY_SP,

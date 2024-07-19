@@ -67,7 +67,7 @@ impl<'a> Derive<'a> {
                     _ => None,
                 })
                 .collect(),
-            fields: vec![],
+            fields: Vec::new(),
         };
 
         vis.visit_derive_input(self.input);

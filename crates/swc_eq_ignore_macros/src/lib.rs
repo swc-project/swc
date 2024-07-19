@@ -102,7 +102,7 @@ impl Deriver {
     fn make_arm_from_fields(&self, pat_path: Path, fields: &Fields) -> Arm {
         let mut l_pat_fields = Punctuated::<_, Token![,]>::default();
         let mut r_pat_fields = Punctuated::<_, Token![,]>::default();
-        let mut exprs = vec![];
+        let mut exprs = Vec::new();
 
         for (i, field) in fields
             .iter()

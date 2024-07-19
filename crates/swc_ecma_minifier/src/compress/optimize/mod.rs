@@ -439,8 +439,8 @@ impl Optimizer<'_> {
 
             let mut new = Vec::with_capacity(stmts.len() * 11 / 10);
             for (i, mut stmt) in stmts.take().into_iter().enumerate() {
-                // debug_assert_eq!(self.prepend_stmts, vec![]);
-                // debug_assert_eq!(self.append_stmts, vec![]);
+                // debug_assert_eq!(self.prepend_stmts, Vec::new());
+                // debug_assert_eq!(self.append_stmts, Vec::new());
 
                 if i < directive_count {
                     // Don't set in_strict for directive itself.
@@ -520,7 +520,7 @@ impl Optimizer<'_> {
 
         drop_invalid_stmts(stmts);
 
-        // debug_assert_eq!(self.prepend_stmts, vec![]);
+        // debug_assert_eq!(self.prepend_stmts, Vec::new());
         self.prepend_stmts = prepend_stmts;
         self.append_stmts = append_stmts;
     }
@@ -1060,7 +1060,7 @@ impl Optimizer<'_> {
                     );
                 }
 
-                let mut exprs = vec![];
+                let mut exprs = Vec::new();
                 self.changed = true;
                 report_change!("ignore_return_value: Inverting an array literal");
                 exprs.extend(
@@ -1087,7 +1087,7 @@ impl Optimizer<'_> {
             }
 
             Expr::Object(obj) => {
-                let mut exprs = vec![];
+                let mut exprs = Vec::new();
                 self.changed = true;
                 report_change!("ignore_return_value: Inverting an object literal");
                 for prop in obj.props.take() {
@@ -3036,7 +3036,7 @@ impl VisitMut for Optimizer<'_> {
             }
 
             let mut can_prepend = true;
-            let mut side_effects = vec![];
+            let mut side_effects = Vec::new();
 
             for v in vars.iter_mut() {
                 let mut storage = None;

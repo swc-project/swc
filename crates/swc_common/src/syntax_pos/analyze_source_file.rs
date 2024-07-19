@@ -21,8 +21,8 @@ pub fn analyze_source_file(
     source_file_start_pos: BytePos,
 ) -> (Vec<BytePos>, Vec<MultiByteChar>, Vec<NonNarrowChar>) {
     let mut lines = vec![source_file_start_pos];
-    let mut multi_byte_chars = vec![];
-    let mut non_narrow_chars = vec![];
+    let mut multi_byte_chars = Vec::new();
+    let mut non_narrow_chars = Vec::new();
 
     // Calls the right implementation, depending on hardware support available.
     analyze_source_file_generic(
@@ -178,9 +178,9 @@ mod tests {
         case: empty_text,
         text: "",
         source_file_start_pos: 0,
-        lines: vec![],
-        multi_byte_chars: vec![],
-        non_narrow_chars: vec![],
+        lines: Vec::new(),
+        multi_byte_chars: Vec::new(),
+        non_narrow_chars: Vec::new(),
     );
 
     test!(
@@ -188,8 +188,8 @@ mod tests {
         text: "a\nc",
         source_file_start_pos: 0,
         lines: vec![0, 2],
-        multi_byte_chars: vec![],
-        non_narrow_chars: vec![],
+        multi_byte_chars: Vec::new(),
+        non_narrow_chars: Vec::new(),
     );
 
     test!(
@@ -197,8 +197,8 @@ mod tests {
         text: "012345678\nabcdef012345678\na",
         source_file_start_pos: 0,
         lines: vec![0, 10, 26],
-        multi_byte_chars: vec![],
-        non_narrow_chars: vec![],
+        multi_byte_chars: Vec::new(),
+        non_narrow_chars: Vec::new(),
     );
 
     test!(
@@ -207,7 +207,7 @@ mod tests {
         source_file_start_pos: 0,
         lines: vec![0, 11],
         multi_byte_chars: vec![(5, 2)],
-        non_narrow_chars: vec![],
+        non_narrow_chars: Vec::new(),
     );
 
     test!(
@@ -215,7 +215,7 @@ mod tests {
         text: "01234\u{07}6789\nbcdef0123456789abcdef",
         source_file_start_pos: 0,
         lines: vec![0, 11],
-        multi_byte_chars: vec![],
+        multi_byte_chars: Vec::new(),
         non_narrow_chars: vec![(5, 0)],
     );
 
@@ -225,7 +225,7 @@ mod tests {
         source_file_start_pos: 0,
         lines: vec![0],
         multi_byte_chars: vec![(1, 2)],
-        non_narrow_chars: vec![],
+        non_narrow_chars: Vec::new(),
     );
 
     test!(
@@ -234,7 +234,7 @@ mod tests {
         source_file_start_pos: 0,
         lines: vec![0],
         multi_byte_chars: vec![(13, 2), (22, 2)],
-        non_narrow_chars: vec![],
+        non_narrow_chars: Vec::new(),
     );
 
     test!(
@@ -243,7 +243,7 @@ mod tests {
         source_file_start_pos: 0,
         lines: vec![0],
         multi_byte_chars: vec![(15, 2)],
-        non_narrow_chars: vec![],
+        non_narrow_chars: Vec::new(),
     );
 
     test!(
@@ -252,7 +252,7 @@ mod tests {
         source_file_start_pos: 0,
         lines: vec![0],
         multi_byte_chars: vec![(15, 2)],
-        non_narrow_chars: vec![],
+        non_narrow_chars: Vec::new(),
     );
 
     test!(
@@ -260,7 +260,7 @@ mod tests {
         text: "0\t2",
         source_file_start_pos: 0,
         lines: vec![0],
-        multi_byte_chars: vec![],
+        multi_byte_chars: Vec::new(),
         non_narrow_chars: vec![(1, 4)],
     );
 
@@ -269,7 +269,7 @@ mod tests {
         text: "01\t3456789abcdef01234567\u{07}9",
         source_file_start_pos: 0,
         lines: vec![0],
-        multi_byte_chars: vec![],
+        multi_byte_chars: Vec::new(),
         non_narrow_chars: vec![(2, 4), (24, 0)],
     );
 
@@ -287,8 +287,8 @@ mod tests {
         text: "/**\n * foo\n */\n012345678\nabcdef012345678\na",
         source_file_start_pos: 0,
         lines: vec![0, 4, 11, 15, 25, 41],
-        multi_byte_chars: vec![],
-        non_narrow_chars: vec![],
+        multi_byte_chars: Vec::new(),
+        non_narrow_chars: Vec::new(),
     );
 
     test!(
@@ -296,8 +296,8 @@ mod tests {
         text: "/**\r * foo\r */\r012345678\rabcdef012345678\ra",
         source_file_start_pos: 0,
         lines: vec![0, 4, 11, 15, 25, 41],
-        multi_byte_chars: vec![],
-        non_narrow_chars: vec![],
+        multi_byte_chars: Vec::new(),
+        non_narrow_chars: Vec::new(),
     );
 
     test!(
@@ -305,7 +305,7 @@ mod tests {
         text: "/**\r\n * foo\r\n */\r\n012345678\r\nabcdef012345678\r\na",
         source_file_start_pos: 0,
         lines: vec![0, 5, 13, 18, 29, 46],
-        multi_byte_chars: vec![],
-        non_narrow_chars: vec![],
+        multi_byte_chars: Vec::new(),
+        non_narrow_chars: Vec::new(),
     );
 }

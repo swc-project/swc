@@ -9,7 +9,7 @@ use swc_ecma_parser::{parse_file_as_module, Syntax};
 use testing::NormalizedOutput;
 
 fn print(cm: Lrc<SourceMap>, m: &Module, config: Config) -> String {
-    let mut buf = vec![];
+    let mut buf = Vec::new();
 
     {
         let mut wr = Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)) as Box<dyn WriteJs>;
@@ -40,7 +40,7 @@ fn assert_format(src: &str, expected: &str, opts: Config) {
             Syntax::Es(Default::default()),
             Default::default(),
             None,
-            &mut vec![],
+            &mut Vec::new(),
         )
         .unwrap();
 

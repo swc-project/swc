@@ -45,7 +45,7 @@ fn run(input: &Path, minify: bool) {
 
         eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
 
-        let mut errors = vec![];
+        let mut errors = Vec::new();
         let mut stylesheet: Stylesheet =
             parse_file(&fm, Some(&comments), Default::default(), &mut errors).unwrap();
 
@@ -54,7 +54,7 @@ fn run(input: &Path, minify: bool) {
         }
 
         let mut css_str = String::new();
-        // let mut src_map_buf = vec![];
+        // let mut src_map_buf = Vec::new();
 
         {
             let wr = BasicCssWriter::new(
@@ -69,7 +69,7 @@ fn run(input: &Path, minify: bool) {
         }
 
         // let source_map = cm.build_source_map(&mut src_map_buf);
-        // let mut source_map_output: Vec<u8> = vec![];
+        // let mut source_map_output: Vec<u8> = Vec::new();
         // source_map.to_writer(&mut source_map_output).unwrap();
         // let str_source_map_output = String::from_utf8_lossy(&source_map_output);
         // std::fs::write(map, &*str_source_map_output).expect("Unable to write file");
@@ -86,7 +86,7 @@ fn run(input: &Path, minify: bool) {
             return Ok(());
         }
 
-        let mut errors = vec![];
+        let mut errors = Vec::new();
         let mut stylesheet_output: Stylesheet =
             parse_file(&fm_output, None, Default::default(), &mut errors).map_err(|err| {
                 err.to_diagnostics(&handler).emit();
@@ -353,7 +353,7 @@ fn indent_type(input: PathBuf) {
 
         let comments = SingleThreadedComments::default();
 
-        let mut errors = vec![];
+        let mut errors = Vec::new();
         let mut stylesheet: Stylesheet =
             parse_file(&fm, Some(&comments), Default::default(), &mut errors).unwrap();
 
@@ -385,7 +385,7 @@ fn indent_type(input: PathBuf) {
             .compare_to_file(output)
             .unwrap();
 
-        let mut errors = vec![];
+        let mut errors = Vec::new();
         let mut stylesheet_output: Stylesheet =
             parse_file(&fm_output, Some(&comments), Default::default(), &mut errors).map_err(
                 |err| {
@@ -422,7 +422,7 @@ fn indent_width(input: PathBuf) {
 
         eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
 
-        let mut errors = vec![];
+        let mut errors = Vec::new();
         let mut stylesheet: Stylesheet =
             parse_file(&fm, Some(&comments), Default::default(), &mut errors).unwrap();
 
@@ -454,7 +454,7 @@ fn indent_width(input: PathBuf) {
             .compare_to_file(output)
             .unwrap();
 
-        let mut errors = vec![];
+        let mut errors = Vec::new();
         let mut stylesheet_output: Stylesheet =
             parse_file(&fm_output, Some(&comments), Default::default(), &mut errors).map_err(
                 |err| {
@@ -491,7 +491,7 @@ fn linefeed_lf(input: PathBuf) {
 
         eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
 
-        let mut errors = vec![];
+        let mut errors = Vec::new();
         let mut stylesheet: Stylesheet =
             parse_file(&fm, Some(&comments), Default::default(), &mut errors).unwrap();
 
@@ -525,7 +525,7 @@ fn linefeed_lf(input: PathBuf) {
             .compare_to_file(output)
             .unwrap();
 
-        let mut errors = vec![];
+        let mut errors = Vec::new();
         let mut stylesheet_output: Stylesheet =
             parse_file(&fm_output, Some(&comments), Default::default(), &mut errors).map_err(
                 |err| {
@@ -562,7 +562,7 @@ fn linefeed_crlf(input: PathBuf) {
 
         eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
 
-        let mut errors = vec![];
+        let mut errors = Vec::new();
         let mut stylesheet: Stylesheet =
             parse_file(&fm, Some(&comments), Default::default(), &mut errors).unwrap();
 
@@ -596,7 +596,7 @@ fn linefeed_crlf(input: PathBuf) {
             .compare_to_file(output)
             .unwrap();
 
-        let mut errors = vec![];
+        let mut errors = Vec::new();
         let mut stylesheet_output: Stylesheet =
             parse_file(&fm_output, Some(&comments), Default::default(), &mut errors).map_err(
                 |err| {
@@ -629,7 +629,7 @@ fn parse_again(input: PathBuf) {
 
         eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
 
-        let mut errors = vec![];
+        let mut errors = Vec::new();
         let mut stylesheet: Stylesheet =
             parse_file(&fm, Some(&comments), Default::default(), &mut errors).map_err(|err| {
                 err.to_diagnostics(&handler).emit();
@@ -650,7 +650,7 @@ fn parse_again(input: PathBuf) {
         eprintln!("==== ==== Codegen ==== ====\n{}\n", css_str);
 
         let new_fm = cm.new_source_file(Lrc::new(FileName::Anon), css_str);
-        let mut parsed_errors = vec![];
+        let mut parsed_errors = Vec::new();
         let mut parsed: Stylesheet = parse_file(
             &new_fm,
             Some(&comments),

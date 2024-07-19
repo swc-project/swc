@@ -13,7 +13,7 @@ where
     I: ParserInput,
 {
     pub(super) fn parse_generic_values(&mut self) -> PResult<Vec<ComponentValue>> {
-        let mut values = vec![];
+        let mut values = Vec::new();
 
         loop {
             self.input.skip_ws();
@@ -119,8 +119,8 @@ where
 
     /// Parse value as <any-value>.
     pub(super) fn parse_any_value(&mut self) -> PResult<Vec<TokenAndSpan>> {
-        let mut tokens = vec![];
-        let mut balance_stack: Vec<Option<char>> = vec![];
+        let mut tokens = Vec::new();
+        let mut balance_stack: Vec<Option<char>> = Vec::new();
 
         // The <any-value> production matches any sequence of one or more tokens,
         // so long as the sequence ...
@@ -192,7 +192,7 @@ where
             }
         };
 
-        let mut values = vec![];
+        let mut values = Vec::new();
 
         let lower_fname = function_name.to_ascii_lowercase();
 
@@ -2628,7 +2628,7 @@ where
 
                 self.input.skip_ws();
 
-                let mut modifiers = vec![];
+                let mut modifiers = Vec::new();
 
                 loop {
                     if is!(self, ")") {
@@ -3042,7 +3042,7 @@ where
 {
     fn parse(&mut self) -> PResult<CalcSum> {
         let start = self.input.cur_span().lo;
-        let mut expressions = vec![];
+        let mut expressions = Vec::new();
         let calc_product = CalcProductOrOperator::Product(self.parse()?);
         let mut end = match calc_product {
             CalcProductOrOperator::Product(ref calc_product) => calc_product.span.hi,
@@ -3098,7 +3098,7 @@ where
 {
     fn parse(&mut self) -> PResult<CalcProduct> {
         let start = self.input.cur_span().lo;
-        let mut expressions = vec![];
+        let mut expressions = Vec::new();
         let calc_value = CalcValueOrOperator::Value(self.parse()?);
         let mut end = match calc_value {
             CalcValueOrOperator::Value(ref calc_value) => match calc_value {

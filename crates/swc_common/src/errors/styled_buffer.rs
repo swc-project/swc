@@ -21,14 +21,14 @@ pub struct StyledBuffer {
 impl StyledBuffer {
     pub fn new() -> StyledBuffer {
         StyledBuffer {
-            text: vec![],
-            styles: vec![],
+            text: Vec::new(),
+            styles: Vec::new(),
         }
     }
 
     fn replace_tabs(&mut self) {
         for (line_pos, line) in self.text.iter_mut().enumerate() {
-            let mut tab_pos = vec![];
+            let mut tab_pos = Vec::new();
             for (pos, c) in line.iter().enumerate() {
                 if *c == '\t' {
                     tab_pos.push(pos);
@@ -48,8 +48,8 @@ impl StyledBuffer {
     }
 
     pub fn render(&mut self) -> Vec<Vec<StyledString>> {
-        let mut output: Vec<Vec<StyledString>> = vec![];
-        let mut styled_vec: Vec<StyledString> = vec![];
+        let mut output: Vec<Vec<StyledString>> = Vec::new();
+        let mut styled_vec: Vec<StyledString> = Vec::new();
 
         // before we render, replace tabs with spaces
         self.replace_tabs();
@@ -81,7 +81,7 @@ impl StyledBuffer {
             // We're done with the row, push and keep going
             output.push(styled_vec);
 
-            styled_vec = vec![];
+            styled_vec = Vec::new();
         }
 
         output
@@ -89,8 +89,8 @@ impl StyledBuffer {
 
     fn ensure_lines(&mut self, line: usize) {
         while line >= self.text.len() {
-            self.text.push(vec![]);
-            self.styles.push(vec![]);
+            self.text.push(Vec::new());
+            self.styles.push(Vec::new());
         }
     }
 

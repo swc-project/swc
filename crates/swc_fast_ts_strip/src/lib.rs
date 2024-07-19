@@ -239,9 +239,9 @@ pub fn operate(
                 program.visit_mut_with(&mut fixer(Some(&comments)));
             });
 
-            let mut src = vec![];
+            let mut src = std::vec::Vec::new();
             let mut src_map_buf = if options.source_map {
-                Some(vec![])
+                Some(Vec::new())
             } else {
                 None
             };
@@ -270,7 +270,7 @@ pub fn operate(
                         let map =
                             cm.build_source_map_with_config(&map, None, DefaultSourceMapGenConfig);
 
-                        let mut s = vec![];
+                        let mut s = std::vec::Vec::new();
                         map.to_writer(&mut s)
                             .context("failed to write source map")?;
 
@@ -296,11 +296,11 @@ struct TsStrip {
     // should be string, but we use u8 for only `)` usage.
     overwrites: Vec<(BytePos, u8)>,
 
-    tokens: Vec<TokenAndSpan>,
+    tokens: std::vec::Vec<TokenAndSpan>,
 }
 
 impl TsStrip {
-    fn new(src: Lrc<String>, tokens: Vec<TokenAndSpan>) -> Self {
+    fn new(src: Lrc<String>, tokens: std::vec::Vec<TokenAndSpan>) -> Self {
         TsStrip {
             src,
             replacements: Default::default(),

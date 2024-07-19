@@ -141,7 +141,7 @@ impl TestBuilder {
                         disable_hygiene: false,
                         disable_fixer: false,
                         disable_dce: false,
-                        external_modules: vec![],
+                        external_modules: Vec::new(),
                         module: Default::default(),
                     },
                     Box::new(Hook),

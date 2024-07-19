@@ -399,11 +399,11 @@ where
         let module_exports = module.clone().make_member(quote_ident!("exports"));
         let define_amd = define.clone().make_member(quote_ident!("amd"));
 
-        let mut cjs_args = vec![];
-        let mut amd_dep_list = vec![];
-        let mut browser_args = vec![];
+        let mut cjs_args = Vec::new();
+        let mut amd_dep_list = Vec::new();
+        let mut browser_args = Vec::new();
 
-        let mut factory_params = vec![];
+        let mut factory_params = Vec::new();
 
         if !is_export_assign && self.exports.is_some() {
             let filename = self.cm.span_to_filename(module_span);

@@ -222,7 +222,7 @@ impl Evaluator {
     pub fn eval_tpl(&mut self, q: &Tpl) -> Option<EvalResult> {
         self.run();
 
-        let mut exprs = vec![];
+        let mut exprs = Vec::new();
 
         for expr in &q.exprs {
             let res = self.eval(expr)?;

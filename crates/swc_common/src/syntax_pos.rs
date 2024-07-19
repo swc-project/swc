@@ -535,14 +535,14 @@ impl MultiSpan {
     pub fn from_span(primary_span: Span) -> MultiSpan {
         MultiSpan {
             primary_spans: vec![primary_span],
-            span_labels: vec![],
+            span_labels: Vec::new(),
         }
     }
 
     pub fn from_spans(vec: Vec<Span>) -> MultiSpan {
         MultiSpan {
             primary_spans: vec,
-            span_labels: vec![],
+            span_labels: Vec::new(),
         }
     }
 

@@ -15,7 +15,7 @@ use testing::NormalizedOutput;
 fn imports(input: PathBuf) {
     testing::run_test(false, |cm, _| {
         let fm = cm.load_file(&input).unwrap();
-        let mut errors = vec![];
+        let mut errors = Vec::new();
         let ss = swc_css_parser::parse_file(
             &fm,
             None,
@@ -49,7 +49,7 @@ fn imports(input: PathBuf) {
 fn compile(input: PathBuf) {
     testing::run_test(false, |cm, _| {
         let fm = cm.load_file(&input).unwrap();
-        let mut errors = vec![];
+        let mut errors = Vec::new();
         let mut ss = swc_css_parser::parse_file(
             &fm,
             None,

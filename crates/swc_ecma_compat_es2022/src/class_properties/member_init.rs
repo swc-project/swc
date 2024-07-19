@@ -74,8 +74,8 @@ impl MemberInitRecord {
     }
 
     pub fn into_init(self) -> Vec<Box<Expr>> {
-        let mut normal_init = vec![];
-        let mut value_init = vec![];
+        let mut normal_init = Vec::new();
+        let mut value_init = Vec::new();
         for init in self.record {
             match init {
                 MemberInit::PrivMethod(PrivMethod {
@@ -184,8 +184,8 @@ impl MemberInitRecord {
     }
 
     pub fn into_init_static(self, class_ident: Ident) -> Vec<Stmt> {
-        let mut normal_init = vec![];
-        let mut value_init = vec![];
+        let mut normal_init = Vec::new();
+        let mut value_init = Vec::new();
 
         for value in self.record {
             match value {

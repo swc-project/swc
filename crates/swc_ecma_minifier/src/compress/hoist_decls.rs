@@ -102,7 +102,7 @@ impl Hoister<'_> {
         }
         self.changed = true;
 
-        let mut var_decls = vec![];
+        let mut var_decls = Vec::new();
         let mut fn_decls = Vec::with_capacity(stmts.len());
         let mut new_stmts = Vec::with_capacity(stmts.len());
         let mut done = AHashSet::default();
@@ -127,7 +127,7 @@ impl Hoister<'_> {
                                 }
                             ) && found_non_var_decl =>
                         {
-                            let mut exprs = vec![];
+                            let mut exprs = Vec::new();
                             for decl in var.decls {
                                 let ids: Vec<Ident> = find_pat_ids(&decl.name);
 

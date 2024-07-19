@@ -135,7 +135,7 @@ where
             finished: false,
             state: State::Data,
             return_state: State::Data,
-            errors: vec![],
+            errors: Vec::new(),
             last_start_tag_name: None,
             pending_tokens: VecDeque::with_capacity(16),
             buf: Rc::new(RefCell::new(String::with_capacity(256))),
@@ -620,7 +620,7 @@ where
             tag_name: js_word!(""),
             raw_tag_name: None,
             is_self_closing: false,
-            attributes: vec![],
+            attributes: Vec::new(),
         });
     }
 
@@ -632,7 +632,7 @@ where
             raw_tag_name: None,
             is_self_closing: false,
             // In valid HTML code closed tags do not have attributes
-            attributes: vec![],
+            attributes: Vec::new(),
         });
     }
 

@@ -79,7 +79,7 @@ impl Parse for Config {
 
         let mut config = Self {
             pattern,
-            exclude_patterns: vec![],
+            exclude_patterns: Vec::new(),
         };
 
         let comma: Option<Token![,]> = input.parse()?;
@@ -101,7 +101,7 @@ pub fn expand(callee: &Ident, attr: Config) -> Result<Vec<TokenStream>, Error> {
 
     let paths =
         glob(&pattern).with_context(|| format!("glob failed for whole path: `{}`", pattern))?;
-    let mut test_fns = vec![];
+    let mut test_fns = Vec::new();
     // Allow only alphanumeric and underscore characters for the test_name.
     static RE: Lazy<Regex> = Lazy::new(|| Regex::new(r"[^A-Za-z0-9_]").unwrap());
 

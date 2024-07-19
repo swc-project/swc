@@ -158,7 +158,7 @@ fn base_url_precedence() {
     map.insert("jquery".to_string(), "jq in node module".to_string());
     map.insert("react".to_string(), "react in node module".to_string());
 
-    let r = TsConfigResolver::new(TestResolver(map), ".".into(), vec![]);
+    let r = TsConfigResolver::new(TestResolver(map), ".".into(), Vec::new());
 
     {
         let resolved = r

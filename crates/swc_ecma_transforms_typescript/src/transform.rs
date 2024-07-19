@@ -447,7 +447,7 @@ impl Transform {
     }
 
     fn transform_ts_module_block(id: Id, TsModuleBlock { span, body }: TsModuleBlock) -> BlockStmt {
-        let mut stmts = vec![];
+        let mut stmts = Vec::new();
         let mut mutable_export_ids = Default::default();
 
         for module_item in body {
@@ -544,7 +544,7 @@ impl Transform {
         debug_assert!(!declare);
 
         let mut default_init = 0.0.into();
-        let mut member_list = vec![];
+        let mut member_list = Vec::new();
         let mut local_record = if self.ts_enum_is_mutable && !is_const {
             Some(TsEnumRecord::default())
         } else {
@@ -817,7 +817,7 @@ impl Transform {
                     value: None,
                     type_ann: None,
                     is_static: false,
-                    decorators: vec![],
+                    decorators: Vec::new(),
                     accessibility: None,
                     is_abstract: false,
                     is_optional: false,
@@ -908,7 +908,7 @@ impl Transform {
                     right: Box::new(
                         ObjectLit {
                             span: DUMMY_SP,
-                            props: vec![],
+                            props: Vec::new(),
                         }
                         .into(),
                     ),

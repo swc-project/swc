@@ -43,7 +43,7 @@ where
         // To consume a list of rules, given a top-level flag:
 
         // Create an initially empty list of rules.
-        let mut rules = vec![];
+        let mut rules = Vec::new();
 
         // Repeatedly consume the next input token:
 
@@ -107,7 +107,7 @@ where
                             let span = self.input.cur_span();
                             let mut list_of_component_values = ListOfComponentValues {
                                 span: Default::default(),
-                                children: vec![],
+                                children: Vec::new(),
                             };
 
                             while !is_one_of!(self, EOF) {
@@ -161,7 +161,7 @@ where
                 raw: Some(at_keyword_name.1),
             })
         };
-        let mut prelude = vec![];
+        let mut prelude = Vec::new();
         let mut at_rule = AtRule {
             span: Default::default(),
             name,
@@ -256,7 +256,7 @@ where
         // Create a new qualified rule with its prelude initially set to an empty list,
         // and its value initially set to nothing.
         let span = self.input.cur_span();
-        let mut prelude = vec![];
+        let mut prelude = Vec::new();
 
         // Repeatedly consume the next input token:
         loop {
@@ -323,8 +323,8 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<Vec<StyleBlock>> {
-        let mut declarations = vec![];
-        let mut rules = vec![];
+        let mut declarations = Vec::new();
+        let mut rules = Vec::new();
 
         loop {
             // <EOF-token>
@@ -393,7 +393,7 @@ where
                     let span = self.input.cur_span();
                     let mut temporary_list = ListOfComponentValues {
                         span: Default::default(),
-                        children: vec![],
+                        children: Vec::new(),
                     };
 
                     while !is_one_of!(self, ";", EOF) {
@@ -443,7 +443,7 @@ where
                             // For recovery mode
                             let mut list_of_component_values = ListOfComponentValues {
                                 span: Default::default(),
-                                children: vec![],
+                                children: Vec::new(),
                             };
 
                             while !is_one_of!(self, ";", EOF) {
@@ -471,7 +471,7 @@ where
 {
     fn parse(&mut self) -> PResult<Vec<DeclarationOrAtRule>> {
         // Create an initially empty list of declarations.
-        let mut declarations = vec![];
+        let mut declarations = Vec::new();
 
         // Repeatedly consume the next input token:
         loop {
@@ -527,7 +527,7 @@ where
                     let span = self.input.cur_span();
                     let mut temporary_list = ListOfComponentValues {
                         span: Default::default(),
-                        children: vec![],
+                        children: Vec::new(),
                     };
 
                     while !is_one_of!(self, ";", EOF) {
@@ -568,7 +568,7 @@ where
                     // For recovery mode
                     let mut list_of_component_values = ListOfComponentValues {
                         span: Default::default(),
-                        children: vec![],
+                        children: Vec::new(),
                     };
 
                     while !is_one_of!(self, ";", EOF) {
@@ -630,7 +630,7 @@ where
         let mut declaration = Declaration {
             span: Default::default(),
             name,
-            value: vec![],
+            value: Vec::new(),
             important: None,
         };
 
@@ -852,7 +852,7 @@ where
         let mut simple_block = SimpleBlock {
             span: Default::default(),
             name,
-            value: vec![],
+            value: Vec::new(),
         };
 
         // Repeatedly consume the next input token and process it as follows:
@@ -948,7 +948,7 @@ where
         let mut function = Function {
             span: Default::default(),
             name,
-            value: vec![],
+            value: Vec::new(),
         };
 
         // Repeatedly consume the next input token and process it as follows:
@@ -1000,7 +1000,7 @@ where
 {
     fn parse(&mut self) -> PResult<ListOfComponentValues> {
         let span = self.input.cur_span();
-        let mut children = vec![];
+        let mut children = Vec::new();
 
         // Repeatedly consume a component value from input until an <EOF-token> is
         // returned, appending the returned values (except the final <EOF-token>) into a

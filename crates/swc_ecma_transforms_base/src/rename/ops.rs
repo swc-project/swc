@@ -349,7 +349,7 @@ where
             })) => {
                 let decls = var.decls.take();
 
-                let mut renamed: Vec<ExportSpecifier> = vec![];
+                let mut renamed: Vec<ExportSpecifier> = Vec::new();
                 let decls = decls.move_map(|mut decl| {
                     decl.name.visit_mut_with(&mut VarFolder {
                         orig: self,
@@ -418,7 +418,7 @@ where
                         })
                     })
                     .reduce(
-                        || (Parallel::create(&*self), vec![]),
+                        || (Parallel::create(&*self), Vec::new()),
                         |mut a, b| {
                             Parallel::merge(&mut a.0, b.0);
 
@@ -555,7 +555,7 @@ where
                         })
                     })
                     .reduce(
-                        || (Parallel::create(&*self), vec![]),
+                        || (Parallel::create(&*self), Vec::new()),
                         |mut a, b| {
                             Parallel::merge(&mut a.0, b.0);
 

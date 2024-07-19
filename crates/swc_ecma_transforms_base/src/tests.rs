@@ -116,7 +116,7 @@ impl<'a> Tester<'a> {
     }
 
     pub fn print(&mut self, module: &Module) -> String {
-        let mut buf = vec![];
+        let mut buf = Vec::new();
         {
             let mut emitter = Emitter {
                 cfg: Default::default(),

@@ -29,8 +29,8 @@ fn parse_and_gen(entry: &Path) {
             .parse_module()
             .expect("failed to parse input as a module");
 
-        let mut code = vec![];
-        let mut srcmap = vec![];
+        let mut code = Vec::new();
+        let mut srcmap = Vec::new();
 
         {
             let mut emitter = Emitter {

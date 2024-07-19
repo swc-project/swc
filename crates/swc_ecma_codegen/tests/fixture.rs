@@ -34,11 +34,11 @@ fn run(input: &Path, minify: bool) {
             }),
             EsVersion::latest(),
             None,
-            &mut vec![],
+            &mut Vec::new(),
         )
         .expect("failed to parse input as a module");
 
-        let mut buf = vec![];
+        let mut buf = Vec::new();
 
         {
             let mut wr =

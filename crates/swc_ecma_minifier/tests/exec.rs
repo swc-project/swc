@@ -68,7 +68,7 @@ fn print<N: swc_ecma_codegen::Node>(
     minify: bool,
     skip_semi: bool,
 ) -> String {
-    let mut buf = vec![];
+    let mut buf = Vec::new();
 
     {
         let mut wr: Box<dyn WriteJs> = Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None));
@@ -120,7 +120,7 @@ fn run(
         }),
         Default::default(),
         Some(&comments),
-        &mut vec![],
+        &mut Vec::new(),
     )
     .map_err(|err| {
         err.into_diagnostic(handler).emit();

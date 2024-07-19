@@ -27,7 +27,7 @@ fn no_empty(input: PathBuf) {
             }),
             EsVersion::latest(),
             None,
-            &mut vec![],
+            &mut Vec::new(),
         ) {
             Ok(v) => v,
             // We are not testing parser

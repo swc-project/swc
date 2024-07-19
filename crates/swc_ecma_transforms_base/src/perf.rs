@@ -186,7 +186,7 @@ where
                                 })
                             })
                             .fold(
-                                || (Parallel::create(&*self), vec![]),
+                                || (Parallel::create(&*self), Vec::new()),
                                 |mut a, b| {
                                     Parallel::merge(&mut a.0, b.0);
 
@@ -196,7 +196,7 @@ where
                                 },
                             )
                             .reduce(
-                                || (Parallel::create(&*self), vec![]),
+                                || (Parallel::create(&*self), Vec::new()),
                                 |mut a, b| {
                                     Parallel::merge(&mut a.0, b.0);
 

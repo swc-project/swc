@@ -72,11 +72,11 @@ pub struct Config {
 #[swc_trace]
 impl Params {
     fn visit_mut_fn_like(&mut self, ps: &mut Vec<Param>, body: &mut BlockStmt, is_setter: bool) {
-        let mut params = vec![];
-        let mut decls = vec![];
-        let mut loose_stmt = vec![];
+        let mut params = Vec::new();
+        let mut decls = Vec::new();
+        let mut loose_stmt = Vec::new();
         let mut unpack_rest = None;
-        let mut decls_after_unpack = vec![];
+        let mut decls_after_unpack = Vec::new();
 
         let mut after_default = false;
 
@@ -523,7 +523,7 @@ impl VisitMut for Params {
 
         if let Some(decls) = decls {
             if let BlockStmtOrExpr::Expr(v) = body {
-                let mut stmts = vec![];
+                let mut stmts = Vec::new();
                 prepend_stmt(&mut stmts, decls);
                 stmts.push(
                     ReturnStmt {
@@ -544,11 +544,11 @@ impl VisitMut for Params {
     fn visit_mut_catch_clause(&mut self, f: &mut CatchClause) {
         f.visit_mut_children_with(self);
 
-        let mut params = vec![];
+        let mut params = Vec::new();
         if f.param.is_some() {
             params.push(Param {
                 span: DUMMY_SP,
-                decorators: vec![],
+                decorators: Vec::new(),
                 pat: f.param.take().unwrap(),
             });
         }
@@ -750,10 +750,10 @@ impl VisitMut for Params {
 
         f.visit_mut_children_with(self);
 
-        let mut params = vec![];
+        let mut params = Vec::new();
         let mut body = f.body.take().unwrap();
         self.visit_mut_fn_like(&mut params, &mut body, false);
-        debug_assert_eq!(params, vec![]);
+        debug_assert_eq!(params, Vec::new());
 
         f.body = Some(body);
     }

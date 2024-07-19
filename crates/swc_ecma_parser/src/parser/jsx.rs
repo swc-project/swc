@@ -232,7 +232,7 @@ impl<I: Tokens> Parser<I> {
             None
         };
 
-        let mut attrs = vec![];
+        let mut attrs = Vec::new();
         while cur!(self, false).is_ok() {
             trace_cur!(self, parse_jsx_opening__attrs_loop);
 
@@ -307,7 +307,7 @@ impl<I: Tokens> Parser<I> {
 
             trace_cur!(p, parse_jsx_element__after_opening_element);
 
-            let mut children = vec![];
+            let mut children = Vec::new();
             let mut closing_element = None;
 
             let self_closing = match opening_element {

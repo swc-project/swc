@@ -913,7 +913,7 @@ impl<'a> Lexer<'a> {
     fn read_unicode_escape(&mut self) -> LexResult<Vec<Char>> {
         debug_assert_eq!(self.cur(), Some('u'));
 
-        let mut chars = vec![];
+        let mut chars = Vec::new();
         let mut is_curly = false;
 
         self.bump(); // 'u'

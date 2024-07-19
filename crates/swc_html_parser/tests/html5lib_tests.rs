@@ -74,7 +74,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
             .expect("failed to get input in test");
 
         let states = if let Some(initial_states) = test.get("initialStates") {
-            let mut states = vec![];
+            let mut states = Vec::new();
             let json_states: Vec<String> = serde_json::from_value(initial_states.clone())
                 .expect("failed to get input in test");
 
@@ -146,7 +146,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                 lexer.set_last_start_tag_name(&last_start_tag);
             }
 
-            let mut actual_tokens = vec![];
+            let mut actual_tokens = Vec::new();
 
             loop {
                 let token_and_span = lexer.next();
@@ -168,7 +168,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                     } => {
                         *raw_tag_name = None;
 
-                        let mut new_attributes = vec![];
+                        let mut new_attributes = Vec::new();
                         let mut already_seen: AHashSet<JsWord> = Default::default();
 
                         for mut attribute in take(attributes) {
@@ -201,7 +201,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                     } => {
                         *raw_tag_name = None;
                         *is_self_closing = false;
-                        *attributes = vec![];
+                        *attributes = Vec::new();
                     }
                     Token::Character { ref mut raw, .. } => {
                         *raw = None;
@@ -215,7 +215,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                 actual_tokens.push(new_token);
             }
 
-            let mut expected_tokens: Vec<Token> = vec![];
+            let mut expected_tokens: Vec<Token> = Vec::new();
 
             if let Some(output_tokens) = json_output.as_array() {
                 for output_token in output_tokens {
@@ -248,7 +248,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                                     let tag_name: String =
                                         serde_json::from_value(token_parts[1].clone())
                                             .expect("failed to deserialize");
-                                    let mut attributes = vec![];
+                                    let mut attributes = Vec::new();
 
                                     if let Some(json_attributes) = token_parts.get(2) {
                                         let obj_attributes: Value =
@@ -308,7 +308,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                                         tag_name: tag_name.into(),
                                         raw_tag_name: None,
                                         is_self_closing: false,
-                                        attributes: vec![],
+                                        attributes: Vec::new(),
                                     }]
                                 }
                                 "Character" => {
@@ -325,7 +325,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                                         };
                                     }
 
-                                    let mut tokens = vec![];
+                                    let mut tokens = Vec::new();
 
                                     for c in data.chars() {
                                         tokens.push(Token::Character {
@@ -578,11 +578,11 @@ fn html5lib_test_tree_construction(input: PathBuf) {
         let mut counter = 0;
 
         while let Some(test) = tests.next() {
-            let mut data: Vec<&str> = vec![];
-            let mut document: Vec<&str> = vec![];
-            let mut document_fragment: Vec<&str> = vec![];
-            let mut errors: Vec<&str> = vec![];
-            let mut new_errors: Vec<&str> = vec![];
+            let mut data: Vec<&str> = Vec::new();
+            let mut document: Vec<&str> = Vec::new();
+            let mut document_fragment: Vec<&str> = Vec::new();
+            let mut errors: Vec<&str> = Vec::new();
+            let mut new_errors: Vec<&str> = Vec::new();
             let mut scripting_enabled = false;
 
             let mut state = Some(TestState::Data);
@@ -760,9 +760,9 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                 span: Default::default(),
                 namespace: context_element_namespace,
                 tag_name: context_element_tag_name.into(),
-                attributes: vec![],
+                attributes: Vec::new(),
                 is_self_closing: false,
-                children: vec![],
+                children: Vec::new(),
                 content: None,
             };
 

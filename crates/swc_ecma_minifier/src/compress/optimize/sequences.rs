@@ -151,7 +151,7 @@ impl Optimizer<'_> {
         report_change!("sequences: Compressing statements as a sequences");
 
         self.changed = true;
-        let mut exprs = vec![];
+        let mut exprs = Vec::new();
         // This is bigger than required.
         let mut new_stmts = Vec::with_capacity(stmts.len());
 
@@ -395,7 +395,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        let mut new_stmts = vec![];
+        let mut new_stmts = Vec::new();
 
         for stmt in stmts.take() {
             match stmt.try_into_stmt() {
@@ -646,8 +646,8 @@ impl Optimizer<'_> {
             return;
         }
 
-        let mut exprs = vec![];
-        let mut buf = vec![];
+        let mut exprs = Vec::new();
+        let mut buf = Vec::new();
 
         for stmt in stmts.iter_mut() {
             let is_end = matches!(
@@ -747,7 +747,7 @@ impl Optimizer<'_> {
         }
 
         if seq.exprs.iter().any(|v| v.is_seq()) {
-            let mut new = vec![];
+            let mut new = Vec::new();
 
             for e in seq.exprs.take() {
                 match *e {

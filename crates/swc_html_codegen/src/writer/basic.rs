@@ -236,7 +236,7 @@ where
 }
 
 fn compute_line_starts(s: &str) -> Vec<usize> {
-    let mut res = vec![];
+    let mut res = Vec::new();
     let mut line_start = 0;
     let mut chars = s.char_indices().peekable();
 

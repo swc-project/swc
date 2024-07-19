@@ -261,7 +261,7 @@ impl VisitMut for PrivateInObject {
             } else {
                 let mut bs = BlockStmt {
                     span: DUMMY_SP,
-                    stmts: vec![],
+                    stmts: Vec::new(),
                     ..Default::default()
                 };
                 bs.stmts.push(

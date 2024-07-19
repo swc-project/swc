@@ -23,7 +23,7 @@ use testing::{assert_eq, NormalizedOutput};
 use tracing::warn;
 
 fn print(cm: Lrc<SourceMap>, p: &Program, minify: bool) -> String {
-    let mut buf = vec![];
+    let mut buf = Vec::new();
 
     {
         let mut wr = Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)) as Box<dyn WriteJs>;
@@ -56,7 +56,7 @@ fn parse_fm(handler: &Handler, fm: Lrc<SourceFile>) -> Result<Program, ()> {
         Default::default(),
         EsVersion::latest(),
         None,
-        &mut vec![],
+        &mut Vec::new(),
     )
     .map_err(|err| {
         err.into_diagnostic(handler).emit();

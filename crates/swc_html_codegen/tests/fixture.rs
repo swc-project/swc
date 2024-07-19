@@ -41,7 +41,7 @@ fn print_document(
 
     run_test2(false, |cm, handler| {
         let fm = cm.load_file(input).unwrap();
-        let mut errors = vec![];
+        let mut errors = Vec::new();
         let mut document: Document =
             parse_file_as_document(&fm, parser_config, &mut errors).unwrap();
 
@@ -61,7 +61,7 @@ fn print_document(
             .compare_to_file(output)
             .unwrap();
 
-        let mut errors = vec![];
+        let mut errors = Vec::new();
         let mut document_parsed_again =
             parse_file_as_document(&fm_output, parser_config, &mut errors).map_err(|err| {
                 err.to_diagnostics(&handler).emit();
@@ -106,7 +106,7 @@ fn print_document_fragment(
 
     run_test2(false, |cm, handler| {
         let fm = cm.load_file(input).unwrap();
-        let mut errors = vec![];
+        let mut errors = Vec::new();
         let mut document_fragment = parse_file_as_document_fragment(
             &fm,
             &context_element,
@@ -133,7 +133,7 @@ fn print_document_fragment(
             .compare_to_file(output)
             .unwrap();
 
-        let mut errors = vec![];
+        let mut errors = Vec::new();
         let mut document_fragment_parsed_again = parse_file_as_document_fragment(
             &fm_output,
             &context_element,
@@ -173,7 +173,7 @@ fn verify_document(
 
     testing::run_test2(false, |cm, handler| {
         let fm = cm.load_file(input).unwrap();
-        let mut errors = vec![];
+        let mut errors = Vec::new();
 
         let mut document =
             parse_file_as_document(&fm, parser_config, &mut errors).map_err(|err| {
@@ -193,7 +193,7 @@ fn verify_document(
         gen.emit(&document).unwrap();
 
         let new_fm = cm.new_source_file(FileName::Anon.into(), html_str);
-        let mut parsed_errors = vec![];
+        let mut parsed_errors = Vec::new();
         let mut document_parsed_again =
             parse_file_as_document(&new_fm, parser_config, &mut parsed_errors).map_err(|err| {
                 err.to_diagnostics(&handler).emit();
@@ -231,7 +231,7 @@ fn verify_document_fragment(
 
     testing::run_test2(false, |cm, handler| {
         let fm = cm.load_file(input).unwrap();
-        let mut errors = vec![];
+        let mut errors = Vec::new();
 
         let mut document_fragment = parse_file_as_document_fragment(
             &fm,
@@ -258,7 +258,7 @@ fn verify_document_fragment(
         gen.emit(&document_fragment).unwrap();
 
         let new_fm = cm.new_source_file(FileName::Anon.into(), html_str);
-        let mut parsed_errors = vec![];
+        let mut parsed_errors = Vec::new();
         let mut document_fragment_parsed_again = parse_file_as_document_fragment(
             &new_fm,
             &context_element,
@@ -358,9 +358,9 @@ fn test_document_fragment(input: PathBuf) {
         span: Default::default(),
         tag_name: "template".into(),
         namespace: Namespace::HTML,
-        attributes: vec![],
+        attributes: Vec::new(),
         is_self_closing: false,
-        children: vec![],
+        children: Vec::new(),
         content: None,
     };
 
@@ -657,9 +657,9 @@ fn html5lib_tests_verify(input: PathBuf) {
             span: Default::default(),
             namespace: context_element_namespace,
             tag_name: context_element_tag_name.into(),
-            attributes: vec![],
+            attributes: Vec::new(),
             is_self_closing: false,
-            children: vec![],
+            children: Vec::new(),
             content: None,
         };
 

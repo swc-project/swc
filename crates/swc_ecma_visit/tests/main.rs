@@ -17,7 +17,7 @@ fn should_visit_program() {
 
     let n = Program::Module(Module {
         span: DUMMY_SP,
-        body: vec![],
+        body: Vec::new(),
         shebang: None,
     });
 

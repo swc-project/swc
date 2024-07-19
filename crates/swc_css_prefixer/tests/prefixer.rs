@@ -28,7 +28,7 @@ fn prefix(input: PathBuf, options: Options, suffix: Option<&str>) {
     testing::run_test2(false, |cm, handler| {
         //
         let fm = cm.load_file(&input).unwrap();
-        let mut errors = vec![];
+        let mut errors = Vec::new();
         let mut ss: Stylesheet = parse_file(
             &fm,
             None,

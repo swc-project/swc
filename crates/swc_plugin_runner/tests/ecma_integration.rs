@@ -114,7 +114,7 @@ fn internal() {
                 Syntax::Es(Default::default()),
                 EsVersion::latest(),
                 None,
-                &mut vec![],
+                &mut Vec::new(),
             )
             .unwrap();
 
@@ -182,7 +182,7 @@ fn internal() {
                 Syntax::Es(Default::default()),
                 EsVersion::latest(),
                 None,
-                &mut vec![],
+                &mut Vec::new(),
             )
             .unwrap();
 

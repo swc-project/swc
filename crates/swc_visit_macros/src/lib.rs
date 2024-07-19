@@ -140,7 +140,7 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
         }
     ));
 
-    let mut field_module_body = vec![];
+    let mut field_module_body = Vec::new();
     {
         for stmts in block.stmts.iter() {
             let item = match stmts {
@@ -223,24 +223,24 @@ fn make_field_enum_variant_from_named_field(type_name: &Ident, f: &Field) -> Var
 }
 
 fn make_field_enum(item: &Item) -> Vec<Item> {
-    let mut items = vec![];
+    let mut items = Vec::new();
 
     let name = match item {
         Item::Struct(s) => s.ident.clone(),
         Item::Enum(e) => {
             // Skip C-like enums
             if e.variants.iter().all(|v| v.fields.is_empty()) {
-                return vec![];
+                return Vec::new();
             }
 
             e.ident.clone()
         }
-        _ => return vec![],
+        _ => return Vec::new(),
     };
 
     let name = Ident::new(&format!("{}Field", name), name.span());
     {
-        let mut attrs = vec![];
+        let mut attrs = Vec::new();
 
         let variants = match item {
             Item::Struct(s) => {
@@ -276,7 +276,7 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
 
                 variants
             }
-            _ => return vec![],
+            _ => return Vec::new(),
         };
 
         attrs.push(Attribute {
@@ -315,7 +315,7 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
     }
 
     {
-        let mut methods = vec![];
+        let mut methods = Vec::new();
 
         methods.push(ImplItem::Fn(ImplItemFn {
             attrs: vec![make_doc_attr("This is not considered as a public API")],
@@ -352,7 +352,7 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
                 output: ReturnType::Default,
             },
             block: {
-                let mut arms = vec![];
+                let mut arms = Vec::new();
 
                 if let Item::Struct(s) = item {
                     for f in s.fields.iter() {
@@ -510,7 +510,7 @@ fn make_ast_enum(stmts: &[Stmt], is_ref: bool) -> Item {
             discriminant: None,
         });
     }
-    let mut attrs = vec![];
+    let mut attrs = Vec::new();
 
     attrs.push(Attribute {
         pound_token: Default::default(),
@@ -621,7 +621,7 @@ fn make_impl_parent_kind(stmts: &[Stmt]) -> ItemImpl {
         block: Block {
             brace_token: Default::default(),
             stmts: {
-                let mut arms = vec![];
+                let mut arms = Vec::new();
 
                 for stmt in stmts {
                     let item = match stmt {
@@ -725,7 +725,7 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
         block: Block {
             brace_token: Default::default(),
             stmts: {
-                let mut arms = vec![];
+                let mut arms = Vec::new();
 
                 for stmt in stmts {
                     let item = match stmt {
@@ -856,7 +856,7 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
         block: Block {
             brace_token: Default::default(),
             stmts: {
-                let mut arms = vec![];
+                let mut arms = Vec::new();
 
                 for stmt in stmts {
                     let item = match stmt {
@@ -941,8 +941,8 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
 }
 
 fn make(mode: Mode, stmts: &[Stmt]) -> TokenStream {
-    let mut types = vec![];
-    let mut methods = vec![];
+    let mut types = Vec::new();
+    let mut methods = Vec::new();
 
     for stmts in stmts {
         let item = match stmts {
@@ -960,12 +960,12 @@ fn make(mode: Mode, stmts: &[Stmt]) -> TokenStream {
     }
 
     let mut tokens = quote!();
-    let mut ref_methods = vec![];
-    let mut optional_methods = vec![];
-    let mut either_methods = vec![];
-    let mut visit_all_methods = vec![];
+    let mut ref_methods = Vec::new();
+    let mut optional_methods = Vec::new();
+    let mut either_methods = Vec::new();
+    let mut visit_all_methods = Vec::new();
     {
-        let mut new = vec![];
+        let mut new = Vec::new();
         for ty in &types {
             add_required(&mut new, ty);
         }
@@ -991,7 +991,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> TokenStream {
         }
 
         methods.push(TraitItemFn {
-            attrs: vec![],
+            attrs: Vec::new(),
             sig,
             default: Some(create_method_body(mode, ty)),
             semi_token: None,
@@ -1011,7 +1011,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> TokenStream {
             let block = parse_quote!({ #call });
 
             ref_methods.push(ImplItemFn {
-                attrs: vec![],
+                attrs: Vec::new(),
                 vis: Visibility::Inherited,
                 defaultness: None,
                 sig: sig.clone(),
@@ -1023,7 +1023,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> TokenStream {
             // Either
 
             either_methods.push(ImplItemFn {
-                attrs: vec![],
+                attrs: Vec::new(),
                 vis: Visibility::Inherited,
                 defaultness: None,
                 sig: sig.clone(),
@@ -1044,7 +1044,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> TokenStream {
             // Optional
 
             optional_methods.push(ImplItemFn {
-                attrs: vec![],
+                attrs: Vec::new(),
                 vis: Visibility::Inherited,
                 defaultness: None,
                 sig: sig.clone(),
@@ -1087,7 +1087,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> TokenStream {
             // Visit <-> VisitAll using ::swc_visit::All
 
             visit_all_methods.push(ImplItemFn {
-                attrs: vec![],
+                attrs: Vec::new(),
                 vis: Visibility::Inherited,
                 defaultness: None,
                 sig: sig.clone(),
@@ -1239,7 +1239,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> TokenStream {
         }
     });
 
-    let mut attrs = vec![];
+    let mut attrs = Vec::new();
 
     if let Some(VisitorVariant::WithPath) = mode.visitor_variant() {
         attrs.extend(feature_path_attrs())
@@ -2021,7 +2021,7 @@ fn make_arm_from_struct(
     variant: &Fields,
     use_ast_path: bool,
 ) -> Arm {
-    let mut stmts = vec![];
+    let mut stmts = Vec::new();
     let mut fields: Punctuated<FieldPat, Token![,]> = Default::default();
 
     for (i, field) in variant.iter().enumerate() {
@@ -2057,7 +2057,7 @@ fn make_arm_from_struct(
         }
 
         fields.push(FieldPat {
-            attrs: vec![],
+            attrs: Vec::new(),
             member: if field.ident.is_none() {
                 Member::Unnamed(Index {
                     index: i as _,
@@ -2091,9 +2091,9 @@ fn make_arm_from_struct(
     };
 
     Arm {
-        attrs: vec![],
+        attrs: Vec::new(),
         pat: Pat::Struct(PatStruct {
-            attrs: vec![],
+            attrs: Vec::new(),
             qself: None,
             path: path.clone(),
             brace_token: Default::default(),
@@ -2103,7 +2103,7 @@ fn make_arm_from_struct(
         guard: None,
         fat_arrow_token: Default::default(),
         body: Box::new(Expr::Block(ExprBlock {
-            attrs: vec![],
+            attrs: Vec::new(),
             label: None,
             block,
         })),
@@ -2175,7 +2175,7 @@ fn method_sig_from_ident(mode: Mode, v: &Ident) -> Signature {
 
 /// Returns None if it's skipped.
 fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemFn> {
-    let mut attrs = vec![];
+    let mut attrs = Vec::new();
 
     {
         attrs.push(make_doc_attr(
@@ -2252,7 +2252,7 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemF
             //
 
             let block = {
-                let mut arms = vec![];
+                let mut arms = Vec::new();
 
                 let skip_ast_path = e.variants.iter().all(|v| v.fields.is_empty());
 
@@ -2283,7 +2283,7 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemF
                     brace_token: Default::default(),
                     stmts: vec![Stmt::Expr(
                         Expr::Match(ExprMatch {
-                            attrs: vec![],
+                            attrs: Vec::new(),
                             match_token: Default::default(),
                             expr: parse_quote!(n),
                             brace_token: Default::default(),
@@ -2552,7 +2552,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
             Mode::VisitMut { .. } => {
                 return Block {
                     brace_token: Default::default(),
-                    stmts: vec![],
+                    stmts: Vec::new(),
                 }
             }
             Mode::Fold { .. } => return parse_quote!({ n }),

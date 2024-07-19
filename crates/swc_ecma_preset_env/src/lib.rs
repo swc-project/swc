@@ -461,7 +461,7 @@ impl VisitMut for Polyfills {
                 v.into_iter().map(|src| {
                     ImportDecl {
                         span,
-                        specifiers: vec![],
+                        specifiers: Vec::new(),
                         src: Str {
                             span: DUMMY_SP,
                             raw: None,
@@ -481,7 +481,7 @@ impl VisitMut for Polyfills {
                 required.into_iter().map(|src| {
                     ImportDecl {
                         span,
-                        specifiers: vec![],
+                        specifiers: Vec::new(),
                         src: Str {
                             span: DUMMY_SP,
                             raw: None,

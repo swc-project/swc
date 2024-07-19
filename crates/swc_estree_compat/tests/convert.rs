@@ -24,7 +24,7 @@ use walkdir::WalkDir;
 
 #[test]
 fn fixtures() -> Result<(), Error> {
-    let mut tests = vec![];
+    let mut tests = Vec::new();
 
     let fixtures_path = PathBuf::from("tests").join("fixtures");
     for entry in WalkDir::new(&fixtures_path).into_iter() {

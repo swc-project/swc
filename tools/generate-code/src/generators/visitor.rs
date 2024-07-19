@@ -390,7 +390,7 @@ impl Generator {
     }
 
     fn base_trait_attrs(&self) -> Vec<Attribute> {
-        let mut attrs = vec![];
+        let mut attrs = Vec::new();
 
         if self.variant == Variant::AstPath {
             attrs.push(parse_quote!(#[cfg(any(docsrs, feature = "path"))]));
@@ -583,7 +583,7 @@ impl Generator {
         let visitor_trait_name = self.trait_name(false);
         let trait_name = self.trait_name(true);
         let attrs = self.base_trait_attrs();
-        let mut visit_with_trait_methods: Vec<TraitItem> = vec![];
+        let mut visit_with_trait_methods: Vec<TraitItem> = Vec::new();
 
         {
             let lifetime = self.method_lifetime();
@@ -619,7 +619,7 @@ impl Generator {
         ));
         }
 
-        let mut items: Vec<Item> = vec![];
+        let mut items: Vec<Item> = Vec::new();
         items.push(parse_quote!(
             /// A trait implemented for types that can be visited using a visitor.
             #(#attrs)*
@@ -636,7 +636,7 @@ impl Generator {
         let trait_name = self.trait_name(true);
         let attrs = self.base_trait_attrs();
 
-        let mut items: Vec<Item> = vec![];
+        let mut items: Vec<Item> = Vec::new();
 
         for node_type in node_types {
             let type_name = match node_type {
@@ -686,7 +686,7 @@ impl Generator {
             let default_body: Expr = match node_type {
                 Item::Enum(data) => {
                     let name = &data.ident;
-                    let mut match_arms = vec![];
+                    let mut match_arms = Vec::new();
 
                     for v in &data.variants {
                         let variant_name = &v.ident;
@@ -780,8 +780,8 @@ impl Generator {
 
         match fields {
             Fields::Named(n) => {
-                let mut stmts: Vec<Stmt> = vec![];
-                let mut bindings = vec![];
+                let mut stmts: Vec<Stmt> = Vec::new();
+                let mut bindings = Vec::new();
                 let mut reconstruct = match self.kind {
                     TraitKind::Visit | TraitKind::VisitAll | TraitKind::VisitMut => None,
                     TraitKind::Fold => Some(Vec::<TokenStream>::new()),
@@ -874,7 +874,7 @@ impl Generator {
                 }
             }
             Fields::Unnamed(u) => {
-                let mut stmts: Vec<Stmt> = vec![];
+                let mut stmts: Vec<Stmt> = Vec::new();
                 let mut bindings = Vec::<TokenStream>::new();
                 let mut reconstruct = match self.kind {
                     TraitKind::Visit | TraitKind::VisitAll | TraitKind::VisitMut => None,
@@ -943,7 +943,7 @@ impl Generator {
 
         let receiver = self.parameter_type_token(quote!(self));
 
-        let mut items: Vec<Item> = vec![];
+        let mut items: Vec<Item> = Vec::new();
 
         for node_type in non_leaf_types {
             let visit_with_name = Ident::new(
@@ -1265,8 +1265,8 @@ fn extract_generic<'a>(name: &str, ty: &'a Type) -> Option<&'a Type> {
 }
 fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
     let mut items = Vec::<Item>::new();
-    let mut kind_enum_members = vec![];
-    let mut node_ref_enum_members = vec![];
+    let mut kind_enum_members = Vec::new();
+    let mut node_ref_enum_members = Vec::new();
 
     let mut kind_set_index_arms = Vec::<Arm>::new();
     let mut node_ref_set_index_arms = Vec::<Arm>::new();
@@ -1288,7 +1288,7 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
 
             let fields_enum_name = Ident::new(&format!("{type_name}Field"), Span::call_site());
 
-            let mut variants = vec![];
+            let mut variants = Vec::new();
 
             kind_set_index_arms.push(parse_quote!(
                 Self::#type_name(v) => v.set_index(index),

@@ -24,10 +24,10 @@ fn self_closing_01() {
                 span,
                 name: JSXElementName::Ident(Ident::new_no_ctxt("a".into(), span)),
                 self_closing: true,
-                attrs: vec![],
+                attrs: Vec::new(),
                 type_args: None,
             },
-            children: vec![],
+            children: Vec::new(),
             closing: None,
         })))
     );
@@ -43,7 +43,7 @@ fn normal_01() {
                 span,
                 name: JSXElementName::Ident(Ident::new_no_ctxt("a".into(), span)),
                 self_closing: false,
-                attrs: vec![],
+                attrs: Vec::new(),
                 type_args: None,
             },
             children: vec![JSXElementChild::JSXText(JSXText {
@@ -80,7 +80,7 @@ fn escape_in_attr() {
                 self_closing: true,
                 type_args: None,
             },
-            children: vec![],
+            children: Vec::new(),
             closing: None
         })))
     );
@@ -110,7 +110,7 @@ fn issue_584() {
                 self_closing: true,
                 type_args: None,
             },
-            children: vec![],
+            children: Vec::new(),
             closing: None
         })))
     );

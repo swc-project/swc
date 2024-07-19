@@ -807,7 +807,7 @@ impl VisitMut for Pure<'_> {
             exprs.iter().any(|e| e.is_seq()),
             *crate::LIGHT_TASK_PARALLELS
         ) {
-            let mut exprs = vec![];
+            let mut exprs = Vec::new();
 
             for e in e.exprs.take() {
                 if let Expr::Seq(seq) = *e {

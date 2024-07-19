@@ -388,7 +388,7 @@ impl<T> IsEmpty for Vec<T> {
 
 /// Extracts hoisted variables
 pub fn extract_var_ids<T: VisitWith<Hoister>>(node: &T) -> Vec<Ident> {
-    let mut v = Hoister { vars: vec![] };
+    let mut v = Hoister { vars: Vec::new() };
     node.visit_with(&mut v);
     v.vars
 }
@@ -2139,7 +2139,7 @@ pub fn default_constructor(has_super: bool) -> Constructor {
         params: if has_super {
             vec![ParamOrTsParamProp::Param(Param {
                 span,
-                decorators: vec![],
+                decorators: Vec::new(),
                 pat: Pat::Rest(RestPat {
                     span: DUMMY_SP,
                     dot3_token: DUMMY_SP,
@@ -2148,7 +2148,7 @@ pub fn default_constructor(has_super: bool) -> Constructor {
                 }),
             })]
         } else {
-            vec![]
+            Vec::new()
         },
         body: Some(BlockStmt {
             stmts: if has_super {
@@ -2163,7 +2163,7 @@ pub fn default_constructor(has_super: bool) -> Constructor {
                 }
                 .into_stmt()]
             } else {
-                vec![]
+                Vec::new()
             },
             ..Default::default()
         }),
@@ -2445,7 +2445,7 @@ impl ExprCtx {
     where
         I: IntoIterator<Item = Box<Expr>>,
     {
-        let mut exprs = exprs.into_iter().fold(vec![], |mut v, e| {
+        let mut exprs = exprs.into_iter().fold(Vec::new(), |mut v, e| {
             self.extract_side_effects_to(&mut v, *e);
             v
         });

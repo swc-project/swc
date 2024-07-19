@@ -475,7 +475,7 @@ where
                         let (children, content) =
                             if namespace == Namespace::HTML && &tag_name == "template" {
                                 (
-                                    vec![],
+                                    Vec::new(),
                                     Some(DocumentFragment {
                                         span,
                                         children: new_children,
@@ -1120,7 +1120,7 @@ where
                             tag_name: $tag_name.to_owned(),
                             raw_tag_name: None,
                             is_self_closing: false,
-                            attributes: vec![],
+                            attributes: Vec::new(),
                         },
                     };
                     self.process_token(&mut end_token_and_info, None)?;
@@ -7664,7 +7664,7 @@ where
             Data::Element {
                 tag_name: "html".into(),
                 namespace: Namespace::HTML,
-                attributes: RefCell::new(vec![]),
+                attributes: RefCell::new(Vec::new()),
                 is_self_closing: false,
             },
             DUMMY_SP,
@@ -7682,7 +7682,7 @@ where
                 tag_name: tag_name.into(),
                 raw_tag_name: None,
                 is_self_closing: false,
-                attributes: vec![],
+                attributes: Vec::new(),
             },
         }
     }

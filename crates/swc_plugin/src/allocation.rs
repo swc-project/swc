@@ -39,7 +39,7 @@ pub extern "C" fn __free(ptr: *mut u8, size: i32) -> i32 {
 /// Allocates memory area of specified size and returns its address.
 /// Returns 0 if supplied size is too long.
 /// [TODO]: This is for the experiment to alloc memory with specified layout instead of
-/// manually creating vec![] and forget it. This is not used yet.
+/// manually creating Vec::new() and forget it. This is not used yet.
 #[doc(hidden)]
 #[cfg(all(target_arch = "wasm32", feature = "layout_alloc"))]
 #[no_mangle]

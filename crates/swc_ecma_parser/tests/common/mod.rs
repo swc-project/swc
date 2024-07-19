@@ -26,7 +26,7 @@ impl Fold for Normalizer {
         match e {
             Expr::Paren(ParenExpr { expr, .. }) if self.is_test262 => *expr,
             Expr::New(n @ NewExpr { args: None, .. }) if self.is_test262 => NewExpr {
-                args: Some(vec![]),
+                args: Some(Vec::new()),
                 ..n
             }
             .into(),
@@ -35,7 +35,7 @@ impl Fold for Normalizer {
                 let need_work = exprs.iter().any(|n| matches!(**n, Expr::Seq(..)));
 
                 if need_work {
-                    exprs = exprs.into_iter().fold(vec![], |mut v, e| {
+                    exprs = exprs.into_iter().fold(Vec::new(), |mut v, e| {
                         match *e {
                             Expr::Seq(SeqExpr { exprs, .. }) => v.extend(exprs),
                             _ => v.push(e),

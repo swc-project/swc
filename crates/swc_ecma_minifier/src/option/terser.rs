@@ -274,7 +274,7 @@ impl TerserCompressorOptions {
                             Default::default(),
                             Default::default(),
                             None,
-                            &mut vec![],
+                            &mut Vec::new(),
                         )
                         .map(drop_span)
                         .unwrap_or_else(|err| {
@@ -388,7 +388,7 @@ impl TerserCompressorOptions {
                         Default::default(),
                         Default::default(),
                         None,
-                        &mut vec![],
+                        &mut Vec::new(),
                     )
                     .map(drop_span)
                     .unwrap_or_else(|err| {

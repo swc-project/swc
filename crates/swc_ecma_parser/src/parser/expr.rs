@@ -500,7 +500,7 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!(self);
 
         assert_and_bump!(self, '[');
-        let mut elems = vec![];
+        let mut elems = Vec::new();
 
         while !eof!(self) && !is!(self, ']') {
             if is!(self, ',') {
@@ -1013,7 +1013,7 @@ impl<I: Tokens> Parser<I> {
     ) -> PResult<(Vec<Box<Expr>>, Vec<TplElement>)> {
         trace_cur!(self, parse_tpl_elements);
 
-        let mut exprs = vec![];
+        let mut exprs = Vec::new();
 
         let cur_elem = self.parse_tpl_element(is_tagged_tpl)?;
         let mut is_tail = cur_elem.tail;
@@ -1731,7 +1731,7 @@ impl<I: Tokens> Parser<I> {
 
         expect!(self, '(');
 
-        let mut items = vec![];
+        let mut items = Vec::new();
         let mut trailing_comma = None;
 
         // TODO(kdy1): optimize (once we parsed a pattern, we can parse everything else

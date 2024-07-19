@@ -22,7 +22,7 @@ impl<I: Tokens> Parser<I> {
             let mut trailing_comma = None;
             assert_and_bump!(p, '{');
 
-            let mut props = vec![];
+            let mut props = Vec::new();
 
             while !eat!(p, '}') {
                 props.push(p.parse_object_prop()?);
@@ -163,7 +163,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                 })
                 .parse_fn_args_body(
                     // no decorator in an object literal
-                    vec![],
+                    Vec::new(),
                     start,
                     |p| p.parse_unique_formal_params(),
                     false,
@@ -221,7 +221,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                 })
                 .parse_fn_args_body(
                     // no decorator in an object literal
-                    vec![],
+                    Vec::new(),
                     start,
                     |p| p.parse_unique_formal_params(),
                     false,
@@ -287,7 +287,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                         "get" => parser
                             .parse_fn_args_body(
                                 // no decorator in an object literal
-                                vec![],
+                                Vec::new(),
                                 start,
                                 |p| {
                                     let params = p.parse_formal_params()?;
@@ -324,7 +324,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                             parser
                                 .parse_fn_args_body(
                                     // no decorator in an object literal
-                                    vec![],
+                                    Vec::new(),
                                     start,
                                     |p| {
                                         let params = p.parse_formal_params()?;
@@ -392,7 +392,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                         "async" => parser
                             .parse_fn_args_body(
                                 // no decorator in an object literal
-                                vec![],
+                                Vec::new(),
                                 start,
                                 |p| p.parse_unique_formal_params(),
                                 true,

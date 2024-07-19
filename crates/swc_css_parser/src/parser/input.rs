@@ -463,7 +463,7 @@ impl<'a> ParserInput for Input<'a> {
     }
 
     fn take_errors(&mut self) -> Vec<Error> {
-        vec![]
+        Vec::new()
     }
 
     fn skip_ws(&mut self) -> Option<BytePos> {

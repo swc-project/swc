@@ -516,7 +516,7 @@ impl SourceMap {
         if lo.file.src.is_empty() {
             return Ok(FileLines {
                 file: lo.file,
-                lines: vec![],
+                lines: Vec::new(),
             });
         }
 
@@ -1434,7 +1434,9 @@ pub struct FilePathMapping {
 
 impl FilePathMapping {
     pub fn empty() -> FilePathMapping {
-        FilePathMapping { mapping: vec![] }
+        FilePathMapping {
+            mapping: Vec::new(),
+        }
     }
 
     pub fn new(mapping: Vec<(PathBuf, PathBuf)>) -> FilePathMapping {

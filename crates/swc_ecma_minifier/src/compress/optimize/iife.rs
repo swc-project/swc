@@ -357,7 +357,7 @@ impl Optimizer<'_> {
             }
         }
 
-        let mut removed = vec![];
+        let mut removed = Vec::new();
         let params = find_params(callee);
         if let Some(mut params) = params {
             // We check for parameter and argument

@@ -225,7 +225,7 @@ where
     ) -> Result<(Exports, Vec<(Source, Lrc<FileName>)>), Error> {
         self.run(|| {
             tracing::trace!("resolve_exports({})", base);
-            let mut files = vec![];
+            let mut files = Vec::new();
 
             let mut exports = Exports::default();
 
@@ -282,7 +282,7 @@ where
     ) -> Result<(Imports, Vec<(Source, Lrc<FileName>)>), Error> {
         self.run(|| {
             tracing::trace!("resolve_imports({})", base);
-            let mut files = vec![];
+            let mut files = Vec::new();
 
             let mut merged = Imports::default();
             let RawImports {
@@ -300,7 +300,7 @@ where
                     (
                         ImportDecl {
                             span: src.span,
-                            specifiers: vec![],
+                            specifiers: Vec::new(),
                             src: Box::new(src),
                             type_only: false,
                             with: None,
@@ -346,7 +346,7 @@ where
                 files.push((src.clone(), file_name));
 
                 // TODO: Handle rename
-                let mut specifiers = vec![];
+                let mut specifiers = Vec::new();
                 for s in decl.specifiers {
                     match s {
                         ImportSpecifier::Named(s) => {

@@ -102,7 +102,7 @@ fn do_test(entry: &Path, minify: bool) {
         "\n\n========== Running codegen test {}\nSource:\n{}\n",
         file_name, input
     );
-    let mut wr = vec![];
+    let mut wr = Vec::new();
 
     ::testing::run_test(false, |cm, handler| {
         let src = cm.load_file(entry).expect("failed to load file");

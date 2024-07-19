@@ -478,7 +478,7 @@ impl Babelify for NewExpr {
                     .into_iter()
                     .map(|arg| arg.babelify(ctx).into())
                     .collect(),
-                None => vec![],
+                None => Vec::new(),
             },
             type_parameters: self.type_args.map(|t| t.babelify(ctx)),
             type_arguments: Default::default(),

@@ -298,7 +298,7 @@ impl ForOf {
                     right: CallExpr {
                         span: DUMMY_SP,
                         callee: iterator.as_callee(),
-                        args: vec![],
+                        args: Vec::new(),
                         ..Default::default()
                     }
                     .into(),
@@ -426,7 +426,7 @@ impl ForOf {
                                         Symbol.iterator
                                     ))
                                     .as_callee(),
-                                args: vec![],
+                                args: Vec::new(),
                                 ..Default::default()
                             }))),
                             definite: false,
@@ -457,7 +457,7 @@ impl ForOf {
                                 span: DUMMY_SP,
                                 // `_iterator.next`
                                 callee: iterator.make_member(quote_ident!("next")).as_callee(),
-                                args: vec![],
+                                args: Vec::new(),
                                 ..Default::default()
                             })),
                         }
@@ -598,7 +598,7 @@ fn make_finally_block(
                         stmts: vec![CallExpr {
                             span: DUMMY_SP,
                             callee: iterator_return.as_callee(),
-                            args: vec![],
+                            args: Vec::new(),
                             ..Default::default()
                         }
                         .into_stmt()],

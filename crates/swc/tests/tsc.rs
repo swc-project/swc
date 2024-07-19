@@ -113,7 +113,7 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
 
     let mut sub_filename = filename;
 
-    let mut files = vec![];
+    let mut files = Vec::new();
 
     let mut buffer = String::default();
     for line in fm.src.lines() {
@@ -344,7 +344,7 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
     "#,
     );
 
-    let mut test_unit_data_list = vec![];
+    let mut test_unit_data_list = Vec::new();
 
     let is_jsx = input
         .extension()
@@ -357,7 +357,7 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
     for minify in [None, Some(default_minify)] {
         for target in targets.clone() {
             for module in modules.clone() {
-                let mut vary_name = vec![];
+                let mut vary_name = Vec::new();
 
                 if modules.len() > 1 {
                     vary_name.push(format!("module={}", &module));

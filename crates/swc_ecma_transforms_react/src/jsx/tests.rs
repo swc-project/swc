@@ -1083,7 +1083,7 @@ fn test_script(src: &str, output: &Path, options: Options) {
             fixer(Some(&tester.comments))
         ));
 
-        let mut buf = vec![];
+        let mut buf = Vec::new();
 
         let mut emitter = Emitter {
             cfg: Config::default()

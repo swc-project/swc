@@ -12,7 +12,7 @@ fn module_clone(b: &mut Bencher) {
     let _ = ::testing::run_test(false, |cm, handler| {
         let fm = cm.new_source_file(FileName::Anon.into(), SOURCE.into());
 
-        let mut errors = vec![];
+        let mut errors = Vec::new();
         let module = parse_file_as_module(
             &fm,
             Syntax::Typescript(Default::default()),
@@ -38,7 +38,7 @@ fn fold_empty(b: &mut Bencher) {
     let _ = ::testing::run_test(false, |cm, handler| {
         let fm = cm.new_source_file(FileName::Anon.into(), SOURCE.into());
 
-        let mut errors = vec![];
+        let mut errors = Vec::new();
         let module = parse_file_as_module(
             &fm,
             Syntax::Typescript(Default::default()),
@@ -68,7 +68,7 @@ fn fold_noop_impl_all(b: &mut Bencher) {
     let _ = ::testing::run_test(false, |cm, handler| {
         let fm = cm.new_source_file(FileName::Anon.into(), SOURCE.into());
 
-        let mut errors = vec![];
+        let mut errors = Vec::new();
         let module = parse_file_as_module(
             &fm,
             Syntax::Typescript(Default::default()),
@@ -95,7 +95,7 @@ fn fold_noop_impl_all(b: &mut Bencher) {
 fn fold_noop_impl_vec(b: &mut Bencher) {
     let _ = ::testing::run_test(false, |cm, handler| {
         let fm = cm.new_source_file(FileName::Anon.into(), SOURCE.into());
-        let mut errors = vec![];
+        let mut errors = Vec::new();
         let module = parse_file_as_module(
             &fm,
             Syntax::Typescript(Default::default()),
@@ -123,7 +123,7 @@ fn mk_expr() -> Expr {
     CallExpr {
         span: DUMMY_SP,
         callee: Ident::new_no_ctxt("foo".into(), DUMMY_SP).as_callee(),
-        args: vec![],
+        args: Vec::new(),
         ..Default::default()
     }
     .into()

@@ -20,7 +20,7 @@ fn parse(code: &'static str, name: &'static str) -> Vec<ModuleItem> {
         Default::default(),
         Default::default(),
         None,
-        &mut vec![],
+        &mut Vec::new(),
     )
     .map(|script| drop_span(script.body))
     .map_err(|_| {})
@@ -59,7 +59,7 @@ impl Helpers {
     }
 
     pub fn add_to(&self, to: &mut Vec<ModuleItem>) {
-        let mut buf = vec![];
+        let mut buf = Vec::new();
 
         if self.require.load(SeqCst) {
             build_swcpack_require(&mut buf);

@@ -82,10 +82,10 @@ fn stylesheet_test_tokens(input: PathBuf, config: ParserConfig) {
 
     testing::run_test2(false, |cm, handler| {
         let fm = cm.load_file(&input).unwrap();
-        let mut errors = vec![];
+        let mut errors = Vec::new();
         let tokens = {
             let mut lexer = Lexer::new(SourceFileInput::from(&*fm), None, Default::default());
-            let mut tokens = vec![];
+            let mut tokens = Vec::new();
 
             for token_and_span in lexer.by_ref() {
                 tokens.push(token_and_span);
@@ -208,10 +208,10 @@ fn stylesheet_recovery_test_tokens(input: PathBuf, config: ParserConfig) {
         }
 
         let fm = cm.load_file(&input).unwrap();
-        let mut lexer_errors = vec![];
+        let mut lexer_errors = Vec::new();
         let tokens = {
             let mut lexer = Lexer::new(SourceFileInput::from(&*fm), None, Default::default());
-            let mut tokens = vec![];
+            let mut tokens = Vec::new();
 
             for token_and_span in lexer.by_ref() {
                 tokens.push(token_and_span);
@@ -225,7 +225,7 @@ fn stylesheet_recovery_test_tokens(input: PathBuf, config: ParserConfig) {
             }
         };
 
-        let mut parser_errors = vec![];
+        let mut parser_errors = Vec::new();
 
         let stylesheet: PResult<Stylesheet> =
             parse_input(InputType::Tokens(&tokens), config, &mut parser_errors);

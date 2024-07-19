@@ -288,7 +288,7 @@ fn identity(entry: PathBuf) {
         "\n\n========== Running codegen test {}\nSource:\n{}\n",
         file_name, input
     );
-    let mut wr = vec![];
+    let mut wr = std::vec::Vec::new();
 
     ::testing::run_test(false, |cm, handler| {
         let fm = cm.load_file(&entry).expect("failed to load file");
@@ -315,7 +315,7 @@ fn identity(entry: PathBuf) {
             Some(&comments),
         );
         let mut parser: Parser<Lexer> = Parser::new_from(lexer);
-        let mut src_map = vec![];
+        let mut src_map = Vec::new();
 
         {
             let mut wr = Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
@@ -488,7 +488,7 @@ fn assert_eq_same_map(expected: &SourceMap, actual: &SourceMap) {
 /// Creates a url for https://evanw.github.io/source-map-visualization/
 fn visualizer_url(code: &str, map: &SourceMap) -> String {
     let map = {
-        let mut buf = vec![];
+        let mut buf = std::vec::Vec::new();
         map.to_writer(&mut buf).unwrap();
         String::from_utf8(buf).unwrap()
     };

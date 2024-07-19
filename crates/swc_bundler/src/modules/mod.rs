@@ -266,7 +266,7 @@ impl Modules {
             })
             .collect::<String>();
         let mut cloned = self.clone();
-        let mut stmts = vec![];
+        let mut stmts = Vec::new();
 
         for (id, mut module) in cloned.modules {
             swc_ecma_utils::prepend_stmts(

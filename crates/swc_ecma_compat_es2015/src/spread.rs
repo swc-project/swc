@@ -237,8 +237,8 @@ impl Spread {
         //
         let mut first_arr = None;
 
-        let mut tmp_arr = vec![];
-        let mut buf = vec![];
+        let mut tmp_arr = Vec::new();
+        let mut buf = Vec::new();
         let args_len = args.len();
 
         macro_rules! make_arr {
@@ -265,8 +265,8 @@ impl Spread {
         // contiguous slice of non-spread args in an array, which will protect
         // array args from being flattened.
         if self.c.loose {
-            let mut arg_list = vec![];
-            let mut current_elems = vec![];
+            let mut arg_list = Vec::new();
+            let mut current_elems = Vec::new();
             for arg in args.flatten() {
                 let expr = arg.expr;
                 match arg.spread {
@@ -279,7 +279,7 @@ impl Spread {
                                 }
                                 .as_arg(),
                             );
-                            current_elems = vec![];
+                            current_elems = Vec::new();
                         }
                         arg_list.push(expr.as_arg());
                     }
@@ -302,7 +302,7 @@ impl Spread {
                 span: DUMMY_SP,
                 callee: ArrayLit {
                     span: DUMMY_SP,
-                    elems: vec![],
+                    elems: Vec::new(),
                 }
                 .make_member(quote_ident!("concat"))
                 .as_callee(),
@@ -391,7 +391,7 @@ impl Spread {
                                             span: DUMMY_SP,
                                             callee: ArrayLit {
                                                 span: DUMMY_SP,
-                                                elems: vec![],
+                                                elems: Vec::new(),
                                             }
                                             .make_member(quote_ident!("concat"))
                                             .as_callee(),
@@ -449,7 +449,7 @@ impl Spread {
                     // assert!(args.is_empty());
                     Expr::Array(ArrayLit {
                         span,
-                        elems: vec![],
+                        elems: Vec::new(),
                     })
                 })
                 .make_member(IdentName::new("concat".into(), span))

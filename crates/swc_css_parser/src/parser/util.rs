@@ -287,7 +287,7 @@ where
         let locv = self.create_locv(declaration.value);
 
         let value = self.parse_according_to_grammar(&locv, |parser| {
-            let mut values = vec![];
+            let mut values = Vec::new();
 
             loop {
                 if is!(parser, EOF) {
@@ -336,7 +336,7 @@ where
     pub(super) fn try_to_parse_declaration_in_parens(&mut self) -> Option<Declaration> {
         let mut temporary_list = ListOfComponentValues {
             span: Default::default(),
-            children: vec![],
+            children: Vec::new(),
         };
 
         while !is_one_of!(self, ")", EOF) {

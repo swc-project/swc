@@ -77,7 +77,7 @@ fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
                 Default::default(),
                 EsVersion::latest(),
                 None,
-                &mut vec![],
+                &mut Vec::new(),
             )
             .unwrap();
 

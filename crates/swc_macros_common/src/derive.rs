@@ -59,7 +59,7 @@ impl<'a> Derive<'a> {
         Derive {
             input,
             out: ItemImpl {
-                attrs: vec![],
+                attrs: Vec::new(),
                 impl_token: Token!(impl)(def_site()),
                 brace_token: Default::default(),
                 defaultness: None,

@@ -156,7 +156,7 @@ where
             finished: false,
             state: State::Data,
             return_state: None,
-            errors: vec![],
+            errors: Vec::new(),
             additional_allowed_character: None,
             pending_tokens: VecDeque::new(),
             doctype_raw: None,
@@ -436,7 +436,7 @@ where
             },
             Some('#') => {
                 let mut base = 10;
-                let mut characters = vec![];
+                let mut characters = Vec::new();
                 let mut has_semicolon = false;
 
                 match self.consume_next_char() {

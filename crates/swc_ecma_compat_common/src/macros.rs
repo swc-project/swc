@@ -77,7 +77,7 @@ macro_rules! impl_visit_mut_fn {
             let (mut params, body) = self.visit_mut_fn_like(
                 &mut vec![Param {
                     span: DUMMY_SP,
-                    decorators: vec![],
+                    decorators: Vec::new(),
                     pat: *f.param.take(),
                 }],
                 &mut f.body.take().unwrap(),
@@ -95,8 +95,9 @@ macro_rules! impl_visit_mut_fn {
 
             f.visit_mut_children_with(self);
 
-            let (params, body) = self.visit_mut_fn_like(&mut vec![], &mut f.body.take().unwrap());
-            debug_assert_eq!(params, vec![]);
+            let (params, body) =
+                self.visit_mut_fn_like(&mut Vec::new(), &mut f.body.take().unwrap());
+            debug_assert_eq!(params, Vec::new());
 
             f.body = Some(body);
         }
@@ -108,12 +109,12 @@ macro_rules! impl_visit_mut_fn {
                 Some(pat) => self.visit_mut_fn_like(
                     &mut vec![Param {
                         span: DUMMY_SP,
-                        decorators: vec![],
+                        decorators: Vec::new(),
                         pat: pat.take(),
                     }],
                     &mut f.body.take(),
                 ),
-                None => self.visit_mut_fn_like(&mut vec![], &mut f.body.take()),
+                None => self.visit_mut_fn_like(&mut Vec::new(), &mut f.body.take()),
             };
             assert!(
                 params.len() == 0 || params.len() == 1,

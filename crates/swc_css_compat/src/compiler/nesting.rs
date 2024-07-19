@@ -19,7 +19,7 @@ impl Compiler {
             {
                 for c in children {
                     if let PseudoClassSelectorChildren::ForgivingSelectorList(c) = c {
-                        let mut selectors = vec![];
+                        let mut selectors = Vec::new();
 
                         for sel in &mut c.children {
                             match sel {
@@ -53,7 +53,7 @@ impl Compiler {
         prelude: &SelectorList,
         selectors: &mut Vec<ComplexSelector>,
     ) {
-        let mut new_selectors = vec![];
+        let mut new_selectors = Vec::new();
 
         'complex: for complex in selectors.take() {
             for compound in &complex.children {
@@ -142,7 +142,7 @@ impl Compiler {
         base: &SelectorList,
         relative_selector_list: &RelativeSelectorList,
     ) -> SelectorList {
-        let mut children = vec![];
+        let mut children = Vec::new();
 
         for base_complex in &base.children {
             for relative_selector in &relative_selector_list.children {
@@ -221,8 +221,8 @@ impl Compiler {
     }
 
     pub(crate) fn extract_nested_rules(&mut self, rule: &mut QualifiedRule) -> Vec<Rule> {
-        let mut nested_rules = vec![];
-        let mut block_values = vec![];
+        let mut nested_rules = Vec::new();
+        let mut block_values = Vec::new();
 
         for value in rule.block.value.take() {
             match value {
@@ -242,8 +242,8 @@ impl Compiler {
                     ) = at_rule.prelude.as_deref()
                     {
                         if let Some(block) = &at_rule.block {
-                            let mut decls_of_media = vec![];
-                            let mut nested_of_media = vec![];
+                            let mut decls_of_media = Vec::new();
+                            let mut nested_of_media = Vec::new();
 
                             for n in &block.value {
                                 match n {

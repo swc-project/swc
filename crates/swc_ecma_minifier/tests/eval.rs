@@ -23,7 +23,7 @@ fn eval(module: &str, expr: &str) -> Option<String> {
             Default::default(),
             EsVersion::latest(),
             None,
-            &mut vec![],
+            &mut Vec::new(),
         )
         .unwrap();
 
@@ -34,7 +34,7 @@ fn eval(module: &str, expr: &str) -> Option<String> {
                 Default::default(),
                 EsVersion::latest(),
                 None,
-                &mut vec![],
+                &mut Vec::new(),
             )
             .unwrap()
         };
@@ -94,7 +94,7 @@ impl PartialInliner {
                 }),
                 EsVersion::latest(),
                 None,
-                &mut vec![],
+                &mut Vec::new(),
             )
             .unwrap();
             module.visit_mut_with(&mut resolver(Mark::new(), Mark::new(), false));
@@ -127,12 +127,12 @@ impl PartialInliner {
                     }),
                     EsVersion::latest(),
                     None,
-                    &mut vec![],
+                    &mut Vec::new(),
                 )
                 .unwrap()
             };
             let expected = {
-                let mut buf = vec![];
+                let mut buf = Vec::new();
 
                 {
                     let mut emitter = Emitter {
@@ -148,7 +148,7 @@ impl PartialInliner {
             };
 
             let actual = {
-                let mut buf = vec![];
+                let mut buf = Vec::new();
 
                 {
                     let mut emitter = Emitter {
