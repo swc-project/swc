@@ -8440,9 +8440,9 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<AttributeToken> {
     }
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
-        self.into_iter()
-            .map(|item| <AttributeToken as FoldWith<V>>::fold_with(item, visitor))
-            .collect()
+        swc_visit::util::move_map::MoveMap::move_map(self, |item| {
+            <AttributeToken as FoldWith<V>>::fold_with(item, visitor)
+        })
     }
 }
 impl<V: ?Sized + Fold> FoldWith<V> for Vec<Attribute> {
@@ -8452,9 +8452,9 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<Attribute> {
     }
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
-        self.into_iter()
-            .map(|item| <Attribute as FoldWith<V>>::fold_with(item, visitor))
-            .collect()
+        swc_visit::util::move_map::MoveMap::move_map(self, |item| {
+            <Attribute as FoldWith<V>>::fold_with(item, visitor)
+        })
     }
 }
 impl<V: ?Sized + Fold> FoldWith<V> for Vec<Child> {
@@ -8464,9 +8464,9 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<Child> {
     }
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
-        self.into_iter()
-            .map(|item| <Child as FoldWith<V>>::fold_with(item, visitor))
-            .collect()
+        swc_visit::util::move_map::MoveMap::move_map(self, |item| {
+            <Child as FoldWith<V>>::fold_with(item, visitor)
+        })
     }
 }
 impl<V: ?Sized + Fold> FoldWith<V> for Option<swc_atoms::Atom> {
@@ -8525,15 +8525,13 @@ where
     T: FoldWith<V>,
 {
     fn fold_with(self, visitor: &mut V) -> Self {
-        let v = <T as FoldWith<V>>::fold_with(*self, visitor);
-        let v = std::boxed::Box::new(v);
-        v
+        swc_visit::util::map::Map::map(self, |inner| <T as FoldWith<V>>::fold_with(inner, visitor))
     }
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
-        let v = <T as FoldWith<V>>::fold_children_with(*self, visitor);
-        let v = std::boxed::Box::new(v);
-        v
+        swc_visit::util::map::Map::map(self, |inner| {
+            <T as FoldWith<V>>::fold_children_with(inner, visitor)
+        })
     }
 }
 #[doc = r" A visitor trait for traversing the AST."]
@@ -10536,13 +10534,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<AttributeToken> {
     }
 
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
-        self.into_iter()
-            .map(|item| {
-                <AttributeToken as FoldWithAstPath<V>>::fold_with_ast_path(
-                    item, visitor, __ast_path,
-                )
-            })
-            .collect()
+        swc_visit::util::move_map::MoveMap::move_map(self, |item| {
+            <AttributeToken as FoldWithAstPath<V>>::fold_with_ast_path(item, visitor, __ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -10554,11 +10548,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<Attribute> {
     }
 
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
-        self.into_iter()
-            .map(|item| {
-                <Attribute as FoldWithAstPath<V>>::fold_with_ast_path(item, visitor, __ast_path)
-            })
-            .collect()
+        swc_visit::util::move_map::MoveMap::move_map(self, |item| {
+            <Attribute as FoldWithAstPath<V>>::fold_with_ast_path(item, visitor, __ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -10570,11 +10562,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<Child> {
     }
 
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
-        self.into_iter()
-            .map(|item| {
-                <Child as FoldWithAstPath<V>>::fold_with_ast_path(item, visitor, __ast_path)
-            })
-            .collect()
+        swc_visit::util::move_map::MoveMap::move_map(self, |item| {
+            <Child as FoldWithAstPath<V>>::fold_with_ast_path(item, visitor, __ast_path)
+        })
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -10653,15 +10643,15 @@ where
     T: FoldWithAstPath<V>,
 {
     fn fold_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
-        let v = <T as FoldWithAstPath<V>>::fold_with_ast_path(*self, visitor, __ast_path);
-        let v = std::boxed::Box::new(v);
-        v
+        swc_visit::util::map::Map::map(self, |inner| {
+            <T as FoldWithAstPath<V>>::fold_with_ast_path(inner, visitor, __ast_path)
+        })
     }
 
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
-        let v = <T as FoldWithAstPath<V>>::fold_children_with_ast_path(*self, visitor, __ast_path);
-        let v = std::boxed::Box::new(v);
-        v
+        swc_visit::util::map::Map::map(self, |inner| {
+            <T as FoldWithAstPath<V>>::fold_children_with_ast_path(inner, visitor, __ast_path)
+        })
     }
 }
 #[doc = r" A visitor trait for traversing the AST."]

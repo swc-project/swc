@@ -1011,9 +1011,9 @@ impl Generator {
                             }
                             TraitKind::Fold => {
                                 parse_quote!(
-                                    self.into_iter().map(|item| {
+                                    swc_visit::util::move_map::MoveMap::move_map(self, |item| {
                                         <#inner_ty as #visit_with_trait_name<V>>::#visit_with_name(item, visitor #ast_path_arg)
-                                    }).collect()
+                                    })
                                 )
                             }
                         }
@@ -1108,50 +1108,71 @@ impl Generator {
 
         {
             // Box<T> => T
-            let deref_expr = match self.kind {
-                TraitKind::Visit | TraitKind::VisitAll => {
-                    quote!(&**self)
-                }
-                TraitKind::VisitMut => {
-                    quote!(&mut **self)
-                }
+            match self.kind {
                 TraitKind::Fold => {
-                    quote!(*self)
+                    items.push(parse_quote!(
+                        #(#attrs)*
+                        impl<V, T> #visit_with_trait_name<V> for std::boxed::Box<T>
+                            where V: ?Sized + #visit_trait_name,
+                                T: #visit_with_trait_name<V> {
+                            fn #visit_with_name #lifetime (#receiver, visitor: &mut V #ast_path_param) #return_type {
+                                swc_visit::util::map::Map::map(self, |inner| {
+                                    <T as #visit_with_trait_name<V>>::#visit_with_name(inner, visitor #ast_path_arg)
+                                })
+                            }
+                            fn #visit_with_children_name #lifetime (#receiver, visitor: &mut V #ast_path_param) #return_type {
+                                swc_visit::util::map::Map::map(self, |inner| {
+                                    <T as #visit_with_trait_name<V>>::#visit_with_children_name(inner, visitor #ast_path_arg)
+                                })
+                            }
+                        }
+                    ));
                 }
-            };
 
-            let restore_expr = match self.kind {
-                TraitKind::Visit | TraitKind::VisitAll => {
-                    quote!()
-                }
-                TraitKind::VisitMut => {
-                    quote!()
-                }
-                TraitKind::Fold => {
-                    quote!(
-                        let v = std::boxed::Box::new(v);
-                    )
-                }
-            };
+                _ => {
+                    let deref_expr = match self.kind {
+                        TraitKind::Visit | TraitKind::VisitAll => {
+                            quote!(&**self)
+                        }
+                        TraitKind::VisitMut => {
+                            quote!(&mut **self)
+                        }
+                        TraitKind::Fold => {
+                            unreachable!()
+                        }
+                    };
 
-            items.push(parse_quote!(
-                #(#attrs)*
-                impl<V, T> #visit_with_trait_name<V> for std::boxed::Box<T>
-                    where V: ?Sized + #visit_trait_name,
-                        T: #visit_with_trait_name<V> {
-                    fn #visit_with_name #lifetime (#receiver, visitor: &mut V #ast_path_param) #return_type {
-                        let v = <T as #visit_with_trait_name<V>>::#visit_with_name(#deref_expr, visitor #ast_path_arg);
-                        #restore_expr
-                        v
-                    }
+                    let restore_expr = match self.kind {
+                        TraitKind::Visit | TraitKind::VisitAll => {
+                            quote!()
+                        }
+                        TraitKind::VisitMut => {
+                            quote!()
+                        }
+                        TraitKind::Fold => {
+                            unreachable!()
+                        }
+                    };
 
-                    fn #visit_with_children_name #lifetime (#receiver, visitor: &mut V #ast_path_param) #return_type {
-                        let v = <T as #visit_with_trait_name<V>>::#visit_with_children_name(#deref_expr, visitor #ast_path_arg);
-                        #restore_expr
-                        v
-                    }
+                    items.push(parse_quote!(
+                        #(#attrs)*
+                        impl<V, T> #visit_with_trait_name<V> for std::boxed::Box<T>
+                            where V: ?Sized + #visit_trait_name,
+                                T: #visit_with_trait_name<V> {
+                            fn #visit_with_name #lifetime (#receiver, visitor: &mut V #ast_path_param) #return_type {
+                                let v = <T as #visit_with_trait_name<V>>::#visit_with_name(#deref_expr, visitor #ast_path_arg);
+                                #restore_expr
+                                v
+                            }
+                            fn #visit_with_children_name #lifetime (#receiver, visitor: &mut V #ast_path_param) #return_type {
+                                let v = <T as #visit_with_trait_name<V>>::#visit_with_children_name(#deref_expr, visitor #ast_path_arg);
+                                #restore_expr
+                                v
+                            }
+                        }
+                    ));
                 }
-            ));
+            }
         }
 
         if self.kind == TraitKind::Visit || self.kind == TraitKind::VisitAll {

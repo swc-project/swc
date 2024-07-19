@@ -15,5 +15,3 @@ path = []
 
 [dependencies]
 either = { workspace = true }
-
-swc_visit_macros = { version = "0.5.12", path = "../swc_visit_macros" }
