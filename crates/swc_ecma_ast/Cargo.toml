@@ -23,10 +23,11 @@ rkyv-impl = [
   "__rkyv",
   "rkyv",
   "bytecheck",
+  "swc_allocator/rkyv",
   "swc_atoms/rkyv-impl",
   "swc_common/rkyv-impl",
 ]
-serde-impl = ["serde"]
+serde-impl = ["serde", "swc_allocator/serde"]
 
 [dependencies]
 arbitrary = { workspace = true, features = ["derive"], optional = true }
