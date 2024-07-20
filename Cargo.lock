@@ -4174,6 +4174,7 @@ dependencies = [
  "serde",
  "serde_json",
  "string_enum",
+ "swc_allocator",
  "swc_atoms",
  "swc_common",
  "unicode-id-start",
