@@ -16,14 +16,18 @@ export function transform(src: string, opts?: Options): Promise<TransformOutput>
 export function transformSync(src: string, opts?: Options): TransformOutput;
 "#;
 
-#[wasm_bindgen]
+#[wasm_bindgen(skip_typescript)]
 pub fn transform(input: JsString, options: JsValue) -> Promise {
     future_to_promise(async move { transform_sync(input, options) })
 }
 
-#[wasm_bindgen(js_name = "transformSync")]
+#[wasm_bindgen(js_name = "transformSync", skip_typescript)]
 pub fn transform_sync(input: JsString, options: JsValue) -> Result<JsValue, JsValue> {
-    let options: Options = serde_wasm_bindgen::from_value(options)?;
+    let options: Options = if options.is_falsy() {
+        Default::default()
+    } else {
+        serde_wasm_bindgen::from_value(options)?
+    };
 
     let input = input.as_string().unwrap();
 

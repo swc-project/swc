@@ -22,7 +22,7 @@ serde-wasm-bindgen   = { workspace = true }
 serde_json           = { workspace = true }
 swc_common           = { workspace = true }
 swc_error_reporters  = { workspace = true }
-swc_fast_ts_strip    = { workspace = true }
+swc_fast_ts_strip    = { workspace = true, features = ["wasm-bindgen"] }
 tracing              = { workspace = true, features = ["max_level_off"] }
 wasm-bindgen         = { workspace = true, features = ["enable-interning"] }
 wasm-bindgen-futures = { workspace = true }

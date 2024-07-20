@@ -35,7 +35,7 @@ resolver = "2"
   tracing-chrome       = "0.5.0"
   tracing-futures      = "0.2.5"
   tracing-subscriber   = "0.3.9"
-  wasm-bindgen         = "0.2.82"
+  wasm-bindgen         = "0.2.91"
   wasm-bindgen-futures = "0.4.41"
 
 [profile.release]
