@@ -31,6 +31,8 @@ use swc_ecma_transforms_base::{
 };
 use swc_ecma_transforms_typescript::typescript;
 use swc_ecma_visit::{Visit, VisitMutWith, VisitWith};
+#[cfg(feature = "wasm-bindgen")]
+use wasm_bindgen::prelude::*;
 
 #[derive(Default, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -53,6 +55,17 @@ pub struct Options {
     pub source_map: bool,
 }
 
+#[cfg(feature = "wasm-bindgen")]
+#[wasm_bindgen(typescript_custom_section)]
+const Type_Options: &'static str = r#"
+interface Options {
+    module?: boolean;
+    filename?: string;
+    mode?: Mode;
+    sourceMap?: boolean;
+}
+"#;
+
 #[derive(Debug, Default, Deserialize)]
 #[serde(rename_all = "kebab-case")]
 pub enum Mode {
@@ -60,6 +73,12 @@ pub enum Mode {
     StripOnly,
     Transform,
 }
+
+#[cfg(feature = "wasm-bindgen")]
+#[wasm_bindgen(typescript_custom_section)]
+const Type_Mode: &'static str = r#"
+type Mode = "strip-only" | "transform";
+"#;
 
 fn default_ts_syntax() -> TsSyntax {
     TsSyntax {
@@ -73,6 +92,15 @@ pub struct TransformOutput {
     pub code: String,
     pub map: Option<String>,
 }
+
+#[cfg(feature = "wasm-bindgen")]
+#[wasm_bindgen(typescript_custom_section)]
+const Type_TransformOutput: &'static str = r#"
+interface TransformOutput {
+    code: string;
+    map?: string;
+}
+"#;
 
 pub fn operate(
     cm: &Lrc<SourceMap>,

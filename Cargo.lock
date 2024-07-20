@@ -5019,6 +5019,7 @@ dependencies = [
  "swc_ecma_transforms_typescript",
  "swc_ecma_visit",
  "testing",
+ "wasm-bindgen",
 ]
 
 [[package]]

@@ -148,7 +148,7 @@ jobs:
         run: |
           echo '[patch.crates-io]' >> bindings/Cargo.toml
           ./scripts/cargo/patch-section.sh >> bindings/Cargo.toml
-          cd bindings && cargo update -p swc_core
+          cd bindings && cargo update -p swc_core -p swc_fast_ts_strip
 
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
@@ -367,7 +367,7 @@ jobs:
           echo '[patch.crates-io]' >> bindings/Cargo.toml
           ./scripts/cargo/patch-section.sh
           ./scripts/cargo/patch-section.sh >> bindings/Cargo.toml
-          cd bindings && cargo update -p swc_core
+          cd bindings && cargo update -p swc_core -p swc_fast_ts_strip
 
       - name: Set platform name
         run: |
@@ -424,7 +424,7 @@ jobs:
         run: |
           echo '[patch.crates-io]' >> bindings/Cargo.toml
           ./scripts/cargo/patch-section.sh >> bindings/Cargo.toml
-          cd bindings && cargo update -p swc_core
+          cd bindings && cargo update -p swc_core -p swc_fast_ts_strip
 
       - name: Prepare
         run: |
