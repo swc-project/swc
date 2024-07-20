@@ -8,122 +8,143 @@ pub trait Visit {
     #[doc = "Visit a node of type `swc_atoms :: Atom`.\n\nBy default, this method calls \
              [`swc_atoms :: Atom::visit_children_with`]. If you want to recurse, you need to call \
              it manually."]
+    #[inline]
     fn visit_atom(&mut self, node: &swc_atoms::Atom) {
         <swc_atoms::Atom as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Attribute`.\n\nBy default, this method calls \
              [`Attribute::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn visit_attribute(&mut self, node: &Attribute) {
         <Attribute as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `AttributeToken`.\n\nBy default, this method calls \
              [`AttributeToken::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn visit_attribute_token(&mut self, node: &AttributeToken) {
         <AttributeToken as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Vec < AttributeToken >`.\n\nBy default, this method calls [`Vec \
              < AttributeToken >::visit_children_with`]. If you want to recurse, you need to call \
              it manually."]
+    #[inline]
     fn visit_attribute_tokens(&mut self, node: &[AttributeToken]) {
         <[AttributeToken] as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Vec < Attribute >`.\n\nBy default, this method calls [`Vec < \
              Attribute >::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn visit_attributes(&mut self, node: &[Attribute]) {
         <[Attribute] as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `CdataSection`.\n\nBy default, this method calls \
              [`CdataSection::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn visit_cdata_section(&mut self, node: &CdataSection) {
         <CdataSection as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Child`.\n\nBy default, this method calls \
              [`Child::visit_children_with`]. If you want to recurse, you need to call it manually."]
+    #[inline]
     fn visit_child(&mut self, node: &Child) {
         <Child as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Vec < Child >`.\n\nBy default, this method calls [`Vec < Child \
              >::visit_children_with`]. If you want to recurse, you need to call it manually."]
+    #[inline]
     fn visit_childs(&mut self, node: &[Child]) {
         <[Child] as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Comment`.\n\nBy default, this method calls \
              [`Comment::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn visit_comment(&mut self, node: &Comment) {
         <Comment as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Document`.\n\nBy default, this method calls \
              [`Document::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn visit_document(&mut self, node: &Document) {
         <Document as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `DocumentMode`.\n\nBy default, this method calls \
              [`DocumentMode::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn visit_document_mode(&mut self, node: &DocumentMode) {
         <DocumentMode as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `DocumentType`.\n\nBy default, this method calls \
              [`DocumentType::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn visit_document_type(&mut self, node: &DocumentType) {
         <DocumentType as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Element`.\n\nBy default, this method calls \
              [`Element::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn visit_element(&mut self, node: &Element) {
         <Element as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Namespace`.\n\nBy default, this method calls \
              [`Namespace::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn visit_namespace(&mut self, node: &Namespace) {
         <Namespace as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Option < swc_atoms :: Atom >`.\n\nBy default, this method calls \
              [`Option < swc_atoms :: Atom >::visit_children_with`]. If you want to recurse, you \
              need to call it manually."]
+    #[inline]
     fn visit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
         <Option<swc_atoms::Atom> as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Option < Namespace >`.\n\nBy default, this method calls \
              [`Option < Namespace >::visit_children_with`]. If you want to recurse, you need to \
              call it manually."]
+    #[inline]
     fn visit_opt_namespace(&mut self, node: &Option<Namespace>) {
         <Option<Namespace> as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `ProcessingInstruction`.\n\nBy default, this method calls \
              [`ProcessingInstruction::visit_children_with`]. If you want to recurse, you need to \
              call it manually."]
+    #[inline]
     fn visit_processing_instruction(&mut self, node: &ProcessingInstruction) {
         <ProcessingInstruction as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `swc_common :: Span`.\n\nBy default, this method calls \
              [`swc_common :: Span::visit_children_with`]. If you want to recurse, you need to call \
              it manually."]
+    #[inline]
     fn visit_span(&mut self, node: &swc_common::Span) {
         <swc_common::Span as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Text`.\n\nBy default, this method calls \
              [`Text::visit_children_with`]. If you want to recurse, you need to call it manually."]
+    #[inline]
     fn visit_text(&mut self, node: &Text) {
         <Text as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Token`.\n\nBy default, this method calls \
              [`Token::visit_children_with`]. If you want to recurse, you need to call it manually."]
+    #[inline]
     fn visit_token(&mut self, node: &Token) {
         <Token as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `TokenAndSpan`.\n\nBy default, this method calls \
              [`TokenAndSpan::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn visit_token_and_span(&mut self, node: &TokenAndSpan) {
         <TokenAndSpan as VisitWith<Self>>::visit_children_with(node, self)
     }
@@ -1249,20 +1270,24 @@ impl<V: ?Sized + Visit> VisitWith<V> for TokenAndSpan {
 }
 impl<V: ?Sized + Visit> VisitWith<V> for swc_atoms::Atom {
     #[doc = "Calls [Visit`::visit_atom`] with `self`. (Extra impl)"]
+    #[inline]
     fn visit_with(&self, visitor: &mut V) {
         <V as Visit>::visit_atom(visitor, self)
     }
 
+    #[inline]
     fn visit_children_with(&self, visitor: &mut V) {
         {}
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for [AttributeToken] {
     #[doc = "Calls [Visit`::visit_attribute_tokens`] with `self`. (Extra impl)"]
+    #[inline]
     fn visit_with(&self, visitor: &mut V) {
         <V as Visit>::visit_attribute_tokens(visitor, self)
     }
 
+    #[inline]
     fn visit_children_with(&self, visitor: &mut V) {
         self.iter()
             .for_each(|item| <AttributeToken as VisitWith<V>>::visit_with(item, visitor))
@@ -1270,10 +1295,12 @@ impl<V: ?Sized + Visit> VisitWith<V> for [AttributeToken] {
 }
 impl<V: ?Sized + Visit> VisitWith<V> for [Attribute] {
     #[doc = "Calls [Visit`::visit_attributes`] with `self`. (Extra impl)"]
+    #[inline]
     fn visit_with(&self, visitor: &mut V) {
         <V as Visit>::visit_attributes(visitor, self)
     }
 
+    #[inline]
     fn visit_children_with(&self, visitor: &mut V) {
         self.iter()
             .for_each(|item| <Attribute as VisitWith<V>>::visit_with(item, visitor))
@@ -1281,10 +1308,12 @@ impl<V: ?Sized + Visit> VisitWith<V> for [Attribute] {
 }
 impl<V: ?Sized + Visit> VisitWith<V> for [Child] {
     #[doc = "Calls [Visit`::visit_childs`] with `self`. (Extra impl)"]
+    #[inline]
     fn visit_with(&self, visitor: &mut V) {
         <V as Visit>::visit_childs(visitor, self)
     }
 
+    #[inline]
     fn visit_children_with(&self, visitor: &mut V) {
         self.iter()
             .for_each(|item| <Child as VisitWith<V>>::visit_with(item, visitor))
@@ -1292,10 +1321,12 @@ impl<V: ?Sized + Visit> VisitWith<V> for [Child] {
 }
 impl<V: ?Sized + Visit> VisitWith<V> for Option<swc_atoms::Atom> {
     #[doc = "Calls [Visit`::visit_opt_atom`] with `self`. (Extra impl)"]
+    #[inline]
     fn visit_with(&self, visitor: &mut V) {
         <V as Visit>::visit_opt_atom(visitor, self)
     }
 
+    #[inline]
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             Some(inner) => <swc_atoms::Atom as VisitWith<V>>::visit_with(inner, visitor),
@@ -1305,10 +1336,12 @@ impl<V: ?Sized + Visit> VisitWith<V> for Option<swc_atoms::Atom> {
 }
 impl<V: ?Sized + Visit> VisitWith<V> for Option<Namespace> {
     #[doc = "Calls [Visit`::visit_opt_namespace`] with `self`. (Extra impl)"]
+    #[inline]
     fn visit_with(&self, visitor: &mut V) {
         <V as Visit>::visit_opt_namespace(visitor, self)
     }
 
+    #[inline]
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             Some(inner) => <Namespace as VisitWith<V>>::visit_with(inner, visitor),
@@ -1318,10 +1351,12 @@ impl<V: ?Sized + Visit> VisitWith<V> for Option<Namespace> {
 }
 impl<V: ?Sized + Visit> VisitWith<V> for swc_common::Span {
     #[doc = "Calls [Visit`::visit_span`] with `self`. (Extra impl)"]
+    #[inline]
     fn visit_with(&self, visitor: &mut V) {
         <V as Visit>::visit_span(visitor, self)
     }
 
+    #[inline]
     fn visit_children_with(&self, visitor: &mut V) {
         {}
     }
@@ -1331,11 +1366,13 @@ where
     V: ?Sized + Visit,
     T: VisitWith<V>,
 {
+    #[inline]
     fn visit_with(&self, visitor: &mut V) {
         let v = <T as VisitWith<V>>::visit_with(&**self, visitor);
         v
     }
 
+    #[inline]
     fn visit_children_with(&self, visitor: &mut V) {
         let v = <T as VisitWith<V>>::visit_children_with(&**self, visitor);
         v
@@ -1346,11 +1383,13 @@ where
     V: ?Sized + Visit,
     [T]: VisitWith<V>,
 {
+    #[inline]
     fn visit_with(&self, visitor: &mut V) {
         let v = <[T] as VisitWith<V>>::visit_with(self, visitor);
         v
     }
 
+    #[inline]
     fn visit_children_with(&self, visitor: &mut V) {
         let v = <[T] as VisitWith<V>>::visit_children_with(self, visitor);
         v
@@ -1363,6 +1402,7 @@ pub trait VisitAstPath {
     #[doc = "Visit a node of type `swc_atoms :: Atom`.\n\nBy default, this method calls \
              [`swc_atoms :: Atom::visit_children_with_ast_path`]. If you want to recurse, you need \
              to call it manually."]
+    #[inline]
     fn visit_atom<'ast: 'r, 'r>(
         &mut self,
         node: &'ast swc_atoms::Atom,
@@ -1375,6 +1415,7 @@ pub trait VisitAstPath {
     #[doc = "Visit a node of type `Attribute`.\n\nBy default, this method calls \
              [`Attribute::visit_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
+    #[inline]
     fn visit_attribute<'ast: 'r, 'r>(
         &mut self,
         node: &'ast Attribute,
@@ -1385,6 +1426,7 @@ pub trait VisitAstPath {
     #[doc = "Visit a node of type `AttributeToken`.\n\nBy default, this method calls \
              [`AttributeToken::visit_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
+    #[inline]
     fn visit_attribute_token<'ast: 'r, 'r>(
         &mut self,
         node: &'ast AttributeToken,
@@ -1397,6 +1439,7 @@ pub trait VisitAstPath {
     #[doc = "Visit a node of type `Vec < AttributeToken >`.\n\nBy default, this method calls [`Vec \
              < AttributeToken >::visit_children_with_ast_path`]. If you want to recurse, you need \
              to call it manually."]
+    #[inline]
     fn visit_attribute_tokens<'ast: 'r, 'r>(
         &mut self,
         node: &'ast [AttributeToken],
@@ -1409,6 +1452,7 @@ pub trait VisitAstPath {
     #[doc = "Visit a node of type `Vec < Attribute >`.\n\nBy default, this method calls [`Vec < \
              Attribute >::visit_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
+    #[inline]
     fn visit_attributes<'ast: 'r, 'r>(
         &mut self,
         node: &'ast [Attribute],
@@ -1421,6 +1465,7 @@ pub trait VisitAstPath {
     #[doc = "Visit a node of type `CdataSection`.\n\nBy default, this method calls \
              [`CdataSection::visit_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
+    #[inline]
     fn visit_cdata_section<'ast: 'r, 'r>(
         &mut self,
         node: &'ast CdataSection,
@@ -1433,12 +1478,14 @@ pub trait VisitAstPath {
     #[doc = "Visit a node of type `Child`.\n\nBy default, this method calls \
              [`Child::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn visit_child<'ast: 'r, 'r>(&mut self, node: &'ast Child, __ast_path: &mut AstNodePath<'r>) {
         <Child as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, __ast_path)
     }
     #[doc = "Visit a node of type `Vec < Child >`.\n\nBy default, this method calls [`Vec < Child \
              >::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn visit_childs<'ast: 'r, 'r>(
         &mut self,
         node: &'ast [Child],
@@ -1449,6 +1496,7 @@ pub trait VisitAstPath {
     #[doc = "Visit a node of type `Comment`.\n\nBy default, this method calls \
              [`Comment::visit_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
+    #[inline]
     fn visit_comment<'ast: 'r, 'r>(
         &mut self,
         node: &'ast Comment,
@@ -1459,6 +1507,7 @@ pub trait VisitAstPath {
     #[doc = "Visit a node of type `Document`.\n\nBy default, this method calls \
              [`Document::visit_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
+    #[inline]
     fn visit_document<'ast: 'r, 'r>(
         &mut self,
         node: &'ast Document,
@@ -1469,6 +1518,7 @@ pub trait VisitAstPath {
     #[doc = "Visit a node of type `DocumentMode`.\n\nBy default, this method calls \
              [`DocumentMode::visit_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
+    #[inline]
     fn visit_document_mode<'ast: 'r, 'r>(
         &mut self,
         node: &'ast DocumentMode,
@@ -1481,6 +1531,7 @@ pub trait VisitAstPath {
     #[doc = "Visit a node of type `DocumentType`.\n\nBy default, this method calls \
              [`DocumentType::visit_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
+    #[inline]
     fn visit_document_type<'ast: 'r, 'r>(
         &mut self,
         node: &'ast DocumentType,
@@ -1493,6 +1544,7 @@ pub trait VisitAstPath {
     #[doc = "Visit a node of type `Element`.\n\nBy default, this method calls \
              [`Element::visit_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
+    #[inline]
     fn visit_element<'ast: 'r, 'r>(
         &mut self,
         node: &'ast Element,
@@ -1503,6 +1555,7 @@ pub trait VisitAstPath {
     #[doc = "Visit a node of type `Namespace`.\n\nBy default, this method calls \
              [`Namespace::visit_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
+    #[inline]
     fn visit_namespace<'ast: 'r, 'r>(
         &mut self,
         node: &'ast Namespace,
@@ -1513,6 +1566,7 @@ pub trait VisitAstPath {
     #[doc = "Visit a node of type `Option < swc_atoms :: Atom >`.\n\nBy default, this method calls \
              [`Option < swc_atoms :: Atom >::visit_children_with_ast_path`]. If you want to \
              recurse, you need to call it manually."]
+    #[inline]
     fn visit_opt_atom<'ast: 'r, 'r>(
         &mut self,
         node: &'ast Option<swc_atoms::Atom>,
@@ -1525,6 +1579,7 @@ pub trait VisitAstPath {
     #[doc = "Visit a node of type `Option < Namespace >`.\n\nBy default, this method calls \
              [`Option < Namespace >::visit_children_with_ast_path`]. If you want to recurse, you \
              need to call it manually."]
+    #[inline]
     fn visit_opt_namespace<'ast: 'r, 'r>(
         &mut self,
         node: &'ast Option<Namespace>,
@@ -1537,6 +1592,7 @@ pub trait VisitAstPath {
     #[doc = "Visit a node of type `ProcessingInstruction`.\n\nBy default, this method calls \
              [`ProcessingInstruction::visit_children_with_ast_path`]. If you want to recurse, you \
              need to call it manually."]
+    #[inline]
     fn visit_processing_instruction<'ast: 'r, 'r>(
         &mut self,
         node: &'ast ProcessingInstruction,
@@ -1549,6 +1605,7 @@ pub trait VisitAstPath {
     #[doc = "Visit a node of type `swc_common :: Span`.\n\nBy default, this method calls \
              [`swc_common :: Span::visit_children_with_ast_path`]. If you want to recurse, you \
              need to call it manually."]
+    #[inline]
     fn visit_span<'ast: 'r, 'r>(
         &mut self,
         node: &'ast swc_common::Span,
@@ -1561,18 +1618,21 @@ pub trait VisitAstPath {
     #[doc = "Visit a node of type `Text`.\n\nBy default, this method calls \
              [`Text::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn visit_text<'ast: 'r, 'r>(&mut self, node: &'ast Text, __ast_path: &mut AstNodePath<'r>) {
         <Text as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, __ast_path)
     }
     #[doc = "Visit a node of type `Token`.\n\nBy default, this method calls \
              [`Token::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn visit_token<'ast: 'r, 'r>(&mut self, node: &'ast Token, __ast_path: &mut AstNodePath<'r>) {
         <Token as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, __ast_path)
     }
     #[doc = "Visit a node of type `TokenAndSpan`.\n\nBy default, this method calls \
              [`TokenAndSpan::visit_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
+    #[inline]
     fn visit_token_and_span<'ast: 'r, 'r>(
         &mut self,
         node: &'ast TokenAndSpan,
@@ -3604,6 +3664,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TokenAndSpan {
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for swc_atoms::Atom {
     #[doc = "Calls [VisitAstPath`::visit_atom`] with `self`. (Extra impl)"]
+    #[inline]
     fn visit_with_ast_path<'ast: 'r, 'r>(
         &'ast self,
         visitor: &mut V,
@@ -3612,6 +3673,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for swc_atoms::Atom {
         <V as VisitAstPath>::visit_atom(visitor, self, __ast_path)
     }
 
+    #[inline]
     fn visit_children_with_ast_path<'ast: 'r, 'r>(
         &'ast self,
         visitor: &mut V,
@@ -3624,6 +3686,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for swc_atoms::Atom {
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for [AttributeToken] {
     #[doc = "Calls [VisitAstPath`::visit_attribute_tokens`] with `self`. (Extra impl)"]
+    #[inline]
     fn visit_with_ast_path<'ast: 'r, 'r>(
         &'ast self,
         visitor: &mut V,
@@ -3632,6 +3695,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for [AttributeToken] {
         <V as VisitAstPath>::visit_attribute_tokens(visitor, self, __ast_path)
     }
 
+    #[inline]
     fn visit_children_with_ast_path<'ast: 'r, 'r>(
         &'ast self,
         visitor: &mut V,
@@ -3646,6 +3710,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for [AttributeToken] {
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for [Attribute] {
     #[doc = "Calls [VisitAstPath`::visit_attributes`] with `self`. (Extra impl)"]
+    #[inline]
     fn visit_with_ast_path<'ast: 'r, 'r>(
         &'ast self,
         visitor: &mut V,
@@ -3654,6 +3719,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for [Attribute] {
         <V as VisitAstPath>::visit_attributes(visitor, self, __ast_path)
     }
 
+    #[inline]
     fn visit_children_with_ast_path<'ast: 'r, 'r>(
         &'ast self,
         visitor: &mut V,
@@ -3668,6 +3734,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for [Attribute] {
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for [Child] {
     #[doc = "Calls [VisitAstPath`::visit_childs`] with `self`. (Extra impl)"]
+    #[inline]
     fn visit_with_ast_path<'ast: 'r, 'r>(
         &'ast self,
         visitor: &mut V,
@@ -3676,6 +3743,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for [Child] {
         <V as VisitAstPath>::visit_childs(visitor, self, __ast_path)
     }
 
+    #[inline]
     fn visit_children_with_ast_path<'ast: 'r, 'r>(
         &'ast self,
         visitor: &mut V,
@@ -3690,6 +3758,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for [Child] {
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<swc_atoms::Atom> {
     #[doc = "Calls [VisitAstPath`::visit_opt_atom`] with `self`. (Extra impl)"]
+    #[inline]
     fn visit_with_ast_path<'ast: 'r, 'r>(
         &'ast self,
         visitor: &mut V,
@@ -3698,6 +3767,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<swc_atoms::Atom> {
         <V as VisitAstPath>::visit_opt_atom(visitor, self, __ast_path)
     }
 
+    #[inline]
     fn visit_children_with_ast_path<'ast: 'r, 'r>(
         &'ast self,
         visitor: &mut V,
@@ -3715,6 +3785,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<swc_atoms::Atom> {
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Namespace> {
     #[doc = "Calls [VisitAstPath`::visit_opt_namespace`] with `self`. (Extra impl)"]
+    #[inline]
     fn visit_with_ast_path<'ast: 'r, 'r>(
         &'ast self,
         visitor: &mut V,
@@ -3723,6 +3794,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Namespace> {
         <V as VisitAstPath>::visit_opt_namespace(visitor, self, __ast_path)
     }
 
+    #[inline]
     fn visit_children_with_ast_path<'ast: 'r, 'r>(
         &'ast self,
         visitor: &mut V,
@@ -3740,6 +3812,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Namespace> {
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for swc_common::Span {
     #[doc = "Calls [VisitAstPath`::visit_span`] with `self`. (Extra impl)"]
+    #[inline]
     fn visit_with_ast_path<'ast: 'r, 'r>(
         &'ast self,
         visitor: &mut V,
@@ -3748,6 +3821,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for swc_common::Span {
         <V as VisitAstPath>::visit_span(visitor, self, __ast_path)
     }
 
+    #[inline]
     fn visit_children_with_ast_path<'ast: 'r, 'r>(
         &'ast self,
         visitor: &mut V,
@@ -3763,6 +3837,7 @@ where
     V: ?Sized + VisitAstPath,
     T: VisitWithAstPath<V>,
 {
+    #[inline]
     fn visit_with_ast_path<'ast: 'r, 'r>(
         &'ast self,
         visitor: &mut V,
@@ -3772,6 +3847,7 @@ where
         v
     }
 
+    #[inline]
     fn visit_children_with_ast_path<'ast: 'r, 'r>(
         &'ast self,
         visitor: &mut V,
@@ -3789,6 +3865,7 @@ where
     V: ?Sized + VisitAstPath,
     [T]: VisitWithAstPath<V>,
 {
+    #[inline]
     fn visit_with_ast_path<'ast: 'r, 'r>(
         &'ast self,
         visitor: &mut V,
@@ -3798,6 +3875,7 @@ where
         v
     }
 
+    #[inline]
     fn visit_children_with_ast_path<'ast: 'r, 'r>(
         &'ast self,
         visitor: &mut V,
@@ -3813,125 +3891,146 @@ pub trait VisitMut {
     #[doc = "Visit a node of type `swc_atoms :: Atom`.\n\nBy default, this method calls \
              [`swc_atoms :: Atom::visit_mut_children_with`]. If you want to recurse, you need to \
              call it manually."]
+    #[inline]
     fn visit_mut_atom(&mut self, node: &mut swc_atoms::Atom) {
         <swc_atoms::Atom as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `Attribute`.\n\nBy default, this method calls \
              [`Attribute::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn visit_mut_attribute(&mut self, node: &mut Attribute) {
         <Attribute as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `AttributeToken`.\n\nBy default, this method calls \
              [`AttributeToken::visit_mut_children_with`]. If you want to recurse, you need to call \
              it manually."]
+    #[inline]
     fn visit_mut_attribute_token(&mut self, node: &mut AttributeToken) {
         <AttributeToken as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `Vec < AttributeToken >`.\n\nBy default, this method calls [`Vec \
              < AttributeToken >::visit_mut_children_with`]. If you want to recurse, you need to \
              call it manually."]
+    #[inline]
     fn visit_mut_attribute_tokens(&mut self, node: &mut Vec<AttributeToken>) {
         <Vec<AttributeToken> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `Vec < Attribute >`.\n\nBy default, this method calls [`Vec < \
              Attribute >::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn visit_mut_attributes(&mut self, node: &mut Vec<Attribute>) {
         <Vec<Attribute> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `CdataSection`.\n\nBy default, this method calls \
              [`CdataSection::visit_mut_children_with`]. If you want to recurse, you need to call \
              it manually."]
+    #[inline]
     fn visit_mut_cdata_section(&mut self, node: &mut CdataSection) {
         <CdataSection as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `Child`.\n\nBy default, this method calls \
              [`Child::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn visit_mut_child(&mut self, node: &mut Child) {
         <Child as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `Vec < Child >`.\n\nBy default, this method calls [`Vec < Child \
              >::visit_mut_children_with`]. If you want to recurse, you need to call it manually."]
+    #[inline]
     fn visit_mut_childs(&mut self, node: &mut Vec<Child>) {
         <Vec<Child> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `Comment`.\n\nBy default, this method calls \
              [`Comment::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn visit_mut_comment(&mut self, node: &mut Comment) {
         <Comment as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `Document`.\n\nBy default, this method calls \
              [`Document::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn visit_mut_document(&mut self, node: &mut Document) {
         <Document as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `DocumentMode`.\n\nBy default, this method calls \
              [`DocumentMode::visit_mut_children_with`]. If you want to recurse, you need to call \
              it manually."]
+    #[inline]
     fn visit_mut_document_mode(&mut self, node: &mut DocumentMode) {
         <DocumentMode as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `DocumentType`.\n\nBy default, this method calls \
              [`DocumentType::visit_mut_children_with`]. If you want to recurse, you need to call \
              it manually."]
+    #[inline]
     fn visit_mut_document_type(&mut self, node: &mut DocumentType) {
         <DocumentType as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `Element`.\n\nBy default, this method calls \
              [`Element::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn visit_mut_element(&mut self, node: &mut Element) {
         <Element as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `Namespace`.\n\nBy default, this method calls \
              [`Namespace::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn visit_mut_namespace(&mut self, node: &mut Namespace) {
         <Namespace as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `Option < swc_atoms :: Atom >`.\n\nBy default, this method calls \
              [`Option < swc_atoms :: Atom >::visit_mut_children_with`]. If you want to recurse, \
              you need to call it manually."]
+    #[inline]
     fn visit_mut_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
         <Option<swc_atoms::Atom> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `Option < Namespace >`.\n\nBy default, this method calls \
              [`Option < Namespace >::visit_mut_children_with`]. If you want to recurse, you need \
              to call it manually."]
+    #[inline]
     fn visit_mut_opt_namespace(&mut self, node: &mut Option<Namespace>) {
         <Option<Namespace> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `ProcessingInstruction`.\n\nBy default, this method calls \
              [`ProcessingInstruction::visit_mut_children_with`]. If you want to recurse, you need \
              to call it manually."]
+    #[inline]
     fn visit_mut_processing_instruction(&mut self, node: &mut ProcessingInstruction) {
         <ProcessingInstruction as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `swc_common :: Span`.\n\nBy default, this method calls \
              [`swc_common :: Span::visit_mut_children_with`]. If you want to recurse, you need to \
              call it manually."]
+    #[inline]
     fn visit_mut_span(&mut self, node: &mut swc_common::Span) {
         <swc_common::Span as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `Text`.\n\nBy default, this method calls \
              [`Text::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn visit_mut_text(&mut self, node: &mut Text) {
         <Text as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `Token`.\n\nBy default, this method calls \
              [`Token::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn visit_mut_token(&mut self, node: &mut Token) {
         <Token as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `TokenAndSpan`.\n\nBy default, this method calls \
              [`TokenAndSpan::visit_mut_children_with`]. If you want to recurse, you need to call \
              it manually."]
+    #[inline]
     fn visit_mut_token_and_span(&mut self, node: &mut TokenAndSpan) {
         <TokenAndSpan as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
@@ -4933,20 +5032,24 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TokenAndSpan {
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for swc_atoms::Atom {
     #[doc = "Calls [VisitMut`::visit_mut_atom`] with `self`. (Extra impl)"]
+    #[inline]
     fn visit_mut_with(&mut self, visitor: &mut V) {
         <V as VisitMut>::visit_mut_atom(visitor, self)
     }
 
+    #[inline]
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {}
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<AttributeToken> {
     #[doc = "Calls [VisitMut`::visit_mut_attribute_tokens`] with `self`. (Extra impl)"]
+    #[inline]
     fn visit_mut_with(&mut self, visitor: &mut V) {
         <V as VisitMut>::visit_mut_attribute_tokens(visitor, self)
     }
 
+    #[inline]
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         self.iter_mut()
             .for_each(|item| <AttributeToken as VisitMutWith<V>>::visit_mut_with(item, visitor))
@@ -4954,10 +5057,12 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<AttributeToken> {
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<Attribute> {
     #[doc = "Calls [VisitMut`::visit_mut_attributes`] with `self`. (Extra impl)"]
+    #[inline]
     fn visit_mut_with(&mut self, visitor: &mut V) {
         <V as VisitMut>::visit_mut_attributes(visitor, self)
     }
 
+    #[inline]
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         self.iter_mut()
             .for_each(|item| <Attribute as VisitMutWith<V>>::visit_mut_with(item, visitor))
@@ -4965,10 +5070,12 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<Attribute> {
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<Child> {
     #[doc = "Calls [VisitMut`::visit_mut_childs`] with `self`. (Extra impl)"]
+    #[inline]
     fn visit_mut_with(&mut self, visitor: &mut V) {
         <V as VisitMut>::visit_mut_childs(visitor, self)
     }
 
+    #[inline]
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         self.iter_mut()
             .for_each(|item| <Child as VisitMutWith<V>>::visit_mut_with(item, visitor))
@@ -4976,10 +5083,12 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<Child> {
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<swc_atoms::Atom> {
     #[doc = "Calls [VisitMut`::visit_mut_opt_atom`] with `self`. (Extra impl)"]
+    #[inline]
     fn visit_mut_with(&mut self, visitor: &mut V) {
         <V as VisitMut>::visit_mut_opt_atom(visitor, self)
     }
 
+    #[inline]
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             Some(inner) => <swc_atoms::Atom as VisitMutWith<V>>::visit_mut_with(inner, visitor),
@@ -4989,10 +5098,12 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<swc_atoms::Atom> {
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Namespace> {
     #[doc = "Calls [VisitMut`::visit_mut_opt_namespace`] with `self`. (Extra impl)"]
+    #[inline]
     fn visit_mut_with(&mut self, visitor: &mut V) {
         <V as VisitMut>::visit_mut_opt_namespace(visitor, self)
     }
 
+    #[inline]
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             Some(inner) => <Namespace as VisitMutWith<V>>::visit_mut_with(inner, visitor),
@@ -5002,10 +5113,12 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Namespace> {
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for swc_common::Span {
     #[doc = "Calls [VisitMut`::visit_mut_span`] with `self`. (Extra impl)"]
+    #[inline]
     fn visit_mut_with(&mut self, visitor: &mut V) {
         <V as VisitMut>::visit_mut_span(visitor, self)
     }
 
+    #[inline]
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         {}
     }
@@ -5015,11 +5128,13 @@ where
     V: ?Sized + VisitMut,
     T: VisitMutWith<V>,
 {
+    #[inline]
     fn visit_mut_with(&mut self, visitor: &mut V) {
         let v = <T as VisitMutWith<V>>::visit_mut_with(&mut **self, visitor);
         v
     }
 
+    #[inline]
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         let v = <T as VisitMutWith<V>>::visit_mut_children_with(&mut **self, visitor);
         v
@@ -5032,6 +5147,7 @@ pub trait VisitMutAstPath {
     #[doc = "Visit a node of type `swc_atoms :: Atom`.\n\nBy default, this method calls \
              [`swc_atoms :: Atom::visit_mut_children_with_ast_path`]. If you want to recurse, you \
              need to call it manually."]
+    #[inline]
     fn visit_mut_atom(&mut self, node: &mut swc_atoms::Atom, __ast_path: &mut AstKindPath) {
         <swc_atoms::Atom as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, __ast_path,
@@ -5040,6 +5156,7 @@ pub trait VisitMutAstPath {
     #[doc = "Visit a node of type `Attribute`.\n\nBy default, this method calls \
              [`Attribute::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
+    #[inline]
     fn visit_mut_attribute(&mut self, node: &mut Attribute, __ast_path: &mut AstKindPath) {
         <Attribute as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, __ast_path,
@@ -5048,6 +5165,7 @@ pub trait VisitMutAstPath {
     #[doc = "Visit a node of type `AttributeToken`.\n\nBy default, this method calls \
              [`AttributeToken::visit_mut_children_with_ast_path`]. If you want to recurse, you \
              need to call it manually."]
+    #[inline]
     fn visit_mut_attribute_token(
         &mut self,
         node: &mut AttributeToken,
@@ -5060,6 +5178,7 @@ pub trait VisitMutAstPath {
     #[doc = "Visit a node of type `Vec < AttributeToken >`.\n\nBy default, this method calls [`Vec \
              < AttributeToken >::visit_mut_children_with_ast_path`]. If you want to recurse, you \
              need to call it manually."]
+    #[inline]
     fn visit_mut_attribute_tokens(
         &mut self,
         node: &mut Vec<AttributeToken>,
@@ -5072,6 +5191,7 @@ pub trait VisitMutAstPath {
     #[doc = "Visit a node of type `Vec < Attribute >`.\n\nBy default, this method calls [`Vec < \
              Attribute >::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
+    #[inline]
     fn visit_mut_attributes(&mut self, node: &mut Vec<Attribute>, __ast_path: &mut AstKindPath) {
         <Vec<Attribute> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, __ast_path,
@@ -5080,6 +5200,7 @@ pub trait VisitMutAstPath {
     #[doc = "Visit a node of type `CdataSection`.\n\nBy default, this method calls \
              [`CdataSection::visit_mut_children_with_ast_path`]. If you want to recurse, you need \
              to call it manually."]
+    #[inline]
     fn visit_mut_cdata_section(&mut self, node: &mut CdataSection, __ast_path: &mut AstKindPath) {
         <CdataSection as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, __ast_path,
@@ -5088,6 +5209,7 @@ pub trait VisitMutAstPath {
     #[doc = "Visit a node of type `Child`.\n\nBy default, this method calls \
              [`Child::visit_mut_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
+    #[inline]
     fn visit_mut_child(&mut self, node: &mut Child, __ast_path: &mut AstKindPath) {
         <Child as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, __ast_path,
@@ -5096,6 +5218,7 @@ pub trait VisitMutAstPath {
     #[doc = "Visit a node of type `Vec < Child >`.\n\nBy default, this method calls [`Vec < Child \
              >::visit_mut_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn visit_mut_childs(&mut self, node: &mut Vec<Child>, __ast_path: &mut AstKindPath) {
         <Vec<Child> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, __ast_path,
@@ -5104,6 +5227,7 @@ pub trait VisitMutAstPath {
     #[doc = "Visit a node of type `Comment`.\n\nBy default, this method calls \
              [`Comment::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
+    #[inline]
     fn visit_mut_comment(&mut self, node: &mut Comment, __ast_path: &mut AstKindPath) {
         <Comment as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, __ast_path,
@@ -5112,6 +5236,7 @@ pub trait VisitMutAstPath {
     #[doc = "Visit a node of type `Document`.\n\nBy default, this method calls \
              [`Document::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
+    #[inline]
     fn visit_mut_document(&mut self, node: &mut Document, __ast_path: &mut AstKindPath) {
         <Document as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, __ast_path,
@@ -5120,6 +5245,7 @@ pub trait VisitMutAstPath {
     #[doc = "Visit a node of type `DocumentMode`.\n\nBy default, this method calls \
              [`DocumentMode::visit_mut_children_with_ast_path`]. If you want to recurse, you need \
              to call it manually."]
+    #[inline]
     fn visit_mut_document_mode(&mut self, node: &mut DocumentMode, __ast_path: &mut AstKindPath) {
         <DocumentMode as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, __ast_path,
@@ -5128,6 +5254,7 @@ pub trait VisitMutAstPath {
     #[doc = "Visit a node of type `DocumentType`.\n\nBy default, this method calls \
              [`DocumentType::visit_mut_children_with_ast_path`]. If you want to recurse, you need \
              to call it manually."]
+    #[inline]
     fn visit_mut_document_type(&mut self, node: &mut DocumentType, __ast_path: &mut AstKindPath) {
         <DocumentType as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, __ast_path,
@@ -5136,6 +5263,7 @@ pub trait VisitMutAstPath {
     #[doc = "Visit a node of type `Element`.\n\nBy default, this method calls \
              [`Element::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
+    #[inline]
     fn visit_mut_element(&mut self, node: &mut Element, __ast_path: &mut AstKindPath) {
         <Element as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, __ast_path,
@@ -5144,6 +5272,7 @@ pub trait VisitMutAstPath {
     #[doc = "Visit a node of type `Namespace`.\n\nBy default, this method calls \
              [`Namespace::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
+    #[inline]
     fn visit_mut_namespace(&mut self, node: &mut Namespace, __ast_path: &mut AstKindPath) {
         <Namespace as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, __ast_path,
@@ -5152,6 +5281,7 @@ pub trait VisitMutAstPath {
     #[doc = "Visit a node of type `Option < swc_atoms :: Atom >`.\n\nBy default, this method calls \
              [`Option < swc_atoms :: Atom >::visit_mut_children_with_ast_path`]. If you want to \
              recurse, you need to call it manually."]
+    #[inline]
     fn visit_mut_opt_atom(
         &mut self,
         node: &mut Option<swc_atoms::Atom>,
@@ -5164,6 +5294,7 @@ pub trait VisitMutAstPath {
     #[doc = "Visit a node of type `Option < Namespace >`.\n\nBy default, this method calls \
              [`Option < Namespace >::visit_mut_children_with_ast_path`]. If you want to recurse, \
              you need to call it manually."]
+    #[inline]
     fn visit_mut_opt_namespace(
         &mut self,
         node: &mut Option<Namespace>,
@@ -5176,6 +5307,7 @@ pub trait VisitMutAstPath {
     #[doc = "Visit a node of type `ProcessingInstruction`.\n\nBy default, this method calls \
              [`ProcessingInstruction::visit_mut_children_with_ast_path`]. If you want to recurse, \
              you need to call it manually."]
+    #[inline]
     fn visit_mut_processing_instruction(
         &mut self,
         node: &mut ProcessingInstruction,
@@ -5188,6 +5320,7 @@ pub trait VisitMutAstPath {
     #[doc = "Visit a node of type `swc_common :: Span`.\n\nBy default, this method calls \
              [`swc_common :: Span::visit_mut_children_with_ast_path`]. If you want to recurse, you \
              need to call it manually."]
+    #[inline]
     fn visit_mut_span(&mut self, node: &mut swc_common::Span, __ast_path: &mut AstKindPath) {
         <swc_common::Span as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, __ast_path,
@@ -5196,6 +5329,7 @@ pub trait VisitMutAstPath {
     #[doc = "Visit a node of type `Text`.\n\nBy default, this method calls \
              [`Text::visit_mut_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
+    #[inline]
     fn visit_mut_text(&mut self, node: &mut Text, __ast_path: &mut AstKindPath) {
         <Text as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, __ast_path,
@@ -5204,6 +5338,7 @@ pub trait VisitMutAstPath {
     #[doc = "Visit a node of type `Token`.\n\nBy default, this method calls \
              [`Token::visit_mut_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
+    #[inline]
     fn visit_mut_token(&mut self, node: &mut Token, __ast_path: &mut AstKindPath) {
         <Token as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, __ast_path,
@@ -5212,6 +5347,7 @@ pub trait VisitMutAstPath {
     #[doc = "Visit a node of type `TokenAndSpan`.\n\nBy default, this method calls \
              [`TokenAndSpan::visit_mut_children_with_ast_path`]. If you want to recurse, you need \
              to call it manually."]
+    #[inline]
     fn visit_mut_token_and_span(&mut self, node: &mut TokenAndSpan, __ast_path: &mut AstKindPath) {
         <TokenAndSpan as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, __ast_path,
@@ -6827,10 +6963,12 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TokenAndSpan {
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for swc_atoms::Atom {
     #[doc = "Calls [VisitMutAstPath`::visit_mut_atom`] with `self`. (Extra impl)"]
+    #[inline]
     fn visit_mut_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_atom(visitor, self, __ast_path)
     }
 
+    #[inline]
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
         {}
     }
@@ -6839,10 +6977,12 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for swc_atoms::Atom {
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<AttributeToken> {
     #[doc = "Calls [VisitMutAstPath`::visit_mut_attribute_tokens`] with `self`. (Extra impl)"]
+    #[inline]
     fn visit_mut_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_attribute_tokens(visitor, self, __ast_path)
     }
 
+    #[inline]
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
         self.iter_mut().for_each(|item| {
             <AttributeToken as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
@@ -6855,10 +6995,12 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<AttributeToken>
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<Attribute> {
     #[doc = "Calls [VisitMutAstPath`::visit_mut_attributes`] with `self`. (Extra impl)"]
+    #[inline]
     fn visit_mut_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_attributes(visitor, self, __ast_path)
     }
 
+    #[inline]
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
         self.iter_mut().for_each(|item| {
             <Attribute as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
@@ -6871,10 +7013,12 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<Attribute> {
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<Child> {
     #[doc = "Calls [VisitMutAstPath`::visit_mut_childs`] with `self`. (Extra impl)"]
+    #[inline]
     fn visit_mut_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_childs(visitor, self, __ast_path)
     }
 
+    #[inline]
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
         self.iter_mut().for_each(|item| {
             <Child as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(item, visitor, __ast_path)
@@ -6885,10 +7029,12 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<Child> {
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<swc_atoms::Atom> {
     #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_atom`] with `self`. (Extra impl)"]
+    #[inline]
     fn visit_mut_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_opt_atom(visitor, self, __ast_path)
     }
 
+    #[inline]
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
         match self {
             Some(inner) => <swc_atoms::Atom as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
@@ -6902,10 +7048,12 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<swc_atoms::A
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Namespace> {
     #[doc = "Calls [VisitMutAstPath`::visit_mut_opt_namespace`] with `self`. (Extra impl)"]
+    #[inline]
     fn visit_mut_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_opt_namespace(visitor, self, __ast_path)
     }
 
+    #[inline]
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
         match self {
             Some(inner) => <Namespace as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
@@ -6919,10 +7067,12 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Namespace> {
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for swc_common::Span {
     #[doc = "Calls [VisitMutAstPath`::visit_mut_span`] with `self`. (Extra impl)"]
+    #[inline]
     fn visit_mut_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_span(visitor, self, __ast_path)
     }
 
+    #[inline]
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
         {}
     }
@@ -6934,6 +7084,7 @@ where
     V: ?Sized + VisitMutAstPath,
     T: VisitMutWithAstPath<V>,
 {
+    #[inline]
     fn visit_mut_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
         let v = <T as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
             &mut **self,
@@ -6943,6 +7094,7 @@ where
         v
     }
 
+    #[inline]
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
         let v = <T as VisitMutWithAstPath<V>>::visit_mut_children_with_ast_path(
             &mut **self,
@@ -6957,98 +7109,115 @@ pub trait Fold {
     #[doc = "Visit a node of type `swc_atoms :: Atom`.\n\nBy default, this method calls \
              [`swc_atoms :: Atom::fold_children_with`]. If you want to recurse, you need to call \
              it manually."]
+    #[inline]
     fn fold_atom(&mut self, node: swc_atoms::Atom) -> swc_atoms::Atom {
         <swc_atoms::Atom as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `Attribute`.\n\nBy default, this method calls \
              [`Attribute::fold_children_with`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn fold_attribute(&mut self, node: Attribute) -> Attribute {
         <Attribute as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `AttributeToken`.\n\nBy default, this method calls \
              [`AttributeToken::fold_children_with`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn fold_attribute_token(&mut self, node: AttributeToken) -> AttributeToken {
         <AttributeToken as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `Vec < AttributeToken >`.\n\nBy default, this method calls [`Vec \
              < AttributeToken >::fold_children_with`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn fold_attribute_tokens(&mut self, node: Vec<AttributeToken>) -> Vec<AttributeToken> {
         <Vec<AttributeToken> as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `Vec < Attribute >`.\n\nBy default, this method calls [`Vec < \
              Attribute >::fold_children_with`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn fold_attributes(&mut self, node: Vec<Attribute>) -> Vec<Attribute> {
         <Vec<Attribute> as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `CdataSection`.\n\nBy default, this method calls \
              [`CdataSection::fold_children_with`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn fold_cdata_section(&mut self, node: CdataSection) -> CdataSection {
         <CdataSection as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `Child`.\n\nBy default, this method calls \
              [`Child::fold_children_with`]. If you want to recurse, you need to call it manually."]
+    #[inline]
     fn fold_child(&mut self, node: Child) -> Child {
         <Child as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `Vec < Child >`.\n\nBy default, this method calls [`Vec < Child \
              >::fold_children_with`]. If you want to recurse, you need to call it manually."]
+    #[inline]
     fn fold_childs(&mut self, node: Vec<Child>) -> Vec<Child> {
         <Vec<Child> as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `Comment`.\n\nBy default, this method calls \
              [`Comment::fold_children_with`]. If you want to recurse, you need to call it manually."]
+    #[inline]
     fn fold_comment(&mut self, node: Comment) -> Comment {
         <Comment as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `Document`.\n\nBy default, this method calls \
              [`Document::fold_children_with`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn fold_document(&mut self, node: Document) -> Document {
         <Document as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `DocumentMode`.\n\nBy default, this method calls \
              [`DocumentMode::fold_children_with`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn fold_document_mode(&mut self, node: DocumentMode) -> DocumentMode {
         <DocumentMode as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `DocumentType`.\n\nBy default, this method calls \
              [`DocumentType::fold_children_with`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn fold_document_type(&mut self, node: DocumentType) -> DocumentType {
         <DocumentType as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `Element`.\n\nBy default, this method calls \
              [`Element::fold_children_with`]. If you want to recurse, you need to call it manually."]
+    #[inline]
     fn fold_element(&mut self, node: Element) -> Element {
         <Element as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `Namespace`.\n\nBy default, this method calls \
              [`Namespace::fold_children_with`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn fold_namespace(&mut self, node: Namespace) -> Namespace {
         <Namespace as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `Option < swc_atoms :: Atom >`.\n\nBy default, this method calls \
              [`Option < swc_atoms :: Atom >::fold_children_with`]. If you want to recurse, you \
              need to call it manually."]
+    #[inline]
     fn fold_opt_atom(&mut self, node: Option<swc_atoms::Atom>) -> Option<swc_atoms::Atom> {
         <Option<swc_atoms::Atom> as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `Option < Namespace >`.\n\nBy default, this method calls \
              [`Option < Namespace >::fold_children_with`]. If you want to recurse, you need to \
              call it manually."]
+    #[inline]
     fn fold_opt_namespace(&mut self, node: Option<Namespace>) -> Option<Namespace> {
         <Option<Namespace> as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `ProcessingInstruction`.\n\nBy default, this method calls \
              [`ProcessingInstruction::fold_children_with`]. If you want to recurse, you need to \
              call it manually."]
+    #[inline]
     fn fold_processing_instruction(
         &mut self,
         node: ProcessingInstruction,
@@ -7058,22 +7227,26 @@ pub trait Fold {
     #[doc = "Visit a node of type `swc_common :: Span`.\n\nBy default, this method calls \
              [`swc_common :: Span::fold_children_with`]. If you want to recurse, you need to call \
              it manually."]
+    #[inline]
     fn fold_span(&mut self, node: swc_common::Span) -> swc_common::Span {
         <swc_common::Span as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `Text`.\n\nBy default, this method calls \
              [`Text::fold_children_with`]. If you want to recurse, you need to call it manually."]
+    #[inline]
     fn fold_text(&mut self, node: Text) -> Text {
         <Text as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `Token`.\n\nBy default, this method calls \
              [`Token::fold_children_with`]. If you want to recurse, you need to call it manually."]
+    #[inline]
     fn fold_token(&mut self, node: Token) -> Token {
         <Token as FoldWith<Self>>::fold_children_with(node, self)
     }
     #[doc = "Visit a node of type `TokenAndSpan`.\n\nBy default, this method calls \
              [`TokenAndSpan::fold_children_with`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn fold_token_and_span(&mut self, node: TokenAndSpan) -> TokenAndSpan {
         <TokenAndSpan as FoldWith<Self>>::fold_children_with(node, self)
     }
@@ -8071,20 +8244,24 @@ impl<V: ?Sized + Fold> FoldWith<V> for TokenAndSpan {
 }
 impl<V: ?Sized + Fold> FoldWith<V> for swc_atoms::Atom {
     #[doc = "Calls [Fold`::fold_atom`] with `self`. (Extra impl)"]
+    #[inline]
     fn fold_with(self, visitor: &mut V) -> Self {
         <V as Fold>::fold_atom(visitor, self)
     }
 
+    #[inline]
     fn fold_children_with(self, visitor: &mut V) -> Self {
         self
     }
 }
 impl<V: ?Sized + Fold> FoldWith<V> for Vec<AttributeToken> {
     #[doc = "Calls [Fold`::fold_attribute_tokens`] with `self`. (Extra impl)"]
+    #[inline]
     fn fold_with(self, visitor: &mut V) -> Self {
         <V as Fold>::fold_attribute_tokens(visitor, self)
     }
 
+    #[inline]
     fn fold_children_with(self, visitor: &mut V) -> Self {
         swc_visit::util::move_map::MoveMap::move_map(self, |item| {
             <AttributeToken as FoldWith<V>>::fold_with(item, visitor)
@@ -8093,10 +8270,12 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<AttributeToken> {
 }
 impl<V: ?Sized + Fold> FoldWith<V> for Vec<Attribute> {
     #[doc = "Calls [Fold`::fold_attributes`] with `self`. (Extra impl)"]
+    #[inline]
     fn fold_with(self, visitor: &mut V) -> Self {
         <V as Fold>::fold_attributes(visitor, self)
     }
 
+    #[inline]
     fn fold_children_with(self, visitor: &mut V) -> Self {
         swc_visit::util::move_map::MoveMap::move_map(self, |item| {
             <Attribute as FoldWith<V>>::fold_with(item, visitor)
@@ -8105,10 +8284,12 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<Attribute> {
 }
 impl<V: ?Sized + Fold> FoldWith<V> for Vec<Child> {
     #[doc = "Calls [Fold`::fold_childs`] with `self`. (Extra impl)"]
+    #[inline]
     fn fold_with(self, visitor: &mut V) -> Self {
         <V as Fold>::fold_childs(visitor, self)
     }
 
+    #[inline]
     fn fold_children_with(self, visitor: &mut V) -> Self {
         swc_visit::util::move_map::MoveMap::move_map(self, |item| {
             <Child as FoldWith<V>>::fold_with(item, visitor)
@@ -8117,30 +8298,36 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<Child> {
 }
 impl<V: ?Sized + Fold> FoldWith<V> for Option<swc_atoms::Atom> {
     #[doc = "Calls [Fold`::fold_opt_atom`] with `self`. (Extra impl)"]
+    #[inline]
     fn fold_with(self, visitor: &mut V) -> Self {
         <V as Fold>::fold_opt_atom(visitor, self)
     }
 
+    #[inline]
     fn fold_children_with(self, visitor: &mut V) -> Self {
         self.map(|inner| <swc_atoms::Atom as FoldWith<V>>::fold_with(inner, visitor))
     }
 }
 impl<V: ?Sized + Fold> FoldWith<V> for Option<Namespace> {
     #[doc = "Calls [Fold`::fold_opt_namespace`] with `self`. (Extra impl)"]
+    #[inline]
     fn fold_with(self, visitor: &mut V) -> Self {
         <V as Fold>::fold_opt_namespace(visitor, self)
     }
 
+    #[inline]
     fn fold_children_with(self, visitor: &mut V) -> Self {
         self.map(|inner| <Namespace as FoldWith<V>>::fold_with(inner, visitor))
     }
 }
 impl<V: ?Sized + Fold> FoldWith<V> for swc_common::Span {
     #[doc = "Calls [Fold`::fold_span`] with `self`. (Extra impl)"]
+    #[inline]
     fn fold_with(self, visitor: &mut V) -> Self {
         <V as Fold>::fold_span(visitor, self)
     }
 
+    #[inline]
     fn fold_children_with(self, visitor: &mut V) -> Self {
         self
     }
@@ -8150,10 +8337,12 @@ where
     V: ?Sized + Fold,
     T: FoldWith<V>,
 {
+    #[inline]
     fn fold_with(self, visitor: &mut V) -> Self {
         swc_visit::util::map::Map::map(self, |inner| <T as FoldWith<V>>::fold_with(inner, visitor))
     }
 
+    #[inline]
     fn fold_children_with(self, visitor: &mut V) -> Self {
         swc_visit::util::map::Map::map(self, |inner| {
             <T as FoldWith<V>>::fold_children_with(inner, visitor)
@@ -8167,6 +8356,7 @@ pub trait FoldAstPath {
     #[doc = "Visit a node of type `swc_atoms :: Atom`.\n\nBy default, this method calls \
              [`swc_atoms :: Atom::fold_children_with_ast_path`]. If you want to recurse, you need \
              to call it manually."]
+    #[inline]
     fn fold_atom(
         &mut self,
         node: swc_atoms::Atom,
@@ -8179,12 +8369,14 @@ pub trait FoldAstPath {
     #[doc = "Visit a node of type `Attribute`.\n\nBy default, this method calls \
              [`Attribute::fold_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
+    #[inline]
     fn fold_attribute(&mut self, node: Attribute, __ast_path: &mut AstKindPath) -> Attribute {
         <Attribute as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, __ast_path)
     }
     #[doc = "Visit a node of type `AttributeToken`.\n\nBy default, this method calls \
              [`AttributeToken::fold_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
+    #[inline]
     fn fold_attribute_token(
         &mut self,
         node: AttributeToken,
@@ -8197,6 +8389,7 @@ pub trait FoldAstPath {
     #[doc = "Visit a node of type `Vec < AttributeToken >`.\n\nBy default, this method calls [`Vec \
              < AttributeToken >::fold_children_with_ast_path`]. If you want to recurse, you need \
              to call it manually."]
+    #[inline]
     fn fold_attribute_tokens(
         &mut self,
         node: Vec<AttributeToken>,
@@ -8209,6 +8402,7 @@ pub trait FoldAstPath {
     #[doc = "Visit a node of type `Vec < Attribute >`.\n\nBy default, this method calls [`Vec < \
              Attribute >::fold_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
+    #[inline]
     fn fold_attributes(
         &mut self,
         node: Vec<Attribute>,
@@ -8221,6 +8415,7 @@ pub trait FoldAstPath {
     #[doc = "Visit a node of type `CdataSection`.\n\nBy default, this method calls \
              [`CdataSection::fold_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
+    #[inline]
     fn fold_cdata_section(
         &mut self,
         node: CdataSection,
@@ -8231,30 +8426,35 @@ pub trait FoldAstPath {
     #[doc = "Visit a node of type `Child`.\n\nBy default, this method calls \
              [`Child::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn fold_child(&mut self, node: Child, __ast_path: &mut AstKindPath) -> Child {
         <Child as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, __ast_path)
     }
     #[doc = "Visit a node of type `Vec < Child >`.\n\nBy default, this method calls [`Vec < Child \
              >::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn fold_childs(&mut self, node: Vec<Child>, __ast_path: &mut AstKindPath) -> Vec<Child> {
         <Vec<Child> as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, __ast_path)
     }
     #[doc = "Visit a node of type `Comment`.\n\nBy default, this method calls \
              [`Comment::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn fold_comment(&mut self, node: Comment, __ast_path: &mut AstKindPath) -> Comment {
         <Comment as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, __ast_path)
     }
     #[doc = "Visit a node of type `Document`.\n\nBy default, this method calls \
              [`Document::fold_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
+    #[inline]
     fn fold_document(&mut self, node: Document, __ast_path: &mut AstKindPath) -> Document {
         <Document as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, __ast_path)
     }
     #[doc = "Visit a node of type `DocumentMode`.\n\nBy default, this method calls \
              [`DocumentMode::fold_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
+    #[inline]
     fn fold_document_mode(
         &mut self,
         node: DocumentMode,
@@ -8265,6 +8465,7 @@ pub trait FoldAstPath {
     #[doc = "Visit a node of type `DocumentType`.\n\nBy default, this method calls \
              [`DocumentType::fold_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
+    #[inline]
     fn fold_document_type(
         &mut self,
         node: DocumentType,
@@ -8275,18 +8476,21 @@ pub trait FoldAstPath {
     #[doc = "Visit a node of type `Element`.\n\nBy default, this method calls \
              [`Element::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn fold_element(&mut self, node: Element, __ast_path: &mut AstKindPath) -> Element {
         <Element as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, __ast_path)
     }
     #[doc = "Visit a node of type `Namespace`.\n\nBy default, this method calls \
              [`Namespace::fold_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
+    #[inline]
     fn fold_namespace(&mut self, node: Namespace, __ast_path: &mut AstKindPath) -> Namespace {
         <Namespace as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, __ast_path)
     }
     #[doc = "Visit a node of type `Option < swc_atoms :: Atom >`.\n\nBy default, this method calls \
              [`Option < swc_atoms :: Atom >::fold_children_with_ast_path`]. If you want to \
              recurse, you need to call it manually."]
+    #[inline]
     fn fold_opt_atom(
         &mut self,
         node: Option<swc_atoms::Atom>,
@@ -8299,6 +8503,7 @@ pub trait FoldAstPath {
     #[doc = "Visit a node of type `Option < Namespace >`.\n\nBy default, this method calls \
              [`Option < Namespace >::fold_children_with_ast_path`]. If you want to recurse, you \
              need to call it manually."]
+    #[inline]
     fn fold_opt_namespace(
         &mut self,
         node: Option<Namespace>,
@@ -8311,6 +8516,7 @@ pub trait FoldAstPath {
     #[doc = "Visit a node of type `ProcessingInstruction`.\n\nBy default, this method calls \
              [`ProcessingInstruction::fold_children_with_ast_path`]. If you want to recurse, you \
              need to call it manually."]
+    #[inline]
     fn fold_processing_instruction(
         &mut self,
         node: ProcessingInstruction,
@@ -8323,6 +8529,7 @@ pub trait FoldAstPath {
     #[doc = "Visit a node of type `swc_common :: Span`.\n\nBy default, this method calls \
              [`swc_common :: Span::fold_children_with_ast_path`]. If you want to recurse, you need \
              to call it manually."]
+    #[inline]
     fn fold_span(
         &mut self,
         node: swc_common::Span,
@@ -8335,18 +8542,21 @@ pub trait FoldAstPath {
     #[doc = "Visit a node of type `Text`.\n\nBy default, this method calls \
              [`Text::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn fold_text(&mut self, node: Text, __ast_path: &mut AstKindPath) -> Text {
         <Text as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, __ast_path)
     }
     #[doc = "Visit a node of type `Token`.\n\nBy default, this method calls \
              [`Token::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
+    #[inline]
     fn fold_token(&mut self, node: Token, __ast_path: &mut AstKindPath) -> Token {
         <Token as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, __ast_path)
     }
     #[doc = "Visit a node of type `TokenAndSpan`.\n\nBy default, this method calls \
              [`TokenAndSpan::fold_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
+    #[inline]
     fn fold_token_and_span(
         &mut self,
         node: TokenAndSpan,
@@ -10134,10 +10344,12 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TokenAndSpan {
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for swc_atoms::Atom {
     #[doc = "Calls [FoldAstPath`::fold_atom`] with `self`. (Extra impl)"]
+    #[inline]
     fn fold_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
         <V as FoldAstPath>::fold_atom(visitor, self, __ast_path)
     }
 
+    #[inline]
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
         self
     }
@@ -10146,10 +10358,12 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for swc_atoms::Atom {
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<AttributeToken> {
     #[doc = "Calls [FoldAstPath`::fold_attribute_tokens`] with `self`. (Extra impl)"]
+    #[inline]
     fn fold_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
         <V as FoldAstPath>::fold_attribute_tokens(visitor, self, __ast_path)
     }
 
+    #[inline]
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
         swc_visit::util::move_map::MoveMap::move_map(self, |item| {
             <AttributeToken as FoldWithAstPath<V>>::fold_with_ast_path(item, visitor, __ast_path)
@@ -10160,10 +10374,12 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<AttributeToken> {
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<Attribute> {
     #[doc = "Calls [FoldAstPath`::fold_attributes`] with `self`. (Extra impl)"]
+    #[inline]
     fn fold_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
         <V as FoldAstPath>::fold_attributes(visitor, self, __ast_path)
     }
 
+    #[inline]
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
         swc_visit::util::move_map::MoveMap::move_map(self, |item| {
             <Attribute as FoldWithAstPath<V>>::fold_with_ast_path(item, visitor, __ast_path)
@@ -10174,10 +10390,12 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<Attribute> {
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<Child> {
     #[doc = "Calls [FoldAstPath`::fold_childs`] with `self`. (Extra impl)"]
+    #[inline]
     fn fold_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
         <V as FoldAstPath>::fold_childs(visitor, self, __ast_path)
     }
 
+    #[inline]
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
         swc_visit::util::move_map::MoveMap::move_map(self, |item| {
             <Child as FoldWithAstPath<V>>::fold_with_ast_path(item, visitor, __ast_path)
@@ -10188,10 +10406,12 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<Child> {
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<swc_atoms::Atom> {
     #[doc = "Calls [FoldAstPath`::fold_opt_atom`] with `self`. (Extra impl)"]
+    #[inline]
     fn fold_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
         <V as FoldAstPath>::fold_opt_atom(visitor, self, __ast_path)
     }
 
+    #[inline]
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
         self.map(|inner| {
             <swc_atoms::Atom as FoldWithAstPath<V>>::fold_with_ast_path(inner, visitor, __ast_path)
@@ -10202,10 +10422,12 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<swc_atoms::Atom> {
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Namespace> {
     #[doc = "Calls [FoldAstPath`::fold_opt_namespace`] with `self`. (Extra impl)"]
+    #[inline]
     fn fold_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
         <V as FoldAstPath>::fold_opt_namespace(visitor, self, __ast_path)
     }
 
+    #[inline]
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
         self.map(|inner| {
             <Namespace as FoldWithAstPath<V>>::fold_with_ast_path(inner, visitor, __ast_path)
@@ -10216,10 +10438,12 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Namespace> {
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for swc_common::Span {
     #[doc = "Calls [FoldAstPath`::fold_span`] with `self`. (Extra impl)"]
+    #[inline]
     fn fold_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
         <V as FoldAstPath>::fold_span(visitor, self, __ast_path)
     }
 
+    #[inline]
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
         self
     }
@@ -10231,12 +10455,14 @@ where
     V: ?Sized + FoldAstPath,
     T: FoldWithAstPath<V>,
 {
+    #[inline]
     fn fold_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
         swc_visit::util::map::Map::map(self, |inner| {
             <T as FoldWithAstPath<V>>::fold_with_ast_path(inner, visitor, __ast_path)
         })
     }
 
+    #[inline]
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
         swc_visit::util::map::Map::map(self, |inner| {
             <T as FoldWithAstPath<V>>::fold_children_with_ast_path(inner, visitor, __ast_path)
@@ -10248,84 +10474,98 @@ pub trait VisitAll {
     #[doc = "Visit a node of type `swc_atoms :: Atom`.\n\nBy default, this method calls \
              [`swc_atoms :: Atom::visit_children_with`]. This method unconditionally calls the \
              visitor method for all children because it's defined in the trait [VisitAll]."]
+    #[inline]
     fn visit_atom(&mut self, node: &swc_atoms::Atom) {
         <swc_atoms::Atom as VisitAllWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Attribute`.\n\nBy default, this method calls \
              [`Attribute::visit_children_with`]. This method unconditionally calls the visitor \
              method for all children because it's defined in the trait [VisitAll]."]
+    #[inline]
     fn visit_attribute(&mut self, node: &Attribute) {
         <Attribute as VisitAllWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `AttributeToken`.\n\nBy default, this method calls \
              [`AttributeToken::visit_children_with`]. This method unconditionally calls the \
              visitor method for all children because it's defined in the trait [VisitAll]."]
+    #[inline]
     fn visit_attribute_token(&mut self, node: &AttributeToken) {
         <AttributeToken as VisitAllWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Vec < AttributeToken >`.\n\nBy default, this method calls [`Vec \
              < AttributeToken >::visit_children_with`]. This method unconditionally calls the \
              visitor method for all children because it's defined in the trait [VisitAll]."]
+    #[inline]
     fn visit_attribute_tokens(&mut self, node: &[AttributeToken]) {
         <[AttributeToken] as VisitAllWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Vec < Attribute >`.\n\nBy default, this method calls [`Vec < \
              Attribute >::visit_children_with`]. This method unconditionally calls the visitor \
              method for all children because it's defined in the trait [VisitAll]."]
+    #[inline]
     fn visit_attributes(&mut self, node: &[Attribute]) {
         <[Attribute] as VisitAllWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `CdataSection`.\n\nBy default, this method calls \
              [`CdataSection::visit_children_with`]. This method unconditionally calls the visitor \
              method for all children because it's defined in the trait [VisitAll]."]
+    #[inline]
     fn visit_cdata_section(&mut self, node: &CdataSection) {
         <CdataSection as VisitAllWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Child`.\n\nBy default, this method calls \
              [`Child::visit_children_with`]. This method unconditionally calls the visitor method \
              for all children because it's defined in the trait [VisitAll]."]
+    #[inline]
     fn visit_child(&mut self, node: &Child) {
         <Child as VisitAllWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Vec < Child >`.\n\nBy default, this method calls [`Vec < Child \
              >::visit_children_with`]. This method unconditionally calls the visitor method for \
              all children because it's defined in the trait [VisitAll]."]
+    #[inline]
     fn visit_childs(&mut self, node: &[Child]) {
         <[Child] as VisitAllWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Comment`.\n\nBy default, this method calls \
              [`Comment::visit_children_with`]. This method unconditionally calls the visitor \
              method for all children because it's defined in the trait [VisitAll]."]
+    #[inline]
     fn visit_comment(&mut self, node: &Comment) {
         <Comment as VisitAllWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Document`.\n\nBy default, this method calls \
              [`Document::visit_children_with`]. This method unconditionally calls the visitor \
              method for all children because it's defined in the trait [VisitAll]."]
+    #[inline]
     fn visit_document(&mut self, node: &Document) {
         <Document as VisitAllWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `DocumentMode`.\n\nBy default, this method calls \
              [`DocumentMode::visit_children_with`]. This method unconditionally calls the visitor \
              method for all children because it's defined in the trait [VisitAll]."]
+    #[inline]
     fn visit_document_mode(&mut self, node: &DocumentMode) {
         <DocumentMode as VisitAllWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `DocumentType`.\n\nBy default, this method calls \
              [`DocumentType::visit_children_with`]. This method unconditionally calls the visitor \
              method for all children because it's defined in the trait [VisitAll]."]
+    #[inline]
     fn visit_document_type(&mut self, node: &DocumentType) {
         <DocumentType as VisitAllWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Element`.\n\nBy default, this method calls \
              [`Element::visit_children_with`]. This method unconditionally calls the visitor \
              method for all children because it's defined in the trait [VisitAll]."]
+    #[inline]
     fn visit_element(&mut self, node: &Element) {
         <Element as VisitAllWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Namespace`.\n\nBy default, this method calls \
              [`Namespace::visit_children_with`]. This method unconditionally calls the visitor \
              method for all children because it's defined in the trait [VisitAll]."]
+    #[inline]
     fn visit_namespace(&mut self, node: &Namespace) {
         <Namespace as VisitAllWith<Self>>::visit_children_with(node, self)
     }
@@ -10333,42 +10573,49 @@ pub trait VisitAll {
              [`Option < swc_atoms :: Atom >::visit_children_with`]. This method unconditionally \
              calls the visitor method for all children because it's defined in the trait \
              [VisitAll]."]
+    #[inline]
     fn visit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
         <Option<swc_atoms::Atom> as VisitAllWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Option < Namespace >`.\n\nBy default, this method calls \
              [`Option < Namespace >::visit_children_with`]. This method unconditionally calls the \
              visitor method for all children because it's defined in the trait [VisitAll]."]
+    #[inline]
     fn visit_opt_namespace(&mut self, node: &Option<Namespace>) {
         <Option<Namespace> as VisitAllWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `ProcessingInstruction`.\n\nBy default, this method calls \
              [`ProcessingInstruction::visit_children_with`]. This method unconditionally calls the \
              visitor method for all children because it's defined in the trait [VisitAll]."]
+    #[inline]
     fn visit_processing_instruction(&mut self, node: &ProcessingInstruction) {
         <ProcessingInstruction as VisitAllWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `swc_common :: Span`.\n\nBy default, this method calls \
              [`swc_common :: Span::visit_children_with`]. This method unconditionally calls the \
              visitor method for all children because it's defined in the trait [VisitAll]."]
+    #[inline]
     fn visit_span(&mut self, node: &swc_common::Span) {
         <swc_common::Span as VisitAllWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Text`.\n\nBy default, this method calls \
              [`Text::visit_children_with`]. This method unconditionally calls the visitor method \
              for all children because it's defined in the trait [VisitAll]."]
+    #[inline]
     fn visit_text(&mut self, node: &Text) {
         <Text as VisitAllWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Token`.\n\nBy default, this method calls \
              [`Token::visit_children_with`]. This method unconditionally calls the visitor method \
              for all children because it's defined in the trait [VisitAll]."]
+    #[inline]
     fn visit_token(&mut self, node: &Token) {
         <Token as VisitAllWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `TokenAndSpan`.\n\nBy default, this method calls \
              [`TokenAndSpan::visit_children_with`]. This method unconditionally calls the visitor \
              method for all children because it's defined in the trait [VisitAll]."]
+    #[inline]
     fn visit_token_and_span(&mut self, node: &TokenAndSpan) {
         <TokenAndSpan as VisitAllWith<Self>>::visit_children_with(node, self)
     }
@@ -11368,20 +11615,24 @@ impl<V: ?Sized + VisitAll> VisitAllWith<V> for TokenAndSpan {
 }
 impl<V: ?Sized + VisitAll> VisitAllWith<V> for swc_atoms::Atom {
     #[doc = "Calls [VisitAll`::visit_atom`] with `self`. (Extra impl)"]
+    #[inline]
     fn visit_with(&self, visitor: &mut V) {
         <V as VisitAll>::visit_atom(visitor, self)
     }
 
+    #[inline]
     fn visit_children_with(&self, visitor: &mut V) {
         {}
     }
 }
 impl<V: ?Sized + VisitAll> VisitAllWith<V> for [AttributeToken] {
     #[doc = "Calls [VisitAll`::visit_attribute_tokens`] with `self`. (Extra impl)"]
+    #[inline]
     fn visit_with(&self, visitor: &mut V) {
         <V as VisitAll>::visit_attribute_tokens(visitor, self)
     }
 
+    #[inline]
     fn visit_children_with(&self, visitor: &mut V) {
         self.iter()
             .for_each(|item| <AttributeToken as VisitAllWith<V>>::visit_with(item, visitor))
@@ -11389,10 +11640,12 @@ impl<V: ?Sized + VisitAll> VisitAllWith<V> for [AttributeToken] {
 }
 impl<V: ?Sized + VisitAll> VisitAllWith<V> for [Attribute] {
     #[doc = "Calls [VisitAll`::visit_attributes`] with `self`. (Extra impl)"]
+    #[inline]
     fn visit_with(&self, visitor: &mut V) {
         <V as VisitAll>::visit_attributes(visitor, self)
     }
 
+    #[inline]
     fn visit_children_with(&self, visitor: &mut V) {
         self.iter()
             .for_each(|item| <Attribute as VisitAllWith<V>>::visit_with(item, visitor))
@@ -11400,10 +11653,12 @@ impl<V: ?Sized + VisitAll> VisitAllWith<V> for [Attribute] {
 }
 impl<V: ?Sized + VisitAll> VisitAllWith<V> for [Child] {
     #[doc = "Calls [VisitAll`::visit_childs`] with `self`. (Extra impl)"]
+    #[inline]
     fn visit_with(&self, visitor: &mut V) {
         <V as VisitAll>::visit_childs(visitor, self)
     }
 
+    #[inline]
     fn visit_children_with(&self, visitor: &mut V) {
         self.iter()
             .for_each(|item| <Child as VisitAllWith<V>>::visit_with(item, visitor))
@@ -11411,10 +11666,12 @@ impl<V: ?Sized + VisitAll> VisitAllWith<V> for [Child] {
 }
 impl<V: ?Sized + VisitAll> VisitAllWith<V> for Option<swc_atoms::Atom> {
     #[doc = "Calls [VisitAll`::visit_opt_atom`] with `self`. (Extra impl)"]
+    #[inline]
     fn visit_with(&self, visitor: &mut V) {
         <V as VisitAll>::visit_opt_atom(visitor, self)
     }
 
+    #[inline]
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             Some(inner) => <swc_atoms::Atom as VisitAllWith<V>>::visit_with(inner, visitor),
@@ -11424,10 +11681,12 @@ impl<V: ?Sized + VisitAll> VisitAllWith<V> for Option<swc_atoms::Atom> {
 }
 impl<V: ?Sized + VisitAll> VisitAllWith<V> for Option<Namespace> {
     #[doc = "Calls [VisitAll`::visit_opt_namespace`] with `self`. (Extra impl)"]
+    #[inline]
     fn visit_with(&self, visitor: &mut V) {
         <V as VisitAll>::visit_opt_namespace(visitor, self)
     }
 
+    #[inline]
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             Some(inner) => <Namespace as VisitAllWith<V>>::visit_with(inner, visitor),
@@ -11437,10 +11696,12 @@ impl<V: ?Sized + VisitAll> VisitAllWith<V> for Option<Namespace> {
 }
 impl<V: ?Sized + VisitAll> VisitAllWith<V> for swc_common::Span {
     #[doc = "Calls [VisitAll`::visit_span`] with `self`. (Extra impl)"]
+    #[inline]
     fn visit_with(&self, visitor: &mut V) {
         <V as VisitAll>::visit_span(visitor, self)
     }
 
+    #[inline]
     fn visit_children_with(&self, visitor: &mut V) {
         {}
     }
@@ -11450,11 +11711,13 @@ where
     V: ?Sized + VisitAll,
     T: VisitAllWith<V>,
 {
+    #[inline]
     fn visit_with(&self, visitor: &mut V) {
         let v = <T as VisitAllWith<V>>::visit_with(&**self, visitor);
         v
     }
 
+    #[inline]
     fn visit_children_with(&self, visitor: &mut V) {
         let v = <T as VisitAllWith<V>>::visit_children_with(&**self, visitor);
         v
@@ -11465,11 +11728,13 @@ where
     V: ?Sized + VisitAll,
     [T]: VisitAllWith<V>,
 {
+    #[inline]
     fn visit_with(&self, visitor: &mut V) {
         let v = <[T] as VisitAllWith<V>>::visit_with(self, visitor);
         v
     }
 
+    #[inline]
     fn visit_children_with(&self, visitor: &mut V) {
         let v = <[T] as VisitAllWith<V>>::visit_children_with(self, visitor);
         v
