@@ -1,3 +1,5 @@
+use std::rc::Rc;
+
 use rustc_hash::FxHashMap;
 use swc_common::{collections::AHashMap, SyntaxContext};
 use swc_ecma_ast::*;
@@ -16,6 +18,11 @@ use crate::{
 mod ctx;
 pub mod storage;
 
+pub struct PerScope<T> {
+    pub top: T,
+    pub children: FxHashMap<SyntaxContext, T>,
+}
+
 /// TODO: Track assignments to variables via `arguments`.
 /// TODO: Scope-local. (Including block)
 ///
@@ -23,16 +30,18 @@ pub mod storage;
 pub fn analyze_with_storage<S, N>(
     n: &N,
     marks: Option<Marks>,
-    size_cache: &FxHashMap<SyntaxContext, S::SizeCache>,
+    size_cache: Rc<PerScope<S::SizeCache>>,
 ) -> S
 where
     S: Storage,
     N: VisitWith<UsageAnalyzer<S>>,
 {
     let _timer = timer!("analyze");
+    let data = S::new(size_cache.top);
 
     let mut v = UsageAnalyzer {
-        data: Default::default(),
+        size_cache,
+        data,
         marks,
         scope: Default::default(),
         ctx: Default::default(),
@@ -65,11 +74,11 @@ enum RecursiveUsage {
 }
 
 /// This assumes there are no two variable with same name and same span hygiene.
-#[derive(Debug)]
 pub struct UsageAnalyzer<S>
 where
     S: Storage,
 {
+    size_cache: Rc<PerScope<S::SizeCache>>,
     data: S,
     marks: Option<Marks>,
     scope: S::ScopeData,
@@ -86,8 +95,18 @@ where
     where
         F: FnOnce(&mut UsageAnalyzer<S>) -> Ret,
     {
+        let size_cache = self.size_cache.clone();
+        let data = S::new(
+            size_cache
+                .children
+                .get(&child_ctxt)
+                .copied()
+                .unwrap_or_default(),
+        );
+
         let mut child = UsageAnalyzer {
-            data: Default::default(),
+            size_cache,
+            data,
             marks: self.marks,
             ctx: Ctx {
                 is_top_level: false,

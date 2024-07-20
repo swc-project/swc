@@ -6,7 +6,7 @@ use super::{ctx::Ctx, ScopeKind};
 use crate::alias::Access;
 
 pub trait Storage: Sized {
-    type SizeCache: Default;
+    type SizeCache: Default + Copy;
     type ScopeData: ScopeDataLike;
     type VarData: VarDataLike;
 
