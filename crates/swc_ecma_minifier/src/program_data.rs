@@ -20,11 +20,22 @@ use swc_ecma_usage_analyzer::{
 };
 use swc_ecma_visit::VisitWith;
 
-pub(crate) fn analyze<N>(n: &N, marks: Option<Marks>) -> ProgramData
+pub(crate) fn analyze<N>(
+    n: &N,
+    marks: Option<Marks>,
+    size_cache: &FxHashMap<SyntaxContext, SizeCache>,
+) -> (ProgramData, FxHashMap<SyntaxContext, SizeCache>)
 where
     N: VisitWith<UsageAnalyzer<ProgramData>>,
 {
-    analyze_with_storage::<ProgramData, _>(n, marks)
+    analyze_with_storage::<ProgramData, _>(n, marks, size_cache)
+}
+
+#[derive(Default)]
+pub(crate) struct SizeCache {
+    vars: u32,
+    copes: u32,
+    initialized_vars: u32,
 }
 
 /// Analyzed info of a whole program we are working on.
@@ -188,6 +199,7 @@ impl VarUsageInfo {
 
 impl Storage for ProgramData {
     type ScopeData = ScopeData;
+    type SizeCache = SizeCache;
     type VarData = VarUsageInfo;
 
     fn scope(&mut self, ctxt: swc_common::SyntaxContext) -> &mut Self::ScopeData {
@@ -476,6 +488,18 @@ impl Storage for ProgramData {
             let other = self.vars.entry(other).or_default();
 
             other.property_mutation_count += 1;
+        }
+    }
+
+    fn new(size_cache: Self::SizeCache) -> Self {
+        Self {
+            vars: FxHashMap::with_capacity_and_hasher(size_cache.vars as _, Default::default()),
+            top: Default::default(),
+            scopes: FxHashMap::with_capacity_and_hasher(size_cache.copes as _, Default::default()),
+            initialized_vars: IndexSet::with_capacity_and_hasher(
+                size_cache.initialized_vars,
+                Default::default(),
+            ),
         }
     }
 }

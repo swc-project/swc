@@ -1,3 +1,4 @@
+use rustc_hash::FxHashMap;
 use swc_common::{collections::AHashMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, ExprCtx, ExprExt, IsEmpty, StmtExt};
@@ -19,7 +20,11 @@ pub mod storage;
 /// TODO: Scope-local. (Including block)
 ///
 /// If `marks` is [None], markers are ignored.
-pub fn analyze_with_storage<S, N>(n: &N, marks: Option<Marks>) -> S
+pub fn analyze_with_storage<S, N>(
+    n: &N,
+    marks: Option<Marks>,
+    size_cache: &FxHashMap<SyntaxContext, S::SizeCache>,
+) -> S
 where
     S: Storage,
     N: VisitWith<UsageAnalyzer<S>>,

@@ -5,9 +5,12 @@ use swc_ecma_ast::*;
 use super::{ctx::Ctx, ScopeKind};
 use crate::alias::Access;
 
-pub trait Storage: Sized + Default {
+pub trait Storage: Sized {
+    type SizeCache: Default;
     type ScopeData: ScopeDataLike;
     type VarData: VarDataLike;
+
+    fn new(size_cache: Self::SizeCache) -> Self;
 
     fn scope(&mut self, ctxt: SyntaxContext) -> &mut Self::ScopeData;
 
