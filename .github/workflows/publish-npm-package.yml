@@ -588,12 +588,18 @@ jobs:
           - crate: "binding_core_wasm"
             npm: "@swc\\/wasm"
             target: nodejs
+            out: "pkg"
           - crate: "binding_core_wasm"
             npm: "@swc\\/wasm-web"
             target: web
+            out: "pkg"
           - crate: "binding_typescript_wasm"
-            npm: "@swc\\/wasm-typescript"
-            target: nodejs
+            build: "./scripts/build.sh"
+            out: "pkg"
+          - crate: "binding_typescript_wasm"
+            build: "./scripts/esm.sh"
+            out: "esm"
+
     steps:
       - uses: actions/checkout@v4
         with:
@@ -631,21 +637,23 @@ jobs:
 
       - name: Build
         working-directory: bindings/${{ matrix.settings.crate }}
+        if: ${{ !matrix.settings.build }}
         run: |
-          # If ./scripts/build.sh exists, apply it
-          if [ -f ./scripts/build.sh ]; then
-            ./scripts/build.sh
-          else
-            wasm-pack build --out-name wasm --release --scope=swc --target ${{ matrix.settings.target }}
-          fi
+          wasm-pack build --out-name wasm --release --scope=swc --target ${{ matrix.settings.target }}
           sed -i -e 's/"name": "@swc\/${{ matrix.settings.crate }}"/"name": "${{ matrix.settings.npm }}"/g' pkg/package.json
+
+      - name: Build
+        working-directory: bindings/${{ matrix.settings.crate }}
+        if: ${{ matrix.settings.build }}
+        run: |
+          ${{ matrix.settings.build }}
 
       - name: Publish
         if: ${{ !inputs.skipBuild }}
         run: |
           npm config set provenance true
           echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
-          (cd bindings/${{ matrix.settings.crate }}/pkg && npm publish --access public --tag $NPM_TAG)
+          (cd bindings/${{ matrix.settings.crate }}/${{ matrix.settings.out }} && npm publish --access public --tag $NPM_TAG)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
