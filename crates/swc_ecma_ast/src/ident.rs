@@ -5,6 +5,7 @@ use std::{
 };
 
 use phf::phf_set;
+use swc_allocator::maybe::{boxed::Box, vec::Vec};
 use swc_atoms::{js_word, Atom};
 use swc_common::{
     ast_node, util::take::Take, BytePos, EqIgnoreSpan, Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
