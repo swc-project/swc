@@ -25,14 +25,17 @@
 //! Recommened way to use this mode is to wrap the whole operations in
 //! a call to [Allocator::scope].
 
-#![allow(clippy::needless_doctest_main)]
 #![cfg_attr(docsrs, feature(doc_cfg))]
 #![cfg_attr(
     feature = "nightly",
     feature(allocator_api, fundamental, with_negative_coherence, box_into_inner)
 )]
 #![deny(missing_docs)]
-#![allow(clippy::derivable_impls)]
+#![allow(
+    clippy::needless_doctest_main,
+    clippy::derivable_impls,
+    clippy::boxed_local
+)]
 
 pub use crate::alloc::Allocator;
 
