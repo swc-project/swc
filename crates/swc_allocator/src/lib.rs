@@ -50,6 +50,17 @@ pub mod maybe {
 
     #[cfg(feature = "nightly")]
     pub use crate::{boxed, vec};
+
+    /// Unbox a value.
+    #[cfg(not(feature = "nightly"))]
+    pub fn unbox<T>(b: Box<T>) -> T {
+        *b
+    }
+    /// Unbox a value.
+    #[cfg(feature = "nightly")]
+    pub fn unbox<T>(b: Box<T>) -> T {
+        Box::into_inner(b)
+    }
 }
 
 /// Fast allocator, effectively working as a cache.
