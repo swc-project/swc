@@ -302,12 +302,44 @@ export interface TerserCompressOptions {
 export interface TerserMangleOptions {
     props?: TerserManglePropertiesOptions;
 
+    /**
+     * Pass `true` to mangle names declared in the top level scope.
+     */
+    topLevel?: boolean
+
+    /**
+     * @deprecated An alias for compatibility with terser.
+     */
     toplevel?: boolean;
 
+    /**
+     * Pass `true` to not mangle class names.
+     */
+    keepClassNames?: boolean;
+
+    /**
+     * @deprecated An alias for compatibility with terser.
+     */
     keep_classnames?: boolean;
 
+    /**
+     * Pass `true` to not mangle function names.
+     */
+    keepFnNames?: boolean;
+
+    /**
+     * @deprecated An alias for compatibility with terser.
+     */
     keep_fnames?: boolean;
 
+    /**
+     * Pass `true` to not mangle private props.
+     */
+    keepPrivateProps?: boolean;
+
+    /**
+     * @deprecated An alias for compatibility with terser.
+     */
     keep_private_props?: boolean;
 
     ie8?: boolean;
