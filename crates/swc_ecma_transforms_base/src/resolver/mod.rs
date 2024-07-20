@@ -1913,10 +1913,9 @@ impl VisitMut for Hoister<'_, '_> {
     /// that there is already an global declaration of Ic when deal with the try
     /// block.
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
-        let mut other_items = Vec::new();
-
-        for item in items {
-            match item {
+        let others = items
+            .iter_mut()
+            .filter_map(|item| match item {
                 ModuleItem::Stmt(Stmt::Decl(Decl::Var(v)))
                 | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                     decl: Decl::Var(v),
@@ -1930,6 +1929,7 @@ impl VisitMut for Hoister<'_, '_> {
                 ) =>
                 {
                     item.visit_mut_with(self);
+                    None
                 }
 
                 ModuleItem::Stmt(Stmt::Decl(Decl::Fn(..)))
@@ -1938,37 +1938,35 @@ impl VisitMut for Hoister<'_, '_> {
                     ..
                 })) => {
                     item.visit_mut_with(self);
+                    None
                 }
-                _ => {
-                    other_items.push(item);
-                }
-            }
-        }
+                _ => Some(item),
+            })
+            .collect::<Vec<_>>();
 
-        for other_item in other_items {
-            other_item.visit_mut_with(self);
-        }
+        others.into_iter().for_each(|item| {
+            item.visit_mut_with(self);
+        });
     }
 
     /// see docs for `self.visit_mut_module_items`
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
-        let mut other_stmts = Vec::new();
-
-        for item in stmts {
-            match item {
+        let others = stmts
+            .iter_mut()
+            .filter_map(|item| match item {
                 Stmt::Decl(Decl::Var(..)) => {
                     item.visit_mut_with(self);
+                    None
                 }
                 Stmt::Decl(Decl::Fn(..)) => {
                     item.visit_mut_with(self);
+                    None
                 }
-                _ => {
-                    other_stmts.push(item);
-                }
-            }
-        }
+                _ => Some(item),
+            })
+            .collect::<Vec<_>>();
 
-        for other_stmt in other_stmts {
+        for other_stmt in others {
             other_stmt.visit_mut_with(self);
         }
     }

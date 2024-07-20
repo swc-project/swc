@@ -40,8 +40,27 @@ impl Analyzer {
         }
     }
 
+    fn reserve_decl(&mut self, len: usize, belong_to_fn_scope: bool) {
+        if belong_to_fn_scope {
+            match self.scope.kind {
+                ScopeKind::Fn => {
+                    self.scope.reserve_decl(len);
+                }
+                ScopeKind::Block => {
+                    self.hoisted_vars.reserve(len);
+                }
+            }
+        } else {
+            self.scope.reserve_decl(len);
+        }
+    }
+
     fn add_usage(&mut self, id: Id) {
         self.scope.add_usage(id);
+    }
+
+    fn reserve_usage(&mut self, len: usize) {
+        self.scope.reserve_usage(len);
     }
 
     fn with_scope<F>(&mut self, kind: ScopeKind, op: F)
@@ -66,6 +85,7 @@ impl Analyzer {
             op(&mut v);
             if !v.hoisted_vars.is_empty() {
                 debug_assert!(matches!(v.scope.kind, ScopeKind::Block));
+                self.reserve_usage(v.hoisted_vars.len());
                 v.hoisted_vars.clone().into_iter().for_each(|id| {
                     // For variables declared in block scope using `var` and `function`,
                     // We should create a fake usage in the block to prevent conflicted
@@ -74,6 +94,7 @@ impl Analyzer {
                 });
                 match self.scope.kind {
                     ScopeKind::Fn => {
+                        self.reserve_decl(v.hoisted_vars.len(), true);
                         v.hoisted_vars
                             .into_iter()
                             .for_each(|id| self.add_decl(id, true));

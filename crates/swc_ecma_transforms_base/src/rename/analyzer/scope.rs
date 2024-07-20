@@ -68,12 +68,22 @@ impl Scope {
         }
     }
 
+    pub(crate) fn reserve_decl(&mut self, len: usize) {
+        self.data.all.reserve(len);
+
+        self.data.queue.reserve(len);
+    }
+
     pub(super) fn add_usage(&mut self, id: Id) {
         if id.0 == "arguments" {
             return;
         }
 
         self.data.all.insert(id);
+    }
+
+    pub(crate) fn reserve_usage(&mut self, len: usize) {
+        self.data.all.reserve(len);
     }
 
     /// Copy `children.data.all` to `self.data.all`.

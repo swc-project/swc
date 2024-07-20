@@ -32,6 +32,10 @@ pub(super) struct BenchCmd {
     #[clap(long)]
     instrument: bool,
 
+    /// Instrument using https://github.com/mstange/samply
+    #[clap(long)]
+    samply: bool,
+
     #[clap(long)]
     features: Vec<String>,
 
@@ -50,7 +54,17 @@ impl BenchCmd {
     }
 
     fn build_cmd(&self) -> Result<Command> {
-        let mut cmd = if self.instrument {
+        let mut cmd = if self.samply {
+            // ddt profile instruments cargo -t time
+            let mut cmd = Command::new("ddt");
+            cmd.arg("profile").arg("samply").arg("cargo");
+
+            if !self.debug {
+                cmd.arg("--release");
+            }
+
+            cmd
+        } else if self.instrument {
             // ddt profile instruments cargo -t time
             let mut cmd = Command::new("ddt");
             cmd.arg("profile").arg("instruments").arg("cargo");
@@ -60,9 +74,6 @@ impl BenchCmd {
             if !self.debug {
                 cmd.arg("--release");
             }
-
-            // TODO: This should use cargo metadata
-            cmd.current_dir(repository_root()?.join("crates").join(&self.package));
 
             cmd
         } else {
@@ -90,11 +101,14 @@ impl BenchCmd {
             cmd.arg("--features").arg(f);
         }
 
-        if self.instrument {
+        if self.samply || self.instrument {
             cmd.arg("--").arg("--bench").args(&self.args);
         } else {
             cmd.arg("--").args(&self.args);
         }
+
+        // TODO: This should use cargo metadata
+        cmd.current_dir(repository_root()?.join("crates").join(&self.package));
 
         Ok(cmd)
     }
