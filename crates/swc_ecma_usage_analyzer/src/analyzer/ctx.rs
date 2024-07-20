@@ -2,6 +2,7 @@
 
 use std::ops::{Deref, DerefMut};
 
+use swc_common::SyntaxContext;
 use swc_ecma_ast::VarDeclKind;
 
 use super::{storage::Storage, UsageAnalyzer};
@@ -23,6 +24,7 @@ where
 #[derive(Debug, Default, Clone, Copy)]
 #[non_exhaustive]
 pub struct Ctx {
+    pub ctxt: SyntaxContext,
     pub var_decl_kind_of_pat: Option<VarDeclKind>,
 
     pub in_decl_with_no_side_effect_for_member_access: bool,

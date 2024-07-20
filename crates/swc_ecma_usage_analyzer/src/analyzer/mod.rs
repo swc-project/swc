@@ -38,7 +38,7 @@ where
     N: VisitWith<UsageAnalyzer<S>>,
 {
     let _timer = timer!("analyze");
-    let data = S::new(size_cache.top);
+    let data = S::new(SyntaxContext::empty(), size_cache.top);
 
     let mut v = UsageAnalyzer {
         size_cache,
@@ -111,6 +111,7 @@ where
     {
         let size_cache = self.size_cache.clone();
         let data = S::new(
+            child_ctxt,
             size_cache
                 .children
                 .get(&child_ctxt)
@@ -124,6 +125,7 @@ where
             data,
             marks: self.marks,
             ctx: Ctx {
+                ctxt: child_ctxt,
                 is_top_level: false,
                 ..self.ctx
             },

@@ -10,7 +10,7 @@ pub trait Storage: Sized {
     type ScopeData: ScopeDataLike;
     type VarData: VarDataLike;
 
-    fn new(size_cache: Self::SizeCache) -> Self;
+    fn new(ctxt: SyntaxContext, size_cache: Self::SizeCache) -> Self;
 
     fn scope(&mut self, ctxt: SyntaxContext) -> &mut Self::ScopeData;
 

@@ -1,4 +1,8 @@
-use std::{cell::RefCell, collections::hash_map::Entry, rc::Rc};
+use std::{
+    cell::RefCell,
+    collections::{hash_map::Entry, HashMap},
+    rc::Rc,
+};
 
 use indexmap::IndexSet;
 use rustc_hash::FxHashMap;
@@ -22,7 +26,11 @@ use swc_ecma_visit::VisitWith;
 
 pub(crate) type SizeCahcePtr = Rc<PerScope<SizeCache>>;
 
-struct VarSizeCache {}
+#[derive(Clone, Copy)]
+struct VarSizeCache {
+    infects_to: u32,
+    accessed_props: u32,
+}
 
 thread_local! {
     static VAR_SIZE_CACHE: RefCell<FxHashMap<(SyntaxContext,Id),VarSizeCache>> = Default::default();
@@ -55,6 +63,7 @@ pub(crate) struct SizeCache {
 /// Analyzed info of a whole program we are working on.
 #[derive(Debug, Default)]
 pub(crate) struct ProgramData {
+    ctxt: SyntaxContext,
     pub(crate) vars: FxHashMap<Id, VarUsageInfo>,
 
     pub(crate) top: ScopeData,
@@ -151,8 +160,20 @@ pub(crate) struct VarUsageInfo {
     pub(crate) used_recursively: bool,
 }
 
-impl Default for VarUsageInfo {
-    fn default() -> Self {
+impl VarUsageInfo {
+    fn new_with_cache(ctxt: SyntaxContext, id: Id) -> Self {
+        VAR_SIZE_CACHE.with(|v| {
+            let mut v = v.borrow_mut();
+            let size_cache = v.entry((ctxt, id)).or_insert_with(|| VarSizeCache {
+                infects_to: 0,
+                accessed_props: 0,
+            });
+
+            VarUsageInfo::new(*size_cache)
+        })
+    }
+
+    fn new(size_cache: VarSizeCache) -> Self {
         Self {
             inline_prevented: Default::default(),
             ref_count: Default::default(),
@@ -180,9 +201,12 @@ impl Default for VarUsageInfo {
             used_as_arg: Default::default(),
             indexed_with_dynamic_key: Default::default(),
             pure_fn: Default::default(),
-            infects_to: Default::default(),
+            infects_to: Vec::with_capacity(size_cache.infects_to as _),
             used_in_non_child_fn: Default::default(),
-            accessed_props: Default::default(),
+            accessed_props: Box::new(HashMap::with_capacity_and_hasher(
+                size_cache.accessed_props as usize,
+                Default::default(),
+            )),
             used_recursively: Default::default(),
             is_top_level: Default::default(),
             assigned_fn_local: true,
@@ -225,7 +249,9 @@ impl Storage for ProgramData {
     }
 
     fn var_or_default(&mut self, id: Id) -> &mut Self::VarData {
-        self.vars.entry(id).or_default()
+        self.vars
+            .entry(id.clone())
+            .or_insert_with(|| VarUsageInfo::new_with_cache(self.ctxt, id))
     }
 
     fn merge(&mut self, kind: ScopeKind, child: Self) {
@@ -361,7 +387,7 @@ impl Storage for ProgramData {
 
         let e = self.vars.entry(i.clone()).or_insert_with(|| VarUsageInfo {
             used_above_decl: true,
-            ..Default::default()
+            ..VarUsageInfo::new_with_cache(ctx.ctxt, i.clone())
         });
 
         e.used_as_ref |= ctx.is_id_ref;
@@ -379,7 +405,10 @@ impl Storage for ProgramData {
     }
 
     fn report_assign(&mut self, ctx: Ctx, i: Id, is_op: bool) {
-        let e = self.vars.entry(i.clone()).or_default();
+        let e = self
+            .vars
+            .entry(i.clone())
+            .or_insert_with(|| VarUsageInfo::new_with_cache(ctx.ctxt, i.clone()));
 
         let inited = self.initialized_vars.contains(&i);
 
@@ -439,7 +468,9 @@ impl Storage for ProgramData {
         //     debug!(has_init = has_init, "declare_decl(`{}`)", i);
         // }
 
-        let v = self.vars.entry(i.to_id()).or_default();
+        let v = self.vars.entry(i.to_id()).or_insert_with(|| VarUsageInfo {
+            ..VarUsageInfo::new_with_cache(ctx.ctxt, i.to_id())
+        });
         v.is_top_level |= ctx.is_top_level;
 
         // assigned or declared before this declaration
@@ -488,7 +519,7 @@ impl Storage for ProgramData {
     }
 
     fn mark_property_mutation(&mut self, id: Id) {
-        let e = self.vars.entry(id).or_default();
+        let e = self.var_or_default(id);
         e.property_mutation_count += 1;
 
         let mut to_mark_mutate = Vec::new();
@@ -499,14 +530,15 @@ impl Storage for ProgramData {
         }
 
         for other in to_mark_mutate {
-            let other = self.vars.entry(other).or_default();
+            let other = self.var_or_default(other);
 
             other.property_mutation_count += 1;
         }
     }
 
-    fn new(size_cache: Self::SizeCache) -> Self {
+    fn new(ctxt: SyntaxContext, size_cache: Self::SizeCache) -> Self {
         Self {
+            ctxt,
             vars: FxHashMap::with_capacity_and_hasher(size_cache.vars as _, Default::default()),
             top: Default::default(),
             scopes: FxHashMap::with_capacity_and_hasher(size_cache.copes as _, Default::default()),
