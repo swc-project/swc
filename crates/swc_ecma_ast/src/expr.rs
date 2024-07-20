@@ -3,7 +3,7 @@ use std::{borrow::Cow, mem::transmute};
 
 use is_macro::Is;
 use string_enum::StringEnum;
-use swc_allocator::maybe::{boxed::Box, vec::Vec};
+use swc_allocator::maybe::{boxed::Box, unbox, vec::Vec};
 use swc_atoms::Atom;
 use swc_common::{
     ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, SyntaxContext, DUMMY_SP,
@@ -1402,7 +1402,7 @@ impl TryFrom<Box<Pat>> for AssignTarget {
     type Error = Box<Pat>;
 
     fn try_from(p: Box<Pat>) -> Result<Self, Self::Error> {
-        (*p).try_into().map_err(Box::new)
+        unbox(p).try_into().map_err(Box::new)
     }
 }
 
@@ -1503,7 +1503,7 @@ impl TryFrom<Box<Expr>> for SimpleAssignTarget {
     type Error = Box<Expr>;
 
     fn try_from(e: Box<Expr>) -> Result<Self, Self::Error> {
-        Ok(match *e {
+        Ok(match unbox(e) {
             Expr::Ident(i) => SimpleAssignTarget::Ident(i.into()),
             Expr::Member(m) => SimpleAssignTarget::Member(m),
             Expr::SuperProp(s) => SimpleAssignTarget::SuperProp(s),
@@ -1514,7 +1514,7 @@ impl TryFrom<Box<Expr>> for SimpleAssignTarget {
             Expr::TsNonNull(n) => SimpleAssignTarget::TsNonNull(n),
             Expr::TsTypeAssertion(a) => SimpleAssignTarget::TsTypeAssertion(a),
             Expr::TsInstantiation(a) => SimpleAssignTarget::TsInstantiation(a),
-            _ => return Err(e),
+            e => return Err(Box::new(e)),
         })
     }
 }

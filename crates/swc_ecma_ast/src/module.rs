@@ -1,5 +1,5 @@
 use is_macro::Is;
-use swc_allocator::maybe::{boxed::Box, vec::Vec};
+use swc_allocator::maybe::vec::Vec;
 use swc_atoms::Atom;
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 

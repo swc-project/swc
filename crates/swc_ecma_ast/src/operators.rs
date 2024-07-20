@@ -1,5 +1,4 @@
 use string_enum::StringEnum;
-use swc_allocator::maybe::{boxed::Box, vec::Vec};
 use swc_common::EqIgnoreSpan;
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan, Default)]
