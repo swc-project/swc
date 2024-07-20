@@ -81,6 +81,7 @@ impl<T> Box<T> {
     }
 
     /// Moves the value out of the box.
+    #[inline]
     pub fn unbox(self) -> T {
         std::boxed::Box::into_inner(self.0)
     }

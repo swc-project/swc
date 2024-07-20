@@ -56,13 +56,15 @@ pub mod maybe {
 
     /// Unbox a value.
     #[cfg(not(feature = "nightly"))]
-    pub fn unbox<T>(b: Box<T>) -> T {
+    #[inline(always)]
+    pub fn unbox<T>(b: boxed::Box<T>) -> T {
         *b
     }
     /// Unbox a value.
     #[cfg(feature = "nightly")]
-    pub fn unbox<T>(b: Box<T>) -> T {
-        Box::into_inner(b)
+    #[inline(always)]
+    pub fn unbox<T>(b: boxed::Box<T>) -> T {
+        b.unbox()
     }
 }
 
