@@ -802,7 +802,7 @@ where
             let value = if *v.value >= 10000000000000000_i64.into() {
                 format!("0x{}", v.value.to_str_radix(16))
             } else if *v.value <= (-10000000000000000_i64).into() {
-                format!("-0x{}", (-*v.value.clone()).to_str_radix(16))
+                format!("-0x{}", (-(*v.value).clone()).to_str_radix(16))
             } else {
                 v.value.to_string()
             };
