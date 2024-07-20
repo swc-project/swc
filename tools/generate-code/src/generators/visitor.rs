@@ -459,6 +459,7 @@ impl Generator {
 
             trait_methods.push(parse_quote!(
                 #method_doc
+                #[inline]
                 fn #visit_method_name #lifetime (&mut self, node: #type_param #ast_path_params) #return_type {
                     <#node_type as #with_trait_name<Self>>::#visit_with_children_name(node, self #ast_path_arg)
                 }
@@ -1063,10 +1064,12 @@ impl Generator {
                 #(#attrs)*
                 impl<V: ?Sized + #visitor_trait_name> #visit_with_trait_name<V> for #target_type {
                     #visit_with_doc
+                    #[inline]
                     fn #visit_with_name #lifetime (#receiver, visitor: &mut V #ast_path_param) #return_type {
                         <V as #visitor_trait_name>::#visit_method_name(visitor, self #ast_path_arg)
                     }
 
+                    #[inline]
                     fn #visit_with_children_name #lifetime (#receiver, visitor: &mut V #ast_path_param) #return_type {
                         #default_body
                     }
@@ -1115,11 +1118,13 @@ impl Generator {
                         impl<V, T> #visit_with_trait_name<V> for std::boxed::Box<T>
                             where V: ?Sized + #visit_trait_name,
                                 T: #visit_with_trait_name<V> {
+                            #[inline]
                             fn #visit_with_name #lifetime (#receiver, visitor: &mut V #ast_path_param) #return_type {
                                 swc_visit::util::map::Map::map(self, |inner| {
                                     <T as #visit_with_trait_name<V>>::#visit_with_name(inner, visitor #ast_path_arg)
                                 })
                             }
+                            #[inline]
                             fn #visit_with_children_name #lifetime (#receiver, visitor: &mut V #ast_path_param) #return_type {
                                 swc_visit::util::map::Map::map(self, |inner| {
                                     <T as #visit_with_trait_name<V>>::#visit_with_children_name(inner, visitor #ast_path_arg)
@@ -1159,11 +1164,13 @@ impl Generator {
                         impl<V, T> #visit_with_trait_name<V> for std::boxed::Box<T>
                             where V: ?Sized + #visit_trait_name,
                                 T: #visit_with_trait_name<V> {
+                            #[inline]
                             fn #visit_with_name #lifetime (#receiver, visitor: &mut V #ast_path_param) #return_type {
                                 let v = <T as #visit_with_trait_name<V>>::#visit_with_name(#deref_expr, visitor #ast_path_arg);
                                 #restore_expr
                                 v
                             }
+                            #[inline]
                             fn #visit_with_children_name #lifetime (#receiver, visitor: &mut V #ast_path_param) #return_type {
                                 let v = <T as #visit_with_trait_name<V>>::#visit_with_children_name(#deref_expr, visitor #ast_path_arg);
                                 #restore_expr
@@ -1182,11 +1189,13 @@ impl Generator {
                 impl<V, T> #visit_with_trait_name<V> for std::vec::Vec<T>
                     where V: ?Sized + #visit_trait_name,
                         [T]: #visit_with_trait_name<V> {
+                    #[inline]
                     fn #visit_with_name #lifetime (#receiver, visitor: &mut V #ast_path_param) #return_type {
                         let v = <[T] as #visit_with_trait_name<V>>::#visit_with_name(self, visitor #ast_path_arg);
                         v
                     }
 
+                    #[inline]
                     fn #visit_with_children_name #lifetime (#receiver, visitor: &mut V #ast_path_param) #return_type {
                         let v = <[T] as #visit_with_trait_name<V>>::#visit_with_children_name(self, visitor #ast_path_arg);
                         v
