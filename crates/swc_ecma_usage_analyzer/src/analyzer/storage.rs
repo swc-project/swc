@@ -87,4 +87,6 @@ pub trait VarDataLike: Sized {
     fn mark_used_above_decl(&mut self);
 
     fn mark_used_recursively(&mut self);
+
+    fn store_size_cache(&mut self, ctxt: SyntaxContext, id: Id);
 }

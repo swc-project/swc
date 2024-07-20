@@ -267,6 +267,8 @@ impl Storage for ProgramData {
         self.vars.reserve(child.vars.len());
 
         for (id, mut var_info) in child.vars {
+            var_info.store_size_cache(child.ctxt, id.clone());
+
             // trace!("merge({:?},{}{:?})", kind, id.0, id.1);
             let inited = self.initialized_vars.contains(&id);
             match self.vars.entry(id.clone()) {
@@ -648,6 +650,19 @@ impl VarDataLike for VarUsageInfo {
 
     fn mark_used_recursively(&mut self) {
         self.used_recursively = true;
+    }
+
+    fn store_size_cache(&mut self, ctxt: SyntaxContext, id: Id) {
+        VAR_SIZE_CACHE.with(|v| {
+            let mut v = v.borrow_mut();
+            let size_cache = v.entry((ctxt, id)).or_insert_with(|| VarSizeCache {
+                infects_to: self.infects_to.len() as _,
+                accessed_props: self.accessed_props.len() as _,
+            });
+
+            size_cache.infects_to = self.infects_to.len() as _;
+            size_cache.accessed_props = self.accessed_props.len() as _;
+        });
     }
 }
 
