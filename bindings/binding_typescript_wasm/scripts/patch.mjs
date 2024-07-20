@@ -37,5 +37,6 @@ await fs.unlink('pkg/wasm_bg.wasm');
 // Remove wasm from .files section of package.json
 const pkgJsonFile = await fs.readFile('pkg/package.json', 'utf8');
 const pkgJson = JSON.parse(pkgJsonFile);
+pkgJson.name = '@swc/wasm-typescript';
 pkgJson.files = pkgJson.files.filter(file => file !== 'wasm_bg.wasm');
 await fs.writeFile('pkg/package.json', JSON.stringify(pkgJson, null, 2));
