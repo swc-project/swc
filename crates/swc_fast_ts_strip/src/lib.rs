@@ -62,7 +62,7 @@ interface Options {
     module?: boolean;
     filename?: string;
     mode?: Mode;
-    source_map?: boolean;
+    sourceMap?: boolean;
 }
 "#;
 
