@@ -36,6 +36,8 @@ pub trait Storage: Sized {
     fn truncate_initialized_cnt(&mut self, len: usize);
 
     fn mark_property_mutation(&mut self, id: Id);
+
+    fn size_cache_for_next(&self) -> Self::SizeCache;
 }
 
 pub trait ScopeDataLike: Sized + Default + Clone {

@@ -62,6 +62,9 @@ where
 
     let data = v.data;
     let new_cache = v.new_size_cahce;
+
+    new_cache.borrow_mut().top = data.size_cache_for_next();
+
     (
         data,
         Rc::try_unwrap(new_cache)
@@ -130,6 +133,14 @@ where
         };
 
         let ret = op(&mut child);
+
+        if child_ctxt != SyntaxContext::empty() {
+            self.new_size_cahce
+                .borrow_mut()
+                .children
+                .insert(child_ctxt, child.data.size_cache_for_next());
+        }
+
         {
             let child_scope = child.data.scope(child_ctxt);
 

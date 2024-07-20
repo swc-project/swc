@@ -504,6 +504,14 @@ impl Storage for ProgramData {
             ),
         }
     }
+
+    fn size_cache_for_next(&self) -> Self::SizeCache {
+        SizeCache {
+            vars: self.vars.capacity() as _,
+            copes: self.scopes.capacity() as _,
+            initialized_vars: self.initialized_vars.capacity() as _,
+        }
+    }
 }
 
 impl ScopeDataLike for ScopeData {
