@@ -39,6 +39,7 @@
 #![allow(clippy::match_like_matches_macro)]
 
 use once_cell::sync::Lazy;
+use program_data::reset_cache;
 use swc_common::{comments::Comments, pass::Repeated, sync::Lrc, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
@@ -100,6 +101,8 @@ pub fn optimize(
     extra: &ExtraOptions,
 ) -> Program {
     let _timer = timer!("minify");
+
+    reset_cache();
 
     let mut marks = Marks::new();
     marks.top_level_ctxt = SyntaxContext::empty().apply_mark(extra.top_level_mark);
@@ -260,6 +263,8 @@ pub fn optimize(
         t.section("hygiene");
         t.end_section();
     }
+
+    reset_cache();
 
     n
 }

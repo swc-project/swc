@@ -1,4 +1,4 @@
-use std::{collections::hash_map::Entry, rc::Rc};
+use std::{cell::RefCell, collections::hash_map::Entry, rc::Rc};
 
 use indexmap::IndexSet;
 use rustc_hash::FxHashMap;
@@ -21,6 +21,18 @@ use swc_ecma_usage_analyzer::{
 use swc_ecma_visit::VisitWith;
 
 pub(crate) type SizeCahcePtr = Rc<PerScope<SizeCache>>;
+
+struct VarSizeCache {}
+
+thread_local! {
+    static VAR_SIZE_CACHE: RefCell<FxHashMap<(SyntaxContext,Id),VarSizeCache>> = Default::default();
+}
+
+pub(crate) fn reset_cache() {
+    VAR_SIZE_CACHE.with(|v| {
+        v.borrow_mut().clear();
+    });
+}
 
 pub(crate) fn analyze<N>(
     n: &N,
