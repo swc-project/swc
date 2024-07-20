@@ -50,7 +50,13 @@ pub(crate) fn analyze<N>(
 where
     N: VisitWith<UsageAnalyzer<ProgramData>>,
 {
-    analyze_with_storage::<ProgramData, _>(n, marks, size_cache)
+    let (mut data, size_cache) = analyze_with_storage::<ProgramData, _>(n, marks, size_cache);
+
+    for (id, var) in data.vars.iter_mut() {
+        var.store_size_cache(data.ctxt, id.clone());
+    }
+
+    (data, size_cache)
 }
 
 #[derive(Default, Clone, Copy)]
