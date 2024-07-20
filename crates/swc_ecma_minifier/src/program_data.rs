@@ -169,13 +169,13 @@ pub(crate) struct VarUsageInfo {
 impl VarUsageInfo {
     fn new_with_cache(ctxt: SyntaxContext, id: Id) -> Self {
         VAR_SIZE_CACHE.with(|v| {
-            let mut v = v.borrow_mut();
-            let size_cache = v.entry((ctxt, id)).or_insert_with(|| VarSizeCache {
+            let v = v.borrow();
+            let size_cache = v.get(&(ctxt, id));
+
+            VarUsageInfo::new(size_cache.cloned().unwrap_or(VarSizeCache {
                 infects_to: 0,
                 accessed_props: 0,
-            });
-
-            VarUsageInfo::new(*size_cache)
+            }))
         })
     }
 
