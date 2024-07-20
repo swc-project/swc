@@ -26,7 +26,7 @@ use swc_ecma_visit::VisitWith;
 
 pub(crate) type SizeCahcePtr = Rc<PerScope<SizeCache>>;
 
-#[derive(Clone, Copy)]
+#[derive(Debug, Clone, Copy)]
 struct VarSizeCache {
     infects_to: u32,
     accessed_props: u32,
@@ -524,12 +524,12 @@ impl Storage for ProgramData {
         let e = self.var_or_default(id);
         e.property_mutation_count += 1;
 
-        let mut to_mark_mutate = Vec::new();
-        for (other, kind) in &e.infects_to {
-            if *kind == AccessKind::Reference {
-                to_mark_mutate.push(other.clone())
-            }
-        }
+        let to_mark_mutate = e
+            .infects_to
+            .iter()
+            .filter(|(_, kind)| *kind == AccessKind::Reference)
+            .map(|(other, _)| other.clone())
+            .collect::<Vec<_>>();
 
         for other in to_mark_mutate {
             let other = self.var_or_default(other);
