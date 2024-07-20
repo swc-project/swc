@@ -1,4 +1,4 @@
-use std::rc::Rc;
+use std::{cell::RefCell, rc::Rc};
 
 use rustc_hash::FxHashMap;
 use swc_common::{collections::AHashMap, SyntaxContext};
@@ -18,6 +18,7 @@ use crate::{
 mod ctx;
 pub mod storage;
 
+#[derive(Default)]
 pub struct PerScope<T> {
     pub top: T,
     pub children: FxHashMap<SyntaxContext, T>,
@@ -31,7 +32,7 @@ pub fn analyze_with_storage<S, N>(
     n: &N,
     marks: Option<Marks>,
     size_cache: Rc<PerScope<S::SizeCache>>,
-) -> S
+) -> (S, Rc<PerScope<S::SizeCache>>)
 where
     S: Storage,
     N: VisitWith<UsageAnalyzer<S>>,
@@ -41,6 +42,7 @@ where
 
     let mut v = UsageAnalyzer {
         size_cache,
+        new_size_cahce: Default::default(),
         data,
         marks,
         scope: Default::default(),
@@ -58,7 +60,15 @@ where
 
     v.data.scope(SyntaxContext::empty()).merge(top_scope, false);
 
-    v.data
+    let data = v.data;
+    let new_cache = v.new_size_cahce;
+    (
+        data,
+        Rc::try_unwrap(new_cache)
+            .unwrap_or_else(|_| panic!("Failed to unwrap Rc"))
+            .into_inner()
+            .into(),
+    )
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -79,6 +89,7 @@ where
     S: Storage,
 {
     size_cache: Rc<PerScope<S::SizeCache>>,
+    new_size_cahce: Rc<RefCell<PerScope<S::SizeCache>>>,
     data: S,
     marks: Option<Marks>,
     scope: S::ScopeData,
@@ -105,6 +116,7 @@ where
         );
 
         let mut child = UsageAnalyzer {
+            new_size_cahce: self.new_size_cahce.clone(),
             size_cache,
             data,
             marks: self.marks,

@@ -1,4 +1,4 @@
-use std::collections::hash_map::Entry;
+use std::{collections::hash_map::Entry, rc::Rc};
 
 use indexmap::IndexSet;
 use rustc_hash::FxHashMap;
@@ -13,25 +13,27 @@ use swc_ecma_usage_analyzer::{
     analyzer::{
         analyze_with_storage,
         storage::{ScopeDataLike, Storage, VarDataLike},
-        Ctx, ScopeKind, UsageAnalyzer,
+        Ctx, PerScope, ScopeKind, UsageAnalyzer,
     },
     marks::Marks,
     util::is_global_var_with_pure_property_access,
 };
 use swc_ecma_visit::VisitWith;
 
+pub(crate) type SizeCahcePtr = Rc<PerScope<SizeCache>>;
+
 pub(crate) fn analyze<N>(
     n: &N,
     marks: Option<Marks>,
-    size_cache: &FxHashMap<SyntaxContext, SizeCache>,
-) -> (ProgramData, FxHashMap<SyntaxContext, SizeCache>)
+    size_cache: SizeCahcePtr,
+) -> (ProgramData, SizeCahcePtr)
 where
     N: VisitWith<UsageAnalyzer<ProgramData>>,
 {
     analyze_with_storage::<ProgramData, _>(n, marks, size_cache)
 }
 
-#[derive(Default)]
+#[derive(Default, Clone, Copy)]
 pub(crate) struct SizeCache {
     vars: u32,
     copes: u32,
@@ -497,7 +499,7 @@ impl Storage for ProgramData {
             top: Default::default(),
             scopes: FxHashMap::with_capacity_and_hasher(size_cache.copes as _, Default::default()),
             initialized_vars: IndexSet::with_capacity_and_hasher(
-                size_cache.initialized_vars,
+                size_cache.initialized_vars as _,
                 Default::default(),
             ),
         }

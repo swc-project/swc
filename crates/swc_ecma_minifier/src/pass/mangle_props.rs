@@ -110,7 +110,7 @@ pub(crate) fn mangle_properties(
         n: 0,
     };
 
-    let data = analyze(&*m, None);
+    let (data, _) = analyze(&*m, None, Default::default());
     m.visit_mut_with(&mut PropertyCollector {
         state: &mut state,
         data,

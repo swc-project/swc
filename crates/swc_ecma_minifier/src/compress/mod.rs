@@ -2,7 +2,7 @@
 use std::fmt::{self, Debug, Display, Formatter};
 #[cfg(feature = "debug")]
 use std::thread;
-use std::{borrow::Cow, fmt::Write, time::Instant};
+use std::{borrow::Cow, fmt::Write, mem::take, time::Instant};
 
 #[cfg(feature = "pretty_assertions")]
 use pretty_assertions::assert_eq;
@@ -26,7 +26,7 @@ use crate::{
     debug::{dump, AssertValid},
     mode::Mode,
     option::{CompressOptions, MangleOptions},
-    program_data::{analyze, ProgramData},
+    program_data::{analyze, ProgramData, SizeCahcePtr},
     util::{now, unit::CompileUnit},
 };
 
@@ -52,6 +52,7 @@ where
         pass: 1,
         dump_for_infinite_loop: Default::default(),
         mode,
+        size_cache: Default::default(),
     };
 
     chain!(
@@ -72,6 +73,7 @@ struct Compressor<'a> {
     mangle_options: Option<&'a MangleOptions>,
     changed: bool,
     pass: usize,
+    size_cache: SizeCahcePtr,
 
     dump_for_infinite_loop: Vec<String>,
 
@@ -98,7 +100,8 @@ impl Compressor<'_> {
         );
 
         if self.options.hoist_vars || self.options.hoist_fns {
-            let data = analyze(&*n, Some(self.marks));
+            let (data, size_cache) = analyze(&*n, Some(self.marks), take(&mut self.size_cache));
+            self.size_cache = size_cache;
 
             let mut v = decl_hoister(
                 DeclHoisterConfig {
@@ -266,7 +269,8 @@ impl Compressor<'_> {
         {
             let _timer = timer!("apply full optimizer");
 
-            let mut data = analyze(&*n, Some(self.marks));
+            let (mut data, size_cache) = analyze(&*n, Some(self.marks), take(&mut self.size_cache));
+            self.size_cache = size_cache;
 
             // TODO: reset_opt_flags
             //
