@@ -237,7 +237,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.7.1-nightly-20240721.1"
+version = "1.7.1-nightly-20240721.2"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -297,7 +297,7 @@ dependencies = [
 
 [[package]]
 name = "binding_minifier_wasm"
-version = "1.7.1-nightly-20240721.1"
+version = "1.7.1-nightly-20240721.2"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -310,7 +310,7 @@ dependencies = [
 
 [[package]]
 name = "binding_typescript_wasm"
-version = "1.7.1-nightly-20240721.1"
+version = "1.7.1-nightly-20240721.2"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -1248,6 +1248,10 @@ name = "hashbrown"
 version = "0.14.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e5274423e17b7c9fc20b6e7e208532f9b19825d82dfd615708b70edd83df41f1"
+dependencies = [
+ "ahash 0.8.11",
+ "allocator-api2",
+]
 
 [[package]]
 name = "heapless"
@@ -2876,12 +2880,14 @@ dependencies = [
 
 [[package]]
 name = "swc_allocator"
-version = "0.1.7"
+version = "0.1.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "89d080e1df9616d0371e154a5ac9640de97f9fa08486e2abf16482d97dc69017"
+checksum = "adc8bd3075d1c6964010333fae9ddcd91ad422a4f8eb8b3206a9b2b6afb4209e"
 dependencies = [
  "bumpalo",
+ "hashbrown 0.14.5",
  "ptr_meta",
+ "rustc-hash",
  "triomphe",
 ]
 
@@ -2947,7 +2953,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.91.329"
+version = "0.91.330"
 dependencies = [
  "anyhow",
  "swc_cli_impl",
@@ -3011,9 +3017,9 @@ dependencies = [
 
 [[package]]
 name = "swc_compiler_base"
-version = "0.15.1"
+version = "0.15.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4fa860deb6a676e31f520b89d1c093372ac6418f318b272d6205b70218053a12"
+checksum = "9dd217a48b2061a6fbb602450f347abed706246464f5a5ac24054502f2ab8923"
 dependencies = [
  "anyhow",
  "base64",
@@ -3094,9 +3100,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.117.1"
+version = "0.117.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e38921b6626345e680ded83479980b74f9cebee0748dd9ffb8078375e637e5b0"
+checksum = "0c6a4bcf9ea2ce03bc5f12e53aa46ef414fa96e60c4d93abee03051f147c8219"
 dependencies = [
  "bitflags 2.6.0",
  "bytecheck",
@@ -3114,9 +3120,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.154.1"
+version = "0.154.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "380ca5490791d7c6c3a64d7ea43cab96733b66442d5acc33f6fe971d8444abee"
+checksum = "a829b8d03ba1f3fabc8c7403233d33e61733032573319acdccfd44ecfc9e7ad7"
 dependencies = [
  "memchr",
  "num-bigint",
@@ -3657,9 +3663,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.189.1"
+version = "0.189.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a89a71394ac961158ab54c405edfa13ae143634946f7595d0720d66be1cbf132"
+checksum = "d411add563dd86d50b3db6e74e38def06587fa2fd370b430f71226688bfa6ded"
 dependencies = [
  "base64",
  "dashmap",
@@ -3737,9 +3743,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "0.103.2"
+version = "0.103.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e0045d8013d71965b7c52b28e6888cfbf54b0c40af62df8baade792c10b5dfc1"
+checksum = "ed8026e4d9abcb75d511bf7623d49e8e135f02f4f9a6bb7c115df8239cfe3d4f"
 dependencies = [
  "new_debug_unreachable",
  "num-bigint",
@@ -3789,9 +3795,9 @@ dependencies = [
 
 [[package]]
 name = "swc_fast_ts_strip"
-version = "0.4.1"
+version = "0.4.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a42ade682b0c898fe0f0f395351f59ed24387c65d94ddadcd18603e25e16b48c"
+checksum = "ca6d8beb2ed554172687b9c7427e5a2edd8129e5b0e5adf84c72f90014e79a02"
 dependencies = [
  "anyhow",
  "serde",
@@ -3842,9 +3848,9 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "0.71.0"
+version = "0.71.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b95a7e0df8d226e6e2012499f71cb26369861ad5eeedf8ac33fc11f3d28a5090"
+checksum = "c29ceaec3c64995fe4662c3b74a9cfe74934ada013e9f5530a4b36c2c004fb1a"
 dependencies = [
  "anyhow",
  "dashmap",
