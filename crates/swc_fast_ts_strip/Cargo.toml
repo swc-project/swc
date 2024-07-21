@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc_fast_ts_strip"
 repository    = { workspace = true }
-version       = "0.4.1"
+version       = "0.4.2"
 
 
 [dependencies]

@@ -1087,7 +1087,7 @@ checksum = "7e962a19be5cfc3f3bf6dd8f61eb50107f356ad6270fbb3ed41476571db78be5"
 
 [[package]]
 name = "dbg-swc"
-version = "0.99.2"
+version = "0.99.3"
 dependencies = [
  "anyhow",
  "clap 3.2.25",
@@ -3725,7 +3725,7 @@ dependencies = [
 
 [[package]]
 name = "swc_allocator"
-version = "0.1.7"
+version = "0.1.8"
 dependencies = [
  "bumpalo",
  "codspeed-criterion-compat",
@@ -3870,7 +3870,7 @@ dependencies = [
 
 [[package]]
 name = "swc_compiler_base"
-version = "0.15.1"
+version = "0.15.2"
 dependencies = [
  "anyhow",
  "base64",
@@ -4150,7 +4150,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_visit"
-version = "0.142.0"
+version = "0.142.1"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -4161,7 +4161,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.117.1"
+version = "0.117.2"
 dependencies = [
  "arbitrary",
  "bitflags 2.5.0",
@@ -4181,7 +4181,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.154.1"
+version = "0.154.2"
 dependencies = [
  "base64",
  "codspeed-criterion-compat",
@@ -4796,7 +4796,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.189.1"
+version = "0.189.2"
 dependencies = [
  "base64",
  "dashmap",
@@ -4907,7 +4907,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "0.103.2"
+version = "0.103.3"
 dependencies = [
  "new_debug_unreachable",
  "num-bigint",
@@ -5004,7 +5004,7 @@ dependencies = [
 
 [[package]]
 name = "swc_fast_ts_strip"
-version = "0.4.1"
+version = "0.4.2"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",
@@ -5145,7 +5145,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_visit"
-version = "0.36.0"
+version = "0.36.1"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -5400,7 +5400,7 @@ dependencies = [
 
 [[package]]
 name = "swc_xml_visit"
-version = "0.15.0"
+version = "0.15.1"
 dependencies = [
  "serde",
  "swc_atoms",

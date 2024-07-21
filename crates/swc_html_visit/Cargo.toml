@@ -9,7 +9,7 @@ edition = "2021"
 license = { workspace = true }
 name = "swc_html_visit"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.36.0"
+version = "0.36.1"
 
   [package.metadata.docs.rs]
   all-features = true

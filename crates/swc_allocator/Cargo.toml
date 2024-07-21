@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_allocator"
 repository    = { workspace = true }
-version       = "0.1.7"
+version       = "0.1.8"
 
   [package.metadata.docs.rs]
   all-features = true
