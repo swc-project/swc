@@ -1,13 +1,12 @@
 {
     "name": "@swc/types",
     "packageManager": "yarn@4.0.2",
-    "version": "0.1.10",
+    "version": "0.1.11",
     "description": "Typings for the swc project.",
     "sideEffects": false,
     "scripts": {
         "build": "tsc",
-        "prepublishOnly": "yarn build",
-        "prepack": "yarn build"
+        "prepublishOnly": "yarn build"
     },
     "repository": {
         "type": "git",
