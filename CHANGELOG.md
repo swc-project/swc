@@ -1351,9 +1351,6 @@
 - **(es/minifier)** Fix top-level check ([#8583](https://github.com/swc-project/swc/issues/8583)) ([a7c5255](https://github.com/swc-project/swc/commit/a7c5255ad1ad98c183b676af5caaf9057a9eccf1))
 
 
-- **(es/proposals)** Support using `using` keyword with functions ([#8574](https://github.com/swc-project/swc/issues/8574)) ([d81596c](https://github.com/swc-project/swc/commit/d81596cd2b03ab7523937ae3206797a9c3b819bf))
-
-
 - **(es/resolver)** Skip property in JSX member ([#8598](https://github.com/swc-project/swc/issues/8598)) ([d480ab9](https://github.com/swc-project/swc/commit/d480ab9ae8226fd8330376e33f0ad556c50d5b75))
 
 
