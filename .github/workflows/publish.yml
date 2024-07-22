@@ -40,9 +40,44 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  cargo-bump:
+    name: "Bump crates"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+
+      - name: Install cargo-edit
+        uses: baptiste0928/cargo-install@v2.2.0
+        with:
+          crate: cargo-edit
+          version: "0.12.2"
+          locked: true
+
+      - name: Install cargo-mono
+        uses: baptiste0928/cargo-install@v2.2.0
+        with:
+          crate: cargo-mono
+          version: "0.3.7"
+
+      - run: cargo bump
+
+      - uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.SWC_BOT_SSH }}
+
+      - name: Push bump commit
+        run: |
+          git push git@github.com:swc-project/swc.git --no-verify
+
   publish-cargo:
     name: "Publish cargo crates"
     runs-on: ubuntu-latest
+    needs:
+      - cargo-bump
     steps:
       - uses: actions/checkout@v4
 
@@ -64,7 +99,6 @@ jobs:
         with:
           crate: cargo-mono
           version: "0.3.7"
-          locked: true
 
       - name: Update constant of swc_core
         run: npx ts-node .github/bot/src/cargo/update-constants.ts
