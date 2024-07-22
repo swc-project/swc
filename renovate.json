@@ -3,12 +3,9 @@
     "extends": ["config:recommended"],
     "automergeStrategy": "squash",
     "automergeType": "pr",
+    "separateMinorPatch": true,
+    "separateMajorMinor": true,
     "packageRules": [
-        {
-            "groupName": "patch",
-            "matchUpdateTypes": ["patch"],
-            "automerge": true
-        },
         {
             "groupName": "npm",
             "matchDatasources": ["npm"]
