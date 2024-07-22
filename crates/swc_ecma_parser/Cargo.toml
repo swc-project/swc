@@ -34,6 +34,7 @@ phf                   = { workspace = true, features = ["macros"] }
 serde                 = { workspace = true, features = ["derive"] }
 smallvec              = { workspace = true }
 smartstring           = { workspace = true }
+static_assertions     = { workspace = true }
 tracing               = { workspace = true }
 typed-arena           = { workspace = true }
 
