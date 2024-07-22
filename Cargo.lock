@@ -4610,6 +4610,7 @@ dependencies = [
  "smallvec",
  "smartstring",
  "stacker",
+ "static_assertions",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
