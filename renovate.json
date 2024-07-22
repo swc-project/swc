@@ -6,11 +6,13 @@
     "packageRules": [
         {
             "groupName": "npm",
-            "matchDatasources": ["npm"]
+            "matchDatasources": ["npm"],
+            "matchCurrentVersion": ">=1.0.0"
         },
         {
             "groupName": "cargo",
-            "matchDatasources": ["crate"]
+            "matchDatasources": ["crate"],
+            "matchCurrentVersion": ">=1.0.0"
         },
         {
             "groupName": "actions",
