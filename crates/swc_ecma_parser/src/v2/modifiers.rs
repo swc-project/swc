@@ -4,7 +4,7 @@ use bitflags::bitflags;
 use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::Accessibility;
 
-use super::lexer::Kind;
+use super::lexer::{Kind, Token};
 
 bitflags! {
   /// Bitflag of modifiers and contextual modifiers.
