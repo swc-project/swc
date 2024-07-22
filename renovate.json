@@ -4,10 +4,23 @@
     "automergeType": "pr",
     "packageRules": [
         {
-            "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+            "groupName": "npm",
+            "matchDatasources": ["npm"]
+        },
+        {
+            "groupName": "npm-dev",
+            "matchDatasources": ["npm"],
+            "matchDepTypes": ["devDependencies"],
             "automerge": true
         },
         {
+            "groupName": "cargo",
+            "matchDatasources": ["cargo"],
+            "automerge": true
+        },
+        {
+            "groupName": "cargo-dev",
+            "matchDatasources": ["cargo"],
             "matchDepTypes": ["devDependencies"],
             "automerge": true
         }
