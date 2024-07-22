@@ -1,16 +1,8 @@
 //! Based on `modifiers.rs` of [oxc](https://github.com/oxc-project/oxc/blob/21c7b090dd61e6944356d3de9164395c9f7c10fb/crates/oxc_parser/src/modifiers.rs)
 
 use bitflags::bitflags;
-use oxc_allocator::Vec;
-use oxc_ast::ast::TSAccessibility;
-use oxc_diagnostics::{OxcDiagnostic, Result};
-use oxc_span::{GetSpan, Span, SPAN};
 
-use crate::{
-    diagnostics,
-    lexer::{Kind, Token},
-    ParserImpl,
-};
+use super::lexer::Kind;
 
 bitflags! {
   /// Bitflag of modifiers and contextual modifiers.
