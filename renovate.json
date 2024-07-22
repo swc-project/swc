@@ -13,6 +13,11 @@
             "matchDatasources": ["crate"]
         },
         {
+            "groupName": "actions",
+            "matchManagers": ["github-actions"],
+            "automerge": true
+        },
+        {
             "matchDepTypes": ["devDependencies"],
             "automerge": true
         },
