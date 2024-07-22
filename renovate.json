@@ -9,7 +9,10 @@
         },
         {
             "groupName": "cargo",
-            "matchDatasources": ["cargo"],
+            "matchDatasources": ["cargo"]
+        },
+        {
+            "matchDepTypes": ["devDependencies"],
             "automerge": true
         }
     ]
