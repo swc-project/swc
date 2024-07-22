@@ -1,0 +1,43 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": ["config:recommended"],
+    "automergeStrategy": "squash",
+    "automergeType": "pr",
+    "packageRules": [
+        {
+            "matchCurrentVersion": "< 1.0.0",
+            "separateMinorPatch": true,
+            "patch": {
+                "groupName": "all non-breaking updates",
+                "groupSlug": "non-breaking"
+            },
+            "automerge": true
+        },
+        {
+            "matchCurrentVersion": ">= 1.0.0",
+            "minor": {
+                "groupName": "all non-breaking updates",
+                "groupSlug": "non-breaking"
+            },
+            "automerge": true
+        },
+        {
+            "groupName": "npm",
+            "matchDatasources": ["npm"]
+        },
+        {
+            "groupName": "cargo",
+            "matchDatasources": ["crate"]
+        },
+        {
+            "groupName": "actions",
+            "matchManagers": ["github-actions"],
+            "automerge": true
+        },
+        {
+            "matchDepTypes": ["devDependencies"],
+            "automerge": true
+        }
+    ],
+    "ignorePaths": ["packages/core/e2e/fixtures"]
+}
