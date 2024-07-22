@@ -10,14 +10,16 @@
             "patch": {
                 "groupName": "all non-breaking updates",
                 "groupSlug": "non-breaking"
-            }
+            },
+            "automerge": true
         },
         {
             "matchCurrentVersion": ">= 1.0.0",
             "minor": {
                 "groupName": "all non-breaking updates",
                 "groupSlug": "non-breaking"
-            }
+            },
+            "automerge": true
         },
         {
             "groupName": "npm",
