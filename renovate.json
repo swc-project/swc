@@ -1,0 +1,29 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": ["config:recommended"],
+    "automergeStrategy": "squash",
+    "automergeType": "pr",
+    "packageRules": [
+        {
+            "groupName": "npm",
+            "matchDatasources": ["npm"]
+        },
+        {
+            "groupName": "cargo",
+            "matchDatasources": ["crate"]
+        },
+        {
+            "groupName": "actions",
+            "matchManagers": ["github-actions"],
+            "automerge": true
+        },
+        {
+            "matchDepTypes": ["devDependencies"],
+            "automerge": true
+        },
+        {
+            "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+            "automerge": true
+        }
+    ]
+}
