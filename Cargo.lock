@@ -4595,6 +4595,7 @@ dependencies = [
 name = "swc_ecma_parser"
 version = "0.148.1"
 dependencies = [
+ "bitflags 2.5.0",
  "codspeed-criterion-compat",
  "criterion",
  "either",
