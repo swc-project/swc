@@ -24,7 +24,7 @@ macro_rules! quote_ident {
     ($ctxt:expr, $s:expr) => {{
         let sym: $crate::swc_atoms::Atom = $s.into();
         let id: $crate::swc_ecma_ast::Ident =
-            $crate::swc_ecma_ast::Ident::new(sym, DUMMY_SP, $ctxt);
+            $crate::swc_ecma_ast::Ident::new(sym, $crate::swc_common::DUMMY_SP, $ctxt);
 
         id
     }};
