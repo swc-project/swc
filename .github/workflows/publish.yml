@@ -46,8 +46,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: ./.github/actions/setup-node
-
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
