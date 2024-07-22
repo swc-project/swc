@@ -1,6 +1,8 @@
 //! Based on `modifiers.rs` of [oxc](https://github.com/oxc-project/oxc/blob/21c7b090dd61e6944356d3de9164395c9f7c10fb/crates/oxc_parser/src/modifiers.rs)
 
 use bitflags::bitflags;
+use swc_common::{Span, Spanned, DUMMY_SP};
+use swc_ecma_ast::Accessibility;
 
 use super::lexer::Kind;
 
@@ -77,16 +79,16 @@ impl From<ModifierKind> for ModifierFlags {
 }
 
 impl ModifierFlags {
-    pub(crate) fn accessibility(self) -> Option<TSAccessibility> {
+    pub(crate) fn accessibility(self) -> Option<Accessibility> {
         if self.contains(Self::PUBLIC) {
-            return Some(TSAccessibility::Public);
+            return Some(Accessibility::Public);
         }
         if self.contains(Self::PROTECTED) {
-            return Some(TSAccessibility::Protected);
+            return Some(Accessibility::Protected);
         }
 
         if self.contains(Self::PRIVATE) {
-            return Some(TSAccessibility::Private);
+            return Some(Accessibility::Private);
         }
         None
     }
@@ -180,7 +182,7 @@ impl<'a> Modifiers<'a> {
             .flat_map(|modifiers| modifiers.iter())
     }
 
-    pub fn accessibility(&self) -> Option<TSAccessibility> {
+    pub fn accessibility(&self) -> Option<Accessibility> {
         self.flags.accessibility()
     }
 
@@ -215,10 +217,10 @@ impl<'a> Modifiers<'a> {
     }
 }
 
-impl GetSpan for Modifiers<'_> {
+impl Spanned for Modifiers<'_> {
     fn span(&self) -> Span {
         let Some(modifiers) = &self.modifiers else {
-            return SPAN;
+            return DUMMY_SP;
         };
         debug_assert!(!modifiers.is_empty());
         // SAFETY: One of Modifier's invariants is that Some(modifiers) always
