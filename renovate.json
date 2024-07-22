@@ -1,6 +1,7 @@
 {
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
     "extends": ["config:recommended"],
+    "automergeStrategy": "squash",
     "automergeType": "pr",
     "packageRules": [
         {
@@ -10,6 +11,14 @@
         {
             "groupName": "cargo",
             "matchDatasources": ["crate"]
+        },
+        {
+            "matchDepTypes": ["devDependencies"],
+            "automerge": true
+        },
+        {
+            "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+            "automerge": true
         }
     ]
 }
