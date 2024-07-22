@@ -42,7 +42,7 @@ path-clean = "0.1"
 serde = { version = "1", features = ["derive"] }
 serde_json = { version = "1", features = ["unbounded_depth"] }
 tracing = { version = "0.1.37", features = ["release_max_level_info"] }
-tracing-chrome = "0.5.0"
+tracing-chrome = "0.7.0"
 tracing-futures = "0.2.5"
 tracing-subscriber = { version = "0.3.9", features = ["env-filter"] }
 

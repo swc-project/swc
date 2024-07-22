@@ -44,4 +44,4 @@ swc_common = { version = "0.36.0", path = "../swc_common" }
 lazy_static = { workspace = true }
 
 [target.'cfg(windows)'.dependencies]
-normpath = { version = "0.2", optional = true }
+normpath = { version = "0.3", optional = true }
