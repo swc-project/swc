@@ -3,9 +3,22 @@
     "extends": ["config:recommended"],
     "automergeStrategy": "squash",
     "automergeType": "pr",
-    "separateMinorPatch": true,
-    "separateMajorMinor": true,
     "packageRules": [
+        {
+            "matchCurrentVersion": "< 1.0.0",
+            "separateMinorPatch": true,
+            "patch": {
+                "groupName": "all non-breaking updates",
+                "groupSlug": "non-breaking"
+            }
+        },
+        {
+            "matchCurrentVersion": ">= 1.0.0",
+            "minor": {
+                "groupName": "all non-breaking updates",
+                "groupSlug": "non-breaking"
+            }
+        },
         {
             "groupName": "npm",
             "matchDatasources": ["npm"]
