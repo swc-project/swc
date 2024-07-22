@@ -5,6 +5,10 @@
     "automergeType": "pr",
     "packageRules": [
         {
+            "groupName": "patch",
+            "matchUpdateTypes": ["patch"]
+        },
+        {
             "groupName": "npm",
             "matchDatasources": ["npm"]
         },
