@@ -1,2 +1,4 @@
+pub use self::{kind::Kind, token::Token};
+
 mod kind;
-pub use self::kind::Kind;
+mod token;
