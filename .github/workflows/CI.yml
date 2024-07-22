@@ -343,8 +343,8 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          # - ubuntu-latest
-          - windows-latest
+          - ubuntu-latest
+          # - windows-latest
           - macos-latest
     steps:
       - uses: actions/checkout@v4
