@@ -1,2 +1,4 @@
+mod context;
 pub mod lexer;
-pub mod parser;
+
+pub struct Parser {}
