@@ -6,7 +6,8 @@
     "packageRules": [
         {
             "groupName": "patch",
-            "matchUpdateTypes": ["patch"]
+            "matchUpdateTypes": ["patch"],
+            "automerge": true
         },
         {
             "groupName": "npm",
