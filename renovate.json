@@ -17,15 +17,18 @@
         {
             "groupName": "actions",
             "matchManagers": ["github-actions"],
-            "automerge": true
+            "automerge": true,
+            "matchCurrentVersion": ">=1.0.0"
         },
         {
             "matchDepTypes": ["devDependencies"],
-            "automerge": true
+            "automerge": true,
+            "matchCurrentVersion": ">=1.0.0"
         },
         {
             "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
-            "automerge": true
+            "automerge": true,
+            "matchCurrentVersion": ">=1.0.0"
         }
     ],
     "ignorePaths": ["packages/core/e2e/fixtures"]
