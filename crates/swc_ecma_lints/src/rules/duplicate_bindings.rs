@@ -420,11 +420,8 @@ fn emit_error(name: &str, span: Span, prev_span: Span) {
                 span,
                 &format!("the name `{}` is defined multiple times", name),
             )
-            .span_label(
-                prev_span,
-                &format!("previous definition of `{}` here", name),
-            )
-            .span_label(span, &format!("`{}` redefined here", name))
+            .span_label(prev_span, format!("previous definition of `{}` here", name))
+            .span_label(span, format!("`{}` redefined here", name))
             .emit();
     });
 }

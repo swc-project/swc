@@ -74,7 +74,7 @@ impl CheckSizeCommand {
             println!(
                 "{}: {} bytes (swc) vs {} bytes (terser)",
                 file.path
-                    .strip_prefix(&self.workspace.join("inputs"))
+                    .strip_prefix(self.workspace.join("inputs"))
                     .unwrap()
                     .display(),
                 file.swc,
@@ -92,7 +92,7 @@ impl CheckSizeCommand {
                 format!(
                     "{}: Diff: {} bytes; {} bytes (swc) vs {} bytes (terser)",
                     f.path
-                        .strip_prefix(&self.workspace.join("inputs"))
+                        .strip_prefix(self.workspace.join("inputs"))
                         .unwrap()
                         .display(),
                     f.swc as i32 - f.terser as i32,

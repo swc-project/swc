@@ -2108,7 +2108,7 @@ impl Minifier<'_> {
 
     fn minify_sizes(&self, value: &str) -> Option<String> {
         let values = value
-            .rsplitn(2, |c| matches!(c, '\t' | '\n' | '\x0C' | '\r' | ' '))
+            .rsplitn(2, ['\t', '\n', '\x0C', '\r', ' '])
             .collect::<Vec<&str>>();
 
         if values.len() != 2 {

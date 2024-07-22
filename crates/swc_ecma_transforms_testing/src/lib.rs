@@ -659,7 +659,7 @@ fn exec_with_node_test_runner(src: &str) -> Result<(), ()> {
     };
 
     let output = base_cmd
-        .arg(&format!("{}", path.display()))
+        .arg(format!("{}", path.display()))
         .arg("--color")
         .current_dir(root)
         .output()

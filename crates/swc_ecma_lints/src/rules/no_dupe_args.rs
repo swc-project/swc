@@ -25,7 +25,7 @@ fn error(first: &BindingIdent, second: &BindingIdent) {
                 ),
             )
             .span_label(first.span, "previous definition here".to_string())
-            .span_label(second.span, &"used as parameter more than once".to_string())
+            .span_label(second.span, "used as parameter more than once".to_string())
             .emit();
     });
 }

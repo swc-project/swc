@@ -489,5 +489,5 @@ impl VisitMut for Compressor {
 }
 
 fn contains_only_ascii_characters(string: &str) -> bool {
-    string.chars().all(|c: char| c.is_ascii())
+    string.is_ascii()
 }
