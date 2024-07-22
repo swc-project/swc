@@ -86,7 +86,7 @@ jobs:
           version: "1.7"
           force: true
 
-      - uses: webfactory/ssh-agent@v0.5.4
+      - uses: webfactory/ssh-agent@v0.9.0
         if: needs.check-if-build-required.outputs.need-build == 'true' && !inputs.skipPublishing
         with:
           ssh-private-key: ${{ secrets.SWC_BOT_SSH }}
