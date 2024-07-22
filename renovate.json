@@ -6,29 +6,20 @@
     "packageRules": [
         {
             "groupName": "npm",
-            "matchDatasources": ["npm"],
-            "matchCurrentVersion": ">=1.0.0"
+            "matchDatasources": ["npm"]
         },
         {
             "groupName": "cargo",
-            "matchDatasources": ["crate"],
-            "matchCurrentVersion": ">=1.0.0"
+            "matchDatasources": ["crate"]
         },
         {
             "groupName": "actions",
             "matchManagers": ["github-actions"],
-            "automerge": true,
-            "matchCurrentVersion": ">=1.0.0"
+            "automerge": true
         },
         {
             "matchDepTypes": ["devDependencies"],
-            "automerge": true,
-            "matchCurrentVersion": ">=1.0.0"
-        },
-        {
-            "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
-            "automerge": true,
-            "matchCurrentVersion": ">=1.0.0"
+            "automerge": true
         }
     ],
     "ignorePaths": ["packages/core/e2e/fixtures"]
