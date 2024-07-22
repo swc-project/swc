@@ -1,5 +1,3 @@
-//! Copied from oxc. https://github.com/oxc-project/oxc/blob/21c7b090dd61e6944356d3de9164395c9f7c10fb/crates/oxc_parser/
-
 use super::{Kind, Lexer};
 use crate::diagnostics;
 

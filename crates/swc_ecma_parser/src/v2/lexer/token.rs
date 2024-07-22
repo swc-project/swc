@@ -1,8 +1,6 @@
 //! Token
-//!
-//! Copied from oxc. https://github.com/oxc-project/oxc/blob/21c7b090dd61e6944356d3de9164395c9f7c10fb/crates/oxc_parser/
 
-use swc_common::{BytePos, Span};
+use oxc_span::Span;
 
 use super::kind::Kind;
 
@@ -12,10 +10,10 @@ pub struct Token {
     pub kind: Kind,
 
     /// Start offset in source
-    pub start: BytePos,
+    pub start: u32,
 
     /// End offset in source
-    pub end: BytePos,
+    pub end: u32,
 
     /// Indicates the token is on a newline
     pub is_on_new_line: bool,
