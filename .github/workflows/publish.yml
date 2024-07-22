@@ -65,7 +65,7 @@ jobs:
 
       - run: cargo bump
 
-      - uses: webfactory/ssh-agent@v0.5.4
+      - uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.SWC_BOT_SSH }}
 
