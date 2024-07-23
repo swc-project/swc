@@ -1,7 +1,4 @@
-use std::{
-    mem::replace,
-    sync::atomic::{AtomicBool, Ordering},
-};
+use std::{cell::RefCell, mem::replace};
 
 use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
@@ -52,7 +49,7 @@ macro_rules! add_to {
             parse(&code)
         });
 
-        let enable = $b.load(Ordering::Relaxed);
+        let enable = $b;
         if enable {
             $buf.extend(STMTS.iter().cloned().map(|mut stmt| {
                 stmt.visit_mut_with(&mut Marker {
@@ -69,7 +66,7 @@ macro_rules! add_to {
 
 macro_rules! add_import_to {
     ($buf:expr, $name:ident, $b:expr, $mark:expr) => {{
-        let enable = $b.load(Ordering::Relaxed);
+        let enable = $b;
         if enable {
             let ctxt = SyntaxContext::empty().apply_mark($mark);
             let s = ImportSpecifier::Named(ImportNamedSpecifier {
@@ -105,6 +102,13 @@ better_scoped_tls::scoped_tls!(
 pub struct Helpers {
     external: bool,
     mark: HelperMark,
+    inner: RefCell<Inner>,
+}
+
+#[derive(Debug, Clone, Copy)]
+pub struct HelperData {
+    external: bool,
+    mark: HelperMark,
     inner: Inner,
 }
 
@@ -124,6 +128,22 @@ impl Helpers {
     pub const fn external(&self) -> bool {
         self.external
     }
+
+    pub fn data(&self) -> HelperData {
+        HelperData {
+            inner: *self.inner.borrow(),
+            external: self.external,
+            mark: self.mark,
+        }
+    }
+
+    pub fn from_data(data: HelperData) -> Self {
+        Helpers {
+            external: data.external,
+            mark: data.mark,
+            inner: RefCell::new(data.inner),
+        }
+    }
 }
 
 #[derive(Debug, Clone, Copy)]
@@ -140,15 +160,15 @@ macro_rules! define_helpers {
             $( $name:ident : ( $( $dep:ident ),* ), )*
         }
     ) => {
-        #[derive(Debug,Default)]
+        #[derive(Debug,Default, Clone, Copy)]
         struct Inner {
-            $( $name: AtomicBool, )*
+            $( $name: bool, )*
         }
 
         impl Helpers {
             $(
                 pub fn $name(&self) {
-                    self.inner.$name.store(true, Ordering::Relaxed);
+                    self.inner.borrow_mut().$name = true;
 
                     if !self.external {
                         $(
@@ -159,11 +179,14 @@ macro_rules! define_helpers {
             )*
         }
 
+
         impl Helpers {
             pub fn extend_from(&self, other: &Self) {
+                let other = other.inner.borrow();
+                let mut me = self.inner.borrow_mut();
                 $(
-                    if other.inner.$name.load(Ordering::SeqCst) {
-                        self.inner.$name.store(true, Ordering::Relaxed);
+                    if other.$name {
+                        me.$name = true;
                     }
                 )*
             }
@@ -173,8 +196,9 @@ macro_rules! define_helpers {
             fn is_helper_used(&self) -> bool{
 
                 HELPERS.with(|helpers|{
+                    let inner = helpers.inner.borrow();
                     false $(
-                      || helpers.inner.$name.load(Ordering::Relaxed)
+                      || inner.$name
                     )*
                 })
             }
@@ -184,8 +208,9 @@ macro_rules! define_helpers {
 
                 HELPERS.with(|helpers|{
                     debug_assert!(!helpers.external);
+                    let inner = helpers.inner.borrow();
                     $(
-                            add_to!(buf, $name, helpers.inner.$name, helpers.mark.0);
+                            add_to!(buf, $name, inner.$name, helpers.mark.0);
                     )*
                 });
 
@@ -196,9 +221,10 @@ macro_rules! define_helpers {
                 let mut buf = Vec::new();
 
                 HELPERS.with(|helpers|{
+                    let inner = helpers.inner.borrow();
                     debug_assert!(helpers.external);
                     $(
-                            add_import_to!(buf, $name, helpers.inner.$name, helpers.mark.0);
+                            add_import_to!(buf, $name, inner.$name, helpers.mark.0);
                     )*
                 });
 
@@ -209,8 +235,9 @@ macro_rules! define_helpers {
                 let mut buf = Vec::new();
                 HELPERS.with(|helpers|{
                     debug_assert!(helpers.external);
+                    let inner = helpers.inner.borrow();
                     $(
-                        let enable = helpers.inner.$name.load(Ordering::Relaxed);
+                        let enable = inner.$name;
                         if enable {
                             buf.push(self.build_reqire(stringify!($name), helpers.mark.0))
                         }

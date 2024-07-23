@@ -6,7 +6,7 @@ use swc_common::{collections::AHashMap, util::move_map::MoveMap, FileName, Mark,
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{
     fixer::fixer,
-    helpers::{inject_helpers, HELPERS},
+    helpers::{inject_helpers, Helpers, HELPERS},
     hygiene::hygiene,
 };
 use swc_ecma_utils::{contains_top_level_await, find_pat_ids, private_ident, ExprFactory};
@@ -48,15 +48,16 @@ where
 
                 {
                     // Inject swc helpers
-                    let swc_helpers = self
+                    let swc_helpers = *self
                         .scope
                         .get_module(bundle.id)
                         .expect("module should exist at this point")
-                        .swc_helpers;
+                        .swc_helpers
+                        .lock();
 
                     let module = bundle.module;
 
-                    bundle.module = HELPERS.set(&swc_helpers, || {
+                    bundle.module = HELPERS.set(&Helpers::from_data(swc_helpers), || {
                         module.fold_with(&mut inject_helpers(unresolved_mark))
                     });
                 }
