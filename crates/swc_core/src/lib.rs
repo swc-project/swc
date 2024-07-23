@@ -32,7 +32,7 @@ pub extern crate swc_ecma_quote_macros;
 )]
 pub mod plugin;
 
-#[cfg(feature = "preset_env")]
+#[cfg(feature = "ecma_preset_env")]
 #[cfg_attr(docsrs, doc(cfg(feature = "preset_env")))]
 pub mod preset_env {
     pub use preset_env_base::*;

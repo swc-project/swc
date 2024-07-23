@@ -63,32 +63,5 @@ fn bench_serde(c: &mut Criterion) {
     });
 }
 
-fn bench_ast_node(c: &mut Criterion) {
-    #[cfg(feature = "serde-impl")]
-    c.bench_function("serialization of ast node", |b| {
-        let src = AstNode::String(Str {
-            span: DUMMY_SP,
-            value: String::from("perf-diff"),
-        });
-
-        b.iter(|| black_box(serde_json::to_string(&src).unwrap()));
-    });
-    #[cfg(feature = "serde-impl")]
-    c.bench_function("deserialization of ast node", |b| {
-        let src = serde_json::to_string(&AstNode::String(Str {
-            span: DUMMY_SP,
-            value: String::from("perf-diff"),
-        }))
-        .unwrap();
-        println!("{}", src);
-
-        b.iter(|| {
-            let t: AstNode = serde_json::from_str(&src).unwrap();
-
-            black_box(t);
-        });
-    });
-}
-
-criterion_group!(benches, bench_ast_node, bench_serde);
+criterion_group!(benches, bench_serde);
 criterion_main!(benches);

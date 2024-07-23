@@ -9,6 +9,7 @@ use crate::HEAVY_TASK_PARALLELS;
 /// Optimizer invoked before invoking compressor.
 ///
 /// - Remove parens.
+///
 /// TODO: remove completely after #8333
 pub(crate) fn precompress_optimizer<'a>() -> impl 'a + VisitMut {
     PrecompressOptimizer {}

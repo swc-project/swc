@@ -13,11 +13,8 @@ impl Pure<'_> {
         if !self.options.props {
             return None;
         }
-        if let Some(obj) = obj {
-            match obj {
-                Expr::Array(..) | Expr::Await(..) | Expr::Yield(..) | Expr::Lit(..) => return None,
-                _ => {}
-            }
+        if let Some(Expr::Array(..) | Expr::Await(..) | Expr::Yield(..) | Expr::Lit(..)) = obj {
+            return None;
         }
 
         match &*c.expr {
