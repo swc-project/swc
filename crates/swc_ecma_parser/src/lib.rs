@@ -144,6 +144,7 @@ pub mod token;
 pub mod error;
 pub mod lexer;
 mod parser;
+mod syntax;
 pub mod v2;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize)]
