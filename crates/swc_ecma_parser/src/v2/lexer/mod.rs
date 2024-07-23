@@ -36,7 +36,7 @@ use oxc_ast::ast::RegExpFlags;
 use oxc_diagnostics::OxcDiagnostic;
 use oxc_span::SourceType;
 use rustc_hash::FxHashMap;
-use swc_common::Span;
+use swc_common::{BytePos, Span};
 
 use self::{
     byte_handlers::handle_byte,
@@ -242,8 +242,8 @@ impl<'a> Lexer<'a> {
     /// Get the length offset from the source, in UTF-8 bytes
     #[inline]
     #[allow(clippy::cast_possible_truncation)]
-    fn offset(&self) -> u32 {
-        self.source.offset()
+    fn offset(&self) -> BytePos {
+        BytePos(self.source.offset())
     }
 
     /// Get the current unterminated token range

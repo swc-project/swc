@@ -1,6 +1,6 @@
 //! Token
 
-use oxc_span::Span;
+use swc_common::{BytePos, Span};
 
 use super::kind::Kind;
 
@@ -10,10 +10,10 @@ pub struct Token {
     pub kind: Kind,
 
     /// Start offset in source
-    pub start: u32,
+    pub start: BytePos,
 
     /// End offset in source
-    pub end: u32,
+    pub end: BytePos,
 
     /// Indicates the token is on a newline
     pub is_on_new_line: bool,
