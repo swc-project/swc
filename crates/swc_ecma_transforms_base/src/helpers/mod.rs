@@ -181,7 +181,7 @@ macro_rules! define_helpers {
 
 
         impl Helpers {
-            pub fn extend_from(&mut self, other: &Self) {
+            pub fn extend_from(&self, other: &Self) {
                 let other = other.inner.borrow();
                 let mut me = self.inner.borrow_mut();
                 $(

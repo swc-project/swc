@@ -9,6 +9,7 @@ use swc_common::{
     FileName, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::helpers::Helpers;
 use swc_ecma_utils::{find_pat_ids, prepend_stmt, private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{VisitMut, VisitMutWith};
 use EdgeDirection::Outgoing;
@@ -104,7 +105,18 @@ where
             let deps = all_deps_of_entry.iter().map(|id| {
                 let dep_info = self.scope.get_module(*id).unwrap();
                 entry_info.helpers.extend(&dep_info.helpers);
-                entry_info.swc_helpers.extend_from(&dep_info.swc_helpers);
+
+                {
+                    let helpers = *entry_info.swc_helpers.lock();
+                    let dep_helpers = *dep_info.swc_helpers.lock();
+
+                    let helpers = Helpers::from_data(helpers);
+                    let dep_helpers = Helpers::from_data(dep_helpers);
+
+                    helpers.extend_from(&dep_helpers);
+
+                    *entry_info.swc_helpers.lock() = helpers.data();
+                }
 
                 if *id == entry_id {
                     return Modules::empty(injected_ctxt);
