@@ -1,7 +1,4 @@
-use std::{
-    mem::replace,
-    sync::atomic::{AtomicBool, Ordering},
-};
+use std::mem::replace;
 
 use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
@@ -142,7 +139,7 @@ macro_rules! define_helpers {
     ) => {
         #[derive(Debug,Default)]
         struct Inner {
-            $( $name: AtomicBool, )*
+            $( $name: bool, )*
         }
 
         impl Helpers {
