@@ -315,7 +315,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "0.73.0"
+version = "0.73.1"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -1093,7 +1093,7 @@ checksum = "7e962a19be5cfc3f3bf6dd8f61eb50107f356ad6270fbb3ed41476571db78be5"
 
 [[package]]
 name = "dbg-swc"
-version = "0.99.3"
+version = "0.99.4"
 dependencies = [
  "anyhow",
  "clap 3.2.25",
@@ -3747,7 +3747,7 @@ checksum = "7da8b5736845d9f2fcb837ea5d9e2628564b3b043a70948a3f0b778838c5fb4f"
 
 [[package]]
 name = "swc"
-version = "0.282.2"
+version = "0.282.3"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -3846,7 +3846,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.233.2"
+version = "0.233.3"
 dependencies = [
  "anyhow",
  "crc",
@@ -3925,7 +3925,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.36.1"
+version = "0.36.2"
 dependencies = [
  "ahash 0.8.11",
  "anyhow",
@@ -4011,7 +4011,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.99.3"
+version = "0.99.4"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4093,7 +4093,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.154.1"
+version = "0.154.2"
 dependencies = [
  "auto_impl",
  "bitflags 2.5.0",
@@ -4121,7 +4121,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_compat"
-version = "0.30.1"
+version = "0.30.2"
 dependencies = [
  "bitflags 2.5.0",
  "once_cell",
@@ -4158,7 +4158,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_minifier"
-version = "0.119.1"
+version = "0.119.2"
 dependencies = [
  "codspeed-criterion-compat",
  "criterion",
@@ -4253,7 +4253,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.117.2"
+version = "0.117.3"
 dependencies = [
  "arbitrary",
  "bitflags 2.5.0",
@@ -4273,7 +4273,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.154.2"
+version = "0.154.3"
 dependencies = [
  "base64",
  "codspeed-criterion-compat",
@@ -4298,7 +4298,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen_macros"
-version = "0.7.6"
+version = "0.7.7"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -4508,7 +4508,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.98.1"
+version = "0.98.2"
 dependencies = [
  "auto_impl",
  "dashmap",
@@ -4551,7 +4551,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.200.2"
+version = "0.200.3"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4714,7 +4714,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.143.2"
+version = "0.143.3"
 dependencies = [
  "better_scoped_tls",
  "bitflags 2.5.0",
@@ -4803,7 +4803,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.186.2"
+version = "0.186.3"
 dependencies = [
  "Inflector",
  "anyhow",
@@ -4916,7 +4916,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "0.146.1"
+version = "0.146.2"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4940,7 +4940,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.194.1"
+version = "0.194.2"
 dependencies = [
  "codspeed-criterion-compat",
  "criterion",
@@ -4963,7 +4963,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_usage_analyzer"
-version = "0.29.1"
+version = "0.29.2"
 dependencies = [
  "indexmap 2.2.6",
  "rustc-hash",
@@ -4978,7 +4978,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.133.2"
+version = "0.133.3"
 dependencies = [
  "indexmap 2.2.6",
  "num_cpus",
@@ -5086,7 +5086,7 @@ dependencies = [
 
 [[package]]
 name = "swc_fast_graph"
-version = "0.24.0"
+version = "0.24.1"
 dependencies = [
  "indexmap 2.2.6",
  "petgraph",
@@ -5151,7 +5151,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_codegen"
-version = "0.45.1"
+version = "0.45.2"
 dependencies = [
  "auto_impl",
  "bitflags 2.5.0",
@@ -5178,7 +5178,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.142.1"
+version = "0.142.2"
 dependencies = [
  "codspeed-criterion-compat",
  "criterion",
@@ -5209,7 +5209,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.42.1"
+version = "0.42.2"
 dependencies = [
  "codspeed-criterion-compat",
  "criterion",
@@ -5248,7 +5248,7 @@ dependencies = [
 
 [[package]]
 name = "swc_macros_common"
-version = "0.3.12"
+version = "0.3.13"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -5343,7 +5343,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.111.1"
+version = "0.111.2"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",
@@ -5421,7 +5421,7 @@ dependencies = [
 
 [[package]]
 name = "swc_visit"
-version = "0.6.0"
+version = "0.6.1"
 dependencies = [
  "either",
 ]
@@ -5632,7 +5632,7 @@ checksum = "3369f5ac52d5eb6ab48c6b4ffdc8efbcad6b89c765749064ba298f2c68a16a76"
 
 [[package]]
 name = "testing"
-version = "0.38.0"
+version = "0.38.1"
 dependencies = [
  "ansi_term",
  "cargo_metadata",
