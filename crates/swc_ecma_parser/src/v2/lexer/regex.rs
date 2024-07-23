@@ -25,7 +25,7 @@ impl<'a> Lexer<'a> {
     }
 
     /// 12.9.5 Regular Expression Literals
-    fn read_regex(&mut self) -> (u32, RegExpFlags) {
+    fn read_regex(&mut self) -> (BytePos, RegExpFlags) {
         let mut in_escape = false;
         let mut in_character_class = false;
         loop {
@@ -37,7 +37,7 @@ impl<'a> Lexer<'a> {
                 Some(c) if is_line_terminator(c) => {
                     self.error(diagnostics::unterminated_reg_exp(self.unterminated_range()));
                     #[allow(clippy::cast_possible_truncation)]
-                    let pattern_end = self.offset() - c.len_utf8() as u32;
+                    let pattern_end = self.offset() - BytePos(c.len_utf8() as u32);
                     return (pattern_end, RegExpFlags::empty());
                 }
                 Some(c) => {
