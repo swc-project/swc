@@ -232,15 +232,6 @@ pub(super) fn use_strict() -> Stmt {
     Lit::Str(quote_str!("use strict")).into_stmt()
 }
 
-/// Private `_exports` ident.
-pub(super) struct Exports(#[allow(dead_code)] pub Ident);
-
-impl Default for Exports {
-    fn default() -> Self {
-        Exports(private_ident!("_exports"))
-    }
-}
-
 pub(crate) fn object_define_enumerable(
     target: ExprOrSpread,
     prop_name: ExprOrSpread,

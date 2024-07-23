@@ -30,3 +30,9 @@ impl Parallel for ExampleFold {
 
 #[parallel]
 impl Fold for ExampleFold {}
+
+#[test]
+fn test() {
+    let _ = ExampleFold;
+    let _ = ExampleVisitMut;
+}
