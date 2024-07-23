@@ -93,12 +93,12 @@ pub struct Lexer<'a> {
 
     /// Data store for escaped strings, indexed by [Token::start] when
     /// [Token::escaped] is true
-    pub escaped_strings: FxHashMap<u32, &'a str>,
+    pub escaped_strings: FxHashMap<BytePos, &'a str>,
 
     /// Data store for escaped templates, indexed by [Token::start] when
     /// [Token::escaped] is true `None` is saved when the string contains an
     /// invalid escape sequence.
-    pub escaped_templates: FxHashMap<u32, Option<&'a str>>,
+    pub escaped_templates: FxHashMap<BytePos, Option<&'a str>>,
 
     /// `memchr` Finder for end of multi-line comments. Created lazily when
     /// first used.
@@ -243,7 +243,7 @@ impl<'a> Lexer<'a> {
     #[inline]
     #[allow(clippy::cast_possible_truncation)]
     fn offset(&self) -> BytePos {
-        BytePos(self.source.offset())
+        self.source.offset()
     }
 
     /// Get the current unterminated token range
