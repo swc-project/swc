@@ -1,10 +1,10 @@
 use std::cmp::max;
 
 use oxc_allocator::String;
-use oxc_span::Span;
 use oxc_syntax::identifier::{
     is_identifier_part, is_identifier_part_unicode, is_identifier_start_unicode,
 };
+use swc_common::Span;
 
 use super::{
     cold_branch,

@@ -34,8 +34,9 @@ use std::collections::VecDeque;
 use oxc_allocator::Allocator;
 use oxc_ast::ast::RegExpFlags;
 use oxc_diagnostics::OxcDiagnostic;
-use oxc_span::{SourceType, Span};
+use oxc_span::SourceType;
 use rustc_hash::FxHashMap;
+use swc_common::Span;
 
 use self::{
     byte_handlers::handle_byte,
