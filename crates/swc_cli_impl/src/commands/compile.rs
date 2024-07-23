@@ -1,6 +1,6 @@
 use std::{
     fs::{self, File},
-    io::{self, Read, Write},
+    io::{self, IsTerminal, Read, Write},
     path::{Component, Path, PathBuf},
     sync::Arc,
 };
@@ -261,12 +261,13 @@ fn emit_output(
 }
 
 fn collect_stdin_input() -> Option<String> {
-    if atty::is(atty::Stream::Stdin) {
+    let stdin = io::stdin();
+    if stdin.is_terminal() {
         return None;
     }
 
     let mut buffer = String::new();
-    let result = io::stdin().lock().read_to_string(&mut buffer);
+    let result = stdin.lock().read_to_string(&mut buffer);
 
     if result.is_ok() && !buffer.is_empty() {
         Some(buffer)
