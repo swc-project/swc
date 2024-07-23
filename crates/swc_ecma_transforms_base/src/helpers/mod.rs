@@ -105,6 +105,13 @@ pub struct Helpers {
     inner: RefCell<Inner>,
 }
 
+#[derive(Debug, Clone, Copy)]
+pub struct HelperData {
+    external: bool,
+    mark: HelperMark,
+    inner: Inner,
+}
+
 impl Helpers {
     pub fn new(external: bool) -> Self {
         Helpers {
@@ -120,6 +127,22 @@ impl Helpers {
 
     pub const fn external(&self) -> bool {
         self.external
+    }
+
+    pub fn data(&self) -> HelperData {
+        HelperData {
+            inner: *self.inner.borrow(),
+            external: self.external,
+            mark: self.mark,
+        }
+    }
+
+    pub fn from_data(data: HelperData) -> Self {
+        Helpers {
+            external: data.external,
+            mark: data.mark,
+            inner: RefCell::new(data.inner),
+        }
     }
 }
 
@@ -137,7 +160,7 @@ macro_rules! define_helpers {
             $( $name:ident : ( $( $dep:ident ),* ), )*
         }
     ) => {
-        #[derive(Debug,Default)]
+        #[derive(Debug,Default, Clone, Copy)]
         struct Inner {
             $( $name: bool, )*
         }
