@@ -1,11 +1,12 @@
 use std::cmp::max;
 
 use oxc_allocator::String;
+use swc_common::Span;
 
 use super::{
     cold_branch,
     search::{byte_search, safe_byte_match_table, SafeByteMatchTable},
-    Kind, Lexer, LexerContext, Span, Token,
+    Kind, Lexer, LexerContext, Token,
 };
 use crate::diagnostics;
 
