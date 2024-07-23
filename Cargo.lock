@@ -4618,6 +4618,7 @@ dependencies = [
  "num-traits",
  "phf",
  "pretty_assertions",
+ "rustc-hash",
  "seq-macro",
  "serde",
  "serde_json",
