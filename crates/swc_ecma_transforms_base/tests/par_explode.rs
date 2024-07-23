@@ -42,3 +42,10 @@ impl ParExplode for ExampleFold {
 
 #[parallel(explode)]
 impl Fold for ExampleFold {}
+
+#[test]
+fn test_1() {
+    ExampleFold::default();
+
+    ExampleVisitMut::default();
+}
