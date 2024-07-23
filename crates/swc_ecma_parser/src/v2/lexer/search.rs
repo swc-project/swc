@@ -22,7 +22,7 @@ pub const SEARCH_BATCH_SIZE: usize = 32;
 ///
 /// # Examples
 /// ```
-/// use crate::lexer::search::{ByteMatchTable, byte_match_table};
+/// use crate::v2::lexer::search::{ByteMatchTable, byte_match_table};
 ///
 /// static NOT_WHITESPACE: ByteMatchTable = byte_match_table!(|b| b != b' ' && b != b'\t');
 /// assert_eq!(NOT_WHITESPACE.matches(b'X'), true);
@@ -84,7 +84,7 @@ impl ByteMatchTable {
 ///
 /// ```
 /// {
-///   use crate::lexer::search::ByteMatchTable;
+///   use crate::v2::lexer::search::ByteMatchTable;
 ///   #[allow(clippy::eq_op)]
 ///   const TABLE: ByteMatchTable = ByteMatchTable::new([
 ///     (0u8 < 3),
@@ -101,7 +101,7 @@ impl ByteMatchTable {
 #[allow(unused_macros)]
 macro_rules! byte_match_table {
     (|$byte:ident| $res:expr) => {{
-        use crate::lexer::search::ByteMatchTable;
+        use crate::v2::lexer::search::ByteMatchTable;
         // Clippy creates warnings because e.g. `byte_match_table!(|b| b == 0)`
         // is expanded to `ByteMatchTable([(0 == 0), ... ])`
         #[allow(clippy::eq_op)]
@@ -147,7 +147,7 @@ pub(crate) use byte_match_table;
 ///
 /// # Examples
 /// ```
-/// use crate::lexer::search::{SafeByteMatchTable, safe_byte_match_table};
+/// use crate::v2::lexer::search::{SafeByteMatchTable, safe_byte_match_table};
 ///
 /// static NOT_ASCII: SafeByteMatchTable = safe_byte_match_table!(|b| !b.is_ascii());
 /// assert_eq!(NOT_ASCII.matches(b'X'), false);
@@ -228,7 +228,7 @@ impl SafeByteMatchTable {
 ///
 /// ```
 /// {
-///   use crate::lexer::search::SafeByteMatchTable;
+///   use crate::v2::lexer::search::SafeByteMatchTable;
 ///   #[allow(clippy::eq_op)]
 ///   const TABLE: SafeByteMatchTable = SafeByteMatchTable::new([
 ///     (!0u8.is_ascii()),
@@ -241,7 +241,7 @@ impl SafeByteMatchTable {
 /// ```
 macro_rules! safe_byte_match_table {
     (|$byte:ident| $res:expr) => {{
-        use crate::lexer::search::SafeByteMatchTable;
+        use crate::v2::lexer::search::SafeByteMatchTable;
         // Clippy creates warnings because e.g. `safe_byte_match_table!(|b| b == 0)`
         // is expanded to `SafeByteMatchTable([0 == 0, ... ])`
         #[allow(clippy::eq_op)]
@@ -462,7 +462,7 @@ macro_rules! byte_search {
                 // So calls to `$pos.read()` and `$pos.add(1)` in this loop cannot go out of
                 // bounds.
                 'inner: loop {
-                    for _i in 0..crate::lexer::search::SEARCH_BATCH_SIZE {
+                    for _i in 0..crate::v2::lexer::search::SEARCH_BATCH_SIZE {
                         // SAFETY: `$pos` cannot go out of bounds in this loop (see above)
                         let byte = unsafe { $pos.read() };
                         if $table.matches(byte) {
