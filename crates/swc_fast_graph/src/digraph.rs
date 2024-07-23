@@ -47,13 +47,13 @@ pub type FastDiGraphMap<N, E> = FastGraphMap<N, E, Directed>;
 ///
 /// - Associated data `N` for nodes and `E` for edges, called *weights*.
 /// - The node weight `N` must implement `Copy` and will be used as node
-/// identifier, duplicated into several places in the data structure.
-/// It must be suitable as a hash table key (implementing `Eq + Hash`).
-/// The node type must also implement `Ord` so that the implementation can
-/// order the pair (`a`, `b`) for an edge connecting any two nodes `a` and `b`.
+///   identifier, duplicated into several places in the data structure. It must
+///   be suitable as a hash table key (implementing `Eq + Hash`). The node type
+///   must also implement `Ord` so that the implementation can order the pair
+///   (`a`, `b`) for an edge connecting any two nodes `a` and `b`.
 /// - `E` can be of arbitrary type.
 /// - Edge type `Ty` that determines whether the graph edges are directed or
-/// undirected.
+///   undirected.
 ///
 /// You can use the type aliases `UnGraphMap` and `DiGraphMap` for convenience.
 ///
@@ -418,7 +418,7 @@ where
     ///
     /// 1. Note that node and edge indices in the `Graph` have nothing in common
     ///    with the `GraphMap`s node weights `N`. The node weights `N` are used
-    /// as    node weights in the resulting `Graph`, too.
+    ///    as node weights in the resulting `Graph`, too.
     /// 2. Note that the index type is user-chosen.
     ///
     /// Computes in **O(|V| + |E|)** time (average).

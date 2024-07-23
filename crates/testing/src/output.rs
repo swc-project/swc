@@ -35,7 +35,7 @@ pub struct Diff {
 ///
 /// - The `CARGO_MANIFEST_DIR` directory is replaced with `$DIR`.
 /// - All backslashes (\) within same line as `$DIR` are converted to forward
-/// slashes (/) (for Windows) - All CR LF newlines are converted to LF
+///   slashes (/) (for Windows) - All CR LF newlines are converted to LF
 ///
 /// - `normalize-stdout` is not implemented (yet?).
 #[derive(Clone, Ord, PartialOrd, PartialEq, Eq, Default, Hash)]
