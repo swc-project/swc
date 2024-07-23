@@ -49,7 +49,7 @@ macro_rules! add_to {
             parse(&code)
         });
 
-        let enable = $b.load(Ordering::Relaxed);
+        let enable = $b;
         if enable {
             $buf.extend(STMTS.iter().cloned().map(|mut stmt| {
                 stmt.visit_mut_with(&mut Marker {
@@ -66,7 +66,7 @@ macro_rules! add_to {
 
 macro_rules! add_import_to {
     ($buf:expr, $name:ident, $b:expr, $mark:expr) => {{
-        let enable = $b.load(Ordering::Relaxed);
+        let enable = $b;
         if enable {
             let ctxt = SyntaxContext::empty().apply_mark($mark);
             let s = ImportSpecifier::Named(ImportNamedSpecifier {
@@ -159,8 +159,8 @@ macro_rules! define_helpers {
         impl Helpers {
             pub fn extend_from(&self, other: &Self) {
                 $(
-                    if other.inner.$name.load(Ordering::SeqCst) {
-                        self.inner.$name.store(true, Ordering::Relaxed);
+                    if other.inner.$name {
+                        self.inner.$name = true;
                     }
                 )*
             }
@@ -171,7 +171,7 @@ macro_rules! define_helpers {
 
                 HELPERS.with(|helpers|{
                     false $(
-                      || helpers.inner.$name.load(Ordering::Relaxed)
+                      || helpers.inner.$name
                     )*
                 })
             }
@@ -207,7 +207,7 @@ macro_rules! define_helpers {
                 HELPERS.with(|helpers|{
                     debug_assert!(helpers.external);
                     $(
-                        let enable = helpers.inner.$name.load(Ordering::Relaxed);
+                        let enable = helpers.inner.$name;
                         if enable {
                             buf.push(self.build_reqire(stringify!($name), helpers.mark.0))
                         }
