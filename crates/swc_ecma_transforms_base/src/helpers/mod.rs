@@ -144,8 +144,8 @@ macro_rules! define_helpers {
 
         impl Helpers {
             $(
-                pub fn $name(&self) {
-                    self.inner.$name.store(true, Ordering::Relaxed);
+                pub fn $name(&mut self) {
+                    self.inner.$name = true;
 
                     if !self.external {
                         $(
