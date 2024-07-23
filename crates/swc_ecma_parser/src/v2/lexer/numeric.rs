@@ -1,7 +1,5 @@
-use oxc_syntax::identifier::is_identifier_start;
-
 use super::{Kind, Lexer, Span};
-use crate::diagnostics;
+use crate::{diagnostics, syntax::identifier::is_identifier_start};
 
 impl<'a> Lexer<'a> {
     /// 12.9.3 Numeric Literals with `0` prefix
