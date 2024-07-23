@@ -142,7 +142,7 @@ resolver = "2"
   unicode-width             = "0.1.4"
   url                       = "2.4.0"
   vergen                    = { version = "8.0.0", default-features = false }
-  virtual-fs                = { version = "=0.11.1", default-features = false }
+  virtual-fs                = { version = "=0.11.4", default-features = false }
   walkdir                   = "2.4.0"
   wasm-bindgen              = "0.2.91"
   wasm-bindgen-futures      = "0.4.41"
