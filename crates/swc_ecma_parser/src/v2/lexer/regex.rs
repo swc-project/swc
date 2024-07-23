@@ -1,4 +1,5 @@
 use oxc_syntax::identifier::is_line_terminator;
+use swc_common::BytePos;
 
 use super::{Kind, Lexer, RegExpFlags, Token};
 use crate::diagnostics;
@@ -11,7 +12,7 @@ impl<'a> Lexer<'a> {
     /// Which means the parser needs to re-tokenize on `PrimaryExpression`,
     /// `RegularExpressionLiteral` only appear on the right hand side of
     /// `PrimaryExpression`
-    pub(crate) fn next_regex(&mut self, kind: Kind) -> (Token, u32, RegExpFlags) {
+    pub(crate) fn next_regex(&mut self, kind: Kind) -> (Token, BytePos, RegExpFlags) {
         self.token.start = self.offset()
             - match kind {
                 Kind::Slash => 1,
