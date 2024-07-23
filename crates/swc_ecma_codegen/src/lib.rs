@@ -3908,7 +3908,7 @@ fn get_template_element_from_raw(s: &str, ascii_only: bool) -> String {
 }
 
 fn get_ascii_only_ident(sym: &str, may_need_quote: bool, target: EsVersion) -> Cow<str> {
-    if sym.chars().all(|c| c.is_ascii()) {
+    if sym.is_ascii() {
         return Cow::Borrowed(sym);
     }
 

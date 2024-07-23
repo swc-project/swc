@@ -255,7 +255,7 @@ impl CustomMediaHandler {
                             Some((query.modifier.clone(), query.media_type.clone()));
                     }
 
-                    for condition in &query.condition {
+                    if let Some(condition) = &query.condition {
                         match &**condition {
                             MediaConditionType::All(media_condition) => {
                                 if new_media_condition.conditions.is_empty() {

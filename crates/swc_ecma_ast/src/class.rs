@@ -22,7 +22,7 @@ pub struct Class {
 
     pub ctxt: SyntaxContext,
 
-    #[cfg_attr(c, serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub decorators: Vec<Decorator>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]

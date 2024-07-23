@@ -18,7 +18,7 @@
 //! # `Fold`
 //!
 //! > WARNING: `Fold` is slow, and it's recommended to use VisitMut if you are
-//! experienced.
+//! > experienced.
 //!
 //!
 //! `Fold` takes ownership of value, which means you have to return the new

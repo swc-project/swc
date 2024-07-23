@@ -60,12 +60,12 @@ const LOG: bool = false && cfg!(debug_assertions);
 /// 3. Defined `a` with syntax context of the block statement.
 ///
 /// 4. Found usage of `a`, and determines that it's reference to `a` in the
-/// block. So the reference to `a` will have same syntax context as `a` in the
-/// block.
+///    block. So the reference to `a` will have same syntax context as `a` in
+///    the block.
 ///
-/// 5. Found usage of `a` (last line), and determines that it's a
-/// reference to top-level `a`, and change syntax context of `a` on last line to
-/// top-level syntax context.
+/// 5. Found usage of `a` (last line), and determines that it's a reference to
+///    top-level `a`, and change syntax context of `a` on last line to top-level
+///    syntax context.
 ///
 ///
 /// # Parameters

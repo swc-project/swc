@@ -1,13 +1,13 @@
-#[cfg(feature = "quote")]
-use swc_core::{ast::Ident, common::DUMMY_SP, quote, quote_expr, utils::private_ident};
+#[cfg(feature = "ecma_quote")]
+use swc_core::{common::DUMMY_SP, ecma::ast::Ident, ecma::utils::private_ident, quote, quote_expr};
 
-#[cfg(feature = "quote")]
+#[cfg(feature = "ecma_quote")]
 #[test]
 fn quote_expr_call_1() {
     let _expr = quote_expr!("call(arg1, typeof arg2, arg3)");
 }
 
-#[cfg(feature = "quote")]
+#[cfg(feature = "ecma_quote")]
 #[test]
 fn quote_expr_var_cloned() {
     testing::run_test2(false, |_cm, _handler| {
@@ -20,31 +20,31 @@ fn quote_expr_var_cloned() {
     .unwrap();
 }
 
-#[cfg(feature = "quote")]
+#[cfg(feature = "ecma_quote")]
 #[test]
 fn quote_example() {
     let _stmt = quote!(
         "const $name = 4;" as Stmt,
-        name = Ident::new("ref".into(), DUMMY_SP)
+        name = Ident::new("ref".into(), DUMMY_SP, Default::default())
     );
 }
 
-#[cfg(feature = "quote")]
+#[cfg(feature = "ecma_quote")]
 #[test]
 fn quote_var_type_expr() {
     let _stmt = quote!(
         "const $name = $val;" as Stmt,
-        name = Ident::new("ref".into(), DUMMY_SP),
+        name = Ident::new("ref".into(), DUMMY_SP, Default::default()),
         val: Expr = 4.into(),
     );
 }
 
-#[cfg(feature = "quote")]
+#[cfg(feature = "ecma_quote")]
 #[test]
 fn quote_var_type_pat() {
     let _stmt = quote!(
         "const $name = $val;" as Stmt,
-        name: Pat = Ident::new("ref".into(), DUMMY_SP).into(),
-        val: Ident = Ident::new("val".into(), DUMMY_SP),
+        name: Pat = Ident::new("ref".into(), DUMMY_SP, Default::default()).into(),
+        val: Ident = Ident::new("val".into(), DUMMY_SP, Default::default()),
     );
 }

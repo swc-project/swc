@@ -63,7 +63,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
     let filename = input.to_str().expect("failed to parse path");
     let contents = fs::read_to_string(filename).expect("Something went wrong reading the file");
     let obj: Value = serde_json::from_str(&contents).expect("json parse error");
-    let tests = match obj.get(&"tests".to_string()) {
+    let tests = match obj.get("tests".to_string()) {
         Some(Value::Array(tests)) => tests,
         _ => return,
     };
