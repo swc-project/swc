@@ -4613,6 +4613,7 @@ dependencies = [
  "codspeed-criterion-compat",
  "criterion",
  "either",
+ "memchr",
  "new_debug_unreachable",
  "num-bigint",
  "num-traits",
