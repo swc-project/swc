@@ -390,4 +390,5 @@ swc_plugin_runner = { optional = true, version = "0.111.0", path = "../swc_plugi
 vergen = { workspace = true, features = ["cargo"] }
 
 [dev-dependencies]
-anyhow = { workspace = true }
+anyhow  = { workspace = true }
+testing = { version = "0.38.0", path = "../testing" }
