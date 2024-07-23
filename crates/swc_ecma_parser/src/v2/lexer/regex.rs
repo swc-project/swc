@@ -56,7 +56,7 @@ impl<'a> Lexer<'a> {
             }
         }
 
-        let pattern_end = self.offset() - 1; // -1 to exclude `/`
+        let pattern_end = self.offset() - BytePos(1); // -1 to exclude `/`
         let mut flags = RegExpFlags::empty();
 
         while let Some(ch @ ('$' | '_' | 'a'..='z' | 'A'..='Z' | '0'..='9')) = self.peek() {
