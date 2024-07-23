@@ -1,5 +1,5 @@
 use oxc_ast::{Comment, CommentKind, Trivias};
-use oxc_span::Span;
+use swc_common::{BytePos, Span};
 
 #[derive(Debug, Default)]
 pub struct TriviaBuilder {
@@ -15,14 +15,22 @@ impl TriviaBuilder {
         Trivias::new(self.comments.into_boxed_slice(), self.irregular_whitespaces)
     }
 
-    pub fn add_single_line_comment(&mut self, start: u32, end: u32) {
+    pub fn add_single_line_comment(&mut self, start: BytePos, end: BytePos) {
         // skip leading `//`
-        self.add_comment(Comment::new(start + 2, end, CommentKind::SingleLine));
+        self.add_comment(Comment::new(
+            start + BytePos(2),
+            end,
+            CommentKind::SingleLine,
+        ));
     }
 
-    pub fn add_multi_line_comment(&mut self, start: u32, end: u32) {
+    pub fn add_multi_line_comment(&mut self, start: BytePos, end: BytePos) {
         // skip leading `/*` and trailing `*/`
-        self.add_comment(Comment::new(start + 2, end - 2, CommentKind::MultiLine));
+        self.add_comment(Comment::new(
+            start + BytePos(2),
+            end - BytePos(2),
+            CommentKind::MultiLine,
+        ));
     }
 
     fn add_comment(&mut self, comment: Comment) {
@@ -37,7 +45,7 @@ impl TriviaBuilder {
         self.comments.push(comment);
     }
 
-    pub fn add_irregular_whitespace(&mut self, start: u32, end: u32) {
+    pub fn add_irregular_whitespace(&mut self, start: BytePos, end: BytePos) {
         self.irregular_whitespaces.push(Span::new(start, end));
     }
 }

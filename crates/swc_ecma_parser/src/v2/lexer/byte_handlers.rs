@@ -1,3 +1,5 @@
+use swc_common::BytePos;
+
 use super::{Kind, Lexer};
 use crate::diagnostics;
 
@@ -244,7 +246,7 @@ ascii_byte_handler!(HAS(lexer) {
     lexer.consume_char();
     // HashbangComment ::
     //     `#!` SingleLineCommentChars?
-    if lexer.token.start == 0 && lexer.next_eq('!') {
+    if lexer.token.start == BytePos(0) && lexer.next_eq('!') {
         lexer.read_hashbang_comment()
     } else {
         lexer.private_identifier()
