@@ -18,8 +18,9 @@ bench = false
 
 [features]
 # This enables global concurrent mode
-concurrent = ["swc_common/concurrent", "indexmap/rayon"]
-trace-ast  = []
+concurrent    = ["swc_common/concurrent", "indexmap/rayon"]
+trace-ast     = []
+tracing-spans = []
 
 [dependencies]
 indexmap   = { workspace = true }
