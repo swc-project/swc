@@ -25,6 +25,7 @@ typescript    = []
 verify        = ["swc_ecma_visit"]
 
 [dependencies]
+assert-unchecked      = { workspace = true }
 bitflags              = { workspace = true }
 either                = { workspace = true }
 new_debug_unreachable = { workspace = true }
