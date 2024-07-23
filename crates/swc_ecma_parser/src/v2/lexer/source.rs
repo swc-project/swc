@@ -2,6 +2,8 @@
 
 use std::{marker::PhantomData, slice, str};
 
+use swc_common::BytePos;
+
 use super::search::SEARCH_BATCH_SIZE;
 use crate::{UniquePromise, MAX_LEN};
 
@@ -311,16 +313,16 @@ impl<'a> Source<'a> {
     /// Get current position in source, relative to start of source.
     #[allow(clippy::cast_possible_truncation)]
     #[inline]
-    pub(super) fn offset(&self) -> u32 {
+    pub(super) fn offset(&self) -> BytePos {
         self.offset_of(self.position())
     }
 
     /// Get offset of `pos`.
     #[allow(clippy::cast_possible_truncation)]
     #[inline]
-    pub(super) fn offset_of(&self, pos: SourcePosition) -> u32 {
+    pub(super) fn offset_of(&self, pos: SourcePosition) -> BytePos {
         // Cannot overflow `u32` because of `MAX_LEN` check in `Source::new`
-        (pos.addr() - self.start as usize) as u32
+        BytePos((pos.addr() - self.start as usize) as u32)
     }
 
     /// Move current position back by `n` bytes.
