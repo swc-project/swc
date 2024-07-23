@@ -95,7 +95,7 @@ fn bump_crate(pkg_name: &str, change_type: Option<&ChangeType>, dry_run: bool) -
         return Ok(());
     }
 
-    cmd.status().context("failed to run cargo mono bump")?;
+    cmd.status().context("failed to bump version")?;
 
     Ok(())
 }

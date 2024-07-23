@@ -109,16 +109,7 @@ jobs:
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
         run: |
-          cargo mono publish --no-verify
-          cargo mono publish --no-verify
-          cargo mono publish --no-verify
-          cargo mono publish --no-verify
-          cargo mono publish --no-verify
-          cargo mono publish --no-verify
-          cargo mono publish --no-verify
-          cargo mono publish --no-verify
-          cargo mono publish --no-verify
-          cargo mono publish --no-verify
+          cargo publish-crates
 
   determine-nightly-version:
     name: "Determine nightly version"
