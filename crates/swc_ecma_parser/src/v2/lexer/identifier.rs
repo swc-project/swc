@@ -1,9 +1,6 @@
 use std::cmp::max;
 
 use oxc_allocator::String;
-use oxc_syntax::identifier::{
-    is_identifier_part, is_identifier_part_unicode, is_identifier_start_unicode,
-};
 use swc_common::Span;
 
 use super::{
@@ -11,7 +8,9 @@ use super::{
     search::{byte_search, safe_byte_match_table, SafeByteMatchTable},
     Kind, Lexer, SourcePosition,
 };
-use crate::diagnostics;
+use crate::syntax::identifier::{
+    is_identifier_part, is_identifier_part_unicode, is_identifier_start_unicode,
+};
 
 const MIN_ESCAPED_STR_LEN: usize = 16;
 

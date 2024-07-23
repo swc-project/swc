@@ -1,11 +1,13 @@
 use oxc_allocator::String;
-use oxc_syntax::identifier::{
-    is_identifier_part, is_identifier_start, is_identifier_start_unicode,
-    is_irregular_line_terminator, is_irregular_whitespace, CR, FF, LF, LS, PS, TAB, VT,
-};
 
 use super::{Kind, Lexer, Span};
-use crate::diagnostics;
+use crate::{
+    diagnostics,
+    syntax::identifier::{
+        is_identifier_part, is_identifier_start, is_identifier_start_unicode,
+        is_irregular_line_terminator, is_irregular_whitespace, CR, FF, LF, LS, PS, TAB, VT,
+    },
+};
 
 enum SurrogatePair {
     // valid \u Hex4Digits \u Hex4Digits

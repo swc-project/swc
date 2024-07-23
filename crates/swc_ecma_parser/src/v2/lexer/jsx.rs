@@ -1,12 +1,11 @@
 use memchr::{memchr, memchr2};
-use oxc_syntax::identifier::is_identifier_part;
 
 use super::{
     cold_branch,
     search::{byte_search, safe_byte_match_table, SafeByteMatchTable},
     Kind, Lexer, Token,
 };
-use crate::diagnostics;
+use crate::{diagnostics, syntax::identifier::is_identifier_part};
 
 static NOT_ASCII_JSX_ID_CONTINUE_TABLE: SafeByteMatchTable =
     safe_byte_match_table!(|b| !(b.is_ascii_alphanumeric() || matches!(b, b'_' | b'$' | b'-')));

@@ -1,8 +1,7 @@
-use oxc_syntax::identifier::is_line_terminator;
 use swc_common::BytePos;
 
 use super::{Kind, Lexer, RegExpFlags, Token};
-use crate::diagnostics;
+use crate::{diagnostics, syntax::identifier::is_line_terminator};
 
 impl<'a> Lexer<'a> {
     /// Re-tokenize the current `/` or `/=` and return `RegExp`
