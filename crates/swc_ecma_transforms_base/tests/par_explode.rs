@@ -45,7 +45,7 @@ impl Fold for ExampleFold {}
 
 #[test]
 fn test_1() {
-    ExampleFold::default();
+    let _ = ExampleFold;
 
-    ExampleVisitMut::default();
+    let _ = ExampleVisitMut;
 }
