@@ -1,4 +1,4 @@
-use std::mem::replace;
+use std::{cell::RefCell, mem::replace};
 
 use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
@@ -102,7 +102,7 @@ better_scoped_tls::scoped_tls!(
 pub struct Helpers {
     external: bool,
     mark: HelperMark,
-    inner: Inner,
+    inner: RefCell<Inner>,
 }
 
 impl Helpers {
@@ -144,8 +144,8 @@ macro_rules! define_helpers {
 
         impl Helpers {
             $(
-                pub fn $name(&mut self) {
-                    self.inner.$name = true;
+                pub fn $name(&self) {
+                    self.inner.borrow_mut().$name = true;
 
                     if !self.external {
                         $(
@@ -156,11 +156,14 @@ macro_rules! define_helpers {
             )*
         }
 
+
         impl Helpers {
-            pub fn extend_from(&self, other: &Self) {
+            pub fn extend_from(&mut self, other: &Self) {
+                let other = other.inner.borrow();
+                let mut me = self.inner.borrow_mut();
                 $(
-                    if other.inner.$name {
-                        self.inner.$name = true;
+                    if other.$name {
+                        me.$name = true;
                     }
                 )*
             }
@@ -170,8 +173,9 @@ macro_rules! define_helpers {
             fn is_helper_used(&self) -> bool{
 
                 HELPERS.with(|helpers|{
+                    let inner = helpers.inner.borrow();
                     false $(
-                      || helpers.inner.$name
+                      || inner.$name
                     )*
                 })
             }
@@ -181,8 +185,9 @@ macro_rules! define_helpers {
 
                 HELPERS.with(|helpers|{
                     debug_assert!(!helpers.external);
+                    let inner = helpers.inner.borrow();
                     $(
-                            add_to!(buf, $name, helpers.inner.$name, helpers.mark.0);
+                            add_to!(buf, $name, inner.$name, helpers.mark.0);
                     )*
                 });
 
@@ -193,9 +198,10 @@ macro_rules! define_helpers {
                 let mut buf = Vec::new();
 
                 HELPERS.with(|helpers|{
+                    let inner = helpers.inner.borrow();
                     debug_assert!(helpers.external);
                     $(
-                            add_import_to!(buf, $name, helpers.inner.$name, helpers.mark.0);
+                            add_import_to!(buf, $name, inner.$name, helpers.mark.0);
                     )*
                 });
 
@@ -206,8 +212,9 @@ macro_rules! define_helpers {
                 let mut buf = Vec::new();
                 HELPERS.with(|helpers|{
                     debug_assert!(helpers.external);
+                    let inner = helpers.inner.borrow();
                     $(
-                        let enable = helpers.inner.$name;
+                        let enable = inner.$name;
                         if enable {
                             buf.push(self.build_reqire(stringify!($name), helpers.mark.0))
                         }
