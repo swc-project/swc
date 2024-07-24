@@ -2,6 +2,7 @@ use oxc_allocator::{Box, Vec};
 use oxc_ast::{ast::*, syntax_directed_operations::PropName};
 use oxc_diagnostics::Result;
 use oxc_span::{GetSpan, Span};
+use swc_ecma_ast::Stmt;
 
 use crate::{
     diagnostics,
