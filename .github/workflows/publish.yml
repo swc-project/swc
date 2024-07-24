@@ -58,7 +58,7 @@ jobs:
       - name: Install cargo-edit
         uses: taiki-e/install-action@v2
         with:
-          tool: cargo-mono@0.3.7
+          tool: cargo-mono@0.4.0
 
       - run: cargo bump
 
@@ -92,7 +92,7 @@ jobs:
       - name: Install cargo-edit
         uses: taiki-e/install-action@v2
         with:
-          tool: cargo-mono@0.3.7
+          tool: cargo-mono@0.4.0
 
       - name: Update constant of swc_core
         run: npx ts-node .github/bot/src/cargo/update-constants.ts
