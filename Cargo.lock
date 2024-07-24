@@ -5094,7 +5094,7 @@ dependencies = [
 
 [[package]]
 name = "swc_fast_ts_strip"
-version = "0.4.2"
+version = "0.4.3"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",
