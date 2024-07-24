@@ -47,7 +47,7 @@ impl<'a> ParserImpl<'a> {
             // check if it is a string literal. All other method are flawed, see test cases in [babel](https://github.com/babel/babel/blob/main/packages/babel-parser/test/fixtures/core/categorized/not-directive/input.js)
             if expecting_directives {
                 if let Stmt::ExpressionStatement(expr) = &stmt {
-                    if let Expression::StringLiteral(string) = &expr.expression {
+                    if let Expr::StringLiteral(string) = &expr.expression {
                         // span start will mismatch if they are parenthesized when `preserve_parens
                         // = false`
                         if expr.span.start == string.span.start {
@@ -121,7 +121,7 @@ impl<'a> ParserImpl<'a> {
     fn parse_expression_or_labeled_statement(&mut self) -> Result<Stmt> {
         let span = self.start_span();
         let expr = self.parse_expr()?;
-        if let Expression::Identifier(ident) = &expr {
+        if let Expr::Identifier(ident) = &expr {
             // Section 14.13 Labelled Statement
             // Avoids lookahead for a labeled statement, which is on a hot path
             if self.eat(Kind::Colon) {
@@ -181,7 +181,7 @@ impl<'a> ParserImpl<'a> {
     pub(crate) fn parse_expression_statement(
         &mut self,
         span: Span,
-        expression: Expression<'a>,
+        expression: Expr,
     ) -> Result<Stmt> {
         self.asi()?;
         Ok(self

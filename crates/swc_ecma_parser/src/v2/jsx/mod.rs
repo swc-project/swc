@@ -10,11 +10,11 @@ use oxc_span::{Atom, GetSpan, Span};
 use crate::{diagnostics, lexer::Kind, Context, ParserImpl};
 
 impl<'a> ParserImpl<'a> {
-    pub(crate) fn parse_jsx_expression(&mut self) -> Result<Expression<'a>> {
+    pub(crate) fn parse_jsx_expression(&mut self) -> Result<Expr> {
         if self.peek_at(Kind::RAngle) {
-            self.parse_jsx_fragment(false).map(Expression::JSXFragment)
+            self.parse_jsx_fragment(false).map(Expr::JSXFragment)
         } else {
-            self.parse_jsx_element(false).map(Expression::JSXElement)
+            self.parse_jsx_element(false).map(Expr::JSXElement)
         }
     }
 
@@ -173,7 +173,7 @@ impl<'a> ParserImpl<'a> {
         &mut self,
         span: Span,
         object: JSXIdentifier<'a>,
-    ) -> Result<Box<'a, JSXMemberExpression<'a>>> {
+    ) -> Result<Box<'a, JSXMemberExpr>> {
         let mut span = span;
         let mut object = JSXMemberExpressionObject::Identifier(self.ast.alloc(object));
         let mut property = None;
@@ -270,11 +270,9 @@ impl<'a> ParserImpl<'a> {
             let expr = self
                 .ast
                 .jsx_empty_expression(Span::new(span.start + 1, span.end - 1));
-            JSXExpression::EmptyExpression(expr)
+            JSXExpr::EmptyExpression(expr)
         } else {
-            let expr = self
-                .parse_jsx_assignment_expression()
-                .map(JSXExpression::from)?;
+            let expr = self.parse_jsx_assignment_expression().map(JSXExpr::from)?;
             if in_jsx_child {
                 self.expect_jsx_child(Kind::RCurly)
             } else {
@@ -288,13 +286,13 @@ impl<'a> ParserImpl<'a> {
             .alloc_jsx_expression_container(self.end_span(span), expr))
     }
 
-    fn parse_jsx_assignment_expression(&mut self) -> Result<Expression<'a>> {
+    fn parse_jsx_assignment_expression(&mut self) -> Result<Expr> {
         self.context(
             Context::default().and_await(self.ctx.has_await()),
             self.ctx,
             |p| {
                 let expr = p.parse_expr();
-                if let Ok(Expression::SequenceExpression(seq)) = &expr {
+                if let Ok(Expr::SequenceExpression(seq)) = &expr {
                     return Err(diagnostics::jsx_expressions_may_not_use_the_comma_operator(
                         seq.span,
                     ));
@@ -445,10 +443,7 @@ impl<'a> ParserImpl<'a> {
         }
     }
 
-    fn jsx_member_expression_eq(
-        lhs: &JSXMemberExpression<'a>,
-        rhs: &JSXMemberExpression<'a>,
-    ) -> bool {
+    fn jsx_member_expression_eq(lhs: &JSXMemberExpr, rhs: &JSXMemberExpr) -> bool {
         if lhs.property.name != rhs.property.name {
             return false;
         }
