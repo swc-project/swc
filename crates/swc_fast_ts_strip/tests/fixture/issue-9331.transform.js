@@ -19,4 +19,6 @@ class foo {
     static;
     foo() {}
 }
+2;
++3;
 export { };

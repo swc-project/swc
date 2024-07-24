@@ -39,3 +39,7 @@ class foo {
     declare x: any
     foo() { }
 }
+
+2
+export type { }
++ 3

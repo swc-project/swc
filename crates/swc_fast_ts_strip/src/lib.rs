@@ -547,7 +547,6 @@ impl Visit for TsStrip {
     fn visit_class_prop(&mut self, n: &ClassProp) {
         if n.declare || n.is_abstract {
             self.add_replacement(n.span);
-            self.fix_asi(n.span);
             return;
         }
 
@@ -615,6 +614,7 @@ impl Visit for TsStrip {
             | swc_ecma_ast::Decl::TsEnum(_)
             | swc_ecma_ast::Decl::TsModule(_) => {
                 self.add_replacement(n.span);
+                self.fix_asi(n.span);
             }
 
             _ => {
