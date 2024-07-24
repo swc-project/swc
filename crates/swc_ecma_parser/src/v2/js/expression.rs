@@ -9,18 +9,18 @@ use oxc_syntax::{
 };
 use swc_ecma_ast::*;
 
-use super::{
-    grammar::CoverGrammar,
-    operator::{
-        kind_to_precedence, map_assignment_operator, map_binary_operator, map_logical_operator,
-        map_unary_operator, map_update_operator,
-    },
+use super::operator::{
+    kind_to_precedence, map_assignment_operator, map_binary_operator, map_logical_operator,
+    map_unary_operator, map_update_operator,
 };
 use crate::{
     diagnostics,
     diagnostics::Result,
-    lexer::{parse_big_int, parse_float, parse_int, Kind},
-    Context, ParserImpl,
+    v2::{
+        js::grammar::CoverGrammar,
+        lexer::{parse_big_int, parse_float, parse_int, Kind},
+        Context, ParserImpl,
+    },
 };
 
 impl<'a> ParserImpl<'a> {
