@@ -3,7 +3,7 @@ use std::cell::Cell;
 use oxc_allocator::Box;
 use oxc_ast::ast::*;
 use oxc_diagnostics::Result;
-use oxc_span::Span;
+use swc_common::Span;
 
 use super::FunctionKind;
 use crate::{
