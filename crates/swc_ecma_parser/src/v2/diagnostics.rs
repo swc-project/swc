@@ -154,3 +154,8 @@ pub(crate) fn await_expression(span: Span) -> Diagnostic {
 pub(crate) fn ts_constructor_this_parameter(span: Span) -> Diagnostic {
     todo!("ts_constructor_this_parameter")
 }
+
+#[cold]
+pub(crate) fn ts_arrow_function_this_parameter(span: Span) -> Diagnostic {
+    todo!("ts_arrow_function_this_parameter")
+}
