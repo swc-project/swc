@@ -1,8 +1,8 @@
 //! Code related to navigating `Token`s from the lexer
 
 use bumpalo::collections::Vec;
-use oxc_ast::ast::{Decorator, RegExpFlags};
 use swc_common::{BytePos, Span, Spanned};
+use swc_ecma_ast::Decorator;
 
 use super::{
     lexer::{Kind, LexerCheckpoint, LexerContext, Token},

@@ -1,6 +1,6 @@
 use oxc_allocator::{Box, Vec};
 use oxc_ast::syntax_directed_operations::PropName;
-use swc_common::{GetSpan, Span};
+use swc_common::Span;
 use swc_ecma_ast::{Accessibility, Expr, Stmt, *};
 
 use super::super::{
