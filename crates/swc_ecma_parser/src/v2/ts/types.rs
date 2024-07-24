@@ -9,7 +9,7 @@ use super::super::{
     modifiers::{Modifier, ModifierFlags, ModifierKind, Modifiers},
     Context, ParserImpl,
 };
-use crate::diagnostics::Result;
+use crate::v2::diagnostics::Result;
 
 impl<'a> ParserImpl<'a> {
     pub(crate) fn parse_ts_type(&mut self) -> Result<TsType> {
