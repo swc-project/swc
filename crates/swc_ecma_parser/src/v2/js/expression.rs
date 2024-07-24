@@ -13,14 +13,12 @@ use super::operator::{
     kind_to_precedence, map_assignment_operator, map_binary_operator, map_logical_operator,
     map_unary_operator, map_update_operator,
 };
-use crate::{
+use crate::v2::{
     diagnostics,
     diagnostics::Result,
-    v2::{
-        js::grammar::CoverGrammar,
-        lexer::{parse_big_int, parse_float, parse_int, Kind},
-        Context, ParserImpl,
-    },
+    js::grammar::CoverGrammar,
+    lexer::{parse_big_int, parse_float, parse_int, Kind},
+    Context, ParserImpl,
 };
 
 impl<'a> ParserImpl<'a> {

@@ -3,14 +3,12 @@ use swc_common::Span;
 use swc_ecma_ast::{Stmt, *};
 
 use super::{VarDeclarationContext, VarDeclarationParent};
-use crate::{
+use crate::v2::{
     diagnostics,
     diagnostics::Result,
-    v2::{
-        lexer::Kind,
-        modifiers::{ModifierFlags, Modifiers},
-        ParserImpl, StatementContext,
-    },
+    lexer::Kind,
+    modifiers::{ModifierFlags, Modifiers},
+    ParserImpl, StatementContext,
 };
 
 impl<'a> ParserImpl<'a> {
