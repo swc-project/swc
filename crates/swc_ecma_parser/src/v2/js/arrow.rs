@@ -12,7 +12,7 @@ use crate::{
 type ArrowFunctionHead<'a> = (
     Option<Box<'a, TSTypeParameterDecl>>,
     Box<'a, FormalParameters<'a>>,
-    Option<Box<'a, TSTypeAnnotation<'a>>>,
+    Option<Box<'a, TsTypeAnn>>,
     bool,
     Span,
 );
@@ -293,7 +293,7 @@ impl<'a> ParserImpl<'a> {
         span: Span,
         type_parameters: Option<Box<'a, TSTypeParameterDecl>>,
         params: Box<'a, FormalParameters<'a>>,
-        return_type: Option<Box<'a, TSTypeAnnotation<'a>>>,
+        return_type: Option<Box<'a, TsTypeAnn>>,
         r#async: bool,
     ) -> Result<Expr> {
         let has_await = self.ctx.has_await();

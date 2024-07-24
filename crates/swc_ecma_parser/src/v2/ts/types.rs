@@ -1117,7 +1117,7 @@ impl<'a> ParserImpl<'a> {
         &mut self,
         kind: Kind,
         is_type: bool,
-    ) -> Result<Option<Box<'a, TSTypeAnnotation<'a>>>> {
+    ) -> Result<Option<Box<'a, TsTypeAnn>>> {
         if !self.ts_enabled() {
             return Ok(None);
         }
