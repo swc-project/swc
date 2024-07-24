@@ -20,7 +20,7 @@ use swc_ecma_ast::{
 };
 use swc_ecma_parser::{
     lexer::Lexer,
-    token::{IdentLike, KnownIdent, Token, TokenAndSpan, Word},
+    token::{BinOpToken, IdentLike, KnownIdent, Token, TokenAndSpan, Word},
     Capturing, Parser, StringInput, Syntax, TsSyntax,
 };
 use swc_ecma_transforms_base::{
@@ -375,6 +375,39 @@ impl TsStrip {
     fn get_prev_token(&self, pos: BytePos) -> &TokenAndSpan {
         &self.tokens[self.get_prev_token_index(pos)]
     }
+
+    fn fix_asi(&mut self, span: Span) {
+        let index = self.get_prev_token_index(span.lo);
+        if index == 0 {
+            // Skip if the token is the first token.
+            return;
+        }
+
+        let TokenAndSpan { token, .. } = &self.tokens[index - 1];
+        if token == &Token::Semi {
+            // Skip if the previous token is a semicolon.
+            return;
+        }
+
+        let index = self.get_prev_token_index(span.hi);
+        if index == self.tokens.len() - 1 {
+            // Skip if the token is the last token.
+            return;
+        }
+
+        let TokenAndSpan { token, .. } = &self.tokens[index + 1];
+
+        // Add a semicolon if the next token is `[`, `(`, `/`, `+`, or `-`
+        match token {
+            Token::LParen
+            | Token::LBracket
+            | Token::BinOp(BinOpToken::Add | BinOpToken::Sub | BinOpToken::Div) => {
+                self.add_overwrite(span.lo, b';');
+            }
+
+            _ => {}
+        }
+    }
 }
 
 impl Visit for TsStrip {
@@ -469,6 +502,7 @@ impl Visit for TsStrip {
     fn visit_class_decl(&mut self, n: &ClassDecl) {
         if n.declare {
             self.add_replacement(n.span());
+            self.fix_asi(n.span());
             return;
         }
 
@@ -508,6 +542,7 @@ impl Visit for TsStrip {
     fn visit_class_prop(&mut self, n: &ClassProp) {
         if n.declare || n.is_abstract {
             self.add_replacement(n.span);
+            self.fix_asi(n.span);
             return;
         }
 
@@ -555,6 +590,7 @@ impl Visit for TsStrip {
     fn visit_export_all(&mut self, n: &ExportAll) {
         if n.type_only {
             self.add_replacement(n.span);
+            self.fix_asi(n.span);
             return;
         }
 
@@ -587,6 +623,7 @@ impl Visit for TsStrip {
     fn visit_import_decl(&mut self, n: &ImportDecl) {
         if n.type_only {
             self.add_replacement(n.span);
+            self.fix_asi(n.span);
             return;
         }
 
@@ -613,6 +650,7 @@ impl Visit for TsStrip {
     fn visit_named_export(&mut self, n: &NamedExport) {
         if n.type_only {
             self.add_replacement(n.span);
+            self.fix_asi(n.span);
             return;
         }
 
@@ -672,6 +710,7 @@ impl Visit for TsStrip {
     fn visit_ts_enum_decl(&mut self, e: &TsEnumDecl) {
         if e.declare {
             self.add_replacement(e.span);
+            self.fix_asi(e.span);
             return;
         }
 
@@ -695,6 +734,7 @@ impl Visit for TsStrip {
     fn visit_ts_import_equals_decl(&mut self, n: &TsImportEqualsDecl) {
         if n.is_type_only {
             self.add_replacement(n.span);
+            self.fix_asi(n.span);
             return;
         }
 
@@ -718,11 +758,13 @@ impl Visit for TsStrip {
 
     fn visit_ts_interface_decl(&mut self, n: &TsInterfaceDecl) {
         self.add_replacement(n.span);
+        self.fix_asi(n.span);
     }
 
     fn visit_ts_module_decl(&mut self, n: &TsModuleDecl) {
         if n.declare || matches!(n.id, TsModuleName::Str(..)) {
             self.add_replacement(n.span);
+            self.fix_asi(n.span);
             return;
         }
 
@@ -737,6 +779,7 @@ impl Visit for TsStrip {
     fn visit_ts_namespace_decl(&mut self, n: &TsNamespaceDecl) {
         if n.declare {
             self.add_replacement(n.span);
+            self.fix_asi(n.span);
             return;
         }
 
@@ -771,6 +814,7 @@ impl Visit for TsStrip {
 
     fn visit_ts_type_alias_decl(&mut self, n: &TsTypeAliasDecl) {
         self.add_replacement(n.span);
+        self.fix_asi(n.span);
     }
 
     fn visit_ts_type_ann(&mut self, n: &TsTypeAnn) {
@@ -803,6 +847,7 @@ impl Visit for TsStrip {
     fn visit_var_decl(&mut self, n: &VarDecl) {
         if n.declare {
             self.add_replacement(n.span);
+            self.fix_asi(n.span);
             return;
         }
 
