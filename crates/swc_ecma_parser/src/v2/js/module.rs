@@ -492,7 +492,7 @@ impl<'a> ParserImpl<'a> {
     // ModuleExportName :
     //   IdentName
     //   StringLiteral
-    pub(crate) fn parse_module_export_name(&mut self) -> Result<ModuleExportName<'a>> {
+    pub(crate) fn parse_module_export_name(&mut self) -> Result<ModuleExportName> {
         match self.cur_kind() {
             Kind::Str => {
                 let literal = self.parse_literal_string()?;
