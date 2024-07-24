@@ -3,12 +3,13 @@ use oxc_ast::syntax_directed_operations::PropName;
 use swc_common::Span;
 use swc_ecma_ast::{Accessibility, Expr, Stmt, *};
 
-use super::super::{
+use crate::v2::{
+    diagnostics,
+    diagnostics::Result,
     lexer::Kind,
     modifiers::{ModifierFlags, ModifierKind, Modifiers},
     Context, ParserImpl, StatementContext,
 };
-use crate::{diagnostics, diagnostics::Result};
 
 type Extends<'a> = Vec<'a, (Expr, Option<Box<'a, TsTypeParamInstantiation>>, Span)>;
 
