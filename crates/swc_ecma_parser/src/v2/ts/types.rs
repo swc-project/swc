@@ -814,7 +814,7 @@ impl<'a> ParserImpl<'a> {
 
     pub(crate) fn try_parse_type_arguments(
         &mut self,
-    ) -> Result<Option<Box<'a, TSTypeParameterInstantiation<'a>>>> {
+    ) -> Result<Option<Box<'a, TsTypeParamInstantiation>>> {
         if self.at(Kind::LAngle) {
             let span = self.start_span();
             self.expect(Kind::LAngle)?;
@@ -835,7 +835,7 @@ impl<'a> ParserImpl<'a> {
 
     fn parse_type_arguments_of_type_reference(
         &mut self,
-    ) -> Result<Option<Box<'a, TSTypeParameterInstantiation<'a>>>> {
+    ) -> Result<Option<Box<'a, TsTypeParamInstantiation>>> {
         self.re_lex_l_angle();
         if !self.cur_token().is_on_new_line && self.re_lex_l_angle() == Kind::LAngle {
             let span = self.start_span();
@@ -857,7 +857,7 @@ impl<'a> ParserImpl<'a> {
 
     pub(crate) fn parse_type_arguments_in_expression(
         &mut self,
-    ) -> Result<Option<Box<'a, TSTypeParameterInstantiation<'a>>>> {
+    ) -> Result<Option<Box<'a, TsTypeParamInstantiation>>> {
         if !self.ts_enabled() {
             return Ok(None);
         }

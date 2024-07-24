@@ -10,14 +10,7 @@ use super::super::{
 };
 use crate::{diagnostics, diagnostics::Result};
 
-type Extends<'a> = Vec<
-    'a,
-    (
-        Expr,
-        Option<Box<'a, TSTypeParameterInstantiation<'a>>>,
-        Span,
-    ),
->;
+type Extends<'a> = Vec<'a, (Expr, Option<Box<'a, TsTypeParamInstantiation>>, Span)>;
 
 type Implements<'a> = Vec<'a, TSClassImplements<'a>>;
 
