@@ -1,6 +1,7 @@
 use std::cmp::max;
 
 use oxc_allocator::String;
+use swc_common::BytePos;
 
 use super::{
     cold_branch,
@@ -317,7 +318,7 @@ impl<'a> Lexer<'a> {
     /// See Section 12, the parser needs to re-tokenize on
     /// `TemplateSubstitutionTail`,
     pub(crate) fn next_template_substitution_tail(&mut self) -> Token {
-        self.token.start = self.offset() - 1;
+        self.token.start = self.offset() - BytePos(1);
         let kind = self.read_template_literal(Kind::TemplateMiddle, Kind::TemplateTail);
         self.lookahead.clear();
         self.finish_next(kind)
