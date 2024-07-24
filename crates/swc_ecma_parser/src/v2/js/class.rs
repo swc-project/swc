@@ -1,15 +1,14 @@
 use oxc_allocator::{Box, Vec};
 use oxc_ast::{ast::*, syntax_directed_operations::PropName};
-use oxc_diagnostics::Result;
 use oxc_span::{GetSpan, Span};
-use swc_ecma_ast::Stmt;
+use swc_ecma_ast::{Accessibility, Stmt};
 
-use crate::{
-    diagnostics,
+use super::{
     lexer::Kind,
     modifiers::{ModifierFlags, ModifierKind, Modifiers},
     Context, ParserImpl, StatementContext,
 };
+use crate::{diagnostics, diagnostics::Result};
 
 type Extends<'a> = Vec<
     'a,
@@ -391,7 +390,7 @@ impl<'a> ParserImpl<'a> {
         generator: bool,
         r#override: bool,
         r#abstract: bool,
-        accessibility: Option<TSAccessibility>,
+        accessibility: Option<Accessibility>,
         optional: bool,
     ) -> Result<ClassElement<'a>> {
         let kind = if !r#static
@@ -455,7 +454,7 @@ impl<'a> ParserImpl<'a> {
         r#override: bool,
         readonly: bool,
         r#abstract: bool,
-        accessibility: Option<TSAccessibility>,
+        accessibility: Option<Accessibility>,
         optional: bool,
         definite: bool,
     ) -> Result<ClassElement<'a>> {
