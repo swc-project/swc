@@ -5,7 +5,9 @@ use swc_ecma_ast::*;
 
 use super::FunctionKind;
 use crate::{
-    diagnostics, diagnostics::Result, lexer::Kind, modifiers::Modifiers, Context, ParserImpl,
+    diagnostics,
+    diagnostics::Result,
+    v2::{lexer::Kind, modifiers::Modifiers, Context, ParserImpl},
 };
 
 impl<'a> ParserImpl<'a> {
