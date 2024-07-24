@@ -139,3 +139,8 @@ pub(crate) fn a_rest_parameter_cannot_be_optional(span: Span) -> Diagnostic {
 pub(crate) fn empty_parenthesized_expression(span: Span) -> Diagnostic {
     todo!("empty_parenthesized_expression")
 }
+
+#[cold]
+pub(crate) fn invalid_assignment(span: Span) -> Diagnostic {
+    todo!("invalid_assignment")
+}
