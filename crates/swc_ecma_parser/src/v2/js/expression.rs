@@ -1123,8 +1123,8 @@ impl<'a> ParserImpl<'a> {
         let has_await = self.ctx.has_await();
         if !has_await {
             self.error(diagnostics::await_expression(Span::new(
-                span.start,
-                span.start + 5,
+                span.lo,
+                span.lo + swc_common::BytePos(5),
             )));
         }
         let argument = self.context(Context::Await, Context::empty(), |p| {
@@ -1137,7 +1137,7 @@ impl<'a> ParserImpl<'a> {
     ///   `DecoratorMemberExpression`[?Yield, ?Await]
     ///   ( `Expression`[+In, ?Yield, ?Await] )
     ///   `DecoratorCallExpression`
-    pub(crate) fn parse_decorator(&mut self) -> Result<Decorator<'a>> {
+    pub(crate) fn parse_decorator(&mut self) -> Result<Decorator> {
         let span = self.start_span();
         self.bump_any(); // bump @
         let expr = self.context(
