@@ -118,7 +118,7 @@ impl<'a> ParserImpl<'a> {
         } else {
             (
                 self.ast
-                    .binding_pattern(binding_kind, Option::<TSTypeAnnotation>::None, false),
+                    .binding_pattern(binding_kind, Option::<TsTypeAnn>::None, false),
                 false,
             )
         };
