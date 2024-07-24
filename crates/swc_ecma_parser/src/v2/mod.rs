@@ -13,6 +13,7 @@ mod js;
 mod jsx;
 pub mod lexer;
 mod modifiers;
+mod state;
 mod ts;
 
 /// Maximum length of source which can be parsed (in bytes).
