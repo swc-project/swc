@@ -77,3 +77,8 @@ pub(crate) fn auto_semicolon_insertion(span: Span) -> Diagnostic {
 pub(crate) fn unexpected_token(span: Span) -> Diagnostic {
     todo!("unexpected_token")
 }
+
+#[cold]
+pub(crate) fn flow(span: Span) -> Diagnostic {
+    todo!("flow")
+}

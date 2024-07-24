@@ -142,7 +142,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     #[allow(clippy::cast_possible_truncation)]
-    fn parse_program(&mut self) -> Result<Program<'a>> {
+    fn parse_program(&mut self) -> Result<Program> {
         // initialize cur_token and prev_token by moving onto the first token
         self.bump_any();
 
@@ -150,7 +150,7 @@ impl<'a> ParserImpl<'a> {
         let (directives, statements) =
             self.parse_directives_and_statements(/* is_top_level */ true)?;
 
-        let span = Span::new(BytePos(0), self.source_text.len() as u32);
+        let span = Span::new(BytePos(0), BytePos(self.source_text.len() as u32));
         Ok(self
             .ast
             .program(span, self.source_type, hashbang, directives, statements))
@@ -175,7 +175,7 @@ impl<'a> ParserImpl<'a> {
             && (self.source_text.starts_with("// @flow")
                 || self.source_text.starts_with("/* @flow */"))
         {
-            return Some(diagnostics::flow(Span::new(0, 8)));
+            return Some(diagnostics::flow(Span::new(BytePos(0), BytePos(8))));
         }
         None
     }
