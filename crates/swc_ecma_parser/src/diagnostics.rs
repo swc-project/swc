@@ -1,6 +1,6 @@
 #![allow(unused)]
 
-use swc_common::Span;
+use swc_common::{BytePos, Span};
 
 #[derive(Debug)]
 pub struct Diagnotic(Box<DiagnoticKind>);
@@ -26,4 +26,24 @@ pub(crate) fn unterminated_string(span: Span) -> Diagnotic {
 #[cold]
 pub(crate) fn unexpected_end(span: Span) -> Diagnotic {
     todo!("unexpected_end")
+}
+
+#[cold]
+pub(crate) fn invalid_number_end(span: Span) -> Diagnotic {
+    todo!("invalid_number_end")
+}
+
+#[cold]
+pub(crate) fn unterminated_reg_exp(span: Span) -> Diagnotic {
+    todo!("unterminated_reg_exp")
+}
+
+#[cold]
+pub(crate) fn reg_exp_flag(ch: char, offset: BytePos) -> Diagnotic {
+    todo!("reg_exp_flag")
+}
+
+#[cold]
+pub(crate) fn reg_exp_flag_twice(ch: char, offset: BytePos) -> Diagnotic {
+    todo!("reg_exp_flag")
 }
