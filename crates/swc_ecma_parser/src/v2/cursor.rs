@@ -1,15 +1,14 @@
 //! Code related to navigating `Token`s from the lexer
 
-use oxc_allocator::Vec;
+use bumpalo::collections::Vec;
 use oxc_ast::ast::{Decorator, RegExpFlags};
-use oxc_diagnostics::Result;
-use oxc_span::{GetSpan, Span};
+use swc_common::{Span, Spanned};
 
 use super::{
     lexer::{Kind, LexerCheckpoint, LexerContext, Token},
     Context, ParserImpl,
 };
-use crate::diagnostics;
+use crate::{diagnostics, v2::Result};
 
 #[derive(Clone, Copy)]
 pub struct ParserCheckpoint<'a> {
@@ -416,7 +415,7 @@ impl<'a> ParserImpl<'a> {
     where
         E: Fn(&mut Self) -> Result<A>,
         R: Fn(&mut Self) -> Result<B>,
-        B: GetSpan,
+        B: Spanned,
     {
         let mut list = self.ast.vec();
         let mut rest = None;
