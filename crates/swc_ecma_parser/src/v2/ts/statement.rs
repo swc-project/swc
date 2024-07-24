@@ -6,7 +6,7 @@ use crate::{
     diagnostics,
     diagnostics::Result,
     v2::{
-        js::{FunctionKind, VariableDeclarationContext, VariableDeclarationParent},
+        js::{FunctionKind, VarDeclarationContext, VarDeclarationParent},
         lexer::Kind,
         modifiers::{ModifierFlags, ModifierKind, Modifiers},
         ParserImpl,
@@ -372,10 +372,10 @@ impl<'a> ParserImpl<'a> {
             kind if kind.is_variable_declaration() => self
                 .parse_variable_declaration(
                     start_span,
-                    VariableDeclarationContext::new(VariableDeclarationParent::Clause),
+                    VarDeclarationContext::new(VarDeclarationParent::Clause),
                     modifiers,
                 )
-                .map(Decl::VariableDeclaration),
+                .map(Decl::VarDeclaration),
             _ if self.at_function_with_async() => {
                 let declare = modifiers.contains(ModifierKind::Declare);
                 if declare {
