@@ -8,6 +8,9 @@
 - **(bindings/types)** Add missing mangle options ([#9298](https://github.com/swc-project/swc/issues/9298)) ([567f40d](https://github.com/swc-project/swc/commit/567f40d7973f25d554770d0138323f6dcfeb67c4))
 
 
+- **(deps)** Update cargo (patch) ([#9317](https://github.com/swc-project/swc/issues/9317)) ([ea66e84](https://github.com/swc-project/swc/commit/ea66e849116aaa569a707ef03762344f0bc06cab))
+
+
 - **(es/ast)** Make span of binding ident include type ann ([#9293](https://github.com/swc-project/swc/issues/9293)) ([2b32481](https://github.com/swc-project/swc/commit/2b324812acce58726292d3053ee7ba95e01a3436))
 
 
@@ -42,6 +45,9 @@
 
 
 - **(deps)** Update `wasmer` to fix broken Windows build ([#9322](https://github.com/swc-project/swc/issues/9322)) ([a120faf](https://github.com/swc-project/swc/commit/a120faf84b178c666b9ac785d27f426f89d10ac6))
+
+
+- **(deps)** Drop `atty` ([#9325](https://github.com/swc-project/swc/issues/9325)) ([831500e](https://github.com/swc-project/swc/commit/831500e24a25b454f496729242e5e5d54c01756a))
 
 ### Performance
 
@@ -1310,12 +1316,6 @@
 - **(es/plugin)** Fix schema version issue ([#8621](https://github.com/swc-project/swc/issues/8621)) ([132be95](https://github.com/swc-project/swc/commit/132be951733660654b5c0992e19b5f3d414e7350))
 
 
-- **(es/quote)** Allow variables typed `AssignTarget` ([#8602](https://github.com/swc-project/swc/issues/8602)) ([6a48be4](https://github.com/swc-project/swc/commit/6a48be4b6b91c71687c2edc1cf9db9538d9f5650))
-
-
-- **(es/quote)** Support `AssignTarget`, really ([#8603](https://github.com/swc-project/swc/issues/8603)) ([ef91661](https://github.com/swc-project/swc/commit/ef916614f1b714bc765721fd7a35a4a471ac6811))
-
-
 - **(es/quote)** Fix code generation of `AssignTarget` ([#8604](https://github.com/swc-project/swc/issues/8604)) ([16e9d4c](https://github.com/swc-project/swc/commit/16e9d4ca31561caf4fb2a5182337eae78395dbe6))
 
 ### Features
@@ -1333,20 +1333,11 @@
 
 - **(preset-env)** Update `browserslist-rs` ([#8614](https://github.com/swc-project/swc/issues/8614)) ([e5585e9](https://github.com/swc-project/swc/commit/e5585e99f120eb7c76625d90961fd6e4f12579e5))
 
-### Refactor
-
-
-
-- **(bindings)** Remove bindings for experimental packages ([#8600](https://github.com/swc-project/swc/issues/8600)) ([6c50ff1](https://github.com/swc-project/swc/commit/6c50ff1bec9c49d0883016d0b2c0cfa3941290c7))
-
 ### Testing
 
 
 
 - **(es)** Update `tsc` conformance test suite ([#8615](https://github.com/swc-project/swc/issues/8615)) ([c0beba7](https://github.com/swc-project/swc/commit/c0beba7708f88320617d02ce68f079bbe0252075))
-
-
-- Update `@swc/plguin-jest` used for plugin e2e testing ([#8601](https://github.com/swc-project/swc/issues/8601)) ([95fe3db](https://github.com/swc-project/swc/commit/95fe3dbe931ec42a456fceb2d583d6a04e33edd6))
 
 ### Build
 
