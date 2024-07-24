@@ -1,14 +1,15 @@
 use swc_common::{BytePos, Span};
 use swc_ecma_ast::Program;
 
+pub use self::diagnostics::{Diagnostic, DiagnoticKind};
 use self::{
     context::{Context, StatementContext},
     lexer::{Kind, Lexer, Token},
 };
-use crate::diagnostics::{self, Diagnostic};
 
 mod context;
 mod cursor;
+mod diagnostics;
 mod js;
 mod jsx;
 pub mod lexer;
