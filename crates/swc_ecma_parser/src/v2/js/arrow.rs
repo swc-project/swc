@@ -10,7 +10,7 @@ use crate::{
 };
 
 type ArrowFunctionHead<'a> = (
-    Option<Box<'a, TSTypeParameterDeclaration<'a>>>,
+    Option<Box<'a, TSTypeParameterDecl>>,
     Box<'a, FormalParameters<'a>>,
     Option<Box<'a, TSTypeAnnotation<'a>>>,
     bool,
@@ -291,7 +291,7 @@ impl<'a> ParserImpl<'a> {
     fn parse_arrow_function_body(
         &mut self,
         span: Span,
-        type_parameters: Option<Box<'a, TSTypeParameterDeclaration<'a>>>,
+        type_parameters: Option<Box<'a, TSTypeParameterDecl>>,
         params: Box<'a, FormalParameters<'a>>,
         return_type: Option<Box<'a, TSTypeAnnotation<'a>>>,
         r#async: bool,

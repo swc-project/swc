@@ -25,7 +25,7 @@ impl<'a> ParserImpl<'a> {
         &mut self,
         span: Span,
         modifiers: &Modifiers<'a>,
-    ) -> Result<Declaration<'a>> {
+    ) -> Result<Decl> {
         self.bump_any(); // bump `enum`
         let id = self.parse_binding_identifier()?;
         self.expect(Kind::LCurly)?;
@@ -113,7 +113,7 @@ impl<'a> ParserImpl<'a> {
         &mut self,
         span: Span,
         modifiers: &Modifiers<'a>,
-    ) -> Result<Declaration<'a>> {
+    ) -> Result<Decl> {
         self.expect(Kind::Type)?;
 
         let id = self.parse_binding_identifier()?;
@@ -146,7 +146,7 @@ impl<'a> ParserImpl<'a> {
         &mut self,
         span: Span,
         modifiers: &Modifiers<'a>,
-    ) -> Result<Declaration<'a>> {
+    ) -> Result<Decl> {
         self.expect(Kind::Interface)?; // bump interface
         let id = self.parse_binding_identifier()?;
         let type_parameters = self.parse_ts_type_parameters()?;
@@ -277,7 +277,7 @@ impl<'a> ParserImpl<'a> {
         span: Span,
         kind: TSModuleDeclarationKind,
         modifiers: &Modifiers<'a>,
-    ) -> Result<Box<'a, TSModuleDeclaration<'a>>> {
+    ) -> Result<Box<'a, TSModuleDecl>> {
         self.verify_modifiers(
             modifiers,
             ModifierFlags::DECLARE | ModifierFlags::EXPORT,
@@ -340,25 +340,25 @@ impl<'a> ParserImpl<'a> {
         &mut self,
         start_span: Span,
         modifiers: &Modifiers<'a>,
-    ) -> Result<Declaration<'a>> {
+    ) -> Result<Decl> {
         match self.cur_kind() {
             Kind::Namespace => {
                 let kind = TSModuleDeclarationKind::Namespace;
                 self.bump_any();
                 self.parse_ts_namespace_or_module_declaration_body(start_span, kind, modifiers)
-                    .map(Declaration::TSModuleDeclaration)
+                    .map(Decl::TSModuleDeclaration)
             }
             Kind::Module => {
                 let kind = TSModuleDeclarationKind::Module;
                 self.bump_any();
                 self.parse_ts_namespace_or_module_declaration_body(start_span, kind, modifiers)
-                    .map(Declaration::TSModuleDeclaration)
+                    .map(Decl::TSModuleDeclaration)
             }
             Kind::Global => {
                 // declare global { }
                 let kind = TSModuleDeclarationKind::Global;
                 self.parse_ts_namespace_or_module_declaration_body(start_span, kind, modifiers)
-                    .map(Declaration::TSModuleDeclaration)
+                    .map(Decl::TSModuleDeclaration)
             }
             Kind::Type => self.parse_ts_type_alias_declaration(start_span, modifiers),
             Kind::Enum => self.parse_ts_enum_declaration(start_span, modifiers),
@@ -367,7 +367,7 @@ impl<'a> ParserImpl<'a> {
             }
             Kind::Class => self
                 .parse_class_declaration(start_span, modifiers)
-                .map(Declaration::ClassDeclaration),
+                .map(Decl::ClassDeclaration),
             Kind::Import => {
                 self.bump_any();
                 self.parse_ts_import_equals_declaration(start_span)
@@ -378,18 +378,18 @@ impl<'a> ParserImpl<'a> {
                     VariableDeclarationContext::new(VariableDeclarationParent::Clause),
                     modifiers,
                 )
-                .map(Declaration::VariableDeclaration),
+                .map(Decl::VariableDeclaration),
             _ if self.at_function_with_async() => {
                 let declare = modifiers.contains(ModifierKind::Declare);
                 if declare {
                     self.parse_ts_declare_function(start_span, modifiers)
-                        .map(Declaration::FunctionDeclaration)
+                        .map(Decl::FunctionDeclaration)
                 } else if self.ts_enabled() {
                     self.parse_ts_function_impl(start_span, FunctionKind::Declaration, modifiers)
-                        .map(Declaration::FunctionDeclaration)
+                        .map(Decl::FunctionDeclaration)
                 } else {
                     self.parse_function_impl(FunctionKind::Declaration)
-                        .map(Declaration::FunctionDeclaration)
+                        .map(Decl::FunctionDeclaration)
                 }
             }
             _ => Err(self.unexpected()),
@@ -420,10 +420,7 @@ impl<'a> ParserImpl<'a> {
             .expression_ts_type_assertion(self.end_span(span), expression, type_annotation))
     }
 
-    pub(crate) fn parse_ts_import_equals_declaration(
-        &mut self,
-        span: Span,
-    ) -> Result<Declaration<'a>> {
+    pub(crate) fn parse_ts_import_equals_declaration(&mut self, span: Span) -> Result<Decl> {
         let import_kind = if !self.peek_at(Kind::Eq) && self.eat(Kind::Type) {
             ImportOrExportKind::Type
         } else {

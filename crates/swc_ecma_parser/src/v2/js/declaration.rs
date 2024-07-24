@@ -46,7 +46,7 @@ impl<'a> ParserImpl<'a> {
         start_span: Span,
         decl_ctx: VariableDeclarationContext,
         modifiers: &Modifiers<'a>,
-    ) -> Result<Box<'a, VariableDeclaration<'a>>> {
+    ) -> Result<Box<'a, VariableDecl>> {
         let kind = match self.cur_kind() {
             Kind::Var => VariableDeclarationKind::Var,
             Kind::Const => VariableDeclarationKind::Const,
@@ -154,7 +154,7 @@ impl<'a> ParserImpl<'a> {
     pub(crate) fn parse_using_declaration(
         &mut self,
         statement_ctx: StatementContext,
-    ) -> Result<UsingDeclaration<'a>> {
+    ) -> Result<UsingDecl> {
         let span = self.start_span();
 
         let is_await = self.eat(Kind::Await);
