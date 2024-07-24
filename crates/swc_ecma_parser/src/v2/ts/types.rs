@@ -1018,7 +1018,7 @@ impl<'a> ParserImpl<'a> {
                 .ast
                 .expression_unary(span, UnaryOperator::UnaryNegation, expression)
             {
-                Expr::UnaryExpression(unary_expr) => TSLiteral::UnaryExpression(unary_expr),
+                Expr::Unary(unary_expr) => TSLiteral::Unary(unary_expr),
                 _ => unreachable!(),
             }
         } else {

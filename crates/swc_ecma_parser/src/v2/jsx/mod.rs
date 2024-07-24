@@ -273,7 +273,7 @@ impl<'a> ParserImpl<'a> {
             let expr = self
                 .ast
                 .jsx_empty_expression(Span::new(span.start + 1, span.end - 1));
-            JSXExpr::EmptyExpression(expr)
+            JSXExpr::Empty(expr)
         } else {
             let expr = self.parse_jsx_assignment_expression().map(JSXExpr::from)?;
             if in_jsx_child {
@@ -295,7 +295,7 @@ impl<'a> ParserImpl<'a> {
             self.ctx,
             |p| {
                 let expr = p.parse_expr();
-                if let Ok(Expr::SequenceExpression(seq)) = &expr {
+                if let Ok(Expr::Sequence(seq)) = &expr {
                     return Err(diagnostics::jsx_expressions_may_not_use_the_comma_operator(
                         seq.span,
                     ));
@@ -437,7 +437,7 @@ impl<'a> ParserImpl<'a> {
             (JSXElementName::NamespacedName(lhs), JSXElementName::NamespacedName(rhs)) => {
                 lhs.namespace.name == rhs.namespace.name && lhs.property.name == rhs.property.name
             }
-            (JSXElementName::MemberExpression(lhs), JSXElementName::MemberExpression(rhs)) => {
+            (JSXElementName::Member(lhs), JSXElementName::Member(rhs)) => {
                 Self::jsx_member_expression_eq(lhs, rhs)
             }
             _ => false,
@@ -452,10 +452,9 @@ impl<'a> ParserImpl<'a> {
             (JSXMemberExpressionObject::Ident(lhs), JSXMemberExpressionObject::Ident(rhs)) => {
                 lhs.name == rhs.name
             }
-            (
-                JSXMemberExpressionObject::MemberExpression(lhs),
-                JSXMemberExpressionObject::MemberExpression(rhs),
-            ) => Self::jsx_member_expression_eq(lhs, rhs),
+            (JSXMemberExpressionObject::Member(lhs), JSXMemberExpressionObject::Member(rhs)) => {
+                Self::jsx_member_expression_eq(lhs, rhs)
+            }
             _ => false,
         }
     }
