@@ -142,7 +142,7 @@ impl<'a> ParserImpl<'a> {
 
     pub(crate) fn parse_ts_type_parameters(
         &mut self,
-    ) -> Result<Option<Box<'a, TSTypeParameterDeclaration<'a>>>> {
+    ) -> Result<Option<Box<'a, TSTypeParameterDecl>>> {
         if !self.ts_enabled() {
             return Ok(None);
         }

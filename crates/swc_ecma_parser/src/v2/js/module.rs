@@ -216,9 +216,7 @@ impl<'a> ParserImpl<'a> {
         }))
     }
 
-    pub(crate) fn parse_ts_export_namespace(
-        &mut self,
-    ) -> Result<Box<'a, TSNamespaceExportDeclaration<'a>>> {
+    pub(crate) fn parse_ts_export_namespace(&mut self) -> Result<Box<'a, TSNamespaceExportDecl>> {
         let span = self.start_span();
         self.expect(Kind::As)?;
         self.expect(Kind::Namespace)?;
@@ -240,28 +238,28 @@ impl<'a> ParserImpl<'a> {
         let decl = match self.cur_kind() {
             Kind::Eq if self.ts_enabled() => self
                 .parse_ts_export_assignment_declaration(span)
-                .map(ModuleDeclaration::TSExportAssignment),
+                .map(ModuleDecl::TSExportAssignment),
             Kind::As if self.peek_at(Kind::Namespace) && self.ts_enabled() => self
                 .parse_ts_export_namespace()
-                .map(ModuleDeclaration::TSNamespaceExportDeclaration),
+                .map(ModuleDecl::TSNamespaceExportDeclaration),
             Kind::Default => self
                 .parse_export_default_declaration(span)
-                .map(ModuleDeclaration::ExportDefaultDeclaration),
+                .map(ModuleDecl::ExportDefaultDeclaration),
             Kind::Star => self
                 .parse_export_all_declaration(span)
-                .map(ModuleDeclaration::ExportAllDeclaration),
+                .map(ModuleDecl::ExportAllDeclaration),
             Kind::LCurly => self
                 .parse_export_named_specifiers(span)
-                .map(ModuleDeclaration::ExportNamedDeclaration),
+                .map(ModuleDecl::ExportNamedDeclaration),
             Kind::Type if self.peek_at(Kind::LCurly) && self.ts_enabled() => self
                 .parse_export_named_specifiers(span)
-                .map(ModuleDeclaration::ExportNamedDeclaration),
+                .map(ModuleDecl::ExportNamedDeclaration),
             Kind::Type if self.peek_at(Kind::Star) => self
                 .parse_export_all_declaration(span)
-                .map(ModuleDeclaration::ExportAllDeclaration),
+                .map(ModuleDecl::ExportAllDeclaration),
             _ => self
                 .parse_export_named_declaration(span)
-                .map(ModuleDeclaration::ExportNamedDeclaration),
+                .map(ModuleDecl::ExportNamedDeclaration),
         }?;
         Ok(Stmt::from(decl))
     }
@@ -277,10 +275,7 @@ impl<'a> ParserImpl<'a> {
     // ExportSpecifier :
     //   ModuleExportName
     //   ModuleExportName as ModuleExportName
-    fn parse_export_named_specifiers(
-        &mut self,
-        span: Span,
-    ) -> Result<Box<'a, ExportNamedDeclaration<'a>>> {
+    fn parse_export_named_specifiers(&mut self, span: Span) -> Result<Box<'a, ExportNamedDecl>> {
         let export_kind = self.parse_import_or_export_kind();
         self.expect(Kind::LCurly)?;
         let mut specifiers = self.context(Context::empty(), self.ctx, |p| {
@@ -354,10 +349,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     // export Declaration
-    fn parse_export_named_declaration(
-        &mut self,
-        span: Span,
-    ) -> Result<Box<'a, ExportNamedDeclaration<'a>>> {
+    fn parse_export_named_declaration(&mut self, span: Span) -> Result<Box<'a, ExportNamedDecl>> {
         let decl_span = self.start_span();
         // For tc39/proposal-decorators
         // For more information, please refer to <https://babeljs.io/docs/babel-plugin-proposal-decorators#decoratorsbeforeexport>
@@ -386,7 +378,7 @@ impl<'a> ParserImpl<'a> {
     fn parse_export_default_declaration(
         &mut self,
         span: Span,
-    ) -> Result<Box<'a, ExportDefaultDeclaration<'a>>> {
+    ) -> Result<Box<'a, ExportDefaultDecl>> {
         let exported = self.parse_keyword_identifier(Kind::Default);
         let decl_span = self.start_span();
         // For tc39/proposal-decorators
@@ -408,7 +400,7 @@ impl<'a> ParserImpl<'a> {
             {
                 self.parse_ts_interface_declaration(decl_span, &Modifiers::empty())
                     .map(|decl| match decl {
-                        Declaration::TSInterfaceDeclaration(decl) => {
+                        Decl::TSInterfaceDeclaration(decl) => {
                             ExportDefaultDeclarationKind::TSInterfaceDeclaration(decl)
                         }
                         _ => unreachable!(),
@@ -437,10 +429,7 @@ impl<'a> ParserImpl<'a> {
     //   *
     //   * as ModuleExportName
     //   NamedExports
-    fn parse_export_all_declaration(
-        &mut self,
-        span: Span,
-    ) -> Result<Box<'a, ExportAllDeclaration<'a>>> {
+    fn parse_export_all_declaration(&mut self, span: Span) -> Result<Box<'a, ExportAllDecl>> {
         let export_kind = self.parse_import_or_export_kind();
         self.bump_any(); // bump `star`
         let exported = self
