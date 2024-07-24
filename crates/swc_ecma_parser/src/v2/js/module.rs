@@ -202,19 +202,19 @@ impl<'a> ParserImpl<'a> {
     pub(crate) fn parse_ts_export_assignment_declaration(
         &mut self,
         start_span: Span,
-    ) -> Result<Box<'a, TSExportAssign<'a>>> {
+    ) -> Result<Box<'a, TsExportAssign<'a>>> {
         self.expect(Kind::Eq)?;
 
         let expression = self.parse_assignment_expression_or_higher()?;
         self.asi()?;
 
-        Ok(self.ast.alloc(TSExportAssign {
+        Ok(self.ast.alloc(TsExportAssign {
             span: self.end_span(start_span),
             expression,
         }))
     }
 
-    pub(crate) fn parse_ts_export_namespace(&mut self) -> Result<Box<'a, TSNamespaceExportDecl>> {
+    pub(crate) fn parse_ts_export_namespace(&mut self) -> Result<Box<'a, TsNamespaceExportDecl>> {
         let span = self.start_span();
         self.expect(Kind::As)?;
         self.expect(Kind::Namespace)?;
@@ -222,7 +222,7 @@ impl<'a> ParserImpl<'a> {
         let id = self.parse_identifier_name()?;
         self.asi()?;
 
-        Ok(self.ast.alloc(TSNamespaceExportDeclaration {
+        Ok(self.ast.alloc(TsNamespaceExportDeclaration {
             span: self.end_span(span),
             id,
         }))
@@ -236,10 +236,10 @@ impl<'a> ParserImpl<'a> {
         let decl = match self.cur_kind() {
             Kind::Eq if self.ts_enabled() => self
                 .parse_ts_export_assignment_declaration(span)
-                .map(ModuleDecl::TSExportAssign),
+                .map(ModuleDecl::TsExportAssign),
             Kind::As if self.peek_at(Kind::Namespace) && self.ts_enabled() => self
                 .parse_ts_export_namespace()
-                .map(ModuleDecl::TSNamespaceExportDeclaration),
+                .map(ModuleDecl::TsNamespaceExportDeclaration),
             Kind::Default => self
                 .parse_export_default_declaration(span)
                 .map(ModuleDecl::ExportDefaultDeclaration),
@@ -398,8 +398,8 @@ impl<'a> ParserImpl<'a> {
             {
                 self.parse_ts_interface_declaration(decl_span, &Modifiers::empty())
                     .map(|decl| match decl {
-                        Decl::TSInterfaceDeclaration(decl) => {
-                            ExportDefaultDeclarationKind::TSInterfaceDeclaration(decl)
+                        Decl::TsInterfaceDeclaration(decl) => {
+                            ExportDefaultDeclarationKind::TsInterfaceDeclaration(decl)
                         }
                         _ => unreachable!(),
                     })?

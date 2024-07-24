@@ -654,7 +654,7 @@ impl<'a> ParserImpl<'a> {
                 }
                 kind if kind.is_template_start_of_tagged_template() => {
                     let (expr, type_parameters) =
-                        if let Expr::TSInstantiation(instantiation_expr) = lhs {
+                        if let Expr::TsInstantiation(instantiation_expr) = lhs {
                             let expr = instantiation_expr.unbox();
                             (expr.expression, Some(expr.type_parameters))
                         } else {
@@ -738,7 +738,7 @@ impl<'a> ParserImpl<'a> {
         let mut callee = self.parse_member_expression_or_higher(&mut optional)?;
 
         let mut type_parameter = None;
-        if let Expr::TSInstantiation(instantiation_expr) = callee {
+        if let Expr::TsInstantiation(instantiation_expr) = callee {
             let instantiation_expr = instantiation_expr.unbox();
             type_parameter.replace(instantiation_expr.type_parameters);
             callee = instantiation_expr.expression;
@@ -807,7 +807,7 @@ impl<'a> ParserImpl<'a> {
             }
 
             if type_arguments.is_some() || self.at(Kind::LParen) {
-                if let Expr::TSInstantiation(expr) = lhs {
+                if let Expr::TsInstantiation(expr) = lhs {
                     let expr = expr.unbox();
                     type_arguments.replace(expr.type_parameters);
                     lhs = expr.expression;

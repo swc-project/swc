@@ -49,7 +49,7 @@ impl<'a> ParserImpl<'a> {
     pub(crate) fn parse_formal_parameters(
         &mut self,
         params_kind: FormalParameterKind,
-    ) -> Result<(Option<TSThisParameter<'a>>, Box<'a, FormalParameters<'a>>)> {
+    ) -> Result<(Option<TsThisParameter<'a>>, Box<'a, FormalParameters<'a>>)> {
         let span = self.start_span();
         self.expect(Kind::LParen)?;
         let this_param = if self.ts_enabled() && self.at(Kind::This) {
@@ -159,23 +159,23 @@ impl<'a> ParserImpl<'a> {
         let function_type = match func_kind {
             FunctionKind::Declaration | FunctionKind::DefaultExport => {
                 if body.is_none() {
-                    FunctionType::TSDeclareFunction
+                    FunctionType::TsDeclareFunction
                 } else {
                     FunctionType::FunctionDeclaration
                 }
             }
             FunctionKind::Expression { .. } => {
                 if body.is_none() {
-                    FunctionType::TSEmptyBodyFunctionExpression
+                    FunctionType::TsEmptyBodyFunctionExpression
                 } else {
                     FunctionType::FunctionExpression
                 }
             }
-            FunctionKind::TSDeclaration { .. } => FunctionType::TSDeclareFunction,
+            FunctionKind::TsDeclaration { .. } => FunctionType::TsDeclareFunction,
         };
 
-        if FunctionType::TSDeclareFunction == function_type
-            || FunctionType::TSEmptyBodyFunctionExpression == function_type
+        if FunctionType::TsDeclareFunction == function_type
+            || FunctionType::TsEmptyBodyFunctionExpression == function_type
         {
             self.asi()?;
         }

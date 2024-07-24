@@ -13,7 +13,7 @@ use crate::v2::{
 
 type Extends<'a> = Vec<'a, (Expr, Option<Box<'a, TsTypeParamInstantiation>>, Span)>;
 
-type Implements<'a> = Vec<'a, TSClassImplements<'a>>;
+type Implements<'a> = Vec<'a, TsClassImplements<'a>>;
 
 /// Section 15.7 Class Definitions
 impl<'a> ParserImpl<'a> {
@@ -146,7 +146,7 @@ impl<'a> ParserImpl<'a> {
         let span = self.start_span();
         let mut first_extends = self.parse_lhs_expression_or_higher()?;
         let first_type_argument;
-        if let Expr::TSInstantiation(expr) = first_extends {
+        if let Expr::TsInstantiation(expr) = first_extends {
             let expr = expr.unbox();
             first_extends = expr.expression;
             first_type_argument = Some(expr.type_parameters);
@@ -159,7 +159,7 @@ impl<'a> ParserImpl<'a> {
             let span = self.start_span();
             let mut extend = self.parse_lhs_expression_or_higher()?;
             let type_argument;
-            if let Expr::TSInstantiation(expr) = extend {
+            if let Expr::TsInstantiation(expr) = extend {
                 let expr = expr.unbox();
                 extend = expr.expression;
                 type_argument = Some(expr.type_parameters);
@@ -238,8 +238,8 @@ impl<'a> ParserImpl<'a> {
         }
 
         if self.is_at_ts_index_signature_member() {
-            if let TSSignature::TSIndexSignature(sig) = self.parse_ts_index_signature_member()? {
-                return Ok(Some(ClassElement::TSIndexSignature(sig)));
+            if let TsSignature::TsIndexSignature(sig) = self.parse_ts_index_signature_member()? {
+                return Ok(Some(ClassElement::TsIndexSignature(sig)));
             }
         }
 
@@ -414,7 +414,7 @@ impl<'a> ParserImpl<'a> {
         }
 
         let r#type = if r#abstract {
-            MethodDefinitionType::TSAbstractMethodDefinition
+            MethodDefinitionType::TsAbstractMethodDefinition
         } else {
             MethodDefinitionType::MethodDefinition
         };
@@ -469,7 +469,7 @@ impl<'a> ParserImpl<'a> {
         self.asi()?;
 
         let r#type = if r#abstract {
-            PropertyDefinitionType::TSAbstractPropertyDefinition
+            PropertyDefinitionType::TsAbstractPropertyDefinition
         } else {
             PropertyDefinitionType::PropertyDefinition
         };
@@ -521,7 +521,7 @@ impl<'a> ParserImpl<'a> {
             .then(|| self.parse_assignment_expression_or_higher())
             .transpose()?;
         let r#type = if r#abstract {
-            AccessorPropertyType::TSAbstractAccessorProperty
+            AccessorPropertyType::TsAbstractAccessorProperty
         } else {
             AccessorPropertyType::AccessorProperty
         };
