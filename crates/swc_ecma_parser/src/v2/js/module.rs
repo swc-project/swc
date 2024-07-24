@@ -74,9 +74,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     // Full Syntax: <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#syntax>
-    fn parse_import_declaration_specifiers(
-        &mut self,
-    ) -> Result<Vec<'a, ImportDeclarationSpecifier<'a>>> {
+    fn parse_import_declaration_specifiers(&mut self) -> Result<Vec<'a, ImportSpecifier>> {
         let mut specifiers = self.ast.vec();
         // import defaultExport from "module-name";
         if self.cur_kind().is_binding_identifier() {
@@ -107,33 +105,33 @@ impl<'a> ParserImpl<'a> {
     }
 
     // import default from "module-name"
-    fn parse_import_default_specifier(&mut self) -> Result<ImportDeclarationSpecifier<'a>> {
+    fn parse_import_default_specifier(&mut self) -> Result<ImportSpecifier> {
         let span = self.start_span();
         let local = self.parse_binding_identifier()?;
-        Ok(ImportDeclarationSpecifier::ImportDefaultSpecifier(
-            self.ast.alloc(ImportDefaultSpecifier {
+        Ok(ImportSpecifier::ImportDefaultSpecifier(self.ast.alloc(
+            ImportDefaultSpecifier {
                 span: self.end_span(span),
                 local,
-            }),
-        ))
+            },
+        )))
     }
 
     // import * as name from "module-name"
-    fn parse_import_namespace_specifier(&mut self) -> Result<ImportDeclarationSpecifier<'a>> {
+    fn parse_import_namespace_specifier(&mut self) -> Result<ImportSpecifier> {
         let span = self.start_span();
         self.bump_any(); // advance `*`
         self.expect(Kind::As)?;
         let local = self.parse_binding_identifier()?;
-        Ok(ImportDeclarationSpecifier::ImportNamespaceSpecifier(
-            self.ast.alloc(ImportNamespaceSpecifier {
+        Ok(ImportSpecifier::Namespace(self.ast.alloc(
+            ImportNamespaceSpecifier {
                 span: self.end_span(span),
                 local,
-            }),
-        ))
+            },
+        )))
     }
 
     // import { export1 , export2 as alias2 , [...] } from "module-name";
-    fn parse_import_specifiers(&mut self) -> Result<Vec<'a, ImportDeclarationSpecifier<'a>>> {
+    fn parse_import_specifiers(&mut self) -> Result<Vec<'a, ImportSpecifier>> {
         self.expect(Kind::LCurly)?;
         let list = self.context(Context::empty(), self.ctx, |p| {
             p.parse_delimited_list(
@@ -447,7 +445,7 @@ impl<'a> ParserImpl<'a> {
     // ImportSpecifier :
     //   ImportedBinding
     //   ModuleExportName as ImportedBinding
-    pub(crate) fn parse_import_specifier(&mut self) -> Result<ImportDeclarationSpecifier<'a>> {
+    pub(crate) fn parse_import_specifier(&mut self) -> Result<ImportSpecifier> {
         let specifier_span = self.start_span();
         let peek_kind = self.peek_kind();
         let mut import_kind = ImportOrExportKind::Value;
@@ -481,7 +479,7 @@ impl<'a> ParserImpl<'a> {
             };
             (ModuleExportName::IdentName(imported), local)
         };
-        Ok(ImportDeclarationSpecifier::ImportSpecifier(self.ast.alloc(
+        Ok(ImportSpecifier::ImportSpecifier(self.ast.alloc(
             ImportSpecifier {
                 span: self.end_span(specifier_span),
                 imported,
