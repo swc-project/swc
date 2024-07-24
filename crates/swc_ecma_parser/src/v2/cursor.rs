@@ -28,7 +28,7 @@ impl<'a> ParserImpl<'a> {
     #[inline]
     pub(crate) fn end_span(&self, mut span: Span) -> Span {
         span.hi = self.prev_token_end;
-        debug_assert!(span.end.0 >= span.start.0);
+        debug_assert!(span.hi.0 >= span.lo.0);
         span
     }
 
@@ -53,7 +53,7 @@ impl<'a> ParserImpl<'a> {
 
         unsafe {
             self.source_text
-                .get_unchecked(range.start as usize..range.end as usize)
+                .get_unchecked(range.lo.0 as usize..range.hi.0 as usize)
         }
     }
 
