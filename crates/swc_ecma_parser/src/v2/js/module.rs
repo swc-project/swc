@@ -1,11 +1,12 @@
 use oxc_allocator::{Box, Vec};
-use oxc_diagnostics::Result;
 use oxc_span::{GetSpan, Span};
 use rustc_hash::FxHashMap;
 use swc_ecma_ast::*;
 
 use super::FunctionKind;
-use crate::{diagnostics, lexer::Kind, modifiers::Modifiers, Context, ParserImpl};
+use crate::{
+    diagnostics, diagnostics::Result, lexer::Kind, modifiers::Modifiers, Context, ParserImpl,
+};
 
 impl<'a> ParserImpl<'a> {
     /// [Import Call](https://tc39.es/ecma262/#sec-import-calls)

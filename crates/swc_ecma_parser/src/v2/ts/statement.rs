@@ -1,5 +1,4 @@
 use oxc_allocator::Box;
-use oxc_diagnostics::Result;
 use swc_common::Span;
 use swc_ecma_ast::*;
 
@@ -9,7 +8,7 @@ use super::{
     modifiers::{ModifierFlags, ModifierKind, Modifiers},
     ParserImpl,
 };
-use crate::diagnostics;
+use crate::{diagnostics, diagnostics::Result};
 
 impl<'a> ParserImpl<'a> {
     /** ------------------- Enum ------------------ */

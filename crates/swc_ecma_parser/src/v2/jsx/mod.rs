@@ -3,11 +3,10 @@
 #![allow(clippy::missing_errors_doc)]
 
 use oxc_allocator::{Box, Vec};
-use oxc_diagnostics::Result;
 use oxc_span::{Atom, GetSpan, Span};
 use swc_ecma_ast::*;
 
-use crate::{diagnostics, lexer::Kind, Context, ParserImpl};
+use crate::{diagnostics, diagnostics::Result, lexer::Kind, Context, ParserImpl};
 
 impl<'a> ParserImpl<'a> {
     pub(crate) fn parse_jsx_expression(&mut self) -> Result<Expr> {

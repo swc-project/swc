@@ -1,7 +1,6 @@
 use std::cell::Cell;
 
 use oxc_allocator::Box;
-use oxc_diagnostics::Result;
 use oxc_span::{Atom, Span};
 use oxc_syntax::{
     number::{BigintBase, NumberBase},
@@ -19,6 +18,7 @@ use super::{
 };
 use crate::{
     diagnostics,
+    diagnostics::Result,
     lexer::{parse_big_int, parse_float, parse_int, Kind},
     Context, ParserImpl,
 };
