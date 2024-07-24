@@ -1,8 +1,8 @@
 use oxc_allocator::{Box, Vec};
-use oxc_ast::ast::*;
 use oxc_diagnostics::Result;
 use oxc_span::{GetSpan, Span};
 use rustc_hash::FxHashMap;
+use swc_ecma_ast::*;
 
 use super::FunctionKind;
 use crate::{diagnostics, lexer::Kind, modifiers::Modifiers, Context, ParserImpl};

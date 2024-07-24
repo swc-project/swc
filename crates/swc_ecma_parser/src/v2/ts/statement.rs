@@ -1,7 +1,7 @@
 use oxc_allocator::Box;
-use oxc_ast::ast::*;
 use oxc_diagnostics::Result;
 use swc_common::Span;
+use swc_ecma_ast::*;
 
 use super::{
     js::{FunctionKind, VariableDeclarationContext, VariableDeclarationParent},

@@ -1,8 +1,8 @@
 use oxc_allocator::{Box, Vec};
-use oxc_ast::ast::*;
 use oxc_diagnostics::Result;
 use oxc_span::GetSpan;
 use oxc_syntax::operator::UnaryOperator;
+use swc_ecma_ast::*;
 
 use crate::{
     diagnostics,
