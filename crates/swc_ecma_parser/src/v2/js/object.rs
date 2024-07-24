@@ -1,8 +1,8 @@
 use oxc_allocator::Box;
-use oxc_ast::ast::*;
 use oxc_diagnostics::Result;
 use oxc_syntax::operator::AssignmentOperator;
 use swc_common::Span;
+use swc_ecma_ast::*;
 
 use crate::{diagnostics, lexer::Kind, modifiers::Modifier, Context, ParserImpl};
 

@@ -1,7 +1,6 @@
 use oxc_allocator::Box;
-use oxc_ast::ast::*;
 use oxc_diagnostics::Result;
-use swc_ecma_ast::Stmt;
+use swc_ecma_ast::{Stmt, *};
 
 use super::{VariableDeclarationContext, VariableDeclarationParent};
 use crate::{

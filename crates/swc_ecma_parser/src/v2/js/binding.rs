@@ -1,6 +1,6 @@
-use oxc_ast::ast::*;
 use oxc_diagnostics::Result;
 use oxc_span::{GetSpan, Span};
+use swc_ecma_ast::*;
 
 use crate::{diagnostics, lexer::Kind, Context, ParserImpl};
 
