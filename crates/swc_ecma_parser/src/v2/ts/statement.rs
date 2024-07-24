@@ -2,11 +2,11 @@ use oxc_allocator::Box;
 use swc_common::Span;
 use swc_ecma_ast::*;
 
-use super::js::{FunctionKind, VariableDeclarationContext, VariableDeclarationParent};
 use crate::{
     diagnostics,
     diagnostics::Result,
     v2::{
+        js::{FunctionKind, VariableDeclarationContext, VariableDeclarationParent},
         lexer::Kind,
         modifiers::{ModifierFlags, ModifierKind, Modifiers},
         ParserImpl,
