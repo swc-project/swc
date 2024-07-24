@@ -5,9 +5,11 @@ use super::{VariableDeclarationContext, VariableDeclarationParent};
 use crate::{
     diagnostics,
     diagnostics::Result,
-    lexer::Kind,
-    modifiers::{ModifierFlags, Modifiers},
-    ParserImpl, StatementContext,
+    v2::{
+        lexer::Kind,
+        modifiers::{ModifierFlags, Modifiers},
+        ParserImpl, StatementContext,
+    },
 };
 
 impl<'a> ParserImpl<'a> {
