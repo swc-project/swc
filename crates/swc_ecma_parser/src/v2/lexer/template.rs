@@ -1,6 +1,6 @@
 use std::cmp::max;
 
-use oxc_allocator::String;
+use bumpalo::collections::String;
 use swc_common::BytePos;
 
 use super::{
