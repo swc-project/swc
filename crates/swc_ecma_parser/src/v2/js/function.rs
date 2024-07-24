@@ -1,13 +1,13 @@
 use std::cell::Cell;
 
 use oxc_allocator::Box;
-use oxc_diagnostics::Result;
 use swc_common::Span;
 use swc_ecma_ast::*;
 
 use super::FunctionKind;
 use crate::{
     diagnostics,
+    diagnostics::Result,
     lexer::Kind,
     modifiers::{ModifierFlags, ModifierKind, Modifiers},
     Context, ParserImpl, StatementContext,

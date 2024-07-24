@@ -1,10 +1,11 @@
 use oxc_allocator::Box;
-use oxc_diagnostics::Result;
 use oxc_syntax::operator::AssignmentOperator;
 use swc_common::Span;
 use swc_ecma_ast::*;
 
-use crate::{diagnostics, lexer::Kind, modifiers::Modifier, Context, ParserImpl};
+use crate::{
+    diagnostics, diagnostics::Result, lexer::Kind, modifiers::Modifier, Context, ParserImpl,
+};
 
 impl<'a> ParserImpl<'a> {
     /// [Object Expression](https://tc39.es/ecma262/#sec-object-initializer)

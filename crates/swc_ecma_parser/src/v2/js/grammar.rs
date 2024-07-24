@@ -1,10 +1,9 @@
 //! Cover Grammar for Destructuring Assignment
 
-use oxc_diagnostics::Result;
 use oxc_span::GetSpan;
 use swc_ecma_ast::*;
 
-use crate::{diagnostics, ParserImpl};
+use crate::{diagnostics, diagnostics::Result, ParserImpl};
 
 pub trait CoverGrammar<'a, T>: Sized {
     fn cover(value: T, p: &mut ParserImpl<'a>) -> Result<Self>;

@@ -1,5 +1,4 @@
 use oxc_allocator::{Box, Vec};
-use oxc_diagnostics::Result;
 use oxc_span::GetSpan;
 use oxc_syntax::operator::UnaryOperator;
 use swc_ecma_ast::*;
@@ -10,6 +9,7 @@ use super::super::{
     modifiers::{Modifier, ModifierFlags, ModifierKind, Modifiers},
     Context, ParserImpl,
 };
+use crate::diagnostics::Result;
 
 impl<'a> ParserImpl<'a> {
     pub(crate) fn parse_ts_type(&mut self) -> Result<TSType<'a>> {

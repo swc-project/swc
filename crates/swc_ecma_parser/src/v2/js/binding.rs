@@ -1,8 +1,7 @@
-use oxc_diagnostics::Result;
 use oxc_span::{GetSpan, Span};
 use swc_ecma_ast::*;
 
-use crate::{diagnostics, lexer::Kind, Context, ParserImpl};
+use crate::{diagnostics, diagnostics::Result, lexer::Kind, Context, ParserImpl};
 
 impl<'a> ParserImpl<'a> {
     /// `BindingElement`

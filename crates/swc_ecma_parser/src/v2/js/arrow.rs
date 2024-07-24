@@ -1,5 +1,4 @@
 use oxc_allocator::Box;
-use oxc_diagnostics::Result;
 use oxc_span::{GetSpan, Span};
 use oxc_syntax::precedence::Precedence;
 use swc_ecma_ast::*;
@@ -8,6 +7,7 @@ use super::{
     super::{diagnostics, lexer::Kind, ParserImpl},
     Tristate,
 };
+use crate::diagnostics::Result;
 
 type ArrowFunctionHead<'a> = (
     Option<Box<'a, TSTypeParameterDeclaration<'a>>>,

@@ -1,10 +1,10 @@
 use oxc_allocator::Box;
-use oxc_diagnostics::Result;
 use swc_ecma_ast::{Stmt, *};
 
 use super::{VariableDeclarationContext, VariableDeclarationParent};
 use crate::{
     diagnostics,
+    diagnostics::Result,
     lexer::Kind,
     modifiers::{ModifierFlags, Modifiers},
     ParserImpl, StatementContext,
