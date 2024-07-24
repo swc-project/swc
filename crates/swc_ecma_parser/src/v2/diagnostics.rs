@@ -134,3 +134,8 @@ pub(crate) fn template_literal(span: Span) -> Diagnostic {
 pub(crate) fn a_rest_parameter_cannot_be_optional(span: Span) -> Diagnostic {
     todo!("a_rest_parameter_cannot_be_optional")
 }
+
+#[cold]
+pub(crate) fn empty_parenthesized_expression(span: Span) -> Diagnostic {
+    todo!("empty_parenthesized_expression")
+}
