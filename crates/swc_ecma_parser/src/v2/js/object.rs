@@ -4,7 +4,7 @@ use swc_common::Span;
 use swc_ecma_ast::*;
 
 use super::super::{lexer::Kind, modifiers::Modifier, Context, ParserImpl};
-use crate::{diagnostics, diagnostics::Result};
+use crate::v2::{diagnostics, diagnostics::Result};
 
 impl<'a> ParserImpl<'a> {
     /// [Object Expression](https://tc39.es/ecma262/#sec-object-initializer)

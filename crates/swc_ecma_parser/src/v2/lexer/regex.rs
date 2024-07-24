@@ -1,7 +1,7 @@
 use swc_common::BytePos;
 
 use super::{Kind, Lexer, RegExpFlags, Token};
-use crate::{diagnostics, syntax::identifier::is_line_terminator};
+use crate::{syntax::identifier::is_line_terminator, v2::diagnostics};
 
 impl<'a> Lexer<'a> {
     /// Re-tokenize the current `/` or `/=` and return `RegExp`
