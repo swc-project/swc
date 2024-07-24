@@ -1,7 +1,6 @@
 //! Based on `modifiers.rs` of [oxc](https://github.com/oxc-project/oxc/blob/21c7b090dd61e6944356d3de9164395c9f7c10fb/crates/oxc_parser/src/modifiers.rs)
 
 use bitflags::bitflags;
-use bumpalo::collections::Vec;
 use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::Accessibility;
 
@@ -137,7 +136,7 @@ impl TryFrom<Token> for Modifier {
 #[derive(Debug, Hash)]
 pub struct Modifiers<'a> {
     /// May contain duplicates.
-    modifiers: Option<Vec<'a, Modifier>>,
+    modifiers: Option<Vec<Modifier>>,
     /// Bitflag representation of modifier kinds stored in [`Self::modifiers`].
     /// Pre-computed to save CPU cycles on [`Self::contains`] checks (`O(1)`
     /// bitflag intersection vs `O(n)` linear search).
@@ -157,7 +156,7 @@ impl<'a> Modifiers<'a> {
     /// `flags` must correctly reflect the [`ModifierKind`]s within
     ///  `modifiers`. E.g., if `modifiers` is empty, then so is `flags``.
     #[must_use]
-    pub(crate) fn new(modifiers: Vec<'a, Modifier>, flags: ModifierFlags) -> Self {
+    pub(crate) fn new(modifiers: Vec<Modifier>, flags: ModifierFlags) -> Self {
         if modifiers.is_empty() {
             debug_assert!(flags.is_empty());
             Self::empty()

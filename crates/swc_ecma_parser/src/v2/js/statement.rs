@@ -33,7 +33,7 @@ impl<'a> ParserImpl<'a> {
     pub(crate) fn parse_directives_and_statements(
         &mut self,
         is_top_level: bool,
-    ) -> Result<(Vec<'a, Directive<'a>>, Vec<'a, Stmt>)> {
+    ) -> Result<(Vec<Directive<'a>>, Vec<Stmt>)> {
         let mut directives = self.ast.vec();
         let mut statements = self.ast.vec();
 
@@ -138,7 +138,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     /// Section 14.2 Block Statement
-    pub(crate) fn parse_block(&mut self) -> Result<Box<'a, BlockStmt>> {
+    pub(crate) fn parse_block(&mut self) -> Result<Box<BlockStmt>> {
         let span = self.start_span();
         self.expect(Kind::LCurly)?;
         let mut body = self.ast.vec();
@@ -526,7 +526,7 @@ impl<'a> ParserImpl<'a> {
             .statement_try(self.end_span(span), block, handler, finalizer))
     }
 
-    fn parse_catch_clause(&mut self) -> Result<Box<'a, CatchClause<'a>>> {
+    fn parse_catch_clause(&mut self) -> Result<Box<CatchClause<'a>>> {
         let span = self.start_span();
         self.bump_any(); // advance `catch`
         let pattern = if self.eat(Kind::LParen) {

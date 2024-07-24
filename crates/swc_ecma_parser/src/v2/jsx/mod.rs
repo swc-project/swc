@@ -23,7 +23,7 @@ impl<'a> ParserImpl<'a> {
 
     /// `JSXFragment` :
     ///   < > `JSXChildren_opt` < / >
-    fn parse_jsx_fragment(&mut self, in_jsx_child: bool) -> Result<Box<'a, JSXFragment<'a>>> {
+    fn parse_jsx_fragment(&mut self, in_jsx_child: bool) -> Result<Box<JSXFragment<'a>>> {
         let span = self.start_span();
         let opening_fragment = self.parse_jsx_opening_fragment(span)?;
         let children = self.parse_jsx_children()?;
@@ -63,7 +63,7 @@ impl<'a> ParserImpl<'a> {
     ///     used for telling `JSXClosingElement` to parse the next jsx child or
     /// not     true when inside jsx element, false when at top level
     /// expression
-    fn parse_jsx_element(&mut self, in_jsx_child: bool) -> Result<Box<'a, JSXElement<'a>>> {
+    fn parse_jsx_element(&mut self, in_jsx_child: bool) -> Result<Box<JSXElement<'a>>> {
         let span = self.start_span();
         let opening_element = self.parse_jsx_opening_element(span, in_jsx_child)?;
         let children = if opening_element.self_closing {
@@ -98,7 +98,7 @@ impl<'a> ParserImpl<'a> {
         &mut self,
         span: Span,
         in_jsx_child: bool,
-    ) -> Result<Box<'a, JSXOpeningElement<'a>>> {
+    ) -> Result<Box<JSXOpeningElement<'a>>> {
         self.expect(Kind::LAngle)?;
         let name = self.parse_jsx_element_name()?;
         // <Component<TsType> for tsx
@@ -126,7 +126,7 @@ impl<'a> ParserImpl<'a> {
     fn parse_jsx_closing_element(
         &mut self,
         in_jsx_child: bool,
-    ) -> Result<Box<'a, JSXClosingElement<'a>>> {
+    ) -> Result<Box<JSXClosingElement<'a>>> {
         let span = self.start_span();
         self.expect(Kind::LAngle)?;
         self.expect(Kind::Slash)?;
@@ -176,7 +176,7 @@ impl<'a> ParserImpl<'a> {
         &mut self,
         span: Span,
         object: JSXIdent<'a>,
-    ) -> Result<Box<'a, JSXMemberExpr>> {
+    ) -> Result<Box<JSXMemberExpr>> {
         let mut span = span;
         let mut object = JSXMemberExpressionObject::Ident(self.ast.alloc(object));
         let mut property = None;
@@ -205,7 +205,7 @@ impl<'a> ParserImpl<'a> {
 
     /// `JSXChildren` :
     ///   `JSXChild` `JSXChildren_opt`
-    fn parse_jsx_children(&mut self) -> Result<Vec<'a, JSXChild<'a>>> {
+    fn parse_jsx_children(&mut self) -> Result<Vec<JSXChild<'a>>> {
         let mut children = self.ast.vec();
         while !self.at(Kind::Eof) {
             if let Some(child) = self.parse_jsx_child()? {
@@ -257,7 +257,7 @@ impl<'a> ParserImpl<'a> {
     fn parse_jsx_expression_container(
         &mut self,
         in_jsx_child: bool,
-    ) -> Result<Box<'a, JSXExpressionContainer<'a>>> {
+    ) -> Result<Box<JSXExpressionContainer<'a>>> {
         let span = self.start_span();
         self.bump_any(); // bump `{`
 
@@ -307,7 +307,7 @@ impl<'a> ParserImpl<'a> {
 
     /// `JSXChildExpression` :
     ///   { ... `AssignExpression` }
-    fn parse_jsx_spread_child(&mut self) -> Result<Box<'a, JSXSpreadChild<'a>>> {
+    fn parse_jsx_spread_child(&mut self) -> Result<Box<JSXSpreadChild<'a>>> {
         let span = self.start_span();
         self.bump_any(); // bump `{`
         self.expect(Kind::Dot3)?;
@@ -319,7 +319,7 @@ impl<'a> ParserImpl<'a> {
     /// `JSXAttributes` :
     ///   `JSXSpreadAttribute` `JSXAttributes_opt`
     ///   `JSXAttribute` `JSXAttributes_opt`
-    fn parse_jsx_attributes(&mut self) -> Result<Vec<'a, JSXAttributeItem<'a>>> {
+    fn parse_jsx_attributes(&mut self) -> Result<Vec<JSXAttributeItem<'a>>> {
         let mut attributes = self.ast.vec();
         while !matches!(
             self.cur_kind(),
@@ -338,7 +338,7 @@ impl<'a> ParserImpl<'a> {
 
     /// `JSXAttribute` :
     ///   `JSXAttributeName` `JSXAttributeInitializer_opt`
-    fn parse_jsx_attribute(&mut self) -> Result<Box<'a, JSXAttribute<'a>>> {
+    fn parse_jsx_attribute(&mut self) -> Result<Box<JSXAttribute<'a>>> {
         let span = self.start_span();
         let name = self.parse_jsx_attribute_name()?;
         let value = if self.at(Kind::Eq) {
@@ -354,7 +354,7 @@ impl<'a> ParserImpl<'a> {
 
     /// `JSXSpreadAttribute` :
     ///   { ... `AssignExpression` }
-    fn parse_jsx_spread_attribute(&mut self) -> Result<Box<'a, JSXSpreadAttribute<'a>>> {
+    fn parse_jsx_spread_attribute(&mut self) -> Result<Box<JSXSpreadAttribute<'a>>> {
         let span = self.start_span();
         self.bump_any(); // bump `{`
         self.expect(Kind::Dot3)?;
@@ -424,7 +424,7 @@ impl<'a> ParserImpl<'a> {
         Ok(self.ast.jsx_identifier(span, name))
     }
 
-    fn parse_jsx_text(&mut self) -> Box<'a, JSXText<'a>> {
+    fn parse_jsx_text(&mut self) -> Box<JSXText<'a>> {
         let span = self.start_span();
         let value = Atom::from(self.cur_string());
         self.bump_any();

@@ -140,7 +140,7 @@ impl<'a> ParserImpl<'a> {
         false
     }
 
-    pub(crate) fn parse_ts_type_parameters(&mut self) -> Result<Option<Box<'a, TsTypeParamDecl>>> {
+    pub(crate) fn parse_ts_type_parameters(&mut self) -> Result<Option<Box<TsTypeParamDecl>>> {
         if !self.ts_enabled() {
             return Ok(None);
         }
@@ -162,7 +162,7 @@ impl<'a> ParserImpl<'a> {
         )))
     }
 
-    pub(crate) fn parse_ts_implements_clause(&mut self) -> Result<Vec<'a, TsClassImplements<'a>>> {
+    pub(crate) fn parse_ts_implements_clause(&mut self) -> Result<Vec<TsClassImplements<'a>>> {
         self.expect(Kind::Implements)?;
         let first = self.parse_ts_implement_name()?;
         let mut implements = self.ast.vec();
@@ -275,7 +275,7 @@ impl<'a> ParserImpl<'a> {
             .ts_type_infer_type(self.end_span(span), type_parameter))
     }
 
-    fn parse_type_parameter_of_infer_type(&mut self) -> Result<Box<'a, TsTypeParam<'a>>> {
+    fn parse_type_parameter_of_infer_type(&mut self) -> Result<Box<TsTypeParam<'a>>> {
         let span = self.start_span();
         let name = self.parse_binding_identifier()?;
         let constraint = self
@@ -812,7 +812,7 @@ impl<'a> ParserImpl<'a> {
 
     pub(crate) fn try_parse_type_arguments(
         &mut self,
-    ) -> Result<Option<Box<'a, TsTypeParamInstantiation>>> {
+    ) -> Result<Option<Box<TsTypeParamInstantiation>>> {
         if self.at(Kind::LAngle) {
             let span = self.start_span();
             self.expect(Kind::LAngle)?;
@@ -833,7 +833,7 @@ impl<'a> ParserImpl<'a> {
 
     fn parse_type_arguments_of_type_reference(
         &mut self,
-    ) -> Result<Option<Box<'a, TsTypeParamInstantiation>>> {
+    ) -> Result<Option<Box<TsTypeParamInstantiation>>> {
         self.re_lex_l_angle();
         if !self.cur_token().is_on_new_line && self.re_lex_l_angle() == Kind::LAngle {
             let span = self.start_span();
@@ -855,7 +855,7 @@ impl<'a> ParserImpl<'a> {
 
     pub(crate) fn parse_type_arguments_in_expression(
         &mut self,
-    ) -> Result<Option<Box<'a, TsTypeParamInstantiation>>> {
+    ) -> Result<Option<Box<TsTypeParamInstantiation>>> {
         if !self.ts_enabled() {
             return Ok(None);
         }
@@ -1115,7 +1115,7 @@ impl<'a> ParserImpl<'a> {
         &mut self,
         kind: Kind,
         is_type: bool,
-    ) -> Result<Option<Box<'a, TsTypeAnn>>> {
+    ) -> Result<Option<Box<TsTypeAnn>>> {
         if !self.ts_enabled() {
             return Ok(None);
         }

@@ -74,7 +74,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     // Full Syntax: <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#syntax>
-    fn parse_import_declaration_specifiers(&mut self) -> Result<Vec<'a, ImportSpecifier>> {
+    fn parse_import_declaration_specifiers(&mut self) -> Result<Vec<ImportSpecifier>> {
         let mut specifiers = self.ast.vec();
         // import defaultExport from "module-name";
         if self.cur_kind().is_binding_identifier() {
@@ -131,7 +131,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     // import { export1 , export2 as alias2 , [...] } from "module-name";
-    fn parse_import_specifiers(&mut self) -> Result<Vec<'a, ImportSpecifier>> {
+    fn parse_import_specifiers(&mut self) -> Result<Vec<ImportSpecifier>> {
         self.expect(Kind::LCurly)?;
         let list = self.context(Context::empty(), self.ctx, |p| {
             p.parse_delimited_list(
@@ -200,7 +200,7 @@ impl<'a> ParserImpl<'a> {
     pub(crate) fn parse_ts_export_assignment_declaration(
         &mut self,
         start_span: Span,
-    ) -> Result<Box<'a, TsExportAssign<'a>>> {
+    ) -> Result<Box<TsExportAssign<'a>>> {
         self.expect(Kind::Eq)?;
 
         let expression = self.parse_assignment_expression_or_higher()?;
@@ -212,7 +212,7 @@ impl<'a> ParserImpl<'a> {
         }))
     }
 
-    pub(crate) fn parse_ts_export_namespace(&mut self) -> Result<Box<'a, TsNamespaceExportDecl>> {
+    pub(crate) fn parse_ts_export_namespace(&mut self) -> Result<Box<TsNamespaceExportDecl>> {
         let span = self.start_span();
         self.expect(Kind::As)?;
         self.expect(Kind::Namespace)?;
@@ -271,7 +271,7 @@ impl<'a> ParserImpl<'a> {
     // ExportSpecifier :
     //   ModuleExportName
     //   ModuleExportName as ModuleExportName
-    fn parse_export_named_specifiers(&mut self, span: Span) -> Result<Box<'a, NamedExport>> {
+    fn parse_export_named_specifiers(&mut self, span: Span) -> Result<Box<NamedExport>> {
         let export_kind = self.parse_import_or_export_kind();
         self.expect(Kind::LCurly)?;
         let mut specifiers = self.context(Context::empty(), self.ctx, |p| {
@@ -345,7 +345,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     // export Declaration
-    fn parse_export_named_declaration(&mut self, span: Span) -> Result<Box<'a, NamedExport>> {
+    fn parse_export_named_declaration(&mut self, span: Span) -> Result<Box<NamedExport>> {
         let decl_span = self.start_span();
         // For tc39/proposal-decorators
         // For more information, please refer to <https://babeljs.io/docs/babel-plugin-proposal-decorators#decoratorsbeforeexport>
@@ -371,10 +371,7 @@ impl<'a> ParserImpl<'a> {
     // export default HoistableDeclaration[~Yield, +Await, +Default]
     // export default ClassDeclaration[~Yield, +Await, +Default]
     // export default AssignExpression[+In, ~Yield, +Await] ;
-    fn parse_export_default_declaration(
-        &mut self,
-        span: Span,
-    ) -> Result<Box<'a, ExportDefaultDecl>> {
+    fn parse_export_default_declaration(&mut self, span: Span) -> Result<Box<ExportDefaultDecl>> {
         let exported = self.parse_keyword_identifier(Kind::Default);
         let decl_span = self.start_span();
         // For tc39/proposal-decorators
@@ -425,7 +422,7 @@ impl<'a> ParserImpl<'a> {
     //   *
     //   * as ModuleExportName
     //   NamedExports
-    fn parse_export_all_declaration(&mut self, span: Span) -> Result<Box<'a, ExportAllDecl>> {
+    fn parse_export_all_declaration(&mut self, span: Span) -> Result<Box<ExportAllDecl>> {
         let export_kind = self.parse_import_or_export_kind();
         self.bump_any(); // bump `star`
         let exported = self
