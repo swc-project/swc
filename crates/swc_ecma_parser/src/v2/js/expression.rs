@@ -583,9 +583,7 @@ impl<'a> ParserImpl<'a> {
                 self.ast
                     .expression_chain(span, ChainElement::from(member_expr))
             }
-            Expr::CallExpression(result) => self
-                .ast
-                .expression_chain(span, ChainElement::CallExpression(result)),
+            Expr::Call(result) => self.ast.expression_chain(span, ChainElement::Call(result)),
             expr => expr,
         }
     }
@@ -656,7 +654,7 @@ impl<'a> ParserImpl<'a> {
                 }
                 kind if kind.is_template_start_of_tagged_template() => {
                     let (expr, type_parameters) =
-                        if let Expr::TSInstantiationExpression(instantiation_expr) = lhs {
+                        if let Expr::TSInstantiation(instantiation_expr) = lhs {
                             let expr = instantiation_expr.unbox();
                             (expr.expression, Some(expr.type_parameters))
                         } else {
@@ -740,7 +738,7 @@ impl<'a> ParserImpl<'a> {
         let mut callee = self.parse_member_expression_or_higher(&mut optional)?;
 
         let mut type_parameter = None;
-        if let Expr::TSInstantiationExpression(instantiation_expr) = callee {
+        if let Expr::TSInstantiation(instantiation_expr) = callee {
             let instantiation_expr = instantiation_expr.unbox();
             type_parameter.replace(instantiation_expr.type_parameters);
             callee = instantiation_expr.expression;
@@ -764,7 +762,7 @@ impl<'a> ParserImpl<'a> {
             self.ast.vec()
         };
 
-        if matches!(callee, Expr::ImportExpression(_)) {
+        if matches!(callee, Expr::Import(_)) {
             self.error(diagnostics::new_dynamic_import(self.end_span(rhs_span)));
         }
 
@@ -809,7 +807,7 @@ impl<'a> ParserImpl<'a> {
             }
 
             if type_arguments.is_some() || self.at(Kind::LParen) {
-                if let Expr::TSInstantiationExpression(expr) = lhs {
+                if let Expr::TSInstantiation(expr) = lhs {
                     let expr = expr.unbox();
                     type_arguments.replace(expr.type_parameters);
                     lhs = expr.expression;
@@ -946,7 +944,7 @@ impl<'a> ParserImpl<'a> {
             let left = self.parse_private_identifier();
             self.expect(Kind::In)?;
             let right = self.parse_unary_expression_or_higher(lhs_span)?;
-            Expr::PrivateInExpression(self.ast.alloc(PrivateInExpression {
+            Expr::PrivateIn(self.ast.alloc(PrivateInExpression {
                 span: self.end_span(lhs_span),
                 left,
                 operator: BinaryOperator::In,

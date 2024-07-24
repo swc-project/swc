@@ -12,14 +12,12 @@ pub trait CoverGrammar<'a, T>: Sized {
 impl<'a> CoverGrammar<'a, Expr> for AssignTarget<'a> {
     fn cover(expr: Expr, p: &mut ParserImpl<'a>) -> Result<Self> {
         match expr {
-            Expr::ArrayExpression(array_expr) => ArrayAssignTarget::cover(array_expr.unbox(), p)
+            Expr::Array(array_expr) => ArrayAssignTarget::cover(array_expr.unbox(), p)
                 .map(|pat| p.ast.alloc(pat))
                 .map(AssignTarget::ArrayAssignTarget),
-            Expr::ObjectExpression(object_expr) => {
-                ObjectAssignTarget::cover(object_expr.unbox(), p)
-                    .map(|pat| p.ast.alloc(pat))
-                    .map(AssignTarget::ObjectAssignTarget)
-            }
+            Expr::Object(object_expr) => ObjectAssignTarget::cover(object_expr.unbox(), p)
+                .map(|pat| p.ast.alloc(pat))
+                .map(AssignTarget::ObjectAssignTarget),
             _ => SimpleAssignTarget::cover(expr, p).map(AssignTarget::from),
         }
     }
@@ -34,24 +32,18 @@ impl<'a> CoverGrammar<'a, Expr> for SimpleAssignTarget<'a> {
                 let member_expr = MemberExpr::try_from(expr).unwrap();
                 Ok(SimpleAssignTarget::from(member_expr))
             }
-            Expr::ParenthesizedExpression(expr) => {
+            Expr::Parenthesized(expr) => {
                 let span = expr.span;
                 match expr.unbox().expression {
-                    Expr::ObjectExpression(_) | Expr::ArrayExpression(_) => {
-                        Err(diagnostics::invalid_assignment(span))
-                    }
+                    Expr::Object(_) | Expr::Array(_) => Err(diagnostics::invalid_assignment(span)),
                     expr => SimpleAssignTarget::cover(expr, p),
                 }
             }
-            Expr::TSAsExpression(expr) => Ok(SimpleAssignTarget::TSAsExpression(expr)),
-            Expr::TSSatisfiesExpression(expr) => {
-                Ok(SimpleAssignTarget::TSSatisfiesExpression(expr))
-            }
-            Expr::TSNonNullExpression(expr) => Ok(SimpleAssignTarget::TSNonNullExpression(expr)),
+            Expr::TSAs(expr) => Ok(SimpleAssignTarget::TSAs(expr)),
+            Expr::TSSatisfies(expr) => Ok(SimpleAssignTarget::TSSatisfies(expr)),
+            Expr::TSNonNull(expr) => Ok(SimpleAssignTarget::TSNonNull(expr)),
             Expr::TSTypeAssertion(expr) => Ok(SimpleAssignTarget::TSTypeAssertion(expr)),
-            Expr::TSInstantiationExpression(expr) => {
-                Ok(SimpleAssignTarget::TSInstantiationExpression(expr))
-            }
+            Expr::TSInstantiation(expr) => Ok(SimpleAssignTarget::TSInstantiation(expr)),
             expr => Err(diagnostics::invalid_assignment(expr.span())),
         }
     }
@@ -99,7 +91,7 @@ impl<'a> CoverGrammar<'a, ArrayExpr> for ArrayAssignTarget<'a> {
 impl<'a> CoverGrammar<'a, Expr> for AssignTargetMaybeDefault<'a> {
     fn cover(expr: Expr, p: &mut ParserImpl<'a>) -> Result<Self> {
         match expr {
-            Expr::AssignExpression(assignment_expr) => {
+            Expr::Assign(assignment_expr) => {
                 let target = AssignTargetWithDefault::cover(assignment_expr.unbox(), p)?;
                 Ok(AssignTargetMaybeDefault::AssignTargetWithDefault(
                     p.ast.alloc(target),
@@ -168,9 +160,7 @@ impl<'a> CoverGrammar<'a, ObjectProperty<'a>> for AssignTargetProperty<'a> {
             };
             // convert `CoverInitializedName`
             let init = match property.init {
-                Some(Expr::AssignExpression(assignment_expr)) => {
-                    Some(assignment_expr.unbox().right)
-                }
+                Some(Expr::Assign(assignment_expr)) => Some(assignment_expr.unbox().right),
                 _ => None,
             };
             let target = AssignTargetPropertyIdent {

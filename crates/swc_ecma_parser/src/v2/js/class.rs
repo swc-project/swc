@@ -146,7 +146,7 @@ impl<'a> ParserImpl<'a> {
         let span = self.start_span();
         let mut first_extends = self.parse_lhs_expression_or_higher()?;
         let first_type_argument;
-        if let Expr::TSInstantiationExpression(expr) = first_extends {
+        if let Expr::TSInstantiation(expr) = first_extends {
             let expr = expr.unbox();
             first_extends = expr.expression;
             first_type_argument = Some(expr.type_parameters);
@@ -159,7 +159,7 @@ impl<'a> ParserImpl<'a> {
             let span = self.start_span();
             let mut extend = self.parse_lhs_expression_or_higher()?;
             let type_argument;
-            if let Expr::TSInstantiationExpression(expr) = extend {
+            if let Expr::TSInstantiation(expr) = extend {
                 let expr = expr.unbox();
                 extend = expr.expression;
                 type_argument = Some(expr.type_parameters);
