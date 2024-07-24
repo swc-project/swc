@@ -1,5 +1,5 @@
 use oxc_allocator::Box;
-use oxc_syntax::operator::AssignmentOperator;
+use oxc_syntax::operator::AssignOperator;
 use swc_common::Span;
 use swc_ecma_ast::*;
 
@@ -128,7 +128,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     /// `PropertyDefinition`[Yield, Await] :
-    ///   ... `AssignmentExpression`[+In, ?Yield, ?Await]
+    ///   ... `AssignExpression`[+In, ?Yield, ?Await]
     pub(crate) fn parse_spread_element(&mut self) -> Result<Box<'a, SpreadElement<'a>>> {
         let span = self.start_span();
         self.bump_any(); // advance `...`
@@ -151,10 +151,10 @@ impl<'a> ParserImpl<'a> {
         // CoverInitializedName ({ foo = bar })
         let init = if self.eat(Kind::Eq) {
             let right = self.parse_assignment_expression_or_higher()?;
-            let left = AssignmentTarget::AssignmentTargetIdent(self.ast.alloc(identifier));
+            let left = AssignTarget::AssignTargetIdent(self.ast.alloc(identifier));
             Some(self.ast.expression_assignment(
                 self.end_span(span),
-                AssignmentOperator::Assign,
+                AssignOperator::Assign,
                 left,
                 right,
             ))
@@ -174,7 +174,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     /// `PropertyDefinition`[Yield, Await] :
-    ///   `PropertyName`[?Yield, ?Await] : `AssignmentExpression`[+In, ?Yield,
+    ///   `PropertyName`[?Yield, ?Await] : `AssignExpression`[+In, ?Yield,
     /// ?Await]
     fn parse_property_definition_assignment(
         &mut self,
@@ -217,7 +217,7 @@ impl<'a> ParserImpl<'a> {
         Ok((key, computed))
     }
 
-    /// `ComputedPropertyName`[Yield, Await] : [ `AssignmentExpression`[+In,
+    /// `ComputedPropertyName`[Yield, Await] : [ `AssignExpression`[+In,
     /// ?Yield, ?Await] ]
     pub(crate) fn parse_computed_property_name(&mut self) -> Result<Expr> {
         self.bump_any(); // advance `[`

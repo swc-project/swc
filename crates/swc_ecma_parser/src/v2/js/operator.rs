@@ -1,7 +1,5 @@
 use oxc_syntax::{
-    operator::{
-        AssignmentOperator, BinaryOperator, LogicalOperator, UnaryOperator, UpdateOperator,
-    },
+    operator::{AssignOperator, BinaryOperator, LogicalOperator, UnaryOperator, UpdateOperator},
     precedence::Precedence,
 };
 
@@ -90,24 +88,24 @@ pub fn map_update_operator(kind: Kind) -> UpdateOperator {
     }
 }
 
-pub fn map_assignment_operator(kind: Kind) -> AssignmentOperator {
+pub fn map_assignment_operator(kind: Kind) -> AssignOperator {
     match kind {
-        Kind::Eq => AssignmentOperator::Assign,
-        Kind::PlusEq => AssignmentOperator::Addition,
-        Kind::MinusEq => AssignmentOperator::Subtraction,
-        Kind::StarEq => AssignmentOperator::Multiplication,
-        Kind::SlashEq => AssignmentOperator::Division,
-        Kind::PercentEq => AssignmentOperator::Remainder,
-        Kind::ShiftLeftEq => AssignmentOperator::ShiftLeft,
-        Kind::ShiftRightEq => AssignmentOperator::ShiftRight,
-        Kind::ShiftRight3Eq => AssignmentOperator::ShiftRightZeroFill,
-        Kind::PipeEq => AssignmentOperator::BitwiseOR,
-        Kind::CaretEq => AssignmentOperator::BitwiseXOR,
-        Kind::AmpEq => AssignmentOperator::BitwiseAnd,
-        Kind::Amp2Eq => AssignmentOperator::LogicalAnd,
-        Kind::Pipe2Eq => AssignmentOperator::LogicalOr,
-        Kind::Question2Eq => AssignmentOperator::LogicalNullish,
-        Kind::Star2Eq => AssignmentOperator::Exponential,
+        Kind::Eq => AssignOperator::Assign,
+        Kind::PlusEq => AssignOperator::Addition,
+        Kind::MinusEq => AssignOperator::Subtraction,
+        Kind::StarEq => AssignOperator::Multiplication,
+        Kind::SlashEq => AssignOperator::Division,
+        Kind::PercentEq => AssignOperator::Remainder,
+        Kind::ShiftLeftEq => AssignOperator::ShiftLeft,
+        Kind::ShiftRightEq => AssignOperator::ShiftRight,
+        Kind::ShiftRight3Eq => AssignOperator::ShiftRightZeroFill,
+        Kind::PipeEq => AssignOperator::BitwiseOR,
+        Kind::CaretEq => AssignOperator::BitwiseXOR,
+        Kind::AmpEq => AssignOperator::BitwiseAnd,
+        Kind::Amp2Eq => AssignOperator::LogicalAnd,
+        Kind::Pipe2Eq => AssignOperator::LogicalOr,
+        Kind::Question2Eq => AssignOperator::LogicalNullish,
+        Kind::Star2Eq => AssignOperator::Exponential,
         _ => unreachable!("Update Operator: {kind:?}"),
     }
 }

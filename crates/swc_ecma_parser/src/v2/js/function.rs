@@ -293,8 +293,8 @@ impl<'a> ParserImpl<'a> {
 
     /// Section 15.5 Yield Expression
     /// yield
-    /// yield [no `LineTerminator` here] `AssignmentExpression`
-    /// yield [no `LineTerminator` here] * `AssignmentExpression`
+    /// yield [no `LineTerminator` here] `AssignExpression`
+    /// yield [no `LineTerminator` here] * `AssignExpression`
     pub(crate) fn parse_yield_expression(&mut self) -> Result<Expr> {
         let span = self.start_span();
         self.bump_any(); // advance `yield`

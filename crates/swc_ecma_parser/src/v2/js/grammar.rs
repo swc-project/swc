@@ -1,4 +1,4 @@
-//! Cover Grammar for Destructuring Assignment
+//! Cover Grammar for Destructuring Assign
 
 use oxc_span::GetSpan;
 use swc_ecma_ast::*;
@@ -9,32 +9,30 @@ pub trait CoverGrammar<'a, T>: Sized {
     fn cover(value: T, p: &mut ParserImpl<'a>) -> Result<Self>;
 }
 
-impl<'a> CoverGrammar<'a, Expr> for AssignmentTarget<'a> {
+impl<'a> CoverGrammar<'a, Expr> for AssignTarget<'a> {
     fn cover(expr: Expr, p: &mut ParserImpl<'a>) -> Result<Self> {
         match expr {
-            Expr::ArrayExpression(array_expr) => {
-                ArrayAssignmentTarget::cover(array_expr.unbox(), p)
-                    .map(|pat| p.ast.alloc(pat))
-                    .map(AssignmentTarget::ArrayAssignmentTarget)
-            }
+            Expr::ArrayExpression(array_expr) => ArrayAssignTarget::cover(array_expr.unbox(), p)
+                .map(|pat| p.ast.alloc(pat))
+                .map(AssignTarget::ArrayAssignTarget),
             Expr::ObjectExpression(object_expr) => {
-                ObjectAssignmentTarget::cover(object_expr.unbox(), p)
+                ObjectAssignTarget::cover(object_expr.unbox(), p)
                     .map(|pat| p.ast.alloc(pat))
-                    .map(AssignmentTarget::ObjectAssignmentTarget)
+                    .map(AssignTarget::ObjectAssignTarget)
             }
-            _ => SimpleAssignmentTarget::cover(expr, p).map(AssignmentTarget::from),
+            _ => SimpleAssignTarget::cover(expr, p).map(AssignTarget::from),
         }
     }
 }
 
-impl<'a> CoverGrammar<'a, Expr> for SimpleAssignmentTarget<'a> {
+impl<'a> CoverGrammar<'a, Expr> for SimpleAssignTarget<'a> {
     #[allow(clippy::only_used_in_recursion)]
     fn cover(expr: Expr, p: &mut ParserImpl<'a>) -> Result<Self> {
         match expr {
-            Expr::Ident(ident) => Ok(SimpleAssignmentTarget::AssignmentTargetIdent(ident)),
+            Expr::Ident(ident) => Ok(SimpleAssignTarget::AssignTargetIdent(ident)),
             match_member_expression!(Expression) => {
                 let member_expr = MemberExpr::try_from(expr).unwrap();
-                Ok(SimpleAssignmentTarget::from(member_expr))
+                Ok(SimpleAssignTarget::from(member_expr))
             }
             Expr::ParenthesizedExpression(expr) => {
                 let span = expr.span;
@@ -42,26 +40,24 @@ impl<'a> CoverGrammar<'a, Expr> for SimpleAssignmentTarget<'a> {
                     Expr::ObjectExpression(_) | Expr::ArrayExpression(_) => {
                         Err(diagnostics::invalid_assignment(span))
                     }
-                    expr => SimpleAssignmentTarget::cover(expr, p),
+                    expr => SimpleAssignTarget::cover(expr, p),
                 }
             }
-            Expr::TSAsExpression(expr) => Ok(SimpleAssignmentTarget::TSAsExpression(expr)),
+            Expr::TSAsExpression(expr) => Ok(SimpleAssignTarget::TSAsExpression(expr)),
             Expr::TSSatisfiesExpression(expr) => {
-                Ok(SimpleAssignmentTarget::TSSatisfiesExpression(expr))
+                Ok(SimpleAssignTarget::TSSatisfiesExpression(expr))
             }
-            Expr::TSNonNullExpression(expr) => {
-                Ok(SimpleAssignmentTarget::TSNonNullExpression(expr))
-            }
-            Expr::TSTypeAssertion(expr) => Ok(SimpleAssignmentTarget::TSTypeAssertion(expr)),
+            Expr::TSNonNullExpression(expr) => Ok(SimpleAssignTarget::TSNonNullExpression(expr)),
+            Expr::TSTypeAssertion(expr) => Ok(SimpleAssignTarget::TSTypeAssertion(expr)),
             Expr::TSInstantiationExpression(expr) => {
-                Ok(SimpleAssignmentTarget::TSInstantiationExpression(expr))
+                Ok(SimpleAssignTarget::TSInstantiationExpression(expr))
             }
             expr => Err(diagnostics::invalid_assignment(expr.span())),
         }
     }
 }
 
-impl<'a> CoverGrammar<'a, ArrayExpr> for ArrayAssignmentTarget<'a> {
+impl<'a> CoverGrammar<'a, ArrayExpr> for ArrayAssignTarget<'a> {
     fn cover(expr: ArrayExpr, p: &mut ParserImpl<'a>) -> Result<Self> {
         let mut elements = p.ast.vec();
         let mut rest = None;
@@ -71,14 +67,14 @@ impl<'a> CoverGrammar<'a, ArrayExpr> for ArrayAssignmentTarget<'a> {
             match elem {
                 match_expression!(ArrayExpressionElement) => {
                     let expr = Expr::try_from(elem).unwrap();
-                    let target = AssignmentTargetMaybeDefault::cover(expr, p)?;
+                    let target = AssignTargetMaybeDefault::cover(expr, p)?;
                     elements.push(Some(target));
                 }
                 ArrayExpressionElement::SpreadElement(elem) => {
                     if i == len - 1 {
-                        rest = Some(AssignmentTargetRest {
+                        rest = Some(AssignTargetRest {
                             span: elem.span,
-                            target: AssignmentTarget::cover(elem.unbox().argument, p)?,
+                            target: AssignTarget::cover(elem.unbox().argument, p)?,
                         });
                         if let Some(span) = expr.trailing_comma {
                             p.error(diagnostics::binding_rest_element_trailing_comma(span));
@@ -91,7 +87,7 @@ impl<'a> CoverGrammar<'a, ArrayExpr> for ArrayAssignmentTarget<'a> {
             }
         }
 
-        Ok(ArrayAssignmentTarget {
+        Ok(ArrayAssignTarget {
             span: expr.span,
             elements,
             rest,
@@ -100,25 +96,25 @@ impl<'a> CoverGrammar<'a, ArrayExpr> for ArrayAssignmentTarget<'a> {
     }
 }
 
-impl<'a> CoverGrammar<'a, Expr> for AssignmentTargetMaybeDefault<'a> {
+impl<'a> CoverGrammar<'a, Expr> for AssignTargetMaybeDefault<'a> {
     fn cover(expr: Expr, p: &mut ParserImpl<'a>) -> Result<Self> {
         match expr {
-            Expr::AssignmentExpression(assignment_expr) => {
-                let target = AssignmentTargetWithDefault::cover(assignment_expr.unbox(), p)?;
-                Ok(AssignmentTargetMaybeDefault::AssignmentTargetWithDefault(
+            Expr::AssignExpression(assignment_expr) => {
+                let target = AssignTargetWithDefault::cover(assignment_expr.unbox(), p)?;
+                Ok(AssignTargetMaybeDefault::AssignTargetWithDefault(
                     p.ast.alloc(target),
                 ))
             }
             expr => {
-                let target = AssignmentTarget::cover(expr, p)?;
-                Ok(AssignmentTargetMaybeDefault::from(target))
+                let target = AssignTarget::cover(expr, p)?;
+                Ok(AssignTargetMaybeDefault::from(target))
             }
         }
     }
 }
 
-impl<'a> CoverGrammar<'a, AssignmentExpr> for AssignmentTargetWithDefault<'a> {
-    fn cover(expr: AssignmentExpr, _p: &mut ParserImpl<'a>) -> Result<Self> {
+impl<'a> CoverGrammar<'a, AssignExpr> for AssignTargetWithDefault<'a> {
+    fn cover(expr: AssignExpr, _p: &mut ParserImpl<'a>) -> Result<Self> {
         Ok(Self {
             span: expr.span,
             binding: expr.left,
@@ -127,7 +123,7 @@ impl<'a> CoverGrammar<'a, AssignmentExpr> for AssignmentTargetWithDefault<'a> {
     }
 }
 
-impl<'a> CoverGrammar<'a, ObjectExpr> for ObjectAssignmentTarget<'a> {
+impl<'a> CoverGrammar<'a, ObjectExpr> for ObjectAssignTarget<'a> {
     fn cover(expr: ObjectExpr, p: &mut ParserImpl<'a>) -> Result<Self> {
         let mut properties = p.ast.vec();
         let mut rest = None;
@@ -136,14 +132,14 @@ impl<'a> CoverGrammar<'a, ObjectExpr> for ObjectAssignmentTarget<'a> {
         for (i, elem) in expr.properties.into_iter().enumerate() {
             match elem {
                 ObjectPropertyKind::ObjectProperty(property) => {
-                    let target = AssignmentTargetProperty::cover(property.unbox(), p)?;
+                    let target = AssignTargetProperty::cover(property.unbox(), p)?;
                     properties.push(target);
                 }
                 ObjectPropertyKind::SpreadProperty(spread) => {
                     if i == len - 1 {
-                        rest = Some(AssignmentTargetRest {
+                        rest = Some(AssignTargetRest {
                             span: spread.span,
-                            target: AssignmentTarget::cover(spread.unbox().argument, p)?,
+                            target: AssignTarget::cover(spread.unbox().argument, p)?,
                         });
                     } else {
                         return Err(diagnostics::spread_last_element(spread.span));
@@ -160,7 +156,7 @@ impl<'a> CoverGrammar<'a, ObjectExpr> for ObjectAssignmentTarget<'a> {
     }
 }
 
-impl<'a> CoverGrammar<'a, ObjectProperty<'a>> for AssignmentTargetProperty<'a> {
+impl<'a> CoverGrammar<'a, ObjectProperty<'a>> for AssignTargetProperty<'a> {
     fn cover(property: ObjectProperty<'a>, p: &mut ParserImpl<'a>) -> Result<Self> {
         if property.shorthand {
             let binding = match property.key {
@@ -172,27 +168,27 @@ impl<'a> CoverGrammar<'a, ObjectProperty<'a>> for AssignmentTargetProperty<'a> {
             };
             // convert `CoverInitializedName`
             let init = match property.init {
-                Some(Expr::AssignmentExpression(assignment_expr)) => {
+                Some(Expr::AssignExpression(assignment_expr)) => {
                     Some(assignment_expr.unbox().right)
                 }
                 _ => None,
             };
-            let target = AssignmentTargetPropertyIdent {
+            let target = AssignTargetPropertyIdent {
                 span: property.span,
                 binding,
                 init,
             };
-            Ok(AssignmentTargetProperty::AssignmentTargetPropertyIdent(
+            Ok(AssignTargetProperty::AssignTargetPropertyIdent(
                 p.ast.alloc(target),
             ))
         } else {
-            let binding = AssignmentTargetMaybeDefault::cover(property.value, p)?;
-            let target = AssignmentTargetPropertyProperty {
+            let binding = AssignTargetMaybeDefault::cover(property.value, p)?;
+            let target = AssignTargetPropertyProperty {
                 span: property.span,
                 name: property.key,
                 binding,
             };
-            Ok(AssignmentTargetProperty::AssignmentTargetPropertyProperty(
+            Ok(AssignTargetProperty::AssignTargetPropertyProperty(
                 p.ast.alloc(target),
             ))
         }
