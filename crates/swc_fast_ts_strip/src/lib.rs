@@ -440,15 +440,6 @@ impl Visit for TsStrip {
         }
     }
 
-    fn visit_class_decl(&mut self, n: &ClassDecl) {
-        if n.declare {
-            self.add_replacement(n.span());
-            return;
-        }
-
-        n.visit_children_with(self);
-    }
-
     fn visit_class(&mut self, n: &Class) {
         if n.is_abstract {
             let r#abstract = self.get_next_token(n.span_lo());
@@ -470,6 +461,15 @@ impl Visit for TsStrip {
             let last = n.implements.last().unwrap();
             let span = span(implements.span.lo, last.span.hi);
             self.add_replacement(span);
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_class_decl(&mut self, n: &ClassDecl) {
+        if n.declare {
+            self.add_replacement(n.span());
+            return;
         }
 
         n.visit_children_with(self);
@@ -552,10 +552,6 @@ impl Visit for TsStrip {
         n.visit_children_with(self);
     }
 
-    fn visit_ts_index_signature(&mut self, n: &TsIndexSignature) {
-        self.add_replacement(n.span);
-    }
-
     fn visit_export_all(&mut self, n: &ExportAll) {
         if n.type_only {
             self.add_replacement(n.span);
@@ -636,29 +632,6 @@ impl Visit for TsStrip {
         }
     }
 
-    fn visit_ts_import_equals_decl(&mut self, n: &TsImportEqualsDecl) {
-        if n.is_type_only {
-            self.add_replacement(n.span);
-            return;
-        }
-
-        HANDLER.with(|handler| {
-            handler.span_err(
-                n.span,
-                "TypeScript import equals declaration is not supported in strip-only mode",
-            );
-        });
-    }
-
-    fn visit_ts_export_assignment(&mut self, n: &TsExportAssignment) {
-        HANDLER.with(|handler| {
-            handler.span_err(
-                n.span,
-                "TypeScript export assignment is not supported in strip-only mode",
-            );
-        });
-    }
-
     fn visit_params(&mut self, n: &[Param]) {
         if let Some(p) = n.first().filter(|param| {
             matches!(
@@ -708,6 +681,33 @@ impl Visit for TsStrip {
                 "TypeScript enum is not supported in strip-only mode",
             );
         });
+    }
+
+    fn visit_ts_export_assignment(&mut self, n: &TsExportAssignment) {
+        HANDLER.with(|handler| {
+            handler.span_err(
+                n.span,
+                "TypeScript export assignment is not supported in strip-only mode",
+            );
+        });
+    }
+
+    fn visit_ts_import_equals_decl(&mut self, n: &TsImportEqualsDecl) {
+        if n.is_type_only {
+            self.add_replacement(n.span);
+            return;
+        }
+
+        HANDLER.with(|handler| {
+            handler.span_err(
+                n.span,
+                "TypeScript import equals declaration is not supported in strip-only mode",
+            );
+        });
+    }
+
+    fn visit_ts_index_signature(&mut self, n: &TsIndexSignature) {
+        self.add_replacement(n.span);
     }
 
     fn visit_ts_instantiation(&mut self, n: &TsInstantiation) {
@@ -777,8 +777,17 @@ impl Visit for TsStrip {
         self.add_replacement(n.span);
     }
 
+    /// We do not strip type assertion because it's not safe.
+    ///
+    /// See https://github.com/swc-project/swc/issues/9295
     fn visit_ts_type_assertion(&mut self, n: &TsTypeAssertion) {
-        self.add_replacement(span(n.span.lo, n.expr.span().lo));
+        HANDLER.with(|handler| {
+            handler.span_err(
+                n.span,
+                "The angle-bracket syntax for type assertions, `<T>expr`, is not supported in \
+                 type strip mode. Instead, use the 'as' syntax: `expr as T`.",
+            );
+        });
 
         n.expr.visit_children_with(self);
     }

@@ -1,7 +1,7 @@
               
 
 function foo() {
-        (void 1); throw new Error('foo');
+    <任意>(void 1); throw new Error('foo');
 }
 
 foo();

@@ -12,7 +12,10 @@ use wasmer_wasix::Runtime;
 static ENGINE: Lazy<Mutex<wasmer::Engine>> = Lazy::new(|| {
     // Use empty enumset to disable simd.
     use enumset::EnumSet;
-    use wasmer::{BaseTunables, CompilerConfig, EngineBuilder, Target, Triple};
+    use wasmer::{
+        sys::{BaseTunables, EngineBuilder},
+        CompilerConfig, Target, Triple,
+    };
     let mut set = EnumSet::new();
 
     // [TODO]: Should we use is_x86_feature_detected! macro instead?

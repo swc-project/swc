@@ -1,0 +1,7 @@
+  x The angle-bracket syntax for type assertions, `<T>expr`, is not supported in type strip mode. Instead, use the 'as' syntax: `expr as T`.
+   ,-[4:1]
+ 3 | function foo() {
+ 4 |     <任意>(void 1); throw new Error('foo');
+   :     ^^^^^^^^^^^^^^
+ 5 | }
+   `----

@@ -7,10 +7,11 @@ use testing::NormalizedOutput;
 #[testing::fixture("tests/fixture/**/*.ts")]
 fn test(input: PathBuf) {
     let input_code = std::fs::read_to_string(&input).unwrap();
+    let output_stderr = input.with_extension("swc-stderr");
     let output_file = input.with_extension("js");
     let transform_output_file = input.with_extension("transform.js");
 
-    testing::run_test(false, |cm, handler| {
+    let err = testing::run_test(false, |cm, handler| {
         let code = operate(&cm, handler, input_code.clone(), opts(Mode::StripOnly))
             .expect("should not return Err()")
             .code;
@@ -19,9 +20,14 @@ fn test(input: PathBuf) {
             .compare_to_file(output_file)
             .unwrap();
 
+        if handler.has_errors() {
+            return Err(());
+        }
         Ok(())
-    })
-    .expect("should not fail");
+    });
+    if let Err(err) = err {
+        err.compare_to_file(output_stderr).unwrap();
+    }
 
     testing::run_test(false, |cm, handler| {
         let code = operate(&cm, handler, input_code, opts(Mode::Transform))
