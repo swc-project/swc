@@ -1,5 +1,3 @@
-use oxc_allocator::{Box, Vec};
-use oxc_span::{GetSpan, Span};
 use rustc_hash::FxHashMap;
 use swc_ecma_ast::*;
 

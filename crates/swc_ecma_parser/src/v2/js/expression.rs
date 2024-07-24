@@ -1,6 +1,5 @@
 use std::cell::Cell;
 
-use oxc_allocator::Box;
 use oxc_span::{Atom, Span};
 use oxc_syntax::{
     number::{BigintBase, NumberBase},

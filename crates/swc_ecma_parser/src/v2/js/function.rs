@@ -1,6 +1,5 @@
 use std::cell::Cell;
 
-use oxc_allocator::Box;
 use swc_common::Span;
 use swc_ecma_ast::*;
 

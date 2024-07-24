@@ -1,5 +1,3 @@
-use oxc_allocator::{Box, Vec};
-use oxc_span::{Atom, GetSpan, Span};
 use swc_ecma_ast::*;
 
 use super::{grammar::CoverGrammar, VarDeclarationContext, VarDeclarationParent};
