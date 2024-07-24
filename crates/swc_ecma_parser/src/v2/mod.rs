@@ -1,4 +1,7 @@
-use self::lexer::{Lexer, Token};
+use self::{
+    context::Context,
+    lexer::{Lexer, Token},
+};
 use crate::diagnostics::Diagnostic;
 
 mod context;
