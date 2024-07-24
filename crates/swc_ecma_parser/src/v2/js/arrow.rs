@@ -18,7 +18,7 @@ type ArrowFunctionHead<'a> = (
 impl<'a> ParserImpl<'a> {
     pub(super) fn try_parse_parenthesized_arrow_function_expression(
         &mut self,
-    ) -> Result<Option<Expression<'a>>> {
+    ) -> Result<Option<Expr>> {
         match self.is_parenthesized_arrow_function_expression() {
             Tristate::False => Ok(None),
             Tristate::True => self.parse_parenthesized_arrow_function(),
@@ -28,7 +28,7 @@ impl<'a> ParserImpl<'a> {
 
     pub(super) fn try_parse_async_simple_arrow_function_expression(
         &mut self,
-    ) -> Result<Option<Expression<'a>>> {
+    ) -> Result<Option<Expr>> {
         if self.at(Kind::Async)
             && self.is_un_parenthesized_async_arrow_function_worker() == Tristate::True
         {
@@ -204,15 +204,15 @@ impl<'a> ParserImpl<'a> {
     pub(crate) fn parse_simple_arrow_function_expression(
         &mut self,
         span: Span,
-        ident: Expression<'a>,
+        ident: Expr,
         r#async: bool,
-    ) -> Result<Expression<'a>> {
+    ) -> Result<Expr> {
         let has_await = self.ctx.has_await();
         self.ctx = self.ctx.union_await_if(r#async);
 
         let params = {
             let ident = match ident {
-                Expression::Identifier(ident) => {
+                Expr::Identifier(ident) => {
                     let name = ident.name.clone();
                     BindingIdentifier::new(ident.span, name)
                 }
@@ -293,7 +293,7 @@ impl<'a> ParserImpl<'a> {
         params: Box<'a, FormalParameters<'a>>,
         return_type: Option<Box<'a, TSTypeAnnotation<'a>>>,
         r#async: bool,
-    ) -> Result<Expression<'a>> {
+    ) -> Result<Expr> {
         let has_await = self.ctx.has_await();
         let has_yield = self.ctx.has_yield();
         self.ctx = self.ctx.and_await(r#async).and_yield(false);
@@ -326,16 +326,14 @@ impl<'a> ParserImpl<'a> {
     /// `ArrowFunction`[In, Yield, Await] :
     ///     `ArrowParameters`[?Yield, ?Await] [no `LineTerminator` here] =>
     /// `ConciseBody`[?In]
-    fn parse_parenthesized_arrow_function(&mut self) -> Result<Option<Expression<'a>>> {
+    fn parse_parenthesized_arrow_function(&mut self) -> Result<Option<Expr>> {
         let (type_parameters, params, return_type, r#async, span) =
             self.parse_parenthesized_arrow_function_head()?;
         self.parse_arrow_function_body(span, type_parameters, params, return_type, r#async)
             .map(Some)
     }
 
-    fn parse_possible_parenthesized_arrow_function_expression(
-        &mut self,
-    ) -> Result<Option<Expression<'a>>> {
+    fn parse_possible_parenthesized_arrow_function_expression(&mut self) -> Result<Option<Expr>> {
         let pos = self.cur_token().start;
         if self.state.not_parenthesized_arrow.contains(&pos) {
             return Ok(None);

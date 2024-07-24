@@ -1018,18 +1018,18 @@ impl<'a> ParserImpl<'a> {
                 .ast
                 .expression_unary(span, UnaryOperator::UnaryNegation, expression)
             {
-                Expression::UnaryExpression(unary_expr) => TSLiteral::UnaryExpression(unary_expr),
+                Expr::UnaryExpression(unary_expr) => TSLiteral::UnaryExpression(unary_expr),
                 _ => unreachable!(),
             }
         } else {
             match expression {
-                Expression::BooleanLiteral(literal) => TSLiteral::BooleanLiteral(literal),
-                Expression::NullLiteral(literal) => TSLiteral::NullLiteral(literal),
-                Expression::NumericLiteral(literal) => TSLiteral::NumericLiteral(literal),
-                Expression::BigIntLiteral(literal) => TSLiteral::BigIntLiteral(literal),
-                Expression::RegExpLiteral(literal) => TSLiteral::RegExpLiteral(literal),
-                Expression::StringLiteral(literal) => TSLiteral::StringLiteral(literal),
-                Expression::TemplateLiteral(literal) => TSLiteral::TemplateLiteral(literal),
+                Expr::BooleanLiteral(literal) => TSLiteral::BooleanLiteral(literal),
+                Expr::NullLiteral(literal) => TSLiteral::NullLiteral(literal),
+                Expr::NumericLiteral(literal) => TSLiteral::NumericLiteral(literal),
+                Expr::BigIntLiteral(literal) => TSLiteral::BigIntLiteral(literal),
+                Expr::RegExpLiteral(literal) => TSLiteral::RegExpLiteral(literal),
+                Expr::StringLiteral(literal) => TSLiteral::StringLiteral(literal),
+                Expr::TemplateLiteral(literal) => TSLiteral::TemplateLiteral(literal),
                 _ => return Err(self.unexpected()),
             }
         };

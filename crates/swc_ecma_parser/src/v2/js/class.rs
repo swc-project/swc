@@ -1,7 +1,7 @@
 use oxc_allocator::{Box, Vec};
 use oxc_ast::{ast::*, syntax_directed_operations::PropName};
 use oxc_span::{GetSpan, Span};
-use swc_ecma_ast::{Accessibility, Stmt};
+use swc_ecma_ast::{Accessibility, Expr, Stmt};
 
 use super::{
     lexer::Kind,
@@ -13,7 +13,7 @@ use crate::{diagnostics, diagnostics::Result};
 type Extends<'a> = Vec<
     'a,
     (
-        Expression<'a>,
+        Expr,
         Option<Box<'a, TSTypeParameterInstantiation<'a>>>,
         Span,
     ),
@@ -58,7 +58,7 @@ impl<'a> ParserImpl<'a> {
     /// `ClassExpression`[Yield, Await] :
     ///     class `BindingIdentifier`[?Yield, ?Await]opt `ClassTail`[?Yield,
     /// ?Await]
-    pub(crate) fn parse_class_expression(&mut self) -> Result<Expression<'a>> {
+    pub(crate) fn parse_class_expression(&mut self) -> Result<Expr> {
         let class = self.parse_class(
             self.start_span(),
             ClassType::ClassExpression,
@@ -152,7 +152,7 @@ impl<'a> ParserImpl<'a> {
         let span = self.start_span();
         let mut first_extends = self.parse_lhs_expression_or_higher()?;
         let first_type_argument;
-        if let Expression::TSInstantiationExpression(expr) = first_extends {
+        if let Expr::TSInstantiationExpression(expr) = first_extends {
             let expr = expr.unbox();
             first_extends = expr.expression;
             first_type_argument = Some(expr.type_parameters);
@@ -165,7 +165,7 @@ impl<'a> ParserImpl<'a> {
             let span = self.start_span();
             let mut extend = self.parse_lhs_expression_or_higher()?;
             let type_argument;
-            if let Expression::TSInstantiationExpression(expr) = extend {
+            if let Expr::TSInstantiationExpression(expr) = extend {
                 let expr = expr.unbox();
                 extend = expr.expression;
                 type_argument = Some(expr.type_parameters);

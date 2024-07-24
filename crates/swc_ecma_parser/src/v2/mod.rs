@@ -128,7 +128,7 @@ impl<'a> ParserImpl<'a> {
         }
     }
 
-    pub fn parse_expression(mut self) -> std::result::Result<Expression<'a>, Vec<Diagnostic>> {
+    pub fn parse_expression(mut self) -> std::result::Result<Expr, Vec<Diagnostic>> {
         // initialize cur_token and prev_token by moving onto the first token
         self.bump_any();
         let expr = self.parse_expr().map_err(|diagnostic| vec![diagnostic])?;
@@ -248,7 +248,7 @@ mod test {
         let expr = Parser::new(&allocator, source, source_type)
             .parse_expression()
             .unwrap();
-        assert!(matches!(expr, Expression::Identifier(_)));
+        assert!(matches!(expr, Expr::Identifier(_)));
     }
 
     #[test]

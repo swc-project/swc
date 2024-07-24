@@ -254,11 +254,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     /// [Function Expression](https://tc39.es/ecma262/#prod-FunctionExpression)
-    pub(crate) fn parse_function_expression(
-        &mut self,
-        span: Span,
-        r#async: bool,
-    ) -> Result<Expression<'a>> {
+    pub(crate) fn parse_function_expression(&mut self, span: Span, r#async: bool) -> Result<Expr> {
         let func_kind = FunctionKind::Expression;
         self.expect(Kind::Function)?;
 
@@ -298,7 +294,7 @@ impl<'a> ParserImpl<'a> {
     /// yield
     /// yield [no `LineTerminator` here] `AssignmentExpression`
     /// yield [no `LineTerminator` here] * `AssignmentExpression`
-    pub(crate) fn parse_yield_expression(&mut self) -> Result<Expression<'a>> {
+    pub(crate) fn parse_yield_expression(&mut self) -> Result<Expr> {
         let span = self.start_span();
         self.bump_any(); // advance `yield`
 
