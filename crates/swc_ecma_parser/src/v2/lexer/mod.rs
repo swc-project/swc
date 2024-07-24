@@ -33,7 +33,6 @@ use std::collections::VecDeque;
 
 use oxc_allocator::Allocator;
 use oxc_ast::ast::RegExpFlags;
-use oxc_diagnostics::OxcDiagnostic;
 use oxc_span::SourceType;
 use rustc_hash::FxHashMap;
 use swc_common::{BytePos, Span};
@@ -83,7 +82,7 @@ pub struct Lexer<'a> {
 
     token: Token,
 
-    pub(crate) errors: Vec<OxcDiagnostic>,
+    pub(crate) errors: Vec<Diagnostic>,
 
     lookahead: VecDeque<Lookahead<'a>>,
 
@@ -235,7 +234,7 @@ impl<'a> Lexer<'a> {
     }
 
     // ---------- Private Methods ---------- //
-    fn error(&mut self, error: OxcDiagnostic) {
+    fn error(&mut self, error: Diagnostic) {
         self.errors.push(error);
     }
 
