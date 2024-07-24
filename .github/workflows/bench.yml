@@ -94,11 +94,9 @@ jobs:
       - uses: ./.github/actions/setup-node
 
       - name: Install cargo-codspeed
-        uses: baptiste0928/cargo-install@v2.2.0
+        uses: taiki-e/install-action@v2
         with:
-          crate: cargo-codspeed
-          version: "2.6.0"
-          locked: true
+          tool: cargo-codspeed@2.6.0
 
       - name: Build the benchmark target(s)
         run: cargo codspeed build --workspace --exclude swc_plugin_runner
