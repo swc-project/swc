@@ -1,9 +1,9 @@
 use oxc_allocator::{Box, Vec};
-use oxc_ast::{ast::*, syntax_directed_operations::PropName};
-use oxc_span::{GetSpan, Span};
-use swc_ecma_ast::{Accessibility, Expr, Stmt};
+use oxc_ast::syntax_directed_operations::PropName;
+use swc_common::{GetSpan, Span};
+use swc_ecma_ast::{Accessibility, Expr, Stmt, *};
 
-use super::{
+use super::super::{
     lexer::Kind,
     modifiers::{ModifierFlags, ModifierKind, Modifiers},
     Context, ParserImpl, StatementContext,
