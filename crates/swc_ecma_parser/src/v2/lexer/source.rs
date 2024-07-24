@@ -5,7 +5,7 @@ use std::{marker::PhantomData, slice, str};
 use swc_common::BytePos;
 
 use super::search::SEARCH_BATCH_SIZE;
-use crate::{UniquePromise, MAX_LEN};
+use crate::{v2::MAX_LEN, UniquePromise};
 
 /// `Source` holds the source text for the lexer, and provides APIs to read it.
 ///
