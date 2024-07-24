@@ -48,7 +48,7 @@ impl<'a> ParserImpl<'a> {
             // check if it is a string literal. All other method are flawed, see test cases in [babel](https://github.com/babel/babel/blob/main/packages/babel-parser/test/fixtures/core/categorized/not-directive/input.js)
             if expecting_directives {
                 if let Stmt::ExpressionStatement(expr) = &stmt {
-                    if let Expr::StringLiteral(string) = &expr.expression {
+                    if let Expr::Str(string) = &expr.expression {
                         // span start will mismatch if they are parenthesized when `preserve_parens
                         // = false`
                         if expr.span.start == string.span.start {

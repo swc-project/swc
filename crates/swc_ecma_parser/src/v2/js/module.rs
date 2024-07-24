@@ -185,7 +185,7 @@ impl<'a> ParserImpl<'a> {
     fn parse_import_attribute(&mut self) -> Result<ImportAttribute<'a>> {
         let span = self.start_span();
         let key = match self.cur_kind() {
-            Kind::Str => ImportAttributeKey::StringLiteral(self.parse_literal_string()?),
+            Kind::Str => ImportAttributeKey::Str(self.parse_literal_string()?),
             _ => ImportAttributeKey::Ident(self.parse_identifier_name()?),
         };
         self.expect(Kind::Colon)?;
@@ -296,7 +296,7 @@ impl<'a> ParserImpl<'a> {
                 match &specifier.local {
                     // It is a Syntax Error if ReferencedBindings of NamedExports contains any
                     // StringLiterals.
-                    ModuleExportName::StringLiteral(literal) => {
+                    ModuleExportName::Str(literal) => {
                         self.error(diagnostics::export_named_string(
                             &specifier.local.to_string(),
                             &specifier.exported.to_string(),
@@ -499,7 +499,7 @@ impl<'a> ParserImpl<'a> {
                 if !literal.is_string_well_formed_unicode() {
                     self.error(diagnostics::export_lone_surrogate(literal.span));
                 };
-                Ok(ModuleExportName::StringLiteral(literal))
+                Ok(ModuleExportName::Str(literal))
             }
             _ => Ok(ModuleExportName::Ident(self.parse_identifier_name()?)),
         }

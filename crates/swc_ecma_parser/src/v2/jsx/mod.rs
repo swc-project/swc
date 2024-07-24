@@ -388,7 +388,7 @@ impl<'a> ParserImpl<'a> {
         match self.cur_kind() {
             Kind::Str => self
                 .parse_literal_string()
-                .map(|str_lit| JSXAttributeValue::StringLiteral(self.ast.alloc(str_lit))),
+                .map(|str_lit| JSXAttributeValue::Str(self.ast.alloc(str_lit))),
             Kind::LCurly => {
                 let expr = self.parse_jsx_expression_container(/* is_jsx_child */ false)?;
                 Ok(JSXAttributeValue::ExpressionContainer(expr))
