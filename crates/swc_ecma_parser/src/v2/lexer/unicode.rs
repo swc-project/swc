@@ -2,11 +2,11 @@ use bumpalo::collections::String;
 
 use super::{Kind, Lexer, Span};
 use crate::{
-    diagnostics,
     syntax::identifier::{
         is_identifier_part, is_identifier_start, is_identifier_start_unicode,
         is_irregular_line_terminator, is_irregular_whitespace, CR, FF, LF, LS, PS, TAB, VT,
     },
+    v2::diagnostics,
 };
 
 enum SurrogatePair {

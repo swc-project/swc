@@ -1,5 +1,5 @@
 use super::{Kind, Lexer, Span};
-use crate::{diagnostics, syntax::identifier::is_identifier_start};
+use crate::{syntax::identifier::is_identifier_start, v2::diagnostics};
 
 impl<'a> Lexer<'a> {
     /// 12.9.3 Numeric Literals with `0` prefix

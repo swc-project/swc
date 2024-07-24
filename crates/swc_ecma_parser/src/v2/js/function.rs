@@ -12,7 +12,7 @@ use super::{
     },
     FunctionKind,
 };
-use crate::{diagnostics, diagnostics::Result};
+use crate::v2::{diagnostics, diagnostics::Result};
 
 impl FunctionKind {
     pub(crate) fn is_id_required(self) -> bool {
