@@ -91,9 +91,7 @@ impl<'a> ParserImpl<'a> {
 
     /** ------------------- Annotation ----------------- */
 
-    pub(crate) fn parse_ts_type_annotation(
-        &mut self,
-    ) -> Result<Option<Box<'a, TSTypeAnnotation<'a>>>> {
+    pub(crate) fn parse_ts_type_annotation(&mut self) -> Result<Option<Box<'a, TsTypeAnn>>> {
         if !self.ts_enabled() {
             return Ok(None);
         }
