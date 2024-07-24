@@ -383,12 +383,12 @@ impl<'a> ParserImpl<'a> {
         let declaration = match self.cur_kind() {
             Kind::Class => self
                 .parse_class_declaration(decl_span, /* modifiers */ &Modifiers::empty())
-                .map(ExportDefaultDeclarationKind::ClassDeclaration)?,
+                .map(DefaultDecl::ClassDeclaration)?,
             _ if self.at(Kind::Abstract) && self.peek_at(Kind::Class) && self.ts_enabled() => {
                 // eat the abstract modifier
                 let modifiers = self.eat_modifiers_before_declaration()?;
                 self.parse_class_declaration(decl_span, &modifiers)
-                    .map(ExportDefaultDeclarationKind::ClassDeclaration)?
+                    .map(DefaultDecl::ClassDeclaration)?
             }
             _ if self.at(Kind::Interface)
                 && !self.peek_token().is_on_new_line
@@ -397,18 +397,18 @@ impl<'a> ParserImpl<'a> {
                 self.parse_ts_interface_declaration(decl_span, &Modifiers::empty())
                     .map(|decl| match decl {
                         Decl::TsInterfaceDeclaration(decl) => {
-                            ExportDefaultDeclarationKind::TsInterfaceDeclaration(decl)
+                            DefaultDecl::TsInterfaceDeclaration(decl)
                         }
                         _ => unreachable!(),
                     })?
             }
             _ if self.at_function_with_async() => self
                 .parse_function_impl(FunctionKind::DefaultExport)
-                .map(ExportDefaultDeclarationKind::FunctionDeclaration)?,
+                .map(DefaultDecl::FunctionDeclaration)?,
             _ => {
                 let decl = self
                     .parse_assignment_expression_or_higher()
-                    .map(ExportDefaultDeclarationKind::from)?;
+                    .map(DefaultDecl::from)?;
                 self.asi()?;
                 decl
             }
