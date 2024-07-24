@@ -8,6 +8,7 @@ use super::{
     lexer::{Kind, Token},
     Result,
 };
+use crate::diagnostics::{self, Diagnostic};
 
 bitflags! {
   /// Bitflag of modifiers and contextual modifiers.
@@ -570,7 +571,7 @@ impl<'a> ParserImpl<'a> {
         allowed: ModifierFlags,
         diagnose: F,
     ) where
-        F: Fn(&Modifier) -> OxcDiagnostic,
+        F: Fn(&Modifier) -> Diagnostic,
     {
         for modifier in modifiers.iter() {
             if !allowed.contains(modifier.kind.into()) {
