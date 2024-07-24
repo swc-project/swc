@@ -93,15 +93,15 @@ impl<'a> Lexer<'a> {
         }
     }
 
-    /// Expand the current `Ident` token for `JSXIdentifier`
+    /// Expand the current `Ident` token for `JSXIdent`
     ///
     /// The current character is at `Ident`, continue reading for
-    /// `JSXIdentifier` if it has a `-`
+    /// `JSXIdent` if it has a `-`
     ///
-    /// `JSXIdentifier` :
-    ///   `IdentifierStart`
-    ///   `JSXIdentifier` `IdentifierPart`
-    ///   `JSXIdentifier` [no `WhiteSpace` or Comment here] -
+    /// `JSXIdent` :
+    ///   `IdentStart`
+    ///   `JSXIdent` `IdentPart`
+    ///   `JSXIdent` [no `WhiteSpace` or Comment here] -
     pub(crate) fn continue_lex_jsx_identifier(&mut self) -> Option<Token> {
         if self.source.peek_byte() != Some(b'-') {
             return None;

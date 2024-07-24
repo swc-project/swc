@@ -249,7 +249,7 @@ mod test {
         let expr = Parser::new(&allocator, source, source_type)
             .parse_expression()
             .unwrap();
-        assert!(matches!(expr, Expr::Identifier(_)));
+        assert!(matches!(expr, Expr::Ident(_)));
     }
 
     #[test]

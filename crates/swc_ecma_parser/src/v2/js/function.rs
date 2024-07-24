@@ -119,7 +119,7 @@ impl<'a> ParserImpl<'a> {
     pub(crate) fn parse_function(
         &mut self,
         span: Span,
-        id: Option<BindingIdentifier<'a>>,
+        id: Option<BindingIdent<'a>>,
         r#async: bool,
         generator: bool,
         func_kind: FunctionKind,
@@ -340,7 +340,7 @@ impl<'a> ParserImpl<'a> {
         kind: FunctionKind,
         r#async: bool,
         generator: bool,
-    ) -> Result<Option<BindingIdentifier<'a>>> {
+    ) -> Result<Option<BindingIdent<'a>>> {
         let ctx = self.ctx;
         if kind.is_expression() {
             self.ctx = self.ctx.and_await(r#async).and_yield(generator);
@@ -348,7 +348,7 @@ impl<'a> ParserImpl<'a> {
         let id = self.cur_kind().is_binding_identifier().then(|| {
             let (span, name) = self.parse_identifier_kind(Kind::Ident);
             self.check_identifier(span, &name);
-            BindingIdentifier {
+            BindingIdent {
                 span,
                 name,
                 symbol_id: Cell::default(),

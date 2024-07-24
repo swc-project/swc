@@ -54,37 +54,37 @@ impl<'a> ParserImpl<'a> {
         Ok(expr)
     }
 
-    /// `PrimaryExpression`: Identifier Reference
+    /// `PrimaryExpression`: Ident Reference
     pub(crate) fn parse_identifier_expression(&mut self) -> Result<Expr> {
         let ident = self.parse_identifier_reference()?;
         Ok(self.ast.expression_from_identifier_reference(ident))
     }
 
-    pub(crate) fn parse_identifier_reference(&mut self) -> Result<IdentifierReference<'a>> {
+    pub(crate) fn parse_identifier_reference(&mut self) -> Result<IdentReference<'a>> {
         // allow `await` and `yield`, let semantic analysis report error
         if !self.cur_kind().is_identifier_reference(false, false) {
             return Err(self.unexpected());
         }
         let (span, name) = self.parse_identifier_kind(Kind::Ident);
         self.check_identifier(span, &name);
-        Ok(IdentifierReference::new(span, name))
+        Ok(IdentReference::new(span, name))
     }
 
-    /// `BindingIdentifier` : Identifier
-    pub(crate) fn parse_binding_identifier(&mut self) -> Result<BindingIdentifier<'a>> {
+    /// `BindingIdent` : Ident
+    pub(crate) fn parse_binding_identifier(&mut self) -> Result<BindingIdent<'a>> {
         if !self.cur_kind().is_binding_identifier() {
             return Err(self.unexpected());
         }
         let (span, name) = self.parse_identifier_kind(Kind::Ident);
         self.check_identifier(span, &name);
-        Ok(BindingIdentifier {
+        Ok(BindingIdent {
             span,
             name,
             symbol_id: Cell::default(),
         })
     }
 
-    pub(crate) fn parse_label_identifier(&mut self) -> Result<LabelIdentifier<'a>> {
+    pub(crate) fn parse_label_identifier(&mut self) -> Result<LabelIdent<'a>> {
         if !self
             .cur_kind()
             .is_label_identifier(self.ctx.has_yield(), self.ctx.has_await())
@@ -93,21 +93,21 @@ impl<'a> ParserImpl<'a> {
         }
         let (span, name) = self.parse_identifier_kind(Kind::Ident);
         self.check_identifier(span, &name);
-        Ok(LabelIdentifier { span, name })
+        Ok(LabelIdent { span, name })
     }
 
-    pub(crate) fn parse_identifier_name(&mut self) -> Result<IdentifierName<'a>> {
+    pub(crate) fn parse_identifier_name(&mut self) -> Result<IdentName<'a>> {
         if !self.cur_kind().is_identifier_name() {
             return Err(self.unexpected());
         }
         let (span, name) = self.parse_identifier_kind(Kind::Ident);
-        Ok(IdentifierName { span, name })
+        Ok(IdentName { span, name })
     }
 
     /// Parse keyword kind as identifier
-    pub(crate) fn parse_keyword_identifier(&mut self, kind: Kind) -> IdentifierName<'a> {
+    pub(crate) fn parse_keyword_identifier(&mut self, kind: Kind) -> IdentName<'a> {
         let (span, name) = self.parse_identifier_kind(kind);
-        IdentifierName { span, name }
+        IdentName { span, name }
     }
 
     #[inline]
@@ -129,15 +129,15 @@ impl<'a> ParserImpl<'a> {
         }
     }
 
-    /// Section [PrivateIdentifier](https://tc39.es/ecma262/#prod-PrivateIdentifier)
-    /// `PrivateIdentifier` ::
-    ///     # `IdentifierName`
+    /// Section [PrivateIdent](https://tc39.es/ecma262/#prod-PrivateIdent)
+    /// `PrivateIdent` ::
+    ///     # `IdentName`
     /// # Panics
-    pub(crate) fn parse_private_identifier(&mut self) -> PrivateIdentifier<'a> {
+    pub(crate) fn parse_private_identifier(&mut self) -> PrivateIdent<'a> {
         let span = self.start_span();
         let name = Atom::from(self.cur_string());
         self.bump_any();
-        PrivateIdentifier {
+        PrivateIdent {
             span: self.end_span(span),
             name,
         }
@@ -146,7 +146,7 @@ impl<'a> ParserImpl<'a> {
     /// Section [Primary Expression](https://tc39.es/ecma262/#sec-primary-expression)
     /// `PrimaryExpression`[Yield, Await] :
     ///     this
-    ///     `IdentifierReference`[?Yield, ?Await]
+    ///     `IdentReference`[?Yield, ?Await]
     ///     Literal
     ///     `ArrayLiteral`[?Yield, ?Await]
     ///     `ObjectLiteral`[?Yield, ?Await]
@@ -552,7 +552,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     /// Section 13.3 Meta Property
-    fn parse_meta_property(&mut self, span: Span, meta: IdentifierName<'a>) -> Result<Expr> {
+    fn parse_meta_property(&mut self, span: Span, meta: IdentName<'a>) -> Result<Expr> {
         self.bump_any(); // bump `.`
         let property = match self.cur_kind() {
             Kind::Meta => self.parse_keyword_identifier(Kind::Meta),
@@ -607,7 +607,7 @@ impl<'a> ParserImpl<'a> {
         // The `super` keyword can appear at below:
         // SuperProperty:
         //     super [ Expression ]
-        //     super . IdentifierName
+        //     super . IdentName
         // SuperCall:
         //     super ( Arguments )
         if !matches!(self.cur_kind(), Kind::Dot | Kind::LBrack | Kind::LParen) {
@@ -641,7 +641,7 @@ impl<'a> ParserImpl<'a> {
                             self.bump_any(); // bump `?.`
                             self.parse_computed_member_expression(lhs_span, lhs, true)?
                         }
-                        Kind::PrivateIdentifier => {
+                        Kind::PrivateIdent => {
                             self.parse_static_member_expression(lhs_span, lhs, true)?
                         }
                         kind if kind.is_identifier_name() => {
@@ -693,7 +693,7 @@ impl<'a> ParserImpl<'a> {
         optional: bool,
     ) -> Result<Expr> {
         self.bump_any(); // advance `.` or `?.`
-        if self.cur_kind() == Kind::PrivateIdentifier {
+        if self.cur_kind() == Kind::PrivateIdent {
             let private_ident = self.parse_private_identifier();
             Ok(self.ast.member_expression_private_field_expression(
                 self.end_span(lhs_span),
@@ -943,7 +943,7 @@ impl<'a> ParserImpl<'a> {
     ) -> Result<Expr> {
         let lhs_span = self.start_span();
 
-        let lhs = if self.ctx.has_in() && self.at(Kind::PrivateIdentifier) {
+        let lhs = if self.ctx.has_in() && self.at(Kind::PrivateIdent) {
             let left = self.parse_private_identifier();
             self.expect(Kind::In)?;
             let right = self.parse_unary_expression_or_higher(lhs_span)?;

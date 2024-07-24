@@ -189,7 +189,7 @@ impl<'a> Lexer<'a> {
     fn check_after_numeric_literal(&mut self, kind: Kind) -> Kind {
         let offset = self.offset();
         // The SourceCharacter immediately following a NumericLiteral must not be an
-        // IdentifierStart or DecimalDigit.
+        // IdentStart or DecimalDigit.
         let c = self.peek();
         if c.is_none() || c.is_some_and(|ch| !ch.is_ascii_digit() && !is_identifier_start(ch)) {
             return kind;

@@ -245,9 +245,8 @@ impl<'a> ParserImpl<'a> {
         if next.is_on_new_line {
             false
         } else {
-            let followed_by_any_member =
-                matches!(next.kind, Kind::PrivateIdentifier | Kind::LBrack)
-                    || next.kind.is_literal_property_name();
+            let followed_by_any_member = matches!(next.kind, Kind::PrivateIdent | Kind::LBrack)
+                || next.kind.is_literal_property_name();
             let followed_by_class_member = !is_constructor_parameter && next.kind == Kind::Star;
             // allow `...` for error recovery
             let followed_by_parameter = is_constructor_parameter
@@ -287,7 +286,7 @@ impl<'a> ParserImpl<'a> {
                 .map(TSModuleDeclarationName::StringLiteral),
             _ => self
                 .parse_identifier_name()
-                .map(TSModuleDeclarationName::Identifier),
+                .map(TSModuleDeclarationName::Ident),
         }?;
 
         let body = if self.eat(Kind::Dot) {
@@ -459,7 +458,7 @@ impl<'a> ParserImpl<'a> {
         self.eat_decorators()?;
         let this = {
             let (span, name) = self.parse_identifier_kind(Kind::This);
-            IdentifierName { span, name }
+            IdentName { span, name }
         };
         let type_annotation = self.parse_ts_type_annotation()?;
         Ok(self

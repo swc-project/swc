@@ -214,9 +214,9 @@ impl<'a> ParserImpl<'a> {
 
         let params = {
             let ident = match ident {
-                Expr::Identifier(ident) => {
+                Expr::Ident(ident) => {
                     let name = ident.name.clone();
-                    BindingIdentifier::new(ident.span, name)
+                    BindingIdent::new(ident.span, name)
                 }
                 _ => unreachable!(),
             };
