@@ -2,7 +2,7 @@ use oxc_allocator::Box;
 use swc_common::Span;
 use swc_ecma_ast::{Stmt, *};
 
-use super::{VariableDeclarationContext, VariableDeclarationParent};
+use super::{VarDeclarationContext, VarDeclarationParent};
 use crate::{
     diagnostics,
     diagnostics::Result,
@@ -47,13 +47,13 @@ impl<'a> ParserImpl<'a> {
     pub(crate) fn parse_variable_declaration(
         &mut self,
         start_span: Span,
-        decl_ctx: VariableDeclarationContext,
+        decl_ctx: VarDeclarationContext,
         modifiers: &Modifiers<'a>,
-    ) -> Result<Box<'a, VariableDecl>> {
+    ) -> Result<Box<'a, VarDecl>> {
         let kind = match self.cur_kind() {
-            Kind::Var => VariableDeclarationKind::Var,
-            Kind::Const => VariableDeclarationKind::Const,
-            Kind::Let => VariableDeclarationKind::Let,
+            Kind::Var => VarDeclKind::Var,
+            Kind::Const => VarDeclKind::Const,
+            Kind::Let => VarDeclKind::Let,
             _ => return Err(self.unexpected()),
         };
         self.bump_any();
@@ -69,7 +69,7 @@ impl<'a> ParserImpl<'a> {
 
         if matches!(
             decl_ctx.parent,
-            VariableDeclarationParent::Statement | VariableDeclarationParent::Clause
+            VarDeclarationParent::Statement | VarDeclarationParent::Clause
         ) {
             self.asi()?;
         }
@@ -90,8 +90,8 @@ impl<'a> ParserImpl<'a> {
 
     fn parse_variable_declarator(
         &mut self,
-        decl_ctx: VariableDeclarationContext,
-        kind: VariableDeclarationKind,
+        decl_ctx: VarDeclarationContext,
+        kind: VarDeclKind,
     ) -> Result<VarDeclarator> {
         let span = self.start_span();
 
@@ -131,14 +131,14 @@ impl<'a> ParserImpl<'a> {
             .then(|| self.parse_assignment_expression_or_higher())
             .transpose()?;
 
-        if init.is_none() && decl_ctx.parent == VariableDeclarationParent::Statement {
+        if init.is_none() && decl_ctx.parent == VarDeclarationParent::Statement {
             // LexicalBinding[In, Yield, Await] :
             //   BindingIdent[?Yield, ?Await] Initializer[?In, ?Yield, ?Await] opt
             //   BindingPattern[?Yield, ?Await] Initializer[?In, ?Yield, ?Await]
             // the grammar forbids `let []`, `let {}`
             if !matches!(id.kind, BindingPatternKind::BindingIdent(_)) {
                 self.error(diagnostics::invalid_destrucuring_declaration(id.span()));
-            } else if kind == VariableDeclarationKind::Const && !self.ctx.has_ambient() {
+            } else if kind == VarDeclKind::Const && !self.ctx.has_ambient() {
                 // It is a Syntax Error if Initializer is not present and IsConstantDeclaration
                 // of the LexicalDeclaration containing this LexicalBinding is true.
                 self.error(diagnostics::missinginitializer_in_const(id.span()));
@@ -183,8 +183,8 @@ impl<'a> ParserImpl<'a> {
         let mut declarations: oxc_allocator::Vec<'_, VarDeclarator> = self.ast.vec();
         loop {
             let declaration = self.parse_variable_declarator(
-                VariableDeclarationContext::new(VariableDeclarationParent::Statement),
-                VariableDeclarationKind::Var,
+                VarDeclarationContext::new(VarDeclarationParent::Statement),
+                VarDeclKind::Var,
             )?;
 
             match declaration.id.kind {

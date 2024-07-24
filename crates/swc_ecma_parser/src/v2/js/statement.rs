@@ -2,7 +2,7 @@ use oxc_allocator::{Box, Vec};
 use oxc_span::{Atom, GetSpan, Span};
 use swc_ecma_ast::*;
 
-use super::{grammar::CoverGrammar, VariableDeclarationContext, VariableDeclarationParent};
+use super::{grammar::CoverGrammar, VarDeclarationContext, VarDeclarationParent};
 use crate::{
     diagnostics,
     diagnostics::Result,
@@ -160,7 +160,7 @@ impl<'a> ParserImpl<'a> {
         let start_span = self.start_span();
         let decl = self.parse_variable_declaration(
             start_span,
-            VariableDeclarationContext::new(VariableDeclarationParent::Statement),
+            VarDeclarationContext::new(VarDeclarationParent::Statement),
             &Modifiers::empty(),
         )?;
 
@@ -168,7 +168,7 @@ impl<'a> ParserImpl<'a> {
             self.error(diagnostics::lexical_declaration_single_statement(decl.span));
         }
 
-        Ok(Stmt::VariableDeclaration(decl))
+        Ok(Stmt::VarDeclaration(decl))
     }
 
     /// Section 14.4 Empty Statement
@@ -291,17 +291,17 @@ impl<'a> ParserImpl<'a> {
     ) -> Result<Stmt> {
         let start_span = self.start_span();
         let init_declaration = self.context(Context::empty(), Context::In, |p| {
-            let decl_ctx = VariableDeclarationContext::new(VariableDeclarationParent::For);
+            let decl_ctx = VarDeclarationContext::new(VarDeclarationParent::For);
             p.parse_variable_declaration(start_span, decl_ctx, &Modifiers::empty())
         })?;
 
         // for (.. a in) for (.. a of)
         if matches!(self.cur_kind(), Kind::In | Kind::Of) {
-            let init = ForStatementLeft::VariableDeclaration(init_declaration);
+            let init = ForStatementLeft::VarDeclaration(init_declaration);
             return self.parse_for_in_or_of_loop(span, r#await, init);
         }
 
-        let init = Some(ForStatementInit::VariableDeclaration(init_declaration));
+        let init = Some(ForStatementInit::VarDeclaration(init_declaration));
         self.parse_for_loop(span, init, r#await)
     }
 
