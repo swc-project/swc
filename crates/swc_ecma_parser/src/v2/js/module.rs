@@ -10,7 +10,7 @@ use crate::v2::{
 
 impl<'a> ParserImpl<'a> {
     /// [Import Call](https://tc39.es/ecma262/#sec-import-calls)
-    /// `ImportCall` : import ( `AssignmentExpression` )
+    /// `ImportCall` : import ( `AssignExpression` )
     pub(crate) fn parse_import_expression(&mut self, span: Span) -> Result<Expr> {
         self.bump_any(); // advance '('
 
@@ -202,13 +202,13 @@ impl<'a> ParserImpl<'a> {
     pub(crate) fn parse_ts_export_assignment_declaration(
         &mut self,
         start_span: Span,
-    ) -> Result<Box<'a, TSExportAssignment<'a>>> {
+    ) -> Result<Box<'a, TSExportAssign<'a>>> {
         self.expect(Kind::Eq)?;
 
         let expression = self.parse_assignment_expression_or_higher()?;
         self.asi()?;
 
-        Ok(self.ast.alloc(TSExportAssignment {
+        Ok(self.ast.alloc(TSExportAssign {
             span: self.end_span(start_span),
             expression,
         }))
@@ -236,7 +236,7 @@ impl<'a> ParserImpl<'a> {
         let decl = match self.cur_kind() {
             Kind::Eq if self.ts_enabled() => self
                 .parse_ts_export_assignment_declaration(span)
-                .map(ModuleDecl::TSExportAssignment),
+                .map(ModuleDecl::TSExportAssign),
             Kind::As if self.peek_at(Kind::Namespace) && self.ts_enabled() => self
                 .parse_ts_export_namespace()
                 .map(ModuleDecl::TSNamespaceExportDeclaration),
@@ -372,7 +372,7 @@ impl<'a> ParserImpl<'a> {
 
     // export default HoistableDeclaration[~Yield, +Await, +Default]
     // export default ClassDeclaration[~Yield, +Await, +Default]
-    // export default AssignmentExpression[+In, ~Yield, +Await] ;
+    // export default AssignExpression[+In, ~Yield, +Await] ;
     fn parse_export_default_declaration(
         &mut self,
         span: Span,

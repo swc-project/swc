@@ -269,7 +269,7 @@ impl<'a> ParserImpl<'a> {
 
         // for (a.b in ...), for ([a] in ..), for ({a} in ..)
         if self.at(Kind::In) || self.at(Kind::Of) {
-            let target = AssignmentTarget::cover(init_expression, self)
+            let target = AssignTarget::cover(init_expression, self)
                 .map_err(|_| diagnostics::unexpected_token(self.end_span(expr_span)))?;
             let for_stmt_left = ForStatementLeft::from(target);
             if !r#await && is_async_of {

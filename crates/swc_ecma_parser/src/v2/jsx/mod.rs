@@ -306,7 +306,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     /// `JSXChildExpression` :
-    ///   { ... `AssignmentExpression` }
+    ///   { ... `AssignExpression` }
     fn parse_jsx_spread_child(&mut self) -> Result<Box<'a, JSXSpreadChild<'a>>> {
         let span = self.start_span();
         self.bump_any(); // bump `{`
@@ -353,7 +353,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     /// `JSXSpreadAttribute` :
-    ///   { ... `AssignmentExpression` }
+    ///   { ... `AssignExpression` }
     fn parse_jsx_spread_attribute(&mut self) -> Result<Box<'a, JSXSpreadAttribute<'a>>> {
         let span = self.start_span();
         self.bump_any(); // bump `{`

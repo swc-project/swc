@@ -185,7 +185,7 @@ impl<'a> ParserImpl<'a> {
             let first = first_token.kind;
             // If the "async" is followed by "=>" token then it is not a beginning of an
             // async arrow-function but instead a simple arrow-function which
-            // will be parsed inside "parseAssignmentExpressionOrHigher"
+            // will be parsed inside "parseAssignExpressionOrHigher"
             if first_token.is_on_new_line || first == Kind::Arrow {
                 return Tristate::False;
             }
@@ -284,7 +284,7 @@ impl<'a> ParserImpl<'a> {
     ///     [lookahead ≠ {] `ExpressionBody`[?In, ~Await]
     ///     { `FunctionBody`[~Yield, ~Await] }
     /// `ExpressionBody`[In, Await] :
-    ///     `AssignmentExpression`[?In, ~Yield, ?Await]
+    ///     `AssignExpression`[?In, ~Yield, ?Await]
     fn parse_arrow_function_body(
         &mut self,
         span: Span,

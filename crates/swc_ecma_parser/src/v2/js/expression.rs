@@ -749,7 +749,7 @@ impl<'a> ParserImpl<'a> {
         // parse `new ident` without arguments
         let arguments = if self.eat(Kind::LParen) {
             // ArgumentList[Yield, Await] :
-            //   AssignmentExpression[+In, ?Yield, ?Await]
+            //   AssignExpression[+In, ?Yield, ?Await]
             let call_arguments = self.context(Context::In, Context::empty(), |p| {
                 p.parse_delimited_list(
                     Kind::RParen,
@@ -833,7 +833,7 @@ impl<'a> ParserImpl<'a> {
         type_parameters: Option<Box<'a, TsTypeParamInstantiation>>,
     ) -> Result<Expr> {
         // ArgumentList[Yield, Await] :
-        //   AssignmentExpression[+In, ?Yield, ?Await]
+        //   AssignExpression[+In, ?Yield, ?Await]
         self.expect(Kind::LParen)?;
         let call_arguments = self.context(Context::In, Context::Decorator, |p| {
             p.parse_delimited_list(
@@ -870,7 +870,7 @@ impl<'a> ParserImpl<'a> {
             let operator = map_update_operator(kind);
             self.bump_any();
             let argument = self.parse_unary_expression_or_higher(lhs_span)?;
-            let argument = SimpleAssignmentTarget::cover(argument, self)?;
+            let argument = SimpleAssignTarget::cover(argument, self)?;
             return Ok(self.ast.expression_update(
                 self.end_span(lhs_span),
                 operator,
@@ -892,7 +892,7 @@ impl<'a> ParserImpl<'a> {
         if self.cur_kind().is_update_operator() && !self.cur_token().is_on_new_line {
             let operator = map_update_operator(self.cur_kind());
             self.bump_any();
-            let lhs = SimpleAssignmentTarget::cover(lhs, self)?;
+            let lhs = SimpleAssignTarget::cover(lhs, self)?;
             return Ok(self
                 .ast
                 .expression_update(self.end_span(span), operator, false, lhs));
@@ -1040,8 +1040,8 @@ impl<'a> ParserImpl<'a> {
     /// `ConditionalExpression`[In, Yield, Await] :
     ///     `ShortCircuitExpression`[?In, ?Yield, ?Await]
     ///     `ShortCircuitExpression`[?In, ?Yield, ?Await] ?
-    /// `AssignmentExpression`[+In, ?Yield, ?Await] :
-    /// `AssignmentExpression`[?In, ?Yield, ?Await]
+    /// `AssignExpression`[+In, ?Yield, ?Await] :
+    /// `AssignExpression`[?In, ?Yield, ?Await]
     fn parse_conditional_expression_rest(&mut self, lhs_span: Span, lhs: Expr) -> Result<Expr> {
         if !self.eat(Kind::Question) {
             return Ok(lhs);
@@ -1058,7 +1058,7 @@ impl<'a> ParserImpl<'a> {
             .expression_conditional(self.end_span(lhs_span), lhs, consequent, alternate))
     }
 
-    /// `AssignmentExpression`[In, Yield, Await] :
+    /// `AssignExpression`[In, Yield, Await] :
     pub(crate) fn parse_assignment_expression_or_higher(&mut self) -> Result<Expr> {
         // [+Yield] YieldExpression
         if self.is_yield_expression() {
@@ -1091,13 +1091,13 @@ impl<'a> ParserImpl<'a> {
 
     fn parse_assignment_expression_recursive(&mut self, span: Span, lhs: Expr) -> Result<Expr> {
         let operator = map_assignment_operator(self.cur_kind());
-        // 13.15.5 Destructuring Assignment
-        // LeftHandSideExpression = AssignmentExpression
+        // 13.15.5 Destructuring Assign
+        // LeftHandSideExpression = AssignExpression
         // is converted to
-        // AssignmentPattern[Yield, Await] :
-        //    ObjectAssignmentPattern
-        //    ArrayAssignmentPattern
-        let left = AssignmentTarget::cover(lhs, self)?;
+        // AssignPattern[Yield, Await] :
+        //    ObjectAssignPattern
+        //    ArrayAssignPattern
+        let left = AssignTarget::cover(lhs, self)?;
         self.bump_any();
         let right = self.parse_assignment_expression_or_higher()?;
         Ok(self

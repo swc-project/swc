@@ -177,7 +177,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     /// Initializer[In, Yield, Await] :
-    ///   = `AssignmentExpression`[?In, ?Yield, ?Await]
+    ///   = `AssignExpression`[?In, ?Yield, ?Await]
     fn parse_initializer(
         &mut self,
         span: Span,
@@ -201,7 +201,7 @@ impl<'a> ParserImpl<'a> {
             BindingPatternKind::BindingIdent(pat) => &mut pat.span,
             BindingPatternKind::ObjectPattern(pat) => &mut pat.span,
             BindingPatternKind::ArrayPattern(pat) => &mut pat.span,
-            BindingPatternKind::AssignmentPattern(pat) => &mut pat.span,
+            BindingPatternKind::AssignPattern(pat) => &mut pat.span,
         };
         pat_span.end = span.end;
     }
