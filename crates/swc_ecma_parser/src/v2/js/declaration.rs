@@ -1,7 +1,7 @@
 use oxc_allocator::Box;
 use oxc_ast::ast::*;
 use oxc_diagnostics::Result;
-use oxc_span::{GetSpan, Span};
+use swc_ecma_ast::Stmt;
 
 use super::{VariableDeclarationContext, VariableDeclarationParent};
 use crate::{
