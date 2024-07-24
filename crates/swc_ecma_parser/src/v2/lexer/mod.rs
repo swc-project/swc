@@ -35,7 +35,7 @@ use oxc_allocator::Allocator;
 use oxc_ast::ast::RegExpFlags;
 use oxc_span::SourceType;
 use rustc_hash::FxHashMap;
-use swc_common::{BytePos, Span};
+use swc_common::{errors::Diagnostic, BytePos, Span};
 
 use self::{
     byte_handlers::handle_byte,
