@@ -125,7 +125,7 @@ pub enum EsVersion {
 }
 
 #[cfg(feature = "serde")]
-impl<'de> serde::Deserialize<'de> for EsVersion {
+impl<'de> Deserialize<'de> for EsVersion {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
         D: serde::Deserializer<'de>,
