@@ -358,8 +358,8 @@ impl<'a> ParserImpl<'a> {
 
         // split out pattern
         let (pattern_end, flags) = self.read_regex();
-        let pattern_start = self.cur_token().start + 1; // +1 to exclude `/`
-        let pattern = &self.source_text[pattern_start as usize..pattern_end as usize];
+        let pattern_start = self.cur_token().start + swc_common::BytePos(1); // +1 to exclude `/`
+        let pattern = &self.source_text[pattern_start.0 as usize..pattern_end.0 as usize];
 
         self.bump_any();
         self.ast.reg_exp_literal(
