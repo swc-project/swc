@@ -490,7 +490,7 @@ impl<'a> ParserImpl<'a> {
         span: Span,
         lhs: Expr,
         in_optional_chain: bool,
-        type_parameters: Option<Box<'a, TSTypeParameterInstantiation<'a>>>,
+        type_parameters: Option<Box<'a, TsTypeParamInstantiation>>,
     ) -> Result<Expr> {
         let quasi = self.parse_template_literal(true)?;
         let span = self.end_span(span);
@@ -831,7 +831,7 @@ impl<'a> ParserImpl<'a> {
         lhs_span: Span,
         lhs: Expr,
         optional: bool,
-        type_parameters: Option<Box<'a, TSTypeParameterInstantiation<'a>>>,
+        type_parameters: Option<Box<'a, TsTypeParamInstantiation>>,
     ) -> Result<Expr> {
         // ArgumentList[Yield, Await] :
         //   AssignmentExpression[+In, ?Yield, ?Await]
