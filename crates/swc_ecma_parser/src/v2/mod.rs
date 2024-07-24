@@ -84,7 +84,7 @@ impl<'a> ParserImpl<'a> {
             source_text,
             errors: vec![],
             token: Token::default(),
-            prev_token_end: 0,
+            prev_token_end: BytePos(0),
             state: ParserState::default(),
             ctx: Self::default_context(source_type, options),
             ast: AstBuilder::new(allocator),
@@ -150,7 +150,7 @@ impl<'a> ParserImpl<'a> {
         let (directives, statements) =
             self.parse_directives_and_statements(/* is_top_level */ true)?;
 
-        let span = Span::new(0, self.source_text.len() as u32);
+        let span = Span::new(BytePos(0), self.source_text.len() as u32);
         Ok(self
             .ast
             .program(span, self.source_type, hashbang, directives, statements))
