@@ -1,6 +1,6 @@
 use oxc_allocator::Box;
-use oxc_span::{GetSpan, Span};
 use oxc_syntax::precedence::Precedence;
+use swc_common::Span;
 use swc_ecma_ast::*;
 
 use super::Tristate;

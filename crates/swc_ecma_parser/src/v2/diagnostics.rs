@@ -149,3 +149,8 @@ pub(crate) fn invalid_assignment(span: Span) -> Diagnostic {
 pub(crate) fn await_expression(span: Span) -> Diagnostic {
     todo!("await_expression")
 }
+
+#[cold]
+pub(crate) fn ts_constructor_this_parameter(span: Span) -> Diagnostic {
+    todo!("ts_constructor_this_parameter")
+}
