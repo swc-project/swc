@@ -28,7 +28,7 @@ impl<'a> ParserImpl<'a> {
         &mut self,
         stmt_ctx: StatementContext,
         start_span: Span,
-    ) -> Result<Statement<'a>> {
+    ) -> Result<Stmt> {
         let modifiers = self.parse_modifiers(
             /* allow_decorators */ true, /* permit_const_as_modifier */ false,
             /* stop_on_start_of_class_static_block */ true,
@@ -42,7 +42,7 @@ impl<'a> ParserImpl<'a> {
             )));
         }
 
-        Ok(Statement::ClassDeclaration(decl))
+        Ok(Stmt::ClassDeclaration(decl))
     }
 
     /// Section 15.7 Class Definitions
