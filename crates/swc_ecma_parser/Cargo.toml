@@ -27,7 +27,7 @@ verify        = ["swc_ecma_visit"]
 [dependencies]
 assert-unchecked      = { workspace = true }
 bitflags              = { workspace = true }
-bumpalo               = { workspace = true }
+bumpalo               = { workspace = true, features = ["collections"] }
 either                = { workspace = true }
 memchr                = { workspace = true }
 new_debug_unreachable = { workspace = true }
