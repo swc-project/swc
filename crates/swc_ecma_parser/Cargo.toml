@@ -41,6 +41,7 @@ smartstring           = { workspace = true }
 static_assertions     = { workspace = true }
 tracing               = { workspace = true }
 typed-arena           = { workspace = true }
+unicode-id-start      = { workspace = true }
 
 swc_atoms      = { version = "0.6.5", path = "../swc_atoms" }
 swc_common     = { version = "0.36.0", path = "../swc_common" }
