@@ -144,3 +144,8 @@ pub(crate) fn empty_parenthesized_expression(span: Span) -> Diagnostic {
 pub(crate) fn invalid_assignment(span: Span) -> Diagnostic {
     todo!("invalid_assignment")
 }
+
+#[cold]
+pub(crate) fn await_expression(span: Span) -> Diagnostic {
+    todo!("await_expression")
+}
