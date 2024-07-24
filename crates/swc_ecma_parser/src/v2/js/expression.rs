@@ -371,14 +371,14 @@ impl<'a> ParserImpl<'a> {
         )
     }
 
-    pub(crate) fn parse_literal_string(&mut self) -> Result<StringLiteral<'a>> {
+    pub(crate) fn parse_literal_string(&mut self) -> Result<Str> {
         if !self.at(Kind::Str) {
             return Err(self.unexpected());
         }
         let value = self.cur_string();
         let span = self.start_span();
         self.bump_any();
-        Ok(StringLiteral {
+        Ok(Str {
             span: self.end_span(span),
             value: value.into(),
         })

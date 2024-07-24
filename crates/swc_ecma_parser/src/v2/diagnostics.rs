@@ -159,3 +159,8 @@ pub(crate) fn ts_constructor_this_parameter(span: Span) -> Diagnostic {
 pub(crate) fn ts_arrow_function_this_parameter(span: Span) -> Diagnostic {
     todo!("ts_arrow_function_this_parameter")
 }
+
+#[cold]
+pub(crate) fn unexpected_super(span: Span) -> Diagnostic {
+    todo!("unexpected_super")
+}
