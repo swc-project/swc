@@ -280,7 +280,7 @@ impl<'a> ParserImpl<'a> {
         }
     }
 
-    pub(crate) fn parse_literal_boolean(&mut self) -> Result<BooleanLiteral> {
+    pub(crate) fn parse_literal_boolean(&mut self) -> Result<Bool> {
         let span = self.start_span();
         let value = match self.cur_kind() {
             Kind::True => true,
@@ -288,21 +288,21 @@ impl<'a> ParserImpl<'a> {
             _ => return Err(self.unexpected()),
         };
         self.bump_any();
-        Ok(BooleanLiteral {
+        Ok(Bool {
             span: self.end_span(span),
             value,
         })
     }
 
-    pub(crate) fn parse_literal_null(&mut self) -> NullLiteral {
+    pub(crate) fn parse_literal_null(&mut self) -> Null {
         let span = self.start_span();
         self.bump_any(); // bump `null`
-        NullLiteral {
+        Null {
             span: self.end_span(span),
         }
     }
 
-    pub(crate) fn parse_literal_number(&mut self) -> Result<NumericLiteral<'a>> {
+    pub(crate) fn parse_literal_number(&mut self) -> Result<Number> {
         let span = self.start_span();
         let token = self.cur_token();
         let src = self.cur_src();
@@ -335,7 +335,7 @@ impl<'a> ParserImpl<'a> {
         Ok(NumericLiteral::new(self.end_span(span), value, src, base))
     }
 
-    pub(crate) fn parse_literal_bigint(&mut self) -> Result<BigIntLiteral<'a>> {
+    pub(crate) fn parse_literal_bigint(&mut self) -> Result<BigInt> {
         let span = self.start_span();
         let base = match self.cur_kind() {
             Kind::Decimal => BigintBase::Decimal,

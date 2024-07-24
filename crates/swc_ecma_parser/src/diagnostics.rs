@@ -99,3 +99,8 @@ pub(crate) fn static_prototype(span: Span) -> Diagnostic {
 pub(crate) fn static_constructor(span: Span) -> Diagnostic {
     todo!("static_constructor")
 }
+
+#[cold]
+pub(crate) fn lineterminator_before_arrow(span: Span) -> Diagnostic {
+    todo!("lineterminator_before_arrow")
+}
