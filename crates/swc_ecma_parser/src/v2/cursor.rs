@@ -5,10 +5,11 @@ use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::Decorator;
 
 use super::{
+    diagnostics,
     lexer::{Kind, LexerCheckpoint, LexerContext, Token},
     Context, ParserImpl,
 };
-use crate::{diagnostics, v2::Result};
+use crate::v2::Result;
 
 #[derive(Clone, Copy)]
 pub struct ParserCheckpoint<'a> {

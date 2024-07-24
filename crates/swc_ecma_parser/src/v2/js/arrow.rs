@@ -4,10 +4,7 @@ use oxc_syntax::precedence::Precedence;
 use swc_ecma_ast::*;
 
 use super::Tristate;
-use crate::{
-    diagnostics::Result,
-    v2::{diagnostics, lexer::Kind, ParserImpl},
-};
+use crate::v2::{diagnostics, diagnostics::Result, lexer::Kind, ParserImpl};
 
 type ArrowFunctionHead<'a> = (
     Option<Box<'a, TSTypeParameterDecl>>,
