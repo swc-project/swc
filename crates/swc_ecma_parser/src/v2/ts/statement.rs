@@ -281,7 +281,7 @@ impl<'a> ParserImpl<'a> {
         let id = match self.cur_kind() {
             Kind::Str => self
                 .parse_literal_string()
-                .map(TsModuleDeclarationName::StringLiteral),
+                .map(TsModuleDeclarationName::Str),
             _ => self
                 .parse_identifier_name()
                 .map(TsModuleDeclarationName::Ident),

@@ -1026,7 +1026,7 @@ impl<'a> ParserImpl<'a> {
                 Expr::NumericLiteral(literal) => TsLiteral::NumericLiteral(literal),
                 Expr::BigIntLiteral(literal) => TsLiteral::BigIntLiteral(literal),
                 Expr::RegExpLiteral(literal) => TsLiteral::RegExpLiteral(literal),
-                Expr::StringLiteral(literal) => TsLiteral::StringLiteral(literal),
+                Expr::Str(literal) => TsLiteral::Str(literal),
                 Expr::TemplateLiteral(literal) => TsLiteral::TemplateLiteral(literal),
                 _ => return Err(self.unexpected()),
             }
@@ -1084,7 +1084,7 @@ impl<'a> ParserImpl<'a> {
     fn parse_ts_import_attribute(&mut self) -> Result<TsImportAttribute<'a>> {
         let span = self.start_span();
         let name = match self.cur_kind() {
-            Kind::Str => TsImportAttributeName::StringLiteral(self.parse_literal_string()?),
+            Kind::Str => TsImportAttributeName::Str(self.parse_literal_string()?),
             _ => TsImportAttributeName::Ident(self.parse_identifier_name()?),
         };
 
