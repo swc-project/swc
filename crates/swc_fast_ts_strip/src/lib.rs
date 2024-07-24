@@ -781,6 +781,14 @@ impl Visit for TsStrip {
     ///
     /// See https://github.com/swc-project/swc/issues/9295
     fn visit_ts_type_assertion(&mut self, n: &TsTypeAssertion) {
+        HANDLER.with(|handler| {
+            handler.span_err(
+                n.span,
+                "The angle-bracket syntax for type assertions, `<T>expr`, is not supported in \
+                 type strip mode. Instead, use the 'as' syntax: `expr as T`.",
+            );
+        });
+
         n.expr.visit_children_with(self);
     }
 
