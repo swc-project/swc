@@ -25,7 +25,6 @@ plugin = [
 
 [dependencies]
 anyhow             = { workspace = true }
-atty               = { workspace = true }
 clap               = { version = "3.2.25", features = ["derive", "wrap_help"] }
 glob               = { workspace = true }
 path-absolutize    = { workspace = true, features = ["once_cell_cache"] }
