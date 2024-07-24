@@ -4,7 +4,7 @@ This document describes a way to manage/publish the swc repositories. These task
 
 ## swc-project/swc
 
-You can use `@changeset` bot to mark a crate as modified (by a PR). After the PR is merged, you can run `cargo publish-crates` to publish all crates.
+You can use `@changeset` bot to mark a crate as modified (by a PR). After the PR is merged, you can run `cargo mono publish --no-verify` to publish all crates.
 
 ## swc-project/plugins
 
