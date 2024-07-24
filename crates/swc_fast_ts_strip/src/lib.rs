@@ -383,11 +383,11 @@ impl TsStrip {
             return;
         }
 
-        let TokenAndSpan { token, .. } = &self.tokens[index - 1];
-        if token == &Token::Semi {
-            // Skip if the previous token is a semicolon.
-            return;
-        }
+        let TokenAndSpan {
+            token: prev_token,
+            span: prev_span,
+            ..
+        } = &self.tokens[index - 1];
 
         let index = self.get_prev_token_index(span.hi);
         if index == self.tokens.len() - 1 {
@@ -402,6 +402,11 @@ impl TsStrip {
             Token::LParen
             | Token::LBracket
             | Token::BinOp(BinOpToken::Add | BinOpToken::Sub | BinOpToken::Div) => {
+                if prev_token == &Token::Semi {
+                    self.add_overwrite(prev_span.lo, b';');
+                    return;
+                }
+
                 self.add_overwrite(span.lo, b';');
             }
 

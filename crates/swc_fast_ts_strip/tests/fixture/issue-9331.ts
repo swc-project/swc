@@ -2,7 +2,7 @@ f
 interface I { }
 (1)
 
-function f() { };
+function f() { }
 
 
 f
@@ -25,5 +25,10 @@ declare class name {
 [1].map(() => 1)
 
 f
-declare var name: string;
+declare var x: string;
+/1/
+
+f
+declare var y: string;
+declare var z: string;
 /1/
