@@ -307,7 +307,7 @@ impl<'a> ParserImpl<'a> {
                     // It is a Syntax Error if StringValue of n is a ReservedWord or the StringValue
                     // of n is one of "implements", "interface", "let",
                     // "package", "private", "protected", "public", or "static".
-                    ModuleExportName::IdentName(ident) => {
+                    ModuleExportName::Ident(ident) => {
                         let match_result = Kind::match_keyword(&ident.name);
                         if match_result.is_reserved_keyword()
                             || match_result.is_future_reserved_keyword()
@@ -413,7 +413,7 @@ impl<'a> ParserImpl<'a> {
                 decl
             }
         };
-        let exported = ModuleExportName::IdentName(exported);
+        let exported = ModuleExportName::Ident(exported);
         let span = self.end_span(span);
         Ok(self
             .ast
@@ -477,7 +477,7 @@ impl<'a> ParserImpl<'a> {
                 span: local.span,
                 name: local.name.clone(),
             };
-            (ModuleExportName::IdentName(imported), local)
+            (ModuleExportName::Ident(imported), local)
         };
         Ok(ImportSpecifier::ImportSpecifier(self.ast.alloc(
             ImportSpecifier {
@@ -504,7 +504,7 @@ impl<'a> ParserImpl<'a> {
                 };
                 Ok(ModuleExportName::StringLiteral(literal))
             }
-            _ => Ok(ModuleExportName::IdentName(self.parse_identifier_name()?)),
+            _ => Ok(ModuleExportName::Ident(self.parse_identifier_name()?)),
         }
     }
 
