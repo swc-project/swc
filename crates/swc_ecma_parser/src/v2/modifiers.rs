@@ -7,7 +7,7 @@ use swc_ecma_ast::Accessibility;
 
 use super::{
     lexer::{Kind, Token},
-    Result,
+    ParserImpl, Result,
 };
 use crate::diagnostics::{self, Diagnostic};
 
