@@ -1,3 +1,5 @@
+use swc_common::BytePos;
+
 use self::{
     context::Context,
     lexer::{Lexer, Token},
@@ -46,7 +48,7 @@ struct ParserImpl<'a> {
     token: Token,
 
     /// The end range of the previous token
-    prev_token_end: u32,
+    prev_token_end: BytePos,
 
     /// Parser state
     state: ParserState<'a>,

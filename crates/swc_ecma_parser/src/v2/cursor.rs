@@ -22,13 +22,13 @@ impl<'a> ParserImpl<'a> {
     #[inline]
     pub(crate) fn start_span(&self) -> Span {
         let token = self.cur_token();
-        Span::new(token.start, 0)
+        Span::new(token.start, swc_common::BytePos(0))
     }
 
     #[inline]
     pub(crate) fn end_span(&self, mut span: Span) -> Span {
-        span.end = self.prev_token_end;
-        debug_assert!(span.end >= span.start);
+        span.hi = self.prev_token_end;
+        debug_assert!(span.end.0 >= span.start.0);
         span
     }
 
