@@ -156,7 +156,7 @@ impl<'a> ParserImpl<'a> {
     ///     `AsyncGeneratorExpression`
     ///     `RegularExpressionLiteral`
     ///     `TemplateLiteral`[?Yield, ?Await, ~Tagged]
-    ///     `CoverParenthesizedExpressionAndArrowParameterList`[?Yield, ?Await]
+    ///     `CoverParenthesizedExpressionAndArrowParamList`[?Yield, ?Await]
     fn parse_primary_expression(&mut self) -> Result<Expr> {
         let span = self.start_span();
 

@@ -275,7 +275,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     /// `MethodDefinition`[Yield, Await] :
-    /// set `ClassMemberName`[?Yield, ?Await] ( `PropertySetParameterList` ) {
+    /// set `ClassMemberName`[?Yield, ?Await] ( `PropertySetParamList` ) {
     /// `FunctionBody`[~Yield, ~Await] }
     fn parse_method_setter(&mut self) -> Result<Box<'a, ObjectProperty<'a>>> {
         let span = self.start_span();

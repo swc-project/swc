@@ -48,8 +48,8 @@ impl<'a> ParserImpl<'a> {
 
     pub(crate) fn parse_formal_parameters(
         &mut self,
-        params_kind: FormalParameterKind,
-    ) -> Result<(Option<TsThisParameter<'a>>, Box<'a, FormalParameters<'a>>)> {
+        params_kind: FormalParamKind,
+    ) -> Result<(Option<TsThisParam<'a>>, Box<'a, FormalParams<'a>>)> {
         let span = self.start_span();
         self.expect(Kind::LParen)?;
         let this_param = if self.ts_enabled() && self.at(Kind::This) {
@@ -85,7 +85,7 @@ impl<'a> ParserImpl<'a> {
         modifiers
     }
 
-    fn parse_formal_parameter(&mut self) -> Result<FormalParameter<'a>> {
+    fn parse_formal_parameter(&mut self) -> Result<FormalParam<'a>> {
         let span = self.start_span();
         self.eat_decorators()?;
         let modifiers = self.parse_parameter_modifiers();
@@ -134,8 +134,7 @@ impl<'a> ParserImpl<'a> {
 
         let type_parameters = self.parse_ts_type_parameters()?;
 
-        let (this_param, params) =
-            self.parse_formal_parameters(FormalParameterKind::FormalParameter)?;
+        let (this_param, params) = self.parse_formal_parameters(FormalParamKind::FormalParam)?;
 
         let return_type =
             self.parse_ts_return_type_annotation(Kind::Colon, /* is_type */ true)?;
@@ -268,7 +267,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     /// Section 15.4 Method Definitions
-    /// `ClassMemberName` ( `UniqueFormalParameters` ) { `FunctionBody` }
+    /// `ClassMemberName` ( `UniqueFormalParams` ) { `FunctionBody` }
     /// `GeneratorMethod`
     ///   * `ClassMemberName`
     /// `AsyncMethod`

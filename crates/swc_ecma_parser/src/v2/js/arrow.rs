@@ -7,8 +7,8 @@ use super::Tristate;
 use crate::v2::{diagnostics, diagnostics::Result, lexer::Kind, ParserImpl};
 
 type ArrowFunctionHead<'a> = (
-    Option<Box<'a, TsTypeParameterDecl>>,
-    Box<'a, FormalParameters<'a>>,
+    Option<Box<'a, TsTypeParamDecl>>,
+    Box<'a, FormalParams<'a>>,
     Option<Box<'a, TsTypeAnn>>,
     bool,
     Span,
@@ -225,7 +225,7 @@ impl<'a> ParserImpl<'a> {
             let formal_parameter = self.ast.plain_formal_parameter(params_span, pattern);
             self.ast.alloc_formal_parameters(
                 params_span,
-                FormalParameterKind::ArrowFormalParameters,
+                FormalParamKind::ArrowFormalParams,
                 self.ast.vec1(formal_parameter),
                 Option::<BindingRestElement>::None,
             )
@@ -256,7 +256,7 @@ impl<'a> ParserImpl<'a> {
         let type_parameters = self.parse_ts_type_parameters()?;
 
         let (this_param, params) =
-            self.parse_formal_parameters(FormalParameterKind::ArrowFormalParameters)?;
+            self.parse_formal_parameters(FormalParamKind::ArrowFormalParams)?;
 
         if let Some(this_param) = this_param {
             // const x = (this: number) => {};
@@ -288,8 +288,8 @@ impl<'a> ParserImpl<'a> {
     fn parse_arrow_function_body(
         &mut self,
         span: Span,
-        type_parameters: Option<Box<'a, TsTypeParameterDecl>>,
-        params: Box<'a, FormalParameters<'a>>,
+        type_parameters: Option<Box<'a, TsTypeParamDecl>>,
+        params: Box<'a, FormalParams<'a>>,
         return_type: Option<Box<'a, TsTypeAnn>>,
         r#async: bool,
     ) -> Result<Expr> {
@@ -323,7 +323,7 @@ impl<'a> ParserImpl<'a> {
 
     /// Section [Arrow Function](https://tc39.es/ecma262/#sec-arrow-function-definitions)
     /// `ArrowFunction`[In, Yield, Await] :
-    ///     `ArrowParameters`[?Yield, ?Await] [no `LineTerminator` here] =>
+    ///     `ArrowParams`[?Yield, ?Await] [no `LineTerminator` here] =>
     /// `ConciseBody`[?In]
     fn parse_parenthesized_arrow_function(&mut self) -> Result<Option<Expr>> {
         let (type_parameters, params, return_type, r#async, span) =
