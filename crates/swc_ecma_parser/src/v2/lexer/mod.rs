@@ -47,7 +47,7 @@ pub use self::{
     number::{parse_big_int, parse_float, parse_int},
     token::Token,
 };
-use crate::{diagnostics, diagnostics::Diagnostic, UniquePromise};
+use crate::v2::{diagnostics, diagnostics::Diagnostic, UniquePromise};
 
 #[derive(Debug, Clone, Copy)]
 pub struct LexerCheckpoint<'a> {

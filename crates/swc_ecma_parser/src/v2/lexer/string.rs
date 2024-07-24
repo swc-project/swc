@@ -8,7 +8,7 @@ use super::{
     search::{byte_search, safe_byte_match_table, SafeByteMatchTable},
     Kind, Lexer, LexerContext, Token,
 };
-use crate::diagnostics;
+use crate::v2::diagnostics;
 
 const MIN_ESCAPED_STR_LEN: usize = 16;
 

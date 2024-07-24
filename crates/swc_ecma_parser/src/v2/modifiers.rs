@@ -9,7 +9,7 @@ use super::{
     lexer::{Kind, Token},
     ParserImpl, Result,
 };
-use crate::diagnostics::{self, Diagnostic};
+use crate::v2::diagnostics::{self, Diagnostic};
 
 bitflags! {
   /// Bitflag of modifiers and contextual modifiers.
