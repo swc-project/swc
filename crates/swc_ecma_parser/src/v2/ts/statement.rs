@@ -3,13 +3,13 @@ use oxc_ast::ast::*;
 use oxc_diagnostics::Result;
 use oxc_span::Span;
 
-use crate::{
-    diagnostics,
+use super::{
     js::{FunctionKind, VariableDeclarationContext, VariableDeclarationParent},
     lexer::Kind,
     modifiers::{ModifierFlags, ModifierKind, Modifiers},
     ParserImpl,
 };
+use crate::diagnostics;
 
 impl<'a> ParserImpl<'a> {
     /** ------------------- Enum ------------------ */
