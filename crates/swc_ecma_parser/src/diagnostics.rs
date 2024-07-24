@@ -2,6 +2,8 @@
 
 use swc_common::{BytePos, Span};
 
+pub type Result<T> = std::result::Result<T, Diagnostic>;
+
 #[derive(Debug)]
 pub struct Diagnostic(Box<DiagnoticKind>);
 
