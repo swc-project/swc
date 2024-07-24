@@ -182,7 +182,7 @@ impl<'a> ParserImpl<'a> {
             .alloc_class_body(self.end_span(span), class_elements))
     }
 
-    pub(crate) fn parse_class_element(&mut self) -> Result<Option<ClassElement<'a>>> {
+    pub(crate) fn parse_class_element(&mut self) -> Result<Option<ClassMember<'a>>> {
         // skip empty class element `;`
         while self.at(Kind::Semicolon) {
             self.bump_any();
@@ -239,7 +239,7 @@ impl<'a> ParserImpl<'a> {
 
         if self.is_at_ts_index_signature_member() {
             if let TsSignature::TsIndexSignature(sig) = self.parse_ts_index_signature_member()? {
-                return Ok(Some(ClassElement::TsIndexSignature(sig)));
+                return Ok(Some(ClassMember::TsIndexSignature(sig)));
             }
         }
 
@@ -386,7 +386,7 @@ impl<'a> ParserImpl<'a> {
         r#abstract: bool,
         accessibility: Option<Accessibility>,
         optional: bool,
-    ) -> Result<ClassElement<'a>> {
+    ) -> Result<ClassMember<'a>> {
         let kind = if !r#static
             && !computed
             && key
@@ -431,7 +431,7 @@ impl<'a> ParserImpl<'a> {
             optional,
             decorators,
         };
-        Ok(ClassElement::MethodDefinition(
+        Ok(ClassMember::MethodDefinition(
             self.ast.alloc(method_definition),
         ))
     }
@@ -451,7 +451,7 @@ impl<'a> ParserImpl<'a> {
         accessibility: Option<Accessibility>,
         optional: bool,
         definite: bool,
-    ) -> Result<ClassElement<'a>> {
+    ) -> Result<ClassMember<'a>> {
         let type_annotation = if self.ts_enabled() {
             self.parse_ts_type_annotation()?
         } else {
@@ -489,14 +489,14 @@ impl<'a> ParserImpl<'a> {
             definite,
             decorators: self.consume_decorators(),
         };
-        Ok(ClassElement::PropertyDefinition(
+        Ok(ClassMember::PropertyDefinition(
             self.ast.alloc(property_definition),
         ))
     }
 
     /// `ClassStaticBlockStatementList` :
     ///    `StatementList`[~Yield, +Await, ~Return]
-    fn parse_class_static_block(&mut self, span: Span) -> Result<ClassElement<'a>> {
+    fn parse_class_static_block(&mut self, span: Span) -> Result<ClassMember<'a>> {
         let block = self.context(
             Context::Await,
             Context::Yield | Context::Return,
@@ -515,7 +515,7 @@ impl<'a> ParserImpl<'a> {
         computed: bool,
         r#static: bool,
         r#abstract: bool,
-    ) -> Result<ClassElement<'a>> {
+    ) -> Result<ClassMember<'a>> {
         let value = self
             .eat(Kind::Eq)
             .then(|| self.parse_assignment_expression_or_higher())

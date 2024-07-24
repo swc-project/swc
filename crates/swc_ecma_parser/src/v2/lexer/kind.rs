@@ -283,7 +283,7 @@ impl Kind {
     }
 
     /// Section 15.4 Method Definitions
-    /// `ClassElementName`[Yield, Await] :
+    /// `ClassMemberName`[Yield, Await] :
     ///   `PropertyName`[?Yield, ?Await]
     ///   `PrivateIdent`
     /// `PropertyName`[Yield, Await] :

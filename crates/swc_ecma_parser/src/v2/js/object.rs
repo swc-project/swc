@@ -52,9 +52,9 @@ impl<'a> ParserImpl<'a> {
         let peek_kind = self.peek_kind();
         let class_element_name = peek_kind.is_class_element_name_start();
         match self.cur_kind() {
-            // get ClassElementName
+            // get ClassMemberName
             Kind::Get if class_element_name => self.parse_method_getter(),
-            // set ClassElementName
+            // set ClassMemberName
             Kind::Set if class_element_name => self.parse_method_setter(),
             // AsyncMethod
             // AsyncGeneratorMethod
@@ -254,7 +254,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     /// `MethodDefinition`[Yield, Await] :
-    ///   get `ClassElementName`[?Yield, ?Await] ( ) { `FunctionBody`[~Yield,
+    ///   get `ClassMemberName`[?Yield, ?Await] ( ) { `FunctionBody`[~Yield,
     /// ~Await] }
     fn parse_method_getter(&mut self) -> Result<Box<'a, ObjectProperty<'a>>> {
         let span = self.start_span();
@@ -275,7 +275,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     /// `MethodDefinition`[Yield, Await] :
-    /// set `ClassElementName`[?Yield, ?Await] ( `PropertySetParameterList` ) {
+    /// set `ClassMemberName`[?Yield, ?Await] ( `PropertySetParameterList` ) {
     /// `FunctionBody`[~Yield, ~Await] }
     fn parse_method_setter(&mut self) -> Result<Box<'a, ObjectProperty<'a>>> {
         let span = self.start_span();
