@@ -181,7 +181,7 @@ impl<'a> ParserImpl<'a> {
             .alloc_class_body(self.end_span(span), class_elements))
     }
 
-    pub(crate) fn parse_class_element(&mut self) -> Result<Option<ClassMember<'a>>> {
+    pub(crate) fn parse_class_element(&mut self) -> Result<Option<ClassMember>> {
         // skip empty class element `;`
         while self.at(Kind::Semicolon) {
             self.bump_any();
@@ -385,7 +385,7 @@ impl<'a> ParserImpl<'a> {
         r#abstract: bool,
         accessibility: Option<Accessibility>,
         optional: bool,
-    ) -> Result<ClassMember<'a>> {
+    ) -> Result<ClassMember> {
         let kind = if !r#static
             && !computed
             && key
@@ -450,7 +450,7 @@ impl<'a> ParserImpl<'a> {
         accessibility: Option<Accessibility>,
         optional: bool,
         definite: bool,
-    ) -> Result<ClassMember<'a>> {
+    ) -> Result<ClassMember> {
         let type_annotation = if self.ts_enabled() {
             self.parse_ts_type_annotation()?
         } else {
@@ -495,7 +495,7 @@ impl<'a> ParserImpl<'a> {
 
     /// `ClassStaticBlockStatementList` :
     ///    `StatementList`[~Yield, +Await, ~Return]
-    fn parse_class_static_block(&mut self, span: Span) -> Result<ClassMember<'a>> {
+    fn parse_class_static_block(&mut self, span: Span) -> Result<ClassMember> {
         let block = self.context(
             Context::Await,
             Context::Yield | Context::Return,
@@ -514,7 +514,7 @@ impl<'a> ParserImpl<'a> {
         computed: bool,
         r#static: bool,
         r#abstract: bool,
-    ) -> Result<ClassMember<'a>> {
+    ) -> Result<ClassMember> {
         let value = self
             .eat(Kind::Eq)
             .then(|| self.parse_assignment_expression_or_higher())
