@@ -164,3 +164,13 @@ pub(crate) fn ts_arrow_function_this_parameter(span: Span) -> Diagnostic {
 pub(crate) fn unexpected_super(span: Span) -> Diagnostic {
     todo!("unexpected_super")
 }
+
+#[cold]
+pub(crate) fn missinginitializer_in_const(span: Span) -> Diagnostic {
+    todo!("missinginitializer_in_const")
+}
+
+#[cold]
+pub(crate) fn invalid_destrucuring_declaration(span: Span) -> Diagnostic {
+    todo!("invalid_destrucuring_declaration")
+}
