@@ -3,9 +3,9 @@ use swc_ecma_ast::Program;
 
 use self::{
     context::Context,
-    lexer::{Lexer, Token},
+    lexer::{Kind, Lexer, Token},
 };
-use crate::diagnostics::Diagnostic;
+use crate::diagnostics::{self, Diagnostic};
 
 mod context;
 mod cursor;
