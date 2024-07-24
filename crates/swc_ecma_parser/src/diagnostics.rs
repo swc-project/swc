@@ -104,3 +104,13 @@ pub(crate) fn static_constructor(span: Span) -> Diagnostic {
 pub(crate) fn lineterminator_before_arrow(span: Span) -> Diagnostic {
     todo!("lineterminator_before_arrow")
 }
+
+#[cold]
+pub(crate) fn line_terminator_before_using_declaration(span: Span) -> Diagnostic {
+    todo!("line_terminator_before_using_declaration")
+}
+
+#[cold]
+pub(crate) fn await_in_using_declaration(span: Span) -> Diagnostic {
+    todo!("await_in_using_declaration")
+}

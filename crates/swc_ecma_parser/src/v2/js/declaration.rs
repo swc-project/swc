@@ -1,4 +1,5 @@
 use oxc_allocator::Box;
+use swc_common::Span;
 use swc_ecma_ast::{Stmt, *};
 
 use super::{VariableDeclarationContext, VariableDeclarationParent};
