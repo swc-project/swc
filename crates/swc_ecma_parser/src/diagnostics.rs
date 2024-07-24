@@ -114,3 +114,13 @@ pub(crate) fn line_terminator_before_using_declaration(span: Span) -> Diagnostic
 pub(crate) fn await_in_using_declaration(span: Span) -> Diagnostic {
     todo!("await_in_using_declaration")
 }
+
+#[cold]
+pub(crate) fn using_declarations_must_be_initialized(span: Span) -> Diagnostic {
+    todo!("using_declarations_must_be_initialized")
+}
+
+#[cold]
+pub(crate) fn invalid_identifier_in_using_declaration(span: Span) -> Diagnostic {
+    todo!("invalid_identifier_in_using_declaration")
+}

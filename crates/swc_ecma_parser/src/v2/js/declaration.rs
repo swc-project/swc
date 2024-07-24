@@ -92,7 +92,7 @@ impl<'a> ParserImpl<'a> {
         &mut self,
         decl_ctx: VariableDeclarationContext,
         kind: VariableDeclarationKind,
-    ) -> Result<VariableDeclarator<'a>> {
+    ) -> Result<VarDeclarator> {
         let span = self.start_span();
 
         let mut binding_kind = self.parse_binding_pattern_kind()?;
@@ -180,7 +180,7 @@ impl<'a> ParserImpl<'a> {
         }
 
         // BindingList[?In, ?Yield, ?Await, ~Pattern]
-        let mut declarations: oxc_allocator::Vec<'_, VariableDeclarator<'_>> = self.ast.vec();
+        let mut declarations: oxc_allocator::Vec<'_, VarDeclarator> = self.ast.vec();
         loop {
             let declaration = self.parse_variable_declarator(
                 VariableDeclarationContext::new(VariableDeclarationParent::Statement),
