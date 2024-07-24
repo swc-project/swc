@@ -162,9 +162,9 @@ impl<'a> ParserImpl<'a> {
                 let identifier = self
                     .ast
                     .binding_pattern_kind_binding_identifier(ident.span, &ident.name);
-                let left =
-                    self.ast
-                        .binding_pattern(identifier, Option::<TSTypeAnnotation>::None, false);
+                let left = self
+                    .ast
+                    .binding_pattern(identifier, Option::<TsTypeAnn>::None, false);
                 self.context(Context::In, Context::empty(), |p| {
                     p.parse_initializer(span, left)
                 })?
@@ -195,7 +195,7 @@ impl<'a> ParserImpl<'a> {
             Ok(self.ast.binding_pattern(
                 self.ast
                     .binding_pattern_kind_assignment_pattern(self.end_span(span), left, expr),
-                Option::<TSTypeAnnotation>::None,
+                Option::<TsTypeAnn>::None,
                 false,
             ))
         } else {
