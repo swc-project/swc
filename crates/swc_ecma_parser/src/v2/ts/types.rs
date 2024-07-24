@@ -1,4 +1,3 @@
-use oxc_allocator::{Box, Vec};
 use oxc_span::GetSpan;
 use oxc_syntax::operator::UnaryOperator;
 use swc_ecma_ast::*;

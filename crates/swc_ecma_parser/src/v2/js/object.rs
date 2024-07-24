@@ -1,4 +1,3 @@
-use oxc_allocator::Box;
 use oxc_syntax::operator::AssignOperator;
 use swc_common::Span;
 use swc_ecma_ast::*;
