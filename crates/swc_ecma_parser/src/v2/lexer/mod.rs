@@ -35,7 +35,7 @@ use oxc_allocator::Allocator;
 use oxc_ast::ast::RegExpFlags;
 use oxc_span::SourceType;
 use rustc_hash::FxHashMap;
-use swc_common::{errors::Diagnostic, BytePos, Span};
+use swc_common::{BytePos, Span};
 
 use self::{
     byte_handlers::handle_byte,
@@ -47,7 +47,7 @@ pub use self::{
     number::{parse_big_int, parse_float, parse_int},
     token::Token,
 };
-use crate::{diagnostics, UniquePromise};
+use crate::{diagnostics, diagnostics::Diagnostic, UniquePromise};
 
 #[derive(Debug, Clone, Copy)]
 pub struct LexerCheckpoint<'a> {
