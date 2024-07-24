@@ -17,3 +17,13 @@ pub(crate) fn invalid_character(c: char, span: Span) -> Diagnotic {
 pub(crate) fn unterminated_multi_line_comment(span: Span) -> Diagnotic {
     todo!("unterminated_multi_line_comment")
 }
+
+#[cold]
+pub(crate) fn unterminated_string(span: Span) -> Diagnotic {
+    todo!("unterminated_string")
+}
+
+#[cold]
+pub(crate) fn unexpected_end(span: Span) -> Diagnotic {
+    todo!("unexpected_end")
+}
