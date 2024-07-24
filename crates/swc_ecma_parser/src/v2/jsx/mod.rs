@@ -6,7 +6,11 @@ use oxc_allocator::{Box, Vec};
 use oxc_span::{Atom, GetSpan, Span};
 use swc_ecma_ast::*;
 
-use crate::{diagnostics, diagnostics::Result, lexer::Kind, Context, ParserImpl};
+use crate::{
+    diagnostics,
+    diagnostics::Result,
+    v2::{lexer::Kind, Context, ParserImpl},
+};
 
 impl<'a> ParserImpl<'a> {
     pub(crate) fn parse_jsx_expression(&mut self) -> Result<Expr> {

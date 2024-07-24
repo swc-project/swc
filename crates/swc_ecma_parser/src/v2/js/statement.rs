@@ -4,8 +4,9 @@ use swc_ecma_ast::*;
 
 use super::{grammar::CoverGrammar, VariableDeclarationContext, VariableDeclarationParent};
 use crate::{
-    diagnostics, diagnostics::Result, lexer::Kind, modifiers::Modifiers, Context, ParserImpl,
-    StatementContext,
+    diagnostics,
+    diagnostics::Result,
+    v2::{lexer::Kind, modifiers::Modifiers, Context, ParserImpl, StatementContext},
 };
 
 impl<'a> ParserImpl<'a> {
