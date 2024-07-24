@@ -39,11 +39,11 @@ impl<'a> CoverGrammar<'a, Expr> for SimpleAssignTarget<'a> {
                     expr => SimpleAssignTarget::cover(expr, p),
                 }
             }
-            Expr::TSAs(expr) => Ok(SimpleAssignTarget::TSAs(expr)),
-            Expr::TSSatisfies(expr) => Ok(SimpleAssignTarget::TSSatisfies(expr)),
-            Expr::TSNonNull(expr) => Ok(SimpleAssignTarget::TSNonNull(expr)),
-            Expr::TSTypeAssertion(expr) => Ok(SimpleAssignTarget::TSTypeAssertion(expr)),
-            Expr::TSInstantiation(expr) => Ok(SimpleAssignTarget::TSInstantiation(expr)),
+            Expr::TsAs(expr) => Ok(SimpleAssignTarget::TsAs(expr)),
+            Expr::TsSatisfies(expr) => Ok(SimpleAssignTarget::TsSatisfies(expr)),
+            Expr::TsNonNull(expr) => Ok(SimpleAssignTarget::TsNonNull(expr)),
+            Expr::TsTypeAssertion(expr) => Ok(SimpleAssignTarget::TsTypeAssertion(expr)),
+            Expr::TsInstantiation(expr) => Ok(SimpleAssignTarget::TsInstantiation(expr)),
             expr => Err(diagnostics::invalid_assignment(expr.span())),
         }
     }

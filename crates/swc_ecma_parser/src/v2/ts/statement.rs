@@ -49,7 +49,7 @@ impl<'a> ParserImpl<'a> {
         ))
     }
 
-    pub(crate) fn parse_ts_enum_member(&mut self) -> Result<TSEnumMember<'a>> {
+    pub(crate) fn parse_ts_enum_member(&mut self) -> Result<TsEnumMember<'a>> {
         let span = self.start_span();
         let id = self.parse_ts_enum_member_name()?;
 
@@ -59,14 +59,14 @@ impl<'a> ParserImpl<'a> {
             None
         };
 
-        Ok(TSEnumMember {
+        Ok(TsEnumMember {
             span: self.end_span(span),
             id,
             initializer,
         })
     }
 
-    fn parse_ts_enum_member_name(&mut self) -> Result<TSEnumMemberName<'a>> {
+    fn parse_ts_enum_member_name(&mut self) -> Result<TsEnumMemberName<'a>> {
         match self.cur_kind() {
             Kind::LBrack => {
                 let node = self.parse_computed_property_name()?;
@@ -166,7 +166,7 @@ impl<'a> ParserImpl<'a> {
         ))
     }
 
-    fn parse_ts_interface_body(&mut self) -> Result<Box<'a, TSInterfaceBody<'a>>> {
+    fn parse_ts_interface_body(&mut self) -> Result<Box<'a, TsInterfaceBody<'a>>> {
         let span = self.start_span();
         let body_list =
             self.parse_normal_list(Kind::LCurly, Kind::RCurly, Self::parse_ts_type_signature)?;
@@ -183,7 +183,7 @@ impl<'a> ParserImpl<'a> {
         }
     }
 
-    pub(crate) fn parse_ts_type_signature(&mut self) -> Result<Option<TSSignature<'a>>> {
+    pub(crate) fn parse_ts_type_signature(&mut self) -> Result<Option<TsSignature<'a>>> {
         if self.is_at_ts_index_signature_member() {
             return self.parse_ts_index_signature_member().map(Some);
         }
@@ -256,7 +256,7 @@ impl<'a> ParserImpl<'a> {
 
     /** ----------------------- Namespace & Module ----------------------- */
 
-    fn parse_ts_module_block(&mut self) -> Result<Box<'a, TSModuleBlock<'a>>> {
+    fn parse_ts_module_block(&mut self) -> Result<Box<'a, TsModuleBlock<'a>>> {
         let span = self.start_span();
         self.expect(Kind::LCurly)?;
         let (directives, statements) =
@@ -270,9 +270,9 @@ impl<'a> ParserImpl<'a> {
     pub(crate) fn parse_ts_namespace_or_module_declaration_body(
         &mut self,
         span: Span,
-        kind: TSModuleDeclarationKind,
+        kind: TsModuleDeclarationKind,
         modifiers: &Modifiers<'a>,
-    ) -> Result<Box<'a, TSModuleDecl>> {
+    ) -> Result<Box<'a, TsModuleDecl>> {
         self.verify_modifiers(
             modifiers,
             ModifierFlags::DECLARE | ModifierFlags::EXPORT,
@@ -281,10 +281,10 @@ impl<'a> ParserImpl<'a> {
         let id = match self.cur_kind() {
             Kind::Str => self
                 .parse_literal_string()
-                .map(TSModuleDeclarationName::StringLiteral),
+                .map(TsModuleDeclarationName::StringLiteral),
             _ => self
                 .parse_identifier_name()
-                .map(TSModuleDeclarationName::Ident),
+                .map(TsModuleDeclarationName::Ident),
         }?;
 
         let body = if self.eat(Kind::Dot) {
@@ -294,10 +294,10 @@ impl<'a> ParserImpl<'a> {
                 kind,
                 &Modifiers::empty(),
             )?;
-            Some(TSModuleDeclarationBody::TSModuleDeclaration(decl))
+            Some(TsModuleDeclarationBody::TsModuleDeclaration(decl))
         } else if self.at(Kind::LCurly) {
             let block = self.parse_ts_module_block()?;
-            Some(TSModuleDeclarationBody::TSModuleBlock(block))
+            Some(TsModuleDeclarationBody::TsModuleBlock(block))
         } else {
             None
         };
@@ -338,22 +338,22 @@ impl<'a> ParserImpl<'a> {
     ) -> Result<Decl> {
         match self.cur_kind() {
             Kind::Namespace => {
-                let kind = TSModuleDeclarationKind::Namespace;
+                let kind = TsModuleDeclarationKind::Namespace;
                 self.bump_any();
                 self.parse_ts_namespace_or_module_declaration_body(start_span, kind, modifiers)
-                    .map(Decl::TSModuleDeclaration)
+                    .map(Decl::TsModuleDeclaration)
             }
             Kind::Module => {
-                let kind = TSModuleDeclarationKind::Module;
+                let kind = TsModuleDeclarationKind::Module;
                 self.bump_any();
                 self.parse_ts_namespace_or_module_declaration_body(start_span, kind, modifiers)
-                    .map(Decl::TSModuleDeclaration)
+                    .map(Decl::TsModuleDeclaration)
             }
             Kind::Global => {
                 // declare global { }
-                let kind = TSModuleDeclarationKind::Global;
+                let kind = TsModuleDeclarationKind::Global;
                 self.parse_ts_namespace_or_module_declaration_body(start_span, kind, modifiers)
-                    .map(Decl::TSModuleDeclaration)
+                    .map(Decl::TsModuleDeclaration)
             }
             Kind::Type => self.parse_ts_type_alias_declaration(start_span, modifiers),
             Kind::Enum => self.parse_ts_enum_declaration(start_span, modifiers),
@@ -398,7 +398,7 @@ impl<'a> ParserImpl<'a> {
     ) -> Result<Box<'a, Function<'a>>> {
         let r#async = modifiers.contains(ModifierKind::Async);
         self.expect(Kind::Function)?;
-        let func_kind = FunctionKind::TSDeclaration;
+        let func_kind = FunctionKind::TsDeclaration;
         let id = self.parse_function_id(func_kind, r#async, false)?;
         self.parse_function(start_span, id, r#async, false, func_kind, modifiers)
     }
@@ -450,7 +450,7 @@ impl<'a> ParserImpl<'a> {
         ))
     }
 
-    pub(crate) fn parse_ts_this_parameter(&mut self) -> Result<TSThisParameter<'a>> {
+    pub(crate) fn parse_ts_this_parameter(&mut self) -> Result<TsThisParameter<'a>> {
         let span = self.start_span();
         self.parse_class_element_modifiers(true);
         self.eat_decorators()?;

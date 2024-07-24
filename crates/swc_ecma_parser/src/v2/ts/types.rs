@@ -142,7 +142,7 @@ impl<'a> ParserImpl<'a> {
 
     pub(crate) fn parse_ts_type_parameters(
         &mut self,
-    ) -> Result<Option<Box<'a, TSTypeParameterDecl>>> {
+    ) -> Result<Option<Box<'a, TsTypeParameterDecl>>> {
         if !self.ts_enabled() {
             return Ok(None);
         }
@@ -164,7 +164,7 @@ impl<'a> ParserImpl<'a> {
         )))
     }
 
-    pub(crate) fn parse_ts_implements_clause(&mut self) -> Result<Vec<'a, TSClassImplements<'a>>> {
+    pub(crate) fn parse_ts_implements_clause(&mut self) -> Result<Vec<'a, TsClassImplements<'a>>> {
         self.expect(Kind::Implements)?;
         let first = self.parse_ts_implement_name()?;
         let mut implements = self.ast.vec();
@@ -177,7 +177,7 @@ impl<'a> ParserImpl<'a> {
         Ok(implements)
     }
 
-    pub(crate) fn parse_ts_type_parameter(&mut self) -> Result<TSTypeParameter<'a>> {
+    pub(crate) fn parse_ts_type_parameter(&mut self) -> Result<TsTypeParameter<'a>> {
         let span = self.start_span();
 
         let modifiers = self.parse_modifiers(false, true, false);
@@ -247,9 +247,9 @@ impl<'a> ParserImpl<'a> {
 
     fn parse_type_operator_or_higher(&mut self) -> Result<TsType> {
         match self.cur_kind() {
-            Kind::KeyOf => self.parse_type_operator(TSTypeOperatorOperator::Keyof),
-            Kind::Unique => self.parse_type_operator(TSTypeOperatorOperator::Unique),
-            Kind::Readonly => self.parse_type_operator(TSTypeOperatorOperator::Readonly),
+            Kind::KeyOf => self.parse_type_operator(TsTypeOperatorOperator::Keyof),
+            Kind::Unique => self.parse_type_operator(TsTypeOperatorOperator::Unique),
+            Kind::Readonly => self.parse_type_operator(TsTypeOperatorOperator::Readonly),
             Kind::Infer => self.parse_infer_type(),
             _ => self.context(
                 Context::empty(),
@@ -259,7 +259,7 @@ impl<'a> ParserImpl<'a> {
         }
     }
 
-    fn parse_type_operator(&mut self, operator: TSTypeOperatorOperator) -> Result<TsType> {
+    fn parse_type_operator(&mut self, operator: TsTypeOperatorOperator) -> Result<TsType> {
         let span = self.start_span();
         self.bump_any(); // bump operator
         let type_annotation = self.parse_type_operator_or_higher()?;
@@ -277,7 +277,7 @@ impl<'a> ParserImpl<'a> {
             .ts_type_infer_type(self.end_span(span), type_parameter))
     }
 
-    fn parse_type_parameter_of_infer_type(&mut self) -> Result<Box<'a, TSTypeParameter<'a>>> {
+    fn parse_type_parameter_of_infer_type(&mut self) -> Result<Box<'a, TsTypeParameter<'a>>> {
         let span = self.start_span();
         let name = self.parse_binding_identifier()?;
         let constraint = self
@@ -392,13 +392,13 @@ impl<'a> ParserImpl<'a> {
             Kind::This => {
                 let span = self.start_span();
                 self.bump_any(); // bump `this`
-                let this_type = TSThisType {
+                let this_type = TsThisType {
                     span: self.end_span(span),
                 };
                 if self.peek_at(Kind::Is) && !self.peek_token().is_on_new_line {
                     return self.parse_this_type_predicate(this_type);
                 }
-                Ok(TsType::TSThisType(self.ast.alloc(this_type)))
+                Ok(TsType::TsThisType(self.ast.alloc(this_type)))
             }
             Kind::Typeof => {
                 if self.peek_at(Kind::Import) {
@@ -584,13 +584,13 @@ impl<'a> ParserImpl<'a> {
     fn parse_mapped_type(&mut self) -> Result<TsType> {
         let span = self.start_span();
         self.expect(Kind::LCurly)?;
-        let mut readonly = TSMappedTypeModifierOperator::None;
+        let mut readonly = TsMappedTypeModifierOperator::None;
         if self.eat(Kind::Readonly) {
-            readonly = TSMappedTypeModifierOperator::True;
+            readonly = TsMappedTypeModifierOperator::True;
         } else if self.eat(Kind::Plus) && self.eat(Kind::Readonly) {
-            readonly = TSMappedTypeModifierOperator::Plus;
+            readonly = TsMappedTypeModifierOperator::Plus;
         } else if self.eat(Kind::Minus) && self.eat(Kind::Readonly) {
-            readonly = TSMappedTypeModifierOperator::Minus;
+            readonly = TsMappedTypeModifierOperator::Minus;
         }
 
         self.expect(Kind::LBrack)?;
@@ -621,19 +621,19 @@ impl<'a> ParserImpl<'a> {
         let optional = match self.cur_kind() {
             Kind::Question => {
                 self.bump_any();
-                TSMappedTypeModifierOperator::True
+                TsMappedTypeModifierOperator::True
             }
             Kind::Minus => {
                 self.bump_any();
                 self.expect(Kind::Question)?;
-                TSMappedTypeModifierOperator::Minus
+                TsMappedTypeModifierOperator::Minus
             }
             Kind::Plus => {
                 self.bump_any();
                 self.expect(Kind::Question)?;
-                TSMappedTypeModifierOperator::Plus
+                TsMappedTypeModifierOperator::Plus
             }
-            _ => TSMappedTypeModifierOperator::None,
+            _ => TsMappedTypeModifierOperator::None,
         };
 
         let type_annotation = self
@@ -677,11 +677,11 @@ impl<'a> ParserImpl<'a> {
             .ts_type_type_query(self.end_span(span), entity_name, type_arguments))
     }
 
-    fn parse_this_type_predicate(&mut self, this_ty: TSThisType) -> Result<TsType> {
+    fn parse_this_type_predicate(&mut self, this_ty: TsThisType) -> Result<TsType> {
         let span = this_ty.span;
         self.bump_any(); // bump `is`
                          // TODO: this should go through the ast builder.
-        let parameter_name = TSTypePredicateName::This(this_ty);
+        let parameter_name = TsTypePredicateName::This(this_ty);
         let type_span = self.start_span();
         let ty = self.parse_ts_type()?;
         let type_annotation = Some(self.ast.ts_type_annotation(self.end_span(type_span), ty));
@@ -693,10 +693,10 @@ impl<'a> ParserImpl<'a> {
         ))
     }
 
-    fn parse_this_type_node(&mut self) -> TSThisType {
+    fn parse_this_type_node(&mut self) -> TsThisType {
         let span = self.start_span();
         self.bump_any(); // bump `this`
-        TSThisType {
+        TsThisType {
             span: self.end_span(span),
         }
     }
@@ -787,7 +787,7 @@ impl<'a> ParserImpl<'a> {
             .ts_type_type_reference(self.end_span(span), type_name, type_parameters))
     }
 
-    fn parse_ts_implement_name(&mut self) -> Result<TSClassImplements<'a>> {
+    fn parse_ts_implement_name(&mut self) -> Result<TsClassImplements<'a>> {
         let span = self.start_span();
         let type_name = self.parse_ts_type_name()?;
         let type_parameters = self.parse_type_arguments_of_type_reference()?;
@@ -796,14 +796,14 @@ impl<'a> ParserImpl<'a> {
             .ts_class_implements(self.end_span(span), type_name, type_parameters))
     }
 
-    pub(crate) fn parse_ts_type_name(&mut self) -> Result<TSTypeName<'a>> {
+    pub(crate) fn parse_ts_type_name(&mut self) -> Result<TsTypeName<'a>> {
         let span = self.start_span();
         let ident = self.parse_identifier_name()?;
         let ident = IdentReference::new(ident.span, ident.name);
-        let mut left = TSTypeName::IdentReference(self.ast.alloc(ident));
+        let mut left = TsTypeName::IdentReference(self.ast.alloc(ident));
         while self.eat(Kind::Dot) {
             let right = self.parse_identifier_name()?;
-            left = TSTypeName::QualifiedName(self.ast.alloc(TSQualifiedName {
+            left = TsTypeName::QualifiedName(self.ast.alloc(TsQualifiedName {
                 span: self.end_span(span),
                 left,
                 right,
@@ -914,7 +914,7 @@ impl<'a> ParserImpl<'a> {
 
     pub(super) fn parse_tuple_element_name_or_tuple_element_type(
         &mut self,
-    ) -> Result<TSTupleElement<'a>> {
+    ) -> Result<TsTupleElement<'a>> {
         if self.lookahead(Self::is_tuple_element_name) {
             let span = self.start_span();
             let dotdotdot = self.eat(Kind::Dot3);
@@ -925,21 +925,21 @@ impl<'a> ParserImpl<'a> {
             let element_type = self.parse_tuple_element_type()?;
             let span = self.end_span(span);
             return Ok(if dotdotdot {
-                TSTupleElement::TSRestType(self.ast.alloc(TSRestType {
+                TsTupleElement::TsRestType(self.ast.alloc(TsRestType {
                     span,
-                    type_annotation: TsType::TSNamedTupleMember(self.ast.alloc(
-                        TSNamedTupleMember {
+                    type_annotation: TsType::TsNamedTupleMember(self.ast.alloc(
+                        TsNamedTupleMember {
                             span: self.end_span(member_span),
                             element_type,
                             label,
-                            // TODO: A tuple member cannot be both optional and rest. (TS5085)
+                            // TODO: A tuple member cannot be both optional and rest. (Ts5085)
                             // See typescript suite <conformance/types/tuple/restTupleElements1.ts>
                             optional,
                         },
                     )),
                 }))
             } else {
-                TSTupleElement::TSNamedTupleMember(self.ast.alloc(TSNamedTupleMember {
+                TsTupleElement::TsNamedTupleMember(self.ast.alloc(TsNamedTupleMember {
                     span,
                     element_type,
                     label,
@@ -966,11 +966,11 @@ impl<'a> ParserImpl<'a> {
         self.at(Kind::Question) && self.peek_at(Kind::Colon)
     }
 
-    fn parse_tuple_element_type(&mut self) -> Result<TSTupleElement<'a>> {
+    fn parse_tuple_element_type(&mut self) -> Result<TsTupleElement<'a>> {
         let span = self.start_span();
         if self.eat(Kind::Dot3) {
             let ty = self.parse_ts_type()?;
-            return Ok(TSTupleElement::TSRestType(self.ast.alloc(TSRestType {
+            return Ok(TsTupleElement::TsRestType(self.ast.alloc(TsRestType {
                 span: self.end_span(span),
                 type_annotation: ty,
             })));
@@ -978,17 +978,17 @@ impl<'a> ParserImpl<'a> {
         let ty = self.parse_ts_type()?;
         if let TsType::JSDocNullableType(ty) = ty {
             if ty.span.start == ty.type_annotation.span().start {
-                Ok(TSTupleElement::TSOptionalType(self.ast.alloc(
-                    TSOptionalType {
+                Ok(TsTupleElement::TsOptionalType(self.ast.alloc(
+                    TsOptionalType {
                         span: ty.span,
                         type_annotation: ty.unbox().type_annotation,
                     },
                 )))
             } else {
-                Ok(TSTupleElement::JSDocNullableType(ty))
+                Ok(TsTupleElement::JSDocNullableType(ty))
             }
         } else {
-            Ok(TSTupleElement::from(ty))
+            Ok(TsTupleElement::from(ty))
         }
     }
 
@@ -1018,18 +1018,18 @@ impl<'a> ParserImpl<'a> {
                 .ast
                 .expression_unary(span, UnaryOperator::UnaryNegation, expression)
             {
-                Expr::Unary(unary_expr) => TSLiteral::Unary(unary_expr),
+                Expr::Unary(unary_expr) => TsLiteral::Unary(unary_expr),
                 _ => unreachable!(),
             }
         } else {
             match expression {
-                Expr::BooleanLiteral(literal) => TSLiteral::BooleanLiteral(literal),
-                Expr::NullLiteral(literal) => TSLiteral::NullLiteral(literal),
-                Expr::NumericLiteral(literal) => TSLiteral::NumericLiteral(literal),
-                Expr::BigIntLiteral(literal) => TSLiteral::BigIntLiteral(literal),
-                Expr::RegExpLiteral(literal) => TSLiteral::RegExpLiteral(literal),
-                Expr::StringLiteral(literal) => TSLiteral::StringLiteral(literal),
-                Expr::TemplateLiteral(literal) => TSLiteral::TemplateLiteral(literal),
+                Expr::BooleanLiteral(literal) => TsLiteral::BooleanLiteral(literal),
+                Expr::NullLiteral(literal) => TsLiteral::NullLiteral(literal),
+                Expr::NumericLiteral(literal) => TsLiteral::NumericLiteral(literal),
+                Expr::BigIntLiteral(literal) => TsLiteral::BigIntLiteral(literal),
+                Expr::RegExpLiteral(literal) => TsLiteral::RegExpLiteral(literal),
+                Expr::StringLiteral(literal) => TsLiteral::StringLiteral(literal),
+                Expr::TemplateLiteral(literal) => TsLiteral::TemplateLiteral(literal),
                 _ => return Err(self.unexpected()),
             }
         };
@@ -1065,7 +1065,7 @@ impl<'a> ParserImpl<'a> {
         ))
     }
 
-    fn parse_ts_import_attributes(&mut self) -> Result<TSImportAttributes<'a>> {
+    fn parse_ts_import_attributes(&mut self) -> Result<TsImportAttributes<'a>> {
         let span = self.start_span();
         // { with:
         self.expect(Kind::LCurly)?;
@@ -1080,19 +1080,19 @@ impl<'a> ParserImpl<'a> {
         )?;
         self.expect(Kind::RCurly)?;
         self.expect(Kind::RCurly)?;
-        Ok(TSImportAttributes { span, elements })
+        Ok(TsImportAttributes { span, elements })
     }
 
-    fn parse_ts_import_attribute(&mut self) -> Result<TSImportAttribute<'a>> {
+    fn parse_ts_import_attribute(&mut self) -> Result<TsImportAttribute<'a>> {
         let span = self.start_span();
         let name = match self.cur_kind() {
-            Kind::Str => TSImportAttributeName::StringLiteral(self.parse_literal_string()?),
-            _ => TSImportAttributeName::Ident(self.parse_identifier_name()?),
+            Kind::Str => TsImportAttributeName::StringLiteral(self.parse_literal_string()?),
+            _ => TsImportAttributeName::Ident(self.parse_identifier_name()?),
         };
 
         self.expect(Kind::Colon)?;
         let value = self.parse_expr()?;
-        Ok(TSImportAttribute {
+        Ok(TsImportAttribute {
             span: self.end_span(span),
             name,
             value,
@@ -1198,7 +1198,7 @@ impl<'a> ParserImpl<'a> {
         self.peek_kind().is_literal_property_name() || self.peek_at(Kind::LBrack)
     }
 
-    pub(crate) fn parse_ts_call_signature_member(&mut self) -> Result<TSSignature<'a>> {
+    pub(crate) fn parse_ts_call_signature_member(&mut self) -> Result<TsSignature<'a>> {
         let span = self.start_span();
         let type_parameters = self.parse_ts_type_parameters()?;
         let (this_patam, params) = self.parse_formal_parameters(FormalParameterKind::Signature)?;
@@ -1214,7 +1214,7 @@ impl<'a> ParserImpl<'a> {
         ))
     }
 
-    pub(crate) fn parse_ts_getter_signature_member(&mut self) -> Result<TSSignature<'a>> {
+    pub(crate) fn parse_ts_getter_signature_member(&mut self) -> Result<TsSignature<'a>> {
         let span = self.start_span();
         self.expect(Kind::Get)?;
         let (key, computed) = self.parse_property_name()?;
@@ -1227,15 +1227,15 @@ impl<'a> ParserImpl<'a> {
             key,
             computed,
             /* optional */ false,
-            TSMethodSignatureKind::Get,
+            TsMethodSignatureKind::Get,
             this_param,
             params,
             return_type,
-            Option::<TSTypeParameterDeclaration>::None,
+            Option::<TsTypeParameterDeclaration>::None,
         ))
     }
 
-    pub(crate) fn parse_ts_setter_signature_member(&mut self) -> Result<TSSignature<'a>> {
+    pub(crate) fn parse_ts_setter_signature_member(&mut self) -> Result<TsSignature<'a>> {
         let span = self.start_span();
         self.expect(Kind::Set)?;
         let (key, computed) = self.parse_property_name()?;
@@ -1253,17 +1253,17 @@ impl<'a> ParserImpl<'a> {
             key,
             computed,
             /* optional */ false,
-            TSMethodSignatureKind::Set,
+            TsMethodSignatureKind::Set,
             this_param,
             params,
             return_type,
-            Option::<TSTypeParameterDeclaration>::None,
+            Option::<TsTypeParameterDeclaration>::None,
         ))
     }
 
     pub(crate) fn parse_ts_property_or_method_signature_member(
         &mut self,
-    ) -> Result<TSSignature<'a>> {
+    ) -> Result<TsSignature<'a>> {
         let span = self.start_span();
         let readonly = self.at(Kind::Readonly) && self.is_next_at_type_member_name();
 
@@ -1275,7 +1275,7 @@ impl<'a> ParserImpl<'a> {
         let optional = self.eat(Kind::Question);
 
         if self.at(Kind::LParen) || self.at(Kind::LAngle) {
-            let TSSignature::TSCallSignatureDeclaration(call_signature) =
+            let TsSignature::TsCallSignatureDeclaration(call_signature) =
                 self.parse_ts_call_signature_member()?
             else {
                 unreachable!()
@@ -1288,7 +1288,7 @@ impl<'a> ParserImpl<'a> {
                 key,
                 computed,
                 optional,
-                TSMethodSignatureKind::Method,
+                TsMethodSignatureKind::Method,
                 call_signature.this_param,
                 call_signature.params,
                 call_signature.return_type,
@@ -1309,7 +1309,7 @@ impl<'a> ParserImpl<'a> {
         }
     }
 
-    pub(crate) fn parse_ts_constructor_signature_member(&mut self) -> Result<TSSignature<'a>> {
+    pub(crate) fn parse_ts_constructor_signature_member(&mut self) -> Result<TsSignature<'a>> {
         let span = self.start_span();
         self.expect(Kind::New)?;
 
@@ -1333,7 +1333,7 @@ impl<'a> ParserImpl<'a> {
         ))
     }
 
-    pub(crate) fn parse_ts_index_signature_member(&mut self) -> Result<TSSignature<'a>> {
+    pub(crate) fn parse_ts_index_signature_member(&mut self) -> Result<TsSignature<'a>> {
         let span = self.start_span();
         let mut readonly = false;
         while self.is_nth_at_modifier(0, false) {
@@ -1365,7 +1365,7 @@ impl<'a> ParserImpl<'a> {
         }
     }
 
-    fn parse_ts_index_signature_name(&mut self) -> Result<TSIndexSignatureName<'a>> {
+    fn parse_ts_index_signature_name(&mut self) -> Result<TsIndexSignatureName<'a>> {
         let span = self.start_span();
         let name = self.parse_identifier_name()?.name;
         let type_annotation = self.parse_ts_type_annotation()?;
@@ -1374,7 +1374,7 @@ impl<'a> ParserImpl<'a> {
             return Err(self.unexpected());
         }
 
-        Ok(TSIndexSignatureName {
+        Ok(TsIndexSignatureName {
             span: self.end_span(span),
             name,
             type_annotation: type_annotation.unwrap(),

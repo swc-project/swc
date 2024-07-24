@@ -27,7 +27,7 @@ pub enum FunctionKind {
     Declaration,
     Expression,
     DefaultExport,
-    TSDeclaration,
+    TsDeclaration,
 }
 
 #[derive(Debug, Clone, Copy, Eq, PartialEq)]
