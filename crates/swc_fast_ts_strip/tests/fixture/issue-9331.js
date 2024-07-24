@@ -32,3 +32,10 @@ f
                      ;
                       
 /1/
+
+
+class foo {
+    static     
+    ;             
+    foo() { }
+}

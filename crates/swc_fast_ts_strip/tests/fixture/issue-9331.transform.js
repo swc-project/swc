@@ -15,4 +15,8 @@ f;
 /1/;
 f;
 /1/;
+class foo {
+    static;
+    foo() {}
+}
 export { };

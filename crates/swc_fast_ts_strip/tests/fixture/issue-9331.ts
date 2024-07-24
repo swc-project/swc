@@ -32,3 +32,10 @@ f
 declare var y: string;
 declare var z: string;
 /1/
+
+
+class foo {
+    static: any
+    declare x: any
+    foo() { }
+}
