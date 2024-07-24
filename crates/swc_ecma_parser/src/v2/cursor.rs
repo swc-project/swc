@@ -1,6 +1,5 @@
 //! Code related to navigating `Token`s from the lexer
 
-use bumpalo::collections::Vec;
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::Decorator;
 
@@ -343,7 +342,7 @@ impl<'a> ParserImpl<'a> {
         result
     }
 
-    pub(crate) fn consume_decorators(&mut self) -> Vec<'a, Decorator<'a>> {
+    pub(crate) fn consume_decorators(&mut self) -> Vec<Decorator<'a>> {
         let decorators = std::mem::take(&mut self.state.decorators);
         self.ast.vec_from_iter(decorators)
     }
@@ -353,7 +352,7 @@ impl<'a> ParserImpl<'a> {
         open: Kind,
         close: Kind,
         f: F,
-    ) -> Result<Vec<'a, T>>
+    ) -> Result<Vec<T>>
     where
         F: Fn(&mut Self) -> Result<Option<T>>,
     {
@@ -380,7 +379,7 @@ impl<'a> ParserImpl<'a> {
         separator: Kind,
         trailing_separator: bool,
         f: F,
-    ) -> Result<Vec<'a, T>>
+    ) -> Result<Vec<T>>
     where
         F: Fn(&mut Self) -> Result<T>,
     {
@@ -412,7 +411,7 @@ impl<'a> ParserImpl<'a> {
         close: Kind,
         parse_element: E,
         parse_rest: R,
-    ) -> Result<(Vec<'a, A>, Option<B>)>
+    ) -> Result<(Vec<A>, Option<B>)>
     where
         E: Fn(&mut Self) -> Result<A>,
         R: Fn(&mut Self) -> Result<B>,

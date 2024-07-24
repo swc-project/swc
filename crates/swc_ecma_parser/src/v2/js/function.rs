@@ -32,7 +32,7 @@ impl<'a> ParserImpl<'a> {
                 && !self.peek_token().is_on_new_line
     }
 
-    pub(crate) fn parse_function_body(&mut self) -> Result<Box<'a, FunctionBody<'a>>> {
+    pub(crate) fn parse_function_body(&mut self) -> Result<Box<FunctionBody<'a>>> {
         let span = self.start_span();
         self.expect(Kind::LCurly)?;
 
@@ -49,7 +49,7 @@ impl<'a> ParserImpl<'a> {
     pub(crate) fn parse_formal_parameters(
         &mut self,
         params_kind: FormalParamKind,
-    ) -> Result<(Option<TsThisParam<'a>>, Box<'a, FormalParams<'a>>)> {
+    ) -> Result<(Option<TsThisParam<'a>>, Box<FormalParams<'a>>)> {
         let span = self.start_span();
         self.expect(Kind::LParen)?;
         let this_param = if self.ts_enabled() && self.at(Kind::This) {
@@ -124,7 +124,7 @@ impl<'a> ParserImpl<'a> {
         generator: bool,
         func_kind: FunctionKind,
         modifiers: &Modifiers<'a>,
-    ) -> Result<Box<'a, Function<'a>>> {
+    ) -> Result<Box<Function<'a>>> {
         let ctx = self.ctx;
         self.ctx = self
             .ctx
@@ -229,7 +229,7 @@ impl<'a> ParserImpl<'a> {
     pub(crate) fn parse_function_impl(
         &mut self,
         func_kind: FunctionKind,
-    ) -> Result<Box<'a, Function<'a>>> {
+    ) -> Result<Box<Function<'a>>> {
         let span = self.start_span();
         let r#async = self.eat(Kind::Async);
         self.expect(Kind::Function)?;
@@ -245,7 +245,7 @@ impl<'a> ParserImpl<'a> {
         start_span: Span,
         func_kind: FunctionKind,
         modifiers: &Modifiers<'a>,
-    ) -> Result<Box<'a, Function<'a>>> {
+    ) -> Result<Box<Function<'a>>> {
         let r#async = modifiers.contains(ModifierKind::Async);
         self.expect(Kind::Function)?;
         let generator = self.eat(Kind::Star);
@@ -278,7 +278,7 @@ impl<'a> ParserImpl<'a> {
         &mut self,
         r#async: bool,
         generator: bool,
-    ) -> Result<Box<'a, Function<'a>>> {
+    ) -> Result<Box<Function<'a>>> {
         let span = self.start_span();
         self.parse_function(
             span,

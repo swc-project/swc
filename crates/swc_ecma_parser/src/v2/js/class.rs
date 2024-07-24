@@ -11,9 +11,9 @@ use crate::v2::{
     Context, ParserImpl, StatementContext,
 };
 
-type Extends<'a> = Vec<'a, (Expr, Option<Box<'a, TsTypeParamInstantiation>>, Span)>;
+type Extends<'a> = Vec<(Expr, Option<Box<TsTypeParamInstantiation>>, Span)>;
 
-type Implements<'a> = Vec<'a, TsClassImplements<'a>>;
+type Implements<'a> = Vec<TsClassImplements<'a>>;
 
 /// Section 15.7 Class Definitions
 impl<'a> ParserImpl<'a> {
@@ -44,7 +44,7 @@ impl<'a> ParserImpl<'a> {
         &mut self,
         start_span: Span,
         modifiers: &Modifiers<'a>,
-    ) -> Result<Box<'a, Class<'a>>> {
+    ) -> Result<Box<Class<'a>>> {
         self.parse_class(start_span, ClassType::ClassDeclaration, modifiers)
     }
 
@@ -66,7 +66,7 @@ impl<'a> ParserImpl<'a> {
         start_span: Span,
         r#type: ClassType,
         modifiers: &Modifiers<'a>,
-    ) -> Result<Box<'a, Class<'a>>> {
+    ) -> Result<Box<Class<'a>>> {
         self.bump_any(); // advance `class`
 
         let decorators = self.consume_decorators();
@@ -173,7 +173,7 @@ impl<'a> ParserImpl<'a> {
         Ok(extends)
     }
 
-    fn parse_class_body(&mut self) -> Result<Box<'a, ClassBody<'a>>> {
+    fn parse_class_body(&mut self) -> Result<Box<ClassBody<'a>>> {
         let span = self.start_span();
         let class_elements =
             self.parse_normal_list(Kind::LCurly, Kind::RCurly, Self::parse_class_element)?;

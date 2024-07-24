@@ -89,7 +89,7 @@ impl<'a> ParserImpl<'a> {
 
     /** ------------------- Annotation ----------------- */
 
-    pub(crate) fn parse_ts_type_annotation(&mut self) -> Result<Option<Box<'a, TsTypeAnn>>> {
+    pub(crate) fn parse_ts_type_annotation(&mut self) -> Result<Option<Box<TsTypeAnn>>> {
         if !self.ts_enabled() {
             return Ok(None);
         }
@@ -166,7 +166,7 @@ impl<'a> ParserImpl<'a> {
         ))
     }
 
-    fn parse_ts_interface_body(&mut self) -> Result<Box<'a, TsInterfaceBody<'a>>> {
+    fn parse_ts_interface_body(&mut self) -> Result<Box<TsInterfaceBody<'a>>> {
         let span = self.start_span();
         let body_list =
             self.parse_normal_list(Kind::LCurly, Kind::RCurly, Self::parse_ts_type_signature)?;
@@ -256,7 +256,7 @@ impl<'a> ParserImpl<'a> {
 
     /** ----------------------- Namespace & Module ----------------------- */
 
-    fn parse_ts_module_block(&mut self) -> Result<Box<'a, TsModuleBlock<'a>>> {
+    fn parse_ts_module_block(&mut self) -> Result<Box<TsModuleBlock<'a>>> {
         let span = self.start_span();
         self.expect(Kind::LCurly)?;
         let (directives, statements) =
@@ -272,7 +272,7 @@ impl<'a> ParserImpl<'a> {
         span: Span,
         kind: TsModuleDeclarationKind,
         modifiers: &Modifiers<'a>,
-    ) -> Result<Box<'a, TsModuleDecl>> {
+    ) -> Result<Box<TsModuleDecl>> {
         self.verify_modifiers(
             modifiers,
             ModifierFlags::DECLARE | ModifierFlags::EXPORT,
@@ -395,7 +395,7 @@ impl<'a> ParserImpl<'a> {
         &mut self,
         start_span: Span,
         modifiers: &Modifiers<'a>,
-    ) -> Result<Box<'a, Function<'a>>> {
+    ) -> Result<Box<Function<'a>>> {
         let r#async = modifiers.contains(ModifierKind::Async);
         self.expect(Kind::Function)?;
         let func_kind = FunctionKind::TsDeclaration;

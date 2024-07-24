@@ -48,7 +48,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     /// `PropertyDefinition`[Yield, Await]
-    pub(crate) fn parse_property_definition(&mut self) -> Result<Box<'a, ObjectProperty<'a>>> {
+    pub(crate) fn parse_property_definition(&mut self) -> Result<Box<ObjectProperty<'a>>> {
         let peek_kind = self.peek_kind();
         let class_element_name = peek_kind.is_class_element_name_start();
         match self.cur_kind() {
@@ -129,7 +129,7 @@ impl<'a> ParserImpl<'a> {
 
     /// `PropertyDefinition`[Yield, Await] :
     ///   ... `AssignExpression`[+In, ?Yield, ?Await]
-    pub(crate) fn parse_spread_element(&mut self) -> Result<Box<'a, SpreadElement<'a>>> {
+    pub(crate) fn parse_spread_element(&mut self) -> Result<Box<SpreadElement<'a>>> {
         let span = self.start_span();
         self.bump_any(); // advance `...`
         let argument = self.parse_assignment_expression_or_higher()?;
@@ -139,7 +139,7 @@ impl<'a> ParserImpl<'a> {
     /// `PropertyDefinition`[Yield, Await] :
     ///   `IdentReference`[?Yield, ?Await]
     ///   `CoverInitializedName`[?Yield, ?Await]
-    fn parse_property_definition_shorthand(&mut self) -> Result<Box<'a, ObjectProperty<'a>>> {
+    fn parse_property_definition_shorthand(&mut self) -> Result<Box<ObjectProperty<'a>>> {
         let span = self.start_span();
         let identifier = self.parse_identifier_reference()?;
         let key = self.ast.alloc(IdentName {
@@ -181,7 +181,7 @@ impl<'a> ParserImpl<'a> {
         span: Span,
         key: PropertyKey<'a>,
         computed: bool,
-    ) -> Result<Box<'a, ObjectProperty<'a>>> {
+    ) -> Result<Box<ObjectProperty<'a>>> {
         self.bump_any(); // bump `:`
         let value = self.parse_assignment_expression_or_higher()?;
         Ok(self.ast.alloc_object_property(
@@ -234,7 +234,7 @@ impl<'a> ParserImpl<'a> {
 
     /// `PropertyDefinition`[Yield, Await] :
     ///   `MethodDefinition`[?Yield, ?Await]
-    fn parse_property_definition_method(&mut self) -> Result<Box<'a, ObjectProperty<'a>>> {
+    fn parse_property_definition_method(&mut self) -> Result<Box<ObjectProperty<'a>>> {
         let span = self.start_span();
         let r#async = self.eat(Kind::Async);
         let generator = self.eat(Kind::Star);
@@ -256,7 +256,7 @@ impl<'a> ParserImpl<'a> {
     /// `MethodDefinition`[Yield, Await] :
     ///   get `ClassMemberName`[?Yield, ?Await] ( ) { `FunctionBody`[~Yield,
     /// ~Await] }
-    fn parse_method_getter(&mut self) -> Result<Box<'a, ObjectProperty<'a>>> {
+    fn parse_method_getter(&mut self) -> Result<Box<ObjectProperty<'a>>> {
         let span = self.start_span();
         self.expect(Kind::Get)?;
         let (key, computed) = self.parse_property_name()?;
@@ -277,7 +277,7 @@ impl<'a> ParserImpl<'a> {
     /// `MethodDefinition`[Yield, Await] :
     /// set `ClassMemberName`[?Yield, ?Await] ( `PropertySetParamList` ) {
     /// `FunctionBody`[~Yield, ~Await] }
-    fn parse_method_setter(&mut self) -> Result<Box<'a, ObjectProperty<'a>>> {
+    fn parse_method_setter(&mut self) -> Result<Box<ObjectProperty<'a>>> {
         let span = self.start_span();
         self.expect(Kind::Set)?;
         let (key, computed) = self.parse_property_name()?;

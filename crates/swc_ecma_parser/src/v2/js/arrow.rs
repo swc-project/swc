@@ -7,9 +7,9 @@ use super::Tristate;
 use crate::v2::{diagnostics, diagnostics::Result, lexer::Kind, ParserImpl};
 
 type ArrowFunctionHead<'a> = (
-    Option<Box<'a, TsTypeParamDecl>>,
-    Box<'a, FormalParams<'a>>,
-    Option<Box<'a, TsTypeAnn>>,
+    Option<Box<TsTypeParamDecl>>,
+    Box<FormalParams<'a>>,
+    Option<Box<TsTypeAnn>>,
     bool,
     Span,
 );
@@ -288,9 +288,9 @@ impl<'a> ParserImpl<'a> {
     fn parse_arrow_function_body(
         &mut self,
         span: Span,
-        type_parameters: Option<Box<'a, TsTypeParamDecl>>,
-        params: Box<'a, FormalParams<'a>>,
-        return_type: Option<Box<'a, TsTypeAnn>>,
+        type_parameters: Option<Box<TsTypeParamDecl>>,
+        params: Box<FormalParams<'a>>,
+        return_type: Option<Box<TsTypeAnn>>,
         r#async: bool,
     ) -> Result<Expr> {
         let has_await = self.ctx.has_await();
