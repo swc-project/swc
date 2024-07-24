@@ -2,7 +2,7 @@
 
 use bumpalo::collections::Vec;
 use oxc_ast::ast::{Decorator, RegExpFlags};
-use swc_common::{Span, Spanned};
+use swc_common::{BytePos, Span, Spanned};
 
 use super::{
     lexer::{Kind, LexerCheckpoint, LexerContext, Token},
@@ -14,7 +14,7 @@ use crate::{diagnostics, v2::Result};
 pub struct ParserCheckpoint<'a> {
     lexer: LexerCheckpoint<'a>,
     cur_token: Token,
-    prev_span_end: u32,
+    prev_span_end: BytePos,
     errors_pos: usize,
 }
 
