@@ -1,6 +1,7 @@
 //! Based on `modifiers.rs` of [oxc](https://github.com/oxc-project/oxc/blob/21c7b090dd61e6944356d3de9164395c9f7c10fb/crates/oxc_parser/src/modifiers.rs)
 
 use bitflags::bitflags;
+use bumpalo::collections::Vec;
 use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::Accessibility;
 
