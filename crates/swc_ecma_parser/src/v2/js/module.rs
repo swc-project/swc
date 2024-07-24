@@ -246,16 +246,16 @@ impl<'a> ParserImpl<'a> {
                 .map(ModuleDecl::ExportAllDeclaration),
             Kind::LCurly => self
                 .parse_export_named_specifiers(span)
-                .map(ModuleDecl::ExportNamedDeclaration),
+                .map(ModuleDecl::NamedExportaration),
             Kind::Type if self.peek_at(Kind::LCurly) && self.ts_enabled() => self
                 .parse_export_named_specifiers(span)
-                .map(ModuleDecl::ExportNamedDeclaration),
+                .map(ModuleDecl::NamedExportaration),
             Kind::Type if self.peek_at(Kind::Star) => self
                 .parse_export_all_declaration(span)
                 .map(ModuleDecl::ExportAllDeclaration),
             _ => self
                 .parse_export_named_declaration(span)
-                .map(ModuleDecl::ExportNamedDeclaration),
+                .map(ModuleDecl::NamedExportaration),
         }?;
         Ok(Stmt::from(decl))
     }
@@ -271,7 +271,7 @@ impl<'a> ParserImpl<'a> {
     // ExportSpecifier :
     //   ModuleExportName
     //   ModuleExportName as ModuleExportName
-    fn parse_export_named_specifiers(&mut self, span: Span) -> Result<Box<'a, ExportNamedDecl>> {
+    fn parse_export_named_specifiers(&mut self, span: Span) -> Result<Box<'a, NamedExport>> {
         let export_kind = self.parse_import_or_export_kind();
         self.expect(Kind::LCurly)?;
         let mut specifiers = self.context(Context::empty(), self.ctx, |p| {
@@ -345,7 +345,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     // export Declaration
-    fn parse_export_named_declaration(&mut self, span: Span) -> Result<Box<'a, ExportNamedDecl>> {
+    fn parse_export_named_declaration(&mut self, span: Span) -> Result<Box<'a, NamedExport>> {
         let decl_span = self.start_span();
         // For tc39/proposal-decorators
         // For more information, please refer to <https://babeljs.io/docs/babel-plugin-proposal-decorators#decoratorsbeforeexport>
