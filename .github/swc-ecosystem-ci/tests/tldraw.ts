@@ -8,7 +8,7 @@ export async function test(options: RunOptions) {
     branch: "main",
     beforeInstall: ["corepack enable"],
     build: "build",
-    test: ["test"],
+    test: ["test-ci"],
     agent: "yarn",
   });
 }
