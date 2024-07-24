@@ -533,8 +533,8 @@ impl<'a> ParserImpl<'a> {
         self.bump_any();
 
         let mut span = self.end_span(span);
-        span.start += 1;
-        span.end -= end_offset;
+        span.lo.0 += 1;
+        span.hi.0 -= end_offset;
 
         if !tagged && cooked.is_none() {
             self.error(diagnostics::template_literal(span));
