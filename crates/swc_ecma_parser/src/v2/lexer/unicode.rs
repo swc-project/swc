@@ -1,4 +1,4 @@
-use oxc_allocator::String;
+use bumpalo::collections::String;
 
 use super::{Kind, Lexer, Span};
 use crate::{
