@@ -129,3 +129,8 @@ pub(crate) fn invalid_identifier_in_using_declaration(span: Span) -> Diagnostic 
 pub(crate) fn template_literal(span: Span) -> Diagnostic {
     todo!("template_literal")
 }
+
+#[cold]
+pub(crate) fn a_rest_parameter_cannot_be_optional(span: Span) -> Diagnostic {
+    todo!("a_rest_parameter_cannot_be_optional")
+}
