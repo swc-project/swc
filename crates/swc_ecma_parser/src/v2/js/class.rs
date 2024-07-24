@@ -49,7 +49,7 @@ impl<'a> ParserImpl<'a> {
 
     /// Section [Class Definitions](https://tc39.es/ecma262/#prod-ClassExpression)
     /// `ClassExpression`[Yield, Await] :
-    ///     class `BindingIdentifier`[?Yield, ?Await]opt `ClassTail`[?Yield,
+    ///     class `BindingIdent`[?Yield, ?Await]opt `ClassTail`[?Yield,
     /// ?Await]
     pub(crate) fn parse_class_expression(&mut self) -> Result<Expr> {
         let class = self.parse_class(
@@ -277,7 +277,7 @@ impl<'a> ParserImpl<'a> {
         let optional = self.eat(Kind::Question);
         let definite = self.eat(Kind::Bang);
 
-        if let PropertyKey::PrivateIdentifier(private_ident) = &key {
+        if let PropertyKey::PrivateIdent(private_ident) = &key {
             // `private #foo`, etc. is illegal
             if self.ts_enabled() {
                 self.verify_modifiers(
@@ -360,10 +360,10 @@ impl<'a> ParserImpl<'a> {
 
     fn parse_class_element_name(&mut self) -> Result<(PropertyKey<'a>, bool)> {
         match self.cur_kind() {
-            Kind::PrivateIdentifier => {
+            Kind::PrivateIdent => {
                 let private_ident = self.parse_private_identifier();
                 Ok((
-                    PropertyKey::PrivateIdentifier(self.ast.alloc(private_ident)),
+                    PropertyKey::PrivateIdent(self.ast.alloc(private_ident)),
                     false,
                 ))
             }

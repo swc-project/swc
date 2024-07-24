@@ -120,7 +120,7 @@ impl<'a> Lexer<'a> {
     /// this. `start_pos` should be position of the start of the identifier
     /// (before first char was consumed).
     pub(super) fn identifier_tail_after_unicode(&mut self, start_pos: SourcePosition) -> &'a str {
-        // Identifier contains a Unicode chars, so probably contains more.
+        // Ident contains a Unicode chars, so probably contains more.
         // So just iterate over chars now, instead of bytes.
         while let Some(c) = self.peek() {
             if is_identifier_part(c) {
@@ -247,7 +247,7 @@ impl<'a> Lexer<'a> {
             table: NOT_ASCII_ID_CONTINUE_TABLE,
             start: after_first,
             handle_eof: {
-                return Kind::PrivateIdentifier;
+                return Kind::PrivateIdent;
             },
         };
 
@@ -261,7 +261,7 @@ impl<'a> Lexer<'a> {
                 // makes `start_pos` `source`'s position as it was at start of this function
                 let start_pos = unsafe { after_first.sub(1) };
                 self.identifier_tail_unicode(start_pos);
-                Kind::PrivateIdentifier
+                Kind::PrivateIdent
             });
         }
         if next_byte == b'\\' {
@@ -270,11 +270,11 @@ impl<'a> Lexer<'a> {
                 // makes `start_pos` `source`'s position as it was at start of this function
                 let start_pos = unsafe { after_first.sub(1) };
                 self.identifier_backslash(start_pos, false);
-                Kind::PrivateIdentifier
+                Kind::PrivateIdent
             });
         }
 
-        Kind::PrivateIdentifier
+        Kind::PrivateIdent
     }
 
     /// Handle private identifier whose first byte is not an ASCII identifier
@@ -288,14 +288,14 @@ impl<'a> Lexer<'a> {
                 let start_pos = self.source.position();
                 self.consume_char();
                 self.identifier_tail_after_unicode(start_pos);
-                return Kind::PrivateIdentifier;
+                return Kind::PrivateIdent;
             }
         } else if b == b'\\' {
             // Assume Unicode characters are more common than `\` escapes, so this branch as
             // cold
             return cold_branch(|| {
                 self.identifier_backslash_handler();
-                Kind::PrivateIdentifier
+                Kind::PrivateIdent
             });
         }
 

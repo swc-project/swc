@@ -31,9 +31,7 @@ impl<'a> CoverGrammar<'a, Expr> for SimpleAssignmentTarget<'a> {
     #[allow(clippy::only_used_in_recursion)]
     fn cover(expr: Expr, p: &mut ParserImpl<'a>) -> Result<Self> {
         match expr {
-            Expr::Identifier(ident) => {
-                Ok(SimpleAssignmentTarget::AssignmentTargetIdentifier(ident))
-            }
+            Expr::Ident(ident) => Ok(SimpleAssignmentTarget::AssignmentTargetIdent(ident)),
             match_member_expression!(Expression) => {
                 let member_expr = MemberExpr::try_from(expr).unwrap();
                 Ok(SimpleAssignmentTarget::from(member_expr))
@@ -166,9 +164,9 @@ impl<'a> CoverGrammar<'a, ObjectProperty<'a>> for AssignmentTargetProperty<'a> {
     fn cover(property: ObjectProperty<'a>, p: &mut ParserImpl<'a>) -> Result<Self> {
         if property.shorthand {
             let binding = match property.key {
-                PropertyKey::StaticIdentifier(ident) => {
+                PropertyKey::StaticIdent(ident) => {
                     let ident = ident.unbox();
-                    IdentifierReference::new(ident.span, ident.name)
+                    IdentReference::new(ident.span, ident.name)
                 }
                 _ => return Err(p.unexpected()),
             };
@@ -179,12 +177,14 @@ impl<'a> CoverGrammar<'a, ObjectProperty<'a>> for AssignmentTargetProperty<'a> {
                 }
                 _ => None,
             };
-            let target = AssignmentTargetPropertyIdentifier {
+            let target = AssignmentTargetPropertyIdent {
                 span: property.span,
                 binding,
                 init,
             };
-            Ok(AssignmentTargetProperty::AssignmentTargetPropertyIdentifier(p.ast.alloc(target)))
+            Ok(AssignmentTargetProperty::AssignmentTargetPropertyIdent(
+                p.ast.alloc(target),
+            ))
         } else {
             let binding = AssignmentTargetMaybeDefault::cover(property.value, p)?;
             let target = AssignmentTargetPropertyProperty {

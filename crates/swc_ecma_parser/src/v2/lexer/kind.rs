@@ -183,8 +183,8 @@ pub enum Kind {
     TemplateHead,
     TemplateMiddle,
     TemplateTail,
-    // es2022 Private Identifier
-    PrivateIdentifier,
+    // es2022 Private Ident
+    PrivateIdent,
     // JSX
     JSXText,
     // Decorator
@@ -216,29 +216,29 @@ impl Kind {
         }
     }
 
-    /// [Identifiers](https://tc39.es/ecma262/#sec-identifiers)
-    /// `IdentifierReference`
+    /// [Idents](https://tc39.es/ecma262/#sec-identifiers)
+    /// `IdentReference`
     pub fn is_identifier_reference(self, r#yield: bool, r#await: bool) -> bool {
         self.is_identifier() || (!r#yield && self == Yield) || (!r#await && self == Await)
     }
 
-    /// `BindingIdentifier`
+    /// `BindingIdent`
     pub fn is_binding_identifier(self) -> bool {
         self.is_identifier() || matches!(self, Yield | Await)
     }
 
-    /// `LabelIdentifier`
+    /// `LabelIdent`
     pub fn is_label_identifier(self, r#yield: bool, r#await: bool) -> bool {
         self.is_identifier() || (!r#yield && self == Yield) || (!r#await && self == Await)
     }
 
-    /// Identifier
-    /// `IdentifierName` but not `ReservedWord`
+    /// Ident
+    /// `IdentName` but not `ReservedWord`
     pub fn is_identifier(self) -> bool {
         self.is_identifier_name() && !self.is_reserved_keyword()
     }
 
-    /// `IdentifierName`
+    /// `IdentName`
     pub fn is_identifier_name(self) -> bool {
         matches!(self, Ident) || self.is_all_keyword()
     }
@@ -265,7 +265,7 @@ impl Kind {
 
     /// Section 13.2.6 Object Initializer
     /// `LiteralPropertyName` :
-    ///     `IdentifierName`
+    ///     `IdentName`
     ///     `StringLiteral`
     ///     `NumericLiteral`
     pub fn is_literal_property_name(self) -> bool {
@@ -274,7 +274,7 @@ impl Kind {
 
     pub fn is_identifier_or_keyword(self) -> bool {
         self.is_literal_property_name()
-            || matches!(self, Self::PrivateIdentifier)
+            || matches!(self, Self::PrivateIdent)
             || self.is_all_keyword()
     }
 
@@ -285,12 +285,12 @@ impl Kind {
     /// Section 15.4 Method Definitions
     /// `ClassElementName`[Yield, Await] :
     ///   `PropertyName`[?Yield, ?Await]
-    ///   `PrivateIdentifier`
+    ///   `PrivateIdent`
     /// `PropertyName`[Yield, Await] :
     ///   `LiteralPropertyName`
     ///   `ComputedPropertyName`[?Yield, ?Await]
     pub fn is_class_element_name_start(self) -> bool {
-        self.is_literal_property_name() || matches!(self, LBrack | PrivateIdentifier)
+        self.is_literal_property_name() || matches!(self, LBrack | PrivateIdent)
     }
 
     #[rustfmt::skip]
@@ -360,7 +360,7 @@ impl Kind {
             || self.is_reserved_keyword()
             || self.is_literal()
             || matches!(self, Neq | LParen | LBrack | LCurly | LAngle | Dot3
-                | Slash | SlashEq | TemplateHead | NoSubstitutionTemplate | PrivateIdentifier | Ident | Async)
+                | Slash | SlashEq | TemplateHead | NoSubstitutionTemplate | PrivateIdent | Ident | Async)
     }
 
     pub fn is_template_start_of_tagged_template(self) -> bool {
@@ -374,7 +374,7 @@ impl Kind {
     }
 
     pub fn is_binding_identifier_or_private_identifier_or_pattern(self) -> bool {
-        matches!(self, LCurly | LBrack | PrivateIdentifier) || self.is_binding_identifier()
+        matches!(self, LCurly | LBrack | PrivateIdent) || self.is_binding_identifier()
     }
 
     pub fn match_keyword(s: &str) -> Self {
@@ -491,7 +491,7 @@ impl Kind {
             Eof => "EOF",
             Skip => "Skipped",
             HashbangComment => "#!",
-            Ident => "Identifier",
+            Ident => "Ident",
             Await => "await",
             Break => "break",
             Case => "case",
@@ -622,7 +622,7 @@ impl Kind {
             TemplateHead => "${",
             TemplateMiddle => "${expr}",
             TemplateTail => "$}",
-            PrivateIdentifier => "#identifier",
+            PrivateIdent => "#identifier",
             JSXText => "jsx",
             At => "@",
             Assert => "assert",

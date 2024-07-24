@@ -112,9 +112,9 @@ impl<'a> ParserImpl<'a> {
         self.cur_kind() == kind
     }
 
-    /// `StringValue` of `IdentifierName` normalizes any Unicode escape
-    /// sequences in `IdentifierName` hence such escapes cannot be used to
-    /// write an Identifier whose code point sequence is the same as a
+    /// `StringValue` of `IdentName` normalizes any Unicode escape
+    /// sequences in `IdentName` hence such escapes cannot be used to
+    /// write an Ident whose code point sequence is the same as a
     /// `ReservedWord`.
     #[inline]
     fn test_escaped_keyword(&mut self, kind: Kind) {

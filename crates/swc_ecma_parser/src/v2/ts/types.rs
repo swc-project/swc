@@ -799,8 +799,8 @@ impl<'a> ParserImpl<'a> {
     pub(crate) fn parse_ts_type_name(&mut self) -> Result<TSTypeName<'a>> {
         let span = self.start_span();
         let ident = self.parse_identifier_name()?;
-        let ident = IdentifierReference::new(ident.span, ident.name);
-        let mut left = TSTypeName::IdentifierReference(self.ast.alloc(ident));
+        let ident = IdentReference::new(ident.span, ident.name);
+        let mut left = TSTypeName::IdentReference(self.ast.alloc(ident));
         while self.eat(Kind::Dot) {
             let right = self.parse_identifier_name()?;
             left = TSTypeName::QualifiedName(self.ast.alloc(TSQualifiedName {
@@ -1087,7 +1087,7 @@ impl<'a> ParserImpl<'a> {
         let span = self.start_span();
         let name = match self.cur_kind() {
             Kind::Str => TSImportAttributeName::StringLiteral(self.parse_literal_string()?),
-            _ => TSImportAttributeName::Identifier(self.parse_identifier_name()?),
+            _ => TSImportAttributeName::Ident(self.parse_identifier_name()?),
         };
 
         self.expect(Kind::Colon)?;
@@ -1184,7 +1184,7 @@ impl<'a> ParserImpl<'a> {
         Ok(ty)
     }
 
-    fn parse_type_predicate_prefix(&mut self) -> Result<IdentifierName<'a>> {
+    fn parse_type_predicate_prefix(&mut self) -> Result<IdentName<'a>> {
         let id = self.parse_identifier_name()?;
         let token = self.cur_token();
         if token.kind == Kind::Is && !token.is_on_new_line {

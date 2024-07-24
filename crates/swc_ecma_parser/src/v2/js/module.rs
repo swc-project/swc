@@ -190,7 +190,7 @@ impl<'a> ParserImpl<'a> {
         let span = self.start_span();
         let key = match self.cur_kind() {
             Kind::Str => ImportAttributeKey::StringLiteral(self.parse_literal_string()?),
-            _ => ImportAttributeKey::Identifier(self.parse_identifier_name()?),
+            _ => ImportAttributeKey::Ident(self.parse_identifier_name()?),
         };
         self.expect(Kind::Colon)?;
         let value = self.parse_literal_string()?;
@@ -307,11 +307,11 @@ impl<'a> ParserImpl<'a> {
                             literal.span,
                         ));
                     }
-                    // For each IdentifierName n in ReferencedBindings of NamedExports:
+                    // For each IdentName n in ReferencedBindings of NamedExports:
                     // It is a Syntax Error if StringValue of n is a ReservedWord or the StringValue
                     // of n is one of "implements", "interface", "let",
                     // "package", "private", "protected", "public", or "static".
-                    ModuleExportName::IdentifierName(ident) => {
+                    ModuleExportName::IdentName(ident) => {
                         let match_result = Kind::match_keyword(&ident.name);
                         if match_result.is_reserved_keyword()
                             || match_result.is_future_reserved_keyword()
@@ -324,14 +324,14 @@ impl<'a> ParserImpl<'a> {
                         }
 
                         // `local` becomes a reference for `export { local }`.
-                        specifier.local = ModuleExportName::IdentifierReference(
+                        specifier.local = ModuleExportName::IdentReference(
                             self.ast
                                 .identifier_reference(ident.span, ident.name.as_str()),
                         );
                     }
                     // No prior code path should lead to parsing `ModuleExportName` as
-                    // `IdentifierReference`.
-                    ModuleExportName::IdentifierReference(_) => unreachable!(),
+                    // `IdentReference`.
+                    ModuleExportName::IdentReference(_) => unreachable!(),
                 }
             }
         }
@@ -417,7 +417,7 @@ impl<'a> ParserImpl<'a> {
                 decl
             }
         };
-        let exported = ModuleExportName::IdentifierName(exported);
+        let exported = ModuleExportName::IdentName(exported);
         let span = self.end_span(span);
         Ok(self
             .ast
@@ -477,11 +477,11 @@ impl<'a> ParserImpl<'a> {
             (imported, local)
         } else {
             let local = self.parse_binding_identifier()?;
-            let imported = IdentifierName {
+            let imported = IdentName {
                 span: local.span,
                 name: local.name.clone(),
             };
-            (ModuleExportName::IdentifierName(imported), local)
+            (ModuleExportName::IdentName(imported), local)
         };
         Ok(ImportDeclarationSpecifier::ImportSpecifier(self.ast.alloc(
             ImportSpecifier {
@@ -494,7 +494,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     // ModuleExportName :
-    //   IdentifierName
+    //   IdentName
     //   StringLiteral
     pub(crate) fn parse_module_export_name(&mut self) -> Result<ModuleExportName<'a>> {
         match self.cur_kind() {
@@ -508,9 +508,7 @@ impl<'a> ParserImpl<'a> {
                 };
                 Ok(ModuleExportName::StringLiteral(literal))
             }
-            _ => Ok(ModuleExportName::IdentifierName(
-                self.parse_identifier_name()?,
-            )),
+            _ => Ok(ModuleExportName::IdentName(self.parse_identifier_name()?)),
         }
     }
 

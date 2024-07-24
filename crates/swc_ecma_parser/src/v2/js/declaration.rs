@@ -133,10 +133,10 @@ impl<'a> ParserImpl<'a> {
 
         if init.is_none() && decl_ctx.parent == VariableDeclarationParent::Statement {
             // LexicalBinding[In, Yield, Await] :
-            //   BindingIdentifier[?Yield, ?Await] Initializer[?In, ?Yield, ?Await] opt
+            //   BindingIdent[?Yield, ?Await] Initializer[?In, ?Yield, ?Await] opt
             //   BindingPattern[?Yield, ?Await] Initializer[?In, ?Yield, ?Await]
             // the grammar forbids `let []`, `let {}`
-            if !matches!(id.kind, BindingPatternKind::BindingIdentifier(_)) {
+            if !matches!(id.kind, BindingPatternKind::BindingIdent(_)) {
                 self.error(diagnostics::invalid_destrucuring_declaration(id.span()));
             } else if kind == VariableDeclarationKind::Const && !self.ctx.has_ambient() {
                 // It is a Syntax Error if Initializer is not present and IsConstantDeclaration
@@ -188,7 +188,7 @@ impl<'a> ParserImpl<'a> {
             )?;
 
             match declaration.id.kind {
-                BindingPatternKind::BindingIdentifier(_) => {}
+                BindingPatternKind::BindingIdent(_) => {}
                 _ => {
                     self.error(diagnostics::invalid_identifier_in_using_declaration(
                         declaration.id.span(),

@@ -49,7 +49,7 @@ impl<'a> Lexer<'a> {
         }
     }
 
-    /// Identifier `UnicodeEscapeSequence`
+    /// Ident `UnicodeEscapeSequence`
     ///   \u `Hex4Digits`
     ///   \u{ `CodePoint` }
     pub(super) fn identifier_unicode_escape_sequence(
@@ -75,7 +75,7 @@ impl<'a> Lexer<'a> {
             return;
         };
 
-        // For Identifiers, surrogate pair is an invalid grammar, e.g. `var
+        // For Idents, surrogate pair is an invalid grammar, e.g. `var
         // \uD800\uDEA7`.
         let ch = match value {
             SurrogatePair::Astral(..) | SurrogatePair::HighLow(..) => {

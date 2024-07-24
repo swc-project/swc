@@ -86,7 +86,7 @@ impl<'a> ParserImpl<'a> {
                 self.bump_any();
                 self.parse_property_definition()
             }
-            // IdentifierReference
+            // IdentReference
             kind if kind.is_identifier_reference(false, false)
                 // test Kind::Dot to ignore ({ foo.bar: baz })
                 // see <https://stackoverflow.com/questions/30285947/syntaxerror-unexpected-token>
@@ -137,21 +137,21 @@ impl<'a> ParserImpl<'a> {
     }
 
     /// `PropertyDefinition`[Yield, Await] :
-    ///   `IdentifierReference`[?Yield, ?Await]
+    ///   `IdentReference`[?Yield, ?Await]
     ///   `CoverInitializedName`[?Yield, ?Await]
     fn parse_property_definition_shorthand(&mut self) -> Result<Box<'a, ObjectProperty<'a>>> {
         let span = self.start_span();
         let identifier = self.parse_identifier_reference()?;
-        let key = self.ast.alloc(IdentifierName {
+        let key = self.ast.alloc(IdentName {
             span: identifier.span,
             name: identifier.name.clone(),
         });
-        // IdentifierReference ({ foo })
-        let value = Expr::Identifier(self.ast.alloc(identifier.clone()));
+        // IdentReference ({ foo })
+        let value = Expr::Ident(self.ast.alloc(identifier.clone()));
         // CoverInitializedName ({ foo = bar })
         let init = if self.eat(Kind::Eq) {
             let right = self.parse_assignment_expression_or_higher()?;
-            let left = AssignmentTarget::AssignmentTargetIdentifier(self.ast.alloc(identifier));
+            let left = AssignmentTarget::AssignmentTargetIdent(self.ast.alloc(identifier));
             Some(self.ast.expression_assignment(
                 self.end_span(span),
                 AssignmentOperator::Assign,
@@ -164,7 +164,7 @@ impl<'a> ParserImpl<'a> {
         Ok(self.ast.alloc_object_property(
             self.end_span(span),
             PropertyKind::Init,
-            PropertyKey::StaticIdentifier(key),
+            PropertyKey::StaticIdent(key),
             value,
             init,
             /* method */ false,
@@ -211,7 +211,7 @@ impl<'a> ParserImpl<'a> {
             }
             _ => {
                 let ident = self.parse_identifier_name()?;
-                PropertyKey::StaticIdentifier(self.ast.alloc(ident))
+                PropertyKey::StaticIdent(self.ast.alloc(ident))
             }
         };
         Ok((key, computed))

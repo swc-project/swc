@@ -60,10 +60,7 @@ impl<'a> ParserImpl<'a> {
             Self::parse_rest_binding,
         )?;
         if let Some(rest) = &rest {
-            if !matches!(
-                &rest.argument.kind,
-                BindingPatternKind::BindingIdentifier(_)
-            ) {
+            if !matches!(&rest.argument.kind, BindingPatternKind::BindingIdent(_)) {
                 return Err(diagnostics::invalid_binding_rest_element(
                     rest.argument.span(),
                 ));
@@ -156,8 +153,8 @@ impl<'a> ParserImpl<'a> {
         let value = if is_binding_identifier && !self.at(Kind::Colon) {
             // let { a = b } = c
             // let { a } = b
-            //       ^ BindingIdentifier
-            if let PropertyKey::StaticIdentifier(ident) = &key {
+            //       ^ BindingIdent
+            if let PropertyKey::StaticIdent(ident) = &key {
                 shorthand = true;
                 let identifier = self
                     .ast
@@ -173,7 +170,7 @@ impl<'a> ParserImpl<'a> {
             }
         } else {
             // let { a: b } = c
-            //       ^ IdentifierReference
+            //       ^ IdentReference
             self.expect(Kind::Colon)?;
             self.parse_binding_pattern_with_initializer()?
         };
@@ -205,7 +202,7 @@ impl<'a> ParserImpl<'a> {
 
     pub(super) fn extend_binding_pattern_span_end(span: Span, kind: &mut BindingPatternKind<'a>) {
         let pat_span = match kind {
-            BindingPatternKind::BindingIdentifier(pat) => &mut pat.span,
+            BindingPatternKind::BindingIdent(pat) => &mut pat.span,
             BindingPatternKind::ObjectPattern(pat) => &mut pat.span,
             BindingPatternKind::ArrayPattern(pat) => &mut pat.span,
             BindingPatternKind::AssignmentPattern(pat) => &mut pat.span,
