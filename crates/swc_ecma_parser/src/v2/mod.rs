@@ -1,4 +1,5 @@
-use swc_common::BytePos;
+use swc_common::{BytePos, Span};
+use swc_ecma_ast::Program;
 
 use self::{
     context::Context,
@@ -124,7 +125,7 @@ impl<'a> ParserImpl<'a> {
         }
     }
 
-    pub fn parse_expression(mut self) -> std::result::Result<Expression<'a>, Vec<OxcDiagnostic>> {
+    pub fn parse_expression(mut self) -> std::result::Result<Expression<'a>, Vec<Diagnostic>> {
         // initialize cur_token and prev_token by moving onto the first token
         self.bump_any();
         let expr = self.parse_expr().map_err(|diagnostic| vec![diagnostic])?;
@@ -169,7 +170,7 @@ impl<'a> ParserImpl<'a> {
 
     /// Check for Flow declaration if the file cannot be parsed.
     /// The declaration must be [on the first line before any code](https://flow.org/en/docs/usage/#toc-prepare-your-code-for-flow)
-    fn flow_error(&self) -> Option<OxcDiagnostic> {
+    fn flow_error(&self) -> Option<Diagnostic> {
         if self.source_type.is_javascript()
             && (self.source_text.starts_with("// @flow")
                 || self.source_text.starts_with("/* @flow */"))
@@ -182,7 +183,7 @@ impl<'a> ParserImpl<'a> {
     /// Check if source length exceeds MAX_LEN, if the file cannot be parsed.
     /// Original parsing error is not real - `Lexer::new` substituted "\0" as
     /// the source text.
-    fn overlong_error(&self) -> Option<OxcDiagnostic> {
+    fn overlong_error(&self) -> Option<Diagnostic> {
         if self.source_text.len() > MAX_LEN {
             return Some(diagnostics::overlong_source());
         }
@@ -193,7 +194,7 @@ impl<'a> ParserImpl<'a> {
     /// # Panics
     ///   * The lexer did not push a diagnostic when `Kind::Undetermined` is
     ///     returned
-    fn unexpected(&mut self) -> OxcDiagnostic {
+    fn unexpected(&mut self) -> Diagnostic {
         // The lexer should have reported a more meaningful diagnostic
         // when it is a undetermined kind.
         if self.cur_kind() == Kind::Undetermined {
@@ -205,7 +206,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     /// Push a Syntax Error
-    fn error(&mut self, error: OxcDiagnostic) {
+    fn error(&mut self, error: Diagnostic) {
         self.errors.push(error);
     }
 
