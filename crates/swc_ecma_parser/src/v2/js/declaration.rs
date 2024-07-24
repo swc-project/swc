@@ -12,7 +12,7 @@ use crate::{
 };
 
 impl<'a> ParserImpl<'a> {
-    pub(crate) fn parse_let(&mut self, stmt_ctx: StatementContext) -> Result<Statement<'a>> {
+    pub(crate) fn parse_let(&mut self, stmt_ctx: StatementContext) -> Result<Stmt> {
         let span = self.start_span();
         let peeked = self.peek_kind();
         // let = foo, let instanceof x, let + 1
@@ -34,12 +34,12 @@ impl<'a> ParserImpl<'a> {
         }
     }
 
-    pub(crate) fn parse_using(&mut self) -> Result<Statement<'a>> {
+    pub(crate) fn parse_using(&mut self) -> Result<Stmt> {
         let using_decl = self.parse_using_declaration(StatementContext::StatementList)?;
 
         self.asi()?;
 
-        Ok(Statement::UsingDeclaration(self.ast.alloc(using_decl)))
+        Ok(Stmt::UsingDeclaration(self.ast.alloc(using_decl)))
     }
 
     pub(crate) fn parse_variable_declaration(

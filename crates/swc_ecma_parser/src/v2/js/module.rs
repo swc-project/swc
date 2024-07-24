@@ -31,7 +31,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     /// Section 16.2.2 Import Declaration
-    pub(crate) fn parse_import_declaration(&mut self) -> Result<Statement<'a>> {
+    pub(crate) fn parse_import_declaration(&mut self) -> Result<Stmt> {
         let span = self.start_span();
 
         self.bump_any(); // advance `import`
@@ -43,7 +43,7 @@ impl<'a> ParserImpl<'a> {
                     && self.nth_at(2, Kind::Eq)))
         {
             let decl = self.parse_ts_import_equals_declaration(span)?;
-            return Ok(Statement::from(decl));
+            return Ok(Stmt::from(decl));
         }
 
         // `import type ...`
@@ -230,7 +230,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     /// [Exports](https://tc39.es/ecma262/#sec-exports)
-    pub(crate) fn parse_export_declaration(&mut self) -> Result<Statement<'a>> {
+    pub(crate) fn parse_export_declaration(&mut self) -> Result<Stmt> {
         let span = self.start_span();
         self.bump_any(); // advance `export`
 
@@ -260,7 +260,7 @@ impl<'a> ParserImpl<'a> {
                 .parse_export_named_declaration(span)
                 .map(ModuleDeclaration::ExportNamedDeclaration),
         }?;
-        Ok(Statement::from(decl))
+        Ok(Stmt::from(decl))
     }
 
     // export NamedExports ;

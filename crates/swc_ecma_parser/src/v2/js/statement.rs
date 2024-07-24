@@ -32,7 +32,7 @@ impl<'a> ParserImpl<'a> {
     pub(crate) fn parse_directives_and_statements(
         &mut self,
         is_top_level: bool,
-    ) -> Result<(Vec<'a, Directive<'a>>, Vec<'a, Statement<'a>>)> {
+    ) -> Result<(Vec<'a, Directive<'a>>, Vec<'a, Stmt>)> {
         let mut directives = self.ast.vec();
         let mut statements = self.ast.vec();
 
@@ -46,7 +46,7 @@ impl<'a> ParserImpl<'a> {
             // The only way to get a correct directive is to parse the statement first and
             // check if it is a string literal. All other method are flawed, see test cases in [babel](https://github.com/babel/babel/blob/main/packages/babel-parser/test/fixtures/core/categorized/not-directive/input.js)
             if expecting_directives {
-                if let Statement::ExpressionStatement(expr) = &stmt {
+                if let Stmt::ExpressionStatement(expr) = &stmt {
                     if let Expression::StringLiteral(string) = &expr.expression {
                         // span start will mismatch if they are parenthesized when `preserve_parens
                         // = false`
@@ -72,10 +72,7 @@ impl<'a> ParserImpl<'a> {
     /// `StatementListItem`[Yield, Await, Return] :
     ///     Statement[?Yield, ?Await, ?Return]
     ///     Declaration[?Yield, ?Await]
-    pub(crate) fn parse_statement_list_item(
-        &mut self,
-        stmt_ctx: StatementContext,
-    ) -> Result<Statement<'a>> {
+    pub(crate) fn parse_statement_list_item(&mut self, stmt_ctx: StatementContext) -> Result<Stmt> {
         let start_span = self.start_span();
 
         if self.at(Kind::At) {
@@ -121,7 +118,7 @@ impl<'a> ParserImpl<'a> {
         }
     }
 
-    fn parse_expression_or_labeled_statement(&mut self) -> Result<Statement<'a>> {
+    fn parse_expression_or_labeled_statement(&mut self) -> Result<Stmt> {
         let span = self.start_span();
         let expr = self.parse_expr()?;
         if let Expression::Identifier(ident) = &expr {
@@ -140,7 +137,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     /// Section 14.2 Block Statement
-    pub(crate) fn parse_block(&mut self) -> Result<Box<'a, BlockStatement<'a>>> {
+    pub(crate) fn parse_block(&mut self) -> Result<Box<'a, BlockStmt>> {
         let span = self.start_span();
         self.expect(Kind::LCurly)?;
         let mut body = self.ast.vec();
@@ -152,16 +149,13 @@ impl<'a> ParserImpl<'a> {
         Ok(self.ast.alloc_block_statement(self.end_span(span), body))
     }
 
-    pub(crate) fn parse_block_statement(&mut self) -> Result<Statement<'a>> {
+    pub(crate) fn parse_block_statement(&mut self) -> Result<Stmt> {
         let block = self.parse_block()?;
-        Ok(Statement::BlockStatement(block))
+        Ok(Stmt::BlockStatement(block))
     }
 
     /// Section 14.3.2 Variable Statement
-    pub(crate) fn parse_variable_statement(
-        &mut self,
-        stmt_ctx: StatementContext,
-    ) -> Result<Statement<'a>> {
+    pub(crate) fn parse_variable_statement(&mut self, stmt_ctx: StatementContext) -> Result<Stmt> {
         let start_span = self.start_span();
         let decl = self.parse_variable_declaration(
             start_span,
@@ -173,11 +167,11 @@ impl<'a> ParserImpl<'a> {
             self.error(diagnostics::lexical_declaration_single_statement(decl.span));
         }
 
-        Ok(Statement::VariableDeclaration(decl))
+        Ok(Stmt::VariableDeclaration(decl))
     }
 
     /// Section 14.4 Empty Statement
-    fn parse_empty_statement(&mut self) -> Statement<'a> {
+    fn parse_empty_statement(&mut self) -> Stmt {
         let span = self.start_span();
         self.bump_any(); // bump `;`
         self.ast.statement_empty(self.end_span(span))
@@ -188,7 +182,7 @@ impl<'a> ParserImpl<'a> {
         &mut self,
         span: Span,
         expression: Expression<'a>,
-    ) -> Result<Statement<'a>> {
+    ) -> Result<Stmt> {
         self.asi()?;
         Ok(self
             .ast
@@ -196,7 +190,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     /// Section 14.6 If Statement
-    fn parse_if_statement(&mut self) -> Result<Statement<'a>> {
+    fn parse_if_statement(&mut self) -> Result<Stmt> {
         let span = self.start_span();
         self.bump_any(); // bump `if`
         let test = self.parse_paren_expression()?;
@@ -211,7 +205,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     /// Section 14.7.2 Do-While Statement
-    fn parse_do_while_statement(&mut self) -> Result<Statement<'a>> {
+    fn parse_do_while_statement(&mut self) -> Result<Stmt> {
         let span = self.start_span();
         self.bump_any(); // advance `do`
         let body = self.parse_statement_list_item(StatementContext::Do)?;
@@ -222,7 +216,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     /// Section 14.7.3 While Statement
-    fn parse_while_statement(&mut self) -> Result<Statement<'a>> {
+    fn parse_while_statement(&mut self) -> Result<Stmt> {
         let span = self.start_span();
         self.bump_any(); // bump `while`
         let test = self.parse_paren_expression()?;
@@ -231,7 +225,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     /// Section 14.7.4 For Statement
-    fn parse_for_statement(&mut self) -> Result<Statement<'a>> {
+    fn parse_for_statement(&mut self) -> Result<Stmt> {
         let span = self.start_span();
         self.bump_any(); // bump `for`
 
@@ -293,7 +287,7 @@ impl<'a> ParserImpl<'a> {
         &mut self,
         span: Span,
         r#await: bool,
-    ) -> Result<Statement<'a>> {
+    ) -> Result<Stmt> {
         let start_span = self.start_span();
         let init_declaration = self.context(Context::empty(), Context::In, |p| {
             let decl_ctx = VariableDeclarationContext::new(VariableDeclarationParent::For);
@@ -310,11 +304,7 @@ impl<'a> ParserImpl<'a> {
         self.parse_for_loop(span, init, r#await)
     }
 
-    fn parse_using_declaration_for_statement(
-        &mut self,
-        span: Span,
-        r#await: bool,
-    ) -> Result<Statement<'a>> {
+    fn parse_using_declaration_for_statement(&mut self, span: Span, r#await: bool) -> Result<Stmt> {
         let using_decl = self.parse_using_declaration(StatementContext::For)?;
 
         if matches!(self.cur_kind(), Kind::In) {
@@ -347,7 +337,7 @@ impl<'a> ParserImpl<'a> {
         span: Span,
         init: Option<ForStatementInit<'a>>,
         r#await: bool,
-    ) -> Result<Statement<'a>> {
+    ) -> Result<Stmt> {
         self.expect(Kind::Semicolon)?;
         let test = if !self.at(Kind::Semicolon) && !self.at(Kind::RParen) {
             Some(self.context(Context::In, Context::empty(), ParserImpl::parse_expr)?)
@@ -375,7 +365,7 @@ impl<'a> ParserImpl<'a> {
         span: Span,
         r#await: bool,
         left: ForStatementLeft<'a>,
-    ) -> Result<Statement<'a>> {
+    ) -> Result<Stmt> {
         let is_for_in = self.at(Kind::In);
         self.bump_any(); // bump `in` or `of`
         let right = if is_for_in {
@@ -401,7 +391,7 @@ impl<'a> ParserImpl<'a> {
 
     /// Section 14.8 Continue Statement
     /// Section 14.9 Break Statement
-    fn parse_break_or_continue_statement(&mut self) -> Result<Statement<'a>> {
+    fn parse_break_or_continue_statement(&mut self) -> Result<Stmt> {
         let span = self.start_span();
         let kind = self.cur_kind();
         self.bump_any(); // bump `break` or `continue`
@@ -423,7 +413,7 @@ impl<'a> ParserImpl<'a> {
     /// `ReturnStatement`[Yield, Await] :
     ///   return ;
     ///   return [no `LineTerminator` here] Expression[+In, ?Yield, ?Await] ;
-    fn parse_return_statement(&mut self) -> Result<Statement<'a>> {
+    fn parse_return_statement(&mut self) -> Result<Stmt> {
         let span = self.start_span();
         self.bump_any(); // advance `return`
         let argument = if self.eat(Kind::Semicolon) || self.can_insert_semicolon() {
@@ -442,7 +432,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     /// Section 14.11 With Statement
-    fn parse_with_statement(&mut self) -> Result<Statement<'a>> {
+    fn parse_with_statement(&mut self) -> Result<Stmt> {
         let span = self.start_span();
         self.bump_any(); // bump `with`
         let object = self.parse_paren_expression()?;
@@ -452,7 +442,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     /// Section 14.12 Switch Statement
-    fn parse_switch_statement(&mut self) -> Result<Statement<'a>> {
+    fn parse_switch_statement(&mut self) -> Result<Stmt> {
         let span = self.start_span();
         self.bump_any(); // advance `switch`
         let discriminant = self.parse_paren_expression()?;
@@ -493,7 +483,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     /// Section 14.14 Throw Statement
-    fn parse_throw_statement(&mut self) -> Result<Statement<'a>> {
+    fn parse_throw_statement(&mut self) -> Result<Stmt> {
         let span = self.start_span();
         self.bump_any(); // advance `throw`
         if self.cur_token().is_on_new_line {
@@ -509,7 +499,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     /// Section 14.15 Try Statement
-    fn parse_try_statement(&mut self) -> Result<Statement<'a>> {
+    fn parse_try_statement(&mut self) -> Result<Stmt> {
         let span = self.start_span();
         self.bump_any(); // bump `try`
 
@@ -553,7 +543,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     /// Section 14.16 Debugger Statement
-    fn parse_debugger_statement(&mut self) -> Result<Statement<'a>> {
+    fn parse_debugger_statement(&mut self) -> Result<Stmt> {
         let span = self.start_span();
         self.bump_any();
         self.asi()?;

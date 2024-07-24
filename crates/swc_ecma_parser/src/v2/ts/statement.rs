@@ -322,10 +322,7 @@ impl<'a> ParserImpl<'a> {
 
     /** ----------------------- declare --------------------- */
 
-    pub(crate) fn parse_ts_declaration_statement(
-        &mut self,
-        start_span: Span,
-    ) -> Result<Statement<'a>> {
+    pub(crate) fn parse_ts_declaration_statement(&mut self, start_span: Span) -> Result<Stmt> {
         let reserved_ctx = self.ctx;
         let modifiers = self.eat_modifiers_before_declaration()?;
         self.ctx = self
@@ -334,7 +331,7 @@ impl<'a> ParserImpl<'a> {
             .and_await(modifiers.contains_async());
         let result = self.parse_declaration(start_span, &modifiers);
         self.ctx = reserved_ctx;
-        result.map(Statement::from)
+        result.map(Stmt::from)
     }
 
     pub(crate) fn parse_declaration(

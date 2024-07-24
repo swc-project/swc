@@ -204,7 +204,7 @@ impl<'a> ParserImpl<'a> {
     pub(crate) fn parse_function_declaration(
         &mut self,
         stmt_ctx: StatementContext,
-    ) -> Result<Statement<'a>> {
+    ) -> Result<Stmt> {
         let func_kind = FunctionKind::Declaration;
         let decl = self.parse_function_impl(func_kind)?;
         if stmt_ctx.is_single_statement() {
@@ -221,7 +221,7 @@ impl<'a> ParserImpl<'a> {
             }
         }
 
-        Ok(Statement::FunctionDeclaration(decl))
+        Ok(Stmt::FunctionDeclaration(decl))
     }
 
     /// Parse function implementation in Javascript, cursor
