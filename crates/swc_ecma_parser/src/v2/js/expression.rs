@@ -7,6 +7,7 @@ use oxc_syntax::{
     operator::BinaryOperator,
     precedence::Precedence,
 };
+use swc_common::BytePos;
 use swc_ecma_ast::*;
 
 use super::operator::{
@@ -232,7 +233,7 @@ impl<'a> ParserImpl<'a> {
             expressions.remove(0)
         } else {
             self.ast.expression_sequence(
-                Span::new(paren_span.start + 1, paren_span.end - 1),
+                Span::new(paren_span.lo + BytePos(1), paren_span.hi - BytePos(1)),
                 expressions,
             )
         };
@@ -356,7 +357,7 @@ impl<'a> ParserImpl<'a> {
 
         // split out pattern
         let (pattern_end, flags) = self.read_regex();
-        let pattern_start = self.cur_token().start + swc_common::BytePos(1); // +1 to exclude `/`
+        let pattern_start = self.cur_token().start + BytePos(1); // +1 to exclude `/`
         let pattern = &self.source_text[pattern_start.0 as usize..pattern_end.0 as usize];
 
         self.bump_any();
