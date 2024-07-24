@@ -57,3 +57,18 @@ pub(crate) fn reg_exp_flag(ch: char, offset: Span) -> Diagnostic {
 pub(crate) fn reg_exp_flag_twice(ch: char, offset: Span) -> Diagnostic {
     todo!("reg_exp_flag")
 }
+
+#[cold]
+pub(crate) fn binding_rest_element_last(span: Span) -> Diagnostic {
+    todo!("binding_rest_element_last")
+}
+
+#[cold]
+pub(crate) fn escaped_keyword(span: Span) -> Diagnostic {
+    todo!("escaped_keyword")
+}
+
+#[cold]
+pub(crate) fn auto_semicolon_insertion(span: Span) -> Diagnostic {
+    todo!("auto_semicolon_insertion")
+}
