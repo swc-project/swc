@@ -51,17 +51,14 @@ jobs:
           profile: minimal
 
       - name: Install cargo-edit
-        uses: baptiste0928/cargo-install@v2.2.0
+        uses: taiki-e/install-action@v2
         with:
-          crate: cargo-edit
-          version: "0.12.2"
-          locked: true
+          tool: cargo-edit@0.12.2
 
-      - name: Install cargo-mono
-        uses: baptiste0928/cargo-install@v2.2.0
+      - name: Install cargo-edit
+        uses: taiki-e/install-action@v2
         with:
-          crate: cargo-mono
-          version: "0.3.7"
+          tool: cargo-mono@0.4.1
 
       - run: cargo bump
 
@@ -88,17 +85,14 @@ jobs:
           profile: minimal
 
       - name: Install cargo-edit
-        uses: baptiste0928/cargo-install@v2.2.0
+        uses: taiki-e/install-action@v2
         with:
-          crate: cargo-edit
-          version: "0.12.2"
-          locked: true
+          tool: cargo-edit@0.12.2
 
-      - name: Install cargo-mono
-        uses: baptiste0928/cargo-install@v2.2.0
+      - name: Install cargo-edit
+        uses: taiki-e/install-action@v2
         with:
-          crate: cargo-mono
-          version: "0.3.7"
+          tool: cargo-mono@0.4.1
 
       - name: Update constant of swc_core
         run: npx ts-node .github/bot/src/cargo/update-constants.ts
@@ -109,15 +103,6 @@ jobs:
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
         run: |
-          cargo mono publish --no-verify
-          cargo mono publish --no-verify
-          cargo mono publish --no-verify
-          cargo mono publish --no-verify
-          cargo mono publish --no-verify
-          cargo mono publish --no-verify
-          cargo mono publish --no-verify
-          cargo mono publish --no-verify
-          cargo mono publish --no-verify
           cargo mono publish --no-verify
 
   determine-nightly-version:
