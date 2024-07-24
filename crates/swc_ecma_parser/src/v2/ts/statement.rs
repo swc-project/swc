@@ -450,7 +450,7 @@ impl<'a> ParserImpl<'a> {
         ))
     }
 
-    pub(crate) fn parse_ts_this_parameter(&mut self) -> Result<TsThisParameter<'a>> {
+    pub(crate) fn parse_ts_this_parameter(&mut self) -> Result<TsThisParam<'a>> {
         let span = self.start_span();
         self.parse_class_element_modifiers(true);
         self.eat_decorators()?;

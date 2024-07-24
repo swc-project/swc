@@ -55,7 +55,7 @@ impl<'a> ParserImpl<'a> {
         let r#abstract = self.eat(Kind::Abstract);
         let is_constructor_type = self.eat(Kind::New);
         let type_parameters = self.parse_ts_type_parameters()?;
-        let (this_param, params) = self.parse_formal_parameters(FormalParameterKind::Signature)?;
+        let (this_param, params) = self.parse_formal_parameters(FormalParamKind::Signature)?;
         let return_type = {
             let return_type_span = self.start_span();
             let Some(return_type) =
@@ -140,9 +140,7 @@ impl<'a> ParserImpl<'a> {
         false
     }
 
-    pub(crate) fn parse_ts_type_parameters(
-        &mut self,
-    ) -> Result<Option<Box<'a, TsTypeParameterDecl>>> {
+    pub(crate) fn parse_ts_type_parameters(&mut self) -> Result<Option<Box<'a, TsTypeParamDecl>>> {
         if !self.ts_enabled() {
             return Ok(None);
         }
@@ -177,7 +175,7 @@ impl<'a> ParserImpl<'a> {
         Ok(implements)
     }
 
-    pub(crate) fn parse_ts_type_parameter(&mut self) -> Result<TsTypeParameter<'a>> {
+    pub(crate) fn parse_ts_type_parameter(&mut self) -> Result<TsTypeParam<'a>> {
         let span = self.start_span();
 
         let modifiers = self.parse_modifiers(false, true, false);
@@ -277,7 +275,7 @@ impl<'a> ParserImpl<'a> {
             .ts_type_infer_type(self.end_span(span), type_parameter))
     }
 
-    fn parse_type_parameter_of_infer_type(&mut self) -> Result<Box<'a, TsTypeParameter<'a>>> {
+    fn parse_type_parameter_of_infer_type(&mut self) -> Result<Box<'a, TsTypeParam<'a>>> {
         let span = self.start_span();
         let name = self.parse_binding_identifier()?;
         let constraint = self
@@ -1201,7 +1199,7 @@ impl<'a> ParserImpl<'a> {
     pub(crate) fn parse_ts_call_signature_member(&mut self) -> Result<TsSignature<'a>> {
         let span = self.start_span();
         let type_parameters = self.parse_ts_type_parameters()?;
-        let (this_patam, params) = self.parse_formal_parameters(FormalParameterKind::Signature)?;
+        let (this_patam, params) = self.parse_formal_parameters(FormalParamKind::Signature)?;
         let return_type = self.parse_ts_return_type_annotation(Kind::Colon, false)?;
         self.bump(Kind::Comma);
         self.bump(Kind::Semicolon);
@@ -1218,7 +1216,7 @@ impl<'a> ParserImpl<'a> {
         let span = self.start_span();
         self.expect(Kind::Get)?;
         let (key, computed) = self.parse_property_name()?;
-        let (this_param, params) = self.parse_formal_parameters(FormalParameterKind::Signature)?;
+        let (this_param, params) = self.parse_formal_parameters(FormalParamKind::Signature)?;
         let return_type = self.parse_ts_return_type_annotation(Kind::Colon, false)?;
         self.bump(Kind::Comma);
         self.bump(Kind::Semicolon);
@@ -1231,7 +1229,7 @@ impl<'a> ParserImpl<'a> {
             this_param,
             params,
             return_type,
-            Option::<TsTypeParameterDeclaration>::None,
+            Option::<TsTypeParamDeclaration>::None,
         ))
     }
 
@@ -1239,7 +1237,7 @@ impl<'a> ParserImpl<'a> {
         let span = self.start_span();
         self.expect(Kind::Set)?;
         let (key, computed) = self.parse_property_name()?;
-        let (this_param, params) = self.parse_formal_parameters(FormalParameterKind::Signature)?;
+        let (this_param, params) = self.parse_formal_parameters(FormalParamKind::Signature)?;
         let return_type = self.parse_ts_return_type_annotation(Kind::Colon, false)?;
         self.bump(Kind::Comma);
         self.bump(Kind::Semicolon);
@@ -1257,7 +1255,7 @@ impl<'a> ParserImpl<'a> {
             this_param,
             params,
             return_type,
-            Option::<TsTypeParameterDeclaration>::None,
+            Option::<TsTypeParamDeclaration>::None,
         ))
     }
 
@@ -1314,7 +1312,7 @@ impl<'a> ParserImpl<'a> {
         self.expect(Kind::New)?;
 
         let type_parameters = self.parse_ts_type_parameters()?;
-        let (this_param, params) = self.parse_formal_parameters(FormalParameterKind::Signature)?;
+        let (this_param, params) = self.parse_formal_parameters(FormalParamKind::Signature)?;
 
         if let Some(this_param) = this_param {
             // interface Foo { new(this: number): Foo }
