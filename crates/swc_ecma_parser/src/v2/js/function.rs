@@ -4,14 +4,15 @@ use oxc_allocator::Box;
 use swc_common::Span;
 use swc_ecma_ast::*;
 
-use super::FunctionKind;
-use crate::{
-    diagnostics,
-    diagnostics::Result,
-    lexer::Kind,
-    modifiers::{ModifierFlags, ModifierKind, Modifiers},
-    Context, ParserImpl, StatementContext,
+use super::{
+    super::{
+        lexer::Kind,
+        modifiers::{ModifierFlags, ModifierKind, Modifiers},
+        Context, ParserImpl, StatementContext,
+    },
+    FunctionKind,
 };
+use crate::{diagnostics, diagnostics::Result};
 
 impl FunctionKind {
     pub(crate) fn is_id_required(self) -> bool {
