@@ -1,3 +1,5 @@
+use swc_common::BytePos;
+
 use super::{Kind, Lexer, Token};
 
 impl<'a> Lexer<'a> {
@@ -8,7 +10,7 @@ impl<'a> Lexer<'a> {
             Kind::ShiftLeftEq => 3,
             _ => unreachable!(),
         };
-        self.token.start = self.offset() - offset;
+        self.token.start = self.offset() - BytePos(offset);
         self.source.back(offset as usize - 1);
         let kind = Kind::LAngle;
         self.lookahead.clear();
@@ -22,7 +24,7 @@ impl<'a> Lexer<'a> {
             Kind::ShiftRight3 => 3,
             _ => unreachable!(),
         };
-        self.token.start = self.offset() - offset;
+        self.token.start = self.offset() - BytePos(offset);
         self.source.back(offset as usize - 1);
         let kind = Kind::RAngle;
         self.lookahead.clear();
