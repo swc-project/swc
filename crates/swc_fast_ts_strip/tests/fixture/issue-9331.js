@@ -35,7 +35,7 @@ f
 
 
 class foo {
-    static     
-    ;             
+    static;    
+                  
     foo() { }
 }

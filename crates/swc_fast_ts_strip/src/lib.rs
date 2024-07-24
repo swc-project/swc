@@ -12,7 +12,7 @@ use swc_common::{
 };
 use swc_ecma_ast::{
     ArrowExpr, BindingIdent, Class, ClassDecl, ClassMethod, ClassProp, EsVersion, ExportAll,
-    ExportDecl, ExportSpecifier, FnDecl, ImportDecl, ImportSpecifier, NamedExport, Param, Pat,
+    ExportDecl, ExportSpecifier, FnDecl, ImportDecl, ImportSpecifier, Key, NamedExport, Param, Pat,
     Program, TsAsExpr, TsConstAssertion, TsEnumDecl, TsExportAssignment, TsImportEqualsDecl,
     TsIndexSignature, TsInstantiation, TsInterfaceDecl, TsModuleDecl, TsModuleName,
     TsNamespaceDecl, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn,
@@ -587,6 +587,12 @@ impl Visit for TsStrip {
             debug_assert_eq!(definite_mark.token, Token::Bang);
 
             self.add_replacement(definite_mark.span);
+        }
+
+        if n.value.is_none() && n.key.as_ident().filter(|k| k.sym == "static").is_some() {
+            if let Some(type_ann) = &n.type_ann {
+                self.add_overwrite(type_ann.span.lo, b';');
+            }
         }
 
         n.visit_children_with(self);
