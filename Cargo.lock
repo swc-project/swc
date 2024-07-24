@@ -4610,6 +4610,7 @@ version = "0.149.0"
 dependencies = [
  "assert-unchecked",
  "bitflags 2.5.0",
+ "bumpalo",
  "codspeed-criterion-compat",
  "criterion",
  "either",
