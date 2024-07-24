@@ -84,3 +84,18 @@ pub(crate) fn unexpected_token(span: Span) -> Diagnostic {
 pub(crate) fn flow(span: Span) -> Diagnostic {
     todo!("flow")
 }
+
+#[cold]
+pub(crate) fn field_constructor(span: Span) -> Diagnostic {
+    todo!("field_constructor")
+}
+
+#[cold]
+pub(crate) fn static_prototype(span: Span) -> Diagnostic {
+    todo!("static_prototype")
+}
+
+#[cold]
+pub(crate) fn static_constructor(span: Span) -> Diagnostic {
+    todo!("static_constructor")
+}
