@@ -4,7 +4,7 @@ use oxc_span::GetSpan;
 use oxc_syntax::operator::UnaryOperator;
 use swc_ecma_ast::*;
 
-use crate::{
+use super::super::{
     diagnostics,
     lexer::Kind,
     modifiers::{Modifier, ModifierFlags, ModifierKind, Modifiers},
