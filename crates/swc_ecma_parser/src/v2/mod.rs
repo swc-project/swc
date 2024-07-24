@@ -9,8 +9,11 @@ use crate::diagnostics::{self, Diagnostic};
 
 mod context;
 mod cursor;
+mod js;
+mod jsx;
 pub mod lexer;
 mod modifiers;
+mod ts;
 
 /// Maximum length of source which can be parsed (in bytes).
 /// ~4 GiB on 64-bit systems, ~2 GiB on 32-bit systems.
