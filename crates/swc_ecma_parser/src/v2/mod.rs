@@ -1,6 +1,7 @@
 use crate::diagnostics::Diagnostic;
 
 mod context;
+mod cursor;
 pub mod lexer;
 mod modifiers;
 
