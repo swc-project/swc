@@ -124,3 +124,8 @@ pub(crate) fn using_declarations_must_be_initialized(span: Span) -> Diagnostic {
 pub(crate) fn invalid_identifier_in_using_declaration(span: Span) -> Diagnostic {
     todo!("invalid_identifier_in_using_declaration")
 }
+
+#[cold]
+pub(crate) fn template_literal(span: Span) -> Diagnostic {
+    todo!("template_literal")
+}
