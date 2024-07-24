@@ -2,7 +2,7 @@ use swc_common::{BytePos, Span};
 use swc_ecma_ast::Program;
 
 use self::{
-    context::Context,
+    context::{Context, StatementContext},
     lexer::{Kind, Lexer, Token},
 };
 use crate::diagnostics::{self, Diagnostic};
