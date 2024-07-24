@@ -72,3 +72,8 @@ pub(crate) fn escaped_keyword(span: Span) -> Diagnostic {
 pub(crate) fn auto_semicolon_insertion(span: Span) -> Diagnostic {
     todo!("auto_semicolon_insertion")
 }
+
+#[cold]
+pub(crate) fn unexpected_token(span: Span) -> Diagnostic {
+    todo!("unexpected_token")
+}
