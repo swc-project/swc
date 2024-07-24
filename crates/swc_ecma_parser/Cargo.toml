@@ -45,6 +45,7 @@ swc_ecma_ast          = { version = "0.118.0", path = "../swc_ecma_ast" }
 swc_ecma_visit        = { version = "0.104.0", path = "../swc_ecma_visit", optional = true }
 tracing               = { workspace = true }
 typed-arena           = { workspace = true }
+unicode-id-start      = { workspace = true }
 
 [target.'cfg(not(any(target_arch = "wasm32", target_arch = "arm")))'.dependencies]
 stacker = { version = "0.1.15", optional = true }
