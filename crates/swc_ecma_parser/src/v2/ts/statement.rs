@@ -411,7 +411,7 @@ impl<'a> ParserImpl<'a> {
         let expression = self.parse_simple_unary_expression(lhs_span)?;
         Ok(self
             .ast
-            .expression_ts_type_assertion(self.end_span(span), expression, type_annotation))
+            .expr_ts_type_assertion(self.end_span(span), expression, type_annotation))
     }
 
     pub(crate) fn parse_ts_import_equals_declaration(&mut self, span: Span) -> Result<Decl> {

@@ -272,7 +272,7 @@ impl<'a> ParserImpl<'a> {
             &Modifiers::empty(),
         )?;
 
-        Ok(self.ast.expression_from_function(function))
+        Ok(self.ast.expr_from_function(function))
     }
 
     /// Section 15.4 Method Definitions
@@ -337,9 +337,7 @@ impl<'a> ParserImpl<'a> {
             }
         }
 
-        Ok(self
-            .ast
-            .expression_yield(self.end_span(span), delegate, argument))
+        Ok(self.ast.expr_yield(self.end_span(span), delegate, argument))
     }
 
     // id: None - for AnonymousDefaultExportedFunctionDeclaration

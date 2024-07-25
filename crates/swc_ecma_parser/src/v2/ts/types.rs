@@ -1013,7 +1013,7 @@ impl<'a> ParserImpl<'a> {
         let literal = if negative {
             match self
                 .ast
-                .expression_unary(span, UnaryOperator::UnaryNegation, expression)
+                .expr_unary(span, UnaryOperator::UnaryNegation, expression)
             {
                 Expr::Unary(unary_expr) => TsLiteral::Unary(unary_expr),
                 _ => unreachable!(),

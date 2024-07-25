@@ -26,7 +26,7 @@ impl<'a> ParserImpl<'a> {
         self.expect(Kind::RParen)?;
         Ok(self
             .ast
-            .expression_import(self.end_span(span), expression, arguments))
+            .expr_import(self.end_span(span), expression, arguments))
     }
 
     /// Section 16.2.2 Import Declaration

@@ -57,7 +57,7 @@ impl<'a> ParserImpl<'a> {
             ClassType::ClassExpression,
             &Modifiers::empty(),
         )?;
-        Ok(self.ast.expression_from_class(class))
+        Ok(self.ast.expr_from_class(class))
     }
 
     fn parse_class(
@@ -147,7 +147,7 @@ impl<'a> ParserImpl<'a> {
         let first_type_argument;
         if let Expr::TsInstantiation(expr) = first_extends {
             let expr = expr.unbox();
-            first_extends = expr.expression;
+            first_extends = expr.expr;
             first_type_argument = Some(expr.type_parameters);
         } else {
             first_type_argument = self.try_parse_type_arguments()?;
@@ -160,7 +160,7 @@ impl<'a> ParserImpl<'a> {
             let type_argument;
             if let Expr::TsInstantiation(expr) = extend {
                 let expr = expr.unbox();
-                extend = expr.expression;
+                extend = expr.expr;
                 type_argument = Some(expr.type_parameters);
             } else {
                 type_argument = self.try_parse_type_arguments()?;

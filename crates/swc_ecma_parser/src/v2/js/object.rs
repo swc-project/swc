@@ -28,7 +28,7 @@ impl<'a> ParserImpl<'a> {
             self.end_span(span)
         });
         self.expect(Kind::RCurly)?;
-        Ok(self.ast.expression_object(
+        Ok(self.ast.expr_object(
             self.end_span(span),
             object_expression_properties,
             trailing_comma,
@@ -113,7 +113,7 @@ impl<'a> ParserImpl<'a> {
                         self.end_span(span),
                         PropertyKind::Init,
                         key,
-                        self.ast.expression_from_function(method),
+                        self.ast.expr_from_function(method),
                         /* init */ None,
                         /* method */ true,
                         /* shorthand */ false,
@@ -151,12 +151,10 @@ impl<'a> ParserImpl<'a> {
         let init = if self.eat(Kind::Eq) {
             let right = self.parse_assignment_expression_or_higher()?;
             let left = AssignTarget::AssignTargetIdent(self.ast.alloc(identifier));
-            Some(self.ast.expression_assignment(
-                self.end_span(span),
-                AssignOperator::Assign,
-                left,
-                right,
-            ))
+            Some(
+                self.ast
+                    .expr_assignment(self.end_span(span), AssignOperator::Assign, left, right),
+            )
         } else {
             None
         };
@@ -239,7 +237,7 @@ impl<'a> ParserImpl<'a> {
         let generator = self.eat(Kind::Star);
         let (key, computed) = self.parse_property_name()?;
         let method = self.parse_method(is_async, generator)?;
-        let value = self.ast.expression_from_function(method);
+        let value = self.ast.expr_from_function(method);
         Ok(self.ast.alloc_object_property(
             self.end_span(span),
             PropertyKind::Init,
@@ -260,7 +258,7 @@ impl<'a> ParserImpl<'a> {
         self.expect(Kind::Get)?;
         let (key, computed) = self.parse_property_name()?;
         let method = self.parse_method(false, false)?;
-        let value = self.ast.expression_from_function(method);
+        let value = self.ast.expr_from_function(method);
         Ok(self.ast.alloc_object_property(
             self.end_span(span),
             PropertyKind::Get,
@@ -286,7 +284,7 @@ impl<'a> ParserImpl<'a> {
             self.end_span(span),
             PropertyKind::Set,
             key,
-            self.ast.expression_from_function(method),
+            self.ast.expr_from_function(method),
             /* init */ None,
             /* method */ false,
             /* shorthand */ false,
