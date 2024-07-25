@@ -13,6 +13,12 @@
 
 - **(swc_core)** Remove unused `preset_env` ([#9333](https://github.com/swc-project/swc/issues/9333)) ([75bc7bf](https://github.com/swc-project/swc/commit/75bc7bfb52f81050f863466ff595ece765ca4fcf))
 
+### Documentation
+
+
+
+- **(bindings/wasm)** Document supported TypeScript version ([#9334](https://github.com/swc-project/swc/issues/9334)) ([66f31c0](https://github.com/swc-project/swc/commit/66f31c0af46dea60c51e4155a8887a5d2b441da3))
+
 ## [1.7.1] - 2024-07-24
 
 ### Bug Fixes
@@ -1322,18 +1328,6 @@
 
 
 - **(es/plugin)** Fix schema version issue ([#8621](https://github.com/swc-project/swc/issues/8621)) ([132be95](https://github.com/swc-project/swc/commit/132be951733660654b5c0992e19b5f3d414e7350))
-
-### Features
-
-
-
-- **(es/minifier)** Implement correct `hoist_props` ([#8593](https://github.com/swc-project/swc/issues/8593)) ([3122e94](https://github.com/swc-project/swc/commit/3122e944a8a1720584b43c7f0c4db3508f0cf915))
-
-### Miscellaneous Tasks
-
-
-
-- **(preset-env)** Update `browserslist-rs` ([#8614](https://github.com/swc-project/swc/issues/8614)) ([e5585e9](https://github.com/swc-project/swc/commit/e5585e99f120eb7c76625d90961fd6e4f12579e5))
 
 ### Testing
 
