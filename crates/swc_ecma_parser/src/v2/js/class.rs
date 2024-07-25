@@ -2,12 +2,14 @@ use oxc_ast::syntax_directed_operations::PropName;
 use swc_common::Span;
 use swc_ecma_ast::{Accessibility, Expr, Stmt, *};
 
-use crate::v2::{
-    diagnostics,
-    diagnostics::Result,
-    lexer::Kind,
-    modifiers::{ModifierFlags, ModifierKind, Modifiers},
-    Context, ParserImpl, StatementContext,
+use crate::{
+    types::{ClassType, MethodDefinitionKind, MethodDefinitionType},
+    v2::{
+        diagnostics::{self, Result},
+        lexer::Kind,
+        modifiers::{ModifierFlags, ModifierKind, Modifiers},
+        Context, ParserImpl, StatementContext,
+    },
 };
 
 type Extends<'a> = Vec<(Expr, Option<Box<TsTypeParamInstantiation>>, Span)>;
