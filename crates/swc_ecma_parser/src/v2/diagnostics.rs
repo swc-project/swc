@@ -228,6 +228,11 @@ pub(crate) fn yield_expression(span: Span) -> Diagnostic {
 }
 
 #[cold]
+pub(crate) fn rest_parameter_last(span: Span) -> Diagnostic {
+    todo!("rest_parameter_last")
+}
+
+#[cold]
 pub(crate) fn accessibility_modifier_on_private_property(modifier: &Modifier) -> Diagnostic {
     todo!("accessibility_modifier_on_private_property")
 }
