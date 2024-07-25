@@ -182,7 +182,7 @@ impl<'a> ParserImpl<'a> {
         }
     }
 
-    pub(crate) fn parse_ts_type_signature(&mut self) -> Result<Option<TsSignature<'a>>> {
+    pub(crate) fn parse_ts_type_signature(&mut self) -> Result<Option<TsTypeElement<'a>>> {
         if self.is_at_ts_index_signature_member() {
             return self.parse_ts_index_signature_member().map(Some);
         }

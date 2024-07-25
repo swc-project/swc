@@ -1195,7 +1195,7 @@ impl<'a> ParserImpl<'a> {
         self.peek_kind().is_literal_property_name() || self.peek_at(Kind::LBrack)
     }
 
-    pub(crate) fn parse_ts_call_signature_member(&mut self) -> Result<TsSignature<'a>> {
+    pub(crate) fn parse_ts_call_signature_member(&mut self) -> Result<TsTypeElement<'a>> {
         let span = self.start_span();
         let type_parameters = self.parse_ts_type_parameters()?;
         let (this_patam, params) = self.parse_formal_parameters(FormalParamKind::Signature)?;
@@ -1211,7 +1211,7 @@ impl<'a> ParserImpl<'a> {
         ))
     }
 
-    pub(crate) fn parse_ts_getter_signature_member(&mut self) -> Result<TsSignature<'a>> {
+    pub(crate) fn parse_ts_getter_signature_member(&mut self) -> Result<TsTypeElement<'a>> {
         let span = self.start_span();
         self.expect(Kind::Get)?;
         let (key, computed) = self.parse_property_name()?;
@@ -1232,7 +1232,7 @@ impl<'a> ParserImpl<'a> {
         ))
     }
 
-    pub(crate) fn parse_ts_setter_signature_member(&mut self) -> Result<TsSignature<'a>> {
+    pub(crate) fn parse_ts_setter_signature_member(&mut self) -> Result<TsTypeElement<'a>> {
         let span = self.start_span();
         self.expect(Kind::Set)?;
         let (key, computed) = self.parse_property_name()?;
@@ -1260,7 +1260,7 @@ impl<'a> ParserImpl<'a> {
 
     pub(crate) fn parse_ts_property_or_method_signature_member(
         &mut self,
-    ) -> Result<TsSignature<'a>> {
+    ) -> Result<TsTypeElement<'a>> {
         let span = self.start_span();
         let readonly = self.at(Kind::Readonly) && self.is_next_at_type_member_name();
 
@@ -1272,7 +1272,7 @@ impl<'a> ParserImpl<'a> {
         let optional = self.eat(Kind::Question);
 
         if self.at(Kind::LParen) || self.at(Kind::LAngle) {
-            let TsSignature::TsCallSignatureDeclaration(call_signature) =
+            let TsTypeElement::TsCallSignatureDeclaration(call_signature) =
                 self.parse_ts_call_signature_member()?
             else {
                 unreachable!()
@@ -1306,7 +1306,7 @@ impl<'a> ParserImpl<'a> {
         }
     }
 
-    pub(crate) fn parse_ts_constructor_signature_member(&mut self) -> Result<TsSignature<'a>> {
+    pub(crate) fn parse_ts_constructor_signature_member(&mut self) -> Result<TsTypeElement<'a>> {
         let span = self.start_span();
         self.expect(Kind::New)?;
 
@@ -1330,7 +1330,7 @@ impl<'a> ParserImpl<'a> {
         ))
     }
 
-    pub(crate) fn parse_ts_index_signature_member(&mut self) -> Result<TsSignature<'a>> {
+    pub(crate) fn parse_ts_index_signature_member(&mut self) -> Result<TsTypeElement<'a>> {
         let span = self.start_span();
         let mut readonly = false;
         while self.is_nth_at_modifier(0, false) {
