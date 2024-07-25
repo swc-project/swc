@@ -209,3 +209,13 @@ pub(crate) fn constructor_async(span: Span) -> Diagnostic {
 pub(crate) fn constructor_generator(span: Span) -> Diagnostic {
     todo!("constructor_generator")
 }
+
+#[cold]
+pub(crate) fn optional_chain_tagged_template(span: Span) -> Diagnostic {
+    todo!("optional_chain_tagged_template")
+}
+
+#[cold]
+pub(crate) fn invalid_number(err: &'static str, span: Span) -> Diagnostic {
+    todo!("invalid_number")
+}
