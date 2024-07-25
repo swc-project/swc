@@ -266,7 +266,7 @@ impl<'a> ParserImpl<'a> {
             //                                            ^^^^^^^^^^^^^ span
             let expr = self
                 .ast
-                .jsx_empty_expression(Span::new(span.start + 1, span.end - 1));
+                .jsx_empty_expression(Span::new(span.lo + 1, span.hi - 1));
             JSXExpr::Empty(expr)
         } else {
             let expr = self.parse_jsx_assignment_expression().map(JSXExpr::from)?;

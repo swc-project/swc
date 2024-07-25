@@ -974,7 +974,7 @@ impl<'a> ParserImpl<'a> {
         }
         let ty = self.parse_ts_type()?;
         if let TsType::JSDocNullableType(ty) = ty {
-            if ty.span.start == ty.type_annotation.span().start {
+            if ty.span.lo == ty.type_annotation.span().start {
                 Ok(TsTupleElement::TsOptionalType(self.ast.alloc(
                     TsOptionalType {
                         span: ty.span,

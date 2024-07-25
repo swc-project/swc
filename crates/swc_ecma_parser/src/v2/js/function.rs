@@ -209,13 +209,13 @@ impl<'a> ParserImpl<'a> {
         if stmt_ctx.is_single_statement() {
             if decl.r#async {
                 self.error(diagnostics::async_function_declaration(Span::new(
-                    decl.span.start,
-                    decl.params.span.end,
+                    decl.span.lo,
+                    decl.params.span.hi,
                 )));
             } else if decl.generator {
                 self.error(diagnostics::generator_function_declaration(Span::new(
-                    decl.span.start,
-                    decl.params.span.end,
+                    decl.span.lo,
+                    decl.params.span.hi,
                 )));
             }
         }
@@ -300,8 +300,8 @@ impl<'a> ParserImpl<'a> {
         let has_yield = self.ctx.has_yield();
         if !has_yield {
             self.error(diagnostics::yield_expression(Span::new(
-                span.start,
-                span.start + 5,
+                span.lo,
+                span.lo + 5,
             )));
         }
 

@@ -30,8 +30,8 @@ impl<'a> ParserImpl<'a> {
 
         if stmt_ctx.is_single_statement() {
             self.error(diagnostics::class_declaration(Span::new(
-                decl.span.start,
-                decl.body.span.start,
+                decl.span.lo,
+                decl.body.span.lo,
             )));
         }
 

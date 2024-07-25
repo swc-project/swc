@@ -16,7 +16,7 @@ impl<'a> ParserImpl<'a> {
             let span = self.start_span();
             self.bump_any();
             let span = self.end_span(span);
-            let src = &self.source_text[span.start as usize + 2..span.end as usize];
+            let src = &self.source_text[span.lo as usize + 2..span.hi as usize];
             Some(self.ast.hashbang(span, Atom::from(src)))
         } else {
             None
@@ -49,9 +49,9 @@ impl<'a> ParserImpl<'a> {
                     if let Expr::Str(string) = &expr.expression {
                         // span start will mismatch if they are parenthesized when `preserve_parens
                         // = false`
-                        if expr.span.start == string.span.start {
+                        if expr.span.lo == string.span.lo {
                             let src = &self.source_text
-                                [string.span.start as usize + 1..string.span.end as usize - 1];
+                                [string.span.lo as usize + 1..string.span.hi as usize - 1];
                             let directive =
                                 self.ast
                                     .directive(expr.span, (*string).clone(), Atom::from(src));
@@ -424,7 +424,7 @@ impl<'a> ParserImpl<'a> {
         };
         if !self.ctx.has_return() {
             self.error(diagnostics::return_statement_only_in_function_body(
-                Span::new(span.start, span.start + 6),
+                Span::new(span.lo, span.lo + 6),
             ));
         }
         Ok(self.ast.statement_return(self.end_span(span), argument))
@@ -515,7 +515,7 @@ impl<'a> ParserImpl<'a> {
             .transpose()?;
 
         if handler.is_none() && finalizer.is_none() {
-            let range = Span::new(block.span.end, block.span.end);
+            let range = Span::new(block.span.hi, block.span.hi);
             self.error(diagnostics::expect_catch_finally(range));
         }
 
