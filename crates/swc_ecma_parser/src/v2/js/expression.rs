@@ -166,8 +166,8 @@ impl<'a> ParserImpl<'a> {
         // FunctionExpression, GeneratorExpression
         // AsyncFunctionExpression, AsyncGeneratorExpression
         if self.at_function_with_async() {
-            let r#async = self.eat(Kind::Async);
-            return self.parse_function_expression(span, r#async);
+            let is_async = self.eat(Kind::Async);
+            return self.parse_function_expression(span, is_async);
         }
 
         match self.cur_kind() {
