@@ -34,7 +34,7 @@ impl<'a> CoverGrammar<'a, Expr> for SimpleAssignTarget {
             }
             Expr::Parenthesized(expr) => {
                 let span = expr.span;
-                match expr.unbox().expression {
+                match expr.unbox().expr {
                     Expr::Object(_) | Expr::Array(_) => Err(diagnostics::invalid_assignment(span)),
                     expr => SimpleAssignTarget::cover(expr, p),
                 }
