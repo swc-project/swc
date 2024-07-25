@@ -266,3 +266,8 @@ pub(crate) fn new_optional_chain(span: Span) -> Diagnostic {
 pub(crate) fn new_dynamic_import(span: Span) -> Diagnostic {
     todo!("new_dynamic_import")
 }
+
+#[cold]
+pub(crate) fn expect_function_name(span: Span) -> Diagnostic {
+    todo!("expect_function_name")
+}
