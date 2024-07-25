@@ -505,7 +505,7 @@ impl<'a> ParserImpl<'a> {
             .expr_tagged_template(span, lhs, quasi, type_parameters))
     }
 
-    pub(crate) fn parse_template_element(&mut self, tagged: bool) -> TemplateElement<'a> {
+    pub(crate) fn parse_template_element(&mut self, tagged: bool) -> TplElement {
         let span = self.start_span();
         let cur_kind = self.cur_kind();
         let end_offset: u32 = match cur_kind {
@@ -933,7 +933,7 @@ impl<'a> ParserImpl<'a> {
             Expr::PrivateIn(self.ast.alloc(PrivateInExpression {
                 span: self.end_span(lhs_span),
                 left,
-                operator: BinaryOperator::In,
+                operator: BinaryOp::In,
                 right,
             }))
         } else {
