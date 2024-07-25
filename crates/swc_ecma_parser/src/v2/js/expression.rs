@@ -471,10 +471,10 @@ impl<'a> ParserImpl<'a> {
             }
             _ => unreachable!("parse_template_literal"),
         }
-        Ok(TemplateLiteral {
+        Ok(Tpl {
             span: self.end_span(span),
             quasis,
-            expressions,
+            exprs: expressions,
         })
     }
 
