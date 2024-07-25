@@ -228,6 +228,16 @@ pub(crate) fn yield_expression(span: Span) -> Diagnostic {
 }
 
 #[cold]
+pub(crate) fn async_function_declaration(span: Span) -> Diagnostic {
+    todo!("async_function_declaration")
+}
+
+#[cold]
+pub(crate) fn generator_function_declaration(span: Span) -> Diagnostic {
+    todo!("generator_function_declaration")
+}
+
+#[cold]
 pub(crate) fn rest_parameter_last(span: Span) -> Diagnostic {
     todo!("rest_parameter_last")
 }
