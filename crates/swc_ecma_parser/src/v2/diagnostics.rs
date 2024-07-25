@@ -231,3 +231,8 @@ pub(crate) fn yield_expression(span: Span) -> Diagnostic {
 pub(crate) fn accessibility_modifier_on_private_property(modifier: &Modifier) -> Diagnostic {
     todo!("accessibility_modifier_on_private_property")
 }
+
+#[cold]
+pub(crate) fn modifier_already_seen(modifier: &Modifier) -> Diagnostic {
+    todo!("modifier_already_seen")
+}
