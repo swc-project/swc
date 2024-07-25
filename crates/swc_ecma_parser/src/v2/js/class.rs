@@ -204,7 +204,7 @@ impl<'a> ParserImpl<'a> {
         let declare = modifiers.contains(ModifierKind::Declare);
         let readonly = modifiers.contains(ModifierKind::Readonly);
         let is_override = modifiers.contains(ModifierKind::Override);
-        let r#abstract = modifiers.contains(ModifierKind::Abstract);
+        let is_abstract = modifiers.contains(ModifierKind::Abstract);
         let mut is_static = modifiers.contains(ModifierKind::Static);
         let mut is_async = modifiers.contains(ModifierKind::Async);
 
@@ -293,7 +293,7 @@ impl<'a> ParserImpl<'a> {
 
         if accessor {
             self.parse_ts_type_annotation()?;
-            self.parse_class_accessor_property(span, key, computed, is_static, r#abstract)
+            self.parse_class_accessor_property(span, key, computed, is_static, is_abstract)
                 .map(Some)
         } else if self.at(Kind::LParen) || self.at(Kind::LAngle) || is_async || generator {
             // LAngle for start of type parameters `foo<T>`
@@ -307,7 +307,7 @@ impl<'a> ParserImpl<'a> {
                 is_async,
                 generator,
                 is_override,
-                r#abstract,
+                is_abstract,
                 accessibility,
                 optional,
             )?;
@@ -341,7 +341,7 @@ impl<'a> ParserImpl<'a> {
                 declare,
                 is_override,
                 readonly,
-                r#abstract,
+                is_abstract,
                 accessibility,
                 optional,
                 definite,
@@ -382,7 +382,7 @@ impl<'a> ParserImpl<'a> {
         is_async: bool,
         generator: bool,
         is_override: bool,
-        r#abstract: bool,
+        is_abstract: bool,
         accessibility: Option<Accessibility>,
         optional: bool,
     ) -> Result<ClassMember> {
@@ -412,7 +412,7 @@ impl<'a> ParserImpl<'a> {
             }
         }
 
-        let r#type = if r#abstract {
+        let r#type = if is_abstract {
             MethodDefinitionType::TsAbstractMethodDefinition
         } else {
             MethodDefinitionType::MethodDefinition
@@ -444,7 +444,7 @@ impl<'a> ParserImpl<'a> {
         declare: bool,
         is_override: bool,
         readonly: bool,
-        r#abstract: bool,
+        is_abstract: bool,
         accessibility: Option<Accessibility>,
         optional: bool,
         definite: bool,
@@ -465,12 +465,12 @@ impl<'a> ParserImpl<'a> {
         };
         self.asi()?;
 
-        let r#type = if r#abstract {
+        let r#type = if is_abstract {
             PropertyDefinitionType::TsAbstractPropertyDefinition
         } else {
             PropertyDefinitionType::PropertyDefinition
         };
-        let property_definition = PropertyDefinition {
+        let property_definition = ClassProp {
             r#type,
             span: self.end_span(span),
             key,
@@ -486,9 +486,7 @@ impl<'a> ParserImpl<'a> {
             definite,
             decorators: self.consume_decorators(),
         };
-        Ok(ClassMember::PropertyDefinition(
-            self.ast.alloc(property_definition),
-        ))
+        Ok(ClassMember::ClassProp(self.ast.alloc(property_definition)))
     }
 
     /// `ClassStaticBlockStatementList` :
@@ -511,13 +509,13 @@ impl<'a> ParserImpl<'a> {
         key: PropertyKey<'a>,
         computed: bool,
         is_static: bool,
-        r#abstract: bool,
+        is_abstract: bool,
     ) -> Result<ClassMember> {
         let value = self
             .eat(Kind::Eq)
             .then(|| self.parse_assignment_expression_or_higher())
             .transpose()?;
-        let r#type = if r#abstract {
+        let r#type = if is_abstract {
             AccessorPropertyType::TsAbstractAccessorProperty
         } else {
             AccessorPropertyType::AccessorProperty
