@@ -16,8 +16,8 @@ use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span};
 
 pub use self::{
     class::{
-        AutoAccessor, Class, ClassMember, ClassMethod, ClassProp, Constructor, Decorator, Key,
-        MethodKind, PrivateMethod, PrivateProp, StaticBlock,
+        AutoAccessor, Class, ClassBody, ClassMember, ClassMethod, ClassProp, Constructor,
+        Decorator, Key, MethodKind, PrivateMethod, PrivateProp, StaticBlock,
     },
     decl::{ClassDecl, Decl, FnDecl, UsingDecl, VarDecl, VarDeclKind, VarDeclarator},
     expr::*,
@@ -165,9 +165,10 @@ impl EsVersion {
 #[doc(hidden)]
 pub use self::{
     class::{
-        ArchivedAutoAccessor, ArchivedClass, ArchivedClassMember, ArchivedClassMethod,
-        ArchivedClassProp, ArchivedConstructor, ArchivedDecorator, ArchivedKey, ArchivedMethodKind,
-        ArchivedPrivateMethod, ArchivedPrivateProp, ArchivedStaticBlock,
+        ArchivedAutoAccessor, ArchivedClass, ArchivedClassBody, ArchivedClassMember,
+        ArchivedClassMethod, ArchivedClassProp, ArchivedConstructor, ArchivedDecorator,
+        ArchivedKey, ArchivedMethodKind, ArchivedPrivateMethod, ArchivedPrivateProp,
+        ArchivedStaticBlock,
     },
     decl::{
         ArchivedClassDecl, ArchivedDecl, ArchivedFnDecl, ArchivedUsingDecl, ArchivedVarDecl,

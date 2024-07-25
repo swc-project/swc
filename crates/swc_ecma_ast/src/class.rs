@@ -14,19 +14,31 @@ use crate::{
     BigInt, ComputedPropName, EmptyStmt, Id, Ident, IdentName, Number,
 };
 
+#[ast_node("ClassBody")]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+pub struct ClassBody {
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub span: Span,
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub body: Vec<ClassMember>,
+}
+
 #[ast_node]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Class {
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub ctxt: SyntaxContext,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub decorators: Vec<Decorator>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    pub body: Vec<ClassMember>,
+    pub body: ClassBody,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub super_class: Option<Box<Expr>>,
