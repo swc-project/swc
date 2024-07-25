@@ -189,3 +189,23 @@ pub(crate) fn binding_rest_element_trailing_comma(span: Span) -> Diagnostic {
 pub(crate) fn class_declaration(span: Span) -> Diagnostic {
     todo!("class_declaration")
 }
+
+#[cold]
+pub(crate) fn private_name_constructor(span: Span) -> Diagnostic {
+    todo!("private_name_constructor")
+}
+
+#[cold]
+pub(crate) fn constructor_getter_setter(span: Span) -> Diagnostic {
+    todo!("constructor_getter_setter")
+}
+
+#[cold]
+pub(crate) fn constructor_async(span: Span) -> Diagnostic {
+    todo!("constructor_async")
+}
+
+#[cold]
+pub(crate) fn constructor_generator(span: Span) -> Diagnostic {
+    todo!("constructor_generator")
+}
