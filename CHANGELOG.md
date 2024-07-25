@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.7.2] - 2024-07-25
 
 ### Bug Fixes
 
@@ -1328,12 +1328,6 @@
 
 
 - **(es/plugin)** Fix schema version issue ([#8621](https://github.com/swc-project/swc/issues/8621)) ([132be95](https://github.com/swc-project/swc/commit/132be951733660654b5c0992e19b5f3d414e7350))
-
-### Testing
-
-
-
-- **(es)** Update `tsc` conformance test suite ([#8615](https://github.com/swc-project/swc/issues/8615)) ([c0beba7](https://github.com/swc-project/swc/commit/c0beba7708f88320617d02ce68f079bbe0252075))
 
 ### Build
 
