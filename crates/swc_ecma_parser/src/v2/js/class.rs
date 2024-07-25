@@ -48,7 +48,7 @@ impl<'a> ParserImpl<'a> {
         &mut self,
         start_span: Span,
         modifiers: &Modifiers<'a>,
-    ) -> Result<Box<Class<'a>>> {
+    ) -> Result<Box<Class>> {
         self.parse_class(start_span, ClassType::ClassDeclaration, modifiers)
     }
 
@@ -70,7 +70,7 @@ impl<'a> ParserImpl<'a> {
         start_span: Span,
         r#type: ClassType,
         modifiers: &Modifiers<'a>,
-    ) -> Result<Box<Class<'a>>> {
+    ) -> Result<Box<Class>> {
         self.bump_any(); // advance `class`
 
         let decorators = self.consume_decorators();
