@@ -203,10 +203,10 @@ impl<'a> ParserImpl<'a> {
         &mut self,
         span: Span,
         ident: Expr,
-        is_async: bool,
+        r#async: bool,
     ) -> Result<Expr> {
         let has_await = self.ctx.has_await();
-        self.ctx = self.ctx.union_await_if(is_async);
+        self.ctx = self.ctx.union_await_if(r#async);
 
         let params = {
             let ident = match ident {
@@ -241,16 +241,16 @@ impl<'a> ParserImpl<'a> {
         self.expect(Kind::Arrow)?;
 
         self.parse_arrow_function_body(
-            span, /* type_parameters */ None, params, /* return_type */ None, is_async,
+            span, /* type_parameters */ None, params, /* return_type */ None, r#async,
         )
     }
 
     fn parse_parenthesized_arrow_function_head(&mut self) -> Result<ArrowFunctionHead<'a>> {
         let span = self.start_span();
-        let is_async = self.eat(Kind::Async);
+        let r#async = self.eat(Kind::Async);
 
         let has_await = self.ctx.has_await();
-        self.ctx = self.ctx.union_await_if(is_async);
+        self.ctx = self.ctx.union_await_if(r#async);
 
         let type_parameters = self.parse_ts_type_parameters()?;
 
@@ -276,7 +276,7 @@ impl<'a> ParserImpl<'a> {
 
         self.expect(Kind::Arrow)?;
 
-        Ok((type_parameters, params, return_type, is_async, span))
+        Ok((type_parameters, params, return_type, r#async, span))
     }
 
     /// [ConciseBody](https://tc39.es/ecma262/#prod-ConciseBody)
@@ -290,11 +290,11 @@ impl<'a> ParserImpl<'a> {
         type_parameters: Option<Box<TsTypeParamDecl>>,
         params: Box<FormalParams<'a>>,
         return_type: Option<Box<TsTypeAnn>>,
-        is_async: bool,
+        r#async: bool,
     ) -> Result<Expr> {
         let has_await = self.ctx.has_await();
         let has_yield = self.ctx.has_yield();
-        self.ctx = self.ctx.and_await(is_async).and_yield(false);
+        self.ctx = self.ctx.and_await(r#async).and_yield(false);
 
         let expression = !self.at(Kind::LCurly);
         let body = if expression {
@@ -309,10 +309,10 @@ impl<'a> ParserImpl<'a> {
 
         self.ctx = self.ctx.and_await(has_await).and_yield(has_yield);
 
-        Ok(self.ast.expr_arrow_function(
+        Ok(self.ast.expression_arrow_function(
             self.end_span(span),
             expression,
-            is_async,
+            r#async,
             type_parameters,
             params,
             return_type,
@@ -325,9 +325,9 @@ impl<'a> ParserImpl<'a> {
     ///     `ArrowParams`[?Yield, ?Await] [no `LineTerminator` here] =>
     /// `ConciseBody`[?In]
     fn parse_parenthesized_arrow_function(&mut self) -> Result<Option<Expr>> {
-        let (type_parameters, params, return_type, is_async, span) =
+        let (type_parameters, params, return_type, r#async, span) =
             self.parse_parenthesized_arrow_function_head()?;
-        self.parse_arrow_function_body(span, type_parameters, params, return_type, is_async)
+        self.parse_arrow_function_body(span, type_parameters, params, return_type, r#async)
             .map(Some)
     }
 
@@ -336,11 +336,11 @@ impl<'a> ParserImpl<'a> {
         if self.state.not_parenthesized_arrow.contains(&pos) {
             return Ok(None);
         }
-        if let Some((type_parameters, params, return_type, is_async, span)) =
+        if let Some((type_parameters, params, return_type, r#async, span)) =
             self.try_parse(ParserImpl::parse_parenthesized_arrow_function_head)
         {
             return self
-                .parse_arrow_function_body(span, type_parameters, params, return_type, is_async)
+                .parse_arrow_function_body(span, type_parameters, params, return_type, r#async)
                 .map(Some);
         }
         self.state.not_parenthesized_arrow.insert(pos);

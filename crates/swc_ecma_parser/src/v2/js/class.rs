@@ -3,7 +3,10 @@ use swc_common::Span;
 use swc_ecma_ast::{Accessibility, Expr, Stmt, *};
 
 use crate::{
-    types::{ClassType, MethodDefinitionKind, MethodDefinitionType},
+    types::{
+        AccessorPropertyType, ClassType, MethodDefinitionKind, MethodDefinitionType,
+        PropertyDefinitionType,
+    },
     v2::{
         diagnostics::{self, Result},
         lexer::Kind,
@@ -148,7 +151,6 @@ impl<'a> ParserImpl<'a> {
         let mut first_extends = self.parse_lhs_expression_or_higher()?;
         let first_type_argument;
         if let Expr::TsInstantiation(expr) = first_extends {
-            let expr = expr.unbox();
             first_extends = expr.expr;
             first_type_argument = Some(expr.type_parameters);
         } else {
@@ -161,7 +163,6 @@ impl<'a> ParserImpl<'a> {
             let mut extend = self.parse_lhs_expression_or_higher()?;
             let type_argument;
             if let Expr::TsInstantiation(expr) = extend {
-                let expr = expr.unbox();
                 extend = expr.expr;
                 type_argument = Some(expr.type_parameters);
             } else {
