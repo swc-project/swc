@@ -18,3 +18,9 @@ pub enum MethodDefinitionType {
     MethodDefinition,
     TsAbstractMethodDefinition,
 }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub enum PropertyDefinitionType {
+    PropertyDefinition,
+    TsAbstractPropertyDefinition,
+}
