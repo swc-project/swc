@@ -203,6 +203,6 @@ impl<'a> ParserImpl<'a> {
             BindingPatternKind::ArrayPattern(pat) => &mut pat.span,
             BindingPatternKind::AssignPattern(pat) => &mut pat.span,
         };
-        pat_span.end = span.end;
+        pat_span.hi = span.hi;
     }
 }
