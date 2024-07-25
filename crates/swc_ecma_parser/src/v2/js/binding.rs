@@ -95,7 +95,7 @@ impl<'a> ParserImpl<'a> {
         }
     }
 
-    fn parse_rest_binding(&mut self) -> Result<BindingRestElement<'a>> {
+    fn parse_rest_binding(&mut self) -> Result<RestPat> {
         // self.eat_decorators()?;
         let elem = self.parse_rest_element()?;
         if self.at(Kind::Comma) {
@@ -112,7 +112,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     /// Section 14.3.3 Binding Rest Property
-    pub(super) fn parse_rest_element(&mut self) -> Result<BindingRestElement<'a>> {
+    pub(super) fn parse_rest_element(&mut self) -> Result<RestPat> {
         let span = self.start_span();
         self.bump_any(); // advance `...`
         let init_span = self.start_span();

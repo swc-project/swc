@@ -84,7 +84,7 @@ impl<'a> ParserImpl<'a> {
         modifiers
     }
 
-    fn parse_formal_parameter(&mut self) -> Result<FormalParam<'a>> {
+    fn parse_formal_parameter(&mut self) -> Result<Param> {
         let span = self.start_span();
         self.eat_decorators()?;
         let modifiers = self.parse_parameter_modifiers();
@@ -100,7 +100,7 @@ impl<'a> ParserImpl<'a> {
         ))
     }
 
-    fn parse_rest_parameter(&mut self) -> Result<BindingRestElement<'a>> {
+    fn parse_rest_parameter(&mut self) -> Result<RestPat> {
         let element = self.parse_rest_element()?;
         if self.at(Kind::Comma) {
             if matches!(self.peek_kind(), Kind::RCurly | Kind::RBrack) {
