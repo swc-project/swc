@@ -1289,7 +1289,7 @@ impl<'a> ParserImpl<'a> {
                 call_signature.this_param,
                 call_signature.params,
                 call_signature.return_type,
-                call_signature.type_parameters,
+                call_signature.type_params,
             ))
         } else {
             let type_annotation = self.parse_ts_type_annotation()?;

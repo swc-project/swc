@@ -152,7 +152,7 @@ impl<'a> ParserImpl<'a> {
         let first_type_argument;
         if let Expr::TsInstantiation(expr) = first_extends {
             first_extends = expr.expr;
-            first_type_argument = Some(expr.type_parameters);
+            first_type_argument = Some(expr.type_params);
         } else {
             first_type_argument = self.try_parse_type_arguments()?;
         }
@@ -164,7 +164,7 @@ impl<'a> ParserImpl<'a> {
             let type_argument;
             if let Expr::TsInstantiation(expr) = extend {
                 extend = expr.expr;
-                type_argument = Some(expr.type_parameters);
+                type_argument = Some(expr.type_params);
             } else {
                 type_argument = self.try_parse_type_arguments()?;
             }
