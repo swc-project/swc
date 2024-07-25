@@ -219,3 +219,8 @@ pub(crate) fn optional_chain_tagged_template(span: Span) -> Diagnostic {
 pub(crate) fn invalid_number(err: &'static str, span: Span) -> Diagnostic {
     todo!("invalid_number")
 }
+
+#[cold]
+pub(crate) fn yield_expression(span: Span) -> Diagnostic {
+    todo!("yield_expression")
+}
