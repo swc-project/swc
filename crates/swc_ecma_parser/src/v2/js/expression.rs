@@ -58,18 +58,18 @@ impl<'a> ParserImpl<'a> {
         Ok(self.ast.expression_from_identifier_reference(ident))
     }
 
-    pub(crate) fn parse_identifier_reference(&mut self) -> Result<IdentReference<'a>> {
+    pub(crate) fn parse_identifier_reference(&mut self) -> Result<Ident> {
         // allow `await` and `yield`, let semantic analysis report error
         if !self.cur_kind().is_identifier_reference(false, false) {
             return Err(self.unexpected());
         }
         let (span, name) = self.parse_identifier_kind(Kind::Ident);
         self.check_identifier(span, &name);
-        Ok(IdentReference::new(span, name))
+        Ok(Ident::new(span, name, Default::default()))
     }
 
     /// `BindingIdent` : Ident
-    pub(crate) fn parse_binding_identifier(&mut self) -> Result<BindingIdent<'a>> {
+    pub(crate) fn parse_binding_identifier(&mut self) -> Result<BindingIdent> {
         if !self.cur_kind().is_binding_identifier() {
             return Err(self.unexpected());
         }
@@ -82,7 +82,7 @@ impl<'a> ParserImpl<'a> {
         })
     }
 
-    pub(crate) fn parse_label_identifier(&mut self) -> Result<LabelIdent<'a>> {
+    pub(crate) fn parse_label_identifier(&mut self) -> Result<LabelIdent> {
         if !self
             .cur_kind()
             .is_label_identifier(self.ctx.has_yield(), self.ctx.has_await())
@@ -94,22 +94,22 @@ impl<'a> ParserImpl<'a> {
         Ok(LabelIdent { span, name })
     }
 
-    pub(crate) fn parse_identifier_name(&mut self) -> Result<IdentName<'a>> {
+    pub(crate) fn parse_identifier_name(&mut self) -> Result<IdentName> {
         if !self.cur_kind().is_identifier_name() {
             return Err(self.unexpected());
         }
         let (span, name) = self.parse_identifier_kind(Kind::Ident);
-        Ok(IdentName { span, name })
+        Ok(IdentName { span, sym: name })
     }
 
     /// Parse keyword kind as identifier
-    pub(crate) fn parse_keyword_identifier(&mut self, kind: Kind) -> IdentName<'a> {
+    pub(crate) fn parse_keyword_identifier(&mut self, kind: Kind) -> IdentName {
         let (span, name) = self.parse_identifier_kind(kind);
-        IdentName { span, name }
+        IdentName { span, sym: name }
     }
 
     #[inline]
-    pub(crate) fn parse_identifier_kind(&mut self, kind: Kind) -> (Span, Atom<'a>) {
+    pub(crate) fn parse_identifier_kind(&mut self, kind: Kind) -> (Span, Atom) {
         let span = self.start_span();
         let name = self.cur_string();
         self.bump_remap(kind);
