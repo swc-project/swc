@@ -49,20 +49,20 @@ impl<'a> CoverGrammar<'a, Expr> for SimpleAssignTarget {
     }
 }
 
-impl<'a> CoverGrammar<'a, ArrayExpr> for ArrayPat {
-    fn cover(expr: ArrayExpr, p: &mut ParserImpl<'a>) -> Result<Self> {
+impl<'a> CoverGrammar<'a, ArrayLit> for ArrayPat {
+    fn cover(expr: ArrayLit, p: &mut ParserImpl<'a>) -> Result<Self> {
         let mut elements = p.ast.vec();
         let mut rest = None;
 
         let len = expr.elements.len();
         for (i, elem) in expr.elements.into_iter().enumerate() {
             match elem {
-                match_expression!(ArrayExpressionElement) => {
+                match_expression!(ArrayLitessionElement) => {
                     let expr = Expr::try_from(elem).unwrap();
                     let target = AssignTargetMaybeDefault::cover(expr, p)?;
                     elements.push(Some(target));
                 }
-                ArrayExpressionElement::SpreadElement(elem) => {
+                ArrayLitessionElement::SpreadElement(elem) => {
                     if i == len - 1 {
                         rest = Some(AssignTargetRest {
                             span: elem.span,
@@ -75,7 +75,7 @@ impl<'a> CoverGrammar<'a, ArrayExpr> for ArrayPat {
                         return Err(diagnostics::spread_last_element(elem.span));
                     }
                 }
-                ArrayExpressionElement::Elision(_) => elements.push(None),
+                ArrayLitessionElement::Elision(_) => elements.push(None),
             }
         }
 

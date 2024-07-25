@@ -410,23 +410,23 @@ impl<'a> ParserImpl<'a> {
             .expression_array(self.end_span(span), elements, trailing_comma))
     }
 
-    fn parse_array_expression_element(&mut self) -> Result<ArrayExpressionElement<'a>> {
+    fn parse_array_expression_element(&mut self) -> Result<ArrayLitessionElement<'a>> {
         match self.cur_kind() {
             Kind::Comma => Ok(self.parse_elision()),
             Kind::Dot3 => self
                 .parse_spread_element()
-                .map(ArrayExpressionElement::SpreadElement),
+                .map(ArrayLitessionElement::SpreadElement),
             _ => self
                 .parse_assignment_expression_or_higher()
-                .map(ArrayExpressionElement::from),
+                .map(ArrayLitessionElement::from),
         }
     }
 
     /// Elision :
     ///     ,
     ///    Elision ,
-    pub(crate) fn parse_elision(&mut self) -> ArrayExpressionElement<'a> {
-        ArrayExpressionElement::Elision(Elision {
+    pub(crate) fn parse_elision(&mut self) -> ArrayLitessionElement<'a> {
+        ArrayLitessionElement::Elision(Elision {
             span: self.cur_token().span(),
         })
     }
