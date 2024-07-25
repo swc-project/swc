@@ -13,6 +13,21 @@ pub struct Diagnostic(Box<DiagnoticKind>);
 pub enum DiagnoticKind {}
 
 #[cold]
+pub(crate) fn accessibility_modifier_on_private_property(modifier: &Modifier) -> Diagnostic {
+    todo!("accessibility_modifier_on_private_property")
+}
+
+#[cold]
+pub(crate) fn modifier_already_seen(modifier: &Modifier) -> Diagnostic {
+    todo!("modifier_already_seen")
+}
+
+#[cold]
+pub(crate) fn modifier_cannot_be_used_here(modifier: &Modifier) -> Diagnostic {
+    todo!("modifier_cannot_be_used_here")
+}
+
+#[cold]
 pub(crate) fn invalid_character(c: char, span: Span) -> Diagnostic {
     todo!("invalid_character")
 }
@@ -243,16 +258,11 @@ pub(crate) fn rest_parameter_last(span: Span) -> Diagnostic {
 }
 
 #[cold]
-pub(crate) fn accessibility_modifier_on_private_property(modifier: &Modifier) -> Diagnostic {
-    todo!("accessibility_modifier_on_private_property")
+pub(crate) fn new_optional_chain(span: Span) -> Diagnostic {
+    todo!("new_optional_chain")
 }
 
 #[cold]
-pub(crate) fn modifier_already_seen(modifier: &Modifier) -> Diagnostic {
-    todo!("modifier_already_seen")
-}
-
-#[cold]
-pub(crate) fn modifier_cannot_be_used_here(modifier: &Modifier) -> Diagnostic {
-    todo!("modifier_cannot_be_used_here")
+pub(crate) fn new_dynamic_import(span: Span) -> Diagnostic {
+    todo!("new_dynamic_import")
 }
