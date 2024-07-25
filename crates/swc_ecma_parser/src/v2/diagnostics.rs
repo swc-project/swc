@@ -2,6 +2,8 @@
 
 use swc_common::{BytePos, Span};
 
+use super::modifiers::Modifier;
+
 pub type Result<T> = std::result::Result<T, Diagnostic>;
 
 #[derive(Debug)]
@@ -223,4 +225,9 @@ pub(crate) fn invalid_number(err: &'static str, span: Span) -> Diagnostic {
 #[cold]
 pub(crate) fn yield_expression(span: Span) -> Diagnostic {
     todo!("yield_expression")
+}
+
+#[cold]
+pub(crate) fn accessibility_modifier_on_private_property(modifier: &Modifier) -> Diagnostic {
+    todo!("accessibility_modifier_on_private_property")
 }
