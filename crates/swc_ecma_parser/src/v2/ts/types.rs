@@ -51,7 +51,7 @@ impl<'a> ParserImpl<'a> {
 
     fn parse_function_or_constructor_type(&mut self) -> Result<TsType> {
         let span = self.start_span();
-        let r#abstract = self.eat(Kind::Abstract);
+        let is_abstract = self.eat(Kind::Abstract);
         let is_constructor_type = self.eat(Kind::New);
         let type_parameters = self.parse_ts_type_parameters()?;
         let (this_param, params) = self.parse_formal_parameters(FormalParamKind::Signature)?;
@@ -74,7 +74,7 @@ impl<'a> ParserImpl<'a> {
             }
             self.ast.ts_type_constructor_type(
                 span,
-                r#abstract,
+                is_abstract,
                 params,
                 return_type,
                 type_parameters,
