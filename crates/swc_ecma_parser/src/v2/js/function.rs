@@ -123,7 +123,7 @@ impl<'a> ParserImpl<'a> {
         generator: bool,
         func_kind: FunctionKind,
         modifiers: &Modifiers<'a>,
-    ) -> Result<Box<Function<'a>>> {
+    ) -> Result<Box<Function>> {
         let ctx = self.ctx;
         self.ctx = self
             .ctx
@@ -225,10 +225,7 @@ impl<'a> ParserImpl<'a> {
 
     /// Parse function implementation in Javascript, cursor
     /// at `function` or `async function`
-    pub(crate) fn parse_function_impl(
-        &mut self,
-        func_kind: FunctionKind,
-    ) -> Result<Box<Function<'a>>> {
+    pub(crate) fn parse_function_impl(&mut self, func_kind: FunctionKind) -> Result<Box<Function>> {
         let span = self.start_span();
         let is_async = self.eat(Kind::Async);
         self.expect(Kind::Function)?;
@@ -251,7 +248,7 @@ impl<'a> ParserImpl<'a> {
         start_span: Span,
         func_kind: FunctionKind,
         modifiers: &Modifiers<'a>,
-    ) -> Result<Box<Function<'a>>> {
+    ) -> Result<Box<Function>> {
         let is_async = modifiers.contains(ModifierKind::Async);
         self.expect(Kind::Function)?;
         let generator = self.eat(Kind::Star);
@@ -290,7 +287,7 @@ impl<'a> ParserImpl<'a> {
         &mut self,
         is_async: bool,
         generator: bool,
-    ) -> Result<Box<Function<'a>>> {
+    ) -> Result<Box<Function>> {
         let span = self.start_span();
         self.parse_function(
             span,

@@ -394,7 +394,7 @@ impl<'a> ParserImpl<'a> {
         &mut self,
         start_span: Span,
         modifiers: &Modifiers<'a>,
-    ) -> Result<Box<Function<'a>>> {
+    ) -> Result<Box<Function>> {
         let is_async = modifiers.contains(ModifierKind::Async);
         self.expect(Kind::Function)?;
         let func_kind = FunctionKind::TsDeclaration;
