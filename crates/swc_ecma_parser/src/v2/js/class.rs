@@ -206,7 +206,7 @@ impl<'a> ParserImpl<'a> {
         let r#override = modifiers.contains(ModifierKind::Override);
         let r#abstract = modifiers.contains(ModifierKind::Abstract);
         let mut r#static = modifiers.contains(ModifierKind::Static);
-        let mut r#async = modifiers.contains(ModifierKind::Async);
+        let mut is_async = modifiers.contains(ModifierKind::Async);
 
         if self.at(Kind::Static) {
             // static { block }
@@ -230,7 +230,7 @@ impl<'a> ParserImpl<'a> {
                 && (self.peek_kind().is_class_element_name_start() || self.peek_at(Kind::Star))
             {
                 self.bump(Kind::Async);
-                r#async = true;
+                is_async = true;
             } else {
                 key_name = Some(self.parse_class_element_name()?);
             }
@@ -247,7 +247,7 @@ impl<'a> ParserImpl<'a> {
             generator = true;
         }
 
-        if key_name.is_none() && !r#async && !generator {
+        if key_name.is_none() && !is_async && !generator {
             // get ... / set ...
             let peeked_class_element = self.peek_kind().is_class_element_name_start();
             key_name = match self.cur_kind() {
@@ -295,7 +295,7 @@ impl<'a> ParserImpl<'a> {
             self.parse_ts_type_annotation()?;
             self.parse_class_accessor_property(span, key, computed, r#static, r#abstract)
                 .map(Some)
-        } else if self.at(Kind::LParen) || self.at(Kind::LAngle) || r#async || generator {
+        } else if self.at(Kind::LParen) || self.at(Kind::LAngle) || is_async || generator {
             // LAngle for start of type parameters `foo<T>`
             //                                         ^
             let definition = self.parse_class_method_definition(
@@ -304,7 +304,7 @@ impl<'a> ParserImpl<'a> {
                 key,
                 computed,
                 r#static,
-                r#async,
+                is_async,
                 generator,
                 r#override,
                 r#abstract,
@@ -319,7 +319,7 @@ impl<'a> ParserImpl<'a> {
                     if kind == MethodDefinitionKind::Get || kind == MethodDefinitionKind::Set {
                         self.error(diagnostics::constructor_getter_setter(span));
                     }
-                    if r#async {
+                    if is_async {
                         self.error(diagnostics::constructor_async(span));
                     }
                     if generator {
@@ -379,7 +379,7 @@ impl<'a> ParserImpl<'a> {
         key: PropertyKey<'a>,
         computed: bool,
         r#static: bool,
-        r#async: bool,
+        is_async: bool,
         generator: bool,
         r#override: bool,
         r#abstract: bool,
@@ -399,7 +399,7 @@ impl<'a> ParserImpl<'a> {
 
         let decorators = self.consume_decorators();
 
-        let value = self.parse_method(r#async, generator)?;
+        let value = self.parse_method(is_async, generator)?;
 
         if kind == MethodDefinitionKind::Constructor {
             if let Some(this_param) = &value.this_param {

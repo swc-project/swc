@@ -119,7 +119,7 @@ impl<'a> ParserImpl<'a> {
         &mut self,
         span: Span,
         id: Option<BindingIdent<'a>>,
-        r#async: bool,
+        is_async: bool,
         generator: bool,
         func_kind: FunctionKind,
         modifiers: &Modifiers<'a>,
@@ -128,7 +128,7 @@ impl<'a> ParserImpl<'a> {
         self.ctx = self
             .ctx
             .and_in(true)
-            .and_await(r#async)
+            .and_await(is_async)
             .and_yield(generator);
 
         let type_parameters = self.parse_ts_type_parameters()?;
@@ -189,7 +189,7 @@ impl<'a> ParserImpl<'a> {
             self.end_span(span),
             id,
             generator,
-            r#async,
+            is_async,
             modifiers.contains_declare(),
             type_parameters,
             this_param,
@@ -207,7 +207,7 @@ impl<'a> ParserImpl<'a> {
         let func_kind = FunctionKind::Declaration;
         let decl = self.parse_function_impl(func_kind)?;
         if stmt_ctx.is_single_statement() {
-            if decl.r#async {
+            if decl.is_async {
                 self.error(diagnostics::async_function_declaration(Span::new(
                     decl.span.lo,
                     decl.params.span.hi,
@@ -230,11 +230,18 @@ impl<'a> ParserImpl<'a> {
         func_kind: FunctionKind,
     ) -> Result<Box<Function<'a>>> {
         let span = self.start_span();
-        let r#async = self.eat(Kind::Async);
+        let is_async = self.eat(Kind::Async);
         self.expect(Kind::Function)?;
         let generator = self.eat(Kind::Star);
-        let id = self.parse_function_id(func_kind, r#async, generator)?;
-        self.parse_function(span, id, r#async, generator, func_kind, &Modifiers::empty())
+        let id = self.parse_function_id(func_kind, is_async, generator)?;
+        self.parse_function(
+            span,
+            id,
+            is_async,
+            generator,
+            func_kind,
+            &Modifiers::empty(),
+        )
     }
 
     /// Parse function implementation in Typescript, cursor
@@ -245,22 +252,28 @@ impl<'a> ParserImpl<'a> {
         func_kind: FunctionKind,
         modifiers: &Modifiers<'a>,
     ) -> Result<Box<Function<'a>>> {
-        let r#async = modifiers.contains(ModifierKind::Async);
+        let is_async = modifiers.contains(ModifierKind::Async);
         self.expect(Kind::Function)?;
         let generator = self.eat(Kind::Star);
-        let id = self.parse_function_id(func_kind, r#async, generator)?;
-        self.parse_function(start_span, id, r#async, generator, func_kind, modifiers)
+        let id = self.parse_function_id(func_kind, is_async, generator)?;
+        self.parse_function(start_span, id, is_async, generator, func_kind, modifiers)
     }
 
     /// [Function Expression](https://tc39.es/ecma262/#prod-FunctionExpression)
-    pub(crate) fn parse_function_expression(&mut self, span: Span, r#async: bool) -> Result<Expr> {
+    pub(crate) fn parse_function_expression(&mut self, span: Span, is_async: bool) -> Result<Expr> {
         let func_kind = FunctionKind::Expression;
         self.expect(Kind::Function)?;
 
         let generator = self.eat(Kind::Star);
-        let id = self.parse_function_id(func_kind, r#async, generator)?;
-        let function =
-            self.parse_function(span, id, r#async, generator, func_kind, &Modifiers::empty())?;
+        let id = self.parse_function_id(func_kind, is_async, generator)?;
+        let function = self.parse_function(
+            span,
+            id,
+            is_async,
+            generator,
+            func_kind,
+            &Modifiers::empty(),
+        )?;
 
         Ok(self.ast.expression_from_function(function))
     }
@@ -275,14 +288,14 @@ impl<'a> ParserImpl<'a> {
     ///   async * `ClassMemberName`
     pub(crate) fn parse_method(
         &mut self,
-        r#async: bool,
+        is_async: bool,
         generator: bool,
     ) -> Result<Box<Function<'a>>> {
         let span = self.start_span();
         self.parse_function(
             span,
             None,
-            r#async,
+            is_async,
             generator,
             FunctionKind::Expression,
             &Modifiers::empty(),
@@ -336,12 +349,12 @@ impl<'a> ParserImpl<'a> {
     pub(crate) fn parse_function_id(
         &mut self,
         kind: FunctionKind,
-        r#async: bool,
+        is_async: bool,
         generator: bool,
     ) -> Result<Option<BindingIdent<'a>>> {
         let ctx = self.ctx;
         if kind.is_expression() {
-            self.ctx = self.ctx.and_await(r#async).and_yield(generator);
+            self.ctx = self.ctx.and_await(is_async).and_yield(generator);
         }
         let id = self.cur_kind().is_binding_identifier().then(|| {
             let (span, name) = self.parse_identifier_kind(Kind::Ident);

@@ -235,10 +235,10 @@ impl<'a> ParserImpl<'a> {
     ///   `MethodDefinition`[?Yield, ?Await]
     fn parse_property_definition_method(&mut self) -> Result<Box<ObjectProperty<'a>>> {
         let span = self.start_span();
-        let r#async = self.eat(Kind::Async);
+        let is_async = self.eat(Kind::Async);
         let generator = self.eat(Kind::Star);
         let (key, computed) = self.parse_property_name()?;
-        let method = self.parse_method(r#async, generator)?;
+        let method = self.parse_method(is_async, generator)?;
         let value = self.ast.expression_from_function(method);
         Ok(self.ast.alloc_object_property(
             self.end_span(span),

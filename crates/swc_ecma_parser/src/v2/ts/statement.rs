@@ -395,11 +395,11 @@ impl<'a> ParserImpl<'a> {
         start_span: Span,
         modifiers: &Modifiers<'a>,
     ) -> Result<Box<Function<'a>>> {
-        let r#async = modifiers.contains(ModifierKind::Async);
+        let is_async = modifiers.contains(ModifierKind::Async);
         self.expect(Kind::Function)?;
         let func_kind = FunctionKind::TsDeclaration;
-        let id = self.parse_function_id(func_kind, r#async, false)?;
-        self.parse_function(start_span, id, r#async, false, func_kind, modifiers)
+        let id = self.parse_function_id(func_kind, is_async, false)?;
+        self.parse_function(start_span, id, is_async, false, func_kind, modifiers)
     }
 
     pub(crate) fn parse_ts_type_assertion(&mut self) -> Result<Expr> {
