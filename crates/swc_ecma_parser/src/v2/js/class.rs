@@ -174,7 +174,7 @@ impl<'a> ParserImpl<'a> {
         Ok(extends)
     }
 
-    fn parse_class_body(&mut self) -> Result<Box<ClassBody<'a>>> {
+    fn parse_class_body(&mut self) -> Result<Box<ClassBody>> {
         let span = self.start_span();
         let class_elements =
             self.parse_normal_list(Kind::LCurly, Kind::RCurly, Self::parse_class_element)?;
@@ -360,7 +360,7 @@ impl<'a> ParserImpl<'a> {
         }
     }
 
-    fn parse_class_element_name(&mut self) -> Result<(PropertyKey<'a>, bool)> {
+    fn parse_class_element_name(&mut self) -> Result<(PropertyKey, bool)> {
         match self.cur_kind() {
             Kind::PrivateIdent => {
                 let private_ident = self.parse_private_identifier();
@@ -378,7 +378,7 @@ impl<'a> ParserImpl<'a> {
         &mut self,
         span: Span,
         kind: MethodDefinitionKind,
-        key: PropertyKey<'a>,
+        key: PropertyKey,
         computed: bool,
         is_static: bool,
         is_async: bool,
@@ -440,7 +440,7 @@ impl<'a> ParserImpl<'a> {
     fn parse_class_property_definition(
         &mut self,
         span: Span,
-        key: PropertyKey<'a>,
+        key: PropertyKey,
         computed: bool,
         is_static: bool,
         declare: bool,
@@ -508,7 +508,7 @@ impl<'a> ParserImpl<'a> {
     fn parse_class_accessor_property(
         &mut self,
         span: Span,
-        key: PropertyKey<'a>,
+        key: PropertyKey,
         computed: bool,
         is_static: bool,
         is_abstract: bool,
