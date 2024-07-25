@@ -1,4 +1,4 @@
-use oxc_span::{GetSpan, Span};
+use swc_common::Span;
 use swc_ecma_ast::*;
 
 use crate::v2::{diagnostics, diagnostics::Result, lexer::Kind, Context, ParserImpl};
@@ -133,7 +133,10 @@ impl<'a> ParserImpl<'a> {
         })?;
         let span = self.end_span(span);
 
-        Ok(BindingRestElement { span, argument })
+        Ok(RestPat {
+            span,
+            arg: argument,
+        })
     }
 
     /// `BindingProperty`[Yield, Await] :
