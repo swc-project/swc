@@ -12,7 +12,7 @@ use swc_common::{
 };
 use swc_ecma_ast::{
     ArrowExpr, BindingIdent, Class, ClassDecl, ClassMethod, ClassProp, EsVersion, ExportAll,
-    ExportDecl, ExportSpecifier, FnDecl, ImportDecl, ImportSpecifier, Key, NamedExport, Param, Pat,
+    ExportDecl, ExportSpecifier, FnDecl, ImportDecl, ImportSpecifier, NamedExport, Param, Pat,
     Program, TsAsExpr, TsConstAssertion, TsEnumDecl, TsExportAssignment, TsImportEqualsDecl,
     TsIndexSignature, TsInstantiation, TsInterfaceDecl, TsModuleDecl, TsModuleName,
     TsNamespaceDecl, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn,
