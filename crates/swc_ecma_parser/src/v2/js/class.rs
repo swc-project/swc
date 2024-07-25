@@ -417,7 +417,7 @@ impl<'a> ParserImpl<'a> {
         } else {
             MethodDefinitionType::MethodDefinition
         };
-        let method_definition = MethodDefinition {
+        let method_definition = ClassMethod {
             r#type,
             span: self.end_span(span),
             key,
@@ -430,9 +430,7 @@ impl<'a> ParserImpl<'a> {
             optional,
             decorators,
         };
-        Ok(ClassMember::MethodDefinition(
-            self.ast.alloc(method_definition),
-        ))
+        Ok(ClassMember::Method(self.ast.alloc(method_definition)))
     }
 
     /// `FieldDefinition`[?Yield, ?Await] ;
