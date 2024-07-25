@@ -4009,7 +4009,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.99.4"
+version = "0.99.5"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4251,7 +4251,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.117.3"
+version = "0.117.4"
 dependencies = [
  "arbitrary",
  "bitflags 2.5.0",
