@@ -218,8 +218,8 @@ impl Kind {
 
     /// [Idents](https://tc39.es/ecma262/#sec-identifiers)
     /// `IdentReference`
-    pub fn is_identifier_reference(self, r#yield: bool, r#await: bool) -> bool {
-        self.is_identifier() || (!r#yield && self == Yield) || (!r#await && self == Await)
+    pub fn is_identifier_reference(self, r#yield: bool, is_await: bool) -> bool {
+        self.is_identifier() || (!r#yield && self == Yield) || (!is_await && self == Await)
     }
 
     /// `BindingIdent`
@@ -228,8 +228,8 @@ impl Kind {
     }
 
     /// `LabelIdent`
-    pub fn is_label_identifier(self, r#yield: bool, r#await: bool) -> bool {
-        self.is_identifier() || (!r#yield && self == Yield) || (!r#await && self == Await)
+    pub fn is_label_identifier(self, r#yield: bool, is_await: bool) -> bool {
+        self.is_identifier() || (!r#yield && self == Yield) || (!is_await && self == Await)
     }
 
     /// Ident

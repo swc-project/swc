@@ -203,9 +203,9 @@ impl<'a> ParserImpl<'a> {
         let accessor = modifiers.contains(ModifierKind::Accessor);
         let declare = modifiers.contains(ModifierKind::Declare);
         let readonly = modifiers.contains(ModifierKind::Readonly);
-        let r#override = modifiers.contains(ModifierKind::Override);
+        let is_override = modifiers.contains(ModifierKind::Override);
         let r#abstract = modifiers.contains(ModifierKind::Abstract);
-        let mut r#static = modifiers.contains(ModifierKind::Static);
+        let mut is_static = modifiers.contains(ModifierKind::Static);
         let mut is_async = modifiers.contains(ModifierKind::Async);
 
         if self.at(Kind::Static) {
@@ -218,7 +218,7 @@ impl<'a> ParserImpl<'a> {
             // static ...
             if self.peek_kind().is_class_element_name_start() || self.peek_at(Kind::Star) {
                 self.bump(Kind::Static);
-                r#static = true;
+                is_static = true;
             } else {
                 key_name = Some(self.parse_class_element_name()?);
             }
@@ -293,7 +293,7 @@ impl<'a> ParserImpl<'a> {
 
         if accessor {
             self.parse_ts_type_annotation()?;
-            self.parse_class_accessor_property(span, key, computed, r#static, r#abstract)
+            self.parse_class_accessor_property(span, key, computed, is_static, r#abstract)
                 .map(Some)
         } else if self.at(Kind::LParen) || self.at(Kind::LAngle) || is_async || generator {
             // LAngle for start of type parameters `foo<T>`
@@ -303,19 +303,19 @@ impl<'a> ParserImpl<'a> {
                 kind,
                 key,
                 computed,
-                r#static,
+                is_static,
                 is_async,
                 generator,
-                r#override,
+                is_override,
                 r#abstract,
                 accessibility,
                 optional,
             )?;
             if let Some((name, span)) = definition.prop_name() {
-                if r#static && name == "prototype" && !self.ctx.has_ambient() {
+                if is_static && name == "prototype" && !self.ctx.has_ambient() {
                     self.error(diagnostics::static_prototype(span));
                 }
-                if !r#static && name == "constructor" {
+                if !is_static && name == "constructor" {
                     if kind == MethodDefinitionKind::Get || kind == MethodDefinitionKind::Set {
                         self.error(diagnostics::constructor_getter_setter(span));
                     }
@@ -337,9 +337,9 @@ impl<'a> ParserImpl<'a> {
                 span,
                 key,
                 computed,
-                r#static,
+                is_static,
                 declare,
-                r#override,
+                is_override,
                 readonly,
                 r#abstract,
                 accessibility,
@@ -350,7 +350,7 @@ impl<'a> ParserImpl<'a> {
                 if name == "constructor" {
                     self.error(diagnostics::field_constructor(span));
                 }
-                if r#static && name == "prototype" && !self.ctx.has_ambient() {
+                if is_static && name == "prototype" && !self.ctx.has_ambient() {
                     self.error(diagnostics::static_prototype(span));
                 }
             }
@@ -378,15 +378,15 @@ impl<'a> ParserImpl<'a> {
         kind: MethodDefinitionKind,
         key: PropertyKey<'a>,
         computed: bool,
-        r#static: bool,
+        is_static: bool,
         is_async: bool,
         generator: bool,
-        r#override: bool,
+        is_override: bool,
         r#abstract: bool,
         accessibility: Option<Accessibility>,
         optional: bool,
     ) -> Result<ClassMember> {
-        let kind = if !r#static
+        let kind = if !is_static
             && !computed
             && key
                 .prop_name()
@@ -407,7 +407,7 @@ impl<'a> ParserImpl<'a> {
                 self.error(diagnostics::ts_constructor_this_parameter(this_param.span));
             }
 
-            if r#static {
+            if is_static {
                 self.error(diagnostics::static_constructor(key.span()));
             }
         }
@@ -424,8 +424,8 @@ impl<'a> ParserImpl<'a> {
             value,
             kind,
             computed,
-            r#static,
-            r#override,
+            is_static,
+            is_override,
             accessibility,
             optional,
             decorators,
@@ -440,9 +440,9 @@ impl<'a> ParserImpl<'a> {
         span: Span,
         key: PropertyKey<'a>,
         computed: bool,
-        r#static: bool,
+        is_static: bool,
         declare: bool,
-        r#override: bool,
+        is_override: bool,
         readonly: bool,
         r#abstract: bool,
         accessibility: Option<Accessibility>,
@@ -476,9 +476,9 @@ impl<'a> ParserImpl<'a> {
             key,
             value,
             computed,
-            r#static,
+            is_static,
             declare,
-            r#override,
+            is_override,
             readonly,
             type_annotation,
             accessibility,
@@ -510,7 +510,7 @@ impl<'a> ParserImpl<'a> {
         span: Span,
         key: PropertyKey<'a>,
         computed: bool,
-        r#static: bool,
+        is_static: bool,
         r#abstract: bool,
     ) -> Result<ClassMember> {
         let value = self
@@ -531,7 +531,7 @@ impl<'a> ParserImpl<'a> {
             key,
             value,
             computed,
-            r#static,
+            is_static,
         ))
     }
 }
