@@ -435,7 +435,7 @@ impl<'a> ParserImpl<'a> {
     /// `TemplateLiteral`[Yield, Await, Tagged] :
     ///     `NoSubstitutionTemplate`
     ///     `SubstitutionTemplate`[?Yield, ?Await, ?Tagged]
-    fn parse_template_literal(&mut self, tagged: bool) -> Result<TemplateLiteral<'a>> {
+    fn parse_template_literal(&mut self, tagged: bool) -> Result<Tpl> {
         let span = self.start_span();
         let mut expressions = self.ast.vec();
         let mut quasis = self.ast.vec();
@@ -550,7 +550,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     /// Section 13.3 Meta Property
-    fn parse_meta_property(&mut self, span: Span, meta: IdentName<'a>) -> Result<Expr> {
+    fn parse_meta_property(&mut self, span: Span, meta: IdentName) -> Result<Expr> {
         self.bump_any(); // bump `.`
         let property = match self.cur_kind() {
             Kind::Meta => self.parse_keyword_identifier(Kind::Meta),
@@ -652,13 +652,11 @@ impl<'a> ParserImpl<'a> {
                         .expression_ts_non_null(self.end_span(lhs_span), lhs)
                 }
                 kind if kind.is_template_start_of_tagged_template() => {
-                    let (expr, type_parameters) =
-                        if let Expr::TsInstantiation(instantiation_expr) = lhs {
-                            let expr = instantiation_expr.unbox();
-                            (expr.expression, Some(expr.type_parameters))
-                        } else {
-                            (lhs, None)
-                        };
+                    let (expr, type_parameters) = if let Expr::TsInstantiation(expr) = lhs {
+                        (expr.expr, Some(expr.type_parameters))
+                    } else {
+                        (lhs, None)
+                    };
                     self.parse_tagged_template(lhs_span, expr, *in_optional_chain, type_parameters)?
                 }
                 Kind::LAngle | Kind::ShiftLeft => {
