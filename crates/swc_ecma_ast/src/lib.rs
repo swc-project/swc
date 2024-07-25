@@ -107,34 +107,47 @@ impl Take for Invalid {
 /// Note: This type implements `Serailize` and `Deserialize` if `serde` is
 /// enabled, instead of requiring `serde-impl` feature.
 #[derive(Debug, Default, Clone, Copy, PartialOrd, Ord, PartialEq, Eq, Hash)]
-#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "serde", derive(Serialize))]
+#[cfg_attr(feature = "serde", serde(rename_all = "lowercase"))]
 pub enum EsVersion {
-    #[cfg_attr(feature = "serde", serde(rename = "es3", alias = "ES3"))]
     Es3,
-    #[cfg_attr(feature = "serde", serde(rename = "es5", alias = "ES5"))]
     #[default]
     Es5,
-    #[cfg_attr(
-        feature = "serde",
-        serde(rename = "es2015", alias = "ES2015", alias = "ES6", alias = "es6")
-    )]
     Es2015,
-    #[cfg_attr(feature = "serde", serde(rename = "es2016", alias = "ES2016"))]
     Es2016,
-    #[cfg_attr(feature = "serde", serde(rename = "es2017", alias = "ES2017"))]
     Es2017,
-    #[cfg_attr(feature = "serde", serde(rename = "es2018", alias = "ES2018"))]
     Es2018,
-    #[cfg_attr(feature = "serde", serde(rename = "es2019", alias = "ES2019"))]
     Es2019,
-    #[cfg_attr(feature = "serde", serde(rename = "es2020", alias = "ES2020"))]
     Es2020,
-    #[cfg_attr(feature = "serde", serde(rename = "es2021", alias = "ES2021"))]
     Es2021,
-    #[cfg_attr(feature = "serde", serde(rename = "es2022", alias = "ES2022"))]
     Es2022,
-    #[cfg_attr(feature = "serde", serde(rename = "esnext", alias = "EsNext"))]
     EsNext,
+}
+
+#[cfg(feature = "serde")]
+impl<'de> Deserialize<'de> for EsVersion {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        use serde::de::Error;
+
+        let s = String::deserialize(deserializer)?;
+        match s.to_lowercase().as_str() {
+            "es3" => Ok(EsVersion::Es3),
+            "es5" => Ok(EsVersion::Es5),
+            "es2015" | "es6" => Ok(EsVersion::Es2015),
+            "es2016" => Ok(EsVersion::Es2016),
+            "es2017" => Ok(EsVersion::Es2017),
+            "es2018" => Ok(EsVersion::Es2018),
+            "es2019" => Ok(EsVersion::Es2019),
+            "es2020" => Ok(EsVersion::Es2020),
+            "es2021" => Ok(EsVersion::Es2021),
+            "es2022" => Ok(EsVersion::Es2022),
+            "esnext" => Ok(EsVersion::EsNext),
+            _ => Err(D::Error::custom(format!("Unknown ES version: {}", s))),
+        }
+    }
 }
 
 impl EsVersion {
