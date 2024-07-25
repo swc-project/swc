@@ -212,7 +212,7 @@ impl<'a> ParserImpl<'a> {
                     decl.span.lo,
                     decl.params.span.hi,
                 )));
-            } else if decl.generator {
+            } else if decl.is_generator {
                 self.error(diagnostics::generator_function_declaration(Span::new(
                     decl.span.lo,
                     decl.params.span.hi,
@@ -346,7 +346,7 @@ impl<'a> ParserImpl<'a> {
         kind: FunctionKind,
         is_async: bool,
         generator: bool,
-    ) -> Result<Option<BindingIdent<'a>>> {
+    ) -> Result<Option<BindingIdent>> {
         let ctx = self.ctx;
         if kind.is_expression() {
             self.ctx = self.ctx.and_await(is_async).and_yield(generator);
@@ -354,11 +354,7 @@ impl<'a> ParserImpl<'a> {
         let id = self.cur_kind().is_binding_identifier().then(|| {
             let (span, name) = self.parse_identifier_kind(Kind::Ident);
             self.check_identifier(span, &name);
-            BindingIdent {
-                span,
-                name,
-                symbol_id: Cell::default(),
-            }
+            BindingIdent { span, sym: name }
         });
         self.ctx = ctx;
 
