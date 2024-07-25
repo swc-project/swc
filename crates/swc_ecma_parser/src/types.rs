@@ -16,5 +16,5 @@ pub enum ClassType {
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum MethodDefinitionType {
     MethodDefinition,
-    TSAbstractMethodDefinition,
+    TsAbstractMethodDefinition,
 }
