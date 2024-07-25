@@ -9,7 +9,7 @@ pub trait CoverGrammar<'a, T>: Sized {
     fn cover(value: T, p: &mut ParserImpl<'a>) -> Result<Self>;
 }
 
-impl<'a> CoverGrammar<'a, Expr> for AssignTarget<'a> {
+impl<'a> CoverGrammar<'a, Expr> for AssignTarget {
     fn cover(expr: Expr, p: &mut ParserImpl<'a>) -> Result<Self> {
         match expr {
             Expr::Array(array_expr) => ArrayAssignTarget::cover(array_expr.unbox(), p)
@@ -23,7 +23,7 @@ impl<'a> CoverGrammar<'a, Expr> for AssignTarget<'a> {
     }
 }
 
-impl<'a> CoverGrammar<'a, Expr> for SimpleAssignTarget<'a> {
+impl<'a> CoverGrammar<'a, Expr> for SimpleAssignTarget {
     #[allow(clippy::only_used_in_recursion)]
     fn cover(expr: Expr, p: &mut ParserImpl<'a>) -> Result<Self> {
         match expr {
@@ -49,7 +49,7 @@ impl<'a> CoverGrammar<'a, Expr> for SimpleAssignTarget<'a> {
     }
 }
 
-impl<'a> CoverGrammar<'a, ArrayExpr> for ArrayAssignTarget<'a> {
+impl<'a> CoverGrammar<'a, ArrayExpr> for ArrayAssignTarget {
     fn cover(expr: ArrayExpr, p: &mut ParserImpl<'a>) -> Result<Self> {
         let mut elements = p.ast.vec();
         let mut rest = None;
@@ -105,7 +105,7 @@ impl<'a> CoverGrammar<'a, Expr> for AssignTargetMaybeDefault<'a> {
     }
 }
 
-impl<'a> CoverGrammar<'a, AssignExpr> for AssignTargetWithDefault<'a> {
+impl<'a> CoverGrammar<'a, AssignExpr> for AssignPatProp {
     fn cover(expr: AssignExpr, _p: &mut ParserImpl<'a>) -> Result<Self> {
         Ok(Self {
             span: expr.span,
@@ -115,7 +115,7 @@ impl<'a> CoverGrammar<'a, AssignExpr> for AssignTargetWithDefault<'a> {
     }
 }
 
-impl<'a> CoverGrammar<'a, ObjectExpr> for ObjectAssignTarget<'a> {
+impl<'a> CoverGrammar<'a, ObjectExpr> for ObjectPat {
     fn cover(expr: ObjectExpr, p: &mut ParserImpl<'a>) -> Result<Self> {
         let mut properties = p.ast.vec();
         let mut rest = None;
@@ -148,8 +148,8 @@ impl<'a> CoverGrammar<'a, ObjectExpr> for ObjectAssignTarget<'a> {
     }
 }
 
-impl<'a> CoverGrammar<'a, ObjectProperty<'a>> for AssignTargetProperty<'a> {
-    fn cover(property: ObjectProperty<'a>, p: &mut ParserImpl<'a>) -> Result<Self> {
+impl<'a> CoverGrammar<'a, Prop> for ObjectPatProp {
+    fn cover(property: Prop, p: &mut ParserImpl<'a>) -> Result<Self> {
         if property.shorthand {
             let binding = match property.key {
                 PropertyKey::StaticIdent(ident) => {
