@@ -237,7 +237,7 @@ impl<'a> ParserImpl<'a> {
         }
 
         if self.is_at_ts_index_signature_member() {
-            if let TsSignature::TsIndexSignature(sig) = self.parse_ts_index_signature_member()? {
+            if let TsTypeElement::TsIndexSignature(sig) = self.parse_ts_index_signature_member()? {
                 return Ok(Some(ClassMember::TsIndexSignature(sig)));
             }
         }
