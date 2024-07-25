@@ -21,7 +21,7 @@ pub use self::{
     },
     decl::{ClassDecl, Decl, FnDecl, UsingDecl, VarDecl, VarDeclKind, VarDeclarator},
     expr::*,
-    function::{Function, Param, ParamOrTsParamProp},
+    function::{FormalParams, Function, Param, ParamOrTsParamProp},
     ident::{BindingIdent, EsReserved, Id, Ident, IdentName, PrivateName},
     jsx::{
         JSXAttr, JSXAttrName, JSXAttrOrSpread, JSXAttrValue, JSXClosingElement, JSXClosingFragment,
@@ -184,7 +184,7 @@ pub use self::{
         ArchivedSuperProp, ArchivedSuperPropExpr, ArchivedTaggedTpl, ArchivedThisExpr, ArchivedTpl,
         ArchivedTplElement, ArchivedUnaryExpr, ArchivedUpdateExpr, ArchivedYieldExpr,
     },
-    function::{ArchivedFunction, ArchivedParam, ArchivedParamOrTsParamProp},
+    function::{ArchivedFormalParams, ArchivedFunction, ArchivedParam, ArchivedParamOrTsParamProp},
     ident::{ArchivedBindingIdent, ArchivedIdent, ArchivedIdentName, ArchivedPrivateName},
     jsx::{
         ArchivedJSXAttr, ArchivedJSXAttrName, ArchivedJSXAttrOrSpread, ArchivedJSXAttrValue,
