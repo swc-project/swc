@@ -174,3 +174,18 @@ pub(crate) fn missinginitializer_in_const(span: Span) -> Diagnostic {
 pub(crate) fn invalid_destrucuring_declaration(span: Span) -> Diagnostic {
     todo!("invalid_destrucuring_declaration")
 }
+
+#[cold]
+pub(crate) fn invalid_binding_rest_element(span: Span) -> Diagnostic {
+    todo!("invalid_binding_rest_element")
+}
+
+#[cold]
+pub(crate) fn binding_rest_element_trailing_comma(span: Span) -> Diagnostic {
+    todo!("binding_rest_element_trailing_comma")
+}
+
+#[cold]
+pub(crate) fn class_declaration(span: Span) -> Diagnostic {
+    todo!("class_declaration")
+}
