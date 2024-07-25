@@ -142,7 +142,7 @@ impl<'a> ParserImpl<'a> {
     /// `BindingProperty`[Yield, Await] :
     ///     `SingleNameBinding`[?Yield, ?Await]
     ///     `PropertyName`[?Yield, ?Await] : `BindingElement`[?Yield, ?Await]
-    pub(super) fn parse_binding_property(&mut self) -> Result<BindingProperty<'a>> {
+    pub(super) fn parse_binding_property(&mut self) -> Result<ObjectPatProp> {
         let span = self.start_span();
 
         let mut shorthand = false;

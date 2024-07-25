@@ -176,7 +176,7 @@ impl<'a> ParserImpl<'a> {
     fn parse_property_definition_assignment(
         &mut self,
         span: Span,
-        key: PropertyKey<'a>,
+        key: PropertyKey,
         computed: bool,
     ) -> Result<Box<ObjectProperty<'a>>> {
         self.bump_any(); // bump `:`
@@ -196,7 +196,7 @@ impl<'a> ParserImpl<'a> {
     /// `PropertyName`[Yield, Await] :
     ///    `LiteralPropertyName`
     ///    `ComputedPropertyName`[?Yield, ?Await]
-    pub(crate) fn parse_property_name(&mut self) -> Result<(PropertyKey<'a>, bool)> {
+    pub(crate) fn parse_property_name(&mut self) -> Result<(PropertyKey, bool)> {
         let mut computed = false;
         let key = match self.cur_kind() {
             Kind::Str => self.parse_literal_expression().map(PropertyKey::from)?,
