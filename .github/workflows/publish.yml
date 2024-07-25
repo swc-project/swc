@@ -61,6 +61,7 @@ jobs:
           tool: cargo-mono@0.4.1
 
       - run: cargo bump
+        continue-on-error: true
 
       - uses: webfactory/ssh-agent@v0.9.0
         with:
