@@ -251,3 +251,8 @@ pub(crate) fn accessibility_modifier_on_private_property(modifier: &Modifier) ->
 pub(crate) fn modifier_already_seen(modifier: &Modifier) -> Diagnostic {
     todo!("modifier_already_seen")
 }
+
+#[cold]
+pub(crate) fn modifier_cannot_be_used_here(modifier: &Modifier) -> Diagnostic {
+    todo!("modifier_cannot_be_used_here")
+}
