@@ -164,7 +164,7 @@ impl<'a> ParserImpl<'a> {
     pub(crate) fn parse_ts_implements_clause(&mut self) -> Result<Vec<TsClassImplements<'a>>> {
         self.expect(Kind::Implements)?;
         let first = self.parse_ts_implement_name()?;
-        let mut implements = self.ast.vec();
+        let mut implements = vec![];
         implements.push(first);
 
         while self.eat(Kind::Comma) {
@@ -716,8 +716,8 @@ impl<'a> ParserImpl<'a> {
 
     fn parse_template_type(&mut self, tagged: bool) -> Result<TsType> {
         let span = self.start_span();
-        let mut types = self.ast.vec();
-        let mut quasis = self.ast.vec();
+        let mut types = vec![];
+        let mut quasis = vec![];
         match self.cur_kind() {
             Kind::NoSubstitutionTemplate => {
                 quasis.push(self.parse_template_element(tagged));
@@ -1343,7 +1343,7 @@ impl<'a> ParserImpl<'a> {
 
         self.bump(Kind::LBrack);
         let index_name = self.parse_ts_index_signature_name()?;
-        let mut parameters = self.ast.vec();
+        let mut parameters = vec![];
         parameters.push(index_name);
         self.expect(Kind::RBrack)?;
 
@@ -1387,7 +1387,7 @@ impl<'a> ParserImpl<'a> {
         }
 
         let mut flags = ModifierFlags::empty();
-        let mut modifiers: Vec<Modifier> = self.ast.vec();
+        let mut modifiers: Vec<Modifier> = vec![];
 
         loop {
             if !self.is_nth_at_modifier(0, is_constructor_parameter) {

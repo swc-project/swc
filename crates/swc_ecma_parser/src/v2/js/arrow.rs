@@ -309,7 +309,7 @@ impl<'a> ParserImpl<'a> {
             let span = expr.span();
             let expr_stmt = self.ast.statement_expression(span, expr);
             self.ast
-                .alloc_function_body(span, self.ast.vec(), self.ast.vec1(expr_stmt))
+                .alloc_function_body(span, vec![], self.ast.vec1(expr_stmt))
         } else {
             self.parse_function_body()?
         };

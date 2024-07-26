@@ -110,13 +110,9 @@ impl<'a> ParserImpl<'a> {
                     self.flow_error()
                         .unwrap_or_else(|| self.overlong_error().unwrap_or(error)),
                 );
-                let program = self.ast.program(
-                    Span::default(),
-                    self.source_type,
-                    None,
-                    self.ast.vec(),
-                    self.ast.vec(),
-                );
+                let program =
+                    self.ast
+                        .program(Span::default(), self.source_type, None, vec![], vec![]);
                 (program, true)
             }
         };

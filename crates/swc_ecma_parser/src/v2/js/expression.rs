@@ -437,8 +437,8 @@ impl<'a> ParserImpl<'a> {
     ///     `SubstitutionTemplate`[?Yield, ?Await, ?Tagged]
     fn parse_template_literal(&mut self, tagged: bool) -> Result<Tpl> {
         let span = self.start_span();
-        let mut expressions = self.ast.vec();
-        let mut quasis = self.ast.vec();
+        let mut expressions = vec![];
+        let mut quasis = vec![];
         match self.cur_kind() {
             Kind::NoSubstitutionTemplate => {
                 quasis.push(self.parse_template_element(tagged));
@@ -751,7 +751,7 @@ impl<'a> ParserImpl<'a> {
             self.expect(Kind::RParen)?;
             call_arguments
         } else {
-            self.ast.vec()
+            vec![]
         };
 
         if matches!(callee, Expr::Import(_)) {

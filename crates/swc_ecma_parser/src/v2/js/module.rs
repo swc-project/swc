@@ -17,7 +17,7 @@ impl<'a> ParserImpl<'a> {
         self.ctx = self.ctx.and_in(true);
 
         let expression = self.parse_assignment_expression_or_higher()?;
-        let mut arguments = self.ast.vec();
+        let mut arguments = vec![];
         if self.eat(Kind::Comma) && !self.at(Kind::RParen) {
             arguments.push(self.parse_assignment_expression_or_higher()?);
         }
@@ -74,7 +74,7 @@ impl<'a> ParserImpl<'a> {
 
     // Full Syntax: <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#syntax>
     fn parse_import_declaration_specifiers(&mut self) -> Result<Vec<ImportSpecifier>> {
-        let mut specifiers = self.ast.vec();
+        let mut specifiers = vec![];
         // import defaultExport from "module-name";
         if self.cur_kind().is_binding_identifier() {
             specifiers.push(self.parse_import_default_specifier()?);
@@ -360,7 +360,7 @@ impl<'a> ParserImpl<'a> {
         Ok(self.ast.alloc_export_named_declaration(
             span,
             Some(declaration),
-            self.ast.vec(),
+            vec![],
             None,
             ImportOrExportKind::Value,
             None,

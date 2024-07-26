@@ -32,8 +32,8 @@ impl<'a> ParserImpl<'a> {
         &mut self,
         is_top_level: bool,
     ) -> Result<(Vec<Directive<'a>>, Vec<Stmt>)> {
-        let mut directives = self.ast.vec();
-        let mut statements = self.ast.vec();
+        let mut directives = vec![];
+        let mut statements = vec![];
 
         let mut expecting_directives = true;
         while !self.at(Kind::Eof) {
@@ -139,7 +139,7 @@ impl<'a> ParserImpl<'a> {
     pub(crate) fn parse_block(&mut self) -> Result<Box<BlockStmt>> {
         let span = self.start_span();
         self.expect(Kind::LCurly)?;
-        let mut body = self.ast.vec();
+        let mut body = vec![];
         while !self.at(Kind::RCurly) && !self.at(Kind::Eof) {
             let stmt = self.parse_statement_list_item(StatementContext::StatementList)?;
             body.push(stmt);
@@ -474,7 +474,7 @@ impl<'a> ParserImpl<'a> {
             _ => return Err(self.unexpected()),
         };
         self.expect(Kind::Colon)?;
-        let mut consequent = self.ast.vec();
+        let mut consequent = vec![];
         while !matches!(
             self.cur_kind(),
             Kind::Case | Kind::Default | Kind::RCurly | Kind::Eof

@@ -357,7 +357,7 @@ impl<'a> ParserImpl<'a> {
         F: Fn(&mut Self) -> Result<Option<T>>,
     {
         self.expect(open)?;
-        let mut list = self.ast.vec();
+        let mut list = vec![];
         loop {
             let kind = self.cur_kind();
             if kind == close || kind == Kind::Eof {
@@ -383,7 +383,7 @@ impl<'a> ParserImpl<'a> {
     where
         F: Fn(&mut Self) -> Result<T>,
     {
-        let mut list = self.ast.vec();
+        let mut list = vec![];
         let mut first = true;
         loop {
             let kind = self.cur_kind();
@@ -417,7 +417,7 @@ impl<'a> ParserImpl<'a> {
         R: Fn(&mut Self) -> Result<B>,
         B: Spanned,
     {
-        let mut list = self.ast.vec();
+        let mut list = vec![];
         let mut rest = None;
         let mut first = true;
         loop {
