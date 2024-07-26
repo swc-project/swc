@@ -3,7 +3,14 @@ use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 
 use super::Tristate;
-use crate::v2::{diagnostics, diagnostics::Result, lexer::Kind, ParserImpl};
+use crate::{
+    types::FormalParamKind,
+    v2::{
+        diagnostics::{self, Result},
+        lexer::Kind,
+        ParserImpl,
+    },
+};
 
 type ArrowFunctionHead<'a> = (
     Option<Box<TsTypeParamDecl>>,
@@ -226,7 +233,7 @@ impl<'a> ParserImpl<'a> {
                 params_span,
                 FormalParamKind::ArrowFormalParams,
                 self.ast.vec1(formal_parameter),
-                Option::<BindingRestElement>::None,
+                Option::<RestPat>::None,
             )
         };
 
