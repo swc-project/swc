@@ -218,7 +218,7 @@ impl<'a> ParserImpl<'a> {
         let params = {
             let ident = match ident {
                 Expr::Ident(ident) => {
-                    let name = ident.name.clone();
+                    let name = ident.sym.clone();
                     BindingIdent::new(ident.span, name)
                 }
                 _ => unreachable!(),
@@ -295,7 +295,7 @@ impl<'a> ParserImpl<'a> {
         &mut self,
         span: Span,
         type_parameters: Option<Box<TsTypeParamDecl>>,
-        params: Box<FormalParams<'a>>,
+        params: Box<FormalParams>,
         return_type: Option<Box<TsTypeAnn>>,
         r#async: bool,
     ) -> Result<Expr> {

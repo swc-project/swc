@@ -51,7 +51,7 @@ impl<'a> ParserImpl<'a> {
     pub(crate) fn parse_formal_parameters(
         &mut self,
         params_kind: FormalParamKind,
-    ) -> Result<(Option<TsThisParam<'a>>, Box<FormalParams<'a>>)> {
+    ) -> Result<(Option<TsThisParam<'a>>, Box<FormalParams>)> {
         let span = self.start_span();
         self.expect(Kind::LParen)?;
         let this_param = if self.ts_enabled() && self.at(Kind::This) {
