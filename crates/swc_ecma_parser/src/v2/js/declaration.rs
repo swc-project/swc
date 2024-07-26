@@ -184,11 +184,11 @@ impl<'a> ParserImpl<'a> {
                 VarDeclKind::Var,
             )?;
 
-            match declaration.id.kind {
+            match declaration.name.kind {
                 BindingPatternKind::BindingIdent(_) => {}
                 _ => {
                     self.error(diagnostics::invalid_identifier_in_using_declaration(
-                        declaration.id.span(),
+                        declaration.name.span(),
                     ));
                 }
             }
