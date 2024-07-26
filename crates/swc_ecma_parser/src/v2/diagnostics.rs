@@ -276,3 +276,8 @@ pub(crate) fn new_dynamic_import(span: Span) -> Diagnostic {
 pub(crate) fn expect_function_name(span: Span) -> Diagnostic {
     todo!("expect_function_name")
 }
+
+#[cold]
+pub(crate) fn spread_last_element(span: Span) -> Diagnostic {
+    todo!("spread_last_element")
+}
