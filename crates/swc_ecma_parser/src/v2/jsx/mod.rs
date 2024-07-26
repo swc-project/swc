@@ -160,7 +160,7 @@ impl<'a> ParserImpl<'a> {
                 .map(JSXElementName::MemberExpression);
         }
 
-        Ok(JSXElementName::Ident(self.ast.alloc(identifier)))
+        Ok(JSXElementName::Ident(identifier))
     }
 
     /// `JSXMemberExpression` :
@@ -172,7 +172,7 @@ impl<'a> ParserImpl<'a> {
         object: JSXIdent<'a>,
     ) -> Result<Box<JSXMemberExpr>> {
         let mut span = span;
-        let mut object = JSXMemberExpressionObject::Ident(self.ast.alloc(object));
+        let mut object = JSXMemberExpressionObject::Ident(object);
         let mut property = None;
 
         while self.eat(Kind::Dot) && !self.at(Kind::Eof) {
@@ -375,14 +375,14 @@ impl<'a> ParserImpl<'a> {
             ));
         }
 
-        Ok(JSXAttributeName::Ident(self.ast.alloc(identifier)))
+        Ok(JSXAttributeName::Ident(identifier))
     }
 
     fn parse_jsx_attribute_value(&mut self) -> Result<JSXAttributeValue<'a>> {
         match self.cur_kind() {
             Kind::Str => self
                 .parse_literal_string()
-                .map(|str_lit| JSXAttributeValue::Str(self.ast.alloc(str_lit))),
+                .map(|str_lit| JSXAttributeValue::Str(str_lit)),
             Kind::LCurly => {
                 let expr = self.parse_jsx_expression_container(/* is_jsx_child */ false)?;
                 Ok(JSXAttributeValue::ExpressionContainer(expr))

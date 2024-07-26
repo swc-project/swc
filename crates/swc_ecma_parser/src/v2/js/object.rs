@@ -141,16 +141,16 @@ impl<'a> ParserImpl<'a> {
     fn parse_property_definition_shorthand(&mut self) -> Result<Box<ObjectProperty<'a>>> {
         let span = self.start_span();
         let identifier = self.parse_identifier_reference()?;
-        let key = self.ast.alloc(IdentName {
+        let key = IdentName {
             span: identifier.span,
             name: identifier.name.clone(),
-        });
+        };
         // IdentReference ({ foo })
-        let value = Expr::Ident(self.ast.alloc(identifier.clone()));
+        let value = Expr::Ident(identifier.clone());
         // CoverInitializedName ({ foo = bar })
         let init = if self.eat(Kind::Eq) {
             let right = self.parse_assignment_expression_or_higher()?;
-            let left = AssignTarget::AssignTargetIdent(self.ast.alloc(identifier));
+            let left = AssignTarget::AssignTargetIdent(identifier);
             Some(
                 self.ast
                     .expr_assignment(self.end_span(span), AssignOperator::Assign, left, right),
@@ -208,7 +208,7 @@ impl<'a> ParserImpl<'a> {
             }
             _ => {
                 let ident = self.parse_identifier_name()?;
-                Key::StaticIdent(self.ast.alloc(ident))
+                Key::StaticIdent(ident)
             }
         };
         Ok((key, computed))
