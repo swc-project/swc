@@ -314,7 +314,7 @@ impl std::fmt::Display for ModifierKind {
 impl<'a> ParserImpl<'a> {
     pub(crate) fn eat_modifiers_before_declaration(&mut self) -> Result<Modifiers<'a>> {
         let mut flags = ModifierFlags::empty();
-        let mut modifiers = self.ast.vec();
+        let mut modifiers = vec![];
         while self.at_modifier() {
             let span = self.start_span();
             let modifier_flag = self.cur_kind().into();
@@ -381,7 +381,7 @@ impl<'a> ParserImpl<'a> {
         let mut has_leading_modifier = false;
         let mut has_trailing_decorator = false;
 
-        let mut modifiers = self.ast.vec();
+        let mut modifiers = vec![];
         let mut modifier_flags = ModifierFlags::empty();
 
         // parse leading decorators
