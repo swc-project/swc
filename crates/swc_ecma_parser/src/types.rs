@@ -28,7 +28,7 @@ pub enum PropertyDefinitionType {
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum AccessorPropertyType {
     AccessorProperty,
-    TSAbstractAccessorProperty,
+    TsAbstractAccessorProperty,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
