@@ -238,7 +238,7 @@ impl<'a> ParserImpl<'a> {
                 .map(ModuleDecl::TsNamespaceExportDeclaration),
             Kind::Default => self
                 .parse_export_default_declaration(span)
-                .map(ModuleDecl::ExportDefaultDeclaration),
+                .map(ModuleDecl::ExportDefaultDecl),
             Kind::Star => self
                 .parse_export_all_declaration(span)
                 .map(ModuleDecl::ExportAllDeclaration),
