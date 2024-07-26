@@ -539,14 +539,12 @@ impl<'a> ParserImpl<'a> {
         }
 
         let tail = matches!(cur_kind, Kind::TemplateTail | Kind::NoSubstitutionTemplate);
-        self.ast.template_element(
+        TplElement {
             span,
             tail,
-            TemplateElementValue {
-                raw,
-                cooked: cooked.map(Atom::from),
-            },
-        )
+            raw,
+            cooked: cooked.map(Atom::from),
+        }
     }
 
     /// Section 13.3 Meta Property
@@ -733,7 +731,7 @@ impl<'a> ParserImpl<'a> {
         let mut type_parameter = None;
         if let Expr::TsInstantiation(instantiation_expr) = callee {
             type_parameter.replace(instantiation_expr.type_args);
-            callee = instantiation_expr.expr;
+            callee = *instantiation_expr.expr;
         }
 
         // parse `new ident` without arguments
@@ -799,7 +797,7 @@ impl<'a> ParserImpl<'a> {
             if type_arguments.is_some() || self.at(Kind::LParen) {
                 if let Expr::TsInstantiation(expr) = lhs {
                     type_arguments.replace(expr.type_params);
-                    lhs = expr.expr;
+                    lhs = *expr.expr;
                 }
 
                 lhs =
@@ -840,7 +838,7 @@ impl<'a> ParserImpl<'a> {
         ))
     }
 
-    fn parse_call_argument(&mut self) -> Result<Argument<'a>> {
+    fn parse_call_argument(&mut self) -> Result<Argument> {
         if self.at(Kind::Dot3) {
             self.parse_spread_element().map(Argument::SpreadElement)
         } else {
