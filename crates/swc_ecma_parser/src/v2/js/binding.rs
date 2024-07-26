@@ -148,7 +148,7 @@ impl<'a> ParserImpl<'a> {
                 shorthand = true;
                 let identifier = self
                     .ast
-                    .binding_pattern_kind_binding_identifier(ident.span, &ident.name);
+                    .binding_pattern_kind_binding_identifier(ident.span, &ident.sym);
                 let left = self
                     .ast
                     .binding_pattern(identifier, Option::<TsTypeAnn>::None, false);
