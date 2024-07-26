@@ -732,8 +732,7 @@ impl<'a> ParserImpl<'a> {
 
         let mut type_parameter = None;
         if let Expr::TsInstantiation(instantiation_expr) = callee {
-            let instantiation_expr = instantiation_expr.unbox();
-            type_parameter.replace(instantiation_expr.type_params);
+            type_parameter.replace(instantiation_expr.type_args);
             callee = instantiation_expr.expr;
         }
 
