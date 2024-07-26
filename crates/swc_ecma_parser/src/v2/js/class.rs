@@ -280,7 +280,7 @@ impl<'a> ParserImpl<'a> {
         let optional = self.eat(Kind::Question);
         let definite = self.eat(Kind::Bang);
 
-        if let Key::PrivateIdent(private_ident) = &key {
+        if let Key::Private(private_ident) = &key {
             // `private #foo`, etc. is illegal
             if self.ts_enabled() {
                 self.verify_modifiers(
@@ -363,9 +363,9 @@ impl<'a> ParserImpl<'a> {
 
     fn parse_class_element_name(&mut self) -> Result<(Key, bool)> {
         match self.cur_kind() {
-            Kind::PrivateIdent => {
+            Kind::Private => {
                 let private_ident = self.parse_private_identifier();
-                Ok((Key::PrivateIdent(self.ast.alloc(private_ident)), false))
+                Ok((Key::Private(self.ast.alloc(private_ident)), false))
             }
             _ => self.parse_property_name(),
         }

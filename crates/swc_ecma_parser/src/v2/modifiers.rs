@@ -544,7 +544,7 @@ impl<'a> ParserImpl<'a> {
 
     fn can_follow_modifier(&mut self) -> bool {
         match self.cur_kind() {
-            Kind::PrivateIdent | Kind::LBrack | Kind::LCurly | Kind::Star | Kind::Dot3 => true,
+            Kind::Private | Kind::LBrack | Kind::LCurly | Kind::Star | Kind::Dot3 => true,
             kind => kind.is_identifier_or_keyword(),
         }
     }
