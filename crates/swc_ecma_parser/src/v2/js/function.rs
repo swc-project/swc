@@ -12,7 +12,7 @@ use super::{
     FunctionKind,
 };
 use crate::{
-    types::FunctionType,
+    types::{FormalParamKind, FunctionType},
     v2::diagnostics::{self, Result},
 };
 
