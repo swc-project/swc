@@ -42,3 +42,12 @@ pub enum FormalParamKind {
     /// Part of TypeScript type signatures
     Signature,
 }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub enum FunctionType {
+    FunctionDeclaration,
+    FunctionExpression,
+    TsDeclareFunction,
+    /// <https://github.com/typescript-eslint/typescript-eslint/pull/1289>
+    TsEmptyBodyFunctionExpression,
+}
