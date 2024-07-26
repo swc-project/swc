@@ -1,4 +1,4 @@
-use swc_common::Span;
+use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 
 use crate::v2::{diagnostics, diagnostics::Result, lexer::Kind, Context, ParserImpl};
@@ -53,7 +53,7 @@ impl<'a> ParserImpl<'a> {
             Self::parse_rest_binding,
         )?;
         if let Some(rest) = &rest {
-            if !matches!(&rest.arg, Pat::Ident(_)) {
+            if !matches!(&*rest.arg, Pat::Ident(_)) {
                 return Err(diagnostics::invalid_binding_rest_element(rest.arg.span()));
             }
         }
@@ -144,7 +144,7 @@ impl<'a> ParserImpl<'a> {
             // let { a = b } = c
             // let { a } = b
             //       ^ BindingIdent
-            if let Key::StaticIdent(ident) = &key {
+            if let Key::Public(PropName::Ident(ident)) = &key {
                 shorthand = true;
                 let identifier = self
                     .ast
