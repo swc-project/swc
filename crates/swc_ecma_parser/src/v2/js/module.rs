@@ -1,4 +1,5 @@
 use rustc_hash::FxHashMap;
+use swc_common::Span;
 use swc_ecma_ast::*;
 
 use super::FunctionKind;
@@ -106,7 +107,7 @@ impl<'a> ParserImpl<'a> {
     fn parse_import_default_specifier(&mut self) -> Result<ImportSpecifier> {
         let span = self.start_span();
         let local = self.parse_binding_identifier()?;
-        Ok(ImportSpecifier::ImportDefaultSpecifier(self.ast.alloc(
+        Ok(ImportSpecifier::Default(self.ast.alloc(
             ImportDefaultSpecifier {
                 span: self.end_span(span),
                 local,
