@@ -34,11 +34,11 @@ pub enum AccessorPropertyType {
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum FormalParamKind {
     /// <https://tc39.es/ecma262/#prod-FormalParameters>
-    FormalParameter,
+    FormalParam,
     /// <https://tc39.es/ecma262/#prod-UniqueFormalParameters>
-    UniqueFormalParameters,
+    UniqueFormalParames,
     /// <https://tc39.es/ecma262/#prod-ArrowFormalParameters>
-    ArrowFormalParameters,
+    ArrowFormalParams,
     /// Part of TypeScript type signatures
     Signature,
 }
