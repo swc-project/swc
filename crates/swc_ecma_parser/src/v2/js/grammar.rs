@@ -152,7 +152,7 @@ impl<'a> CoverGrammar<'a, Prop> for ObjectPatProp {
     fn cover(property: Prop, p: &mut ParserImpl<'a>) -> Result<Self> {
         if property.shorthand {
             let binding = match property.key {
-                PropertyKey::StaticIdent(ident) => {
+                Key::StaticIdent(ident) => {
                     let ident = ident.unbox();
                     IdentReference::new(ident.span, ident.name)
                 }

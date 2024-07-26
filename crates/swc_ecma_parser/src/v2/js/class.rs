@@ -280,7 +280,7 @@ impl<'a> ParserImpl<'a> {
         let optional = self.eat(Kind::Question);
         let definite = self.eat(Kind::Bang);
 
-        if let PropertyKey::PrivateIdent(private_ident) = &key {
+        if let Key::PrivateIdent(private_ident) = &key {
             // `private #foo`, etc. is illegal
             if self.ts_enabled() {
                 self.verify_modifiers(
@@ -361,14 +361,11 @@ impl<'a> ParserImpl<'a> {
         }
     }
 
-    fn parse_class_element_name(&mut self) -> Result<(PropertyKey, bool)> {
+    fn parse_class_element_name(&mut self) -> Result<(Key, bool)> {
         match self.cur_kind() {
             Kind::PrivateIdent => {
                 let private_ident = self.parse_private_identifier();
-                Ok((
-                    PropertyKey::PrivateIdent(self.ast.alloc(private_ident)),
-                    false,
-                ))
+                Ok((Key::PrivateIdent(self.ast.alloc(private_ident)), false))
             }
             _ => self.parse_property_name(),
         }
@@ -379,7 +376,7 @@ impl<'a> ParserImpl<'a> {
         &mut self,
         span: Span,
         kind: MethodDefinitionKind,
-        key: PropertyKey,
+        key: Key,
         computed: bool,
         is_static: bool,
         is_async: bool,
@@ -441,7 +438,7 @@ impl<'a> ParserImpl<'a> {
     fn parse_class_property_definition(
         &mut self,
         span: Span,
-        key: PropertyKey,
+        key: Key,
         computed: bool,
         is_static: bool,
         declare: bool,
@@ -509,7 +506,7 @@ impl<'a> ParserImpl<'a> {
     fn parse_class_accessor_property(
         &mut self,
         span: Span,
-        key: PropertyKey,
+        key: Key,
         computed: bool,
         is_static: bool,
         is_abstract: bool,

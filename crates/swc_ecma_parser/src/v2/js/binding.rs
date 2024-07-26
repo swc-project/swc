@@ -153,7 +153,7 @@ impl<'a> ParserImpl<'a> {
             // let { a = b } = c
             // let { a } = b
             //       ^ BindingIdent
-            if let PropertyKey::StaticIdent(ident) = &key {
+            if let Key::StaticIdent(ident) = &key {
                 shorthand = true;
                 let identifier = self
                     .ast
