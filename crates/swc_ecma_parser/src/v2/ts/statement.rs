@@ -242,7 +242,7 @@ impl<'a> ParserImpl<'a> {
         if next.is_on_new_line {
             false
         } else {
-            let followed_by_any_member = matches!(next.kind, Kind::PrivateIdent | Kind::LBrack)
+            let followed_by_any_member = matches!(next.kind, Kind::Private | Kind::LBrack)
                 || next.kind.is_literal_property_name();
             let followed_by_class_member = !is_constructor_parameter && next.kind == Kind::Star;
             // allow `...` for error recovery

@@ -207,7 +207,7 @@ impl<'a> Lexer<'a> {
             Kind::Str => {
                 &raw[1..raw.len() - 1] // omit surrounding quotes
             }
-            Kind::PrivateIdent => {
+            Kind::Private => {
                 &raw[1..] // omit leading `#`
             }
             _ => raw,

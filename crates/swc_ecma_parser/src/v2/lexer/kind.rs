@@ -273,9 +273,7 @@ impl Kind {
     }
 
     pub fn is_identifier_or_keyword(self) -> bool {
-        self.is_literal_property_name()
-            || matches!(self, Self::PrivateIdent)
-            || self.is_all_keyword()
+        self.is_literal_property_name() || matches!(self, Self::Private) || self.is_all_keyword()
     }
 
     pub fn is_variable_declaration(self) -> bool {

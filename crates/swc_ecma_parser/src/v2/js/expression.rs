@@ -636,7 +636,7 @@ impl<'a> ParserImpl<'a> {
                             self.bump_any(); // bump `?.`
                             self.parse_computed_member_expression(lhs_span, lhs, true)?
                         }
-                        Kind::PrivateIdent => {
+                        Kind::Private => {
                             self.parse_static_member_expression(lhs_span, lhs, true)?
                         }
                         kind if kind.is_identifier_name() => {
@@ -683,7 +683,7 @@ impl<'a> ParserImpl<'a> {
         optional: bool,
     ) -> Result<Expr> {
         self.bump_any(); // advance `.` or `?.`
-        if self.cur_kind() == Kind::PrivateIdent {
+        if self.cur_kind() == Kind::Private {
             let private_ident = self.parse_private_identifier();
             Ok(self.ast.member_expression_private_field_expression(
                 self.end_span(lhs_span),
@@ -925,7 +925,7 @@ impl<'a> ParserImpl<'a> {
     ) -> Result<Expr> {
         let lhs_span = self.start_span();
 
-        let lhs = if self.ctx.has_in() && self.at(Kind::PrivateIdent) {
+        let lhs = if self.ctx.has_in() && self.at(Kind::Private) {
             let left = self.parse_private_identifier();
             self.expect(Kind::In)?;
             let right = self.parse_unary_expression_or_higher(lhs_span)?;
