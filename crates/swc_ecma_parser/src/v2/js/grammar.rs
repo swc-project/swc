@@ -88,7 +88,7 @@ impl<'a> CoverGrammar<'a, ArrayLit> for ArrayPat {
     }
 }
 
-impl<'a> CoverGrammar<'a, Expr> for AssignTargetMaybeDefault<'a> {
+impl<'a> CoverGrammar<'a, Expr> for AssignTargetMaybeDefault {
     fn cover(expr: Expr, p: &mut ParserImpl<'a>) -> Result<Self> {
         match expr {
             Expr::Assign(assignment_expr) => {
