@@ -1,4 +1,4 @@
-use swc_common::Span;
+use swc_common::{Span, Spanned};
 use swc_ecma_ast::{Stmt, *};
 
 use super::{VarDeclarationContext, VarDeclarationParent};
@@ -196,7 +196,7 @@ impl<'a> ParserImpl<'a> {
             // Excluding `for` loops, an initializer is required in a UsingDeclaration.
             if declaration.init.is_none() && !matches!(statement_ctx, StatementContext::For) {
                 self.error(diagnostics::using_declarations_must_be_initialized(
-                    declaration.id.span(),
+                    declaration.name.span(),
                 ));
             }
 
