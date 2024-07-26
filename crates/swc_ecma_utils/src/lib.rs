@@ -2678,7 +2678,7 @@ pub struct IdentReplacer<'a> {
 }
 
 impl VisitMut for IdentReplacer<'_> {
-    noop_visit_mut_type!(fail);
+    noop_visit_mut_type!();
 
     visit_mut_obj_and_computed!();
 
