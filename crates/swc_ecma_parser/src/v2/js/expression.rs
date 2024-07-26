@@ -651,7 +651,7 @@ impl<'a> ParserImpl<'a> {
                 }
                 kind if kind.is_template_start_of_tagged_template() => {
                     let (expr, type_parameters) = if let Expr::TsInstantiation(expr) = lhs {
-                        (expr.expr, Some(expr.type_params))
+                        (*expr.expr, Some(expr.type_args))
                     } else {
                         (lhs, None)
                     };
