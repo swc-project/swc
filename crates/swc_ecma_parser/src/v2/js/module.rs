@@ -107,12 +107,10 @@ impl<'a> ParserImpl<'a> {
     fn parse_import_default_specifier(&mut self) -> Result<ImportSpecifier> {
         let span = self.start_span();
         let local = self.parse_binding_identifier()?;
-        Ok(ImportSpecifier::Default(self.ast.alloc(
-            ImportDefaultSpecifier {
-                span: self.end_span(span),
-                local,
-            },
-        )))
+        Ok(ImportSpecifier::Default(ImportDefaultSpecifier {
+            span: self.end_span(span),
+            local,
+        }))
     }
 
     // import * as name from "module-name"
@@ -121,12 +119,10 @@ impl<'a> ParserImpl<'a> {
         self.bump_any(); // advance `*`
         self.expect(Kind::As)?;
         let local = self.parse_binding_identifier()?;
-        Ok(ImportSpecifier::Namespace(self.ast.alloc(
-            ImportNamespaceSpecifier {
-                span: self.end_span(span),
-                local,
-            },
-        )))
+        Ok(ImportSpecifier::Namespace(ImportNamespaceSpecifier {
+            span: self.end_span(span),
+            local,
+        }))
     }
 
     // import { export1 , export2 as alias2 , [...] } from "module-name";
@@ -205,10 +201,10 @@ impl<'a> ParserImpl<'a> {
         let expression = self.parse_assignment_expression_or_higher()?;
         self.asi()?;
 
-        Ok(self.ast.alloc(TsExportAssign {
+        Ok(TsExportAssign {
             span: self.end_span(start_span),
             expression,
-        }))
+        })
     }
 
     pub(crate) fn parse_ts_export_namespace(&mut self) -> Result<Box<TsNamespaceExportDecl>> {
@@ -219,10 +215,10 @@ impl<'a> ParserImpl<'a> {
         let id = self.parse_identifier_name()?;
         self.asi()?;
 
-        Ok(self.ast.alloc(TsNamespaceExportDeclaration {
+        Ok(TsNamespaceExportDeclaration {
             span: self.end_span(span),
             id,
-        }))
+        })
     }
 
     /// [Exports](https://tc39.es/ecma262/#sec-exports)
@@ -475,14 +471,12 @@ impl<'a> ParserImpl<'a> {
             };
             (ModuleExportName::Ident(imported), local)
         };
-        Ok(ImportSpecifier::ImportSpecifier(self.ast.alloc(
-            ImportSpecifier {
-                span: self.end_span(specifier_span),
-                imported,
-                local,
-                import_kind,
-            },
-        )))
+        Ok(ImportSpecifier::ImportSpecifier(ImportSpecifier {
+            span: self.end_span(specifier_span),
+            imported,
+            local,
+            import_kind,
+        }))
     }
 
     // ModuleExportName :

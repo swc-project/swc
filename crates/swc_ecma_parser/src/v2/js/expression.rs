@@ -928,12 +928,12 @@ impl<'a> ParserImpl<'a> {
             let left = self.parse_private_identifier();
             self.expect(Kind::In)?;
             let right = self.parse_unary_expression_or_higher(lhs_span)?;
-            Expr::PrivateIn(self.ast.alloc(PrivateInExpression {
+            Expr::PrivateIn(PrivateInExpression {
                 span: self.end_span(lhs_span),
                 left,
                 operator: BinaryOp::In,
                 right,
-            }))
+            })
         } else {
             self.parse_unary_expression_or_higher(lhs_span)?
         };

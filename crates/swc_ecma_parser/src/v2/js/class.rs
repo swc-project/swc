@@ -365,7 +365,7 @@ impl<'a> ParserImpl<'a> {
         match self.cur_kind() {
             Kind::Private => {
                 let private_ident = self.parse_private_identifier();
-                Ok((Key::Private(self.ast.alloc(private_ident)), false))
+                Ok((Key::Private(private_ident), false))
             }
             _ => self.parse_property_name(),
         }
@@ -430,7 +430,7 @@ impl<'a> ParserImpl<'a> {
             optional,
             decorators,
         };
-        Ok(ClassMember::Method(self.ast.alloc(method_definition)))
+        Ok(ClassMember::Method(method_definition))
     }
 
     /// `FieldDefinition`[?Yield, ?Await] ;
@@ -486,7 +486,7 @@ impl<'a> ParserImpl<'a> {
             definite,
             decorators: self.consume_decorators(),
         };
-        Ok(ClassMember::ClassProp(self.ast.alloc(property_definition)))
+        Ok(ClassMember::ClassProp(property_definition))
     }
 
     /// `ClassStaticBlockStatementList` :

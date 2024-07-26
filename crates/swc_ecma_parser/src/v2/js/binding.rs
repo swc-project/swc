@@ -63,11 +63,9 @@ impl<'a> ParserImpl<'a> {
             }
         }
         self.expect(Kind::RCurly)?;
-        Ok(self.ast.binding_pattern_kind_object_pattern(
-            self.end_span(span),
-            list,
-            rest.map(|r| self.ast.alloc(r)),
-        ))
+        Ok(self
+            .ast
+            .binding_pattern_kind_object_pattern(self.end_span(span), list, rest.map(|r| r)))
     }
 
     /// Section 14.3.3 Array Binding Pattern
@@ -80,11 +78,9 @@ impl<'a> ParserImpl<'a> {
             Self::parse_rest_binding,
         )?;
         self.expect(Kind::RBrack)?;
-        Ok(self.ast.binding_pattern_kind_array_pattern(
-            self.end_span(span),
-            list,
-            rest.map(|r| self.ast.alloc(r)),
-        ))
+        Ok(self
+            .ast
+            .binding_pattern_kind_array_pattern(self.end_span(span), list, rest.map(|r| r)))
     }
 
     fn parse_array_binding_element(&mut self) -> Result<Option<BindingPattern<'a>>> {

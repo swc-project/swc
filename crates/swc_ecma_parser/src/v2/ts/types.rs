@@ -284,7 +284,7 @@ impl<'a> ParserImpl<'a> {
         let ts_type_parameter = self
             .ast
             .ts_type_parameter(span, name, constraint, None, false, false, false);
-        Ok(self.ast.alloc(ts_type_parameter))
+        Ok(ts_type_parameter)
     }
 
     fn parse_postfix_type_or_higher(&mut self) -> Result<TsType> {
@@ -395,7 +395,7 @@ impl<'a> ParserImpl<'a> {
                 if self.peek_at(Kind::Is) && !self.peek_token().is_on_new_line {
                     return self.parse_this_type_predicate(this_type);
                 }
-                Ok(TsType::TsThisType(self.ast.alloc(this_type)))
+                Ok(TsType::TsThisType(this_type))
             }
             Kind::Typeof => {
                 if self.peek_at(Kind::Import) {
@@ -598,7 +598,7 @@ impl<'a> ParserImpl<'a> {
         let name = self.parse_binding_identifier()?;
         self.expect(Kind::In)?;
         let constraint = self.parse_ts_type()?;
-        let type_parameter = self.ast.alloc(self.ast.ts_type_parameter(
+        let type_parameter = self.ast.ts_type_parameter(
             self.end_span(type_parameter_span),
             name,
             Some(constraint),
@@ -606,7 +606,7 @@ impl<'a> ParserImpl<'a> {
             false,
             false,
             false,
-        ));
+        );
 
         let name_type = if self.eat(Kind::As) {
             Some(self.parse_ts_type()?)
@@ -797,14 +797,14 @@ impl<'a> ParserImpl<'a> {
         let span = self.start_span();
         let ident = self.parse_identifier_name()?;
         let ident = IdentReference::new(ident.span, ident.name);
-        let mut left = TsTypeName::IdentReference(self.ast.alloc(ident));
+        let mut left = TsTypeName::IdentReference(ident);
         while self.eat(Kind::Dot) {
             let right = self.parse_identifier_name()?;
-            left = TsTypeName::QualifiedName(self.ast.alloc(TsQualifiedName {
+            left = TsTypeName::QualifiedName(TsQualifiedName {
                 span: self.end_span(span),
                 left,
                 right,
-            }));
+            });
         }
         Ok(left)
     }
@@ -922,7 +922,7 @@ impl<'a> ParserImpl<'a> {
             let element_type = self.parse_tuple_element_type()?;
             let span = self.end_span(span);
             return Ok(if dotdotdot {
-                TsTupleElement::TsRestType(self.ast.alloc(TsRestType {
+                TsTupleElement::TsRestType(TsRestType {
                     span,
                     type_annotation: TsType::TsNamedTupleMember(self.ast.alloc(
                         TsNamedTupleMember {
@@ -934,14 +934,14 @@ impl<'a> ParserImpl<'a> {
                             optional,
                         },
                     )),
-                }))
+                })
             } else {
-                TsTupleElement::TsNamedTupleMember(self.ast.alloc(TsNamedTupleMember {
+                TsTupleElement::TsNamedTupleMember(TsNamedTupleMember {
                     span,
                     element_type,
                     label,
                     optional,
-                }))
+                })
             });
         }
         self.parse_tuple_element_type()
@@ -967,20 +967,18 @@ impl<'a> ParserImpl<'a> {
         let span = self.start_span();
         if self.eat(Kind::Dot3) {
             let ty = self.parse_ts_type()?;
-            return Ok(TsTupleElement::TsRestType(self.ast.alloc(TsRestType {
+            return Ok(TsTupleElement::TsRestType(TsRestType {
                 span: self.end_span(span),
                 type_annotation: ty,
-            })));
+            }));
         }
         let ty = self.parse_ts_type()?;
         if let TsType::JSDocNullableType(ty) = ty {
             if ty.span.lo == ty.type_annotation.span().start {
-                Ok(TsTupleElement::TsOptionalType(self.ast.alloc(
-                    TsOptionalType {
-                        span: ty.span,
-                        type_annotation: ty.unbox().type_annotation,
-                    },
-                )))
+                Ok(TsTupleElement::TsOptionalType(TsOptionalType {
+                    span: ty.span,
+                    type_annotation: ty.unbox().type_annotation,
+                }))
             } else {
                 Ok(TsTupleElement::JSDocNullableType(ty))
             }
