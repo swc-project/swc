@@ -161,7 +161,7 @@ impl<'a> ParserImpl<'a> {
         Ok(self.ast.alloc_object_property(
             self.end_span(span),
             PropertyKind::Init,
-            PropertyKey::StaticIdent(key),
+            Key::StaticIdent(key),
             value,
             init,
             /* method */ false,
@@ -176,7 +176,7 @@ impl<'a> ParserImpl<'a> {
     fn parse_property_definition_assignment(
         &mut self,
         span: Span,
-        key: PropertyKey,
+        key: Key,
         computed: bool,
     ) -> Result<Box<ObjectProperty<'a>>> {
         self.bump_any(); // bump `:`
@@ -196,19 +196,19 @@ impl<'a> ParserImpl<'a> {
     /// `PropertyName`[Yield, Await] :
     ///    `LiteralPropertyName`
     ///    `ComputedPropertyName`[?Yield, ?Await]
-    pub(crate) fn parse_property_name(&mut self) -> Result<(PropertyKey, bool)> {
+    pub(crate) fn parse_property_name(&mut self) -> Result<(Key, bool)> {
         let mut computed = false;
         let key = match self.cur_kind() {
-            Kind::Str => self.parse_literal_expression().map(PropertyKey::from)?,
-            kind if kind.is_number() => self.parse_literal_expression().map(PropertyKey::from)?,
+            Kind::Str => self.parse_literal_expression().map(Key::from)?,
+            kind if kind.is_number() => self.parse_literal_expression().map(Key::from)?,
             // { [foo]() {} }
             Kind::LBrack => {
                 computed = true;
-                self.parse_computed_property_name().map(PropertyKey::from)?
+                self.parse_computed_property_name().map(Key::from)?
             }
             _ => {
                 let ident = self.parse_identifier_name()?;
-                PropertyKey::StaticIdent(self.ast.alloc(ident))
+                Key::StaticIdent(self.ast.alloc(ident))
             }
         };
         Ok((key, computed))
