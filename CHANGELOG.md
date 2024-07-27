@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/decorators)** Fix TypeScript syntax assertion ([#9336](https://github.com/swc-project/swc/issues/9336)) ([acb3952](https://github.com/swc-project/swc/commit/acb3952ae324433c0049619d696f6c61bc9e475c))
+
 ## [1.7.2] - 2024-07-25
 
 ### Bug Fixes
@@ -1315,16 +1323,10 @@
 
 
 
-- **(binding/types)** Update typings for `options.envs` to match implementation ([#8620](https://github.com/swc-project/swc/issues/8620)) ([2a115cf](https://github.com/swc-project/swc/commit/2a115cff716b3ac9216d03a4c88649fedff73850))
-
-
 - **(es/compat)** Visit AssignExpr right branch in FnEnvHoister ([#8633](https://github.com/swc-project/swc/issues/8633)) ([e5d6de0](https://github.com/swc-project/swc/commit/e5d6de0ea9fbab0e36791f59b58d6d2c76809ea5))
 
 
 - **(es/decorators)** Do not insert duplicate constructors ([#8631](https://github.com/swc-project/swc/issues/8631)) ([21a447f](https://github.com/swc-project/swc/commit/21a447f35a79cdad4721cdefea26da1d355d34d3))
-
-
-- **(es/parser)** Fix detection of `use strict` directive ([#8617](https://github.com/swc-project/swc/issues/8617)) ([95236e9](https://github.com/swc-project/swc/commit/95236e9abe546c455222a775f9648e82543dfaed))
 
 
 - **(es/plugin)** Fix schema version issue ([#8621](https://github.com/swc-project/swc/issues/8621)) ([132be95](https://github.com/swc-project/swc/commit/132be951733660654b5c0992e19b5f3d414e7350))
