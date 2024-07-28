@@ -124,7 +124,7 @@ For running all tests, take the following steps:
     cargo test --all --no-default-features --features swc_v2 --features filesystem_cache
     ```
 
-    **TIP**: If you are seeing errors while attempting to run the commands above, we usually do not run all tests at once. Instead, we run tests per package ([see below](#running-tests-per-package)), which you can use to verify your environment setup.
+    **TIP**: If you see errors while attempting to run the commands above, we usually do not run all tests at once. Instead, we run tests per package ([see below](#running-tests-per-package)), which you can use to verify your local setup.
 
 ## Running tests per package
 
