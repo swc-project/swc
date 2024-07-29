@@ -12,4 +12,4 @@ function foo() {
     return () => obj.start()
 };
 
-foo()
+export default foo()
