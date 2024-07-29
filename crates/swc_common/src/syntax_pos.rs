@@ -113,7 +113,22 @@ impl Globals {
         }
     }
 
-    pub fn merge(globals: Vec<Lrc<Globals>>) -> MergeResult {}
+    pub fn merge(globals: Vec<Lrc<Globals>>) -> MergeResult {
+        let mut hygiene_data = hygiene::HygieneData::new();
+        let mut marks = vec![];
+
+        for g in globals {
+            let g = g.hygiene_data.lock();
+            hygiene_data.merge(&*g);
+        }
+
+        for g in globals {
+            let g = g.marks.lock();
+            marks.extend(g.iter().cloned());
+        }
+
+        MergeResult {}
+    }
 }
 
 #[derive(Debug)]
