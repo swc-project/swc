@@ -38,7 +38,7 @@ impl<'a> ParserImpl<'a> {
 
         self.asi()?;
 
-        Ok(Stmt::UsingDeclaration(using_decl))
+        Ok(Stmt::Decl(Decl::Using(Box::new(using_decl))))
     }
 
     pub(crate) fn parse_variable_declaration(
