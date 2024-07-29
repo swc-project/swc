@@ -10,7 +10,6 @@ pub mod fixer;
 pub mod hygiene;
 pub mod assumptions;
 pub mod feature;
-pub mod globals_merger;
 pub mod helpers;
 #[doc(hidden)]
 pub mod native;
