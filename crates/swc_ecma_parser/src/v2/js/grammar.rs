@@ -1,6 +1,7 @@
 //! Cover Grammar for Destructuring Assign
 
 use oxc_span::GetSpan;
+use swc_common::Spanned;
 use swc_ecma_ast::*;
 
 use crate::v2::{diagnostics, diagnostics::Result, ParserImpl};
