@@ -6,7 +6,7 @@ use crate::v2::{diagnostics, diagnostics::Result, lexer::Kind, Context, ParserIm
 impl<'a> ParserImpl<'a> {
     /// `BindingElement`
     ///     `SingleNameBinding`
-    ///     `BindingPattern`[?Yield, ?Await] `Initializer`[+In, ?Yield,
+    ///     `Pat`[?Yield, ?Await] `Initializer`[+In, ?Yield,
     /// ?Await]opt
     pub(super) fn parse_binding_pattern_with_initializer(&mut self) -> Result<Pat> {
         let span = self.start_span();
@@ -188,10 +188,10 @@ impl<'a> ParserImpl<'a> {
 
     pub(super) fn extend_binding_pattern_span_end(span: Span, kind: &mut Pat) {
         let pat_span = match kind {
-            BindingPatternKind::BindingIdent(pat) => &mut pat.span,
-            BindingPatternKind::ObjectPattern(pat) => &mut pat.span,
-            BindingPatternKind::ArrayPattern(pat) => &mut pat.span,
-            BindingPatternKind::AssignPattern(pat) => &mut pat.span,
+            Pat::BindingIdent(pat) => &mut pat.span,
+            Pat::ObjectPattern(pat) => &mut pat.span,
+            Pat::ArrayPattern(pat) => &mut pat.span,
+            Pat::AssignPattern(pat) => &mut pat.span,
         };
         pat_span.hi = span.hi;
     }
