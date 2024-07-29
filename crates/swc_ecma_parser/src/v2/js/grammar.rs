@@ -14,10 +14,12 @@ impl<'a> CoverGrammar<'a, Expr> for AssignTarget {
         match expr {
             Expr::Array(array_expr) => ArrayPat::cover(array_expr.unbox(), p)
                 .map(|pat| p.ast.alloc(pat))
-                .map(AssignTarget::ArrayAssignTarget),
+                .map(AssignTargetPat::Array)
+                .map(AssignTarget::Pat),
             Expr::Object(object_expr) => ObjectPat::cover(object_expr.unbox(), p)
                 .map(|pat| p.ast.alloc(pat))
-                .map(AssignTarget::ObjectAssignTarget),
+                .map(AssignTargetPat::Object)
+                .map(AssignTarget::Pat),
             _ => SimpleAssignTarget::cover(expr, p).map(AssignTarget::from),
         }
     }
