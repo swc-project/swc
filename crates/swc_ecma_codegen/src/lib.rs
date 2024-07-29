@@ -1599,6 +1599,10 @@ where
             }
         }
 
+        if n.is_optional {
+            punct!("?");
+        }
+
         if let Some(type_params) = &n.function.type_params {
             emit!(type_params);
         }
