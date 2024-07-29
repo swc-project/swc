@@ -480,9 +480,9 @@ impl<'a> ParserImpl<'a> {
             declare,
             is_override,
             readonly,
-            type_annotation,
+            type_ann: type_annotation,
             accessibility,
-            optional,
+            is_optional: optional,
             definite,
             decorators: self.consume_decorators(),
         };
