@@ -188,10 +188,13 @@ impl<'a> ParserImpl<'a> {
 
     pub(super) fn extend_binding_pattern_span_end(span: Span, kind: &mut Pat) {
         let pat_span = match kind {
-            Pat::BindingIdent(pat) => &mut pat.span,
-            Pat::ObjectPattern(pat) => &mut pat.span,
-            Pat::ArrayPattern(pat) => &mut pat.span,
-            Pat::AssignPattern(pat) => &mut pat.span,
+            Pat::Ident(pat) => &mut pat.span,
+            Pat::Object(pat) => &mut pat.span,
+            Pat::Array(pat) => &mut pat.span,
+            Pat::Assign(pat) => &mut pat.span,
+            _ => {
+                unreachable!("extend_binding_pattern_span_end: {:?}", kind);
+            }
         };
         pat_span.hi = span.hi;
     }
