@@ -126,11 +126,11 @@ impl<'a> CoverGrammar<'a, ObjectLit> for ObjectPat {
         let len = expr.properties.len();
         for (i, elem) in expr.properties.into_iter().enumerate() {
             match elem {
-                ObjectPropertyKind::ObjectProperty(property) => {
+                PropOrSpread::Prop(property) => {
                     let target = AssignTargetProperty::cover(property.unbox(), p)?;
                     properties.push(target);
                 }
-                ObjectPropertyKind::SpreadProperty(spread) => {
+                PropOrSpread::Spread(spread) => {
                     if i == len - 1 {
                         rest = Some(AssignTargetRest {
                             span: spread.span,
