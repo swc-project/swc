@@ -117,8 +117,8 @@ impl<'a> CoverGrammar<'a, AssignExpr> for AssignPatProp {
     }
 }
 
-impl<'a> CoverGrammar<'a, ObjectExpr> for ObjectPat {
-    fn cover(expr: ObjectExpr, p: &mut ParserImpl<'a>) -> Result<Self> {
+impl<'a> CoverGrammar<'a, ObjectLit> for ObjectPat {
+    fn cover(expr: ObjectLit, p: &mut ParserImpl<'a>) -> Result<Self> {
         let mut properties = p.ast.vec();
         let mut rest = None;
 
