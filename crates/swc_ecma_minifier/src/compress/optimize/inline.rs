@@ -337,6 +337,7 @@ impl Optimizer<'_> {
                 && usage.declared
                 && may_remove
                 && !usage.reassigned
+                && !usage.declared_as_for_init
                 && usage.assign_count == 1
                 && ref_count == 1
             {
