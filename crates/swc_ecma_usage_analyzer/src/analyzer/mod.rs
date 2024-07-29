@@ -783,6 +783,9 @@ where
         self.with_child(SyntaxContext::empty(), ScopeKind::Block, |child| {
             let head_ctx = Ctx {
                 in_left_of_for_loop: true,
+                is_id_ref: true,
+                executed_multiple_time: true,
+                in_cond: true,
                 ..child.ctx
             };
             n.left.visit_with(&mut *child.with_ctx(head_ctx));
@@ -810,6 +813,9 @@ where
         self.with_child(SyntaxContext::empty(), ScopeKind::Block, |child| {
             let head_ctx = Ctx {
                 in_left_of_for_loop: true,
+                is_id_ref: true,
+                executed_multiple_time: true,
+                in_cond: true,
                 ..child.ctx
             };
             n.left.visit_with(&mut *child.with_ctx(head_ctx));
