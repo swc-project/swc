@@ -8,6 +8,12 @@ const Cache = {
     get: function(key) {
         if (!1 !== this.enabled) // console.log( 'THREE.Cache', 'Checking key:', key );
         return this.files[key];
+    },
+    remove: function(key) {
+        delete this.files[key];
+    },
+    clear: function() {
+        this.files = {};
     }
 };
 class Loader {

@@ -846,6 +846,38 @@ impl Optimizer<'_> {
                 PropOrSpread::Prop(prop) => prop,
             };
 
+            match &**prop {
+                Prop::Method(prop) => {
+                    if contains_this_expr(&prop.function.body) {
+                        return None;
+                    }
+                }
+                Prop::Getter(prop) => {
+                    if contains_this_expr(&prop.body) {
+                        return None;
+                    }
+                }
+                Prop::Setter(prop) => {
+                    if contains_this_expr(&prop.body) {
+                        return None;
+                    }
+                }
+                Prop::KeyValue(prop) => match &*prop.value {
+                    Expr::Fn(f) => {
+                        if contains_this_expr(&f.function.body) {
+                            return None;
+                        }
+                    }
+                    Expr::Arrow(f) => {
+                        if contains_this_expr(&f.body) {
+                            return None;
+                        }
+                    }
+                    _ => {}
+                },
+                _ => {}
+            }
+
             if contains_this_expr(prop) {
                 return None;
             }
