@@ -57,8 +57,8 @@ impl<'a> CoverGrammar<'a, ArrayLit> for ArrayPat {
         let mut elements = p.ast.vec();
         let mut rest = None;
 
-        let len = expr.elements.len();
-        for (i, elem) in expr.elements.into_iter().enumerate() {
+        let len = expr.elems.len();
+        for (i, elem) in expr.elems.into_iter().enumerate() {
             match elem {
                 match_expression!(ArrayLitElement) => {
                     let expr = Expr::try_from(elem).unwrap();
