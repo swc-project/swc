@@ -4,7 +4,8 @@ use crate::token::{IdentLike, Keyword};
 impl Context {
     pub(crate) fn is_reserved(self, word: &Word) -> bool {
         match *word {
-            Word::Keyword(Keyword::Let) => self.strict,
+            // Problem code: `let` is reserved when in strict mode OR in a const class or let declaration
+            Word::Keyword(Keyword::Let) => self.in_class || self.strict,
             Word::Keyword(Keyword::Await) => self.in_async || self.in_static_block || self.strict,
             Word::Keyword(Keyword::Yield) => self.in_generator || self.strict,
 
