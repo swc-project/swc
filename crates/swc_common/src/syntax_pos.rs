@@ -112,7 +112,12 @@ impl Globals {
             dummy_cnt: AtomicU32::new(DUMMY_RESERVE),
         }
     }
+
+    pub fn merge(globals: Vec<Lrc<Globals>>) -> MergeResult {}
 }
+
+#[derive(Debug)]
+pub struct MergeResult {}
 
 better_scoped_tls::scoped_tls!(
 
