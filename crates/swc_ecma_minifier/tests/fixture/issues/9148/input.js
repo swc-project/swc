@@ -4,8 +4,9 @@ function foo() {
             console.log('clear')
         },
         start: function () {
+            const _this = this;
             setTimeout(function () {
-                this.clear();
+                _this.clear();
             });
         }
     };
