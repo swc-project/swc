@@ -1,5 +1,5 @@
 use swc_atoms::Atom;
-use swc_common::Span;
+use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 
 use super::{grammar::CoverGrammar, VarDeclarationContext, VarDeclarationParent};
@@ -540,7 +540,7 @@ impl<'a> ParserImpl<'a> {
             None
         };
         let body = self.parse_block()?;
-        let param = pattern.map(|pattern| self.ast.catch_parameter(pattern.kind.span(), pattern));
+        let param = pattern.map(|pattern| self.ast.catch_parameter(pattern.span(), pattern));
         Ok(self
             .ast
             .alloc_catch_clause(self.end_span(span), param, body))
