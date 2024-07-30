@@ -327,6 +327,13 @@ impl HygieneData {
         }
     }
 
+    pub(crate) fn merge(&mut self, other: &Self) {
+        self.syntax_contexts
+            .extend_from_slice(&other.syntax_contexts);
+        self.markings
+            .extend(other.markings.iter().map(|(k, v)| (*k, *v)));
+    }
+
     fn with<T, F: FnOnce(&mut HygieneData) -> T>(f: F) -> T {
         GLOBALS.with(|globals| {
             #[cfg(feature = "parking_lot")]
