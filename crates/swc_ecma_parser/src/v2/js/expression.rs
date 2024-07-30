@@ -796,7 +796,7 @@ impl<'a> ParserImpl<'a> {
 
             if type_arguments.is_some() || self.at(Kind::LParen) {
                 if let Expr::TsInstantiation(expr) = lhs {
-                    type_arguments.replace(expr.type_params);
+                    type_arguments.replace(expr.type_args);
                     lhs = *expr.expr;
                 }
 
