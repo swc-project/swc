@@ -11,6 +11,7 @@ use std::{
 
 #[cfg(feature = "parking_lot")]
 use parking_lot::Mutex;
+use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
 use url::Url;
 
@@ -116,10 +117,11 @@ impl Globals {
     pub fn merge(globals: Vec<Lrc<Globals>>) -> MergeResult {
         let mut hygiene_data = hygiene::HygieneData::new();
         let mut marks = vec![];
+        let mut result = MergeResult::default();
 
         for g in &globals {
             let g = g.hygiene_data.lock();
-            hygiene_data.merge(&g);
+            hygiene_data.merge(&g, &mut result);
         }
 
         for g in &globals {
@@ -127,12 +129,14 @@ impl Globals {
             marks.extend(g.iter().cloned());
         }
 
-        MergeResult {}
+        result
     }
 }
 
-#[derive(Debug)]
-pub struct MergeResult {}
+#[derive(Debug, Default)]
+pub struct MergeResult {
+    pub ctxts: FxHashMap<SyntaxContext, SyntaxContext>,
+}
 
 better_scoped_tls::scoped_tls!(
 
