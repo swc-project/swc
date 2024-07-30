@@ -272,7 +272,7 @@ impl<'a> ParserImpl<'a> {
         if self.at(Kind::In) || self.at(Kind::Of) {
             let target = AssignTarget::cover(init_expression, self)
                 .map_err(|_| diagnostics::unexpected_token(self.end_span(expr_span)))?;
-            let for_stmt_left = ForStatementLeft::from(target);
+            let for_stmt_left = ForStmtLeft::from(target);
             if !is_await && is_async_of {
                 self.error(diagnostics::for_loop_async_of(self.end_span(expr_span)));
             }
@@ -282,11 +282,7 @@ impl<'a> ParserImpl<'a> {
             return self.parse_for_in_or_of_loop(span, is_await, for_stmt_left);
         }
 
-        self.parse_for_loop(
-            span,
-            Some(ForStatementInit::from(init_expression)),
-            is_await,
-        )
+        self.parse_for_loop(span, Some(ForStmtInit::from(init_expression)), is_await)
     }
 
     fn parse_variable_declaration_for_statement(
@@ -302,11 +298,11 @@ impl<'a> ParserImpl<'a> {
 
         // for (.. a in) for (.. a of)
         if matches!(self.cur_kind(), Kind::In | Kind::Of) {
-            let init = ForStatementLeft::VarDeclaration(init_declaration);
+            let init = ForStmtLeft::VarDeclaration(init_declaration);
             return self.parse_for_in_or_of_loop(span, is_await, init);
         }
 
-        let init = Some(ForStatementInit::VarDeclaration(init_declaration));
+        let init = Some(ForStmtInit::VarDeclaration(init_declaration));
         self.parse_for_loop(span, init, is_await)
     }
 
@@ -332,18 +328,18 @@ impl<'a> ParserImpl<'a> {
         }
 
         if matches!(self.cur_kind(), Kind::In | Kind::Of) {
-            let init = ForStatementLeft::UsingDeclaration(using_decl);
+            let init = ForStmtLeft::UsingDeclaration(using_decl);
             return self.parse_for_in_or_of_loop(span, is_await, init);
         }
 
-        let init = Some(ForStatementInit::UsingDeclaration(using_decl));
+        let init = Some(ForStmtInit::UsingDeclaration(using_decl));
         self.parse_for_loop(span, init, is_await)
     }
 
     fn parse_for_loop(
         &mut self,
         span: Span,
-        init: Option<ForStatementInit<'a>>,
+        init: Option<ForStmtInit<'a>>,
         is_await: bool,
     ) -> Result<Stmt> {
         self.expect(Kind::Semicolon)?;
@@ -372,7 +368,7 @@ impl<'a> ParserImpl<'a> {
         &mut self,
         span: Span,
         is_await: bool,
-        left: ForStatementLeft<'a>,
+        left: ForStmtLeft<'a>,
     ) -> Result<Stmt> {
         let is_for_in = self.at(Kind::In);
         self.bump_any(); // bump `in` or `of`
