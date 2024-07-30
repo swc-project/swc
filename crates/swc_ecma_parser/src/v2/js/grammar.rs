@@ -1,6 +1,5 @@
 //! Cover Grammar for Destructuring Assign
 
-use oxc_span::GetSpan;
 use swc_common::Spanned;
 use swc_ecma_ast::*;
 
@@ -30,14 +29,14 @@ impl<'a> CoverGrammar<'a, Expr> for SimpleAssignTarget {
     #[allow(clippy::only_used_in_recursion)]
     fn cover(expr: Expr, p: &mut ParserImpl<'a>) -> Result<Self> {
         match expr {
-            Expr::Ident(ident) => Ok(SimpleAssignTarget::AssignTargetIdent(ident)),
+            Expr::Ident(ident) => Ok(SimpleAssignTarget::Ident(ident)),
             match_member_expression!(Expression) => {
                 let member_expr = MemberExpr::try_from(expr).unwrap();
                 Ok(SimpleAssignTarget::from(member_expr))
             }
             Expr::Paren(expr) => {
                 let span = expr.span;
-                match expr.unbox().expr {
+                match *expr.expr {
                     Expr::Object(_) | Expr::Array(_) => Err(diagnostics::invalid_assignment(span)),
                     expr => SimpleAssignTarget::cover(expr, p),
                 }
