@@ -1,5 +1,3 @@
-use std::process::id;
-
 use oxc_syntax::precedence::Precedence;
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
