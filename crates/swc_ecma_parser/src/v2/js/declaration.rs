@@ -98,10 +98,7 @@ impl<'a> ParserImpl<'a> {
             // const x!: number = 1
             //        ^ definite
             let mut definite = false;
-            if binding_kind.is_binding_identifier()
-                && self.at(Kind::Bang)
-                && !self.cur_token().is_on_new_line
-            {
+            if binding_kind.is_ident() && self.at(Kind::Bang) && !self.cur_token().is_on_new_line {
                 self.eat(Kind::Bang);
                 definite = true;
             }
@@ -133,7 +130,7 @@ impl<'a> ParserImpl<'a> {
             //   BindingIdent[?Yield, ?Await] Initializer[?In, ?Yield, ?Await] opt
             //   Pat[?Yield, ?Await] Initializer[?In, ?Yield, ?Await]
             // the grammar forbids `let []`, `let {}`
-            if !matches!(id.kind, Pat::BindingIdent(_)) {
+            if !matches!(id.kind, Pat::Ident(_)) {
                 self.error(diagnostics::invalid_destrucuring_declaration(id.span()));
             } else if kind == VarDeclKind::Const && !self.ctx.has_ambient() {
                 // It is a Syntax Error if Initializer is not present and IsConstantDeclaration
@@ -184,8 +181,9 @@ impl<'a> ParserImpl<'a> {
                 VarDeclKind::Var,
             )?;
 
-            match declaration.name.kind {
-                Pat::BindingIdent(_) => {}
+            match declaration.name {
+                Pat::Ident(_) => {}
+
                 _ => {
                     self.error(diagnostics::invalid_identifier_in_using_declaration(
                         declaration.name.span(),
