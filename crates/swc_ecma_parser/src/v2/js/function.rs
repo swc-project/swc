@@ -34,7 +34,7 @@ impl<'a> ParserImpl<'a> {
                 && !self.peek_token().is_on_new_line
     }
 
-    pub(crate) fn parse_function_body(&mut self) -> Result<Box<FunctionBody<'a>>> {
+    pub(crate) fn parse_function_body(&mut self) -> Result<Box<Option<BlockStmt>>> {
         let span = self.start_span();
         self.expect(Kind::LCurly)?;
 
@@ -121,7 +121,7 @@ impl<'a> ParserImpl<'a> {
     pub(crate) fn parse_function(
         &mut self,
         span: Span,
-        id: Option<BindingIdent<'a>>,
+        id: Option<BindingIdent>,
         is_async: bool,
         generator: bool,
         func_kind: FunctionKind,
