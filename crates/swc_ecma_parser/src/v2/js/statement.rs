@@ -1,3 +1,5 @@
+use swc_atoms::Atom;
+use swc_common::Span;
 use swc_ecma_ast::*;
 
 use super::{grammar::CoverGrammar, VarDeclarationContext, VarDeclarationParent};
@@ -45,8 +47,8 @@ impl<'a> ParserImpl<'a> {
             // The only way to get a correct directive is to parse the statement first and
             // check if it is a string literal. All other method are flawed, see test cases in [babel](https://github.com/babel/babel/blob/main/packages/babel-parser/test/fixtures/core/categorized/not-directive/input.js)
             if expecting_directives {
-                if let Stmt::ExpressionStatement(expr) = &stmt {
-                    if let Expr::Str(string) = &expr.expr {
+                if let Stmt::Expr(expr) = &stmt {
+                    if let Expr::Lit(Lit::Str(string)) = &expr.expr {
                         // span start will mismatch if they are parenthesized when `preserve_parens
                         // = false`
                         if expr.span.lo == string.span.lo {
@@ -124,9 +126,10 @@ impl<'a> ParserImpl<'a> {
             // Section 14.13 Labelled Statement
             // Avoids lookahead for a labeled statement, which is on a hot path
             if self.eat(Kind::Colon) {
-                let label = LabelIdent {
+                let label = Ident {
                     span: ident.span,
-                    name: ident.name.clone(),
+                    sym: ident.sym.clone(),
+                    ..Default::default()
                 };
                 let body = self.parse_statement_list_item(StatementContext::Label)?;
                 return Ok(self.ast.statement_labeled(self.end_span(span), label, body));
@@ -166,7 +169,7 @@ impl<'a> ParserImpl<'a> {
             self.error(diagnostics::lexical_declaration_single_statement(decl.span));
         }
 
-        Ok(Stmt::VarDeclaration(decl))
+        Ok(Stmt::Decl(Decl::Var(decl)))
     }
 
     /// Section 14.4 Empty Statement
