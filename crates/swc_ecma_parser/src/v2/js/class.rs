@@ -1,5 +1,5 @@
 use oxc_ast::syntax_directed_operations::PropName;
-use swc_common::Span;
+use swc_common::{Span, Spanned};
 use swc_ecma_ast::{Accessibility, Expr, Stmt, *};
 
 use crate::{

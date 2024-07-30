@@ -1,3 +1,5 @@
+use std::process::id;
+
 use oxc_syntax::precedence::Precedence;
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
@@ -216,18 +218,12 @@ impl<'a> ParserImpl<'a> {
         self.ctx = self.ctx.union_await_if(r#async);
 
         let params = {
-            let ident = match ident {
-                Expr::Ident(ident) => {
-                    let name = ident.sym.clone();
-                    BindingIdent::new(ident.span, name)
-                }
+            let ident: BindingIdent = match ident {
+                Expr::Ident(ident) => ident.into(),
                 _ => unreachable!(),
             };
             let params_span = self.end_span(ident.span);
-            let ident = self.ast.binding_pattern_kind_from_binding_identifier(ident);
-            let pattern = self
-                .ast
-                .binding_pattern(ident, Option::<TsTypeAnn>::None, false);
+            let pattern = Pat::Ident(ident);
             let formal_parameter = self.ast.plain_formal_parameter(params_span, pattern);
             self.ast.alloc_formal_parameters(
                 params_span,
