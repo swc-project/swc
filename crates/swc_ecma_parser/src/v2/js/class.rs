@@ -3,10 +3,7 @@ use swc_common::Span;
 use swc_ecma_ast::{Accessibility, Expr, Stmt, *};
 
 use crate::{
-    types::{
-        AccessorPropertyType, ClassType, MethodDefinitionKind, MethodDefinitionType,
-        PropertyDefinitionType,
-    },
+    types::{AccessorPropertyType, ClassType, MethodDefinitionKind},
     v2::{
         diagnostics::{self, Result},
         lexer::Kind,

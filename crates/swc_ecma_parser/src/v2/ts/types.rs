@@ -1226,7 +1226,7 @@ impl<'a> ParserImpl<'a> {
             this_param,
             params,
             return_type,
-            Option::<TsTypeParamDeclaration>::None,
+            Option::<TsTypeParamDecl>::None,
         ))
     }
 
@@ -1252,13 +1252,11 @@ impl<'a> ParserImpl<'a> {
             this_param,
             params,
             return_type,
-            Option::<TsTypeParamDeclaration>::None,
+            Option::<TsTypeParamDecl>::None,
         ))
     }
 
-    pub(crate) fn parse_ts_property_or_method_signature_member(
-        &mut self,
-    ) -> Result<TsTypeElement<'a>> {
+    pub(crate) fn parse_ts_property_or_method_signature_member(&mut self) -> Result<TsTypeElement> {
         let span = self.start_span();
         let readonly = self.at(Kind::Readonly) && self.is_next_at_type_member_name();
 
@@ -1270,7 +1268,7 @@ impl<'a> ParserImpl<'a> {
         let optional = self.eat(Kind::Question);
 
         if self.at(Kind::LParen) || self.at(Kind::LAngle) {
-            let TsTypeElement::TsCallSignatureDeclaration(call_signature) =
+            let TsTypeElement::TsCallSignatureDecl(call_signature) =
                 self.parse_ts_call_signature_member()?
             else {
                 unreachable!()
