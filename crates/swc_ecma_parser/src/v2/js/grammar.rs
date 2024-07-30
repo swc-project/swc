@@ -12,11 +12,11 @@ pub trait CoverGrammar<'a, T>: Sized {
 impl<'a> CoverGrammar<'a, Expr> for AssignTarget {
     fn cover(expr: Expr, p: &mut ParserImpl<'a>) -> Result<Self> {
         match expr {
-            Expr::Array(array_expr) => ArrayPat::cover(array_expr.unbox(), p)
+            Expr::Array(array_expr) => ArrayPat::cover(array_expr, p)
                 .map(|pat| p.ast.alloc(pat))
                 .map(AssignTargetPat::Array)
                 .map(AssignTarget::Pat),
-            Expr::Object(object_expr) => ObjectPat::cover(object_expr.unbox(), p)
+            Expr::Object(object_expr) => ObjectPat::cover(object_expr, p)
                 .map(|pat| p.ast.alloc(pat))
                 .map(AssignTargetPat::Object)
                 .map(AssignTarget::Pat),
@@ -81,7 +81,7 @@ impl<'a> CoverGrammar<'a, ArrayLit> for ArrayPat {
             }
         }
 
-        Ok(ArrayAssignTarget {
+        Ok(ArrayPat {
             span: expr.span,
             elements,
             rest,
