@@ -4271,7 +4271,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.154.3"
+version = "0.154.4"
 dependencies = [
  "base64",
  "codspeed-criterion-compat",
@@ -4938,7 +4938,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.194.2"
+version = "0.194.3"
 dependencies = [
  "codspeed-criterion-compat",
  "criterion",
