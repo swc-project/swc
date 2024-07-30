@@ -153,7 +153,7 @@ impl<'a> ParserImpl<'a> {
 
     pub(crate) fn parse_block_statement(&mut self) -> Result<Stmt> {
         let block = self.parse_block()?;
-        Ok(Stmt::BlockStatement(block))
+        Ok(Stmt::Block(block))
     }
 
     /// Section 14.3.2 Variable Statement
@@ -429,7 +429,7 @@ impl<'a> ParserImpl<'a> {
         };
         if !self.ctx.has_return() {
             self.error(diagnostics::return_statement_only_in_function_body(
-                Span::new(span.lo, span.lo + 6),
+                Span::new(span.lo, span.lo + swc_common::BytePos(6)),
             ));
         }
         Ok(self.ast.statement_return(self.end_span(span), argument))

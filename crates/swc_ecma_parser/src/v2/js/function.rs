@@ -223,7 +223,7 @@ impl<'a> ParserImpl<'a> {
             }
         }
 
-        Ok(Stmt::FunctionDeclaration(decl))
+        Ok(Stmt::Decl(Decl::Fn(decl)))
     }
 
     /// Parse function implementation in Javascript, cursor
@@ -364,6 +364,7 @@ impl<'a> ParserImpl<'a> {
                     ctxt: Default::default(),
                     optional: false,
                 },
+                type_ann: None,
             }
         });
         self.ctx = ctx;
