@@ -412,13 +412,7 @@ impl<'a> ParserImpl<'a> {
             }
         }
 
-        let r#type = if is_abstract {
-            MethodDefinitionType::TsAbstractMethodDefinition
-        } else {
-            MethodDefinitionType::MethodDefinition
-        };
         let method_definition = ClassMethod {
-            r#type,
             span: self.end_span(span),
             key,
             value,
@@ -427,7 +421,8 @@ impl<'a> ParserImpl<'a> {
             is_static,
             is_override,
             accessibility,
-            optional,
+            is_optional: optional,
+            is_abstract,
             decorators,
         };
         Ok(ClassMember::Method(method_definition))
