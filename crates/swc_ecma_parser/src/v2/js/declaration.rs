@@ -177,7 +177,7 @@ impl<'a> ParserImpl<'a> {
         }
 
         // BindingList[?In, ?Yield, ?Await, ~Pattern]
-        let mut declarations: oxc_allocator::Vec<'_, VarDeclarator> = vec![];
+        let mut declarations: Vec<VarDeclarator> = vec![];
         loop {
             let declaration = self.parse_variable_declarator(
                 VarDeclarationContext::new(VarDeclarationParent::Statement),
