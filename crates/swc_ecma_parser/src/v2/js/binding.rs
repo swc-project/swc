@@ -104,7 +104,7 @@ impl<'a> ParserImpl<'a> {
 
     /// Section 14.3.3 Binding Rest Property
     pub(super) fn parse_rest_element(&mut self) -> Result<RestPat> {
-        let span = self.start_span();
+        let dot3_span = self.start_span();
         self.bump_any(); // advance `...`
         let init_span = self.start_span();
 
@@ -122,11 +122,13 @@ impl<'a> ParserImpl<'a> {
         let argument = self.context(Context::In, Context::empty(), |p| {
             p.parse_initializer(init_span, pattern)
         })?;
-        let span = self.end_span(span);
+        let span = self.end_span(dot3_span);
 
         Ok(RestPat {
             span,
-            arg: argument,
+            dot3_token: dot3_span,
+            arg: Box::new(argument),
+            type_ann: None,
         })
     }
 
