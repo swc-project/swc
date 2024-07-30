@@ -460,17 +460,12 @@ impl<'a> ParserImpl<'a> {
         };
         self.asi()?;
 
-        let r#type = if is_abstract {
-            PropertyDefinitionType::TsAbstractPropertyDefinition
-        } else {
-            PropertyDefinitionType::PropertyDefinition
-        };
         let property_definition = ClassProp {
-            r#type,
             span: self.end_span(span),
             key,
             value,
             computed,
+            is_abstract,
             is_static,
             declare,
             is_override,
