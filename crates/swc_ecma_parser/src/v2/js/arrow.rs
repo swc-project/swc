@@ -209,7 +209,7 @@ impl<'a> ParserImpl<'a> {
     pub(crate) fn parse_simple_arrow_function_expression(
         &mut self,
         span: Span,
-        ident: Expr,
+        ident: Box<Expr>,
         r#async: bool,
     ) -> Result<Box<Expr>> {
         let has_await = self.ctx.has_await();
