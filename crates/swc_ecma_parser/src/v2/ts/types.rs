@@ -8,7 +8,7 @@ use super::super::{
     modifiers::{Modifier, ModifierFlags, ModifierKind, Modifiers},
     Context, ParserImpl,
 };
-use crate::v2::diagnostics::Result;
+use crate::{types::FormalParamKind, v2::diagnostics::Result};
 
 impl<'a> ParserImpl<'a> {
     pub(crate) fn parse_ts_type(&mut self) -> Result<TsType> {
@@ -924,16 +924,14 @@ impl<'a> ParserImpl<'a> {
             return Ok(if dotdotdot {
                 TsTupleElement::TsRestType(TsRestType {
                     span,
-                    type_annotation: TsType::TsNamedTupleMember(self.ast.alloc(
-                        TsNamedTupleMember {
-                            span: self.end_span(member_span),
-                            element_type,
-                            label,
-                            // TODO: A tuple member cannot be both optional and rest. (Ts5085)
-                            // See typescript suite <conformance/types/tuple/restTupleElements1.ts>
-                            optional,
-                        },
-                    )),
+                    type_ann: TsType::TsNamedTupleMember(self.ast.alloc(TsNamedTupleMember {
+                        span: self.end_span(member_span),
+                        element_type,
+                        label,
+                        // TODO: A tuple member cannot be both optional and rest. (Ts5085)
+                        // See typescript suite <conformance/types/tuple/restTupleElements1.ts>
+                        optional,
+                    })),
                 })
             } else {
                 TsTupleElement::TsNamedTupleMember(TsNamedTupleMember {
@@ -963,13 +961,13 @@ impl<'a> ParserImpl<'a> {
         self.at(Kind::Question) && self.peek_at(Kind::Colon)
     }
 
-    fn parse_tuple_element_type(&mut self) -> Result<TsTupleElement<'a>> {
+    fn parse_tuple_element_type(&mut self) -> Result<TsTupleElement> {
         let span = self.start_span();
         if self.eat(Kind::Dot3) {
             let ty = self.parse_ts_type()?;
             return Ok(TsTupleElement::TsRestType(TsRestType {
                 span: self.end_span(span),
-                type_annotation: ty,
+                type_ann: ty,
             }));
         }
         let ty = self.parse_ts_type()?;
@@ -977,7 +975,7 @@ impl<'a> ParserImpl<'a> {
             if ty.span.lo == ty.type_annotation.span().start {
                 Ok(TsTupleElement::TsOptionalType(TsOptionalType {
                     span: ty.span,
-                    type_annotation: ty.unbox().type_annotation,
+                    type_ann: ty.type_annotation,
                 }))
             } else {
                 Ok(TsTupleElement::JSDocNullableType(ty))
@@ -1179,7 +1177,7 @@ impl<'a> ParserImpl<'a> {
         Ok(ty)
     }
 
-    fn parse_type_predicate_prefix(&mut self) -> Result<IdentName<'a>> {
+    fn parse_type_predicate_prefix(&mut self) -> Result<IdentName> {
         let id = self.parse_identifier_name()?;
         let token = self.cur_token();
         if token.kind == Kind::Is && !token.is_on_new_line {
@@ -1209,7 +1207,7 @@ impl<'a> ParserImpl<'a> {
         ))
     }
 
-    pub(crate) fn parse_ts_getter_signature_member(&mut self) -> Result<TsTypeElement<'a>> {
+    pub(crate) fn parse_ts_getter_signature_member(&mut self) -> Result<TsTypeElement> {
         let span = self.start_span();
         self.expect(Kind::Get)?;
         let (key, computed) = self.parse_property_name()?;
@@ -1275,7 +1273,7 @@ impl<'a> ParserImpl<'a> {
             };
             self.bump(Kind::Comma);
             self.bump(Kind::Semicolon);
-            let call_signature = call_signature.unbox();
+            let call_signature = call_signature;
             Ok(self.ast.ts_signature_method_signature(
                 self.end_span(span),
                 key,
