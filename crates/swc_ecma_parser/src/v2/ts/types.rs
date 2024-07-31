@@ -174,7 +174,7 @@ impl<'a> ParserImpl<'a> {
         Ok(implements)
     }
 
-    pub(crate) fn parse_ts_type_parameter(&mut self) -> Result<TsTypeParam<'a>> {
+    pub(crate) fn parse_ts_type_parameter(&mut self) -> Result<TsTypeParam> {
         let span = self.start_span();
 
         let modifiers = self.parse_modifiers(false, true, false);
@@ -244,9 +244,9 @@ impl<'a> ParserImpl<'a> {
 
     fn parse_type_operator_or_higher(&mut self) -> Result<TsType> {
         match self.cur_kind() {
-            Kind::KeyOf => self.parse_type_operator(TsTypeOpOp::Keyof),
-            Kind::Unique => self.parse_type_operator(TsTypeOpOp::Unique),
-            Kind::Readonly => self.parse_type_operator(TsTypeOpOp::Readonly),
+            Kind::KeyOf => self.parse_type_operator(TsTypeOperatorOp::Keyof),
+            Kind::Unique => self.parse_type_operator(TsTypeOperatorOp::Unique),
+            Kind::Readonly => self.parse_type_operator(TsTypeOperatorOp::Readonly),
             Kind::Infer => self.parse_infer_type(),
             _ => self.context(
                 Context::empty(),
@@ -256,7 +256,7 @@ impl<'a> ParserImpl<'a> {
         }
     }
 
-    fn parse_type_operator(&mut self, operator: TsTypeOpOp) -> Result<TsType> {
+    fn parse_type_operator(&mut self, operator: TsTypeOperatorOp) -> Result<TsType> {
         let span = self.start_span();
         self.bump_any(); // bump operator
         let type_annotation = self.parse_type_operator_or_higher()?;
@@ -581,13 +581,13 @@ impl<'a> ParserImpl<'a> {
     fn parse_mapped_type(&mut self) -> Result<TsType> {
         let span = self.start_span();
         self.expect(Kind::LCurly)?;
-        let mut readonly = TsMappedTypeModifierOp::None;
+        let mut readonly = TruePlusMinus::None;
         if self.eat(Kind::Readonly) {
-            readonly = TsMappedTypeModifierOp::True;
+            readonly = TruePlusMinus::True;
         } else if self.eat(Kind::Plus) && self.eat(Kind::Readonly) {
-            readonly = TsMappedTypeModifierOp::Plus;
+            readonly = TruePlusMinus::Plus;
         } else if self.eat(Kind::Minus) && self.eat(Kind::Readonly) {
-            readonly = TsMappedTypeModifierOp::Minus;
+            readonly = TruePlusMinus::Minus;
         }
 
         self.expect(Kind::LBrack)?;
@@ -618,19 +618,19 @@ impl<'a> ParserImpl<'a> {
         let optional = match self.cur_kind() {
             Kind::Question => {
                 self.bump_any();
-                TsMappedTypeModifierOp::True
+                TruePlusMinus::True
             }
             Kind::Minus => {
                 self.bump_any();
                 self.expect(Kind::Question)?;
-                TsMappedTypeModifierOp::Minus
+                TruePlusMinus::Minus
             }
             Kind::Plus => {
                 self.bump_any();
                 self.expect(Kind::Question)?;
-                TsMappedTypeModifierOp::Plus
+                TruePlusMinus::Plus
             }
-            _ => TsMappedTypeModifierOp::None,
+            _ => TruePlusMinus::None,
         };
 
         let type_annotation = self
