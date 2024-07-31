@@ -53,7 +53,7 @@ impl<'a> ParserImpl<'a> {
     /// `ClassExpression`[Yield, Await] :
     ///     class `BindingIdent`[?Yield, ?Await]opt `ClassTail`[?Yield,
     /// ?Await]
-    pub(crate) fn parse_class_expression(&mut self) -> Result<Expr> {
+    pub(crate) fn parse_class_expression(&mut self) -> Result<Box<Expr>> {
         let class = self.parse_class(
             self.start_span(),
             ClassType::ClassExpression,

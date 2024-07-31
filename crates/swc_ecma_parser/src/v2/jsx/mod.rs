@@ -7,7 +7,7 @@ use swc_ecma_ast::*;
 use crate::v2::{diagnostics, diagnostics::Result, lexer::Kind, Context, ParserImpl};
 
 impl<'a> ParserImpl<'a> {
-    pub(crate) fn parse_jsx_expression(&mut self) -> Result<Expr> {
+    pub(crate) fn parse_jsx_expression(&mut self) -> Result<Box<Expr>> {
         if self.peek_at(Kind::RAngle) {
             self.parse_jsx_fragment(false).map(Expr::JSXFragment)
         } else {
@@ -283,7 +283,7 @@ impl<'a> ParserImpl<'a> {
             .alloc_jsx_expression_container(self.end_span(span), expr))
     }
 
-    fn parse_jsx_assignment_expression(&mut self) -> Result<Expr> {
+    fn parse_jsx_assignment_expression(&mut self) -> Result<Box<Expr>> {
         self.context(
             Context::default().and_await(self.ctx.has_await()),
             self.ctx,

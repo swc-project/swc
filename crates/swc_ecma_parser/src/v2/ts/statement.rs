@@ -402,7 +402,7 @@ impl<'a> ParserImpl<'a> {
         self.parse_function(start_span, id, is_async, false, func_kind, modifiers)
     }
 
-    pub(crate) fn parse_ts_type_assertion(&mut self) -> Result<Expr> {
+    pub(crate) fn parse_ts_type_assertion(&mut self) -> Result<Box<Expr>> {
         let span = self.start_span();
         self.expect(Kind::LAngle)?;
         let type_annotation = self.parse_ts_type()?;
