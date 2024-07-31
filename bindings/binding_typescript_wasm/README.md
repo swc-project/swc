@@ -2,7 +2,7 @@
 
 This package provides a Wasm binding for the TypeScript transform.
 
-The supported TypeScript version is currently 5.5.4, execpt the stage 3 decorator proposal.
+The supported TypeScript version is currently 5.5.4, except the stage 3 decorator proposal.
 
 ## Contributing
 
