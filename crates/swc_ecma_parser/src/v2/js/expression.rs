@@ -2,7 +2,7 @@ use std::cell::Cell;
 
 use oxc_syntax::{
     number::{BigintBase, NumberBase},
-    operator::BinaryOperator,
+    operator::BinaryOp,
     precedence::Precedence,
 };
 use swc_atoms::Atom;

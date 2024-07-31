@@ -1,5 +1,5 @@
 use oxc_span::GetSpan;
-use oxc_syntax::operator::UnaryOperator;
+use oxc_syntax::operator::UnaryOp;
 use swc_ecma_ast::*;
 
 use super::super::{
@@ -221,7 +221,7 @@ impl<'a> ParserImpl<'a> {
         let span = self.start_span();
         // let is_union_type = kind == Kind::Pipe;
         let has_leading_operator = self.eat(kind);
-        /* hasLeadingOperator && parseFunctionOrConstructorTypeToError(isUnionType)
+        /* hasLeadingOp && parseFunctionOrConstructorTypeToError(isUnionType)
          * || */
         let mut ty = parse_constituent_type(self)?;
         if self.at(kind) || has_leading_operator {
@@ -244,9 +244,9 @@ impl<'a> ParserImpl<'a> {
 
     fn parse_type_operator_or_higher(&mut self) -> Result<TsType> {
         match self.cur_kind() {
-            Kind::KeyOf => self.parse_type_operator(TsTypeOperatorOperator::Keyof),
-            Kind::Unique => self.parse_type_operator(TsTypeOperatorOperator::Unique),
-            Kind::Readonly => self.parse_type_operator(TsTypeOperatorOperator::Readonly),
+            Kind::KeyOf => self.parse_type_operator(TsTypeOpOp::Keyof),
+            Kind::Unique => self.parse_type_operator(TsTypeOpOp::Unique),
+            Kind::Readonly => self.parse_type_operator(TsTypeOpOp::Readonly),
             Kind::Infer => self.parse_infer_type(),
             _ => self.context(
                 Context::empty(),
@@ -256,7 +256,7 @@ impl<'a> ParserImpl<'a> {
         }
     }
 
-    fn parse_type_operator(&mut self, operator: TsTypeOperatorOperator) -> Result<TsType> {
+    fn parse_type_operator(&mut self, operator: TsTypeOpOp) -> Result<TsType> {
         let span = self.start_span();
         self.bump_any(); // bump operator
         let type_annotation = self.parse_type_operator_or_higher()?;
@@ -581,13 +581,13 @@ impl<'a> ParserImpl<'a> {
     fn parse_mapped_type(&mut self) -> Result<TsType> {
         let span = self.start_span();
         self.expect(Kind::LCurly)?;
-        let mut readonly = TsMappedTypeModifierOperator::None;
+        let mut readonly = TsMappedTypeModifierOp::None;
         if self.eat(Kind::Readonly) {
-            readonly = TsMappedTypeModifierOperator::True;
+            readonly = TsMappedTypeModifierOp::True;
         } else if self.eat(Kind::Plus) && self.eat(Kind::Readonly) {
-            readonly = TsMappedTypeModifierOperator::Plus;
+            readonly = TsMappedTypeModifierOp::Plus;
         } else if self.eat(Kind::Minus) && self.eat(Kind::Readonly) {
-            readonly = TsMappedTypeModifierOperator::Minus;
+            readonly = TsMappedTypeModifierOp::Minus;
         }
 
         self.expect(Kind::LBrack)?;
@@ -618,19 +618,19 @@ impl<'a> ParserImpl<'a> {
         let optional = match self.cur_kind() {
             Kind::Question => {
                 self.bump_any();
-                TsMappedTypeModifierOperator::True
+                TsMappedTypeModifierOp::True
             }
             Kind::Minus => {
                 self.bump_any();
                 self.expect(Kind::Question)?;
-                TsMappedTypeModifierOperator::Minus
+                TsMappedTypeModifierOp::Minus
             }
             Kind::Plus => {
                 self.bump_any();
                 self.expect(Kind::Question)?;
-                TsMappedTypeModifierOperator::Plus
+                TsMappedTypeModifierOp::Plus
             }
-            _ => TsMappedTypeModifierOperator::None,
+            _ => TsMappedTypeModifierOp::None,
         };
 
         let type_annotation = self
@@ -1011,7 +1011,7 @@ impl<'a> ParserImpl<'a> {
         let literal = if negative {
             match self
                 .ast
-                .expr_unary(span, UnaryOperator::UnaryNegation, expression)
+                .expr_unary(span, UnaryOp::UnaryNegation, expression)
             {
                 Expr::Unary(unary_expr) => TsLiteral::Unary(unary_expr),
                 _ => unreachable!(),

@@ -1,4 +1,3 @@
-use oxc_syntax::operator::AssignOperator;
 use swc_common::Span;
 use swc_ecma_ast::*;
 
@@ -137,10 +136,7 @@ impl<'a> ParserImpl<'a> {
     fn parse_property_definition_shorthand(&mut self) -> Result<Box<Prop>> {
         let span = self.start_span();
         let identifier = self.parse_identifier_reference()?;
-        let key = IdentName {
-            span: identifier.span,
-            name: identifier.name.clone(),
-        };
+        let key = identifier.sym.clone();
         // IdentReference ({ foo })
         let value = Expr::Ident(identifier.clone());
         // CoverInitializedName ({ foo = bar })
@@ -149,7 +145,7 @@ impl<'a> ParserImpl<'a> {
             let left = AssignTarget::AssignTargetIdent(identifier);
             Some(
                 self.ast
-                    .expr_assignment(self.end_span(span), AssignOperator::Assign, left, right),
+                    .expr_assignment(self.end_span(span), AssignOp::Assign, left, right),
             )
         } else {
             None
