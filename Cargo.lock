@@ -4557,7 +4557,6 @@ dependencies = [
  "backtrace",
  "codspeed-criterion-compat",
  "criterion",
- "crossbeam-queue",
  "indexmap 2.2.6",
  "num-bigint",
  "num_cpus",
