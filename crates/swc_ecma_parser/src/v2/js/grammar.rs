@@ -9,9 +9,9 @@ pub trait CoverGrammar<'a, T>: Sized {
     fn cover(value: T, p: &mut ParserImpl<'a>) -> Result<Self>;
 }
 
-impl<'a> CoverGrammar<'a, Expr> for AssignTarget {
+impl<'a> CoverGrammar<'a, Box<Expr>> for AssignTarget {
     fn cover(expr: Box<Expr>, p: &mut ParserImpl<'a>) -> Result<Self> {
-        match expr {
+        match *expr {
             Expr::Array(array_expr) => ArrayPat::cover(array_expr, p)
                 .map(|pat| p.ast.alloc(pat))
                 .map(AssignTargetPat::Array)
@@ -25,11 +25,11 @@ impl<'a> CoverGrammar<'a, Expr> for AssignTarget {
     }
 }
 
-impl<'a> CoverGrammar<'a, Expr> for SimpleAssignTarget {
+impl<'a> CoverGrammar<'a, Box<Expr>> for SimpleAssignTarget {
     #[allow(clippy::only_used_in_recursion)]
     fn cover(expr: Box<Expr>, p: &mut ParserImpl<'a>) -> Result<Self> {
         match *expr {
-            Expr::Ident(ident) => Ok(SimpleAssignTarget::Ident(ident)),
+            Expr::Ident(ident) => Ok(SimpleAssignTarget::Ident(ident.into())),
             match_member_expression!(Expression) => {
                 let member_expr = MemberExpr::try_from(expr).unwrap();
                 Ok(SimpleAssignTarget::from(member_expr))
@@ -83,7 +83,7 @@ impl<'a> CoverGrammar<'a, ArrayLit> for ArrayPat {
 
         Ok(ArrayPat {
             span: expr.span,
-            elements,
+            elems: elements,
             rest,
             trailing_comma: expr.trailing_comma,
         })
