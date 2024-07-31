@@ -237,7 +237,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.7.4-nightly-20240729.1"
+version = "1.7.4-nightly-20240731.1"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -297,7 +297,7 @@ dependencies = [
 
 [[package]]
 name = "binding_minifier_wasm"
-version = "1.7.4-nightly-20240729.1"
+version = "1.7.4-nightly-20240731.1"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -310,7 +310,7 @@ dependencies = [
 
 [[package]]
 name = "binding_typescript_wasm"
-version = "1.7.4-nightly-20240729.1"
+version = "1.7.4-nightly-20240731.1"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -3055,7 +3055,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.91.341"
+version = "0.91.342"
 dependencies = [
  "anyhow",
  "swc_cli_impl",
@@ -3221,9 +3221,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.154.3"
+version = "0.154.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "808d1e5a3c923fe0fa6cd9c28af4ecb7e713b97231fe0914d89c00f6a7dca2e5"
+checksum = "7badcda2c45056495ed94b957884099cb000470ae7901ba68db2e7fd48414a4b"
 dependencies = [
  "memchr",
  "num-bigint",
@@ -3502,9 +3502,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.200.3"
+version = "0.200.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d42f3f6f5e975f472e422195b5f20c6968ee23f195358737e180324d7eb0bb46"
+checksum = "b92feddb27f3ad89dd296696f55e04f8e96cdc778df95a73a6f06664bf6919f3"
 dependencies = [
  "arrayvec",
  "indexmap 2.2.6",
@@ -3790,9 +3790,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.194.2"
+version = "0.194.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c1405b179495c3d9530f84778f8c27706c9a2bd7ec820cdd16264d275a2cac0c"
+checksum = "4f73c4ae3eb15adc5865dc729c4e111040529cec5a349d56ed0b4a0de1a86242"
 dependencies = [
  "ryu-js",
  "serde",
@@ -3807,9 +3807,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_usage_analyzer"
-version = "0.29.2"
+version = "0.29.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f56f2dc6fc854b01c878f0bc6425277b4241a4593ea156a084bd5fc723c84bb2"
+checksum = "38f583b8db3cb9848537bd6f91c75398407e64332aee982337fe62ea4dec7e7b"
 dependencies = [
  "indexmap 2.2.6",
  "rustc-hash",
