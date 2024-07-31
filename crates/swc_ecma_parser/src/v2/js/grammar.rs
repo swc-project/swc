@@ -28,7 +28,7 @@ impl<'a> CoverGrammar<'a, Expr> for AssignTarget {
 impl<'a> CoverGrammar<'a, Expr> for SimpleAssignTarget {
     #[allow(clippy::only_used_in_recursion)]
     fn cover(expr: Box<Expr>, p: &mut ParserImpl<'a>) -> Result<Self> {
-        match expr {
+        match *expr {
             Expr::Ident(ident) => Ok(SimpleAssignTarget::Ident(ident)),
             match_member_expression!(Expression) => {
                 let member_expr = MemberExpr::try_from(expr).unwrap();
@@ -144,7 +144,7 @@ impl<'a> CoverGrammar<'a, ObjectLit> for ObjectPat {
 
         Ok(Self {
             span: expr.span,
-            properties,
+            props: properties,
             rest,
         })
     }
@@ -152,7 +152,7 @@ impl<'a> CoverGrammar<'a, ObjectLit> for ObjectPat {
 
 impl<'a> CoverGrammar<'a, Prop> for ObjectPatProp {
     fn cover(property: Prop, p: &mut ParserImpl<'a>) -> Result<Self> {
-        if property.shorthand {
+        if property.is_shorthand() {
             let binding = match property.key {
                 Key::StaticIdent(ident) => {
                     let ident = ident;
