@@ -870,7 +870,11 @@ impl Pure<'_> {
         }
     }
 
-    fn make_ignored_expr(&mut self, exprs: impl Iterator<Item = Box<Expr>>) -> Option<Expr> {
+    fn make_ignored_expr(
+        &mut self,
+        span: Span,
+        exprs: impl Iterator<Item = Box<Expr>>,
+    ) -> Option<Expr> {
         let mut exprs = exprs
             .filter_map(|mut e| {
                 self.ignore_return_value(
@@ -894,7 +898,9 @@ impl Pure<'_> {
             return None;
         }
         if exprs.len() == 1 {
-            return Some(*exprs.remove(0));
+            let mut new = *exprs.remove(0);
+            new.set_span(span);
+            return Some(new);
         }
 
         Some(
@@ -970,32 +976,41 @@ impl Pure<'_> {
                 }
             }
 
-            Expr::Call(CallExpr { ctxt, args, .. }) if ctxt.has_mark(self.marks.pure) => {
-                report_change!("ignore_return_value: Dropping a pure call");
-                self.changed = true;
-
-                let new = self.make_ignored_expr(args.take().into_iter().map(|arg| arg.expr));
-
-                *e = new.unwrap_or(Invalid { span: DUMMY_SP }.into());
-                return;
-            }
-
-            Expr::TaggedTpl(TaggedTpl { ctxt, tpl, .. }) if ctxt.has_mark(self.marks.pure) => {
-                report_change!("ignore_return_value: Dropping a pure call");
-                self.changed = true;
-
-                let new = self.make_ignored_expr(tpl.exprs.take().into_iter());
-
-                *e = new.unwrap_or(Invalid { span: DUMMY_SP }.into());
-                return;
-            }
-
-            Expr::New(NewExpr { ctxt, args, .. }) if ctxt.has_mark(self.marks.pure) => {
+            Expr::Call(CallExpr {
+                span, ctxt, args, ..
+            }) if ctxt.has_mark(self.marks.pure) => {
                 report_change!("ignore_return_value: Dropping a pure call");
                 self.changed = true;
 
                 let new =
-                    self.make_ignored_expr(args.take().into_iter().flatten().map(|arg| arg.expr));
+                    self.make_ignored_expr(*span, args.take().into_iter().map(|arg| arg.expr));
+
+                *e = new.unwrap_or(Invalid { span: DUMMY_SP }.into());
+                return;
+            }
+
+            Expr::TaggedTpl(TaggedTpl {
+                span, ctxt, tpl, ..
+            }) if ctxt.has_mark(self.marks.pure) => {
+                report_change!("ignore_return_value: Dropping a pure call");
+                self.changed = true;
+
+                let new = self.make_ignored_expr(*span, tpl.exprs.take().into_iter());
+
+                *e = new.unwrap_or(Invalid { span: DUMMY_SP }.into());
+                return;
+            }
+
+            Expr::New(NewExpr {
+                span, ctxt, args, ..
+            }) if ctxt.has_mark(self.marks.pure) => {
+                report_change!("ignore_return_value: Dropping a pure call");
+                self.changed = true;
+
+                let new = self.make_ignored_expr(
+                    *span,
+                    args.take().into_iter().flatten().map(|arg| arg.expr),
+                );
 
                 *e = new.unwrap_or(Invalid { span: DUMMY_SP }.into());
                 return;
@@ -1006,6 +1021,7 @@ impl Pure<'_> {
 
         match e {
             Expr::Call(CallExpr {
+                span,
                 callee: Callee::Expr(callee),
                 args,
                 ..
@@ -1014,20 +1030,23 @@ impl Pure<'_> {
                     self.changed = true;
                     report_change!("Dropping pure call as callee is pure");
                     *e = self
-                        .make_ignored_expr(args.take().into_iter().map(|arg| arg.expr))
+                        .make_ignored_expr(*span, args.take().into_iter().map(|arg| arg.expr))
                         .unwrap_or(Invalid { span: DUMMY_SP }.into());
                     return;
                 }
             }
 
             Expr::TaggedTpl(TaggedTpl {
-                tag: callee, tpl, ..
+                span,
+                tag: callee,
+                tpl,
+                ..
             }) => {
                 if callee.is_pure_callee(&self.expr_ctx) {
                     self.changed = true;
                     report_change!("Dropping pure tag tpl as callee is pure");
                     *e = self
-                        .make_ignored_expr(tpl.exprs.take().into_iter())
+                        .make_ignored_expr(*span, tpl.exprs.take().into_iter())
                         .unwrap_or(Invalid { span: DUMMY_SP }.into());
                     return;
                 }
@@ -1357,24 +1376,29 @@ impl Pure<'_> {
 
         if self.options.side_effects && self.options.pristine_globals {
             match e {
-                Expr::New(NewExpr { callee, args, .. })
-                    if callee.is_one_of_global_ref_to(
-                        &self.expr_ctx,
-                        &[
-                            "Map", "Set", "Array", "Object", "Boolean", "Number", "String",
-                        ],
-                    ) =>
+                Expr::New(NewExpr {
+                    span, callee, args, ..
+                }) if callee.is_one_of_global_ref_to(
+                    &self.expr_ctx,
+                    &[
+                        "Map", "Set", "Array", "Object", "Boolean", "Number", "String",
+                    ],
+                ) =>
                 {
                     report_change!("Dropping a pure new expression");
 
                     self.changed = true;
                     *e = self
-                        .make_ignored_expr(args.iter_mut().flatten().map(|arg| arg.expr.take()))
+                        .make_ignored_expr(
+                            *span,
+                            args.iter_mut().flatten().map(|arg| arg.expr.take()),
+                        )
                         .unwrap_or(Invalid { span: DUMMY_SP }.into());
                     return;
                 }
 
                 Expr::Call(CallExpr {
+                    span,
                     callee: Callee::Expr(callee),
                     args,
                     ..
@@ -1387,7 +1411,7 @@ impl Pure<'_> {
 
                     self.changed = true;
                     *e = self
-                        .make_ignored_expr(args.iter_mut().map(|arg| arg.expr.take()))
+                        .make_ignored_expr(*span, args.iter_mut().map(|arg| arg.expr.take()))
                         .unwrap_or(Invalid { span: DUMMY_SP }.into());
                     return;
                 }
@@ -1427,7 +1451,7 @@ impl Pure<'_> {
                         }
 
                         *e = self
-                            .make_ignored_expr(exprs.into_iter())
+                            .make_ignored_expr(obj.span, exprs.into_iter())
                             .unwrap_or(Invalid { span: DUMMY_SP }.into());
                         report_change!("Ignored an object literal");
                         self.changed = true;
@@ -1499,7 +1523,7 @@ impl Pure<'_> {
                     }
 
                     *e = self
-                        .make_ignored_expr(exprs.into_iter())
+                        .make_ignored_expr(arr.span, exprs.into_iter())
                         .unwrap_or(Invalid { span: DUMMY_SP }.into());
                     report_change!("Ignored an array literal");
                     self.changed = true;
@@ -1514,6 +1538,7 @@ impl Pure<'_> {
                 //
                 //  foo(),basr(),foo;
                 Expr::Member(MemberExpr {
+                    span,
                     obj,
                     prop: MemberProp::Computed(prop),
                     ..
@@ -1526,6 +1551,7 @@ impl Pure<'_> {
                             _ => {
                                 *e = self
                                     .make_ignored_expr(
+                                        *span,
                                         vec![obj.take(), prop.expr.take()].into_iter(),
                                     )
                                     .unwrap_or(Invalid { span: DUMMY_SP }.into());
