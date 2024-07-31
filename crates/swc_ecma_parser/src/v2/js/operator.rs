@@ -69,11 +69,11 @@ pub fn map_unary_operator(kind: Kind) -> UnaryOp {
     }
 }
 
-pub fn map_logical_operator(kind: Kind) -> LogicalOp {
+pub fn map_logical_operator(kind: Kind) -> BinaryOp {
     match kind {
-        Kind::Pipe2 => LogicalOp::Or,
-        Kind::Amp2 => LogicalOp::And,
-        Kind::Question2 => LogicalOp::Coalesce,
+        Kind::Pipe2 => BinaryOp::Or,
+        Kind::Amp2 => BinaryOp::And,
+        Kind::Question2 => BinaryOp::Coalesce,
         _ => unreachable!("Logical Op: {kind:?}"),
     }
 }

@@ -572,7 +572,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     fn map_to_chain_expression(&mut self, span: Span, expr: Box<Expr>) -> Expr {
-        match expr {
+        match *expr {
             match_member_expression!(Expression) => {
                 let member_expr = MemberExpr::try_from(expr).unwrap();
                 self.ast.expr_chain(span, ChainElement::from(member_expr))
@@ -796,9 +796,9 @@ impl<'a> ParserImpl<'a> {
             }
 
             if type_arguments.is_some() || self.at(Kind::LParen) {
-                if let Expr::TsInstantiation(expr) = lhs {
+                if let Expr::TsInstantiation(expr) = *lhs {
                     type_arguments.replace(expr.type_args);
-                    lhs = *expr.expr;
+                    lhs = expr.expr;
                 }
 
                 lhs =
