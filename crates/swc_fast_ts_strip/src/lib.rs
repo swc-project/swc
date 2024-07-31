@@ -389,13 +389,21 @@ impl TsStrip {
             ..
         } = &self.tokens[index - 1];
 
-        let index = self.get_prev_token_index(span.hi);
+        let index = self.get_prev_token_index(span.hi - BytePos(1));
         if index == self.tokens.len() - 1 {
             // Skip if the token is the last token.
             return;
         }
 
-        let TokenAndSpan { token, .. } = &self.tokens[index + 1];
+        let TokenAndSpan {
+            token,
+            had_line_break,
+            ..
+        } = &self.tokens[index + 1];
+
+        if !*had_line_break {
+            return;
+        }
 
         // Add a semicolon if the next token is `[`, `(`, `/`, `+`, or `-`
         match token {
@@ -411,6 +419,23 @@ impl TsStrip {
             }
 
             _ => {}
+        }
+    }
+
+    fn fix_asi_in_expr(&mut self, span: Span) {
+        let index = self.get_prev_token_index(span.hi - BytePos(1));
+        if index == self.tokens.len() - 1 {
+            return;
+        }
+
+        if let TokenAndSpan {
+            // Only `([` affect ASI.
+            token: Token::LParen | Token::LBracket,
+            had_line_break: true,
+            ..
+        } = &self.tokens[index + 1]
+        {
+            self.add_overwrite(span.lo, b';');
         }
     }
 }
@@ -708,6 +733,16 @@ impl Visit for TsStrip {
 
     fn visit_ts_as_expr(&mut self, n: &TsAsExpr) {
         self.add_replacement(span(n.expr.span().hi, n.span.hi));
+        let TokenAndSpan {
+            token,
+            span: as_span,
+            ..
+        } = self.get_next_token(n.expr.span_hi());
+        debug_assert_eq!(
+            token,
+            &Token::Word(Word::Ident(IdentLike::Known(KnownIdent::As)))
+        );
+        self.fix_asi_in_expr(span(as_span.lo, n.span.hi));
 
         n.expr.visit_children_with(self);
     }
@@ -819,6 +854,17 @@ impl Visit for TsStrip {
 
     fn visit_ts_satisfies_expr(&mut self, n: &TsSatisfiesExpr) {
         self.add_replacement(span(n.expr.span().hi, n.span.hi));
+
+        let TokenAndSpan {
+            token,
+            span: as_span,
+            ..
+        } = self.get_next_token(n.expr.span_hi());
+        debug_assert_eq!(
+            token,
+            &Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Satisfies)))
+        );
+        self.fix_asi_in_expr(span(as_span.lo, n.span.hi));
 
         n.expr.visit_children_with(self);
     }
