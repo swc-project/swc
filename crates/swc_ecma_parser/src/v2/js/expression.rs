@@ -602,7 +602,7 @@ impl<'a> ParserImpl<'a> {
         //     super [ Expression ]
         //     super . IdentName
         // SuperCall:
-        //     super ( Arguments )
+        //     super ( ExprOrSpreads )
         if !matches!(self.cur_kind(), Kind::Dot | Kind::LBrack | Kind::LParen) {
             self.error(diagnostics::unexpected_super(span));
         }
@@ -736,7 +736,7 @@ impl<'a> ParserImpl<'a> {
 
         // parse `new ident` without arguments
         let arguments = if self.eat(Kind::LParen) {
-            // ArgumentList[Yield, Await] :
+            // ExprOrSpreadList[Yield, Await] :
             //   AssignExpression[+In, ?Yield, ?Await]
             let call_arguments = self.context(Context::In, Context::empty(), |p| {
                 p.parse_delimited_list(
@@ -817,7 +817,7 @@ impl<'a> ParserImpl<'a> {
         optional: bool,
         type_parameters: Option<Box<TsTypeParamInstantiation>>,
     ) -> Result<Expr> {
-        // ArgumentList[Yield, Await] :
+        // ExprOrSpreadList[Yield, Await] :
         //   AssignExpression[+In, ?Yield, ?Await]
         self.expect(Kind::LParen)?;
         let call_arguments = self.context(Context::In, Context::Decorator, |p| {
@@ -838,12 +838,12 @@ impl<'a> ParserImpl<'a> {
         ))
     }
 
-    fn parse_call_argument(&mut self) -> Result<Argument> {
+    fn parse_call_argument(&mut self) -> Result<ExprOrSpread> {
         if self.at(Kind::Dot3) {
-            self.parse_spread_element().map(Argument::SpreadElement)
+            self.parse_spread_element().map(ExprOrSpread::SpreadElement)
         } else {
             self.parse_assignment_expression_or_higher()
-                .map(Argument::from)
+                .map(ExprOrSpread::from)
         }
     }
 
