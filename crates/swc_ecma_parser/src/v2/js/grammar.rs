@@ -68,7 +68,7 @@ impl<'a> CoverGrammar<'a, ArrayLit> for ArrayPat {
                     if i == len - 1 {
                         rest = Some(AssignTargetRest {
                             span: elem.span,
-                            target: AssignTarget::cover(elem.unbox().argument, p)?,
+                            target: AssignTarget::cover(elem.argument, p)?,
                         });
                         if let Some(span) = expr.trailing_comma {
                             p.error(diagnostics::binding_rest_element_trailing_comma(span));
@@ -94,7 +94,7 @@ impl<'a> CoverGrammar<'a, Expr> for AssignTargetMaybeDefault {
     fn cover(expr: Box<Expr>, p: &mut ParserImpl<'a>) -> Result<Self> {
         match expr {
             Expr::Assign(assignment_expr) => {
-                let target = AssignTargetWithDefault::cover(assignment_expr.unbox(), p)?;
+                let target = AssignTargetWithDefault::cover(assignment_expr, p)?;
                 Ok(AssignTargetMaybeDefault::AssignTargetWithDefault(
                     p.ast.alloc(target),
                 ))
@@ -126,14 +126,14 @@ impl<'a> CoverGrammar<'a, ObjectLit> for ObjectPat {
         for (i, elem) in expr.properties.into_iter().enumerate() {
             match elem {
                 PropOrSpread::Prop(property) => {
-                    let target = AssignTargetProperty::cover(property.unbox(), p)?;
+                    let target = AssignTargetProperty::cover(property, p)?;
                     properties.push(target);
                 }
                 PropOrSpread::Spread(spread) => {
                     if i == len - 1 {
                         rest = Some(AssignTargetRest {
                             span: spread.span,
-                            target: AssignTarget::cover(spread.unbox().argument, p)?,
+                            target: AssignTarget::cover(spread.argument, p)?,
                         });
                     } else {
                         return Err(diagnostics::spread_last_element(spread.span));
@@ -155,14 +155,14 @@ impl<'a> CoverGrammar<'a, Prop> for ObjectPatProp {
         if property.shorthand {
             let binding = match property.key {
                 Key::StaticIdent(ident) => {
-                    let ident = ident.unbox();
+                    let ident = ident;
                     IdentReference::new(ident.span, ident.name)
                 }
                 _ => return Err(p.unexpected()),
             };
             // convert `CoverInitializedName`
             let init = match property.init {
-                Some(Expr::Assign(assignment_expr)) => Some(assignment_expr.unbox().right),
+                Some(Expr::Assign(assignment_expr)) => Some(assignment_expr.right),
                 _ => None,
             };
             let target = AssignTargetPropertyIdent {

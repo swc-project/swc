@@ -486,7 +486,7 @@ impl<'a> ParserImpl<'a> {
         )?;
         Ok(self
             .ast
-            .class_element_static_block(self.end_span(span), block.unbox().body))
+            .class_element_static_block(self.end_span(span), block.body))
     }
 
     /// <https://github.com/tc39/proposal-decorators>
