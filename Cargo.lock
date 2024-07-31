@@ -4549,7 +4549,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.200.4"
+version = "0.200.5"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5094,7 +5094,7 @@ dependencies = [
 
 [[package]]
 name = "swc_fast_ts_strip"
-version = "0.4.3"
+version = "0.4.4"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",
