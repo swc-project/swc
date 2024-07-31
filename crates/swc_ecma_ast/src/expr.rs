@@ -501,14 +501,13 @@ pub struct ArrayLit {
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "elements"))]
     pub elems: Vec<ArrayElement>,
+
+    pub trailing_comma: bool,
 }
 
 impl Take for ArrayLit {
     fn dummy() -> Self {
-        ArrayLit {
-            span: DUMMY_SP,
-            elems: Default::default(),
-        }
+        Default::default()
     }
 }
 
