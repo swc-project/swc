@@ -313,7 +313,8 @@
                     if (// With dynamic assetPrefix it's no longer possible to set assetPrefix at the build time
                     // So, this is how we do it in the client side at runtime
                     __webpack_require__.p = "".concat(prefix, "/_next/") //eslint-disable-line
-                    , _runtimeConfig.setConfig({
+                    , // Initialize next/config with the environment configuration
+                    _runtimeConfig.setConfig({
                         serverRuntimeConfig: {},
                         publicRuntimeConfig: initialData.runtimeConfig || {}
                     }), asPath = _utils.getURL(), _hasBasePath.hasBasePath(asPath) && (asPath = _removeBasePath.removeBasePath(asPath)), initialData.scriptLoader) {
@@ -748,7 +749,7 @@
                     };
                 }, [
                     type
-                ]), portalNode ? _reactDom.createPortal(children, portalNode) : null;
+                ]), portalNode ? /*#__PURE__*/ _reactDom.createPortal(children, portalNode) : null;
             }, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
                 value: !0
             }), Object.assign(exports.default, exports), module.exports = exports.default);

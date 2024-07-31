@@ -75,11 +75,11 @@
             };
             exports.default = function(param) {
                 var componentStack = param.componentStack, error = param.error;
-                return _jsxRuntime.jsxs("div", {
+                return /*#__PURE__*/ _jsxRuntime.jsxs("div", {
                     style: style,
                     title: "".concat(error.toString(), "\n\nThis is located at:").concat(componentStack),
                     children: [
-                        _jsxRuntime.jsxs("svg", {
+                        /*#__PURE__*/ _jsxRuntime.jsxs("svg", {
                             viewBox: "0 0 1024 1024",
                             version: "1.1",
                             xmlns: "http://www.w3.org/2000/svg",
@@ -87,19 +87,19 @@
                             width: "60",
                             height: "60",
                             children: [
-                                _jsxRuntime.jsx("path", {
+                                /*#__PURE__*/ _jsxRuntime.jsx("path", {
                                     d: "M1024 512C1024 229.23 794.77 0 512 0S0 229.23 0 512s229.23 512 512 512c117.41 0 228.826-39.669 318.768-111.313 10.79-8.595 12.569-24.308 3.975-35.097-8.594-10.789-24.308-12.568-35.097-3.974C718.47 938.277 618.002 974.049 512 974.049 256.818 974.049 49.951 767.182 49.951 512S256.818 49.951 512 49.951 974.049 256.818 974.049 512c0 87.493-24.334 171.337-69.578 243.96-7.294 11.708-3.716 27.112 7.992 34.405 11.707 7.294 27.11 3.716 34.405-7.991C997.014 701.88 1024 608.898 1024 512z",
                                     "p-id": "844",
                                     fill: "#cdcdcd"
                                 }),
-                                _jsxRuntime.jsx("path", {
+                                /*#__PURE__*/ _jsxRuntime.jsx("path", {
                                     d: "M337.17 499.512c34.485 0 62.44-27.955 62.44-62.439s-27.955-62.439-62.44-62.439c-34.483 0-62.438 27.955-62.438 62.44 0 34.483 27.955 62.438 62.439 62.438z m374.635 0c34.484 0 62.439-27.955 62.439-62.439s-27.955-62.439-62.44-62.439c-34.483 0-62.438 27.955-62.438 62.44 0 34.483 27.955 62.438 62.439 62.438zM352.788 704.785c43.377-34.702 100.364-55.425 171.7-55.425 71.336 0 128.322 20.723 171.7 55.425 26.513 21.21 42.695 42.786 50.444 58.284 6.168 12.337 1.168 27.34-11.17 33.508-12.337 6.169-27.34 1.168-33.508-11.17-0.918-1.834-3.462-6.024-7.788-11.793-7.564-10.084-17.239-20.269-29.183-29.824-34.671-27.737-80.71-44.478-140.495-44.478-59.786 0-105.824 16.74-140.496 44.478-11.944 9.555-21.619 19.74-29.182 29.824-4.327 5.769-6.87 9.959-7.788 11.794-6.169 12.337-21.171 17.338-33.509 11.17-12.337-6.17-17.338-21.172-11.169-33.509 7.75-15.498 23.931-37.074 50.444-58.284z",
                                     "p-id": "845",
                                     fill: "#cdcdcd"
                                 })
                             ]
                         }),
-                        _jsxRuntime.jsx("h3", {
+                        /*#__PURE__*/ _jsxRuntime.jsx("h3", {
                             children: "Oops! Something went wrong."
                         })
                     ]
@@ -144,7 +144,7 @@
                         value: function() {
                             var _props = this.props, children = _props.children, Fallback = _props.Fallback, _state = this.state, error = _state.error, info = _state.info;
                             return(// render fallback UI if there is error
-                            null !== error && "function" == typeof Fallback ? _jsxRuntime.jsx(Fallback, {
+                            null !== error && "function" == typeof Fallback ? /*#__PURE__*/ _jsxRuntime.jsx(Fallback, {
                                 componentStack: info && info.componentStack,
                                 error: error
                             }) : children || null);
@@ -195,7 +195,10 @@
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.runApp = function(appConfig) {
-                _appConfig.setAppConfig(appConfig), _loadStaticModules.default(appConfig), process.env.__IS_SERVER__ || (// set History before GID
+                // store appConfig in case of server side render
+                // server bundle will to get appConfig after run runApp
+                _appConfig.setAppConfig(appConfig), // load static modules before init runtime such as request
+                _loadStaticModules.default(appConfig), process.env.__IS_SERVER__ || (// set History before GID
                 _createAppShared.initHistory && _createAppShared.initHistory(appConfig), _reactAppRenderer.default({
                     appConfig: appConfig,
                     buildConfig: buildConfig,
@@ -238,21 +241,21 @@
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.Provider = exports.withAuth = exports.useAuth = void 0;
-            var swcHelpers = __webpack_require__(547), _jsxRuntime = __webpack_require__(37712), _react = __webpack_require__(59301), Context = _react.createContext(null), useAuth = function() {
+            var swcHelpers = __webpack_require__(547), _jsxRuntime = __webpack_require__(37712), _react = __webpack_require__(59301), Context = /*#__PURE__*/ _react.createContext(null), useAuth = function() {
                 return _react.useContext(Context);
             };
             exports.useAuth = useAuth, exports.withAuth = // class 组件支持 Hoc 用法
             function(Component) {
                 return function(props) {
                     var ref = useAuth(), auth = ref[0], setAuth = ref[1];
-                    return _jsxRuntime.jsx(Component, swcHelpers.objectSpread({}, props, {
+                    return /*#__PURE__*/ _jsxRuntime.jsx(Component, swcHelpers.objectSpread({}, props, {
                         auth: auth,
                         setAuth: setAuth
                     }));
                 };
             }, exports.Provider = function(param) {
                 var _value = param.value, children = param.children, ref = _react.useState(void 0 === _value ? {} : _value), state = ref[0], setState = ref[1];
-                return _jsxRuntime.jsx(Context.Provider, {
+                return /*#__PURE__*/ _jsxRuntime.jsx(Context.Provider, {
                     value: [
                         state,
                         function(param) {
@@ -273,7 +276,7 @@
                 var context = param.context, appConfig = param.appConfig, addProvider = param.addProvider, wrapperPageComponent = param.wrapperPageComponent, initialAuth = (context && context.initialData ? context.initialData : {}).auth || {}, authConfig = appConfig.auth || {};
                 addProvider(function(param) {
                     var children = param.children;
-                    return _jsxRuntime.jsx(_auth.Provider, {
+                    return /*#__PURE__*/ _jsxRuntime.jsx(_auth.Provider, {
                         value: initialAuth,
                         children: children
                     });
@@ -289,7 +292,7 @@
                         if (pageConfigAuth && !Array.isArray(pageConfigAuth)) throw Error("pageConfig.auth must be an array");
                         return Array.isArray(pageConfigAuth) && pageConfigAuth.length && !Object.keys(auth).filter(function(item) {
                             return !!pageConfigAuth.includes(item) && auth[item];
-                        }).length ? authConfig.NoAuthFallback ? "function" == typeof authConfig.NoAuthFallback ? _jsxRuntime.jsx(authConfig.NoAuthFallback, {}) : authConfig.NoAuthFallback : null : _jsxRuntime.jsx(PageComponent, swcHelpers.objectSpread({}, rest));
+                        }).length ? authConfig.NoAuthFallback ? "function" == typeof authConfig.NoAuthFallback ? /*#__PURE__*/ _jsxRuntime.jsx(authConfig.NoAuthFallback, {}) : authConfig.NoAuthFallback : null : /*#__PURE__*/ _jsxRuntime.jsx(PageComponent, swcHelpers.objectSpread({}, rest));
                     });
                 });
             };
@@ -363,7 +366,7 @@
                 wrapperPageComponent(function(PageComponent) {
                     return function(props) {
                         var searchParams = parseSearchParams && applyRuntimeAPI("getSearchParams");
-                        return _jsxRuntime.jsx(PageComponent, swcHelpers.objectSpread({}, Object.assign({}, props, {
+                        return /*#__PURE__*/ _jsxRuntime.jsx(PageComponent, swcHelpers.objectSpread({}, Object.assign({}, props, {
                             searchParams: searchParams
                         })));
                     };
@@ -376,11 +379,11 @@
                 }), wrapperPageComponent(process.env.__IS_SERVER__ ? _formatRoutes.wrapperPageWithSSR(context) : _formatRoutes.wrapperPageWithCSR()), wrapperPageComponent(function(PageComponent) {
                     var _pageConfig = PageComponent.pageConfig, pageConfig = void 0 === _pageConfig ? {} : _pageConfig;
                     return function(props) {
-                        return pageConfig.errorBoundary ? _jsxRuntime.jsx(_errorBoundary.default, {
+                        return pageConfig.errorBoundary ? /*#__PURE__*/ _jsxRuntime.jsx(_errorBoundary.default, {
                             Fallback: ErrorBoundaryFallback,
                             onError: onErrorBoundaryHandler,
-                            children: _jsxRuntime.jsx(PageComponent, swcHelpers.objectSpread({}, props))
-                        }) : _jsxRuntime.jsx(PageComponent, swcHelpers.objectSpread({}, props));
+                            children: /*#__PURE__*/ _jsxRuntime.jsx(PageComponent, swcHelpers.objectSpread({}, props))
+                        }) : /*#__PURE__*/ _jsxRuntime.jsx(PageComponent, swcHelpers.objectSpread({}, props));
                     };
                 }), appConfigRouter.modifyRoutes && modifyRoutes(appConfigRouter.modifyRoutes);
                 var lazy = buildConfig && buildConfig.router && buildConfig.router.lazy;
@@ -403,8 +406,8 @@
                         var fallback = routerProps.fallback, restRouterProps = swcHelpers.objectWithoutProperties(routerProps, [
                             "fallback"
                         ]);
-                        return _jsxRuntime.jsx(_router.IceRouter, swcHelpers.objectSpread({}, restRouterProps, {
-                            children: RoutesComponent ? _jsxRuntime.jsx(RoutesComponent, {
+                        return /*#__PURE__*/ _jsxRuntime.jsx(_router.IceRouter, swcHelpers.objectSpread({}, restRouterProps, {
+                            children: RoutesComponent ? /*#__PURE__*/ _jsxRuntime.jsx(RoutesComponent, {
                                 routes: _router.parseRoutes(routes, fallback),
                                 fallback: fallback
                             }) : null
@@ -426,14 +429,14 @@
                 if (!renderChildren && props.routes) {
                     // parse routes before render
                     var parsedRoutes = parseRoutes(props.routes, props.fallback);
-                    renderChildren = _jsxRuntime.jsx(Routes, {
+                    renderChildren = /*#__PURE__*/ _jsxRuntime.jsx(Routes, {
                         routes: parsedRoutes,
                         fallback: props.fallback
                     });
                 }
-                return "static" === type ? _jsxRuntime.jsx(_reactRouterDom.StaticRouter, swcHelpers.objectSpread({}, others, {
+                return "static" === type ? /*#__PURE__*/ _jsxRuntime.jsx(_reactRouterDom.StaticRouter, swcHelpers.objectSpread({}, others, {
                     children: renderChildren
-                })) : _jsxRuntime.jsx(_reactRouterDom.Router, swcHelpers.objectSpread({}, others, {
+                })) : /*#__PURE__*/ _jsxRuntime.jsx(_reactRouterDom.Router, swcHelpers.objectSpread({}, others, {
                     children: renderChildren
                 }));
             }, exports.Routes = Routes;
@@ -469,7 +472,7 @@
                             setComponentAttr(comp, route), wrapperRoute(comp, routerWrappers));
                         },
                         fallback: fallback
-                    }) : __LAZY__ ? _react.lazy(function() {
+                    }) : __LAZY__ ? /*#__PURE__*/ _react.lazy(function() {
                         return dynamicImport().then(function(mod) {
                             if (routerWrappers && routerWrappers.length) {
                                 var comp = mod.default;
@@ -486,22 +489,22 @@
             }
             function Routes(param) {
                 var routes = param.routes, fallback = param.fallback;
-                return _jsxRuntime.jsx(_reactRouterDom.Switch, {
+                return /*#__PURE__*/ _jsxRuntime.jsx(_reactRouterDom.Switch, {
                     children: routes.map(function(route, id) {
                         var children = route.children;
                         if (children) {
                             var LayoutComponent = route.component, children = route.children, others = swcHelpers.objectWithoutProperties(route, [
                                 "component",
                                 "children"
-                            ]), routesComponent = _jsxRuntime.jsx(Routes, {
+                            ]), routesComponent = /*#__PURE__*/ _jsxRuntime.jsx(Routes, {
                                 routes: children,
                                 fallback: fallback
                             }), RenderComponent = function(props) {
-                                return LayoutComponent ? _jsxRuntime.jsx(LayoutComponent, swcHelpers.objectSpread({}, props, {
+                                return LayoutComponent ? /*#__PURE__*/ _jsxRuntime.jsx(LayoutComponent, swcHelpers.objectSpread({}, props, {
                                     children: routesComponent
                                 })) : routesComponent;
                             };
-                            return _jsxRuntime.jsx(_reactRouterDom.Route, swcHelpers.objectSpread({}, others, {
+                            return /*#__PURE__*/ _jsxRuntime.jsx(_reactRouterDom.Route, swcHelpers.objectSpread({}, others, {
                                 render: RenderComponent
                             }), id);
                         }
@@ -509,7 +512,7 @@
                             var redirect = route.redirect, others = swcHelpers.objectWithoutProperties(route, [
                                 "redirect"
                             ]);
-                            return _jsxRuntime.jsx(_reactRouterDom.Redirect, swcHelpers.objectSpread({
+                            return /*#__PURE__*/ _jsxRuntime.jsx(_reactRouterDom.Redirect, swcHelpers.objectSpread({
                                 from: route.path,
                                 to: redirect
                             }, others), id);
@@ -524,14 +527,14 @@
                         var RenderComponent = process.env.__IS_SERVER__ || window.__ICE_SSR_ENABLED__ ? function(props) {
                             /*#__PURE__*/ return _jsxRuntime.jsx(RouteComponent, swcHelpers.objectSpread({}, props));
                         } : function(props) {
-                            return _jsxRuntime.jsx(_react.Suspense, {
-                                fallback: fallback || _jsxRuntime.jsx("div", {
+                            return /*#__PURE__*/ _jsxRuntime.jsx(_react.Suspense, {
+                                fallback: fallback || /*#__PURE__*/ _jsxRuntime.jsx("div", {
                                     children: "loading"
                                 }),
-                                children: _jsxRuntime.jsx(RouteComponent, swcHelpers.objectSpread({}, props))
+                                children: /*#__PURE__*/ _jsxRuntime.jsx(RouteComponent, swcHelpers.objectSpread({}, props))
                             });
                         };
-                        return _jsxRuntime.jsx(_reactRouterDom.Route, swcHelpers.objectSpread({}, others, {
+                        return /*#__PURE__*/ _jsxRuntime.jsx(_reactRouterDom.Route, swcHelpers.objectSpread({}, others, {
                             render: RenderComponent
                         }), id);
                     })
@@ -561,7 +564,7 @@
                 var pageInitialProps = swcHelpers.objectSpread({}, context.pageInitialProps);
                 return function(PageComponent) {
                     return function(props) {
-                        return _jsxRuntime.jsx(PageComponent, swcHelpers.objectSpread({}, Object.assign({}, props, pageInitialProps)));
+                        return /*#__PURE__*/ _jsxRuntime.jsx(PageComponent, swcHelpers.objectSpread({}, Object.assign({}, props, pageInitialProps)));
                     };
                 };
             }, exports.wrapperPageWithCSR = function() {
@@ -590,7 +593,7 @@
                                     }
                                 }, _callee);
                             }))();
-                        }, []), _jsxRuntime.jsx(PageComponent, swcHelpers.objectSpread({}, Object.assign({}, props, data)));
+                        }, []), /*#__PURE__*/ _jsxRuntime.jsx(PageComponent, swcHelpers.objectSpread({}, Object.assign({}, props, data)));
                     };
                 };
             };
@@ -625,21 +628,21 @@
             }), exports.default = void 0;
             var swcHelpers = __webpack_require__(547), _jsxRuntime = __webpack_require__(37712), _indexModuleScss = swcHelpers.interopRequireDefault(__webpack_require__(89704));
             exports.default = function() {
-                return _jsxRuntime.jsxs("div", {
+                return /*#__PURE__*/ _jsxRuntime.jsxs("div", {
                     className: _indexModuleScss.default.container,
                     children: [
-                        _jsxRuntime.jsx("h2", {
+                        /*#__PURE__*/ _jsxRuntime.jsx("h2", {
                             className: _indexModuleScss.default.title,
                             children: "Welcome to icejs!"
                         }),
-                        _jsxRuntime.jsx("p", {
+                        /*#__PURE__*/ _jsxRuntime.jsx("p", {
                             className: _indexModuleScss.default.description,
                             children: "This is a awesome project, enjoy it!"
                         }),
-                        _jsxRuntime.jsxs("div", {
+                        /*#__PURE__*/ _jsxRuntime.jsxs("div", {
                             className: _indexModuleScss.default.action,
                             children: [
-                                _jsxRuntime.jsx("a", {
+                                /*#__PURE__*/ _jsxRuntime.jsx("a", {
                                     href: "https://ice.work/docs/guide/about",
                                     target: "_blank",
                                     rel: "noopener noreferrer",
@@ -648,7 +651,7 @@
                                     },
                                     children: "使用文档"
                                 }),
-                                _jsxRuntime.jsx("a", {
+                                /*#__PURE__*/ _jsxRuntime.jsx("a", {
                                     href: "https://github.com/ice-lab/icejs",
                                     target: "_blank",
                                     rel: "noopener noreferrer",
@@ -667,7 +670,7 @@
             }), exports.default = void 0;
             var swcHelpers = __webpack_require__(547), _jsxRuntime = __webpack_require__(37712), _guide = swcHelpers.interopRequireDefault(__webpack_require__(56905));
             exports.default = function() {
-                return console.log(1), _jsxRuntime.jsx(_guide.default, {});
+                return console.log(1), /*#__PURE__*/ _jsxRuntime.jsx(_guide.default, {});
             };
         /***/ },
         /***/ 72791: /***/ function(__unused_webpack_module, exports, __webpack_require__) {
@@ -18922,7 +18925,11 @@
                         (this.arg = undefined), ContinueSentinel;
                     }
                 }, exports;
-            }(module.exports);
+            }(// If this script is executing as a CommonJS module, use module.exports
+            // as the regeneratorRuntime namespace. Otherwise create a new empty
+            // object. Either way, the resulting object will be used to initialize
+            // the regeneratorRuntime variable at the top of this file.
+            module.exports);
             try {
                 regeneratorRuntime = runtime;
             } catch (accidentalStrictMode) {
