@@ -413,7 +413,7 @@ impl<'a> ParserImpl<'a> {
     fn parse_array_expression_element(&mut self) -> Result<ArrayElement> {
         match self.cur_kind() {
             Kind::Comma => Ok(self.parse_elision()),
-            Kind::Dot3 => self.parse_spread_element().map(ArrayElement::SpreadElement),
+            Kind::Dot3 => self.parse_spread_element().map(ArrayElement::Spread),
             _ => self
                 .parse_assignment_expression_or_higher()
                 .map(ArrayElement::from),
@@ -838,7 +838,10 @@ impl<'a> ParserImpl<'a> {
 
     fn parse_call_argument(&mut self) -> Result<ExprOrSpread> {
         if self.at(Kind::Dot3) {
-            self.parse_spread_element().map(ExprOrSpread::SpreadElement)
+            self.parse_spread_element().map(|e| ExprOrSpread {
+                spread: Some(e.dot3_token),
+                expr: e.expr,
+            })
         } else {
             self.parse_assignment_expression_or_higher()
                 .map(ExprOrSpread::from)
