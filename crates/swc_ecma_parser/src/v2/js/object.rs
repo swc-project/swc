@@ -35,14 +35,10 @@ impl<'a> ParserImpl<'a> {
         ))
     }
 
-    fn parse_object_expression_property(&mut self) -> Result<ObjectPropertyKind<'a>> {
+    fn parse_object_expression_property(&mut self) -> Result<PropOrSpread> {
         match self.cur_kind() {
-            Kind::Dot3 => self
-                .parse_spread_element()
-                .map(ObjectPropertyKind::SpreadProperty),
-            _ => self
-                .parse_property_definition()
-                .map(ObjectPropertyKind::ObjectProperty),
+            Kind::Dot3 => self.parse_spread_element().map(PropOrSpread::Spread),
+            _ => self.parse_property_definition().map(PropOrSpread::Prop),
         }
     }
 
