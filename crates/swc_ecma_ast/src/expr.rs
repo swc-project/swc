@@ -516,18 +516,18 @@ impl Take for ArrayLit {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum ArrayElement {
-    #[tag("Trivia")]
-    Trivia(Trivia),
+    #[tag("Elision")]
+    Elision(Elision),
     #[tag("SpreadElement")]
     Spread(SpreadElement),
     #[tag("*")]
     Elem(Box<Expr>),
 }
 
-#[ast_node("Trivia")]
+#[ast_node("Elision")]
 #[derive(Copy, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub struct Trivia {
+pub struct Elision {
     pub span: Span,
 }
 
