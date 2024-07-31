@@ -124,7 +124,7 @@ impl<'a> ParserImpl<'a> {
 
     /// `PropertyDefinition`[Yield, Await] :
     ///   ... `AssignExpression`[+In, ?Yield, ?Await]
-    pub(crate) fn parse_spread_element(&mut self) -> Result<Box<SpreadElement<'a>>> {
+    pub(crate) fn parse_spread_element(&mut self) -> Result<SpreadElement> {
         let span = self.start_span();
         self.bump_any(); // advance `...`
         let argument = self.parse_assignment_expression_or_higher()?;
