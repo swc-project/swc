@@ -4,7 +4,6 @@ use std::fmt::{self, Debug, Display, Formatter};
 use std::thread;
 use std::{borrow::Cow, fmt::Write, time::Instant};
 
-use crossbeam_queue::SegQueue;
 #[cfg(feature = "pretty_assertions")]
 use pretty_assertions::assert_eq;
 use swc_common::{
@@ -29,7 +28,6 @@ use crate::{
     option::{CompressOptions, MangleOptions},
     program_data::{analyze, ProgramData},
     util::{now, unit::CompileUnit},
-    CommentMove,
 };
 
 mod hoist_decls;
@@ -42,7 +40,6 @@ pub(crate) fn compressor<'a, M>(
     options: &'a CompressOptions,
     mangle_options: Option<&'a MangleOptions>,
     mode: &'a M,
-    comments: Option<&'a SegQueue<CommentMove>>,
 ) -> impl 'a + VisitMut
 where
     M: Mode,
@@ -55,7 +52,6 @@ where
         pass: 1,
         dump_for_infinite_loop: Default::default(),
         mode,
-        comments,
     };
 
     chain!(
@@ -76,8 +72,6 @@ struct Compressor<'a> {
     mangle_options: Option<&'a MangleOptions>,
     changed: bool,
     pass: usize,
-
-    comments: Option<&'a SegQueue<CommentMove>>,
 
     dump_for_infinite_loop: Vec<String>,
 
@@ -248,7 +242,6 @@ impl Compressor<'_> {
                     #[cfg(feature = "debug")]
                     debug_infinite_loop: self.pass >= 20,
                 },
-                self.comments,
             );
             n.apply(&mut visitor);
 

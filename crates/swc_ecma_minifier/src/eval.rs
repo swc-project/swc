@@ -95,7 +95,6 @@ impl Evaluator {
                 },
                 None,
                 &data,
-                None,
             ));
         }
     }
@@ -250,7 +249,6 @@ impl Evaluator {
                     #[cfg(feature = "debug")]
                     debug_infinite_loop: false,
                 },
-                None,
             ));
         }
 

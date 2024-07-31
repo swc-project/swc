@@ -38,11 +38,8 @@
 #![allow(unstable_name_collisions)]
 #![allow(clippy::match_like_matches_macro)]
 
-use crossbeam_queue::SegQueue;
 use once_cell::sync::Lazy;
-use swc_common::{
-    comments::Comments, pass::Repeated, sync::Lrc, BytePos, SourceMap, SyntaxContext,
-};
+use swc_common::{comments::Comments, pass::Repeated, sync::Lrc, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_usage_analyzer::marks::Marks;
@@ -88,12 +85,6 @@ pub mod marks {
     pub use swc_ecma_usage_analyzer::marks::Marks;
 }
 
-#[derive(Debug, Clone, Copy)]
-struct CommentMove {
-    from: BytePos,
-    to: BytePos,
-}
-
 const DISABLE_BUGGY_PASSES: bool = true;
 
 pub(crate) static CPU_COUNT: Lazy<usize> = Lazy::new(num_cpus::get);
@@ -113,8 +104,6 @@ pub fn optimize(
     let mut marks = Marks::new();
     marks.top_level_ctxt = SyntaxContext::empty().apply_mark(extra.top_level_mark);
     marks.unresolved_mark = extra.unresolved_mark;
-
-    let comment_moves = comments.map(|_| SegQueue::new());
 
     debug_assert_valid(&n);
 
@@ -198,7 +187,6 @@ pub fn optimize(
                 c,
                 options.mangle.as_ref(),
                 &Minification,
-                comment_moves.as_ref(),
             ))
         }
 
@@ -221,7 +209,6 @@ pub fn optimize(
                     #[cfg(feature = "debug")]
                     debug_infinite_loop: false,
                 },
-                comment_moves.as_ref(),
             );
             n.visit_mut_with(&mut v);
             if !v.changed() || c.passes <= pass {

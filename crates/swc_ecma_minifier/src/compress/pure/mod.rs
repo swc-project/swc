@@ -1,6 +1,5 @@
 #![allow(clippy::needless_update)]
 
-use crossbeam_queue::SegQueue;
 #[cfg(feature = "concurrent")]
 use rayon::prelude::*;
 use swc_common::{pass::Repeated, util::take::Take, SyntaxContext, DUMMY_SP, GLOBALS};
@@ -16,9 +15,7 @@ use self::{ctx::Ctx, misc::DropOpts};
 use super::util::is_pure_undefined_or_null;
 #[cfg(feature = "debug")]
 use crate::debug::dump;
-use crate::{
-    debug::AssertValid, maybe_par, option::CompressOptions, util::ModuleItemExt, CommentMove,
-};
+use crate::{debug::AssertValid, maybe_par, option::CompressOptions, util::ModuleItemExt};
 
 mod arrows;
 mod bools;
@@ -54,7 +51,6 @@ pub(crate) fn pure_optimizer<'a>(
     options: &'a CompressOptions,
     marks: Marks,
     config: PureOptimizerConfig,
-    comments: Option<&'a SegQueue<CommentMove>>,
 ) -> impl 'a + VisitMut + Repeated {
     Pure {
         options,
@@ -64,7 +60,6 @@ pub(crate) fn pure_optimizer<'a>(
             unresolved_ctxt: SyntaxContext::empty().apply_mark(marks.unresolved_mark),
             is_unresolved_ref_safe: false,
         },
-        comments,
         ctx: Default::default(),
         changed: Default::default(),
     }
@@ -75,8 +70,6 @@ struct Pure<'a> {
     config: PureOptimizerConfig,
     marks: Marks,
     expr_ctx: ExprCtx,
-
-    comments: Option<&'a SegQueue<CommentMove>>,
 
     ctx: Ctx,
     changed: bool,
