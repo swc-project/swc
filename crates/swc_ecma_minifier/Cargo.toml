@@ -35,6 +35,7 @@ trace-ast   = []
 [dependencies]
 arrayvec          = { workspace = true }
 backtrace         = { workspace = true, optional = true }
+crossbeam-queue   = { workspace = true }
 indexmap          = { workspace = true }
 num-bigint        = { workspace = true }
 num_cpus          = { workspace = true }
@@ -50,6 +51,7 @@ ryu-js            = { workspace = true }
 serde             = { workspace = true, features = ["derive"] }
 serde_json        = { workspace = true }
 tracing           = { workspace = true }
+
 
 swc_allocator = { version = "0.1.7", path = "../swc_allocator", default-features = false }
 swc_atoms = { version = "0.6.5", path = "../swc_atoms" }
