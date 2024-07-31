@@ -59,12 +59,12 @@ impl<'a> CoverGrammar<'a, ArrayLit> for ArrayPat {
         let len = expr.elems.len();
         for (i, elem) in expr.elems.into_iter().enumerate() {
             match elem {
-                match_expression!(ArrayLitElement) => {
+                match_expression!(ArrayElement) => {
                     let expr = Expr::try_from(elem).unwrap();
                     let target = AssignTargetMaybeDefault::cover(expr, p)?;
                     elements.push(Some(target));
                 }
-                ArrayLitElement::SpreadElement(elem) => {
+                ArrayElement::Spread(elem) => {
                     if i == len - 1 {
                         rest = Some(AssignTargetRest {
                             span: elem.span,
@@ -77,7 +77,7 @@ impl<'a> CoverGrammar<'a, ArrayLit> for ArrayPat {
                         return Err(diagnostics::spread_last_element(elem.span));
                     }
                 }
-                ArrayLitElement::Elision(_) => elements.push(None),
+                ArrayElement::Elision(_) => elements.push(None),
             }
         }
 
