@@ -4395,7 +4395,11 @@
                         (this.arg = undefined), ContinueSentinel;
                     }
                 }, exports1;
-            }(module1.exports);
+            }(// If this script is executing as a CommonJS module, use module.exports
+            // as the regeneratorRuntime namespace. Otherwise create a new empty
+            // object. Either way, the resulting object will be used to initialize
+            // the regeneratorRuntime variable at the top of this file.
+            module1.exports);
             try {
                 regeneratorRuntime = runtime;
             } catch (accidentalStrictMode) {

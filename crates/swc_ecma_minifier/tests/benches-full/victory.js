@@ -11730,8 +11730,7 @@ object-assign
                 // Equivalent of `typeof` but with special handling for array and regexp.
                 function getPropType(propValue) {
                     var propType = typeof propValue;
-                    return Array.isArray(propValue) ? 'array' : propValue instanceof RegExp ? 'object' : // Native Symbol.
-                    'symbol' === propType || propValue && ('Symbol' === propValue['@@toStringTag'] || 'function' == typeof Symbol && propValue instanceof Symbol) ? 'symbol' : propType;
+                    return Array.isArray(propValue) ? 'array' : propValue instanceof RegExp ? 'object' : 'symbol' === propType || propValue && ('Symbol' === propValue['@@toStringTag'] || 'function' == typeof Symbol && propValue instanceof Symbol) ? 'symbol' : propType;
                 }
                 // This handles more types than `getPropType`. Only used for error messages.
                 // See `createPrimitiveTypeChecker`.

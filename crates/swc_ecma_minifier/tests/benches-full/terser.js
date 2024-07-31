@@ -4437,8 +4437,7 @@
         let printed_comments = new Set();
         var to_utf8 = options.ascii_only ? function(str, identifier = !1, regexp = !1) {
             return !(options.ecma >= 2015) || options.safari10 || regexp || (str = str.replace(/[\ud800-\udbff][\udc00-\udfff]/g, function(ch) {
-                return "\\u{" + // https://en.wikipedia.org/wiki/Universal_Character_Set_characters#Surrogates
-                (is_surrogate_pair_head(ch.charCodeAt(0)) ? 0x10000 + (ch.charCodeAt(0) - 0xd800 << 10) + ch.charCodeAt(1) - 0xdc00 : ch.charCodeAt(0)).toString(16) + "}";
+                return "\\u{" + (is_surrogate_pair_head(ch.charCodeAt(0)) ? 0x10000 + (ch.charCodeAt(0) - 0xd800 << 10) + ch.charCodeAt(1) - 0xdc00 : ch.charCodeAt(0)).toString(16) + "}";
             })), str.replace(/[\u0000-\u001f\u007f-\uffff]/g, function(ch) {
                 var code = ch.charCodeAt(0).toString(16);
                 if (code.length <= 2 && !identifier) {

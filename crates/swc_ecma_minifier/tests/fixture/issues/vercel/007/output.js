@@ -9,7 +9,7 @@ import _JSXStyle from "styled-jsx/style";
                 top ? "column" : "column-reverse"
             ]
         ]
-    ]), Sidebar, _JSXStyle.dynamic([
+    ]), /*#__PURE__*/ Sidebar, /*#__PURE__*/ _JSXStyle.dynamic([
         [
             "4507deac72c40d6c",
             [
@@ -19,4 +19,4 @@ import _JSXStyle from "styled-jsx/style";
                 top ? "column" : "column-reverse"
             ]
         ]
-    ]), top ? "column" : "column-reverse"))({});
+    ]), /*#__PURE__*/ top ? "column" : "column-reverse"))({});

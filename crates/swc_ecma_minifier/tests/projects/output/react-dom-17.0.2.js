@@ -6232,13 +6232,11 @@
             case 5:
                 var type = fiber.type;
                 fiber.pendingProps;
-                var instance = 1 !== nextInstance.nodeType || type.toLowerCase() !== nextInstance.nodeName.toLowerCase() ? null : nextInstance // This has now been refined to an element node.
-                ;
+                var instance = 1 !== nextInstance.nodeType || type.toLowerCase() !== nextInstance.nodeName.toLowerCase() ? null : nextInstance;
                 if (null !== instance) return fiber.stateNode = instance, !0;
                 return !1;
             case 6:
-                var textInstance = "" === fiber.pendingProps || 3 !== nextInstance.nodeType ? null : nextInstance // This has now been refined to a text node.
-                ;
+                var textInstance = "" === fiber.pendingProps || 3 !== nextInstance.nodeType ? null : nextInstance;
                 if (null !== textInstance) return fiber.stateNode = textInstance, !0;
                 return !1;
             default:

@@ -1817,7 +1817,9 @@ impl VisitMut for Optimizer<'_> {
 
         match e {
             Expr::Seq(seq) if seq.exprs.len() == 1 => {
+                let span = seq.span;
                 *e = *seq.exprs[0].take();
+                e.set_span(span);
             }
 
             Expr::Assign(AssignExpr {
