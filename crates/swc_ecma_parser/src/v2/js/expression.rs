@@ -1,12 +1,12 @@
 use std::cell::Cell;
 
-use oxc_span::{Atom, Span};
 use oxc_syntax::{
     number::{BigintBase, NumberBase},
     operator::BinaryOperator,
     precedence::Precedence,
 };
-use swc_common::BytePos;
+use swc_atoms::Atom;
+use swc_common::{BytePos, Span};
 use swc_ecma_ast::*;
 
 use super::operator::{
