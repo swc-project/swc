@@ -784,7 +784,7 @@ impl<'a> ParserImpl<'a> {
             .ts_type_type_reference(self.end_span(span), type_name, type_parameters))
     }
 
-    fn parse_ts_implement_name(&mut self) -> Result<TsClassImplements<'a>> {
+    fn parse_ts_implement_name(&mut self) -> Result<TsClassImplements> {
         let span = self.start_span();
         let type_name = self.parse_ts_type_name()?;
         let type_parameters = self.parse_type_arguments_of_type_reference()?;
@@ -793,14 +793,14 @@ impl<'a> ParserImpl<'a> {
             .ts_class_implements(self.end_span(span), type_name, type_parameters))
     }
 
-    pub(crate) fn parse_ts_type_name(&mut self) -> Result<TsTypeName<'a>> {
+    pub(crate) fn parse_ts_type_name(&mut self) -> Result<TsEntityName> {
         let span = self.start_span();
         let ident = self.parse_identifier_name()?;
-        let ident = IdentReference::new(ident.span, ident.name);
-        let mut left = TsTypeName::IdentReference(ident);
+        let ident = Ident::new(ident.sym, ident.span, Default::default());
+        let mut left = TsEntityName::Ident(ident);
         while self.eat(Kind::Dot) {
             let right = self.parse_identifier_name()?;
-            left = TsTypeName::QualifiedName(TsQualifiedName {
+            left = TsEntityName::QualifiedName(TsQualifiedName {
                 span: self.end_span(span),
                 left,
                 right,
@@ -911,7 +911,7 @@ impl<'a> ParserImpl<'a> {
 
     pub(super) fn parse_tuple_element_name_or_tuple_element_type(
         &mut self,
-    ) -> Result<TsTupleElement<'a>> {
+    ) -> Result<TsTupleElement> {
         if self.lookahead(Self::is_tuple_element_name) {
             let span = self.start_span();
             let dotdotdot = self.eat(Kind::Dot3);
