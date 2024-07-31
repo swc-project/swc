@@ -183,7 +183,7 @@ impl<'a> ParserImpl<'a> {
     pub(crate) fn parse_expression_statement(
         &mut self,
         span: Span,
-        expression: Expr,
+        expression: Box<Expr>,
     ) -> Result<Stmt> {
         self.asi()?;
         Ok(self

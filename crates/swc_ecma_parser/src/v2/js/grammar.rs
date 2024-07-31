@@ -10,7 +10,7 @@ pub trait CoverGrammar<'a, T>: Sized {
 }
 
 impl<'a> CoverGrammar<'a, Expr> for AssignTarget {
-    fn cover(expr: Expr, p: &mut ParserImpl<'a>) -> Result<Self> {
+    fn cover(expr: Box<Expr>, p: &mut ParserImpl<'a>) -> Result<Self> {
         match expr {
             Expr::Array(array_expr) => ArrayPat::cover(array_expr, p)
                 .map(|pat| p.ast.alloc(pat))
@@ -27,7 +27,7 @@ impl<'a> CoverGrammar<'a, Expr> for AssignTarget {
 
 impl<'a> CoverGrammar<'a, Expr> for SimpleAssignTarget {
     #[allow(clippy::only_used_in_recursion)]
-    fn cover(expr: Expr, p: &mut ParserImpl<'a>) -> Result<Self> {
+    fn cover(expr: Box<Expr>, p: &mut ParserImpl<'a>) -> Result<Self> {
         match expr {
             Expr::Ident(ident) => Ok(SimpleAssignTarget::Ident(ident)),
             match_member_expression!(Expression) => {
@@ -91,7 +91,7 @@ impl<'a> CoverGrammar<'a, ArrayLit> for ArrayPat {
 }
 
 impl<'a> CoverGrammar<'a, Expr> for AssignTargetMaybeDefault {
-    fn cover(expr: Expr, p: &mut ParserImpl<'a>) -> Result<Self> {
+    fn cover(expr: Box<Expr>, p: &mut ParserImpl<'a>) -> Result<Self> {
         match expr {
             Expr::Assign(assignment_expr) => {
                 let target = AssignTargetWithDefault::cover(assignment_expr.unbox(), p)?;

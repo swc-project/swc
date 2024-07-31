@@ -484,7 +484,7 @@ impl<'a> ParserImpl<'a> {
     fn parse_tagged_template(
         &mut self,
         span: Span,
-        lhs: Expr,
+        lhs: Box<Expr>,
         in_optional_chain: bool,
         type_parameters: Option<Box<TsTypeParamInstantiation>>,
     ) -> Result<Box<Expr>> {
@@ -571,7 +571,7 @@ impl<'a> ParserImpl<'a> {
         }
     }
 
-    fn map_to_chain_expression(&mut self, span: Span, expr: Expr) -> Expr {
+    fn map_to_chain_expression(&mut self, span: Span, expr: Box<Expr>) -> Expr {
         match expr {
             match_member_expression!(Expression) => {
                 let member_expr = MemberExpr::try_from(expr).unwrap();
@@ -615,7 +615,7 @@ impl<'a> ParserImpl<'a> {
     fn parse_member_expression_rest(
         &mut self,
         lhs_span: Span,
-        lhs: Expr,
+        lhs: Box<Expr>,
         in_optional_chain: &mut bool,
     ) -> Result<Box<Expr>> {
         let mut lhs = lhs;
@@ -678,7 +678,7 @@ impl<'a> ParserImpl<'a> {
     fn parse_static_member_expression(
         &mut self,
         lhs_span: Span,
-        lhs: Expr,
+        lhs: Box<Expr>,
         optional: bool,
     ) -> Result<Box<Expr>> {
         self.bump_any(); // advance `.` or `?.`
@@ -705,7 +705,7 @@ impl<'a> ParserImpl<'a> {
     fn parse_computed_member_expression(
         &mut self,
         lhs_span: Span,
-        lhs: Expr,
+        lhs: Box<Expr>,
         optional: bool,
     ) -> Result<Box<Expr>> {
         self.bump_any(); // advance `[`
@@ -770,7 +770,7 @@ impl<'a> ParserImpl<'a> {
     fn parse_call_expression_rest(
         &mut self,
         lhs_span: Span,
-        lhs: Expr,
+        lhs: Box<Expr>,
         in_optional_chain: &mut bool,
     ) -> Result<Box<Expr>> {
         let mut lhs = lhs;
@@ -814,7 +814,7 @@ impl<'a> ParserImpl<'a> {
     fn parse_call_arguments(
         &mut self,
         lhs_span: Span,
-        lhs: Expr,
+        lhs: Box<Expr>,
         optional: bool,
         type_parameters: Option<Box<TsTypeParamInstantiation>>,
     ) -> Result<Box<Expr>> {
@@ -947,7 +947,7 @@ impl<'a> ParserImpl<'a> {
     fn parse_binary_expression_rest(
         &mut self,
         lhs_span: Span,
-        lhs: Expr,
+        lhs: Box<Expr>,
         min_precedence: Precedence,
     ) -> Result<Box<Expr>> {
         // Pratt Parsing Algorithm
@@ -1025,7 +1025,7 @@ impl<'a> ParserImpl<'a> {
     fn parse_conditional_expression_rest(
         &mut self,
         lhs_span: Span,
-        lhs: Expr,
+        lhs: Box<Expr>,
     ) -> Result<Box<Expr>> {
         if !self.eat(Kind::Question) {
             return Ok(lhs);
@@ -1076,7 +1076,7 @@ impl<'a> ParserImpl<'a> {
     fn parse_assignment_expression_recursive(
         &mut self,
         span: Span,
-        lhs: Expr,
+        lhs: Box<Expr>,
     ) -> Result<Box<Expr>> {
         let operator = map_assignment_operator(self.cur_kind());
         // 13.15.5 Destructuring Assign
@@ -1097,7 +1097,7 @@ impl<'a> ParserImpl<'a> {
     fn parse_sequence_expression(
         &mut self,
         span: Span,
-        first_expression: Expr,
+        first_expression: Box<Expr>,
     ) -> Result<Box<Expr>> {
         let mut expressions = self.ast.vec1(first_expression);
         while self.eat(Kind::Comma) {
