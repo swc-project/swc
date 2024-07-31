@@ -33,6 +33,11 @@ pub(crate) fn cannot_appear_on_a_parameter(modifier: &Modifier) -> Diagnostic {
 }
 
 #[cold]
+pub(crate) fn cannot_appear_on_a_type_parameter(modifier: &Modifier) -> Diagnostic {
+    todo!("cannot_appear_on_a_type_parameter")
+}
+
+#[cold]
 pub(crate) fn invalid_character(c: char, span: Span) -> Diagnostic {
     todo!("invalid_character")
 }
