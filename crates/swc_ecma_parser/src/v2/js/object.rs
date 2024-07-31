@@ -142,7 +142,7 @@ impl<'a> ParserImpl<'a> {
         // CoverInitializedName ({ foo = bar })
         let init = if self.eat(Kind::Eq) {
             let right = self.parse_assignment_expression_or_higher()?;
-            let left = AssignTarget::AssignTargetIdent(identifier);
+            let left = AssignTarget::Simple(SimpleAssignTarget::Ident(identifier));
             Some(
                 self.ast
                     .expr_assignment(self.end_span(span), AssignOp::Assign, left, right),
