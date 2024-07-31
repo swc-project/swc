@@ -48,7 +48,7 @@ impl<'a> ParserImpl<'a> {
         ))
     }
 
-    pub(crate) fn parse_ts_enum_member(&mut self) -> Result<TsEnumMember<'a>> {
+    pub(crate) fn parse_ts_enum_member(&mut self) -> Result<TsEnumMember> {
         let span = self.start_span();
         let id = self.parse_ts_enum_member_name()?;
 
@@ -61,7 +61,7 @@ impl<'a> ParserImpl<'a> {
         Ok(TsEnumMember {
             span: self.end_span(span),
             id,
-            initializer,
+            init: initializer,
         })
     }
 
