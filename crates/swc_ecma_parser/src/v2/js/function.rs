@@ -318,7 +318,7 @@ impl<'a> ParserImpl<'a> {
         if !has_yield {
             self.error(diagnostics::yield_expression(Span::new(
                 span.lo,
-                span.lo + 5,
+                span.lo + swc_common::BytePos(5),
             )));
         }
 

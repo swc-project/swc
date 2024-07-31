@@ -1,7 +1,5 @@
-use oxc_syntax::{
-    operator::{AssignOperator, BinaryOperator, LogicalOperator, UnaryOperator, UpdateOperator},
-    precedence::Precedence,
-};
+use oxc_syntax::precedence::Precedence;
+use swc_ecma_ast::{AssignOp, BinaryOp, UnaryOp, UpdateOp};
 
 use crate::lexer::Kind;
 
@@ -30,82 +28,82 @@ pub fn kind_to_precedence(kind: Kind) -> Option<Precedence> {
     }
 }
 
-pub fn map_binary_operator(kind: Kind) -> BinaryOperator {
+pub fn map_binary_operator(kind: Kind) -> BinaryOp {
     match kind {
-        Kind::Eq2 => BinaryOperator::Equality,
-        Kind::Neq => BinaryOperator::Inequality,
-        Kind::Eq3 => BinaryOperator::StrictEquality,
-        Kind::Neq2 => BinaryOperator::StrictInequality,
-        Kind::LAngle => BinaryOperator::LessThan,
-        Kind::LtEq => BinaryOperator::LessEqualThan,
-        Kind::RAngle => BinaryOperator::GreaterThan,
-        Kind::GtEq => BinaryOperator::GreaterEqualThan,
-        Kind::ShiftLeft => BinaryOperator::ShiftLeft,
-        Kind::ShiftRight => BinaryOperator::ShiftRight,
-        Kind::ShiftRight3 => BinaryOperator::ShiftRightZeroFill,
-        Kind::Plus => BinaryOperator::Addition,
-        Kind::Minus => BinaryOperator::Subtraction,
-        Kind::Star => BinaryOperator::Multiplication,
-        Kind::Slash => BinaryOperator::Division,
-        Kind::Percent => BinaryOperator::Remainder,
-        Kind::Pipe => BinaryOperator::BitwiseOR,
-        Kind::Caret => BinaryOperator::BitwiseXOR,
-        Kind::Amp => BinaryOperator::BitwiseAnd,
-        Kind::In => BinaryOperator::In,
-        Kind::Instanceof => BinaryOperator::Instanceof,
-        Kind::Star2 => BinaryOperator::Exponential,
-        _ => unreachable!("Binary Operator: {kind:?}"),
+        Kind::Eq2 => BinaryOp::Equality,
+        Kind::Neq => BinaryOp::Inequality,
+        Kind::Eq3 => BinaryOp::StrictEquality,
+        Kind::Neq2 => BinaryOp::StrictInequality,
+        Kind::LAngle => BinaryOp::LessThan,
+        Kind::LtEq => BinaryOp::LessEqualThan,
+        Kind::RAngle => BinaryOp::GreaterThan,
+        Kind::GtEq => BinaryOp::GreaterEqualThan,
+        Kind::ShiftLeft => BinaryOp::ShiftLeft,
+        Kind::ShiftRight => BinaryOp::ShiftRight,
+        Kind::ShiftRight3 => BinaryOp::ShiftRightZeroFill,
+        Kind::Plus => BinaryOp::Addition,
+        Kind::Minus => BinaryOp::Subtraction,
+        Kind::Star => BinaryOp::Multiplication,
+        Kind::Slash => BinaryOp::Division,
+        Kind::Percent => BinaryOp::Remainder,
+        Kind::Pipe => BinaryOp::BitwiseOR,
+        Kind::Caret => BinaryOp::BitwiseXOR,
+        Kind::Amp => BinaryOp::BitwiseAnd,
+        Kind::In => BinaryOp::In,
+        Kind::Instanceof => BinaryOp::Instanceof,
+        Kind::Star2 => BinaryOp::Exponential,
+        _ => unreachable!("Binary Op: {kind:?}"),
     }
 }
 
-pub fn map_unary_operator(kind: Kind) -> UnaryOperator {
+pub fn map_unary_operator(kind: Kind) -> UnaryOp {
     match kind {
-        Kind::Minus => UnaryOperator::UnaryNegation,
-        Kind::Plus => UnaryOperator::UnaryPlus,
-        Kind::Bang => UnaryOperator::LogicalNot,
-        Kind::Tilde => UnaryOperator::BitwiseNot,
-        Kind::Typeof => UnaryOperator::Typeof,
-        Kind::Void => UnaryOperator::Void,
-        Kind::Delete => UnaryOperator::Delete,
-        _ => unreachable!("Unary Operator: {kind:?}"),
+        Kind::Minus => UnaryOp::UnaryNegation,
+        Kind::Plus => UnaryOp::UnaryPlus,
+        Kind::Bang => UnaryOp::LogicalNot,
+        Kind::Tilde => UnaryOp::BitwiseNot,
+        Kind::Typeof => UnaryOp::Typeof,
+        Kind::Void => UnaryOp::Void,
+        Kind::Delete => UnaryOp::Delete,
+        _ => unreachable!("Unary Op: {kind:?}"),
     }
 }
 
-pub fn map_logical_operator(kind: Kind) -> LogicalOperator {
+pub fn map_logical_operator(kind: Kind) -> LogicalOp {
     match kind {
-        Kind::Pipe2 => LogicalOperator::Or,
-        Kind::Amp2 => LogicalOperator::And,
-        Kind::Question2 => LogicalOperator::Coalesce,
-        _ => unreachable!("Logical Operator: {kind:?}"),
+        Kind::Pipe2 => LogicalOp::Or,
+        Kind::Amp2 => LogicalOp::And,
+        Kind::Question2 => LogicalOp::Coalesce,
+        _ => unreachable!("Logical Op: {kind:?}"),
     }
 }
 
-pub fn map_update_operator(kind: Kind) -> UpdateOperator {
+pub fn map_update_operator(kind: Kind) -> UpdateOp {
     match kind {
-        Kind::Plus2 => UpdateOperator::Increment,
-        Kind::Minus2 => UpdateOperator::Decrement,
-        _ => unreachable!("Update Operator: {kind:?}"),
+        Kind::Plus2 => UpdateOp::PlusPlus,
+        Kind::Minus2 => UpdateOp::MinusMinus,
+        _ => unreachable!("Update Op: {kind:?}"),
     }
 }
 
-pub fn map_assignment_operator(kind: Kind) -> AssignOperator {
+pub fn map_assignment_operator(kind: Kind) -> AssignOp {
     match kind {
-        Kind::Eq => AssignOperator::Assign,
-        Kind::PlusEq => AssignOperator::Addition,
-        Kind::MinusEq => AssignOperator::Subtraction,
-        Kind::StarEq => AssignOperator::Multiplication,
-        Kind::SlashEq => AssignOperator::Division,
-        Kind::PercentEq => AssignOperator::Remainder,
-        Kind::ShiftLeftEq => AssignOperator::ShiftLeft,
-        Kind::ShiftRightEq => AssignOperator::ShiftRight,
-        Kind::ShiftRight3Eq => AssignOperator::ShiftRightZeroFill,
-        Kind::PipeEq => AssignOperator::BitwiseOR,
-        Kind::CaretEq => AssignOperator::BitwiseXOR,
-        Kind::AmpEq => AssignOperator::BitwiseAnd,
-        Kind::Amp2Eq => AssignOperator::LogicalAnd,
-        Kind::Pipe2Eq => AssignOperator::LogicalOr,
-        Kind::Question2Eq => AssignOperator::LogicalNullish,
-        Kind::Star2Eq => AssignOperator::Exponential,
-        _ => unreachable!("Update Operator: {kind:?}"),
+        Kind::Eq => AssignOp::Assign,
+        Kind::PlusEq => AssignOp::Addition,
+        Kind::MinusEq => AssignOp::Subtraction,
+        Kind::StarEq => AssignOp::Multiplication,
+        Kind::SlashEq => AssignOp::Division,
+        Kind::PercentEq => AssignOp::Remainder,
+        Kind::ShiftLeftEq => AssignOp::ShiftLeft,
+        Kind::ShiftRightEq => AssignOp::ShiftRight,
+        Kind::ShiftRight3Eq => AssignOp::ShiftRightZeroFill,
+        Kind::PipeEq => AssignOp::BitwiseOR,
+        Kind::CaretEq => AssignOp::BitwiseXOR,
+        Kind::AmpEq => AssignOp::BitwiseAnd,
+        Kind::Amp2Eq => AssignOp::LogicalAnd,
+        Kind::Pipe2Eq => AssignOp::LogicalOr,
+        Kind::Question2Eq => AssignOp::LogicalNullish,
+        Kind::Star2Eq => AssignOp::Exponential,
+        _ => unreachable!("Update Op: {kind:?}"),
     }
 }
