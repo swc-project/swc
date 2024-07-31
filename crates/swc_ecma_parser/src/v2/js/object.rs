@@ -11,7 +11,7 @@ impl<'a> ParserImpl<'a> {
     ///     { }
     ///     { `PropertyDefinitionList`[?Yield, ?Await] }
     ///     { `PropertyDefinitionList`[?Yield, ?Await] , }
-    pub(crate) fn parse_object_expression(&mut self) -> Result<Expr> {
+    pub(crate) fn parse_object_expression(&mut self) -> Result<Box<Expr>> {
         let span = self.start_span();
         self.expect(Kind::LCurly)?;
         let object_expression_properties = self.context(Context::In, Context::empty(), |p| {
@@ -216,7 +216,7 @@ impl<'a> ParserImpl<'a> {
 
     /// `ComputedPropertyName`[Yield, Await] : [ `AssignExpression`[+In,
     /// ?Yield, ?Await] ]
-    pub(crate) fn parse_computed_property_name(&mut self) -> Result<Expr> {
+    pub(crate) fn parse_computed_property_name(&mut self) -> Result<Box<Expr>> {
         self.bump_any(); // advance `[`
 
         let expression = self.context(

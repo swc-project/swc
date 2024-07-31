@@ -10,7 +10,7 @@ use crate::v2::{
 impl<'a> ParserImpl<'a> {
     /// [Import Call](https://tc39.es/ecma262/#sec-import-calls)
     /// `ImportCall` : import ( `AssignExpression` )
-    pub(crate) fn parse_import_expression(&mut self, span: Span) -> Result<Expr> {
+    pub(crate) fn parse_import_expression(&mut self, span: Span) -> Result<Box<Expr>> {
         self.bump_any(); // advance '('
 
         let has_in = self.ctx.has_in();
