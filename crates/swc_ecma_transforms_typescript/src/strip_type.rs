@@ -205,8 +205,16 @@ impl VisitMut for StripType {
     }
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
-        n.retain(should_retain_stmt);
         n.visit_mut_children_with(self);
+        n.retain(|s| !s.is_empty());
+    }
+
+    fn visit_mut_stmt(&mut self, n: &mut Stmt) {
+        if should_retain_stmt(n) {
+            n.visit_mut_children_with(self);
+        } else {
+            n.take();
+        }
     }
 
     fn visit_mut_ts_import_equals_decl(&mut self, _: &mut TsImportEqualsDecl) {
