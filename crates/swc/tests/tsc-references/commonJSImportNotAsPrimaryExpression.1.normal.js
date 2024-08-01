@@ -35,7 +35,6 @@ var E1;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var foo = require("./foo_0");
 var i;
 var x = {};
 var y = false;

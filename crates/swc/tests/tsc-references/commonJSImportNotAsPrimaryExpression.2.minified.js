@@ -21,4 +21,4 @@ C1.s1 = !0, (E1 = E11 || (E11 = {}))[E1.A = 0] = "A", E1[E1.B = 1] = "B", E1[E1.
 //// [foo_1.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), require("./foo_0");
+});

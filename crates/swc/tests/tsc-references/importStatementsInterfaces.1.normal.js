@@ -2,7 +2,6 @@
 var C;
 // no code gen expected
 (function(C) {
-    var a = A;
     var m;
     var p;
     var p = {
