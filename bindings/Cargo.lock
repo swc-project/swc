@@ -237,7 +237,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.7.4"
+version = "1.7.5-nightly-20240801.1"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -297,7 +297,7 @@ dependencies = [
 
 [[package]]
 name = "binding_minifier_wasm"
-version = "1.7.4"
+version = "1.7.5-nightly-20240801.1"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -310,7 +310,7 @@ dependencies = [
 
 [[package]]
 name = "binding_typescript_wasm"
-version = "1.7.4"
+version = "1.7.5-nightly-20240801.1"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -3055,7 +3055,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.91.343"
+version = "0.91.344"
 dependencies = [
  "anyhow",
  "swc_cli_impl",
@@ -3086,9 +3086,9 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.36.2"
+version = "0.36.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1802b1642488aec58597dc55ea88992c165660d6e44e9838d4d93f7b78ab95f3"
+checksum = "457fb92efa9f0c849d6bc4e86561982d464176bc3df96bb22baed5e98309e090"
 dependencies = [
  "ahash 0.8.11",
  "anyhow",
@@ -3502,9 +3502,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.200.4"
+version = "0.200.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b92feddb27f3ad89dd296696f55e04f8e96cdc778df95a73a6f06664bf6919f3"
+checksum = "624e23b532c9a2f74ea850120b19079ab67f6e85af53c83d1984adbecc820b03"
 dependencies = [
  "arrayvec",
  "indexmap 2.2.6",
@@ -3538,9 +3538,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.148.1"
+version = "0.148.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a8204235f635274dba4adc30c47ac896fd126ddfc53b27210676722423cbb2e7"
+checksum = "63338f720211a66e535eb4892b486cb1703ef115b977efb4014665907f6138e9"
 dependencies = [
  "either",
  "new_debug_unreachable",
@@ -3896,9 +3896,9 @@ dependencies = [
 
 [[package]]
 name = "swc_fast_ts_strip"
-version = "0.4.3"
+version = "0.4.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "15b0bbe29b5ae8854e9bb45c78f0a10bfe16f5eb25b63f99162d876b36f16696"
+checksum = "621cd30150e5f96ffc032152ce3c9521e730b87e42565ed6916f81f22b5c1ca8"
 dependencies = [
  "anyhow",
  "serde",
