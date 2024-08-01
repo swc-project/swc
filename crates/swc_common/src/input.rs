@@ -15,6 +15,7 @@ pub struct StringInput<'a> {
     orig: &'a str,
     /// Original start position.
     orig_start: BytePos,
+    orig_end: BytePos,
 }
 
 impl<'a> StringInput<'a> {
@@ -34,6 +35,7 @@ impl<'a> StringInput<'a> {
             orig: src,
             iter: src.chars(),
             orig_start: start,
+            orig_end: end,
         }
     }
 
@@ -48,6 +50,14 @@ impl<'a> StringInput<'a> {
             // Safety: We only proceed, not go back.
             self.reset_to(self.last_pos + BytePos(n as u32));
         }
+    }
+
+    pub fn start_pos(&self) -> BytePos {
+        self.orig_start
+    }
+
+    pub fn end_pos(&self) -> BytePos {
+        self.orig_end
     }
 }
 
