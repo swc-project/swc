@@ -130,6 +130,7 @@ impl UsageCollect {
                 break;
             }
         }
+        self.import_chain.clear();
         self.id_usage.extend(new_usage);
     }
 }
