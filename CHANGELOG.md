@@ -10,6 +10,9 @@
 
 - **(es/parser)** Fix span for unterminated block comments ([#9361](https://github.com/swc-project/swc/issues/9361)) ([dc1b87e](https://github.com/swc-project/swc/commit/dc1b87e43ea628791dab48993182ac43cf98c150))
 
+
+- **(es/typescript)** Handle single type statement in if/for/while ([#9364](https://github.com/swc-project/swc/issues/9364)) ([2217730](https://github.com/swc-project/swc/commit/221773069b2069ded7eb475cb75a2daa1ec4a752))
+
 ### Miscellaneous Tasks
 
 
@@ -1341,9 +1344,6 @@
 
 ### Bug Fixes
 
-
-
-- **(es/helpers)** Add `addInitializer` to field decorators ([#8619](https://github.com/swc-project/swc/issues/8619)) ([cd38ef3](https://github.com/swc-project/swc/commit/cd38ef39d6a3b3f1e31d5144e2e8c11bd9144239))
 
 
 - **(es/minifier)** Abort property hoister on `this` usage ([#8647](https://github.com/swc-project/swc/issues/8647)) ([9715320](https://github.com/swc-project/swc/commit/97153206ad07c98e6f8f4f0a62b1f52eecbdf847))
