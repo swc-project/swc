@@ -11,12 +11,13 @@ use swc_common::{
     BytePos, FileName, Mark, SourceMap, Span, Spanned,
 };
 use swc_ecma_ast::{
-    ArrowExpr, BindingIdent, Class, ClassDecl, ClassMethod, ClassProp, EsVersion, ExportAll,
-    ExportDecl, ExportSpecifier, FnDecl, ImportDecl, ImportSpecifier, NamedExport, Param, Pat,
-    Program, TsAsExpr, TsConstAssertion, TsEnumDecl, TsExportAssignment, TsImportEqualsDecl,
-    TsIndexSignature, TsInstantiation, TsInterfaceDecl, TsModuleDecl, TsModuleName,
-    TsNamespaceDecl, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn,
-    TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation, VarDecl,
+    ArrowExpr, BindingIdent, Class, ClassDecl, ClassMethod, ClassProp, Decl, DoWhileStmt,
+    EsVersion, ExportAll, ExportDecl, ExportSpecifier, FnDecl, ForInStmt, ForOfStmt, ForStmt,
+    IfStmt, ImportDecl, ImportSpecifier, NamedExport, Param, Pat, Program, Stmt, TsAsExpr,
+    TsConstAssertion, TsEnumDecl, TsExportAssignment, TsImportEqualsDecl, TsIndexSignature,
+    TsInstantiation, TsInterfaceDecl, TsModuleDecl, TsModuleName, TsNamespaceDecl, TsNonNullExpr,
+    TsParamPropParam, TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion,
+    TsTypeParamDecl, TsTypeParamInstantiation, VarDecl, WhileStmt,
 };
 use swc_ecma_parser::{
     lexer::Lexer,
@@ -910,8 +911,76 @@ impl Visit for TsStrip {
 
         n.visit_children_with(self);
     }
+
+    fn visit_if_stmt(&mut self, n: &IfStmt) {
+        n.visit_children_with(self);
+
+        if n.cons.is_ts_stmt() {
+            self.add_overwrite(n.cons.span_lo(), b';');
+        }
+
+        if let Some(alt) = &n.alt {
+            if alt.is_ts_stmt() {
+                self.add_overwrite(alt.span_lo(), b';');
+            }
+        }
+    }
+
+    fn visit_for_stmt(&mut self, n: &ForStmt) {
+        n.visit_children_with(self);
+
+        if n.body.is_ts_stmt() {
+            self.add_overwrite(n.body.span_lo(), b';');
+        }
+    }
+
+    fn visit_for_in_stmt(&mut self, n: &ForInStmt) {
+        n.visit_children_with(self);
+
+        if n.body.is_ts_stmt() {
+            self.add_overwrite(n.body.span_lo(), b';');
+        }
+    }
+
+    fn visit_for_of_stmt(&mut self, n: &ForOfStmt) {
+        n.visit_children_with(self);
+
+        if n.body.is_ts_stmt() {
+            self.add_overwrite(n.body.span_lo(), b';');
+        }
+    }
+
+    fn visit_while_stmt(&mut self, n: &WhileStmt) {
+        n.visit_children_with(self);
+
+        if n.body.is_ts_stmt() {
+            self.add_overwrite(n.body.span_lo(), b';');
+        }
+    }
+
+    fn visit_do_while_stmt(&mut self, n: &DoWhileStmt) {
+        n.visit_children_with(self);
+
+        if n.body.is_ts_stmt() {
+            self.add_overwrite(n.body.span_lo(), b';');
+        }
+    }
 }
 
+trait IsTsStmt {
+    fn is_ts_stmt(&self) -> bool;
+}
+
+impl IsTsStmt for Stmt {
+    fn is_ts_stmt(&self) -> bool {
+        match self {
+            Stmt::Decl(Decl::TsInterface { .. } | Decl::TsTypeAlias(..)) => true,
+            Stmt::Decl(Decl::TsModule(n)) => n.declare || matches!(n.id, TsModuleName::Str(..)),
+            Stmt::Decl(Decl::TsEnum(e)) => e.declare,
+            _ => false,
+        }
+    }
+}
 trait U8Helper {
     fn is_utf8_char_boundary(&self) -> bool;
 }
