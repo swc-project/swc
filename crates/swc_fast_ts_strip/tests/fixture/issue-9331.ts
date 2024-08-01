@@ -43,3 +43,11 @@ class foo {
 2
 export type { }
 + 3
+
+
+f
+declare namespace N { }
+`1`
+
+f as any
+`1`
