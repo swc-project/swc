@@ -406,10 +406,12 @@ impl TsStrip {
             return;
         }
 
-        // Add a semicolon if the next token is `[`, `(`, `/`, `+`, or `-`
+        // https://tc39.es/ecma262/multipage/ecmascript-language-lexical-grammar.html#sec-asi-interesting-cases-in-statement-lists
+        // Add a semicolon if the next token is `[`, `(`, `/`, `+`, `-` or backtick.
         match token {
             Token::LParen
             | Token::LBracket
+            | Token::BackQuote
             | Token::BinOp(BinOpToken::Add | BinOpToken::Sub | BinOpToken::Div) => {
                 if prev_token == &Token::Semi {
                     self.add_overwrite(prev_span.lo, b';');
@@ -430,8 +432,8 @@ impl TsStrip {
         }
 
         if let TokenAndSpan {
-            // Only `([` affect ASI.
-            token: Token::LParen | Token::LBracket,
+            // Only `(`, `[` and backtick affect ASI.
+            token: Token::LParen | Token::LBracket | Token::BackQuote,
             had_line_break: true,
             ..
         } = &self.tokens[index + 1]
