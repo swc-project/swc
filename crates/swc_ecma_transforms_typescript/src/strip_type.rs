@@ -212,7 +212,7 @@ impl VisitMut for StripType {
     fn visit_mut_stmt(&mut self, n: &mut Stmt) {
         if should_retain_stmt(n) {
             n.visit_mut_children_with(self);
-        } else {
+        } else if !n.is_empty() {
             n.take();
         }
     }
