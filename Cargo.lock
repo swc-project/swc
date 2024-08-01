@@ -3924,7 +3924,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.36.2"
+version = "0.36.3"
 dependencies = [
  "ahash 0.8.11",
  "anyhow",
@@ -4593,7 +4593,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.148.1"
+version = "0.148.2"
 dependencies = [
  "codspeed-criterion-compat",
  "criterion",
