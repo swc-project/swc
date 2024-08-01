@@ -290,7 +290,8 @@ impl<'a> Lexer<'a> {
             self.bump();
         }
 
-        let span = Span::new(start, self.input.end_pos());
+        let end = self.input.end_pos();
+        let span = Span::new(end, end);
         self.emit_error_span(span, SyntaxError::UnterminatedBlockComment)
     }
 
