@@ -49,6 +49,14 @@ impl<'a> StringInput<'a> {
             self.reset_to(self.last_pos + BytePos(n as u32));
         }
     }
+
+    pub fn start_pos(&self) -> BytePos {
+        self.orig_start
+    }
+
+    pub fn end_pos(&self) -> BytePos {
+        self.last_pos
+    }
 }
 
 /// Creates an [Input] from [SourceFile]. This is an alias for
