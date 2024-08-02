@@ -237,7 +237,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.7.5-nightly-20240802.1"
+version = "1.7.5"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -297,7 +297,7 @@ dependencies = [
 
 [[package]]
 name = "binding_minifier_wasm"
-version = "1.7.5-nightly-20240802.1"
+version = "1.7.5"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -310,7 +310,7 @@ dependencies = [
 
 [[package]]
 name = "binding_typescript_wasm"
-version = "1.7.5-nightly-20240802.1"
+version = "1.7.5"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -3055,7 +3055,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.91.348"
+version = "0.91.349"
 dependencies = [
  "anyhow",
  "swc_cli_impl",
@@ -3790,9 +3790,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.194.4"
+version = "0.194.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "99619353488c1dae960159faef86f0261e7fefe43b84ed1ba80c8cbc5a539434"
+checksum = "57d16aa796183d9f2249243e7e8429ccf2f00d7b9134d807d5e68ec826c289af"
 dependencies = [
  "ryu-js",
  "serde",
