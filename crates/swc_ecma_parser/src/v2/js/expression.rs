@@ -730,9 +730,9 @@ impl<'a> ParserImpl<'a> {
         let mut callee = self.parse_member_expression_or_higher(&mut optional)?;
 
         let mut type_parameter = None;
-        if let Expr::TsInstantiation(instantiation_expr) = callee {
+        if let Expr::TsInstantiation(instantiation_expr) = *callee {
             type_parameter.replace(instantiation_expr.type_args);
-            callee = *instantiation_expr.expr;
+            callee = instantiation_expr.expr;
         }
 
         // parse `new ident` without arguments
