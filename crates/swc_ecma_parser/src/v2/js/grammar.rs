@@ -121,8 +121,8 @@ impl<'a> CoverGrammar<'a, ObjectLit> for ObjectPat {
         let mut properties = p.ast.vec();
         let mut rest = None;
 
-        let len = expr.properties.len();
-        for (i, elem) in expr.properties.into_iter().enumerate() {
+        let len = expr.props.len();
+        for (i, elem) in expr.props.into_iter().enumerate() {
             match elem {
                 PropOrSpread::Prop(property) => {
                     let target = AssignTargetProperty::cover(property, p)?;
