@@ -4938,7 +4938,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.194.4"
+version = "0.194.5"
 dependencies = [
  "codspeed-criterion-compat",
  "criterion",
