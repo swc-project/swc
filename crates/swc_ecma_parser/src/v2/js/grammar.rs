@@ -59,14 +59,13 @@ impl<'a> CoverGrammar<'a, ArrayLit> for ArrayPat {
         let len = expr.elems.len();
         for (i, elem) in expr.elems.into_iter().enumerate() {
             match elem {
-                match_expression!(ArrayElement) => {
-                    let expr = Expr::try_from(elem).unwrap();
+                ArrayElement::Elem(expr) => {
                     let target = AssignTargetMaybeDefault::cover(expr, p)?;
                     elements.push(Some(target));
                 }
                 ArrayElement::Spread(elem) => {
                     if i == len - 1 {
-                        rest = Some(AssignTargetRest {
+                        rest = Some(RestPat {
                             span: elem.span,
                             target: AssignTarget::cover(elem.argument, p)?,
                         });
@@ -131,7 +130,7 @@ impl<'a> CoverGrammar<'a, ObjectLit> for ObjectPat {
                 }
                 PropOrSpread::Spread(spread) => {
                     if i == len - 1 {
-                        rest = Some(AssignTargetRest {
+                        rest = Some(RestPat {
                             span: spread.span,
                             target: AssignTarget::cover(spread.argument, p)?,
                         });

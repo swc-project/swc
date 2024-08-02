@@ -122,7 +122,7 @@ impl<'a> ParserImpl<'a> {
     fn parse_expression_or_labeled_statement(&mut self) -> Result<Stmt> {
         let span = self.start_span();
         let expr = self.parse_expr()?;
-        if let Expr::Ident(ident) = &expr {
+        if let Expr::Ident(ident) = &*expr {
             // Section 14.13 Labelled Statement
             // Avoids lookahead for a labeled statement, which is on a hot path
             if self.eat(Kind::Colon) {
