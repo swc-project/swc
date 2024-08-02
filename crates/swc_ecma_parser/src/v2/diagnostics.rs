@@ -1,0 +1,288 @@
+#![allow(unused)]
+
+use swc_common::{BytePos, Span};
+
+use super::modifiers::Modifier;
+
+pub type Result<T> = std::result::Result<T, Diagnostic>;
+
+#[derive(Debug)]
+pub struct Diagnostic(Box<DiagnoticKind>);
+
+#[derive(Debug)]
+pub enum DiagnoticKind {}
+
+#[cold]
+pub(crate) fn accessibility_modifier_on_private_property(modifier: &Modifier) -> Diagnostic {
+    todo!("accessibility_modifier_on_private_property")
+}
+
+#[cold]
+pub(crate) fn modifier_already_seen(modifier: &Modifier) -> Diagnostic {
+    todo!("modifier_already_seen")
+}
+
+#[cold]
+pub(crate) fn modifier_cannot_be_used_here(modifier: &Modifier) -> Diagnostic {
+    todo!("modifier_cannot_be_used_here")
+}
+
+#[cold]
+pub(crate) fn cannot_appear_on_a_parameter(modifier: &Modifier) -> Diagnostic {
+    todo!("cannot_appear_on_a_parameter")
+}
+
+#[cold]
+pub(crate) fn cannot_appear_on_a_type_parameter(modifier: &Modifier) -> Diagnostic {
+    todo!("cannot_appear_on_a_type_parameter")
+}
+
+#[cold]
+pub(crate) fn invalid_character(c: char, span: Span) -> Diagnostic {
+    todo!("invalid_character")
+}
+
+#[cold]
+pub(crate) fn invalid_escape_sequence(span: Span) -> Diagnostic {
+    todo!("invalid_escape_sequence")
+}
+
+#[cold]
+pub(crate) fn unicode_escape_sequence(span: Span) -> Diagnostic {
+    todo!("unicode_escape_sequence")
+}
+
+#[cold]
+pub(crate) fn unterminated_multi_line_comment(span: Span) -> Diagnostic {
+    todo!("unterminated_multi_line_comment")
+}
+
+#[cold]
+pub(crate) fn unterminated_string(span: Span) -> Diagnostic {
+    todo!("unterminated_string")
+}
+
+#[cold]
+pub(crate) fn unexpected_end(span: Span) -> Diagnostic {
+    todo!("unexpected_end")
+}
+
+#[cold]
+pub(crate) fn invalid_number_end(span: Span) -> Diagnostic {
+    todo!("invalid_number_end")
+}
+
+#[cold]
+pub(crate) fn unterminated_reg_exp(span: Span) -> Diagnostic {
+    todo!("unterminated_reg_exp")
+}
+
+#[cold]
+pub(crate) fn reg_exp_flag(ch: char, offset: Span) -> Diagnostic {
+    todo!("reg_exp_flag")
+}
+
+#[cold]
+pub(crate) fn reg_exp_flag_twice(ch: char, offset: Span) -> Diagnostic {
+    todo!("reg_exp_flag")
+}
+
+#[cold]
+pub(crate) fn binding_rest_element_last(span: Span) -> Diagnostic {
+    todo!("binding_rest_element_last")
+}
+
+#[cold]
+pub(crate) fn escaped_keyword(span: Span) -> Diagnostic {
+    todo!("escaped_keyword")
+}
+
+#[cold]
+pub(crate) fn auto_semicolon_insertion(span: Span) -> Diagnostic {
+    todo!("auto_semicolon_insertion")
+}
+
+#[cold]
+pub(crate) fn unexpected_token(span: Span) -> Diagnostic {
+    todo!("unexpected_token")
+}
+
+#[cold]
+pub(crate) fn flow(span: Span) -> Diagnostic {
+    todo!("flow")
+}
+
+#[cold]
+pub(crate) fn field_constructor(span: Span) -> Diagnostic {
+    todo!("field_constructor")
+}
+
+#[cold]
+pub(crate) fn static_prototype(span: Span) -> Diagnostic {
+    todo!("static_prototype")
+}
+
+#[cold]
+pub(crate) fn static_constructor(span: Span) -> Diagnostic {
+    todo!("static_constructor")
+}
+
+#[cold]
+pub(crate) fn lineterminator_before_arrow(span: Span) -> Diagnostic {
+    todo!("lineterminator_before_arrow")
+}
+
+#[cold]
+pub(crate) fn line_terminator_before_using_declaration(span: Span) -> Diagnostic {
+    todo!("line_terminator_before_using_declaration")
+}
+
+#[cold]
+pub(crate) fn await_in_using_declaration(span: Span) -> Diagnostic {
+    todo!("await_in_using_declaration")
+}
+
+#[cold]
+pub(crate) fn using_declarations_must_be_initialized(span: Span) -> Diagnostic {
+    todo!("using_declarations_must_be_initialized")
+}
+
+#[cold]
+pub(crate) fn invalid_identifier_in_using_declaration(span: Span) -> Diagnostic {
+    todo!("invalid_identifier_in_using_declaration")
+}
+
+#[cold]
+pub(crate) fn template_literal(span: Span) -> Diagnostic {
+    todo!("template_literal")
+}
+
+#[cold]
+pub(crate) fn a_rest_parameter_cannot_be_optional(span: Span) -> Diagnostic {
+    todo!("a_rest_parameter_cannot_be_optional")
+}
+
+#[cold]
+pub(crate) fn empty_parenthesized_expression(span: Span) -> Diagnostic {
+    todo!("empty_parenthesized_expression")
+}
+
+#[cold]
+pub(crate) fn invalid_assignment(span: Span) -> Diagnostic {
+    todo!("invalid_assignment")
+}
+
+#[cold]
+pub(crate) fn await_expression(span: Span) -> Diagnostic {
+    todo!("await_expression")
+}
+
+#[cold]
+pub(crate) fn ts_constructor_this_parameter(span: Span) -> Diagnostic {
+    todo!("ts_constructor_this_parameter")
+}
+
+#[cold]
+pub(crate) fn ts_arrow_function_this_parameter(span: Span) -> Diagnostic {
+    todo!("ts_arrow_function_this_parameter")
+}
+
+#[cold]
+pub(crate) fn unexpected_super(span: Span) -> Diagnostic {
+    todo!("unexpected_super")
+}
+
+#[cold]
+pub(crate) fn missinginitializer_in_const(span: Span) -> Diagnostic {
+    todo!("missinginitializer_in_const")
+}
+
+#[cold]
+pub(crate) fn invalid_destrucuring_declaration(span: Span) -> Diagnostic {
+    todo!("invalid_destrucuring_declaration")
+}
+
+#[cold]
+pub(crate) fn invalid_binding_rest_element(span: Span) -> Diagnostic {
+    todo!("invalid_binding_rest_element")
+}
+
+#[cold]
+pub(crate) fn binding_rest_element_trailing_comma(span: Span) -> Diagnostic {
+    todo!("binding_rest_element_trailing_comma")
+}
+
+#[cold]
+pub(crate) fn class_declaration(span: Span) -> Diagnostic {
+    todo!("class_declaration")
+}
+
+#[cold]
+pub(crate) fn private_name_constructor(span: Span) -> Diagnostic {
+    todo!("private_name_constructor")
+}
+
+#[cold]
+pub(crate) fn constructor_getter_setter(span: Span) -> Diagnostic {
+    todo!("constructor_getter_setter")
+}
+
+#[cold]
+pub(crate) fn constructor_async(span: Span) -> Diagnostic {
+    todo!("constructor_async")
+}
+
+#[cold]
+pub(crate) fn constructor_generator(span: Span) -> Diagnostic {
+    todo!("constructor_generator")
+}
+
+#[cold]
+pub(crate) fn optional_chain_tagged_template(span: Span) -> Diagnostic {
+    todo!("optional_chain_tagged_template")
+}
+
+#[cold]
+pub(crate) fn invalid_number(err: &'static str, span: Span) -> Diagnostic {
+    todo!("invalid_number")
+}
+
+#[cold]
+pub(crate) fn yield_expression(span: Span) -> Diagnostic {
+    todo!("yield_expression")
+}
+
+#[cold]
+pub(crate) fn async_function_declaration(span: Span) -> Diagnostic {
+    todo!("async_function_declaration")
+}
+
+#[cold]
+pub(crate) fn generator_function_declaration(span: Span) -> Diagnostic {
+    todo!("generator_function_declaration")
+}
+
+#[cold]
+pub(crate) fn rest_parameter_last(span: Span) -> Diagnostic {
+    todo!("rest_parameter_last")
+}
+
+#[cold]
+pub(crate) fn new_optional_chain(span: Span) -> Diagnostic {
+    todo!("new_optional_chain")
+}
+
+#[cold]
+pub(crate) fn new_dynamic_import(span: Span) -> Diagnostic {
+    todo!("new_dynamic_import")
+}
+
+#[cold]
+pub(crate) fn expect_function_name(span: Span) -> Diagnostic {
+    todo!("expect_function_name")
+}
+
+#[cold]
+pub(crate) fn spread_last_element(span: Span) -> Diagnostic {
+    todo!("spread_last_element")
+}

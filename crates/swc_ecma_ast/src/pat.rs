@@ -97,6 +97,8 @@ pub struct ArrayPat {
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
     pub type_ann: Option<Box<TsTypeAnn>>,
+
+    pub trailing_comma: bool,
 }
 
 #[ast_node("ObjectPattern")]

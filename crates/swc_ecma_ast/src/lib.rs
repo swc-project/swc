@@ -16,12 +16,12 @@ use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span};
 
 pub use self::{
     class::{
-        AutoAccessor, Class, ClassMember, ClassMethod, ClassProp, Constructor, Decorator, Key,
-        MethodKind, PrivateMethod, PrivateProp, StaticBlock,
+        AutoAccessor, Class, ClassBody, ClassMember, ClassMethod, ClassProp, Constructor,
+        Decorator, Key, MethodKind, PrivateMethod, PrivateProp, StaticBlock,
     },
     decl::{ClassDecl, Decl, FnDecl, UsingDecl, VarDecl, VarDeclKind, VarDeclarator},
     expr::*,
-    function::{Function, Param, ParamOrTsParamProp},
+    function::{FormalParams, Function, Param, ParamOrTsParamProp},
     ident::{BindingIdent, EsReserved, Id, Ident, IdentName, PrivateName},
     jsx::{
         JSXAttr, JSXAttrName, JSXAttrOrSpread, JSXAttrValue, JSXClosingElement, JSXClosingFragment,
@@ -152,9 +152,10 @@ impl EsVersion {
 #[doc(hidden)]
 pub use self::{
     class::{
-        ArchivedAutoAccessor, ArchivedClass, ArchivedClassMember, ArchivedClassMethod,
-        ArchivedClassProp, ArchivedConstructor, ArchivedDecorator, ArchivedKey, ArchivedMethodKind,
-        ArchivedPrivateMethod, ArchivedPrivateProp, ArchivedStaticBlock,
+        ArchivedAutoAccessor, ArchivedClass, ArchivedClassBody, ArchivedClassMember,
+        ArchivedClassMethod, ArchivedClassProp, ArchivedConstructor, ArchivedDecorator,
+        ArchivedKey, ArchivedMethodKind, ArchivedPrivateMethod, ArchivedPrivateProp,
+        ArchivedStaticBlock,
     },
     decl::{
         ArchivedClassDecl, ArchivedDecl, ArchivedFnDecl, ArchivedUsingDecl, ArchivedVarDecl,
@@ -171,7 +172,7 @@ pub use self::{
         ArchivedSuperProp, ArchivedSuperPropExpr, ArchivedTaggedTpl, ArchivedThisExpr, ArchivedTpl,
         ArchivedTplElement, ArchivedUnaryExpr, ArchivedUpdateExpr, ArchivedYieldExpr,
     },
-    function::{ArchivedFunction, ArchivedParam, ArchivedParamOrTsParamProp},
+    function::{ArchivedFormalParams, ArchivedFunction, ArchivedParam, ArchivedParamOrTsParamProp},
     ident::{ArchivedBindingIdent, ArchivedIdent, ArchivedIdentName, ArchivedPrivateName},
     jsx::{
         ArchivedJSXAttr, ArchivedJSXAttrName, ArchivedJSXAttrOrSpread, ArchivedJSXAttrValue,

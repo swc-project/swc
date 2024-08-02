@@ -180,6 +180,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "96d30a06541fbafbc7f82ed10c06164cfbd2c401138f6addd8404629c4b16711"
 
 [[package]]
+name = "assert-unchecked"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7330592adf847ee2e3513587b4db2db410a0d751378654e7e993d9adcbe5c795"
+
+[[package]]
 name = "assert_cmd"
 version = "2.0.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3415,6 +3421,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "388a1df253eca08550bef6c72392cfe7c30914bf41df5269b68cbd6ff8f570a3"
 
 [[package]]
+name = "seq-macro"
+version = "0.3.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a3f0bf26fd526d2a95683cd0f87bf103b8539e2ca1ef48ce002d67aad59aa0b4"
+
+[[package]]
 name = "serde"
 version = "1.0.197"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4595,19 +4607,26 @@ dependencies = [
 name = "swc_ecma_parser"
 version = "0.148.1"
 dependencies = [
+ "assert-unchecked",
+ "bitflags 2.5.0",
+ "bumpalo",
  "codspeed-criterion-compat",
  "criterion",
  "either",
+ "memchr",
  "new_debug_unreachable",
  "num-bigint",
  "num-traits",
  "phf",
  "pretty_assertions",
+ "rustc-hash",
+ "seq-macro",
  "serde",
  "serde_json",
  "smallvec",
  "smartstring",
  "stacker",
+ "static_assertions",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
@@ -4616,6 +4635,7 @@ dependencies = [
  "testing",
  "tracing",
  "typed-arena",
+ "unicode-id-start",
  "walkdir",
 ]
 

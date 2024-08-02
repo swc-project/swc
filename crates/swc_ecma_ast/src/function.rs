@@ -8,12 +8,20 @@ use crate::{
     typescript::{TsParamProp, TsTypeAnn, TsTypeParamDecl},
 };
 
+#[ast_node("FormalParameters")]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+pub struct FormalParams {
+    pub span: Span,
+    pub params: Vec<Param>,
+}
+
 /// Common parts of function and method.
 #[ast_node]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Function {
-    pub params: Vec<Param>,
+    pub params: FormalParams,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub decorators: Vec<Decorator>,

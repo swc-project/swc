@@ -1,0 +1,187 @@
+//! Cover Grammar for Destructuring Assign
+
+use swc_common::Spanned;
+use swc_ecma_ast::*;
+
+use crate::v2::{diagnostics, diagnostics::Result, ParserImpl};
+
+pub trait CoverGrammar<'a, T>: Sized {
+    fn cover(value: T, p: &mut ParserImpl<'a>) -> Result<Self>;
+}
+
+impl<'a> CoverGrammar<'a, Box<Expr>> for AssignTarget {
+    fn cover(expr: Box<Expr>, p: &mut ParserImpl<'a>) -> Result<Self> {
+        match *expr {
+            Expr::Array(array_expr) => ArrayPat::cover(array_expr, p)
+                .map(|pat| p.ast.alloc(pat))
+                .map(AssignTargetPat::Array)
+                .map(AssignTarget::Pat),
+            Expr::Object(object_expr) => ObjectPat::cover(object_expr, p)
+                .map(|pat| p.ast.alloc(pat))
+                .map(AssignTargetPat::Object)
+                .map(AssignTarget::Pat),
+            _ => SimpleAssignTarget::cover(expr, p).map(AssignTarget::from),
+        }
+    }
+}
+
+impl<'a> CoverGrammar<'a, Box<Expr>> for SimpleAssignTarget {
+    #[allow(clippy::only_used_in_recursion)]
+    fn cover(expr: Box<Expr>, p: &mut ParserImpl<'a>) -> Result<Self> {
+        match *expr {
+            Expr::Ident(ident) => Ok(SimpleAssignTarget::Ident(ident.into())),
+            match_member_expression!(Expression) => {
+                let member_expr = MemberExpr::try_from(expr).unwrap();
+                Ok(SimpleAssignTarget::from(member_expr))
+            }
+            Expr::Paren(expr) => {
+                let span = expr.span;
+                match *expr.expr {
+                    Expr::Object(_) | Expr::Array(_) => Err(diagnostics::invalid_assignment(span)),
+                    expr => SimpleAssignTarget::cover(expr, p),
+                }
+            }
+            Expr::TsAs(expr) => Ok(SimpleAssignTarget::TsAs(expr)),
+            Expr::TsSatisfies(expr) => Ok(SimpleAssignTarget::TsSatisfies(expr)),
+            Expr::TsNonNull(expr) => Ok(SimpleAssignTarget::TsNonNull(expr)),
+            Expr::TsTypeAssertion(expr) => Ok(SimpleAssignTarget::TsTypeAssertion(expr)),
+            Expr::TsInstantiation(expr) => Ok(SimpleAssignTarget::TsInstantiation(expr)),
+            expr => Err(diagnostics::invalid_assignment(expr.span())),
+        }
+    }
+}
+
+impl<'a> CoverGrammar<'a, ArrayLit> for ArrayPat {
+    fn cover(expr: ArrayLit, p: &mut ParserImpl<'a>) -> Result<Self> {
+        let mut elements = p.ast.vec();
+        let mut rest = None;
+
+        let len = expr.elems.len();
+        for (i, elem) in expr.elems.into_iter().enumerate() {
+            match elem {
+                ArrayElement::Elem(expr) => {
+                    let target = AssignTargetMaybeDefault::cover(expr, p)?;
+                    elements.push(Some(target));
+                }
+                ArrayElement::Spread(elem) => {
+                    if i == len - 1 {
+                        rest = Some(RestPat {
+                            span: elem.span,
+                            target: AssignTarget::cover(elem.argument, p)?,
+                        });
+                        if let Some(span) = expr.trailing_comma {
+                            p.error(diagnostics::binding_rest_element_trailing_comma(span));
+                        }
+                    } else {
+                        return Err(diagnostics::spread_last_element(elem.span));
+                    }
+                }
+                ArrayElement::Elision(_) => elements.push(None),
+            }
+        }
+
+        Ok(ArrayPat {
+            span: expr.span,
+            elems: elements,
+            rest,
+            trailing_comma: expr.trailing_comma,
+        })
+    }
+}
+
+impl<'a> CoverGrammar<'a, Expr> for AssignTargetMaybeDefault {
+    fn cover(expr: Box<Expr>, p: &mut ParserImpl<'a>) -> Result<Self> {
+        match expr {
+            Expr::Assign(assignment_expr) => {
+                let target = AssignTargetWithDefault::cover(assignment_expr, p)?;
+                Ok(AssignTargetMaybeDefault::AssignTargetWithDefault(
+                    p.ast.alloc(target),
+                ))
+            }
+            expr => {
+                let target = AssignTarget::cover(expr, p)?;
+                Ok(AssignTargetMaybeDefault::from(target))
+            }
+        }
+    }
+}
+
+impl<'a> CoverGrammar<'a, AssignExpr> for AssignPatProp {
+    fn cover(expr: AssignExpr, _p: &mut ParserImpl<'a>) -> Result<Self> {
+        Ok(Self {
+            span: expr.span,
+            binding: expr.left,
+            init: expr.right,
+        })
+    }
+}
+
+impl<'a> CoverGrammar<'a, ObjectLit> for ObjectPat {
+    fn cover(expr: ObjectLit, p: &mut ParserImpl<'a>) -> Result<Self> {
+        let mut properties = p.ast.vec();
+        let mut rest = None;
+
+        let len = expr.props.len();
+        for (i, elem) in expr.props.into_iter().enumerate() {
+            match elem {
+                PropOrSpread::Prop(property) => {
+                    let target = AssignTargetProperty::cover(property, p)?;
+                    properties.push(target);
+                }
+                PropOrSpread::Spread(spread) => {
+                    if i == len - 1 {
+                        rest = Some(RestPat {
+                            span: spread.span,
+                            target: AssignTarget::cover(spread.argument, p)?,
+                        });
+                    } else {
+                        return Err(diagnostics::spread_last_element(spread.span));
+                    }
+                }
+            }
+        }
+
+        Ok(Self {
+            span: expr.span,
+            props: properties,
+            rest,
+        })
+    }
+}
+
+impl<'a> CoverGrammar<'a, Prop> for ObjectPatProp {
+    fn cover(property: Prop, p: &mut ParserImpl<'a>) -> Result<Self> {
+        if property.is_shorthand() {
+            let binding = match property.key {
+                Key::StaticIdent(ident) => {
+                    let ident = ident;
+                    IdentReference::new(ident.span, ident.name)
+                }
+                _ => return Err(p.unexpected()),
+            };
+            // convert `CoverInitializedName`
+            let init = match property.init {
+                Some(Expr::Assign(assignment_expr)) => Some(assignment_expr.right),
+                _ => None,
+            };
+            let target = AssignTargetPropertyIdent {
+                span: property.span,
+                binding,
+                init,
+            };
+            Ok(AssignTargetProperty::AssignTargetPropertyIdent(
+                p.ast.alloc(target),
+            ))
+        } else {
+            let binding = AssignTargetMaybeDefault::cover(property.value, p)?;
+            let target = AssignTargetPropertyProperty {
+                span: property.span,
+                name: property.key,
+                binding,
+            };
+            Ok(AssignTargetProperty::AssignTargetPropertyProperty(
+                p.ast.alloc(target),
+            ))
+        }
+    }
+}

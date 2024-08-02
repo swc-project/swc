@@ -500,16 +500,34 @@ pub struct ArrayLit {
     pub span: Span,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "elements"))]
-    pub elems: Vec<Option<ExprOrSpread>>,
+    pub elems: Vec<ArrayElement>,
+
+    pub trailing_comma: bool,
 }
 
 impl Take for ArrayLit {
     fn dummy() -> Self {
-        ArrayLit {
-            span: DUMMY_SP,
-            elems: Default::default(),
-        }
+        Default::default()
     }
+}
+
+#[ast_node]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+pub enum ArrayElement {
+    #[tag("Elision")]
+    Elision(Elision),
+    #[tag("SpreadElement")]
+    Spread(SpreadElement),
+    #[tag("*")]
+    Elem(Box<Expr>),
+}
+
+#[ast_node("Elision")]
+#[derive(Copy, Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+pub struct Elision {
+    pub span: Span,
 }
 
 /// Object literal.

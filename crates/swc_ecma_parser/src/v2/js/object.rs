@@ -1,0 +1,286 @@
+use swc_common::Span;
+use swc_ecma_ast::*;
+
+use super::super::{lexer::Kind, modifiers::Modifier, Context, ParserImpl};
+use crate::v2::{diagnostics, diagnostics::Result};
+
+impl<'a> ParserImpl<'a> {
+    /// [Object Expression](https://tc39.es/ecma262/#sec-object-initializer)
+    /// `ObjectLiteral`[Yield, Await] :
+    ///     { }
+    ///     { `PropertyDefinitionList`[?Yield, ?Await] }
+    ///     { `PropertyDefinitionList`[?Yield, ?Await] , }
+    pub(crate) fn parse_object_expression(&mut self) -> Result<Box<Expr>> {
+        let span = self.start_span();
+        self.expect(Kind::LCurly)?;
+        let object_expression_properties = self.context(Context::In, Context::empty(), |p| {
+            p.parse_delimited_list(
+                Kind::RCurly,
+                Kind::Comma,
+                /* trailing_separator */ false,
+                Self::parse_object_expression_property,
+            )
+        })?;
+        let trailing_comma = self.at(Kind::Comma).then(|| {
+            let span = self.start_span();
+            self.bump_any();
+            self.end_span(span)
+        });
+        self.expect(Kind::RCurly)?;
+        Ok(self.ast.expr_object(
+            self.end_span(span),
+            object_expression_properties,
+            trailing_comma,
+        ))
+    }
+
+    fn parse_object_expression_property(&mut self) -> Result<PropOrSpread> {
+        match self.cur_kind() {
+            Kind::Dot3 => self.parse_spread_element().map(PropOrSpread::Spread),
+            _ => self.parse_property_definition().map(PropOrSpread::Prop),
+        }
+    }
+
+    /// `PropertyDefinition`[Yield, Await]
+    pub(crate) fn parse_property_definition(&mut self) -> Result<Box<Prop>> {
+        let peek_kind = self.peek_kind();
+        let class_element_name = peek_kind.is_class_element_name_start();
+        match self.cur_kind() {
+            // get ClassMemberName
+            Kind::Get if class_element_name => self.parse_method_getter(),
+            // set ClassMemberName
+            Kind::Set if class_element_name => self.parse_method_setter(),
+            // AsyncMethod
+            // AsyncGeneratorMethod
+            Kind::Async
+                if (class_element_name || peek_kind == Kind::Star)
+                    && !self.peek_token().is_on_new_line =>
+            {
+                self.parse_property_definition_method()
+            }
+            // GeneratorMethod
+            Kind::Star if class_element_name => self.parse_property_definition_method(),
+            // Report and handle illegal modifiers
+            // e.g. const x = { public foo() {} }
+            modifier_kind
+                if self.ts_enabled()
+                    && modifier_kind.is_modifier_kind()
+                    && peek_kind.is_identifier_or_keyword() =>
+            {
+                if let Ok(modifier) = Modifier::try_from(self.cur_token()) {
+                    self.error(diagnostics::modifier_cannot_be_used_here(&modifier));
+                } else {
+                    #[cfg(debug_assertions)]
+                    panic!(
+                        "Kind::is_modifier_kind() is true but the token could not be converted to \
+                         a Modifier."
+                    )
+                }
+                // re-parse
+                self.bump_any();
+                self.parse_property_definition()
+            }
+            // IdentReference
+            kind if kind.is_identifier_reference(false, false)
+                // test Kind::Dot to ignore ({ foo.bar: baz })
+                // see <https://stackoverflow.com/questions/30285947/syntaxerror-unexpected-token>
+                && !matches!(
+                    peek_kind,
+                    Kind::LParen | Kind::Colon | Kind::LAngle | Kind::ShiftLeft | Kind::Dot
+                ) =>
+            {
+                self.parse_property_definition_shorthand()
+            }
+            _ => {
+                let span = self.start_span();
+                let (key, computed) = self.parse_property_name()?;
+
+                if self.at(Kind::Colon) {
+                    return self.parse_property_definition_assignment(span, key, computed);
+                }
+
+                if matches!(
+                    self.cur_kind(),
+                    Kind::LParen | Kind::LAngle | Kind::ShiftLeft
+                ) {
+                    let method = self.parse_method(false, false)?;
+                    return Ok(self.ast.alloc_object_property(
+                        self.end_span(span),
+                        PropertyKind::Init,
+                        key,
+                        self.ast.expr_from_function(method),
+                        /* init */ None,
+                        /* method */ true,
+                        /* shorthand */ false,
+                        /* computed */ computed,
+                    ));
+                }
+
+                Err(self.unexpected())
+            }
+        }
+    }
+
+    /// `PropertyDefinition`[Yield, Await] :
+    ///   ... `AssignExpression`[+In, ?Yield, ?Await]
+    pub(crate) fn parse_spread_element(&mut self) -> Result<SpreadElement> {
+        let span = self.start_span();
+        self.bump_any(); // advance `...`
+        let argument = self.parse_assignment_expression_or_higher()?;
+        Ok(self.ast.alloc_spread_element(self.end_span(span), argument))
+    }
+
+    /// `PropertyDefinition`[Yield, Await] :
+    ///   `IdentReference`[?Yield, ?Await]
+    ///   `CoverInitializedName`[?Yield, ?Await]
+    fn parse_property_definition_shorthand(&mut self) -> Result<Box<Prop>> {
+        let span = self.start_span();
+        let identifier = self.parse_identifier_reference()?;
+        let key = identifier.sym.clone();
+        // IdentReference ({ foo })
+        let value = Expr::Ident(identifier.clone());
+        // CoverInitializedName ({ foo = bar })
+        let init = if self.eat(Kind::Eq) {
+            let right = self.parse_assignment_expression_or_higher()?;
+            let left = AssignTarget::Simple(SimpleAssignTarget::Ident(identifier));
+            Some(
+                self.ast
+                    .expr_assignment(self.end_span(span), AssignOp::Assign, left, right),
+            )
+        } else {
+            None
+        };
+        Ok(self.ast.alloc_object_property(
+            self.end_span(span),
+            PropertyKind::Init,
+            Key::StaticIdent(key),
+            value,
+            init,
+            /* method */ false,
+            /* shorthand */ true,
+            /* computed */ false,
+        ))
+    }
+
+    /// `PropertyDefinition`[Yield, Await] :
+    ///   `PropertyName`[?Yield, ?Await] : `AssignExpression`[+In, ?Yield,
+    /// ?Await]
+    fn parse_property_definition_assignment(
+        &mut self,
+        span: Span,
+        key: Key,
+        computed: bool,
+    ) -> Result<Box<Prop>> {
+        self.bump_any(); // bump `:`
+        let value = self.parse_assignment_expression_or_higher()?;
+        Ok(self.ast.alloc_object_property(
+            self.end_span(span),
+            PropertyKind::Init,
+            key,
+            value,
+            None,
+            /* method */ false,
+            /* shorthand */ false,
+            /* computed */ computed,
+        ))
+    }
+
+    /// `PropertyName`[Yield, Await] :
+    ///    `LiteralPropertyName`
+    ///    `ComputedPropertyName`[?Yield, ?Await]
+    pub(crate) fn parse_property_name(&mut self) -> Result<(Key, bool)> {
+        let mut computed = false;
+        let key = match self.cur_kind() {
+            Kind::Str => self.parse_literal_expression().map(Key::from)?,
+            kind if kind.is_number() => self.parse_literal_expression().map(Key::from)?,
+            // { [foo]() {} }
+            Kind::LBrack => {
+                computed = true;
+                self.parse_computed_property_name().map(Key::from)?
+            }
+            _ => {
+                let ident = self.parse_identifier_name()?;
+                Key::StaticIdent(ident)
+            }
+        };
+        Ok((key, computed))
+    }
+
+    /// `ComputedPropertyName`[Yield, Await] : [ `AssignExpression`[+In,
+    /// ?Yield, ?Await] ]
+    pub(crate) fn parse_computed_property_name(&mut self) -> Result<Box<Expr>> {
+        self.bump_any(); // advance `[`
+
+        let expression = self.context(
+            Context::In,
+            Context::empty(),
+            Self::parse_assignment_expression_or_higher,
+        )?;
+
+        self.expect(Kind::RBrack)?;
+        Ok(expression)
+    }
+
+    /// `PropertyDefinition`[Yield, Await] :
+    ///   `MethodDefinition`[?Yield, ?Await]
+    fn parse_property_definition_method(&mut self) -> Result<Box<Prop>> {
+        let span = self.start_span();
+        let is_async = self.eat(Kind::Async);
+        let generator = self.eat(Kind::Star);
+        let (key, computed) = self.parse_property_name()?;
+        let method = self.parse_method(is_async, generator)?;
+        let value = self.ast.expr_from_function(method);
+        Ok(self.ast.alloc_object_property(
+            self.end_span(span),
+            PropertyKind::Init,
+            key,
+            value,
+            /* init */ None,
+            /* method */ true,
+            /* shorthand */ false,
+            /* computed */ computed,
+        ))
+    }
+
+    /// `MethodDefinition`[Yield, Await] :
+    ///   get `ClassMemberName`[?Yield, ?Await] ( ) { `FunctionBody`[~Yield,
+    /// ~Await] }
+    fn parse_method_getter(&mut self) -> Result<Box<Prop>> {
+        let span = self.start_span();
+        self.expect(Kind::Get)?;
+        let (key, computed) = self.parse_property_name()?;
+        let method = self.parse_method(false, false)?;
+        let value = self.ast.expr_from_function(method);
+        Ok(self.ast.alloc_object_property(
+            self.end_span(span),
+            PropertyKind::Get,
+            key,
+            value,
+            /* init */ None,
+            /* method */ false,
+            /* shorthand */ false,
+            /* computed */ computed,
+        ))
+    }
+
+    /// `MethodDefinition`[Yield, Await] :
+    /// set `ClassMemberName`[?Yield, ?Await] ( `PropertySetParamList` ) {
+    /// `FunctionBody`[~Yield, ~Await] }
+    fn parse_method_setter(&mut self) -> Result<Box<Prop>> {
+        let span = self.start_span();
+        self.expect(Kind::Set)?;
+        let (key, computed) = self.parse_property_name()?;
+        let method = self.parse_method(false, false)?;
+
+        Ok(self.ast.alloc_object_property(
+            self.end_span(span),
+            PropertyKind::Set,
+            key,
+            self.ast.expr_from_function(method),
+            /* init */ None,
+            /* method */ false,
+            /* shorthand */ false,
+            /* computed */ computed,
+        ))
+    }
+}
