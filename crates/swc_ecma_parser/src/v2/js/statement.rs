@@ -48,12 +48,12 @@ impl<'a> ParserImpl<'a> {
             // check if it is a string literal. All other method are flawed, see test cases in [babel](https://github.com/babel/babel/blob/main/packages/babel-parser/test/fixtures/core/categorized/not-directive/input.js)
             if expecting_directives {
                 if let Stmt::Expr(expr) = &stmt {
-                    if let Expr::Lit(Lit::Str(string)) = &expr.expr {
+                    if let Expr::Lit(Lit::Str(string)) = &*expr.expr {
                         // span start will mismatch if they are parenthesized when `preserve_parens
                         // = false`
                         if expr.span.lo == string.span.lo {
                             let src = &self.source_text
-                                [string.span.lo as usize + 1..string.span.hi as usize - 1];
+                                [string.span.lo.0 as usize + 1..string.span.hi.0 as usize - 1];
                             let directive =
                                 self.ast
                                     .directive(expr.span, (*string).clone(), Atom::from(src));
