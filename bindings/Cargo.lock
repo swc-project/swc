@@ -1566,7 +1566,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4979f22fdb869068da03c9f7528f8297c6fd2606bc3a4affe42e6a823fdb8da4"
 dependencies = [
  "cfg-if",
- "windows-targets 0.52.6",
+ "windows-targets 0.48.5",
 ]
 
 [[package]]
@@ -3896,9 +3896,9 @@ dependencies = [
 
 [[package]]
 name = "swc_fast_ts_strip"
-version = "0.4.5"
+version = "0.4.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1bd0f1d90aa6896b6b0a0b64e348526cf42b1cb0b69dab5f73a156358b8b966a"
+checksum = "588a536170fae088f84ba1c6350b1944e0c0d355ecf1808f78a3a64155b2e94d"
 dependencies = [
  "anyhow",
  "serde",
