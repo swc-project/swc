@@ -38,9 +38,8 @@ define([
 //// [foo_1.ts]
 define([
     "require",
-    "exports",
-    "./foo_0"
-], function(require, exports, _foo_0) {
+    "exports"
+], function(require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true

@@ -1,6 +1,6 @@
 use std::mem;
 
-use swc_common::collections::AHashSet;
+use swc_common::collections::{AHashMap, AHashSet};
 use swc_ecma_ast::*;
 use swc_ecma_utils::stack_size::maybe_grow_default;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith};
@@ -10,11 +10,15 @@ use crate::{strip_type::IsConcrete, ImportsNotUsedAsValues};
 #[derive(Debug, Default)]
 struct UsageCollect {
     id_usage: AHashSet<Id>,
+    import_chain: AHashMap<Id, Id>,
 }
 
 impl From<AHashSet<Id>> for UsageCollect {
     fn from(id_usage: AHashSet<Id>) -> Self {
-        Self { id_usage }
+        Self {
+            id_usage,
+            import_chain: Default::default(),
+        }
     }
 }
 
@@ -68,7 +72,15 @@ impl Visit for UsageCollect {
             return;
         };
 
-        get_module_ident(ts_entity_name).visit_with(self);
+        let id = get_module_ident(ts_entity_name);
+
+        if n.is_export {
+            id.visit_with(self);
+            n.id.visit_with(self);
+            return;
+        }
+
+        self.import_chain.insert(n.id.to_id(), id.to_id());
     }
 
     fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier) {
@@ -100,6 +112,26 @@ impl Visit for UsageCollect {
 impl UsageCollect {
     fn has_usage(&self, id: &Id) -> bool {
         self.id_usage.contains(id)
+    }
+
+    fn analyze_import_chain(&mut self) {
+        if self.import_chain.is_empty() {
+            return;
+        }
+
+        let mut new_usage = AHashSet::default();
+        for id in &self.id_usage {
+            let mut entry = self.import_chain.remove_entry(id);
+            while let Some((id, next)) = entry {
+                new_usage.insert(next);
+                entry = self.import_chain.remove_entry(&id);
+            }
+            if self.import_chain.is_empty() {
+                break;
+            }
+        }
+        self.import_chain.clear();
+        self.id_usage.extend(new_usage);
     }
 }
 
@@ -263,6 +295,8 @@ impl VisitMut for StripImportExport {
 
         n.visit_with(&mut usage_info);
         n.visit_with(&mut declare_info);
+
+        usage_info.analyze_import_chain();
 
         let mut strip_ts_import_equals = StripTsImportEquals;
 
