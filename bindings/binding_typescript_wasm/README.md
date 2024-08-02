@@ -1,4 +1,4 @@
-# @swc/wasm-tyescript
+# @swc/wasm-typescript
 
 This package provides a Wasm binding for the TypeScript transform.
 
