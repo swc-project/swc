@@ -1,7 +1,7 @@
 use swc_common::BytePos;
 
 use super::{Kind, Lexer};
-use crate::diagnostics;
+use crate::v2::diagnostics;
 
 #[allow(clippy::unnecessary_safety_comment)]
 /// Handle next byte of source.

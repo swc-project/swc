@@ -6,7 +6,7 @@ use super::{
     source::SourcePosition,
     Kind, Lexer,
 };
-use crate::{diagnostics, syntax::identifier::is_line_terminator};
+use crate::{syntax::identifier::is_line_terminator, v2::diagnostics};
 
 // Irregular line breaks - '\u{2028}' (LS) and '\u{2029}' (PS)
 const LS_OR_PS_FIRST: u8 = 0xe2;
