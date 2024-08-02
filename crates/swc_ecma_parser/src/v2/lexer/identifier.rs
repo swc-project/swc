@@ -9,10 +9,10 @@ use super::{
     Kind, Lexer, SourcePosition,
 };
 use crate::{
-    diagnostics,
     syntax::identifier::{
         is_identifier_part, is_identifier_part_unicode, is_identifier_start_unicode,
     },
+    v2::diagnostics,
 };
 
 const MIN_ESCAPED_STR_LEN: usize = 16;

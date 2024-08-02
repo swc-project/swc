@@ -5,7 +5,7 @@ use super::{
     search::{byte_search, safe_byte_match_table, SafeByteMatchTable},
     Kind, Lexer, Token,
 };
-use crate::{diagnostics, syntax::identifier::is_identifier_part};
+use crate::{syntax::identifier::is_identifier_part, v2::diagnostics};
 
 static NOT_ASCII_JSX_ID_CONTINUE_TABLE: SafeByteMatchTable =
     safe_byte_match_table!(|b| !(b.is_ascii_alphanumeric() || matches!(b, b'_' | b'$' | b'-')));
