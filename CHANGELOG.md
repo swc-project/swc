@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.7.5] - 2024-08-02
 
 ### Bug Fixes
 
@@ -1312,9 +1312,6 @@
 
 
 - **(contributing)** Remove `enum_kind` from `ARCHITECTURE.md` ([#8666](https://github.com/swc-project/swc/issues/8666)) ([f5651e8](https://github.com/swc-project/swc/commit/f5651e87b1b615ae86fbed20a1d259260341a451))
-
-
-- **(es/minifier)** Update examples code ([#8652](https://github.com/swc-project/swc/issues/8652)) ([3bf3a62](https://github.com/swc-project/swc/commit/3bf3a62505cc3fc6eaf182b75c319ea4bc212ee8))
 
 ### Features
 
