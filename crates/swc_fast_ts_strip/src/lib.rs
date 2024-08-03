@@ -626,30 +626,29 @@ impl Visit for TsStrip {
     }
 
     fn visit_export_decl(&mut self, n: &ExportDecl) {
-        match n.decl {
-            Decl::TsInterface(_)
-            | Decl::TsTypeAlias(_)
-            | Decl::Class(ClassDecl { declare: true, .. })
-            | Decl::Fn(FnDecl { declare: true, .. }) => {
-                self.add_replacement(n.span);
-                self.fix_asi(n.span);
-            }
-
-            ref decl if decl.is_ts_decl() => {
-                self.add_replacement(n.span);
-                self.fix_asi(n.span);
-            }
-
-            _ => {
-                n.visit_children_with(self);
-            }
+        if n.decl.is_ts_decl() {
+            self.add_replacement(n.span);
+            self.fix_asi(n.span);
+            return;
         }
+
+        n.visit_children_with(self);
     }
 
     fn visit_export_default_decl(&mut self, n: &ExportDefaultDecl) {
         if n.decl.is_ts_interface_decl() {
             self.add_replacement(n.span);
             self.fix_asi(n.span);
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_decl(&mut self, n: &Decl) {
+        if n.is_ts_decl() {
+            self.add_replacement(n.span());
+            self.fix_asi(n.span());
             return;
         }
 
@@ -884,16 +883,6 @@ impl Visit for TsStrip {
 
     fn visit_ts_type_param_instantiation(&mut self, n: &TsTypeParamInstantiation) {
         self.add_replacement(span(n.span.lo, n.span.hi));
-    }
-
-    fn visit_decl(&mut self, n: &Decl) {
-        if n.is_ts_decl() {
-            self.add_replacement(n.span());
-            self.fix_asi(n.span());
-            return;
-        }
-
-        n.visit_children_with(self);
     }
 
     fn visit_if_stmt(&mut self, n: &IfStmt) {
