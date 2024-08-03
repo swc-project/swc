@@ -12,12 +12,12 @@ use swc_common::{
 };
 use swc_ecma_ast::{
     ArrowExpr, BindingIdent, Class, ClassDecl, ClassMethod, ClassProp, Decl, DoWhileStmt,
-    EsVersion, ExportAll, ExportDecl, ExportSpecifier, FnDecl, ForInStmt, ForOfStmt, ForStmt,
-    IfStmt, ImportDecl, ImportSpecifier, NamedExport, Param, Pat, Program, Stmt, TsAsExpr,
-    TsConstAssertion, TsEnumDecl, TsExportAssignment, TsImportEqualsDecl, TsIndexSignature,
-    TsInstantiation, TsInterfaceDecl, TsModuleDecl, TsModuleName, TsNamespaceDecl, TsNonNullExpr,
-    TsParamPropParam, TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion,
-    TsTypeParamDecl, TsTypeParamInstantiation, VarDecl, WhileStmt,
+    EsVersion, ExportAll, ExportDecl, ExportDefaultDecl, ExportSpecifier, FnDecl, ForInStmt,
+    ForOfStmt, ForStmt, IfStmt, ImportDecl, ImportSpecifier, NamedExport, Param, Pat, Program,
+    Stmt, TsAsExpr, TsConstAssertion, TsEnumDecl, TsExportAssignment, TsImportEqualsDecl,
+    TsIndexSignature, TsInstantiation, TsInterfaceDecl, TsModuleDecl, TsModuleName,
+    TsNamespaceDecl, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn,
+    TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation, VarDecl, WhileStmt,
 };
 use swc_ecma_parser::{
     lexer::Lexer,
@@ -637,10 +637,17 @@ impl Visit for TsStrip {
 
     fn visit_export_decl(&mut self, n: &ExportDecl) {
         match n.decl {
-            swc_ecma_ast::Decl::TsInterface(_)
-            | swc_ecma_ast::Decl::TsTypeAlias(_)
-            | swc_ecma_ast::Decl::TsEnum(_)
-            | swc_ecma_ast::Decl::TsModule(_) => {
+            Decl::TsInterface(_)
+            | Decl::TsTypeAlias(_)
+            | Decl::TsEnum(_)
+            | Decl::TsModule(_)
+            | Decl::Class(ClassDecl { declare: true, .. })
+            | Decl::Fn(FnDecl { declare: true, .. }) => {
+                self.add_replacement(n.span);
+                self.fix_asi(n.span);
+            }
+
+            Decl::Var(ref var) if var.declare => {
                 self.add_replacement(n.span);
                 self.fix_asi(n.span);
             }
@@ -649,6 +656,16 @@ impl Visit for TsStrip {
                 n.visit_children_with(self);
             }
         }
+    }
+
+    fn visit_export_default_decl(&mut self, n: &ExportDefaultDecl) {
+        if n.decl.is_ts_interface_decl() {
+            self.add_replacement(n.span);
+            self.fix_asi(n.span);
+            return;
+        }
+
+        n.visit_children_with(self);
     }
 
     fn visit_fn_decl(&mut self, n: &FnDecl) {
