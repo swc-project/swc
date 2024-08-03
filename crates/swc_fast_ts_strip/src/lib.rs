@@ -626,7 +626,7 @@ impl Visit for TsStrip {
     }
 
     fn visit_export_decl(&mut self, n: &ExportDecl) {
-        if n.decl.is_ts_decl() {
+        if n.decl.is_ts_declare() {
             self.add_replacement(n.span);
             self.fix_asi(n.span);
             return;
@@ -646,7 +646,7 @@ impl Visit for TsStrip {
     }
 
     fn visit_decl(&mut self, n: &Decl) {
-        if n.is_ts_decl() {
+        if n.is_ts_declare() {
             self.add_replacement(n.span());
             self.fix_asi(n.span());
             return;
@@ -888,12 +888,12 @@ impl Visit for TsStrip {
     fn visit_if_stmt(&mut self, n: &IfStmt) {
         n.visit_children_with(self);
 
-        if n.cons.is_ts_stmt() {
+        if n.cons.is_ts_declare() {
             self.add_overwrite(n.cons.span_lo(), b';');
         }
 
         if let Some(alt) = &n.alt {
-            if alt.is_ts_stmt() {
+            if alt.is_ts_declare() {
                 self.add_overwrite(alt.span_lo(), b';');
             }
         }
@@ -902,7 +902,7 @@ impl Visit for TsStrip {
     fn visit_for_stmt(&mut self, n: &ForStmt) {
         n.visit_children_with(self);
 
-        if n.body.is_ts_stmt() {
+        if n.body.is_ts_declare() {
             self.add_overwrite(n.body.span_lo(), b';');
         }
     }
@@ -910,7 +910,7 @@ impl Visit for TsStrip {
     fn visit_for_in_stmt(&mut self, n: &ForInStmt) {
         n.visit_children_with(self);
 
-        if n.body.is_ts_stmt() {
+        if n.body.is_ts_declare() {
             self.add_overwrite(n.body.span_lo(), b';');
         }
     }
@@ -918,7 +918,7 @@ impl Visit for TsStrip {
     fn visit_for_of_stmt(&mut self, n: &ForOfStmt) {
         n.visit_children_with(self);
 
-        if n.body.is_ts_stmt() {
+        if n.body.is_ts_declare() {
             self.add_overwrite(n.body.span_lo(), b';');
         }
     }
@@ -926,7 +926,7 @@ impl Visit for TsStrip {
     fn visit_while_stmt(&mut self, n: &WhileStmt) {
         n.visit_children_with(self);
 
-        if n.body.is_ts_stmt() {
+        if n.body.is_ts_declare() {
             self.add_overwrite(n.body.span_lo(), b';');
         }
     }
@@ -934,18 +934,18 @@ impl Visit for TsStrip {
     fn visit_do_while_stmt(&mut self, n: &DoWhileStmt) {
         n.visit_children_with(self);
 
-        if n.body.is_ts_stmt() {
+        if n.body.is_ts_declare() {
             self.add_overwrite(n.body.span_lo(), b';');
         }
     }
 }
 
 trait IsTsDecl {
-    fn is_ts_decl(&self) -> bool;
+    fn is_ts_declare(&self) -> bool;
 }
 
 impl IsTsDecl for Decl {
-    fn is_ts_decl(&self) -> bool {
+    fn is_ts_declare(&self) -> bool {
         match self {
             Self::TsInterface { .. } | Self::TsTypeAlias(..) => true,
 
@@ -960,13 +960,9 @@ impl IsTsDecl for Decl {
     }
 }
 
-trait IsTsStmt {
-    fn is_ts_stmt(&self) -> bool;
-}
-
-impl IsTsStmt for Stmt {
-    fn is_ts_stmt(&self) -> bool {
-        self.as_decl().map_or(false, |decl| decl.is_ts_decl())
+impl IsTsDecl for Stmt {
+    fn is_ts_declare(&self) -> bool {
+        self.as_decl().map_or(false, IsTsDecl::is_ts_declare)
     }
 }
 
