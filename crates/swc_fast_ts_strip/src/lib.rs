@@ -15,9 +15,9 @@ use swc_ecma_ast::{
     EsVersion, ExportAll, ExportDecl, ExportDefaultDecl, ExportSpecifier, FnDecl, ForInStmt,
     ForOfStmt, ForStmt, IfStmt, ImportDecl, ImportSpecifier, NamedExport, Param, Pat, Program,
     Stmt, TsAsExpr, TsConstAssertion, TsEnumDecl, TsExportAssignment, TsImportEqualsDecl,
-    TsIndexSignature, TsInstantiation, TsInterfaceDecl, TsModuleDecl, TsModuleName,
-    TsNamespaceDecl, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn,
-    TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation, VarDecl, WhileStmt,
+    TsIndexSignature, TsInstantiation, TsModuleDecl, TsModuleName, TsNamespaceDecl, TsNonNullExpr,
+    TsParamPropParam, TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion,
+    TsTypeParamDecl, TsTypeParamInstantiation, WhileStmt,
 };
 use swc_ecma_parser::{
     lexer::Lexer,
