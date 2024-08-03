@@ -639,15 +639,13 @@ impl Visit for TsStrip {
         match n.decl {
             Decl::TsInterface(_)
             | Decl::TsTypeAlias(_)
-            | Decl::TsEnum(_)
-            | Decl::TsModule(_)
             | Decl::Class(ClassDecl { declare: true, .. })
             | Decl::Fn(FnDecl { declare: true, .. }) => {
                 self.add_replacement(n.span);
                 self.fix_asi(n.span);
             }
 
-            Decl::Var(ref var) if var.declare => {
+            ref decl if decl.is_ts_decl() => {
                 self.add_replacement(n.span);
                 self.fix_asi(n.span);
             }
@@ -986,20 +984,36 @@ impl Visit for TsStrip {
     }
 }
 
+trait IsTsDecl {
+    fn is_ts_decl(&self) -> bool;
+}
+
+impl IsTsDecl for Decl {
+    fn is_ts_decl(&self) -> bool {
+        match self {
+            Self::TsInterface { .. } | Self::TsTypeAlias(..) => true,
+
+            Self::TsModule(module) => module.declare || matches!(module.id, TsModuleName::Str(..)),
+            Self::TsEnum(ref r#enum) => r#enum.declare,
+
+            Self::Var(ref var) => var.declare,
+            Self::Fn(FnDecl { declare: true, .. })
+            | Self::Class(ClassDecl { declare: true, .. }) => true,
+            _ => false,
+        }
+    }
+}
+
 trait IsTsStmt {
     fn is_ts_stmt(&self) -> bool;
 }
 
 impl IsTsStmt for Stmt {
     fn is_ts_stmt(&self) -> bool {
-        match self {
-            Stmt::Decl(Decl::TsInterface { .. } | Decl::TsTypeAlias(..)) => true,
-            Stmt::Decl(Decl::TsModule(n)) => n.declare || matches!(n.id, TsModuleName::Str(..)),
-            Stmt::Decl(Decl::TsEnum(e)) => e.declare,
-            _ => false,
-        }
+        self.as_decl().map_or(false, |decl| decl.is_ts_decl())
     }
 }
+
 trait U8Helper {
     fn is_utf8_char_boundary(&self) -> bool;
 }
