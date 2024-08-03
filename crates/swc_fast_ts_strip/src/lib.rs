@@ -532,16 +532,6 @@ impl Visit for TsStrip {
         n.visit_children_with(self);
     }
 
-    fn visit_class_decl(&mut self, n: &ClassDecl) {
-        if n.declare {
-            self.add_replacement(n.span());
-            self.fix_asi(n.span());
-            return;
-        }
-
-        n.visit_children_with(self);
-    }
-
     fn visit_class_method(&mut self, n: &ClassMethod) {
         if n.function.body.is_none() || n.is_abstract {
             self.add_replacement(n.span);
@@ -771,21 +761,6 @@ impl Visit for TsStrip {
         n.expr.visit_children_with(self);
     }
 
-    fn visit_ts_enum_decl(&mut self, e: &TsEnumDecl) {
-        if e.declare {
-            self.add_replacement(e.span);
-            self.fix_asi(e.span);
-            return;
-        }
-
-        HANDLER.with(|handler| {
-            handler.span_err(
-                e.span,
-                "TypeScript enum is not supported in strip-only mode",
-            );
-        });
-    }
-
     fn visit_ts_export_assignment(&mut self, n: &TsExportAssignment) {
         HANDLER.with(|handler| {
             handler.span_err(
@@ -820,18 +795,16 @@ impl Visit for TsStrip {
         n.expr.visit_children_with(self);
     }
 
-    fn visit_ts_interface_decl(&mut self, n: &TsInterfaceDecl) {
-        self.add_replacement(n.span);
-        self.fix_asi(n.span);
+    fn visit_ts_enum_decl(&mut self, e: &TsEnumDecl) {
+        HANDLER.with(|handler| {
+            handler.span_err(
+                e.span,
+                "TypeScript enum is not supported in strip-only mode",
+            );
+        });
     }
 
     fn visit_ts_module_decl(&mut self, n: &TsModuleDecl) {
-        if n.declare || matches!(n.id, TsModuleName::Str(..)) {
-            self.add_replacement(n.span);
-            self.fix_asi(n.span);
-            return;
-        }
-
         HANDLER.with(|handler| {
             handler.span_err(
                 n.span(),
@@ -841,12 +814,6 @@ impl Visit for TsStrip {
     }
 
     fn visit_ts_namespace_decl(&mut self, n: &TsNamespaceDecl) {
-        if n.declare {
-            self.add_replacement(n.span);
-            self.fix_asi(n.span);
-            return;
-        }
-
         HANDLER.with(|handler| {
             handler.span_err(
                 n.span(),
@@ -919,10 +886,10 @@ impl Visit for TsStrip {
         self.add_replacement(span(n.span.lo, n.span.hi));
     }
 
-    fn visit_var_decl(&mut self, n: &VarDecl) {
-        if n.declare {
-            self.add_replacement(n.span);
-            self.fix_asi(n.span);
+    fn visit_decl(&mut self, n: &Decl) {
+        if n.is_ts_decl() {
+            self.add_replacement(n.span());
+            self.fix_asi(n.span());
             return;
         }
 
