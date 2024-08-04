@@ -12,12 +12,12 @@ use swc_common::{
 };
 use swc_ecma_ast::{
     ArrowExpr, BindingIdent, Class, ClassDecl, ClassMethod, ClassProp, Decl, DoWhileStmt,
-    EsVersion, ExportAll, ExportDecl, ExportSpecifier, FnDecl, ForInStmt, ForOfStmt, ForStmt,
-    IfStmt, ImportDecl, ImportSpecifier, NamedExport, Param, Pat, Program, Stmt, TsAsExpr,
-    TsConstAssertion, TsEnumDecl, TsExportAssignment, TsImportEqualsDecl, TsIndexSignature,
-    TsInstantiation, TsInterfaceDecl, TsModuleDecl, TsModuleName, TsNamespaceDecl, TsNonNullExpr,
+    EsVersion, ExportAll, ExportDecl, ExportDefaultDecl, ExportSpecifier, FnDecl, ForInStmt,
+    ForOfStmt, ForStmt, IfStmt, ImportDecl, ImportSpecifier, NamedExport, Param, Pat, Program,
+    Stmt, TsAsExpr, TsConstAssertion, TsEnumDecl, TsExportAssignment, TsImportEqualsDecl,
+    TsIndexSignature, TsInstantiation, TsModuleDecl, TsModuleName, TsNamespaceDecl, TsNonNullExpr,
     TsParamPropParam, TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion,
-    TsTypeParamDecl, TsTypeParamInstantiation, VarDecl, WhileStmt,
+    TsTypeParamDecl, TsTypeParamInstantiation, WhileStmt,
 };
 use swc_ecma_parser::{
     lexer::Lexer,
@@ -532,16 +532,6 @@ impl Visit for TsStrip {
         n.visit_children_with(self);
     }
 
-    fn visit_class_decl(&mut self, n: &ClassDecl) {
-        if n.declare {
-            self.add_replacement(n.span());
-            self.fix_asi(n.span());
-            return;
-        }
-
-        n.visit_children_with(self);
-    }
-
     fn visit_class_method(&mut self, n: &ClassMethod) {
         if n.function.body.is_none() || n.is_abstract {
             self.add_replacement(n.span);
@@ -636,19 +626,33 @@ impl Visit for TsStrip {
     }
 
     fn visit_export_decl(&mut self, n: &ExportDecl) {
-        match n.decl {
-            swc_ecma_ast::Decl::TsInterface(_)
-            | swc_ecma_ast::Decl::TsTypeAlias(_)
-            | swc_ecma_ast::Decl::TsEnum(_)
-            | swc_ecma_ast::Decl::TsModule(_) => {
-                self.add_replacement(n.span);
-                self.fix_asi(n.span);
-            }
-
-            _ => {
-                n.visit_children_with(self);
-            }
+        if n.decl.is_ts_declare() {
+            self.add_replacement(n.span);
+            self.fix_asi(n.span);
+            return;
         }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_export_default_decl(&mut self, n: &ExportDefaultDecl) {
+        if n.decl.is_ts_interface_decl() {
+            self.add_replacement(n.span);
+            self.fix_asi(n.span);
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_decl(&mut self, n: &Decl) {
+        if n.is_ts_declare() {
+            self.add_replacement(n.span());
+            self.fix_asi(n.span());
+            return;
+        }
+
+        n.visit_children_with(self);
     }
 
     fn visit_fn_decl(&mut self, n: &FnDecl) {
@@ -756,21 +760,6 @@ impl Visit for TsStrip {
         n.expr.visit_children_with(self);
     }
 
-    fn visit_ts_enum_decl(&mut self, e: &TsEnumDecl) {
-        if e.declare {
-            self.add_replacement(e.span);
-            self.fix_asi(e.span);
-            return;
-        }
-
-        HANDLER.with(|handler| {
-            handler.span_err(
-                e.span,
-                "TypeScript enum is not supported in strip-only mode",
-            );
-        });
-    }
-
     fn visit_ts_export_assignment(&mut self, n: &TsExportAssignment) {
         HANDLER.with(|handler| {
             handler.span_err(
@@ -805,18 +794,16 @@ impl Visit for TsStrip {
         n.expr.visit_children_with(self);
     }
 
-    fn visit_ts_interface_decl(&mut self, n: &TsInterfaceDecl) {
-        self.add_replacement(n.span);
-        self.fix_asi(n.span);
+    fn visit_ts_enum_decl(&mut self, e: &TsEnumDecl) {
+        HANDLER.with(|handler| {
+            handler.span_err(
+                e.span,
+                "TypeScript enum is not supported in strip-only mode",
+            );
+        });
     }
 
     fn visit_ts_module_decl(&mut self, n: &TsModuleDecl) {
-        if n.declare || matches!(n.id, TsModuleName::Str(..)) {
-            self.add_replacement(n.span);
-            self.fix_asi(n.span);
-            return;
-        }
-
         HANDLER.with(|handler| {
             handler.span_err(
                 n.span(),
@@ -826,12 +813,6 @@ impl Visit for TsStrip {
     }
 
     fn visit_ts_namespace_decl(&mut self, n: &TsNamespaceDecl) {
-        if n.declare {
-            self.add_replacement(n.span);
-            self.fix_asi(n.span);
-            return;
-        }
-
         HANDLER.with(|handler| {
             handler.span_err(
                 n.span(),
@@ -904,25 +885,15 @@ impl Visit for TsStrip {
         self.add_replacement(span(n.span.lo, n.span.hi));
     }
 
-    fn visit_var_decl(&mut self, n: &VarDecl) {
-        if n.declare {
-            self.add_replacement(n.span);
-            self.fix_asi(n.span);
-            return;
-        }
-
-        n.visit_children_with(self);
-    }
-
     fn visit_if_stmt(&mut self, n: &IfStmt) {
         n.visit_children_with(self);
 
-        if n.cons.is_ts_stmt() {
+        if n.cons.is_ts_declare() {
             self.add_overwrite(n.cons.span_lo(), b';');
         }
 
         if let Some(alt) = &n.alt {
-            if alt.is_ts_stmt() {
+            if alt.is_ts_declare() {
                 self.add_overwrite(alt.span_lo(), b';');
             }
         }
@@ -931,7 +902,7 @@ impl Visit for TsStrip {
     fn visit_for_stmt(&mut self, n: &ForStmt) {
         n.visit_children_with(self);
 
-        if n.body.is_ts_stmt() {
+        if n.body.is_ts_declare() {
             self.add_overwrite(n.body.span_lo(), b';');
         }
     }
@@ -939,7 +910,7 @@ impl Visit for TsStrip {
     fn visit_for_in_stmt(&mut self, n: &ForInStmt) {
         n.visit_children_with(self);
 
-        if n.body.is_ts_stmt() {
+        if n.body.is_ts_declare() {
             self.add_overwrite(n.body.span_lo(), b';');
         }
     }
@@ -947,7 +918,7 @@ impl Visit for TsStrip {
     fn visit_for_of_stmt(&mut self, n: &ForOfStmt) {
         n.visit_children_with(self);
 
-        if n.body.is_ts_stmt() {
+        if n.body.is_ts_declare() {
             self.add_overwrite(n.body.span_lo(), b';');
         }
     }
@@ -955,7 +926,7 @@ impl Visit for TsStrip {
     fn visit_while_stmt(&mut self, n: &WhileStmt) {
         n.visit_children_with(self);
 
-        if n.body.is_ts_stmt() {
+        if n.body.is_ts_declare() {
             self.add_overwrite(n.body.span_lo(), b';');
         }
     }
@@ -963,26 +934,38 @@ impl Visit for TsStrip {
     fn visit_do_while_stmt(&mut self, n: &DoWhileStmt) {
         n.visit_children_with(self);
 
-        if n.body.is_ts_stmt() {
+        if n.body.is_ts_declare() {
             self.add_overwrite(n.body.span_lo(), b';');
         }
     }
 }
 
-trait IsTsStmt {
-    fn is_ts_stmt(&self) -> bool;
+trait IsTsDecl {
+    fn is_ts_declare(&self) -> bool;
 }
 
-impl IsTsStmt for Stmt {
-    fn is_ts_stmt(&self) -> bool {
+impl IsTsDecl for Decl {
+    fn is_ts_declare(&self) -> bool {
         match self {
-            Stmt::Decl(Decl::TsInterface { .. } | Decl::TsTypeAlias(..)) => true,
-            Stmt::Decl(Decl::TsModule(n)) => n.declare || matches!(n.id, TsModuleName::Str(..)),
-            Stmt::Decl(Decl::TsEnum(e)) => e.declare,
+            Self::TsInterface { .. } | Self::TsTypeAlias(..) => true,
+
+            Self::TsModule(module) => module.declare || matches!(module.id, TsModuleName::Str(..)),
+            Self::TsEnum(ref r#enum) => r#enum.declare,
+
+            Self::Var(ref var) => var.declare,
+            Self::Fn(FnDecl { declare: true, .. })
+            | Self::Class(ClassDecl { declare: true, .. }) => true,
             _ => false,
         }
     }
 }
+
+impl IsTsDecl for Stmt {
+    fn is_ts_declare(&self) -> bool {
+        self.as_decl().map_or(false, IsTsDecl::is_ts_declare)
+    }
+}
+
 trait U8Helper {
     fn is_utf8_char_boundary(&self) -> bool;
 }
