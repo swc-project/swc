@@ -1342,6 +1342,11 @@ where
             emit!(dec);
         }
 
+        if node.class.is_abstract {
+            keyword!("abstract");
+            space!();
+        }
+
         keyword!("class");
 
         if let Some(ref i) = node.ident {
