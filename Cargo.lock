@@ -4271,7 +4271,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.154.4"
+version = "0.154.5"
 dependencies = [
  "base64",
  "codspeed-criterion-compat",
@@ -5094,7 +5094,7 @@ dependencies = [
 
 [[package]]
 name = "swc_fast_ts_strip"
-version = "0.4.6"
+version = "0.4.7"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",
