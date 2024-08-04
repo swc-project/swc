@@ -1,0 +1,13 @@
+{
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "decorators": true
+    },
+    "target": "es2016"
+  },
+  "module": {
+    "type": "es6"
+  },
+  "isModule": true
+}

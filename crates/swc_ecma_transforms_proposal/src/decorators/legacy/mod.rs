@@ -332,14 +332,16 @@ impl VisitMut for TscDecorator {
             return;
         }
 
-        let var_name = private_ident!("_class");
-        let ident = n.ident.get_or_insert_with(|| var_name.clone());
+        let ident = n
+            .ident
+            .get_or_insert_with(|| private_ident!("_class"))
+            .clone();
 
         let old = mem::replace(&mut self.class_name, Some(ident.clone()));
 
         n.visit_mut_children_with(self);
 
-        self.assign_class_expr_to = Some(var_name);
+        self.assign_class_expr_to = Some(ident);
 
         self.class_name = old;
     }
