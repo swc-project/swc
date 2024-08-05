@@ -1234,7 +1234,7 @@ impl SourceMap {
     pub fn build_source_map_from(
         &self,
         mappings: &[(BytePos, LineCol)],
-        orig: Option<sourcemap::SourceMap>,
+        orig: Option<&sourcemap::SourceMap>,
     ) -> sourcemap::SourceMap {
         self.build_source_map_with_config(mappings, orig, DefaultSourceMapGenConfig)
     }
