@@ -1,5 +1,5 @@
 {
-  "mappings": "YAAYC;IAAK,UAAA,CAAI;AAErBC,QAAQC,GAAG,CAACH",
+  "mappings": "YCAYC;IAAK,UAAA,CAAI;AAErBC,QAAQC,GAAG,CAACH",
   "names": [
     "a",
     "aób",
@@ -7,9 +7,11 @@
     "log"
   ],
   "sources": [
+    "input-preprocess.js",
     "$DIR/tests/minify/issue-7475/issue-8372/1/input.js"
   ],
   "sourcesContent": [
+    "const a = {aób: 'ó'}\n\nconsole.log(a)",
     "const a = { aób: 'ó' }\n\nconsole.log(a)"
   ],
   "version": 3
