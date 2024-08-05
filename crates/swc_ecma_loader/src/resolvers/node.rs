@@ -157,7 +157,7 @@ impl NodeModulesResolver {
         let _tracing = if cfg!(debug_assertions) {
             Some(
                 tracing::span!(
-                    Level::ERROR,
+                    Level::TRACE,
                     "resolve_as_file",
                     path = tracing::field::display(path.display())
                 )
@@ -239,7 +239,7 @@ impl NodeModulesResolver {
         let _tracing = if cfg!(debug_assertions) {
             Some(
                 tracing::span!(
-                    Level::ERROR,
+                    Level::TRACE,
                     "resolve_as_directory",
                     path = tracing::field::display(path.display())
                 )
@@ -279,7 +279,7 @@ impl NodeModulesResolver {
         let _tracing = if cfg!(debug_assertions) {
             Some(
                 tracing::span!(
-                    Level::ERROR,
+                    Level::TRACE,
                     "resolve_package_entry",
                     pkg_dir = tracing::field::display(pkg_dir.display()),
                     pkg_path = tracing::field::display(pkg_path.display()),
