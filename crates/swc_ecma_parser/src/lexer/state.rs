@@ -191,6 +191,10 @@ impl Tokens for Lexer<'_> {
     fn take_errors(&mut self) -> Vec<Error> {
         take(&mut self.errors.borrow_mut())
     }
+
+    fn end_pos(&self) -> BytePos {
+        self.input.end_pos()
+    }
 }
 
 impl Lexer<'_> {

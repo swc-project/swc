@@ -239,7 +239,7 @@ macro_rules! cur {
         match $p.input.cur() {
             Some(c) => Ok(c),
             None => {
-                let pos = $p.input.last_pos();
+                let pos = $p.input.end_pos();
                 let last = Span::new(pos, pos);
 
                 Err(crate::error::Error::new(
@@ -263,9 +263,9 @@ macro_rules! cur {
                 _ => c,
             },
             None => {
-                let pos = $p.input.last_pos();
-                let last = Span::new(pos, pos);
-                let err = crate::error::Error::new(last, crate::error::SyntaxError::Eof);
+                let pos = $p.input.end_pos();
+                let span = Span::new(pos, pos);
+                let err = crate::error::Error::new(span, crate::error::SyntaxError::Eof);
                 return Err(err);
             }
         }
