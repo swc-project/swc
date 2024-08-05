@@ -1,24 +1,22 @@
 {
-  "mappings": "AAACA,CAAAA,KAAKC,gBAAmB,GAAGD,KAAKC,gBAAmB,IAAI,EAAE,AAAF,EAAIC,IAAI,CAAC;IAC7D;QACI;KACH;IACD;QACU,MAAY,SAAUC,CAAuB,EAAEC,CAAmB,EAAEC,CAAmB;YACzF;YACA,IAAIC,IAAa,SAAoBC,CAAI;gBACrC,IAAIC,IAAOD,EAAKC,IAAI;gBACpB,OAAqB,AAAC,CAAA,GAAGC,EAA+CC,GAAG,AAAHA,EAAK,OAAO;oBAChFC,UAAUH,EAAKI,GAAG;gBACtB;YACJ;YACAP,EAAoBQ,CAAC,CAACT,IACDC,EAAoBS,CAAC,CAACV,GAAqB;gBACvCW,SAAS;oBAC1B,OAAqBA;gBACzB;gBACqBC,SAAS;oBAC1B,OAAqBV;gBACzB;YACJ;YACqB,IAAIG,IAAiDJ,EAAoB,OAC1FU,IAAU,CAAA;QAE1B;QACc,MAAY,SAAUZ,CAAuB,EAAEc,CAAwB,EAAEZ,CAAmB;YAC7Fa,CAAAA,OAAOC,QAAQ,GAAGD,OAAOC,QAAQ,IAAI,EAAE,AAAF,EAAIjB,IAAI,CAAC;gBAC3C;gBACA;oBACI,OAAOG,EAAoB;gBAC/B;aACH;QAGb;IACI;IACS,SAAUA,CAAmB;QAKzBA,EAAoBe,CAAC,CAAC,GAAG;YAC9B;YACA;YACA;SACH,EAAE;YACC,OAPOf,EAAoBA,EAAoBgB,CAAC,GAOxB;QAC5B,IAESC,OAD0BjB,EAAoBe,CAAC;IAGhE;CACC",
+  "mappings": "AAACA,MAAKC,gBAAmBD,AAAH,GAAGA,EAAKC,GAAAA,aAAgB,GAAK,CAAD,CAAIC,EAAAA,EAAAA,AAAI,CAAC,CAAA,IAAA,CAAA;IACvD;QACI;KACH;IACD;QACU,MAAYE,CAAC,EAAEC,AAANF,CAAO,AAAN,KAAM,CAAA,EAAA,CAAA,EAAA,CAAA,EAAA;YAClB;YACA,IAAIG,IAAI,AAASH,CAAC,QAAA,CAAA,EAAA;gBACd,IAAIC,IAAMG,AAAFJ,EAAEI,AAAI,CAAA,GAAA;gBACd,OAAO,AAAC,AAAU,CAAV,AAAU,GAAPC,AAAc,EAAZC,AAAY,GAAA,AAAV,AAAU,AAAT,EAAE,AAAO,OAAA;oBACrBC,UAAUN,EAAEO,AAAG,GAAA;gBACnB;YACJ;YACAN,EAAEC,AAAa,CAAZ,AAAY,CAAXF,AAAW,IAAPC,AACK,EADHO,AACG,CADF,AACE,CAAA,AADDR,GACC,AADE;gBAEAU,SAAAA,WAAAA;oBACX,OAAA;gBACAC,SAAS;gBACET,SAAAA,WAAAA;oBACX,OAAA;gBACJ;YACA,IAAIE,IAAIH,EAAE,OAAOS,IAAI,CAAC;YAC1B,IAAA,IAAA,EAAA,OACM,IAAYV,CAAC,EAAJD,AAAME,CAAL,AAAM;wBAEd;UACA,IAAA,SAAA,CAAA,EAAA,CAAA,EAAA,CAAA,EAAA;oBACI,OAAOA,CAAAA,CAAE,EAAA,OAAA,QAAA,IAAA,EAAA,EAAA,IAAA,CAAA;gBACb;gBACH,WAAA;oBACL,OAAA,EAAA;gBACJ;aACSF,CAAC;oBAGF;YACA;IACD,SAAA,CAAA,EAAA;;;;;;mBAGP,EAAA,EAAA,CAAA",
   "names": [
     "self",
     "webpackChunk_N_E",
     "push",
-    "__unused_webpack_module",
-    "__webpack_exports__",
-    "__webpack_require__",
-    "StaticPage",
-    "_ref",
+    "n",
+    "t",
+    "u",
+    "r",
     "data",
-    "react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__",
+    "_",
     "jsx",
     "children",
     "foo",
-    "r",
     "d",
     "__N_SSG",
+    "i",
     "default",
-    "__unused_webpack_exports",
     "window",
     "__NEXT_P",
     "O",
@@ -29,7 +27,7 @@
     "../../input/index.js"
   ],
   "sourcesContent": [
-    "(self[\"webpackChunk_N_E\"] = self[\"webpackChunk_N_E\"] || []).push([\n    [\n        158\n    ],\n    {\n        /***/ 2943: /***/ function (__unused_webpack_module, __webpack_exports__, __webpack_require__) {\n            \"use strict\";\n            var StaticPage = function StaticPage(_ref) {\n                var data = _ref.data;\n                return /*#__PURE__*/ (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(\"div\", {\n                    children: data.foo\n                });\n            };\n            __webpack_require__.r(__webpack_exports__);\n            /* harmony export */ __webpack_require__.d(__webpack_exports__, {\n                /* harmony export */ __N_SSG: function __N_SSG1() {\n                    return /* binding */ __N_SSG;\n                },\n                /* harmony export */ default: function _default() {\n                    return /* binding */ StaticPage;\n                }\n            });\n            /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4512);\n            var __N_SSG = true;\n            /***/\n},\n        /***/ 7139: /***/ function (__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {\n            (window.__NEXT_P = window.__NEXT_P || []).push([\n                \"/static\",\n                function () {\n                    return __webpack_require__(2943);\n                }\n            ]);\n            if (false) { }\n            /***/\n}\n    },\n    /******/ function (__webpack_require__) {\n        // webpackRuntimeModules\n        /******/ var __webpack_exec__ = function __webpack_exec__(moduleId) {\n            return __webpack_require__(__webpack_require__.s = moduleId);\n        };\n        /******/ __webpack_require__.O(0, [\n            774,\n            888,\n            179\n        ], function () {\n            return __webpack_exec__(7139);\n        });\n        /******/ var __webpack_exports__ = __webpack_require__.O();\n        /******/ _N_E = __webpack_exports__;\n        /******/\n}\n]);\n"
+    "(self.webpackChunk_N_E = self.webpackChunk_N_E || []).push([\n    [\n        158\n    ],\n    {\n        2943: function(n, t, u) {\n            \"use strict\";\n            var r = function(n) {\n                var t = n.data;\n                return (0, _.jsx)(\"div\", {\n                    children: t.foo\n                });\n            };\n            u.r(t), u.d(t, {\n                __N_SSG: function() {\n                    return i;\n                },\n                default: function() {\n                    return r;\n                }\n            });\n            var _ = u(4512), i = !0;\n        },\n        7139: function(n, t, u) {\n            (window.__NEXT_P = window.__NEXT_P || []).push([\n                \"/static\",\n                function() {\n                    return u(2943);\n                }\n            ]);\n        }\n    },\n    function(n) {\n        n.O(0, [\n            774,\n            888,\n            179\n        ], function() {\n            return n(n.s = 7139);\n        }), _N_E = n.O();\n    }\n]);\n"
   ],
   "version": 3
 }
