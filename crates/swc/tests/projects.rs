@@ -804,60 +804,6 @@ fn tests(input_dir: PathBuf, is_module: Option<IsModule>) {
                 && !entry.file_name().to_string_lossy().ends_with(".tsx")
             {
                 return Ok(());
-                if !entry.file_name().to_string_lossy().ends_with(".ts")
-                    && !entry.file_name().to_string_lossy().ends_with(".js")
-                    && !entry.file_name().to_string_lossy().ends_with(".jsx")
-                    && !entry.file_name().to_string_lossy().ends_with(".tsx")
-                {
-                    continue;
-                }
-
-                let rel_path = entry
-                    .path()
-                    .strip_prefix(&input_dir)
-                    .expect("failed to strip prefix");
-
-                let fm = cm.load_file(entry.path()).expect("failed to load file");
-                match c.process_js_file(
-                    fm,
-                    &handler,
-                    &Options {
-                        swcrc: true,
-                        output_path: Some(output.join(entry.file_name())),
-                        config: Config {
-                            jsc: JscConfig {
-                                external_helpers: true.into(),
-                                ..Default::default()
-                            },
-                            is_module: Some(IsModule::Unknown),
-                            ..Default::default()
-                        },
-
-                        ..Default::default()
-                    },
-                ) {
-                    Ok(v) => {
-                        NormalizedOutput::from(v.code)
-                            .compare_to_file(output.join(rel_path))
-                            .unwrap();
-
-                        let _ = create_dir_all(output.join(rel_path).parent().unwrap());
-
-                        let map = v.map.map(|json| {
-                            let json: serde_json::Value = serde_json::from_str(&json).unwrap();
-                            serde_json::to_string_pretty(&json).unwrap()
-                        });
-
-                        NormalizedOutput::from(map.unwrap_or_default())
-                            .compare_to_file(
-                                output.join(rel_path.with_extension("map").file_name().unwrap()),
-                            )
-                            .unwrap();
-                    }
-                    Err(ref err) if format!("{:?}", err).contains("not matched") => {}
-                    Err(ref err) if format!("{:?}", err).contains("Syntax Error") => return Err(()),
-                    Err(err) => panic!("Error: {:?}", err),
-                }
             }
 
             let rel_path = entry
