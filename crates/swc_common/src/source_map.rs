@@ -1245,7 +1245,7 @@ impl SourceMap {
     pub fn build_source_map_with_config(
         &self,
         mappings: &[(BytePos, LineCol)],
-        orig: Option<sourcemap::SourceMap>,
+        orig: Option<&sourcemap::SourceMap>,
         config: impl SourceMapGenConfig,
     ) -> sourcemap::SourceMap {
         let mut builder = SourceMapBuilder::new(None);
