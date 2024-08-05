@@ -46,6 +46,8 @@ pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
     /// buffer on set_ctx if the parser mode become module mode.
     fn add_module_mode_error(&self, error: Error);
 
+    fn end_pos(&self) -> BytePos;
+
     fn take_errors(&mut self) -> Vec<Error>;
 }
 
@@ -141,6 +143,14 @@ impl Tokens for TokensInput {
 
     fn take_errors(&mut self) -> Vec<Error> {
         take(&mut self.errors.borrow_mut())
+    }
+
+    fn end_pos(&self) -> BytePos {
+        self.iter
+            .as_slice()
+            .last()
+            .map(|t| t.span.hi)
+            .unwrap_or(self.start_pos)
     }
 }
 
@@ -257,6 +267,10 @@ impl<I: Tokens> Tokens for Capturing<I> {
 
     fn take_errors(&mut self) -> Vec<Error> {
         self.inner.take_errors()
+    }
+
+    fn end_pos(&self) -> BytePos {
+        self.inner.end_pos()
     }
 }
 
@@ -496,5 +510,10 @@ impl<I: Tokens> Buffer<I> {
     #[inline]
     pub(crate) fn set_token_context(&mut self, c: lexer::TokenContexts) {
         self.iter.set_token_context(c)
+    }
+
+    #[inline]
+    pub(crate) fn end_pos(&self) -> BytePos {
+        self.iter.end_pos()
     }
 }
