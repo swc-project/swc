@@ -12612,8 +12612,33 @@ pub mod fields {
     impl<'ast> ::swc_visit::NodeRef for AstParentNodeRef<'ast> {
         type ParentKind = AstParentKind;
 
-        #[inline]
+        #[inline(always)]
         fn kind(&self) -> AstParentKind {
+            self.kind()
+        }
+
+        fn set_index(&mut self, index: usize) {
+            match self {
+                Self::Attribute(_, __field_kind) => __field_kind.set_index(index),
+                Self::AttributeToken(_, __field_kind) => __field_kind.set_index(index),
+                Self::Child(_, __field_kind) => __field_kind.set_index(index),
+                Self::Comment(_, __field_kind) => __field_kind.set_index(index),
+                Self::Document(_, __field_kind) => __field_kind.set_index(index),
+                Self::DocumentFragment(_, __field_kind) => __field_kind.set_index(index),
+                Self::DocumentMode(_, __field_kind) => __field_kind.set_index(index),
+                Self::DocumentType(_, __field_kind) => __field_kind.set_index(index),
+                Self::Element(_, __field_kind) => __field_kind.set_index(index),
+                Self::Namespace(_, __field_kind) => __field_kind.set_index(index),
+                Self::Raw(_, __field_kind) => __field_kind.set_index(index),
+                Self::Text(_, __field_kind) => __field_kind.set_index(index),
+                Self::Token(_, __field_kind) => __field_kind.set_index(index),
+                Self::TokenAndSpan(_, __field_kind) => __field_kind.set_index(index),
+            }
+        }
+    }
+    impl<'ast> AstParentNodeRef<'ast> {
+        #[inline]
+        pub fn kind(&self) -> AstParentKind {
             match self {
                 Self::Attribute(_, __field_kind) => AstParentKind::Attribute(*__field_kind),
                 Self::AttributeToken(_, __field_kind) => {
@@ -12633,25 +12658,6 @@ pub mod fields {
                 Self::Text(_, __field_kind) => AstParentKind::Text(*__field_kind),
                 Self::Token(_, __field_kind) => AstParentKind::Token(*__field_kind),
                 Self::TokenAndSpan(_, __field_kind) => AstParentKind::TokenAndSpan(*__field_kind),
-            }
-        }
-
-        fn set_index(&mut self, index: usize) {
-            match self {
-                Self::Attribute(_, __field_kind) => __field_kind.set_index(index),
-                Self::AttributeToken(_, __field_kind) => __field_kind.set_index(index),
-                Self::Child(_, __field_kind) => __field_kind.set_index(index),
-                Self::Comment(_, __field_kind) => __field_kind.set_index(index),
-                Self::Document(_, __field_kind) => __field_kind.set_index(index),
-                Self::DocumentFragment(_, __field_kind) => __field_kind.set_index(index),
-                Self::DocumentMode(_, __field_kind) => __field_kind.set_index(index),
-                Self::DocumentType(_, __field_kind) => __field_kind.set_index(index),
-                Self::Element(_, __field_kind) => __field_kind.set_index(index),
-                Self::Namespace(_, __field_kind) => __field_kind.set_index(index),
-                Self::Raw(_, __field_kind) => __field_kind.set_index(index),
-                Self::Text(_, __field_kind) => __field_kind.set_index(index),
-                Self::Token(_, __field_kind) => __field_kind.set_index(index),
-                Self::TokenAndSpan(_, __field_kind) => __field_kind.set_index(index),
             }
         }
     }
