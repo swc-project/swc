@@ -14,7 +14,7 @@ use crate::{
 
 type Extends<'a> = Vec<(Expr, Option<Box<TsTypeParamInstantiation>>, Span)>;
 
-type Implements<'a> = Vec<TsClassImplements<'a>>;
+type Implements<'a> = Vec<TsExprWithTypeArgs>;
 
 /// Section 15.7 Class Definitions
 impl<'a> ParserImpl<'a> {

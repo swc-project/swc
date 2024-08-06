@@ -161,7 +161,7 @@ impl<'a> ParserImpl<'a> {
         )))
     }
 
-    pub(crate) fn parse_ts_implements_clause(&mut self) -> Result<Vec<TsClassImplements<'a>>> {
+    pub(crate) fn parse_ts_implements_clause(&mut self) -> Result<Vec<TsExprWithTypeArgs>> {
         self.expect(Kind::Implements)?;
         let first = self.parse_ts_implement_name()?;
         let mut implements = vec![];
@@ -784,7 +784,7 @@ impl<'a> ParserImpl<'a> {
             .ts_type_type_reference(self.end_span(span), type_name, type_parameters))
     }
 
-    fn parse_ts_implement_name(&mut self) -> Result<TsClassImplements> {
+    fn parse_ts_implement_name(&mut self) -> Result<TsExprWithTypeArgs> {
         let span = self.start_span();
         let type_name = self.parse_ts_type_name()?;
         let type_parameters = self.parse_type_arguments_of_type_reference()?;
