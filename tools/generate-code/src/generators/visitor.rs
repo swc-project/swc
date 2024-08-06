@@ -1440,16 +1440,24 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                 impl<'ast> ::swc_visit::NodeRef for AstParentNodeRef<'ast> {
                     type ParentKind = AstParentKind;
 
-                    #[inline]
+                    #[inline(always)]
                     fn kind(&self) -> AstParentKind {
-                        match self {
-                            #(#node_ref_kind_arms)*
-                        }
+                        self.kind()
                     }
 
                     fn set_index(&mut self, index: usize) {
                         match self {
                             #(#node_ref_set_index_arms)*
+                        }
+                    }
+                }
+            ));
+            defs.push(parse_quote!(
+                impl<'ast> AstParentNodeRef<'ast> {
+                    #[inline]
+                    pub fn kind(&self) -> AstParentKind {
+                        match self {
+                            #(#node_ref_kind_arms)*
                         }
                     }
                 }
