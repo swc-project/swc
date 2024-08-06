@@ -85,7 +85,7 @@ fn bump_crate(pkg_name: &str, change_type: Option<&ChangeType>, dry_run: bool) -
     let mut cmd = Command::new("cargo");
     cmd.arg("mono").arg("bump").arg(pkg_name);
 
-    if let Some(ChangeType::Major) = change_type {
+    if let Some(ChangeType::Minor | ChangeType::Major) = change_type {
         cmd.arg("--breaking");
     }
 
