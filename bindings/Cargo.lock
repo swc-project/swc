@@ -237,7 +237,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.7.7-nightly-20240806.1"
+version = "1.7.7-nightly-20240806.2"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -297,7 +297,7 @@ dependencies = [
 
 [[package]]
 name = "binding_minifier_wasm"
-version = "1.7.7-nightly-20240806.1"
+version = "1.7.7-nightly-20240806.2"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -310,7 +310,7 @@ dependencies = [
 
 [[package]]
 name = "binding_typescript_wasm"
-version = "1.7.7-nightly-20240806.1"
+version = "1.7.7-nightly-20240806.2"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -3074,7 +3074,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.91.353"
+version = "0.91.354"
 dependencies = [
  "anyhow",
  "swc_cli_impl",
@@ -3165,15 +3165,15 @@ dependencies = [
 
 [[package]]
 name = "swc_config"
-version = "0.1.14"
+version = "0.1.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "84b67e115ab136fe0eb03558bb0508ca7782eeb446a96d165508c48617e3fd94"
+checksum = "4740e53eaf68b101203c1df0937d5161a29f3c13bceed0836ddfe245b72dd000"
 dependencies = [
  "anyhow",
  "indexmap 2.2.6",
  "serde",
  "serde_json",
- "sourcemap 8.0.1",
+ "sourcemap 9.0.0",
  "swc_cached",
  "swc_config_macro",
 ]
@@ -3192,9 +3192,9 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.100.0"
+version = "0.100.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "616e391de016d5031c38260e8eb4d819b6f6efbad1746f93cc40203d353251e7"
+checksum = "48834ffc99ba591e190e6276bdd71a1278c204d39a5b7b1dedcf7c82afda30ba"
 dependencies = [
  "binding_macros",
  "swc",
@@ -3499,9 +3499,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_loader"
-version = "0.49.0"
+version = "0.49.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7f0aadc3bf991997e3b260962316ea16a75c2b3d527a0f7b004b1d62180546a9"
+checksum = "55fa3d55045b97894bfb04d38aff6d6302ac8a6a38e3bb3dfb0d20475c4974a9"
 dependencies = [
  "anyhow",
  "dashmap",
