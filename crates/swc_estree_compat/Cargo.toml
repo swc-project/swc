@@ -15,6 +15,11 @@ version       = "0.208.0"
 [lib]
 bench = false
 
+[features]
+concurrent = [
+  "swc_common/concurrent",
+]
+
 [dependencies]
 ahash      = { workspace = true, features = ["compile-time-rng"] }
 anyhow     = { workspace = true }
@@ -25,7 +30,6 @@ serde_json = { workspace = true }
 
 swc_atoms = { version = "0.6.5", path = "../swc_atoms" }
 swc_common = { version = "0.37.0", path = "../swc_common", features = [
-  "concurrent",
   "sourcemap",
   "tty-emitter",
 ] }
