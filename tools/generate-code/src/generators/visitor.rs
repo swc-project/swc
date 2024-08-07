@@ -423,7 +423,7 @@ impl Generator {
             let type_name = quote!(#ty);
             let return_type = self.return_type_token(quote!(#type_name));
             let node_type = self.node_type_for_visitor_method(ty);
-            let type_param = self.parameter_type_token(quote!(#node_type));
+            let type_param = self.param_type_for_visitor_method(ty);
 
             let visit_method_name = Ident::new(
                 &format!(
@@ -1205,6 +1205,51 @@ impl Generator {
         }
 
         items
+    }
+
+    fn param_type_for_visitor_method(&self, node_type: &FieldType) -> TokenStream {
+        match node_type {
+            FieldType::Generic(name, inner) if name == "Option" => {
+                let inner_ty = self.node_type_for_visitor_method(inner);
+
+                return match self.kind {
+                    TraitKind::Visit | TraitKind::VisitAll => quote!(Option<&#inner_ty>),
+                    TraitKind::VisitMut => quote!(Option<&mut #inner_ty>),
+                    TraitKind::Fold => quote!(Option<#inner_ty>),
+                };
+            }
+
+            FieldType::Generic(name, inner) if name == "Box" => {
+                let inner_ty = self.node_type_for_visitor_method(inner);
+
+                return match self.kind {
+                    TraitKind::Visit | TraitKind::VisitAll => quote!(&#inner_ty),
+                    TraitKind::VisitMut => quote!(&mut #inner_ty),
+                    TraitKind::Fold => quote!(#inner_ty),
+                };
+            }
+
+            _ => {}
+        }
+
+        match self.kind {
+            TraitKind::Visit | TraitKind::VisitAll => match node_type {
+                FieldType::Generic(name, inner) if name == "Vec" => {
+                    let inner_ty = self.node_type_for_visitor_method(inner);
+
+                    return quote!([#inner_ty]);
+                }
+
+                _ => {}
+            },
+            _ => {}
+        }
+
+        match self.kind {
+            TraitKind::Visit | TraitKind::VisitAll => quote!(&#node_type),
+            TraitKind::VisitMut => quote!(&mut #node_type),
+            TraitKind::Fold => quote!(#node_type),
+        }
     }
 
     fn node_type_for_visitor_method(&self, node_type: &FieldType) -> TokenStream {
