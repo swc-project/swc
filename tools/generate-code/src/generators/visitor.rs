@@ -1237,7 +1237,7 @@ impl Generator {
                 FieldType::Generic(name, inner) if name == "Vec" => {
                     let inner_ty = self.node_type_for_visitor_method(inner);
 
-                    return quote!([#inner_ty]);
+                    return quote!(&[#inner_ty]);
                 }
 
                 _ => {}
