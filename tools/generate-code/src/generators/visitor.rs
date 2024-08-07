@@ -1210,7 +1210,13 @@ impl Generator {
     fn param_type_for_visitor_method(&self, node_type: &FieldType) -> TokenStream {
         match node_type {
             FieldType::Generic(name, inner) if name == "Option" => {
-                let inner_ty = self.node_type_for_visitor_method(inner);
+                let inner_ty = match &**inner {
+                    FieldType::Generic(name, inner) if name == "Box" => {
+                        self.node_type_for_visitor_method(inner)
+                    }
+
+                    _ => self.node_type_for_visitor_method(inner),
+                };
 
                 return match self.kind {
                     TraitKind::Visit | TraitKind::VisitAll => quote!(Option<&#inner_ty>),
