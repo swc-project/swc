@@ -105,14 +105,14 @@ pub trait Visit {
              [`Option < swc_atoms :: Atom >::visit_children_with`]. If you want to recurse, you \
              need to call it manually."]
     #[inline]
-    fn visit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
+    fn visit_opt_atom(&mut self, node: Option<&swc_atoms::Atom>) {
         <Option<swc_atoms::Atom> as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Option < Namespace >`.\n\nBy default, this method calls \
              [`Option < Namespace >::visit_children_with`]. If you want to recurse, you need to \
              call it manually."]
     #[inline]
-    fn visit_opt_namespace(&mut self, node: &Option<Namespace>) {
+    fn visit_opt_namespace(&mut self, node: Option<&Namespace>) {
         <Option<Namespace> as VisitWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `ProcessingInstruction`.\n\nBy default, this method calls \
@@ -224,12 +224,12 @@ where
     }
 
     #[inline]
-    fn visit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
+    fn visit_opt_atom(&mut self, node: Option<&swc_atoms::Atom>) {
         <V as Visit>::visit_opt_atom(&mut **self, node)
     }
 
     #[inline]
-    fn visit_opt_namespace(&mut self, node: &Option<Namespace>) {
+    fn visit_opt_namespace(&mut self, node: Option<&Namespace>) {
         <V as Visit>::visit_opt_namespace(&mut **self, node)
     }
 
@@ -333,12 +333,12 @@ where
     }
 
     #[inline]
-    fn visit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
+    fn visit_opt_atom(&mut self, node: Option<&swc_atoms::Atom>) {
         <V as Visit>::visit_opt_atom(&mut **self, node)
     }
 
     #[inline]
-    fn visit_opt_namespace(&mut self, node: &Option<Namespace>) {
+    fn visit_opt_namespace(&mut self, node: Option<&Namespace>) {
         <V as Visit>::visit_opt_namespace(&mut **self, node)
     }
 
@@ -485,7 +485,7 @@ where
     }
 
     #[inline]
-    fn visit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
+    fn visit_opt_atom(&mut self, node: Option<&swc_atoms::Atom>) {
         match self {
             swc_visit::Either::Left(visitor) => Visit::visit_opt_atom(visitor, node),
             swc_visit::Either::Right(visitor) => Visit::visit_opt_atom(visitor, node),
@@ -493,7 +493,7 @@ where
     }
 
     #[inline]
-    fn visit_opt_namespace(&mut self, node: &Option<Namespace>) {
+    fn visit_opt_namespace(&mut self, node: Option<&Namespace>) {
         match self {
             swc_visit::Either::Left(visitor) => Visit::visit_opt_namespace(visitor, node),
             swc_visit::Either::Right(visitor) => Visit::visit_opt_namespace(visitor, node),
@@ -657,7 +657,7 @@ where
     }
 
     #[inline]
-    fn visit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
+    fn visit_opt_atom(&mut self, node: Option<&swc_atoms::Atom>) {
         if self.enabled {
             <V as Visit>::visit_opt_atom(&mut self.visitor, node)
         } else {
@@ -665,7 +665,7 @@ where
     }
 
     #[inline]
-    fn visit_opt_namespace(&mut self, node: &Option<Namespace>) {
+    fn visit_opt_namespace(&mut self, node: Option<&Namespace>) {
         if self.enabled {
             <V as Visit>::visit_opt_namespace(&mut self.visitor, node)
         } else {
@@ -801,13 +801,13 @@ where
     }
 
     #[inline]
-    fn visit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
+    fn visit_opt_atom(&mut self, node: Option<&swc_atoms::Atom>) {
         <V as VisitAll>::visit_opt_atom(&mut self.visitor, node);
         <Option<swc_atoms::Atom> as VisitWith<Self>>::visit_children_with(node, self);
     }
 
     #[inline]
-    fn visit_opt_namespace(&mut self, node: &Option<Namespace>) {
+    fn visit_opt_namespace(&mut self, node: Option<&Namespace>) {
         <V as VisitAll>::visit_opt_namespace(&mut self.visitor, node);
         <Option<Namespace> as VisitWith<Self>>::visit_children_with(node, self);
     }
@@ -1405,7 +1405,7 @@ pub trait VisitAstPath {
     #[inline]
     fn visit_atom<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast swc_atoms::Atom,
+        node: &swc_atoms::Atom,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <swc_atoms::Atom as VisitWithAstPath<Self>>::visit_children_with_ast_path(
@@ -1418,7 +1418,7 @@ pub trait VisitAstPath {
     #[inline]
     fn visit_attribute<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast Attribute,
+        node: &Attribute,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <Attribute as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, __ast_path)
@@ -1429,7 +1429,7 @@ pub trait VisitAstPath {
     #[inline]
     fn visit_attribute_token<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast AttributeToken,
+        node: &AttributeToken,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <AttributeToken as VisitWithAstPath<Self>>::visit_children_with_ast_path(
@@ -1442,7 +1442,7 @@ pub trait VisitAstPath {
     #[inline]
     fn visit_attribute_tokens<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast [AttributeToken],
+        node: &[AttributeToken],
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <[AttributeToken] as VisitWithAstPath<Self>>::visit_children_with_ast_path(
@@ -1455,7 +1455,7 @@ pub trait VisitAstPath {
     #[inline]
     fn visit_attributes<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast [Attribute],
+        node: &[Attribute],
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <[Attribute] as VisitWithAstPath<Self>>::visit_children_with_ast_path(
@@ -1468,7 +1468,7 @@ pub trait VisitAstPath {
     #[inline]
     fn visit_cdata_section<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast CdataSection,
+        node: &CdataSection,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <CdataSection as VisitWithAstPath<Self>>::visit_children_with_ast_path(
@@ -1479,40 +1479,28 @@ pub trait VisitAstPath {
              [`Child::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
     #[inline]
-    fn visit_child<'ast: 'r, 'r>(&mut self, node: &'ast Child, __ast_path: &mut AstNodePath<'r>) {
+    fn visit_child<'ast: 'r, 'r>(&mut self, node: &Child, __ast_path: &mut AstNodePath<'r>) {
         <Child as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, __ast_path)
     }
     #[doc = "Visit a node of type `Vec < Child >`.\n\nBy default, this method calls [`Vec < Child \
              >::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
     #[inline]
-    fn visit_childs<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast [Child],
-        __ast_path: &mut AstNodePath<'r>,
-    ) {
+    fn visit_childs<'ast: 'r, 'r>(&mut self, node: &[Child], __ast_path: &mut AstNodePath<'r>) {
         <[Child] as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, __ast_path)
     }
     #[doc = "Visit a node of type `Comment`.\n\nBy default, this method calls \
              [`Comment::visit_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
     #[inline]
-    fn visit_comment<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast Comment,
-        __ast_path: &mut AstNodePath<'r>,
-    ) {
+    fn visit_comment<'ast: 'r, 'r>(&mut self, node: &Comment, __ast_path: &mut AstNodePath<'r>) {
         <Comment as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, __ast_path)
     }
     #[doc = "Visit a node of type `Document`.\n\nBy default, this method calls \
              [`Document::visit_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
     #[inline]
-    fn visit_document<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast Document,
-        __ast_path: &mut AstNodePath<'r>,
-    ) {
+    fn visit_document<'ast: 'r, 'r>(&mut self, node: &Document, __ast_path: &mut AstNodePath<'r>) {
         <Document as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, __ast_path)
     }
     #[doc = "Visit a node of type `DocumentMode`.\n\nBy default, this method calls \
@@ -1521,7 +1509,7 @@ pub trait VisitAstPath {
     #[inline]
     fn visit_document_mode<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast DocumentMode,
+        node: &DocumentMode,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <DocumentMode as VisitWithAstPath<Self>>::visit_children_with_ast_path(
@@ -1534,7 +1522,7 @@ pub trait VisitAstPath {
     #[inline]
     fn visit_document_type<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast DocumentType,
+        node: &DocumentType,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <DocumentType as VisitWithAstPath<Self>>::visit_children_with_ast_path(
@@ -1545,11 +1533,7 @@ pub trait VisitAstPath {
              [`Element::visit_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
     #[inline]
-    fn visit_element<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast Element,
-        __ast_path: &mut AstNodePath<'r>,
-    ) {
+    fn visit_element<'ast: 'r, 'r>(&mut self, node: &Element, __ast_path: &mut AstNodePath<'r>) {
         <Element as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, __ast_path)
     }
     #[doc = "Visit a node of type `Namespace`.\n\nBy default, this method calls \
@@ -1558,7 +1542,7 @@ pub trait VisitAstPath {
     #[inline]
     fn visit_namespace<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast Namespace,
+        node: &Namespace,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <Namespace as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, __ast_path)
@@ -1569,7 +1553,7 @@ pub trait VisitAstPath {
     #[inline]
     fn visit_opt_atom<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast Option<swc_atoms::Atom>,
+        node: Option<&swc_atoms::Atom>,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <Option<swc_atoms::Atom> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
@@ -1582,7 +1566,7 @@ pub trait VisitAstPath {
     #[inline]
     fn visit_opt_namespace<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast Option<Namespace>,
+        node: Option<&Namespace>,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <Option<Namespace> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
@@ -1595,7 +1579,7 @@ pub trait VisitAstPath {
     #[inline]
     fn visit_processing_instruction<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast ProcessingInstruction,
+        node: &ProcessingInstruction,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <ProcessingInstruction as VisitWithAstPath<Self>>::visit_children_with_ast_path(
@@ -1608,7 +1592,7 @@ pub trait VisitAstPath {
     #[inline]
     fn visit_span<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast swc_common::Span,
+        node: &swc_common::Span,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <swc_common::Span as VisitWithAstPath<Self>>::visit_children_with_ast_path(
@@ -1619,14 +1603,14 @@ pub trait VisitAstPath {
              [`Text::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
     #[inline]
-    fn visit_text<'ast: 'r, 'r>(&mut self, node: &'ast Text, __ast_path: &mut AstNodePath<'r>) {
+    fn visit_text<'ast: 'r, 'r>(&mut self, node: &Text, __ast_path: &mut AstNodePath<'r>) {
         <Text as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, __ast_path)
     }
     #[doc = "Visit a node of type `Token`.\n\nBy default, this method calls \
              [`Token::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
     #[inline]
-    fn visit_token<'ast: 'r, 'r>(&mut self, node: &'ast Token, __ast_path: &mut AstNodePath<'r>) {
+    fn visit_token<'ast: 'r, 'r>(&mut self, node: &Token, __ast_path: &mut AstNodePath<'r>) {
         <Token as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, __ast_path)
     }
     #[doc = "Visit a node of type `TokenAndSpan`.\n\nBy default, this method calls \
@@ -1635,7 +1619,7 @@ pub trait VisitAstPath {
     #[inline]
     fn visit_token_and_span<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast TokenAndSpan,
+        node: &TokenAndSpan,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <TokenAndSpan as VisitWithAstPath<Self>>::visit_children_with_ast_path(
@@ -1652,7 +1636,7 @@ where
     #[inline]
     fn visit_atom<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast swc_atoms::Atom,
+        node: &swc_atoms::Atom,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_atom(&mut **self, node, __ast_path)
@@ -1661,7 +1645,7 @@ where
     #[inline]
     fn visit_attribute<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast Attribute,
+        node: &Attribute,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_attribute(&mut **self, node, __ast_path)
@@ -1670,7 +1654,7 @@ where
     #[inline]
     fn visit_attribute_token<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast AttributeToken,
+        node: &AttributeToken,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_attribute_token(&mut **self, node, __ast_path)
@@ -1679,7 +1663,7 @@ where
     #[inline]
     fn visit_attribute_tokens<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast [AttributeToken],
+        node: &[AttributeToken],
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_attribute_tokens(&mut **self, node, __ast_path)
@@ -1688,7 +1672,7 @@ where
     #[inline]
     fn visit_attributes<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast [Attribute],
+        node: &[Attribute],
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_attributes(&mut **self, node, __ast_path)
@@ -1697,48 +1681,36 @@ where
     #[inline]
     fn visit_cdata_section<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast CdataSection,
+        node: &CdataSection,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_cdata_section(&mut **self, node, __ast_path)
     }
 
     #[inline]
-    fn visit_child<'ast: 'r, 'r>(&mut self, node: &'ast Child, __ast_path: &mut AstNodePath<'r>) {
+    fn visit_child<'ast: 'r, 'r>(&mut self, node: &Child, __ast_path: &mut AstNodePath<'r>) {
         <V as VisitAstPath>::visit_child(&mut **self, node, __ast_path)
     }
 
     #[inline]
-    fn visit_childs<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast [Child],
-        __ast_path: &mut AstNodePath<'r>,
-    ) {
+    fn visit_childs<'ast: 'r, 'r>(&mut self, node: &[Child], __ast_path: &mut AstNodePath<'r>) {
         <V as VisitAstPath>::visit_childs(&mut **self, node, __ast_path)
     }
 
     #[inline]
-    fn visit_comment<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast Comment,
-        __ast_path: &mut AstNodePath<'r>,
-    ) {
+    fn visit_comment<'ast: 'r, 'r>(&mut self, node: &Comment, __ast_path: &mut AstNodePath<'r>) {
         <V as VisitAstPath>::visit_comment(&mut **self, node, __ast_path)
     }
 
     #[inline]
-    fn visit_document<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast Document,
-        __ast_path: &mut AstNodePath<'r>,
-    ) {
+    fn visit_document<'ast: 'r, 'r>(&mut self, node: &Document, __ast_path: &mut AstNodePath<'r>) {
         <V as VisitAstPath>::visit_document(&mut **self, node, __ast_path)
     }
 
     #[inline]
     fn visit_document_mode<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast DocumentMode,
+        node: &DocumentMode,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_document_mode(&mut **self, node, __ast_path)
@@ -1747,25 +1719,21 @@ where
     #[inline]
     fn visit_document_type<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast DocumentType,
+        node: &DocumentType,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_document_type(&mut **self, node, __ast_path)
     }
 
     #[inline]
-    fn visit_element<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast Element,
-        __ast_path: &mut AstNodePath<'r>,
-    ) {
+    fn visit_element<'ast: 'r, 'r>(&mut self, node: &Element, __ast_path: &mut AstNodePath<'r>) {
         <V as VisitAstPath>::visit_element(&mut **self, node, __ast_path)
     }
 
     #[inline]
     fn visit_namespace<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast Namespace,
+        node: &Namespace,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_namespace(&mut **self, node, __ast_path)
@@ -1774,7 +1742,7 @@ where
     #[inline]
     fn visit_opt_atom<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast Option<swc_atoms::Atom>,
+        node: Option<&swc_atoms::Atom>,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_opt_atom(&mut **self, node, __ast_path)
@@ -1783,7 +1751,7 @@ where
     #[inline]
     fn visit_opt_namespace<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast Option<Namespace>,
+        node: Option<&Namespace>,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_opt_namespace(&mut **self, node, __ast_path)
@@ -1792,7 +1760,7 @@ where
     #[inline]
     fn visit_processing_instruction<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast ProcessingInstruction,
+        node: &ProcessingInstruction,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_processing_instruction(&mut **self, node, __ast_path)
@@ -1801,26 +1769,26 @@ where
     #[inline]
     fn visit_span<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast swc_common::Span,
+        node: &swc_common::Span,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_span(&mut **self, node, __ast_path)
     }
 
     #[inline]
-    fn visit_text<'ast: 'r, 'r>(&mut self, node: &'ast Text, __ast_path: &mut AstNodePath<'r>) {
+    fn visit_text<'ast: 'r, 'r>(&mut self, node: &Text, __ast_path: &mut AstNodePath<'r>) {
         <V as VisitAstPath>::visit_text(&mut **self, node, __ast_path)
     }
 
     #[inline]
-    fn visit_token<'ast: 'r, 'r>(&mut self, node: &'ast Token, __ast_path: &mut AstNodePath<'r>) {
+    fn visit_token<'ast: 'r, 'r>(&mut self, node: &Token, __ast_path: &mut AstNodePath<'r>) {
         <V as VisitAstPath>::visit_token(&mut **self, node, __ast_path)
     }
 
     #[inline]
     fn visit_token_and_span<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast TokenAndSpan,
+        node: &TokenAndSpan,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_token_and_span(&mut **self, node, __ast_path)
@@ -1835,7 +1803,7 @@ where
     #[inline]
     fn visit_atom<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast swc_atoms::Atom,
+        node: &swc_atoms::Atom,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_atom(&mut **self, node, __ast_path)
@@ -1844,7 +1812,7 @@ where
     #[inline]
     fn visit_attribute<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast Attribute,
+        node: &Attribute,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_attribute(&mut **self, node, __ast_path)
@@ -1853,7 +1821,7 @@ where
     #[inline]
     fn visit_attribute_token<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast AttributeToken,
+        node: &AttributeToken,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_attribute_token(&mut **self, node, __ast_path)
@@ -1862,7 +1830,7 @@ where
     #[inline]
     fn visit_attribute_tokens<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast [AttributeToken],
+        node: &[AttributeToken],
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_attribute_tokens(&mut **self, node, __ast_path)
@@ -1871,7 +1839,7 @@ where
     #[inline]
     fn visit_attributes<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast [Attribute],
+        node: &[Attribute],
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_attributes(&mut **self, node, __ast_path)
@@ -1880,48 +1848,36 @@ where
     #[inline]
     fn visit_cdata_section<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast CdataSection,
+        node: &CdataSection,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_cdata_section(&mut **self, node, __ast_path)
     }
 
     #[inline]
-    fn visit_child<'ast: 'r, 'r>(&mut self, node: &'ast Child, __ast_path: &mut AstNodePath<'r>) {
+    fn visit_child<'ast: 'r, 'r>(&mut self, node: &Child, __ast_path: &mut AstNodePath<'r>) {
         <V as VisitAstPath>::visit_child(&mut **self, node, __ast_path)
     }
 
     #[inline]
-    fn visit_childs<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast [Child],
-        __ast_path: &mut AstNodePath<'r>,
-    ) {
+    fn visit_childs<'ast: 'r, 'r>(&mut self, node: &[Child], __ast_path: &mut AstNodePath<'r>) {
         <V as VisitAstPath>::visit_childs(&mut **self, node, __ast_path)
     }
 
     #[inline]
-    fn visit_comment<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast Comment,
-        __ast_path: &mut AstNodePath<'r>,
-    ) {
+    fn visit_comment<'ast: 'r, 'r>(&mut self, node: &Comment, __ast_path: &mut AstNodePath<'r>) {
         <V as VisitAstPath>::visit_comment(&mut **self, node, __ast_path)
     }
 
     #[inline]
-    fn visit_document<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast Document,
-        __ast_path: &mut AstNodePath<'r>,
-    ) {
+    fn visit_document<'ast: 'r, 'r>(&mut self, node: &Document, __ast_path: &mut AstNodePath<'r>) {
         <V as VisitAstPath>::visit_document(&mut **self, node, __ast_path)
     }
 
     #[inline]
     fn visit_document_mode<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast DocumentMode,
+        node: &DocumentMode,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_document_mode(&mut **self, node, __ast_path)
@@ -1930,25 +1886,21 @@ where
     #[inline]
     fn visit_document_type<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast DocumentType,
+        node: &DocumentType,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_document_type(&mut **self, node, __ast_path)
     }
 
     #[inline]
-    fn visit_element<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast Element,
-        __ast_path: &mut AstNodePath<'r>,
-    ) {
+    fn visit_element<'ast: 'r, 'r>(&mut self, node: &Element, __ast_path: &mut AstNodePath<'r>) {
         <V as VisitAstPath>::visit_element(&mut **self, node, __ast_path)
     }
 
     #[inline]
     fn visit_namespace<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast Namespace,
+        node: &Namespace,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_namespace(&mut **self, node, __ast_path)
@@ -1957,7 +1909,7 @@ where
     #[inline]
     fn visit_opt_atom<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast Option<swc_atoms::Atom>,
+        node: Option<&swc_atoms::Atom>,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_opt_atom(&mut **self, node, __ast_path)
@@ -1966,7 +1918,7 @@ where
     #[inline]
     fn visit_opt_namespace<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast Option<Namespace>,
+        node: Option<&Namespace>,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_opt_namespace(&mut **self, node, __ast_path)
@@ -1975,7 +1927,7 @@ where
     #[inline]
     fn visit_processing_instruction<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast ProcessingInstruction,
+        node: &ProcessingInstruction,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_processing_instruction(&mut **self, node, __ast_path)
@@ -1984,26 +1936,26 @@ where
     #[inline]
     fn visit_span<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast swc_common::Span,
+        node: &swc_common::Span,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_span(&mut **self, node, __ast_path)
     }
 
     #[inline]
-    fn visit_text<'ast: 'r, 'r>(&mut self, node: &'ast Text, __ast_path: &mut AstNodePath<'r>) {
+    fn visit_text<'ast: 'r, 'r>(&mut self, node: &Text, __ast_path: &mut AstNodePath<'r>) {
         <V as VisitAstPath>::visit_text(&mut **self, node, __ast_path)
     }
 
     #[inline]
-    fn visit_token<'ast: 'r, 'r>(&mut self, node: &'ast Token, __ast_path: &mut AstNodePath<'r>) {
+    fn visit_token<'ast: 'r, 'r>(&mut self, node: &Token, __ast_path: &mut AstNodePath<'r>) {
         <V as VisitAstPath>::visit_token(&mut **self, node, __ast_path)
     }
 
     #[inline]
     fn visit_token_and_span<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast TokenAndSpan,
+        node: &TokenAndSpan,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_token_and_span(&mut **self, node, __ast_path)
@@ -2019,7 +1971,7 @@ where
     #[inline]
     fn visit_atom<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast swc_atoms::Atom,
+        node: &swc_atoms::Atom,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
@@ -2033,7 +1985,7 @@ where
     #[inline]
     fn visit_attribute<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast Attribute,
+        node: &Attribute,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
@@ -2049,7 +2001,7 @@ where
     #[inline]
     fn visit_attribute_token<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast AttributeToken,
+        node: &AttributeToken,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
@@ -2065,7 +2017,7 @@ where
     #[inline]
     fn visit_attribute_tokens<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast [AttributeToken],
+        node: &[AttributeToken],
         __ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
@@ -2081,7 +2033,7 @@ where
     #[inline]
     fn visit_attributes<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast [Attribute],
+        node: &[Attribute],
         __ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
@@ -2097,7 +2049,7 @@ where
     #[inline]
     fn visit_cdata_section<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast CdataSection,
+        node: &CdataSection,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
@@ -2111,7 +2063,7 @@ where
     }
 
     #[inline]
-    fn visit_child<'ast: 'r, 'r>(&mut self, node: &'ast Child, __ast_path: &mut AstNodePath<'r>) {
+    fn visit_child<'ast: 'r, 'r>(&mut self, node: &Child, __ast_path: &mut AstNodePath<'r>) {
         match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_child(visitor, node, __ast_path)
@@ -2123,11 +2075,7 @@ where
     }
 
     #[inline]
-    fn visit_childs<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast [Child],
-        __ast_path: &mut AstNodePath<'r>,
-    ) {
+    fn visit_childs<'ast: 'r, 'r>(&mut self, node: &[Child], __ast_path: &mut AstNodePath<'r>) {
         match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_childs(visitor, node, __ast_path)
@@ -2139,11 +2087,7 @@ where
     }
 
     #[inline]
-    fn visit_comment<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast Comment,
-        __ast_path: &mut AstNodePath<'r>,
-    ) {
+    fn visit_comment<'ast: 'r, 'r>(&mut self, node: &Comment, __ast_path: &mut AstNodePath<'r>) {
         match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_comment(visitor, node, __ast_path)
@@ -2155,11 +2099,7 @@ where
     }
 
     #[inline]
-    fn visit_document<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast Document,
-        __ast_path: &mut AstNodePath<'r>,
-    ) {
+    fn visit_document<'ast: 'r, 'r>(&mut self, node: &Document, __ast_path: &mut AstNodePath<'r>) {
         match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_document(visitor, node, __ast_path)
@@ -2173,7 +2113,7 @@ where
     #[inline]
     fn visit_document_mode<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast DocumentMode,
+        node: &DocumentMode,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
@@ -2189,7 +2129,7 @@ where
     #[inline]
     fn visit_document_type<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast DocumentType,
+        node: &DocumentType,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
@@ -2203,11 +2143,7 @@ where
     }
 
     #[inline]
-    fn visit_element<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast Element,
-        __ast_path: &mut AstNodePath<'r>,
-    ) {
+    fn visit_element<'ast: 'r, 'r>(&mut self, node: &Element, __ast_path: &mut AstNodePath<'r>) {
         match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_element(visitor, node, __ast_path)
@@ -2221,7 +2157,7 @@ where
     #[inline]
     fn visit_namespace<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast Namespace,
+        node: &Namespace,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
@@ -2237,7 +2173,7 @@ where
     #[inline]
     fn visit_opt_atom<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast Option<swc_atoms::Atom>,
+        node: Option<&swc_atoms::Atom>,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
@@ -2253,7 +2189,7 @@ where
     #[inline]
     fn visit_opt_namespace<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast Option<Namespace>,
+        node: Option<&Namespace>,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
@@ -2269,7 +2205,7 @@ where
     #[inline]
     fn visit_processing_instruction<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast ProcessingInstruction,
+        node: &ProcessingInstruction,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
@@ -2285,7 +2221,7 @@ where
     #[inline]
     fn visit_span<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast swc_common::Span,
+        node: &swc_common::Span,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
@@ -2297,7 +2233,7 @@ where
     }
 
     #[inline]
-    fn visit_text<'ast: 'r, 'r>(&mut self, node: &'ast Text, __ast_path: &mut AstNodePath<'r>) {
+    fn visit_text<'ast: 'r, 'r>(&mut self, node: &Text, __ast_path: &mut AstNodePath<'r>) {
         match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_text(visitor, node, __ast_path),
             swc_visit::Either::Right(visitor) => {
@@ -2307,7 +2243,7 @@ where
     }
 
     #[inline]
-    fn visit_token<'ast: 'r, 'r>(&mut self, node: &'ast Token, __ast_path: &mut AstNodePath<'r>) {
+    fn visit_token<'ast: 'r, 'r>(&mut self, node: &Token, __ast_path: &mut AstNodePath<'r>) {
         match self {
             swc_visit::Either::Left(visitor) => {
                 VisitAstPath::visit_token(visitor, node, __ast_path)
@@ -2321,7 +2257,7 @@ where
     #[inline]
     fn visit_token_and_span<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast TokenAndSpan,
+        node: &TokenAndSpan,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
@@ -2343,7 +2279,7 @@ where
     #[inline]
     fn visit_atom<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast swc_atoms::Atom,
+        node: &swc_atoms::Atom,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
@@ -2355,7 +2291,7 @@ where
     #[inline]
     fn visit_attribute<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast Attribute,
+        node: &Attribute,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
@@ -2367,7 +2303,7 @@ where
     #[inline]
     fn visit_attribute_token<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast AttributeToken,
+        node: &AttributeToken,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
@@ -2379,7 +2315,7 @@ where
     #[inline]
     fn visit_attribute_tokens<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast [AttributeToken],
+        node: &[AttributeToken],
         __ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
@@ -2391,7 +2327,7 @@ where
     #[inline]
     fn visit_attributes<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast [Attribute],
+        node: &[Attribute],
         __ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
@@ -2403,7 +2339,7 @@ where
     #[inline]
     fn visit_cdata_section<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast CdataSection,
+        node: &CdataSection,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
@@ -2413,7 +2349,7 @@ where
     }
 
     #[inline]
-    fn visit_child<'ast: 'r, 'r>(&mut self, node: &'ast Child, __ast_path: &mut AstNodePath<'r>) {
+    fn visit_child<'ast: 'r, 'r>(&mut self, node: &Child, __ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
             <V as VisitAstPath>::visit_child(&mut self.visitor, node, __ast_path)
         } else {
@@ -2421,11 +2357,7 @@ where
     }
 
     #[inline]
-    fn visit_childs<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast [Child],
-        __ast_path: &mut AstNodePath<'r>,
-    ) {
+    fn visit_childs<'ast: 'r, 'r>(&mut self, node: &[Child], __ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
             <V as VisitAstPath>::visit_childs(&mut self.visitor, node, __ast_path)
         } else {
@@ -2433,11 +2365,7 @@ where
     }
 
     #[inline]
-    fn visit_comment<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast Comment,
-        __ast_path: &mut AstNodePath<'r>,
-    ) {
+    fn visit_comment<'ast: 'r, 'r>(&mut self, node: &Comment, __ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
             <V as VisitAstPath>::visit_comment(&mut self.visitor, node, __ast_path)
         } else {
@@ -2445,11 +2373,7 @@ where
     }
 
     #[inline]
-    fn visit_document<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast Document,
-        __ast_path: &mut AstNodePath<'r>,
-    ) {
+    fn visit_document<'ast: 'r, 'r>(&mut self, node: &Document, __ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
             <V as VisitAstPath>::visit_document(&mut self.visitor, node, __ast_path)
         } else {
@@ -2459,7 +2383,7 @@ where
     #[inline]
     fn visit_document_mode<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast DocumentMode,
+        node: &DocumentMode,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
@@ -2471,7 +2395,7 @@ where
     #[inline]
     fn visit_document_type<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast DocumentType,
+        node: &DocumentType,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
@@ -2481,11 +2405,7 @@ where
     }
 
     #[inline]
-    fn visit_element<'ast: 'r, 'r>(
-        &mut self,
-        node: &'ast Element,
-        __ast_path: &mut AstNodePath<'r>,
-    ) {
+    fn visit_element<'ast: 'r, 'r>(&mut self, node: &Element, __ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
             <V as VisitAstPath>::visit_element(&mut self.visitor, node, __ast_path)
         } else {
@@ -2495,7 +2415,7 @@ where
     #[inline]
     fn visit_namespace<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast Namespace,
+        node: &Namespace,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
@@ -2507,7 +2427,7 @@ where
     #[inline]
     fn visit_opt_atom<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast Option<swc_atoms::Atom>,
+        node: Option<&swc_atoms::Atom>,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
@@ -2519,7 +2439,7 @@ where
     #[inline]
     fn visit_opt_namespace<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast Option<Namespace>,
+        node: Option<&Namespace>,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
@@ -2531,7 +2451,7 @@ where
     #[inline]
     fn visit_processing_instruction<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast ProcessingInstruction,
+        node: &ProcessingInstruction,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
@@ -2543,7 +2463,7 @@ where
     #[inline]
     fn visit_span<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast swc_common::Span,
+        node: &swc_common::Span,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
@@ -2553,7 +2473,7 @@ where
     }
 
     #[inline]
-    fn visit_text<'ast: 'r, 'r>(&mut self, node: &'ast Text, __ast_path: &mut AstNodePath<'r>) {
+    fn visit_text<'ast: 'r, 'r>(&mut self, node: &Text, __ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
             <V as VisitAstPath>::visit_text(&mut self.visitor, node, __ast_path)
         } else {
@@ -2561,7 +2481,7 @@ where
     }
 
     #[inline]
-    fn visit_token<'ast: 'r, 'r>(&mut self, node: &'ast Token, __ast_path: &mut AstNodePath<'r>) {
+    fn visit_token<'ast: 'r, 'r>(&mut self, node: &Token, __ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
             <V as VisitAstPath>::visit_token(&mut self.visitor, node, __ast_path)
         } else {
@@ -2571,7 +2491,7 @@ where
     #[inline]
     fn visit_token_and_span<'ast: 'r, 'r>(
         &mut self,
-        node: &'ast TokenAndSpan,
+        node: &TokenAndSpan,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         if self.enabled {
@@ -3989,14 +3909,14 @@ pub trait VisitMut {
              [`Option < swc_atoms :: Atom >::visit_mut_children_with`]. If you want to recurse, \
              you need to call it manually."]
     #[inline]
-    fn visit_mut_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
+    fn visit_mut_opt_atom(&mut self, node: Option<&mut swc_atoms::Atom>) {
         <Option<swc_atoms::Atom> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `Option < Namespace >`.\n\nBy default, this method calls \
              [`Option < Namespace >::visit_mut_children_with`]. If you want to recurse, you need \
              to call it manually."]
     #[inline]
-    fn visit_mut_opt_namespace(&mut self, node: &mut Option<Namespace>) {
+    fn visit_mut_opt_namespace(&mut self, node: Option<&mut Namespace>) {
         <Option<Namespace> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
     #[doc = "Visit a node of type `ProcessingInstruction`.\n\nBy default, this method calls \
@@ -4110,12 +4030,12 @@ where
     }
 
     #[inline]
-    fn visit_mut_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
+    fn visit_mut_opt_atom(&mut self, node: Option<&mut swc_atoms::Atom>) {
         <V as VisitMut>::visit_mut_opt_atom(&mut **self, node)
     }
 
     #[inline]
-    fn visit_mut_opt_namespace(&mut self, node: &mut Option<Namespace>) {
+    fn visit_mut_opt_namespace(&mut self, node: Option<&mut Namespace>) {
         <V as VisitMut>::visit_mut_opt_namespace(&mut **self, node)
     }
 
@@ -4219,12 +4139,12 @@ where
     }
 
     #[inline]
-    fn visit_mut_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
+    fn visit_mut_opt_atom(&mut self, node: Option<&mut swc_atoms::Atom>) {
         <V as VisitMut>::visit_mut_opt_atom(&mut **self, node)
     }
 
     #[inline]
-    fn visit_mut_opt_namespace(&mut self, node: &mut Option<Namespace>) {
+    fn visit_mut_opt_namespace(&mut self, node: Option<&mut Namespace>) {
         <V as VisitMut>::visit_mut_opt_namespace(&mut **self, node)
     }
 
@@ -4373,7 +4293,7 @@ where
     }
 
     #[inline]
-    fn visit_mut_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
+    fn visit_mut_opt_atom(&mut self, node: Option<&mut swc_atoms::Atom>) {
         match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_opt_atom(visitor, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_opt_atom(visitor, node),
@@ -4381,7 +4301,7 @@ where
     }
 
     #[inline]
-    fn visit_mut_opt_namespace(&mut self, node: &mut Option<Namespace>) {
+    fn visit_mut_opt_namespace(&mut self, node: Option<&mut Namespace>) {
         match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_opt_namespace(visitor, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_opt_namespace(visitor, node),
@@ -4549,7 +4469,7 @@ where
     }
 
     #[inline]
-    fn visit_mut_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
+    fn visit_mut_opt_atom(&mut self, node: Option<&mut swc_atoms::Atom>) {
         if self.enabled {
             <V as VisitMut>::visit_mut_opt_atom(&mut self.visitor, node)
         } else {
@@ -4557,7 +4477,7 @@ where
     }
 
     #[inline]
-    fn visit_mut_opt_namespace(&mut self, node: &mut Option<Namespace>) {
+    fn visit_mut_opt_namespace(&mut self, node: Option<&mut Namespace>) {
         if self.enabled {
             <V as VisitMut>::visit_mut_opt_namespace(&mut self.visitor, node)
         } else {
@@ -5284,7 +5204,7 @@ pub trait VisitMutAstPath {
     #[inline]
     fn visit_mut_opt_atom(
         &mut self,
-        node: &mut Option<swc_atoms::Atom>,
+        node: Option<&mut swc_atoms::Atom>,
         __ast_path: &mut AstKindPath,
     ) {
         <Option<swc_atoms::Atom> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
@@ -5297,7 +5217,7 @@ pub trait VisitMutAstPath {
     #[inline]
     fn visit_mut_opt_namespace(
         &mut self,
-        node: &mut Option<Namespace>,
+        node: Option<&mut Namespace>,
         __ast_path: &mut AstKindPath,
     ) {
         <Option<Namespace> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
@@ -5441,7 +5361,7 @@ where
     #[inline]
     fn visit_mut_opt_atom(
         &mut self,
-        node: &mut Option<swc_atoms::Atom>,
+        node: Option<&mut swc_atoms::Atom>,
         __ast_path: &mut AstKindPath,
     ) {
         <V as VisitMutAstPath>::visit_mut_opt_atom(&mut **self, node, __ast_path)
@@ -5450,7 +5370,7 @@ where
     #[inline]
     fn visit_mut_opt_namespace(
         &mut self,
-        node: &mut Option<Namespace>,
+        node: Option<&mut Namespace>,
         __ast_path: &mut AstKindPath,
     ) {
         <V as VisitMutAstPath>::visit_mut_opt_namespace(&mut **self, node, __ast_path)
@@ -5572,7 +5492,7 @@ where
     #[inline]
     fn visit_mut_opt_atom(
         &mut self,
-        node: &mut Option<swc_atoms::Atom>,
+        node: Option<&mut swc_atoms::Atom>,
         __ast_path: &mut AstKindPath,
     ) {
         <V as VisitMutAstPath>::visit_mut_opt_atom(&mut **self, node, __ast_path)
@@ -5581,7 +5501,7 @@ where
     #[inline]
     fn visit_mut_opt_namespace(
         &mut self,
-        node: &mut Option<Namespace>,
+        node: Option<&mut Namespace>,
         __ast_path: &mut AstKindPath,
     ) {
         <V as VisitMutAstPath>::visit_mut_opt_namespace(&mut **self, node, __ast_path)
@@ -5802,7 +5722,7 @@ where
     #[inline]
     fn visit_mut_opt_atom(
         &mut self,
-        node: &mut Option<swc_atoms::Atom>,
+        node: Option<&mut swc_atoms::Atom>,
         __ast_path: &mut AstKindPath,
     ) {
         match self {
@@ -5818,7 +5738,7 @@ where
     #[inline]
     fn visit_mut_opt_namespace(
         &mut self,
-        node: &mut Option<Namespace>,
+        node: Option<&mut Namespace>,
         __ast_path: &mut AstKindPath,
     ) {
         match self {
@@ -6024,7 +5944,7 @@ where
     #[inline]
     fn visit_mut_opt_atom(
         &mut self,
-        node: &mut Option<swc_atoms::Atom>,
+        node: Option<&mut swc_atoms::Atom>,
         __ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
@@ -6036,7 +5956,7 @@ where
     #[inline]
     fn visit_mut_opt_namespace(
         &mut self,
-        node: &mut Option<Namespace>,
+        node: Option<&mut Namespace>,
         __ast_path: &mut AstKindPath,
     ) {
         if self.enabled {
@@ -10574,14 +10494,14 @@ pub trait VisitAll {
              calls the visitor method for all children because it's defined in the trait \
              [VisitAll]."]
     #[inline]
-    fn visit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
+    fn visit_opt_atom(&mut self, node: Option<&swc_atoms::Atom>) {
         <Option<swc_atoms::Atom> as VisitAllWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `Option < Namespace >`.\n\nBy default, this method calls \
              [`Option < Namespace >::visit_children_with`]. This method unconditionally calls the \
              visitor method for all children because it's defined in the trait [VisitAll]."]
     #[inline]
-    fn visit_opt_namespace(&mut self, node: &Option<Namespace>) {
+    fn visit_opt_namespace(&mut self, node: Option<&Namespace>) {
         <Option<Namespace> as VisitAllWith<Self>>::visit_children_with(node, self)
     }
     #[doc = "Visit a node of type `ProcessingInstruction`.\n\nBy default, this method calls \
@@ -10695,12 +10615,12 @@ where
     }
 
     #[inline]
-    fn visit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
+    fn visit_opt_atom(&mut self, node: Option<&swc_atoms::Atom>) {
         <V as VisitAll>::visit_opt_atom(&mut **self, node)
     }
 
     #[inline]
-    fn visit_opt_namespace(&mut self, node: &Option<Namespace>) {
+    fn visit_opt_namespace(&mut self, node: Option<&Namespace>) {
         <V as VisitAll>::visit_opt_namespace(&mut **self, node)
     }
 
@@ -10804,12 +10724,12 @@ where
     }
 
     #[inline]
-    fn visit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
+    fn visit_opt_atom(&mut self, node: Option<&swc_atoms::Atom>) {
         <V as VisitAll>::visit_opt_atom(&mut **self, node)
     }
 
     #[inline]
-    fn visit_opt_namespace(&mut self, node: &Option<Namespace>) {
+    fn visit_opt_namespace(&mut self, node: Option<&Namespace>) {
         <V as VisitAll>::visit_opt_namespace(&mut **self, node)
     }
 
@@ -10956,7 +10876,7 @@ where
     }
 
     #[inline]
-    fn visit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
+    fn visit_opt_atom(&mut self, node: Option<&swc_atoms::Atom>) {
         match self {
             swc_visit::Either::Left(visitor) => VisitAll::visit_opt_atom(visitor, node),
             swc_visit::Either::Right(visitor) => VisitAll::visit_opt_atom(visitor, node),
@@ -10964,7 +10884,7 @@ where
     }
 
     #[inline]
-    fn visit_opt_namespace(&mut self, node: &Option<Namespace>) {
+    fn visit_opt_namespace(&mut self, node: Option<&Namespace>) {
         match self {
             swc_visit::Either::Left(visitor) => VisitAll::visit_opt_namespace(visitor, node),
             swc_visit::Either::Right(visitor) => VisitAll::visit_opt_namespace(visitor, node),
@@ -11132,7 +11052,7 @@ where
     }
 
     #[inline]
-    fn visit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
+    fn visit_opt_atom(&mut self, node: Option<&swc_atoms::Atom>) {
         if self.enabled {
             <V as VisitAll>::visit_opt_atom(&mut self.visitor, node)
         } else {
@@ -11140,7 +11060,7 @@ where
     }
 
     #[inline]
-    fn visit_opt_namespace(&mut self, node: &Option<Namespace>) {
+    fn visit_opt_namespace(&mut self, node: Option<&Namespace>) {
         if self.enabled {
             <V as VisitAll>::visit_opt_namespace(&mut self.visitor, node)
         } else {
