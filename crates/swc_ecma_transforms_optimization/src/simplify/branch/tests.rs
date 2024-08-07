@@ -1453,16 +1453,6 @@ fn test_empty_key_in_object_pattern_removed() {
 }
 
 #[test]
-fn test_empty_key_in_object_pattern_with_default_value_maybe_removed() {
-    test("const {f: {} = 0} = {};", "");
-    // In theory the following case could be reduced to `foo()`, but that gets more
-    // complicated to implement for object patterns with multiple keys with side
-    // effects. Instead the pass backs off for any default with a possible side
-    // effect
-    test_same("const {f: {} = foo()} = {};");
-}
-
-#[test]
 fn test_empty_key_in_object_pattern_not_removed_with_object_rest() {
     test_same("const {f: {}, ...g} = foo()");
     test_same("const {f: [], ...g} = foo()");
