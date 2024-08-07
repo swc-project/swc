@@ -314,15 +314,6 @@ impl VisitMut for Remover {
                 *p = *assign.left.take();
             }
 
-            Pat::Assign(assign)
-                if match *assign.left {
-                    Pat::Object(ref o) => o.props.is_empty(),
-                    _ => false,
-                } && assign.right.is_number() =>
-            {
-                *p = *assign.left.take();
-            }
-
             _ => {}
         }
     }
