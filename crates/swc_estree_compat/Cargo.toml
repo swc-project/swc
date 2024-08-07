@@ -18,13 +18,14 @@ bench = false
 [features]
 concurrent = [
   "swc_common/concurrent",
+  "rayon"
 ]
 
 [dependencies]
 ahash      = { workspace = true, features = ["compile-time-rng"] }
 anyhow     = { workspace = true }
 copyless   = { workspace = true }
-rayon      = { workspace = true }
+rayon      = { workspace = true, optional = true }
 serde      = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 
