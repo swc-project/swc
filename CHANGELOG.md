@@ -8,6 +8,12 @@
 - **(common)** Do not generate invalid source map ([#9050](https://github.com/swc-project/swc/issues/9050)) ([9d65c77](https://github.com/swc-project/swc/commit/9d65c776025346985acaf36bc1d54134ebc4c7c4))
 
 
+- **(common)** Require newer version of allocator ([#9386](https://github.com/swc-project/swc/issues/9386)) ([4e854c7](https://github.com/swc-project/swc/commit/4e854c79960df75f5259bee8ab71ab77a57f55f3))
+
+
+- **(common)** Remove unused import ([#9387](https://github.com/swc-project/swc/issues/9387)) ([f530476](https://github.com/swc-project/swc/commit/f5304761b315a961fe2c1165907bf35a084a7c86))
+
+
 - **(es/module)** Drop the level of a few tracing events ([#9380](https://github.com/swc-project/swc/issues/9380)) ([95af253](https://github.com/swc-project/swc/commit/95af2536a2cd5040f44e93f2eea9cf577558f335))
 
 
@@ -1319,15 +1325,6 @@
 
 
 - **(es/decorators)** Handle default exported class ([#8691](https://github.com/swc-project/swc/issues/8691)) ([570483a](https://github.com/swc-project/swc/commit/570483ae48c532d6aa169d38bddca5b767ead8f3))
-
-
-- **(es/module)** Allow `FileName::Anon` from node resolver ([#8686](https://github.com/swc-project/swc/issues/8686)) ([761365e](https://github.com/swc-project/swc/commit/761365eb56254005ddbbfc8079cf1376e5edbd32))
-
-
-- **(es/modules)** Fix resolution of `jsc.paths` with exact match ([#8685](https://github.com/swc-project/swc/issues/8685)) ([08ed0fb](https://github.com/swc-project/swc/commit/08ed0fb6663e835bf9efe8270118ce49ccd53903))
-
-
-- **(es/typescript)** Handle accessibility in private method ([#8689](https://github.com/swc-project/swc/issues/8689)) ([baba663](https://github.com/swc-project/swc/commit/baba66346403da84db3083d22f4afbba4f6a9bfb))
 
 ### Features
 
