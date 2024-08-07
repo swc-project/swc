@@ -1,4 +1,4 @@
-use swc_common::{BytePos, FileName, SourceFile, SourceMap, Span, DUMMY_SP, sync::Lrc};
+use swc_common::{sync::Lrc, BytePos, FileName, SourceFile, SourceMap, Span, DUMMY_SP};
 use swc_estree_ast::{BaseNode, LineCol, Loc};
 use swc_node_comments::SwcComments;
 
