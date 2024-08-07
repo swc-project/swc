@@ -526,7 +526,7 @@ macro_rules! noop_visit_type {
     ($name:ident, $N:tt, fail) => {
         #[cfg_attr(not(debug_assertions), inline(always))]
         fn $name(&mut self, _: &$crate::swc_ecma_ast::$N) {
-            $crate::fail_no_typescript();
+            $crate::fail_no_typescript(stringify!($name));
         }
     };
     ($name:ident, $N:tt) => {
@@ -549,10 +549,11 @@ pub fn fail_not_standard() {
 /// NOT A PUBLIC API
 #[doc(hidden)]
 #[cfg_attr(not(debug_assertions), inline(always))]
-pub fn fail_no_typescript() {
+pub fn fail_no_typescript(visitor_name: &str) {
     unsafe {
         debug_unreachable::debug_unreachable!(
-            "This visitor does not support typescript. This method fails for optimization purpose."
+            "This visitor does not support TypeScript. This method fails for optimization \
+             purposes. Encountered in unreachable visitor: {visitor_name}"
         )
     }
 }
@@ -907,7 +908,7 @@ macro_rules! noop_visit_mut_type {
     ($name:ident, $N:ident, fail) => {
         #[cfg_attr(not(debug_assertions), inline(always))]
         fn $name(&mut self, _: &mut $crate::swc_ecma_ast::$N) {
-            $crate::fail_no_typescript();
+            $crate::fail_no_typescript(stringify!($name));
         }
     };
     ($name:ident, $N:ident) => {
