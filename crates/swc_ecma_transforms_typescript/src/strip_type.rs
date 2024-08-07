@@ -1,9 +1,9 @@
 use swc_common::util::take::Take;
 use swc_ecma_ast::*;
 use swc_ecma_utils::stack_size::maybe_grow_default;
-use swc_ecma_visit::{VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
-use crate::{type_to_none, unreachable_visit_mut_type};
+use crate::type_to_none;
 
 pub fn strip_type() -> impl VisitMut {
     StripType::default()
@@ -15,7 +15,7 @@ pub fn strip_type() -> impl VisitMut {
 pub(crate) struct StripType {}
 
 impl VisitMut for StripType {
-    unreachable_visit_mut_type!();
+    noop_visit_mut_type!(fail);
 
     type_to_none!(visit_mut_opt_ts_type, Box<TsType>);
 
