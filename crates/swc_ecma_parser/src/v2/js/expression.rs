@@ -753,7 +753,7 @@ impl<'a> ParserImpl<'a> {
             vec![]
         };
 
-        if matches!(callee, Expr::Import(_)) {
+        if matches!(callee, Callee::Import(_)) {
             self.error(diagnostics::new_dynamic_import(self.end_span(rhs_span)));
         }
 
@@ -929,11 +929,11 @@ impl<'a> ParserImpl<'a> {
         let lhs = if self.ctx.has_in() && self.at(Kind::Private) {
             let left = self.parse_private_identifier();
             self.expect(Kind::In)?;
-            let right = self.parse_unary_expression_or_higher(lhs_span)?;
-            Expr::PrivateIn(PrivateInExpression {
+            let right: Box<Expr> = self.parse_unary_expression_or_higher(lhs_span)?;
+            Expr::Bin(BinExpr {
                 span: self.end_span(lhs_span),
                 left,
-                operator: BinaryOp::In,
+                op: BinaryOp::In,
                 right,
             })
         } else {

@@ -274,7 +274,7 @@ impl<'a> ParserImpl<'a> {
             .ts_type_infer_type(self.end_span(span), type_parameter))
     }
 
-    fn parse_type_parameter_of_infer_type(&mut self) -> Result<Box<TsTypeParam<'a>>> {
+    fn parse_type_parameter_of_infer_type(&mut self) -> Result<Box<TsTypeParam>> {
         let span = self.start_span();
         let name = self.parse_binding_identifier()?;
         let constraint = self
