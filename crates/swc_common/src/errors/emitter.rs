@@ -12,7 +12,7 @@ use std::{
     borrow::Cow,
     cmp::{min, Reverse},
     collections::HashMap,
-    io::{self, prelude::*, IsTerminal},
+    io::{self, prelude::*},
 };
 
 #[cfg(feature = "tty-emitter")]
@@ -116,6 +116,8 @@ pub enum ColorConfig {
 impl ColorConfig {
     #[cfg(feature = "tty-emitter")]
     fn to_color_choice(self) -> ColorChoice {
+        use std::io::IsTerminal;
+
         let stderr = io::stderr();
 
         match self {
