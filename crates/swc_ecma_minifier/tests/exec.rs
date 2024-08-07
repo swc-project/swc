@@ -11345,3 +11345,8 @@ fn issue_9184_2() {
 "#,
     );
 }
+
+#[test]
+fn issue_9356() {
+    run_default_exec_test("console.log((function ({ } = 42) { }).length)");
+}
