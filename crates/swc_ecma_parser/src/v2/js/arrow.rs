@@ -216,7 +216,7 @@ impl<'a> ParserImpl<'a> {
         self.ctx = self.ctx.union_await_if(r#async);
 
         let params = {
-            let ident: BindingIdent = match ident {
+            let ident: BindingIdent = match *ident {
                 Expr::Ident(ident) => ident.into(),
                 _ => unreachable!(),
             };

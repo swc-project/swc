@@ -573,10 +573,7 @@ impl<'a> ParserImpl<'a> {
 
     fn map_to_chain_expression(&mut self, span: Span, expr: Box<Expr>) -> Expr {
         match *expr {
-            match_member_expression!(Expression) => {
-                let member_expr = MemberExpr::try_from(expr).unwrap();
-                self.ast.expr_chain(span, ChainElement::from(member_expr))
-            }
+            Expr::Member(member_expr) => self.ast.expr_chain(span, ChainElement::from(member_expr)),
             Expr::Call(result) => self.ast.expr_chain(span, ChainElement::Call(result)),
             expr => expr,
         }
@@ -753,7 +750,7 @@ impl<'a> ParserImpl<'a> {
             vec![]
         };
 
-        if matches!(callee, Callee::Import(_)) {
+        if matches!(callee, Expr::Import(_)) {
             self.error(diagnostics::new_dynamic_import(self.end_span(rhs_span)));
         }
 
