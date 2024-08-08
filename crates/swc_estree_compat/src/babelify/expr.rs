@@ -32,7 +32,7 @@ impl Babelify for Expr {
     type Output = ExprOutput;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
-        swc_ecma_utils::stack_size::maybe_grow_default(|| match self {
+        match self {
             Expr::This(t) => ExprOutput::Expr(Box::alloc().init(Expression::This(t.babelify(ctx)))),
             Expr::Array(a) => {
                 ExprOutput::Expr(Box::alloc().init(Expression::Array(a.babelify(ctx))))
@@ -168,7 +168,7 @@ impl Babelify for Expr {
                 "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivalent",
                 &self
             ),
-        })
+        }
     }
 }
 
