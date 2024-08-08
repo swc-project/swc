@@ -20,6 +20,9 @@ concurrent = [
   "swc_common/concurrent",
   "rayon"
 ]
+stacker = [
+  "swc_ecma_parser/stacker"
+]
 
 [dependencies]
 ahash      = { workspace = true, features = ["compile-time-rng"] }
