@@ -1,0 +1,7 @@
+  x Expected '{', got ';'
+   ,-[$DIR/tests/tsc/constructSignaturesWithIdenticalOverloads.strip.js:4:1]
+ 3 | class C {
+ 4 |     constructor(x        , y        );
+   :                                      ^
+ 5 |     constructor(x        , y        ); // error
+   `----
