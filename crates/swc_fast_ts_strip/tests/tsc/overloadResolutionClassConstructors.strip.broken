@@ -1,7 +1,0 @@
-  x Expected '{', got ';'
-    ,-[$DIR/tests/tsc/overloadResolutionClassConstructors.strip.js:19:1]
- 18 | class fn1 {
- 19 |     constructor(s        );
-    :                           ^
- 20 |     constructor(s        );
-    `----

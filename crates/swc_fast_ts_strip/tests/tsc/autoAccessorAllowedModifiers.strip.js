@@ -3,14 +3,14 @@
 
          class C1 {
     accessor a     ;
-    public accessor b     ;
-    private accessor c     ;
-    protected accessor d     ;
-    abstract accessor e     ;
+           accessor b     ;
+            accessor c     ;
+              accessor d     ;
+                             
     static accessor f     ;
-    public static accessor g     ;
-    private static accessor h     ;
-    protected static accessor i     ;
+           static accessor g     ;
+            static accessor h     ;
+              static accessor i     ;
     accessor #j     ;
     accessor "k"     ;
     accessor 108     ;
@@ -19,8 +19,8 @@
 }
 
 class C2 extends C1 {
-    override accessor e     ;
-    static override accessor i     ;
+             accessor e     ;
+    static          accessor i     ;
 }
 
                   

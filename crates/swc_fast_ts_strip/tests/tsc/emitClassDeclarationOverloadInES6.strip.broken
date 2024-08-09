@@ -1,7 +1,0 @@
-  x Expected '{', got 'constructor'
-   ,-[$DIR/tests/tsc/emitClassDeclarationOverloadInES6.strip.js:4:1]
- 3 |     constructor(y     )
- 4 |     constructor(x        ) {
-   :     ^^^^^^^^^^^
- 5 |     }
-   `----
