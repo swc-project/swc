@@ -150,7 +150,6 @@ jobs:
         run: |
           cargo install cargo-link2
           cargo link ../
-          cargo update -p swc_core -p swc_fast_ts_strip
 
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
@@ -369,7 +368,6 @@ jobs:
         run: |
           cargo install cargo-link2
           cargo link ../
-          cargo update -p swc_core -p swc_fast_ts_strip
 
       - name: Set platform name
         run: |
@@ -427,7 +425,6 @@ jobs:
         run: |
           cargo install cargo-link2
           cargo link ../
-          cargo update -p swc_core -p swc_fast_ts_strip
 
       - name: Prepare
         run: |
