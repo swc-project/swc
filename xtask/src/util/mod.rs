@@ -32,7 +32,7 @@ pub fn run_cmd(cmd: &mut Command) -> Result<()> {
     Ok(())
 }
 
-pub fn get_commit_for_swc_core_version(version: &str) -> Result<String> {
+pub fn get_commit_for_core_version(version: &str, last: bool) -> Result<String> {
     wrap(|| {
         eprintln!("Getting commit for swc_core@v{}", version);
 
@@ -71,26 +71,33 @@ pub fn get_commit_for_swc_core_version(version: &str) -> Result<String> {
 
         let line_count = output.lines().count();
 
-        for line in output.lines() {
-            let commit = line.split(':').next().unwrap().to_string();
+        if line_count == 0 {
+            bail!("swc_core@v{} is not found in the repository", version);
+        }
 
-            if line_count == 1 || get_version_of_swc_core_of_commit(&commit)? == version {
-                eprintln!("\tThe commit for swc_core@v{} is {}", version, commit);
+        let iter: Box<dyn Iterator<Item = &str>> = if last {
+            Box::new(output.lines().rev())
+        } else {
+            Box::new(output.lines())
+        };
+
+        for line in iter {
+            let commit = line.split(':').next().unwrap().to_string();
+            let commit_version = get_version_of_swc_core_of_commit(&commit)?;
+            if Some(version) == commit_version.as_deref() {
+                eprintln!("\tFound commit for swc_core@v{}: https://github.com/swc-project/swc/commits/{}", version, commit);
 
                 return Ok(commit);
             }
         }
 
-        bail!(
-            "check if the version is the one of swc_core, where the output of git grep is\n{}",
-            output
-        )
+        bail!("swc_core@v{} is not found in the repository", version);
     })
     .with_context(|| format!("failed to get the commit for swc_core@v{}", version))
 }
 
 /// Read the version of swc_core from `Cargo.lock`
-pub fn get_version_of_swc_core_of_commit(commit: &str) -> Result<String> {
+pub fn get_version_of_swc_core_of_commit(commit: &str) -> Result<Option<String>> {
     wrap(|| {
         let output = Command::new("git")
             .current_dir(repository_root()?)
@@ -108,11 +115,11 @@ pub fn get_version_of_swc_core_of_commit(commit: &str) -> Result<String> {
 
         for pkg in content.package {
             if pkg.name == "swc_core" {
-                return Ok(pkg.version);
+                return Ok(Some(pkg.version));
             }
         }
 
-        bail!("swc_core is not found in Cargo.lock")
+        Ok(None)
     })
     .with_context(|| format!("failed to get the version of swc_core of {}", commit))
 }
