@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.7.8] - 2024-08-09
 
 ### Bug Fixes
 
@@ -1315,12 +1315,6 @@
 - **(es)** Prepare `wasm32-wasi-preview1-threads` target support ([#8724](https://github.com/swc-project/swc/issues/8724)) ([e3acd14](https://github.com/swc-project/swc/commit/e3acd1476c2428e5329a359bb7323687c06108d2))
 
 ## [1.4.6] - 2024-03-08
-
-### Bug Fixes
-
-
-
-- **(es/minifier)** Do not drop used properties ([#8703](https://github.com/swc-project/swc/issues/8703)) ([6069217](https://github.com/swc-project/swc/commit/606921700ee9fdb3747a8b54bb851e1d0df27484))
 
 ### Performance
 
