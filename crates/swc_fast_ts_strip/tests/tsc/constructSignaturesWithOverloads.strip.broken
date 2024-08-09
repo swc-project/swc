@@ -1,7 +1,0 @@
-  x Expected '{', got ';'
-   ,-[$DIR/tests/tsc/constructSignaturesWithOverloads.strip.js:4:1]
- 3 | class C {
- 4 |     constructor(x        , y         );
-   :                                       ^
- 5 |     constructor(x        , y        );
-   `----

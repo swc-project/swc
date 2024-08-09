@@ -1,7 +1,0 @@
-  x Expected '{', got ';'
-   ,-[$DIR/tests/tsc/parserClassDeclaration14.strip.js:3:1]
- 2 |          
- 3 |    constructor();
-   :                 ^
- 4 | }
-   `----

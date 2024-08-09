@@ -1,7 +1,0 @@
-  x Unexpected token `constructor`. Expected * for generator, private key, identifier or async
-   ,-[$DIR/tests/tsc/parserConstructorDeclaration5.strip.js:2:1]
- 1 | class C {
- 2 |   private constructor() { }
-   :           ^^^^^^^^^^^
- 3 | }
-   `----
