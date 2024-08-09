@@ -13,12 +13,12 @@ use swc_common::{
 use swc_ecma_ast::{
     ArrayPat, ArrowExpr, AutoAccessor, BindingIdent, Class, ClassDecl, ClassMethod, ClassProp,
     Constructor, Decl, DefaultDecl, DoWhileStmt, EsVersion, ExportAll, ExportDecl,
-    ExportDefaultDecl, ExportSpecifier, FnDecl, ForInStmt, ForOfStmt, ForStmt, IfStmt, ImportDecl,
-    ImportSpecifier, NamedExport, ObjectPat, Param, Pat, PrivateMethod, PrivateProp, Program, Stmt,
-    TsAsExpr, TsConstAssertion, TsEnumDecl, TsExportAssignment, TsImportEqualsDecl,
-    TsIndexSignature, TsInstantiation, TsModuleDecl, TsModuleName, TsNamespaceDecl, TsNonNullExpr,
-    TsParamPropParam, TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion,
-    TsTypeParamDecl, TsTypeParamInstantiation, VarDeclarator, WhileStmt,
+    ExportDefaultDecl, ExportSpecifier, FnDecl, ForInStmt, ForOfStmt, ForStmt, GetterProp, IfStmt,
+    ImportDecl, ImportSpecifier, NamedExport, ObjectPat, Param, Pat, PrivateMethod, PrivateProp,
+    Program, SetterProp, Stmt, TsAsExpr, TsConstAssertion, TsEnumDecl, TsExportAssignment,
+    TsImportEqualsDecl, TsIndexSignature, TsInstantiation, TsModuleDecl, TsModuleName,
+    TsNamespaceDecl, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn,
+    TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation, VarDeclarator, WhileStmt,
 };
 use swc_ecma_parser::{
     lexer::Lexer,
@@ -1068,6 +1068,34 @@ impl Visit for TsStrip {
         if n.body.is_ts_declare() {
             self.add_overwrite(n.body.span_lo(), b';');
         }
+    }
+
+    fn visit_getter_prop(&mut self, n: &GetterProp) {
+        let l_parern_index = self.get_next_token_index(n.key.span_hi());
+        let l_parern = &self.tokens[l_parern_index];
+        debug_assert_eq!(l_parern.token, Token::LParen);
+
+        let r_parern_pos = n.type_ann.as_ref().map_or(n.body.span_lo(), |t| t.span.lo) - BytePos(1);
+        let r_parern = self.get_prev_token(r_parern_pos);
+        debug_assert_eq!(r_parern.token, Token::RParen);
+
+        let span = span(l_parern.span.lo + BytePos(1), r_parern.span.hi - BytePos(1));
+        self.add_replacement(span);
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_setter_prop(&mut self, n: &SetterProp) {
+        if let Some(this_param) = &n.this_param {
+            self.add_replacement(this_param.span());
+
+            let comma = self.get_prev_token(n.param.span_lo() - BytePos(1));
+            debug_assert_eq!(comma.token, Token::Comma);
+
+            self.add_replacement(comma.span);
+        }
+
+        n.visit_children_with(self);
     }
 }
 

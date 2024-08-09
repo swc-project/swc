@@ -130,6 +130,7 @@ fn reparse(cm: &Lrc<SourceMap>, handler: &Handler, filename: &PathBuf, input: St
     let fm = cm.new_source_file(filename.into(), input);
 
     let syntax = Syntax::Es(EsSyntax {
+        allow_super_outside_method: true,
         auto_accessors: true,
         decorators: true,
         decorators_before_export: true,
