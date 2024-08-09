@@ -77,6 +77,10 @@ pub fn get_commit_range_for_swc_core_version(version: &str) -> Result<CommitRang
 
         let line_count = output.lines().count();
 
+        if line_count == 0 {
+            bail!("swc_core@v{} is not found in the repository", version);
+        }
+
         if line_count == 1 {
             let commit = output.split(':').next().unwrap().to_string();
             eprintln!("\tThe commit for swc_core@v{} is {}", version, commit);
@@ -86,20 +90,32 @@ pub fn get_commit_range_for_swc_core_version(version: &str) -> Result<CommitRang
             });
         }
 
+        let mut first = None;
+        let mut last = None;
+
         for line in output.lines() {
             let commit = line.split(':').next().unwrap().to_string();
 
-            if line_count == 1 || get_version_of_swc_core_of_commit(&commit)? == version {
-                eprintln!("\tThe commit for swc_core@v{} is {}", version, commit);
+            if let Ok(commit_version) = get_version_of_swc_core_of_commit(&commit) {
+                if version == commit_version {
+                    if first.is_none() {
+                        first = Some(commit.clone());
+                    }
 
-                todo!()
+                    last = Some(commit);
+                }
             }
         }
 
-        bail!(
-            "check if the version is the one of swc_core, where the output of git grep is\n{}",
-            output
-        )
+        if let (Some(first), Some(last)) = (first, last) {
+            eprintln!(
+                "\tThe commit for swc_core@v{} is {}..{}",
+                version, first, last
+            );
+            Ok(CommitRange { first, last })
+        } else {
+            bail!("swc_core@v{} is not found in the repository", version);
+        }
     })
     .with_context(|| format!("failed to get the commit for swc_core@v{}", version))
 }
