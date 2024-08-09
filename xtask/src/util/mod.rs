@@ -101,8 +101,7 @@ pub fn get_commit_range_for_swc_core_version(version: &str) -> Result<CommitRang
         if let (Some(first), Some(last)) = (first, last) {
 
             if first==last{
-                let commit = output.split(':').next().unwrap().to_string();
-                eprintln!("\tThe commit for swc_core@v{} is https://github.com/swc-project/swc/commits/{}", version, commit);
+                eprintln!("\tThe commit for swc_core@v{} is https://github.com/swc-project/swc/commits/{}", version, first);
             }else{
                 eprintln!(
                     "\tThe commit for swc_core@v{} is https://github.com/swc-project/swc/compare/{}...{}",
