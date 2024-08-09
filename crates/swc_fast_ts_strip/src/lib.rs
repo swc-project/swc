@@ -12,13 +12,13 @@ use swc_common::{
 };
 use swc_ecma_ast::{
     ArrayPat, ArrowExpr, AutoAccessor, BindingIdent, Class, ClassDecl, ClassMethod, ClassProp,
-    Constructor, Decl, DoWhileStmt, EsVersion, ExportAll, ExportDecl, ExportDefaultDecl,
-    ExportSpecifier, FnDecl, ForInStmt, ForOfStmt, ForStmt, IfStmt, ImportDecl, ImportSpecifier,
-    NamedExport, ObjectPat, Param, Pat, PrivateMethod, PrivateProp, Program, Stmt, TsAsExpr,
-    TsConstAssertion, TsEnumDecl, TsExportAssignment, TsImportEqualsDecl, TsIndexSignature,
-    TsInstantiation, TsModuleDecl, TsModuleName, TsNamespaceDecl, TsNonNullExpr, TsParamPropParam,
-    TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl,
-    TsTypeParamInstantiation, VarDeclarator, WhileStmt,
+    Constructor, Decl, DefaultDecl, DoWhileStmt, EsVersion, ExportAll, ExportDecl,
+    ExportDefaultDecl, ExportSpecifier, FnDecl, ForInStmt, ForOfStmt, ForStmt, IfStmt, ImportDecl,
+    ImportSpecifier, NamedExport, ObjectPat, Param, Pat, PrivateMethod, PrivateProp, Program, Stmt,
+    TsAsExpr, TsConstAssertion, TsEnumDecl, TsExportAssignment, TsImportEqualsDecl,
+    TsIndexSignature, TsInstantiation, TsModuleDecl, TsModuleName, TsNamespaceDecl, TsNonNullExpr,
+    TsParamPropParam, TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion,
+    TsTypeParamDecl, TsTypeParamInstantiation, VarDeclarator, WhileStmt,
 };
 use swc_ecma_parser::{
     lexer::Lexer,
@@ -775,7 +775,7 @@ impl Visit for TsStrip {
     }
 
     fn visit_export_default_decl(&mut self, n: &ExportDefaultDecl) {
-        if n.decl.is_ts_interface_decl() {
+        if n.decl.is_ts_declare() {
             self.add_replacement(n.span);
             self.fix_asi(n.span);
             return;
@@ -1097,6 +1097,16 @@ impl IsTsDecl for Decl {
 impl IsTsDecl for Stmt {
     fn is_ts_declare(&self) -> bool {
         self.as_decl().map_or(false, IsTsDecl::is_ts_declare)
+    }
+}
+
+impl IsTsDecl for DefaultDecl {
+    fn is_ts_declare(&self) -> bool {
+        match self {
+            Self::Class(..) => false,
+            DefaultDecl::Fn(r#fn) => r#fn.function.body.is_none(),
+            DefaultDecl::TsInterfaceDecl(..) => true,
+        }
     }
 }
 
