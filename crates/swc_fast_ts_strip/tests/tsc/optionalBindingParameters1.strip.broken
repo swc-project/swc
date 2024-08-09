@@ -1,6 +1,0 @@
-  x Expected ',', got '?'
-   ,-[$DIR/tests/tsc/optionalBindingParameters1.strip.js:2:1]
- 1 | 
- 2 | function foo([x,y,z]?                           ) {
-   :                     ^
-   `----

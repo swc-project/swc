@@ -1,7 +1,0 @@
-  x Unexpected token `?`. Expected * for generator, private key, identifier or async
-   ,-[$DIR/tests/tsc/classWithOptionalParameter.strip.js:5:1]
- 4 |     x         ;
- 5 |     f?() {}
-   :      ^
- 6 | }
-   `----
