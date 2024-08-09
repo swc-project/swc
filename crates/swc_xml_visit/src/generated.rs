@@ -3701,8 +3701,13 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for [AttributeToken] {
         visitor: &mut V,
         __ast_path: &mut AstNodePath<'r>,
     ) {
-        self.iter().for_each(|item| {
-            <AttributeToken as VisitWithAstPath<V>>::visit_with_ast_path(item, visitor, __ast_path)
+        self.iter().enumerate().for_each(|(__idx, item)| {
+            let mut __ast_path = __ast_path.with_index_guard(__idx);
+            <AttributeToken as VisitWithAstPath<V>>::visit_with_ast_path(
+                item,
+                visitor,
+                &mut *__ast_path,
+            )
         })
     }
 }
@@ -3725,8 +3730,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for [Attribute] {
         visitor: &mut V,
         __ast_path: &mut AstNodePath<'r>,
     ) {
-        self.iter().for_each(|item| {
-            <Attribute as VisitWithAstPath<V>>::visit_with_ast_path(item, visitor, __ast_path)
+        self.iter().enumerate().for_each(|(__idx, item)| {
+            let mut __ast_path = __ast_path.with_index_guard(__idx);
+            <Attribute as VisitWithAstPath<V>>::visit_with_ast_path(item, visitor, &mut *__ast_path)
         })
     }
 }
@@ -3749,8 +3755,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for [Child] {
         visitor: &mut V,
         __ast_path: &mut AstNodePath<'r>,
     ) {
-        self.iter().for_each(|item| {
-            <Child as VisitWithAstPath<V>>::visit_with_ast_path(item, visitor, __ast_path)
+        self.iter().enumerate().for_each(|(__idx, item)| {
+            let mut __ast_path = __ast_path.with_index_guard(__idx);
+            <Child as VisitWithAstPath<V>>::visit_with_ast_path(item, visitor, &mut *__ast_path)
         })
     }
 }
@@ -6984,9 +6991,12 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<AttributeToken>
 
     #[inline]
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
-        self.iter_mut().for_each(|item| {
+        self.iter_mut().enumerate().for_each(|(__idx, item)| {
+            let mut __ast_path = __ast_path.with_index_guard(__idx);
             <AttributeToken as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                item, visitor, __ast_path,
+                item,
+                visitor,
+                &mut *__ast_path,
             )
         })
     }
@@ -7002,9 +7012,12 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<Attribute> {
 
     #[inline]
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
-        self.iter_mut().for_each(|item| {
+        self.iter_mut().enumerate().for_each(|(__idx, item)| {
+            let mut __ast_path = __ast_path.with_index_guard(__idx);
             <Attribute as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                item, visitor, __ast_path,
+                item,
+                visitor,
+                &mut *__ast_path,
             )
         })
     }
@@ -7020,8 +7033,13 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<Child> {
 
     #[inline]
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
-        self.iter_mut().for_each(|item| {
-            <Child as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(item, visitor, __ast_path)
+        self.iter_mut().enumerate().for_each(|(__idx, item)| {
+            let mut __ast_path = __ast_path.with_index_guard(__idx);
+            <Child as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                item,
+                visitor,
+                &mut *__ast_path,
+            )
         })
     }
 }
@@ -10365,9 +10383,17 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<AttributeToken> {
 
     #[inline]
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
-        swc_visit::util::move_map::MoveMap::move_map(self, |item| {
-            <AttributeToken as FoldWithAstPath<V>>::fold_with_ast_path(item, visitor, __ast_path)
-        })
+        self.into_iter()
+            .enumerate()
+            .map(|(__idx, item)| {
+                let mut __ast_path = __ast_path.with_index_guard(__idx);
+                <AttributeToken as FoldWithAstPath<V>>::fold_with_ast_path(
+                    item,
+                    visitor,
+                    &mut *__ast_path,
+                )
+            })
+            .collect()
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -10381,9 +10407,17 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<Attribute> {
 
     #[inline]
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
-        swc_visit::util::move_map::MoveMap::move_map(self, |item| {
-            <Attribute as FoldWithAstPath<V>>::fold_with_ast_path(item, visitor, __ast_path)
-        })
+        self.into_iter()
+            .enumerate()
+            .map(|(__idx, item)| {
+                let mut __ast_path = __ast_path.with_index_guard(__idx);
+                <Attribute as FoldWithAstPath<V>>::fold_with_ast_path(
+                    item,
+                    visitor,
+                    &mut *__ast_path,
+                )
+            })
+            .collect()
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -10397,9 +10431,13 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<Child> {
 
     #[inline]
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
-        swc_visit::util::move_map::MoveMap::move_map(self, |item| {
-            <Child as FoldWithAstPath<V>>::fold_with_ast_path(item, visitor, __ast_path)
-        })
+        self.into_iter()
+            .enumerate()
+            .map(|(__idx, item)| {
+                let mut __ast_path = __ast_path.with_index_guard(__idx);
+                <Child as FoldWithAstPath<V>>::fold_with_ast_path(item, visitor, &mut *__ast_path)
+            })
+            .collect()
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -11747,6 +11785,15 @@ pub type AstNodePath<'ast> = swc_visit::AstNodePath<AstParentNodeRef<'ast>>;
 #[cfg(any(docsrs, feature = "path"))]
 pub mod fields {
     use swc_xml_ast::*;
+    #[inline(always)]
+    fn assert_initial_index(idx: usize, index: usize) {
+        #[cfg(debug_assertions)]
+        if !(idx == usize::MAX || index == usize::MAX) {
+            {
+                panic!("Should be usize::MAX");
+            }
+        }
+    }
     impl AttributeField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
@@ -11846,12 +11893,7 @@ pub mod fields {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
                 Self::Children(idx) => {
-                    #[cfg(debug_assertions)]
-                    if !(*idx == usize::MAX || index == usize::MAX) {
-                        {
-                            panic!("Should be usize::MAX");
-                        }
-                    }
+                    assert_initial_index(*idx, index);
                     *idx = index;
                 }
                 _ => {}
@@ -11902,21 +11944,11 @@ pub mod fields {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
                 Self::Attributes(idx) => {
-                    #[cfg(debug_assertions)]
-                    if !(*idx == usize::MAX || index == usize::MAX) {
-                        {
-                            panic!("Should be usize::MAX");
-                        }
-                    }
+                    assert_initial_index(*idx, index);
                     *idx = index;
                 }
                 Self::Children(idx) => {
-                    #[cfg(debug_assertions)]
-                    if !(*idx == usize::MAX || index == usize::MAX) {
-                        {
-                            panic!("Should be usize::MAX");
-                        }
-                    }
+                    assert_initial_index(*idx, index);
                     *idx = index;
                 }
                 _ => {}
