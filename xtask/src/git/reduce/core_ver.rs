@@ -14,8 +14,8 @@ pub(super) struct CoreVerCmd {
 
 impl CoreVerCmd {
     pub fn run(self) -> Result<()> {
-        let from_commit = get_commit_range_for_swc_core_version(&self.from)?.first;
-        let to_commit = get_commit_range_for_swc_core_version(&self.to)?.last;
+        let from_commit = get_commit_range_for_swc_core_version(&self.from, false)?;
+        let to_commit = get_commit_range_for_swc_core_version(&self.to, true)?;
 
         eprintln!(
             "GitHub diff: https://github.com/swc-project/swc/compare/{from_commit}...{to_commit}"

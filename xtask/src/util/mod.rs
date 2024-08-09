@@ -32,13 +32,7 @@ pub fn run_cmd(cmd: &mut Command) -> Result<()> {
     Ok(())
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub struct CommitRange {
-    pub first: String,
-    pub last: String,
-}
-
-pub fn get_commit_range_for_swc_core_version(version: &str) -> Result<CommitRange> {
+pub fn get_commit_range_for_swc_core_version(version: &str, last: bool) -> Result<String> {
     wrap(|| {
         eprintln!("Getting commit for swc_core@v{}", version);
 
@@ -81,42 +75,29 @@ pub fn get_commit_range_for_swc_core_version(version: &str) -> Result<CommitRang
             bail!("swc_core@v{} is not found in the repository", version);
         }
 
-        let mut first = None;
-        let mut last = None;
+        let iter: Box<dyn Iterator<Item = &str>> = if last {
+            Box::new(output.lines().rev())
+        } else {
+            Box::new(output.lines())
+        };
 
-        for line in output.lines() {
+        for line in iter {
             let commit = line.split(':').next().unwrap().to_string();
+            let commit_version = get_version_of_swc_core_of_commit(&commit)?;
+            if Some(version) == commit_version.as_deref() {
+                eprintln!("\tFound commit for swc_core@v{}: https://github.com/swc-project/swc/commits/{}", version, commit);
 
-            if let Ok(commit_version) = get_version_of_swc_core_of_commit(&commit) {
-                if version == commit_version {
-                    if first.is_none() {
-                        first = Some(commit.clone());
-                    }
-
-                    last = Some(commit);
-                }
+                return Ok(commit);
             }
         }
 
-        if let (Some(first), Some(last)) = (first, last) {
-
-            if first==last{
-                eprintln!("\tThe commit for swc_core@v{} is https://github.com/swc-project/swc/commits/{}", version, first);
-            }else{
-                eprintln!(
-                    "\tThe commit for swc_core@v{} is https://github.com/swc-project/swc/compare/{}...{}",
-                    version, first, last
-                );}
-            Ok(CommitRange { first, last })
-        } else {
-            bail!("swc_core@v{} is not found in the repository", version);
-        }
+        bail!("swc_core@v{} is not found in the repository", version);
     })
     .with_context(|| format!("failed to get the commit for swc_core@v{}", version))
 }
 
 /// Read the version of swc_core from `Cargo.lock`
-pub fn get_version_of_swc_core_of_commit(commit: &str) -> Result<String> {
+pub fn get_version_of_swc_core_of_commit(commit: &str) -> Result<Option<String>> {
     wrap(|| {
         let output = Command::new("git")
             .current_dir(repository_root()?)
@@ -134,11 +115,11 @@ pub fn get_version_of_swc_core_of_commit(commit: &str) -> Result<String> {
 
         for pkg in content.package {
             if pkg.name == "swc_core" {
-                return Ok(pkg.version);
+                return Ok(Some(pkg.version));
             }
         }
 
-        bail!("swc_core is not found in Cargo.lock")
+        Ok(None)
     })
     .with_context(|| format!("failed to get the version of swc_core of {}", commit))
 }
