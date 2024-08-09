@@ -11747,6 +11747,15 @@ pub type AstNodePath<'ast> = swc_visit::AstNodePath<AstParentNodeRef<'ast>>;
 #[cfg(any(docsrs, feature = "path"))]
 pub mod fields {
     use swc_xml_ast::*;
+    #[inline(always)]
+    fn assert_initial_index(idx: usize, index: usize) {
+        #[cfg(debug_assertions)]
+        if !(idx == usize::MAX || index == usize::MAX) {
+            {
+                panic!("Should be usize::MAX");
+            }
+        }
+    }
     impl AttributeField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
@@ -11846,12 +11855,7 @@ pub mod fields {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
                 Self::Children(idx) => {
-                    #[cfg(debug_assertions)]
-                    if !(*idx == usize::MAX || index == usize::MAX) {
-                        {
-                            panic!("Should be usize::MAX");
-                        }
-                    }
+                    assert_initial_index(*idx, index);
                     *idx = index;
                 }
                 _ => {}
@@ -11902,21 +11906,11 @@ pub mod fields {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
                 Self::Attributes(idx) => {
-                    #[cfg(debug_assertions)]
-                    if !(*idx == usize::MAX || index == usize::MAX) {
-                        {
-                            panic!("Should be usize::MAX");
-                        }
-                    }
+                    assert_initial_index(*idx, index);
                     *idx = index;
                 }
                 Self::Children(idx) => {
-                    #[cfg(debug_assertions)]
-                    if !(*idx == usize::MAX || index == usize::MAX) {
-                        {
-                            panic!("Should be usize::MAX");
-                        }
-                    }
+                    assert_initial_index(*idx, index);
                     *idx = index;
                 }
                 _ => {}
