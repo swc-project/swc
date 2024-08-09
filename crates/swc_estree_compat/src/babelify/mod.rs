@@ -1,6 +1,3 @@
-use std::sync::Arc;
-
-use rayon::prelude::*;
 use serde::{de::DeserializeOwned, Serialize};
 use swc_common::{
     comments::{CommentKind, Comments},
@@ -28,7 +25,7 @@ mod typescript;
 
 #[derive(Clone)]
 pub struct Context {
-    pub fm: Arc<SourceFile>,
+    pub fm: Lrc<SourceFile>,
     pub cm: Lrc<SourceMap>,
     pub comments: SwcComments,
 }
@@ -149,7 +146,10 @@ where
 {
     type Output = Vec<T::Output>;
 
+    #[cfg(feature = "concurrent")]
     fn babelify(self, ctx: &Context) -> Self::Output {
+        use rayon::prelude::*;
+
         if T::parallel(self.len()) {
             let flavor = Flavor::current();
 
@@ -159,6 +159,11 @@ where
         } else {
             self.into_iter().map(|v| v.babelify(ctx)).collect()
         }
+    }
+
+    #[cfg(not(feature = "concurrent"))]
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        self.into_iter().map(|v| v.babelify(ctx)).collect()
     }
 }
 
