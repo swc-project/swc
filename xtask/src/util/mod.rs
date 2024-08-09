@@ -32,7 +32,7 @@ pub fn run_cmd(cmd: &mut Command) -> Result<()> {
     Ok(())
 }
 
-pub fn get_commit_range_for_swc_core_version(version: &str, last: bool) -> Result<String> {
+pub fn get_commit_for_core_version(version: &str, last: bool) -> Result<String> {
     wrap(|| {
         eprintln!("Getting commit for swc_core@v{}", version);
 
