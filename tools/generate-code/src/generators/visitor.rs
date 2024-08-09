@@ -997,24 +997,46 @@ impl Generator {
                         let inner = inner.as_ref();
                         let inner_ty = quote!(#inner);
 
-                        match self.kind {
-                            TraitKind::Visit | TraitKind::VisitAll => {
+                        match (self.kind, self.variant) {
+                            (TraitKind::Visit | TraitKind::VisitAll, Variant::Normal) => {
                                 parse_quote!(self.iter().for_each(|item| {
                                     <#inner_ty as #visit_with_trait_name<V>>::#visit_with_name(item, visitor #ast_path_arg)
                                 }))
                             }
-                            TraitKind::VisitMut => {
+                            (TraitKind::Visit | TraitKind::VisitAll, Variant::AstPath) => {
+                                parse_quote!(self.iter().enumerate().for_each(|(__idx, item)| {
+                                    let mut __ast_path = __ast_path.with_index_guard(__idx);
+                                    <#inner_ty as #visit_with_trait_name<V>>::#visit_with_name(item, visitor, &mut *__ast_path)
+                                }))
+                            }
+                            (TraitKind::VisitMut, Variant::Normal) => {
                                 parse_quote!(
                                     self.iter_mut().for_each(|item| {
                                         <#inner_ty as #visit_with_trait_name<V>>::#visit_with_name(item, visitor #ast_path_arg)
                                     })
                                 )
                             }
-                            TraitKind::Fold => {
+                            (TraitKind::VisitMut, Variant::AstPath) => {
+                                parse_quote!(
+                                    self.iter_mut().enumerate().for_each(|(__idx, item)| {
+                                        let mut __ast_path = __ast_path.with_index_guard(__idx);
+                                        <#inner_ty as #visit_with_trait_name<V>>::#visit_with_name(item, visitor, &mut *__ast_path)
+                                    })
+                                )
+                            }
+                            (TraitKind::Fold, Variant::Normal) => {
                                 parse_quote!(
                                     swc_visit::util::move_map::MoveMap::move_map(self, |item| {
                                         <#inner_ty as #visit_with_trait_name<V>>::#visit_with_name(item, visitor #ast_path_arg)
                                     })
+                                )
+                            }
+                            (TraitKind::Fold, Variant::AstPath) => {
+                                parse_quote!(
+                                    self.into_iter().enumerate().map(|(__idx, item)| {
+                                        let mut __ast_path = __ast_path.with_index_guard(__idx);
+                                        <#inner_ty as #visit_with_trait_name<V>>::#visit_with_name(item, visitor, &mut *__ast_path)
+                                    }).collect()
                                 )
                             }
                         }
