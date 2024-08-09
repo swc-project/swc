@@ -81,15 +81,6 @@ pub fn get_commit_range_for_swc_core_version(version: &str) -> Result<CommitRang
             bail!("swc_core@v{} is not found in the repository", version);
         }
 
-        if line_count == 1 {
-            let commit = output.split(':').next().unwrap().to_string();
-            eprintln!("\tThe commit for swc_core@v{} is {}", version, commit);
-            return Ok(CommitRange {
-                first: commit.clone(),
-                last: commit,
-            });
-        }
-
         let mut first = None;
         let mut last = None;
 
@@ -108,10 +99,15 @@ pub fn get_commit_range_for_swc_core_version(version: &str) -> Result<CommitRang
         }
 
         if let (Some(first), Some(last)) = (first, last) {
-            eprintln!(
-                "\tThe commit for swc_core@v{} is {}..{}",
-                version, first, last
-            );
+
+            if first==last{
+                let commit = output.split(':').next().unwrap().to_string();
+                eprintln!("\tThe commit for swc_core@v{} is https://github.com/swc-project/swc/commits/{}", version, commit);
+            }else{
+                eprintln!(
+                    "\tThe commit for swc_core@v{} is https://github.com/swc-project/swc/compare/{}...{}",
+                    version, first, last
+                );}
             Ok(CommitRange { first, last })
         } else {
             bail!("swc_core@v{} is not found in the repository", version);
