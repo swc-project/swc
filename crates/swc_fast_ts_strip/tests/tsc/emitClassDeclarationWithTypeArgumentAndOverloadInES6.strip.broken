@@ -1,0 +1,7 @@
+  x Expected '{', got 'constructor'
+   ,-[$DIR/tests/tsc/emitClassDeclarationWithTypeArgumentAndOverloadInES6.strip.js:7:1]
+ 6 |     constructor(a     )
+ 7 |     constructor(a     ,b   )
+   :     ^^^^^^^^^^^
+ 8 |     constructor(a   ) { this.B = a;}
+   `----

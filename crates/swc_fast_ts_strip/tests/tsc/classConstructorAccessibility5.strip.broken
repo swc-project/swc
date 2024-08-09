@@ -1,0 +1,7 @@
+  x Unexpected token `constructor`. Expected * for generator, private key, identifier or async
+   ,-[$DIR/tests/tsc/classConstructorAccessibility5.strip.js:2:1]
+ 1 | class Base {
+ 2 |     protected constructor() { }
+   :               ^^^^^^^^^^^
+ 3 | }
+   `----

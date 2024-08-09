@@ -1,0 +1,7 @@
+  x Invalid access to super
+    ,-[$DIR/tests/tsc/errorSuperPropertyAccess.strip.js:73:1]
+ 72 |         function inner() {
+ 73 |             super.publicFunc();
+    :                   ^^^^^^^^^^
+ 74 |         }
+    `----

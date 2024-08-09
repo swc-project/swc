@@ -1,0 +1,7 @@
+  x Unexpected token `accessor`. Expected * for generator, private key, identifier or async
+   ,-[$DIR/tests/tsc/autoAccessor7.strip.js:5:1]
+ 4 |          class C1 {
+ 5 |     abstract accessor a     ;
+   :              ^^^^^^^^
+ 6 | }
+   `----
