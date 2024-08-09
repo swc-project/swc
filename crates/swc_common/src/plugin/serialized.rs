@@ -3,6 +3,7 @@ use std::any::type_name;
 use anyhow::Error;
 #[cfg(feature = "__rkyv")]
 use rkyv::Deserialize;
+use rkyv::{validation::validators::DefaultValidator, Archive};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[non_exhaustive]
@@ -100,14 +101,18 @@ impl PluginSerializedBytes {
     }
 
     #[tracing::instrument(level = "info", skip_all)]
-    pub fn deserialize<W>(&self) -> Result<VersionedSerializable<W>, Error>
+    pub fn deserialize<'a, W>(&'a self) -> Result<VersionedSerializable<W>, Error>
     where
-        W: rkyv::Archive,
-        W::Archived: rkyv::Deserialize<W, rkyv::de::deserializers::SharedDeserializeMap>,
+        W: rkyv::Archive + 'a,
+        W::Archived: rkyv::Deserialize<W, rkyv::de::deserializers::SharedDeserializeMap>
+            + rkyv::CheckBytes<DefaultValidator<'a>>,
     {
         use anyhow::Context;
 
-        let archived = unsafe { rkyv::archived_root::<VersionedSerializable<W>>(&self.field[..]) };
+        let archived = rkyv::check_archived_root::<VersionedSerializable<W>>(&self.field[..])
+            .map_err(|err| {
+                anyhow::format_err!("wasm plugin bytecheck failed {:?}", err.to_string())
+            })?;
 
         archived
             .deserialize(&mut rkyv::de::deserializers::SharedDeserializeMap::new())
