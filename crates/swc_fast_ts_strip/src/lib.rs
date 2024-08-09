@@ -64,7 +64,16 @@ interface Options {
     module?: boolean;
     filename?: string;
     mode?: Mode;
+    transform?; TransformConfig;
     sourceMap?: boolean;
+}
+
+interface TransformConfig {
+    verbatimModuleSyntax?: boolean;
+    importNotUsedAsValues?: "remove" | "preserve";
+    noEmptyExport?: boolean;
+    importExportAssignConfig?: "Classic" | "Preserve" | "NodeNext" | "EsNext";
+    tsEnumIsMutable?: boolean;
 }
 "#;
 
