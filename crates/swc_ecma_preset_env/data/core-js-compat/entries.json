@@ -447,6 +447,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex",
     "esnext.weak-map.delete-all",
@@ -796,7 +798,9 @@
     "esnext.object.group-by",
     "esnext.promise.all-settled",
     "esnext.promise.any",
+    "esnext.promise.try",
     "esnext.promise.with-resolvers",
+    "esnext.regexp.escape",
     "esnext.set.difference.v2",
     "esnext.set.intersection.v2",
     "esnext.set.is-disjoint-from.v2",
@@ -820,6 +824,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex",
     "web.atob",
@@ -2213,6 +2219,7 @@
     "es.promise.finally",
     "es.promise.with-resolvers",
     "es.string.iterator",
+    "esnext.promise.try",
     "esnext.promise.with-resolvers",
     "web.dom-collections.iterator"
   ],
@@ -2237,6 +2244,10 @@
     "es.object.to-string",
     "es.promise",
     "es.promise.finally"
+  ],
+  "core-js/actual/promise/try": [
+    "es.promise",
+    "esnext.promise.try"
   ],
   "core-js/actual/promise/with-resolvers": [
     "es.promise",
@@ -2316,7 +2327,8 @@
     "es.string.match",
     "es.string.replace",
     "es.string.search",
-    "es.string.split"
+    "es.string.split",
+    "esnext.regexp.escape"
   ],
   "core-js/actual/regexp/constructor": [
     "es.regexp.constructor",
@@ -2328,6 +2340,9 @@
     "es.regexp.constructor",
     "es.regexp.dot-all",
     "es.regexp.exec"
+  ],
+  "core-js/actual/regexp/escape": [
+    "esnext.regexp.escape"
   ],
   "core-js/actual/regexp/flags": [
     "es.regexp.flags"
@@ -2907,6 +2922,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex"
   ],
@@ -2988,6 +3005,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex"
   ],
@@ -3036,6 +3055,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex"
   ],
@@ -3102,6 +3123,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex"
   ],
@@ -3150,6 +3173,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex"
   ],
@@ -3198,6 +3223,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex"
   ],
@@ -3260,6 +3287,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex"
   ],
@@ -3277,6 +3306,12 @@
   ],
   "core-js/actual/typed-array/set": [
     "es.typed-array.set"
+  ],
+  "core-js/actual/typed-array/set-from-base64": [
+    "esnext.uint8-array.set-from-base64"
+  ],
+  "core-js/actual/typed-array/set-from-hex": [
+    "esnext.uint8-array.set-from-hex"
   ],
   "core-js/actual/typed-array/slice": [
     "es.typed-array.slice"
@@ -3359,6 +3394,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex"
   ],
@@ -3407,6 +3444,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex"
   ],
@@ -3455,6 +3494,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex"
   ],
@@ -3503,6 +3544,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex"
   ],
@@ -6290,6 +6333,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex",
     "esnext.weak-map.delete-all",
@@ -9044,6 +9089,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex"
   ],
@@ -9140,6 +9187,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex"
   ],
@@ -9196,6 +9245,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex"
   ],
@@ -9276,6 +9327,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex"
   ],
@@ -9332,6 +9385,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex"
   ],
@@ -9388,6 +9443,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex"
   ],
@@ -9458,6 +9515,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex"
   ],
@@ -9475,6 +9534,12 @@
   ],
   "core-js/features/typed-array/set": [
     "es.typed-array.set"
+  ],
+  "core-js/features/typed-array/set-from-base64": [
+    "esnext.uint8-array.set-from-base64"
+  ],
+  "core-js/features/typed-array/set-from-hex": [
+    "esnext.uint8-array.set-from-hex"
   ],
   "core-js/features/typed-array/slice": [
     "es.typed-array.slice"
@@ -9565,6 +9630,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex"
   ],
@@ -9621,6 +9688,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex"
   ],
@@ -9677,6 +9746,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex"
   ],
@@ -9733,6 +9804,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex"
   ],
@@ -10306,6 +10379,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex",
     "esnext.weak-map.delete-all",
@@ -13060,6 +13135,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex"
   ],
@@ -13156,6 +13233,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex"
   ],
@@ -13212,6 +13291,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex"
   ],
@@ -13292,6 +13373,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex"
   ],
@@ -13348,6 +13431,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex"
   ],
@@ -13404,6 +13489,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex"
   ],
@@ -13474,6 +13561,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex"
   ],
@@ -13491,6 +13580,12 @@
   ],
   "core-js/full/typed-array/set": [
     "es.typed-array.set"
+  ],
+  "core-js/full/typed-array/set-from-base64": [
+    "esnext.uint8-array.set-from-base64"
+  ],
+  "core-js/full/typed-array/set-from-hex": [
+    "esnext.uint8-array.set-from-hex"
   ],
   "core-js/full/typed-array/slice": [
     "es.typed-array.slice"
@@ -13581,6 +13676,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex"
   ],
@@ -13637,6 +13734,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex"
   ],
@@ -13693,6 +13792,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex"
   ],
@@ -13749,6 +13850,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex"
   ],
@@ -15281,6 +15384,12 @@
   "core-js/modules/esnext.uint8-array.from-hex": [
     "esnext.uint8-array.from-hex"
   ],
+  "core-js/modules/esnext.uint8-array.set-from-base64": [
+    "esnext.uint8-array.set-from-base64"
+  ],
+  "core-js/modules/esnext.uint8-array.set-from-hex": [
+    "esnext.uint8-array.set-from-hex"
+  ],
   "core-js/modules/esnext.uint8-array.to-base64": [
     "esnext.uint8-array.to-base64"
   ],
@@ -15587,6 +15696,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex",
     "esnext.weak-map.delete-all",
@@ -15613,6 +15724,8 @@
   "core-js/proposals/array-buffer-base64": [
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex"
   ],
@@ -18730,6 +18843,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex",
     "esnext.weak-map.delete-all",
@@ -18936,6 +19051,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex",
     "esnext.weak-map.delete-all",
@@ -19131,6 +19248,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex",
     "esnext.weak-map.delete-all",
@@ -19254,6 +19373,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex",
     "esnext.weak-map.emplace"
@@ -19324,6 +19445,7 @@
     "esnext.promise.any",
     "esnext.promise.try",
     "esnext.promise.with-resolvers",
+    "esnext.regexp.escape",
     "esnext.set.difference.v2",
     "esnext.set.intersection.v2",
     "esnext.set.is-disjoint-from.v2",
@@ -19347,6 +19469,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex"
   ],
@@ -19413,7 +19537,9 @@
     "esnext.object.group-by",
     "esnext.promise.all-settled",
     "esnext.promise.any",
+    "esnext.promise.try",
     "esnext.promise.with-resolvers",
+    "esnext.regexp.escape",
     "esnext.set.difference.v2",
     "esnext.set.intersection.v2",
     "esnext.set.is-disjoint-from.v2",
@@ -19437,6 +19563,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex"
   ],
@@ -19673,6 +19801,8 @@
     "esnext.typed-array.with",
     "esnext.uint8-array.from-base64",
     "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex",
     "esnext.weak-map.delete-all",
