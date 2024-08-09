@@ -32,7 +32,13 @@ pub fn run_cmd(cmd: &mut Command) -> Result<()> {
     Ok(())
 }
 
-pub fn get_commit_for_swc_core_version(version: &str) -> Result<String> {
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub struct CommitRange {
+    pub first: String,
+    pub last: String,
+}
+
+pub fn get_commit_range_for_swc_core_version(version: &str) -> Result<CommitRange> {
     wrap(|| {
         eprintln!("Getting commit for swc_core@v{}", version);
 
@@ -71,13 +77,22 @@ pub fn get_commit_for_swc_core_version(version: &str) -> Result<String> {
 
         let line_count = output.lines().count();
 
+        if line_count == 1 {
+            let commit = output.split(':').next().unwrap().to_string();
+            eprintln!("\tThe commit for swc_core@v{} is {}", version, commit);
+            return Ok(CommitRange {
+                first: commit.clone(),
+                last: commit,
+            });
+        }
+
         for line in output.lines() {
             let commit = line.split(':').next().unwrap().to_string();
 
             if line_count == 1 || get_version_of_swc_core_of_commit(&commit)? == version {
                 eprintln!("\tThe commit for swc_core@v{} is {}", version, commit);
 
-                return Ok(commit);
+                todo!()
             }
         }
 
