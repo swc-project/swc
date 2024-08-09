@@ -1,6 +1,6 @@
 {
   "name": "@swc/minifier-darwin-arm64",
-  "version": "1.7.8-nightly-20240809.1",
+  "version": "1.7.8-nightly-20240809.2",
   "os": [
     "darwin"
   ],
