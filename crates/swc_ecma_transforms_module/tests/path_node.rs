@@ -9,7 +9,7 @@ use swc_ecma_transforms_module::{
     path::{ImportResolver, NodeImportResolver},
     rewriter::import_rewriter,
 };
-use swc_ecma_transforms_testing::test_fixture;
+use swc_ecma_transforms_testing::test_module_fixture;
 use testing::run_test2;
 
 type TestProvider = NodeImportResolver<NodeModulesResolver>;
@@ -40,7 +40,7 @@ fn issue_4730() {
     let input_dir = dir.join("input");
     let output_dir = dir.join("output");
 
-    test_fixture(
+    test_module_fixture(
         Syntax::default(),
         &|_| {
             let mut paths = IndexMap::new();
@@ -133,7 +133,7 @@ fn fixture(input_dir: PathBuf) {
         .canonicalize()
         .unwrap();
     dbg!(&base_dir);
-    test_fixture(
+    test_module_fixture(
         Syntax::default(),
         &|_| {
             let rules = config.paths.clone().into_iter().collect();

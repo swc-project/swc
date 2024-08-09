@@ -468,19 +468,19 @@ impl VisitMut for Inlining<'_> {
         self.visit_with_child(ScopeKind::Cond, &mut stmt.alt);
     }
 
-    fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
+    fn visit_mut_program(&mut self, program: &mut Program) {
         let _tracing = span!(Level::ERROR, "inlining", pass = self.pass).entered();
 
         let old_phase = self.phase;
 
         self.phase = Phase::Analysis;
-        items.visit_mut_children_with(self);
+        program.visit_mut_children_with(self);
 
         tracing::trace!("Switching to Inlining phase");
 
         // Inline
         self.phase = Phase::Inlining;
-        items.visit_mut_children_with(self);
+        program.visit_mut_children_with(self);
 
         self.phase = old_phase;
     }
