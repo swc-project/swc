@@ -23,7 +23,7 @@ use std::{
 
 use serde::{Deserialize, Serialize};
 
-use super::GLOBALS;
+use super::{MergeResult, GLOBALS};
 use crate::{collections::AHashMap, EqIgnoreSpan};
 
 /// A SyntaxContext represents a chain of macro expansions (represented by
@@ -326,6 +326,8 @@ impl HygieneData {
             markings: HashMap::default(),
         }
     }
+
+    pub(crate) fn merge(&mut self, other: &Self, result: &mut MergeResult) {}
 
     fn with<T, F: FnOnce(&mut HygieneData) -> T>(f: F) -> T {
         GLOBALS.with(|globals| {
