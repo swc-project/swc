@@ -1,7 +1,0 @@
-  x Expected ident
-    ,-[$DIR/tests/tsc/thisTypeInAccessors.strip.js:11:1]
- 10 |     n: 12,
- 11 |     get x(this: Foo)         { return this.n; },
-    :           ^^^^
- 12 |     set x(this     , n        ) { this.n = n; }
-    `----

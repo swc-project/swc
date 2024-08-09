@@ -1,7 +1,0 @@
-  x Expected ident
-    ,-[$DIR/tests/tsc/thisTypeInAccessorsNegative.strip.js:13:1]
- 12 |     n: 13,
- 13 |     get x(this: Foo) { return this.n; },
-    :           ^^^^
- 14 |     set x(this     , n) { this.wrong = "method"; }
-    `----
