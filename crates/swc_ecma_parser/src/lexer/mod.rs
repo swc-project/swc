@@ -774,10 +774,7 @@ impl<'a> Lexer<'a> {
         // should know context or parser should handle this error. Our approach to this
         // problem is former one.
         if has_escape && self.ctx.is_reserved(&word) {
-            self.error(
-                start,
-                SyntaxError::EscapeInReservedWord { word: word.into() },
-            )?
+            self.error(start, SyntaxError::EscapeInReservedWord { word })?
         } else {
             Ok(Some(Token::Word(word)))
         }

@@ -51,6 +51,23 @@ impl<I: Tokens> Parser<I> {
         .parse_with(|p| {
             let start = cur_pos!(p);
 
+            // The lexer marks keywords with escapes as errors, but unlike in
+            // the general case, it's OK here as a property name. We turn the
+            // error back into a token
+            if let Some(err_tok @ Token::Error(e)) = p.input.cur() {
+                if let SyntaxError::EscapeInReservedWord { word } = e.kind() {
+                    let word = word.clone();
+                    let err_tok = err_tok.clone();
+                    let check = p.input.bump();
+                    debug_assert_eq!(err_tok, check);
+                    eprintln!(
+                        "  :: parser.object.parse_prop_name: recovered error {:?} -> {:?}",
+                        err_tok, word
+                    );
+                    p.input.store(Token::Word(word));
+                }
+            }
+
             let v = match *cur!(p, true) {
                 Token::Str { .. } => match bump!(p) {
                     Token::Str { value, raw } => PropName::Str(Str {
