@@ -1239,12 +1239,7 @@ fn field_variant(type_name: &Ident, field: &Field) -> Option<(TokenStream, Optio
             );
             let arg = parse_quote!(
                 Self::#variant_name(idx) => {
-                    #[cfg(debug_assertions)]
-                    if !(*idx == usize::MAX || index == usize::MAX) {
-                        {
-                            panic!("Should be usize::MAX");
-                        }
-                    }
+                    assert_initial_index(*idx, index);
 
                     *idx = index;
                 },
@@ -1307,6 +1302,18 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
 
         defs.push(parse_quote!(
             use #crate_name::*;
+        ));
+
+        defs.push(parse_quote!(
+            #[inline(always)]
+            fn assert_initial_index(idx: usize, index: usize) {
+                #[cfg(debug_assertions)]
+                if !(idx == usize::MAX || index == usize::MAX) {
+                    {
+                        panic!("Should be usize::MAX");
+                    }
+                }
+            }
         ));
 
         for ty in node_types {
