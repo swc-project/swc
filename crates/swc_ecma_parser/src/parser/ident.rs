@@ -157,7 +157,7 @@ impl<I: Tokens> Parser<I> {
                     syntax_error!(p, p.input.prev_span(), SyntaxError::InvalidIdentInAsync)
                 }
                 Word::Keyword(Keyword::This) if p.input.syntax().typescript() => Ok(atom!("this")),
-                Word::Keyword(Keyword::Let) => Ok(atom!("let")),
+                // Word::Keyword(Keyword::Let) => Ok(atom!("let")),
                 Word::Ident(ident) => {
                     if matches!(&ident, IdentLike::Other(arguments) if &**arguments == "arguments")
                         && p.ctx().in_class_field

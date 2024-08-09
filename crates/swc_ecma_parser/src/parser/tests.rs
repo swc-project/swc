@@ -85,6 +85,45 @@ fn issue_1813() {
 }
 
 #[test]
+fn issue_8269_1() {
+    test_parser(
+        "class let { constructor() {} }",
+        Default::default(),
+        |p| {
+            p.parse_program().expect_err("should fail");
+
+            Ok(())
+        },
+    )
+}
+
+#[test]
+fn issue_8269_2() {
+    test_parser(
+        "let let = 1;",
+        Default::default(),
+        |p| {
+            p.parse_program().expect_err("should fail");
+
+            Ok(())
+        },
+    )
+}
+
+#[test]
+fn issue_8269_3() {
+    test_parser(
+        "const let = 1;",
+        Default::default(),
+        |p| {
+            p.parse_program().expect_err("should fail");
+
+            Ok(())
+        },
+    )
+}
+
+#[test]
 fn parse_module_export_named_span() {
     let m = module("export function foo() {}");
     if let ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { span, .. })) = &m.body[0] {
