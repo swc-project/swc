@@ -3811,6 +3811,7 @@ name = "swc-releaser"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "cargo_metadata",
  "changesets",
  "clap 4.5.9",
 ]
