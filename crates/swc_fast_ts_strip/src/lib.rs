@@ -655,14 +655,6 @@ impl Visit for TsStrip {
         n.visit_children_with(self);
     }
 
-    fn visit_fn_decl(&mut self, n: &FnDecl) {
-        if n.function.body.is_none() {
-            self.add_replacement(n.function.span);
-            return;
-        }
-        n.visit_children_with(self);
-    }
-
     fn visit_import_decl(&mut self, n: &ImportDecl) {
         if n.type_only {
             self.add_replacement(n.span);
@@ -955,6 +947,9 @@ impl IsTsDecl for Decl {
             Self::Var(ref var) => var.declare,
             Self::Fn(FnDecl { declare: true, .. })
             | Self::Class(ClassDecl { declare: true, .. }) => true,
+
+            Self::Fn(FnDecl { function, .. }) => function.body.is_none(),
+
             _ => false,
         }
     }

@@ -1,0 +1,7 @@
+  x Expected '{', got ';'
+   ,-[$DIR/tests/tsc/defaultExportWithOverloads01.strip.js:4:1]
+ 3 | 
+ 4 | export default function f();
+   :                            ^
+ 5 | export default function f(x        );
+   `----
