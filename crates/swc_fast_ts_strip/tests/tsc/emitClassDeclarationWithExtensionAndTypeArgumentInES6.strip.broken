@@ -1,7 +1,0 @@
-  x Expected '{', got 'constructor'
-   ,-[$DIR/tests/tsc/emitClassDeclarationWithExtensionAndTypeArgumentInES6.strip.js:8:1]
- 7 |     constructor(a     )
- 8 |     constructor(b        ) {
-   :     ^^^^^^^^^^^
- 9 |         super(b);
-   `----

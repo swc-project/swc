@@ -1,7 +1,0 @@
-  x Unexpected token `constructor`. Expected * for generator, private key, identifier or async
-    ,-[$DIR/tests/tsc/accessorsOverrideProperty9.strip.js:31:1]
- 30 |            class MixedClass extends baseClass                                  {
- 31 |     public constructor(...args       ) {
-    :            ^^^^^^^^^^^
- 32 |       super(...args);
-    `----

@@ -1,6 +1,0 @@
-  x Expected '{', got '}'
-    ,-[$DIR/tests/tsc/varRequireFromTypescript.strip.js:11:1]
- 10 |     constructor(n        )
- 11 | }
-    : ^
-    `----

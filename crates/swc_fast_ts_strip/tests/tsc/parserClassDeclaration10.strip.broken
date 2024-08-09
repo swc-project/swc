@@ -1,7 +1,0 @@
-  x Expected '{', got ';'
-   ,-[$DIR/tests/tsc/parserClassDeclaration10.strip.js:2:1]
- 1 | class C {
- 2 |    constructor();
-   :                 ^
- 3 |          
-   `----

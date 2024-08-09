@@ -1,7 +1,0 @@
-  x Expected '{', got ';'
-   ,-[$DIR/tests/tsc/typesWithSpecializedConstructSignatures.strip.js:8:1]
- 7 | class C {
- 8 |     constructor(x      );
-   :                         ^
- 9 |     constructor(x       );
-   `----
