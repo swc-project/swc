@@ -520,7 +520,7 @@ pub enum ArrayElement {
     #[tag("SpreadElement")]
     Spread(SpreadElement),
     #[tag("*")]
-    Elem(Box<Expr>),
+    Expr(Box<Expr>),
 }
 
 #[ast_node("Elision")]
