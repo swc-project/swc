@@ -1387,7 +1387,7 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                         impl #fields_enum_name {
                             #[inline(always)]
                             pub(crate) fn set_index(&mut self, _: usize) {
-                                unreachable!()
+                                swc_visit::wrong_ast_path();
                             }
                         }
                     ));
@@ -1421,7 +1421,7 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                                     #(#set_index_arms)*
 
                                     _ => {
-                                        unreachable!()
+                                        swc_visit::wrong_ast_path()
                                     }
                                 }
                             }
