@@ -4241,7 +4241,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_visit"
-version = "0.143.3"
+version = "0.143.4"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -4252,7 +4252,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.118.0"
+version = "0.118.1"
 dependencies = [
  "arbitrary",
  "bitflags 2.5.0",
@@ -4998,7 +4998,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "0.104.4"
+version = "0.104.5"
 dependencies = [
  "new_debug_unreachable",
  "num-bigint",
@@ -5235,7 +5235,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_visit"
-version = "0.37.3"
+version = "0.37.4"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -5491,7 +5491,7 @@ dependencies = [
 
 [[package]]
 name = "swc_xml_visit"
-version = "0.16.3"
+version = "0.16.4"
 dependencies = [
  "serde",
  "swc_atoms",
