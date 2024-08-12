@@ -59,7 +59,7 @@ pub(crate) struct Transform {
     import_export_assign_config: TsImportExportAssignConfig,
     ts_enum_is_mutable: bool,
     verbatim_module_syntax: bool,
-    class_properties: bool,
+    native_class_properties: bool,
 
     namespace_id: Option<Id>,
     record: TsEnumRecord,
@@ -75,7 +75,7 @@ pub fn transform(
     import_export_assign_config: TsImportExportAssignConfig,
     ts_enum_is_mutable: bool,
     verbatim_module_syntax: bool,
-    class_properties: bool,
+    native_class_properties: bool,
 ) -> impl Fold + VisitMut {
     as_folder(Transform {
         unresolved_mark,
@@ -84,7 +84,7 @@ pub fn transform(
         import_export_assign_config,
         ts_enum_is_mutable,
         verbatim_module_syntax,
-        class_properties,
+        native_class_properties,
         ..Default::default()
     })
 }
@@ -142,7 +142,7 @@ impl VisitMut for Transform {
         let init_list = mem::replace(&mut self.in_class_prop_init, init_list);
 
         if !prop_list.is_empty() {
-            if self.class_properties {
+            if self.native_class_properties {
                 self.reorder_class_prop_decls(n, prop_list, init_list);
             } else {
                 self.reorder_class_prop_decls_and_inits(n, prop_list, init_list);
