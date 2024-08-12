@@ -146,22 +146,6 @@ where
 {
     type Output = Vec<T::Output>;
 
-    #[cfg(feature = "concurrent")]
-    fn babelify(self, ctx: &Context) -> Self::Output {
-        use rayon::prelude::*;
-
-        if T::parallel(self.len()) {
-            let flavor = Flavor::current();
-
-            self.into_par_iter()
-                .map(|v| flavor.with(|| v.babelify(ctx)))
-                .collect()
-        } else {
-            self.into_iter().map(|v| v.babelify(ctx)).collect()
-        }
-    }
-
-    #[cfg(not(feature = "concurrent"))]
     fn babelify(self, ctx: &Context) -> Self::Output {
         self.into_iter().map(|v| v.babelify(ctx)).collect()
     }
