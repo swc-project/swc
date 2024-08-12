@@ -12,8 +12,9 @@ use wasm_bindgen_futures::{
 /// auto generated one, which is not reflecting most of types in detail.
 #[wasm_bindgen(typescript_custom_section)]
 const INTERFACE_DEFINITIONS: &'static str = r#"
-export function transform(src: string, opts?: Options): Promise<TransformOutput>;
-export function transformSync(src: string, opts?: Options): TransformOutput;
+export declare function transform(src: string, opts?: Options): Promise<TransformOutput>;
+export declare function transformSync(src: string, opts?: Options): TransformOutput;
+export type { Options, TransformOutput };
 "#;
 
 #[wasm_bindgen(skip_typescript)]
