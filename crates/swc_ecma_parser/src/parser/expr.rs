@@ -511,7 +511,13 @@ impl<I: Tokens> Parser<I> {
             elems.push(
                 self.include_in_expr(true)
                     .parse_expr_or_spread()
-                    .map(Some)?,
+                    .map(|x| match x {
+                        ExprOrSpread { spread: None, expr } => ArrayElement::Expr(expr),
+                        ExprOrSpread { spread, expr } => ArrayElement::Spread(Spread {
+                            span: spread.unwrap(),
+                            expr,
+                        }),
+                    })?,
             );
             if !is!(self, ']') {
                 expect!(self, ',');
