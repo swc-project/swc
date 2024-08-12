@@ -12,7 +12,7 @@ use crate::{
     },
 };
 
-type Extends<'a> = Vec<(Expr, Option<Box<TsTypeParamInstantiation>>, Span)>;
+type Extends<'a> = Vec<(Box<Expr>, Option<Box<TsTypeParamInstantiation>>, Span)>;
 
 type Implements<'a> = Vec<TsExprWithTypeArgs>;
 
@@ -147,8 +147,8 @@ impl<'a> ParserImpl<'a> {
         let span = self.start_span();
         let mut first_extends = self.parse_lhs_expression_or_higher()?;
         let first_type_argument;
-        if let Expr::TsInstantiation(expr) = first_extends {
-            first_extends = *expr.expr;
+        if let Expr::TsInstantiation(expr) = *first_extends {
+            first_extends = expr.expr;
             first_type_argument = Some(expr.type_args);
         } else {
             first_type_argument = self.try_parse_type_arguments()?;
@@ -159,8 +159,8 @@ impl<'a> ParserImpl<'a> {
             let span = self.start_span();
             let mut extend = self.parse_lhs_expression_or_higher()?;
             let type_argument;
-            if let Expr::TsInstantiation(expr) = extend {
-                extend = *expr.expr;
+            if let Expr::TsInstantiation(expr) = *extend {
+                extend = expr.expr;
                 type_argument = Some(expr.type_args);
             } else {
                 type_argument = self.try_parse_type_arguments()?;
