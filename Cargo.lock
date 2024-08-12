@@ -4241,7 +4241,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_visit"
-version = "0.143.2"
+version = "0.143.4"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -4252,7 +4252,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.118.0"
+version = "0.118.1"
 dependencies = [
  "arbitrary",
  "bitflags 2.5.0",
@@ -4998,7 +4998,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "0.104.3"
+version = "0.104.5"
 dependencies = [
  "new_debug_unreachable",
  "num-bigint",
@@ -5058,7 +5058,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.208.0"
+version = "0.208.1"
 dependencies = [
  "ahash 0.8.11",
  "anyhow",
@@ -5066,7 +5066,6 @@ dependencies = [
  "copyless",
  "criterion",
  "pretty_assertions",
- "rayon",
  "serde",
  "serde_json",
  "swc",
@@ -5236,7 +5235,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_visit"
-version = "0.37.2"
+version = "0.37.4"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -5420,9 +5419,10 @@ dependencies = [
 
 [[package]]
 name = "swc_visit"
-version = "0.6.1"
+version = "0.6.2"
 dependencies = [
  "either",
+ "new_debug_unreachable",
 ]
 
 [[package]]
@@ -5491,7 +5491,7 @@ dependencies = [
 
 [[package]]
 name = "swc_xml_visit"
-version = "0.16.2"
+version = "0.16.4"
 dependencies = [
  "serde",
  "swc_atoms",

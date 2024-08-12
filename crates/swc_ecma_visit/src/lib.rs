@@ -317,8 +317,6 @@ where
 
     method!(fold_program, Program);
 
-    method!(fold_reserved_unused, ReservedUnused);
-
     #[inline(always)]
     fn fold_module(&mut self, mut n: Module) -> Module {
         #[cfg(all(debug_assertions, feature = "debug"))]

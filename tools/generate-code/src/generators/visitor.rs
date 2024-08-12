@@ -805,7 +805,7 @@ impl Generator {
                     {
                         let mut kind = quote!(self::fields::#fields_enum_name::#field_variant);
 
-                        if extract_vec(ty).is_some() {
+                        if extract_vec(extract_generic("Option", ty).unwrap_or(ty)).is_some() {
                             kind = quote!(#kind(usize::MAX));
                         }
 
@@ -1254,7 +1254,7 @@ fn field_variant(type_name: &Ident, field: &Field) -> Option<(TokenStream, Optio
         let variant_name = Ident::new(&field_name.to_string().to_pascal_case(), Span::call_site());
         let variant_doc = doc(&format!("Represents [`{type_name}::{field_name}`]"));
 
-        if extract_vec(&field.ty).is_some() {
+        if extract_vec(extract_generic("Option", &field.ty).unwrap_or(&field.ty)).is_some() {
             let v = quote!(
                 #variant_doc
                 #variant_name(usize)
@@ -1386,7 +1386,9 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                     defs.push(parse_quote!(
                         impl #fields_enum_name {
                             #[inline(always)]
-                            pub(crate) fn set_index(&mut self, _: usize) {}
+                            pub(crate) fn set_index(&mut self, _: usize) {
+                                swc_visit::wrong_ast_path();
+                            }
                         }
                     ));
                 }
@@ -1418,7 +1420,9 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                                 match self {
                                     #(#set_index_arms)*
 
-                                    _ => {}
+                                    _ => {
+                                        swc_visit::wrong_ast_path()
+                                    }
                                 }
                             }
                         }

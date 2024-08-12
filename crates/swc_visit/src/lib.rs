@@ -541,3 +541,11 @@ where
             .set_index(usize::MAX);
     }
 }
+
+/// NOT A PUBLIC API
+#[doc(hidden)]
+pub fn wrong_ast_path() {
+    unsafe {
+        debug_unreachable::debug_unreachable!("Wrong ast path");
+    }
+}

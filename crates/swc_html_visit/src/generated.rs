@@ -12325,7 +12325,7 @@ pub mod fields {
     impl AttributeField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {}
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -12349,7 +12349,7 @@ pub mod fields {
     impl AttributeTokenField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {}
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -12368,7 +12368,9 @@ pub mod fields {
     }
     impl ChildField {
         #[inline(always)]
-        pub(crate) fn set_index(&mut self, _: usize) {}
+        pub(crate) fn set_index(&mut self, _: usize) {
+            swc_visit::wrong_ast_path();
+        }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
     pub enum ChildField {
@@ -12384,7 +12386,7 @@ pub mod fields {
     impl CommentField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {}
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -12404,7 +12406,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {}
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -12424,7 +12426,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {}
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -12437,7 +12439,9 @@ pub mod fields {
     }
     impl DocumentModeField {
         #[inline(always)]
-        pub(crate) fn set_index(&mut self, _: usize) {}
+        pub(crate) fn set_index(&mut self, _: usize) {
+            swc_visit::wrong_ast_path();
+        }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
     pub enum DocumentModeField {
@@ -12451,7 +12455,7 @@ pub mod fields {
     impl DocumentTypeField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {}
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -12479,7 +12483,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {}
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -12502,7 +12506,9 @@ pub mod fields {
     }
     impl NamespaceField {
         #[inline(always)]
-        pub(crate) fn set_index(&mut self, _: usize) {}
+        pub(crate) fn set_index(&mut self, _: usize) {
+            swc_visit::wrong_ast_path();
+        }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
     pub enum NamespaceField {
@@ -12521,7 +12527,9 @@ pub mod fields {
     }
     impl RawField {
         #[inline(always)]
-        pub(crate) fn set_index(&mut self, _: usize) {}
+        pub(crate) fn set_index(&mut self, _: usize) {
+            swc_visit::wrong_ast_path();
+        }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
     pub enum RawField {
@@ -12533,7 +12541,7 @@ pub mod fields {
     impl TextField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {}
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -12548,7 +12556,9 @@ pub mod fields {
     }
     impl TokenField {
         #[inline(always)]
-        pub(crate) fn set_index(&mut self, _: usize) {}
+        pub(crate) fn set_index(&mut self, _: usize) {
+            swc_visit::wrong_ast_path();
+        }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
     pub enum TokenField {
@@ -12568,7 +12578,7 @@ pub mod fields {
     impl TokenAndSpanField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {}
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
