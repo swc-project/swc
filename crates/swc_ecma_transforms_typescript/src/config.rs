@@ -8,7 +8,7 @@ pub struct Config {
 
     /// Native class properties support
     #[serde(default)]
-    pub class_properties: bool,
+    pub native_class_properties: bool,
 
     #[serde(default)]
     pub import_not_used_as_values: ImportsNotUsedAsValues,

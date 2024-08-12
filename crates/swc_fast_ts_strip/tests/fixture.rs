@@ -121,7 +121,7 @@ fn opts(mode: Mode) -> Options {
         },
         mode,
         transform: Some(swc_ecma_transforms_typescript::Config {
-            class_properties: true,
+            native_class_properties: true,
             ..Default::default()
         }),
         ..Default::default()

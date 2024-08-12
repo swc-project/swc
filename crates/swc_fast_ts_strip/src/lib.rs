@@ -76,7 +76,7 @@ interface TransformConfig {
     /**
      * Native class properties support
      */
-    classProperties?: boolean;
+    nativeClassProperties?: boolean;
     importNotUsedAsValues?: "remove" | "preserve";
     /**
      * Don't create `export {}`.
