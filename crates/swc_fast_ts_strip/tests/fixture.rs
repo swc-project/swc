@@ -120,6 +120,10 @@ fn opts(mode: Mode) -> Options {
             ..Default::default()
         },
         mode,
+        transform: Some(swc_ecma_transforms_typescript::Config {
+            class_properties: true,
+            ..Default::default()
+        }),
         ..Default::default()
     }
 }
