@@ -505,7 +505,7 @@ impl<I: Tokens> Parser<I> {
         while !eof!(self) && !is!(self, ']') {
             if is!(self, ',') {
                 expect!(self, ',');
-                elems.push(None);
+                elems.push(ArrayElement::Elision(span!(self, start)));
                 continue;
             }
             elems.push(
