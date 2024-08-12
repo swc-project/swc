@@ -12325,9 +12325,7 @@ pub mod fields {
     impl AttributeField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    unreachable!()
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -12351,9 +12349,7 @@ pub mod fields {
     impl AttributeTokenField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    unreachable!()
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -12373,7 +12369,7 @@ pub mod fields {
     impl ChildField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            unreachable!()
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -12390,9 +12386,7 @@ pub mod fields {
     impl CommentField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    unreachable!()
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -12412,9 +12406,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    unreachable!()
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -12434,9 +12426,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    unreachable!()
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -12450,7 +12440,7 @@ pub mod fields {
     impl DocumentModeField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            unreachable!()
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -12465,9 +12455,7 @@ pub mod fields {
     impl DocumentTypeField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    unreachable!()
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -12495,9 +12483,7 @@ pub mod fields {
                     assert_initial_index(*idx, index);
                     *idx = index;
                 }
-                _ => {
-                    unreachable!()
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -12521,7 +12507,7 @@ pub mod fields {
     impl NamespaceField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            unreachable!()
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -12542,7 +12528,7 @@ pub mod fields {
     impl RawField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            unreachable!()
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -12555,9 +12541,7 @@ pub mod fields {
     impl TextField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    unreachable!()
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
@@ -12573,7 +12557,7 @@ pub mod fields {
     impl TokenField {
         #[inline(always)]
         pub(crate) fn set_index(&mut self, _: usize) {
-            unreachable!()
+            swc_visit::wrong_ast_path();
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -12594,9 +12578,7 @@ pub mod fields {
     impl TokenAndSpanField {
         pub(crate) fn set_index(&mut self, index: usize) {
             match self {
-                _ => {
-                    unreachable!()
-                }
+                _ => swc_visit::wrong_ast_path(),
             }
         }
     }
