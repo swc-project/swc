@@ -6,6 +6,10 @@ pub struct Config {
     #[serde(default)]
     pub verbatim_module_syntax: bool,
 
+    /// Native class properties support
+    #[serde(default)]
+    pub class_properties: bool,
+
     #[serde(default)]
     pub import_not_used_as_values: ImportsNotUsedAsValues,
 

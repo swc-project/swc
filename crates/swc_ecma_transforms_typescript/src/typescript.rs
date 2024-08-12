@@ -57,6 +57,7 @@ impl VisitMut for TypeScript {
             self.config.import_export_assign_config,
             self.config.ts_enum_is_mutable,
             self.config.verbatim_module_syntax,
+            self.config.class_properties,
         ));
 
         if let Some(span) = was_module {
