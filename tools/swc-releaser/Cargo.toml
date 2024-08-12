@@ -7,6 +7,7 @@ repository        = { workspace = true }
 version           = "0.1.0"
 
 [dependencies]
-anyhow     = { workspace = true }
-changesets = { workspace = true }
-clap       = { version = "4.5.9", features = ["derive"] }
+anyhow         = { workspace = true }
+cargo_metadata = { workspace = true }
+changesets     = { workspace = true }
+clap           = { version = "4.5.9", features = ["derive"] }

@@ -66,9 +66,27 @@ fn run_bump(workspace_dir: &Path, dry_run: bool) -> Result<()> {
     Ok(())
 }
 
+fn get_swc_core_version() -> Result<String> {
+    let md = cargo_metadata::MetadataCommand::new()
+        .no_deps()
+        .exec()
+        .expect("failed to run cargo metadata");
+
+    md.packages
+        .iter()
+        .find(|p| p.name == "swc_core")
+        .map(|p| p.version.to_string())
+        .context("failed to find swc_core")
+}
+
 fn commit(dry_run: bool) -> Result<()> {
+    let core_ver = get_swc_core_version()?;
+
     let mut cmd = Command::new("git");
-    cmd.arg("commit").arg("-am").arg("chore: Publish crates");
+    cmd.arg("commit").arg("-am").arg(format!(
+        "chore: Publish crates with `swc_core` `v{}`",
+        core_ver
+    ));
 
     eprintln!("Running {:?}", cmd);
 

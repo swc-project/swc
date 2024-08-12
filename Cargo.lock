@@ -1727,9 +1727,9 @@ checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
 
 [[package]]
 name = "hstr"
-version = "0.2.10"
+version = "0.2.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "96274be293b8877e61974a607105d09c84caebe9620b47774aa8a6b942042dd4"
+checksum = "dae404c0c5d4e95d4858876ab02eecd6a196bb8caa42050dfa809938833fc412"
 dependencies = [
  "hashbrown 0.14.5",
  "new_debug_unreachable",
@@ -1930,9 +1930,9 @@ checksum = "8f518f335dce6725a761382244631d86cf0ccb2863413590b31338feb467f9c3"
 
 [[package]]
 name = "is-macro"
-version = "0.3.5"
+version = "0.3.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "59a85abdc13717906baccb5a1e435556ce0df215f242892f721dff62bf25288f"
+checksum = "2069faacbe981460232f880d26bf3c7634e322d49053aa48c27e3ae642f728f1"
 dependencies = [
  "Inflector",
  "proc-macro2",
@@ -3678,9 +3678,9 @@ dependencies = [
 
 [[package]]
 name = "st-map"
-version = "0.2.3"
+version = "0.2.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8a8a5c4e5cc839409346495370b2df67489cafd7fa83616d0547a9697a6a89a1"
+checksum = "8257dd592de7614be71a2342d36ba2d527ddad3f9a0c8d09d6ceed4c371531e4"
 dependencies = [
  "arrayvec",
  "static-map-macro",
@@ -3811,6 +3811,7 @@ name = "swc-releaser"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "cargo_metadata",
  "changesets",
  "clap 4.5.9",
 ]
@@ -4009,7 +4010,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.100.2"
+version = "0.100.6"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4240,7 +4241,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_visit"
-version = "0.143.1"
+version = "0.143.2"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -4938,7 +4939,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.195.0"
+version = "0.195.1"
 dependencies = [
  "codspeed-criterion-compat",
  "criterion",
@@ -4976,7 +4977,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.134.0"
+version = "0.134.1"
 dependencies = [
  "indexmap 2.2.6",
  "num_cpus",
@@ -4997,7 +4998,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "0.104.1"
+version = "0.104.3"
 dependencies = [
  "new_debug_unreachable",
  "num-bigint",
@@ -5094,7 +5095,7 @@ dependencies = [
 
 [[package]]
 name = "swc_fast_ts_strip"
-version = "0.5.0"
+version = "0.5.3"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",
@@ -5235,7 +5236,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_visit"
-version = "0.37.1"
+version = "0.37.2"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -5490,7 +5491,7 @@ dependencies = [
 
 [[package]]
 name = "swc_xml_visit"
-version = "0.16.1"
+version = "0.16.2"
 dependencies = [
  "serde",
  "swc_atoms",
