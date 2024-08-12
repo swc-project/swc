@@ -1395,7 +1395,7 @@ where
 
         punct!("{");
 
-        self.emit_list(node.span, Some(&node.body), ListFormat::ClassMembers)?;
+        self.emit_list(node.span, Some(&node.body.body), ListFormat::ClassMembers)?;
 
         srcmap!(node, false, true);
         punct!("}");
@@ -1615,7 +1615,7 @@ where
         punct!("(");
         self.emit_list(
             n.function.span,
-            Some(&n.function.params),
+            Some(&n.function.params.params),
             ListFormat::CommaListElements,
         )?;
 
@@ -1912,7 +1912,11 @@ where
         }
 
         punct!("(");
-        self.emit_list(node.span, Some(&node.params), ListFormat::CommaListElements)?;
+        self.emit_list(
+            node.span,
+            Some(&node.params.params),
+            ListFormat::CommaListElements,
+        )?;
         punct!(")");
 
         if let Some(ty) = &node.return_type {
@@ -2163,7 +2167,7 @@ where
 
         punct!("[");
         let mut format = ListFormat::ArrayLiteralExpressionElements;
-        if let Some(None) = node.elems.last() {
+        if let Some(ArrayElement::Elision(..)) = node.elems.last() {
             format |= ListFormat::ForceTrailingComma;
         }
 
