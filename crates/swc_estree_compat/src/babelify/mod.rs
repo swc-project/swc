@@ -1,6 +1,3 @@
-use std::sync::Arc;
-
-use rayon::prelude::*;
 use serde::{de::DeserializeOwned, Serialize};
 use swc_common::{
     comments::{CommentKind, Comments},
@@ -28,7 +25,7 @@ mod typescript;
 
 #[derive(Clone)]
 pub struct Context {
-    pub fm: Arc<SourceFile>,
+    pub fm: Lrc<SourceFile>,
     pub cm: Lrc<SourceMap>,
     pub comments: SwcComments,
 }
@@ -150,15 +147,7 @@ where
     type Output = Vec<T::Output>;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
-        if T::parallel(self.len()) {
-            let flavor = Flavor::current();
-
-            self.into_par_iter()
-                .map(|v| flavor.with(|| v.babelify(ctx)))
-                .collect()
-        } else {
-            self.into_iter().map(|v| v.babelify(ctx)).collect()
-        }
+        self.into_iter().map(|v| v.babelify(ctx)).collect()
     }
 }
 
