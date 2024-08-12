@@ -5422,6 +5422,7 @@ name = "swc_visit"
 version = "0.6.1"
 dependencies = [
  "either",
+ "new_debug_unreachable",
 ]
 
 [[package]]
