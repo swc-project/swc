@@ -805,7 +805,7 @@ impl Generator {
                     {
                         let mut kind = quote!(self::fields::#fields_enum_name::#field_variant);
 
-                        if extract_vec(ty).is_some() {
+                        if extract_vec(extract_generic("Option", ty).unwrap_or(ty)).is_some() {
                             kind = quote!(#kind(usize::MAX));
                         }
 
