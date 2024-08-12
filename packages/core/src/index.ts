@@ -76,6 +76,9 @@ export class Compiler {
         throw new Error("Bindings not found.");
     }
 
+    /**
+     * @deprecated Use Rust instead.
+     */
     parse(
         src: string,
         options: ParseOptions & { isModule: false }
@@ -386,6 +389,9 @@ export class Compiler {
 
 const compiler = new Compiler();
 
+/**
+ * @deprecated Use Rust instead.
+ */
 export function parse(
     src: string,
     options: ParseOptions & { isModule: false }
