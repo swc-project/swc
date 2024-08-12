@@ -5066,7 +5066,6 @@ dependencies = [
  "copyless",
  "criterion",
  "pretty_assertions",
- "rayon",
  "serde",
  "serde_json",
  "swc",
