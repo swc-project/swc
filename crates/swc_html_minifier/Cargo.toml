@@ -15,6 +15,11 @@ version = "0.143.0"
 [lib]
 bench = false
 
+[features]
+default = ["default-css-minifier"]
+default-css-minifier = ["swc_css_ast", "swc_css_codegen", "swc_css_minifier", "swc_css_parser"]
+custom-css-minifier = []
+
 [dependencies]
 once_cell  = { workspace = true }
 serde      = { workspace = true, features = ["derive"] }
@@ -23,10 +28,10 @@ serde_json = { workspace = true }
 swc_atoms = { version = "0.6.5", path = "../swc_atoms" }
 swc_cached = { version = "0.3.19", path = "../swc_cached" }
 swc_common = { version = "0.37.0", path = "../swc_common" }
-swc_css_ast = { version = "0.144.0", path = "../swc_css_ast" }
-swc_css_codegen = { version = "0.155.0", path = "../swc_css_codegen" }
-swc_css_minifier = { version = "0.120.0", path = "../swc_css_minifier" }
-swc_css_parser = { version = "0.154.0", path = "../swc_css_parser" }
+swc_css_ast = { version = "0.144.0", path = "../swc_css_ast", optional = true }
+swc_css_codegen = { version = "0.155.0", path = "../swc_css_codegen", optional = true }
+swc_css_minifier = { version = "0.120.0", path = "../swc_css_minifier", optional = true }
+swc_css_parser = { version = "0.154.0", path = "../swc_css_parser", optional = true }
 swc_ecma_ast = { version = "0.118.0", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "0.155.0", path = "../swc_ecma_codegen", features = [
   "serde-impl",
