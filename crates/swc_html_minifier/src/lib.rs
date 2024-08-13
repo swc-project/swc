@@ -15,12 +15,12 @@ use swc_html_parser::parser::ParserConfig;
 use swc_html_utils::{HTML_ELEMENTS_AND_ATTRIBUTES, SVG_ELEMENTS_AND_ATTRIBUTES};
 use swc_html_visit::{VisitMut, VisitMutWith};
 
+#[cfg(feature = "default-css-minifier")]
+use crate::option::CssOptions;
 use crate::option::{
     CollapseWhitespaces, JsOptions, JsParserOptions, JsonOptions, MinifierType, MinifyCssOption,
     MinifyJsOption, MinifyJsonOption, MinifyOptions, RemoveRedundantAttributes,
 };
-#[cfg(feature = "default-css-minifier")]
-use crate::option::CssOptions;
 
 pub mod option;
 
