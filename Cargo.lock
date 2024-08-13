@@ -4010,7 +4010,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.100.6"
+version = "0.100.7"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5126,7 +5126,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.146.0"
+version = "0.146.1"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -5176,7 +5176,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.143.0"
+version = "0.143.1"
 dependencies = [
  "codspeed-criterion-compat",
  "criterion",
