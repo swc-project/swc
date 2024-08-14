@@ -59,6 +59,7 @@ pub(crate) struct Transform {
     import_export_assign_config: TsImportExportAssignConfig,
     ts_enum_is_mutable: bool,
     verbatim_module_syntax: bool,
+    native_class_properties: bool,
 
     namespace_id: Option<Id>,
     record: TsEnumRecord,
@@ -74,6 +75,7 @@ pub fn transform(
     import_export_assign_config: TsImportExportAssignConfig,
     ts_enum_is_mutable: bool,
     verbatim_module_syntax: bool,
+    native_class_properties: bool,
 ) -> impl Fold + VisitMut {
     as_folder(Transform {
         unresolved_mark,
@@ -82,6 +84,7 @@ pub fn transform(
         import_export_assign_config,
         ts_enum_is_mutable,
         verbatim_module_syntax,
+        native_class_properties,
         ..Default::default()
     })
 }
@@ -139,7 +142,11 @@ impl VisitMut for Transform {
         let init_list = mem::replace(&mut self.in_class_prop_init, init_list);
 
         if !prop_list.is_empty() {
-            self.reorder_class_prop_decls(n, prop_list, init_list);
+            if self.native_class_properties {
+                self.reorder_class_prop_decls(n, prop_list, init_list);
+            } else {
+                self.reorder_class_prop_decls_and_inits(n, prop_list, init_list);
+            }
         }
     }
 
@@ -728,7 +735,7 @@ impl Transform {
 }
 
 impl Transform {
-    fn reorder_class_prop_decls(
+    fn reorder_class_prop_decls_and_inits(
         &mut self,
         class_member_list: &mut Vec<ClassMember>,
         prop_list: Vec<Id>,
@@ -803,6 +810,44 @@ impl Transform {
             } else {
                 class_member_list.push(constructor.into());
             }
+        }
+
+        class_member_list.splice(
+            0..0,
+            prop_list
+                .into_iter()
+                .map(Ident::from)
+                .map(PropName::from)
+                .map(|key| ClassProp {
+                    span: DUMMY_SP,
+                    key,
+                    value: None,
+                    type_ann: None,
+                    is_static: false,
+                    decorators: Vec::new(),
+                    accessibility: None,
+                    is_abstract: false,
+                    is_optional: false,
+                    is_override: false,
+                    readonly: false,
+                    declare: false,
+                    definite: false,
+                })
+                .map(ClassMember::ClassProp),
+        );
+    }
+
+    fn reorder_class_prop_decls(
+        &mut self,
+        class_member_list: &mut Vec<ClassMember>,
+        prop_list: Vec<Id>,
+        init_list: Vec<Box<Expr>>,
+    ) {
+        if let Some(constructor) = class_member_list
+            .iter_mut()
+            .find_map(|m| m.as_mut_constructor())
+        {
+            inject_after_super(constructor, init_list);
         }
 
         class_member_list.splice(

@@ -36,6 +36,7 @@ fn run_test(input: PathBuf) {
                 typescript(
                     typescript::Config {
                         verbatim_module_syntax: false,
+                        native_class_properties: false,
                         import_not_used_as_values: typescript::ImportsNotUsedAsValues::Remove,
                         no_empty_export: true,
                         import_export_assign_config:

@@ -3,9 +3,15 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Config {
+    /// https://www.typescriptlang.org/tsconfig#verbatimModuleSyntax
     #[serde(default)]
     pub verbatim_module_syntax: bool,
 
+    /// Native class properties support
+    #[serde(default)]
+    pub native_class_properties: bool,
+
+    /// https://www.typescriptlang.org/tsconfig/#importsNotUsedAsValues
     #[serde(default)]
     pub import_not_used_as_values: ImportsNotUsedAsValues,
 
