@@ -245,7 +245,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     /// Section 13.2.2 This Expression
-    fn parse_this_expression(&mut self) -> Expr {
+    fn parse_this_expression(&mut self) -> Box<Expr> {
         let span = self.start_span();
         self.bump_any();
         self.ast.expr_this(self.end_span(span))
@@ -571,7 +571,7 @@ impl<'a> ParserImpl<'a> {
         }
     }
 
-    fn map_to_chain_expression(&mut self, span: Span, expr: Box<Expr>) -> Expr {
+    fn map_to_chain_expression(&mut self, span: Span, expr: Box<Expr>) -> Box<Expr> {
         match *expr {
             Expr::Member(member_expr) => self.ast.expr_chain(span, ChainElement::from(member_expr)),
             Expr::Call(result) => self.ast.expr_chain(span, ChainElement::Call(result)),
@@ -590,7 +590,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     /// Section 13.3 Super Call
-    fn parse_super(&mut self) -> Expr {
+    fn parse_super(&mut self) -> Box<Expr> {
         let span = self.start_span();
         self.bump_any(); // bump `super`
         let span = self.end_span(span);
