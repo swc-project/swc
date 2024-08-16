@@ -502,7 +502,7 @@ pub struct ArrayLit {
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "elements"))]
     pub elems: Vec<ArrayElement>,
 
-    pub trailing_comma: bool,
+    pub trailing_comma: Option<Span>,
 }
 
 impl Take for ArrayLit {
