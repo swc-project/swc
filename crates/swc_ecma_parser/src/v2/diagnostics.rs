@@ -291,3 +291,13 @@ pub(crate) fn spread_last_element(span: Span) -> Diagnostic {
 pub(crate) fn expect_token(expected: &'static str, cur: &'static str, span: Span) -> Diagnostic {
     todo!("expect_token")
 }
+
+#[cold]
+pub(crate) fn identifier_async(arg: &str, span: Span) -> Diagnostic {
+    todo!("identifier_async")
+}
+
+#[cold]
+pub(crate) fn identifier_generator(arg: &str, span: Span) -> Diagnostic {
+    todo!()
+}
