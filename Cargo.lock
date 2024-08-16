@@ -4010,7 +4010,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.101.1"
+version = "0.101.2"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4550,7 +4550,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.203.0"
+version = "0.203.1"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4832,7 +4832,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.207.0"
+version = "0.207.1"
 dependencies = [
  "dashmap",
  "indexmap 2.2.6",
@@ -4962,7 +4962,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_usage_analyzer"
-version = "0.30.0"
+version = "0.30.1"
 dependencies = [
  "indexmap 2.2.6",
  "rustc-hash",
