@@ -391,12 +391,21 @@ impl TransformExecutor {
         transform_state.is_transform_schema_compatible()?;
         transform_state
             .run(program, self.unresolved_mark, should_enable_comments_proxy)
-            .context(
-                "failed to run Wasm plugin transform. Please ensure the version of `swc_core` \
-                 used by the plugin is compatible with the host runtime. See https://swc.rs/docs/plugin/selecting-swc-core for compatibility information. If you are an author of the plugin, please update \
-                 `swc_core` to the compatible version.
-                 
-                 Note that if you want to use the os features like filesystem, you need to use `wasi`. Wasm itself does not have concept of filesystem.",
-            )
+            .with_context(|| {
+                format!(
+                    "failed to run Wasm plugin transform. Please ensure the version of `swc_core` \
+                     used by the plugin is compatible with the host runtime. See https://swc.rs/docs/plugin/selecting-swc-core for \
+                     compatibility information. If you are an author of the plugin, please update \
+                     `swc_core` to the compatible version.
+
+                    Your verison of swc_ecma_ast is '{}'.
+                    Due to technical limitations, we can't provide the exact version of `swc_core` \
+                        used by the plugin in this error message.
+                    
+                    Note that if you want to use the os features like filesystem, you need to use \
+                        `wasi`. Wasm itself does not have concept of filesystem.",
+                        swc_ecma_ast::CRATE_VERSION
+                )
+            })
     }
 }
