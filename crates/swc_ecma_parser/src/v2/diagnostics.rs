@@ -286,3 +286,8 @@ pub(crate) fn expect_function_name(span: Span) -> Diagnostic {
 pub(crate) fn spread_last_element(span: Span) -> Diagnostic {
     todo!("spread_last_element")
 }
+
+#[cold]
+pub(crate) fn expect_token(expected: &'static str, cur: &'static str, span: Span) -> Diagnostic {
+    todo!("expect_token")
+}
