@@ -156,6 +156,10 @@ impl EsVersion {
     }
 }
 
+/// Not a public API
+#[doc(hidden)]
+pub const CRATE_VERSION: &str = env!("CARGO_PKG_VERSION");
+
 /// Warning: The particular implementation of serialization and deserialization
 /// of the ast nodes may change in the future, and so these types would be
 /// removed. It's safe to say they will be serializable in some form or another,
