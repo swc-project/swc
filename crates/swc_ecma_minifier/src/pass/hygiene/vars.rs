@@ -83,7 +83,7 @@ macro_rules! scoped {
 }
 
 impl Visit for VarAnalyzer<'_> {
-    noop_visit_type!(fail);
+    noop_visit_type!();
 
     fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
         scoped!(self, n);

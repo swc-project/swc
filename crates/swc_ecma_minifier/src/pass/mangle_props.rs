@@ -238,7 +238,7 @@ impl Mangler<'_> {
 }
 
 impl VisitMut for Mangler<'_> {
-    noop_visit_mut_type!(fail);
+    noop_visit_mut_type!();
 
     fn visit_mut_call_expr(&mut self, call: &mut CallExpr) {
         call.visit_mut_children_with(self);

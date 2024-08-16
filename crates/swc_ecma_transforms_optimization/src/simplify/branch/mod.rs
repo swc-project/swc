@@ -72,7 +72,7 @@ impl Parallel for Remover {
 }
 
 impl VisitMut for Remover {
-    noop_visit_mut_type!(fail);
+    noop_visit_mut_type!();
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
@@ -1896,7 +1896,7 @@ fn check_for_stopper(s: &[Stmt], only_conditional: bool) -> bool {
     }
 
     impl Visit for Visitor {
-        noop_visit_type!(fail);
+        noop_visit_type!();
 
         fn visit_switch_case(&mut self, node: &SwitchCase) {
             let old = self.in_cond;
