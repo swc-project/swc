@@ -355,7 +355,7 @@ impl Analyzer<'_> {
 }
 
 impl Visit for Analyzer<'_> {
-    noop_visit_type!(fail);
+    noop_visit_type!();
 
     fn visit_callee(&mut self, n: &Callee) {
         n.visit_children_with(self);
@@ -658,7 +658,7 @@ impl TreeShaker {
 }
 
 impl VisitMut for TreeShaker {
-    noop_visit_mut_type!(fail);
+    noop_visit_mut_type!();
 
     fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
         n.visit_mut_children_with(self);

@@ -247,7 +247,7 @@ impl Pure<'_> {
 }
 
 impl VisitMut for Pure<'_> {
-    noop_visit_mut_type!(fail);
+    noop_visit_mut_type!();
 
     fn visit_mut_assign_expr(&mut self, e: &mut AssignExpr) {
         {

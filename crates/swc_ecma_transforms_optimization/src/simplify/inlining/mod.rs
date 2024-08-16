@@ -103,7 +103,7 @@ impl Inlining<'_> {
 }
 
 impl VisitMut for Inlining<'_> {
-    noop_visit_mut_type!(fail);
+    noop_visit_mut_type!();
 
     fn visit_mut_arrow_expr(&mut self, node: &mut ArrowExpr) {
         self.visit_with_child(ScopeKind::Fn { named: false }, node)
@@ -739,7 +739,7 @@ struct IdentListVisitor<'a, 'b> {
 }
 
 impl Visit for IdentListVisitor<'_, '_> {
-    noop_visit_type!(fail);
+    noop_visit_type!();
 
     visit_obj_and_computed!();
 
@@ -754,7 +754,7 @@ struct WriteVisitor<'a, 'b> {
 }
 
 impl Visit for WriteVisitor<'_, '_> {
-    noop_visit_type!(fail);
+    noop_visit_type!();
 
     visit_obj_and_computed!();
 

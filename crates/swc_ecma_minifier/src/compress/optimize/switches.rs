@@ -560,7 +560,7 @@ struct BreakFinder {
 }
 
 impl Visit for BreakFinder {
-    noop_visit_type!(fail);
+    noop_visit_type!();
 
     fn visit_break_stmt(&mut self, s: &BreakStmt) {
         if !self.top_level && s.label.is_none() {

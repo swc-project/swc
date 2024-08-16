@@ -91,7 +91,7 @@ impl InfoMarker<'_> {
 }
 
 impl VisitMut for InfoMarker<'_> {
-    noop_visit_mut_type!(fail);
+    noop_visit_mut_type!();
 
     fn visit_mut_call_expr(&mut self, n: &mut CallExpr) {
         n.visit_mut_children_with(self);
@@ -234,7 +234,7 @@ struct InfoCollector<'a> {
 }
 
 impl Visit for InfoCollector<'_> {
-    noop_visit_type!(fail);
+    noop_visit_type!();
 
     fn visit_export_decl(&mut self, f: &ExportDecl) {
         f.visit_children_with(self);

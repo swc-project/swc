@@ -27,7 +27,7 @@ impl Parallel for PrecompressOptimizer {
 }
 
 impl VisitMut for PrecompressOptimizer {
-    noop_visit_mut_type!(fail);
+    noop_visit_mut_type!();
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
         self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {

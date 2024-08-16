@@ -216,7 +216,7 @@ pub(crate) struct LeapFinder {
 }
 
 impl Visit for LeapFinder {
-    noop_visit_type!(fail);
+    noop_visit_type!();
 
     fn visit_await_expr(&mut self, n: &AwaitExpr) {
         n.visit_children_with(self);
@@ -308,7 +308,7 @@ pub struct DeepThisExprVisitor {
 }
 
 impl Visit for DeepThisExprVisitor {
-    noop_visit_type!(fail);
+    noop_visit_type!();
 
     fn visit_this_expr(&mut self, _: &ThisExpr) {
         self.found = true;
@@ -331,7 +331,7 @@ pub(crate) struct IdentUsageCollector {
 }
 
 impl Visit for IdentUsageCollector {
-    noop_visit_type!(fail);
+    noop_visit_type!();
 
     visit_obj_and_computed!();
 
@@ -393,7 +393,7 @@ pub(crate) struct CapturedIdCollector {
 }
 
 impl Visit for CapturedIdCollector {
-    noop_visit_type!(fail);
+    noop_visit_type!();
 
     visit_obj_and_computed!();
 
@@ -497,7 +497,7 @@ pub(crate) struct EvalFinder {
 }
 
 impl Visit for EvalFinder {
-    noop_visit_type!(fail);
+    noop_visit_type!();
 
     visit_obj_and_computed!();
 

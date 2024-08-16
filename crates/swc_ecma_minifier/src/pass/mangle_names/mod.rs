@@ -77,7 +77,7 @@ impl LabelMangler {
 }
 
 impl VisitMut for LabelMangler {
-    noop_visit_mut_type!(fail);
+    noop_visit_mut_type!();
 
     fn visit_mut_labeled_stmt(&mut self, s: &mut LabeledStmt) {
         self.mangle(&mut s.label);

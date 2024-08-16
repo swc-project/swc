@@ -215,7 +215,7 @@ impl<S> Visit for UsageAnalyzer<S>
 where
     S: Storage,
 {
-    noop_visit_type!(fail);
+    noop_visit_type!();
 
     fn visit_array_lit(&mut self, n: &ArrayLit) {
         let ctx = Ctx {

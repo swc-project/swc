@@ -568,7 +568,7 @@ impl<F> VisitMut for ExprReplacer<F>
 where
     F: FnMut(&mut Expr),
 {
-    noop_visit_mut_type!(fail);
+    noop_visit_mut_type!();
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
@@ -687,7 +687,7 @@ impl UnreachableHandler {
 }
 
 impl VisitMut for UnreachableHandler {
-    noop_visit_mut_type!(fail);
+    noop_visit_mut_type!();
 
     fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}
 
@@ -737,7 +737,7 @@ pub struct SuperFinder {
 }
 
 impl Visit for SuperFinder {
-    noop_visit_type!(fail);
+    noop_visit_type!();
 
     /// Don't recurse into constructor
     fn visit_constructor(&mut self, _: &Constructor) {}
