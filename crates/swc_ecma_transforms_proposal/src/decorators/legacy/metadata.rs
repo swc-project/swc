@@ -192,8 +192,25 @@ impl VisitMut for Metadata<'_> {
         }
 
         {
-            let dec = self
-                .create_metadata_design_decorator("design:type", quote_ident!("Function").as_arg());
+            let type_arg = match m.kind {
+                MethodKind::Method => quote_ident!("Function").as_arg(),
+                MethodKind::Getter => {
+                    let return_type = m.function.return_type.as_deref();
+
+                    if let Some(kind) = self.enums.get_kind_as_str(return_type) {
+                        quote_ident!(kind).as_arg()
+                    } else {
+                        serialize_type(self.class_name, return_type).as_arg()
+                    }
+                }
+                MethodKind::Setter => serialize_type(
+                    self.class_name,
+                    get_type_ann_of_pat(&m.function.params[0].pat),
+                )
+                .as_arg(),
+            };
+
+            let dec = self.create_metadata_design_decorator("design:type", type_arg);
             m.function.decorators.push(dec);
         }
         {
@@ -217,7 +234,9 @@ impl VisitMut for Metadata<'_> {
             );
             m.function.decorators.push(dec);
         }
-        {
+
+        // https://github.com/microsoft/TypeScript/blob/2a8865e6ba95c9bdcdb9e2c9c08f10c5f5c75391/src/compiler/transformers/ts.ts#L1180
+        if m.kind == MethodKind::Method {
             // Copy tsc behaviour
             // https://github.com/microsoft/TypeScript/blob/5e8c261b6ab746213f19ee3501eb8c48a6215dd7/src/compiler/transformers/typeSerializer.ts#L242
             let dec = self.create_metadata_design_decorator(
