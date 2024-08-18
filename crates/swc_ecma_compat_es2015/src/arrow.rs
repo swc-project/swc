@@ -75,11 +75,13 @@ impl VisitMut for Arrow {
     noop_visit_mut_type!(fail);
 
     fn visit_mut_class(&mut self, c: &mut Class) {
+        let old = self.in_subclass;
+
         if c.super_class.is_some() {
             self.in_subclass = true;
         }
         c.visit_mut_children_with(self);
-        self.in_subclass = false;
+        self.in_subclass = old;
     }
 
     fn visit_mut_constructor(&mut self, c: &mut Constructor) {

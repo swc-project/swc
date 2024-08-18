@@ -1,4 +1,4 @@
-use std::iter;
+use std::{iter, mem};
 
 use serde::Deserialize;
 use swc_common::{
@@ -9,8 +9,8 @@ use swc_ecma_transforms_base::{helper, helper_expr, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
     contains_this_expr, find_pat_ids,
-    function::{FnEnvHoister, FnWrapperResult, FunctionWrapper},
-    private_ident, quote_ident, ExprFactory, Remapper, StmtLike,
+    function::{init_this, FnEnvHoister, FnWrapperResult, FunctionWrapper},
+    prepend_stmt, private_ident, quote_ident, ExprFactory, Remapper, StmtLike,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -45,6 +45,7 @@ pub fn async_to_generator<C: Comments + Clone>(
     as_folder(AsyncToGenerator {
         c,
         comments,
+        in_subclass: false,
         unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
     })
 }
@@ -62,6 +63,7 @@ pub struct Config {
 struct AsyncToGenerator<C: Comments + Clone> {
     c: Config,
     comments: Option<C>,
+    in_subclass: bool,
     unresolved_ctxt: SyntaxContext,
 }
 
@@ -69,15 +71,25 @@ struct Actual<C: Comments> {
     c: Config,
     comments: Option<C>,
 
+    in_subclass: bool,
+    hoister: FnEnvHoister,
+
     unresolved_ctxt: SyntaxContext,
     extra_stmts: Vec<Stmt>,
-    hoist_stmts: Vec<Stmt>,
 }
 
 #[swc_trace]
 #[fast_path(ShouldWork)]
 impl<C: Comments + Clone> VisitMut for AsyncToGenerator<C> {
     noop_visit_mut_type!(fail);
+
+    fn visit_mut_class(&mut self, c: &mut Class) {
+        if c.super_class.is_some() {
+            self.in_subclass = true;
+        }
+        c.visit_mut_children_with(self);
+        self.in_subclass = false;
+    }
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         self.visit_mut_stmt_like(n);
@@ -98,16 +110,19 @@ impl<C: Comments + Clone> AsyncToGenerator<C> {
         let mut stmts_updated = Vec::with_capacity(stmts.len());
 
         for mut stmt in stmts.drain(..) {
+            let hoister = FnEnvHoister::new(self.unresolved_ctxt);
+
             let mut actual = Actual {
                 c: self.c,
                 comments: self.comments.clone(),
+                in_subclass: self.in_subclass,
+                hoister,
                 unresolved_ctxt: self.unresolved_ctxt,
                 extra_stmts: Vec::new(),
-                hoist_stmts: Vec::new(),
             };
 
             stmt.visit_mut_with(&mut actual);
-            stmts_updated.extend(actual.hoist_stmts.into_iter().map(T::from));
+            stmts_updated.extend(actual.hoister.to_stmt().into_iter().map(T::from));
             stmts_updated.push(stmt);
             stmts_updated.extend(actual.extra_stmts.into_iter().map(T::from));
         }
@@ -121,6 +136,45 @@ impl<C: Comments + Clone> AsyncToGenerator<C> {
 #[fast_path(ShouldWork)]
 impl<C: Comments> VisitMut for Actual<C> {
     noop_visit_mut_type!(fail);
+
+    fn visit_mut_class(&mut self, c: &mut Class) {
+        let old = self.in_subclass;
+
+        if c.super_class.is_some() {
+            self.in_subclass = true;
+        }
+        c.visit_mut_children_with(self);
+        self.in_subclass = old;
+    }
+
+    fn visit_mut_constructor(&mut self, c: &mut Constructor) {
+        c.params.visit_mut_children_with(self);
+
+        if let Some(BlockStmt { span: _, stmts, .. }) = &mut c.body {
+            let old_rep = self.hoister.take();
+
+            stmts.visit_mut_children_with(self);
+
+            if self.in_subclass {
+                let (decl, this_id) =
+                    mem::replace(&mut self.hoister, old_rep).to_stmt_in_subclass();
+
+                if let Some(this_id) = this_id {
+                    init_this(stmts, &this_id)
+                }
+
+                if let Some(decl) = decl {
+                    prepend_stmt(stmts, decl)
+                }
+            } else {
+                let decl = mem::replace(&mut self.hoister, old_rep).to_stmt();
+
+                if let Some(decl) = decl {
+                    prepend_stmt(stmts, decl)
+                }
+            }
+        }
+    }
 
     fn visit_mut_class_method(&mut self, m: &mut ClassMethod) {
         if m.function.body.is_none() {
@@ -190,6 +244,51 @@ impl<C: Comments> VisitMut for Actual<C> {
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         self.visit_mut_expr_with_binding(expr, None, false);
+    }
+
+    fn visit_mut_function(&mut self, f: &mut Function) {
+        let old_rep = self.hoister.take();
+
+        f.visit_mut_children_with(self);
+
+        let decl = mem::replace(&mut self.hoister, old_rep).to_stmt();
+
+        if let (Some(body), Some(decl)) = (&mut f.body, decl) {
+            prepend_stmt(&mut body.stmts, decl);
+        }
+    }
+
+    fn visit_mut_getter_prop(&mut self, f: &mut GetterProp) {
+        f.key.visit_mut_with(self);
+
+        if let Some(body) = &mut f.body {
+            let old_rep = self.hoister.take();
+
+            body.visit_mut_with(self);
+
+            let decl = mem::replace(&mut self.hoister, old_rep).to_stmt();
+
+            if let Some(stmt) = decl {
+                prepend_stmt(&mut body.stmts, stmt);
+            }
+        }
+    }
+
+    fn visit_mut_setter_prop(&mut self, f: &mut SetterProp) {
+        f.key.visit_mut_with(self);
+        f.param.visit_mut_with(self);
+
+        if let Some(body) = &mut f.body {
+            let old_rep = self.hoister.take();
+
+            body.visit_mut_with(self);
+
+            let decl = mem::replace(&mut self.hoister, old_rep).to_stmt();
+
+            if let Some(stmt) = decl {
+                prepend_stmt(&mut body.stmts, stmt);
+            }
+        }
     }
 
     fn visit_mut_fn_decl(&mut self, f: &mut FnDecl) {
@@ -342,11 +441,7 @@ impl<C: Comments> Actual<C> {
 
         match expr {
             Expr::Arrow(arrow_expr @ ArrowExpr { is_async: true, .. }) => {
-                let mut state = FnEnvHoister::new(self.unresolved_ctxt);
-
-                arrow_expr.visit_mut_with(&mut state);
-
-                self.hoist_stmts.extend(state.to_stmt());
+                arrow_expr.visit_mut_with(&mut self.hoister);
 
                 let mut wrapper = FunctionWrapper::from(arrow_expr.take());
                 wrapper.ignore_function_name = self.c.ignore_function_name;

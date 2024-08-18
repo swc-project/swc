@@ -5,9 +5,8 @@ class A {
         this.foo = /*#__PURE__*/ _async_to_generator._(function*() {
             _this.x();
         });
-        var _this1 = this;
         this.bar = /*#__PURE__*/ _async_to_generator._(function*() {
-            _this1.x();
+            _this.x();
         });
     }
 }
