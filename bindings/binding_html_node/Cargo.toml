@@ -15,7 +15,7 @@ crate-type = ["cdylib"]
 [features]
 
 [build-dependencies]
-napi-build = { version = "1" }
+napi-build = { version = "2" }
 
 [dependencies]
 anyhow = "1"
