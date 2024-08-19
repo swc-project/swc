@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.7.12] - 2024-08-19
 
 ### Bug Fixes
 
@@ -1305,9 +1305,6 @@
 
 
 - **(es/parser)** Parse `await using` in for head ([#8775](https://github.com/swc-project/swc/issues/8775)) ([53fd09c](https://github.com/swc-project/swc/commit/53fd09cbd7f559ea65dbcbf8c77eea1fcf67b691))
-
-
-- **(es/utils)** Mark `ident` of default fn/class as binding ([#8764](https://github.com/swc-project/swc/issues/8764)) ([f62097c](https://github.com/swc-project/swc/commit/f62097ca01a2ffdf852161d2fb040acd57e70081))
 
 ### Miscellaneous Tasks
 
