@@ -1,18 +1,15 @@
 {
-  "mappings": "YCAYC;IAAK,UAAA,CAAI;AAErBC,QAAQC,GAAG,CAACH",
+  "mappings": "AAEAA,IAAAA,EAAQC,CAAG,AAFD,IAAA,MAAA,EAAS,QAAA,GAAA,CAAA",
   "names": [
-    "a",
-    "aób",
     "console",
-    "log"
+    "log",
+    "aób"
   ],
   "sources": [
-    "input-preprocess.js",
-    "$DIR/tests/minify/issue-7475/issue-8372/1/input.js"
+    "input-preprocess.js"
   ],
   "sourcesContent": [
-    "const a = {aób: 'ó'}\n\nconsole.log(a)",
-    "const a = { aób: 'ó' }\n\nconsole.log(a)"
+    "const a = {aób: 'ó'}\n\nconsole.log(a)"
   ],
   "version": 3
 }
