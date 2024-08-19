@@ -90,7 +90,7 @@ impl Take for ClassMember {
 }
 
 #[ast_node("ClassProperty")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ClassProp {
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -135,7 +135,7 @@ pub struct ClassProp {
 }
 
 #[ast_node("PrivateProperty")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct PrivateProp {
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -176,7 +176,7 @@ pub struct PrivateProp {
 }
 
 #[ast_node("ClassMethod")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ClassMethod {
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -199,7 +199,7 @@ pub struct ClassMethod {
 }
 
 #[ast_node("PrivateMethod")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct PrivateMethod {
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -244,7 +244,7 @@ pub struct Constructor {
 }
 
 #[ast_node("Decorator")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Decorator {
     pub span: Span,
@@ -253,7 +253,7 @@ pub struct Decorator {
     pub expr: Box<Expr>,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, EqIgnoreSpan)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(
     any(feature = "rkyv-impl"),
@@ -263,6 +263,7 @@ pub struct Decorator {
 #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(u32)))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 pub enum MethodKind {
+    #[default]
     #[cfg_attr(feature = "serde-impl", serde(rename = "method"))]
     Method,
     #[cfg_attr(feature = "serde-impl", serde(rename = "getter"))]
@@ -272,7 +273,7 @@ pub enum MethodKind {
 }
 
 #[ast_node("StaticBlock")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct StaticBlock {
     pub span: Span,
@@ -312,12 +313,18 @@ bridge_from!(Key, PropName, BigInt);
 
 impl Take for Key {
     fn dummy() -> Self {
-        Key::Public(Take::dummy())
+        Default::default()
+    }
+}
+
+impl Default for Key {
+    fn default() -> Self {
+        Key::Public(Default::default())
     }
 }
 
 #[ast_node("AutoAccessor")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct AutoAccessor {
     #[cfg_attr(feature = "serde-impl", serde(default))]
