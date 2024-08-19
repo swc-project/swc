@@ -162,9 +162,9 @@ fn create_pass(comments: Rc<SingleThreadedComments>, input: &Path) -> Box<dyn Fo
             BabelPluginEntry::WithConfig(name, config) => match &**name {
                 "proposal-decorators" => match config {
                     BabelPluginOption::Decorator { version } => match version {
-                        // DecoratorVersion::V202311 => {
-                        //     add!(decorator_2023_11());
-                        // }
+                        DecoratorVersion::V202311 => {
+                            todo!()
+                        }
                         DecoratorVersion::V202112 => todo!(),
                         DecoratorVersion::V202203 => {
                             add!(decorator_2022_03());
