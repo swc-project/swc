@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.7.14] - 2024-08-19
 
 ### Bug Fixes
 
