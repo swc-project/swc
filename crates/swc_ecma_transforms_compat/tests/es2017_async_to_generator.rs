@@ -2077,6 +2077,44 @@ test!(
     "
 );
 
+test!(
+    Syntax::default(),
+    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    issue_8452,
+    r#"
+class Test0 {}
+
+class Test extends Test0 {
+    constructor() {
+        super(),
+            console.log(async (e) => {
+                await this.test();
+            });
+    }
+}
+
+"#
+);
+
+test!(
+    Syntax::default(),
+    |_| with_resolver(),
+    issue_9432,
+    r#"
+class Foo extends Bar {
+  constructor(options) {
+    super(
+      {
+        callA: async () => {
+          this.callA();
+        },
+      }
+    );
+  }
+}
+"#
+);
+
 #[testing::fixture("tests/async-to-generator/**/exec.js")]
 fn exec(input: PathBuf) {
     let input = read_to_string(input).unwrap();

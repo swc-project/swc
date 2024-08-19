@@ -5,8 +5,8 @@ import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 export var CompanyBgStore = function CompanyBgStore() {
     "use strict";
     _class_call_check(this, CompanyBgStore);
-    _define_property(this, "corpName", 123);
     var _this = this;
+    _define_property(this, "corpName", 123);
     _define_property(this, "getBusinessInfo", _async_to_generator(function() {
         var corpName;
         var _arguments = arguments;

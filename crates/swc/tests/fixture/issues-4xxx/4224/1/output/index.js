@@ -13,10 +13,9 @@ var A = function A() {
             ];
         });
     });
-    var _this1 = this;
     this.bar = /*#__PURE__*/ _async_to_generator._(function() {
         return _ts_generator._(this, function(_state) {
-            _this1.x();
+            _this.x();
             return [
                 2
             ];
