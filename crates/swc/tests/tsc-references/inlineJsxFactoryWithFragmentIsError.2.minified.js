@@ -2,7 +2,7 @@
 export { };
 //// [reacty.tsx]
 import * as React from "./renderer";
-React.Fragment;
+/*#__PURE__*/ React.Fragment;
 //// [index.tsx]
 import { dom } from "./renderer";
-React.Fragment;
+/*#__PURE__*/ React.Fragment;

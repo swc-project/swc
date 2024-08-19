@@ -1,7 +1,7 @@
 //// [parserRealSource12.ts]
 var TypeScript, TypeScript1, globalAstWalkerFactory, ChildrenWalkers, AstWalkOptions, AstWalker, AstWalkerFactory;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-TypeScript1 = TypeScript || (TypeScript = {}), AstWalkOptions = function() {
+TypeScript1 = TypeScript || (TypeScript = {}), AstWalkOptions = /*#__PURE__*/ function() {
     function AstWalkOptions() {
         _class_call_check(this, AstWalkOptions), this.goChildren = !0, this.goNextSibling = !0, this.reverseSiblings = !1;
     }
@@ -9,7 +9,7 @@ TypeScript1 = TypeScript || (TypeScript = {}), AstWalkOptions = function() {
         var stop = !(arguments.length > 0) || void 0 === arguments[0] || arguments[0];
         this.goChildren = !stop, this.goNextSibling = !stop;
     }, AstWalkOptions;
-}(), TypeScript1.AstWalkOptions = AstWalkOptions, AstWalker = function() {
+}(), TypeScript1.AstWalkOptions = AstWalkOptions, AstWalker = /*#__PURE__*/ function() {
     function AstWalker(childrenWalkers, pre, post, options, state) {
         _class_call_check(this, AstWalker), this.childrenWalkers = childrenWalkers, this.pre = pre, this.post = post, this.options = options, this.state = state;
     }
@@ -23,7 +23,7 @@ TypeScript1 = TypeScript || (TypeScript = {}), AstWalkOptions = function() {
         var postAst = this.post(preAst, parent, this);
         return void 0 === postAst && (postAst = preAst), postAst;
     }, AstWalker;
-}(), AstWalkerFactory = function() {
+}(), AstWalkerFactory = /*#__PURE__*/ function() {
     function AstWalkerFactory() {
         _class_call_check(this, AstWalkerFactory), this.childrenWalkers = [], this.initChildrenWalkers();
     }

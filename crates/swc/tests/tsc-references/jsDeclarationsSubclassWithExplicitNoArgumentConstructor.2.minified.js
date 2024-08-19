@@ -5,7 +5,7 @@ import { _ as _create_super } from "@swc/helpers/_/_create_super";
 export var Super = function Super(firstArg, secondArg) {
     _class_call_check(this, Super);
 };
-export var Sub = function(Super) {
+export var Sub = /*#__PURE__*/ function(Super) {
     _inherits(Sub, Super);
     var _super = _create_super(Sub);
     function Sub() {

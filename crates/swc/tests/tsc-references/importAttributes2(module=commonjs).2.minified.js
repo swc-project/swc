@@ -35,7 +35,7 @@ Object.defineProperty(exports, "__esModule", {
         return _0;
     }
 });
-const _export_star = require("@swc/helpers/_/_export_star"), _0 = require("@swc/helpers/_/_interop_require_wildcard")._(_export_star._(require("./0"), exports));
+const _export_star = require("@swc/helpers/_/_export_star"), _0 = /*#__PURE__*/ require("@swc/helpers/_/_interop_require_wildcard")._(_export_star._(require("./0"), exports));
 //// [2.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0

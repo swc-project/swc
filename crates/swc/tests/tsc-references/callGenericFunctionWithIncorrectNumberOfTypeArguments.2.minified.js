@@ -4,7 +4,7 @@ var f3, i, i2, f2 = function(x, y) {
     return null;
 };
 f2(1, ''), f2(1, ''), f3(1, ''), f3(1, '');
-var C = function() {
+var C = /*#__PURE__*/ function() {
     function C() {
         _class_call_check(this, C);
     }
@@ -13,7 +13,7 @@ var C = function() {
     }, C;
 }();
 new C().f(1, ''), new C().f(1, ''), i.f(1, ''), i.f(1, '');
-var C2 = function() {
+var C2 = /*#__PURE__*/ function() {
     function C2() {
         _class_call_check(this, C2);
     }

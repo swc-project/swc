@@ -1,3 +1,3 @@
 //// [file.tsx]
 import * as React from "react";
-GenericComponent, GenericComponent, GenericComponent, GenericComponent;
+/*#__PURE__*/ GenericComponent, /*#__PURE__*/ GenericComponent, /*#__PURE__*/ GenericComponent, /*#__PURE__*/ GenericComponent;

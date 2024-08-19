@@ -5,5 +5,5 @@ import { useProject as o } from "@swr/use-project";
 import a from "@swr/use-team";
 export default function m() {
     var m = o(e().query.project).data;
-    return a().teamSlug, useProjectBranches(null == m ? void 0 : m.id).data, r(t, {});
+    return a().teamSlug, useProjectBranches(null == m ? void 0 : m.id).data, /*#__PURE__*/ r(t, {});
 }

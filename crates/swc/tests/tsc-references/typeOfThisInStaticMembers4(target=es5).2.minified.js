@@ -9,7 +9,7 @@ var C = function C() {
     _class_call_check(this, C);
 };
 _define_property(C, "a", 1), _define_property(C, "b", C.a + 1);
-var D = function(C) {
+var D = /*#__PURE__*/ function(C) {
     _inherits(D, C);
     var _super = _create_super(D);
     function D() {

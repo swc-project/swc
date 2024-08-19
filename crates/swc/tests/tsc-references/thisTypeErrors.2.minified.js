@@ -1,7 +1,7 @@
 //// [thisTypeErrors.ts]
 var N1;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-(function() {
+/*#__PURE__*/ (function() {
     function C2() {
         _class_call_check(this, C2);
     }

@@ -2,14 +2,14 @@
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
-var Base = function() {
+var Base = /*#__PURE__*/ function() {
     function Base() {
         _class_call_check(this, Base);
     }
     return Base.staticMethod = function() {
         Base.x, Derived1.x, Derived2.x, Derived3.x;
     }, Base;
-}(), Derived1 = function(Base1) {
+}(), Derived1 = /*#__PURE__*/ function(Base1) {
     _inherits(Derived1, Base1);
     var _super = _create_super(Derived1);
     function Derived1() {
@@ -18,7 +18,7 @@ var Base = function() {
     return Derived1.staticMethod1 = function() {
         Base.x, Derived1.x, Derived2.x, Derived3.x;
     }, Derived1;
-}(Base), Derived2 = function(Base1) {
+}(Base), Derived2 = /*#__PURE__*/ function(Base1) {
     _inherits(Derived2, Base1);
     var _super = _create_super(Derived2);
     function Derived2() {
@@ -27,7 +27,7 @@ var Base = function() {
     return Derived2.staticMethod2 = function() {
         Base.x, Derived1.x, Derived2.x, Derived3.x;
     }, Derived2;
-}(Base), Derived3 = function(Derived11) {
+}(Base), Derived3 = /*#__PURE__*/ function(Derived11) {
     _inherits(Derived3, Derived11);
     var _super = _create_super(Derived3);
     function Derived3() {

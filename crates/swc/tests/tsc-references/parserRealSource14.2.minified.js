@@ -11,7 +11,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
     TypeScript.lastOf = lastOf, TypeScript.max = max, TypeScript.min = function(a, b) {
         return a <= b ? a : b;
     };
-    var GetAstPathOptions, AstPath = function() {
+    var GetAstPathOptions, AstPath = /*#__PURE__*/ function() {
         function AstPath() {
             _class_call_check(this, AstPath), this.asts = [], this.top = -1;
         }

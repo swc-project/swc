@@ -4,7 +4,7 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
 Function.prototype.now = function() {
     return "now";
 };
-var X = function() {
+var X = /*#__PURE__*/ function() {
     function X() {
         _class_call_check(this, X);
     }

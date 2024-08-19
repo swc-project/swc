@@ -2,21 +2,21 @@
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
-var BaseA = function() {
+var BaseA = /*#__PURE__*/ function() {
     function BaseA(x) {
         _class_call_check(this, BaseA), this.x = x;
     }
     return BaseA.prototype.createInstance = function() {
         new BaseA(1);
     }, BaseA;
-}(), BaseB = function() {
+}(), BaseB = /*#__PURE__*/ function() {
     function BaseB(x) {
         _class_call_check(this, BaseB), this.x = x;
     }
     return BaseB.prototype.createInstance = function() {
         new BaseB(2);
     }, BaseB;
-}(), BaseC = function() {
+}(), BaseC = /*#__PURE__*/ function() {
     function BaseC(x) {
         _class_call_check(this, BaseC), this.x = x;
     }
@@ -25,7 +25,7 @@ var BaseA = function() {
     }, BaseC.staticInstance = function() {
         new BaseC(4);
     }, BaseC;
-}(), DerivedA = function(BaseA1) {
+}(), DerivedA = /*#__PURE__*/ function(BaseA1) {
     _inherits(DerivedA, BaseA1);
     var _super = _create_super(DerivedA);
     function DerivedA(x) {
@@ -40,7 +40,7 @@ var BaseA = function() {
     }, DerivedA.staticBaseInstance = function() {
         new BaseA(7);
     }, DerivedA;
-}(BaseA), DerivedB = function(BaseB1) {
+}(BaseA), DerivedB = /*#__PURE__*/ function(BaseB1) {
     _inherits(DerivedB, BaseB1);
     var _super = _create_super(DerivedB);
     function DerivedB(x) {
@@ -55,7 +55,7 @@ var BaseA = function() {
     }, DerivedB.staticBaseInstance = function() {
         new BaseB(9);
     }, DerivedB;
-}(BaseB), DerivedC = function(BaseC1) {
+}(BaseB), DerivedC = /*#__PURE__*/ function(BaseC1) {
     _inherits(DerivedC, BaseC1);
     var _super = _create_super(DerivedC);
     function DerivedC(x) {

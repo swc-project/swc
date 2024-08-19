@@ -21,7 +21,7 @@ System.register([
         execute: function() {
             _context.import("./0"), _context.import("./0").then(function(zero) {
                 return zero.foo();
-            }), _export("p2", _context.import("./0")), _export("D", function() {
+            }), _export("p2", _context.import("./0")), _export("D", /*#__PURE__*/ function() {
                 function D() {
                     _class_call_check(this, D);
                 }

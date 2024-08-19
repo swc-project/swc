@@ -14,7 +14,7 @@ Wagon.circle = function(wagons) {
 }, Wagon.prototype.speed = function() {
     return this.numberOxen / this.weight();
 };
-var db = new (function(Wagon) {
+var db = new /*#__PURE__*/ (function(Wagon) {
     _inherits(Sql, Wagon);
     var _super = _create_super(Sql);
     function Sql() {
@@ -26,12 +26,12 @@ var db = new (function(Wagon) {
         _get(_get_prototype_of(Sql.prototype), "speed", this).call(this), _get(_get_prototype_of(Sql.prototype), "weight", this).call(this);
     }, Sql;
 }(Wagon))();
-db.numberOxen = db.foonly, Dragon;
+db.numberOxen = db.foonly, /*#__PURE__*/ Dragon;
 //// [second.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
-var c = new (function(Wagon1) {
+var c = new /*#__PURE__*/ (function(Wagon1) {
     _inherits(Conestoga, Wagon1);
     var _super = _create_super(Conestoga);
     function Conestoga(drunkOO) {
@@ -50,7 +50,7 @@ import { _ as _create_super } from "@swc/helpers/_/_create_super";
 function Soup(flavour) {
     this.flavour = flavour;
 }
-var Chowder = function(Soup) {
+var Chowder = /*#__PURE__*/ function(Soup) {
     _inherits(Chowder, Soup);
     var _super = _create_super(Chowder);
     function Chowder() {

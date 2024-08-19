@@ -1,6 +1,6 @@
 //// [localTypes5.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-new (function() {
+new /*#__PURE__*/ (function() {
     function X() {
         _class_call_check(this, X);
     }

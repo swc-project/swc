@@ -1,6 +1,6 @@
 //// [voidOperatorWithNumberType.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var M, A = function() {
+var M, A = /*#__PURE__*/ function() {
     function A() {
         _class_call_check(this, A);
     }

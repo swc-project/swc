@@ -14,7 +14,7 @@ var _class_call_check = require("@swc/helpers/_/_class_call_check"), Service = f
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-var _class_call_check = require("@swc/helpers/_/_class_call_check"), _interop_require_default = require("@swc/helpers/_/_interop_require_default"), _ts_decorate = require("@swc/helpers/_/_ts_decorate"), _ts_metadata = require("@swc/helpers/_/_ts_metadata"), _service = _interop_require_default._(require("./service")), MyComponent = function() {
+var _class_call_check = require("@swc/helpers/_/_class_call_check"), _interop_require_default = require("@swc/helpers/_/_interop_require_default"), _ts_decorate = require("@swc/helpers/_/_ts_decorate"), _ts_metadata = require("@swc/helpers/_/_ts_metadata"), _service = /*#__PURE__*/ _interop_require_default._(require("./service")), MyComponent = /*#__PURE__*/ function() {
     function MyComponent(Service) {
         _class_call_check._(this, MyComponent), this.Service = Service;
     }

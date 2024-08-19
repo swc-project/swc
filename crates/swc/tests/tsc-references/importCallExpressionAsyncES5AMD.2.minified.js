@@ -21,7 +21,7 @@ define([
                                 return require([
                                     "./test"
                                 ], function(m) {
-                                    return resolve(_interop_require_wildcard._(m));
+                                    return resolve(/*#__PURE__*/ _interop_require_wildcard._(m));
                                 }, reject);
                             })
                         ];
@@ -57,7 +57,7 @@ define([
             return obj;
         }
     });
-    var _ref, cl1 = function() {
+    var _ref, cl1 = /*#__PURE__*/ function() {
         function cl1() {
             _class_call_check._(this, cl1);
         }
@@ -72,7 +72,7 @@ define([
                                     return require([
                                         "./test"
                                     ], function(m) {
-                                        return resolve(_interop_require_wildcard._(m));
+                                        return resolve(/*#__PURE__*/ _interop_require_wildcard._(m));
                                     }, reject);
                                 })
                             ];
@@ -85,7 +85,7 @@ define([
             })();
         }, cl1;
     }(), obj = {
-        m: _async_to_generator._(function() {
+        m: /*#__PURE__*/ _async_to_generator._(function() {
             return _ts_generator._(this, function(_state) {
                 switch(_state.label){
                     case 0:
@@ -95,7 +95,7 @@ define([
                                 return require([
                                     "./test"
                                 ], function(m) {
-                                    return resolve(_interop_require_wildcard._(m));
+                                    return resolve(/*#__PURE__*/ _interop_require_wildcard._(m));
                                 }, reject);
                             })
                         ];
@@ -108,7 +108,7 @@ define([
         })
     }, cl2 = function cl2() {
         _class_call_check._(this, cl2), this.p = {
-            m: _async_to_generator._(function() {
+            m: /*#__PURE__*/ _async_to_generator._(function() {
                 return _ts_generator._(this, function(_state) {
                     switch(_state.label){
                         case 0:
@@ -118,7 +118,7 @@ define([
                                     return require([
                                         "./test"
                                     ], function(m) {
-                                        return resolve(_interop_require_wildcard._(m));
+                                        return resolve(/*#__PURE__*/ _interop_require_wildcard._(m));
                                     }, reject);
                                 })
                             ];
@@ -140,7 +140,7 @@ define([
                             return require([
                                 "./test"
                             ], function(m) {
-                                return resolve(_interop_require_wildcard._(m));
+                                return resolve(/*#__PURE__*/ _interop_require_wildcard._(m));
                             }, reject);
                         })
                     ];

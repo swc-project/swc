@@ -4,7 +4,7 @@ import { _ as _type_of } from "@swc/helpers/_/_type_of";
 function foo() {
     return !0;
 }
-var BOOLEAN, M, A = function() {
+var BOOLEAN, M, A = /*#__PURE__*/ function() {
     function A() {
         _class_call_check(this, A);
     }

@@ -2,7 +2,7 @@
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
-var i, a, B = function(A) {
+var i, a, B = /*#__PURE__*/ function(A) {
     _inherits(B, A);
     var _super = _create_super(B);
     function B() {
@@ -11,14 +11,14 @@ var i, a, B = function(A) {
     return B.prototype.bar = function() {
         return '';
     }, B;
-}(function() {
+}(/*#__PURE__*/ function() {
     function A() {
         _class_call_check(this, A);
     }
     return A.prototype.foo = function() {
         return '';
     }, A;
-}()), C = function() {
+}()), C = /*#__PURE__*/ function() {
     function C() {
         _class_call_check(this, C);
     }

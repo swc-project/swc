@@ -8,7 +8,7 @@ var C = function C() {
     _class_call_check(this, C);
 };
 C.f = 1;
-var D = function(C) {
+var D = /*#__PURE__*/ function(C) {
     _inherits(D, C);
     var _super = _create_super(D);
     function D() {

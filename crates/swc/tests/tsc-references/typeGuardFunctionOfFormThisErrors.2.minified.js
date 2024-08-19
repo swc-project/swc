@@ -3,7 +3,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
-var c, RoyalGuard = function() {
+var c, RoyalGuard = /*#__PURE__*/ function() {
     function RoyalGuard() {
         _class_call_check(this, RoyalGuard);
     }
@@ -13,14 +13,14 @@ var c, RoyalGuard = function() {
     }, _proto.isFollower = function() {
         return _instanceof(this, FollowerGuard);
     }, RoyalGuard;
-}(), LeadGuard = function(RoyalGuard) {
+}(), LeadGuard = /*#__PURE__*/ function(RoyalGuard) {
     _inherits(LeadGuard, RoyalGuard);
     var _super = _create_super(LeadGuard);
     function LeadGuard() {
         return _class_call_check(this, LeadGuard), _super.apply(this, arguments);
     }
     return LeadGuard.prototype.lead = function() {}, LeadGuard;
-}(RoyalGuard), FollowerGuard = function(RoyalGuard) {
+}(RoyalGuard), FollowerGuard = /*#__PURE__*/ function(RoyalGuard) {
     _inherits(FollowerGuard, RoyalGuard);
     var _super = _create_super(FollowerGuard);
     function FollowerGuard() {

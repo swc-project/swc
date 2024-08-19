@@ -8,14 +8,14 @@ var C = function C() {
 new C(), new C();
 var Base = function Base() {
     _class_call_check(this, Base);
-}, Derived1 = function(Base) {
+}, Derived1 = /*#__PURE__*/ function(Base) {
     _inherits(Derived1, Base);
     var _super = _create_super(Derived1);
     function Derived1() {
         return _class_call_check(this, Derived1), _super.apply(this, arguments);
     }
     return Derived1;
-}(Base), Derived2 = function(Base) {
+}(Base), Derived2 = /*#__PURE__*/ function(Base) {
     _inherits(Derived2, Base);
     var _super = _create_super(Derived2);
     function Derived2() {

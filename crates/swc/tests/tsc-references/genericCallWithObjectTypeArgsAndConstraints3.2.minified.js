@@ -4,14 +4,14 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var y, y1, Base = function Base() {
     _class_call_check(this, Base);
-}, Derived = function(Base) {
+}, Derived = /*#__PURE__*/ function(Base) {
     _inherits(Derived, Base);
     var _super = _create_super(Derived);
     function Derived() {
         return _class_call_check(this, Derived), _super.apply(this, arguments);
     }
     return Derived;
-}(Base), Derived2 = function(Base) {
+}(Base), Derived2 = /*#__PURE__*/ function(Base) {
     _inherits(Derived2, Base);
     var _super = _create_super(Derived2);
     function Derived2() {

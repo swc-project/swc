@@ -8,7 +8,7 @@ ns.x = {
     status: 'done',
     m: function(n) {}
 }, ns.x;
-var Thing = function() {
+var Thing = /*#__PURE__*/ function() {
     function Thing() {
         _class_call_check(this, Thing), this.s = {
             status: 'done',

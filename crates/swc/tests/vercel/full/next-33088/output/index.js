@@ -35,18 +35,18 @@ export default function c() {
         }();
     }, [
         h
-    ]), s(a, {
+    ]), /*#__PURE__*/ s(a, {
         children: [
-            n("input", {
+            /*#__PURE__*/ n("input", {
                 value: h,
                 onChange: function(t) {
                     return f(t.target.value);
                 }
             }),
-            n("ul", {
+            /*#__PURE__*/ n("ul", {
                 children: o.hits.map(function(t) {
-                    return n("li", {
-                        children: n("a", {
+                    return /*#__PURE__*/ n("li", {
+                        children: /*#__PURE__*/ n("a", {
                             href: t.url,
                             children: t.title
                         })

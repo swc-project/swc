@@ -1,4 +1,4 @@
-export const c = (function(strings, ...values) {
+/*#__PURE__*/ export const c = (function(strings, ...values) {
     return {
         strings,
         values

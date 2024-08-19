@@ -1,7 +1,7 @@
 //// [privateNameSetterExprReturnValue.ts]
 import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
 import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
-var _foo = new WeakMap();
+var _foo = /*#__PURE__*/ new WeakMap();
 function set_foo(a) {}
 new class {
     bar() {

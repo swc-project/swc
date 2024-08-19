@@ -12,11 +12,11 @@ var Private = function Private() {
     for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
     _class_call_check(this, Public);
 };
-Mix(Private, function Private2() {
+/*#__PURE__*/ Mix(Private, function Private2() {
     for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
     _class_call_check(this, Private2);
-}), Mix(Private, Protected), Mix(Private, Public);
-var C4 = function(_Mix) {
+}), /*#__PURE__*/ Mix(Private, Protected), /*#__PURE__*/ Mix(Private, Public);
+var C4 = /*#__PURE__*/ function(_Mix) {
     _inherits(C4, _Mix);
     var _super = _create_super(C4);
     function C4() {
@@ -30,7 +30,7 @@ var C4 = function(_Mix) {
 }(Mix(Protected, function Protected2() {
     for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
     _class_call_check(this, Protected2);
-})), C5 = function(_Mix) {
+})), C5 = /*#__PURE__*/ function(_Mix) {
     _inherits(C5, _Mix);
     var _super = _create_super(C5);
     function C5() {
@@ -41,7 +41,7 @@ var C4 = function(_Mix) {
     }, C5.g = function() {
         C4.s, C5.s, C6.s;
     }, C5;
-}(Mix(Protected, Public)), C6 = function(_Mix) {
+}(Mix(Protected, Public)), C6 = /*#__PURE__*/ function(_Mix) {
     _inherits(C6, _Mix);
     var _super = _create_super(C6);
     function C6() {

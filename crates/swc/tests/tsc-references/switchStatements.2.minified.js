@@ -29,7 +29,7 @@ switch((M || (M = {})).fn = function(x) {
 }
 var M, x, C = function C() {
     _class_call_check(this, C);
-}, D = function(C) {
+}, D = /*#__PURE__*/ function(C) {
     _inherits(D, C);
     var _super = _create_super(D);
     function D() {
