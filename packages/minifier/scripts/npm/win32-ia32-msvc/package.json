@@ -1,6 +1,6 @@
 {
   "name": "@swc/minifier-win32-ia32-msvc",
-  "version": "1.7.12-nightly-20240819.1",
+  "version": "1.7.12",
   "os": [
     "win32"
   ],
