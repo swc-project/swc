@@ -1,6 +1,6 @@
 use std::mem::take;
 
-use swc_ecma_ast::{Class, ClassDecl, ClassExpr, ExportDecl, Ident};
+use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, Fold, VisitMut, VisitMutWith};
 
 use crate::DecoratorVersion;
@@ -28,6 +28,15 @@ struct ClassState {
     has_element_decorators: bool,
     has_computed_keys_side_effects: bool,
     elem_decs_use_fn_context: bool,
+
+    class_assignments: Vec<AssignExpr>,
+
+    proto_init_local: Ident,
+    static_init_local: Ident,
+}
+
+impl ClassState {
+    fn memoize_expr(&mut self, expr: Box<Expr>, hint: &str, assignments: &mut Vec<AssignExpr>) {}
 }
 
 impl DecoratorPass {
@@ -49,3 +58,5 @@ impl VisitMut for DecoratorPass {
         self.transform_class(node.ident.clone(), &mut node.class);
     }
 }
+
+fn uses_function_context_or_yield_await(dec: &Decorator) -> bool {}
