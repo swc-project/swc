@@ -1252,15 +1252,6 @@ impl SourceMap {
 
         let mut src_id = 0u32;
 
-        if let Some(orig) = &orig {
-            for src in orig.sources() {
-                let id = builder.add_source(src);
-                src_id = id;
-
-                builder.set_source_contents(id, orig.get_source_contents(id));
-            }
-        }
-
         // // This method is optimized based on the fact that mapping is sorted.
         // mappings.sort_by_key(|v| v.0);
 
