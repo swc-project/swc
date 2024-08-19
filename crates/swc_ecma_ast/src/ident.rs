@@ -504,7 +504,7 @@ impl<'a> arbitrary::Arbitrary<'a> for Ident {
 }
 
 #[ast_node("PrivateName")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct PrivateName {
     pub span: Span,
@@ -526,6 +526,11 @@ impl Ident {
             sym,
             optional: false,
         }
+    }
+
+    #[inline(never)]
+    pub fn new_private(sym: Atom, span: Span) -> Self {
+        Self::new(sym, span, SyntaxContext::empty().apply_mark(Mark::new()))
     }
 
     pub const fn new_no_ctxt(sym: Atom, span: Span) -> Self {

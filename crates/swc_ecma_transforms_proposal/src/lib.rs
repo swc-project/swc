@@ -17,9 +17,13 @@ pub enum DecoratorVersion {
 
     #[serde(rename = "2022-03")]
     V202203,
+
+    #[serde(rename = "2023-11")]
+    V202311,
 }
 
 pub mod decorator_2022_03;
+mod decorator_impl;
 pub mod decorators;
 pub mod explicit_resource_management;
 mod export_default_from;
