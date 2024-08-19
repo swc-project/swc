@@ -4010,7 +4010,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.101.2"
+version = "0.101.3"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4335,7 +4335,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2015"
-version = "0.11.0"
+version = "0.11.1"
 dependencies = [
  "arrayvec",
  "indexmap 2.2.6",
@@ -4378,7 +4378,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2017"
-version = "0.11.0"
+version = "0.11.1"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -4862,7 +4862,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "0.178.0"
+version = "0.178.1"
 dependencies = [
  "either",
  "rustc-hash",
