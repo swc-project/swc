@@ -6,7 +6,7 @@ import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
-new (function(SomeBaseClass) {
+new /*#__PURE__*/ (function(SomeBaseClass) {
     _inherits(SomeDerivedClass, SomeBaseClass);
     var _super = _create_super(SomeDerivedClass);
     function SomeDerivedClass() {
@@ -42,7 +42,7 @@ new (function(SomeBaseClass) {
             }
         }
     ]), SomeDerivedClass;
-}(function() {
+}(/*#__PURE__*/ function() {
     function SomeBaseClass() {
         _class_call_check(this, SomeBaseClass);
     }

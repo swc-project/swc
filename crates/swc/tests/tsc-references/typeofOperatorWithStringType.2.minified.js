@@ -8,7 +8,7 @@ var STRING, M, STRING1 = [
 function foo() {
     return "abc";
 }
-var A = function() {
+var A = /*#__PURE__*/ function() {
     function A() {
         _class_call_check(this, A);
     }

@@ -7,7 +7,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
     }, TypeScript.MemberScopeContext = function MemberScopeContext(flow, pos, matchFlag) {
         _class_call_check(this, MemberScopeContext), this.flow = flow, this.pos = pos, this.matchFlag = matchFlag, this.type = null, this.ast = null, this.options = new AstWalkOptions();
     };
-    var EnclosingScopeContext = function() {
+    var EnclosingScopeContext = /*#__PURE__*/ function() {
         function EnclosingScopeContext(logger, script, text, pos, isMemberCompletion) {
             _class_call_check(this, EnclosingScopeContext), this.logger = logger, this.script = script, this.text = text, this.pos = pos, this.isMemberCompletion = isMemberCompletion, this.scopeGetter = null, this.objectLiteralScopeGetter = null, this.scopeStartAST = null, this.skipNextFuncDeclForClass = !1, this.deepestModuleDecl = null, this.enclosingClassDecl = null, this.enclosingObjectLit = null, this.publicsOnly = !0, this.useFullAst = !1;
         }

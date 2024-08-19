@@ -13,7 +13,7 @@ define([
         yy: 10,
         yy1: "hello"
     };
-    OneThing, OneThing, OneThing, _object_spread_props._(_object_spread._({}, obj), {
+    /*#__PURE__*/ OneThing, /*#__PURE__*/ OneThing, OneThing, _object_spread_props._(_object_spread._({}, obj), {
         yy1: !0
     }), OneThing, _object_spread_props._(_object_spread._({}, obj), {
         extra: "extra attr"
@@ -25,5 +25,5 @@ define([
         extra: "extra attr"
     }), OneThing, _object_spread_props._(_object_spread._({}, obj2), {
         yy: !0
-    }), TestingOneThing, TestingOneThing, TestingOptional, TestingOptional, TestingOptional, TestingOptional;
+    }), /*#__PURE__*/ TestingOneThing, /*#__PURE__*/ TestingOneThing, /*#__PURE__*/ TestingOptional, /*#__PURE__*/ TestingOptional, /*#__PURE__*/ TestingOptional, /*#__PURE__*/ TestingOptional;
 });

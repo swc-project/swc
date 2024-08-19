@@ -4,7 +4,7 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var Base = function Base(x) {
     _class_call_check(this, Base), this.a = 1, this.a = x;
-}, Derived = function(Base) {
+}, Derived = /*#__PURE__*/ function(Base) {
     _inherits(Derived, Base);
     var _super = _create_super(Derived);
     function Derived(y, z) {
@@ -12,7 +12,7 @@ var Base = function Base(x) {
         return _class_call_check(this, Derived), (_this = _super.call(this, 2)).b = '', _this.b = y, _this;
     }
     return Derived;
-}(Base), Derived2 = function(Derived) {
+}(Base), Derived2 = /*#__PURE__*/ function(Derived) {
     _inherits(Derived2, Derived);
     var _super = _create_super(Derived2);
     function Derived2() {
@@ -22,7 +22,7 @@ var Base = function Base(x) {
     return Derived2;
 }(Derived);
 new Derived(), new Derived2(1), new Derived('', '');
-var D2 = function(D) {
+var D2 = /*#__PURE__*/ function(D) {
     _inherits(D2, D);
     var _super = _create_super(D2);
     function D2() {
@@ -30,7 +30,7 @@ var D2 = function(D) {
         return _class_call_check(this, D2), _this = _super.apply(this, arguments), _this.x = 2, _this.y = null, _this;
     }
     return D2;
-}(function(Base) {
+}(/*#__PURE__*/ function(Base) {
     _inherits(D, Base);
     var _super = _create_super(D);
     function D(y, z) {

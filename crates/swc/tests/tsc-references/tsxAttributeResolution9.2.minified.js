@@ -20,7 +20,7 @@ define([
             return MyComponent;
         }
     });
-    var MyComponent = function() {
+    var MyComponent = /*#__PURE__*/ function() {
         function MyComponent() {
             _class_call_check._(this, MyComponent);
         }

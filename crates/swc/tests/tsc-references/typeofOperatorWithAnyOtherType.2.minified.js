@@ -9,7 +9,7 @@ var ANY, ANY1, obj, M, ANY2 = [
     y: function() {}
 };
 function foo() {}
-var A = function() {
+var A = /*#__PURE__*/ function() {
     function A() {
         _class_call_check(this, A);
     }

@@ -3,7 +3,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
-var b, crate, RoyalGuard = function() {
+var b, crate, RoyalGuard = /*#__PURE__*/ function() {
     function RoyalGuard() {
         _class_call_check(this, RoyalGuard);
     }
@@ -13,14 +13,14 @@ var b, crate, RoyalGuard = function() {
     }, _proto.isFollower = function() {
         return _instanceof(this, FollowerGuard);
     }, RoyalGuard;
-}(), LeadGuard = function(RoyalGuard) {
+}(), LeadGuard = /*#__PURE__*/ function(RoyalGuard) {
     _inherits(LeadGuard, RoyalGuard);
     var _super = _create_super(LeadGuard);
     function LeadGuard() {
         return _class_call_check(this, LeadGuard), _super.apply(this, arguments);
     }
     return LeadGuard.prototype.lead = function() {}, LeadGuard;
-}(RoyalGuard), FollowerGuard = function(RoyalGuard) {
+}(RoyalGuard), FollowerGuard = /*#__PURE__*/ function(RoyalGuard) {
     _inherits(FollowerGuard, RoyalGuard);
     var _super = _create_super(FollowerGuard);
     function FollowerGuard() {
@@ -36,14 +36,14 @@ var ArrowGuard = function ArrowGuard() {
     }, this.isMedic = function() {
         return _instanceof(_this, ArrowMedic);
     };
-}, ArrowElite = function(ArrowGuard) {
+}, ArrowElite = /*#__PURE__*/ function(ArrowGuard) {
     _inherits(ArrowElite, ArrowGuard);
     var _super = _create_super(ArrowElite);
     function ArrowElite() {
         return _class_call_check(this, ArrowElite), _super.apply(this, arguments);
     }
     return ArrowElite.prototype.defend = function() {}, ArrowElite;
-}(ArrowGuard), ArrowMedic = function(ArrowGuard) {
+}(ArrowGuard), ArrowMedic = /*#__PURE__*/ function(ArrowGuard) {
     _inherits(ArrowMedic, ArrowGuard);
     var _super = _create_super(ArrowMedic);
     function ArrowMedic() {
@@ -52,7 +52,7 @@ var ArrowGuard = function ArrowGuard() {
     return ArrowMedic.prototype.heal = function() {}, ArrowMedic;
 }(ArrowGuard), guard = new ArrowGuard();
 guard.isElite() ? guard.defend() : guard.isMedic() && guard.heal(), crate.isSundries() ? crate.contents.broken = !0 : crate.isSupplies() && (crate.contents.spoiled = !0), a.isFollower = b.isFollower, a.isLeader = b.isLeader;
-var MimicGuard = function() {
+var MimicGuard = /*#__PURE__*/ function() {
     function MimicGuard() {
         _class_call_check(this, MimicGuard);
     }
@@ -62,14 +62,14 @@ var MimicGuard = function() {
     }, _proto.isFollower = function() {
         return _instanceof(this, MimicFollower);
     }, MimicGuard;
-}(), MimicLeader = function(MimicGuard) {
+}(), MimicLeader = /*#__PURE__*/ function(MimicGuard) {
     _inherits(MimicLeader, MimicGuard);
     var _super = _create_super(MimicLeader);
     function MimicLeader() {
         return _class_call_check(this, MimicLeader), _super.apply(this, arguments);
     }
     return MimicLeader.prototype.lead = function() {}, MimicLeader;
-}(MimicGuard), MimicFollower = function(MimicGuard) {
+}(MimicGuard), MimicFollower = /*#__PURE__*/ function(MimicGuard) {
     _inherits(MimicFollower, MimicGuard);
     var _super = _create_super(MimicFollower);
     function MimicFollower() {

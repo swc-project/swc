@@ -2,7 +2,7 @@
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
-var explicitCFunction, explicitPropertyFunction, _this = this, C = function() {
+var explicitCFunction, explicitPropertyFunction, _this = this, C = /*#__PURE__*/ function() {
     function C() {
         _class_call_check(this, C);
     }
@@ -16,7 +16,7 @@ var explicitCFunction, explicitPropertyFunction, _this = this, C = function() {
     }, _proto.explicitVoid = function(m) {
         return m + 1;
     }, C;
-}(), D = function(C) {
+}(), D = /*#__PURE__*/ function(C) {
     _inherits(D, C);
     var _super = _create_super(D);
     function D() {
@@ -108,7 +108,7 @@ reconstructed.explicitThis(10), reconstructed.explicitProperty(11), (0, reconstr
 }, c.explicitVoid = function(n) {
     return n;
 };
-var Base1 = function() {
+var Base1 = /*#__PURE__*/ function() {
     function Base1() {
         _class_call_check(this, Base1);
     }
@@ -120,14 +120,14 @@ var Base1 = function() {
     }, Base1.explicitStatic = function() {
         return this.y;
     }, Base1;
-}(), Derived1 = function(Base1) {
+}(), Derived1 = /*#__PURE__*/ function(Base1) {
     _inherits(Derived1, Base1);
     var _super = _create_super(Derived1);
     function Derived1() {
         return _class_call_check(this, Derived1), _super.apply(this, arguments);
     }
     return Derived1;
-}(Base1), Base2 = function() {
+}(Base1), Base2 = /*#__PURE__*/ function() {
     function Base2() {
         _class_call_check(this, Base2);
     }
@@ -137,7 +137,7 @@ var Base1 = function() {
     }, _proto.explicit = function() {
         return this.x;
     }, Base2;
-}(), Derived2 = function(Base2) {
+}(), Derived2 = /*#__PURE__*/ function(Base2) {
     _inherits(Derived2, Base2);
     var _super = _create_super(Derived2);
     function Derived2() {

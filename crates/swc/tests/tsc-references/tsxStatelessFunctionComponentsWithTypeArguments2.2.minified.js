@@ -8,5 +8,5 @@ define([
 ], function(require, exports, _object_spread, _object_spread_props, _react) {
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), InferParamComponent;
+    }), /*#__PURE__*/ InferParamComponent;
 });

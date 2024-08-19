@@ -4,14 +4,14 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _create_class } from "@swc/helpers/_/_create_class";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
-NonGeneric || (NonGeneric = {}), (r = (d = new (function(C) {
+NonGeneric || (NonGeneric = {}), (r = (d = new /*#__PURE__*/ (function(C) {
     _inherits(D, C);
     var _super = _create_super(D);
     function D() {
         return _class_call_check(this, D), _super.apply(this, arguments);
     }
     return D;
-}(function() {
+}(/*#__PURE__*/ function() {
     function C(a, b) {
         _class_call_check(this, C), this.a = a, this.b = b;
     }
@@ -26,14 +26,14 @@ NonGeneric || (NonGeneric = {}), (r = (d = new (function(C) {
             set: function(v) {}
         }
     ]), C;
-}()))(1, 2)).fn()).x, r.y, r.y = 4, d.y(), Generic || (Generic = {}), (r1 = (d1 = new (function(C) {
+}()))(1, 2)).fn()).x, r.y, r.y = 4, d.y(), Generic || (Generic = {}), (r1 = (d1 = new /*#__PURE__*/ (function(C) {
     _inherits(D, C);
     var _super = _create_super(D);
     function D() {
         return _class_call_check(this, D), _super.apply(this, arguments);
     }
     return D;
-}(function() {
+}(/*#__PURE__*/ function() {
     function C(a, b) {
         _class_call_check(this, C), this.a = a, this.b = b;
     }

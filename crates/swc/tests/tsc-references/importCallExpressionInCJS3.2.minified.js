@@ -21,4 +21,4 @@ const _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildc
     x.then((value)=>{
         new value.B().print();
     });
-}(Promise.resolve().then(()=>_interop_require_wildcard._(require("./0"))));
+}(Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./0"))));

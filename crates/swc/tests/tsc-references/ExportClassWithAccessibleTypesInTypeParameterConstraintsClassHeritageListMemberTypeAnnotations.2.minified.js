@@ -8,7 +8,7 @@ A1 = A || (A = {}), Point = function Point() {
 }, A1.Point = Point, A1.Origin = {
     x: 0,
     y: 0
-}, Point3d = function(Point) {
+}, Point3d = /*#__PURE__*/ function(Point) {
     _inherits(Point3d, Point);
     var _super = _create_super(Point3d);
     function Point3d() {

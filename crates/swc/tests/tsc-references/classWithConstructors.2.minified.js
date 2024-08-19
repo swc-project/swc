@@ -7,7 +7,7 @@ NonGeneric || (NonGeneric = {}), new (C = function C(x) {
     _class_call_check(this, C);
 })(), new C(''), new (C2 = function C2(x) {
     _class_call_check(this, C2);
-})(), new C2(''), new C2(1), new (D = function(C2) {
+})(), new C2(''), new C2(1), new (D = /*#__PURE__*/ function(C2) {
     _inherits(D, C2);
     var _super = _create_super(D);
     function D() {
@@ -18,7 +18,7 @@ NonGeneric || (NonGeneric = {}), new (C = function C(x) {
     _class_call_check(this, C);
 })(), new C1(''), new (C21 = function C2(x) {
     _class_call_check(this, C2);
-})(), new C21(''), new C21(1, 2), new (D1 = function(C2) {
+})(), new C21(''), new C21(1, 2), new (D1 = /*#__PURE__*/ function(C2) {
     _inherits(D, C2);
     var _super = _create_super(D);
     function D() {

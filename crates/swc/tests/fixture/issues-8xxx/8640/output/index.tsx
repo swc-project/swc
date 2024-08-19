@@ -1,6 +1,6 @@
 import * as React from 'react';
 export var Ns;
 (function(Ns) {
-    Ns.Context = React.createContext();
-    Ns.Component = ()=>React.createElement(Ns.Context.Provider, null);
+    Ns.Context = /*#__PURE__*/ React.createContext();
+    Ns.Component = ()=>/*#__PURE__*/ React.createElement(Ns.Context.Provider, null);
 })(Ns || (Ns = {}));

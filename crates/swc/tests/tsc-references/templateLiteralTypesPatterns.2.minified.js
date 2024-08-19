@@ -4,7 +4,7 @@ bools("true"), bools("false"), bools("other"), nullishes("null"), nullishes("und
 export var AA = function AA() {
     _class_call_check(this, AA);
 };
-export var BB = function() {
+export var BB = /*#__PURE__*/ function() {
     function BB() {
         _class_call_check(this, BB);
     }

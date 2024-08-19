@@ -29,13 +29,13 @@ System.register([
                     })();
                 }
             }), _export("obj", {
-                m: _async_to_generator(function*() {
+                m: /*#__PURE__*/ _async_to_generator(function*() {
                     yield _context.import('./test');
                 })
             }), _export("cl2", class {
                 constructor(){
                     this.p = {
-                        m: _async_to_generator(function*() {
+                        m: /*#__PURE__*/ _async_to_generator(function*() {
                             yield _context.import('./test');
                         })
                     };

@@ -42,14 +42,14 @@ global = this, factory = function(exports1, _async_to_generator, _interop_requir
         }
     }
     let obj = {
-        m: _async_to_generator._(function*() {
+        m: /*#__PURE__*/ _async_to_generator._(function*() {
             yield import('./test');
         })
     };
     class cl2 {
         constructor(){
             this.p = {
-                m: _async_to_generator._(function*() {
+                m: /*#__PURE__*/ _async_to_generator._(function*() {
                     yield import('./test');
                 })
             };

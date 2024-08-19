@@ -6,7 +6,7 @@ import { _ as _create_super } from "@swc/helpers/_/_create_super";
 (A1 = A || (A = {})).Origin = {
     x: 0,
     y: 0
-}, Point3d = function(Point) {
+}, Point3d = /*#__PURE__*/ function(Point) {
     _inherits(Point3d, Point);
     var _super = _create_super(Point3d);
     function Point3d() {
@@ -19,7 +19,7 @@ import { _ as _create_super } from "@swc/helpers/_/_create_super";
     x: 0,
     y: 0,
     z: 0
-}, Line = function() {
+}, Line = /*#__PURE__*/ function() {
     function Line(start, end) {
         _class_call_check(this, Line), this.start = start, this.end = end;
     }

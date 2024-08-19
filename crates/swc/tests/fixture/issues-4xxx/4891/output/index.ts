@@ -1,6 +1,6 @@
 import { _ as _class_private_field_loose_base } from "@swc/helpers/_/_class_private_field_loose_base";
 import { _ as _class_private_field_loose_key } from "@swc/helpers/_/_class_private_field_loose_key";
-var _channelName = _class_private_field_loose_key("_channelName"), _listeners = _class_private_field_loose_key("_listeners");
+var _channelName = /*#__PURE__*/ _class_private_field_loose_key("_channelName"), _listeners = /*#__PURE__*/ _class_private_field_loose_key("_listeners");
 export class LocalStorageChannel {
     constructor(channelName){
         Object.defineProperty(this, _channelName, {

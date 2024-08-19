@@ -3,7 +3,7 @@ var _create_class = require("@swc/helpers/_/_create_class");
 var commands;
 var command;
 function retornaTempoArenaEmMilisegundos(distancia, velocidade) {
-    var conv = distancia * function() {
+    var conv = distancia * /*#__PURE__*/ function() {
         "use strict";
         function LogExit(param) {
             var logger = param.logger;

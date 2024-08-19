@@ -1,6 +1,6 @@
 var _class_private_field_get = require("@swc/helpers/_/_class_private_field_get");
 var _class_private_field_init = require("@swc/helpers/_/_class_private_field_init");
-var _x = new WeakMap();
+var _x = /*#__PURE__*/ new WeakMap();
 class Foo {
     test() {
         var _this, _this_y;

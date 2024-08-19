@@ -3,7 +3,7 @@ var B, A, B1, D, A1;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
-(B1 = B || (B = {})).a = A, D = function(_B_a_C) {
+(B1 = B || (B = {})).a = A, D = /*#__PURE__*/ function(_B_a_C) {
     _inherits(D, _B_a_C);
     var _super = _create_super(D);
     function D() {

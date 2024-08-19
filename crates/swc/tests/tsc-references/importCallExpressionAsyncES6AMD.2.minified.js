@@ -13,7 +13,7 @@ define([
         return (_fn = _async_to_generator._(function*() {
             yield new Promise((resolve, reject)=>require([
                     "./test"
-                ], (m)=>resolve(_interop_require_wildcard._(m)), reject));
+                ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject));
         })).apply(this, arguments);
     }
     Object.defineProperty(exports, "__esModule", {
@@ -45,24 +45,24 @@ define([
             return _async_to_generator._(function*() {
                 yield new Promise((resolve, reject)=>require([
                         "./test"
-                    ], (m)=>resolve(_interop_require_wildcard._(m)), reject));
+                    ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject));
             })();
         }
     }
     let obj = {
-        m: _async_to_generator._(function*() {
+        m: /*#__PURE__*/ _async_to_generator._(function*() {
             yield new Promise((resolve, reject)=>require([
                     "./test"
-                ], (m)=>resolve(_interop_require_wildcard._(m)), reject));
+                ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject));
         })
     };
     class cl2 {
         constructor(){
             this.p = {
-                m: _async_to_generator._(function*() {
+                m: /*#__PURE__*/ _async_to_generator._(function*() {
                     yield new Promise((resolve, reject)=>require([
                             "./test"
-                        ], (m)=>resolve(_interop_require_wildcard._(m)), reject));
+                        ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject));
                 })
             };
         }
@@ -70,7 +70,7 @@ define([
     let l = (_ref = _async_to_generator._(function*() {
         yield new Promise((resolve, reject)=>require([
                 "./test"
-            ], (m)=>resolve(_interop_require_wildcard._(m)), reject));
+            ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject));
     }), function() {
         return _ref.apply(this, arguments);
     });

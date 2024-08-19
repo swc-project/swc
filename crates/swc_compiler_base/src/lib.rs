@@ -356,6 +356,10 @@ pub fn minify_file_comments(
                         || c.text.contains("@preserve")
                         || c.text.contains("@copyright")
                         || c.text.contains("@cc_on")
+                        || c.text.contains("__PURE__")
+                        || c.text.contains("__INLINE__")
+                        || c.text.contains("__NOINLINE__")
+                        || c.text.contains("@vite-ignore")
                         || (c.kind == CommentKind::Block && c.text.starts_with('!'))
                 });
                 !vc.is_empty()

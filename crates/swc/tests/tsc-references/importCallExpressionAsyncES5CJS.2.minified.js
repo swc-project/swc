@@ -35,7 +35,7 @@ function _fn() {
                     return [
                         4,
                         Promise.resolve().then(function() {
-                            return _interop_require_wildcard._(require("./test"));
+                            return /*#__PURE__*/ _interop_require_wildcard._(require("./test"));
                         })
                     ];
                 case 1:
@@ -46,7 +46,7 @@ function _fn() {
         });
     })).apply(this, arguments);
 }
-var cl1 = function() {
+var cl1 = /*#__PURE__*/ function() {
     function cl1() {
         _class_call_check._(this, cl1);
     }
@@ -58,7 +58,7 @@ var cl1 = function() {
                         return [
                             4,
                             Promise.resolve().then(function() {
-                                return _interop_require_wildcard._(require("./test"));
+                                return /*#__PURE__*/ _interop_require_wildcard._(require("./test"));
                             })
                         ];
                     case 1:
@@ -70,14 +70,14 @@ var cl1 = function() {
         })();
     }, cl1;
 }(), obj = {
-    m: _async_to_generator._(function() {
+    m: /*#__PURE__*/ _async_to_generator._(function() {
         return _ts_generator._(this, function(_state) {
             switch(_state.label){
                 case 0:
                     return [
                         4,
                         Promise.resolve().then(function() {
-                            return _interop_require_wildcard._(require("./test"));
+                            return /*#__PURE__*/ _interop_require_wildcard._(require("./test"));
                         })
                     ];
                 case 1:
@@ -89,14 +89,14 @@ var cl1 = function() {
     })
 }, cl2 = function cl2() {
     _class_call_check._(this, cl2), this.p = {
-        m: _async_to_generator._(function() {
+        m: /*#__PURE__*/ _async_to_generator._(function() {
             return _ts_generator._(this, function(_state) {
                 switch(_state.label){
                     case 0:
                         return [
                             4,
                             Promise.resolve().then(function() {
-                                return _interop_require_wildcard._(require("./test"));
+                                return /*#__PURE__*/ _interop_require_wildcard._(require("./test"));
                             })
                         ];
                     case 1:
@@ -114,7 +114,7 @@ var cl1 = function() {
                 return [
                     4,
                     Promise.resolve().then(function() {
-                        return _interop_require_wildcard._(require("./test"));
+                        return /*#__PURE__*/ _interop_require_wildcard._(require("./test"));
                     })
                 ];
             case 1:

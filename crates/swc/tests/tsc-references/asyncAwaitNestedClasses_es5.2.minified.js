@@ -5,7 +5,7 @@ import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 var _B, A = function A() {
     _class_call_check(this, A);
 };
-A.B = ((_B = function() {
+A.B = ((_B = /*#__PURE__*/ function() {
     function B() {
         _class_call_check(this, B);
     }
@@ -14,7 +14,7 @@ A.B = ((_B = function() {
             resolve(null);
         });
     }, B;
-}()).C = function() {
+}()).C = /*#__PURE__*/ function() {
     function C() {
         _class_call_check(this, C);
     }

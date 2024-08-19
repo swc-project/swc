@@ -1,6 +1,6 @@
 //// [lib.js]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var SomeClass = function() {
+var SomeClass = /*#__PURE__*/ function() {
     function SomeClass() {
         _class_call_check(this, SomeClass);
     }

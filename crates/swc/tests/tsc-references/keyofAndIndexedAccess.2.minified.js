@@ -14,7 +14,7 @@ one(function() {}), on({
 }).get("hello"), dispatchMethod("someMethod", [
     "hello",
     35
-]), new (function(SampleClass) {
+]), new /*#__PURE__*/ (function(SampleClass) {
     _inherits(AnotherSampleClass, SampleClass);
     var _super = _create_super(AnotherSampleClass);
     function AnotherSampleClass(props) {

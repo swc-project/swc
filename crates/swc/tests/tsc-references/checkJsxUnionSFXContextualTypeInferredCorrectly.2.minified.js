@@ -1,10 +1,10 @@
 //// [checkJsxUnionSFXContextualTypeInferredCorrectly.tsx]
 import React from 'react';
 export function ComponentWithUnion(props) {
-    return React.createElement("h1", null);
+    return /*#__PURE__*/ React.createElement("h1", null);
 }
 export function HereIsTheError() {
-    return React.createElement(ComponentWithUnion, {
+    return /*#__PURE__*/ React.createElement(ComponentWithUnion, {
         multi: !1,
         value: 's',
         onChange: function(val) {

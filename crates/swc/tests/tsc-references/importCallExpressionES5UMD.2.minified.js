@@ -35,7 +35,7 @@ global = this, factory = function(exports1, _class_call_check, _interop_require_
     }), import("./0"), import("./0").then(function(zero) {
         return zero.foo();
     });
-    var p2 = import("./0"), D = function() {
+    var p2 = import("./0"), D = /*#__PURE__*/ function() {
         function D() {
             _class_call_check._(this, D);
         }

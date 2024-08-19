@@ -31,5 +31,5 @@ define([
         });
     }(new Promise((resolve, reject)=>require([
             "./0"
-        ], (m)=>resolve(_interop_require_wildcard._(m)), reject)));
+        ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject)));
 });

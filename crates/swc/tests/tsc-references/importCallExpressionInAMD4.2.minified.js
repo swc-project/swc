@@ -66,18 +66,18 @@ define([
         method() {
             new Promise((resolve, reject)=>require([
                     "./0"
-                ], (m)=>resolve(_interop_require_wildcard._(m)), reject)), this.myModule.then((Zero)=>{
+                ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject)), this.myModule.then((Zero)=>{
                 console.log(Zero.foo());
             }, async (err)=>{
                 console.log(err), console.log((await new Promise((resolve, reject)=>require([
                         "./1"
-                    ], (m)=>resolve(_interop_require_wildcard._(m)), reject))).backup());
+                    ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject))).backup());
             });
         }
         constructor(){
             this.myModule = new Promise((resolve, reject)=>require([
                     "./0"
-                ], (m)=>resolve(_interop_require_wildcard._(m)), reject));
+                ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject));
         }
     }
 });

@@ -12,7 +12,7 @@ define([
         get: function() {
             return Foo;
         }
-    }), _b = _interop_require_default._(_b);
+    }), _b = /*#__PURE__*/ _interop_require_default._(_b);
     class Foo {
     }
     (0, _b.default)();
@@ -35,7 +35,7 @@ define([
         get: function() {
             return foo;
         }
-    }), _a = _interop_require_default._(_a), new Promise((resolve, reject)=>require([
+    }), _a = /*#__PURE__*/ _interop_require_default._(_a), new Promise((resolve, reject)=>require([
             "./a"
-        ], (m)=>resolve(_interop_require_wildcard._(m)), reject));
+        ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject));
 });

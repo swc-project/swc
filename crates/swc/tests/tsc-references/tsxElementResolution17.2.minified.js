@@ -14,5 +14,5 @@ define([
 ], function(require, exports, _elements1) {
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), _elements1.MyElement;
+    }), /*#__PURE__*/ _elements1.MyElement;
 });

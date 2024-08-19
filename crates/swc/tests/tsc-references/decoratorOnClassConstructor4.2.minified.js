@@ -18,7 +18,7 @@ B = _ts_decorate._([
         Number
     ])
 ], B);
-var C = function(A) {
+var C = /*#__PURE__*/ function(A) {
     _inherits._(C, A);
     var _super = _create_super._(C);
     function C() {

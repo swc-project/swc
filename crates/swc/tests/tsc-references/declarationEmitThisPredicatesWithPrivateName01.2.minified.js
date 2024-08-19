@@ -7,14 +7,14 @@ Object.defineProperty(exports, "__esModule", {
         return C;
     }
 });
-var _class_call_check = require("@swc/helpers/_/_class_call_check"), _inherits = require("@swc/helpers/_/_inherits"), _instanceof = require("@swc/helpers/_/_instanceof"), _create_super = require("@swc/helpers/_/_create_super"), C = function() {
+var _class_call_check = require("@swc/helpers/_/_class_call_check"), _inherits = require("@swc/helpers/_/_inherits"), _instanceof = require("@swc/helpers/_/_instanceof"), _create_super = require("@swc/helpers/_/_create_super"), C = /*#__PURE__*/ function() {
     function C() {
         _class_call_check._(this, C);
     }
     return C.prototype.m = function() {
         return _instanceof._(this, D);
     }, C;
-}(), D = function(C) {
+}(), D = /*#__PURE__*/ function(C) {
     _inherits._(D, C);
     var _super = _create_super._(D);
     function D() {

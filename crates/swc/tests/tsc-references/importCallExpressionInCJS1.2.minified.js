@@ -20,5 +20,5 @@ Object.defineProperty(exports, "__esModule", {
     }
 });
 const _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
-Promise.resolve().then(()=>_interop_require_wildcard._(require("./0"))), Promise.resolve().then(()=>_interop_require_wildcard._(require("./0"))).then((zero)=>zero.foo());
-var p2 = Promise.resolve().then(()=>_interop_require_wildcard._(require("./0")));
+Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./0"))), Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./0"))).then((zero)=>zero.foo());
+var p2 = Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./0")));

@@ -10,7 +10,7 @@ var C = function C() {
     _class_call_check(this, C);
 };
 C.a = 1, C.b = C.a + 1;
-var D = function(C) {
+var D = /*#__PURE__*/ function(C) {
     _inherits(D, C);
     var _super = _create_super(D);
     function D() {
@@ -43,7 +43,7 @@ var CC = function CC() {
     _class_call_check(this, CC);
 };
 CC.a = 1, CC.b = CC.a + 1;
-var DD = function(CC) {
+var DD = /*#__PURE__*/ function(CC) {
     _inherits(DD, CC);
     var _super = _create_super(DD);
     function DD() {

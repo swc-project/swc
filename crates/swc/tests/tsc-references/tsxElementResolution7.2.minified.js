@@ -1,3 +1,3 @@
 //// [file.tsx]
 var my, q, mine;
-my || (my = {}), my.div, my.other, q || (q = {}), (mine = my).div, mine.non;
+my || (my = {}), /*#__PURE__*/ my.div, /*#__PURE__*/ my.other, q || (q = {}), /*#__PURE__*/ (mine = my).div, /*#__PURE__*/ mine.non;

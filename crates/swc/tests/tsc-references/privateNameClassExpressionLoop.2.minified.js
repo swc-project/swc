@@ -9,7 +9,7 @@ for(let i = 0; i < 10; ++i){
         return 42;
     }
     function set_accessor(val) {}
-    array.push((_myField = new WeakMap(), _method = new WeakSet(), _accessor = new WeakMap(), class {
+    array.push((_myField = /*#__PURE__*/ new WeakMap(), _method = /*#__PURE__*/ new WeakSet(), _accessor = /*#__PURE__*/ new WeakMap(), class {
         constructor(){
             _class_private_method_init(this, _method), _class_private_field_init(this, _accessor, {
                 get: get_accessor,

@@ -1,6 +1,6 @@
 //// [ES5For-ofTypeCheck10.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var StringIterator = function() {
+var StringIterator = /*#__PURE__*/ function() {
     function StringIterator() {
         _class_call_check(this, StringIterator);
     }

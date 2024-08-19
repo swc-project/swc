@@ -4,7 +4,7 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function C() {
     _class_call_check(this, C);
-}, D = function(C) {
+}, D = /*#__PURE__*/ function(C) {
     _inherits(D, C);
     var _super = _create_super(D);
     function D() {

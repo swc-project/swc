@@ -7,14 +7,14 @@ A || (A = {}), Module || (Module = {}), (Color1 = Color || (Color = {}))[Color1.
     _class_call_check(this, A);
 }, Y1.A = A1, AA = function AA() {
     _class_call_check(this, AA);
-}, Y1.AA = AA, B = function(AA) {
+}, Y1.AA = AA, B = /*#__PURE__*/ function(AA) {
     _inherits(B, AA);
     var _super = _create_super(B);
     function B() {
         return _class_call_check(this, B), _super.apply(this, arguments);
     }
     return B;
-}(AA), Y1.B = B, BB = function(A) {
+}(AA), Y1.B = B, BB = /*#__PURE__*/ function(A) {
     _inherits(BB, A);
     var _super = _create_super(BB);
     function BB() {

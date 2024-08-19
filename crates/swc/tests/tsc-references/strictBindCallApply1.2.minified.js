@@ -13,7 +13,7 @@ foo.bind(void 0), foo.bind(void 0, 10), foo.bind(void 0, 10, "hello"), foo.bind(
     "hello",
     30
 ]);
-var C = function() {
+var C = /*#__PURE__*/ function() {
     function C(a, b) {
         _class_call_check(this, C);
     }

@@ -11,7 +11,7 @@ function* baz() {
 async function* qux() {
     yield await Promise.resolve(42);
 }
-new (_bar = new WeakSet(), _baz = new WeakSet(), _qux = new WeakSet(), class {
+new (_bar = /*#__PURE__*/ new WeakSet(), _baz = /*#__PURE__*/ new WeakSet(), _qux = /*#__PURE__*/ new WeakSet(), class {
     async foo() {
         return await _class_private_method_get(this, _bar, bar).call(this) + (_class_private_method_get(this, _baz, baz).call(this).next().value || 0) + ((await _class_private_method_get(this, _qux, qux).call(this).next()).value || 0);
     }
