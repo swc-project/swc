@@ -1413,9 +1413,14 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
 
         {
             defs.push(parse_quote!(
+                #[deprecated = "Use NodeRef instead"]
+                pub type AstParentNodeRef<'ast> = NodeRef<'ast>;
+            ));
+
+            defs.push(parse_quote!(
                 #[cfg(any(docsrs, feature = "path"))]
                 #[derive(Debug, Clone, Copy)]
-                pub enum AstParentNodeRef<'ast> {
+                pub enum NodeRef<'ast> {
                     #(#node_ref_enum_members),*
                 }
             ));
