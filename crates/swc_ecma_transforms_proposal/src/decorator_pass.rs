@@ -1,7 +1,11 @@
-use swc_ecma_visit::{as_folder, Fold, VisitMut};
+use std::mem::take;
+
+use swc_ecma_ast::{Class, ClassDecl, ClassExpr, ExportDecl, Ident};
+use swc_ecma_visit::{as_folder, Fold, VisitMut, VisitMutWith};
 
 use crate::DecoratorVersion;
 
+#[allow(unused)]
 pub(crate) fn decorator_pass(version: DecoratorVersion) -> impl Fold + VisitMut {
     as_folder(DecoratorPass {
         version,
@@ -15,8 +19,33 @@ struct DecoratorPass {
 }
 
 #[derive(Default)]
-struct State {}
+struct State {
+    class: ClassState,
+}
 
-impl DecoratorPass {}
+#[derive(Default)]
+struct ClassState {
+    has_element_decorators: bool,
+    has_computed_keys_side_effects: bool,
+    elem_decs_use_fn_context: bool,
+}
 
-impl VisitMut for DecoratorPass {}
+impl DecoratorPass {
+    fn transform_class(&mut self, class_name: Option<Ident>, class: &mut Class) {
+        let old_state = take(&mut self.state.class);
+
+        let class_decorators = take(&mut class.decorators);
+
+        self.state.class = old_state;
+    }
+}
+
+impl VisitMut for DecoratorPass {
+    fn visit_mut_class_decl(&mut self, node: &mut ClassDecl) {
+        self.transform_class(Some(node.ident.clone()), &mut node.class);
+    }
+
+    fn visit_mut_class_expr(&mut self, node: &mut ClassExpr) {
+        self.transform_class(node.ident.clone(), &mut node.class);
+    }
+}
