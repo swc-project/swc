@@ -9,7 +9,9 @@ use serde::Deserialize;
 use swc_common::{chain, comments::SingleThreadedComments, Mark};
 use swc_ecma_parser::{EsSyntax, Syntax, TsSyntax};
 use swc_ecma_transforms_base::{assumptions::Assumptions, resolver};
-use swc_ecma_transforms_proposal::{decorator_2022_03::decorator_2022_03, DecoratorVersion};
+use swc_ecma_transforms_proposal::{
+    decorator_2022_03::decorator_2022_03, decorator_2023_11::decorator_2023_11, DecoratorVersion,
+};
 use swc_ecma_transforms_testing::{test_fixture, FixtureTestConfig};
 use swc_ecma_visit::Fold;
 
@@ -163,7 +165,7 @@ fn create_pass(comments: Rc<SingleThreadedComments>, input: &Path) -> Box<dyn Fo
                 "proposal-decorators" => match config {
                     BabelPluginOption::Decorator { version } => match version {
                         DecoratorVersion::V202311 => {
-                            todo!()
+                            add!(decorator_2023_11());
                         }
                         DecoratorVersion::V202112 => todo!(),
                         DecoratorVersion::V202203 => {

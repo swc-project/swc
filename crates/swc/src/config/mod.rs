@@ -687,7 +687,9 @@ impl Options {
                     DecoratorVersion::V202203 => Box::new(
                         swc_ecma_transforms::proposals::decorator_2022_03::decorator_2022_03(),
                     ),
-                    DecoratorVersion::V202311 => todo!("2023-11 decorator"),
+                    DecoratorVersion::V202311 => Box::new(
+                        swc_ecma_transforms::proposals::decorator_2023_11::decorator_2023_11(),
+                    ),
                 };
 
             Box::new(chain!(
