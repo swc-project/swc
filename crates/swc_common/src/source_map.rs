@@ -1360,10 +1360,11 @@ impl SourceMap {
             prev_dst_line = lc.line;
         }
 
-        let mut map = builder.into_sourcemap();
+        let map = builder.into_sourcemap();
 
-        if let Some(orig) = orig {
-            map.adjust_mappings(orig)
+        if let Some(mut orig) = orig.cloned() {
+            orig.adjust_mappings(&map);
+            return orig;
         }
 
         map
