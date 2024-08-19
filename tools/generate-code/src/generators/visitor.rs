@@ -85,7 +85,7 @@ pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
     ));
     output.items.push(parse_quote!(
         #[cfg(any(docsrs, feature = "path"))]
-        pub type AstNodePath<'ast> = swc_visit::AstNodePath<AstParentNodeRef<'ast>>;
+        pub type AstNodePath<'ast> = swc_visit::AstNodePath<NodeRef<'ast>>;
     ));
     output.items.extend(define_fields(crate_name, node_types));
 
@@ -719,7 +719,7 @@ impl Generator {
                     TraitKind::Visit => Some(quote!(
                         let mut __ast_path = __ast_path
                             .with_guard(
-                                AstParentNodeRef::#type_name(self, self::fields::#fields_enum_name::#field_variant),
+                                NodeRef::#type_name(self, self::fields::#fields_enum_name::#field_variant),
                             );
                     )),
                     _ => Some(quote!(
@@ -765,7 +765,7 @@ impl Generator {
                                 ast_path_guard_expr = Some(parse_quote!(
                                     let mut __ast_path = __ast_path
                                         .with_guard(
-                                            AstParentNodeRef::#type_name(self, #kind),
+                                            NodeRef::#type_name(self, #kind),
                                         );
                                 ));
                             }
@@ -1426,7 +1426,7 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
             ));
 
             defs.push(parse_quote!(
-                impl<'ast> ::swc_visit::NodeRef for AstParentNodeRef<'ast> {
+                impl<'ast> ::swc_visit::NodeRef for NodeRef<'ast> {
                     type ParentKind = AstParentKind;
 
                     #[inline(always)]
@@ -1442,7 +1442,7 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                 }
             ));
             defs.push(parse_quote!(
-                impl<'ast> AstParentNodeRef<'ast> {
+                impl<'ast> NodeRef<'ast> {
                     #[inline]
                     pub fn kind(&self) -> AstParentKind {
                         match self {
@@ -1454,15 +1454,13 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
         }
 
         items.push(parse_quote!(
-            #[cfg(any(docsrs, feature = "path"))]
             pub mod fields {
                 #(#defs)*
             }
         ));
 
         items.push(parse_quote!(
-            #[cfg(any(docsrs, feature = "path"))]
-            pub use self::fields::{AstParentKind, AstParentNodeRef};
+            pub use self::fields::{AstParentKind, NodeRef};
         ));
     }
 
