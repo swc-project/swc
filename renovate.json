@@ -39,5 +39,5 @@
             "automerge": true
         }
     ],
-    "ignorePaths": ["packages/core/e2e/fixtures", "bindings"]
+    "ignorePaths": ["packages/core/e2e/fixtures"]
 }
