@@ -37,6 +37,7 @@ struct DecoratorPass {
 
     extra_exports: Vec<ExportSpecifier>,
 
+    #[allow(unused)]
     version: DecoratorVersion,
 }
 
