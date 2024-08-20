@@ -21,7 +21,7 @@
         "url": "https://github.com/swc-project/swc/issues"
     },
     "napi": {
-        "name": "html",
+        "name": "swc-html",
         "triples": {
             "defaults": true,
             "additional": [
