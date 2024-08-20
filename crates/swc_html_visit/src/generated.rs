@@ -11249,12 +11249,19 @@ impl<'ast> NodeRef<'ast> {
             NodeRef::Document(node) => {
                 let iterator = ::std::iter::empty::<NodeRef<'ast>>()
                     .chain(::std::iter::once(NodeRef::DocumentMode(&node.mode)))
-                    .chain(node.children.iter().map(|item| NodeRef::Child(&item)));
+                    .chain(
+                        node.children
+                            .iter()
+                            .flat_map(|item| ::std::iter::once(NodeRef::Child(&item))),
+                    );
                 Box::new(iterator)
             }
             NodeRef::DocumentFragment(node) => {
-                let iterator = ::std::iter::empty::<NodeRef<'ast>>()
-                    .chain(node.children.iter().map(|item| NodeRef::Child(&item)));
+                let iterator = ::std::iter::empty::<NodeRef<'ast>>().chain(
+                    node.children
+                        .iter()
+                        .flat_map(|item| ::std::iter::once(NodeRef::Child(&item))),
+                );
                 Box::new(iterator)
             }
             NodeRef::DocumentMode(node) => match node {
@@ -11267,8 +11274,16 @@ impl<'ast> NodeRef<'ast> {
             NodeRef::Element(node) => {
                 let iterator = ::std::iter::empty::<NodeRef<'ast>>()
                     .chain(::std::iter::once(NodeRef::Namespace(&node.namespace)))
-                    .chain(node.attributes.iter().map(|item| NodeRef::Attribute(&item)))
-                    .chain(node.children.iter().map(|item| NodeRef::Child(&item)))
+                    .chain(
+                        node.attributes
+                            .iter()
+                            .flat_map(|item| ::std::iter::once(NodeRef::Attribute(&item))),
+                    )
+                    .chain(
+                        node.children
+                            .iter()
+                            .flat_map(|item| ::std::iter::once(NodeRef::Child(&item))),
+                    )
                     .chain(
                         node.content
                             .iter()
