@@ -1560,6 +1560,7 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                 impl<'ast> Iterator for RawChildren<'ast> {
                     type Item = NodeRef<'ast>;
 
+                    #[allow(unreachable_patterns)]
                     fn next(&mut self) -> Option<Self::Item> {
                         match self.0 {
                             #(#node_ref_iter_next_arms)*
