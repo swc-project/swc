@@ -526,7 +526,7 @@ jobs:
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
-          pattern: "bindings-${{ inputs.package }}-*"
+          pattern: bindings-${{ inputs.package }}-**
           path: ./packages/${{ inputs.package }}/artifacts
 
       - name: List binaries
