@@ -13,6 +13,9 @@ env:
   SKIP_YARN_COREPACK_CHECK: 1
 
 on:
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       version:
@@ -47,27 +50,33 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: actions-rs/toolchain@v1
+        if: github.event_name == 'workflow_dispatch'
         with:
           profile: minimal
 
       - name: Install cargo-edit
+        if: github.event_name == 'workflow_dispatch'
         uses: taiki-e/install-action@v2
         with:
           tool: cargo-edit@0.12.2
 
-      - name: Install cargo-edit
+      - name: Install cargo-mono
+        if: github.event_name == 'workflow_dispatch'
         uses: taiki-e/install-action@v2
         with:
           tool: cargo-mono@0.4.1
 
       - run: cargo bump
+        if: github.event_name == 'workflow_dispatch'
         continue-on-error: true
 
       - uses: webfactory/ssh-agent@v0.9.0
+        if: github.event_name == 'workflow_dispatch'
         with:
           ssh-private-key: ${{ secrets.SWC_BOT_SSH }}
 
       - name: Push bump commit
+        if: github.event_name == 'workflow_dispatch'
         run: |
           git push git@github.com:swc-project/swc.git --no-verify
 
@@ -80,26 +89,30 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: ./.github/actions/setup-node
+        if: github.event_name == 'workflow_dispatch'
 
       - uses: actions-rs/toolchain@v1
+        if: github.event_name == 'workflow_dispatch'
         with:
           profile: minimal
 
       - name: Install cargo-edit
+        if: github.event_name == 'workflow_dispatch'
         uses: taiki-e/install-action@v2
         with:
           tool: cargo-edit@0.12.2
 
       - name: Install cargo-edit
+        if: github.event_name == 'workflow_dispatch'
         uses: taiki-e/install-action@v2
         with:
           tool: cargo-mono@0.4.1
 
       - name: Update constant of swc_core
+        if: github.event_name == 'workflow_dispatch'
         run: npx ts-node .github/bot/src/cargo/update-constants.ts
 
       - name: Publish crates
-        # Skip on pull requests
         if: github.event_name == 'workflow_dispatch'
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
@@ -120,9 +133,24 @@ jobs:
         run: |
           npx ts-node .github/bot/src/nightly-version.ts ${{ github.event.inputs.version }} >> $GITHUB_OUTPUT
 
-  publish-npm-nightly:
-    name: "Publish ${{ needs.determine-nightly-version.outputs.version }}"
+  git-tag-nightly:
+    name: "Git tag nightly"
+    runs-on: ubuntu-latest
     needs:
+      - publish-cargo
+      - determine-nightly-version
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/tag-git-release
+        with:
+          version: ${{ needs.determine-nightly-version.outputs.version }}
+
+  publish-core-nightly:
+    if: github.event_name == 'workflow_dispatch'
+    name: "Publish ${{ needs.determine-nightly-version.outputs.version }}"
+
+    needs:
+      - git-tag-nightly
       - publish-cargo
       - determine-nightly-version
     uses: ./.github/workflows/publish-npm-package.yml
@@ -132,13 +160,30 @@ jobs:
       version: ${{ needs.determine-nightly-version.outputs.version }}
       buildCli: true
       skipBuild: ${{ inputs.skipBuild || false }}
-      skipPublishing: false
+      skipPublishing: ${{ github.event_name == 'pull_request' }}
+
+  publish-html-nightly:
+    name: "Publish html@${{ needs.determine-nightly-version.outputs.version }}"
+
+    needs:
+      - git-tag-nightly
+      - publish-cargo
+      - determine-nightly-version
+    uses: ./.github/workflows/publish-npm-package.yml
+    secrets: inherit
+    with:
+      package: "html"
+      version: ${{ needs.determine-nightly-version.outputs.version }}
+      buildCli: false
+      skipBuild: ${{ inputs.skipBuild || false }}
+      skipPublishing: ${{ github.event_name == 'pull_request' }}
 
   run-ecosystem-ci-with-nightly:
     name: "Test nightly using ecosystem CI"
+
     needs:
       - determine-nightly-version
-      - publish-npm-nightly
+      - publish-core-nightly
     uses: ./.github/workflows/ecosystem-ci.yml
     with:
       version: ${{ needs.determine-nightly-version.outputs.version }}
@@ -146,8 +191,21 @@ jobs:
       suites: '["_"]'
       allowBreakingWasm: ${{ inputs.allowBreakingWasm || false }}
 
-  publish-npm-stable:
+  git-tag-stable:
+    name: "Git tag stable"
+    runs-on: ubuntu-latest
+    needs:
+      - publish-cargo
+      - run-ecosystem-ci-with-nightly
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/tag-git-release
+        with:
+          version: ${{ inputs.version }}
+
+  publish-core-stable:
     name: "Publish ${{ inputs.version || 'stable' }} to npm"
+
     needs:
       - publish-cargo
       - run-ecosystem-ci-with-nightly
@@ -159,5 +217,4 @@ jobs:
       version: ${{ inputs.version }}
       buildCli: true
       skipBuild: ${{ inputs.skipBuild || inputs.onlyNightly || false }}
-      # Skip on pull requests
-      skipPublishing: ${{ inputs.onlyNightly }}
+      skipPublishing: ${{ github.event_name == 'pull_request' }}
