@@ -1360,6 +1360,11 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                         for variant in &data.variants {
                             let variant_name = &variant.ident;
 
+                            // TODO: Support all kinds of fields
+                            if variant.fields.len() != 1 {
+                                continue;
+                            }
+
                             for (idx, f) in variant
                                 .fields
                                 .iter()
