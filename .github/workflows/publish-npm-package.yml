@@ -529,7 +529,6 @@ jobs:
         shell: bash
 
       - name: Move binaries
-        if: inputs.package == 'core'
         shell: bash
         working-directory: ./packages/${{ inputs.package }}
         run: |
