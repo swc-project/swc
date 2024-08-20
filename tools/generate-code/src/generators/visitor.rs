@@ -1427,11 +1427,35 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                         #type_name(&'ast #type_name)
                     ));
 
-                    node_ref_iter_next_arms.push(parse_quote!(
-                        NodeRef::#type_name(node) => {
+                    {
+                        let mut arms = Vec::<Arm>::new();
 
+                        for (idx, f) in data
+                            .fields
+                            .iter()
+                            .filter(|f| is_node_ref(&f.ty))
+                            .enumerate()
+                        {
+                            let ident = &f.ident;
+                            let next = idx + 1;
+                            let ty = &f.ty;
+                            arms.push(parse_quote!(
+                                #idx => {
+                                    self.1 = #next;
+                                    Some(NodeRef::#ty(node.#ident))
+                                },
+                            ));
                         }
-                    ));
+
+                        node_ref_iter_next_arms.push(parse_quote!(
+                            NodeRef::#type_name(node) => {
+                                match self.1 {
+                                    #(#arms)*
+                                    _ => None
+                                }
+                            }
+                        ));
+                    }
 
                     defs.push(parse_quote!(
                         impl #fields_enum_name {
