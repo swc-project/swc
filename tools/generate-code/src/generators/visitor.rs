@@ -1414,7 +1414,7 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
 
                                 arms.push(parse_quote!(
                                     #type_name::#variant_name(v0) => {
-                                        Box::new(Some(NodeRef::#ty(v0)).into_iter())
+                                        Box::new(::std::iter::once(NodeRef::#ty(v0)))
                                     },
                                 ));
                             }
