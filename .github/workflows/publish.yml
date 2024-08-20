@@ -204,6 +204,7 @@ jobs:
     needs:
       - publish-cargo
       - run-ecosystem-ci-with-nightly
+      - git-tag-stable
 
     uses: ./.github/workflows/publish-npm-package.yml
     secrets: inherit
