@@ -4,6 +4,9 @@ inputs:
   version:
     description: "The version"
     required: true
+  ssh-private-key:
+    description: "The SSH private key"
+    required: true
 
 runs:
   using: "composite"
@@ -33,7 +36,7 @@ runs:
 
     - uses: webfactory/ssh-agent@v0.9.0
       with:
-        ssh-private-key: ${{ secrets.SWC_BOT_SSH }}
+        ssh-private-key: ${{ inputs.ssh-private-key }}
 
     - name: Create git tag commit
       shell: bash
