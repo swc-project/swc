@@ -1264,6 +1264,7 @@ fn extract_generic<'a>(name: &str, ty: &'a Type) -> Option<&'a Type> {
 fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
     let mut items = Vec::<Item>::new();
     let mut kind_enum_members = Vec::new();
+    let mut parent_enum_members = Vec::new();
     let mut node_ref_enum_members = Vec::new();
 
     let mut kind_set_index_arms = Vec::<Arm>::new();
@@ -1345,8 +1346,12 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                         #type_name(#fields_enum_name)
                     ));
 
-                    node_ref_enum_members.push(quote!(
+                    parent_enum_members.push(quote!(
                         #type_name(&'ast #type_name, #fields_enum_name)
+                    ));
+
+                    node_ref_enum_members.push(quote!(
+                        #type_name(&'ast #type_name)
                     ));
 
                     {
@@ -1411,8 +1416,12 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                         #type_name(#fields_enum_name)
                     ));
 
-                    node_ref_enum_members.push(quote!(
+                    parent_enum_members.push(quote!(
                         #type_name(&'ast #type_name, #fields_enum_name)
+                    ));
+
+                    node_ref_enum_members.push(quote!(
+                        #type_name(&'ast #type_name)
                     ));
 
                     node_ref_iter_next_arms.push(parse_quote!(
@@ -1469,11 +1478,12 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
 
         {
             defs.push(parse_quote!(
-                #[deprecated = "Use NodeRef instead"]
-                pub type AstParentNodeRef<'ast> = NodeRef<'ast>;
+                #[derive(Debug, Clone, Copy)]
+                pub enum AstParentNodeRef<'ast> {
+                    #(#parent_enum_members),*
+                }
             ));
-
-            defs.push(parse_quote!(
+            items.push(parse_quote!(
                 #[derive(Debug, Clone, Copy)]
                 pub enum NodeRef<'ast> {
                     #(#node_ref_enum_members),*
@@ -1481,7 +1491,7 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
             ));
 
             defs.push(parse_quote!(
-                impl<'ast> ::swc_visit::NodeRef for NodeRef<'ast> {
+                impl<'ast> ::swc_visit::NodeRef for AstParentNodeRef<'ast> {
                     type ParentKind = AstParentKind;
 
                     #[inline(always)]
@@ -1497,25 +1507,29 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                 }
             ));
             defs.push(parse_quote!(
-                impl<'ast> NodeRef<'ast> {
+                #[cfg(any(docsrs, feature = "path"))]
+                impl<'ast> AstParentNodeRef<'ast> {
                     #[inline]
                     pub fn kind(&self) -> AstParentKind {
                         match self {
                             #(#node_ref_kind_arms)*
                         }
                     }
-
+                }
+            ));
+            items.push(parse_quote!(
+                impl<'ast> NodeRef<'ast> {
                     pub fn raw_children(&self) -> impl Iterator<Item = NodeRef<'ast>> {
                         RawChildren(self, 0)
                     }
                 }
             ));
 
-            defs.push(parse_quote!(
+            items.push(parse_quote!(
                 struct RawChildren<'ast>(&'ast NodeRef<'ast>, usize);
             ));
 
-            defs.push(parse_quote!(
+            items.push(parse_quote!(
                 impl<'ast> Iterator for RawChildren<'ast> {
                     type Item = NodeRef<'ast>;
 
@@ -1529,13 +1543,15 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
         }
 
         items.push(parse_quote!(
+            #[cfg(any(docsrs, feature = "path"))]
             pub mod fields {
                 #(#defs)*
             }
         ));
 
         items.push(parse_quote!(
-            pub use self::fields::{AstParentKind, NodeRef};
+            #[cfg(any(docsrs, feature = "path"))]
+            pub use self::fields::{AstParentKind, AstParentNodeRef};
         ));
     }
 
