@@ -10660,7 +10660,6 @@ pub mod fields {
         #[doc = "Represents [`TokenAndSpan::token`]"]
         Token,
     }
-    #[cfg(any(docsrs, feature = "path"))]
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
     pub enum AstParentKind {
         Attribute(AttributeField),
@@ -10699,7 +10698,6 @@ pub mod fields {
             }
         }
     }
-    #[cfg(any(docsrs, feature = "path"))]
     #[derive(Debug, Clone, Copy)]
     pub enum AstParentNodeRef<'ast> {
         Attribute(&'ast Attribute, AttributeField),
@@ -10744,6 +10742,7 @@ pub mod fields {
             }
         }
     }
+    #[cfg(any(docsrs, feature = "path"))]
     impl<'ast> AstParentNodeRef<'ast> {
         #[inline]
         pub fn kind(&self) -> AstParentKind {
@@ -10766,6 +10765,179 @@ pub mod fields {
                 Self::Text(_, __field_kind) => AstParentKind::Text(*__field_kind),
                 Self::Token(_, __field_kind) => AstParentKind::Token(*__field_kind),
                 Self::TokenAndSpan(_, __field_kind) => AstParentKind::TokenAndSpan(*__field_kind),
+            }
+        }
+    }
+}
+impl<'ast> From<&'ast Attribute> for NodeRef<'ast> {
+    fn from(node: &'ast Attribute) -> Self {
+        NodeRef::Attribute(node)
+    }
+}
+impl<'ast> From<&'ast AttributeToken> for NodeRef<'ast> {
+    fn from(node: &'ast AttributeToken) -> Self {
+        NodeRef::AttributeToken(node)
+    }
+}
+impl<'ast> From<&'ast CdataSection> for NodeRef<'ast> {
+    fn from(node: &'ast CdataSection) -> Self {
+        NodeRef::CdataSection(node)
+    }
+}
+impl<'ast> From<&'ast Child> for NodeRef<'ast> {
+    fn from(node: &'ast Child) -> Self {
+        NodeRef::Child(node)
+    }
+}
+impl<'ast> From<&'ast Comment> for NodeRef<'ast> {
+    fn from(node: &'ast Comment) -> Self {
+        NodeRef::Comment(node)
+    }
+}
+impl<'ast> From<&'ast Document> for NodeRef<'ast> {
+    fn from(node: &'ast Document) -> Self {
+        NodeRef::Document(node)
+    }
+}
+impl<'ast> From<&'ast DocumentMode> for NodeRef<'ast> {
+    fn from(node: &'ast DocumentMode) -> Self {
+        NodeRef::DocumentMode(node)
+    }
+}
+impl<'ast> From<&'ast DocumentType> for NodeRef<'ast> {
+    fn from(node: &'ast DocumentType) -> Self {
+        NodeRef::DocumentType(node)
+    }
+}
+impl<'ast> From<&'ast Element> for NodeRef<'ast> {
+    fn from(node: &'ast Element) -> Self {
+        NodeRef::Element(node)
+    }
+}
+impl<'ast> From<&'ast Namespace> for NodeRef<'ast> {
+    fn from(node: &'ast Namespace) -> Self {
+        NodeRef::Namespace(node)
+    }
+}
+impl<'ast> From<&'ast ProcessingInstruction> for NodeRef<'ast> {
+    fn from(node: &'ast ProcessingInstruction) -> Self {
+        NodeRef::ProcessingInstruction(node)
+    }
+}
+impl<'ast> From<&'ast Text> for NodeRef<'ast> {
+    fn from(node: &'ast Text) -> Self {
+        NodeRef::Text(node)
+    }
+}
+impl<'ast> From<&'ast Token> for NodeRef<'ast> {
+    fn from(node: &'ast Token) -> Self {
+        NodeRef::Token(node)
+    }
+}
+impl<'ast> From<&'ast TokenAndSpan> for NodeRef<'ast> {
+    fn from(node: &'ast TokenAndSpan) -> Self {
+        NodeRef::TokenAndSpan(node)
+    }
+}
+#[derive(Debug, Clone, Copy)]
+pub enum NodeRef<'ast> {
+    Attribute(&'ast Attribute),
+    AttributeToken(&'ast AttributeToken),
+    CdataSection(&'ast CdataSection),
+    Child(&'ast Child),
+    Comment(&'ast Comment),
+    Document(&'ast Document),
+    DocumentMode(&'ast DocumentMode),
+    DocumentType(&'ast DocumentType),
+    Element(&'ast Element),
+    Namespace(&'ast Namespace),
+    ProcessingInstruction(&'ast ProcessingInstruction),
+    Text(&'ast Text),
+    Token(&'ast Token),
+    TokenAndSpan(&'ast TokenAndSpan),
+}
+impl<'ast> NodeRef<'ast> {
+    #[allow(unreachable_patterns)]
+    pub fn raw_children(&'ast self) -> Box<dyn 'ast + Iterator<Item = NodeRef<'ast>>> {
+        match self {
+            NodeRef::Attribute(node) => {
+                let iterator = ::std::iter::empty::<NodeRef<'ast>>().chain(
+                    node.namespace
+                        .iter()
+                        .flat_map(|item| ::std::iter::once(NodeRef::Namespace(&item))),
+                );
+                Box::new(iterator)
+            }
+            NodeRef::AttributeToken(node) => {
+                let iterator = ::std::iter::empty::<NodeRef<'ast>>();
+                Box::new(iterator)
+            }
+            NodeRef::CdataSection(node) => {
+                let iterator = ::std::iter::empty::<NodeRef<'ast>>();
+                Box::new(iterator)
+            }
+            NodeRef::Child(node) => match node {
+                Child::DocumentType(v0) => Box::new(::std::iter::once(NodeRef::DocumentType(v0))),
+                Child::Element(v0) => Box::new(::std::iter::once(NodeRef::Element(v0))),
+                Child::Text(v0) => Box::new(::std::iter::once(NodeRef::Text(v0))),
+                Child::CdataSection(v0) => Box::new(::std::iter::once(NodeRef::CdataSection(v0))),
+                Child::Comment(v0) => Box::new(::std::iter::once(NodeRef::Comment(v0))),
+                Child::ProcessingInstruction(v0) => {
+                    Box::new(::std::iter::once(NodeRef::ProcessingInstruction(v0)))
+                }
+                _ => Box::new(::std::iter::empty::<NodeRef<'ast>>()),
+            },
+            NodeRef::Comment(node) => {
+                let iterator = ::std::iter::empty::<NodeRef<'ast>>();
+                Box::new(iterator)
+            }
+            NodeRef::Document(node) => {
+                let iterator = ::std::iter::empty::<NodeRef<'ast>>().chain(
+                    node.children
+                        .iter()
+                        .flat_map(|item| ::std::iter::once(NodeRef::Child(&item))),
+                );
+                Box::new(iterator)
+            }
+            NodeRef::DocumentMode(node) => match node {
+                _ => Box::new(::std::iter::empty::<NodeRef<'ast>>()),
+            },
+            NodeRef::DocumentType(node) => {
+                let iterator = ::std::iter::empty::<NodeRef<'ast>>();
+                Box::new(iterator)
+            }
+            NodeRef::Element(node) => {
+                let iterator = ::std::iter::empty::<NodeRef<'ast>>()
+                    .chain(
+                        node.attributes
+                            .iter()
+                            .flat_map(|item| ::std::iter::once(NodeRef::Attribute(&item))),
+                    )
+                    .chain(
+                        node.children
+                            .iter()
+                            .flat_map(|item| ::std::iter::once(NodeRef::Child(&item))),
+                    );
+                Box::new(iterator)
+            }
+            NodeRef::Namespace(node) => match node {
+                _ => Box::new(::std::iter::empty::<NodeRef<'ast>>()),
+            },
+            NodeRef::ProcessingInstruction(node) => {
+                let iterator = ::std::iter::empty::<NodeRef<'ast>>();
+                Box::new(iterator)
+            }
+            NodeRef::Text(node) => {
+                let iterator = ::std::iter::empty::<NodeRef<'ast>>();
+                Box::new(iterator)
+            }
+            NodeRef::Token(node) => match node {
+                _ => Box::new(::std::iter::empty::<NodeRef<'ast>>()),
+            },
+            NodeRef::TokenAndSpan(node) => {
+                let iterator = ::std::iter::empty::<NodeRef<'ast>>()
+                    .chain(::std::iter::once(NodeRef::Token(&node.token)));
+                Box::new(iterator)
             }
         }
     }
