@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Miscellaneous Tasks
+
+
+
+- **(html)** Use `binding_html_node` instead of `html_node` ([bdea5cb](https://github.com/swc-project/swc/commit/bdea5cb94cf7cc9d02274f32e104b55f977e625d))
+
 ## [1.7.14] - 2024-08-19
 
 ### Bug Fixes
@@ -1299,9 +1307,6 @@
 
 
 - **(deps)** Update dependencies ([#8810](https://github.com/swc-project/swc/issues/8810)) ([207582f](https://github.com/swc-project/swc/commit/207582ff254a66a9dd4613de6d3cb43c19957b68))
-
-
-- **(es/transforms)** Add `repository` field to `swc_ecma_ext_transforms` ([#8793](https://github.com/swc-project/swc/issues/8793)) ([37f0a79](https://github.com/swc-project/swc/commit/37f0a7994bdf7d90c30a00f70c6dde97b4d89c8f))
 
 ### Performance
 
