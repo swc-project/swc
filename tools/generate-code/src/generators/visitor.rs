@@ -1481,7 +1481,7 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
 
                         node_ref_iter_next_arms.push(parse_quote!(
                             NodeRef::#type_name(node) => {
-                                let iterator = #iter.into_iter();
+                                let iterator = #iter;
                                 let idx = self.1;
                                 self.1 += 1;
                                 iterator.nth(idx)
