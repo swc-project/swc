@@ -56,50 +56,10 @@ jobs:
         run: |
           echo "need-build=true" >> $GITHUB_OUTPUT
 
-  create-git-tag-commit:
-    name: Create git tag commit
-    runs-on: ubuntu-latest
-    needs:
-      - check-if-build-required
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          ref: "main"
-
-      - uses: ./.github/actions/setup-node
-
-      - name: Install git-cliff
-        uses: taiki-e/install-action@v2
-        with:
-          tool: git-cliff@1.3.1
-
-      - name: Install cargo-edit
-        uses: taiki-e/install-action@v2
-        with:
-          tool: cargo-edit@0.12.2
-
-      - name: "Setup jq"
-        uses: dcarbone/install-jq-action@v2
-        with:
-          version: "1.7"
-          force: true
-
-      - uses: webfactory/ssh-agent@v0.9.0
-        if: needs.check-if-build-required.outputs.need-build == 'true' && !inputs.skipPublishing
-        with:
-          ssh-private-key: ${{ secrets.SWC_BOT_SSH }}
-
-      - name: Create git tag commit
-        if: needs.check-if-build-required.outputs.need-build == 'true' && !inputs.skipPublishing
-        run: |
-          ./scripts/publish.sh ${{ inputs.version }}
-
   build:
     if: needs.check-if-build-required.outputs.need-build == 'true'
     needs:
       - check-if-build-required
-      - create-git-tag-commit
     strategy:
       fail-fast: false
       matrix:

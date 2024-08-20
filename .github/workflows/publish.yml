@@ -133,11 +133,24 @@ jobs:
         run: |
           npx ts-node .github/bot/src/nightly-version.ts ${{ github.event.inputs.version }} >> $GITHUB_OUTPUT
 
+  git-tag-nightly:
+    name: "Git tag nightly"
+    runs-on: ubuntu-latest
+    needs:
+      - publish-cargo
+      - determine-nightly-version
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/tag-git-release
+        with:
+          version: ${{ needs.determine-nightly-version.outputs.version }}
+
   publish-core-nightly:
     if: github.event_name == 'workflow_dispatch'
     name: "Publish ${{ needs.determine-nightly-version.outputs.version }}"
 
     needs:
+      - git-tag-nightly
       - publish-cargo
       - determine-nightly-version
     uses: ./.github/workflows/publish-npm-package.yml
@@ -153,6 +166,7 @@ jobs:
     name: "Publish html@${{ needs.determine-nightly-version.outputs.version }}"
 
     needs:
+      - git-tag-nightly
       - publish-cargo
       - determine-nightly-version
     uses: ./.github/workflows/publish-npm-package.yml
@@ -176,6 +190,18 @@ jobs:
       mode: "passing"
       suites: '["_"]'
       allowBreakingWasm: ${{ inputs.allowBreakingWasm || false }}
+
+  git-tag-stable:
+    name: "Git tag stable"
+    runs-on: ubuntu-latest
+    needs:
+      - publish-cargo
+      - run-ecosystem-ci-with-nightly
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/tag-git-release
+        with:
+          version: ${{ inputs.version }}
 
   publish-core-stable:
     name: "Publish ${{ inputs.version || 'stable' }} to npm"
