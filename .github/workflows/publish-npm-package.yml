@@ -280,7 +280,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: bindings-${{ matrix.settings.target }}
+          name: bindings-${{ inputs.package }}-${{ matrix.settings.target }}
           path: |
             packages/${{ inputs.package }}/swc*
             packages/${{ inputs.package }}/*.node
@@ -319,7 +319,7 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
-          name: bindings-${{ matrix.settings.target }}
+          name: bindings-${{ inputs.package }}-${{ matrix.settings.target }}
           path: ./packages/${{ inputs.package }}
       - name: List packages
         run: ls -R .
@@ -358,7 +358,7 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
-          name: bindings-x86_64-unknown-linux-gnu
+          name: bindings-${{ inputs.package }}-x86_64-unknown-linux-gnu
           path: ./packages/${{ inputs.package }}
       - name: List packages
         run: ls -R .
@@ -398,7 +398,7 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
-          name: bindings-x86_64-unknown-linux-musl
+          name: bindings-${{ inputs.package }}-x86_64-unknown-linux-musl
           path: ./packages/${{ inputs.package }}
       - name: List packages
         run: ls -R .
@@ -421,7 +421,7 @@ jobs:
   #     - name: Download artifacts
   #       uses: actions/download-artifact@v3
   #       with:
-  #         name: bindings-aarch64-unknown-linux-musl
+  #         name: bindings-${{ inputs.package }}-aarch64-unknown-linux-musl
   #         path: ./packages/${{ inputs.package }}
   #     - name: List packages
   #       run: ls -R .
@@ -469,7 +469,7 @@ jobs:
   #     - name: Download artifacts
   #       uses: actions/download-artifact@v3
   #       with:
-  #         name: bindings-armv7-unknown-linux-gnueabihf
+  #         name: bindings-${{ inputs.package }}-armv7-unknown-linux-gnueabihf
   #         path: ./packages/${{ inputs.package }}
   #     - name: List packages
   #       run: ls -R .
@@ -526,6 +526,7 @@ jobs:
       - name: Download all artifacts
         uses: actions/download-artifact@v3
         with:
+          pattern: "bindings-${{ inputs.package }}-*"
           path: ./packages/${{ inputs.package }}/artifacts
 
       - name: List binaries
