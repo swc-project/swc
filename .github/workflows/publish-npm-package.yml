@@ -67,27 +67,34 @@ jobs:
           - host: macos-latest
             target: x86_64-apple-darwin
             build: |
-              cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-apple-darwin
-              cp ../../bindings/target/x86_64-apple-darwin/release/swc .
-              chmod +x ./swc
+              if [[ ${{ inputs.package }} == "core" ]]; then
+                cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-apple-darwin
+                cp ../../bindings/target/x86_64-apple-darwin/release/swc .
+                chmod +x ./swc
+              fi
               yarn build --target x86_64-apple-darwin
               strip -x *.node
           - host: windows-latest
             build: |
               export CARGO_PROFILE_RELEASE_LTO=false
               yarn build --target x86_64-pc-windows-msvc
-              cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-pc-windows-msvc
-              cp ../../bindings/target/x86_64-pc-windows-msvc/release/swc .
+              if [[ ${{ inputs.package }} == "core" ]]; then
+                cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-pc-windows-msvc
+                cp ../../bindings/target/x86_64-pc-windows-msvc/release/swc .
+              fi
             target: x86_64-pc-windows-msvc
           - host: windows-latest
             # use npm to run test, because of corepack link the yarn with x64 Node.js
             build: |
               export DISABLE_PLUGIN_E2E_TESTS=true
               export CARGO_PROFILE_RELEASE_LTO=false
-              cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --target i686-pc-windows-msvc
-              cp ../../bindings/target/i686-pc-windows-msvc/release/swc .
-              yarn build --target i686-pc-windows-msvc --no-default-features --features swc_v1
-              npm run test
+              if [[ ${{ inputs.package }} == "core" ]]; then
+                cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --target i686-pc-windows-msvc
+                cp ../../bindings/target/i686-pc-windows-msvc/release/swc .
+                yarn build --target i686-pc-windows-msvc --no-default-features --features swc_v1
+              else
+                yarn build --target i686-pc-windows-msvc
+              fi
             target: i686-pc-windows-msvc
           - host: ubuntu-latest
             target: x86_64-unknown-linux-gnu
@@ -136,9 +143,13 @@ jobs:
             target: armv7-unknown-linux-gnueabihf
             build: |
               export DISABLE_PLUGIN_E2E_TESTS=true
-              yarn napi build --bin swc --release --target armv7-unknown-linux-gnueabihf --manifest-path ../../bindings/swc_cli/Cargo.toml -x --target-dir ../release -o .
-              chmod +x ./swc
-              yarn build --target armv7-unknown-linux-gnueabihf --no-default-features --features swc_v1 --use-napi-cross
+              if [[ ${{ inputs.package }} == "core" ]]; then
+                yarn napi build --bin swc --release --target armv7-unknown-linux-gnueabihf --manifest-path ../../bindings/swc_cli/Cargo.toml -x --target-dir ../release -o .
+                chmod +x ./swc
+                yarn build --target armv7-unknown-linux-gnueabihf --no-default-features --features swc_v1 --use-napi-cross
+              else
+                yarn build --target armv7-unknown-linux-gnueabihf --use-napi-cross
+              fi
           - host: ubuntu-latest
             target: aarch64-unknown-linux-musl
             downloadTarget: aarch64-unknown-linux-musl
@@ -248,7 +259,7 @@ jobs:
         with:
           name: bindings-${{ matrix.settings.target }}
           path: |
-            packages/core/swc*
+            packages/${{ inputs.package }}/swc*
           if-no-files-found: error
   test-macOS-windows-binding:
     name: Test bindings on ${{ matrix.settings.target }} - node@${{ matrix.node }}
@@ -521,7 +532,7 @@ jobs:
           npm config set provenance true
           echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
           echo "npmAlwaysAuth:true\n npmAuthToken: '$NPM_TOKEN'\n" >> ~/.yarnrc
-          (cd packages/core && yarn workspaces foreach -Rt npm publish --tolerate-republish --tag $NPM_TAG)
+          (cd packages/${{ inputs.package }} && yarn workspaces foreach -Rt npm publish --tolerate-republish --tag $NPM_TAG)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
