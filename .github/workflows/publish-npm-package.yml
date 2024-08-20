@@ -503,8 +503,8 @@ jobs:
       # - test-linux-aarch64-musl-binding
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: "v${{ inputs.version }}"
+        # with:
+        #   ref: "v${{ inputs.version }}"
 
       - uses: ./.github/actions/setup-node
 
