@@ -1599,8 +1599,9 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
             ));
             items.push(parse_quote!(
                 impl<'ast> NodeRef<'ast> {
+                    /// This is not a part of semver-stable API. It is experimental and subject to change.
                     #[allow(unreachable_patterns)]
-                    pub fn raw_children(&'ast self) -> Box<dyn 'ast + Iterator<Item = NodeRef<'ast>>> {
+                    pub fn experimental_raw_children(&'ast self) -> Box<dyn 'ast + Iterator<Item = NodeRef<'ast>>> {
                         match self {
                             #(#node_ref_iter_next_arms)*
                         }
@@ -1610,16 +1611,19 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
 
             items.push(parse_quote!(
                 impl<'ast> NodeRef<'ast> {
-                    /// Visit all nodes in self.
+                    /// Visit all nodes in self in preorder.
                     ///
-                    /// This is a preorder traversal.
-                    pub fn traverse(&'ast self) -> Box<dyn 'ast + Iterator<Item = NodeRef<'ast>>> {
+                    /// This is not a part of semver-stable API. It is
+                    /// experimental and subject to change.
+                    pub fn experimental_traverse(
+                        &'ast self,
+                    ) -> Box<dyn 'ast + Iterator<Item = NodeRef<'ast>>> {
                         let mut queue = std::collections::VecDeque::new();
                         queue.push_back(self);
 
                         Box::new(std::iter::from_fn(move || {
                             let node = queue.pop_front()?;
-                            let children = node.raw_children();
+                            let children = node.experimental_raw_children();
                             queue.extend(children);
                             Some(node)
                         }))
