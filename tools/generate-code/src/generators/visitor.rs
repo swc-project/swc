@@ -1261,14 +1261,71 @@ fn extract_generic<'a>(name: &str, ty: &'a Type) -> Option<&'a Type> {
 
     None
 }
+
+fn to_iter(e: TokenStream, ty: &Type, node_names: &[Ident]) -> Option<Expr> {
+    if let Some(ty) = extract_vec(ty) {
+        let inner_expr = to_iter(quote!(item), ty, node_names)?;
+        return Some(parse_quote!(#e.iter().flat_map(|item| #inner_expr)));
+    }
+
+    if let Some(ty) = extract_generic("Option", ty) {
+        let inner_expr = to_iter(quote!(item), ty, node_names)?;
+        return Some(parse_quote!(#e.iter().flat_map(|item| #inner_expr)));
+    }
+
+    if let Some(ty) = extract_generic("Box", ty) {
+        let inner_expr = to_iter(quote!(item), ty, node_names)?;
+        return Some(parse_quote!({
+            let item = &*#e;
+            #inner_expr
+        }));
+    }
+
+    if let Type::Path(p) = ty {
+        let ty = &p.path.segments.last().unwrap().ident;
+
+        if node_names.contains(ty) {
+            return Some(parse_quote!(::std::iter::once(NodeRef::#ty(&#e))));
+        }
+
+        None
+    } else {
+        todo!("to_iter for {:?}", ty);
+    }
+}
+
 fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
     let mut items = Vec::<Item>::new();
     let mut kind_enum_members = Vec::new();
+    let mut parent_enum_members = Vec::new();
     let mut node_ref_enum_members = Vec::new();
 
     let mut kind_set_index_arms = Vec::<Arm>::new();
     let mut node_ref_set_index_arms = Vec::<Arm>::new();
     let mut node_ref_kind_arms = Vec::<Arm>::new();
+    let mut node_ref_iter_next_arms = Vec::<Arm>::new();
+
+    let node_names = node_types
+        .iter()
+        .filter_map(|ty| match ty {
+            Item::Enum(data) => Some(data.ident.clone()),
+            Item::Struct(data) => Some(data.ident.clone()),
+            _ => None,
+        })
+        .collect::<Vec<_>>();
+
+    let is_node_ref_raw = |ty: &Type| match ty {
+        Type::Path(p) => node_names.contains(&p.path.segments.last().unwrap().ident),
+        _ => false,
+    };
+
+    let is_node_ref = |ty: &Type| {
+        if let Some(ty) = extract_generic("Box", ty) {
+            return is_node_ref_raw(ty);
+        }
+
+        is_node_ref_raw(ty)
+    };
 
     {
         let mut defs = Vec::<Item>::new();
@@ -1330,9 +1387,57 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                         #type_name(#fields_enum_name)
                     ));
 
-                    node_ref_enum_members.push(quote!(
+                    parent_enum_members.push(quote!(
                         #type_name(&'ast #type_name, #fields_enum_name)
                     ));
+
+                    node_ref_enum_members.push(quote!(
+                        #type_name(&'ast #type_name)
+                    ));
+
+                    items.push(parse_quote!(
+                        impl<'ast> From<&'ast #type_name> for NodeRef<'ast> {
+                            fn from(node: &'ast #type_name) -> Self {
+                                NodeRef::#type_name(node)
+                            }
+                        }
+                    ));
+
+                    {
+                        let mut arms = Vec::<Arm>::new();
+
+                        for variant in &data.variants {
+                            let variant_name = &variant.ident;
+
+                            // TODO: Support all kinds of fields
+                            if variant.fields.len() != 1 {
+                                continue;
+                            }
+
+                            for f in variant.fields.iter().filter(|f| is_node_ref(&f.ty)) {
+                                let mut ty = &f.ty;
+                                if let Some(inner) = extract_generic("Box", ty) {
+                                    ty = inner;
+                                }
+
+                                arms.push(parse_quote!(
+                                    #type_name::#variant_name(v0) => {
+                                        Box::new(::std::iter::once(NodeRef::#ty(v0)))
+                                    },
+                                ));
+                            }
+                        }
+
+                        node_ref_iter_next_arms.push(parse_quote!(
+                            NodeRef::#type_name(node) => {
+                                match node {
+                                    #(#arms)*
+
+                                    _ => Box::new(::std::iter::empty::<NodeRef<'ast>>())
+                                }
+                            }
+                        ));
+                    }
 
                     defs.push(parse_quote!(
                         impl #fields_enum_name {
@@ -1361,9 +1466,50 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                         #type_name(#fields_enum_name)
                     ));
 
-                    node_ref_enum_members.push(quote!(
+                    parent_enum_members.push(quote!(
                         #type_name(&'ast #type_name, #fields_enum_name)
                     ));
+
+                    node_ref_enum_members.push(quote!(
+                        #type_name(&'ast #type_name)
+                    ));
+
+                    items.push(parse_quote!(
+                        impl<'ast> From<&'ast #type_name> for NodeRef<'ast> {
+                            fn from(node: &'ast #type_name) -> Self {
+                                NodeRef::#type_name(node)
+                            }
+                        }
+                    ));
+
+                    {
+                        let mut iter: Expr = parse_quote!(::std::iter::empty::<NodeRef<'ast>>());
+
+                        match &data.fields {
+                            Fields::Named(fields) => {
+                                for f in fields.named.iter() {
+                                    let ident = &f.ident;
+                                    let iter_expr =
+                                        to_iter(quote!(node.#ident), &f.ty, &node_names);
+                                    if let Some(iter_expr) = iter_expr {
+                                        iter = parse_quote!(#iter.chain(#iter_expr));
+                                    }
+                                }
+                            }
+
+                            Fields::Unnamed(_fields) => {
+                                // TODO: Support unnamed fields
+                            }
+                            Fields::Unit => {}
+                        }
+
+                        node_ref_iter_next_arms.push(parse_quote!(
+                            NodeRef::#type_name(node) => {
+                                let iterator = #iter;
+                                Box::new(iterator)
+                            }
+                        ));
+                    }
 
                     defs.push(parse_quote!(
                         impl #fields_enum_name {
@@ -1392,7 +1538,6 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
 
         {
             defs.push(parse_quote!(
-                #[cfg(any(docsrs, feature = "path"))]
                 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
                 pub enum AstParentKind {
                     #(#kind_enum_members),*
@@ -1413,9 +1558,14 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
 
         {
             defs.push(parse_quote!(
-                #[cfg(any(docsrs, feature = "path"))]
                 #[derive(Debug, Clone, Copy)]
                 pub enum AstParentNodeRef<'ast> {
+                    #(#parent_enum_members),*
+                }
+            ));
+            items.push(parse_quote!(
+                #[derive(Debug, Clone, Copy)]
+                pub enum NodeRef<'ast> {
                     #(#node_ref_enum_members),*
                 }
             ));
@@ -1437,6 +1587,7 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                 }
             ));
             defs.push(parse_quote!(
+                #[cfg(any(docsrs, feature = "path"))]
                 impl<'ast> AstParentNodeRef<'ast> {
                     #[inline]
                     pub fn kind(&self) -> AstParentKind {
@@ -1446,14 +1597,27 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                     }
                 }
             ));
+            items.push(parse_quote!(
+                impl<'ast> NodeRef<'ast> {
+                    #[allow(unreachable_patterns)]
+                    pub fn raw_children(&'ast self) -> Box<dyn 'ast + Iterator<Item = NodeRef<'ast>>> {
+                        match self {
+                            #(#node_ref_iter_next_arms)*
+                        }
+                    }
+                }
+            ));
         }
 
-        items.push(parse_quote!(
-            #[cfg(any(docsrs, feature = "path"))]
-            pub mod fields {
-                #(#defs)*
-            }
-        ));
+        items.insert(
+            0,
+            parse_quote!(
+                #[cfg(any(docsrs, feature = "path"))]
+                pub mod fields {
+                    #(#defs)*
+                }
+            ),
+        );
 
         items.push(parse_quote!(
             #[cfg(any(docsrs, feature = "path"))]
