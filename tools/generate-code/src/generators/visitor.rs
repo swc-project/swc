@@ -1269,6 +1269,7 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
     let mut kind_set_index_arms = Vec::<Arm>::new();
     let mut node_ref_set_index_arms = Vec::<Arm>::new();
     let mut node_ref_kind_arms = Vec::<Arm>::new();
+    let mut node_ref_iter_next_arms = Vec::<Arm>::new();
 
     {
         let mut defs = Vec::<Item>::new();
@@ -1334,6 +1335,12 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                         #type_name(&'ast #type_name, #fields_enum_name)
                     ));
 
+                    node_ref_iter_next_arms.push(parse_quote!(
+                        NodeRef::#type_name(node, _) => {
+
+                        }
+                    ));
+
                     defs.push(parse_quote!(
                         impl #fields_enum_name {
                             #[inline(always)]
@@ -1363,6 +1370,12 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
 
                     node_ref_enum_members.push(quote!(
                         #type_name(&'ast #type_name, #fields_enum_name)
+                    ));
+
+                    node_ref_iter_next_arms.push(parse_quote!(
+                        NodeRef::#type_name(node, _) => {
+
+                        }
                     ));
 
                     defs.push(parse_quote!(
@@ -1418,7 +1431,6 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
             ));
 
             defs.push(parse_quote!(
-                #[cfg(any(docsrs, feature = "path"))]
                 #[derive(Debug, Clone, Copy)]
                 pub enum NodeRef<'ast> {
                     #(#node_ref_enum_members),*
@@ -1465,7 +1477,9 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                     type Item = NodeRef<'ast>;
 
                     fn next(&mut self) -> Option<Self::Item> {
-                        todo!()
+                        match self.0 {
+                            #(#node_ref_iter_next_arms)*
+                        }
                     }
                 }
             ));
