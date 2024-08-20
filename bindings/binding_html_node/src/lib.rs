@@ -282,7 +282,7 @@ pub enum CssMinfierOptions {
 
 #[derive(Debug, Clone, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
-struct LightningCssOptions {}
+pub struct LightningCssOptions {}
 
 struct CssMinifier;
 
@@ -337,6 +337,7 @@ impl MinifyCss for CssMinifier {
             }
 
             CssMinfierOptions::Swc(options) => {
+                let mut options = options.clone();
                 let mut errors: Vec<_> = Vec::new();
 
                 let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
