@@ -387,6 +387,13 @@ impl Optimizer<'_> {
                         }) => {
                             self.take_ident_of_pat_if_unused(key, None);
                         }
+                        ObjectPatProp::Assign(AssignPatProp {
+                            key,
+                            value: Some(value),
+                            ..
+                        }) => {
+                            self.take_ident_of_pat_if_unused(key, Some(value.as_mut()));
+                        }
                         _ => {}
                     }
                 }
