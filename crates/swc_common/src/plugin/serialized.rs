@@ -96,16 +96,12 @@ impl PluginSerializedBytes {
     #[tracing::instrument(level = "info", skip_all)]
     pub fn deserialize<W>(&self) -> Result<VersionedSerializable<W>, Error>
     where
+        W: serde::de::DeserializeOwned,
         W: rkyv::Archive,
         W::Archived: rkyv::Deserialize<W, rkyv::de::deserializers::SharedDeserializeMap>,
     {
-        use anyhow::Context;
-
-        let archived = unsafe { rkyv::archived_root::<VersionedSerializable<W>>(&self.field[..]) };
-
-        archived
-            .deserialize(&mut rkyv::de::deserializers::SharedDeserializeMap::new())
-            .with_context(|| format!("failed to deserialize `{}`", type_name::<W>()))
+        let v = rmp_serde::from_slice(&self.field).context("failed to deserialize")?;
+        Ok(VersionedSerializable::new(v))
     }
 }
 
