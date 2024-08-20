@@ -18,18 +18,25 @@ crate-type = ["cdylib"]
 napi-build = { workspace = true }
 
 [dependencies]
-anyhow              = { workspace = true }
-napi                = { workspace = true, features = ["napi3", "serde-json"] }
-napi-derive         = { workspace = true, features = ["type-def"] }
-serde               = { workspace = true, features = ["derive"] }
-serde_json          = { workspace = true }
-swc_atoms           = { workspace = true }
-swc_cached          = { workspace = true }
-swc_common          = { workspace = true, features = ["diagnostic-serde"] }
+anyhow = { workspace = true }
+lightningcss = { workspace = true }
+napi = { workspace = true, features = ["napi3", "serde-json"] }
+napi-derive = { workspace = true, features = ["type-def"] }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+swc_atoms = { workspace = true }
+swc_cached = { workspace = true }
+swc_common = { workspace = true, features = ["diagnostic-serde"] }
+swc_css_ast = { workspace = true }
+swc_css_codegen = { workspace = true }
+swc_css_minifier = { workspace = true }
+swc_css_parser = { workspace = true }
 swc_error_reporters = { workspace = true }
-swc_html            = { workspace = true, features = ["minifier"] }
-swc_html_ast        = { workspace = true, features = ["serde"] }
-swc_html_minifier   = { workspace = true }
-swc_nodejs_common   = { workspace = true }
-tracing             = { workspace = true, features = ["release_max_level_info"] }
-tracing-subscriber  = { workspace = true, features = ["env-filter"] }
+swc_html = { workspace = true, default-features = false }
+swc_html_ast = { workspace = true, features = ["serde"] }
+swc_html_minifier = { workspace = true, default-features = false, features = [
+  "custom-css-minifier",
+] }
+swc_nodejs_common = { workspace = true }
+tracing = { workspace = true, features = ["release_max_level_info"] }
+tracing-subscriber = { workspace = true, features = ["env-filter"] }

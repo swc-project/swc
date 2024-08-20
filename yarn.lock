@@ -4649,6 +4649,7 @@ __metadata:
   resolution: "@swc/html@workspace:packages/html"
   dependencies:
     "@napi-rs/cli": "npm:^3.0.0-alpha.43"
+    "@swc/counter": "npm:^0.1.3"
     typescript: "npm:^5.1.6"
   languageName: unknown
   linkType: soft

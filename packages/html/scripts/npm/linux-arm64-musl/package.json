@@ -1,22 +1,21 @@
 {
     "name": "@swc/html-linux-arm64-musl",
-    "version": "0.0.1",
+    "version": "1.7.16-nightly-20240820.1",
     "os": [
         "linux"
     ],
     "cpu": [
         "arm64"
     ],
-    "main": "html.linux-arm64-musl.node",
+    "main": "swc-html.linux-arm64-musl.node",
     "files": [
-        "html.linux-arm64-musl.node"
+        "swc-html.linux-arm64-musl.node"
     ],
     "libc": [
         "musl"
     ],
-    "description": "Super-fast alternative for babel",
+    "description": "Super-fast HTML minifier",
     "keywords": [
-        "swc",
         "swcpack",
         "babel",
         "typescript",

@@ -1,19 +1,18 @@
 {
     "name": "@swc/html-linux-arm-gnueabihf",
-    "version": "0.0.1",
+    "version": "1.7.16-nightly-20240820.1",
     "os": [
         "linux"
     ],
     "cpu": [
         "arm"
     ],
-    "main": "html.linux-arm-gnueabihf.node",
+    "main": "swc-html.linux-arm-gnueabihf.node",
     "files": [
-        "html.linux-arm-gnueabihf.node"
+        "swc-html.linux-arm-gnueabihf.node"
     ],
-    "description": "Super-fast alternative for babel",
+    "description": "Super-fast HTML minifier",
     "keywords": [
-        "swc",
         "swcpack",
         "babel",
         "typescript",
@@ -23,7 +22,7 @@
     ],
     "author": "강동윤 <kdy1997.dev@gmail.com>",
     "homepage": "https://swc.rs",
-    "license": "Apache-2.0 AND MIT",
+    "license": "Apache-2.0",
     "engines": {
         "node": ">=10"
     },

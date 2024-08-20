@@ -696,7 +696,8 @@ export type JscTarget =
   | "es2019"
   | "es2020"
   | "es2021"
-  | "es2022";
+  | "es2022"
+  | "esnext";
 
 export type ParserConfig = TsParserConfig | EsParserConfig;
 export interface TsParserConfig {
