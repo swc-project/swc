@@ -11228,10 +11228,15 @@ struct RawChildren<'ast>(&'ast NodeRef<'ast>, usize);
 impl<'ast> Iterator for RawChildren<'ast> {
     type Item = NodeRef<'ast>;
 
+    #[allow(unreachable_patterns)]
     fn next(&mut self) -> Option<Self::Item> {
         match self.0 {
-            NodeRef::Attribute(node) => {}
-            NodeRef::AttributeToken(node) => {}
+            NodeRef::Attribute(node) => match self.1 {
+                _ => None,
+            },
+            NodeRef::AttributeToken(node) => match self.1 {
+                _ => None,
+            },
             NodeRef::Child(node) => match node {
                 Child::DocumentType(v0) => {
                     if self.1 == 0usize {
@@ -11267,25 +11272,51 @@ impl<'ast> Iterator for RawChildren<'ast> {
                 }
                 _ => None,
             },
-            NodeRef::Comment(node) => {}
-            NodeRef::Document(node) => {}
-            NodeRef::DocumentFragment(node) => {}
+            NodeRef::Comment(node) => match self.1 {
+                _ => None,
+            },
+            NodeRef::Document(node) => match self.1 {
+                0usize => {
+                    self.1 = 1usize;
+                    Some(NodeRef::DocumentMode(&node.mode))
+                }
+                _ => None,
+            },
+            NodeRef::DocumentFragment(node) => match self.1 {
+                _ => None,
+            },
             NodeRef::DocumentMode(node) => match node {
                 _ => None,
             },
-            NodeRef::DocumentType(node) => {}
-            NodeRef::Element(node) => {}
+            NodeRef::DocumentType(node) => match self.1 {
+                _ => None,
+            },
+            NodeRef::Element(node) => match self.1 {
+                0usize => {
+                    self.1 = 1usize;
+                    Some(NodeRef::Namespace(&node.namespace))
+                }
+                _ => None,
+            },
             NodeRef::Namespace(node) => match node {
                 _ => None,
             },
             NodeRef::Raw(node) => match node {
                 _ => None,
             },
-            NodeRef::Text(node) => {}
+            NodeRef::Text(node) => match self.1 {
+                _ => None,
+            },
             NodeRef::Token(node) => match node {
                 _ => None,
             },
-            NodeRef::TokenAndSpan(node) => {}
+            NodeRef::TokenAndSpan(node) => match self.1 {
+                0usize => {
+                    self.1 = 1usize;
+                    Some(NodeRef::Token(&node.token))
+                }
+                _ => None,
+            },
         }
     }
 }
