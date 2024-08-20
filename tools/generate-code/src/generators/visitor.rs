@@ -719,7 +719,7 @@ impl Generator {
                     TraitKind::Visit => Some(quote!(
                         let mut __ast_path = __ast_path
                             .with_guard(
-                                NodeRef::#type_name(self, self::fields::#fields_enum_name::#field_variant),
+                                AstParentNodeRef::#type_name(self, self::fields::#fields_enum_name::#field_variant),
                             );
                     )),
                     _ => Some(quote!(
@@ -765,7 +765,7 @@ impl Generator {
                                 ast_path_guard_expr = Some(parse_quote!(
                                     let mut __ast_path = __ast_path
                                         .with_guard(
-                                            NodeRef::#type_name(self, #kind),
+                                            AstParentNodeRef::#type_name(self, #kind),
                                         );
                                 ));
                             }
@@ -1381,7 +1381,7 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                         }
 
                         node_ref_iter_next_arms.push(parse_quote!(
-                            NodeRef::#type_name(node, _) => {
+                            NodeRef::#type_name(node) => {
                                 match node {
                                     #(#arms)*
                                 }
@@ -1425,7 +1425,7 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                     ));
 
                     node_ref_iter_next_arms.push(parse_quote!(
-                        NodeRef::#type_name(node, _) => {
+                        NodeRef::#type_name(node) => {
 
                         }
                     ));
@@ -1519,7 +1519,7 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
             ));
             items.push(parse_quote!(
                 impl<'ast> NodeRef<'ast> {
-                    pub fn raw_children(&self) -> impl Iterator<Item = NodeRef<'ast>> {
+                    pub fn raw_children(&'ast self) -> impl Iterator<Item = NodeRef<'ast>> {
                         RawChildren(self, 0)
                     }
                 }
@@ -1542,12 +1542,15 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
             ));
         }
 
-        items.push(parse_quote!(
-            #[cfg(any(docsrs, feature = "path"))]
-            pub mod fields {
-                #(#defs)*
-            }
-        ));
+        items.insert(
+            0,
+            parse_quote!(
+                #[cfg(any(docsrs, feature = "path"))]
+                pub mod fields {
+                    #(#defs)*
+                }
+            ),
+        );
 
         items.push(parse_quote!(
             #[cfg(any(docsrs, feature = "path"))]
