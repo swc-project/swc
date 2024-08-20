@@ -95,6 +95,7 @@ where
     F: FnOnce(u32) -> u32,
     R: rkyv::Archive,
     R::Archived: rkyv::Deserialize<R, rkyv::de::deserializers::SharedDeserializeMap>,
+    R: serde::de::DeserializeOwned,
 {
     let allocated_returned_value_ptr = read_returned_result_from_host_inner(f);
 
