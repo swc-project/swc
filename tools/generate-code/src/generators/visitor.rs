@@ -1395,6 +1395,14 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                         #type_name(&'ast #type_name)
                     ));
 
+                    items.push(parse_quote!(
+                        impl<'ast> From<&'ast #type_name> for NodeRef<'ast> {
+                            fn from(node: &#type_name) -> Self {
+                                NodeRef::#type_name(node)
+                            }
+                        }
+                    ));
+
                     {
                         let mut arms = Vec::<Arm>::new();
 
@@ -1464,6 +1472,14 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
 
                     node_ref_enum_members.push(quote!(
                         #type_name(&'ast #type_name)
+                    ));
+
+                    items.push(parse_quote!(
+                        impl<'ast> From<&'ast #type_name> for NodeRef<'ast> {
+                            fn from(node: &#type_name) -> Self {
+                                NodeRef::#type_name(node)
+                            }
+                        }
                     ));
 
                     {
