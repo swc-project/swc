@@ -29,6 +29,7 @@ rkyv = { workspace = true, features = [
 tracing = { workspace = true }
 
 better_scoped_tls = { version = "0.1.1", path = "../better_scoped_tls" }
+serde             = { workspace = true, features = ["derive"] }
 swc_common        = { version = "0.37.0", path = "../swc_common" }
 swc_ecma_ast      = { version = "0.118.0", path = "../swc_ecma_ast" }
 swc_trace_macro   = { version = "0.1.3", path = "../swc_trace_macro" }
