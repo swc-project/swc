@@ -1314,9 +1314,17 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
         })
         .collect::<Vec<_>>();
 
-    let is_node_ref = |ty: &Type| match ty {
+    let is_node_ref_raw = |ty: &Type| match ty {
         Type::Path(p) => node_names.contains(&p.path.segments.last().unwrap().ident),
         _ => false,
+    };
+
+    let is_node_ref = |ty: &Type| {
+        if let Some(ty) = extract_generic("Box", ty) {
+            return is_node_ref_raw(ty);
+        }
+
+        is_node_ref_raw(ty)
     };
 
     {
@@ -1399,7 +1407,11 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                             }
 
                             for f in variant.fields.iter().filter(|f| is_node_ref(&f.ty)) {
-                                let ty = &f.ty;
+                                let mut ty = &f.ty;
+                                if let Some(inner) = extract_generic("Box", ty) {
+                                    ty = inner;
+                                }
+
                                 arms.push(parse_quote!(
                                     #type_name::#variant_name(v0) => {
                                         Box::new(Some(NodeRef::#ty(v0)).into_iter())
@@ -1413,7 +1425,7 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                                 match node {
                                     #(#arms)*
 
-                                    _ => None
+                                    _ => Box::new(::std::iter::empty::<NodeRef<'ast>>())
                                 }
                             }
                         ));
