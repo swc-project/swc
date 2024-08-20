@@ -134,6 +134,7 @@ jobs:
           npx ts-node .github/bot/src/nightly-version.ts ${{ github.event.inputs.version }} >> $GITHUB_OUTPUT
 
   publish-core-nightly:
+    if: github.event_name == 'workflow_dispatch'
     name: "Publish ${{ needs.determine-nightly-version.outputs.version }}"
 
     needs:
