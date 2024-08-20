@@ -13,9 +13,6 @@ env:
   SKIP_YARN_COREPACK_CHECK: 1
 
 on:
-  push:
-    branches:
-      - publish-*
   workflow_dispatch:
     inputs:
       version:
@@ -103,7 +100,7 @@ jobs:
 
       - name: Publish crates
         # Skip on pull requests
-        if: github.event_name == 'workflow_dispatch'
+
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
         run: |
@@ -125,7 +122,7 @@ jobs:
 
   publish-core-nightly:
     name: "Publish ${{ needs.determine-nightly-version.outputs.version }}"
-    if: github.event_name == 'workflow_dispatch'
+
     needs:
       - publish-cargo
       - determine-nightly-version
@@ -138,9 +135,24 @@ jobs:
       skipBuild: ${{ inputs.skipBuild || false }}
       skipPublishing: false
 
+  publish-html-nightly:
+    name: "Publish html@${{ needs.determine-nightly-version.outputs.version }}"
+
+    needs:
+      - publish-cargo
+      - determine-nightly-version
+    uses: ./.github/workflows/publish-npm-package.yml
+    secrets: inherit
+    with:
+      package: "html"
+      version: ${{ needs.determine-nightly-version.outputs.version }}
+      buildCli: false
+      skipBuild: ${{ inputs.skipBuild || false }}
+      skipPublishing: false
+
   run-ecosystem-ci-with-nightly:
     name: "Test nightly using ecosystem CI"
-    if: github.event_name == 'workflow_dispatch'
+
     needs:
       - determine-nightly-version
       - publish-core-nightly
@@ -153,7 +165,7 @@ jobs:
 
   publish-core-stable:
     name: "Publish ${{ inputs.version || 'stable' }} to npm"
-    if: github.event_name == 'workflow_dispatch'
+
     needs:
       - publish-cargo
       - run-ecosystem-ci-with-nightly
@@ -164,21 +176,6 @@ jobs:
       package: "core"
       version: ${{ inputs.version }}
       buildCli: true
-      skipBuild: ${{ inputs.skipBuild || inputs.onlyNightly || false }}
-      # Skip on pull requests
-      skipPublishing: ${{ inputs.onlyNightly }}
-
-  publish-html-stable:
-    name: "Publish html to npm"
-    needs:
-      - publish-cargo
-
-    uses: ./.github/workflows/publish-npm-package.yml
-    secrets: inherit
-    with:
-      package: "html"
-      version: ${{ inputs.version }}
-      buildCli: false
       skipBuild: ${{ inputs.skipBuild || inputs.onlyNightly || false }}
       # Skip on pull requests
       skipPublishing: ${{ inputs.onlyNightly }}
