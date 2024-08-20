@@ -237,7 +237,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.7.15-nightly-20240820.1"
+version = "1.7.15-nightly-20240820.2"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -319,7 +319,7 @@ dependencies = [
 
 [[package]]
 name = "binding_minifier_wasm"
-version = "1.7.15-nightly-20240820.1"
+version = "1.7.15-nightly-20240820.2"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -332,7 +332,7 @@ dependencies = [
 
 [[package]]
 name = "binding_typescript_wasm"
-version = "1.7.15-nightly-20240820.1"
+version = "1.7.15-nightly-20240820.2"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -3173,7 +3173,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.91.380"
+version = "0.91.381"
 dependencies = [
  "anyhow",
  "swc_cli_impl",
