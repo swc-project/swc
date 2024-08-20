@@ -15,26 +15,21 @@ crate-type = ["cdylib"]
 [features]
 
 [build-dependencies]
-napi-build = { version = "2" }
+napi-build = { workspace = true }
 
 [dependencies]
-anyhow = "1"
-napi = { version = "2", default-features = false, features = [
-  "napi3",
-  "serde-json",
-] }
-napi-derive = { version = "2", default-features = false, features = [
-  "type-def",
-] }
-serde = { version = "1", features = ["derive"] }
-serde_json = "1"
-swc_atoms = "0.6.5"
-swc_cached = "0.3.18"
-swc_common = { version = "0.33.12", features = ["diagnostic-serde"] }
-swc_error_reporters = "0.17.12"
-swc_html = { version = "0.135.21", features = ["minifier"] }
-swc_html_ast = { version = "0.33.12", features = ["serde"] }
-swc_html_minifier = "0.132.21"
-swc_nodejs_common = "0.0.8"
-tracing = { version = "0.1.37", features = ["release_max_level_info"] }
-tracing-subscriber = { version = "0.3.17", features = ["env-filter"] }
+anyhow              = { workspace = true }
+napi                = { workspace = true, features = ["napi3", "serde-json"] }
+napi-derive         = { workspace = true, features = ["type-def"] }
+serde               = { workspace = true, features = ["derive"] }
+serde_json          = { workspace = true }
+swc_atoms           = { workspace = true }
+swc_cached          = { workspace = true }
+swc_common          = { workspace = true, features = ["diagnostic-serde"] }
+swc_error_reporters = { workspace = true }
+swc_html            = { workspace = true, features = ["minifier"] }
+swc_html_ast        = { workspace = true, features = ["serde"] }
+swc_html_minifier   = { workspace = true }
+swc_nodejs_common   = { workspace = true }
+tracing             = { workspace = true, features = ["release_max_level_info"] }
+tracing-subscriber  = { workspace = true, features = ["env-filter"] }
