@@ -1610,9 +1610,19 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
 
             items.push(parse_quote!(
                 impl<'ast> NodeRef<'ast> {
-                    pub fn preorder(&'ast self) -> Box<dyn 'ast + Iterator<Item = NodeRef<'ast>>> {}
+                    /// Visit all nodes in self.
+                    ///
+                    /// This is a preorder traversal.
+                    pub fn traverse(&'ast self) -> Box<dyn 'ast + Iterator<Item = NodeRef<'ast>>> {
+                        let mut queue = std::collections::VecDeque::new();
+                        queue.push_back(self);
 
-                    pub fn postorder(&'ast self) -> Box<dyn 'ast + Iterator<Item = NodeRef<'ast>>> {
+                        Box::new(std::iter::from_fn(move || {
+                            let node = queue.pop_front()?;
+                            let children = node.raw_children();
+                            queue.extend(children);
+                            Some(node)
+                        }))
                     }
                 }
             ));
