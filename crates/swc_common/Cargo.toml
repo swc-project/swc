@@ -53,13 +53,13 @@ rkyv = { workspace = true, features = [
   "validation",
 ], optional = true }
 rustc-hash = { workspace = true }
-serde = { workspace = true, features = ["derive"] }
+serde = { workspace = true, features = ["derive", "rc"] }
 siphasher = { workspace = true }
 sourcemap = { workspace = true, optional = true }
 termcolor = { workspace = true, optional = true }
 tracing = { workspace = true }
 unicode-width = { workspace = true }
-url = { workspace = true }
+url = { workspace = true, features = ["serde"] }
 
 ast_node             = { version = "0.9.8", path = "../ast_node" }
 better_scoped_tls    = { version = "0.1.1", path = "../better_scoped_tls" }
