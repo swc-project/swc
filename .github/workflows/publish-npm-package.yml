@@ -524,7 +524,7 @@ jobs:
         run: corepack enable && yarn install
 
       - name: Download all artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           pattern: "bindings-${{ inputs.package }}-*"
           path: ./packages/${{ inputs.package }}/artifacts
