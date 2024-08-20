@@ -1466,7 +1466,7 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                     ));
 
                     {
-                        let mut iter: Expr = parse_quote!([].into_iter());
+                        let mut iter: Expr = parse_quote!(::std::iter::empty());
 
                         match &data.fields {
                             Fields::Named(fields) => {
