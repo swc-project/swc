@@ -1,6 +1,6 @@
 use swc_common::{chain, DUMMY_SP};
-use swc_ecma_ast::{Module, Program};
-use swc_ecma_visit::{Visit, VisitWith};
+use swc_ecma_ast::*;
+use swc_ecma_visit::{NodeRef, Visit, VisitWith};
 
 #[test]
 fn should_visit_program() {
@@ -28,4 +28,31 @@ fn should_visit_program() {
     n.visit_with(&mut pass);
 
     assert_eq!(counter, 1);
+}
+
+#[test]
+fn traverse_lookup() {
+    let node = Expr::Call(CallExpr {
+        span: DUMMY_SP,
+        callee: Callee::Expr(
+            AwaitExpr {
+                span: DUMMY_SP,
+                arg: Ident::new_no_ctxt("foo".into(), DUMMY_SP).into(),
+            }
+            .into(),
+        ),
+        args: Vec::new(),
+        ..Default::default()
+    });
+
+    let node_ref = NodeRef::from(&node);
+    let iter = node_ref.experimental_traverse();
+
+    let mut has_await = false;
+
+    for node in iter {
+        has_await |= matches!(node, NodeRef::AwaitExpr(..));
+    }
+
+    assert!(has_await);
 }
