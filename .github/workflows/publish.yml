@@ -147,7 +147,6 @@ jobs:
           ssh-private-key: ${{ secrets.SWC_BOT_SSH }}
 
   publish-core-nightly:
-    if: github.event_name == 'workflow_dispatch'
     name: "Publish ${{ needs.determine-nightly-version.outputs.version }}"
 
     needs:
