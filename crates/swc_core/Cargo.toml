@@ -278,6 +278,8 @@ __ecma_plugin_transform = [
   "ecma_visit",
   "ecma_ast",                  # Enable optional packages
   "swc_ecma_ast/rkyv-impl",
+  "swc_ecma_ast/serde-impl",
+
 ]
 
 # Internal flags for any transform plugin host feature
@@ -285,6 +287,7 @@ __plugin_transform_host = [
   # Dependent features
   "__common",                    # Enable optional packages
   "swc_ecma_ast/rkyv-impl",
+  "swc_ecma_ast/serde-impl",
   "swc_atoms/rkyv-impl",
   "swc_common/plugin-rt",
   "swc_plugin_runner/rkyv-impl", # TODO: we may simply flag around downlevel plugin feature
