@@ -38,9 +38,9 @@ plugin_transform_schema_v1    = ["swc_common/plugin_transform_schema_v1"]
 plugin_transform_schema_vtest = ["swc_common/plugin_transform_schema_vtest"]
 
 # Enable ECMASCript support
-ecma = ["swc_ecma_ast/rkyv-impl"]
+ecma = ["swc_ecma_ast/rkyv-impl", "swc_ecma_ast/serde-impl"]
 # Enable CSS support
-css = ["swc_css_ast/rkyv-impl"]
+css = ["swc_css_ast/rkyv-impl", "swc_css_ast/serde-impl"]
 
 __rkyv    = []
 rkyv-impl = ["__rkyv", "swc_common/plugin-rt", "swc_plugin_proxy/plugin-rt"]
