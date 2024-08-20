@@ -1262,29 +1262,33 @@ fn extract_generic<'a>(name: &str, ty: &'a Type) -> Option<&'a Type> {
     None
 }
 
-fn to_iter(e: TokenStream, ty: &Type) -> Expr {
+fn to_iter(e: TokenStream, ty: &Type, node_names: &[Ident]) -> Option<Expr> {
     if let Some(ty) = extract_vec(ty) {
-        let inner_expr = to_iter(quote!(item), ty);
-        return parse_quote!(#e.iter().map(|item| #inner_expr));
+        let inner_expr = to_iter(quote!(item), ty, node_names)?;
+        return Some(parse_quote!(#e.iter().map(|item| #inner_expr)));
     }
 
     if let Some(ty) = extract_generic("Option", ty) {
-        let inner_expr = to_iter(quote!(item), ty);
-        return parse_quote!(#e.as_ref().map(|item| #inner_expr));
+        let inner_expr = to_iter(quote!(item), ty, node_names)?;
+        return Some(parse_quote!(#e.as_ref().map(|item| #inner_expr)));
     }
 
     if let Some(ty) = extract_generic("Box", ty) {
-        let inner_expr = to_iter(quote!(item), ty);
-        return parse_quote!({
+        let inner_expr = to_iter(quote!(item), ty, node_names)?;
+        return Some(parse_quote!({
             let item = &*#e;
             #inner_expr
-        });
+        }));
     }
 
     if let Type::Path(p) = ty {
         let ty = &p.path.segments.last().unwrap().ident;
 
-        parse_quote!(NodeRef::#ty(#e))
+        if node_names.contains(ty) {
+            return Some(parse_quote!(NodeRef::#ty(#e)));
+        }
+
+        None
     } else {
         todo!("to_iter for {:?}", ty);
     }
@@ -1468,8 +1472,11 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                             Fields::Named(fields) => {
                                 for f in fields.named.iter() {
                                     let ident = &f.ident;
-                                    let iter_expr = to_iter(quote!(node.#ident), &f.ty);
-                                    iter = parse_quote!(#iter.chain(#iter_expr));
+                                    let iter_expr =
+                                        to_iter(quote!(node.#ident), &f.ty, &node_names);
+                                    if let Some(iter_expr) = iter_expr {
+                                        iter = parse_quote!(#iter.chain(#iter_expr));
+                                    }
                                 }
                             }
 
