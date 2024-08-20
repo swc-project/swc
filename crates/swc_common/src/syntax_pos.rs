@@ -1197,7 +1197,7 @@ pub struct SourceFileAndLine {
 )]
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
 #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct SourceFileAndBytePos {
     pub sf: Lrc<SourceFile>,
     pub pos: BytePos,
@@ -1284,6 +1284,7 @@ pub enum SpanLinesError {
 )]
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
 #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(u32)))]
+#[derive(serde::Serialize, serde::Deserialize)]
 pub enum SpanSnippetError {
     DummyBytePos,
     IllFormedSpan(Span),
@@ -1304,6 +1305,7 @@ pub enum SpanSnippetError {
 )]
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
 #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(u32)))]
+#[derive(serde::Serialize, serde::Deserialize)]
 pub enum SourceMapLookupError {
     NoFileFor(BytePos),
 }
@@ -1338,6 +1340,7 @@ pub struct DistinctSources {
 )]
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
 #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
+#[derive(serde::Serialize, serde::Deserialize)]
 pub struct MalformedSourceMapPositions {
     pub name: Lrc<FileName>,
     pub source_len: usize,

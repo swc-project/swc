@@ -1,3 +1,4 @@
+use serde::{Deserialize, Serialize};
 #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
 #[cfg(any(feature = "__plugin_rt", feature = "__plugin_mode"))]
 use swc_common::plugin::serialized::PluginSerializedBytes;
@@ -9,6 +10,7 @@ use swc_common::plugin::serialized::PluginSerializedBytes;
 )]
 #[cfg_attr(feature = "__rkyv", archive(check_bytes))]
 #[cfg_attr(feature = "__rkyv", archive_attr(repr(C)))]
+#[derive(Serialize, Deserialize)]
 pub struct AllocatedBytesPtr(pub u32, pub u32);
 
 #[cfg(target_arch = "wasm32")]
