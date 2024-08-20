@@ -13,6 +13,9 @@ env:
   SKIP_YARN_COREPACK_CHECK: 1
 
 on:
+  push:
+    branches:
+      - publish-*
   workflow_dispatch:
     inputs:
       version:
@@ -122,6 +125,7 @@ jobs:
 
   publish-core-nightly:
     name: "Publish ${{ needs.determine-nightly-version.outputs.version }}"
+    if: github.event_name == 'workflow_dispatch'
     needs:
       - publish-cargo
       - determine-nightly-version
@@ -136,6 +140,7 @@ jobs:
 
   run-ecosystem-ci-with-nightly:
     name: "Test nightly using ecosystem CI"
+    if: github.event_name == 'workflow_dispatch'
     needs:
       - determine-nightly-version
       - publish-core-nightly
@@ -148,6 +153,7 @@ jobs:
 
   publish-core-stable:
     name: "Publish ${{ inputs.version || 'stable' }} to npm"
+    if: github.event_name == 'workflow_dispatch'
     needs:
       - publish-cargo
       - run-ecosystem-ci-with-nightly
@@ -158,6 +164,21 @@ jobs:
       package: "core"
       version: ${{ inputs.version }}
       buildCli: true
+      skipBuild: ${{ inputs.skipBuild || inputs.onlyNightly || false }}
+      # Skip on pull requests
+      skipPublishing: ${{ inputs.onlyNightly }}
+
+  publish-html-stable:
+    name: "Publish html to npm"
+    needs:
+      - publish-cargo
+
+    uses: ./.github/workflows/publish-npm-package.yml
+    secrets: inherit
+    with:
+      package: "html"
+      version: ${{ inputs.version }}
+      buildCli: false
       skipBuild: ${{ inputs.skipBuild || inputs.onlyNightly || false }}
       # Skip on pull requests
       skipPublishing: ${{ inputs.onlyNightly }}
