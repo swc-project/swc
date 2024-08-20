@@ -272,7 +272,7 @@ fn create_element(context_element: Element) -> anyhow::Result<swc_html_ast::Elem
 
 #[derive(Debug, Clone, Deserialize)]
 #[serde(rename_all = "camelCase")]
-#[serde(tag = "minifier")]
+#[serde(tag = "lib")]
 pub enum CssMinfierOptions {
     #[serde(rename = "lightningcss")]
     LightningCss(LightningCssOptions),

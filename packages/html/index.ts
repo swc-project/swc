@@ -25,7 +25,10 @@ export type Options = {
     minifyJson?: boolean | { pretty?: boolean };
     // TODO improve me after typing `@swc/css`
     minifyJs?: boolean | { parser?: any; minifier?: any; codegen?: any };
-    minifyCss?: boolean | { parser?: any; minifier?: any; codegen?: any };
+    minifyCss?:
+        | boolean
+        | { lib: "lightningcss" }
+        | { lib: "swc"; parser?: any; minifier?: any; codegen?: any };
     minifyAdditionalScriptsContent?: [string, MinifierType][];
     minifyAdditionalAttributes?: [string, MinifierType][];
     sortSpaceSeparatedAttributeValues?: boolean;
