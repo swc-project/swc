@@ -1,4 +1,5 @@
 #![deny(clippy::all)]
+#![allow(clippy::boxed_local)]
 #![allow(clippy::vec_box)]
 
 use serde::{Deserialize, Serialize};
