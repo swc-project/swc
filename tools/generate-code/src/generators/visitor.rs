@@ -1601,7 +1601,7 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                 impl<'ast> NodeRef<'ast> {
                     /// This is not a part of semver-stable API. It is experimental and subject to change.
                     #[allow(unreachable_patterns)]
-                    pub fn experimental_raw_children(&'ast self) -> Box<dyn 'ast + Iterator<Item = NodeRef<'ast>>> {
+                    pub fn experimental_raw_children<'a>(&'a self) -> Box<dyn 'a + Iterator<Item = NodeRef<'ast>>> {
                         match self {
                             #(#node_ref_iter_next_arms)*
                         }
@@ -1618,13 +1618,15 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                     pub fn experimental_traverse(
                         &'ast self,
                     ) -> Box<dyn 'ast + Iterator<Item = NodeRef<'ast>>> {
-                        let mut queue = std::collections::VecDeque::new();
-                        queue.push_back(self);
+                        let mut queue = std::collections::VecDeque::<NodeRef<'ast>>::new();
+                        queue.push_back(*self);
 
                         Box::new(std::iter::from_fn(move || {
-                            let node = queue.pop_front()?;
-                            let children = node.experimental_raw_children();
-                            queue.extend(children);
+                            let node: NodeRef<'ast> = queue.pop_front()?;
+                            {
+                                let children = node.experimental_raw_children();
+                                queue.extend(children);
+                            }
                             Some(node)
                         }))
                     }
