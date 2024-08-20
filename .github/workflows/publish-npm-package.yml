@@ -558,7 +558,7 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Upload CLI binaries to gh release
-        if: ${{ !inputs.skipPublishing }}
+        if: ${{ !inputs.skipPublishing && inputs.package == 'core' }}
         shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
