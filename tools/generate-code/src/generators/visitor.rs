@@ -85,7 +85,7 @@ pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
     ));
     output.items.push(parse_quote!(
         #[cfg(any(docsrs, feature = "path"))]
-        pub type AstNodePath<'ast> = swc_visit::AstNodePath<NodeRef<'ast>>;
+        pub type AstNodePath<'ast> = swc_visit::AstNodePath<AstParentNodeRef<'ast>>;
     ));
     output.items.extend(define_fields(crate_name, node_types));
 
@@ -1397,7 +1397,7 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
 
                     items.push(parse_quote!(
                         impl<'ast> From<&'ast #type_name> for NodeRef<'ast> {
-                            fn from(node: &#type_name) -> Self {
+                            fn from(node: &'ast #type_name) -> Self {
                                 NodeRef::#type_name(node)
                             }
                         }
@@ -1476,7 +1476,7 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
 
                     items.push(parse_quote!(
                         impl<'ast> From<&'ast #type_name> for NodeRef<'ast> {
-                            fn from(node: &#type_name) -> Self {
+                            fn from(node: &'ast #type_name) -> Self {
                                 NodeRef::#type_name(node)
                             }
                         }
@@ -1538,7 +1538,6 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
 
         {
             defs.push(parse_quote!(
-                #[cfg(any(docsrs, feature = "path"))]
                 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
                 pub enum AstParentKind {
                     #(#kind_enum_members),*
