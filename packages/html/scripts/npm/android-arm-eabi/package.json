@@ -1,41 +1,41 @@
 {
-    "name": "@swc/html-android-arm-eabi",
-    "version": "1.2.122",
-    "os": [
-        "android"
-    ],
-    "cpu": [
-        "arm"
-    ],
-    "main": "html.android-arm-eabi.node",
-    "files": [
-        "html.android-arm-eabi.node"
-    ],
-    "description": "Super-fast alternative for babel",
-    "keywords": [
-        "swc",
-        "swcpack",
-        "babel",
-        "typescript",
-        "rust",
-        "webpack",
-        "tsc"
-    ],
-    "author": "강동윤 <kdy1997.dev@gmail.com>",
-    "homepage": "https://swc.rs",
-    "license": "Apache-2.0 AND MIT",
-    "engines": {
-        "node": ">=10"
-    },
-    "publishConfig": {
-        "registry": "https://registry.npmjs.org/",
-        "access": "public"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/swc-project/swc.git"
-    },
-    "bugs": {
-        "url": "https://github.com/swc-project/swc/issues"
-    }
+  "name": "@swc/html-android-arm-eabi",
+  "version": "1.7.15-nightly-20240820.8",
+  "os": [
+    "android"
+  ],
+  "cpu": [
+    "arm"
+  ],
+  "main": "html.android-arm-eabi.node",
+  "files": [
+    "html.android-arm-eabi.node"
+  ],
+  "description": "Super-fast alternative for babel",
+  "keywords": [
+    "swc",
+    "swcpack",
+    "babel",
+    "typescript",
+    "rust",
+    "webpack",
+    "tsc"
+  ],
+  "author": "강동윤 <kdy1997.dev@gmail.com>",
+  "homepage": "https://swc.rs",
+  "license": "Apache-2.0 AND MIT",
+  "engines": {
+    "node": ">=10"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/swc-project/swc.git"
+  },
+  "bugs": {
+    "url": "https://github.com/swc-project/swc/issues"
+  }
 }
