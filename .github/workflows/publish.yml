@@ -146,9 +146,14 @@ jobs:
           version: ${{ needs.determine-nightly-version.outputs.version }}
           ssh-private-key: ${{ secrets.SWC_BOT_SSH }}
 
-  publish-core-nightly:
-    name: "Publish ${{ needs.determine-nightly-version.outputs.version }}"
-
+  publish-npm-nightly:
+    name: "Publish ${{ matrix.package }}@${{ needs.determine-nightly-version.outputs.version }}"
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+          - core
+          - html
     needs:
       - git-tag-nightly
       - publish-cargo
@@ -156,25 +161,9 @@ jobs:
     uses: ./.github/workflows/publish-npm-package.yml
     secrets: inherit
     with:
-      package: "core"
+      package: ${{ matrix.package }}
       version: ${{ needs.determine-nightly-version.outputs.version }}
       buildCli: true
-      skipBuild: ${{ inputs.skipBuild || false }}
-      skipPublishing: ${{ github.event_name == 'pull_request' }}
-
-  publish-html-nightly:
-    name: "Publish html@${{ needs.determine-nightly-version.outputs.version }}"
-
-    needs:
-      - git-tag-nightly
-      - publish-cargo
-      - determine-nightly-version
-    uses: ./.github/workflows/publish-npm-package.yml
-    secrets: inherit
-    with:
-      package: "html"
-      version: ${{ needs.determine-nightly-version.outputs.version }}
-      buildCli: false
       skipBuild: ${{ inputs.skipBuild || false }}
       skipPublishing: ${{ github.event_name == 'pull_request' }}
 
@@ -183,7 +172,7 @@ jobs:
 
     needs:
       - determine-nightly-version
-      - publish-core-nightly
+      - publish-npm-nightly
     uses: ./.github/workflows/ecosystem-ci.yml
     with:
       version: ${{ needs.determine-nightly-version.outputs.version }}
@@ -204,9 +193,14 @@ jobs:
           version: ${{ inputs.version }}
           ssh-private-key: ${{ secrets.SWC_BOT_SSH }}
 
-  publish-core-stable:
-    name: "Publish ${{ inputs.version || 'stable' }} to npm"
-
+  publish-npm-stable:
+    name: "Publish ${{ matrix.package }}}}@${{ inputs.version || 'stable' }} to npm"
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+          - core
+          - html
     needs:
       - publish-cargo
       - run-ecosystem-ci-with-nightly
@@ -214,7 +208,7 @@ jobs:
     uses: ./.github/workflows/publish-npm-package.yml
     secrets: inherit
     with:
-      package: "core"
+      package: ${{ matrix.package }}
       version: ${{ inputs.version }}
       buildCli: true
       skipBuild: ${{ inputs.skipBuild || inputs.onlyNightly || false }}

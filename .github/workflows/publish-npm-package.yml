@@ -233,13 +233,13 @@ jobs:
           image: ${{ matrix.settings.docker }}
           options: -v ${{ env.HOME }}/.cargo/git:/root/.cargo/git -v ${{ env.HOME }}/.cargo/registry:/root/.cargo/registry -v ${{ github.workspace }}:/build -w /build
           run: >-
-            cd ./packages/core &&
+            cd ./packages/${{ inputs.package }} &&
             npm install -f -g yarn@1.22 &&
             corepack enable &&
             npm i -g wasm-pack &&
             ${{ matrix.settings.build }}
       - name: Build
-        working-directory: ./packages/core
+        working-directory: ./packages/${{ inputs.package }}
         if: ${{ !matrix.settings.docker }}
         run: ${{ matrix.settings.build }}
         shell: bash
@@ -285,15 +285,15 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: bindings-${{ matrix.settings.target }}
-          path: ./packages/core
+          path: ./packages/${{ inputs.package }}
       - name: List packages
         run: ls -R .
         shell: bash
       - name: Build TypeScript
-        working-directory: ./packages/core
+        working-directory: ./packages/${{ inputs.package }}
         run: yarn build:ts
       - name: Test bindings
-        working-directory: ./packages/core
+        working-directory: ./packages/${{ inputs.package }}
         run: yarn test
   test-linux-x64-gnu-binding:
     name: Test bindings on Linux-x64-gnu - node@${{ matrix.node }}
@@ -324,7 +324,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: bindings-x86_64-unknown-linux-gnu
-          path: ./packages/core
+          path: ./packages/${{ inputs.package }}
       - name: List packages
         run: ls -R .
         shell: bash
@@ -364,7 +364,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: bindings-x86_64-unknown-linux-musl
-          path: ./packages/core
+          path: ./packages/${{ inputs.package }}
       - name: List packages
         run: ls -R .
         shell: bash
@@ -387,7 +387,7 @@ jobs:
   #       uses: actions/download-artifact@v3
   #       with:
   #         name: bindings-aarch64-unknown-linux-musl
-  #         path: ./packages/core
+  #         path: ./packages/${{ inputs.package }}
   #     - name: List packages
   #       run: ls -R .
   #       shell: bash
@@ -435,7 +435,7 @@ jobs:
   #       uses: actions/download-artifact@v3
   #       with:
   #         name: bindings-armv7-unknown-linux-gnueabihf
-  #         path: ./packages/core
+  #         path: ./packages/${{ inputs.package }}
   #     - name: List packages
   #       run: ls -R .
   #       shell: bash
@@ -491,15 +491,15 @@ jobs:
       - name: Download all artifacts
         uses: actions/download-artifact@v3
         with:
-          path: ./packages/core/artifacts
+          path: ./packages/${{ inputs.package }}/artifacts
 
       - name: List binaries
-        run: ls -R ./packages/core/artifacts
+        run: ls -R ./packages/${{ inputs.package }}/artifacts
         shell: bash
 
       - name: Move binaries
         shell: bash
-        working-directory: ./packages/core
+        working-directory: ./packages/${{ inputs.package }}
         run: |
           ./scripts/cli_artifacts.sh
           ls -R ./artifacts_cli
@@ -507,7 +507,7 @@ jobs:
 
       - name: List npm
         run: ls -R ./scripts/npm
-        working-directory: ./packages/core
+        working-directory: ./packages/${{ inputs.package }}
         shell: bash
 
       - name: Set fallback dependencies
