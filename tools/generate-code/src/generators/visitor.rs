@@ -1269,8 +1269,8 @@ fn to_iter(e: TokenStream, ty: &Type, is_already_iter: bool, node_names: &[Ident
     }
 
     if let Some(ty) = extract_generic("Option", ty) {
-        let inner_expr = to_iter(quote!(item), ty, true, node_names)?;
-        return Some(parse_quote!(#e.as_ref().flat_map(|item| #inner_expr)));
+        let inner_expr = to_iter(quote!(item), ty, false, node_names)?;
+        return Some(parse_quote!(#e.iter().flat_map(|item| #inner_expr)));
     }
 
     if let Some(ty) = extract_generic("Box", ty) {
