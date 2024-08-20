@@ -1262,19 +1262,19 @@ fn extract_generic<'a>(name: &str, ty: &'a Type) -> Option<&'a Type> {
     None
 }
 
-fn to_iter(e: TokenStream, ty: &Type, is_already_iter: bool, node_names: &[Ident]) -> Option<Expr> {
+fn to_iter(e: TokenStream, ty: &Type, node_names: &[Ident]) -> Option<Expr> {
     if let Some(ty) = extract_vec(ty) {
-        let inner_expr = to_iter(quote!(item), ty, true, node_names)?;
-        return Some(parse_quote!(#e.iter().map(|item| #inner_expr)));
+        let inner_expr = to_iter(quote!(item), ty, node_names)?;
+        return Some(parse_quote!(#e.iter().flat_map(|item| #inner_expr)));
     }
 
     if let Some(ty) = extract_generic("Option", ty) {
-        let inner_expr = to_iter(quote!(item), ty, false, node_names)?;
+        let inner_expr = to_iter(quote!(item), ty, node_names)?;
         return Some(parse_quote!(#e.iter().flat_map(|item| #inner_expr)));
     }
 
     if let Some(ty) = extract_generic("Box", ty) {
-        let inner_expr = to_iter(quote!(item), ty, is_already_iter, node_names)?;
+        let inner_expr = to_iter(quote!(item), ty, node_names)?;
         return Some(parse_quote!({
             let item = &*#e;
             #inner_expr
@@ -1285,9 +1285,6 @@ fn to_iter(e: TokenStream, ty: &Type, is_already_iter: bool, node_names: &[Ident
         let ty = &p.path.segments.last().unwrap().ident;
 
         if node_names.contains(ty) {
-            if is_already_iter {
-                return Some(parse_quote!(NodeRef::#ty(&#e)));
-            }
             return Some(parse_quote!(::std::iter::once(NodeRef::#ty(&#e))));
         }
 
@@ -1477,7 +1474,7 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                                 for f in fields.named.iter() {
                                     let ident = &f.ident;
                                     let iter_expr =
-                                        to_iter(quote!(node.#ident), &f.ty, false, &node_names);
+                                        to_iter(quote!(node.#ident), &f.ty, &node_names);
                                     if let Some(iter_expr) = iter_expr {
                                         iter = parse_quote!(#iter.chain(#iter_expr));
                                     }
