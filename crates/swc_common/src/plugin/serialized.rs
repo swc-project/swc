@@ -12,6 +12,7 @@ use rkyv::Deserialize;
 )]
 #[cfg_attr(feature = "__plugin", archive(check_bytes))]
 #[cfg_attr(feature = "__plugin", archive_attr(repr(u32)))]
+#[derive(serde::Serialize, serde::Deserialize)]
 /// Enum for possible errors while running transform via plugin.
 /// This error indicates internal operation failure either in plugin_runner
 /// or plugin_macro. Plugin's transform fn itself does not allow to return
