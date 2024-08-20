@@ -136,7 +136,7 @@ better_scoped_tls::scoped_tls!(
 )]
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
 #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(u32)))]
-#[derive(Debug, Eq, PartialEq, Clone, Ord, PartialOrd, Hash)]
+#[derive(Debug, Eq, PartialEq, Clone, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum FileName {
     Real(#[cfg_attr(any(feature = "rkyv-impl"), with(crate::source_map::EncodePathBuf))] PathBuf),
     /// A macro. This includes the full name of the macro, so that there are no
@@ -642,7 +642,7 @@ pub const NO_EXPANSION: SyntaxContext = SyntaxContext::empty();
 )]
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
 #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
-#[derive(Copy, Clone, Eq, PartialEq, Debug)]
+#[derive(Copy, Clone, Eq, PartialEq, Debug, Serialize, Deserialize)]
 pub struct MultiByteChar {
     /// The absolute offset of the character in the SourceMap
     pub pos: BytePos,
@@ -672,7 +672,7 @@ impl MultiByteChar {
 )]
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
 #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(u32)))]
-#[derive(Copy, Clone, Eq, PartialEq, Debug)]
+#[derive(Copy, Clone, Eq, PartialEq, Debug, Serialize, Deserialize)]
 pub enum NonNarrowChar {
     /// Represents a zero-width character
     ZeroWidth(BytePos),
@@ -792,7 +792,7 @@ where
 )]
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
 #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
-#[derive(Clone)]
+#[derive(Clone, Serialize, Deserialize)]
 pub struct SourceFile {
     /// The name of the file that the source came from. Source that doesn't
     /// originate from files has names between angle brackets by convention,
@@ -1049,7 +1049,8 @@ impl BytePos {
 )]
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
 #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
-#[derive(Copy, Clone, PartialEq, Eq, Hash, PartialOrd, Ord, Debug)]
+#[derive(Copy, Clone, PartialEq, Eq, Hash, PartialOrd, Ord, Debug, Serialize, Deserialize)]
+#[serde(transparent)]
 pub struct CharPos(pub usize);
 
 // FIXME: Lots of boilerplate in these impls, but so far my attempts to fix
@@ -1164,6 +1165,7 @@ pub struct Loc {
 )]
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
 #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
+#[derive(Serialize, Deserialize)]
 pub struct PartialLoc {
     pub source_file: Option<Lrc<SourceFile>>,
     pub line: usize,
@@ -1208,6 +1210,7 @@ pub struct SourceFileAndBytePos {
 )]
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
 #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
+#[derive(Serialize, Deserialize)]
 pub struct LineInfo {
     /// Index of line, starting from 0.
     pub line_index: usize,
@@ -1246,6 +1249,7 @@ pub struct FileLines {
 )]
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
 #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
+#[derive(Serialize, Deserialize)]
 pub struct PartialFileLines {
     pub file: Option<Lrc<SourceFile>>,
     pub lines: Vec<LineInfo>,
@@ -1267,6 +1271,7 @@ pub type PartialFileLinesResult = Result<PartialFileLines, Box<SpanLinesError>>;
 )]
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
 #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(u32)))]
+#[derive(Serialize, Deserialize)]
 pub enum SpanLinesError {
     IllFormedSpan(Span),
     DistinctSources(DistinctSources),
@@ -1310,6 +1315,7 @@ pub enum SourceMapLookupError {
 )]
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
 #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
+#[derive(Serialize, Deserialize)]
 pub struct FilePos(pub Lrc<FileName>, pub BytePos);
 
 #[derive(Clone, PartialEq, Eq, Debug)]
@@ -1319,6 +1325,7 @@ pub struct FilePos(pub Lrc<FileName>, pub BytePos);
 )]
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
 #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
+#[derive(Serialize, Deserialize)]
 pub struct DistinctSources {
     pub begin: FilePos,
     pub end: FilePos,

@@ -1,6 +1,6 @@
 use std::any::type_name;
 
-use anyhow::Error;
+use anyhow::{Context, Error};
 #[cfg(feature = "__rkyv")]
 use rkyv::Deserialize;
 
@@ -36,7 +36,7 @@ pub enum PluginError {
 /// format struct contains: it is strict implementation detail which can
 /// change anytime.
 pub struct PluginSerializedBytes {
-    pub(crate) field: rkyv::AlignedVec,
+    pub(crate) field: Vec<u8>,
 }
 
 #[cfg(feature = "__plugin")]
@@ -47,7 +47,7 @@ impl PluginSerializedBytes {
      */
     #[tracing::instrument(level = "info", skip_all)]
     pub fn from_slice(bytes: &[u8]) -> PluginSerializedBytes {
-        let mut field = rkyv::AlignedVec::new();
+        let mut field = vec![];
         field.extend_from_slice(bytes);
         PluginSerializedBytes { field }
     }
@@ -62,18 +62,11 @@ impl PluginSerializedBytes {
     pub fn try_serialize<W>(t: &VersionedSerializable<W>) -> Result<Self, Error>
     where
         W: rkyv::Serialize<rkyv::ser::serializers::AllocSerializer<512>>,
+        W: serde::Serialize,
     {
-        rkyv::to_bytes::<_, 512>(t)
-            .map(|field| PluginSerializedBytes { field })
-            .map_err(|err| match err {
-                rkyv::ser::serializers::CompositeSerializerError::SerializerError(e) => e.into(),
-                rkyv::ser::serializers::CompositeSerializerError::ScratchSpaceError(_e) => {
-                    Error::msg("AllocScratchError")
-                }
-                rkyv::ser::serializers::CompositeSerializerError::SharedError(_e) => {
-                    Error::msg("SharedSerializeMapError")
-                }
-            })
+        let vec = rmp_serde::to_vec_named(&t.0)
+            .context("failed to serialize using rmp_serde::to_vec_named")?;
+        Ok(PluginSerializedBytes { field: vec })
     }
 
     /*
