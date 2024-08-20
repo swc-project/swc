@@ -4010,7 +4010,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.101.3"
+version = "0.101.4"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4241,7 +4241,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_visit"
-version = "0.143.5"
+version = "0.143.6"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -4998,7 +4998,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "0.104.6"
+version = "0.104.7"
 dependencies = [
  "new_debug_unreachable",
  "num-bigint",
@@ -5235,7 +5235,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_visit"
-version = "0.37.5"
+version = "0.37.6"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -5491,7 +5491,7 @@ dependencies = [
 
 [[package]]
 name = "swc_xml_visit"
-version = "0.16.5"
+version = "0.16.6"
 dependencies = [
  "serde",
  "swc_atoms",
