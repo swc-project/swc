@@ -1265,18 +1265,18 @@ fn extract_generic<'a>(name: &str, ty: &'a Type) -> Option<&'a Type> {
 fn to_iter(e: TokenStream, ty: &Type) -> Expr {
     if let Some(ty) = extract_vec(ty) {
         let inner_expr = to_iter(quote!(item), ty);
-        return parse_quote!(#e.into_iter().map(|item| #inner_expr));
+        return parse_quote!(#e.iter().map(|item| #inner_expr));
     }
 
     if let Some(ty) = extract_generic("Option", ty) {
         let inner_expr = to_iter(quote!(item), ty);
-        return parse_quote!(#e.map(|item| #inner_expr));
+        return parse_quote!(#e.as_ref().map(|item| #inner_expr));
     }
 
     if let Some(ty) = extract_generic("Box", ty) {
         let inner_expr = to_iter(quote!(item), ty);
         return parse_quote!({
-            let item = *#e;
+            let item = &*#e;
             #inner_expr
         });
     }
