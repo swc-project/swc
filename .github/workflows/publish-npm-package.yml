@@ -195,8 +195,8 @@ jobs:
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: "v${{ inputs.version }}"
+        # with:
+        #   ref: "v${{ inputs.version }}"
 
       - name: Corepack
         shell: bash
@@ -299,8 +299,8 @@ jobs:
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: "v${{ inputs.version }}"
+        # with:
+        #   ref: "v${{ inputs.version }}"
 
       - run: corepack enable
         shell: bash
@@ -339,8 +339,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: "v${{ inputs.version }}"
+        # with:
+        #   ref: "v${{ inputs.version }}"
 
       - name: Corepack
         run: corepack enable
@@ -376,8 +376,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: "v${{ inputs.version }}"
+        # with:
+        #   ref: "v${{ inputs.version }}"
 
       - run: corepack enable
         shell: bash
@@ -593,8 +593,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: "v${{ inputs.version }}"
+        # with:
+        #   ref: "v${{ inputs.version }}"
 
       - name: Corepack
         run: corepack enable
