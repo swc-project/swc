@@ -1449,6 +1449,24 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                             #(#node_ref_kind_arms)*
                         }
                     }
+
+                    pub fn raw_children(&self) -> impl Iterator<Item = NodeRef<'ast>> {
+                        RawChildren(self, 0)
+                    }
+                }
+            ));
+
+            defs.push(parse_quote!(
+                struct RawChildren<'ast>(&'ast NodeRef<'ast>, usize);
+            ));
+
+            defs.push(parse_quote!(
+                impl<'ast> Iterator for RawChildren<'ast> {
+                    type Item = NodeRef<'ast>;
+
+                    fn next(&mut self) -> Option<Self::Item> {
+                        todo!()
+                    }
                 }
             ));
         }
