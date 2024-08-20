@@ -1286,9 +1286,6 @@
 - **(es/minifier)** Abort fn inliner if there's a spread arg ([#8809](https://github.com/swc-project/swc/issues/8809)) ([730ded2](https://github.com/swc-project/swc/commit/730ded2a26f63f0069dea0d3bc207bb31f344444))
 
 
-- **(es/module)** Fix `jsc.paths` with `resolveFully` ([#8784](https://github.com/swc-project/swc/issues/8784)) ([4961bb0](https://github.com/swc-project/swc/commit/4961bb055df9925da97279819d2fdf740b4b3d92))
-
-
 - **(es/parser)** Tweak msg of `SyntaxError::UsingDeclNotEnabled` ([#8791](https://github.com/swc-project/swc/issues/8791)) ([95c822e](https://github.com/swc-project/swc/commit/95c822e7c43470e4c972bef00d97e7e0de02e0b0))
 
 ### Features
