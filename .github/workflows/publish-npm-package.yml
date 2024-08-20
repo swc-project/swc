@@ -278,7 +278,7 @@ jobs:
         run: ${{ matrix.settings.build }}
         shell: bash
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: bindings-${{ inputs.package }}-${{ matrix.settings.target }}
           path: |
@@ -317,7 +317,7 @@ jobs:
       - name: Install dependencies
         run: corepack enable && yarn install --network-timeout 300000
       - name: Download artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: bindings-${{ inputs.package }}-${{ matrix.settings.target }}
           path: ./packages/${{ inputs.package }}
@@ -356,7 +356,7 @@ jobs:
       - name: Install dependencies
         run: corepack enable && yarn install
       - name: Download artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: bindings-${{ inputs.package }}-x86_64-unknown-linux-gnu
           path: ./packages/${{ inputs.package }}
@@ -396,7 +396,7 @@ jobs:
           yarn config set supportedArchitectures.libc "musl"
           yarn install
       - name: Download artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: bindings-${{ inputs.package }}-x86_64-unknown-linux-musl
           path: ./packages/${{ inputs.package }}
@@ -419,7 +419,7 @@ jobs:
   #     - name: Corepack
   #       run: corepack enable
   #     - name: Download artifacts
-  #       uses: actions/download-artifact@v3
+  #       uses: actions/download-artifact@v4
   #       with:
   #         name: bindings-${{ inputs.package }}-aarch64-unknown-linux-musl
   #         path: ./packages/${{ inputs.package }}
@@ -467,7 +467,7 @@ jobs:
   #     - name: Corepack
   #       run: corepack enable
   #     - name: Download artifacts
-  #       uses: actions/download-artifact@v3
+  #       uses: actions/download-artifact@v4
   #       with:
   #         name: bindings-${{ inputs.package }}-armv7-unknown-linux-gnueabihf
   #         path: ./packages/${{ inputs.package }}
@@ -526,7 +526,7 @@ jobs:
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
-          pattern: bindings-${{ inputs.package }}-**
+          pattern: "bindings-${{ inputs.package }}-*"
           path: ./packages/${{ inputs.package }}/artifacts
 
       - name: List binaries
