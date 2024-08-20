@@ -1,0 +1,40 @@
+name: "Publish"
+
+env:
+  CI: 1
+  # 7 GiB by default on GitHub, setting to 6 GiB
+  # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
+  NODE_OPTIONS: --max-old-space-size=6144
+  GIT_AUTHOR_NAME: "SWC Bot"
+  GIT_AUTHOR_EMAIL: "bot@swc.rs"
+  GIT_COMMITTER_NAME: "SWC Bot"
+  GIT_COMMITTER_EMAIL: "bot@swc.rs"
+  # https://github.com/actions/setup-node/issues/899#issuecomment-1819151595
+  SKIP_YARN_COREPACK_CHECK: 1
+
+on:
+  push:
+    branches:
+      - publish-*
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  publish-npm-nightly:
+    name: "Check publish ${{ matrix.package }}"
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+          - core
+          - html
+    uses: ./.github/workflows/publish-npm-package.yml
+    secrets: inherit
+    with:
+      package: ${{ matrix.package }}
+      version: "v1.7.15-nightly-20240820.1"
+      buildCli: false
+      skipBuild: false
+      skipPublishing: false
