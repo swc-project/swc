@@ -1384,6 +1384,8 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                             NodeRef::#type_name(node) => {
                                 match node {
                                     #(#arms)*
+
+                                    _ => None
                                 }
                             }
                         ));
