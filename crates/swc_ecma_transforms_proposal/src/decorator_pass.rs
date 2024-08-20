@@ -1,7 +1,7 @@
 use std::mem::take;
 
 use swc_ecma_ast::*;
-use swc_ecma_visit::{as_folder, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, Fold, NodeRef, VisitMut, VisitMutWith};
 
 use crate::DecoratorVersion;
 
@@ -25,6 +25,8 @@ struct State {
 
 #[derive(Default)]
 struct ClassState {
+    class_id_name: Option<Id>,
+
     has_element_decorators: bool,
     has_computed_keys_side_effects: bool,
     elem_decs_use_fn_context: bool,
@@ -59,4 +61,31 @@ impl VisitMut for DecoratorPass {
     }
 }
 
-fn uses_function_context_or_yield_await(dec: &Decorator) -> bool {}
+impl ClassState {
+    fn uses_function_context_or_yield_await(&self, dec: &Decorator) -> bool {
+        let nr = NodeRef::from(dec);
+        let mut iter = nr.experimental_traverse();
+
+        iter.any(|n| match n {
+            NodeRef::ThisExpr(..)
+            | NodeRef::Super(..)
+            | NodeRef::AwaitExpr(..)
+            | NodeRef::YieldExpr(..)
+            | NodeRef::MetaPropKind(MetaPropKind::NewTarget) => true,
+
+            NodeRef::Ident(i) => {
+                if i.sym == "arguments" {
+                    return true;
+                }
+
+                if self.class_id_name == Some(i.to_id()) {
+                    return true;
+                }
+
+                false
+            }
+
+            _ => false,
+        })
+    }
+}
