@@ -1360,17 +1360,18 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                         for variant in &data.variants {
                             let variant_name = &variant.ident;
 
-                            if variant.fields.len() != 1 {
-                                continue;
-                            }
-
-                            let f = &variant.fields.iter().next().unwrap();
-                            if is_node_ref(&f.ty) {
+                            for (idx, f) in variant
+                                .fields
+                                .iter()
+                                .filter(|f| is_node_ref(&f.ty))
+                                .enumerate()
+                            {
+                                let next = idx + 1;
                                 let ty = &f.ty;
                                 arms.push(parse_quote!(
                                     #type_name::#variant_name(v0) => {
-                                        if self.1 == 0 {
-                                            self.1 = 1;
+                                        if self.1 == #idx {
+                                            self.1 = #next;
                                             Some(NodeRef::#ty(v0))
                                         } else {
                                             None
