@@ -10788,157 +10788,76 @@ pub enum NodeRef<'ast> {
     TokenAndSpan(&'ast TokenAndSpan),
 }
 impl<'ast> NodeRef<'ast> {
-    pub fn raw_children(&'ast self) -> impl Iterator<Item = NodeRef<'ast>> {
-        RawChildren(self, 0)
-    }
-}
-struct RawChildren<'ast>(&'ast NodeRef<'ast>, usize);
-impl<'ast> Iterator for RawChildren<'ast> {
-    type Item = NodeRef<'ast>;
-
     #[allow(unreachable_patterns)]
-    fn next(&mut self) -> Option<Self::Item> {
-        match self.0 {
+    pub fn raw_children(&'ast self) -> Box<dyn 'ast + Iterator<Item = NodeRef<'ast>>> {
+        match self {
             NodeRef::Attribute(node) => {
-                let iterator = [].into_iter().chain(
+                let iterator = ::std::iter::empty::<NodeRef<'ast>>().chain(
                     node.namespace
-                        .as_ref()
-                        .map(|item| ::std::iter::once(NodeRef::Namespace(&item))),
+                        .iter()
+                        .flat_map(|item| ::std::iter::once(NodeRef::Namespace(&item))),
                 );
-                let idx = self.1;
-                self.1 += 1;
-                iterator.nth(idx)
+                Box::new(iterator)
             }
             NodeRef::AttributeToken(node) => {
-                let iterator = [].into_iter();
-                let idx = self.1;
-                self.1 += 1;
-                iterator.nth(idx)
+                let iterator = ::std::iter::empty::<NodeRef<'ast>>();
+                Box::new(iterator)
             }
             NodeRef::CdataSection(node) => {
-                let iterator = [].into_iter();
-                let idx = self.1;
-                self.1 += 1;
-                iterator.nth(idx)
+                let iterator = ::std::iter::empty::<NodeRef<'ast>>();
+                Box::new(iterator)
             }
             NodeRef::Child(node) => match node {
-                Child::DocumentType(v0) => {
-                    if self.1 == 0usize {
-                        self.1 = 1usize;
-                        Some(NodeRef::DocumentType(v0))
-                    } else {
-                        None
-                    }
-                }
-                Child::Element(v0) => {
-                    if self.1 == 0usize {
-                        self.1 = 1usize;
-                        Some(NodeRef::Element(v0))
-                    } else {
-                        None
-                    }
-                }
-                Child::Text(v0) => {
-                    if self.1 == 0usize {
-                        self.1 = 1usize;
-                        Some(NodeRef::Text(v0))
-                    } else {
-                        None
-                    }
-                }
-                Child::CdataSection(v0) => {
-                    if self.1 == 0usize {
-                        self.1 = 1usize;
-                        Some(NodeRef::CdataSection(v0))
-                    } else {
-                        None
-                    }
-                }
-                Child::Comment(v0) => {
-                    if self.1 == 0usize {
-                        self.1 = 1usize;
-                        Some(NodeRef::Comment(v0))
-                    } else {
-                        None
-                    }
-                }
+                Child::DocumentType(v0) => Box::new(::std::iter::once(NodeRef::DocumentType(v0))),
+                Child::Element(v0) => Box::new(::std::iter::once(NodeRef::Element(v0))),
+                Child::Text(v0) => Box::new(::std::iter::once(NodeRef::Text(v0))),
+                Child::CdataSection(v0) => Box::new(::std::iter::once(NodeRef::CdataSection(v0))),
+                Child::Comment(v0) => Box::new(::std::iter::once(NodeRef::Comment(v0))),
                 Child::ProcessingInstruction(v0) => {
-                    if self.1 == 0usize {
-                        self.1 = 1usize;
-                        Some(NodeRef::ProcessingInstruction(v0))
-                    } else {
-                        None
-                    }
+                    Box::new(::std::iter::once(NodeRef::ProcessingInstruction(v0)))
                 }
-                _ => None,
+                _ => Box::new(::std::iter::empty::<NodeRef<'ast>>()),
             },
             NodeRef::Comment(node) => {
-                let iterator = [].into_iter();
-                let idx = self.1;
-                self.1 += 1;
-                iterator.nth(idx)
+                let iterator = ::std::iter::empty::<NodeRef<'ast>>();
+                Box::new(iterator)
             }
             NodeRef::Document(node) => {
-                let iterator = [].into_iter().chain(
-                    node.children
-                        .iter()
-                        .map(|item| ::std::iter::once(NodeRef::Child(&item))),
-                );
-                let idx = self.1;
-                self.1 += 1;
-                iterator.nth(idx)
+                let iterator = ::std::iter::empty::<NodeRef<'ast>>()
+                    .chain(node.children.iter().map(|item| NodeRef::Child(&item)));
+                Box::new(iterator)
             }
             NodeRef::DocumentMode(node) => match node {
-                _ => None,
+                _ => Box::new(::std::iter::empty::<NodeRef<'ast>>()),
             },
             NodeRef::DocumentType(node) => {
-                let iterator = [].into_iter();
-                let idx = self.1;
-                self.1 += 1;
-                iterator.nth(idx)
+                let iterator = ::std::iter::empty::<NodeRef<'ast>>();
+                Box::new(iterator)
             }
             NodeRef::Element(node) => {
-                let iterator = []
-                    .into_iter()
-                    .chain(
-                        node.attributes
-                            .iter()
-                            .map(|item| ::std::iter::once(NodeRef::Attribute(&item))),
-                    )
-                    .chain(
-                        node.children
-                            .iter()
-                            .map(|item| ::std::iter::once(NodeRef::Child(&item))),
-                    );
-                let idx = self.1;
-                self.1 += 1;
-                iterator.nth(idx)
+                let iterator = ::std::iter::empty::<NodeRef<'ast>>()
+                    .chain(node.attributes.iter().map(|item| NodeRef::Attribute(&item)))
+                    .chain(node.children.iter().map(|item| NodeRef::Child(&item)));
+                Box::new(iterator)
             }
             NodeRef::Namespace(node) => match node {
-                _ => None,
+                _ => Box::new(::std::iter::empty::<NodeRef<'ast>>()),
             },
             NodeRef::ProcessingInstruction(node) => {
-                let iterator = [].into_iter();
-                let idx = self.1;
-                self.1 += 1;
-                iterator.nth(idx)
+                let iterator = ::std::iter::empty::<NodeRef<'ast>>();
+                Box::new(iterator)
             }
             NodeRef::Text(node) => {
-                let iterator = [].into_iter();
-                let idx = self.1;
-                self.1 += 1;
-                iterator.nth(idx)
+                let iterator = ::std::iter::empty::<NodeRef<'ast>>();
+                Box::new(iterator)
             }
             NodeRef::Token(node) => match node {
-                _ => None,
+                _ => Box::new(::std::iter::empty::<NodeRef<'ast>>()),
             },
             NodeRef::TokenAndSpan(node) => {
-                let iterator = []
-                    .into_iter()
+                let iterator = ::std::iter::empty::<NodeRef<'ast>>()
                     .chain(::std::iter::once(NodeRef::Token(&node.token)));
-                let idx = self.1;
-                self.1 += 1;
-                iterator.nth(idx)
+                Box::new(iterator)
             }
         }
     }
