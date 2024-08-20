@@ -165,6 +165,51 @@ impl Optimizer<'_> {
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
+    fn take_ident_of_obj_pat_if_unused_and_side_effect_free(
+        &mut self,
+        i: &mut Ident,
+        init: Option<&mut Expr>,
+    ) {
+        trace_op!("unused: Checking identifier `{}`", i);
+
+        if !self.may_remove_ident(i) {
+            log_abort!("unused: Preserving var `{:#?}` because it's top-level", i);
+            return;
+        }
+
+        if let Some(v) = self.data.vars.get(&i.to_id()).cloned() {
+            if v.is_unused() {
+                if let Some(init) = init {
+                    if init.may_have_side_effects(&self.expr_ctx) {
+                        log_abort!(
+                            "unused: Cannot drop ({}) because its init expression has side effects",
+                            dump(&*i, false)
+                        );
+                        return;
+                    }
+
+                    self.changed = true;
+                    report_change!(
+                        "unused: Dropping a variable '{}{:?}' because it is not used",
+                        i.sym,
+                        i.ctxt
+                    );
+
+                    // This will remove variable.
+                    i.take();
+                }
+
+                return;
+            }
+
+            log_abort!(
+                "unused: Cannot drop ({}) because it's used",
+                dump(&*i, false)
+            );
+        }
+    }
+
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn take_ident_of_pat_if_unused(&mut self, i: &mut Ident, init: Option<&mut Expr>) {
         trace_op!("unused: Checking identifier `{}`", i);
 
@@ -174,12 +219,7 @@ impl Optimizer<'_> {
         }
 
         if let Some(v) = self.data.vars.get(&i.to_id()).cloned() {
-            if v.ref_count == 0
-                && v.usage_count == 0
-                && !v.reassigned
-                && v.property_mutation_count == 0
-                && !v.declared_as_catch_param
-            {
+            if v.is_unused() {
                 self.changed = true;
                 report_change!(
                     "unused: Dropping a variable '{}{:?}' because it is not used",
@@ -392,7 +432,10 @@ impl Optimizer<'_> {
                             value: Some(value),
                             ..
                         }) => {
-                            self.take_ident_of_pat_if_unused(key, Some(value.as_mut()));
+                            self.take_ident_of_obj_pat_if_unused_and_side_effect_free(
+                                key,
+                                Some(value.as_mut()),
+                            );
                         }
                         _ => {}
                     }

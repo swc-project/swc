@@ -1,3 +1,2 @@
-const a = 1;
-const { b = "b", c, d } = {};
+const { a = /*#__PURE__*/ sideEffectFree(sideEffect()), b = "b", c, d } = {};
 console.log(d);

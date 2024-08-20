@@ -167,6 +167,14 @@ impl Default for VarUsageInfo {
 }
 
 impl VarUsageInfo {
+    pub(crate) fn is_unused(&self) -> bool {
+        self.ref_count == 0
+            && self.usage_count == 0
+            && !self.reassigned
+            && self.property_mutation_count == 0
+            && !self.declared_as_catch_param
+    }
+
     pub(crate) fn is_infected(&self) -> bool {
         !self.infects_to.is_empty()
     }
