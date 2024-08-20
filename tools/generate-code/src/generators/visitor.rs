@@ -1442,7 +1442,7 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                             arms.push(parse_quote!(
                                 #idx => {
                                     self.1 = #next;
-                                    Some(NodeRef::#ty(node.#ident))
+                                    Some(NodeRef::#ty(&node.#ident))
                                 },
                             ));
                         }
