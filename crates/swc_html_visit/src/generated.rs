@@ -10812,7 +10812,7 @@ where
 #[cfg(any(docsrs, feature = "path"))]
 pub type AstKindPath = swc_visit::AstKindPath<AstParentKind>;
 #[cfg(any(docsrs, feature = "path"))]
-pub type AstNodePath<'ast> = swc_visit::AstNodePath<NodeRef<'ast>>;
+pub type AstNodePath<'ast> = swc_visit::AstNodePath<AstParentNodeRef<'ast>>;
 #[cfg(any(docsrs, feature = "path"))]
 pub mod fields {
     use swc_html_ast::*;
@@ -11092,7 +11092,6 @@ pub mod fields {
         #[doc = "Represents [`TokenAndSpan::token`]"]
         Token,
     }
-    #[cfg(any(docsrs, feature = "path"))]
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
     pub enum AstParentKind {
         Attribute(AttributeField),
@@ -11203,72 +11202,72 @@ pub mod fields {
     }
 }
 impl<'ast> From<&'ast Attribute> for NodeRef<'ast> {
-    fn from(node: &Attribute) -> Self {
+    fn from(node: &'ast Attribute) -> Self {
         NodeRef::Attribute(node)
     }
 }
 impl<'ast> From<&'ast AttributeToken> for NodeRef<'ast> {
-    fn from(node: &AttributeToken) -> Self {
+    fn from(node: &'ast AttributeToken) -> Self {
         NodeRef::AttributeToken(node)
     }
 }
 impl<'ast> From<&'ast Child> for NodeRef<'ast> {
-    fn from(node: &Child) -> Self {
+    fn from(node: &'ast Child) -> Self {
         NodeRef::Child(node)
     }
 }
 impl<'ast> From<&'ast Comment> for NodeRef<'ast> {
-    fn from(node: &Comment) -> Self {
+    fn from(node: &'ast Comment) -> Self {
         NodeRef::Comment(node)
     }
 }
 impl<'ast> From<&'ast Document> for NodeRef<'ast> {
-    fn from(node: &Document) -> Self {
+    fn from(node: &'ast Document) -> Self {
         NodeRef::Document(node)
     }
 }
 impl<'ast> From<&'ast DocumentFragment> for NodeRef<'ast> {
-    fn from(node: &DocumentFragment) -> Self {
+    fn from(node: &'ast DocumentFragment) -> Self {
         NodeRef::DocumentFragment(node)
     }
 }
 impl<'ast> From<&'ast DocumentMode> for NodeRef<'ast> {
-    fn from(node: &DocumentMode) -> Self {
+    fn from(node: &'ast DocumentMode) -> Self {
         NodeRef::DocumentMode(node)
     }
 }
 impl<'ast> From<&'ast DocumentType> for NodeRef<'ast> {
-    fn from(node: &DocumentType) -> Self {
+    fn from(node: &'ast DocumentType) -> Self {
         NodeRef::DocumentType(node)
     }
 }
 impl<'ast> From<&'ast Element> for NodeRef<'ast> {
-    fn from(node: &Element) -> Self {
+    fn from(node: &'ast Element) -> Self {
         NodeRef::Element(node)
     }
 }
 impl<'ast> From<&'ast Namespace> for NodeRef<'ast> {
-    fn from(node: &Namespace) -> Self {
+    fn from(node: &'ast Namespace) -> Self {
         NodeRef::Namespace(node)
     }
 }
 impl<'ast> From<&'ast Raw> for NodeRef<'ast> {
-    fn from(node: &Raw) -> Self {
+    fn from(node: &'ast Raw) -> Self {
         NodeRef::Raw(node)
     }
 }
 impl<'ast> From<&'ast Text> for NodeRef<'ast> {
-    fn from(node: &Text) -> Self {
+    fn from(node: &'ast Text) -> Self {
         NodeRef::Text(node)
     }
 }
 impl<'ast> From<&'ast Token> for NodeRef<'ast> {
-    fn from(node: &Token) -> Self {
+    fn from(node: &'ast Token) -> Self {
         NodeRef::Token(node)
     }
 }
 impl<'ast> From<&'ast TokenAndSpan> for NodeRef<'ast> {
-    fn from(node: &TokenAndSpan) -> Self {
+    fn from(node: &'ast TokenAndSpan) -> Self {
         NodeRef::TokenAndSpan(node)
     }
 }
