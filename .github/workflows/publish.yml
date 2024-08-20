@@ -13,6 +13,9 @@ env:
   SKIP_YARN_COREPACK_CHECK: 1
 
 on:
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       version:
@@ -133,7 +136,7 @@ jobs:
       version: ${{ needs.determine-nightly-version.outputs.version }}
       buildCli: true
       skipBuild: ${{ inputs.skipBuild || false }}
-      skipPublishing: false
+      skipPublishing: ${{ github.event_name == 'pull_request' }}
 
   publish-html-nightly:
     name: "Publish html@${{ needs.determine-nightly-version.outputs.version }}"
@@ -148,7 +151,7 @@ jobs:
       version: ${{ needs.determine-nightly-version.outputs.version }}
       buildCli: false
       skipBuild: ${{ inputs.skipBuild || false }}
-      skipPublishing: false
+      skipPublishing: ${{ github.event_name == 'pull_request' }}
 
   run-ecosystem-ci-with-nightly:
     name: "Test nightly using ecosystem CI"
@@ -177,5 +180,4 @@ jobs:
       version: ${{ inputs.version }}
       buildCli: true
       skipBuild: ${{ inputs.skipBuild || inputs.onlyNightly || false }}
-      # Skip on pull requests
-      skipPublishing: ${{ inputs.onlyNightly }}
+      skipPublishing: ${{ github.event_name == 'pull_request' }}
