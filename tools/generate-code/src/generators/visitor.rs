@@ -1607,6 +1607,15 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                     }
                 }
             ));
+
+            items.push(parse_quote!(
+                impl<'ast> NodeRef<'ast> {
+                    pub fn preorder(&'ast self) -> Box<dyn 'ast + Iterator<Item = NodeRef<'ast>>> {}
+
+                    pub fn postorder(&'ast self) -> Box<dyn 'ast + Iterator<Item = NodeRef<'ast>>> {
+                    }
+                }
+            ));
         }
 
         items.insert(
