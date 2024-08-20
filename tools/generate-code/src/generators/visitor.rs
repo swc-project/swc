@@ -1271,6 +1271,20 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
     let mut node_ref_kind_arms = Vec::<Arm>::new();
     let mut node_ref_iter_next_arms = Vec::<Arm>::new();
 
+    let node_names = node_types
+        .iter()
+        .filter_map(|ty| match ty {
+            Item::Enum(data) => Some(data.ident.clone()),
+            Item::Struct(data) => Some(data.ident.clone()),
+            _ => None,
+        })
+        .collect::<Vec<_>>();
+
+    let is_node_ref = |ty: &Type| match ty {
+        Type::Path(p) => node_names.contains(&p.path.segments.last().unwrap().ident),
+        _ => false,
+    };
+
     {
         let mut defs = Vec::<Item>::new();
 
@@ -1335,11 +1349,40 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                         #type_name(&'ast #type_name, #fields_enum_name)
                     ));
 
-                    node_ref_iter_next_arms.push(parse_quote!(
-                        NodeRef::#type_name(node, _) => {
+                    {
+                        let mut arms = Vec::<Arm>::new();
 
+                        for variant in &data.variants {
+                            let variant_name = &variant.ident;
+
+                            if variant.fields.len() != 1 {
+                                continue;
+                            }
+
+                            let f = &variant.fields.iter().next().unwrap();
+                            if is_node_ref(&f.ty) {
+                                let ty = &f.ty;
+                                arms.push(parse_quote!(
+                                    #type_name::#variant_name(v0) => {
+                                        if self.1 == 0 {
+                                            self.1 = 1;
+                                            Some(NodeRef::#ty(v0))
+                                        } else {
+                                            None
+                                        }
+                                    },
+                                ));
+                            }
                         }
-                    ));
+
+                        node_ref_iter_next_arms.push(parse_quote!(
+                            NodeRef::#type_name(node, _) => {
+                                match node {
+                                    #(#arms)*
+                                }
+                            }
+                        ));
+                    }
 
                     defs.push(parse_quote!(
                         impl #fields_enum_name {
