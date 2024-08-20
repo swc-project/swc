@@ -1,7 +1,7 @@
 {
     "name": "@swc/html",
     "version": "0.0.29",
-    "description": "Super-fast alternative for posthtml",
+    "description": "Super-fast HTML minifier",
     "homepage": "https://swc.rs",
     "main": "./index.js",
     "author": "강동윤 <kdy1997.dev@gmail.com>",
@@ -21,7 +21,7 @@
         "url": "https://github.com/swc-project/swc/issues"
     },
     "napi": {
-        "name": "html",
+        "name": "swc-html",
         "triples": {
             "defaults": true,
             "additional": [
