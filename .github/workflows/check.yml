@@ -23,7 +23,7 @@ concurrency:
 
 jobs:
   publish-npm-nightly:
-    name: "Publish ${{ matrix.package }}@1.7.15-nightly-20240820.7"
+    name: "Publish ${{ matrix.package }}@1.7.15-nightly-20240820.6"
     strategy:
       fail-fast: false
       matrix:
@@ -34,7 +34,7 @@ jobs:
     secrets: inherit
     with:
       package: ${{ matrix.package }}
-      version: 1.7.15-nightly-20240820.7
+      version: 1.7.15-nightly-20240820.6
       buildCli: true
       skipBuild: false
       skipPublishing: true
