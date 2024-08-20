@@ -173,10 +173,14 @@ jobs:
               export JEMALLOC_SYS_WITH_LG_PAGE=16 &&
               rustup toolchain install $(cat ../../rust-toolchain) &&
               rustup target add aarch64-unknown-linux-musl &&
-              RUSTFLAGS='-C target-feature=+crt-static -C link-arg=-lgcc' cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-unknown-linux-musl &&
-              rm -rf target/release/.cargo-lock &&
-              cp ../../bindings/target/aarch64-unknown-linux-musl/release/swc . && chmod +x ./swc &&
-              env RUSTFLAGS='-C target-feature=-crt-static' yarn build --target=aarch64-unknown-linux-musl
+              if [[ ${{ inputs.package }} == "core" ]]; then
+                RUSTFLAGS='-C target-feature=+crt-static -C link-arg=-lgcc' cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-unknown-linux-musl &&
+                rm -rf target/release/.cargo-lock &&
+                cp ../../bindings/target/aarch64-unknown-linux-musl/release/swc . && chmod +x ./swc &&
+                env RUSTFLAGS='-C target-feature=-crt-static' yarn build --target=aarch64-unknown-linux-musl
+              else
+                env RUSTFLAGS='-C target-feature=-crt-static' yarn build --target=aarch64-unknown-linux-musl
+              fi
           - host: windows-latest
             target: aarch64-pc-windows-msvc
             # Disable `LTO` and increase `codegen-units` to avoid llvm `OOM` on GitHub Actions.
@@ -276,7 +280,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: bindings-${{ matrix.settings.target }}
+          name: bindings-${{ inputs.package }}-${{ matrix.settings.target }}
           path: |
             packages/${{ inputs.package }}/swc*
             packages/${{ inputs.package }}/*.node
@@ -315,7 +319,7 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
-          name: bindings-${{ matrix.settings.target }}
+          name: bindings-${{ inputs.package }}-${{ matrix.settings.target }}
           path: ./packages/${{ inputs.package }}
       - name: List packages
         run: ls -R .
@@ -354,7 +358,7 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
-          name: bindings-x86_64-unknown-linux-gnu
+          name: bindings-${{ inputs.package }}-x86_64-unknown-linux-gnu
           path: ./packages/${{ inputs.package }}
       - name: List packages
         run: ls -R .
@@ -362,7 +366,7 @@ jobs:
       - name: Build TypeScript
         run: yarn build:ts
       - name: Test bindings
-        run: docker run --rm -v $(pwd):/swc -w /swc node:${{ matrix.node }}-slim sh -c 'npm install -f -g yarn@1.22.19 && cd ./packages/${{ inputs.package }} && env DISABLE_PLUGIN_E2E_TESTS=true yarn test'
+        run: docker run --rm -v $(pwd):/swc -w /swc node:${{ matrix.node }}-slim sh -c 'npm install -f -g yarn@1.22.19 && env DISABLE_PLUGIN_E2E_TESTS=true yarn test:${{ inputs.package }}'
   test-linux-x64-musl-binding:
     name: Test bindings on x86_64-unknown-linux-musl - node@${{ matrix.node }}
     needs:
@@ -394,7 +398,7 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
-          name: bindings-x86_64-unknown-linux-musl
+          name: bindings-${{ inputs.package }}-x86_64-unknown-linux-musl
           path: ./packages/${{ inputs.package }}
       - name: List packages
         run: ls -R .
@@ -402,7 +406,7 @@ jobs:
       - name: Build TypeScript
         run: yarn build:ts
       - name: Test bindings
-        run: docker run --rm -v $(pwd):/swc -w /swc node:${{ matrix.node }}-alpine sh -c 'npm install -f -g yarn@1.22.19 && cd ./packages/${{ inputs.package }} && env DISABLE_PLUGIN_E2E_TESTS=true yarn test'
+        run: docker run --rm -v $(pwd):/swc -w /swc node:${{ matrix.node }}-alpine sh -c 'npm install -f -g yarn@1.22.19 && env DISABLE_PLUGIN_E2E_TESTS=true yarn test:${{ inputs.package }}'
   # test-linux-aarch64-musl-binding:
   #   name: Test bindings on aarch64-unknown-linux-musl - node@lts
   #   needs:
@@ -417,7 +421,7 @@ jobs:
   #     - name: Download artifacts
   #       uses: actions/download-artifact@v3
   #       with:
-  #         name: bindings-aarch64-unknown-linux-musl
+  #         name: bindings-${{ inputs.package }}-aarch64-unknown-linux-musl
   #         path: ./packages/${{ inputs.package }}
   #     - name: List packages
   #       run: ls -R .
@@ -465,7 +469,7 @@ jobs:
   #     - name: Download artifacts
   #       uses: actions/download-artifact@v3
   #       with:
-  #         name: bindings-armv7-unknown-linux-gnueabihf
+  #         name: bindings-${{ inputs.package }}-armv7-unknown-linux-gnueabihf
   #         path: ./packages/${{ inputs.package }}
   #     - name: List packages
   #       run: ls -R .
@@ -520,8 +524,9 @@ jobs:
         run: corepack enable && yarn install
 
       - name: Download all artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
+          pattern: "bindings-${{ inputs.package }}-*"
           path: ./packages/${{ inputs.package }}/artifacts
 
       - name: List binaries
@@ -529,7 +534,6 @@ jobs:
         shell: bash
 
       - name: Move binaries
-        if: inputs.package == 'core'
         shell: bash
         working-directory: ./packages/${{ inputs.package }}
         run: |
@@ -559,7 +563,7 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Upload CLI binaries to gh release
-        if: ${{ !inputs.skipPublishing }}
+        if: ${{ !inputs.skipPublishing && inputs.package == 'core' }}
         shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
