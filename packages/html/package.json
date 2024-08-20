@@ -48,10 +48,13 @@
         "build": "tsc -d && napi build --manifest-path ../../bindings/Cargo.toml --platform -p binding_html_node --js ./binding.js --dts ./binding.d.ts --release -o .",
         "build:dev": "tsc -d && napi build --manifest-path ../../bindings/Cargo.toml --platform -p binding_html_node --js ./binding.js --dts ./binding.d.ts -o .",
         "test": "echo 'done!'",
-        "version": "napi version -p scripts/npm"
+        "version": "napi version --npm-dir scripts/npm"
     },
     "devDependencies": {
         "@napi-rs/cli": "^3.0.0-alpha.43",
         "typescript": "^5.1.6"
+    },
+    "dependencies": {
+        "@swc/counter": "^0.1.3"
     }
 }
