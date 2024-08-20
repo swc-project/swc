@@ -1,3 +1,5 @@
+use serde::{Deserialize, Serialize};
+
 /// A serializable, wrapped struct for the diagnostics information
 /// included in plugin binaries.
 /// TODO: Must implement bytecheck with forward-compatible schema changes to
@@ -9,6 +11,7 @@
 )]
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
 #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
+#[derive(Serialize, Deserialize)]
 pub struct PluginCorePkgDiagnostics {
     pub pkg_version: String,
     pub git_sha: String,
