@@ -1433,31 +1433,29 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                     ));
 
                     {
-                        let mut arms = Vec::<Arm>::new();
+                        let mut iter: Expr = parse_quote!([]);
 
-                        for (idx, f) in data
-                            .fields
-                            .iter()
-                            .filter(|f| is_node_ref(&f.ty))
-                            .enumerate()
-                        {
-                            let ident = &f.ident;
-                            let next = idx + 1;
-                            let ty = &f.ty;
-                            arms.push(parse_quote!(
-                                #idx => {
-                                    self.1 = #next;
-                                    Some(NodeRef::#ty(&node.#ident))
-                                },
-                            ));
+                        match &data.fields {
+                            Fields::Named(fields) => {
+                                for f in fields.named.iter() {
+                                    let ident = &f.ident;
+                                    let ty = &f.ty;
+                                    iter = parse_quote!(#iter.chain(node.#ident));
+                                }
+                            }
+
+                            Fields::Unnamed(_fields) => {
+                                todo!()
+                            }
+                            Fields::Unit => {}
                         }
 
                         node_ref_iter_next_arms.push(parse_quote!(
                             NodeRef::#type_name(node) => {
-                                match self.1 {
-                                    #(#arms)*
-                                    _ => None
-                                }
+                                let iterator = #iter.into_iter();
+                                let idx = self.1;
+                                self.1 += 1;
+                                iterator.nth(idx)
                             }
                         ));
                     }
