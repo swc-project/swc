@@ -3032,15 +3032,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@napi-rs/cli@npm:^2.16.1":
-  version: 2.18.4
-  resolution: "@napi-rs/cli@npm:2.18.4"
-  bin:
-    napi: scripts/index.js
-  checksum: b9bdb0e0f96328315a5ad7846df5c72f5f00c707aa58bf2e8b753ad419c4a45989ba6967c8a27acf1552051d2693ae43a9be9ab2c173671040c1861e6d920ac6
-  languageName: node
-  linkType: hard
-
 "@napi-rs/cli@npm:^3.0.0-alpha.22":
   version: 3.0.0-alpha.55
   resolution: "@napi-rs/cli@npm:3.0.0-alpha.55"
@@ -4657,7 +4648,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@swc/html@workspace:packages/html"
   dependencies:
-    "@napi-rs/cli": "npm:^2.16.1"
+    "@napi-rs/cli": "npm:^3.0.0-alpha.43"
     typescript: "npm:^5.1.6"
   languageName: unknown
   linkType: soft

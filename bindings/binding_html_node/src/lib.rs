@@ -23,8 +23,8 @@ use swc_html_ast::{Document, DocumentFragment};
 use swc_html_minifier::{
     minify_document, minify_document_fragment,
     option::{
-        CollapseWhitespaces, MinifierType, MinifyCssOption, MinifyJsOption, MinifyJsonOption,
-        RemoveRedundantAttributes,
+        CollapseWhitespaces, CssOptions, MinifierType, MinifyCssOption, MinifyJsOption,
+        MinifyJsonOption, RemoveRedundantAttributes,
     },
 };
 use swc_nodejs_common::{deserialize_json, get_deserialized, MapErr};
@@ -138,7 +138,7 @@ pub struct MinifyOptions {
     #[serde(default = "minify_js_by_default")]
     minify_js: MinifyJsOption,
     #[serde(default = "minify_css_by_default")]
-    minify_css: MinifyCssOption,
+    minify_css: MinifyCssOption<CssOptions>,
     #[serde(default)]
     minify_additional_scripts_content: Option<Vec<(CachedRegex, MinifierType)>>,
     #[serde(default)]
@@ -171,7 +171,7 @@ const fn minify_js_by_default() -> MinifyJsOption {
     MinifyJsOption::Bool(true)
 }
 
-const fn minify_css_by_default() -> MinifyCssOption {
+const fn minify_css_by_default() -> MinifyCssOption<CssOptions> {
     MinifyCssOption::Bool(true)
 }
 
@@ -276,7 +276,7 @@ fn minify_inner(
                 None => FileName::Anon,
             };
 
-            let fm = cm.new_source_file(filename, code.into());
+            let fm = cm.new_source_file(filename.into(), code.into());
 
             let scripting_enabled = opts.scripting_enabled;
             let mut errors = vec![];
