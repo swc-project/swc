@@ -1,43 +1,43 @@
 {
-    "name": "@swc/html-linux-x64-gnu",
-    "version": "1.7.16-nightly-20240820.1",
-    "os": [
-        "linux"
-    ],
-    "cpu": [
-        "x64"
-    ],
-    "main": "swc-html.linux-x64-gnu.node",
-    "files": [
-        "swc-html.linux-x64-gnu.node"
-    ],
-    "libc": [
-        "glibc"
-    ],
-    "description": "Super-fast HTML minifier",
-    "keywords": [
-        "swcpack",
-        "babel",
-        "typescript",
-        "rust",
-        "webpack",
-        "tsc"
-    ],
-    "author": "강동윤 <kdy1997.dev@gmail.com>",
-    "homepage": "https://swc.rs",
-    "license": "Apache-2.0 AND MIT",
-    "engines": {
-        "node": ">=10"
-    },
-    "publishConfig": {
-        "registry": "https://registry.npmjs.org/",
-        "access": "public"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/swc-project/swc.git"
-    },
-    "bugs": {
-        "url": "https://github.com/swc-project/swc/issues"
-    }
+  "name": "@swc/html-linux-x64-gnu",
+  "version": "1.7.17-nightly-20240820.1",
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "x64"
+  ],
+  "main": "swc-html.linux-x64-gnu.node",
+  "files": [
+    "swc-html.linux-x64-gnu.node"
+  ],
+  "libc": [
+    "glibc"
+  ],
+  "description": "Super-fast HTML minifier",
+  "keywords": [
+    "swcpack",
+    "babel",
+    "typescript",
+    "rust",
+    "webpack",
+    "tsc"
+  ],
+  "author": "강동윤 <kdy1997.dev@gmail.com>",
+  "homepage": "https://swc.rs",
+  "license": "Apache-2.0 AND MIT",
+  "engines": {
+    "node": ">=10"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/swc-project/swc.git"
+  },
+  "bugs": {
+    "url": "https://github.com/swc-project/swc/issues"
+  }
 }
