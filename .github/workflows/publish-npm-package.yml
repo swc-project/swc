@@ -1,7 +1,7 @@
 name: "Build npm package"
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ inputs.package}}
   cancel-in-progress: true
 
 env:
@@ -56,50 +56,10 @@ jobs:
         run: |
           echo "need-build=true" >> $GITHUB_OUTPUT
 
-  create-git-tag-commit:
-    name: Create git tag commit
-    runs-on: ubuntu-latest
-    needs:
-      - check-if-build-required
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          ref: "main"
-
-      - uses: ./.github/actions/setup-node
-
-      - name: Install git-cliff
-        uses: taiki-e/install-action@v2
-        with:
-          tool: git-cliff@1.3.1
-
-      - name: Install cargo-edit
-        uses: taiki-e/install-action@v2
-        with:
-          tool: cargo-edit@0.12.2
-
-      - name: "Setup jq"
-        uses: dcarbone/install-jq-action@v2
-        with:
-          version: "1.7"
-          force: true
-
-      - uses: webfactory/ssh-agent@v0.9.0
-        if: needs.check-if-build-required.outputs.need-build == 'true' && !inputs.skipPublishing
-        with:
-          ssh-private-key: ${{ secrets.SWC_BOT_SSH }}
-
-      - name: Create git tag commit
-        if: needs.check-if-build-required.outputs.need-build == 'true' && !inputs.skipPublishing
-        run: |
-          ./scripts/publish.sh ${{ inputs.version }}
-
   build:
     if: needs.check-if-build-required.outputs.need-build == 'true'
     needs:
       - check-if-build-required
-      - create-git-tag-commit
     strategy:
       fail-fast: false
       matrix:
@@ -273,13 +233,13 @@ jobs:
           image: ${{ matrix.settings.docker }}
           options: -v ${{ env.HOME }}/.cargo/git:/root/.cargo/git -v ${{ env.HOME }}/.cargo/registry:/root/.cargo/registry -v ${{ github.workspace }}:/build -w /build
           run: >-
-            cd ./packages/core &&
+            cd ./packages/${{ inputs.package }} &&
             npm install -f -g yarn@1.22 &&
             corepack enable &&
             npm i -g wasm-pack &&
             ${{ matrix.settings.build }}
       - name: Build
-        working-directory: ./packages/core
+        working-directory: ./packages/${{ inputs.package }}
         if: ${{ !matrix.settings.docker }}
         run: ${{ matrix.settings.build }}
         shell: bash
@@ -325,15 +285,15 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: bindings-${{ matrix.settings.target }}
-          path: ./packages/core
+          path: ./packages/${{ inputs.package }}
       - name: List packages
         run: ls -R .
         shell: bash
       - name: Build TypeScript
-        working-directory: ./packages/core
+        working-directory: ./packages/${{ inputs.package }}
         run: yarn build:ts
       - name: Test bindings
-        working-directory: ./packages/core
+        working-directory: ./packages/${{ inputs.package }}
         run: yarn test
   test-linux-x64-gnu-binding:
     name: Test bindings on Linux-x64-gnu - node@${{ matrix.node }}
@@ -364,7 +324,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: bindings-x86_64-unknown-linux-gnu
-          path: ./packages/core
+          path: ./packages/${{ inputs.package }}
       - name: List packages
         run: ls -R .
         shell: bash
@@ -404,7 +364,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: bindings-x86_64-unknown-linux-musl
-          path: ./packages/core
+          path: ./packages/${{ inputs.package }}
       - name: List packages
         run: ls -R .
         shell: bash
@@ -427,7 +387,7 @@ jobs:
   #       uses: actions/download-artifact@v3
   #       with:
   #         name: bindings-aarch64-unknown-linux-musl
-  #         path: ./packages/core
+  #         path: ./packages/${{ inputs.package }}
   #     - name: List packages
   #       run: ls -R .
   #       shell: bash
@@ -475,7 +435,7 @@ jobs:
   #       uses: actions/download-artifact@v3
   #       with:
   #         name: bindings-armv7-unknown-linux-gnueabihf
-  #         path: ./packages/core
+  #         path: ./packages/${{ inputs.package }}
   #     - name: List packages
   #       run: ls -R .
   #       shell: bash
@@ -531,15 +491,15 @@ jobs:
       - name: Download all artifacts
         uses: actions/download-artifact@v3
         with:
-          path: ./packages/core/artifacts
+          path: ./packages/${{ inputs.package }}/artifacts
 
       - name: List binaries
-        run: ls -R ./packages/core/artifacts
+        run: ls -R ./packages/${{ inputs.package }}/artifacts
         shell: bash
 
       - name: Move binaries
         shell: bash
-        working-directory: ./packages/core
+        working-directory: ./packages/${{ inputs.package }}
         run: |
           ./scripts/cli_artifacts.sh
           ls -R ./artifacts_cli
@@ -547,7 +507,7 @@ jobs:
 
       - name: List npm
         run: ls -R ./scripts/npm
-        working-directory: ./packages/core
+        working-directory: ./packages/${{ inputs.package }}
         shell: bash
 
       - name: Set fallback dependencies
@@ -577,6 +537,7 @@ jobs:
 
   publish-wasm:
     name: Build - wasm (${{ matrix.settings.npm }})
+    if: ${{ inputs.package == 'core' }}
     runs-on: ubuntu-latest
     needs:
       - publish

@@ -1,0 +1,57 @@
+{
+    "name": "@swc/html",
+    "version": "0.0.29",
+    "description": "Super-fast alternative for posthtml",
+    "homepage": "https://swc.rs",
+    "main": "./index.js",
+    "author": "강동윤 <kdy1997.dev@gmail.com>",
+    "license": "Apache-2.0",
+    "keywords": [
+        "swc",
+        "html"
+    ],
+    "engines": {
+        "node": ">=14"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/swc-project/swc.git"
+    },
+    "bugs": {
+        "url": "https://github.com/swc-project/swc/issues"
+    },
+    "napi": {
+        "name": "html",
+        "triples": {
+            "defaults": true,
+            "additional": [
+                "x86_64-unknown-linux-musl",
+                "i686-pc-windows-msvc",
+                "aarch64-unknown-linux-gnu",
+                "armv7-unknown-linux-gnueabihf",
+                "aarch64-apple-darwin",
+                "aarch64-linux-android",
+                "aarch64-unknown-linux-musl",
+                "aarch64-pc-windows-msvc",
+                "armv7-linux-androideabi"
+            ]
+        }
+    },
+    "publishConfig": {
+        "registry": "https://registry.npmjs.org/",
+        "access": "public"
+    },
+    "scripts": {
+        "artifacts": "napi artifacts --dist scripts/npm",
+        "prepublishOnly": "tsc -d && napi prepublish -p scripts/npm --tagstyle npm",
+        "build:ts": "tsc -d",
+        "build": "tsc -d && napi build --manifest-path ../../bindings/Cargo.toml --platform -p binding_html_node --js ./binding.js --dts ./binding.d.ts --release -o .",
+        "build:dev": "tsc -d && napi build --manifest-path ../../bindings/Cargo.toml --platform -p binding_html_node --js ./binding.js --dts ./binding.d.ts -o .",
+        "test": "echo 'done!'",
+        "version": "napi version -p scripts/npm"
+    },
+    "devDependencies": {
+        "@napi-rs/cli": "^3.0.0-alpha.43",
+        "typescript": "^5.1.6"
+    }
+}

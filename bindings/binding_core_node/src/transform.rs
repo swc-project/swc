@@ -179,7 +179,7 @@ pub fn transform_file(
     let path = clean(&src);
     let task = TransformTask {
         c,
-        input: Input::File(path.into()),
+        input: Input::File(path),
         options: options.into_ref()?,
     };
     Ok(AsyncTask::with_optional_signal(task, signal))

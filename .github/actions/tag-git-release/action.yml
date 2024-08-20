@@ -1,0 +1,44 @@
+name: "Git tag release"
+description: "Tags a release"
+inputs:
+  version:
+    description: "The version"
+    required: true
+  ssh-private-key:
+    description: "The SSH private key"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        ref: "main"
+
+    - uses: ./.github/actions/setup-node
+
+    - name: Install git-cliff
+      uses: taiki-e/install-action@v2
+      with:
+        tool: git-cliff@1.3.1
+
+    - name: Install cargo-edit
+      uses: taiki-e/install-action@v2
+      with:
+        tool: cargo-edit@0.12.2
+
+    - name: "Setup jq"
+      uses: dcarbone/install-jq-action@v2
+      with:
+        version: "1.7"
+        force: true
+
+    - uses: webfactory/ssh-agent@v0.9.0
+      with:
+        ssh-private-key: ${{ inputs.ssh-private-key }}
+
+    - name: Create git tag commit
+      shell: bash
+      run: |
+        ./scripts/publish.sh ${{ inputs.version }}
