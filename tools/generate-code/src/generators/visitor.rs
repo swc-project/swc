@@ -1285,7 +1285,7 @@ fn to_iter(e: TokenStream, ty: &Type, node_names: &[Ident]) -> Option<Expr> {
         let ty = &p.path.segments.last().unwrap().ident;
 
         if node_names.contains(ty) {
-            return Some(parse_quote!(NodeRef::#ty(#e)));
+            return Some(parse_quote!(::std::iter::once(NodeRef::#ty(&#e))));
         }
 
         None
