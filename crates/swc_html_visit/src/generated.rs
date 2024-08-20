@@ -11231,12 +11231,22 @@ impl<'ast> Iterator for RawChildren<'ast> {
     #[allow(unreachable_patterns)]
     fn next(&mut self) -> Option<Self::Item> {
         match self.0 {
-            NodeRef::Attribute(node) => match self.1 {
-                _ => None,
-            },
-            NodeRef::AttributeToken(node) => match self.1 {
-                _ => None,
-            },
+            NodeRef::Attribute(node) => {
+                let iterator = [].into_iter().chain(
+                    node.namespace
+                        .as_ref()
+                        .map(|item| ::std::iter::once(NodeRef::Namespace(&item))),
+                );
+                let idx = self.1;
+                self.1 += 1;
+                iterator.nth(idx)
+            }
+            NodeRef::AttributeToken(node) => {
+                let iterator = [].into_iter();
+                let idx = self.1;
+                self.1 += 1;
+                iterator.nth(idx)
+            }
             NodeRef::Child(node) => match node {
                 Child::DocumentType(v0) => {
                     if self.1 == 0usize {
@@ -11272,51 +11282,90 @@ impl<'ast> Iterator for RawChildren<'ast> {
                 }
                 _ => None,
             },
-            NodeRef::Comment(node) => match self.1 {
-                _ => None,
-            },
-            NodeRef::Document(node) => match self.1 {
-                0usize => {
-                    self.1 = 1usize;
-                    Some(NodeRef::DocumentMode(&node.mode))
-                }
-                _ => None,
-            },
-            NodeRef::DocumentFragment(node) => match self.1 {
-                _ => None,
-            },
+            NodeRef::Comment(node) => {
+                let iterator = [].into_iter();
+                let idx = self.1;
+                self.1 += 1;
+                iterator.nth(idx)
+            }
+            NodeRef::Document(node) => {
+                let iterator = []
+                    .into_iter()
+                    .chain(::std::iter::once(NodeRef::DocumentMode(&node.mode)))
+                    .chain(
+                        node.children
+                            .iter()
+                            .map(|item| ::std::iter::once(NodeRef::Child(&item))),
+                    );
+                let idx = self.1;
+                self.1 += 1;
+                iterator.nth(idx)
+            }
+            NodeRef::DocumentFragment(node) => {
+                let iterator = [].into_iter().chain(
+                    node.children
+                        .iter()
+                        .map(|item| ::std::iter::once(NodeRef::Child(&item))),
+                );
+                let idx = self.1;
+                self.1 += 1;
+                iterator.nth(idx)
+            }
             NodeRef::DocumentMode(node) => match node {
                 _ => None,
             },
-            NodeRef::DocumentType(node) => match self.1 {
-                _ => None,
-            },
-            NodeRef::Element(node) => match self.1 {
-                0usize => {
-                    self.1 = 1usize;
-                    Some(NodeRef::Namespace(&node.namespace))
-                }
-                _ => None,
-            },
+            NodeRef::DocumentType(node) => {
+                let iterator = [].into_iter();
+                let idx = self.1;
+                self.1 += 1;
+                iterator.nth(idx)
+            }
+            NodeRef::Element(node) => {
+                let iterator = []
+                    .into_iter()
+                    .chain(::std::iter::once(NodeRef::Namespace(&node.namespace)))
+                    .chain(
+                        node.attributes
+                            .iter()
+                            .map(|item| ::std::iter::once(NodeRef::Attribute(&item))),
+                    )
+                    .chain(
+                        node.children
+                            .iter()
+                            .map(|item| ::std::iter::once(NodeRef::Child(&item))),
+                    )
+                    .chain(
+                        node.content
+                            .as_ref()
+                            .map(|item| ::std::iter::once(NodeRef::DocumentFragment(&item))),
+                    );
+                let idx = self.1;
+                self.1 += 1;
+                iterator.nth(idx)
+            }
             NodeRef::Namespace(node) => match node {
                 _ => None,
             },
             NodeRef::Raw(node) => match node {
                 _ => None,
             },
-            NodeRef::Text(node) => match self.1 {
-                _ => None,
-            },
+            NodeRef::Text(node) => {
+                let iterator = [].into_iter();
+                let idx = self.1;
+                self.1 += 1;
+                iterator.nth(idx)
+            }
             NodeRef::Token(node) => match node {
                 _ => None,
             },
-            NodeRef::TokenAndSpan(node) => match self.1 {
-                0usize => {
-                    self.1 = 1usize;
-                    Some(NodeRef::Token(&node.token))
-                }
-                _ => None,
-            },
+            NodeRef::TokenAndSpan(node) => {
+                let iterator = []
+                    .into_iter()
+                    .chain(::std::iter::once(NodeRef::Token(&node.token)));
+                let idx = self.1;
+                self.1 += 1;
+                iterator.nth(idx)
+            }
         }
     }
 }
