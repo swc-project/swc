@@ -25971,7 +25971,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AbsoluteColorBase {
     ) {
         match self {
             AbsoluteColorBase::HexColor { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::AbsoluteColorBase(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AbsoluteColorBase(
                     self,
                     self::fields::AbsoluteColorBaseField::HexColor,
                 ));
@@ -25982,7 +25982,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AbsoluteColorBase {
                 );
             }
             AbsoluteColorBase::NamedColorOrTransparent { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::AbsoluteColorBase(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AbsoluteColorBase(
                     self,
                     self::fields::AbsoluteColorBaseField::NamedColorOrTransparent,
                 ));
@@ -25993,7 +25993,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AbsoluteColorBase {
                 );
             }
             AbsoluteColorBase::Function { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::AbsoluteColorBase(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AbsoluteColorBase(
                     self,
                     self::fields::AbsoluteColorBaseField::Function,
                 ));
@@ -26025,7 +26025,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AlphaValue {
     ) {
         match self {
             AlphaValue::Number { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::AlphaValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AlphaValue(
                     self,
                     self::fields::AlphaValueField::Number,
                 ));
@@ -26036,7 +26036,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AlphaValue {
                 );
             }
             AlphaValue::Percentage { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::AlphaValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AlphaValue(
                     self,
                     self::fields::AlphaValueField::Percentage,
                 ));
@@ -26068,8 +26068,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AnPlusB {
     ) {
         match self {
             AnPlusB::Ident { 0: _field_0 } => {
-                let mut __ast_path = __ast_path
-                    .with_guard(NodeRef::AnPlusB(self, self::fields::AnPlusBField::Ident));
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AnPlusB(
+                    self,
+                    self::fields::AnPlusBField::Ident,
+                ));
                 <Ident as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -26077,7 +26079,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AnPlusB {
                 );
             }
             AnPlusB::AnPlusBNotation { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::AnPlusB(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AnPlusB(
                     self,
                     self::fields::AnPlusBField::AnPlusBNotation,
                 ));
@@ -26116,7 +26118,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AnPlusBNotation {
                 b_raw,
             } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::AnPlusBNotation(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AnPlusBNotation(
                         self,
                         self::fields::AnPlusBNotationField::Span,
                     ));
@@ -26127,7 +26129,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AnPlusBNotation {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::AnPlusBNotation(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AnPlusBNotation(
                         self,
                         self::fields::AnPlusBNotationField::ARaw,
                     ));
@@ -26138,7 +26140,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AnPlusBNotation {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::AnPlusBNotation(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AnPlusBNotation(
                         self,
                         self::fields::AnPlusBNotationField::BRaw,
                     ));
@@ -26172,8 +26174,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Angle {
         match self {
             Angle { span, value, unit } => {
                 {
-                    let mut __ast_path =
-                        __ast_path.with_guard(NodeRef::Angle(self, self::fields::AngleField::Span));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Angle(
+                        self,
+                        self::fields::AngleField::Span,
+                    ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -26181,8 +26185,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Angle {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::Angle(self, self::fields::AngleField::Value));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Angle(
+                        self,
+                        self::fields::AngleField::Value,
+                    ));
                     <Number as VisitWithAstPath<V>>::visit_with_ast_path(
                         value,
                         visitor,
@@ -26190,8 +26196,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Angle {
                     )
                 };
                 {
-                    let mut __ast_path =
-                        __ast_path.with_guard(NodeRef::Angle(self, self::fields::AngleField::Unit));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Angle(
+                        self,
+                        self::fields::AngleField::Unit,
+                    ));
                     <Ident as VisitWithAstPath<V>>::visit_with_ast_path(
                         unit,
                         visitor,
@@ -26221,7 +26229,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AnglePercentage {
     ) {
         match self {
             AnglePercentage::Angle { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::AnglePercentage(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AnglePercentage(
                     self,
                     self::fields::AnglePercentageField::Angle,
                 ));
@@ -26232,7 +26240,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AnglePercentage {
                 );
             }
             AnglePercentage::Percentage { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::AnglePercentage(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AnglePercentage(
                     self,
                     self::fields::AnglePercentageField::Percentage,
                 ));
@@ -26265,7 +26273,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AnyNamespace {
         match self {
             AnyNamespace { span } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::AnyNamespace(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AnyNamespace(
                         self,
                         self::fields::AnyNamespaceField::Span,
                     ));
@@ -26304,8 +26312,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AtRule {
                 block,
             } => {
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::AtRule(self, self::fields::AtRuleField::Span));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AtRule(
+                        self,
+                        self::fields::AtRuleField::Span,
+                    ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -26313,8 +26323,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AtRule {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::AtRule(self, self::fields::AtRuleField::Name));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AtRule(
+                        self,
+                        self::fields::AtRuleField::Name,
+                    ));
                     <AtRuleName as VisitWithAstPath<V>>::visit_with_ast_path(
                         name,
                         visitor,
@@ -26322,8 +26334,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AtRule {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::AtRule(self, self::fields::AtRuleField::Prelude));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AtRule(
+                        self,
+                        self::fields::AtRuleField::Prelude,
+                    ));
                     <Option<Box<AtRulePrelude>> as VisitWithAstPath<V>>::visit_with_ast_path(
                         prelude,
                         visitor,
@@ -26331,8 +26345,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AtRule {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::AtRule(self, self::fields::AtRuleField::Block));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AtRule(
+                        self,
+                        self::fields::AtRuleField::Block,
+                    ));
                     <Option<SimpleBlock> as VisitWithAstPath<V>>::visit_with_ast_path(
                         block,
                         visitor,
@@ -26362,7 +26378,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AtRuleName {
     ) {
         match self {
             AtRuleName::DashedIdent { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::AtRuleName(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AtRuleName(
                     self,
                     self::fields::AtRuleNameField::DashedIdent,
                 ));
@@ -26373,7 +26389,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AtRuleName {
                 );
             }
             AtRuleName::Ident { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::AtRuleName(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AtRuleName(
                     self,
                     self::fields::AtRuleNameField::Ident,
                 ));
@@ -26405,7 +26421,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AtRulePrelude {
     ) {
         match self {
             AtRulePrelude::ListOfComponentValues { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::AtRulePrelude(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AtRulePrelude(
                     self,
                     self::fields::AtRulePreludeField::ListOfComponentValues,
                 ));
@@ -26416,7 +26432,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AtRulePrelude {
                 );
             }
             AtRulePrelude::CharsetPrelude { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::AtRulePrelude(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AtRulePrelude(
                     self,
                     self::fields::AtRulePreludeField::CharsetPrelude,
                 ));
@@ -26427,7 +26443,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AtRulePrelude {
                 );
             }
             AtRulePrelude::PropertyPrelude { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::AtRulePrelude(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AtRulePrelude(
                     self,
                     self::fields::AtRulePreludeField::PropertyPrelude,
                 ));
@@ -26438,7 +26454,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AtRulePrelude {
                 );
             }
             AtRulePrelude::CounterStylePrelude { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::AtRulePrelude(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AtRulePrelude(
                     self,
                     self::fields::AtRulePreludeField::CounterStylePrelude,
                 ));
@@ -26449,7 +26465,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AtRulePrelude {
                 );
             }
             AtRulePrelude::ColorProfilePrelude { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::AtRulePrelude(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AtRulePrelude(
                     self,
                     self::fields::AtRulePreludeField::ColorProfilePrelude,
                 ));
@@ -26460,7 +26476,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AtRulePrelude {
                 );
             }
             AtRulePrelude::DocumentPrelude { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::AtRulePrelude(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AtRulePrelude(
                     self,
                     self::fields::AtRulePreludeField::DocumentPrelude,
                 ));
@@ -26471,7 +26487,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AtRulePrelude {
                 );
             }
             AtRulePrelude::FontPaletteValuesPrelude { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::AtRulePrelude(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AtRulePrelude(
                     self,
                     self::fields::AtRulePreludeField::FontPaletteValuesPrelude,
                 ));
@@ -26482,7 +26498,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AtRulePrelude {
                 );
             }
             AtRulePrelude::FontFeatureValuesPrelude { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::AtRulePrelude(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AtRulePrelude(
                     self,
                     self::fields::AtRulePreludeField::FontFeatureValuesPrelude,
                 ));
@@ -26493,7 +26509,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AtRulePrelude {
                 );
             }
             AtRulePrelude::NestPrelude { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::AtRulePrelude(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AtRulePrelude(
                     self,
                     self::fields::AtRulePreludeField::NestPrelude,
                 ));
@@ -26504,7 +26520,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AtRulePrelude {
                 );
             }
             AtRulePrelude::KeyframesPrelude { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::AtRulePrelude(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AtRulePrelude(
                     self,
                     self::fields::AtRulePreludeField::KeyframesPrelude,
                 ));
@@ -26515,7 +26531,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AtRulePrelude {
                 );
             }
             AtRulePrelude::ImportPrelude { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::AtRulePrelude(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AtRulePrelude(
                     self,
                     self::fields::AtRulePreludeField::ImportPrelude,
                 ));
@@ -26526,7 +26542,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AtRulePrelude {
                 );
             }
             AtRulePrelude::NamespacePrelude { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::AtRulePrelude(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AtRulePrelude(
                     self,
                     self::fields::AtRulePreludeField::NamespacePrelude,
                 ));
@@ -26537,7 +26553,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AtRulePrelude {
                 );
             }
             AtRulePrelude::MediaPrelude { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::AtRulePrelude(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AtRulePrelude(
                     self,
                     self::fields::AtRulePreludeField::MediaPrelude,
                 ));
@@ -26548,7 +26564,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AtRulePrelude {
                 );
             }
             AtRulePrelude::SupportsPrelude { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::AtRulePrelude(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AtRulePrelude(
                     self,
                     self::fields::AtRulePreludeField::SupportsPrelude,
                 ));
@@ -26559,7 +26575,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AtRulePrelude {
                 );
             }
             AtRulePrelude::PagePrelude { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::AtRulePrelude(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AtRulePrelude(
                     self,
                     self::fields::AtRulePreludeField::PagePrelude,
                 ));
@@ -26570,7 +26586,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AtRulePrelude {
                 );
             }
             AtRulePrelude::LayerPrelude { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::AtRulePrelude(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AtRulePrelude(
                     self,
                     self::fields::AtRulePreludeField::LayerPrelude,
                 ));
@@ -26581,7 +26597,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AtRulePrelude {
                 );
             }
             AtRulePrelude::ContainerPrelude { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::AtRulePrelude(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AtRulePrelude(
                     self,
                     self::fields::AtRulePreludeField::ContainerPrelude,
                 ));
@@ -26592,7 +26608,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AtRulePrelude {
                 );
             }
             AtRulePrelude::CustomMediaPrelude { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::AtRulePrelude(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AtRulePrelude(
                     self,
                     self::fields::AtRulePreludeField::CustomMediaPrelude,
                 ));
@@ -26603,7 +26619,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AtRulePrelude {
                 );
             }
             AtRulePrelude::ScopePrelude { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::AtRulePrelude(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AtRulePrelude(
                     self,
                     self::fields::AtRulePreludeField::ScopePrelude,
                 ));
@@ -26642,10 +26658,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AttributeSelector {
                 modifier,
             } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::AttributeSelector(
-                        self,
-                        self::fields::AttributeSelectorField::Span,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::AttributeSelector(
+                            self,
+                            self::fields::AttributeSelectorField::Span,
+                        ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -26653,10 +26670,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AttributeSelector {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::AttributeSelector(
-                        self,
-                        self::fields::AttributeSelectorField::Name,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::AttributeSelector(
+                            self,
+                            self::fields::AttributeSelectorField::Name,
+                        ));
                     <WqName as VisitWithAstPath<V>>::visit_with_ast_path(
                         name,
                         visitor,
@@ -26664,10 +26682,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AttributeSelector {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::AttributeSelector(
-                        self,
-                        self::fields::AttributeSelectorField::Matcher,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::AttributeSelector(
+                            self,
+                            self::fields::AttributeSelectorField::Matcher,
+                        ));
                     <Option<AttributeSelectorMatcher> as VisitWithAstPath<V>>::visit_with_ast_path(
                         matcher,
                         visitor,
@@ -26675,10 +26694,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AttributeSelector {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::AttributeSelector(
-                        self,
-                        self::fields::AttributeSelectorField::Value,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::AttributeSelector(
+                            self,
+                            self::fields::AttributeSelectorField::Value,
+                        ));
                     <Option<AttributeSelectorValue> as VisitWithAstPath<V>>::visit_with_ast_path(
                         value,
                         visitor,
@@ -26686,10 +26706,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AttributeSelector {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::AttributeSelector(
-                        self,
-                        self::fields::AttributeSelectorField::Modifier,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::AttributeSelector(
+                            self,
+                            self::fields::AttributeSelectorField::Modifier,
+                        ));
                     <Option<AttributeSelectorModifier> as VisitWithAstPath<V>>::visit_with_ast_path(
                         modifier,
                         visitor,
@@ -26720,10 +26741,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AttributeSelectorMatcher 
         match self {
             AttributeSelectorMatcher { span, value } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::AttributeSelectorMatcher(
-                        self,
-                        self::fields::AttributeSelectorMatcherField::Span,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::AttributeSelectorMatcher(
+                            self,
+                            self::fields::AttributeSelectorMatcherField::Span,
+                        ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -26731,10 +26753,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AttributeSelectorMatcher 
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::AttributeSelectorMatcher(
-                        self,
-                        self::fields::AttributeSelectorMatcherField::Value,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::AttributeSelectorMatcher(
+                            self,
+                            self::fields::AttributeSelectorMatcherField::Value,
+                        ));
                     <AttributeSelectorMatcherValue as VisitWithAstPath<V>>::visit_with_ast_path(
                         value,
                         visitor,
@@ -26792,10 +26815,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AttributeSelectorModifier
         match self {
             AttributeSelectorModifier { span, value } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::AttributeSelectorModifier(
-                        self,
-                        self::fields::AttributeSelectorModifierField::Span,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::AttributeSelectorModifier(
+                            self,
+                            self::fields::AttributeSelectorModifierField::Span,
+                        ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -26803,10 +26827,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AttributeSelectorModifier
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::AttributeSelectorModifier(
-                        self,
-                        self::fields::AttributeSelectorModifierField::Value,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::AttributeSelectorModifier(
+                            self,
+                            self::fields::AttributeSelectorModifierField::Value,
+                        ));
                     <Ident as VisitWithAstPath<V>>::visit_with_ast_path(
                         value,
                         visitor,
@@ -26836,10 +26861,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AttributeSelectorValue {
     ) {
         match self {
             AttributeSelectorValue::Str { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::AttributeSelectorValue(
-                    self,
-                    self::fields::AttributeSelectorValueField::Str,
-                ));
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::AttributeSelectorValue(
+                        self,
+                        self::fields::AttributeSelectorValueField::Str,
+                    ));
                 <Str as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -26847,10 +26873,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AttributeSelectorValue {
                 );
             }
             AttributeSelectorValue::Ident { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::AttributeSelectorValue(
-                    self,
-                    self::fields::AttributeSelectorValueField::Ident,
-                ));
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::AttributeSelectorValue(
+                        self,
+                        self::fields::AttributeSelectorValueField::Ident,
+                    ));
                 <Ident as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -26905,7 +26932,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CalcOperator {
         match self {
             CalcOperator { span, value } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::CalcOperator(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::CalcOperator(
                         self,
                         self::fields::CalcOperatorField::Span,
                     ));
@@ -26916,7 +26943,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CalcOperator {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::CalcOperator(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::CalcOperator(
                         self,
                         self::fields::CalcOperatorField::Value,
                     ));
@@ -26975,7 +27002,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CalcProduct {
         match self {
             CalcProduct { span, expressions } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::CalcProduct(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::CalcProduct(
                         self,
                         self::fields::CalcProductField::Span,
                     ));
@@ -26986,7 +27013,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CalcProduct {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::CalcProduct(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::CalcProduct(
                         self,
                         self::fields::CalcProductField::Expressions(usize::MAX),
                     ));
@@ -27019,10 +27046,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CalcProductOrOperator {
     ) {
         match self {
             CalcProductOrOperator::Product { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::CalcProductOrOperator(
-                    self,
-                    self::fields::CalcProductOrOperatorField::Product,
-                ));
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::CalcProductOrOperator(
+                        self,
+                        self::fields::CalcProductOrOperatorField::Product,
+                    ));
                 <CalcProduct as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -27030,10 +27058,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CalcProductOrOperator {
                 );
             }
             CalcProductOrOperator::Operator { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::CalcProductOrOperator(
-                    self,
-                    self::fields::CalcProductOrOperatorField::Operator,
-                ));
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::CalcProductOrOperator(
+                        self,
+                        self::fields::CalcProductOrOperatorField::Operator,
+                    ));
                 <CalcOperator as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -27063,8 +27092,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CalcSum {
         match self {
             CalcSum { span, expressions } => {
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::CalcSum(self, self::fields::CalcSumField::Span));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::CalcSum(
+                        self,
+                        self::fields::CalcSumField::Span,
+                    ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -27072,7 +27103,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CalcSum {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::CalcSum(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::CalcSum(
                         self,
                         self::fields::CalcSumField::Expressions(usize::MAX),
                     ));
@@ -27105,7 +27136,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CalcValue {
     ) {
         match self {
             CalcValue::Number { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::CalcValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::CalcValue(
                     self,
                     self::fields::CalcValueField::Number,
                 ));
@@ -27116,7 +27147,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CalcValue {
                 );
             }
             CalcValue::Dimension { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::CalcValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::CalcValue(
                     self,
                     self::fields::CalcValueField::Dimension,
                 ));
@@ -27127,7 +27158,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CalcValue {
                 );
             }
             CalcValue::Percentage { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::CalcValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::CalcValue(
                     self,
                     self::fields::CalcValueField::Percentage,
                 ));
@@ -27138,7 +27169,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CalcValue {
                 );
             }
             CalcValue::Constant { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::CalcValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::CalcValue(
                     self,
                     self::fields::CalcValueField::Constant,
                 ));
@@ -27149,8 +27180,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CalcValue {
                 );
             }
             CalcValue::Sum { 0: _field_0 } => {
-                let mut __ast_path = __ast_path
-                    .with_guard(NodeRef::CalcValue(self, self::fields::CalcValueField::Sum));
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::CalcValue(
+                    self,
+                    self::fields::CalcValueField::Sum,
+                ));
                 <CalcSum as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -27158,7 +27191,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CalcValue {
                 );
             }
             CalcValue::Function { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::CalcValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::CalcValue(
                     self,
                     self::fields::CalcValueField::Function,
                 ));
@@ -27190,7 +27223,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CalcValueOrOperator {
     ) {
         match self {
             CalcValueOrOperator::Value { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::CalcValueOrOperator(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::CalcValueOrOperator(
                     self,
                     self::fields::CalcValueOrOperatorField::Value,
                 ));
@@ -27201,7 +27234,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CalcValueOrOperator {
                 );
             }
             CalcValueOrOperator::Operator { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::CalcValueOrOperator(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::CalcValueOrOperator(
                     self,
                     self::fields::CalcValueOrOperatorField::Operator,
                 ));
@@ -27234,7 +27267,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ClassSelector {
         match self {
             ClassSelector { span, text } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::ClassSelector(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ClassSelector(
                         self,
                         self::fields::ClassSelectorField::Span,
                     ));
@@ -27245,7 +27278,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ClassSelector {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::ClassSelector(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ClassSelector(
                         self,
                         self::fields::ClassSelectorField::Text,
                     ));
@@ -27278,7 +27311,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CmykComponent {
     ) {
         match self {
             CmykComponent::Number { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::CmykComponent(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::CmykComponent(
                     self,
                     self::fields::CmykComponentField::Number,
                 ));
@@ -27289,7 +27322,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CmykComponent {
                 );
             }
             CmykComponent::Percentage { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::CmykComponent(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::CmykComponent(
                     self,
                     self::fields::CmykComponentField::Percentage,
                 ));
@@ -27300,7 +27333,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CmykComponent {
                 );
             }
             CmykComponent::Function { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::CmykComponent(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::CmykComponent(
                     self,
                     self::fields::CmykComponentField::Function,
                 ));
@@ -27332,7 +27365,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Color {
     ) {
         match self {
             Color::AbsoluteColorBase { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::Color(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Color(
                     self,
                     self::fields::ColorField::AbsoluteColorBase,
                 ));
@@ -27343,7 +27376,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Color {
                 );
             }
             Color::CurrentColorOrSystemColor { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::Color(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Color(
                     self,
                     self::fields::ColorField::CurrentColorOrSystemColor,
                 ));
@@ -27354,8 +27387,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Color {
                 );
             }
             Color::Function { 0: _field_0 } => {
-                let mut __ast_path =
-                    __ast_path.with_guard(NodeRef::Color(self, self::fields::ColorField::Function));
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Color(
+                    self,
+                    self::fields::ColorField::Function,
+                ));
                 <Function as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -27384,7 +27419,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ColorProfileName {
     ) {
         match self {
             ColorProfileName::DashedIdent { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ColorProfileName(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ColorProfileName(
                     self,
                     self::fields::ColorProfileNameField::DashedIdent,
                 ));
@@ -27395,7 +27430,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ColorProfileName {
                 );
             }
             ColorProfileName::Ident { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ColorProfileName(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ColorProfileName(
                     self,
                     self::fields::ColorProfileNameField::Ident,
                 ));
@@ -27428,7 +27463,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Combinator {
         match self {
             Combinator { span, value } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::Combinator(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Combinator(
                         self,
                         self::fields::CombinatorField::Span,
                     ));
@@ -27439,7 +27474,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Combinator {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::Combinator(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Combinator(
                         self,
                         self::fields::CombinatorField::Value,
                     ));
@@ -27499,7 +27534,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ComplexSelector {
         match self {
             ComplexSelector { span, children } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::ComplexSelector(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ComplexSelector(
                         self,
                         self::fields::ComplexSelectorField::Span,
                     ));
@@ -27510,7 +27545,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ComplexSelector {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::ComplexSelector(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ComplexSelector(
                         self,
                         self::fields::ComplexSelectorField::Children(usize::MAX),
                     ));
@@ -27543,10 +27578,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ComplexSelectorChildren {
     ) {
         match self {
             ComplexSelectorChildren::CompoundSelector { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ComplexSelectorChildren(
-                    self,
-                    self::fields::ComplexSelectorChildrenField::CompoundSelector,
-                ));
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::ComplexSelectorChildren(
+                        self,
+                        self::fields::ComplexSelectorChildrenField::CompoundSelector,
+                    ));
                 <CompoundSelector as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -27554,10 +27590,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ComplexSelectorChildren {
                 );
             }
             ComplexSelectorChildren::Combinator { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ComplexSelectorChildren(
-                    self,
-                    self::fields::ComplexSelectorChildrenField::Combinator,
-                ));
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::ComplexSelectorChildren(
+                        self,
+                        self::fields::ComplexSelectorChildrenField::Combinator,
+                    ));
                 <Combinator as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -27586,7 +27623,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ComponentValue {
     ) {
         match self {
             ComponentValue::PreservedToken { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ComponentValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ComponentValue(
                     self,
                     self::fields::ComponentValueField::PreservedToken,
                 ));
@@ -27597,7 +27634,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ComponentValue {
                 );
             }
             ComponentValue::Function { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ComponentValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ComponentValue(
                     self,
                     self::fields::ComponentValueField::Function,
                 ));
@@ -27608,7 +27645,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ComponentValue {
                 );
             }
             ComponentValue::SimpleBlock { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ComponentValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ComponentValue(
                     self,
                     self::fields::ComponentValueField::SimpleBlock,
                 ));
@@ -27619,7 +27656,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ComponentValue {
                 );
             }
             ComponentValue::AtRule { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ComponentValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ComponentValue(
                     self,
                     self::fields::ComponentValueField::AtRule,
                 ));
@@ -27630,7 +27667,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ComponentValue {
                 );
             }
             ComponentValue::QualifiedRule { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ComponentValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ComponentValue(
                     self,
                     self::fields::ComponentValueField::QualifiedRule,
                 ));
@@ -27641,7 +27678,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ComponentValue {
                 );
             }
             ComponentValue::ListOfComponentValues { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ComponentValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ComponentValue(
                     self,
                     self::fields::ComponentValueField::ListOfComponentValues,
                 ));
@@ -27652,7 +27689,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ComponentValue {
                 );
             }
             ComponentValue::KeyframeBlock { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ComponentValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ComponentValue(
                     self,
                     self::fields::ComponentValueField::KeyframeBlock,
                 ));
@@ -27663,7 +27700,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ComponentValue {
                 );
             }
             ComponentValue::Ident { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ComponentValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ComponentValue(
                     self,
                     self::fields::ComponentValueField::Ident,
                 ));
@@ -27674,7 +27711,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ComponentValue {
                 );
             }
             ComponentValue::DashedIdent { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ComponentValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ComponentValue(
                     self,
                     self::fields::ComponentValueField::DashedIdent,
                 ));
@@ -27685,7 +27722,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ComponentValue {
                 );
             }
             ComponentValue::Str { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ComponentValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ComponentValue(
                     self,
                     self::fields::ComponentValueField::Str,
                 ));
@@ -27696,7 +27733,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ComponentValue {
                 );
             }
             ComponentValue::Url { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ComponentValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ComponentValue(
                     self,
                     self::fields::ComponentValueField::Url,
                 ));
@@ -27707,7 +27744,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ComponentValue {
                 );
             }
             ComponentValue::Integer { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ComponentValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ComponentValue(
                     self,
                     self::fields::ComponentValueField::Integer,
                 ));
@@ -27718,7 +27755,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ComponentValue {
                 );
             }
             ComponentValue::Number { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ComponentValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ComponentValue(
                     self,
                     self::fields::ComponentValueField::Number,
                 ));
@@ -27729,7 +27766,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ComponentValue {
                 );
             }
             ComponentValue::Percentage { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ComponentValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ComponentValue(
                     self,
                     self::fields::ComponentValueField::Percentage,
                 ));
@@ -27740,7 +27777,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ComponentValue {
                 );
             }
             ComponentValue::Dimension { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ComponentValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ComponentValue(
                     self,
                     self::fields::ComponentValueField::Dimension,
                 ));
@@ -27751,7 +27788,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ComponentValue {
                 );
             }
             ComponentValue::LengthPercentage { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ComponentValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ComponentValue(
                     self,
                     self::fields::ComponentValueField::LengthPercentage,
                 ));
@@ -27762,7 +27799,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ComponentValue {
                 );
             }
             ComponentValue::FrequencyPercentage { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ComponentValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ComponentValue(
                     self,
                     self::fields::ComponentValueField::FrequencyPercentage,
                 ));
@@ -27773,7 +27810,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ComponentValue {
                 );
             }
             ComponentValue::AnglePercentage { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ComponentValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ComponentValue(
                     self,
                     self::fields::ComponentValueField::AnglePercentage,
                 ));
@@ -27784,7 +27821,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ComponentValue {
                 );
             }
             ComponentValue::TimePercentage { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ComponentValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ComponentValue(
                     self,
                     self::fields::ComponentValueField::TimePercentage,
                 ));
@@ -27795,7 +27832,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ComponentValue {
                 );
             }
             ComponentValue::Ratio { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ComponentValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ComponentValue(
                     self,
                     self::fields::ComponentValueField::Ratio,
                 ));
@@ -27806,7 +27843,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ComponentValue {
                 );
             }
             ComponentValue::UnicodeRange { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ComponentValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ComponentValue(
                     self,
                     self::fields::ComponentValueField::UnicodeRange,
                 ));
@@ -27817,7 +27854,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ComponentValue {
                 );
             }
             ComponentValue::Color { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ComponentValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ComponentValue(
                     self,
                     self::fields::ComponentValueField::Color,
                 ));
@@ -27828,7 +27865,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ComponentValue {
                 );
             }
             ComponentValue::AlphaValue { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ComponentValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ComponentValue(
                     self,
                     self::fields::ComponentValueField::AlphaValue,
                 ));
@@ -27839,7 +27876,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ComponentValue {
                 );
             }
             ComponentValue::Hue { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ComponentValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ComponentValue(
                     self,
                     self::fields::ComponentValueField::Hue,
                 ));
@@ -27850,7 +27887,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ComponentValue {
                 );
             }
             ComponentValue::CmykComponent { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ComponentValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ComponentValue(
                     self,
                     self::fields::ComponentValueField::CmykComponent,
                 ));
@@ -27861,7 +27898,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ComponentValue {
                 );
             }
             ComponentValue::Delimiter { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ComponentValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ComponentValue(
                     self,
                     self::fields::ComponentValueField::Delimiter,
                 ));
@@ -27872,7 +27909,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ComponentValue {
                 );
             }
             ComponentValue::CalcSum { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ComponentValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ComponentValue(
                     self,
                     self::fields::ComponentValueField::CalcSum,
                 ));
@@ -27883,7 +27920,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ComponentValue {
                 );
             }
             ComponentValue::ComplexSelector { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ComponentValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ComponentValue(
                     self,
                     self::fields::ComponentValueField::ComplexSelector,
                 ));
@@ -27894,7 +27931,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ComponentValue {
                 );
             }
             ComponentValue::LayerName { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ComponentValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ComponentValue(
                     self,
                     self::fields::ComponentValueField::LayerName,
                 ));
@@ -27905,7 +27942,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ComponentValue {
                 );
             }
             ComponentValue::SupportsCondition { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ComponentValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ComponentValue(
                     self,
                     self::fields::ComponentValueField::SupportsCondition,
                 ));
@@ -27916,7 +27953,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ComponentValue {
                 );
             }
             ComponentValue::Declaration { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ComponentValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ComponentValue(
                     self,
                     self::fields::ComponentValueField::Declaration,
                 ));
@@ -27927,7 +27964,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ComponentValue {
                 );
             }
             ComponentValue::IdSelector { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ComponentValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ComponentValue(
                     self,
                     self::fields::ComponentValueField::IdSelector,
                 ));
@@ -27965,7 +28002,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CompoundSelector {
                 subclass_selectors,
             } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::CompoundSelector(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::CompoundSelector(
                         self,
                         self::fields::CompoundSelectorField::Span,
                     ));
@@ -27976,7 +28013,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CompoundSelector {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::CompoundSelector(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::CompoundSelector(
                         self,
                         self::fields::CompoundSelectorField::NestingSelector,
                     ));
@@ -27987,7 +28024,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CompoundSelector {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::CompoundSelector(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::CompoundSelector(
                         self,
                         self::fields::CompoundSelectorField::TypeSelector,
                     ));
@@ -27998,7 +28035,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CompoundSelector {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::CompoundSelector(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::CompoundSelector(
                         self,
                         self::fields::CompoundSelectorField::SubclassSelectors(usize::MAX),
                     ));
@@ -28032,10 +28069,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CompoundSelectorList {
         match self {
             CompoundSelectorList { span, children } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::CompoundSelectorList(
-                        self,
-                        self::fields::CompoundSelectorListField::Span,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::CompoundSelectorList(
+                            self,
+                            self::fields::CompoundSelectorListField::Span,
+                        ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -28043,10 +28081,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CompoundSelectorList {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::CompoundSelectorList(
-                        self,
-                        self::fields::CompoundSelectorListField::Children(usize::MAX),
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::CompoundSelectorList(
+                            self,
+                            self::fields::CompoundSelectorListField::Children(usize::MAX),
+                        ));
                     <Vec<CompoundSelector> as VisitWithAstPath<V>>::visit_with_ast_path(
                         children,
                         visitor,
@@ -28077,10 +28116,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ContainerCondition {
         match self {
             ContainerCondition { span, name, query } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::ContainerCondition(
-                        self,
-                        self::fields::ContainerConditionField::Span,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::ContainerCondition(
+                            self,
+                            self::fields::ContainerConditionField::Span,
+                        ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -28088,10 +28128,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ContainerCondition {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::ContainerCondition(
-                        self,
-                        self::fields::ContainerConditionField::Name,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::ContainerCondition(
+                            self,
+                            self::fields::ContainerConditionField::Name,
+                        ));
                     <Option<ContainerName> as VisitWithAstPath<V>>::visit_with_ast_path(
                         name,
                         visitor,
@@ -28099,10 +28140,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ContainerCondition {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::ContainerCondition(
-                        self,
-                        self::fields::ContainerConditionField::Query,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::ContainerCondition(
+                            self,
+                            self::fields::ContainerConditionField::Query,
+                        ));
                     <ContainerQuery as VisitWithAstPath<V>>::visit_with_ast_path(
                         query,
                         visitor,
@@ -28132,7 +28174,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ContainerName {
     ) {
         match self {
             ContainerName::CustomIdent { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ContainerName(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ContainerName(
                     self,
                     self::fields::ContainerNameField::CustomIdent,
                 ));
@@ -28165,7 +28207,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ContainerQuery {
         match self {
             ContainerQuery { span, queries } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::ContainerQuery(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ContainerQuery(
                         self,
                         self::fields::ContainerQueryField::Span,
                     ));
@@ -28176,7 +28218,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ContainerQuery {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::ContainerQuery(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ContainerQuery(
                         self,
                         self::fields::ContainerQueryField::Queries(usize::MAX),
                     ));
@@ -28214,10 +28256,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ContainerQueryAnd {
                 query,
             } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::ContainerQueryAnd(
-                        self,
-                        self::fields::ContainerQueryAndField::Span,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::ContainerQueryAnd(
+                            self,
+                            self::fields::ContainerQueryAndField::Span,
+                        ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -28225,10 +28268,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ContainerQueryAnd {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::ContainerQueryAnd(
-                        self,
-                        self::fields::ContainerQueryAndField::Keyword,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::ContainerQueryAnd(
+                            self,
+                            self::fields::ContainerQueryAndField::Keyword,
+                        ));
                     <Option<Ident> as VisitWithAstPath<V>>::visit_with_ast_path(
                         keyword,
                         visitor,
@@ -28236,10 +28280,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ContainerQueryAnd {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::ContainerQueryAnd(
-                        self,
-                        self::fields::ContainerQueryAndField::Query,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::ContainerQueryAnd(
+                            self,
+                            self::fields::ContainerQueryAndField::Query,
+                        ));
                     <QueryInParens as VisitWithAstPath<V>>::visit_with_ast_path(
                         query,
                         visitor,
@@ -28274,10 +28319,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ContainerQueryNot {
                 query,
             } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::ContainerQueryNot(
-                        self,
-                        self::fields::ContainerQueryNotField::Span,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::ContainerQueryNot(
+                            self,
+                            self::fields::ContainerQueryNotField::Span,
+                        ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -28285,10 +28331,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ContainerQueryNot {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::ContainerQueryNot(
-                        self,
-                        self::fields::ContainerQueryNotField::Keyword,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::ContainerQueryNot(
+                            self,
+                            self::fields::ContainerQueryNotField::Keyword,
+                        ));
                     <Option<Ident> as VisitWithAstPath<V>>::visit_with_ast_path(
                         keyword,
                         visitor,
@@ -28296,10 +28343,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ContainerQueryNot {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::ContainerQueryNot(
-                        self,
-                        self::fields::ContainerQueryNotField::Query,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::ContainerQueryNot(
+                            self,
+                            self::fields::ContainerQueryNotField::Query,
+                        ));
                     <QueryInParens as VisitWithAstPath<V>>::visit_with_ast_path(
                         query,
                         visitor,
@@ -28334,7 +28382,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ContainerQueryOr {
                 query,
             } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::ContainerQueryOr(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ContainerQueryOr(
                         self,
                         self::fields::ContainerQueryOrField::Span,
                     ));
@@ -28345,7 +28393,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ContainerQueryOr {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::ContainerQueryOr(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ContainerQueryOr(
                         self,
                         self::fields::ContainerQueryOrField::Keyword,
                     ));
@@ -28356,7 +28404,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ContainerQueryOr {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::ContainerQueryOr(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ContainerQueryOr(
                         self,
                         self::fields::ContainerQueryOrField::Query,
                     ));
@@ -28389,7 +28437,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ContainerQueryType {
     ) {
         match self {
             ContainerQueryType::Not { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ContainerQueryType(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ContainerQueryType(
                     self,
                     self::fields::ContainerQueryTypeField::Not,
                 ));
@@ -28400,7 +28448,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ContainerQueryType {
                 );
             }
             ContainerQueryType::And { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ContainerQueryType(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ContainerQueryType(
                     self,
                     self::fields::ContainerQueryTypeField::And,
                 ));
@@ -28411,7 +28459,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ContainerQueryType {
                 );
             }
             ContainerQueryType::Or { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ContainerQueryType(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ContainerQueryType(
                     self,
                     self::fields::ContainerQueryTypeField::Or,
                 ));
@@ -28422,7 +28470,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ContainerQueryType {
                 );
             }
             ContainerQueryType::QueryInParens { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ContainerQueryType(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ContainerQueryType(
                     self,
                     self::fields::ContainerQueryTypeField::QueryInParens,
                 ));
@@ -28455,10 +28503,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CustomHighlightName {
         match self {
             CustomHighlightName { span, value, raw } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::CustomHighlightName(
-                        self,
-                        self::fields::CustomHighlightNameField::Span,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::CustomHighlightName(
+                            self,
+                            self::fields::CustomHighlightNameField::Span,
+                        ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -28466,10 +28515,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CustomHighlightName {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::CustomHighlightName(
-                        self,
-                        self::fields::CustomHighlightNameField::Value,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::CustomHighlightName(
+                            self,
+                            self::fields::CustomHighlightNameField::Value,
+                        ));
                     <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         value,
                         visitor,
@@ -28477,10 +28527,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CustomHighlightName {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::CustomHighlightName(
-                        self,
-                        self::fields::CustomHighlightNameField::Raw,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::CustomHighlightName(
+                            self,
+                            self::fields::CustomHighlightNameField::Raw,
+                        ));
                     <Option<swc_atoms::Atom> as VisitWithAstPath<V>>::visit_with_ast_path(
                         raw,
                         visitor,
@@ -28511,7 +28562,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CustomIdent {
         match self {
             CustomIdent { span, value, raw } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::CustomIdent(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::CustomIdent(
                         self,
                         self::fields::CustomIdentField::Span,
                     ));
@@ -28522,7 +28573,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CustomIdent {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::CustomIdent(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::CustomIdent(
                         self,
                         self::fields::CustomIdentField::Value,
                     ));
@@ -28533,7 +28584,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CustomIdent {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::CustomIdent(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::CustomIdent(
                         self,
                         self::fields::CustomIdentField::Raw,
                     ));
@@ -28567,7 +28618,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CustomMediaQuery {
         match self {
             CustomMediaQuery { span, name, media } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::CustomMediaQuery(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::CustomMediaQuery(
                         self,
                         self::fields::CustomMediaQueryField::Span,
                     ));
@@ -28578,7 +28629,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CustomMediaQuery {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::CustomMediaQuery(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::CustomMediaQuery(
                         self,
                         self::fields::CustomMediaQueryField::Name,
                     ));
@@ -28589,7 +28640,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CustomMediaQuery {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::CustomMediaQuery(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::CustomMediaQuery(
                         self,
                         self::fields::CustomMediaQueryField::Media,
                     ));
@@ -28622,10 +28673,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CustomMediaQueryMediaType
     ) {
         match self {
             CustomMediaQueryMediaType::Ident { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::CustomMediaQueryMediaType(
-                    self,
-                    self::fields::CustomMediaQueryMediaTypeField::Ident,
-                ));
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::CustomMediaQueryMediaType(
+                        self,
+                        self::fields::CustomMediaQueryMediaTypeField::Ident,
+                    ));
                 <Ident as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -28633,10 +28685,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CustomMediaQueryMediaType
                 );
             }
             CustomMediaQueryMediaType::MediaQueryList { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::CustomMediaQueryMediaType(
-                    self,
-                    self::fields::CustomMediaQueryMediaTypeField::MediaQueryList,
-                ));
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::CustomMediaQueryMediaType(
+                        self,
+                        self::fields::CustomMediaQueryMediaTypeField::MediaQueryList,
+                    ));
                 <MediaQueryList as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -28666,10 +28719,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CustomPropertyName {
         match self {
             CustomPropertyName { span, value, raw } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::CustomPropertyName(
-                        self,
-                        self::fields::CustomPropertyNameField::Span,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::CustomPropertyName(
+                            self,
+                            self::fields::CustomPropertyNameField::Span,
+                        ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -28677,10 +28731,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CustomPropertyName {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::CustomPropertyName(
-                        self,
-                        self::fields::CustomPropertyNameField::Value,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::CustomPropertyName(
+                            self,
+                            self::fields::CustomPropertyNameField::Value,
+                        ));
                     <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         value,
                         visitor,
@@ -28688,10 +28743,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CustomPropertyName {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::CustomPropertyName(
-                        self,
-                        self::fields::CustomPropertyNameField::Raw,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::CustomPropertyName(
+                            self,
+                            self::fields::CustomPropertyNameField::Raw,
+                        ));
                     <Option<swc_atoms::Atom> as VisitWithAstPath<V>>::visit_with_ast_path(
                         raw,
                         visitor,
@@ -28722,7 +28778,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for DashedIdent {
         match self {
             DashedIdent { span, value, raw } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::DashedIdent(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::DashedIdent(
                         self,
                         self::fields::DashedIdentField::Span,
                     ));
@@ -28733,7 +28789,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for DashedIdent {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::DashedIdent(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::DashedIdent(
                         self,
                         self::fields::DashedIdentField::Value,
                     ));
@@ -28744,7 +28800,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for DashedIdent {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::DashedIdent(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::DashedIdent(
                         self,
                         self::fields::DashedIdentField::Raw,
                     ));
@@ -28783,7 +28839,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Declaration {
                 important,
             } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::Declaration(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Declaration(
                         self,
                         self::fields::DeclarationField::Span,
                     ));
@@ -28794,7 +28850,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Declaration {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::Declaration(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Declaration(
                         self,
                         self::fields::DeclarationField::Name,
                     ));
@@ -28805,7 +28861,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Declaration {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::Declaration(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Declaration(
                         self,
                         self::fields::DeclarationField::Value(usize::MAX),
                     ));
@@ -28816,7 +28872,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Declaration {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::Declaration(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Declaration(
                         self,
                         self::fields::DeclarationField::Important,
                     ));
@@ -28849,7 +28905,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for DeclarationName {
     ) {
         match self {
             DeclarationName::Ident { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::DeclarationName(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::DeclarationName(
                     self,
                     self::fields::DeclarationNameField::Ident,
                 ));
@@ -28860,7 +28916,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for DeclarationName {
                 );
             }
             DeclarationName::DashedIdent { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::DeclarationName(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::DeclarationName(
                     self,
                     self::fields::DeclarationNameField::DashedIdent,
                 ));
@@ -28892,7 +28948,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for DeclarationOrAtRule {
     ) {
         match self {
             DeclarationOrAtRule::Declaration { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::DeclarationOrAtRule(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::DeclarationOrAtRule(
                     self,
                     self::fields::DeclarationOrAtRuleField::Declaration,
                 ));
@@ -28903,7 +28959,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for DeclarationOrAtRule {
                 );
             }
             DeclarationOrAtRule::AtRule { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::DeclarationOrAtRule(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::DeclarationOrAtRule(
                     self,
                     self::fields::DeclarationOrAtRuleField::AtRule,
                 ));
@@ -28914,7 +28970,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for DeclarationOrAtRule {
                 );
             }
             DeclarationOrAtRule::ListOfComponentValues { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::DeclarationOrAtRule(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::DeclarationOrAtRule(
                     self,
                     self::fields::DeclarationOrAtRuleField::ListOfComponentValues,
                 ));
@@ -28947,8 +29003,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Delimiter {
         match self {
             Delimiter { span, value } => {
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::Delimiter(self, self::fields::DelimiterField::Span));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Delimiter(
+                        self,
+                        self::fields::DelimiterField::Span,
+                    ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -28956,7 +29014,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Delimiter {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::Delimiter(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Delimiter(
                         self,
                         self::fields::DelimiterField::Value,
                     ));
@@ -29013,7 +29071,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Dimension {
     ) {
         match self {
             Dimension::Length { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::Dimension(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Dimension(
                     self,
                     self::fields::DimensionField::Length,
                 ));
@@ -29024,7 +29082,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Dimension {
                 );
             }
             Dimension::Angle { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::Dimension(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Dimension(
                     self,
                     self::fields::DimensionField::Angle,
                 ));
@@ -29035,8 +29093,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Dimension {
                 );
             }
             Dimension::Time { 0: _field_0 } => {
-                let mut __ast_path = __ast_path
-                    .with_guard(NodeRef::Dimension(self, self::fields::DimensionField::Time));
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Dimension(
+                    self,
+                    self::fields::DimensionField::Time,
+                ));
                 <Time as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -29044,7 +29104,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Dimension {
                 );
             }
             Dimension::Frequency { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::Dimension(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Dimension(
                     self,
                     self::fields::DimensionField::Frequency,
                 ));
@@ -29055,7 +29115,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Dimension {
                 );
             }
             Dimension::Resolution { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::Dimension(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Dimension(
                     self,
                     self::fields::DimensionField::Resolution,
                 ));
@@ -29066,8 +29126,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Dimension {
                 );
             }
             Dimension::Flex { 0: _field_0 } => {
-                let mut __ast_path = __ast_path
-                    .with_guard(NodeRef::Dimension(self, self::fields::DimensionField::Flex));
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Dimension(
+                    self,
+                    self::fields::DimensionField::Flex,
+                ));
                 <Flex as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -29075,7 +29137,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Dimension {
                 );
             }
             Dimension::UnknownDimension { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::Dimension(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Dimension(
                     self,
                     self::fields::DimensionField::UnknownDimension,
                 ));
@@ -29114,7 +29176,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for DimensionToken {
                 raw_unit,
             } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::DimensionToken(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::DimensionToken(
                         self,
                         self::fields::DimensionTokenField::RawValue,
                     ));
@@ -29125,7 +29187,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for DimensionToken {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::DimensionToken(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::DimensionToken(
                         self,
                         self::fields::DimensionTokenField::Unit,
                     ));
@@ -29136,7 +29198,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for DimensionToken {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::DimensionToken(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::DimensionToken(
                         self,
                         self::fields::DimensionTokenField::TypeFlag,
                     ));
@@ -29147,7 +29209,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for DimensionToken {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::DimensionToken(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::DimensionToken(
                         self,
                         self::fields::DimensionTokenField::RawUnit,
                     ));
@@ -29184,7 +29246,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for DocumentPrelude {
                 matching_functions,
             } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::DocumentPrelude(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::DocumentPrelude(
                         self,
                         self::fields::DocumentPreludeField::Span,
                     ));
@@ -29195,7 +29257,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for DocumentPrelude {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::DocumentPrelude(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::DocumentPrelude(
                         self,
                         self::fields::DocumentPreludeField::MatchingFunctions(usize::MAX),
                     ));
@@ -29225,7 +29287,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for DocumentPreludeMatchingFu
         match self {
             DocumentPreludeMatchingFunction::Url { 0: _field_0 } => {
                 let mut __ast_path =
-                    __ast_path.with_guard(NodeRef::DocumentPreludeMatchingFunction(
+                    __ast_path.with_guard(AstParentNodeRef::DocumentPreludeMatchingFunction(
                         self,
                         self::fields::DocumentPreludeMatchingFunctionField::Url,
                     ));
@@ -29237,7 +29299,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for DocumentPreludeMatchingFu
             }
             DocumentPreludeMatchingFunction::Function { 0: _field_0 } => {
                 let mut __ast_path =
-                    __ast_path.with_guard(NodeRef::DocumentPreludeMatchingFunction(
+                    __ast_path.with_guard(AstParentNodeRef::DocumentPreludeMatchingFunction(
                         self,
                         self::fields::DocumentPreludeMatchingFunctionField::Function,
                     ));
@@ -29270,7 +29332,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ExtensionName {
         match self {
             ExtensionName { span, value, raw } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::ExtensionName(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ExtensionName(
                         self,
                         self::fields::ExtensionNameField::Span,
                     ));
@@ -29281,7 +29343,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ExtensionName {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::ExtensionName(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ExtensionName(
                         self,
                         self::fields::ExtensionNameField::Value,
                     ));
@@ -29292,7 +29354,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ExtensionName {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::ExtensionName(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ExtensionName(
                         self,
                         self::fields::ExtensionNameField::Raw,
                     ));
@@ -29325,7 +29387,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for FamilyName {
     ) {
         match self {
             FamilyName::Str { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::FamilyName(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::FamilyName(
                     self,
                     self::fields::FamilyNameField::Str,
                 ));
@@ -29336,7 +29398,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for FamilyName {
                 );
             }
             FamilyName::SequenceOfCustomIdents { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::FamilyName(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::FamilyName(
                     self,
                     self::fields::FamilyNameField::SequenceOfCustomIdents,
                 ));
@@ -29369,8 +29431,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Flex {
         match self {
             Flex { span, value, unit } => {
                 {
-                    let mut __ast_path =
-                        __ast_path.with_guard(NodeRef::Flex(self, self::fields::FlexField::Span));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentNodeRef::Flex(self, self::fields::FlexField::Span));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -29378,8 +29440,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Flex {
                     )
                 };
                 {
-                    let mut __ast_path =
-                        __ast_path.with_guard(NodeRef::Flex(self, self::fields::FlexField::Value));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentNodeRef::Flex(self, self::fields::FlexField::Value));
                     <Number as VisitWithAstPath<V>>::visit_with_ast_path(
                         value,
                         visitor,
@@ -29387,8 +29449,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Flex {
                     )
                 };
                 {
-                    let mut __ast_path =
-                        __ast_path.with_guard(NodeRef::Flex(self, self::fields::FlexField::Unit));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentNodeRef::Flex(self, self::fields::FlexField::Unit));
                     <Ident as VisitWithAstPath<V>>::visit_with_ast_path(
                         unit,
                         visitor,
@@ -29419,10 +29481,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for FontFeatureValuesPrelude 
         match self {
             FontFeatureValuesPrelude { span, font_family } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::FontFeatureValuesPrelude(
-                        self,
-                        self::fields::FontFeatureValuesPreludeField::Span,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::FontFeatureValuesPrelude(
+                            self,
+                            self::fields::FontFeatureValuesPreludeField::Span,
+                        ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -29430,10 +29493,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for FontFeatureValuesPrelude 
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::FontFeatureValuesPrelude(
-                        self,
-                        self::fields::FontFeatureValuesPreludeField::FontFamily(usize::MAX),
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::FontFeatureValuesPrelude(
+                            self,
+                            self::fields::FontFeatureValuesPreludeField::FontFamily(usize::MAX),
+                        ));
                     <Vec<FamilyName> as VisitWithAstPath<V>>::visit_with_ast_path(
                         font_family,
                         visitor,
@@ -29463,10 +29527,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ForgivingComplexSelector 
     ) {
         match self {
             ForgivingComplexSelector::ComplexSelector { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ForgivingComplexSelector(
-                    self,
-                    self::fields::ForgivingComplexSelectorField::ComplexSelector,
-                ));
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::ForgivingComplexSelector(
+                        self,
+                        self::fields::ForgivingComplexSelectorField::ComplexSelector,
+                    ));
                 <ComplexSelector as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -29474,10 +29539,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ForgivingComplexSelector 
                 );
             }
             ForgivingComplexSelector::ListOfComponentValues { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ForgivingComplexSelector(
-                    self,
-                    self::fields::ForgivingComplexSelectorField::ListOfComponentValues,
-                ));
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::ForgivingComplexSelector(
+                        self,
+                        self::fields::ForgivingComplexSelectorField::ListOfComponentValues,
+                    ));
                 <ListOfComponentValues as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -29506,10 +29572,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ForgivingRelativeSelector
     ) {
         match self {
             ForgivingRelativeSelector::RelativeSelector { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ForgivingRelativeSelector(
-                    self,
-                    self::fields::ForgivingRelativeSelectorField::RelativeSelector,
-                ));
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::ForgivingRelativeSelector(
+                        self,
+                        self::fields::ForgivingRelativeSelectorField::RelativeSelector,
+                    ));
                 <RelativeSelector as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -29517,10 +29584,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ForgivingRelativeSelector
                 );
             }
             ForgivingRelativeSelector::ListOfComponentValues { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ForgivingRelativeSelector(
-                    self,
-                    self::fields::ForgivingRelativeSelectorField::ListOfComponentValues,
-                ));
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::ForgivingRelativeSelector(
+                        self,
+                        self::fields::ForgivingRelativeSelectorField::ListOfComponentValues,
+                    ));
                 <ListOfComponentValues as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -29551,7 +29619,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ForgivingRelativeSelector
             ForgivingRelativeSelectorList { span, children } => {
                 {
                     let mut __ast_path =
-                        __ast_path.with_guard(NodeRef::ForgivingRelativeSelectorList(
+                        __ast_path.with_guard(AstParentNodeRef::ForgivingRelativeSelectorList(
                             self,
                             self::fields::ForgivingRelativeSelectorListField::Span,
                         ));
@@ -29563,7 +29631,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ForgivingRelativeSelector
                 };
                 {
                     let mut __ast_path =
-                        __ast_path.with_guard(NodeRef::ForgivingRelativeSelectorList(
+                        __ast_path.with_guard(AstParentNodeRef::ForgivingRelativeSelectorList(
                             self,
                             self::fields::ForgivingRelativeSelectorListField::Children(usize::MAX),
                         ));
@@ -29597,10 +29665,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ForgivingSelectorList {
         match self {
             ForgivingSelectorList { span, children } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::ForgivingSelectorList(
-                        self,
-                        self::fields::ForgivingSelectorListField::Span,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::ForgivingSelectorList(
+                            self,
+                            self::fields::ForgivingSelectorListField::Span,
+                        ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -29608,10 +29677,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ForgivingSelectorList {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::ForgivingSelectorList(
-                        self,
-                        self::fields::ForgivingSelectorListField::Children(usize::MAX),
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::ForgivingSelectorList(
+                            self,
+                            self::fields::ForgivingSelectorListField::Children(usize::MAX),
+                        ));
                     <Vec<ForgivingComplexSelector> as VisitWithAstPath<V>>::visit_with_ast_path(
                         children,
                         visitor,
@@ -29642,8 +29712,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Frequency {
         match self {
             Frequency { span, value, unit } => {
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::Frequency(self, self::fields::FrequencyField::Span));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Frequency(
+                        self,
+                        self::fields::FrequencyField::Span,
+                    ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -29651,7 +29723,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Frequency {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::Frequency(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Frequency(
                         self,
                         self::fields::FrequencyField::Value,
                     ));
@@ -29662,8 +29734,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Frequency {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::Frequency(self, self::fields::FrequencyField::Unit));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Frequency(
+                        self,
+                        self::fields::FrequencyField::Unit,
+                    ));
                     <Ident as VisitWithAstPath<V>>::visit_with_ast_path(
                         unit,
                         visitor,
@@ -29693,7 +29767,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for FrequencyPercentage {
     ) {
         match self {
             FrequencyPercentage::Frequency { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::FrequencyPercentage(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::FrequencyPercentage(
                     self,
                     self::fields::FrequencyPercentageField::Frequency,
                 ));
@@ -29704,7 +29778,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for FrequencyPercentage {
                 );
             }
             FrequencyPercentage::Percentage { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::FrequencyPercentage(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::FrequencyPercentage(
                     self,
                     self::fields::FrequencyPercentageField::Percentage,
                 ));
@@ -29737,8 +29811,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Function {
         match self {
             Function { span, name, value } => {
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::Function(self, self::fields::FunctionField::Span));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Function(
+                        self,
+                        self::fields::FunctionField::Span,
+                    ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -29746,8 +29822,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Function {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::Function(self, self::fields::FunctionField::Name));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Function(
+                        self,
+                        self::fields::FunctionField::Name,
+                    ));
                     <FunctionName as VisitWithAstPath<V>>::visit_with_ast_path(
                         name,
                         visitor,
@@ -29755,7 +29833,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Function {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::Function(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Function(
                         self,
                         self::fields::FunctionField::Value(usize::MAX),
                     ));
@@ -29788,7 +29866,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for FunctionName {
     ) {
         match self {
             FunctionName::Ident { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::FunctionName(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::FunctionName(
                     self,
                     self::fields::FunctionNameField::Ident,
                 ));
@@ -29799,7 +29877,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for FunctionName {
                 );
             }
             FunctionName::DashedIdent { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::FunctionName(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::FunctionName(
                     self,
                     self::fields::FunctionNameField::DashedIdent,
                 ));
@@ -29831,7 +29909,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for GeneralEnclosed {
     ) {
         match self {
             GeneralEnclosed::Function { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::GeneralEnclosed(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::GeneralEnclosed(
                     self,
                     self::fields::GeneralEnclosedField::Function,
                 ));
@@ -29842,7 +29920,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for GeneralEnclosed {
                 );
             }
             GeneralEnclosed::SimpleBlock { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::GeneralEnclosed(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::GeneralEnclosed(
                     self,
                     self::fields::GeneralEnclosedField::SimpleBlock,
                 ));
@@ -29875,8 +29953,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for HexColor {
         match self {
             HexColor { span, value, raw } => {
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::HexColor(self, self::fields::HexColorField::Span));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::HexColor(
+                        self,
+                        self::fields::HexColorField::Span,
+                    ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -29884,8 +29964,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for HexColor {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::HexColor(self, self::fields::HexColorField::Value));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::HexColor(
+                        self,
+                        self::fields::HexColorField::Value,
+                    ));
                     <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         value,
                         visitor,
@@ -29893,8 +29975,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for HexColor {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::HexColor(self, self::fields::HexColorField::Raw));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::HexColor(
+                        self,
+                        self::fields::HexColorField::Raw,
+                    ));
                     <Option<swc_atoms::Atom> as VisitWithAstPath<V>>::visit_with_ast_path(
                         raw,
                         visitor,
@@ -29924,8 +30008,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Hue {
     ) {
         match self {
             Hue::Number { 0: _field_0 } => {
-                let mut __ast_path =
-                    __ast_path.with_guard(NodeRef::Hue(self, self::fields::HueField::Number));
+                let mut __ast_path = __ast_path
+                    .with_guard(AstParentNodeRef::Hue(self, self::fields::HueField::Number));
                 <Number as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -29933,8 +30017,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Hue {
                 );
             }
             Hue::Angle { 0: _field_0 } => {
-                let mut __ast_path =
-                    __ast_path.with_guard(NodeRef::Hue(self, self::fields::HueField::Angle));
+                let mut __ast_path = __ast_path
+                    .with_guard(AstParentNodeRef::Hue(self, self::fields::HueField::Angle));
                 <Angle as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -29964,7 +30048,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for IdSelector {
         match self {
             IdSelector { span, text } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::IdSelector(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::IdSelector(
                         self,
                         self::fields::IdSelectorField::Span,
                     ));
@@ -29975,7 +30059,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for IdSelector {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::IdSelector(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::IdSelector(
                         self,
                         self::fields::IdSelectorField::Text,
                     ));
@@ -30009,8 +30093,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Ident {
         match self {
             Ident { span, value, raw } => {
                 {
-                    let mut __ast_path =
-                        __ast_path.with_guard(NodeRef::Ident(self, self::fields::IdentField::Span));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Ident(
+                        self,
+                        self::fields::IdentField::Span,
+                    ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -30018,8 +30104,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Ident {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::Ident(self, self::fields::IdentField::Value));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Ident(
+                        self,
+                        self::fields::IdentField::Value,
+                    ));
                     <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         value,
                         visitor,
@@ -30027,8 +30115,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Ident {
                     )
                 };
                 {
-                    let mut __ast_path =
-                        __ast_path.with_guard(NodeRef::Ident(self, self::fields::IdentField::Raw));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentNodeRef::Ident(self, self::fields::IdentField::Raw));
                     <Option<swc_atoms::Atom> as VisitWithAstPath<V>>::visit_with_ast_path(
                         raw,
                         visitor,
@@ -30063,7 +30151,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ImportConditions {
                 media,
             } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::ImportConditions(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ImportConditions(
                         self,
                         self::fields::ImportConditionsField::Span,
                     ));
@@ -30074,7 +30162,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ImportConditions {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::ImportConditions(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ImportConditions(
                         self,
                         self::fields::ImportConditionsField::Supports,
                     ));
@@ -30085,7 +30173,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ImportConditions {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::ImportConditions(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ImportConditions(
                         self,
                         self::fields::ImportConditionsField::Media,
                     ));
@@ -30118,7 +30206,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ImportHref {
     ) {
         match self {
             ImportHref::Url { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ImportHref(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ImportHref(
                     self,
                     self::fields::ImportHrefField::Url,
                 ));
@@ -30129,7 +30217,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ImportHref {
                 );
             }
             ImportHref::Str { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ImportHref(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ImportHref(
                     self,
                     self::fields::ImportHrefField::Str,
                 ));
@@ -30161,7 +30249,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ImportLayerName {
     ) {
         match self {
             ImportLayerName::Ident { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ImportLayerName(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ImportLayerName(
                     self,
                     self::fields::ImportLayerNameField::Ident,
                 ));
@@ -30172,7 +30260,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ImportLayerName {
                 );
             }
             ImportLayerName::Function { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::ImportLayerName(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ImportLayerName(
                     self,
                     self::fields::ImportLayerNameField::Function,
                 ));
@@ -30210,7 +30298,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ImportPrelude {
                 import_conditions,
             } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::ImportPrelude(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ImportPrelude(
                         self,
                         self::fields::ImportPreludeField::Span,
                     ));
@@ -30221,7 +30309,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ImportPrelude {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::ImportPrelude(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ImportPrelude(
                         self,
                         self::fields::ImportPreludeField::Href,
                     ));
@@ -30232,7 +30320,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ImportPrelude {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::ImportPrelude(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ImportPrelude(
                         self,
                         self::fields::ImportPreludeField::LayerName,
                     ));
@@ -30243,7 +30331,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ImportPrelude {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::ImportPrelude(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ImportPrelude(
                         self,
                         self::fields::ImportPreludeField::ImportConditions,
                     ));
@@ -30277,7 +30365,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ImportantFlag {
         match self {
             ImportantFlag { span, value } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::ImportantFlag(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ImportantFlag(
                         self,
                         self::fields::ImportantFlagField::Span,
                     ));
@@ -30288,7 +30376,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ImportantFlag {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::ImportantFlag(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ImportantFlag(
                         self,
                         self::fields::ImportantFlagField::Value,
                     ));
@@ -30322,8 +30410,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Integer {
         match self {
             Integer { span, value, raw } => {
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::Integer(self, self::fields::IntegerField::Span));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Integer(
+                        self,
+                        self::fields::IntegerField::Span,
+                    ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -30331,8 +30421,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Integer {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::Integer(self, self::fields::IntegerField::Raw));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Integer(
+                        self,
+                        self::fields::IntegerField::Raw,
+                    ));
                     <Option<swc_atoms::Atom> as VisitWithAstPath<V>>::visit_with_ast_path(
                         raw,
                         visitor,
@@ -30367,7 +30459,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for KeyframeBlock {
                 block,
             } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::KeyframeBlock(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::KeyframeBlock(
                         self,
                         self::fields::KeyframeBlockField::Span,
                     ));
@@ -30378,7 +30470,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for KeyframeBlock {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::KeyframeBlock(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::KeyframeBlock(
                         self,
                         self::fields::KeyframeBlockField::Prelude(usize::MAX),
                     ));
@@ -30389,7 +30481,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for KeyframeBlock {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::KeyframeBlock(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::KeyframeBlock(
                         self,
                         self::fields::KeyframeBlockField::Block,
                     ));
@@ -30422,7 +30514,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for KeyframeSelector {
     ) {
         match self {
             KeyframeSelector::Ident { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::KeyframeSelector(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::KeyframeSelector(
                     self,
                     self::fields::KeyframeSelectorField::Ident,
                 ));
@@ -30433,7 +30525,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for KeyframeSelector {
                 );
             }
             KeyframeSelector::Percentage { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::KeyframeSelector(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::KeyframeSelector(
                     self,
                     self::fields::KeyframeSelectorField::Percentage,
                 ));
@@ -30465,7 +30557,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for KeyframesName {
     ) {
         match self {
             KeyframesName::CustomIdent { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::KeyframesName(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::KeyframesName(
                     self,
                     self::fields::KeyframesNameField::CustomIdent,
                 ));
@@ -30476,7 +30568,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for KeyframesName {
                 );
             }
             KeyframesName::Str { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::KeyframesName(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::KeyframesName(
                     self,
                     self::fields::KeyframesNameField::Str,
                 ));
@@ -30487,7 +30579,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for KeyframesName {
                 );
             }
             KeyframesName::PseudoPrefix { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::KeyframesName(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::KeyframesName(
                     self,
                     self::fields::KeyframesNameField::PseudoPrefix,
                 ));
@@ -30498,7 +30590,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for KeyframesName {
                 );
             }
             KeyframesName::PseudoFunction { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::KeyframesName(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::KeyframesName(
                     self,
                     self::fields::KeyframesNameField::PseudoFunction,
                 ));
@@ -30531,10 +30623,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for KeyframesPseudoFunction {
         match self {
             KeyframesPseudoFunction { span, pseudo, name } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::KeyframesPseudoFunction(
-                        self,
-                        self::fields::KeyframesPseudoFunctionField::Span,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::KeyframesPseudoFunction(
+                            self,
+                            self::fields::KeyframesPseudoFunctionField::Span,
+                        ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -30542,10 +30635,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for KeyframesPseudoFunction {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::KeyframesPseudoFunction(
-                        self,
-                        self::fields::KeyframesPseudoFunctionField::Pseudo,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::KeyframesPseudoFunction(
+                            self,
+                            self::fields::KeyframesPseudoFunctionField::Pseudo,
+                        ));
                     <Ident as VisitWithAstPath<V>>::visit_with_ast_path(
                         pseudo,
                         visitor,
@@ -30553,10 +30647,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for KeyframesPseudoFunction {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::KeyframesPseudoFunction(
-                        self,
-                        self::fields::KeyframesPseudoFunctionField::Name,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::KeyframesPseudoFunction(
+                            self,
+                            self::fields::KeyframesPseudoFunctionField::Name,
+                        ));
                     <KeyframesName as VisitWithAstPath<V>>::visit_with_ast_path(
                         name,
                         visitor,
@@ -30587,10 +30682,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for KeyframesPseudoPrefix {
         match self {
             KeyframesPseudoPrefix { span, pseudo, name } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::KeyframesPseudoPrefix(
-                        self,
-                        self::fields::KeyframesPseudoPrefixField::Span,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::KeyframesPseudoPrefix(
+                            self,
+                            self::fields::KeyframesPseudoPrefixField::Span,
+                        ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -30598,10 +30694,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for KeyframesPseudoPrefix {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::KeyframesPseudoPrefix(
-                        self,
-                        self::fields::KeyframesPseudoPrefixField::Pseudo,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::KeyframesPseudoPrefix(
+                            self,
+                            self::fields::KeyframesPseudoPrefixField::Pseudo,
+                        ));
                     <Ident as VisitWithAstPath<V>>::visit_with_ast_path(
                         pseudo,
                         visitor,
@@ -30609,10 +30706,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for KeyframesPseudoPrefix {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::KeyframesPseudoPrefix(
-                        self,
-                        self::fields::KeyframesPseudoPrefixField::Name,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::KeyframesPseudoPrefix(
+                            self,
+                            self::fields::KeyframesPseudoPrefixField::Name,
+                        ));
                     <KeyframesName as VisitWithAstPath<V>>::visit_with_ast_path(
                         name,
                         visitor,
@@ -30643,8 +30741,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for LayerName {
         match self {
             LayerName { span, name } => {
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::LayerName(self, self::fields::LayerNameField::Span));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::LayerName(
+                        self,
+                        self::fields::LayerNameField::Span,
+                    ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -30652,7 +30752,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for LayerName {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::LayerName(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::LayerName(
                         self,
                         self::fields::LayerNameField::Name(usize::MAX),
                     ));
@@ -30686,7 +30786,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for LayerNameList {
         match self {
             LayerNameList { span, name_list } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::LayerNameList(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::LayerNameList(
                         self,
                         self::fields::LayerNameListField::Span,
                     ));
@@ -30697,7 +30797,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for LayerNameList {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::LayerNameList(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::LayerNameList(
                         self,
                         self::fields::LayerNameListField::NameList(usize::MAX),
                     ));
@@ -30730,7 +30830,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for LayerPrelude {
     ) {
         match self {
             LayerPrelude::Name { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::LayerPrelude(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::LayerPrelude(
                     self,
                     self::fields::LayerPreludeField::Name,
                 ));
@@ -30741,7 +30841,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for LayerPrelude {
                 );
             }
             LayerPrelude::NameList { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::LayerPrelude(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::LayerPrelude(
                     self,
                     self::fields::LayerPreludeField::NameList,
                 ));
@@ -30774,8 +30874,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Length {
         match self {
             Length { span, value, unit } => {
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::Length(self, self::fields::LengthField::Span));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Length(
+                        self,
+                        self::fields::LengthField::Span,
+                    ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -30783,8 +30885,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Length {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::Length(self, self::fields::LengthField::Value));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Length(
+                        self,
+                        self::fields::LengthField::Value,
+                    ));
                     <Number as VisitWithAstPath<V>>::visit_with_ast_path(
                         value,
                         visitor,
@@ -30792,8 +30896,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Length {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::Length(self, self::fields::LengthField::Unit));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Length(
+                        self,
+                        self::fields::LengthField::Unit,
+                    ));
                     <Ident as VisitWithAstPath<V>>::visit_with_ast_path(
                         unit,
                         visitor,
@@ -30823,7 +30929,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for LengthPercentage {
     ) {
         match self {
             LengthPercentage::Length { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::LengthPercentage(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::LengthPercentage(
                     self,
                     self::fields::LengthPercentageField::Length,
                 ));
@@ -30834,7 +30940,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for LengthPercentage {
                 );
             }
             LengthPercentage::Percentage { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::LengthPercentage(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::LengthPercentage(
                     self,
                     self::fields::LengthPercentageField::Percentage,
                 ));
@@ -30867,10 +30973,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ListOfComponentValues {
         match self {
             ListOfComponentValues { span, children } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::ListOfComponentValues(
-                        self,
-                        self::fields::ListOfComponentValuesField::Span,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::ListOfComponentValues(
+                            self,
+                            self::fields::ListOfComponentValuesField::Span,
+                        ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -30878,10 +30985,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ListOfComponentValues {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::ListOfComponentValues(
-                        self,
-                        self::fields::ListOfComponentValuesField::Children(usize::MAX),
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::ListOfComponentValues(
+                            self,
+                            self::fields::ListOfComponentValuesField::Children(usize::MAX),
+                        ));
                     <Vec<ComponentValue> as VisitWithAstPath<V>>::visit_with_ast_path(
                         children,
                         visitor,
@@ -30916,8 +31024,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaAnd {
                 condition,
             } => {
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::MediaAnd(self, self::fields::MediaAndField::Span));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::MediaAnd(
+                        self,
+                        self::fields::MediaAndField::Span,
+                    ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -30925,7 +31035,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaAnd {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::MediaAnd(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::MediaAnd(
                         self,
                         self::fields::MediaAndField::Keyword,
                     ));
@@ -30936,7 +31046,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaAnd {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::MediaAnd(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::MediaAnd(
                         self,
                         self::fields::MediaAndField::Condition,
                     ));
@@ -30970,7 +31080,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaCondition {
         match self {
             MediaCondition { span, conditions } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::MediaCondition(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::MediaCondition(
                         self,
                         self::fields::MediaConditionField::Span,
                     ));
@@ -30981,7 +31091,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaCondition {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::MediaCondition(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::MediaCondition(
                         self,
                         self::fields::MediaConditionField::Conditions(usize::MAX),
                     ));
@@ -31014,10 +31124,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaConditionAllType {
     ) {
         match self {
             MediaConditionAllType::Not { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::MediaConditionAllType(
-                    self,
-                    self::fields::MediaConditionAllTypeField::Not,
-                ));
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::MediaConditionAllType(
+                        self,
+                        self::fields::MediaConditionAllTypeField::Not,
+                    ));
                 <MediaNot as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -31025,10 +31136,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaConditionAllType {
                 );
             }
             MediaConditionAllType::And { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::MediaConditionAllType(
-                    self,
-                    self::fields::MediaConditionAllTypeField::And,
-                ));
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::MediaConditionAllType(
+                        self,
+                        self::fields::MediaConditionAllTypeField::And,
+                    ));
                 <MediaAnd as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -31036,10 +31148,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaConditionAllType {
                 );
             }
             MediaConditionAllType::Or { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::MediaConditionAllType(
-                    self,
-                    self::fields::MediaConditionAllTypeField::Or,
-                ));
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::MediaConditionAllType(
+                        self,
+                        self::fields::MediaConditionAllTypeField::Or,
+                    ));
                 <MediaOr as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -31047,10 +31160,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaConditionAllType {
                 );
             }
             MediaConditionAllType::MediaInParens { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::MediaConditionAllType(
-                    self,
-                    self::fields::MediaConditionAllTypeField::MediaInParens,
-                ));
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::MediaConditionAllType(
+                        self,
+                        self::fields::MediaConditionAllTypeField::MediaInParens,
+                    ));
                 <MediaInParens as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -31079,7 +31193,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaConditionType {
     ) {
         match self {
             MediaConditionType::All { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::MediaConditionType(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::MediaConditionType(
                     self,
                     self::fields::MediaConditionTypeField::All,
                 ));
@@ -31090,7 +31204,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaConditionType {
                 );
             }
             MediaConditionType::WithoutOr { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::MediaConditionType(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::MediaConditionType(
                     self,
                     self::fields::MediaConditionTypeField::WithoutOr,
                 ));
@@ -31123,10 +31237,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaConditionWithoutOr {
         match self {
             MediaConditionWithoutOr { span, conditions } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::MediaConditionWithoutOr(
-                        self,
-                        self::fields::MediaConditionWithoutOrField::Span,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::MediaConditionWithoutOr(
+                            self,
+                            self::fields::MediaConditionWithoutOrField::Span,
+                        ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -31134,10 +31249,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaConditionWithoutOr {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::MediaConditionWithoutOr(
-                        self,
-                        self::fields::MediaConditionWithoutOrField::Conditions(usize::MAX),
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::MediaConditionWithoutOr(
+                            self,
+                            self::fields::MediaConditionWithoutOrField::Conditions(usize::MAX),
+                        ));
                     <Vec<MediaConditionWithoutOrType> as VisitWithAstPath<V>>::visit_with_ast_path(
                         conditions,
                         visitor,
@@ -31167,10 +31283,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaConditionWithoutOrTy
     ) {
         match self {
             MediaConditionWithoutOrType::Not { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::MediaConditionWithoutOrType(
-                    self,
-                    self::fields::MediaConditionWithoutOrTypeField::Not,
-                ));
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::MediaConditionWithoutOrType(
+                        self,
+                        self::fields::MediaConditionWithoutOrTypeField::Not,
+                    ));
                 <MediaNot as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -31178,10 +31295,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaConditionWithoutOrTy
                 );
             }
             MediaConditionWithoutOrType::And { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::MediaConditionWithoutOrType(
-                    self,
-                    self::fields::MediaConditionWithoutOrTypeField::And,
-                ));
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::MediaConditionWithoutOrType(
+                        self,
+                        self::fields::MediaConditionWithoutOrTypeField::And,
+                    ));
                 <MediaAnd as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -31189,10 +31307,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaConditionWithoutOrTy
                 );
             }
             MediaConditionWithoutOrType::MediaInParens { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::MediaConditionWithoutOrType(
-                    self,
-                    self::fields::MediaConditionWithoutOrTypeField::MediaInParens,
-                ));
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::MediaConditionWithoutOrType(
+                        self,
+                        self::fields::MediaConditionWithoutOrTypeField::MediaInParens,
+                    ));
                 <MediaInParens as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -31221,7 +31340,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaFeature {
     ) {
         match self {
             MediaFeature::Plain { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::MediaFeature(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::MediaFeature(
                     self,
                     self::fields::MediaFeatureField::Plain,
                 ));
@@ -31232,7 +31351,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaFeature {
                 );
             }
             MediaFeature::Boolean { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::MediaFeature(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::MediaFeature(
                     self,
                     self::fields::MediaFeatureField::Boolean,
                 ));
@@ -31243,7 +31362,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaFeature {
                 );
             }
             MediaFeature::Range { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::MediaFeature(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::MediaFeature(
                     self,
                     self::fields::MediaFeatureField::Range,
                 ));
@@ -31254,7 +31373,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaFeature {
                 );
             }
             MediaFeature::RangeInterval { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::MediaFeature(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::MediaFeature(
                     self,
                     self::fields::MediaFeatureField::RangeInterval,
                 ));
@@ -31287,10 +31406,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaFeatureBoolean {
         match self {
             MediaFeatureBoolean { span, name } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::MediaFeatureBoolean(
-                        self,
-                        self::fields::MediaFeatureBooleanField::Span,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::MediaFeatureBoolean(
+                            self,
+                            self::fields::MediaFeatureBooleanField::Span,
+                        ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -31298,10 +31418,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaFeatureBoolean {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::MediaFeatureBoolean(
-                        self,
-                        self::fields::MediaFeatureBooleanField::Name,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::MediaFeatureBoolean(
+                            self,
+                            self::fields::MediaFeatureBooleanField::Name,
+                        ));
                     <MediaFeatureName as VisitWithAstPath<V>>::visit_with_ast_path(
                         name,
                         visitor,
@@ -31331,7 +31452,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaFeatureName {
     ) {
         match self {
             MediaFeatureName::Ident { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::MediaFeatureName(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::MediaFeatureName(
                     self,
                     self::fields::MediaFeatureNameField::Ident,
                 ));
@@ -31342,7 +31463,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaFeatureName {
                 );
             }
             MediaFeatureName::ExtensionName { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::MediaFeatureName(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::MediaFeatureName(
                     self,
                     self::fields::MediaFeatureNameField::ExtensionName,
                 ));
@@ -31375,10 +31496,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaFeaturePlain {
         match self {
             MediaFeaturePlain { span, name, value } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::MediaFeaturePlain(
-                        self,
-                        self::fields::MediaFeaturePlainField::Span,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::MediaFeaturePlain(
+                            self,
+                            self::fields::MediaFeaturePlainField::Span,
+                        ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -31386,10 +31508,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaFeaturePlain {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::MediaFeaturePlain(
-                        self,
-                        self::fields::MediaFeaturePlainField::Name,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::MediaFeaturePlain(
+                            self,
+                            self::fields::MediaFeaturePlainField::Name,
+                        ));
                     <MediaFeatureName as VisitWithAstPath<V>>::visit_with_ast_path(
                         name,
                         visitor,
@@ -31397,10 +31520,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaFeaturePlain {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::MediaFeaturePlain(
-                        self,
-                        self::fields::MediaFeaturePlainField::Value,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::MediaFeaturePlain(
+                            self,
+                            self::fields::MediaFeaturePlainField::Value,
+                        ));
                     <Box<MediaFeatureValue> as VisitWithAstPath<V>>::visit_with_ast_path(
                         value,
                         visitor,
@@ -31436,10 +31560,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaFeatureRange {
                 right,
             } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::MediaFeatureRange(
-                        self,
-                        self::fields::MediaFeatureRangeField::Span,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::MediaFeatureRange(
+                            self,
+                            self::fields::MediaFeatureRangeField::Span,
+                        ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -31447,10 +31572,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaFeatureRange {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::MediaFeatureRange(
-                        self,
-                        self::fields::MediaFeatureRangeField::Left,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::MediaFeatureRange(
+                            self,
+                            self::fields::MediaFeatureRangeField::Left,
+                        ));
                     <Box<MediaFeatureValue> as VisitWithAstPath<V>>::visit_with_ast_path(
                         left,
                         visitor,
@@ -31458,10 +31584,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaFeatureRange {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::MediaFeatureRange(
-                        self,
-                        self::fields::MediaFeatureRangeField::Comparison,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::MediaFeatureRange(
+                            self,
+                            self::fields::MediaFeatureRangeField::Comparison,
+                        ));
                     <MediaFeatureRangeComparison as VisitWithAstPath<V>>::visit_with_ast_path(
                         comparison,
                         visitor,
@@ -31469,10 +31596,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaFeatureRange {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::MediaFeatureRange(
-                        self,
-                        self::fields::MediaFeatureRangeField::Right,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::MediaFeatureRange(
+                            self,
+                            self::fields::MediaFeatureRangeField::Right,
+                        ));
                     <Box<MediaFeatureValue> as VisitWithAstPath<V>>::visit_with_ast_path(
                         right,
                         visitor,
@@ -31536,10 +31664,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaFeatureRangeInterval
                 right,
             } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::MediaFeatureRangeInterval(
-                        self,
-                        self::fields::MediaFeatureRangeIntervalField::Span,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::MediaFeatureRangeInterval(
+                            self,
+                            self::fields::MediaFeatureRangeIntervalField::Span,
+                        ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -31547,10 +31676,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaFeatureRangeInterval
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::MediaFeatureRangeInterval(
-                        self,
-                        self::fields::MediaFeatureRangeIntervalField::Left,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::MediaFeatureRangeInterval(
+                            self,
+                            self::fields::MediaFeatureRangeIntervalField::Left,
+                        ));
                     <Box<MediaFeatureValue> as VisitWithAstPath<V>>::visit_with_ast_path(
                         left,
                         visitor,
@@ -31558,10 +31688,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaFeatureRangeInterval
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::MediaFeatureRangeInterval(
-                        self,
-                        self::fields::MediaFeatureRangeIntervalField::LeftComparison,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::MediaFeatureRangeInterval(
+                            self,
+                            self::fields::MediaFeatureRangeIntervalField::LeftComparison,
+                        ));
                     <MediaFeatureRangeComparison as VisitWithAstPath<V>>::visit_with_ast_path(
                         left_comparison,
                         visitor,
@@ -31569,10 +31700,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaFeatureRangeInterval
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::MediaFeatureRangeInterval(
-                        self,
-                        self::fields::MediaFeatureRangeIntervalField::Name,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::MediaFeatureRangeInterval(
+                            self,
+                            self::fields::MediaFeatureRangeIntervalField::Name,
+                        ));
                     <MediaFeatureName as VisitWithAstPath<V>>::visit_with_ast_path(
                         name,
                         visitor,
@@ -31580,10 +31712,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaFeatureRangeInterval
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::MediaFeatureRangeInterval(
-                        self,
-                        self::fields::MediaFeatureRangeIntervalField::RightComparison,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::MediaFeatureRangeInterval(
+                            self,
+                            self::fields::MediaFeatureRangeIntervalField::RightComparison,
+                        ));
                     <MediaFeatureRangeComparison as VisitWithAstPath<V>>::visit_with_ast_path(
                         right_comparison,
                         visitor,
@@ -31591,10 +31724,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaFeatureRangeInterval
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::MediaFeatureRangeInterval(
-                        self,
-                        self::fields::MediaFeatureRangeIntervalField::Right,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::MediaFeatureRangeInterval(
+                            self,
+                            self::fields::MediaFeatureRangeIntervalField::Right,
+                        ));
                     <Box<MediaFeatureValue> as VisitWithAstPath<V>>::visit_with_ast_path(
                         right,
                         visitor,
@@ -31624,7 +31758,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaFeatureValue {
     ) {
         match self {
             MediaFeatureValue::Number { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::MediaFeatureValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::MediaFeatureValue(
                     self,
                     self::fields::MediaFeatureValueField::Number,
                 ));
@@ -31635,7 +31769,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaFeatureValue {
                 );
             }
             MediaFeatureValue::Dimension { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::MediaFeatureValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::MediaFeatureValue(
                     self,
                     self::fields::MediaFeatureValueField::Dimension,
                 ));
@@ -31646,7 +31780,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaFeatureValue {
                 );
             }
             MediaFeatureValue::Ident { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::MediaFeatureValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::MediaFeatureValue(
                     self,
                     self::fields::MediaFeatureValueField::Ident,
                 ));
@@ -31657,7 +31791,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaFeatureValue {
                 );
             }
             MediaFeatureValue::Ratio { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::MediaFeatureValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::MediaFeatureValue(
                     self,
                     self::fields::MediaFeatureValueField::Ratio,
                 ));
@@ -31668,7 +31802,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaFeatureValue {
                 );
             }
             MediaFeatureValue::Function { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::MediaFeatureValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::MediaFeatureValue(
                     self,
                     self::fields::MediaFeatureValueField::Function,
                 ));
@@ -31700,7 +31834,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaInParens {
     ) {
         match self {
             MediaInParens::MediaCondition { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::MediaInParens(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::MediaInParens(
                     self,
                     self::fields::MediaInParensField::MediaCondition,
                 ));
@@ -31711,7 +31845,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaInParens {
                 );
             }
             MediaInParens::Feature { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::MediaInParens(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::MediaInParens(
                     self,
                     self::fields::MediaInParensField::Feature,
                 ));
@@ -31722,7 +31856,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaInParens {
                 );
             }
             MediaInParens::GeneralEnclosed { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::MediaInParens(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::MediaInParens(
                     self,
                     self::fields::MediaInParensField::GeneralEnclosed,
                 ));
@@ -31759,8 +31893,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaNot {
                 condition,
             } => {
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::MediaNot(self, self::fields::MediaNotField::Span));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::MediaNot(
+                        self,
+                        self::fields::MediaNotField::Span,
+                    ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -31768,7 +31904,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaNot {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::MediaNot(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::MediaNot(
                         self,
                         self::fields::MediaNotField::Keyword,
                     ));
@@ -31779,7 +31915,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaNot {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::MediaNot(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::MediaNot(
                         self,
                         self::fields::MediaNotField::Condition,
                     ));
@@ -31817,8 +31953,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaOr {
                 condition,
             } => {
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::MediaOr(self, self::fields::MediaOrField::Span));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::MediaOr(
+                        self,
+                        self::fields::MediaOrField::Span,
+                    ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -31826,8 +31964,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaOr {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::MediaOr(self, self::fields::MediaOrField::Keyword));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::MediaOr(
+                        self,
+                        self::fields::MediaOrField::Keyword,
+                    ));
                     <Option<Ident> as VisitWithAstPath<V>>::visit_with_ast_path(
                         keyword,
                         visitor,
@@ -31835,7 +31975,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaOr {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::MediaOr(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::MediaOr(
                         self,
                         self::fields::MediaOrField::Condition,
                     ));
@@ -31875,7 +32015,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaQuery {
                 condition,
             } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::MediaQuery(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::MediaQuery(
                         self,
                         self::fields::MediaQueryField::Span,
                     ));
@@ -31886,7 +32026,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaQuery {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::MediaQuery(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::MediaQuery(
                         self,
                         self::fields::MediaQueryField::Modifier,
                     ));
@@ -31897,7 +32037,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaQuery {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::MediaQuery(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::MediaQuery(
                         self,
                         self::fields::MediaQueryField::MediaType,
                     ));
@@ -31908,7 +32048,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaQuery {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::MediaQuery(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::MediaQuery(
                         self,
                         self::fields::MediaQueryField::Keyword,
                     ));
@@ -31919,7 +32059,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaQuery {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::MediaQuery(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::MediaQuery(
                         self,
                         self::fields::MediaQueryField::Condition,
                     ));
@@ -31953,7 +32093,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaQueryList {
         match self {
             MediaQueryList { span, queries } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::MediaQueryList(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::MediaQueryList(
                         self,
                         self::fields::MediaQueryListField::Span,
                     ));
@@ -31964,7 +32104,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaQueryList {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::MediaQueryList(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::MediaQueryList(
                         self,
                         self::fields::MediaQueryListField::Queries(usize::MAX),
                     ));
@@ -31997,7 +32137,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for MediaType {
     ) {
         match self {
             MediaType::Ident { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::MediaType(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::MediaType(
                     self,
                     self::fields::MediaTypeField::Ident,
                 ));
@@ -32030,7 +32170,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for NamedNamespace {
         match self {
             NamedNamespace { span, name } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::NamedNamespace(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::NamedNamespace(
                         self,
                         self::fields::NamedNamespaceField::Span,
                     ));
@@ -32041,7 +32181,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for NamedNamespace {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::NamedNamespace(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::NamedNamespace(
                         self,
                         self::fields::NamedNamespaceField::Name,
                     ));
@@ -32074,7 +32214,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Namespace {
     ) {
         match self {
             Namespace::Named { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::Namespace(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Namespace(
                     self,
                     self::fields::NamespaceField::Named,
                 ));
@@ -32085,8 +32225,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Namespace {
                 );
             }
             Namespace::Any { 0: _field_0 } => {
-                let mut __ast_path = __ast_path
-                    .with_guard(NodeRef::Namespace(self, self::fields::NamespaceField::Any));
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Namespace(
+                    self,
+                    self::fields::NamespaceField::Any,
+                ));
                 <AnyNamespace as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -32116,7 +32258,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for NamespacePrefix {
         match self {
             NamespacePrefix { span, namespace } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::NamespacePrefix(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::NamespacePrefix(
                         self,
                         self::fields::NamespacePrefixField::Span,
                     ));
@@ -32127,7 +32269,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for NamespacePrefix {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::NamespacePrefix(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::NamespacePrefix(
                         self,
                         self::fields::NamespacePrefixField::Namespace,
                     ));
@@ -32161,7 +32303,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for NamespacePrelude {
         match self {
             NamespacePrelude { span, prefix, uri } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::NamespacePrelude(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::NamespacePrelude(
                         self,
                         self::fields::NamespacePreludeField::Span,
                     ));
@@ -32172,7 +32314,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for NamespacePrelude {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::NamespacePrelude(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::NamespacePrelude(
                         self,
                         self::fields::NamespacePreludeField::Prefix,
                     ));
@@ -32183,7 +32325,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for NamespacePrelude {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::NamespacePrelude(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::NamespacePrelude(
                         self,
                         self::fields::NamespacePreludeField::Uri,
                     ));
@@ -32216,7 +32358,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for NamespacePreludeUri {
     ) {
         match self {
             NamespacePreludeUri::Url { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::NamespacePreludeUri(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::NamespacePreludeUri(
                     self,
                     self::fields::NamespacePreludeUriField::Url,
                 ));
@@ -32227,7 +32369,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for NamespacePreludeUri {
                 );
             }
             NamespacePreludeUri::Str { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::NamespacePreludeUri(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::NamespacePreludeUri(
                     self,
                     self::fields::NamespacePreludeUriField::Str,
                 ));
@@ -32260,7 +32402,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for NestingSelector {
         match self {
             NestingSelector { span } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::NestingSelector(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::NestingSelector(
                         self,
                         self::fields::NestingSelectorField::Span,
                     ));
@@ -32294,8 +32436,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Number {
         match self {
             Number { span, value, raw } => {
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::Number(self, self::fields::NumberField::Span));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Number(
+                        self,
+                        self::fields::NumberField::Span,
+                    ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -32303,8 +32447,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Number {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::Number(self, self::fields::NumberField::Raw));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Number(
+                        self,
+                        self::fields::NumberField::Raw,
+                    ));
                     <Option<swc_atoms::Atom> as VisitWithAstPath<V>>::visit_with_ast_path(
                         raw,
                         visitor,
@@ -32362,7 +32508,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for PageSelector {
                 pseudos,
             } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::PageSelector(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::PageSelector(
                         self,
                         self::fields::PageSelectorField::Span,
                     ));
@@ -32373,7 +32519,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for PageSelector {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::PageSelector(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::PageSelector(
                         self,
                         self::fields::PageSelectorField::PageType,
                     ));
@@ -32384,7 +32530,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for PageSelector {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::PageSelector(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::PageSelector(
                         self,
                         self::fields::PageSelectorField::Pseudos(usize::MAX),
                     ));
@@ -32418,7 +32564,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for PageSelectorList {
         match self {
             PageSelectorList { span, selectors } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::PageSelectorList(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::PageSelectorList(
                         self,
                         self::fields::PageSelectorListField::Span,
                     ));
@@ -32429,7 +32575,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for PageSelectorList {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::PageSelectorList(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::PageSelectorList(
                         self,
                         self::fields::PageSelectorListField::Selectors(usize::MAX),
                     ));
@@ -32463,10 +32609,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for PageSelectorPseudo {
         match self {
             PageSelectorPseudo { span, value } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::PageSelectorPseudo(
-                        self,
-                        self::fields::PageSelectorPseudoField::Span,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::PageSelectorPseudo(
+                            self,
+                            self::fields::PageSelectorPseudoField::Span,
+                        ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -32474,10 +32621,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for PageSelectorPseudo {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::PageSelectorPseudo(
-                        self,
-                        self::fields::PageSelectorPseudoField::Value,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::PageSelectorPseudo(
+                            self,
+                            self::fields::PageSelectorPseudoField::Value,
+                        ));
                     <Ident as VisitWithAstPath<V>>::visit_with_ast_path(
                         value,
                         visitor,
@@ -32508,7 +32656,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for PageSelectorType {
         match self {
             PageSelectorType { span, value } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::PageSelectorType(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::PageSelectorType(
                         self,
                         self::fields::PageSelectorTypeField::Span,
                     ));
@@ -32519,7 +32667,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for PageSelectorType {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::PageSelectorType(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::PageSelectorType(
                         self,
                         self::fields::PageSelectorTypeField::Value,
                     ));
@@ -32553,7 +32701,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Percentage {
         match self {
             Percentage { span, value } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::Percentage(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Percentage(
                         self,
                         self::fields::PercentageField::Span,
                     ));
@@ -32564,7 +32712,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Percentage {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::Percentage(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Percentage(
                         self,
                         self::fields::PercentageField::Value,
                     ));
@@ -32602,10 +32750,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for PseudoClassSelector {
                 children,
             } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::PseudoClassSelector(
-                        self,
-                        self::fields::PseudoClassSelectorField::Span,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::PseudoClassSelector(
+                            self,
+                            self::fields::PseudoClassSelectorField::Span,
+                        ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -32613,10 +32762,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for PseudoClassSelector {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::PseudoClassSelector(
-                        self,
-                        self::fields::PseudoClassSelectorField::Name,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::PseudoClassSelector(
+                            self,
+                            self::fields::PseudoClassSelectorField::Name,
+                        ));
                     <Ident as VisitWithAstPath<V>>::visit_with_ast_path(
                         name,
                         visitor,
@@ -32624,10 +32774,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for PseudoClassSelector {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::PseudoClassSelector(
-                        self,
-                        self::fields::PseudoClassSelectorField::Children(usize::MAX),
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::PseudoClassSelector(
+                            self,
+                            self::fields::PseudoClassSelectorField::Children(usize::MAX),
+                        ));
                     < Option < Vec < PseudoClassSelectorChildren > > as VisitWithAstPath < V > > :: visit_with_ast_path (children , visitor , & mut * __ast_path)
                 };
             }
@@ -32653,10 +32804,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for PseudoClassSelectorChildr
     ) {
         match self {
             PseudoClassSelectorChildren::PreservedToken { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::PseudoClassSelectorChildren(
-                    self,
-                    self::fields::PseudoClassSelectorChildrenField::PreservedToken,
-                ));
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::PseudoClassSelectorChildren(
+                        self,
+                        self::fields::PseudoClassSelectorChildrenField::PreservedToken,
+                    ));
                 <TokenAndSpan as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -32664,10 +32816,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for PseudoClassSelectorChildr
                 );
             }
             PseudoClassSelectorChildren::AnPlusB { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::PseudoClassSelectorChildren(
-                    self,
-                    self::fields::PseudoClassSelectorChildrenField::AnPlusB,
-                ));
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::PseudoClassSelectorChildren(
+                        self,
+                        self::fields::PseudoClassSelectorChildrenField::AnPlusB,
+                    ));
                 <AnPlusB as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -32675,10 +32828,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for PseudoClassSelectorChildr
                 );
             }
             PseudoClassSelectorChildren::Ident { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::PseudoClassSelectorChildren(
-                    self,
-                    self::fields::PseudoClassSelectorChildrenField::Ident,
-                ));
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::PseudoClassSelectorChildren(
+                        self,
+                        self::fields::PseudoClassSelectorChildrenField::Ident,
+                    ));
                 <Ident as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -32686,10 +32840,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for PseudoClassSelectorChildr
                 );
             }
             PseudoClassSelectorChildren::Str { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::PseudoClassSelectorChildren(
-                    self,
-                    self::fields::PseudoClassSelectorChildrenField::Str,
-                ));
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::PseudoClassSelectorChildren(
+                        self,
+                        self::fields::PseudoClassSelectorChildrenField::Str,
+                    ));
                 <Str as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -32697,10 +32852,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for PseudoClassSelectorChildr
                 );
             }
             PseudoClassSelectorChildren::Delimiter { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::PseudoClassSelectorChildren(
-                    self,
-                    self::fields::PseudoClassSelectorChildrenField::Delimiter,
-                ));
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::PseudoClassSelectorChildren(
+                        self,
+                        self::fields::PseudoClassSelectorChildrenField::Delimiter,
+                    ));
                 <Delimiter as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -32708,10 +32864,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for PseudoClassSelectorChildr
                 );
             }
             PseudoClassSelectorChildren::ComplexSelector { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::PseudoClassSelectorChildren(
-                    self,
-                    self::fields::PseudoClassSelectorChildrenField::ComplexSelector,
-                ));
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::PseudoClassSelectorChildren(
+                        self,
+                        self::fields::PseudoClassSelectorChildrenField::ComplexSelector,
+                    ));
                 <ComplexSelector as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -32719,10 +32876,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for PseudoClassSelectorChildr
                 );
             }
             PseudoClassSelectorChildren::SelectorList { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::PseudoClassSelectorChildren(
-                    self,
-                    self::fields::PseudoClassSelectorChildrenField::SelectorList,
-                ));
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::PseudoClassSelectorChildren(
+                        self,
+                        self::fields::PseudoClassSelectorChildrenField::SelectorList,
+                    ));
                 <SelectorList as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -32730,10 +32888,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for PseudoClassSelectorChildr
                 );
             }
             PseudoClassSelectorChildren::ForgivingSelectorList { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::PseudoClassSelectorChildren(
-                    self,
-                    self::fields::PseudoClassSelectorChildrenField::ForgivingSelectorList,
-                ));
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::PseudoClassSelectorChildren(
+                        self,
+                        self::fields::PseudoClassSelectorChildrenField::ForgivingSelectorList,
+                    ));
                 <ForgivingSelectorList as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -32741,10 +32900,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for PseudoClassSelectorChildr
                 );
             }
             PseudoClassSelectorChildren::CompoundSelectorList { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::PseudoClassSelectorChildren(
-                    self,
-                    self::fields::PseudoClassSelectorChildrenField::CompoundSelectorList,
-                ));
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::PseudoClassSelectorChildren(
+                        self,
+                        self::fields::PseudoClassSelectorChildrenField::CompoundSelectorList,
+                    ));
                 <CompoundSelectorList as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -32752,10 +32912,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for PseudoClassSelectorChildr
                 );
             }
             PseudoClassSelectorChildren::RelativeSelectorList { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::PseudoClassSelectorChildren(
-                    self,
-                    self::fields::PseudoClassSelectorChildrenField::RelativeSelectorList,
-                ));
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::PseudoClassSelectorChildren(
+                        self,
+                        self::fields::PseudoClassSelectorChildrenField::RelativeSelectorList,
+                    ));
                 <RelativeSelectorList as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -32763,7 +32924,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for PseudoClassSelectorChildr
                 );
             }
             PseudoClassSelectorChildren::ForgivingRelativeSelectorList { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::PseudoClassSelectorChildren(
+                let mut __ast_path = __ast_path
+                    .with_guard(AstParentNodeRef::PseudoClassSelectorChildren(
                     self,
                     self::fields::PseudoClassSelectorChildrenField::ForgivingRelativeSelectorList,
                 ));
@@ -32774,10 +32936,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for PseudoClassSelectorChildr
                 );
             }
             PseudoClassSelectorChildren::CompoundSelector { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::PseudoClassSelectorChildren(
-                    self,
-                    self::fields::PseudoClassSelectorChildrenField::CompoundSelector,
-                ));
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::PseudoClassSelectorChildren(
+                        self,
+                        self::fields::PseudoClassSelectorChildrenField::CompoundSelector,
+                    ));
                 <CompoundSelector as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -32811,10 +32974,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for PseudoElementSelector {
                 children,
             } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::PseudoElementSelector(
-                        self,
-                        self::fields::PseudoElementSelectorField::Span,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::PseudoElementSelector(
+                            self,
+                            self::fields::PseudoElementSelectorField::Span,
+                        ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -32822,10 +32986,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for PseudoElementSelector {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::PseudoElementSelector(
-                        self,
-                        self::fields::PseudoElementSelectorField::Name,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::PseudoElementSelector(
+                            self,
+                            self::fields::PseudoElementSelectorField::Name,
+                        ));
                     <Ident as VisitWithAstPath<V>>::visit_with_ast_path(
                         name,
                         visitor,
@@ -32833,10 +32998,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for PseudoElementSelector {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::PseudoElementSelector(
-                        self,
-                        self::fields::PseudoElementSelectorField::Children(usize::MAX),
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::PseudoElementSelector(
+                            self,
+                            self::fields::PseudoElementSelectorField::Children(usize::MAX),
+                        ));
                     < Option < Vec < PseudoElementSelectorChildren > > as VisitWithAstPath < V > > :: visit_with_ast_path (children , visitor , & mut * __ast_path)
                 };
             }
@@ -32862,10 +33028,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for PseudoElementSelectorChil
     ) {
         match self {
             PseudoElementSelectorChildren::PreservedToken { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::PseudoElementSelectorChildren(
-                    self,
-                    self::fields::PseudoElementSelectorChildrenField::PreservedToken,
-                ));
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::PseudoElementSelectorChildren(
+                        self,
+                        self::fields::PseudoElementSelectorChildrenField::PreservedToken,
+                    ));
                 <TokenAndSpan as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -32873,10 +33040,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for PseudoElementSelectorChil
                 );
             }
             PseudoElementSelectorChildren::Ident { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::PseudoElementSelectorChildren(
-                    self,
-                    self::fields::PseudoElementSelectorChildrenField::Ident,
-                ));
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::PseudoElementSelectorChildren(
+                        self,
+                        self::fields::PseudoElementSelectorChildrenField::Ident,
+                    ));
                 <Ident as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -32884,10 +33052,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for PseudoElementSelectorChil
                 );
             }
             PseudoElementSelectorChildren::CompoundSelector { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::PseudoElementSelectorChildren(
-                    self,
-                    self::fields::PseudoElementSelectorChildrenField::CompoundSelector,
-                ));
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::PseudoElementSelectorChildren(
+                        self,
+                        self::fields::PseudoElementSelectorChildrenField::CompoundSelector,
+                    ));
                 <CompoundSelector as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -32895,10 +33064,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for PseudoElementSelectorChil
                 );
             }
             PseudoElementSelectorChildren::CustomHighlightName { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::PseudoElementSelectorChildren(
-                    self,
-                    self::fields::PseudoElementSelectorChildrenField::CustomHighlightName,
-                ));
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::PseudoElementSelectorChildren(
+                        self,
+                        self::fields::PseudoElementSelectorChildrenField::CustomHighlightName,
+                    ));
                 <CustomHighlightName as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -32932,7 +33102,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for QualifiedRule {
                 block,
             } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::QualifiedRule(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::QualifiedRule(
                         self,
                         self::fields::QualifiedRuleField::Span,
                     ));
@@ -32943,7 +33113,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for QualifiedRule {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::QualifiedRule(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::QualifiedRule(
                         self,
                         self::fields::QualifiedRuleField::Prelude,
                     ));
@@ -32954,7 +33124,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for QualifiedRule {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::QualifiedRule(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::QualifiedRule(
                         self,
                         self::fields::QualifiedRuleField::Block,
                     ));
@@ -32987,7 +33157,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for QualifiedRulePrelude {
     ) {
         match self {
             QualifiedRulePrelude::SelectorList { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::QualifiedRulePrelude(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::QualifiedRulePrelude(
                     self,
                     self::fields::QualifiedRulePreludeField::SelectorList,
                 ));
@@ -32998,7 +33168,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for QualifiedRulePrelude {
                 );
             }
             QualifiedRulePrelude::RelativeSelectorList { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::QualifiedRulePrelude(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::QualifiedRulePrelude(
                     self,
                     self::fields::QualifiedRulePreludeField::RelativeSelectorList,
                 ));
@@ -33009,7 +33179,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for QualifiedRulePrelude {
                 );
             }
             QualifiedRulePrelude::ListOfComponentValues { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::QualifiedRulePrelude(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::QualifiedRulePrelude(
                     self,
                     self::fields::QualifiedRulePreludeField::ListOfComponentValues,
                 ));
@@ -33041,7 +33211,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for QueryInParens {
     ) {
         match self {
             QueryInParens::ContainerQuery { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::QueryInParens(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::QueryInParens(
                     self,
                     self::fields::QueryInParensField::ContainerQuery,
                 ));
@@ -33052,7 +33222,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for QueryInParens {
                 );
             }
             QueryInParens::SizeFeature { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::QueryInParens(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::QueryInParens(
                     self,
                     self::fields::QueryInParensField::SizeFeature,
                 ));
@@ -33063,7 +33233,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for QueryInParens {
                 );
             }
             QueryInParens::GeneralEnclosed { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::QueryInParens(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::QueryInParens(
                     self,
                     self::fields::QueryInParensField::GeneralEnclosed,
                 ));
@@ -33096,8 +33266,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Ratio {
         match self {
             Ratio { span, left, right } => {
                 {
-                    let mut __ast_path =
-                        __ast_path.with_guard(NodeRef::Ratio(self, self::fields::RatioField::Span));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Ratio(
+                        self,
+                        self::fields::RatioField::Span,
+                    ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -33105,8 +33277,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Ratio {
                     )
                 };
                 {
-                    let mut __ast_path =
-                        __ast_path.with_guard(NodeRef::Ratio(self, self::fields::RatioField::Left));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Ratio(
+                        self,
+                        self::fields::RatioField::Left,
+                    ));
                     <Number as VisitWithAstPath<V>>::visit_with_ast_path(
                         left,
                         visitor,
@@ -33114,8 +33288,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Ratio {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::Ratio(self, self::fields::RatioField::Right));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Ratio(
+                        self,
+                        self::fields::RatioField::Right,
+                    ));
                     <Option<Number> as VisitWithAstPath<V>>::visit_with_ast_path(
                         right,
                         visitor,
@@ -33150,7 +33326,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for RelativeSelector {
                 selector,
             } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::RelativeSelector(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::RelativeSelector(
                         self,
                         self::fields::RelativeSelectorField::Span,
                     ));
@@ -33161,7 +33337,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for RelativeSelector {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::RelativeSelector(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::RelativeSelector(
                         self,
                         self::fields::RelativeSelectorField::Combinator,
                     ));
@@ -33172,7 +33348,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for RelativeSelector {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::RelativeSelector(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::RelativeSelector(
                         self,
                         self::fields::RelativeSelectorField::Selector,
                     ));
@@ -33206,10 +33382,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for RelativeSelectorList {
         match self {
             RelativeSelectorList { span, children } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::RelativeSelectorList(
-                        self,
-                        self::fields::RelativeSelectorListField::Span,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::RelativeSelectorList(
+                            self,
+                            self::fields::RelativeSelectorListField::Span,
+                        ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -33217,10 +33394,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for RelativeSelectorList {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::RelativeSelectorList(
-                        self,
-                        self::fields::RelativeSelectorListField::Children(usize::MAX),
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::RelativeSelectorList(
+                            self,
+                            self::fields::RelativeSelectorListField::Children(usize::MAX),
+                        ));
                     <Vec<RelativeSelector> as VisitWithAstPath<V>>::visit_with_ast_path(
                         children,
                         visitor,
@@ -33251,7 +33429,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Resolution {
         match self {
             Resolution { span, value, unit } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::Resolution(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Resolution(
                         self,
                         self::fields::ResolutionField::Span,
                     ));
@@ -33262,7 +33440,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Resolution {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::Resolution(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Resolution(
                         self,
                         self::fields::ResolutionField::Value,
                     ));
@@ -33273,7 +33451,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Resolution {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::Resolution(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Resolution(
                         self,
                         self::fields::ResolutionField::Unit,
                     ));
@@ -33306,8 +33484,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Rule {
     ) {
         match self {
             Rule::QualifiedRule { 0: _field_0 } => {
-                let mut __ast_path = __ast_path
-                    .with_guard(NodeRef::Rule(self, self::fields::RuleField::QualifiedRule));
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Rule(
+                    self,
+                    self::fields::RuleField::QualifiedRule,
+                ));
                 <Box<QualifiedRule> as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -33315,8 +33495,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Rule {
                 );
             }
             Rule::AtRule { 0: _field_0 } => {
-                let mut __ast_path =
-                    __ast_path.with_guard(NodeRef::Rule(self, self::fields::RuleField::AtRule));
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Rule(
+                    self,
+                    self::fields::RuleField::AtRule,
+                ));
                 <Box<AtRule> as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -33324,7 +33506,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Rule {
                 );
             }
             Rule::ListOfComponentValues { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::Rule(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Rule(
                     self,
                     self::fields::RuleField::ListOfComponentValues,
                 ));
@@ -33361,7 +33543,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ScopeRange {
                 scope_end,
             } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::ScopeRange(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ScopeRange(
                         self,
                         self::fields::ScopeRangeField::Span,
                     ));
@@ -33372,7 +33554,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ScopeRange {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::ScopeRange(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ScopeRange(
                         self,
                         self::fields::ScopeRangeField::ScopeStart,
                     ));
@@ -33383,7 +33565,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ScopeRange {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::ScopeRange(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ScopeRange(
                         self,
                         self::fields::ScopeRangeField::ScopeEnd,
                     ));
@@ -33417,7 +33599,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SelectorList {
         match self {
             SelectorList { span, children } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::SelectorList(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SelectorList(
                         self,
                         self::fields::SelectorListField::Span,
                     ));
@@ -33428,7 +33610,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SelectorList {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::SelectorList(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SelectorList(
                         self,
                         self::fields::SelectorListField::Children(usize::MAX),
                     ));
@@ -33462,10 +33644,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SequenceOfCustomIdents {
         match self {
             SequenceOfCustomIdents { span, value } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::SequenceOfCustomIdents(
-                        self,
-                        self::fields::SequenceOfCustomIdentsField::Span,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::SequenceOfCustomIdents(
+                            self,
+                            self::fields::SequenceOfCustomIdentsField::Span,
+                        ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -33473,10 +33656,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SequenceOfCustomIdents {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::SequenceOfCustomIdents(
-                        self,
-                        self::fields::SequenceOfCustomIdentsField::Value(usize::MAX),
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::SequenceOfCustomIdents(
+                            self,
+                            self::fields::SequenceOfCustomIdentsField::Value(usize::MAX),
+                        ));
                     <Vec<CustomIdent> as VisitWithAstPath<V>>::visit_with_ast_path(
                         value,
                         visitor,
@@ -33507,7 +33691,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SimpleBlock {
         match self {
             SimpleBlock { span, name, value } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::SimpleBlock(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SimpleBlock(
                         self,
                         self::fields::SimpleBlockField::Span,
                     ));
@@ -33518,7 +33702,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SimpleBlock {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::SimpleBlock(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SimpleBlock(
                         self,
                         self::fields::SimpleBlockField::Name,
                     ));
@@ -33529,7 +33713,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SimpleBlock {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::SimpleBlock(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SimpleBlock(
                         self,
                         self::fields::SimpleBlockField::Value(usize::MAX),
                     ));
@@ -33562,7 +33746,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SizeFeature {
     ) {
         match self {
             SizeFeature::Plain { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::SizeFeature(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SizeFeature(
                     self,
                     self::fields::SizeFeatureField::Plain,
                 ));
@@ -33573,7 +33757,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SizeFeature {
                 );
             }
             SizeFeature::Boolean { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::SizeFeature(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SizeFeature(
                     self,
                     self::fields::SizeFeatureField::Boolean,
                 ));
@@ -33584,7 +33768,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SizeFeature {
                 );
             }
             SizeFeature::Range { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::SizeFeature(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SizeFeature(
                     self,
                     self::fields::SizeFeatureField::Range,
                 ));
@@ -33595,7 +33779,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SizeFeature {
                 );
             }
             SizeFeature::RangeInterval { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::SizeFeature(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SizeFeature(
                     self,
                     self::fields::SizeFeatureField::RangeInterval,
                 ));
@@ -33628,10 +33812,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SizeFeatureBoolean {
         match self {
             SizeFeatureBoolean { span, name } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::SizeFeatureBoolean(
-                        self,
-                        self::fields::SizeFeatureBooleanField::Span,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::SizeFeatureBoolean(
+                            self,
+                            self::fields::SizeFeatureBooleanField::Span,
+                        ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -33639,10 +33824,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SizeFeatureBoolean {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::SizeFeatureBoolean(
-                        self,
-                        self::fields::SizeFeatureBooleanField::Name,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::SizeFeatureBoolean(
+                            self,
+                            self::fields::SizeFeatureBooleanField::Name,
+                        ));
                     <SizeFeatureName as VisitWithAstPath<V>>::visit_with_ast_path(
                         name,
                         visitor,
@@ -33672,7 +33858,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SizeFeatureName {
     ) {
         match self {
             SizeFeatureName::Ident { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::SizeFeatureName(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SizeFeatureName(
                     self,
                     self::fields::SizeFeatureNameField::Ident,
                 ));
@@ -33705,7 +33891,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SizeFeaturePlain {
         match self {
             SizeFeaturePlain { span, name, value } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::SizeFeaturePlain(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SizeFeaturePlain(
                         self,
                         self::fields::SizeFeaturePlainField::Span,
                     ));
@@ -33716,7 +33902,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SizeFeaturePlain {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::SizeFeaturePlain(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SizeFeaturePlain(
                         self,
                         self::fields::SizeFeaturePlainField::Name,
                     ));
@@ -33727,7 +33913,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SizeFeaturePlain {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::SizeFeaturePlain(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SizeFeaturePlain(
                         self,
                         self::fields::SizeFeaturePlainField::Value,
                     ));
@@ -33766,7 +33952,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SizeFeatureRange {
                 right,
             } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::SizeFeatureRange(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SizeFeatureRange(
                         self,
                         self::fields::SizeFeatureRangeField::Span,
                     ));
@@ -33777,7 +33963,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SizeFeatureRange {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::SizeFeatureRange(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SizeFeatureRange(
                         self,
                         self::fields::SizeFeatureRangeField::Left,
                     ));
@@ -33788,7 +33974,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SizeFeatureRange {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::SizeFeatureRange(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SizeFeatureRange(
                         self,
                         self::fields::SizeFeatureRangeField::Comparison,
                     ));
@@ -33799,7 +33985,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SizeFeatureRange {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::SizeFeatureRange(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SizeFeatureRange(
                         self,
                         self::fields::SizeFeatureRangeField::Right,
                     ));
@@ -33866,10 +34052,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SizeFeatureRangeInterval 
                 right,
             } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::SizeFeatureRangeInterval(
-                        self,
-                        self::fields::SizeFeatureRangeIntervalField::Span,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::SizeFeatureRangeInterval(
+                            self,
+                            self::fields::SizeFeatureRangeIntervalField::Span,
+                        ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -33877,10 +34064,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SizeFeatureRangeInterval 
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::SizeFeatureRangeInterval(
-                        self,
-                        self::fields::SizeFeatureRangeIntervalField::Left,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::SizeFeatureRangeInterval(
+                            self,
+                            self::fields::SizeFeatureRangeIntervalField::Left,
+                        ));
                     <Box<SizeFeatureValue> as VisitWithAstPath<V>>::visit_with_ast_path(
                         left,
                         visitor,
@@ -33888,10 +34076,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SizeFeatureRangeInterval 
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::SizeFeatureRangeInterval(
-                        self,
-                        self::fields::SizeFeatureRangeIntervalField::LeftComparison,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::SizeFeatureRangeInterval(
+                            self,
+                            self::fields::SizeFeatureRangeIntervalField::LeftComparison,
+                        ));
                     <SizeFeatureRangeComparison as VisitWithAstPath<V>>::visit_with_ast_path(
                         left_comparison,
                         visitor,
@@ -33899,10 +34088,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SizeFeatureRangeInterval 
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::SizeFeatureRangeInterval(
-                        self,
-                        self::fields::SizeFeatureRangeIntervalField::Name,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::SizeFeatureRangeInterval(
+                            self,
+                            self::fields::SizeFeatureRangeIntervalField::Name,
+                        ));
                     <SizeFeatureName as VisitWithAstPath<V>>::visit_with_ast_path(
                         name,
                         visitor,
@@ -33910,10 +34100,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SizeFeatureRangeInterval 
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::SizeFeatureRangeInterval(
-                        self,
-                        self::fields::SizeFeatureRangeIntervalField::RightComparison,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::SizeFeatureRangeInterval(
+                            self,
+                            self::fields::SizeFeatureRangeIntervalField::RightComparison,
+                        ));
                     <SizeFeatureRangeComparison as VisitWithAstPath<V>>::visit_with_ast_path(
                         right_comparison,
                         visitor,
@@ -33921,10 +34112,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SizeFeatureRangeInterval 
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::SizeFeatureRangeInterval(
-                        self,
-                        self::fields::SizeFeatureRangeIntervalField::Right,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::SizeFeatureRangeInterval(
+                            self,
+                            self::fields::SizeFeatureRangeIntervalField::Right,
+                        ));
                     <Box<SizeFeatureValue> as VisitWithAstPath<V>>::visit_with_ast_path(
                         right,
                         visitor,
@@ -33954,7 +34146,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SizeFeatureValue {
     ) {
         match self {
             SizeFeatureValue::Number { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::SizeFeatureValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SizeFeatureValue(
                     self,
                     self::fields::SizeFeatureValueField::Number,
                 ));
@@ -33965,7 +34157,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SizeFeatureValue {
                 );
             }
             SizeFeatureValue::Dimension { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::SizeFeatureValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SizeFeatureValue(
                     self,
                     self::fields::SizeFeatureValueField::Dimension,
                 ));
@@ -33976,7 +34168,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SizeFeatureValue {
                 );
             }
             SizeFeatureValue::Ident { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::SizeFeatureValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SizeFeatureValue(
                     self,
                     self::fields::SizeFeatureValueField::Ident,
                 ));
@@ -33987,7 +34179,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SizeFeatureValue {
                 );
             }
             SizeFeatureValue::Ratio { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::SizeFeatureValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SizeFeatureValue(
                     self,
                     self::fields::SizeFeatureValueField::Ratio,
                 ));
@@ -33998,7 +34190,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SizeFeatureValue {
                 );
             }
             SizeFeatureValue::Function { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::SizeFeatureValue(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SizeFeatureValue(
                     self,
                     self::fields::SizeFeatureValueField::Function,
                 ));
@@ -34031,8 +34223,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Str {
         match self {
             Str { span, value, raw } => {
                 {
-                    let mut __ast_path =
-                        __ast_path.with_guard(NodeRef::Str(self, self::fields::StrField::Span));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentNodeRef::Str(self, self::fields::StrField::Span));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -34040,8 +34232,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Str {
                     )
                 };
                 {
-                    let mut __ast_path =
-                        __ast_path.with_guard(NodeRef::Str(self, self::fields::StrField::Value));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentNodeRef::Str(self, self::fields::StrField::Value));
                     <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         value,
                         visitor,
@@ -34049,8 +34241,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Str {
                     )
                 };
                 {
-                    let mut __ast_path =
-                        __ast_path.with_guard(NodeRef::Str(self, self::fields::StrField::Raw));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentNodeRef::Str(self, self::fields::StrField::Raw));
                     <Option<swc_atoms::Atom> as VisitWithAstPath<V>>::visit_with_ast_path(
                         raw,
                         visitor,
@@ -34080,7 +34272,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for StyleBlock {
     ) {
         match self {
             StyleBlock::AtRule { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::StyleBlock(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::StyleBlock(
                     self,
                     self::fields::StyleBlockField::AtRule,
                 ));
@@ -34091,7 +34283,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for StyleBlock {
                 );
             }
             StyleBlock::Declaration { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::StyleBlock(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::StyleBlock(
                     self,
                     self::fields::StyleBlockField::Declaration,
                 ));
@@ -34102,7 +34294,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for StyleBlock {
                 );
             }
             StyleBlock::QualifiedRule { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::StyleBlock(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::StyleBlock(
                     self,
                     self::fields::StyleBlockField::QualifiedRule,
                 ));
@@ -34113,7 +34305,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for StyleBlock {
                 );
             }
             StyleBlock::ListOfComponentValues { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::StyleBlock(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::StyleBlock(
                     self,
                     self::fields::StyleBlockField::ListOfComponentValues,
                 ));
@@ -34146,7 +34338,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Stylesheet {
         match self {
             Stylesheet { span, rules } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::Stylesheet(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Stylesheet(
                         self,
                         self::fields::StylesheetField::Span,
                     ));
@@ -34157,7 +34349,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Stylesheet {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::Stylesheet(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Stylesheet(
                         self,
                         self::fields::StylesheetField::Rules(usize::MAX),
                     ));
@@ -34190,7 +34382,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SubclassSelector {
     ) {
         match self {
             SubclassSelector::Id { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::SubclassSelector(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SubclassSelector(
                     self,
                     self::fields::SubclassSelectorField::Id,
                 ));
@@ -34201,7 +34393,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SubclassSelector {
                 );
             }
             SubclassSelector::Class { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::SubclassSelector(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SubclassSelector(
                     self,
                     self::fields::SubclassSelectorField::Class,
                 ));
@@ -34212,7 +34404,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SubclassSelector {
                 );
             }
             SubclassSelector::Attribute { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::SubclassSelector(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SubclassSelector(
                     self,
                     self::fields::SubclassSelectorField::Attribute,
                 ));
@@ -34223,7 +34415,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SubclassSelector {
                 );
             }
             SubclassSelector::PseudoClass { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::SubclassSelector(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SubclassSelector(
                     self,
                     self::fields::SubclassSelectorField::PseudoClass,
                 ));
@@ -34234,7 +34426,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SubclassSelector {
                 );
             }
             SubclassSelector::PseudoElement { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::SubclassSelector(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SubclassSelector(
                     self,
                     self::fields::SubclassSelectorField::PseudoElement,
                 ));
@@ -34271,7 +34463,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SupportsAnd {
                 condition,
             } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::SupportsAnd(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SupportsAnd(
                         self,
                         self::fields::SupportsAndField::Span,
                     ));
@@ -34282,7 +34474,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SupportsAnd {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::SupportsAnd(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SupportsAnd(
                         self,
                         self::fields::SupportsAndField::Keyword,
                     ));
@@ -34293,7 +34485,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SupportsAnd {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::SupportsAnd(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SupportsAnd(
                         self,
                         self::fields::SupportsAndField::Condition,
                     ));
@@ -34327,10 +34519,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SupportsCondition {
         match self {
             SupportsCondition { span, conditions } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::SupportsCondition(
-                        self,
-                        self::fields::SupportsConditionField::Span,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::SupportsCondition(
+                            self,
+                            self::fields::SupportsConditionField::Span,
+                        ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -34338,10 +34531,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SupportsCondition {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::SupportsCondition(
-                        self,
-                        self::fields::SupportsConditionField::Conditions(usize::MAX),
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::SupportsCondition(
+                            self,
+                            self::fields::SupportsConditionField::Conditions(usize::MAX),
+                        ));
                     <Vec<SupportsConditionType> as VisitWithAstPath<V>>::visit_with_ast_path(
                         conditions,
                         visitor,
@@ -34371,10 +34565,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SupportsConditionType {
     ) {
         match self {
             SupportsConditionType::Not { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::SupportsConditionType(
-                    self,
-                    self::fields::SupportsConditionTypeField::Not,
-                ));
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::SupportsConditionType(
+                        self,
+                        self::fields::SupportsConditionTypeField::Not,
+                    ));
                 <SupportsNot as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -34382,10 +34577,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SupportsConditionType {
                 );
             }
             SupportsConditionType::And { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::SupportsConditionType(
-                    self,
-                    self::fields::SupportsConditionTypeField::And,
-                ));
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::SupportsConditionType(
+                        self,
+                        self::fields::SupportsConditionTypeField::And,
+                    ));
                 <SupportsAnd as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -34393,10 +34589,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SupportsConditionType {
                 );
             }
             SupportsConditionType::Or { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::SupportsConditionType(
-                    self,
-                    self::fields::SupportsConditionTypeField::Or,
-                ));
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::SupportsConditionType(
+                        self,
+                        self::fields::SupportsConditionTypeField::Or,
+                    ));
                 <SupportsOr as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -34404,10 +34601,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SupportsConditionType {
                 );
             }
             SupportsConditionType::SupportsInParens { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::SupportsConditionType(
-                    self,
-                    self::fields::SupportsConditionTypeField::SupportsInParens,
-                ));
+                let mut __ast_path =
+                    __ast_path.with_guard(AstParentNodeRef::SupportsConditionType(
+                        self,
+                        self::fields::SupportsConditionTypeField::SupportsInParens,
+                    ));
                 <SupportsInParens as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -34436,7 +34634,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SupportsFeature {
     ) {
         match self {
             SupportsFeature::Declaration { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::SupportsFeature(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SupportsFeature(
                     self,
                     self::fields::SupportsFeatureField::Declaration,
                 ));
@@ -34447,7 +34645,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SupportsFeature {
                 );
             }
             SupportsFeature::Function { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::SupportsFeature(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SupportsFeature(
                     self,
                     self::fields::SupportsFeatureField::Function,
                 ));
@@ -34479,7 +34677,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SupportsInParens {
     ) {
         match self {
             SupportsInParens::SupportsCondition { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::SupportsInParens(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SupportsInParens(
                     self,
                     self::fields::SupportsInParensField::SupportsCondition,
                 ));
@@ -34490,7 +34688,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SupportsInParens {
                 );
             }
             SupportsInParens::Feature { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::SupportsInParens(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SupportsInParens(
                     self,
                     self::fields::SupportsInParensField::Feature,
                 ));
@@ -34501,7 +34699,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SupportsInParens {
                 );
             }
             SupportsInParens::GeneralEnclosed { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::SupportsInParens(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SupportsInParens(
                     self,
                     self::fields::SupportsInParensField::GeneralEnclosed,
                 ));
@@ -34538,7 +34736,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SupportsNot {
                 condition,
             } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::SupportsNot(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SupportsNot(
                         self,
                         self::fields::SupportsNotField::Span,
                     ));
@@ -34549,7 +34747,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SupportsNot {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::SupportsNot(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SupportsNot(
                         self,
                         self::fields::SupportsNotField::Keyword,
                     ));
@@ -34560,7 +34758,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SupportsNot {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::SupportsNot(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SupportsNot(
                         self,
                         self::fields::SupportsNotField::Condition,
                     ));
@@ -34598,7 +34796,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SupportsOr {
                 condition,
             } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::SupportsOr(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SupportsOr(
                         self,
                         self::fields::SupportsOrField::Span,
                     ));
@@ -34609,7 +34807,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SupportsOr {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::SupportsOr(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SupportsOr(
                         self,
                         self::fields::SupportsOrField::Keyword,
                     ));
@@ -34620,7 +34818,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SupportsOr {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::SupportsOr(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SupportsOr(
                         self,
                         self::fields::SupportsOrField::Condition,
                     ));
@@ -34654,7 +34852,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TagNameSelector {
         match self {
             TagNameSelector { span, name } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::TagNameSelector(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TagNameSelector(
                         self,
                         self::fields::TagNameSelectorField::Span,
                     ));
@@ -34665,7 +34863,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TagNameSelector {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::TagNameSelector(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TagNameSelector(
                         self,
                         self::fields::TagNameSelectorField::Name,
                     ));
@@ -34699,8 +34897,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Time {
         match self {
             Time { span, value, unit } => {
                 {
-                    let mut __ast_path =
-                        __ast_path.with_guard(NodeRef::Time(self, self::fields::TimeField::Span));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentNodeRef::Time(self, self::fields::TimeField::Span));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -34708,8 +34906,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Time {
                     )
                 };
                 {
-                    let mut __ast_path =
-                        __ast_path.with_guard(NodeRef::Time(self, self::fields::TimeField::Value));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentNodeRef::Time(self, self::fields::TimeField::Value));
                     <Number as VisitWithAstPath<V>>::visit_with_ast_path(
                         value,
                         visitor,
@@ -34717,8 +34915,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Time {
                     )
                 };
                 {
-                    let mut __ast_path =
-                        __ast_path.with_guard(NodeRef::Time(self, self::fields::TimeField::Unit));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentNodeRef::Time(self, self::fields::TimeField::Unit));
                     <Ident as VisitWithAstPath<V>>::visit_with_ast_path(
                         unit,
                         visitor,
@@ -34748,7 +34946,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TimePercentage {
     ) {
         match self {
             TimePercentage::Time { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::TimePercentage(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TimePercentage(
                     self,
                     self::fields::TimePercentageField::Time,
                 ));
@@ -34759,7 +34957,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TimePercentage {
                 );
             }
             TimePercentage::Percentage { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::TimePercentage(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TimePercentage(
                     self,
                     self::fields::TimePercentageField::Percentage,
                 ));
@@ -34791,11 +34989,15 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
     ) {
         match self {
             Token::Ident { value, raw } => {
-                let mut __ast_path =
-                    __ast_path.with_guard(NodeRef::Token(self, self::fields::TokenField::Ident));
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Token(
+                    self,
+                    self::fields::TokenField::Ident,
+                ));
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::Token(self, self::fields::TokenField::Value));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Token(
+                        self,
+                        self::fields::TokenField::Value,
+                    ));
                     <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         value,
                         visitor,
@@ -34803,8 +35005,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
                     )
                 };
                 {
-                    let mut __ast_path =
-                        __ast_path.with_guard(NodeRef::Token(self, self::fields::TokenField::Raw));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentNodeRef::Token(self, self::fields::TokenField::Raw));
                     <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         raw,
                         visitor,
@@ -34813,11 +35015,15 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
                 };
             }
             Token::Function { value, raw } => {
-                let mut __ast_path =
-                    __ast_path.with_guard(NodeRef::Token(self, self::fields::TokenField::Function));
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Token(
+                    self,
+                    self::fields::TokenField::Function,
+                ));
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::Token(self, self::fields::TokenField::Value));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Token(
+                        self,
+                        self::fields::TokenField::Value,
+                    ));
                     <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         value,
                         visitor,
@@ -34825,8 +35031,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
                     )
                 };
                 {
-                    let mut __ast_path =
-                        __ast_path.with_guard(NodeRef::Token(self, self::fields::TokenField::Raw));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentNodeRef::Token(self, self::fields::TokenField::Raw));
                     <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         raw,
                         visitor,
@@ -34835,11 +35041,15 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
                 };
             }
             Token::AtKeyword { value, raw } => {
-                let mut __ast_path = __ast_path
-                    .with_guard(NodeRef::Token(self, self::fields::TokenField::AtKeyword));
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Token(
+                    self,
+                    self::fields::TokenField::AtKeyword,
+                ));
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::Token(self, self::fields::TokenField::Value));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Token(
+                        self,
+                        self::fields::TokenField::Value,
+                    ));
                     <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         value,
                         visitor,
@@ -34847,8 +35057,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
                     )
                 };
                 {
-                    let mut __ast_path =
-                        __ast_path.with_guard(NodeRef::Token(self, self::fields::TokenField::Raw));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentNodeRef::Token(self, self::fields::TokenField::Raw));
                     <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         raw,
                         visitor,
@@ -34857,11 +35067,15 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
                 };
             }
             Token::Hash { is_id, value, raw } => {
-                let mut __ast_path =
-                    __ast_path.with_guard(NodeRef::Token(self, self::fields::TokenField::Hash));
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Token(
+                    self,
+                    self::fields::TokenField::Hash,
+                ));
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::Token(self, self::fields::TokenField::Value));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Token(
+                        self,
+                        self::fields::TokenField::Value,
+                    ));
                     <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         value,
                         visitor,
@@ -34869,8 +35083,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
                     )
                 };
                 {
-                    let mut __ast_path =
-                        __ast_path.with_guard(NodeRef::Token(self, self::fields::TokenField::Raw));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentNodeRef::Token(self, self::fields::TokenField::Raw));
                     <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         raw,
                         visitor,
@@ -34879,11 +35093,15 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
                 };
             }
             Token::String { value, raw } => {
-                let mut __ast_path =
-                    __ast_path.with_guard(NodeRef::Token(self, self::fields::TokenField::String));
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Token(
+                    self,
+                    self::fields::TokenField::String,
+                ));
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::Token(self, self::fields::TokenField::Value));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Token(
+                        self,
+                        self::fields::TokenField::Value,
+                    ));
                     <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         value,
                         visitor,
@@ -34891,8 +35109,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
                     )
                 };
                 {
-                    let mut __ast_path =
-                        __ast_path.with_guard(NodeRef::Token(self, self::fields::TokenField::Raw));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentNodeRef::Token(self, self::fields::TokenField::Raw));
                     <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         raw,
                         visitor,
@@ -34901,11 +35119,13 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
                 };
             }
             Token::BadString { raw } => {
-                let mut __ast_path = __ast_path
-                    .with_guard(NodeRef::Token(self, self::fields::TokenField::BadString));
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Token(
+                    self,
+                    self::fields::TokenField::BadString,
+                ));
                 {
-                    let mut __ast_path =
-                        __ast_path.with_guard(NodeRef::Token(self, self::fields::TokenField::Raw));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentNodeRef::Token(self, self::fields::TokenField::Raw));
                     <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         raw,
                         visitor,
@@ -34914,11 +35134,13 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
                 };
             }
             Token::Url { value, raw } => {
-                let mut __ast_path =
-                    __ast_path.with_guard(NodeRef::Token(self, self::fields::TokenField::Url));
+                let mut __ast_path = __ast_path
+                    .with_guard(AstParentNodeRef::Token(self, self::fields::TokenField::Url));
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::Token(self, self::fields::TokenField::Value));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Token(
+                        self,
+                        self::fields::TokenField::Value,
+                    ));
                     <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         value,
                         visitor,
@@ -34926,8 +35148,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
                     )
                 };
                 {
-                    let mut __ast_path =
-                        __ast_path.with_guard(NodeRef::Token(self, self::fields::TokenField::Raw));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentNodeRef::Token(self, self::fields::TokenField::Raw));
                     <Box<UrlKeyValue> as VisitWithAstPath<V>>::visit_with_ast_path(
                         raw,
                         visitor,
@@ -34936,11 +35158,13 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
                 };
             }
             Token::BadUrl { raw } => {
-                let mut __ast_path =
-                    __ast_path.with_guard(NodeRef::Token(self, self::fields::TokenField::BadUrl));
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Token(
+                    self,
+                    self::fields::TokenField::BadUrl,
+                ));
                 {
-                    let mut __ast_path =
-                        __ast_path.with_guard(NodeRef::Token(self, self::fields::TokenField::Raw));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentNodeRef::Token(self, self::fields::TokenField::Raw));
                     <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         raw,
                         visitor,
@@ -34949,19 +35173,23 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
                 };
             }
             Token::Delim { value } => {
-                let mut __ast_path =
-                    __ast_path.with_guard(NodeRef::Token(self, self::fields::TokenField::Delim));
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Token(
+                    self,
+                    self::fields::TokenField::Delim,
+                ));
             }
             Token::Number {
                 value,
                 raw,
                 type_flag,
             } => {
-                let mut __ast_path =
-                    __ast_path.with_guard(NodeRef::Token(self, self::fields::TokenField::Number));
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Token(
+                    self,
+                    self::fields::TokenField::Number,
+                ));
                 {
-                    let mut __ast_path =
-                        __ast_path.with_guard(NodeRef::Token(self, self::fields::TokenField::Raw));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentNodeRef::Token(self, self::fields::TokenField::Raw));
                     <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         raw,
                         visitor,
@@ -34969,8 +35197,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::Token(self, self::fields::TokenField::TypeFlag));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Token(
+                        self,
+                        self::fields::TokenField::TypeFlag,
+                    ));
                     <NumberType as VisitWithAstPath<V>>::visit_with_ast_path(
                         type_flag,
                         visitor,
@@ -34979,11 +35209,13 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
                 };
             }
             Token::Percentage { value, raw } => {
-                let mut __ast_path = __ast_path
-                    .with_guard(NodeRef::Token(self, self::fields::TokenField::Percentage));
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Token(
+                    self,
+                    self::fields::TokenField::Percentage,
+                ));
                 {
-                    let mut __ast_path =
-                        __ast_path.with_guard(NodeRef::Token(self, self::fields::TokenField::Raw));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentNodeRef::Token(self, self::fields::TokenField::Raw));
                     <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         raw,
                         visitor,
@@ -34992,8 +35224,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
                 };
             }
             Token::Dimension { 0: _field_0 } => {
-                let mut __ast_path = __ast_path
-                    .with_guard(NodeRef::Token(self, self::fields::TokenField::Dimension));
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Token(
+                    self,
+                    self::fields::TokenField::Dimension,
+                ));
                 <Box<DimensionToken> as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -35001,11 +35235,15 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
                 );
             }
             Token::WhiteSpace { value } => {
-                let mut __ast_path = __ast_path
-                    .with_guard(NodeRef::Token(self, self::fields::TokenField::WhiteSpace));
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Token(
+                    self,
+                    self::fields::TokenField::WhiteSpace,
+                ));
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::Token(self, self::fields::TokenField::Value));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Token(
+                        self,
+                        self::fields::TokenField::Value,
+                    ));
                     <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                         value,
                         visitor,
@@ -35047,7 +35285,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TokenAndSpan {
         match self {
             TokenAndSpan { span, token } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::TokenAndSpan(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TokenAndSpan(
                         self,
                         self::fields::TokenAndSpanField::Span,
                     ));
@@ -35058,7 +35296,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TokenAndSpan {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::TokenAndSpan(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TokenAndSpan(
                         self,
                         self::fields::TokenAndSpanField::Token,
                     ));
@@ -35091,7 +35329,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TypeSelector {
     ) {
         match self {
             TypeSelector::TagName { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::TypeSelector(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TypeSelector(
                     self,
                     self::fields::TypeSelectorField::TagName,
                 ));
@@ -35102,7 +35340,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TypeSelector {
                 );
             }
             TypeSelector::Universal { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::TypeSelector(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TypeSelector(
                     self,
                     self::fields::TypeSelectorField::Universal,
                 ));
@@ -35140,7 +35378,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for UnicodeRange {
                 raw,
             } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::UnicodeRange(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::UnicodeRange(
                         self,
                         self::fields::UnicodeRangeField::Span,
                     ));
@@ -35151,7 +35389,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for UnicodeRange {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::UnicodeRange(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::UnicodeRange(
                         self,
                         self::fields::UnicodeRangeField::Start,
                     ));
@@ -35162,7 +35400,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for UnicodeRange {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::UnicodeRange(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::UnicodeRange(
                         self,
                         self::fields::UnicodeRangeField::End,
                     ));
@@ -35173,7 +35411,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for UnicodeRange {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::UnicodeRange(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::UnicodeRange(
                         self,
                         self::fields::UnicodeRangeField::Raw,
                     ));
@@ -35207,10 +35445,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for UniversalSelector {
         match self {
             UniversalSelector { span, prefix } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::UniversalSelector(
-                        self,
-                        self::fields::UniversalSelectorField::Span,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::UniversalSelector(
+                            self,
+                            self::fields::UniversalSelectorField::Span,
+                        ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -35218,10 +35457,11 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for UniversalSelector {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::UniversalSelector(
-                        self,
-                        self::fields::UniversalSelectorField::Prefix,
-                    ));
+                    let mut __ast_path =
+                        __ast_path.with_guard(AstParentNodeRef::UniversalSelector(
+                            self,
+                            self::fields::UniversalSelectorField::Prefix,
+                        ));
                     <Option<NamespacePrefix> as VisitWithAstPath<V>>::visit_with_ast_path(
                         prefix,
                         visitor,
@@ -35252,7 +35492,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for UnknownDimension {
         match self {
             UnknownDimension { span, value, unit } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::UnknownDimension(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::UnknownDimension(
                         self,
                         self::fields::UnknownDimensionField::Span,
                     ));
@@ -35263,7 +35503,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for UnknownDimension {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::UnknownDimension(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::UnknownDimension(
                         self,
                         self::fields::UnknownDimensionField::Value,
                     ));
@@ -35274,7 +35514,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for UnknownDimension {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::UnknownDimension(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::UnknownDimension(
                         self,
                         self::fields::UnknownDimensionField::Unit,
                     ));
@@ -35313,8 +35553,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Url {
                 modifiers,
             } => {
                 {
-                    let mut __ast_path =
-                        __ast_path.with_guard(NodeRef::Url(self, self::fields::UrlField::Span));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentNodeRef::Url(self, self::fields::UrlField::Span));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -35322,8 +35562,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Url {
                     )
                 };
                 {
-                    let mut __ast_path =
-                        __ast_path.with_guard(NodeRef::Url(self, self::fields::UrlField::Name));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentNodeRef::Url(self, self::fields::UrlField::Name));
                     <Ident as VisitWithAstPath<V>>::visit_with_ast_path(
                         name,
                         visitor,
@@ -35331,8 +35571,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Url {
                     )
                 };
                 {
-                    let mut __ast_path =
-                        __ast_path.with_guard(NodeRef::Url(self, self::fields::UrlField::Value));
+                    let mut __ast_path = __ast_path
+                        .with_guard(AstParentNodeRef::Url(self, self::fields::UrlField::Value));
                     <Option<Box<UrlValue>> as VisitWithAstPath<V>>::visit_with_ast_path(
                         value,
                         visitor,
@@ -35340,7 +35580,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Url {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::Url(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Url(
                         self,
                         self::fields::UrlField::Modifiers(usize::MAX),
                     ));
@@ -35409,7 +35649,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for UrlModifier {
     ) {
         match self {
             UrlModifier::Ident { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::UrlModifier(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::UrlModifier(
                     self,
                     self::fields::UrlModifierField::Ident,
                 ));
@@ -35420,7 +35660,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for UrlModifier {
                 );
             }
             UrlModifier::Function { 0: _field_0 } => {
-                let mut __ast_path = __ast_path.with_guard(NodeRef::UrlModifier(
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::UrlModifier(
                     self,
                     self::fields::UrlModifierField::Function,
                 ));
@@ -35452,8 +35692,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for UrlValue {
     ) {
         match self {
             UrlValue::Str { 0: _field_0 } => {
-                let mut __ast_path = __ast_path
-                    .with_guard(NodeRef::UrlValue(self, self::fields::UrlValueField::Str));
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::UrlValue(
+                    self,
+                    self::fields::UrlValueField::Str,
+                ));
                 <Str as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -35461,8 +35703,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for UrlValue {
                 );
             }
             UrlValue::Raw { 0: _field_0 } => {
-                let mut __ast_path = __ast_path
-                    .with_guard(NodeRef::UrlValue(self, self::fields::UrlValueField::Raw));
+                let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::UrlValue(
+                    self,
+                    self::fields::UrlValueField::Raw,
+                ));
                 <UrlValueRaw as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
@@ -35492,7 +35736,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for UrlValueRaw {
         match self {
             UrlValueRaw { span, value, raw } => {
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::UrlValueRaw(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::UrlValueRaw(
                         self,
                         self::fields::UrlValueRawField::Span,
                     ));
@@ -35503,7 +35747,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for UrlValueRaw {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::UrlValueRaw(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::UrlValueRaw(
                         self,
                         self::fields::UrlValueRawField::Value,
                     ));
@@ -35514,7 +35758,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for UrlValueRaw {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path.with_guard(NodeRef::UrlValueRaw(
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::UrlValueRaw(
                         self,
                         self::fields::UrlValueRawField::Raw,
                     ));
@@ -35552,8 +35796,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for WqName {
                 value,
             } => {
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::WqName(self, self::fields::WqNameField::Span));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::WqName(
+                        self,
+                        self::fields::WqNameField::Span,
+                    ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
                         visitor,
@@ -35561,8 +35807,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for WqName {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::WqName(self, self::fields::WqNameField::Prefix));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::WqName(
+                        self,
+                        self::fields::WqNameField::Prefix,
+                    ));
                     <Option<NamespacePrefix> as VisitWithAstPath<V>>::visit_with_ast_path(
                         prefix,
                         visitor,
@@ -35570,8 +35818,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for WqName {
                     )
                 };
                 {
-                    let mut __ast_path = __ast_path
-                        .with_guard(NodeRef::WqName(self, self::fields::WqNameField::Value));
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::WqName(
+                        self,
+                        self::fields::WqNameField::Value,
+                    ));
                     <Ident as VisitWithAstPath<V>>::visit_with_ast_path(
                         value,
                         visitor,
@@ -107688,6 +107938,7 @@ where
 pub type AstKindPath = swc_visit::AstKindPath<AstParentKind>;
 #[cfg(any(docsrs, feature = "path"))]
 pub type AstNodePath<'ast> = swc_visit::AstNodePath<NodeRef<'ast>>;
+#[cfg(any(docsrs, feature = "path"))]
 pub mod fields {
     use swc_css_ast::*;
     #[inline(always)]
@@ -110958,11 +111209,8 @@ pub mod fields {
             }
         }
     }
-    #[deprecated = "Use NodeRef instead"]
-    pub type AstParentNodeRef<'ast> = NodeRef<'ast>;
-    #[cfg(any(docsrs, feature = "path"))]
     #[derive(Debug, Clone, Copy)]
-    pub enum NodeRef<'ast> {
+    pub enum AstParentNodeRef<'ast> {
         AbsoluteColorBase(&'ast AbsoluteColorBase, AbsoluteColorBaseField),
         AlphaValue(&'ast AlphaValue, AlphaValueField),
         AnPlusB(&'ast AnPlusB, AnPlusBField),
@@ -111185,7 +111433,7 @@ pub mod fields {
         UrlValueRaw(&'ast UrlValueRaw, UrlValueRawField),
         WqName(&'ast WqName, WqNameField),
     }
-    impl<'ast> ::swc_visit::NodeRef for NodeRef<'ast> {
+    impl<'ast> ::swc_visit::NodeRef for AstParentNodeRef<'ast> {
         type ParentKind = AstParentKind;
 
         #[inline(always)]
@@ -111379,7 +111627,8 @@ pub mod fields {
             }
         }
     }
-    impl<'ast> NodeRef<'ast> {
+    #[cfg(any(docsrs, feature = "path"))]
+    impl<'ast> AstParentNodeRef<'ast> {
         #[inline]
         pub fn kind(&self) -> AstParentKind {
             match self {
@@ -111746,4 +111995,1894 @@ pub mod fields {
         }
     }
 }
-pub use self::fields::{AstParentKind, NodeRef};
+#[derive(Debug, Clone, Copy)]
+pub enum NodeRef<'ast> {
+    AbsoluteColorBase(&'ast AbsoluteColorBase),
+    AlphaValue(&'ast AlphaValue),
+    AnPlusB(&'ast AnPlusB),
+    AnPlusBNotation(&'ast AnPlusBNotation),
+    Angle(&'ast Angle),
+    AnglePercentage(&'ast AnglePercentage),
+    AnyNamespace(&'ast AnyNamespace),
+    AtRule(&'ast AtRule),
+    AtRuleName(&'ast AtRuleName),
+    AtRulePrelude(&'ast AtRulePrelude),
+    AttributeSelector(&'ast AttributeSelector),
+    AttributeSelectorMatcher(&'ast AttributeSelectorMatcher),
+    AttributeSelectorMatcherValue(&'ast AttributeSelectorMatcherValue),
+    AttributeSelectorModifier(&'ast AttributeSelectorModifier),
+    AttributeSelectorValue(&'ast AttributeSelectorValue),
+    BinOp(&'ast BinOp),
+    CalcOperator(&'ast CalcOperator),
+    CalcOperatorType(&'ast CalcOperatorType),
+    CalcProduct(&'ast CalcProduct),
+    CalcProductOrOperator(&'ast CalcProductOrOperator),
+    CalcSum(&'ast CalcSum),
+    CalcValue(&'ast CalcValue),
+    CalcValueOrOperator(&'ast CalcValueOrOperator),
+    ClassSelector(&'ast ClassSelector),
+    CmykComponent(&'ast CmykComponent),
+    Color(&'ast Color),
+    ColorProfileName(&'ast ColorProfileName),
+    Combinator(&'ast Combinator),
+    CombinatorValue(&'ast CombinatorValue),
+    ComplexSelector(&'ast ComplexSelector),
+    ComplexSelectorChildren(&'ast ComplexSelectorChildren),
+    ComponentValue(&'ast ComponentValue),
+    CompoundSelector(&'ast CompoundSelector),
+    CompoundSelectorList(&'ast CompoundSelectorList),
+    ContainerCondition(&'ast ContainerCondition),
+    ContainerName(&'ast ContainerName),
+    ContainerQuery(&'ast ContainerQuery),
+    ContainerQueryAnd(&'ast ContainerQueryAnd),
+    ContainerQueryNot(&'ast ContainerQueryNot),
+    ContainerQueryOr(&'ast ContainerQueryOr),
+    ContainerQueryType(&'ast ContainerQueryType),
+    CustomHighlightName(&'ast CustomHighlightName),
+    CustomIdent(&'ast CustomIdent),
+    CustomMediaQuery(&'ast CustomMediaQuery),
+    CustomMediaQueryMediaType(&'ast CustomMediaQueryMediaType),
+    CustomPropertyName(&'ast CustomPropertyName),
+    DashedIdent(&'ast DashedIdent),
+    Declaration(&'ast Declaration),
+    DeclarationName(&'ast DeclarationName),
+    DeclarationOrAtRule(&'ast DeclarationOrAtRule),
+    Delimiter(&'ast Delimiter),
+    DelimiterValue(&'ast DelimiterValue),
+    Dimension(&'ast Dimension),
+    DimensionToken(&'ast DimensionToken),
+    DocumentPrelude(&'ast DocumentPrelude),
+    DocumentPreludeMatchingFunction(&'ast DocumentPreludeMatchingFunction),
+    ExtensionName(&'ast ExtensionName),
+    FamilyName(&'ast FamilyName),
+    Flex(&'ast Flex),
+    FontFeatureValuesPrelude(&'ast FontFeatureValuesPrelude),
+    ForgivingComplexSelector(&'ast ForgivingComplexSelector),
+    ForgivingRelativeSelector(&'ast ForgivingRelativeSelector),
+    ForgivingRelativeSelectorList(&'ast ForgivingRelativeSelectorList),
+    ForgivingSelectorList(&'ast ForgivingSelectorList),
+    Frequency(&'ast Frequency),
+    FrequencyPercentage(&'ast FrequencyPercentage),
+    Function(&'ast Function),
+    FunctionName(&'ast FunctionName),
+    GeneralEnclosed(&'ast GeneralEnclosed),
+    HexColor(&'ast HexColor),
+    Hue(&'ast Hue),
+    IdSelector(&'ast IdSelector),
+    Ident(&'ast Ident),
+    ImportConditions(&'ast ImportConditions),
+    ImportHref(&'ast ImportHref),
+    ImportLayerName(&'ast ImportLayerName),
+    ImportPrelude(&'ast ImportPrelude),
+    ImportantFlag(&'ast ImportantFlag),
+    Integer(&'ast Integer),
+    KeyframeBlock(&'ast KeyframeBlock),
+    KeyframeSelector(&'ast KeyframeSelector),
+    KeyframesName(&'ast KeyframesName),
+    KeyframesPseudoFunction(&'ast KeyframesPseudoFunction),
+    KeyframesPseudoPrefix(&'ast KeyframesPseudoPrefix),
+    LayerName(&'ast LayerName),
+    LayerNameList(&'ast LayerNameList),
+    LayerPrelude(&'ast LayerPrelude),
+    Length(&'ast Length),
+    LengthPercentage(&'ast LengthPercentage),
+    ListOfComponentValues(&'ast ListOfComponentValues),
+    MediaAnd(&'ast MediaAnd),
+    MediaCondition(&'ast MediaCondition),
+    MediaConditionAllType(&'ast MediaConditionAllType),
+    MediaConditionType(&'ast MediaConditionType),
+    MediaConditionWithoutOr(&'ast MediaConditionWithoutOr),
+    MediaConditionWithoutOrType(&'ast MediaConditionWithoutOrType),
+    MediaFeature(&'ast MediaFeature),
+    MediaFeatureBoolean(&'ast MediaFeatureBoolean),
+    MediaFeatureName(&'ast MediaFeatureName),
+    MediaFeaturePlain(&'ast MediaFeaturePlain),
+    MediaFeatureRange(&'ast MediaFeatureRange),
+    MediaFeatureRangeComparison(&'ast MediaFeatureRangeComparison),
+    MediaFeatureRangeInterval(&'ast MediaFeatureRangeInterval),
+    MediaFeatureValue(&'ast MediaFeatureValue),
+    MediaInParens(&'ast MediaInParens),
+    MediaNot(&'ast MediaNot),
+    MediaOr(&'ast MediaOr),
+    MediaQuery(&'ast MediaQuery),
+    MediaQueryList(&'ast MediaQueryList),
+    MediaType(&'ast MediaType),
+    NamedNamespace(&'ast NamedNamespace),
+    Namespace(&'ast Namespace),
+    NamespacePrefix(&'ast NamespacePrefix),
+    NamespacePrelude(&'ast NamespacePrelude),
+    NamespacePreludeUri(&'ast NamespacePreludeUri),
+    NestingSelector(&'ast NestingSelector),
+    Number(&'ast Number),
+    NumberType(&'ast NumberType),
+    PageSelector(&'ast PageSelector),
+    PageSelectorList(&'ast PageSelectorList),
+    PageSelectorPseudo(&'ast PageSelectorPseudo),
+    PageSelectorType(&'ast PageSelectorType),
+    Percentage(&'ast Percentage),
+    PseudoClassSelector(&'ast PseudoClassSelector),
+    PseudoClassSelectorChildren(&'ast PseudoClassSelectorChildren),
+    PseudoElementSelector(&'ast PseudoElementSelector),
+    PseudoElementSelectorChildren(&'ast PseudoElementSelectorChildren),
+    QualifiedRule(&'ast QualifiedRule),
+    QualifiedRulePrelude(&'ast QualifiedRulePrelude),
+    QueryInParens(&'ast QueryInParens),
+    Ratio(&'ast Ratio),
+    RelativeSelector(&'ast RelativeSelector),
+    RelativeSelectorList(&'ast RelativeSelectorList),
+    Resolution(&'ast Resolution),
+    Rule(&'ast Rule),
+    ScopeRange(&'ast ScopeRange),
+    SelectorList(&'ast SelectorList),
+    SequenceOfCustomIdents(&'ast SequenceOfCustomIdents),
+    SimpleBlock(&'ast SimpleBlock),
+    SizeFeature(&'ast SizeFeature),
+    SizeFeatureBoolean(&'ast SizeFeatureBoolean),
+    SizeFeatureName(&'ast SizeFeatureName),
+    SizeFeaturePlain(&'ast SizeFeaturePlain),
+    SizeFeatureRange(&'ast SizeFeatureRange),
+    SizeFeatureRangeComparison(&'ast SizeFeatureRangeComparison),
+    SizeFeatureRangeInterval(&'ast SizeFeatureRangeInterval),
+    SizeFeatureValue(&'ast SizeFeatureValue),
+    Str(&'ast Str),
+    StyleBlock(&'ast StyleBlock),
+    Stylesheet(&'ast Stylesheet),
+    SubclassSelector(&'ast SubclassSelector),
+    SupportsAnd(&'ast SupportsAnd),
+    SupportsCondition(&'ast SupportsCondition),
+    SupportsConditionType(&'ast SupportsConditionType),
+    SupportsFeature(&'ast SupportsFeature),
+    SupportsInParens(&'ast SupportsInParens),
+    SupportsNot(&'ast SupportsNot),
+    SupportsOr(&'ast SupportsOr),
+    TagNameSelector(&'ast TagNameSelector),
+    Time(&'ast Time),
+    TimePercentage(&'ast TimePercentage),
+    Token(&'ast Token),
+    TokenAndSpan(&'ast TokenAndSpan),
+    TypeSelector(&'ast TypeSelector),
+    UnicodeRange(&'ast UnicodeRange),
+    UniversalSelector(&'ast UniversalSelector),
+    UnknownDimension(&'ast UnknownDimension),
+    Url(&'ast Url),
+    UrlKeyValue(&'ast UrlKeyValue),
+    UrlModifier(&'ast UrlModifier),
+    UrlValue(&'ast UrlValue),
+    UrlValueRaw(&'ast UrlValueRaw),
+    WqName(&'ast WqName),
+}
+impl<'ast> NodeRef<'ast> {
+    pub fn raw_children(&'ast self) -> impl Iterator<Item = NodeRef<'ast>> {
+        RawChildren(self, 0)
+    }
+}
+struct RawChildren<'ast>(&'ast NodeRef<'ast>, usize);
+impl<'ast> Iterator for RawChildren<'ast> {
+    type Item = NodeRef<'ast>;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        match self.0 {
+            NodeRef::AbsoluteColorBase(node) => match node {
+                AbsoluteColorBase::HexColor(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::HexColor(v0))
+                    } else {
+                        None
+                    }
+                }
+                AbsoluteColorBase::NamedColorOrTransparent(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Ident(v0))
+                    } else {
+                        None
+                    }
+                }
+                AbsoluteColorBase::Function(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Function(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::AlphaValue(node) => match node {
+                AlphaValue::Number(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Number(v0))
+                    } else {
+                        None
+                    }
+                }
+                AlphaValue::Percentage(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Percentage(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::AnPlusB(node) => match node {
+                AnPlusB::Ident(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Ident(v0))
+                    } else {
+                        None
+                    }
+                }
+                AnPlusB::AnPlusBNotation(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::AnPlusBNotation(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::AnPlusBNotation(node) => {}
+            NodeRef::Angle(node) => {}
+            NodeRef::AnglePercentage(node) => match node {
+                AnglePercentage::Angle(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Angle(v0))
+                    } else {
+                        None
+                    }
+                }
+                AnglePercentage::Percentage(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Percentage(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::AnyNamespace(node) => {}
+            NodeRef::AtRule(node) => {}
+            NodeRef::AtRuleName(node) => match node {
+                AtRuleName::DashedIdent(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::DashedIdent(v0))
+                    } else {
+                        None
+                    }
+                }
+                AtRuleName::Ident(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Ident(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::AtRulePrelude(node) => match node {
+                AtRulePrelude::ListOfComponentValues(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::ListOfComponentValues(v0))
+                    } else {
+                        None
+                    }
+                }
+                AtRulePrelude::CharsetPrelude(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Str(v0))
+                    } else {
+                        None
+                    }
+                }
+                AtRulePrelude::PropertyPrelude(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::CustomPropertyName(v0))
+                    } else {
+                        None
+                    }
+                }
+                AtRulePrelude::CounterStylePrelude(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::CustomIdent(v0))
+                    } else {
+                        None
+                    }
+                }
+                AtRulePrelude::ColorProfilePrelude(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::ColorProfileName(v0))
+                    } else {
+                        None
+                    }
+                }
+                AtRulePrelude::DocumentPrelude(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::DocumentPrelude(v0))
+                    } else {
+                        None
+                    }
+                }
+                AtRulePrelude::FontPaletteValuesPrelude(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::DashedIdent(v0))
+                    } else {
+                        None
+                    }
+                }
+                AtRulePrelude::FontFeatureValuesPrelude(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::FontFeatureValuesPrelude(v0))
+                    } else {
+                        None
+                    }
+                }
+                AtRulePrelude::NestPrelude(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::SelectorList(v0))
+                    } else {
+                        None
+                    }
+                }
+                AtRulePrelude::KeyframesPrelude(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::KeyframesName(v0))
+                    } else {
+                        None
+                    }
+                }
+                AtRulePrelude::ImportPrelude(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::ImportPrelude(v0))
+                    } else {
+                        None
+                    }
+                }
+                AtRulePrelude::NamespacePrelude(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::NamespacePrelude(v0))
+                    } else {
+                        None
+                    }
+                }
+                AtRulePrelude::MediaPrelude(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::MediaQueryList(v0))
+                    } else {
+                        None
+                    }
+                }
+                AtRulePrelude::SupportsPrelude(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::SupportsCondition(v0))
+                    } else {
+                        None
+                    }
+                }
+                AtRulePrelude::PagePrelude(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::PageSelectorList(v0))
+                    } else {
+                        None
+                    }
+                }
+                AtRulePrelude::LayerPrelude(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::LayerPrelude(v0))
+                    } else {
+                        None
+                    }
+                }
+                AtRulePrelude::ContainerPrelude(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::ContainerCondition(v0))
+                    } else {
+                        None
+                    }
+                }
+                AtRulePrelude::CustomMediaPrelude(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::CustomMediaQuery(v0))
+                    } else {
+                        None
+                    }
+                }
+                AtRulePrelude::ScopePrelude(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::ScopeRange(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::AttributeSelector(node) => {}
+            NodeRef::AttributeSelectorMatcher(node) => {}
+            NodeRef::AttributeSelectorMatcherValue(node) => match node {
+                _ => None,
+            },
+            NodeRef::AttributeSelectorModifier(node) => {}
+            NodeRef::AttributeSelectorValue(node) => match node {
+                AttributeSelectorValue::Str(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Str(v0))
+                    } else {
+                        None
+                    }
+                }
+                AttributeSelectorValue::Ident(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Ident(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::BinOp(node) => match node {
+                _ => None,
+            },
+            NodeRef::CalcOperator(node) => {}
+            NodeRef::CalcOperatorType(node) => match node {
+                _ => None,
+            },
+            NodeRef::CalcProduct(node) => {}
+            NodeRef::CalcProductOrOperator(node) => match node {
+                CalcProductOrOperator::Product(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::CalcProduct(v0))
+                    } else {
+                        None
+                    }
+                }
+                CalcProductOrOperator::Operator(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::CalcOperator(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::CalcSum(node) => {}
+            NodeRef::CalcValue(node) => match node {
+                CalcValue::Number(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Number(v0))
+                    } else {
+                        None
+                    }
+                }
+                CalcValue::Dimension(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Dimension(v0))
+                    } else {
+                        None
+                    }
+                }
+                CalcValue::Percentage(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Percentage(v0))
+                    } else {
+                        None
+                    }
+                }
+                CalcValue::Constant(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Ident(v0))
+                    } else {
+                        None
+                    }
+                }
+                CalcValue::Sum(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::CalcSum(v0))
+                    } else {
+                        None
+                    }
+                }
+                CalcValue::Function(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Function(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::CalcValueOrOperator(node) => match node {
+                CalcValueOrOperator::Value(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::CalcValue(v0))
+                    } else {
+                        None
+                    }
+                }
+                CalcValueOrOperator::Operator(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::CalcOperator(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::ClassSelector(node) => {}
+            NodeRef::CmykComponent(node) => match node {
+                CmykComponent::Number(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Number(v0))
+                    } else {
+                        None
+                    }
+                }
+                CmykComponent::Percentage(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Percentage(v0))
+                    } else {
+                        None
+                    }
+                }
+                CmykComponent::Function(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Function(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::Color(node) => match node {
+                Color::AbsoluteColorBase(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::AbsoluteColorBase(v0))
+                    } else {
+                        None
+                    }
+                }
+                Color::CurrentColorOrSystemColor(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Ident(v0))
+                    } else {
+                        None
+                    }
+                }
+                Color::Function(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Function(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::ColorProfileName(node) => match node {
+                ColorProfileName::DashedIdent(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::DashedIdent(v0))
+                    } else {
+                        None
+                    }
+                }
+                ColorProfileName::Ident(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Ident(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::Combinator(node) => {}
+            NodeRef::CombinatorValue(node) => match node {
+                _ => None,
+            },
+            NodeRef::ComplexSelector(node) => {}
+            NodeRef::ComplexSelectorChildren(node) => match node {
+                ComplexSelectorChildren::CompoundSelector(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::CompoundSelector(v0))
+                    } else {
+                        None
+                    }
+                }
+                ComplexSelectorChildren::Combinator(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Combinator(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::ComponentValue(node) => match node {
+                _ => None,
+            },
+            NodeRef::CompoundSelector(node) => {}
+            NodeRef::CompoundSelectorList(node) => {}
+            NodeRef::ContainerCondition(node) => {}
+            NodeRef::ContainerName(node) => match node {
+                ContainerName::CustomIdent(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::CustomIdent(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::ContainerQuery(node) => {}
+            NodeRef::ContainerQueryAnd(node) => {}
+            NodeRef::ContainerQueryNot(node) => {}
+            NodeRef::ContainerQueryOr(node) => {}
+            NodeRef::ContainerQueryType(node) => match node {
+                ContainerQueryType::Not(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::ContainerQueryNot(v0))
+                    } else {
+                        None
+                    }
+                }
+                ContainerQueryType::And(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::ContainerQueryAnd(v0))
+                    } else {
+                        None
+                    }
+                }
+                ContainerQueryType::Or(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::ContainerQueryOr(v0))
+                    } else {
+                        None
+                    }
+                }
+                ContainerQueryType::QueryInParens(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::QueryInParens(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::CustomHighlightName(node) => {}
+            NodeRef::CustomIdent(node) => {}
+            NodeRef::CustomMediaQuery(node) => {}
+            NodeRef::CustomMediaQueryMediaType(node) => match node {
+                CustomMediaQueryMediaType::Ident(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Ident(v0))
+                    } else {
+                        None
+                    }
+                }
+                CustomMediaQueryMediaType::MediaQueryList(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::MediaQueryList(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::CustomPropertyName(node) => {}
+            NodeRef::DashedIdent(node) => {}
+            NodeRef::Declaration(node) => {}
+            NodeRef::DeclarationName(node) => match node {
+                DeclarationName::Ident(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Ident(v0))
+                    } else {
+                        None
+                    }
+                }
+                DeclarationName::DashedIdent(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::DashedIdent(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::DeclarationOrAtRule(node) => match node {
+                _ => None,
+            },
+            NodeRef::Delimiter(node) => {}
+            NodeRef::DelimiterValue(node) => match node {
+                _ => None,
+            },
+            NodeRef::Dimension(node) => match node {
+                Dimension::Length(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Length(v0))
+                    } else {
+                        None
+                    }
+                }
+                Dimension::Angle(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Angle(v0))
+                    } else {
+                        None
+                    }
+                }
+                Dimension::Time(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Time(v0))
+                    } else {
+                        None
+                    }
+                }
+                Dimension::Frequency(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Frequency(v0))
+                    } else {
+                        None
+                    }
+                }
+                Dimension::Resolution(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Resolution(v0))
+                    } else {
+                        None
+                    }
+                }
+                Dimension::Flex(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Flex(v0))
+                    } else {
+                        None
+                    }
+                }
+                Dimension::UnknownDimension(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::UnknownDimension(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::DimensionToken(node) => {}
+            NodeRef::DocumentPrelude(node) => {}
+            NodeRef::DocumentPreludeMatchingFunction(node) => match node {
+                DocumentPreludeMatchingFunction::Url(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Url(v0))
+                    } else {
+                        None
+                    }
+                }
+                DocumentPreludeMatchingFunction::Function(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Function(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::ExtensionName(node) => {}
+            NodeRef::FamilyName(node) => match node {
+                FamilyName::Str(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Str(v0))
+                    } else {
+                        None
+                    }
+                }
+                FamilyName::SequenceOfCustomIdents(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::SequenceOfCustomIdents(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::Flex(node) => {}
+            NodeRef::FontFeatureValuesPrelude(node) => {}
+            NodeRef::ForgivingComplexSelector(node) => match node {
+                ForgivingComplexSelector::ComplexSelector(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::ComplexSelector(v0))
+                    } else {
+                        None
+                    }
+                }
+                ForgivingComplexSelector::ListOfComponentValues(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::ListOfComponentValues(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::ForgivingRelativeSelector(node) => match node {
+                ForgivingRelativeSelector::RelativeSelector(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::RelativeSelector(v0))
+                    } else {
+                        None
+                    }
+                }
+                ForgivingRelativeSelector::ListOfComponentValues(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::ListOfComponentValues(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::ForgivingRelativeSelectorList(node) => {}
+            NodeRef::ForgivingSelectorList(node) => {}
+            NodeRef::Frequency(node) => {}
+            NodeRef::FrequencyPercentage(node) => match node {
+                FrequencyPercentage::Frequency(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Frequency(v0))
+                    } else {
+                        None
+                    }
+                }
+                FrequencyPercentage::Percentage(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Percentage(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::Function(node) => {}
+            NodeRef::FunctionName(node) => match node {
+                FunctionName::Ident(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Ident(v0))
+                    } else {
+                        None
+                    }
+                }
+                FunctionName::DashedIdent(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::DashedIdent(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::GeneralEnclosed(node) => match node {
+                GeneralEnclosed::Function(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Function(v0))
+                    } else {
+                        None
+                    }
+                }
+                GeneralEnclosed::SimpleBlock(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::SimpleBlock(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::HexColor(node) => {}
+            NodeRef::Hue(node) => match node {
+                Hue::Number(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Number(v0))
+                    } else {
+                        None
+                    }
+                }
+                Hue::Angle(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Angle(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::IdSelector(node) => {}
+            NodeRef::Ident(node) => {}
+            NodeRef::ImportConditions(node) => {}
+            NodeRef::ImportHref(node) => match node {
+                ImportHref::Url(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Url(v0))
+                    } else {
+                        None
+                    }
+                }
+                ImportHref::Str(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Str(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::ImportLayerName(node) => match node {
+                ImportLayerName::Ident(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Ident(v0))
+                    } else {
+                        None
+                    }
+                }
+                ImportLayerName::Function(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Function(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::ImportPrelude(node) => {}
+            NodeRef::ImportantFlag(node) => {}
+            NodeRef::Integer(node) => {}
+            NodeRef::KeyframeBlock(node) => {}
+            NodeRef::KeyframeSelector(node) => match node {
+                KeyframeSelector::Ident(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Ident(v0))
+                    } else {
+                        None
+                    }
+                }
+                KeyframeSelector::Percentage(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Percentage(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::KeyframesName(node) => match node {
+                _ => None,
+            },
+            NodeRef::KeyframesPseudoFunction(node) => {}
+            NodeRef::KeyframesPseudoPrefix(node) => {}
+            NodeRef::LayerName(node) => {}
+            NodeRef::LayerNameList(node) => {}
+            NodeRef::LayerPrelude(node) => match node {
+                LayerPrelude::Name(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::LayerName(v0))
+                    } else {
+                        None
+                    }
+                }
+                LayerPrelude::NameList(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::LayerNameList(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::Length(node) => {}
+            NodeRef::LengthPercentage(node) => match node {
+                LengthPercentage::Length(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Length(v0))
+                    } else {
+                        None
+                    }
+                }
+                LengthPercentage::Percentage(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Percentage(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::ListOfComponentValues(node) => {}
+            NodeRef::MediaAnd(node) => {}
+            NodeRef::MediaCondition(node) => {}
+            NodeRef::MediaConditionAllType(node) => match node {
+                MediaConditionAllType::Not(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::MediaNot(v0))
+                    } else {
+                        None
+                    }
+                }
+                MediaConditionAllType::And(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::MediaAnd(v0))
+                    } else {
+                        None
+                    }
+                }
+                MediaConditionAllType::Or(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::MediaOr(v0))
+                    } else {
+                        None
+                    }
+                }
+                MediaConditionAllType::MediaInParens(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::MediaInParens(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::MediaConditionType(node) => match node {
+                MediaConditionType::All(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::MediaCondition(v0))
+                    } else {
+                        None
+                    }
+                }
+                MediaConditionType::WithoutOr(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::MediaConditionWithoutOr(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::MediaConditionWithoutOr(node) => {}
+            NodeRef::MediaConditionWithoutOrType(node) => match node {
+                MediaConditionWithoutOrType::Not(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::MediaNot(v0))
+                    } else {
+                        None
+                    }
+                }
+                MediaConditionWithoutOrType::And(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::MediaAnd(v0))
+                    } else {
+                        None
+                    }
+                }
+                MediaConditionWithoutOrType::MediaInParens(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::MediaInParens(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::MediaFeature(node) => match node {
+                MediaFeature::Plain(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::MediaFeaturePlain(v0))
+                    } else {
+                        None
+                    }
+                }
+                MediaFeature::Boolean(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::MediaFeatureBoolean(v0))
+                    } else {
+                        None
+                    }
+                }
+                MediaFeature::Range(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::MediaFeatureRange(v0))
+                    } else {
+                        None
+                    }
+                }
+                MediaFeature::RangeInterval(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::MediaFeatureRangeInterval(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::MediaFeatureBoolean(node) => {}
+            NodeRef::MediaFeatureName(node) => match node {
+                MediaFeatureName::Ident(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Ident(v0))
+                    } else {
+                        None
+                    }
+                }
+                MediaFeatureName::ExtensionName(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::ExtensionName(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::MediaFeaturePlain(node) => {}
+            NodeRef::MediaFeatureRange(node) => {}
+            NodeRef::MediaFeatureRangeComparison(node) => match node {
+                _ => None,
+            },
+            NodeRef::MediaFeatureRangeInterval(node) => {}
+            NodeRef::MediaFeatureValue(node) => match node {
+                MediaFeatureValue::Number(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Number(v0))
+                    } else {
+                        None
+                    }
+                }
+                MediaFeatureValue::Dimension(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Dimension(v0))
+                    } else {
+                        None
+                    }
+                }
+                MediaFeatureValue::Ident(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Ident(v0))
+                    } else {
+                        None
+                    }
+                }
+                MediaFeatureValue::Ratio(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Ratio(v0))
+                    } else {
+                        None
+                    }
+                }
+                MediaFeatureValue::Function(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Function(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::MediaInParens(node) => match node {
+                MediaInParens::MediaCondition(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::MediaCondition(v0))
+                    } else {
+                        None
+                    }
+                }
+                MediaInParens::GeneralEnclosed(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::GeneralEnclosed(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::MediaNot(node) => {}
+            NodeRef::MediaOr(node) => {}
+            NodeRef::MediaQuery(node) => {}
+            NodeRef::MediaQueryList(node) => {}
+            NodeRef::MediaType(node) => match node {
+                MediaType::Ident(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Ident(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::NamedNamespace(node) => {}
+            NodeRef::Namespace(node) => match node {
+                Namespace::Named(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::NamedNamespace(v0))
+                    } else {
+                        None
+                    }
+                }
+                Namespace::Any(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::AnyNamespace(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::NamespacePrefix(node) => {}
+            NodeRef::NamespacePrelude(node) => {}
+            NodeRef::NamespacePreludeUri(node) => match node {
+                NamespacePreludeUri::Url(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Url(v0))
+                    } else {
+                        None
+                    }
+                }
+                NamespacePreludeUri::Str(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Str(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::NestingSelector(node) => {}
+            NodeRef::Number(node) => {}
+            NodeRef::NumberType(node) => match node {
+                _ => None,
+            },
+            NodeRef::PageSelector(node) => {}
+            NodeRef::PageSelectorList(node) => {}
+            NodeRef::PageSelectorPseudo(node) => {}
+            NodeRef::PageSelectorType(node) => {}
+            NodeRef::Percentage(node) => {}
+            NodeRef::PseudoClassSelector(node) => {}
+            NodeRef::PseudoClassSelectorChildren(node) => match node {
+                PseudoClassSelectorChildren::PreservedToken(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::TokenAndSpan(v0))
+                    } else {
+                        None
+                    }
+                }
+                PseudoClassSelectorChildren::AnPlusB(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::AnPlusB(v0))
+                    } else {
+                        None
+                    }
+                }
+                PseudoClassSelectorChildren::Ident(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Ident(v0))
+                    } else {
+                        None
+                    }
+                }
+                PseudoClassSelectorChildren::Str(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Str(v0))
+                    } else {
+                        None
+                    }
+                }
+                PseudoClassSelectorChildren::Delimiter(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Delimiter(v0))
+                    } else {
+                        None
+                    }
+                }
+                PseudoClassSelectorChildren::ComplexSelector(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::ComplexSelector(v0))
+                    } else {
+                        None
+                    }
+                }
+                PseudoClassSelectorChildren::SelectorList(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::SelectorList(v0))
+                    } else {
+                        None
+                    }
+                }
+                PseudoClassSelectorChildren::ForgivingSelectorList(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::ForgivingSelectorList(v0))
+                    } else {
+                        None
+                    }
+                }
+                PseudoClassSelectorChildren::CompoundSelectorList(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::CompoundSelectorList(v0))
+                    } else {
+                        None
+                    }
+                }
+                PseudoClassSelectorChildren::RelativeSelectorList(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::RelativeSelectorList(v0))
+                    } else {
+                        None
+                    }
+                }
+                PseudoClassSelectorChildren::ForgivingRelativeSelectorList(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::ForgivingRelativeSelectorList(v0))
+                    } else {
+                        None
+                    }
+                }
+                PseudoClassSelectorChildren::CompoundSelector(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::CompoundSelector(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::PseudoElementSelector(node) => {}
+            NodeRef::PseudoElementSelectorChildren(node) => match node {
+                PseudoElementSelectorChildren::PreservedToken(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::TokenAndSpan(v0))
+                    } else {
+                        None
+                    }
+                }
+                PseudoElementSelectorChildren::Ident(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Ident(v0))
+                    } else {
+                        None
+                    }
+                }
+                PseudoElementSelectorChildren::CompoundSelector(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::CompoundSelector(v0))
+                    } else {
+                        None
+                    }
+                }
+                PseudoElementSelectorChildren::CustomHighlightName(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::CustomHighlightName(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::QualifiedRule(node) => {}
+            NodeRef::QualifiedRulePrelude(node) => match node {
+                QualifiedRulePrelude::SelectorList(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::SelectorList(v0))
+                    } else {
+                        None
+                    }
+                }
+                QualifiedRulePrelude::RelativeSelectorList(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::RelativeSelectorList(v0))
+                    } else {
+                        None
+                    }
+                }
+                QualifiedRulePrelude::ListOfComponentValues(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::ListOfComponentValues(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::QueryInParens(node) => match node {
+                QueryInParens::SizeFeature(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::SizeFeature(v0))
+                    } else {
+                        None
+                    }
+                }
+                QueryInParens::GeneralEnclosed(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::GeneralEnclosed(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::Ratio(node) => {}
+            NodeRef::RelativeSelector(node) => {}
+            NodeRef::RelativeSelectorList(node) => {}
+            NodeRef::Resolution(node) => {}
+            NodeRef::Rule(node) => match node {
+                _ => None,
+            },
+            NodeRef::ScopeRange(node) => {}
+            NodeRef::SelectorList(node) => {}
+            NodeRef::SequenceOfCustomIdents(node) => {}
+            NodeRef::SimpleBlock(node) => {}
+            NodeRef::SizeFeature(node) => match node {
+                SizeFeature::Plain(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::SizeFeaturePlain(v0))
+                    } else {
+                        None
+                    }
+                }
+                SizeFeature::Boolean(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::SizeFeatureBoolean(v0))
+                    } else {
+                        None
+                    }
+                }
+                SizeFeature::Range(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::SizeFeatureRange(v0))
+                    } else {
+                        None
+                    }
+                }
+                SizeFeature::RangeInterval(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::SizeFeatureRangeInterval(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::SizeFeatureBoolean(node) => {}
+            NodeRef::SizeFeatureName(node) => match node {
+                SizeFeatureName::Ident(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Ident(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::SizeFeaturePlain(node) => {}
+            NodeRef::SizeFeatureRange(node) => {}
+            NodeRef::SizeFeatureRangeComparison(node) => match node {
+                _ => None,
+            },
+            NodeRef::SizeFeatureRangeInterval(node) => {}
+            NodeRef::SizeFeatureValue(node) => match node {
+                SizeFeatureValue::Number(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Number(v0))
+                    } else {
+                        None
+                    }
+                }
+                SizeFeatureValue::Dimension(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Dimension(v0))
+                    } else {
+                        None
+                    }
+                }
+                SizeFeatureValue::Ident(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Ident(v0))
+                    } else {
+                        None
+                    }
+                }
+                SizeFeatureValue::Ratio(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Ratio(v0))
+                    } else {
+                        None
+                    }
+                }
+                SizeFeatureValue::Function(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Function(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::Str(node) => {}
+            NodeRef::StyleBlock(node) => match node {
+                _ => None,
+            },
+            NodeRef::Stylesheet(node) => {}
+            NodeRef::SubclassSelector(node) => match node {
+                SubclassSelector::Id(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::IdSelector(v0))
+                    } else {
+                        None
+                    }
+                }
+                SubclassSelector::Class(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::ClassSelector(v0))
+                    } else {
+                        None
+                    }
+                }
+                SubclassSelector::PseudoClass(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::PseudoClassSelector(v0))
+                    } else {
+                        None
+                    }
+                }
+                SubclassSelector::PseudoElement(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::PseudoElementSelector(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::SupportsAnd(node) => {}
+            NodeRef::SupportsCondition(node) => {}
+            NodeRef::SupportsConditionType(node) => match node {
+                SupportsConditionType::Not(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::SupportsNot(v0))
+                    } else {
+                        None
+                    }
+                }
+                SupportsConditionType::And(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::SupportsAnd(v0))
+                    } else {
+                        None
+                    }
+                }
+                SupportsConditionType::Or(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::SupportsOr(v0))
+                    } else {
+                        None
+                    }
+                }
+                SupportsConditionType::SupportsInParens(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::SupportsInParens(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::SupportsFeature(node) => match node {
+                SupportsFeature::Function(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Function(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::SupportsInParens(node) => match node {
+                SupportsInParens::SupportsCondition(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::SupportsCondition(v0))
+                    } else {
+                        None
+                    }
+                }
+                SupportsInParens::Feature(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::SupportsFeature(v0))
+                    } else {
+                        None
+                    }
+                }
+                SupportsInParens::GeneralEnclosed(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::GeneralEnclosed(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::SupportsNot(node) => {}
+            NodeRef::SupportsOr(node) => {}
+            NodeRef::TagNameSelector(node) => {}
+            NodeRef::Time(node) => {}
+            NodeRef::TimePercentage(node) => match node {
+                TimePercentage::Time(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Time(v0))
+                    } else {
+                        None
+                    }
+                }
+                TimePercentage::Percentage(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Percentage(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::Token(node) => match node {
+                Token::Number(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::NumberType(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::TokenAndSpan(node) => {}
+            NodeRef::TypeSelector(node) => match node {
+                TypeSelector::TagName(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::TagNameSelector(v0))
+                    } else {
+                        None
+                    }
+                }
+                TypeSelector::Universal(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::UniversalSelector(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::UnicodeRange(node) => {}
+            NodeRef::UniversalSelector(node) => {}
+            NodeRef::UnknownDimension(node) => {}
+            NodeRef::Url(node) => {}
+            NodeRef::UrlKeyValue(node) => {}
+            NodeRef::UrlModifier(node) => match node {
+                UrlModifier::Ident(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Ident(v0))
+                    } else {
+                        None
+                    }
+                }
+                UrlModifier::Function(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Function(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::UrlValue(node) => match node {
+                UrlValue::Str(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::Str(v0))
+                    } else {
+                        None
+                    }
+                }
+                UrlValue::Raw(v0) => {
+                    if self.1 == 0usize {
+                        self.1 = 1usize;
+                        Some(NodeRef::UrlValueRaw(v0))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            },
+            NodeRef::UrlValueRaw(node) => {}
+            NodeRef::WqName(node) => {}
+        }
+    }
+}
+#[cfg(any(docsrs, feature = "path"))]
+pub use self::fields::{AstParentKind, AstParentNodeRef};
