@@ -47,8 +47,8 @@
         "pack": "wasm-pack",
         "build:ts": "tsc -d",
         "build:wasm": "npm-run-all \"pack -- build ./crates/wasm --scope swc {1} -t {2} \" --",
-        "build": "tsc -d && napi build --platform --cargo-name html_node --js ./binding.js --dts binding.d.ts -p html_node --release --cargo-cwd ../..",
-        "build:dev": "tsc -d && napi build --platform --cargo-name html_node --js ./binding.js --dts binding.d.ts -p html_node --cargo-cwd ../..",
+        "build": "tsc -d && napi build --platform --cargo-name binding_html_node --js ./binding.js --dts binding.d.ts -p binding_html_node --release --cargo-cwd ../..",
+        "build:dev": "tsc -d && napi build --platform --cargo-name binding_html_node --js ./binding.js --dts binding.d.ts -p binding_html_node --cargo-cwd ../..",
         "test": "echo 'done!'",
         "version": "napi version -p scripts/npm"
     },
