@@ -10942,5 +10942,20 @@ impl<'ast> NodeRef<'ast> {
         }
     }
 }
+impl<'ast> NodeRef<'ast> {
+    #[doc = r" Visit all nodes in self."]
+    #[doc = r""]
+    #[doc = r" This is a preorder traversal."]
+    pub fn traverse(&'ast self) -> Box<dyn 'ast + Iterator<Item = NodeRef<'ast>>> {
+        let mut queue = std::collections::VecDeque::new();
+        queue.push_back(self);
+        Box::new(std::iter::from_fn(move || {
+            let node = queue.pop_front()?;
+            let children = node.raw_children();
+            queue.extend(children);
+            Some(node)
+        }))
+    }
+}
 #[cfg(any(docsrs, feature = "path"))]
 pub use self::fields::{AstParentKind, AstParentNodeRef};
