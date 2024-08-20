@@ -10770,6 +10770,76 @@ pub mod fields {
         }
     }
 }
+impl<'ast> From<&'ast Attribute> for NodeRef<'ast> {
+    fn from(node: &Attribute) -> Self {
+        NodeRef::Attribute(node)
+    }
+}
+impl<'ast> From<&'ast AttributeToken> for NodeRef<'ast> {
+    fn from(node: &AttributeToken) -> Self {
+        NodeRef::AttributeToken(node)
+    }
+}
+impl<'ast> From<&'ast CdataSection> for NodeRef<'ast> {
+    fn from(node: &CdataSection) -> Self {
+        NodeRef::CdataSection(node)
+    }
+}
+impl<'ast> From<&'ast Child> for NodeRef<'ast> {
+    fn from(node: &Child) -> Self {
+        NodeRef::Child(node)
+    }
+}
+impl<'ast> From<&'ast Comment> for NodeRef<'ast> {
+    fn from(node: &Comment) -> Self {
+        NodeRef::Comment(node)
+    }
+}
+impl<'ast> From<&'ast Document> for NodeRef<'ast> {
+    fn from(node: &Document) -> Self {
+        NodeRef::Document(node)
+    }
+}
+impl<'ast> From<&'ast DocumentMode> for NodeRef<'ast> {
+    fn from(node: &DocumentMode) -> Self {
+        NodeRef::DocumentMode(node)
+    }
+}
+impl<'ast> From<&'ast DocumentType> for NodeRef<'ast> {
+    fn from(node: &DocumentType) -> Self {
+        NodeRef::DocumentType(node)
+    }
+}
+impl<'ast> From<&'ast Element> for NodeRef<'ast> {
+    fn from(node: &Element) -> Self {
+        NodeRef::Element(node)
+    }
+}
+impl<'ast> From<&'ast Namespace> for NodeRef<'ast> {
+    fn from(node: &Namespace) -> Self {
+        NodeRef::Namespace(node)
+    }
+}
+impl<'ast> From<&'ast ProcessingInstruction> for NodeRef<'ast> {
+    fn from(node: &ProcessingInstruction) -> Self {
+        NodeRef::ProcessingInstruction(node)
+    }
+}
+impl<'ast> From<&'ast Text> for NodeRef<'ast> {
+    fn from(node: &Text) -> Self {
+        NodeRef::Text(node)
+    }
+}
+impl<'ast> From<&'ast Token> for NodeRef<'ast> {
+    fn from(node: &Token) -> Self {
+        NodeRef::Token(node)
+    }
+}
+impl<'ast> From<&'ast TokenAndSpan> for NodeRef<'ast> {
+    fn from(node: &TokenAndSpan) -> Self {
+        NodeRef::TokenAndSpan(node)
+    }
+}
 #[derive(Debug, Clone, Copy)]
 pub enum NodeRef<'ast> {
     Attribute(&'ast Attribute),
