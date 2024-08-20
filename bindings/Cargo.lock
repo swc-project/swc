@@ -262,6 +262,10 @@ dependencies = [
  "swc_atoms",
  "swc_cached",
  "swc_common",
+ "swc_css_ast",
+ "swc_css_codegen",
+ "swc_css_minifier",
+ "swc_css_parser",
  "swc_error_reporters",
  "swc_html",
  "swc_html_ast",
@@ -4358,7 +4362,6 @@ checksum = "706509020207c5e4dc17e9c6c3adcec901ec5e0d06314050643c3efce8be7fb7"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
- "swc_html_minifier",
  "swc_html_parser",
  "swc_html_visit",
 ]
