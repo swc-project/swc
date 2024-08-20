@@ -1261,6 +1261,35 @@ fn extract_generic<'a>(name: &str, ty: &'a Type) -> Option<&'a Type> {
 
     None
 }
+
+fn to_iter(e: TokenStream, ty: &Type) -> Expr {
+    if let Some(ty) = extract_vec(ty) {
+        let inner_expr = to_iter(quote!(item), ty);
+        return parse_quote!(#e.into_iter().map(|item| #inner_expr));
+    }
+
+    if let Some(ty) = extract_generic("Option", ty) {
+        let inner_expr = to_iter(quote!(item), ty);
+        return parse_quote!(#e.map(|item| #inner_expr));
+    }
+
+    if let Some(ty) = extract_generic("Box", ty) {
+        let inner_expr = to_iter(quote!(item), ty);
+        return parse_quote!({
+            let item = *#e;
+            #inner_expr
+        });
+    }
+
+    if let Type::Path(p) = ty {
+        let ty = &p.path.segments.last().unwrap().ident;
+
+        parse_quote!(NodeRef::#ty(#e))
+    } else {
+        todo!("to_iter for {:?}", ty);
+    }
+}
+
 fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
     let mut items = Vec::<Item>::new();
     let mut kind_enum_members = Vec::new();
@@ -1433,19 +1462,19 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                     ));
 
                     {
-                        let mut iter: Expr = parse_quote!([]);
+                        let mut iter: Expr = parse_quote!([].into_iter());
 
                         match &data.fields {
                             Fields::Named(fields) => {
                                 for f in fields.named.iter() {
                                     let ident = &f.ident;
-                                    let ty = &f.ty;
-                                    iter = parse_quote!(#iter.chain(node.#ident));
+                                    let iter_expr = to_iter(quote!(node.#ident), &f.ty);
+                                    iter = parse_quote!(#iter.chain(#iter_expr));
                                 }
                             }
 
                             Fields::Unnamed(_fields) => {
-                                todo!()
+                                // TODO: Support unnamed fields
                             }
                             Fields::Unit => {}
                         }
