@@ -1398,22 +1398,11 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                                 continue;
                             }
 
-                            for (idx, f) in variant
-                                .fields
-                                .iter()
-                                .filter(|f| is_node_ref(&f.ty))
-                                .enumerate()
-                            {
-                                let next = idx + 1;
+                            for f in variant.fields.iter().filter(|f| is_node_ref(&f.ty)) {
                                 let ty = &f.ty;
                                 arms.push(parse_quote!(
                                     #type_name::#variant_name(v0) => {
-                                        if self.1 == #idx {
-                                            self.1 = #next;
-                                            Some(NodeRef::#ty(v0))
-                                        } else {
-                                            None
-                                        }
+                                        Box::new(Some(NodeRef::#ty(v0)).into_iter())
                                     },
                                 ));
                             }
@@ -1585,23 +1574,8 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
             ));
             items.push(parse_quote!(
                 impl<'ast> NodeRef<'ast> {
-                    pub fn raw_children(&'ast self) -> impl Iterator<Item = NodeRef<'ast>> {
-                        RawChildren(self, 0)
-                    }
-                }
-            ));
-
-            items.push(parse_quote!(
-                struct RawChildren<'ast>(&'ast NodeRef<'ast>, usize);
-            ));
-
-            items.push(parse_quote!(
-                impl<'ast> Iterator for RawChildren<'ast> {
-                    type Item = NodeRef<'ast>;
-
-                    #[allow(unreachable_patterns)]
-                    fn next(&mut self) -> Option<Self::Item> {
-                        match self.0 {
+                    pub fn raw_children(&'ast self) -> Box<dyn 'ast + Iterator<Item = NodeRef<'ast>>> {
+                        match self {
                             #(#node_ref_iter_next_arms)*
                         }
                     }
