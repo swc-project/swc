@@ -9,10 +9,10 @@ use crate::option::MangleOptions;
 /// Returns `(preserved, unresolved)`
 pub(crate) fn idents_to_preserve<N>(options: MangleOptions, marks: Marks, n: &N) -> FxHashSet<Id>
 where
-    N: VisitWith<Preserver>,
+    N: for<'a> VisitWith<Preserver<'a>>,
 {
     let mut v = Preserver {
-        options,
+        options: &options,
         preserved: Default::default(),
         should_preserve: false,
         in_top_level: false,
@@ -23,13 +23,14 @@ where
 
     // Force rename synthesized names
     // See https://github.com/swc-project/swc/issues/9468
-    v.preserved
-        .retain(|id| id.1.outer().is_descendant_of(top_level_mark));
+    v.preserved.retain(|id| {
+        options.reserved.contains(&id.0) || id.1.outer().is_descendant_of(top_level_mark)
+    });
 
     v.preserved
 }
-pub(crate) struct Preserver {
-    options: MangleOptions,
+pub(crate) struct Preserver<'a> {
+    options: &'a MangleOptions,
 
     preserved: FxHashSet<Id>,
 
@@ -37,13 +38,13 @@ pub(crate) struct Preserver {
     in_top_level: bool,
 }
 
-impl Preserver {
+impl<'a> Preserver<'a> {
     fn is_reserved(&self, ident: &Ident) -> bool {
         self.options.reserved.contains(&ident.sym)
     }
 }
 
-impl Visit for Preserver {
+impl<'a> Visit for Preserver<'a> {
     noop_visit_type!();
 
     fn visit_block_stmt(&mut self, n: &BlockStmt) {
