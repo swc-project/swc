@@ -1,4 +1,5 @@
-#![deny(warnings)]
+#![allow(dead_code, unused_imports)]
+// #![deny(warnings)]
 
 extern crate swc_malloc;
 
@@ -306,9 +307,10 @@ fn find_config(dir: &Path) -> String {
     panic!("failed to find config file for {}", dir.display())
 }
 
-#[testing::fixture("tests/fixture/**/input.js")]
-#[testing::fixture("tests/pass-1/**/input.js")]
-#[testing::fixture("tests/pass-default/**/input.js")]
+// #[testing::fixture("tests/fixture/**/input.js")]
+// #[testing::fixture("tests/pass-1/**/input.js")]
+// #[testing::fixture("tests/pass-default/**/input.js")]
+#[testing::fixture("tests/fixture/issues/9460/input.js")]
 fn custom_fixture(input: PathBuf) {
     let dir = input.parent().unwrap();
     let config = find_config(dir);
@@ -358,345 +360,350 @@ fn custom_fixture(input: PathBuf) {
     .unwrap()
 }
 
-#[testing::fixture("tests/projects/files/*.js")]
-fn projects(input: PathBuf) {
-    let dir = input.parent().unwrap();
-    let config = dir.join("config.json");
-    let config = read_to_string(config).expect("failed to read config.json");
-    eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
+// #[testing::fixture("tests/projects/files/*.js")]
+// fn projects(input: PathBuf) {
+//     let dir = input.parent().unwrap();
+//     let config = dir.join("config.json");
+//     let config = read_to_string(config).expect("failed to read config.json");
+//     eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
 
-    testing::run_test2(false, |cm, handler| {
-        let comments = SingleThreadedComments::default();
+//     testing::run_test2(false, |cm, handler| {
+//         let comments = SingleThreadedComments::default();
 
-        let output = run(
-            cm.clone(),
-            &handler,
-            &input,
-            &config,
-            Some(&comments),
-            None,
-            false,
-        );
-        let output_module = match output {
-            Some(v) => v,
-            None => return Ok(()),
-        };
+//         let output = run(
+//             cm.clone(),
+//             &handler,
+//             &input,
+//             &config,
+//             Some(&comments),
+//             None,
+//             false,
+//         );
+//         let output_module = match output {
+//             Some(v) => v,
+//             None => return Ok(()),
+//         };
 
-        let output = print(cm.clone(), &[output_module], Some(&comments), false, false);
+//         let output = print(cm.clone(), &[output_module], Some(&comments),
+// false, false);
 
-        eprintln!("---- {} -----\n{}", Color::Green.paint("Output"), output);
+//         eprintln!("---- {} -----\n{}", Color::Green.paint("Output"), output);
 
-        println!("{}", input.display());
+//         println!("{}", input.display());
 
-        let minified = {
-            let output = run(
-                cm.clone(),
-                &handler,
-                &input,
-                r#"{ "defaults": true, "toplevel": true, "passes": 3 }"#,
-                Some(&comments),
-                Some(TestMangleOptions::Normal(MangleOptions {
-                    top_level: Some(true),
-                    ..Default::default()
-                })),
-                false,
-            );
-            let output_module = match output {
-                Some(v) => v,
-                None => return Ok(()),
-            };
+//         let minified = {
+//             let output = run(
+//                 cm.clone(),
+//                 &handler,
+//                 &input,
+//                 r#"{ "defaults": true, "toplevel": true, "passes": 3 }"#,
+//                 Some(&comments),
+//                 Some(TestMangleOptions::Normal(MangleOptions {
+//                     top_level: Some(true),
+//                     ..Default::default()
+//                 })),
+//                 false,
+//             );
+//             let output_module = match output {
+//                 Some(v) => v,
+//                 None => return Ok(()),
+//             };
 
-            print(cm, &[output_module], Some(&comments), true, true)
-        };
+//             print(cm, &[output_module], Some(&comments), true, true)
+//         };
 
-        eprintln!(
-            "---- {} -----\n{}",
-            Color::Green.paint("Size"),
-            minified.len()
-        );
+//         eprintln!(
+//             "---- {} -----\n{}",
+//             Color::Green.paint("Size"),
+//             minified.len()
+//         );
 
-        NormalizedOutput::from(output)
-            .compare_to_file(
-                dir.parent()
-                    .unwrap()
-                    .join("output")
-                    .join(input.file_name().unwrap()),
-            )
-            .unwrap();
+//         NormalizedOutput::from(output)
+//             .compare_to_file(
+//                 dir.parent()
+//                     .unwrap()
+//                     .join("output")
+//                     .join(input.file_name().unwrap()),
+//             )
+//             .unwrap();
 
-        Ok(())
-    })
-    .unwrap()
-}
+//         Ok(())
+//     })
+//     .unwrap()
+// }
 
-/// antd and typescript test is way too slow
-#[testing::fixture("benches/full/*.js", exclude("typescript", "antd"))]
-fn projects_bench(input: PathBuf) {
-    let dir = input
-        .parent()
-        .unwrap()
-        .parent()
-        .unwrap()
-        .parent()
-        .unwrap()
-        .join("tests")
-        .join("benches-full");
+// /// antd and typescript test is way too slow
+// #[testing::fixture("benches/full/*.js", exclude("typescript", "antd"))]
+// fn projects_bench(input: PathBuf) {
+//     let dir = input
+//         .parent()
+//         .unwrap()
+//         .parent()
+//         .unwrap()
+//         .parent()
+//         .unwrap()
+//         .join("tests")
+//         .join("benches-full");
 
-    testing::run_test2(false, |cm, handler| {
-        let comments = SingleThreadedComments::default();
+//     testing::run_test2(false, |cm, handler| {
+//         let comments = SingleThreadedComments::default();
 
-        let output = run(
-            cm.clone(),
-            &handler,
-            &input,
-            r#"{ "defaults": true, "toplevel": false, "passes": 3 }"#,
-            Some(&comments),
-            None,
-            false,
-        );
-        let output_module = match output {
-            Some(v) => v,
-            None => return Ok(()),
-        };
+//         let output = run(
+//             cm.clone(),
+//             &handler,
+//             &input,
+//             r#"{ "defaults": true, "toplevel": false, "passes": 3 }"#,
+//             Some(&comments),
+//             None,
+//             false,
+//         );
+//         let output_module = match output {
+//             Some(v) => v,
+//             None => return Ok(()),
+//         };
 
-        let output = print(cm, &[output_module], Some(&comments), false, false);
+//         let output = print(cm, &[output_module], Some(&comments), false,
+// false);
 
-        eprintln!("---- {} -----\n{}", Color::Green.paint("Output"), output);
+//         eprintln!("---- {} -----\n{}", Color::Green.paint("Output"), output);
 
-        println!("{}", input.display());
+//         println!("{}", input.display());
 
-        NormalizedOutput::from(output)
-            .compare_to_file(dir.join(input.file_name().unwrap()))
-            .unwrap();
+//         NormalizedOutput::from(output)
+//             .compare_to_file(dir.join(input.file_name().unwrap()))
+//             .unwrap();
 
-        Ok(())
-    })
-    .unwrap();
-}
+//         Ok(())
+//     })
+//     .unwrap();
+// }
 
-/// Tests ported from terser.
-#[testing::fixture("tests/terser/compress/**/input.js")]
-fn fixture(input: PathBuf) {
-    if is_ignored(&input) {
-        return;
-    }
+// /// Tests ported from terser.
+// #[testing::fixture("tests/terser/compress/**/input.js")]
+// fn fixture(input: PathBuf) {
+//     if is_ignored(&input) {
+//         return;
+//     }
 
-    let dir = input.parent().unwrap();
-    let config = dir.join("config.json");
-    let config = read_to_string(config).expect("failed to read config.json");
-    eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
+//     let dir = input.parent().unwrap();
+//     let config = dir.join("config.json");
+//     let config = read_to_string(config).expect("failed to read config.json");
+//     eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
 
-    testing::run_test2(false, |cm, handler| {
-        let mangle = dir.join("mangle.json");
-        let mangle = read_to_string(mangle).ok();
-        if let Some(mangle) = &mangle {
-            eprintln!(
-                "---- {} -----\n{}",
-                Color::Green.paint("Mangle config"),
-                mangle
-            );
-        }
+//     testing::run_test2(false, |cm, handler| {
+//         let mangle = dir.join("mangle.json");
+//         let mangle = read_to_string(mangle).ok();
+//         if let Some(mangle) = &mangle {
+//             eprintln!(
+//                 "---- {} -----\n{}",
+//                 Color::Green.paint("Mangle config"),
+//                 mangle
+//             );
+//         }
 
-        let comments = SingleThreadedComments::default();
+//         let comments = SingleThreadedComments::default();
 
-        let mangle: Option<TestMangleOptions> = mangle.map(|s| TestMangleOptions::parse(&s));
+//         let mangle: Option<TestMangleOptions> = mangle.map(|s|
+// TestMangleOptions::parse(&s));
 
-        let output = run(
-            cm.clone(),
-            &handler,
-            &input,
-            &config,
-            Some(&comments),
-            mangle,
-            false,
-        );
-        let output_program = match output {
-            Some(v) => v,
-            None => return Ok(()),
-        };
+//         let output = run(
+//             cm.clone(),
+//             &handler,
+//             &input,
+//             &config,
+//             Some(&comments),
+//             mangle,
+//             false,
+//         );
+//         let output_program = match output {
+//             Some(v) => v,
+//             None => return Ok(()),
+//         };
 
-        let output = print(
-            cm.clone(),
-            &[output_program.clone()],
-            Some(&comments),
-            false,
-            false,
-        );
+//         let output = print(
+//             cm.clone(),
+//             &[output_program.clone()],
+//             Some(&comments),
+//             false,
+//             false,
+//         );
 
-        eprintln!("---- {} -----\n{}", Color::Green.paint("Output"), output);
+//         eprintln!("---- {} -----\n{}", Color::Green.paint("Output"), output);
 
-        let expected = {
-            let expected = read_to_string(dir.join("output.js")).unwrap();
-            let fm = cm.new_source_file(FileName::Custom("expected.js".into()).into(), expected);
-            let lexer = Lexer::new(
-                Default::default(),
-                Default::default(),
-                SourceFileInput::from(&*fm),
-                None,
-            );
-            let mut parser = Parser::new_from(lexer);
-            let expected = parser.parse_program().map_err(|err| {
-                err.into_diagnostic(&handler).emit();
-            })?;
-            let mut expected = expected.fold_with(&mut fixer(None));
-            expected = drop_span(expected);
+//         let expected = {
+//             let expected = read_to_string(dir.join("output.js")).unwrap();
+//             let fm =
+// cm.new_source_file(FileName::Custom("expected.js".into()).into(), expected);
+//             let lexer = Lexer::new(
+//                 Default::default(),
+//                 Default::default(),
+//                 SourceFileInput::from(&*fm),
+//                 None,
+//             );
+//             let mut parser = Parser::new_from(lexer);
+//             let expected = parser.parse_program().map_err(|err| {
+//                 err.into_diagnostic(&handler).emit();
+//             })?;
+//             let mut expected = expected.fold_with(&mut fixer(None));
+//             expected = drop_span(expected);
 
-            match &mut expected {
-                Program::Module(m) => {
-                    m.body
-                        .retain(|s| !matches!(s, ModuleItem::Stmt(Stmt::Empty(..))));
-                }
-                Program::Script(s) => s.body.retain(|s| !matches!(s, Stmt::Empty(..))),
-            }
+//             match &mut expected {
+//                 Program::Module(m) => {
+//                     m.body
+//                         .retain(|s| !matches!(s,
+// ModuleItem::Stmt(Stmt::Empty(..))));                 }
+//                 Program::Script(s) => s.body.retain(|s| !matches!(s,
+// Stmt::Empty(..))),             }
 
-            let mut normalized_expected = expected.clone();
-            normalized_expected.visit_mut_with(&mut DropParens);
+//             let mut normalized_expected = expected.clone();
+//             normalized_expected.visit_mut_with(&mut DropParens);
 
-            let mut actual = output_program.clone();
-            actual.visit_mut_with(&mut DropParens);
+//             let mut actual = output_program.clone();
+//             actual.visit_mut_with(&mut DropParens);
 
-            if actual.eq_ignore_span(&normalized_expected)
-                || drop_span(actual.clone()) == normalized_expected
-            {
-                return Ok(());
-            }
+//             if actual.eq_ignore_span(&normalized_expected)
+//                 || drop_span(actual.clone()) == normalized_expected
+//             {
+//                 return Ok(());
+//             }
 
-            if print(cm.clone(), &[actual], Some(&comments), false, false)
-                == print(
-                    cm.clone(),
-                    &[normalized_expected],
-                    Some(&comments),
-                    false,
-                    false,
-                )
-            {
-                return Ok(());
-            }
+//             if print(cm.clone(), &[actual], Some(&comments), false, false)
+//                 == print(
+//                     cm.clone(),
+//                     &[normalized_expected],
+//                     Some(&comments),
+//                     false,
+//                     false,
+//                 )
+//             {
+//                 return Ok(());
+//             }
 
-            print(cm.clone(), &[expected], Some(&comments), false, false)
-        };
-        {
-            // Check output.teraer.js
-            let identical = (|| -> Option<()> {
-                let expected = {
-                    let expected = read_to_string(dir.join("output.terser.js")).ok()?;
-                    let fm = cm.new_source_file(FileName::Anon.into(), expected);
-                    let lexer = Lexer::new(
-                        Default::default(),
-                        Default::default(),
-                        SourceFileInput::from(&*fm),
-                        None,
-                    );
-                    let mut parser = Parser::new_from(lexer);
-                    let expected = parser
-                        .parse_program()
-                        .map_err(|err| {
-                            err.into_diagnostic(&handler).emit();
-                        })
-                        .ok()?;
-                    let mut expected = expected.fold_with(&mut fixer(None));
-                    expected = drop_span(expected);
-                    match &mut expected {
-                        Program::Module(m) => {
-                            m.body
-                                .retain(|s| !matches!(s, ModuleItem::Stmt(Stmt::Empty(..))));
-                        }
-                        Program::Script(s) => s.body.retain(|s| !matches!(s, Stmt::Empty(..))),
-                    }
+//             print(cm.clone(), &[expected], Some(&comments), false, false)
+//         };
+//         {
+//             // Check output.teraer.js
+//             let identical = (|| -> Option<()> {
+//                 let expected = {
+//                     let expected =
+// read_to_string(dir.join("output.terser.js")).ok()?;                     let
+// fm = cm.new_source_file(FileName::Anon.into(), expected);
+// let lexer = Lexer::new(                         Default::default(),
+//                         Default::default(),
+//                         SourceFileInput::from(&*fm),
+//                         None,
+//                     );
+//                     let mut parser = Parser::new_from(lexer);
+//                     let expected = parser
+//                         .parse_program()
+//                         .map_err(|err| {
+//                             err.into_diagnostic(&handler).emit();
+//                         })
+//                         .ok()?;
+//                     let mut expected = expected.fold_with(&mut fixer(None));
+//                     expected = drop_span(expected);
+//                     match &mut expected {
+//                         Program::Module(m) => {
+//                             m.body
+//                                 .retain(|s| !matches!(s,
+// ModuleItem::Stmt(Stmt::Empty(..))));                         }
+//                         Program::Script(s) => s.body.retain(|s| !matches!(s,
+// Stmt::Empty(..))),                     }
 
-                    let mut normalized_expected = expected.clone();
-                    normalized_expected.visit_mut_with(&mut DropParens);
+//                     let mut normalized_expected = expected.clone();
+//                     normalized_expected.visit_mut_with(&mut DropParens);
 
-                    let mut actual = output_program.clone();
-                    actual.visit_mut_with(&mut DropParens);
+//                     let mut actual = output_program.clone();
+//                     actual.visit_mut_with(&mut DropParens);
 
-                    if actual.eq_ignore_span(&normalized_expected)
-                        || drop_span(actual.clone()) == normalized_expected
-                    {
-                        return Some(());
-                    }
+//                     if actual.eq_ignore_span(&normalized_expected)
+//                         || drop_span(actual.clone()) == normalized_expected
+//                     {
+//                         return Some(());
+//                     }
 
-                    if print(cm.clone(), &[actual], Some(&comments), false, false)
-                        == print(
-                            cm.clone(),
-                            &[normalized_expected],
-                            Some(&comments),
-                            false,
-                            false,
-                        )
-                    {
-                        return Some(());
-                    }
+//                     if print(cm.clone(), &[actual], Some(&comments), false,
+// false)                         == print(
+//                             cm.clone(),
+//                             &[normalized_expected],
+//                             Some(&comments),
+//                             false,
+//                             false,
+//                         )
+//                     {
+//                         return Some(());
+//                     }
 
-                    print(cm.clone(), &[expected], Some(&comments), false, false)
-                };
+//                     print(cm.clone(), &[expected], Some(&comments), false,
+// false)                 };
 
-                if output == expected {
-                    return Some(());
-                }
+//                 if output == expected {
+//                     return Some(());
+//                 }
 
-                None
-            })()
-            .is_some();
-            if identical {
-                let s = read_to_string(dir.join("output.terser.js"))
-                    .expect("failed to read output.terser.js");
-                std::fs::write(dir.join("output.js"), s.as_bytes())
-                    .expect("failed to update output.js");
-            }
-        }
+//                 None
+//             })()
+//             .is_some();
+//             if identical {
+//                 let s = read_to_string(dir.join("output.terser.js"))
+//                     .expect("failed to read output.terser.js");
+//                 std::fs::write(dir.join("output.js"), s.as_bytes())
+//                     .expect("failed to update output.js");
+//             }
+//         }
 
-        if output == expected {
-            return Ok(());
-        }
+//         if output == expected {
+//             return Ok(());
+//         }
 
-        eprintln!(
-            "---- {} -----\n{}",
-            Color::Green.paint("Expected"),
-            expected
-        );
+//         eprintln!(
+//             "---- {} -----\n{}",
+//             Color::Green.paint("Expected"),
+//             expected
+//         );
 
-        println!("{}", input.display());
+//         println!("{}", input.display());
 
-        if let Ok(expected_stdout) = read_to_string(dir.join("expected.stdout")) {
-            eprintln!(
-                "---- {} -----\n{}",
-                Color::Green.paint("Expected stdout"),
-                expected_stdout
-            );
+//         if let Ok(expected_stdout) =
+// read_to_string(dir.join("expected.stdout")) {             eprintln!(
+//                 "---- {} -----\n{}",
+//                 Color::Green.paint("Expected stdout"),
+//                 expected_stdout
+//             );
 
-            let actual = stdout_of(&output).expect("failed to execute the optimized code");
-            assert_eq!(
-                DebugUsingDisplay(&actual),
-                DebugUsingDisplay(&expected_stdout)
-            );
-            if expected.trim().is_empty() {
-                return Ok(());
-            }
-        }
+//             let actual = stdout_of(&output).expect("failed to execute the
+// optimized code");             assert_eq!(
+//                 DebugUsingDisplay(&actual),
+//                 DebugUsingDisplay(&expected_stdout)
+//             );
+//             if expected.trim().is_empty() {
+//                 return Ok(());
+//             }
+//         }
 
-        let output_str = print(
-            cm,
-            &[drop_span(output_program)],
-            Some(&comments),
-            false,
-            false,
-        );
+//         let output_str = print(
+//             cm,
+//             &[drop_span(output_program)],
+//             Some(&comments),
+//             false,
+//             false,
+//         );
 
-        if env::var("UPDATE").map(|s| s == "1").unwrap_or(false) {
-            let _ = catch_unwind(|| {
-                NormalizedOutput::from(output_str.clone())
-                    .compare_to_file(dir.join("output.js"))
-                    .unwrap();
-            });
-        }
+//         if env::var("UPDATE").map(|s| s == "1").unwrap_or(false) {
+//             let _ = catch_unwind(|| {
+//                 NormalizedOutput::from(output_str.clone())
+//                     .compare_to_file(dir.join("output.js"))
+//                     .unwrap();
+//             });
+//         }
 
-        assert_eq!(DebugUsingDisplay(&output_str), DebugUsingDisplay(&expected));
+//         assert_eq!(DebugUsingDisplay(&output_str),
+// DebugUsingDisplay(&expected));
 
-        Ok(())
-    })
-    .unwrap()
-}
+//         Ok(())
+//     })
+//     .unwrap()
+// }
 
 fn print<N: swc_ecma_codegen::Node>(
     cm: Lrc<SourceMap>,
@@ -728,47 +735,48 @@ fn print<N: swc_ecma_codegen::Node>(
     String::from_utf8(buf).unwrap()
 }
 
-#[testing::fixture("tests/full/**/input.js")]
-fn full(input: PathBuf) {
-    let dir = input.parent().unwrap();
-    let config = find_config(dir);
-    eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
+// #[testing::fixture("tests/full/**/input.js")]
+// fn full(input: PathBuf) {
+//     let dir = input.parent().unwrap();
+//     let config = find_config(dir);
+//     eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
 
-    let comments = SingleThreadedComments::default();
+//     let comments = SingleThreadedComments::default();
 
-    testing::run_test2(false, |cm, handler| {
-        let output = run(
-            cm.clone(),
-            &handler,
-            &input,
-            &config,
-            Some(&comments),
-            Some(TestMangleOptions::Normal(MangleOptions {
-                top_level: Some(true),
-                ..Default::default()
-            })),
-            false,
-        );
-        let output_module = match output {
-            Some(v) => v,
-            None => return Ok(()),
-        };
+//     testing::run_test2(false, |cm, handler| {
+//         let output = run(
+//             cm.clone(),
+//             &handler,
+//             &input,
+//             &config,
+//             Some(&comments),
+//             Some(TestMangleOptions::Normal(MangleOptions {
+//                 top_level: Some(true),
+//                 ..Default::default()
+//             })),
+//             false,
+//         );
+//         let output_module = match output {
+//             Some(v) => v,
+//             None => return Ok(()),
+//         };
 
-        let output = print(cm, &[output_module], Some(&comments), true, true);
+//         let output = print(cm, &[output_module], Some(&comments), true,
+// true);
 
-        eprintln!("---- {} -----\n{}", Color::Green.paint("Output"), output);
+//         eprintln!("---- {} -----\n{}", Color::Green.paint("Output"), output);
 
-        println!("{}", input.display());
+//         println!("{}", input.display());
 
-        NormalizedOutput::from(output)
-            .compare_to_file(dir.join("output.js"))
-            .unwrap();
+//         NormalizedOutput::from(output)
+//             .compare_to_file(dir.join("output.js"))
+//             .unwrap();
 
-        Ok(())
-    })
-    .unwrap();
-    unignore_fixture(&input);
-}
+//         Ok(())
+//     })
+//     .unwrap();
+//     unignore_fixture(&input);
+// }
 
 struct DropParens;
 

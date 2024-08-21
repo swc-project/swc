@@ -848,6 +848,7 @@ impl Optimizer<'_> {
             Expr::Call(CallExpr {
                 callee: Callee::Expr(callee),
                 args,
+                ctxt,
                 ..
             }) => {
                 if let Expr::Fn(FnExpr {
@@ -875,7 +876,9 @@ impl Optimizer<'_> {
                 if let Expr::Ident(callee) = &**callee {
                     if self.options.reduce_vars && self.options.side_effects {
                         if let Some(usage) = self.data.vars.get(&callee.to_id()) {
-                            if !usage.reassigned && usage.pure_fn {
+                            if !usage.reassigned
+                                && (usage.pure_fn || ctxt.has_mark(self.marks.pure))
+                            {
                                 self.changed = true;
                                 report_change!("Reducing function call to a variable");
 

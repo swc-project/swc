@@ -180,7 +180,9 @@ impl Optimizer<'_> {
         if let Some(v) = self.data.vars.get(&i.to_id()).cloned() {
             if v.is_unused() {
                 if let Some(init) = init {
-                    if init.may_have_side_effects(&self.expr_ctx) {
+                    let eft = self.ignore_return_value(init);
+                    if let Some(eft) = eft {
+                        *init = eft;
                         log_abort!(
                             "unused: Cannot drop ({}) because its init expression has side effects",
                             dump(&*i, false)
