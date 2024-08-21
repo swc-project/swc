@@ -1,12 +1,13 @@
 use rustc_hash::FxHashSet;
 use swc_ecma_ast::*;
+use swc_ecma_usage_analyzer::marks::Marks;
 use swc_ecma_utils::find_pat_ids;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use crate::option::MangleOptions;
 
 /// Returns `(preserved, unresolved)`
-pub(crate) fn idents_to_preserve<N>(options: MangleOptions, n: &N) -> FxHashSet<Id>
+pub(crate) fn idents_to_preserve<N>(options: MangleOptions, marks: Marks, n: &N) -> FxHashSet<Id>
 where
     N: VisitWith<Preserver>,
 {
@@ -17,6 +18,14 @@ where
         in_top_level: false,
     };
     n.visit_with(&mut v);
+
+    let top_level_mark = marks.top_level_ctxt.outer();
+
+    // Force rename synthesized names
+    // See https://github.com/swc-project/swc/issues/9468
+    v.preserved
+        .retain(|id| id.1.outer().is_descendant_of(top_level_mark));
+
     v.preserved
 }
 pub(crate) struct Preserver {
