@@ -318,7 +318,15 @@ impl Optimizer<'_> {
         if !name.is_ident() {
             // TODO: Use smart logic
             if self.options.pure_getters != PureGetterOption::Bool(true) {
-                return;
+                let has_puer_ann = match init {
+                    Some(Expr::Call(c)) => c.ctxt.has_mark(self.marks.pure),
+                    Some(Expr::New(n)) => n.ctxt.has_mark(self.marks.pure),
+                    Some(Expr::TaggedTpl(t)) => t.ctxt.has_mark(self.marks.pure),
+                    _ => false,
+                };
+                if !has_puer_ann {
+                    return;
+                }
             }
 
             if let Some(init) = init.as_mut() {
