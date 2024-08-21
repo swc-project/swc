@@ -92,3 +92,7 @@ tokio = { workspace = true, features = ["rt"] }
 [[bench]]
 harness = false
 name    = "ecma_invoke"
+
+[[bench]]
+harness = false
+name    = "ecma_serde"
