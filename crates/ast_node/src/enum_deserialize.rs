@@ -277,14 +277,21 @@ pub fn expand(
                 arms: visit_bytes_arms,
             });
 
+            let description = format!("AST enum {}", ident);
+
+            let mut items = Vec::<syn::Item>::new();
+
             parse_quote!({
-                static VARIANTS: &[&str] = &[#all_tags];
-
-                struct __TypeVariantVisitor;
-
-                impl<'de> serde::de::Visitor<'de> for __TypeVariantVisitor {
-                    type Value = __TypeVariant;
-
+                #[allow(non_camel_case_types)]
+                #[doc(hidden)]
+                enum __Field {
+                    __field0,
+                    __field1,
+                }
+                #[doc(hidden)]
+                struct __FieldVisitor;
+                impl<'de> serde::de::Visitor<'de> for __FieldVisitor {
+                    type Value = __Field;
                     fn expecting(
                         &self,
                         __formatter: &mut swc_common::private::serde::Formatter,
@@ -294,7 +301,26 @@ pub fn expand(
                             "variant identifier",
                         )
                     }
-
+                    fn visit_u64<__E>(
+                        self,
+                        __value: u64,
+                    ) -> swc_common::private::serde::Result<Self::Value, __E>
+                    where
+                        __E: serde::de::Error,
+                    {
+                        match __value {
+                            0u64 => swc_common::private::serde::Ok(__Field::__field0),
+                            1u64 => swc_common::private::serde::Ok(__Field::__field1),
+                            _ => {
+                                swc_common::private::serde::Err(
+                                    serde::de::Error::invalid_value(
+                                        serde::de::Unexpected::Unsigned(__value),
+                                        &"variant index 0 <= i < 2",
+                                    ),
+                                )
+                            }
+                        }
+                    }
                     fn visit_str<__E>(
                         self,
                         __value: &str,
@@ -302,9 +328,16 @@ pub fn expand(
                     where
                         __E: serde::de::Error,
                     {
-                        #visit_str_body
+                        match __value {
+                            "A" => swc_common::private::serde::Ok(__Field::__field0),
+                            "B" => swc_common::private::serde::Ok(__Field::__field1),
+                            _ => {
+                                swc_common::private::serde::Err(
+                                    serde::de::Error::unknown_variant(__value, VARIANTS),
+                                )
+                            }
+                        }
                     }
-
                     fn visit_bytes<__E>(
                         self,
                         __value: &[u8],
@@ -312,11 +345,19 @@ pub fn expand(
                     where
                         __E: serde::de::Error,
                     {
-                        #visit_bytes_body
+                        match __value {
+                            b"A" => swc_common::private::serde::Ok(__Field::__field0),
+                            b"B" => swc_common::private::serde::Ok(__Field::__field1),
+                            _ => {
+                                let __value = &swc_common::private::serde::from_utf8_lossy(__value);
+                                swc_common::private::serde::Err(
+                                    serde::de::Error::unknown_variant(__value, VARIANTS),
+                                )
+                            }
+                        }
                     }
                 }
-
-                impl<'de> serde::Deserialize<'de> for __TypeVariant {
+                impl<'de> serde::Deserialize<'de> for __Field {
                     #[inline]
                     fn deserialize<__D>(
                         __deserializer: __D,
@@ -326,24 +367,34 @@ pub fn expand(
                     {
                         serde::Deserializer::deserialize_identifier(
                             __deserializer,
-                            __TypeVariantVisitor,
+                            __FieldVisitor,
                         )
                     }
                 }
 
-                let ty = swc_common::serializer::Type::deserialize(
-                    swc_common::private::serde::de::ContentRefDeserializer::<__D::Error>::new(
-                        &__content,
-                    ),
+                let (__tag, __content) = serde::Deserializer::deserialize_any(
+                    __deserializer,
+                    swc_common::private::serde::de::TaggedContentVisitor::<
+                        __Field,
+                    >::new("type", #description),
                 )?;
-
-                let __tagged = __TypeVariant::deserialize(
-                    swc_common::private::serde::de::ContentDeserializer::<__D::Error>::new(
-                        swc_common::private::serde::de::Content::Str(&ty.ty),
-                    ),
-                )?;
-
-                __tagged
+                let __deserializer = swc_common::private::serde::de::ContentDeserializer::<
+                    __D::Error,
+                >::new(__content);
+                match __tag {
+                    __Field::__field0 => {
+                        swc_common::private::serde::Result::map(
+                            <A as serde::Deserialize>::deserialize(__deserializer),
+                            Ambiguous::A,
+                        )
+                    }
+                    __Field::__field1 => {
+                        swc_common::private::serde::Result::map(
+                            <B as serde::Deserialize>::deserialize(__deserializer),
+                            Ambiguous::B,
+                        )
+                    }
+                }
             })
         };
 
