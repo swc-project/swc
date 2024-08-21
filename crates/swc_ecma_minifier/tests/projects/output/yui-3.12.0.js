@@ -4115,7 +4115,7 @@ Contains the core of YUI's feature test architecture.
        * @private
        * @param {Object} o The new configuration
        */ _config: function(o) {
-            var i, j, val, a, f, group, groupName, mod, self = this, mods = [];
+            var i, j, val, a, f, group, mod, self = this, mods = [];
             // apply config values
             if (o) {
                 for(i in o)if (o.hasOwnProperty(i)) {
@@ -4125,7 +4125,7 @@ Contains the core of YUI's feature test architecture.
                         defaultSkin: val
                     }), Y.mix(self.skin, val, !0);
                     else if ("groups" === i) {
-                        for(j in val)if (val.hasOwnProperty(j) && (groupName = j, group = val[j], self.addGroup(group, groupName), group.aliases)) for(a in group.aliases)group.aliases.hasOwnProperty(a) && self.addAlias(group.aliases[a], a);
+                        for(j in val)if (val.hasOwnProperty(j) && (group = val[j], self.addGroup(group, j), group.aliases)) for(a in group.aliases)group.aliases.hasOwnProperty(a) && self.addAlias(group.aliases[a], a);
                     } else if ("modules" === i) // add a hash of module definitions
                     for(j in val)val.hasOwnProperty(j) && self.addModule(val[j], j);
                     else if ("aliases" === i) for(j in val)val.hasOwnProperty(j) && self.addAlias(val[j], j);
@@ -4787,7 +4787,7 @@ Contains the core of YUI's feature test architecture.
        *        var out = loader.resolve(true);
        *
        */ resolve: function(calc, s) {
-            var len, i, m, url, group, groupName, j, frag, comboSource, comboSources, mods, comboBase, base, urls, tmpBase, baseLen, comboSep, maxURLLength, addSingle, u = [], resCombos = {}, self = this, inserted = self.ignoreRegistered ? {} : self.inserted, resolved = {
+            var len, i, m, url, group, groupName, j, frag, comboSource, comboSources, mods, comboBase, urls, tmpBase, baseLen, comboSep, maxURLLength, addSingle, u = [], resCombos = {}, self = this, inserted = self.ignoreRegistered ? {} : self.inserted, resolved = {
                 js: [],
                 jsMods: [],
                 css: [],
@@ -4821,12 +4821,12 @@ Contains the core of YUI's feature test architecture.
                 cssMods: []
             }, url = j, len = (mods = comboSources[j]).length)) for(i = 0; i < len; i++)!inserted[mods[i]] && ((m = mods[i]) && (m.combine || !m.ext) ? (resCombos[j].comboSep = m.comboSep, resCombos[j].group = m.group, resCombos[j].maxURLLength = m.maxURLLength, frag = (L.isValue(m.root) ? m.root : self.root) + (m.path || m.fullpath), frag = self._filter(frag, m.name), resCombos[j][m.type].push(frag), resCombos[j][m.type + "Mods"].push(m)) : mods[i] && addSingle(mods[i]));
             for(j in resCombos)if (resCombos.hasOwnProperty(j)) {
-                for(type in comboSep = resCombos[base = j].comboSep || self.comboSep, maxURLLength = resCombos[base].maxURLLength || self.maxURLLength, resCombos[base])if ("js" === type || "css" === type) {
-                    if (urls = resCombos[base][type], mods = resCombos[base][type + "Mods"], len = urls.length, baseLen = (tmpBase = base + urls.join(comboSep)).length, maxURLLength <= base.length && (maxURLLength = 1024), len) {
+                for(type in comboSep = resCombos[j].comboSep || self.comboSep, maxURLLength = resCombos[j].maxURLLength || self.maxURLLength, resCombos[j])if ("js" === type || "css" === type) {
+                    if (urls = resCombos[j][type], mods = resCombos[j][type + "Mods"], len = urls.length, baseLen = (tmpBase = j + urls.join(comboSep)).length, maxURLLength <= j.length && (maxURLLength = 1024), len) {
                         if (baseLen > maxURLLength) {
-                            for(s = 0, u = []; s < len; s++)u.push(urls[s]), (tmpBase = base + u.join(comboSep)).length > maxURLLength && (m = u.pop(), tmpBase = base + u.join(comboSep), resolved[type].push(self._filter(tmpBase, null, resCombos[base].group)), u = [], m && u.push(m));
-                            u.length && (tmpBase = base + u.join(comboSep), resolved[type].push(self._filter(tmpBase, null, resCombos[base].group)));
-                        } else resolved[type].push(self._filter(tmpBase, null, resCombos[base].group));
+                            for(s = 0, u = []; s < len; s++)u.push(urls[s]), (tmpBase = j + u.join(comboSep)).length > maxURLLength && (m = u.pop(), tmpBase = j + u.join(comboSep), resolved[type].push(self._filter(tmpBase, null, resCombos[j].group)), u = [], m && u.push(m));
+                            u.length && (tmpBase = j + u.join(comboSep), resolved[type].push(self._filter(tmpBase, null, resCombos[j].group)));
+                        } else resolved[type].push(self._filter(tmpBase, null, resCombos[j].group));
                     }
                     resolved[type + "Mods"] = resolved[type + "Mods"].concat(mods);
                 }
