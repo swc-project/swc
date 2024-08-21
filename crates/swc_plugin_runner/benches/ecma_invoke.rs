@@ -65,49 +65,52 @@ fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
     #[cfg(feature = "__rkyv")]
     b.iter(|| {
         GLOBALS.set(&Globals::new(), || {
-            let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
+            tokio::runtime::Runtime::new().unwrap().block_on(async {
+                let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
 
-            let fm = cm.new_source_file(
-                FileName::Real("src/test.ts".into()).into(),
-                SOURCE.to_string(),
-            );
+                let fm = cm.new_source_file(
+                    FileName::Real("src/test.ts".into()).into(),
+                    SOURCE.to_string(),
+                );
 
-            let program = parse_file_as_program(
-                &fm,
-                Default::default(),
-                EsVersion::latest(),
-                None,
-                &mut Vec::new(),
-            )
-            .unwrap();
-
-            let program = VersionedSerializable::new(program);
-            let program_ser = PluginSerializedBytes::try_serialize(&program).unwrap();
-
-            let mut transform_plugin_executor = swc_plugin_runner::create_plugin_transform_executor(
-                &cm,
-                &Mark::new(),
-                &Arc::new(TransformPluginMetadataContext::new(
+                let program = parse_file_as_program(
+                    &fm,
+                    Default::default(),
+                    EsVersion::latest(),
                     None,
-                    "development".to_string(),
-                    None,
-                )),
-                Box::new(plugin_module.clone()),
-                None,
-                None,
-            );
-
-            let experimental_metadata: VersionedSerializable<AHashMap<String, String>> =
-                VersionedSerializable::new(AHashMap::default());
-            let _experimental_metadata =
-                PluginSerializedBytes::try_serialize(&experimental_metadata)
-                    .expect("Should be a hashmap");
-
-            let res = transform_plugin_executor
-                .transform(&program_ser, Some(true))
+                    &mut Vec::new(),
+                )
                 .unwrap();
 
-            let _ = black_box(res);
+                let program = VersionedSerializable::new(program);
+                let program_ser = PluginSerializedBytes::try_serialize(&program).unwrap();
+
+                let mut transform_plugin_executor =
+                    swc_plugin_runner::create_plugin_transform_executor(
+                        &cm,
+                        &Mark::new(),
+                        &Arc::new(TransformPluginMetadataContext::new(
+                            None,
+                            "development".to_string(),
+                            None,
+                        )),
+                        Box::new(plugin_module.clone()),
+                        None,
+                        None,
+                    );
+
+                let experimental_metadata: VersionedSerializable<AHashMap<String, String>> =
+                    VersionedSerializable::new(AHashMap::default());
+                let _experimental_metadata =
+                    PluginSerializedBytes::try_serialize(&experimental_metadata)
+                        .expect("Should be a hashmap");
+
+                let res = transform_plugin_executor
+                    .transform(&program_ser, Some(true))
+                    .unwrap();
+
+                let _ = black_box(res);
+            });
         });
     })
 }
