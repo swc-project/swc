@@ -659,12 +659,6 @@ impl Pure<'_> {
             _ => return,
         };
 
-        #[cfg(feature = "debug")]
-        debug!(
-            "before: optimize_member_expr: {}",
-            dump(&*member_expr, false)
-        );
-
         if let Some(replacement) =
             self.optimize_member_expr(&mut member_expr.obj, &member_expr.prop)
         {
