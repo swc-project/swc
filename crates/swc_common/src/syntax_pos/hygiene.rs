@@ -69,10 +69,7 @@ impl SyntaxContext {
 struct SyntaxContextData {
     outer_mark: Mark,
     prev_ctxt: SyntaxContext,
-    // This context, but with all transparent and semi-transparent marks filtered away.
     opaque: SyntaxContext,
-    // This context, but with all transparent marks filtered away.
-    opaque_and_semitransparent: SyntaxContext,
 }
 
 /// A mark is a unique id associated with a macro expansion.
@@ -321,7 +318,6 @@ impl HygieneData {
                 outer_mark: Mark::root(),
                 prev_ctxt: SyntaxContext(0),
                 opaque: SyntaxContext(0),
-                opaque_and_semitransparent: SyntaxContext(0),
             }],
             markings: HashMap::default(),
         }
@@ -414,32 +410,16 @@ impl SyntaxContext {
         HygieneData::with(|data| {
             let syntax_contexts = &mut data.syntax_contexts;
             let mut opaque = syntax_contexts[self.0 as usize].opaque;
-            let opaque_and_semitransparent =
-                syntax_contexts[self.0 as usize].opaque_and_semitransparent;
 
             let prev_ctxt = opaque;
-            opaque = *data.markings.entry((prev_ctxt, mark)).or_insert_with(|| {
+            *data.markings.entry((prev_ctxt, mark)).or_insert_with(|| {
                 let new_opaque = SyntaxContext(syntax_contexts.len() as u32);
                 syntax_contexts.push(SyntaxContextData {
                     outer_mark: mark,
                     prev_ctxt,
                     opaque: new_opaque,
-                    opaque_and_semitransparent: new_opaque,
                 });
                 new_opaque
-            });
-
-            let prev_ctxt = self;
-            *data.markings.entry((prev_ctxt, mark)).or_insert_with(|| {
-                let new_opaque_and_semitransparent_and_transparent =
-                    SyntaxContext(syntax_contexts.len() as u32);
-                syntax_contexts.push(SyntaxContextData {
-                    outer_mark: mark,
-                    prev_ctxt,
-                    opaque,
-                    opaque_and_semitransparent,
-                });
-                new_opaque_and_semitransparent_and_transparent
             })
         })
     }
