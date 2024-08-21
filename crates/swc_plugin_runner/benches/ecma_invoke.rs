@@ -16,7 +16,7 @@ use swc_common::{
     collections::AHashMap, plugin::metadata::TransformPluginMetadataContext, FileName,
     FilePathMapping, Globals, Mark, SourceMap, GLOBALS,
 };
-use swc_ecma_ast::EsVersion;
+use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::parse_file_as_program;
 
 static SOURCE: &str = include_str!("../../swc_ecma_minifier/benches/full/typescript.js");
@@ -108,6 +108,8 @@ fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
                 let res = transform_plugin_executor
                     .transform(&program_ser, Some(true))
                     .unwrap();
+
+                let res = res.deserialize::<Program>().unwrap();
 
                 let _ = black_box(res);
             });
