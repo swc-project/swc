@@ -9,10 +9,7 @@ use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use super::Optimizer;
 #[cfg(feature = "debug")]
 use crate::debug::dump;
-use crate::{
-    compress::optimize::util::extract_class_side_effect, metadata::has_pure,
-    option::PureGetterOption,
-};
+use crate::{compress::optimize::util::extract_class_side_effect, option::PureGetterOption};
 
 #[derive(Debug, Default, Clone, Copy)]
 pub(crate) struct PropertyAccessOpts {
