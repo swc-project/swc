@@ -232,7 +232,7 @@ pub fn optimize(
         let _timer = timer!("mangle names");
         // TODO: base54.reset();
 
-        let preserved = idents_to_preserve(mangle.clone(), &n);
+        let preserved = idents_to_preserve(mangle.clone(), marks, &n);
 
         let chars = CharFreq::compute(
             &n,

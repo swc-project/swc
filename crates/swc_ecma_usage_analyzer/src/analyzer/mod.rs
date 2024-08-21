@@ -153,14 +153,14 @@ where
         self.data.report_usage(self.ctx, i)
     }
 
-    fn report_assign_pat(&mut self, p: &Pat, is_op: bool) {
+    fn report_assign_pat(&mut self, p: &Pat, is_read_modify: bool) {
         for id in find_pat_ids(p) {
-            self.data.report_assign(self.ctx, id, is_op)
+            self.data.report_assign(self.ctx, id, is_read_modify)
         }
 
         if let Pat::Expr(e) = p {
             match &**e {
-                Expr::Ident(i) => self.data.report_assign(self.ctx, i.to_id(), is_op),
+                Expr::Ident(i) => self.data.report_assign(self.ctx, i.to_id(), is_read_modify),
                 _ => self.mark_mutation_if_member(e.as_member()),
             }
         }
@@ -793,7 +793,7 @@ where
             n.right.visit_with(child);
 
             if let ForHead::Pat(pat) = &n.left {
-                child.with_ctx(head_ctx).report_assign_pat(pat, false)
+                child.with_ctx(head_ctx).report_assign_pat(pat, true)
             }
 
             let ctx = Ctx {
@@ -821,7 +821,7 @@ where
             n.left.visit_with(&mut *child.with_ctx(head_ctx));
 
             if let ForHead::Pat(pat) = &n.left {
-                child.with_ctx(head_ctx).report_assign_pat(pat, false)
+                child.with_ctx(head_ctx).report_assign_pat(pat, true)
             }
 
             let ctx = Ctx {
