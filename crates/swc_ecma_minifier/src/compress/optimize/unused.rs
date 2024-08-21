@@ -9,7 +9,10 @@ use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use super::Optimizer;
 #[cfg(feature = "debug")]
 use crate::debug::dump;
-use crate::{compress::optimize::util::extract_class_side_effect, option::PureGetterOption};
+use crate::{
+    compress::optimize::util::extract_class_side_effect, metadata::has_pure,
+    option::PureGetterOption,
+};
 
 #[derive(Debug, Default, Clone, Copy)]
 pub(crate) struct PropertyAccessOpts {
@@ -316,28 +319,29 @@ impl Optimizer<'_> {
         trace_op!("unused: take_pat_if_unused({})", dump(&*name, false));
 
         if !name.is_ident() {
+            let has_pure_ann = match init {
+                Some(Expr::Call(c)) => c.ctxt.has_mark(self.marks.pure),
+                Some(Expr::New(n)) => n.ctxt.has_mark(self.marks.pure),
+                Some(Expr::TaggedTpl(t)) => t.ctxt.has_mark(self.marks.pure),
+                _ => false,
+            };
+
             // TODO: Use smart logic
-            if self.options.pure_getters != PureGetterOption::Bool(true) {
-                let has_puer_ann = match init {
-                    Some(Expr::Call(c)) => c.ctxt.has_mark(self.marks.pure),
-                    Some(Expr::New(n)) => n.ctxt.has_mark(self.marks.pure),
-                    Some(Expr::TaggedTpl(t)) => t.ctxt.has_mark(self.marks.pure),
-                    _ => false,
-                };
-                if !has_puer_ann {
-                    return;
-                }
+            if !has_pure_ann && self.options.pure_getters != PureGetterOption::Bool(true) {
+                return;
             }
 
-            if let Some(init) = init.as_mut() {
-                if self.should_preserve_property_access(
-                    init,
-                    PropertyAccessOpts {
-                        allow_getter: false,
-                        only_ident: false,
-                    },
-                ) {
-                    return;
+            if !has_pure_ann {
+                if let Some(init) = init.as_mut() {
+                    if self.should_preserve_property_access(
+                        init,
+                        PropertyAccessOpts {
+                            allow_getter: false,
+                            only_ident: false,
+                        },
+                    ) {
+                        return;
+                    }
                 }
             }
         }
