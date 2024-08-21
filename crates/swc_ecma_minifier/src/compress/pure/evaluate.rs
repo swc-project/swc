@@ -2,11 +2,11 @@ use radix_fmt::Radix;
 use swc_common::{util::take::Take, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{number::ToJsString, ExprExt, IsEmpty, Value};
-#[cfg(feature = "debug")]
-use {crate::debug::dump, tracing::debug};
 
 use super::Pure;
 use crate::compress::util::{eval_as_number, is_pure_undefined_or_null};
+#[cfg(feature = "debug")]
+use crate::debug::dump;
 
 impl Pure<'_> {
     pub(super) fn eval_array_method_call(&mut self, e: &mut Expr) {
@@ -664,10 +664,10 @@ impl Pure<'_> {
         {
             *e = replacement;
             self.changed = true;
-            report_change!("member_expr: Optimized member expression");
-
-            #[cfg(feature = "debug")]
-            debug!("after: optimize_member_expr: {}", dump(&*e, false));
+            report_change!(
+                "member_expr: Optimized member expression as {}",
+                dump(&*e, false)
+            );
         }
     }
 
