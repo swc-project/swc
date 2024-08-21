@@ -1,3 +1,4 @@
+use once_cell::sync::Lazy;
 use rustc_hash::FxHashSet;
 use swc_atoms::JsWord;
 use swc_common::{util::take::Take, DUMMY_SP};
@@ -315,20 +316,20 @@ impl Optimizer<'_> {
 
         trace_op!("unused: take_pat_if_unused({})", dump(&*name, false));
 
-        if !name.is_ident() {
-            let has_pure_ann = match init {
-                Some(Expr::Call(c)) => c.ctxt.has_mark(self.marks.pure),
-                Some(Expr::New(n)) => n.ctxt.has_mark(self.marks.pure),
-                Some(Expr::TaggedTpl(t)) => t.ctxt.has_mark(self.marks.pure),
-                _ => false,
-            };
+        let has_pure_ann = Lazy::new(|| match init {
+            Some(Expr::Call(c)) => c.ctxt.has_mark(self.marks.pure),
+            Some(Expr::New(n)) => n.ctxt.has_mark(self.marks.pure),
+            Some(Expr::TaggedTpl(t)) => t.ctxt.has_mark(self.marks.pure),
+            _ => false,
+        });
 
+        if !name.is_ident() {
             // TODO: Use smart logic
-            if !has_pure_ann && self.options.pure_getters != PureGetterOption::Bool(true) {
+            if self.options.pure_getters != PureGetterOption::Bool(true) && !*has_pure_ann {
                 return;
             }
 
-            if !has_pure_ann {
+            if !*has_pure_ann {
                 if let Some(init) = init.as_mut() {
                     if self.should_preserve_property_access(
                         init,
