@@ -21,31 +21,29 @@ fn bench_rmp_serde(b: &mut Bencher) {
     #[cfg(feature = "__rkyv")]
     b.iter(|| {
         GLOBALS.set(&Globals::new(), || {
-            tokio::runtime::Runtime::new().unwrap().block_on(async {
-                let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
+            let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
 
-                let fm = cm.new_source_file(
-                    FileName::Real("src/test.ts".into()).into(),
-                    SOURCE.to_string(),
-                );
+            let fm = cm.new_source_file(
+                FileName::Real("src/test.ts".into()).into(),
+                SOURCE.to_string(),
+            );
 
-                let program = parse_file_as_program(
-                    &fm,
-                    Default::default(),
-                    EsVersion::latest(),
-                    None,
-                    &mut Vec::new(),
-                )
-                .unwrap();
+            let program = parse_file_as_program(
+                &fm,
+                Default::default(),
+                EsVersion::latest(),
+                None,
+                &mut Vec::new(),
+            )
+            .unwrap();
 
-                let program = VersionedSerializable::new(program);
-                let program_ser = PluginSerializedBytes::try_serialize(&program).unwrap();
-                let program_ser = black_box(program_ser);
+            let program = VersionedSerializable::new(program);
+            let program_ser = PluginSerializedBytes::try_serialize(&program).unwrap();
+            let program_ser = black_box(program_ser);
 
-                let res = program_ser.deserialize::<Program>().unwrap();
+            let res = program_ser.deserialize::<Program>().unwrap();
 
-                let _ = black_box(res);
-            });
+            let _ = black_box(res);
         });
     })
 }
