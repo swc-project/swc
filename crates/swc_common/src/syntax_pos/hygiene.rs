@@ -69,10 +69,7 @@ impl SyntaxContext {
 struct SyntaxContextData {
     outer_mark: Mark,
     prev_ctxt: SyntaxContext,
-    // This context, but with all transparent and semi-transparent marks filtered away.
     opaque: SyntaxContext,
-    // This context, but with all transparent marks filtered away.
-    opaque_and_semitransparent: SyntaxContext,
 }
 
 /// A mark is a unique id associated with a macro expansion.
@@ -83,7 +80,6 @@ pub struct Mark(u32);
 #[derive(Clone, Debug)]
 pub(crate) struct MarkData {
     pub(crate) parent: Mark,
-    pub(crate) is_builtin: bool,
 }
 
 #[cfg_attr(
@@ -103,8 +99,6 @@ extern "C" {
     // on their side.
     fn __mark_fresh_proxy(mark: u32) -> u32;
     fn __mark_parent_proxy(self_mark: u32) -> u32;
-    fn __mark_is_builtin_proxy(self_mark: u32) -> u32;
-    fn __mark_set_builtin_proxy(self_mark: u32, is_builtin: u32);
     fn __syntax_context_apply_mark_proxy(self_syntax_context: u32, mark: u32) -> u32;
     fn __syntax_context_outer_proxy(self_mark: u32) -> u32;
 
@@ -135,10 +129,7 @@ impl Mark {
         // targeting wasm32-*.
         #[cfg(not(all(feature = "__plugin_mode", target_arch = "wasm32")))]
         return with_marks(|marks| {
-            marks.push(MarkData {
-                parent,
-                is_builtin: false,
-            });
+            marks.push(MarkData { parent });
             Mark(marks.len() as u32 - 1)
         });
     }
@@ -167,33 +158,6 @@ impl Mark {
 
         #[cfg(not(all(feature = "__plugin_mode", target_arch = "wasm32")))]
         return with_marks(|marks| marks[self.0 as usize].parent);
-    }
-
-    #[inline]
-    pub fn is_builtin(self) -> bool {
-        #[cfg(all(feature = "__plugin_mode", target_arch = "wasm32"))]
-        return unsafe { __mark_is_builtin_proxy(self.0) != 0 };
-
-        #[cfg(not(all(feature = "__plugin_mode", target_arch = "wasm32")))]
-        {
-            assert_ne!(self, Mark::root());
-
-            with_marks(|marks| marks[self.0 as usize].is_builtin)
-        }
-    }
-
-    #[inline]
-    pub fn set_is_builtin(self, is_builtin: bool) {
-        #[cfg(all(feature = "__plugin_mode", target_arch = "wasm32"))]
-        unsafe {
-            __mark_set_builtin_proxy(self.0, is_builtin as u32)
-        }
-        #[cfg(not(all(feature = "__plugin_mode", target_arch = "wasm32")))]
-        {
-            assert_ne!(self, Mark::root());
-
-            with_marks(|marks| marks[self.0 as usize].is_builtin = is_builtin)
-        }
     }
 
     #[allow(unused_assignments)]
@@ -321,7 +285,6 @@ impl HygieneData {
                 outer_mark: Mark::root(),
                 prev_ctxt: SyntaxContext(0),
                 opaque: SyntaxContext(0),
-                opaque_and_semitransparent: SyntaxContext(0),
             }],
             markings: HashMap::default(),
         }
@@ -414,32 +377,16 @@ impl SyntaxContext {
         HygieneData::with(|data| {
             let syntax_contexts = &mut data.syntax_contexts;
             let mut opaque = syntax_contexts[self.0 as usize].opaque;
-            let opaque_and_semitransparent =
-                syntax_contexts[self.0 as usize].opaque_and_semitransparent;
 
             let prev_ctxt = opaque;
-            opaque = *data.markings.entry((prev_ctxt, mark)).or_insert_with(|| {
+            *data.markings.entry((prev_ctxt, mark)).or_insert_with(|| {
                 let new_opaque = SyntaxContext(syntax_contexts.len() as u32);
                 syntax_contexts.push(SyntaxContextData {
                     outer_mark: mark,
                     prev_ctxt,
                     opaque: new_opaque,
-                    opaque_and_semitransparent: new_opaque,
                 });
                 new_opaque
-            });
-
-            let prev_ctxt = self;
-            *data.markings.entry((prev_ctxt, mark)).or_insert_with(|| {
-                let new_opaque_and_semitransparent_and_transparent =
-                    SyntaxContext(syntax_contexts.len() as u32);
-                syntax_contexts.push(SyntaxContextData {
-                    outer_mark: mark,
-                    prev_ctxt,
-                    opaque,
-                    opaque_and_semitransparent,
-                });
-                new_opaque_and_semitransparent_and_transparent
             })
         })
     }

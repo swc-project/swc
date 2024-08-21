@@ -105,9 +105,6 @@ impl Globals {
             hygiene_data: Mutex::new(hygiene::HygieneData::new()),
             marks: Mutex::new(vec![MarkData {
                 parent: Mark::root(),
-                // If the root is opaque, then loops searching for an opaque mark
-                // will automatically stop after reaching it.
-                is_builtin: true,
             }]),
             dummy_cnt: AtomicU32::new(DUMMY_RESERVE),
         }
