@@ -1,8 +1,9 @@
 use std::sync::Arc;
 
 use napi::{
-    bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
-    Task,
+    bindgen_prelude::{AbortSignal, AsyncTask, Buffer, Env, FromNapiValue},
+    sys::{napi_env, napi_value},
+    JsUnknown, NapiValue, Task,
 };
 use serde::Deserialize;
 use swc_core::{
@@ -39,7 +40,7 @@ impl MinifyTarget {
                 assert_eq!(
                     codes.len(),
                     1,
-                    "swc.minify does not support concatting multiple files yet"
+                    "swc.minify does not support concatenating multiple files yet"
                 );
 
                 let (filename, code) = codes.iter().next().unwrap();
@@ -67,7 +68,7 @@ impl Task for MinifyTask {
         .convert_err()
     }
 
-    fn resolve(&mut self, _env: napi::Env, output: Self::Output) -> napi::Result<Self::JsValue> {
+    fn resolve(&mut self, _env: Env, output: Self::Output) -> napi::Result<Self::JsValue> {
         Ok(output)
     }
 }
@@ -89,18 +90,14 @@ fn minify(code: Buffer, opts: Buffer, signal: Option<AbortSignal>) -> AsyncTask<
 pub fn minify_sync(code: Buffer, opts: Buffer) -> napi::Result<TransformOutput> {
     crate::util::init_default_trace_subscriber();
     let code: MinifyTarget = get_deserialized(code)?;
-    let opts = get_deserialized(opts)?;
-
     let c = get_compiler();
 
     let fm = code.to_file(c.cm.clone());
 
-    try_with(
-        c.cm.clone(),
-        false,
-        // TODO(kdy1): Maybe make this configurable?
-        ErrorFormat::Normal,
-        |handler| c.minify(fm, handler, &opts),
-    )
+    try_with(self.c.cm.clone(), false, ErrorFormat::Normal, |handler| {
+        let fm = input.to_file(self.c.cm.clone());
+
+        self.c.minify(fm, handler, &options)
+    })
     .convert_err()
 }
