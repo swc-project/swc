@@ -1,19 +1,18 @@
 {
     "name": "@swc/html-win32-arm64-msvc",
-    "version": "0.0.1",
+    "version": "1.7.16-nightly-20240820.1",
     "os": [
         "win32"
     ],
     "cpu": [
         "arm64"
     ],
-    "main": "html.win32-arm64-msvc.node",
+    "main": "swc-html.win32-arm64-msvc.node",
     "files": [
-        "html.win32-arm64-msvc.node"
+        "swc-html.win32-arm64-msvc.node"
     ],
-    "description": "Super-fast alternative for babel",
+    "description": "Super-fast HTML minifier",
     "keywords": [
-        "swc",
         "swcpack",
         "babel",
         "typescript",
