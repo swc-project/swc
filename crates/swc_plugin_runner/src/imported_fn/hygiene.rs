@@ -18,14 +18,6 @@ pub fn mark_parent_proxy(self_mark: u32) -> u32 {
     Mark::from_u32(self_mark).parent().as_u32()
 }
 
-pub fn mark_is_builtin_proxy(self_mark: u32) -> u32 {
-    Mark::from_u32(self_mark).is_builtin() as u32
-}
-
-pub fn mark_set_builtin_proxy(self_mark: u32, is_builtin: u32) {
-    Mark::from_u32(self_mark).set_is_builtin(is_builtin != 0);
-}
-
 /// A proxy to Mark::is_descendant_of_() that can be used in plugin.
 /// Original call site have mutable param, which we'll pass over as return value
 /// via serialized MutableMarkContext.
