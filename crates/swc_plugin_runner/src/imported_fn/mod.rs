@@ -133,8 +133,6 @@ pub(crate) fn build_import_object(
     // hygiene
     let mark_fresh_fn_decl = Function::new_typed(wasmer_store, mark_fresh_proxy);
     let mark_parent_fn_decl = Function::new_typed(wasmer_store, mark_parent_proxy);
-    let mark_is_builtin_fn_decl = Function::new_typed(wasmer_store, mark_is_builtin_proxy);
-    let mark_set_builtin_fn_decl = Function::new_typed(wasmer_store, mark_set_builtin_proxy);
     let mark_is_descendant_of_fn_decl =
         Function::new_typed_with_env(wasmer_store, base_env, mark_is_descendant_of_proxy);
 
@@ -254,8 +252,6 @@ pub(crate) fn build_import_object(
             // hygiene
             "__mark_fresh_proxy" => mark_fresh_fn_decl,
             "__mark_parent_proxy" => mark_parent_fn_decl,
-            "__mark_is_builtin_proxy" => mark_is_builtin_fn_decl,
-            "__mark_set_builtin_proxy" => mark_set_builtin_fn_decl,
             "__mark_is_descendant_of_proxy" => mark_is_descendant_of_fn_decl,
             "__mark_least_ancestor" => mark_least_ancestor_fn_decl,
             "__syntax_context_apply_mark_proxy" => syntax_context_apply_mark_fn_decl,

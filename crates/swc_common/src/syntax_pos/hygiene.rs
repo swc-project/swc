@@ -80,7 +80,6 @@ pub struct Mark(u32);
 #[derive(Clone, Debug)]
 pub(crate) struct MarkData {
     pub(crate) parent: Mark,
-    pub(crate) is_builtin: bool,
 }
 
 #[cfg_attr(
@@ -100,8 +99,6 @@ extern "C" {
     // on their side.
     fn __mark_fresh_proxy(mark: u32) -> u32;
     fn __mark_parent_proxy(self_mark: u32) -> u32;
-    fn __mark_is_builtin_proxy(self_mark: u32) -> u32;
-    fn __mark_set_builtin_proxy(self_mark: u32, is_builtin: u32);
     fn __syntax_context_apply_mark_proxy(self_syntax_context: u32, mark: u32) -> u32;
     fn __syntax_context_outer_proxy(self_mark: u32) -> u32;
 
@@ -132,10 +129,7 @@ impl Mark {
         // targeting wasm32-*.
         #[cfg(not(all(feature = "__plugin_mode", target_arch = "wasm32")))]
         return with_marks(|marks| {
-            marks.push(MarkData {
-                parent,
-                is_builtin: false,
-            });
+            marks.push(MarkData { parent });
             Mark(marks.len() as u32 - 1)
         });
     }
@@ -164,33 +158,6 @@ impl Mark {
 
         #[cfg(not(all(feature = "__plugin_mode", target_arch = "wasm32")))]
         return with_marks(|marks| marks[self.0 as usize].parent);
-    }
-
-    #[inline]
-    pub fn is_builtin(self) -> bool {
-        #[cfg(all(feature = "__plugin_mode", target_arch = "wasm32"))]
-        return unsafe { __mark_is_builtin_proxy(self.0) != 0 };
-
-        #[cfg(not(all(feature = "__plugin_mode", target_arch = "wasm32")))]
-        {
-            assert_ne!(self, Mark::root());
-
-            with_marks(|marks| marks[self.0 as usize].is_builtin)
-        }
-    }
-
-    #[inline]
-    pub fn set_is_builtin(self, is_builtin: bool) {
-        #[cfg(all(feature = "__plugin_mode", target_arch = "wasm32"))]
-        unsafe {
-            __mark_set_builtin_proxy(self.0, is_builtin as u32)
-        }
-        #[cfg(not(all(feature = "__plugin_mode", target_arch = "wasm32")))]
-        {
-            assert_ne!(self, Mark::root());
-
-            with_marks(|marks| marks[self.0 as usize].is_builtin = is_builtin)
-        }
     }
 
     #[allow(unused_assignments)]
