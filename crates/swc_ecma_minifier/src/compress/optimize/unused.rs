@@ -371,6 +371,10 @@ impl Optimizer<'_> {
                         None => {}
                     }
                 }
+
+                if has_pure_ann && arr.elems.iter().all(|e| e.is_none()) {
+                    name.take();
+                }
             }
 
             Pat::Object(obj) => {
