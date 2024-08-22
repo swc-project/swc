@@ -60,10 +60,13 @@ impl Task for MinifyTask {
         let input: MinifyTarget = deserialize_json(&self.code)?;
         let options: JsMinifyOptions = deserialize_json(&self.options)?;
 
-        try_with(self.c.cm.clone(), false, ErrorFormat::Normal, |handler| {
-            let fm = input.to_file(self.c.cm.clone());
-
+        try_with(self.c.cm.clone(), false, ErrorFormat::Normal, |handler| { 
+            let fm = input.to_file(self.c.cm.clone()); 
+        
             self.c.minify(fm, handler, &options)
+        })
+        .map_err(|err| {
+            napi::Error::from_reason(format!("Minification failed: {}", err))
         })
         .convert_err()
     }
@@ -94,10 +97,8 @@ pub fn minify_sync(code: Buffer, opts: Buffer) -> napi::Result<TransformOutput> 
 
     let fm = code.to_file(c.cm.clone());
 
-    try_with(self.c.cm.clone(), false, ErrorFormat::Normal, |handler| {
-        let fm = input.to_file(self.c.cm.clone());
-
-        self.c.minify(fm, handler, &options)
+    try_with(c.cm.clone(), false, opts.error_format, |handler| {
+        c.minify(fm, handler, &opts)
     })
     .convert_err()
 }
