@@ -305,6 +305,8 @@ pub fn expand(
                 })
                 .collect::<Vec<Arm>>();
 
+            let expected_variant_index = format!("variant index 0 <= i < {}", data.variants.len());
+
             parse_quote!({
                 #[allow(non_camel_case_types)]
                 #[doc(hidden)]
@@ -339,7 +341,7 @@ pub fn expand(
                                 swc_common::private::serde::Err(
                                     serde::de::Error::invalid_value(
                                         serde::de::Unexpected::Unsigned(__value),
-                                        &"variant index 0 <= i < 2",
+                                        &#expected_variant_index,
                                     ),
                                 )
                             }
