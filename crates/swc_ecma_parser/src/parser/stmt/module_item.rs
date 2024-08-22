@@ -241,12 +241,12 @@ impl<I: Tokens> Parser<I> {
                             }));
                         }
 
-                        let maybe_as: Ident = self.parse_binding_ident()?.into();
+                        let maybe_as: Ident = self.parse_binding_ident(false)?.into();
                         if maybe_as.sym == "as" {
                             if is!(self, IdentName) {
                                 // `import { type as as as } from 'mod'`
                                 // `import { type as as foo } from 'mod'`
-                                let local: Ident = self.parse_binding_ident()?.into();
+                                let local: Ident = self.parse_binding_ident(false)?.into();
 
                                 if type_only {
                                     self.emit_err(orig_name.span, SyntaxError::TS2206);
@@ -289,7 +289,7 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 if eat!(self, "as") {
-                    let local: Ident = self.parse_binding_ident()?.into();
+                    let local: Ident = self.parse_binding_ident(false)?.into();
                     return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
                         span: Span::new(start, local.span.hi()),
                         local,
@@ -316,7 +316,7 @@ impl<I: Tokens> Parser<I> {
             }
             ModuleExportName::Str(orig_str) => {
                 if eat!(self, "as") {
-                    let local: Ident = self.parse_binding_ident()?.into();
+                    let local: Ident = self.parse_binding_ident(false)?.into();
                     Ok(ImportSpecifier::Named(ImportNamedSpecifier {
                         span: Span::new(start, local.span.hi()),
                         local,
@@ -344,7 +344,7 @@ impl<I: Tokens> Parser<I> {
             in_generator: false,
             ..self.ctx()
         };
-        Ok(self.with_ctx(ctx).parse_binding_ident()?.into())
+        Ok(self.with_ctx(ctx).parse_binding_ident(false)?.into())
     }
 
     fn parse_export(&mut self, mut decorators: Vec<Decorator>) -> PResult<ModuleDecl> {

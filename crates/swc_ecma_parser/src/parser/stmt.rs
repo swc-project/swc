@@ -753,7 +753,7 @@ impl<'a, I: Tokens> Parser<I> {
     /// It's optional since es2019
     fn parse_catch_param(&mut self) -> PResult<Option<Pat>> {
         if eat!(self, '(') {
-            let mut pat = self.parse_binding_pat_or_ident()?;
+            let mut pat = self.parse_binding_pat_or_ident(false)?;
 
             let type_ann_start = cur_pos!(self);
 
@@ -967,7 +967,7 @@ impl<'a, I: Tokens> Parser<I> {
     ) -> PResult<VarDeclarator> {
         let start = cur_pos!(self);
 
-        let mut name = self.parse_binding_pat_or_ident()?;
+        let mut name = self.parse_binding_pat_or_ident(true)?;
 
         let definite = if self.input.syntax().typescript() {
             match name {
@@ -1332,7 +1332,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         if is_using_decl {
-            let name = self.parse_binding_ident()?;
+            let name = self.parse_binding_ident(false)?;
             let decl = VarDeclarator {
                 name: name.into(),
                 span: span!(self, start),
