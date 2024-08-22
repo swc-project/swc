@@ -35,6 +35,7 @@ pub fn expand(
         let deserialize_body: Expr = {
             let mut visit_str_arms = Vec::new();
             let mut visit_bytes_arms = Vec::new();
+            let mut all_tags = vec![];
 
             for variant in &data.variants {
                 let tags = variant
@@ -55,12 +56,17 @@ pub fn expand(
                         Some(tags)
                     })
                     .flat_map(|v| v.tags)
+                    .inspect(|tag| match tag {
+                        Lit::Str(s) => all_tags.push(s.value()),
+                        _ => unreachable!(),
+                    })
                     .collect::<Punctuated<_, token::Comma>>();
 
                 assert!(
                     !tags.is_empty(),
                     "All #[ast_node] enum variants have one or more tag"
                 );
+
                 let (str_pat, bytes_pat) = {
                     if tags.len() == 1
                         && match tags.first() {
@@ -229,6 +235,8 @@ pub fn expand(
             let expected_variant_index = format!("variant index 0 <= i < {}", data.variants.len());
 
             parse_quote!({
+                static VARIANTS: &[&str] = &[#(#all_tags),*];
+
                 #[allow(non_camel_case_types)]
                 #[doc(hidden)]
                 enum __Field {
