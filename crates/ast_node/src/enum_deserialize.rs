@@ -286,6 +286,24 @@ pub fn expand(
                 })
                 .collect::<Vec<Arm>>();
 
+            let tag_match_arms = data
+                .variants
+                .iter()
+                .map(|v| {
+                    let vi = &v.ident;
+                    let ty = &v.fields.iter().last().unwrap().ty;
+
+                    parse_quote!(
+                        __Field::#vi => {
+                            swc_common::private::serde::Result::map(
+                                <#ty as serde::Deserialize>::deserialize(__deserializer),
+                                #ident::#vi,
+                            )
+                        }
+                    )
+                })
+                .collect::<Vec<Arm>>();
+
             parse_quote!({
                 #[allow(non_camel_case_types)]
                 #[doc(hidden)]
@@ -374,18 +392,7 @@ pub fn expand(
                     __D::Error,
                 >::new(__content);
                 match __tag {
-                    __Field::__field0 => {
-                        swc_common::private::serde::Result::map(
-                            <A as serde::Deserialize>::deserialize(__deserializer),
-                            Ambiguous::A,
-                        )
-                    }
-                    __Field::__field1 => {
-                        swc_common::private::serde::Result::map(
-                            <B as serde::Deserialize>::deserialize(__deserializer),
-                            Ambiguous::B,
-                        )
-                    }
+                    #(#tag_match_arms)*
                 }
             })
         };
