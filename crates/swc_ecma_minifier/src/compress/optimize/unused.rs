@@ -315,21 +315,31 @@ impl Optimizer<'_> {
 
         trace_op!("unused: take_pat_if_unused({})", dump(&*name, false));
 
+        let pure_mark = self.marks.pure;
+        let has_pure_ann = match init {
+            Some(Expr::Call(c)) => c.ctxt.has_mark(pure_mark),
+            Some(Expr::New(n)) => n.ctxt.has_mark(pure_mark),
+            Some(Expr::TaggedTpl(t)) => t.ctxt.has_mark(pure_mark),
+            _ => false,
+        };
+
         if !name.is_ident() {
             // TODO: Use smart logic
-            if self.options.pure_getters != PureGetterOption::Bool(true) {
+            if self.options.pure_getters != PureGetterOption::Bool(true) && !has_pure_ann {
                 return;
             }
 
-            if let Some(init) = init.as_mut() {
-                if self.should_preserve_property_access(
-                    init,
-                    PropertyAccessOpts {
-                        allow_getter: false,
-                        only_ident: false,
-                    },
-                ) {
-                    return;
+            if !has_pure_ann {
+                if let Some(init) = init.as_mut() {
+                    if self.should_preserve_property_access(
+                        init,
+                        PropertyAccessOpts {
+                            allow_getter: false,
+                            only_ident: false,
+                        },
+                    ) {
+                        return;
+                    }
                 }
             }
         }
@@ -361,6 +371,10 @@ impl Optimizer<'_> {
                         None => {}
                     }
                 }
+
+                if has_pure_ann && arr.elems.iter().all(|e| e.is_none()) {
+                    name.take();
+                }
             }
 
             Pat::Object(obj) => {
@@ -382,10 +396,16 @@ impl Optimizer<'_> {
 
                             self.take_pat_if_unused(&mut p.value, None, is_var_decl);
                         }
-                        ObjectPatProp::Assign(AssignPatProp {
-                            key, value: None, ..
-                        }) => {
-                            self.take_ident_of_pat_if_unused(key, None);
+                        ObjectPatProp::Assign(AssignPatProp { key, value, .. }) => {
+                            if has_pure_ann {
+                                if let Some(e) = value {
+                                    *value = self.ignore_return_value(e).map(Box::new);
+                                }
+                            }
+
+                            if value.is_none() {
+                                self.take_ident_of_pat_if_unused(key, None);
+                            }
                         }
                         _ => {}
                     }
