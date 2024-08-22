@@ -2,6 +2,7 @@ use std::mem::take;
 
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_utils::private_ident;
 use swc_ecma_visit::{as_folder, Fold, NodeRef, VisitMut, VisitMutWith};
 
 use crate::DecoratorVersion;
@@ -108,7 +109,40 @@ impl DecoratorPass {
 
                 let mut getter_key;
                 let mut setter_key;
+
+                match accesssor.key {
+                    Key::Public(PropName::Computed(key)) => {
+                        getter_key = memoise_computed_key(
+                            create_to_property_key_call(state, key),
+                            private_ident!("computedKey"),
+                        );
+                    }
+                    _ => {
+                        getter_key = accesssor.key.clone();
+                        setter_key = take(&mut accesssor.key);
+                    }
+                }
+
+                assign_id_for_anonymous_class(path, class_name);
+
+                add_proxy_accessor_for(getter_key, setter_key, new_field, is_static);
             }
+
+            if is_computed {
+                self.state.class.has_computed_keys_side_effects |= !is_static;
+            }
+        }
+
+        if class_decorators.is_empty() && !self.state.class.has_element_decorators {
+            // TODO:
+            // path.node.body.body.unshift(
+            //     createStaticBlockFromExpressions([
+            //       createSetFunctionNameCall(state, setClassName),
+            //     ]),
+            // );
+
+            // If nothing is decorated and no assignments inserted, return
+            return;
         }
 
         self.state.class = old_state;
