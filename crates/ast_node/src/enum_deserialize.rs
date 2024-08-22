@@ -94,7 +94,7 @@ pub fn expand(
 
                 Arm {
                     attrs: Default::default(),
-                    pat: Pat::Path(parse_quote!(__TypeVariant::#vi)),
+                    pat: Pat::Path(parse_quote!(__Field::#vi)),
                     guard: Default::default(),
                     fat_arrow_token: Token![=>](variant.ident.span()),
                     body: parse_quote!(
@@ -212,7 +212,7 @@ pub fn expand(
                     body: {
                         let vi = &variant.ident;
 
-                        parse_quote!(Ok(__TypeVariant::#vi))
+                        parse_quote!(Ok(__Field::#vi))
                     },
                     comma: Some(Token![,](variant.ident.span())),
                 });
@@ -224,7 +224,7 @@ pub fn expand(
                     body: {
                         let vi = &variant.ident;
 
-                        parse_quote!(Ok(__TypeVariant::#vi))
+                        parse_quote!(Ok(__Field::#vi))
                     },
                     comma: Some(Token![,](variant.ident.span())),
                 });
@@ -262,26 +262,13 @@ pub fn expand(
                 });
             }
 
-            let visit_str_body = Expr::Match(ExprMatch {
-                attrs: Default::default(),
-                match_token: Default::default(),
-                expr: parse_quote!(__value),
-                brace_token: Default::default(),
-                arms: visit_str_arms,
-            });
-            let visit_bytes_body = Expr::Match(ExprMatch {
-                attrs: Default::default(),
-                match_token: Default::default(),
-                expr: parse_quote!(__value),
-                brace_token: Default::default(),
-                arms: visit_bytes_arms,
-            });
-
             let description = format!("AST enum {}", ident);
 
-            let mut items = Vec::<syn::Item>::new();
-
-            let field_variants = data.variants.iter().map(|v| v.ident).collect::<Vec<_>>();
+            let field_variants = data
+                .variants
+                .iter()
+                .map(|v| v.ident.clone())
+                .collect::<Vec<_>>();
 
             let visit_u64_arms = data
                 .variants
@@ -347,13 +334,7 @@ pub fn expand(
                         __E: serde::de::Error,
                     {
                         match __value {
-                            "A" => swc_common::private::serde::Ok(__Field::__field0),
-                            "B" => swc_common::private::serde::Ok(__Field::__field1),
-                            _ => {
-                                swc_common::private::serde::Err(
-                                    serde::de::Error::unknown_variant(__value, VARIANTS),
-                                )
-                            }
+                            #(#visit_str_arms)*
                         }
                     }
                     fn visit_bytes<__E>(
@@ -364,14 +345,7 @@ pub fn expand(
                         __E: serde::de::Error,
                     {
                         match __value {
-                            b"A" => swc_common::private::serde::Ok(__Field::__field0),
-                            b"B" => swc_common::private::serde::Ok(__Field::__field1),
-                            _ => {
-                                let __value = &swc_common::private::serde::from_utf8_lossy(__value);
-                                swc_common::private::serde::Err(
-                                    serde::de::Error::unknown_variant(__value, VARIANTS),
-                                )
-                            }
+                            #(#visit_bytes_arms)*
                         }
                     }
                 }
