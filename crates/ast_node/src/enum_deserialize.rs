@@ -112,7 +112,7 @@ pub fn expand(
             })
             .collect::<Vec<Arm>>();
 
-        let tag_expr: Expr = {
+        let deserialize_body: Expr = {
             let mut visit_str_arms = Vec::new();
             let mut visit_bytes_arms = Vec::new();
 
@@ -400,25 +400,6 @@ pub fn expand(
             })
         };
 
-        let match_type_expr = Expr::Match(ExprMatch {
-            attrs: Default::default(),
-            match_token: Default::default(),
-            expr: parse_quote!(__tagged),
-            brace_token: Default::default(),
-            arms: tag_match_arms,
-        });
-
-        let variants: Punctuated<Variant, Token![,]> = {
-            data.variants
-                .iter()
-                .cloned()
-                .map(|variant| Variant {
-                    attrs: Default::default(),
-                    fields: Fields::Unit,
-                    ..variant
-                })
-                .collect()
-        };
         let item: ItemImpl = parse_quote!(
             #[cfg(feature = "serde-impl")]
             impl<'de> serde::Deserialize<'de> for #ident {
@@ -427,17 +408,7 @@ pub fn expand(
                 where
                     __D: serde::Deserializer<'de>,
                 {
-                    enum __TypeVariant {
-                        #variants,
-                    }
-
-                    let __content = <swc_common::private::serde::de::Content as serde::Deserialize>::deserialize(
-                                __deserializer,
-                            )?;
-
-                    let __tagged = #tag_expr;
-
-                    #match_type_expr
+                    #deserialize_body
                 }
             }
         );
