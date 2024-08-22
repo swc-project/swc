@@ -35,6 +35,8 @@ struct ClassState {
 
     proto_init_local: Ident,
     static_init_local: Ident,
+
+    instance_private_names: Vec<PrivateName>,
 }
 
 impl ClassState {
@@ -46,6 +48,26 @@ impl DecoratorPass {
         let old_state = take(&mut self.state.class);
 
         let class_decorators = take(&mut class.decorators);
+
+        // Iterate over the class to see if we need to decorate it, and also to
+        // transform simple auto accessors which are not decorated, and handle inferred
+        // class name when the initializer of the class field is a class expression
+
+        for el in class.body.iter_mut() {
+            if !is_class_decoratable_element_path(el) {
+                continue;
+            }
+
+            if !el.is_static() {
+                if let Key::Private(name) = el.key {
+                    self.state.instance_private_names.push(name);
+                }
+            }
+
+            if is_decorated(el) {
+                match el {}
+            }
+        }
 
         self.state.class = old_state;
     }
@@ -89,3 +111,7 @@ impl ClassState {
         })
     }
 }
+
+struct PropertyVisitor {}
+
+impl VisitMut for PropertyVisitor {}
