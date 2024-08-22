@@ -275,6 +275,7 @@ pub fn expand(
                 .iter()
                 .enumerate()
                 .map(|(idx, v)| {
+                    let idx = idx as u64;
                     let ident = &v.ident;
                     {
                         parse_quote!(
