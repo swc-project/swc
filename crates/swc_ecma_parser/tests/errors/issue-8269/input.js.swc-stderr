@@ -1,0 +1,7 @@
+  x Unexpected token `let`. Expected let is reserved in const, let, class declaration
+   ,-[$DIR/tests/errors/issue-8269/input.js:2:1]
+ 1 | {
+ 2 |     let let
+   :         ^^^
+ 3 | }
+   `----
