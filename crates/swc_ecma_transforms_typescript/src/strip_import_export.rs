@@ -122,9 +122,9 @@ impl UsageCollect {
         let mut new_usage = AHashSet::default();
         for id in &self.id_usage {
             let mut entry = self.import_chain.remove_entry(id);
-            while let Some((id, next)) = entry {
+            while let Some((_, next)) = entry {
+                entry = self.import_chain.remove_entry(&next);
                 new_usage.insert(next);
-                entry = self.import_chain.remove_entry(&id);
             }
             if self.import_chain.is_empty() {
                 break;
