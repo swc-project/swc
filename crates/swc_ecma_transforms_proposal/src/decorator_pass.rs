@@ -1,5 +1,6 @@
 use std::mem::take;
 
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, Fold, NodeRef, VisitMut, VisitMutWith};
 
@@ -64,8 +65,49 @@ impl DecoratorPass {
                 }
             }
 
-            if is_decorated(el) {
-                match el {}
+            if let Some(decorators) = decorators_of(el) {
+                match el {
+                    ClassMember::ClassProp(prop) => {
+                        prop.visit_mut_with(&mut PropertyVisitor {});
+                    }
+                    ClassMember::PrivateProp(prop) => {
+                        prop.visit_mut_with(&mut PropertyVisitor {});
+                    }
+
+                    ClassMember::AutoAccessor(accessor) => {
+                        accessor.visit_mut_with(&mut PropertyVisitor {});
+
+                        match self.version {
+                            DecoratorVersion::V202311 => {}
+                            _ => {
+                                if accessor.is_static {
+                                    self.state.class.static_init_local =
+                                        Ident::new_private("initStatic".into(), DUMMY_SP);
+                                } else {
+                                    self.state.class.proto_init_local =
+                                        Ident::new_private("initProto".into(), DUMMY_SP);
+                                }
+                            }
+                        }
+                    }
+
+                    _ => {}
+                }
+
+                self.state.class.has_element_decorators = true;
+                if !self.state.class.elem_decs_use_fn_context {
+                    self.state.class.elem_decs_use_fn_context |= decorators
+                        .iter()
+                        .any(|d| self.state.class.uses_function_context_or_yield_await(d))
+                }
+            } else if let ClassMember::AutoAccessor(accesssor) = el {
+                let is_static = accesssor.is_static;
+
+                let new_id = generate_class_private_uid();
+                let new_field = generate_class_property(new_id, accesssor.value, is_static);
+
+                let mut getter_key;
+                let mut setter_key;
             }
         }
 
