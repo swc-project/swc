@@ -281,15 +281,34 @@ pub fn expand(
 
             let mut items = Vec::<syn::Item>::new();
 
+            let field_variants = data.variants.iter().map(|v| v.ident).collect::<Vec<_>>();
+
+            let visit_u64_arms = data
+                .variants
+                .iter()
+                .enumerate()
+                .map(|(idx, v)| {
+                    let ident = &v.ident;
+                    {
+                        parse_quote!(
+                            #idx => {
+                                Ok(__Field::#ident)
+                            }
+                        )
+                    }
+                })
+                .collect::<Vec<Arm>>();
+
             parse_quote!({
                 #[allow(non_camel_case_types)]
                 #[doc(hidden)]
                 enum __Field {
-                    __field0,
-                    __field1,
+                    #(#field_variants),*
                 }
+
                 #[doc(hidden)]
                 struct __FieldVisitor;
+
                 impl<'de> serde::de::Visitor<'de> for __FieldVisitor {
                     type Value = __Field;
                     fn expecting(
@@ -309,8 +328,7 @@ pub fn expand(
                         __E: serde::de::Error,
                     {
                         match __value {
-                            0u64 => swc_common::private::serde::Ok(__Field::__field0),
-                            1u64 => swc_common::private::serde::Ok(__Field::__field1),
+                            #(#visit_u64_arms),*
                             _ => {
                                 swc_common::private::serde::Err(
                                     serde::de::Error::invalid_value(
