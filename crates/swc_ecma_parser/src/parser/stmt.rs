@@ -967,7 +967,9 @@ impl<'a, I: Tokens> Parser<I> {
     ) -> PResult<VarDeclarator> {
         let start = cur_pos!(self);
 
-        let mut name = self.parse_binding_pat_or_ident(true)?;
+        let is_let_or_const = matches!(kind, VarDeclKind::Let | VarDeclKind::Const);
+
+        let mut name = self.parse_binding_pat_or_ident(is_let_or_const)?;
 
         let definite = if self.input.syntax().typescript() {
             match name {
