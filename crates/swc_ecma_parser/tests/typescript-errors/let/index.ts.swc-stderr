@@ -1,4 +1,4 @@
-  x `let` cannot be used as an identifier in strict mode
+  x Unexpected token `let`. Expected let is reserved in const, let, class declaration
    ,-[$DIR/tests/typescript-errors/let/index.ts:3:1]
  2 | 
  3 | let let;
