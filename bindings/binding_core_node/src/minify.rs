@@ -65,9 +65,6 @@ impl Task for MinifyTask {
         
             self.c.minify(fm, handler, &options)
         })
-        .map_err(|err| {
-            napi::Error::from_reason(format!("Minification failed: {}", err))
-        })
         .convert_err()
     }
 
