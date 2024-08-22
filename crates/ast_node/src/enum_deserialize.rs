@@ -32,86 +32,6 @@ pub fn expand(
     let mut has_wildcard = false;
 
     let deserialize = {
-        let mut all_tags: Punctuated<_, token::Comma> = Default::default();
-        let tag_match_arms = data
-            .variants
-            .iter()
-            .map(|variant| {
-                let field_type = match variant.fields {
-                    Fields::Unnamed(ref fields) => {
-                        assert_eq!(
-                            fields.unnamed.len(),
-                            1,
-                            "#[ast_node] enum cannot contain variant with multiple fields"
-                        );
-
-                        fields.unnamed.last().unwrap().ty.clone()
-                    }
-                    _ => {
-                        unreachable!("#[ast_node] enum cannot contain named fields or unit variant")
-                    }
-                };
-                let tags = variant
-                    .attrs
-                    .iter()
-                    .filter_map(|attr| -> Option<VariantAttr> {
-                        if !is_attr_name(attr, "tag") {
-                            return None;
-                        }
-                        let tokens = match &attr.meta {
-                            Meta::List(meta) => meta.tokens.clone(),
-                            _ => {
-                                panic!("#[tag] attribute must be in form of #[tag(..)]")
-                            }
-                        };
-                        let tags = parse2(tokens).expect("failed to parse #[tag] attribute");
-
-                        Some(tags)
-                    })
-                    .flat_map(|v| v.tags)
-                    .collect::<Punctuated<_, token::Comma>>();
-
-                assert!(
-                    !tags.is_empty(),
-                    "All #[ast_node] enum variants have one or more tag"
-                );
-
-                // TODO: Clean up this code
-                if tags.len() == 1
-                    && match tags.first() {
-                        Some(Lit::Str(s)) => &*s.value() == "*",
-                        _ => false,
-                    }
-                {
-                    has_wildcard = true;
-                } else {
-                    for tag in tags.iter() {
-                        all_tags.push(tag.clone());
-                    }
-                }
-
-                let vi = &variant.ident;
-
-                Arm {
-                    attrs: Default::default(),
-                    pat: Pat::Path(parse_quote!(__Field::#vi)),
-                    guard: Default::default(),
-                    fat_arrow_token: Token![=>](variant.ident.span()),
-                    body: parse_quote!(
-                        swc_common::private::serde::Result::map(
-                            <#field_type as serde::Deserialize>::deserialize(
-                                swc_common::private::serde::de::ContentDeserializer::<
-                                    __D::Error,
-                                >::new(__content),
-                            ),
-                            Self::#vi,
-                        )
-                    ),
-                    comma: Some(Token![,](variant.ident.span())),
-                }
-            })
-            .collect::<Vec<Arm>>();
-
         let deserialize_body: Expr = {
             let mut visit_str_arms = Vec::new();
             let mut visit_bytes_arms = Vec::new();
@@ -148,6 +68,7 @@ pub fn expand(
                             _ => false,
                         }
                     {
+                        has_wildcard = true;
                         (
                             Pat::Wild(PatWild {
                                 attrs: Default::default(),
