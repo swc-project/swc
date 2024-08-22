@@ -1,5 +1,5 @@
 //// [for-of51.ts]
-//!   x `let` cannot be used as an identifier in strict mode
+//!   x Unexpected token `let`. Expected let is reserved in const, let, class declaration
 //!    ,----
 //!  1 | for (let let of []) {}
 //!    :          ^^^

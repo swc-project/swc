@@ -472,7 +472,7 @@ impl<I: Tokens> ParseObject<Pat> for Parser<I> {
             // spread element
             let dot3_token = span!(self, start);
 
-            let arg = Box::new(self.parse_binding_pat_or_ident()?);
+            let arg = Box::new(self.parse_binding_pat_or_ident(false)?);
 
             return Ok(ObjectPatProp::Rest(RestPat {
                 span: span!(self, start),

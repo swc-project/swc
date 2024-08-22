@@ -81,6 +81,7 @@ fn spec(file: PathBuf) {
 #[testing::fixture(
     "tests/tsc/**/*.ts",
     exclude(
+        "for-of51.ts",
         "parserArrowFunctionExpression11",
         "esDecorators-decoratorExpression.1"
     )

@@ -84,7 +84,7 @@ impl<I: Tokens> Parser<I> {
             expect!(p, "class");
 
             let ident = p
-                .parse_maybe_opt_binding_ident(is_ident_required)?
+                .parse_maybe_opt_binding_ident(is_ident_required, true)?
                 .map(Ident::from);
             if p.input.syntax().typescript() {
                 if let Some(span) = ident.invalid_class_name() {
@@ -1194,7 +1194,7 @@ impl<I: Tokens> Parser<I> {
                 in_class_field: false,
                 ..self.ctx()
             })
-            .parse_maybe_opt_binding_ident(is_ident_required)?
+            .parse_maybe_opt_binding_ident(is_ident_required, false)?
         } else {
             // function declaration does not change context for `BindingIdentifier`.
             self.with_ctx(Context {
@@ -1202,7 +1202,7 @@ impl<I: Tokens> Parser<I> {
                 in_class_field: false,
                 ..self.ctx()
             })
-            .parse_maybe_opt_binding_ident(is_ident_required)?
+            .parse_maybe_opt_binding_ident(is_ident_required, false)?
         }
         .map(Ident::from);
 
@@ -1254,11 +1254,18 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// If `required` is `true`, this never returns `None`.
-    fn parse_maybe_opt_binding_ident(&mut self, required: bool) -> PResult<Option<Ident>> {
+    fn parse_maybe_opt_binding_ident(
+        &mut self,
+        required: bool,
+        disallow_let: bool,
+    ) -> PResult<Option<Ident>> {
         if required {
-            self.parse_binding_ident().map(|v| v.id).map(Some)
+            self.parse_binding_ident(disallow_let)
+                .map(|v| v.id)
+                .map(Some)
         } else {
-            Ok(self.parse_opt_binding_ident()?.map(|v| v.id))
+            self.parse_opt_binding_ident(disallow_let)
+                .map(|v| v.map(|v| v.id))
         }
     }
 

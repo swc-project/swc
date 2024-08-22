@@ -1247,7 +1247,7 @@ impl<I: Tokens> Parser<I> {
             return Ok(true);
         }
 
-        if (is!(self, '{') || is!(self, '[')) && self.parse_binding_pat_or_ident().is_ok() {
+        if (is!(self, '{') || is!(self, '[')) && self.parse_binding_pat_or_ident(false).is_ok() {
             return Ok(true);
         }
 

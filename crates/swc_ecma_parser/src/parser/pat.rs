@@ -6,19 +6,22 @@ use swc_common::Spanned;
 use super::{util::ExprExt, *};
 use crate::{
     parser::{class_and_fn::is_not_this, expr::AssignTargetOrSpread},
-    token::IdentLike,
+    token::{IdentLike, Keyword},
 };
 
 impl<I: Tokens> Parser<I> {
     pub fn parse_pat(&mut self) -> PResult<Pat> {
-        self.parse_binding_pat_or_ident()
+        self.parse_binding_pat_or_ident(false)
     }
 
-    pub(super) fn parse_opt_binding_ident(&mut self) -> PResult<Option<BindingIdent>> {
+    pub(super) fn parse_opt_binding_ident(
+        &mut self,
+        disallow_let: bool,
+    ) -> PResult<Option<BindingIdent>> {
         trace_cur!(self, parse_opt_binding_ident);
 
         if is!(self, BindingIdent) || (self.input.syntax().typescript() && is!(self, "this")) {
-            self.parse_binding_ident().map(Some)
+            self.parse_binding_ident(disallow_let).map(Some)
         } else {
             Ok(None)
         }
@@ -27,8 +30,14 @@ impl<I: Tokens> Parser<I> {
     /// babel: `parseBindingIdentifier`
     ///
     /// spec: `BindingIdentifier`
-    pub(super) fn parse_binding_ident(&mut self) -> PResult<BindingIdent> {
+    pub(super) fn parse_binding_ident(&mut self, disallow_let: bool) -> PResult<BindingIdent> {
         trace_cur!(self, parse_binding_ident);
+
+        if disallow_let {
+            if let Some(Token::Word(Word::Keyword(Keyword::Let))) = self.input.cur() {
+                unexpected!(self, "let is reserved in const, let, class declaration")
+            }
+        }
 
         // "yield" and "await" is **lexically** accepted.
         let ident = self.parse_ident(true, true)?;
@@ -45,11 +54,11 @@ impl<I: Tokens> Parser<I> {
         Ok(ident.into())
     }
 
-    pub(super) fn parse_binding_pat_or_ident(&mut self) -> PResult<Pat> {
+    pub(super) fn parse_binding_pat_or_ident(&mut self, disallow_let: bool) -> PResult<Pat> {
         trace_cur!(self, parse_binding_pat_or_ident);
 
         match *cur!(self, true) {
-            tok!("yield") | Word(..) => self.parse_binding_ident().map(Pat::from),
+            tok!("yield") | Word(..) => self.parse_binding_ident(disallow_let).map(Pat::from),
             tok!('[') => self.parse_array_binding_pat(),
             tok!('{') => self.parse_object(),
             // tok!('(') => {
@@ -67,7 +76,7 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, parse_binding_element);
 
         let start = cur_pos!(self);
-        let left = self.parse_binding_pat_or_ident()?;
+        let left = self.parse_binding_pat_or_ident(false)?;
 
         if eat!(self, '=') {
             let right = self.include_in_expr(true).parse_assignment_expr()?;
@@ -116,7 +125,7 @@ impl<I: Tokens> Parser<I> {
                 is_rest = true;
                 let dot3_token = span!(self, start);
 
-                let pat = self.parse_binding_pat_or_ident()?;
+                let pat = self.parse_binding_pat_or_ident(false)?;
                 rest_span = span!(self, start);
                 let pat = RestPat {
                     span: rest_span,
@@ -299,7 +308,7 @@ impl<I: Tokens> Parser<I> {
                 is_rest = true;
                 let dot3_token = span!(self, pat_start);
 
-                let pat = self.parse_binding_pat_or_ident()?;
+                let pat = self.parse_binding_pat_or_ident(false)?;
                 let type_ann = if self.input.syntax().typescript() && is!(self, ':') {
                     let cur_pos = cur_pos!(self);
                     Some(self.parse_ts_type_ann(/* eat_colon */ true, cur_pos)?)
@@ -412,7 +421,7 @@ impl<I: Tokens> Parser<I> {
             let pat = if eat!(self, "...") {
                 let dot3_token = span!(self, pat_start);
 
-                let mut pat = self.parse_binding_pat_or_ident()?;
+                let mut pat = self.parse_binding_pat_or_ident(false)?;
 
                 if eat!(self, '=') {
                     let right = self.parse_assignment_expr()?;
@@ -940,7 +949,9 @@ mod tests {
     }
 
     fn object_pat(s: &'static str) -> Pat {
-        test_parser(s, Syntax::default(), |p| p.parse_binding_pat_or_ident())
+        test_parser(s, Syntax::default(), |p| {
+            p.parse_binding_pat_or_ident(false)
+        })
     }
 
     fn ident(s: &str) -> Ident {

@@ -431,7 +431,7 @@ impl<I: Tokens> Parser<I> {
                     return Ok(id.into());
                 }
 
-                let ident = self.parse_binding_ident()?;
+                let ident = self.parse_binding_ident(false)?;
                 if self.input.syntax().typescript() && ident.sym == "as" && !is!(self, "=>") {
                     // async as type
                     let type_ann = self.in_type().parse_with(|p| p.parse_ts_type())?;

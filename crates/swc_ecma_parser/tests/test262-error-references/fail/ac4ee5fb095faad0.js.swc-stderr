@@ -1,5 +1,5 @@
-  x Expression expected
+  x Unexpected token `let`. Expected let is reserved in const, let, class declaration
    ,-[$DIR/tests/test262-parser/fail/ac4ee5fb095faad0.js:1:1]
  1 | for (let x, y, z, let = 1;;;) {}
-   :                            ^
+   :                   ^^^
    `----
