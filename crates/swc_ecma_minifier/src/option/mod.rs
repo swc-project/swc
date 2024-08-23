@@ -31,7 +31,7 @@ pub struct ExtraOptions {
     /// It should be the [Mark] used for `resolver`.
     pub top_level_mark: Mark,
 
-    pub mangle_name_cache: Option<Arc<dyn MangleCahce>>,
+    pub mangle_name_cache: Option<Arc<dyn MangleCache>>,
 }
 
 #[derive(Debug, Default, Clone)]
@@ -442,7 +442,7 @@ impl Default for CompressOptions {
     }
 }
 
-pub trait MangleCahce: Send + Sync {
+pub trait MangleCache: Send + Sync {
     fn vars_cache(&self, op: &mut dyn FnMut(&FxHashMap<Atom, Atom>));
 
     fn props_cache(&self, op: &mut dyn FnMut(&FxHashMap<Atom, Atom>));
@@ -458,7 +458,7 @@ pub struct SimpleMangleCache {
     pub props: RwLock<FxHashMap<Atom, Atom>>,
 }
 
-impl MangleCahce for SimpleMangleCache {
+impl MangleCache for SimpleMangleCache {
     fn vars_cache(&self, op: &mut dyn FnMut(&FxHashMap<Atom, Atom>)) {
         let vars = self.vars.read();
         op(&vars);

@@ -140,7 +140,7 @@ use swc_ecma_codegen::{to_code, Node};
 use swc_ecma_loader::resolvers::{
     lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
 };
-use swc_ecma_minifier::option::{MangleCahce, MinifyOptions, TopLevelOptions};
+use swc_ecma_minifier::option::{MangleCache, MinifyOptions, TopLevelOptions};
 use swc_ecma_parser::{EsSyntax, Syntax};
 use swc_ecma_transforms::{
     fixer,
@@ -1048,13 +1048,13 @@ impl Compiler {
 }
 
 #[non_exhaustive]
-#[derive(Default)]
+#[derive(Clone, Default)]
 pub struct JsMinifyExtras {
-    pub mangle_name_cache: Option<Arc<dyn MangleCahce>>,
+    pub mangle_name_cache: Option<Arc<dyn MangleCache>>,
 }
 
 impl JsMinifyExtras {
-    pub fn with_mangle_name_cache(mut self, mangle_name_cache: Arc<dyn MangleCahce>) -> Self {
+    pub fn with_mangle_name_cache(mut self, mangle_name_cache: Arc<dyn MangleCache>) -> Self {
         self.mangle_name_cache = Some(mangle_name_cache);
         self
     }
