@@ -2,6 +2,7 @@
 
 use std::sync::Arc;
 
+use parking_lot::RwLock;
 use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
 use swc_atoms::{Atom, JsWord};
@@ -442,11 +443,39 @@ impl Default for CompressOptions {
 }
 
 pub trait MangleCahce {
-    fn vars_cache(&self) -> &FxHashMap<Atom, Atom>;
+    fn vars_cache(&self, op: &mut dyn FnMut(&FxHashMap<Atom, Atom>));
 
-    fn props_cache(&self) -> &FxHashMap<Atom, Atom>;
+    fn props_cache(&self, op: &mut dyn FnMut(&FxHashMap<Atom, Atom>));
 
     fn update_vars_cache(&self, new_data: &FxHashMap<Atom, Atom>);
 
     fn update_props_cache(&self, new_data: &FxHashMap<Atom, Atom>);
+}
+
+#[derive(Debug, Default)]
+pub struct SimpleMangleCache {
+    pub vars: RwLock<FxHashMap<Atom, Atom>>,
+    pub props: RwLock<FxHashMap<Atom, Atom>>,
+}
+
+impl MangleCahce for SimpleMangleCache {
+    fn vars_cache(&self, op: &mut dyn FnMut(&FxHashMap<Atom, Atom>)) {
+        let vars = self.vars.read();
+        op(&vars);
+    }
+
+    fn props_cache(&self, op: &mut dyn FnMut(&FxHashMap<Atom, Atom>)) {
+        let props = self.props.read();
+        op(&props);
+    }
+
+    fn update_vars_cache(&self, new_data: &FxHashMap<JsWord, JsWord>) {
+        let mut vars = self.vars.write();
+        vars.extend(new_data.iter().map(|(k, v)| (k.clone(), v.clone())));
+    }
+
+    fn update_props_cache(&self, new_data: &FxHashMap<JsWord, JsWord>) {
+        let mut props = self.props.write();
+        props.extend(new_data.iter().map(|(k, v)| (k.clone(), v.clone())));
+    }
 }
