@@ -440,6 +440,7 @@ impl VisitMut for MinifierPass<'_> {
                     &swc_ecma_minifier::option::ExtraOptions {
                         unresolved_mark,
                         top_level_mark,
+                        mangle_name_cache: None,
                     },
                 )
                 .expect_module()
@@ -502,6 +503,7 @@ impl VisitMut for MinifierPass<'_> {
                     &swc_ecma_minifier::option::ExtraOptions {
                         unresolved_mark,
                         top_level_mark,
+                        mangle_name_cache: None,
                     },
                 )
                 .expect_script()

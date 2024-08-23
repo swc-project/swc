@@ -104,6 +104,7 @@ fn snapshot_compress_fixture(input: PathBuf) {
             &ExtraOptions {
                 unresolved_mark,
                 top_level_mark,
+                mangle_name_cache: None,
             },
         );
 
@@ -166,6 +167,7 @@ fn fixture(input: PathBuf) {
             &ExtraOptions {
                 unresolved_mark,
                 top_level_mark,
+                mangle_name_cache: None,
             },
         );
 
@@ -203,6 +205,7 @@ fn assert_mangled(src: &str, expected: &str, opts: MangleOptions) {
             &ExtraOptions {
                 unresolved_mark,
                 top_level_mark,
+                mangle_name_cache: None,
             },
         );
 

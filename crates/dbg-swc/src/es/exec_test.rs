@@ -73,6 +73,7 @@ impl TestMinifiedBundleCommand {
                 &swc_ecma_minifier::option::ExtraOptions {
                     unresolved_mark: bundle.unresolved_mark,
                     top_level_mark: bundle.top_level_mark,
+                    mangle_name_cache: None,
                 },
             )
             .expect_module()

@@ -1068,6 +1068,7 @@ fn bundle(url: &str, minify: bool) -> String {
                         &swc_ecma_minifier::option::ExtraOptions {
                             unresolved_mark,
                             top_level_mark,
+                            mangle_name_cache: None,
                         },
                     )
                     .expect_module();

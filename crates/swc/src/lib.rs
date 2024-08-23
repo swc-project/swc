@@ -871,6 +871,7 @@ impl Compiler {
                     &swc_ecma_minifier::option::ExtraOptions {
                         unresolved_mark,
                         top_level_mark,
+                        mangle_name_cache: None,
                     },
                 );
 
