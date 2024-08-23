@@ -1,5 +1,6 @@
 use std::mem::take;
 
+use rustc_hash::FxHashSet;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::private_ident;
@@ -145,6 +146,14 @@ impl DecoratorPass {
             return;
         }
 
+        let element_decorator_info = vec![];
+        let mut decorated_private_methods = FxHashSet::<Atom>::default();
+
+        let mut class_init_local = None;
+        let mut class_id_local = None;
+
+        let mut decorator_receiver_id = None;
+
         self.state.class = old_state;
     }
 }
@@ -186,6 +195,13 @@ impl ClassState {
             _ => false,
         })
     }
+}
+
+struct HandleDecoratorResult {
+    has_side_effects: bool,
+    uses_fn_context: bool,
+
+    decorator_this: Vec<Option<Box<Expr>>>,
 }
 
 struct PropertyVisitor {}
