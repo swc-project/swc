@@ -37,7 +37,6 @@ struct DecoratorPass {
 
     extra_exports: Vec<ExportSpecifier>,
 
-    #[allow(unused)]
     version: DecoratorVersion,
 }
 
@@ -63,6 +62,10 @@ struct ClassState {
     class_decorators: Vec<Option<ExprOrSpread>>,
 
     super_class: Option<Ident>,
+
+    set_class_name: Option<Ident>,
+    maybe_private_brand_name: Option<PrivateName>,
+    class_decorations_flag: u32,
 }
 
 impl DecoratorPass {
@@ -101,6 +104,8 @@ impl DecoratorPass {
         ident.into()
     }
 
+    fn create_set_function_name_call(&self, name: &Ident) -> Box<Expr> {}
+
     /// Moves `cur_inits` to `extra_stmts`.
     ///
     /// Similar to https://github.com/babel/babel/blob/440fe413330f19fdb2c5fa63ffab87e67383d12d/packages/babel-helper-create-class-features-plugin/src/decorators.ts#L2081
@@ -109,6 +114,7 @@ impl DecoratorPass {
             && self.state.init_static_args.is_empty()
             && self.state.init_proto.is_none()
             && self.state.init_static.is_none()
+            && self.state.maybe_private_brand_name.is_none()
             && self.state.class_decorators.is_empty()
         {
             return;
@@ -221,11 +227,11 @@ impl DecoratorPass {
             DecoratorVersion::V202311 => {
                 //
 
-                if maybe_private_brand_name
+                if self.state.maybe_private_brand_name.is_some()
                     || self.state.super_class.is_some()
-                    || class_decorations_flag != 0
+                    || self.state.class_decorations_flag != 0
                 {
-                    combined_args.push(class_decorations_flag.as_arg());
+                    combined_args.push((self.state.class_decorations_flag as f64).as_arg());
                 }
 
                 if let Some(super_class) = self.state.super_class {
