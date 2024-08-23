@@ -156,6 +156,9 @@ impl DecoratorPass {
 
         self.state.class = old_state;
     }
+
+    /// Ported from `handleDecorators` at https://github.com/babel/babel/blob/440fe413330f19fdb2c5fa63ffab87e67383d12d/packages/babel-helper-create-class-features-plugin/src/decorators.ts#L1225-L1255
+    fn handle_decorators(&mut self, dec: Vec<Decorator>) -> HandleDecoratorsResult {}
 }
 
 impl VisitMut for DecoratorPass {
@@ -197,7 +200,7 @@ impl ClassState {
     }
 }
 
-struct HandleDecoratorResult {
+struct HandleDecoratorsResult {
     has_side_effects: bool,
     uses_fn_context: bool,
 
