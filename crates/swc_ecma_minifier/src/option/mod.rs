@@ -442,7 +442,7 @@ impl Default for CompressOptions {
     }
 }
 
-pub trait MangleCahce {
+pub trait MangleCahce: Send + Sync {
     fn vars_cache(&self, op: &mut dyn FnMut(&FxHashMap<Atom, Atom>));
 
     fn props_cache(&self, op: &mut dyn FnMut(&FxHashMap<Atom, Atom>));
