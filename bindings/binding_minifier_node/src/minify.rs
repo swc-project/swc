@@ -32,6 +32,11 @@ use swc_nodejs_common::{deserialize_json, get_deserialized, MapErr};
 
 use crate::util::try_with;
 
+#[napi(object)]
+pub struct NapiExtra {
+    pub mangle_name_cache: Option<NameMangleCache>,
+}
+
 struct MinifyTask {
     code: String,
     options: String,
@@ -254,14 +259,6 @@ impl Task for MinifyTask {
 
 type NameMangleCache = External<Arc<dyn MangleCache>>;
 
-fn parse_extras(extras: JsObject) -> JsMinifyExtras {
-    let mut r = JsMinifyExtras::default();
-    if let Ok(Some(mangle_name_cache)) = extras.get::<_, NameMangleCache>("mangleNameCache") {
-        r = r.with_mangle_name_cache((*mangle_name_cache).clone());
-    }
-    r
-}
-
 #[napi]
 fn new_mangle_name_cache() -> NameMangleCache {
     let cache = Arc::new(SimpleMangleCache::default());
@@ -272,13 +269,14 @@ fn new_mangle_name_cache() -> NameMangleCache {
 fn minify(
     code: Buffer,
     opts: Buffer,
-    extras: JsObject,
+    extras: NapiExtra,
     signal: Option<AbortSignal>,
 ) -> AsyncTask<MinifyTask> {
     crate::util::init_default_trace_subscriber();
     let code = String::from_utf8_lossy(code.as_ref()).to_string();
     let options = String::from_utf8_lossy(opts.as_ref()).to_string();
-    let extras = parse_extras(extras);
+    let extras = JsMinifyExtras::default()
+        .with_mangle_name_cache(extras.mangle_name_cache.as_deref().cloned());
 
     let task = MinifyTask {
         code,
@@ -290,11 +288,12 @@ fn minify(
 }
 
 #[napi]
-pub fn minify_sync(code: Buffer, opts: Buffer, extras: JsObject) -> napi::Result<TransformOutput> {
+pub fn minify_sync(code: Buffer, opts: Buffer, extras: NapiExtra) -> napi::Result<TransformOutput> {
     crate::util::init_default_trace_subscriber();
     let input: MinifyTarget = get_deserialized(code)?;
     let options = get_deserialized(opts)?;
-    let extras = parse_extras(extras);
+    let extras = JsMinifyExtras::default()
+        .with_mangle_name_cache(extras.mangle_name_cache.as_deref().cloned());
 
     do_work(input, options, extras)
 }

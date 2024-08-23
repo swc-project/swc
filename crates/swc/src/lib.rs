@@ -1054,8 +1054,11 @@ pub struct JsMinifyExtras {
 }
 
 impl JsMinifyExtras {
-    pub fn with_mangle_name_cache(mut self, mangle_name_cache: Arc<dyn MangleCache>) -> Self {
-        self.mangle_name_cache = Some(mangle_name_cache);
+    pub fn with_mangle_name_cache(
+        mut self,
+        mangle_name_cache: Option<Arc<dyn MangleCache>>,
+    ) -> Self {
+        self.mangle_name_cache = mangle_name_cache;
         self
     }
 }
