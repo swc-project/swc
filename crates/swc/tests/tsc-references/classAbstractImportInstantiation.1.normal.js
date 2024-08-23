@@ -11,4 +11,3 @@ var M;
 })(M || (M = {}));
 var myA = M.A;
 new myA;
-export { };

@@ -54,9 +54,8 @@ export { };
 //// [/i.ts]
 var h = {};
 console.log(h);
-export { }; // Error
 //// [/j.ts]
-export { }; // noUnusedLocals error only
+ // noUnusedLocals error only
 //// [/k.ts]
 //!   x Export assignment cannot be used when targeting ECMAScript modules. Consider using `export default` or another module format instead.
 //!    ,-[2:1]

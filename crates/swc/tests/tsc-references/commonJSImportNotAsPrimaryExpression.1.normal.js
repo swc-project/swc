@@ -32,9 +32,6 @@ var E1;
 })(E1 || (E1 = {}));
 //// [foo_1.ts]
 "use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 var i;
 var x = {};
 var y = false;

@@ -23,13 +23,9 @@ define([
 });
 //// [foo_1.ts]
 define([
-    "require",
-    "exports"
-], function(require, exports) {
+    "require"
+], function(require) {
     "use strict";
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
     var answer = 42; // No exports
 });
 //// [foo_2.ts]

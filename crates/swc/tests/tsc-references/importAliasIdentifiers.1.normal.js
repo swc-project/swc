@@ -41,4 +41,3 @@ function fundule() {
 var p;
 var p;
 var p;
-export { };
