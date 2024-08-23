@@ -23,6 +23,7 @@ pub enum DecoratorVersion {
 }
 
 pub mod decorator_2022_03;
+pub mod decorator_2023_11;
 mod decorator_impl;
 pub mod decorators;
 pub mod explicit_resource_management;
