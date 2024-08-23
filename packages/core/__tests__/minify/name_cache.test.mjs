@@ -5,13 +5,13 @@ const mangleNameCache = swc.experimental_newMangleNameCache()
 it('should not output same result if no name cache', async () => {
     const { code: code1 } = await swc.minify(`
         const fff = 1;
-        console.log(fff);
-    `, { toplevel: true });
+        export { fff }
+    `, { toplevel: true, module: true });
     const { code: code2 } = await swc.minify(`
         const fff = 1;
         const eeeeee = 2;
-        console.log(fff);
-    `, { toplevel: true })
+        export { fff }
+    `, { toplevel: true, module: true })
 
     expect(code1).not.toBe(code2)
 })
@@ -20,18 +20,20 @@ it('should not output same result if no name cache', async () => {
 it('should output same result if name cache', async () => {
     const { code: code1 } = await swc.minify(`
         const fff = 1;
-        console.log(fff);
+        export { fff }
     `, {
-        toplevel: true
+        toplevel: true,
+        module: true
     }, {
         mangleNameCache
     });
     const { code: code2 } = await swc.minify(`
         const fff = 1;
         const eeeeee = 2;
-        console.log(fff);
+        export { fff }
     `, {
-        toplevel: true
+        toplevel: true,
+        module: true
     }, {
         mangleNameCache
     })
