@@ -90,12 +90,12 @@ impl TypeScript {
         n.body
             .iter()
             .rev()
-            .find(|m| m.is_module_decl())
+            .find(|m| m.is_es_module_decl())
             .map(Spanned::span)
     }
 
     fn restore_esm_ctx(n: &mut Module, span: Span) {
-        if n.body.iter().any(ModuleItem::is_module_decl) {
+        if n.body.iter().any(ModuleItem::is_es_module_decl) {
             return;
         }
 
@@ -106,6 +106,36 @@ impl TypeScript {
             }
             .into(),
         );
+    }
+}
+
+trait EsModuleDecl {
+    fn is_es_module_decl(&self) -> bool;
+}
+
+impl EsModuleDecl for ModuleDecl {
+    fn is_es_module_decl(&self) -> bool {
+        // Do not use `matches!`
+        // We should cover all cases explicitly.
+        match self {
+            ModuleDecl::Import(..)
+            | ModuleDecl::ExportDecl(..)
+            | ModuleDecl::ExportNamed(..)
+            | ModuleDecl::ExportDefaultDecl(..)
+            | ModuleDecl::ExportDefaultExpr(..)
+            | ModuleDecl::ExportAll(..) => true,
+
+            ModuleDecl::TsImportEquals(..)
+            | ModuleDecl::TsExportAssignment(..)
+            | ModuleDecl::TsNamespaceExport(..) => false,
+        }
+    }
+}
+
+impl EsModuleDecl for ModuleItem {
+    fn is_es_module_decl(&self) -> bool {
+        self.as_module_decl()
+            .map_or(false, ModuleDecl::is_es_module_decl)
     }
 }
 
