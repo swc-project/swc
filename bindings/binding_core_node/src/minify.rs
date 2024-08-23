@@ -20,7 +20,7 @@ use crate::{get_compiler, util::try_with};
 struct MinifyTask {
     c: Arc<swc_core::base::Compiler>,
     code: String,
-    options: String,
+    options: JsMinifyOptions,
 }
 
 #[derive(Deserialize)]
@@ -58,9 +58,9 @@ impl Task for MinifyTask {
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
         let input: MinifyTarget = deserialize_json(&self.code)?;
-        let options: JsMinifyOptions = deserialize_json(&self.options)?;
+        let options = self.options.clone();
 
-        try_with(self.c.cm.clone(), false, ErrorFormat::Normal, |handler| { 
+        try_with(self.c.cm.clone(), false, options.error_format.unwrap_or(ErrorFormat::Normal), |handler| { 
             let fm = input.to_file(self.c.cm.clone()); 
         
             self.c.minify(fm, handler, &options)
@@ -77,7 +77,8 @@ impl Task for MinifyTask {
 fn minify(code: Buffer, opts: Buffer, signal: Option<AbortSignal>) -> AsyncTask<MinifyTask> {
     crate::util::init_default_trace_subscriber();
     let code = String::from_utf8_lossy(code.as_ref()).to_string();
-    let options = String::from_utf8_lossy(opts.as_ref()).to_string();
+    let opts_str = String::from_utf8_lossy(opts.as_ref()).to_string();
+    let options: JsMinifyOptions = deserialize_json(&opts_str).expect("Invalid options format");
 
     let c = get_compiler();
 
@@ -95,7 +96,7 @@ pub fn minify_sync(code: Buffer, opts: Buffer) -> napi::Result<TransformOutput> 
 
     let fm = code.to_file(c.cm.clone());
 
-    try_with(c.cm.clone(), false, options.error_format, |handler| {
+    try_with(c.cm.clone(), false, options.error_format.unwrap_or(ErrorFormat::Normal), |handler| {
         c.minify(fm, handler, &options)
     })
     .convert_err()
