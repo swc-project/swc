@@ -150,7 +150,7 @@ jobs:
       matrix:
         package:
           - core
-          - html
+          # - html
     needs:
       - git-tag-nightly
       - publish-cargo
@@ -197,7 +197,7 @@ jobs:
       matrix:
         package:
           - core
-          - html
+          # - html
     needs:
       - publish-cargo
       - run-ecosystem-ci-with-nightly
