@@ -154,6 +154,18 @@ impl DecoratorPass {
 
         let mut decorator_receiver_id = None;
 
+        let will_extract_some_element_decorators = has_computed_keys_side_effects;
+
+        let needs_declration_for_class_binding = false;
+        let class_decorations_flag = 0;
+        let class_decorations = Vec::<Box<Expr>>::new();
+        let mut class_decorations_id: Option<Ident> = None;
+        let mut computed_key_assignments = Vec::<AssignExpr>::new();
+
+        if !class_decorators.is_empty() {
+            class_init_local = generate_uid_identifier("initClass")
+        }
+
         self.state.class = old_state;
     }
 
