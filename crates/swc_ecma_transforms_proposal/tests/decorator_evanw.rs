@@ -1,7 +1,7 @@
 use std::{fs, path::PathBuf};
 
 use swc_ecma_parser::{EsSyntax, Syntax};
-use swc_ecma_transforms_proposal::decorator_2022_03::decorator_2022_03;
+use swc_ecma_transforms_proposal::decorator_2023_11::decorator_2023_11;
 use swc_ecma_transforms_testing::exec_tr;
 use swc_ecma_visit::as_folder;
 
@@ -64,7 +64,7 @@ fn fixture(input: PathBuf) {
             auto_accessors: true,
             ..Default::default()
         }),
-        |_| as_folder(decorator_2022_03()),
+        |_| as_folder(decorator_2023_11()),
         &code,
     );
 }
