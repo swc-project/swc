@@ -102,6 +102,8 @@ impl DecoratorPass {
     }
 
     /// Moves `cur_inits` to `extra_stmts`.
+    ///
+    /// Similar to https://github.com/babel/babel/blob/440fe413330f19fdb2c5fa63ffab87e67383d12d/packages/babel-helper-create-class-features-plugin/src/decorators.ts#L2081
     fn consume_inits(&mut self) {
         if self.state.init_proto_args.is_empty()
             && self.state.init_static_args.is_empty()
@@ -111,9 +113,13 @@ impl DecoratorPass {
         {
             return;
         }
+        let first_arg = match self.state.set_class_name {
+            Some(name) => self.state.create_set_function_name_call(name),
+            _ => ThisExpr { span: DUMMY_SP }.as_arg(),
+        };
 
         let mut e_lhs = Vec::new();
-        let mut combined_args = vec![ThisExpr { span: DUMMY_SP }.as_arg()];
+        let mut combined_args = vec![first_arg];
 
         for id in self
             .state
@@ -201,6 +207,43 @@ impl DecoratorPass {
             }))
         };
 
+        let mut rhs = match self.version {
+            DecoratorVersion::V202112 => todo!(),
+            DecoratorVersion::V202203 => Box::new(
+                CallExpr {
+                    span: DUMMY_SP,
+                    callee: helper!(apply_decs_2203_r),
+                    args: combined_args,
+                    ..Default::default()
+                }
+                .into(),
+            ),
+            DecoratorVersion::V202311 => {
+                //
+
+                if maybe_private_brand_name
+                    || self.state.super_class.is_some()
+                    || class_decorations_flag != 0
+                {
+                    combined_args.push(class_decorations_flag.as_arg());
+                }
+
+                if let Some(super_class) = self.state.super_class {
+                    combined_args.push(super_class.as_arg());
+                }
+
+                Box::new(
+                    CallExpr {
+                        span: DUMMY_SP,
+                        callee: helper!(apply_decs_2311),
+                        args: combined_args,
+                        ..Default::default()
+                    }
+                    .into(),
+                )
+            }
+        };
+
         let expr = AssignExpr {
             span: DUMMY_SP,
             op: op!("="),
@@ -211,15 +254,7 @@ impl DecoratorPass {
                 type_ann: None,
             }
             .into(),
-            right: Box::new(
-                CallExpr {
-                    span: DUMMY_SP,
-                    callee: helper!(apply_decs_2203_r),
-                    args: combined_args,
-                    ..Default::default()
-                }
-                .into(),
-            ),
+            right: rhs,
         }
         .into();
 
