@@ -301,5 +301,3 @@ fn perform_dce(m: &mut Program, options: &CompressOptions, extra: &ExtraOptions)
 
     debug_assert_valid(&*m);
 }
-
-pub trait MangleCahce {}

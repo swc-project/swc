@@ -1,10 +1,11 @@
 #![cfg_attr(not(feature = "extra-serde"), allow(unused))]
 
+use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
-use swc_atoms::JsWord;
+use swc_atoms::{Atom, JsWord};
 use swc_common::{collections::AHashMap, Mark};
 use swc_config::{merge::Merge, CachedRegex};
-use swc_ecma_ast::{EsVersion, Expr};
+use swc_ecma_ast::{EsVersion, Expr, Id};
 
 /// Implement default using serde.
 macro_rules! impl_default {
@@ -435,4 +436,10 @@ impl Default for CompressOptions {
             pristine_globals: true,
         }
     }
+}
+
+pub trait MangleCahce {
+    fn cache(&self) -> &FxHashMap<Id, Atom>;
+
+    fn update_cache(&mut self, new_data: &FxHashMap<Id, Atom>);
 }
