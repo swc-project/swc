@@ -92,7 +92,7 @@ fn new_mangle_name_cache() -> NameMangleCache {
 fn minify(
     code: Buffer,
     opts: Buffer,
-    extras: NapiExtra,
+    extras: NapiMinifyExtra,
     signal: Option<AbortSignal>,
 ) -> AsyncTask<MinifyTask> {
     crate::util::init_default_trace_subscriber();
@@ -114,7 +114,11 @@ fn minify(
 }
 
 #[napi]
-pub fn minify_sync(code: Buffer, opts: Buffer, extras: NapiExtra) -> napi::Result<TransformOutput> {
+pub fn minify_sync(
+    code: Buffer,
+    opts: Buffer,
+    extras: NapiMinifyExtra,
+) -> napi::Result<TransformOutput> {
     crate::util::init_default_trace_subscriber();
     let code: MinifyTarget = get_deserialized(code)?;
     let opts = get_deserialized(opts)?;
