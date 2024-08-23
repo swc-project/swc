@@ -1,6 +1,6 @@
 import swc from "../..";
 
-const mangleNameCache = swc.newMangleNameCache()
+const mangleNameCache = swc.experimental_newMangleNameCache()
 
 it('should not output same result if no name cache', async () => {
     const { code: code1 } = await swc.minify(`

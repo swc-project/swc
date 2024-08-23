@@ -11,7 +11,7 @@ import type {
 } from "@swc/types";
 export type * from "@swc/types";
 // @ts-ignore
-export { newMangleNameCache } from "./binding";
+export { newMangleNameCache as experimental_newMangleNameCache } from "./binding";
 import { BundleInput, compileBundleOptions } from "./spack";
 import * as assert from "assert";
 import type { NapiMinifyExtra } from "../binding";
