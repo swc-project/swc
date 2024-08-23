@@ -7,7 +7,7 @@ use serde::{Deserialize, Serialize};
 use swc_atoms::{Atom, JsWord};
 use swc_common::{collections::AHashMap, Mark};
 use swc_config::{merge::Merge, CachedRegex};
-use swc_ecma_ast::{EsVersion, Expr, Id};
+use swc_ecma_ast::{EsVersion, Expr};
 
 /// Implement default using serde.
 macro_rules! impl_default {
