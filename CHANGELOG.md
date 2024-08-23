@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.7.17] - 2024-08-23
 
 ### Bug Fixes
 
@@ -1294,9 +1294,6 @@
 
 
 - **(es/decorator)** Remove unsafe code ([#8839](https://github.com/swc-project/swc/issues/8839)) ([e8c6344](https://github.com/swc-project/swc/commit/e8c63447f64076de64002bcb5a3124b809df44ed))
-
-
-- **(visit)** Simplify `Vec::move_map` ([#8838](https://github.com/swc-project/swc/issues/8838)) ([b1973d4](https://github.com/swc-project/swc/commit/b1973d490afc8e4bc597192caab7a3aa8eb2701d))
 
 ### Testing
 
