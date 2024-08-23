@@ -30,7 +30,7 @@ pub struct ExtraOptions {
     /// It should be the [Mark] used for `resolver`.
     pub top_level_mark: Mark,
 
-    pub mangle_name_cache: Arc<dyn MangleCahce>,
+    pub mangle_name_cache: Option<Arc<dyn MangleCahce>>,
 }
 
 #[derive(Debug, Default, Clone)]
