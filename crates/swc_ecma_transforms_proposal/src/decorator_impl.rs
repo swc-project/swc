@@ -1304,14 +1304,20 @@ impl VisitMut for DecoratorPass {
                                 .extend(getter_var.into_iter().chain(setter_var));
                         }
 
-                        if accessor.is_static {
-                            self.state
-                                .init_static
-                                .get_or_insert_with(|| private_ident!("_initStatic"));
-                        } else {
-                            self.state
-                                .init_proto
-                                .get_or_insert_with(|| private_ident!("_initProto"));
+                        // https://github.com/babel/babel/blob/440fe413330f19fdb2c5fa63ffab87e67383d12d/packages/babel-helper-create-class-features-plugin/src/decorators.ts#L1130-L1143
+                        match self.version {
+                            DecoratorVersion::V202311 => {}
+                            _ => {
+                                if accessor.is_static {
+                                    self.state
+                                        .init_static
+                                        .get_or_insert_with(|| private_ident!("_initStatic"));
+                                } else {
+                                    self.state
+                                        .init_proto
+                                        .get_or_insert_with(|| private_ident!("_initProto"));
+                                }
+                            }
                         }
                     }
 
