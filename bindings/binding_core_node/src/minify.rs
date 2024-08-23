@@ -90,12 +90,13 @@ fn minify(code: Buffer, opts: Buffer, signal: Option<AbortSignal>) -> AsyncTask<
 pub fn minify_sync(code: Buffer, opts: Buffer) -> napi::Result<TransformOutput> {
     crate::util::init_default_trace_subscriber();
     let code: MinifyTarget = get_deserialized(code)?;
+    let options: JsMinifyOptions = deserialize_json(&String::from_utf8_lossy(opts.as_ref()).to_string())?;
     let c = get_compiler();
 
     let fm = code.to_file(c.cm.clone());
 
-    try_with(c.cm.clone(), false, opts.error_format, |handler| {
-        c.minify(fm, handler, &opts)
+    try_with(c.cm.clone(), false, options.error_format, |handler| {
+        c.minify(fm, handler, &options)
     })
     .convert_err()
 }
