@@ -18,7 +18,7 @@ use swc_core::{
 use crate::{get_compiler, util::try_with};
 
 #[napi(object)]
-pub struct NapiExtra {
+pub struct NapiMinifyExtra {
     #[napi(ts_type = "object")]
     pub mangle_name_cache: Option<NameMangleCache>,
 }

@@ -33,7 +33,7 @@ use swc_nodejs_common::{deserialize_json, get_deserialized, MapErr};
 use crate::util::try_with;
 
 #[napi(object)]
-pub struct NapiExtra {
+pub struct NapiMinifyExtra {
     #[napi(ts_type = "object")]
     pub mangle_name_cache: Option<NameMangleCache>,
 }
