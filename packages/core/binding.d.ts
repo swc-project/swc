@@ -12,15 +12,15 @@ export declare function getTargetTriple(): string
 
 export declare function initCustomTraceSubscriber(traceOutFilePath?: string | undefined | null): void
 
-export declare function minify(code: Buffer, opts: Buffer, extras: NapiExtra, signal?: AbortSignal | undefined | null): Promise<TransformOutput>
+export declare function minify(code: Buffer, opts: Buffer, extras: NapiMinifyExtra, signal?: AbortSignal | undefined | null): Promise<TransformOutput>
 
-export declare function minifySync(code: Buffer, opts: Buffer, extras: NapiExtra): TransformOutput
+export declare function minifySync(code: Buffer, opts: Buffer, extras: NapiMinifyExtra): TransformOutput
 
-export interface NapiExtra {
-  mangleNameCache?: NameMangleCache
+export interface NapiMinifyExtra {
+  mangleNameCache?: object
 }
 
-export declare function newMangleNameCache(): NameMangleCache
+export declare function newMangleNameCache(): object
 
 export declare function parse(src: string, options: Buffer, filename?: string | undefined | null, signal?: AbortSignal | undefined | null): Promise<string>
 
