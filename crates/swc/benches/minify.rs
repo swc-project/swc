@@ -46,6 +46,7 @@ fn bench_minify(b: &mut Bencher, filename: &str) {
                         emit_source_map_columns: true,
                         ..Default::default()
                     },
+                    Default::default(),
                 )
             })
         })
