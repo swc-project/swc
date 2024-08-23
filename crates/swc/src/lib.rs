@@ -140,7 +140,7 @@ use swc_ecma_codegen::{to_code, Node};
 use swc_ecma_loader::resolvers::{
     lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
 };
-use swc_ecma_minifier::option::{MinifyOptions, TopLevelOptions};
+use swc_ecma_minifier::option::{MangleCahce, MinifyOptions, TopLevelOptions};
 use swc_ecma_parser::{EsSyntax, Syntax};
 use swc_ecma_transforms::{
     fixer,
@@ -752,6 +752,7 @@ impl Compiler {
         fm: Arc<SourceFile>,
         handler: &Handler,
         opts: &JsMinifyOptions,
+        extras: JsMinifyExtras,
     ) -> Result<TransformOutput, Error> {
         self.run(|| {
             let _timer = timer!("Compiler::minify");
@@ -871,7 +872,7 @@ impl Compiler {
                     &swc_ecma_minifier::option::ExtraOptions {
                         unresolved_mark,
                         top_level_mark,
-                        mangle_name_cache: None,
+                        mangle_name_cache: extras.mangle_name_cache,
                     },
                 );
 
@@ -1043,6 +1044,19 @@ impl Compiler {
                 },
             )
         })
+    }
+}
+
+#[non_exhaustive]
+#[derive(Default)]
+pub struct JsMinifyExtras {
+    pub mangle_name_cache: Option<Arc<dyn MangleCahce>>,
+}
+
+impl JsMinifyExtras {
+    pub fn with_mangle_name_cache(mut self, mangle_name_cache: Arc<dyn MangleCahce>) -> Self {
+        self.mangle_name_cache = Some(mangle_name_cache);
+        self
     }
 }
 

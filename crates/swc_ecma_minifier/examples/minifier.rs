@@ -2,13 +2,13 @@
 
 extern crate swc_malloc;
 
-use std::{env::args, fs, path::Path};
+use std::{env::args, fs, path::Path, sync::Arc};
 
 use swc_common::{errors::HANDLER, sync::Lrc, Mark, SourceMap};
 use swc_ecma_codegen::text_writer::{omit_trailing_semi, JsWriter};
 use swc_ecma_minifier::{
     optimize,
-    option::{ExtraOptions, MangleOptions, MinifyOptions},
+    option::{ExtraOptions, MangleOptions, MinifyOptions, SimpleMangleCache},
 };
 use swc_ecma_parser::parse_file_as_module;
 use swc_ecma_transforms_base::{
@@ -59,7 +59,8 @@ fn main() {
                 &ExtraOptions {
                     unresolved_mark,
                     top_level_mark,
-                    mangle_name_cache: None,
+                    // Mangle name cache example. You may not need this.
+                    mangle_name_cache: Some(Arc::new(SimpleMangleCache::default())),
                 },
             )
             .expect_module();
