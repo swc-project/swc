@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::JsWord;
 use swc_common::{chain, Mark};
@@ -6,18 +8,23 @@ use swc_ecma_transforms_base::rename::{renamer, Renamer};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 pub(crate) use self::preserver::idents_to_preserve;
-use crate::{option::MangleOptions, util::base54::Base54Chars};
+use crate::{
+    option::{MangleCache, MangleOptions},
+    util::base54::Base54Chars,
+};
 
 mod preserver;
 mod private_name;
 
-pub(crate) fn name_mangler(
+pub(crate) fn mangle_names(
+    program: &mut Program,
     options: MangleOptions,
     preserved: FxHashSet<Id>,
     chars: Base54Chars,
     top_level_mark: Mark,
-) -> impl VisitMut {
-    chain!(
+    mangle_name_cache: Option<Arc<dyn MangleCache>>,
+) {
+    let pass = chain!(
         LabelMangler {
             chars,
             cache: Default::default(),
@@ -33,7 +40,7 @@ pub(crate) fn name_mangler(
             },
             ManglingRenamer { chars, preserved }
         )
-    )
+    );
 }
 
 struct ManglingRenamer {
