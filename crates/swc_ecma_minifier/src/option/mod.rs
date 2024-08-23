@@ -1,5 +1,7 @@
 #![cfg_attr(not(feature = "extra-serde"), allow(unused))]
 
+use std::sync::Arc;
+
 use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
 use swc_atoms::{Atom, JsWord};
@@ -21,13 +23,14 @@ macro_rules! impl_default {
 pub mod terser;
 
 /// This is not serializable.
-#[derive(Debug)]
 pub struct ExtraOptions {
     /// It should be the [Mark] used for `resolver`.
     pub unresolved_mark: Mark,
 
     /// It should be the [Mark] used for `resolver`.
     pub top_level_mark: Mark,
+
+    pub mangle_name_cache: Arc<dyn MangleCahce>,
 }
 
 #[derive(Debug, Default, Clone)]
