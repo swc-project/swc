@@ -1,7 +1,4 @@
 /*/<amd-module name='should-ignore'/> */ "use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 class Foo {
     x;
     constructor(){

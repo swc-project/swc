@@ -8,4 +8,3 @@
 //!  3 | 
 //!    `----
 //// [/project/index.ts]
-export { };

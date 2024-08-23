@@ -1,13 +1,9 @@
 ///<amd-module name='FirstModuleName'/>
 ///<amd-module name='SecondModuleName'/>
 define("SecondModuleName", [
-    "require",
-    "exports"
-], function(require, exports) {
+    "require"
+], function(require) {
     "use strict";
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
     class Foo {
         x;
         constructor(){
