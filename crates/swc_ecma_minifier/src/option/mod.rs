@@ -442,11 +442,11 @@ impl Default for CompressOptions {
 }
 
 pub trait MangleCahce {
-    fn vars_cache(&self) -> &FxHashMap<Id, Atom>;
+    fn vars_cache(&self) -> &FxHashMap<Atom, Atom>;
 
     fn props_cache(&self) -> &FxHashMap<Atom, Atom>;
 
-    fn update_vars_cache(&mut self, new_data: &FxHashMap<Id, Atom>);
+    fn update_vars_cache(&self, new_data: &FxHashMap<Atom, Atom>);
 
-    fn update_props_cache(&mut self, new_data: &FxHashMap<Atom, Atom>);
+    fn update_props_cache(&self, new_data: &FxHashMap<Atom, Atom>);
 }
