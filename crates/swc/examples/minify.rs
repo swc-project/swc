@@ -26,7 +26,7 @@ fn main() {
                     },
                     // Mangle name cache example. You may not need this.
                     JsMinifyExtras::default()
-                        .with_mangle_name_cache(Arc::new(SimpleMangleCache::default())),
+                        .with_mangle_name_cache(Some(Arc::new(SimpleMangleCache::default()))),
                 )
                 .context("failed to minify")
             })
