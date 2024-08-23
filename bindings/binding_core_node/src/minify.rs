@@ -19,6 +19,7 @@ use crate::{get_compiler, util::try_with};
 
 #[napi(object)]
 pub struct NapiExtra {
+    #[napi(ts_type = "object")]
     pub mangle_name_cache: Option<NameMangleCache>,
 }
 
@@ -81,7 +82,7 @@ impl Task for MinifyTask {
 
 type NameMangleCache = External<Arc<dyn MangleCache>>;
 
-#[napi]
+#[napi(ts_return_type = "object")]
 fn new_mangle_name_cache() -> NameMangleCache {
     let cache = Arc::new(SimpleMangleCache::default());
     External::new(cache)
