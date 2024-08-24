@@ -336,6 +336,45 @@ impl StmtLike for ModuleItem {
     }
 }
 
+/// Prepends statements after directive statements.
+pub trait StmtLikeInjector<S>
+where
+    S: StmtLike,
+{
+    fn prepend_stmt(&mut self, insert_with: S);
+    fn prepend_stmts<I>(&mut self, insert_with: I)
+    where
+        I: IntoIterator<Item = S>;
+}
+
+impl<S> StmtLikeInjector<S> for Vec<S>
+where
+    S: StmtLike,
+{
+    /// Note: If there is no directive, use `insert` instead.
+    fn prepend_stmt(&mut self, insert_with: S) {
+        let directive_pos = self
+            .iter()
+            .position(|stmt| !stmt.as_stmt().map_or(false, is_maybe_branch_directive))
+            .unwrap_or(self.len());
+
+        self.insert(directive_pos, insert_with);
+    }
+
+    /// Note: If there is no directive, use `splice` instead.
+    fn prepend_stmts<I>(&mut self, insert_with: I)
+    where
+        I: IntoIterator<Item = S>,
+    {
+        let directive_pos = self
+            .iter()
+            .position(|stmt| !stmt.as_stmt().map_or(false, is_maybe_branch_directive))
+            .unwrap_or(self.len());
+
+        self.splice(directive_pos..directive_pos, insert_with);
+    }
+}
+
 pub type BoolValue = Value<bool>;
 
 pub trait IsEmpty {
@@ -2218,17 +2257,9 @@ pub fn opt_chain_test(
 }
 
 /// inject `branch` after directives
+#[inline]
 pub fn prepend_stmt<T: StmtLike>(stmts: &mut Vec<T>, stmt: T) {
-    let idx = stmts
-        .iter()
-        .position(|item| {
-            item.as_stmt()
-                .map(|s| !is_maybe_branch_directive(s))
-                .unwrap_or(true)
-        })
-        .unwrap_or(stmts.len());
-
-    stmts.insert(idx, stmt);
+    stmts.prepend_stmt(stmt);
 }
 
 /// If the stmt is maybe a directive like `"use strict";`
@@ -2240,34 +2271,9 @@ pub fn is_maybe_branch_directive(stmt: &Stmt) -> bool {
 }
 
 /// inject `stmts` after directives
+#[inline]
 pub fn prepend_stmts<T: StmtLike>(to: &mut Vec<T>, stmts: impl ExactSizeIterator<Item = T>) {
-    let idx = to
-        .iter()
-        .position(|item| {
-            if let Some(&Stmt::Expr(ExprStmt { ref expr, .. })) = item.as_stmt() {
-                match &**expr {
-                    Expr::Lit(Lit::Str(..)) => return false,
-                    Expr::Call(expr) => match expr.callee {
-                        Callee::Super(_) | Callee::Import(_) => return false,
-                        Callee::Expr(_) => {}
-                    },
-                    _ => {}
-                }
-            }
-
-            true
-        })
-        .unwrap_or(to.len());
-
-    let mut buf = Vec::with_capacity(to.len() + stmts.len());
-    // TODO: Optimize (maybe unsafe)
-
-    buf.extend(to.drain(..idx));
-    buf.extend(stmts);
-    buf.append(to);
-    debug_assert!(to.is_empty());
-
-    *to = buf
+    to.prepend_stmts(stmts);
 }
 
 pub trait IsDirective {

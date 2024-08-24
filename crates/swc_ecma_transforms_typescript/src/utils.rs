@@ -139,32 +139,3 @@ impl Factory {
         }
     }
 }
-
-pub(crate) trait VecStmtLike {
-    type StmtLike;
-    fn inject_after_directive<T>(&mut self, replace_with: T)
-    where
-        T: IntoIterator<Item = Self::StmtLike>;
-}
-
-impl VecStmtLike for Vec<ModuleItem> {
-    type StmtLike = ModuleItem;
-
-    fn inject_after_directive<T>(&mut self, replace_with: T)
-    where
-        T: IntoIterator<Item = Self::StmtLike>,
-    {
-        let directive_pos = self
-            .iter()
-            .position(|stmt| match stmt {
-                // search first none directive
-                ModuleItem::Stmt(Stmt::Expr(ExprStmt { expr, .. })) => {
-                    !matches!(**expr, Expr::Lit(Lit::Str(..)))
-                }
-                _ => true,
-            })
-            .unwrap_or_default();
-
-        self.splice(directive_pos..directive_pos, replace_with);
-    }
-}
