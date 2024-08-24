@@ -1290,9 +1290,6 @@
 
 
 
-- **(es)** Make the code compile with `miri` ([#8836](https://github.com/swc-project/swc/issues/8836)) ([3a51140](https://github.com/swc-project/swc/commit/3a51140dd77ccf2cc35098a72c411b05de418ff1))
-
-
 - **(es/decorator)** Remove unsafe code ([#8839](https://github.com/swc-project/swc/issues/8839)) ([e8c6344](https://github.com/swc-project/swc/commit/e8c63447f64076de64002bcb5a3124b809df44ed))
 
 ### Testing
