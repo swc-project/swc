@@ -13,7 +13,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{
     alias_ident_for, constructor::inject_after_super, find_pat_ids, is_literal, member_expr,
     private_ident, quote_ident, quote_str, stack_size::maybe_grow_default, ExprFactory, QueryRef,
-    RefRewriter,
+    RefRewriter, StmtLikeInjector,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -22,7 +22,7 @@ use crate::{
     ts_enum::{EnumValueComputer, InlineEnum, TsEnumRecord, TsEnumRecordKey, TsEnumRecordValue},
     utils::{
         assign_value_to_this_private_prop, assign_value_to_this_prop, AsCollapsibleDecl,
-        AsEnumOrModule, Factory, VecStmtLike,
+        AsEnumOrModule, Factory,
     },
 };
 
@@ -1162,7 +1162,7 @@ impl Transform {
         }
 
         if should_inject {
-            n.inject_after_directive([
+            n.prepend_stmts([
                 // import { createRequire } from "module";
                 ImportDecl {
                     span: DUMMY_SP,
