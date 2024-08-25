@@ -27,7 +27,7 @@ it('should output same result if name cache', async () => {
         mangleNameCache
     });
     const { code: code2 } = await swc.minify(`
-        /*#__NOINLINE__*/ econst fff = 1;
+        /*#__NOINLINE__*/ const fff = 1;
         const eeeeee = 2;
         export const f = fff;
     `, {
