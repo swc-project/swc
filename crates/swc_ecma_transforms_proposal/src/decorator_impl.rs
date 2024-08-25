@@ -242,8 +242,8 @@ impl DecoratorPass {
                     combined_args.push((self.state.class_decorations_flag as f64).as_arg());
                 }
 
-                if let Some(super_class) = self.state.super_class {
-                    combined_args.push(super_class.as_arg());
+                if let Some(super_class) = &self.state.super_class {
+                    combined_args.push(super_class.clone().as_arg());
                 }
 
                 Box::new(
