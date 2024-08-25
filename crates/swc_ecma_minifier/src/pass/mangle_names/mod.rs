@@ -4,7 +4,7 @@ use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
 use swc_common::Mark;
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::rename::{renamer, Renamer};
+use swc_ecma_transforms_base::rename::{renamer, RenameMap, Renamer};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 pub(crate) use self::preserver::idents_to_preserve;
@@ -35,7 +35,7 @@ pub(crate) fn mangle_names(
         chars,
     ));
 
-    let mut cache = FxHashMap::default();
+    let mut cache = RenameMap::default();
 
     if let Some(mangle_cache) = &mangle_name_cache {
         mangle_cache
@@ -61,7 +61,7 @@ pub(crate) fn mangle_names(
 struct ManglingRenamer {
     chars: Base54Chars,
     preserved: FxHashSet<Id>,
-    cache: FxHashMap<Id, Atom>,
+    cache: RenameMap,
     mangle_name_cache: Option<Arc<dyn MangleCache>>,
 }
 
@@ -81,11 +81,11 @@ impl Renamer for ManglingRenamer {
         self.chars.encode(n, true)
     }
 
-    fn get_cached(&self) -> Option<Cow<FxHashMap<Id, Atom>>> {
+    fn get_cached(&self) -> Option<Cow<RenameMap>> {
         Some(Cow::Borrowed(&self.cache))
     }
 
-    fn store_cache(&mut self, _update: &FxHashMap<Id, Atom>) {
+    fn store_cache(&mut self, _update: &RenameMap) {
         if let Some(cacher) = &self.mangle_name_cache {
             cacher.update_vars_cache(&self.cache);
         }

@@ -14,7 +14,7 @@ use self::renamer_concurrent::{Send, Sync};
 #[cfg(not(feature = "concurrent-renamer"))]
 use self::renamer_single::{Send, Sync};
 use self::{
-    analyzer::{scope::RenameMap, Analyzer},
+    analyzer::Analyzer,
     collector::{collect_decls, CustomBindingCollector, IdCollector},
     eval::contains_eval,
     ops::Operator,
@@ -41,21 +41,23 @@ pub trait Renamer: Send + Sync {
         Default::default()
     }
 
-    fn get_cached(&self) -> Option<Cow<FxHashMap<Id, Atom>>> {
+    fn get_cached(&self) -> Option<Cow<RenameMap>> {
         None
     }
 
-    fn store_cache(&mut self, _update: &FxHashMap<Id, Atom>) {}
+    fn store_cache(&mut self, _update: &RenameMap) {}
 
     /// Should increment `n`.
     fn new_name_for(&self, orig: &Id, n: &mut usize) -> Atom;
 }
 
-pub fn rename(map: &AHashMap<Id, Atom>) -> impl '_ + Fold + VisitMut {
+pub type RenameMap = AHashMap<Id, Atom>;
+
+pub fn rename(map: &RenameMap) -> impl '_ + Fold + VisitMut {
     rename_with_config(map, Default::default())
 }
 
-pub fn rename_with_config(map: &AHashMap<Id, Atom>, config: Config) -> impl '_ + Fold + VisitMut {
+pub fn rename_with_config(map: &RenameMap, config: Config) -> impl '_ + Fold + VisitMut {
     as_folder(Operator {
         rename: map,
         config,
@@ -96,12 +98,12 @@ where
     preserved: FxHashSet<Id>,
     unresolved: FxHashSet<Atom>,
 
-    previous_cache: FxHashMap<Id, Atom>,
+    previous_cache: AHashMap<Id, Atom>,
 
     /// Used to store cache.
     ///
     /// [Some] if the [`Renamer::get_cached`] returns [Some].
-    total_map: Option<FxHashMap<Id, Atom>>,
+    total_map: Option<RenameMap>,
 }
 
 impl<R> RenamePass<R>
@@ -218,7 +220,7 @@ where
 
     fn load_cache(&mut self) {
         if let Some(cache) = self.renamer.get_cached() {
-            self.previous_cache = cache.into_owned()
+            self.previous_cache = cache.into_owned();
         }
     }
 }
