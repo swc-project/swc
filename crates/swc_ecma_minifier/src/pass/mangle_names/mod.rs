@@ -85,9 +85,9 @@ impl Renamer for ManglingRenamer {
         Some(Cow::Borrowed(&self.cache))
     }
 
-    fn store_cache(&mut self, _update: &RenameMap) {
+    fn store_cache(&mut self, update: &RenameMap) {
         if let Some(cacher) = &self.mangle_name_cache {
-            cacher.update_vars_cache(&self.cache);
+            cacher.update_vars_cache(update);
         }
     }
 }
