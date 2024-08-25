@@ -221,6 +221,7 @@ where
     fn load_cache(&mut self) {
         if let Some(cache) = self.renamer.get_cached() {
             self.previous_cache = cache.into_owned();
+            self.total_map = Some(Default::default());
         }
     }
 }
