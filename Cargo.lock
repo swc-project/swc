@@ -4010,7 +4010,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.101.6"
+version = "0.101.7"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4272,7 +4272,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.155.0"
+version = "0.155.1"
 dependencies = [
  "base64",
  "codspeed-criterion-compat",
@@ -4939,7 +4939,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.197.3"
+version = "0.197.4"
 dependencies = [
  "codspeed-criterion-compat",
  "criterion",
@@ -4977,7 +4977,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.134.1"
+version = "0.134.2"
 dependencies = [
  "indexmap 2.2.6",
  "num_cpus",
