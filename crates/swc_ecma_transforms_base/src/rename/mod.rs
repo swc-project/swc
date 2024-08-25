@@ -335,6 +335,10 @@ where
         if !map.is_empty() {
             m.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
         }
+
+        if let Some(total_map) = &self.total_map {
+            self.renamer.store_cache(total_map);
+        }
     }
 
     fn visit_mut_script(&mut self, m: &mut Script) {
@@ -352,6 +356,10 @@ where
 
         if !map.is_empty() {
             m.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
+        }
+
+        if let Some(total_map) = &self.total_map {
+            self.renamer.store_cache(total_map);
         }
     }
 }
