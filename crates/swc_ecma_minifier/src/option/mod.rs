@@ -8,7 +8,7 @@ use serde::{Deserialize, Serialize};
 use swc_atoms::{Atom, JsWord};
 use swc_common::{collections::AHashMap, Mark};
 use swc_config::{merge::Merge, CachedRegex};
-use swc_ecma_ast::{EsVersion, Expr};
+use swc_ecma_ast::{EsVersion, Expr, Id};
 
 /// Implement default using serde.
 macro_rules! impl_default {
@@ -443,23 +443,23 @@ impl Default for CompressOptions {
 }
 
 pub trait MangleCache: Send + Sync {
-    fn vars_cache(&self, op: &mut dyn FnMut(&FxHashMap<Atom, Atom>));
+    fn vars_cache(&self, op: &mut dyn FnMut(&FxHashMap<Id, Atom>));
 
     fn props_cache(&self, op: &mut dyn FnMut(&FxHashMap<Atom, Atom>));
 
-    fn update_vars_cache(&self, new_data: &FxHashMap<Atom, Atom>);
+    fn update_vars_cache(&self, new_data: &FxHashMap<Id, Atom>);
 
     fn update_props_cache(&self, new_data: &FxHashMap<Atom, Atom>);
 }
 
 #[derive(Debug, Default)]
 pub struct SimpleMangleCache {
-    pub vars: RwLock<FxHashMap<Atom, Atom>>,
+    pub vars: RwLock<FxHashMap<Id, Atom>>,
     pub props: RwLock<FxHashMap<Atom, Atom>>,
 }
 
 impl MangleCache for SimpleMangleCache {
-    fn vars_cache(&self, op: &mut dyn FnMut(&FxHashMap<Atom, Atom>)) {
+    fn vars_cache(&self, op: &mut dyn FnMut(&FxHashMap<Id, Atom>)) {
         let vars = self.vars.read();
         op(&vars);
     }
@@ -469,7 +469,7 @@ impl MangleCache for SimpleMangleCache {
         op(&props);
     }
 
-    fn update_vars_cache(&self, new_data: &FxHashMap<JsWord, JsWord>) {
+    fn update_vars_cache(&self, new_data: &FxHashMap<Id, JsWord>) {
         let mut vars = self.vars.write();
         vars.extend(new_data.iter().map(|(k, v)| (k.clone(), v.clone())));
     }

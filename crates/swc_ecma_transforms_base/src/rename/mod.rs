@@ -41,11 +41,11 @@ pub trait Renamer: Send + Sync {
         Default::default()
     }
 
-    fn get_cached(&self) -> Option<Cow<FxHashMap<Atom, Atom>>> {
+    fn get_cached(&self) -> Option<Cow<FxHashMap<Id, Atom>>> {
         None
     }
 
-    fn store_cache(&mut self, _update: &FxHashMap<Atom, Atom>) {}
+    fn store_cache(&mut self, _update: &FxHashMap<Id, Atom>) {}
 
     /// Should increment `n`.
     fn new_name_for(&self, orig: &Id, n: &mut usize) -> Atom;
@@ -98,7 +98,7 @@ where
     /// Used to store cache.
     ///
     /// [Some] if the [`Renamer::get_cached`] returns [Some].
-    total_map: Option<FxHashMap<Atom, Atom>>,
+    total_map: Option<FxHashMap<Id, Atom>>,
 }
 
 impl<R> RenamePass<R>
@@ -132,13 +132,7 @@ where
             .collect()
     }
 
-    fn get_map<N>(
-        &mut self,
-        node: &N,
-        skip_one: bool,
-        top_level: bool,
-        has_eval: bool,
-    ) -> AHashMap<Id, Atom>
+    fn get_map<N>(&mut self, node: &N, skip_one: bool, top_level: bool, has_eval: bool) -> RenameMap
     where
         N: VisitWith<IdCollector> + VisitWith<CustomBindingCollector<Id>>,
         N: VisitWith<Analyzer>,
@@ -200,7 +194,7 @@ where
             total_map.reserve(map.len());
 
             for (k, v) in &map {
-                match total_map.entry(k.0.clone()) {
+                match total_map.entry(k.clone()) {
                     Entry::Occupied(old) => {
                         unreachable!(
                             "{} is already renamed to {}, but it's renamed as {}",

@@ -7,7 +7,7 @@ use std::{
 
 #[cfg(feature = "concurrent-renamer")]
 use rayon::prelude::*;
-use rustc_hash::FxHashSet;
+use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
 use swc_common::{collections::AHashMap, util::take::Take, Mark, SyntaxContext};
 use swc_ecma_ast::*;
