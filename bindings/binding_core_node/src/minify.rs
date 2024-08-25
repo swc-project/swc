@@ -1,13 +1,14 @@
 use std::sync::Arc;
 
 use napi::{
-    bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
-    Task,
+    bindgen_prelude::{AbortSignal, AsyncTask, Buffer, Env, FromNapiValue},
+    sys::{napi_env, napi_value},
+    JsUnknown, NapiValue, Task,
 };
 use serde::Deserialize;
 use swc_core::{
     base::{
-        config::{ErrorFormat, JsMinifyOptions},
+        config::{JsMinifyOptions},
         TransformOutput,
     },
     common::{collections::AHashMap, sync::Lrc, FileName, SourceFile, SourceMap},
@@ -19,7 +20,7 @@ use crate::{get_compiler, util::try_with};
 struct MinifyTask {
     c: Arc<swc_core::base::Compiler>,
     code: String,
-    options: String,
+    options: JsMinifyOptions,
 }
 
 #[derive(Deserialize)]
@@ -39,7 +40,7 @@ impl MinifyTarget {
                 assert_eq!(
                     codes.len(),
                     1,
-                    "swc.minify does not support concatting multiple files yet"
+                    "swc.minify does not support concatenating multiple files yet"
                 );
 
                 let (filename, code) = codes.iter().next().unwrap();
@@ -57,17 +58,17 @@ impl Task for MinifyTask {
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
         let input: MinifyTarget = deserialize_json(&self.code)?;
-        let options: JsMinifyOptions = deserialize_json(&self.options)?;
+        let options = self.options.clone();
 
-        try_with(self.c.cm.clone(), false, ErrorFormat::Normal, |handler| {
-            let fm = input.to_file(self.c.cm.clone());
-
+        try_with(self.c.cm.clone(), false, Default::default(), |handler| { 
+            let fm = input.to_file(self.c.cm.clone()); 
+        
             self.c.minify(fm, handler, &options)
         })
         .convert_err()
     }
 
-    fn resolve(&mut self, _env: napi::Env, output: Self::Output) -> napi::Result<Self::JsValue> {
+    fn resolve(&mut self, _env: Env, output: Self::Output) -> napi::Result<Self::JsValue> {
         Ok(output)
     }
 }
@@ -76,7 +77,8 @@ impl Task for MinifyTask {
 fn minify(code: Buffer, opts: Buffer, signal: Option<AbortSignal>) -> AsyncTask<MinifyTask> {
     crate::util::init_default_trace_subscriber();
     let code = String::from_utf8_lossy(code.as_ref()).to_string();
-    let options = String::from_utf8_lossy(opts.as_ref()).to_string();
+    let opts_str = String::from_utf8_lossy(opts.as_ref()).to_string();
+    let options: JsMinifyOptions = deserialize_json(&opts_str).expect("Invalid options format");
 
     let c = get_compiler();
 
@@ -89,18 +91,13 @@ fn minify(code: Buffer, opts: Buffer, signal: Option<AbortSignal>) -> AsyncTask<
 pub fn minify_sync(code: Buffer, opts: Buffer) -> napi::Result<TransformOutput> {
     crate::util::init_default_trace_subscriber();
     let code: MinifyTarget = get_deserialized(code)?;
-    let opts = get_deserialized(opts)?;
-
+    let options: JsMinifyOptions = deserialize_json(&String::from_utf8_lossy(opts.as_ref()).to_string())?;
     let c = get_compiler();
 
     let fm = code.to_file(c.cm.clone());
 
-    try_with(
-        c.cm.clone(),
-        false,
-        // TODO(kdy1): Maybe make this configurable?
-        ErrorFormat::Normal,
-        |handler| c.minify(fm, handler, &opts),
-    )
+    try_with(c.cm.clone(), false, Default::default(), |handler| {
+        c.minify(fm, handler, &options)
+    })
     .convert_err()
 }
