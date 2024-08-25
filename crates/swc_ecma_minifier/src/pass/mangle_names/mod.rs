@@ -53,6 +53,7 @@ pub(crate) fn mangle_names(
             chars,
             preserved,
             cache,
+            mangle_name_cache,
         },
     ));
 }
@@ -61,6 +62,7 @@ struct ManglingRenamer {
     chars: Base54Chars,
     preserved: FxHashSet<Id>,
     cache: FxHashMap<Atom, Atom>,
+    mangle_name_cache: Option<Arc<dyn MangleCache>>,
 }
 
 impl Renamer for ManglingRenamer {
@@ -79,8 +81,14 @@ impl Renamer for ManglingRenamer {
         self.chars.encode(n, true)
     }
 
-    fn cached(&self) -> Option<Cow<FxHashMap<Atom, Atom>>> {
+    fn get_cached(&self) -> Option<Cow<FxHashMap<Atom, Atom>>> {
         Some(Cow::Borrowed(&self.cache))
+    }
+
+    fn store_cache(&mut self, _update: &FxHashMap<Atom, Atom>) {
+        if let Some(cacher) = &self.mangle_name_cache {
+            cacher.update_vars_cache(&self.cache);
+        }
     }
 }
 

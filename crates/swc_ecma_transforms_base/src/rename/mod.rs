@@ -41,9 +41,11 @@ pub trait Renamer: Send + Sync {
         Default::default()
     }
 
-    fn cached(&self) -> Option<Cow<FxHashMap<Atom, Atom>>> {
+    fn get_cached(&self) -> Option<Cow<FxHashMap<Atom, Atom>>> {
         None
     }
+
+    fn store_cache(&mut self, _update: &FxHashMap<Atom, Atom>) {}
 
     /// Should increment `n`.
     fn new_name_for(&self, orig: &Id, n: &mut usize) -> Atom;
