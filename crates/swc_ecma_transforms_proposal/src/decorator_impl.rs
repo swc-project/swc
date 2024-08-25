@@ -104,7 +104,15 @@ impl DecoratorPass {
         ident.into()
     }
 
-    fn create_set_function_name_call(&self, name: &Ident) -> Box<Expr> {}
+    fn create_set_function_name_call(&self, name: &Ident) -> Box<Expr> {
+        CallExpr {
+            span: DUMMY_SP,
+            callee: helper!(set_function_name),
+            args: vec![ThisExpr { span: DUMMY_SP }.as_arg(), name.clone().as_arg()],
+            ..Default::default()
+        }
+        .into()
+    }
 
     /// Moves `cur_inits` to `extra_stmts`.
     ///
@@ -119,8 +127,8 @@ impl DecoratorPass {
         {
             return;
         }
-        let first_arg = match self.state.set_class_name {
-            Some(name) => self.state.create_set_function_name_call(name),
+        let first_arg = match &self.state.set_class_name {
+            Some(name) => self.create_set_function_name_call(name).as_arg(),
             _ => ThisExpr { span: DUMMY_SP }.as_arg(),
         };
 
