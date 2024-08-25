@@ -80,6 +80,7 @@ where
         renamer,
         preserved: Default::default(),
         unresolved: Default::default(),
+        previous_cache: Default::default(),
         total_map: None,
     })
 }
@@ -94,6 +95,8 @@ where
 
     preserved: FxHashSet<Id>,
     unresolved: FxHashSet<Atom>,
+
+    previous_cache: FxHashMap<Id, Atom>,
 
     /// Used to store cache.
     ///
@@ -174,7 +177,7 @@ where
             scope.rename_in_mangle_mode(
                 &self.renamer,
                 &mut map,
-                &Default::default(),
+                &self.previous_cache,
                 &Default::default(),
                 &self.preserved,
                 &unresolved,
@@ -184,7 +187,7 @@ where
             scope.rename_in_normal_mode(
                 &self.renamer,
                 &mut map,
-                &Default::default(),
+                &self.previous_cache,
                 &mut Default::default(),
                 &unresolved,
             );
@@ -211,6 +214,12 @@ where
         }
 
         map
+    }
+
+    fn load_cache(&mut self) {
+        if let Some(cache) = self.renamer.get_cached() {
+            self.previous_cache = cache.into_owned()
+        }
     }
 }
 
@@ -293,6 +302,8 @@ where
     }
 
     fn visit_mut_module(&mut self, m: &mut Module) {
+        self.load_cache();
+
         self.preserved = self.renamer.preserved_ids_for_module(m);
 
         let has_eval = !self.config.ignore_eval && contains_eval(m, true);
@@ -336,6 +347,8 @@ where
     }
 
     fn visit_mut_script(&mut self, m: &mut Script) {
+        self.load_cache();
+
         self.preserved = self.renamer.preserved_ids_for_script(m);
 
         let has_eval = !self.config.ignore_eval && contains_eval(m, true);
