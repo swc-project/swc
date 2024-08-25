@@ -1,6 +1,6 @@
 #![allow(unused_imports)]
 
-use std::borrow::Cow;
+use std::{borrow::Cow, collections::hash_map::Entry};
 
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
@@ -80,6 +80,7 @@ where
         renamer,
         preserved: Default::default(),
         unresolved: Default::default(),
+        total_map: None,
     })
 }
 
@@ -93,6 +94,11 @@ where
 
     preserved: FxHashSet<Id>,
     unresolved: FxHashSet<Atom>,
+
+    /// Used to store cache.
+    ///
+    /// [Some] if the [`Renamer::get_cached`] returns [Some].
+    total_map: Option<FxHashMap<Atom, Atom>>,
 }
 
 impl<R> RenamePass<R>
@@ -127,7 +133,7 @@ where
     }
 
     fn get_map<N>(
-        &self,
+        &mut self,
         node: &N,
         skip_one: bool,
         top_level: bool,
@@ -188,6 +194,26 @@ where
                 &mut Default::default(),
                 &unresolved,
             );
+        }
+
+        if let Some(total_map) = &mut self.total_map {
+            total_map.reserve(map.len());
+
+            for (k, v) in &map {
+                match total_map.entry(k.0.clone()) {
+                    Entry::Occupied(old) => {
+                        unreachable!(
+                            "{} is already renamed to {}, but it's renamed as {}",
+                            k.0,
+                            old.get(),
+                            v
+                        );
+                    }
+                    Entry::Vacant(e) => {
+                        e.insert(v.clone());
+                    }
+                }
+            }
         }
 
         map
