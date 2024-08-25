@@ -2,8 +2,8 @@
 
 use std::borrow::Cow;
 
-use rustc_hash::FxHashSet;
-use swc_atoms::JsWord;
+use rustc_hash::{FxHashMap, FxHashSet};
+use swc_atoms::Atom;
 use swc_common::collections::AHashMap;
 use swc_ecma_ast::*;
 use swc_ecma_utils::stack_size::maybe_grow_default;
@@ -41,15 +41,19 @@ pub trait Renamer: Send + Sync {
         Default::default()
     }
 
+    fn cached(&self) -> Option<Cow<FxHashMap<Atom, Atom>>> {
+        None
+    }
+
     /// Should increment `n`.
-    fn new_name_for(&self, orig: &Id, n: &mut usize) -> JsWord;
+    fn new_name_for(&self, orig: &Id, n: &mut usize) -> Atom;
 }
 
-pub fn rename(map: &AHashMap<Id, JsWord>) -> impl '_ + Fold + VisitMut {
+pub fn rename(map: &AHashMap<Id, Atom>) -> impl '_ + Fold + VisitMut {
     rename_with_config(map, Default::default())
 }
 
-pub fn rename_with_config(map: &AHashMap<Id, JsWord>, config: Config) -> impl '_ + Fold + VisitMut {
+pub fn rename_with_config(map: &AHashMap<Id, Atom>, config: Config) -> impl '_ + Fold + VisitMut {
     as_folder(Operator {
         rename: map,
         config,
@@ -86,14 +90,14 @@ where
     renamer: R,
 
     preserved: FxHashSet<Id>,
-    unresolved: FxHashSet<JsWord>,
+    unresolved: FxHashSet<Atom>,
 }
 
 impl<R> RenamePass<R>
 where
     R: Renamer,
 {
-    fn get_unresolved<N>(&self, n: &N, has_eval: bool) -> FxHashSet<JsWord>
+    fn get_unresolved<N>(&self, n: &N, has_eval: bool) -> FxHashSet<Atom>
     where
         N: VisitWith<IdCollector> + VisitWith<CustomBindingCollector<Id>>,
     {
@@ -126,7 +130,7 @@ where
         skip_one: bool,
         top_level: bool,
         has_eval: bool,
-    ) -> AHashMap<Id, JsWord>
+    ) -> AHashMap<Id, Atom>
     where
         N: VisitWith<IdCollector> + VisitWith<CustomBindingCollector<Id>>,
         N: VisitWith<Analyzer>,
