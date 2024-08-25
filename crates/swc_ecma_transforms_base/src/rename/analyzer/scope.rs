@@ -14,7 +14,7 @@ use swc_ecma_ast::*;
 use tracing::debug;
 
 use super::reverse_map::ReverseMap;
-use crate::rename::Renamer;
+use crate::rename::{RenameMap, Renamer};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum ScopeKind {
@@ -35,8 +35,6 @@ pub(crate) struct Scope {
 
     pub(super) children: Vec<Scope>,
 }
-
-pub(crate) type RenameMap = AHashMap<Id, Atom>;
 
 #[derive(Debug, Default)]
 pub(super) struct ScopeData {

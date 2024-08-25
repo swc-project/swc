@@ -10,8 +10,11 @@ import type {
     JsMinifyOptions,
 } from "@swc/types";
 export type * from "@swc/types";
+// @ts-ignore
+export { newMangleNameCache as experimental_newMangleNameCache } from "./binding";
 import { BundleInput, compileBundleOptions } from "./spack";
 import * as assert from "assert";
+import type { NapiMinifyExtra } from "../binding";
 
 // Allow overrides to the location of the .node binding file
 const bindingsOverride = process.env["SWC_BINARY_PATH"];
@@ -58,18 +61,18 @@ export function plugins(ps: Plugin[]): Plugin {
 export class Compiler {
     private fallbackBindingsPluginWarningDisplayed = false;
 
-    async minify(src: string, opts?: JsMinifyOptions): Promise<Output> {
+    async minify(src: string, opts?: JsMinifyOptions, extras?: NapiMinifyExtra): Promise<Output> {
         if (bindings) {
-            return bindings.minify(toBuffer(src), toBuffer(opts ?? {}));
+            return bindings.minify(toBuffer(src), toBuffer(opts ?? {}), extras ?? {});
         } else if (fallbackBindings) {
             return fallbackBindings.minify(src, opts);
         }
         throw new Error("Bindings not found.");
     }
 
-    minifySync(src: string, opts?: JsMinifyOptions): Output {
+    minifySync(src: string, opts?: JsMinifyOptions, extras?: NapiMinifyExtra): Output {
         if (bindings) {
-            return bindings.minifySync(toBuffer(src), toBuffer(opts ?? {}));
+            return bindings.minifySync(toBuffer(src), toBuffer(opts ?? {}), extras ?? {});
         } else if (fallbackBindings) {
             return fallbackBindings.minifySync(src, opts);
         }
@@ -220,10 +223,10 @@ export class Compiler {
                 const m =
                     typeof src === "string"
                         ? await this.parse(
-                              src,
-                              options?.jsc?.parser,
-                              options.filename
-                          )
+                            src,
+                            options?.jsc?.parser,
+                            options.filename
+                        )
                         : src;
                 return this.transform(plugin(m), newOptions);
             }
@@ -263,10 +266,10 @@ export class Compiler {
                 const m =
                     typeof src === "string"
                         ? this.parseSync(
-                              src,
-                              options?.jsc?.parser,
-                              options.filename
-                          )
+                            src,
+                            options?.jsc?.parser,
+                            options.filename
+                        )
                         : src;
                 return this.transformSync(plugin(m), newOptions);
             }
@@ -475,13 +478,14 @@ export function bundle(
 
 export async function minify(
     src: string,
-    opts?: JsMinifyOptions
+    opts?: JsMinifyOptions,
+    extras?: NapiMinifyExtra
 ): Promise<Output> {
-    return compiler.minify(src, opts);
+    return compiler.minify(src, opts, extras);
 }
 
-export function minifySync(src: string, opts?: JsMinifyOptions): Output {
-    return compiler.minifySync(src, opts);
+export function minifySync(src: string, opts?: JsMinifyOptions, extras?: NapiMinifyExtra): Output {
+    return compiler.minifySync(src, opts, extras);
 }
 
 /**

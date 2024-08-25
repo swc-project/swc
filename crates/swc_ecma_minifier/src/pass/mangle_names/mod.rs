@@ -1,44 +1,68 @@
+use std::{borrow::Cow, sync::Arc};
+
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::JsWord;
-use swc_common::{chain, Mark};
+use swc_atoms::Atom;
+use swc_common::Mark;
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::rename::{renamer, Renamer};
+use swc_ecma_transforms_base::rename::{renamer, RenameMap, Renamer};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 pub(crate) use self::preserver::idents_to_preserve;
-use crate::{option::MangleOptions, util::base54::Base54Chars};
+use crate::{
+    option::{MangleCache, MangleOptions},
+    util::base54::Base54Chars,
+};
 
 mod preserver;
 mod private_name;
 
-pub(crate) fn name_mangler(
+pub(crate) fn mangle_names(
+    program: &mut Program,
     options: MangleOptions,
     preserved: FxHashSet<Id>,
     chars: Base54Chars,
     top_level_mark: Mark,
-) -> impl VisitMut {
-    chain!(
-        LabelMangler {
-            chars,
-            cache: Default::default(),
-            n: Default::default(),
+    mangle_name_cache: Option<Arc<dyn MangleCache>>,
+) {
+    program.visit_mut_with(&mut LabelMangler {
+        chars,
+        cache: Default::default(),
+        n: Default::default(),
+    });
+
+    program.visit_mut_with(&mut self::private_name::private_name_mangler(
+        options.keep_private_props,
+        chars,
+    ));
+
+    let mut cache = RenameMap::default();
+
+    if let Some(mangle_cache) = &mangle_name_cache {
+        mangle_cache
+            .vars_cache(&mut |v| cache.extend(v.iter().map(|(k, v)| (k.clone(), v.clone()))));
+    }
+
+    program.visit_mut_with(&mut renamer(
+        swc_ecma_transforms_base::hygiene::Config {
+            keep_class_names: options.keep_class_names,
+            top_level_mark,
+            ignore_eval: options.eval,
+            ..Default::default()
         },
-        self::private_name::private_name_mangler(options.keep_private_props, chars),
-        renamer(
-            swc_ecma_transforms_base::hygiene::Config {
-                keep_class_names: options.keep_class_names,
-                top_level_mark,
-                ignore_eval: options.eval,
-                ..Default::default()
-            },
-            ManglingRenamer { chars, preserved }
-        )
-    )
+        ManglingRenamer {
+            chars,
+            preserved,
+            cache,
+            mangle_name_cache,
+        },
+    ));
 }
 
 struct ManglingRenamer {
     chars: Base54Chars,
     preserved: FxHashSet<Id>,
+    cache: RenameMap,
+    mangle_name_cache: Option<Arc<dyn MangleCache>>,
 }
 
 impl Renamer for ManglingRenamer {
@@ -53,14 +77,24 @@ impl Renamer for ManglingRenamer {
         self.preserved.clone()
     }
 
-    fn new_name_for(&self, _: &Id, n: &mut usize) -> JsWord {
+    fn new_name_for(&self, _: &Id, n: &mut usize) -> Atom {
         self.chars.encode(n, true)
+    }
+
+    fn get_cached(&self) -> Option<Cow<RenameMap>> {
+        Some(Cow::Borrowed(&self.cache))
+    }
+
+    fn store_cache(&mut self, update: &RenameMap) {
+        if let Some(cacher) = &self.mangle_name_cache {
+            cacher.update_vars_cache(update);
+        }
     }
 }
 
 struct LabelMangler {
     chars: Base54Chars,
-    cache: FxHashMap<JsWord, JsWord>,
+    cache: FxHashMap<Atom, Atom>,
     n: usize,
 }
 

@@ -233,6 +233,7 @@ fn run(cm: Lrc<SourceMap>, handler: &Handler, input: &Path, config: &str) -> Opt
             &ExtraOptions {
                 unresolved_mark,
                 top_level_mark,
+                mangle_name_cache: None,
             },
         );
         let end = Instant::now();

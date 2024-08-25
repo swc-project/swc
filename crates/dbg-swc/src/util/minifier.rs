@@ -59,6 +59,7 @@ pub fn get_minified_with_opts(
             &swc_ecma_minifier::option::ExtraOptions {
                 unresolved_mark: m.unresolved_mark,
                 top_level_mark: m.top_level_mark,
+                mangle_name_cache: None,
             },
         )
         .expect_module()

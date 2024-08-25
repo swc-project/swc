@@ -1,9 +1,9 @@
 #![allow(unused_imports)]
 
-use std::borrow::Cow;
+use std::{borrow::Cow, collections::hash_map::Entry};
 
-use rustc_hash::FxHashSet;
-use swc_atoms::JsWord;
+use rustc_hash::{FxHashMap, FxHashSet};
+use swc_atoms::Atom;
 use swc_common::collections::AHashMap;
 use swc_ecma_ast::*;
 use swc_ecma_utils::stack_size::maybe_grow_default;
@@ -14,7 +14,7 @@ use self::renamer_concurrent::{Send, Sync};
 #[cfg(not(feature = "concurrent-renamer"))]
 use self::renamer_single::{Send, Sync};
 use self::{
-    analyzer::{scope::RenameMap, Analyzer},
+    analyzer::Analyzer,
     collector::{collect_decls, CustomBindingCollector, IdCollector},
     eval::contains_eval,
     ops::Operator,
@@ -41,15 +41,23 @@ pub trait Renamer: Send + Sync {
         Default::default()
     }
 
+    fn get_cached(&self) -> Option<Cow<RenameMap>> {
+        None
+    }
+
+    fn store_cache(&mut self, _update: &RenameMap) {}
+
     /// Should increment `n`.
-    fn new_name_for(&self, orig: &Id, n: &mut usize) -> JsWord;
+    fn new_name_for(&self, orig: &Id, n: &mut usize) -> Atom;
 }
 
-pub fn rename(map: &AHashMap<Id, JsWord>) -> impl '_ + Fold + VisitMut {
+pub type RenameMap = FxHashMap<Id, Atom>;
+
+pub fn rename(map: &RenameMap) -> impl '_ + Fold + VisitMut {
     rename_with_config(map, Default::default())
 }
 
-pub fn rename_with_config(map: &AHashMap<Id, JsWord>, config: Config) -> impl '_ + Fold + VisitMut {
+pub fn rename_with_config(map: &RenameMap, config: Config) -> impl '_ + Fold + VisitMut {
     as_folder(Operator {
         rename: map,
         config,
@@ -57,7 +65,7 @@ pub fn rename_with_config(map: &AHashMap<Id, JsWord>, config: Config) -> impl '_
     })
 }
 
-pub fn remap(map: &AHashMap<Id, Id>, config: Config) -> impl '_ + Fold + VisitMut {
+pub fn remap(map: &FxHashMap<Id, Id>, config: Config) -> impl '_ + Fold + VisitMut {
     as_folder(Operator {
         rename: map,
         config,
@@ -74,6 +82,8 @@ where
         renamer,
         preserved: Default::default(),
         unresolved: Default::default(),
+        previous_cache: Default::default(),
+        total_map: None,
     })
 }
 
@@ -86,14 +96,21 @@ where
     renamer: R,
 
     preserved: FxHashSet<Id>,
-    unresolved: FxHashSet<JsWord>,
+    unresolved: FxHashSet<Atom>,
+
+    previous_cache: RenameMap,
+
+    /// Used to store cache.
+    ///
+    /// [Some] if the [`Renamer::get_cached`] returns [Some].
+    total_map: Option<RenameMap>,
 }
 
 impl<R> RenamePass<R>
 where
     R: Renamer,
 {
-    fn get_unresolved<N>(&self, n: &N, has_eval: bool) -> FxHashSet<JsWord>
+    fn get_unresolved<N>(&self, n: &N, has_eval: bool) -> FxHashSet<Atom>
     where
         N: VisitWith<IdCollector> + VisitWith<CustomBindingCollector<Id>>,
     {
@@ -120,13 +137,7 @@ where
             .collect()
     }
 
-    fn get_map<N>(
-        &self,
-        node: &N,
-        skip_one: bool,
-        top_level: bool,
-        has_eval: bool,
-    ) -> AHashMap<Id, JsWord>
+    fn get_map<N>(&mut self, node: &N, skip_one: bool, top_level: bool, has_eval: bool) -> RenameMap
     where
         N: VisitWith<IdCollector> + VisitWith<CustomBindingCollector<Id>>,
         N: VisitWith<Analyzer>,
@@ -168,7 +179,7 @@ where
             scope.rename_in_mangle_mode(
                 &self.renamer,
                 &mut map,
-                &Default::default(),
+                &self.previous_cache,
                 &Default::default(),
                 &self.preserved,
                 &unresolved,
@@ -178,13 +189,40 @@ where
             scope.rename_in_normal_mode(
                 &self.renamer,
                 &mut map,
-                &Default::default(),
+                &self.previous_cache,
                 &mut Default::default(),
                 &unresolved,
             );
         }
 
+        if let Some(total_map) = &mut self.total_map {
+            total_map.reserve(map.len());
+
+            for (k, v) in &map {
+                match total_map.entry(k.clone()) {
+                    Entry::Occupied(old) => {
+                        unreachable!(
+                            "{} is already renamed to {}, but it's renamed as {}",
+                            k.0,
+                            old.get(),
+                            v
+                        );
+                    }
+                    Entry::Vacant(e) => {
+                        e.insert(v.clone());
+                    }
+                }
+            }
+        }
+
         map
+    }
+
+    fn load_cache(&mut self) {
+        if let Some(cache) = self.renamer.get_cached() {
+            self.previous_cache = cache.into_owned();
+            self.total_map = Some(Default::default());
+        }
     }
 }
 
@@ -267,6 +305,8 @@ where
     }
 
     fn visit_mut_module(&mut self, m: &mut Module) {
+        self.load_cache();
+
         self.preserved = self.renamer.preserved_ids_for_module(m);
 
         let has_eval = !self.config.ignore_eval && contains_eval(m, true);
@@ -303,9 +343,15 @@ where
         if !map.is_empty() {
             m.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
         }
+
+        if let Some(total_map) = &self.total_map {
+            self.renamer.store_cache(total_map);
+        }
     }
 
     fn visit_mut_script(&mut self, m: &mut Script) {
+        self.load_cache();
+
         self.preserved = self.renamer.preserved_ids_for_script(m);
 
         let has_eval = !self.config.ignore_eval && contains_eval(m, true);
@@ -320,6 +366,10 @@ where
 
         if !map.is_empty() {
             m.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
+        }
+
+        if let Some(total_map) = &self.total_map {
+            self.renamer.store_cache(total_map);
         }
     }
 }

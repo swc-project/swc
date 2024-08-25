@@ -1,25 +1,33 @@
 use std::sync::Arc;
 
 use napi::{
-    bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
-    Task,
+    bindgen_prelude::{AbortSignal, AsyncTask, Buffer, External},
+    Env, JsExternal, JsObject, JsUnknown, Task,
 };
 use serde::Deserialize;
 use swc_core::{
     base::{
         config::{ErrorFormat, JsMinifyOptions},
-        TransformOutput,
+        JsMinifyExtras, TransformOutput,
     },
     common::{collections::AHashMap, sync::Lrc, FileName, SourceFile, SourceMap},
+    ecma::minifier::option::{MangleCache, SimpleMangleCache},
     node::{deserialize_json, get_deserialized, MapErr},
 };
 
 use crate::{get_compiler, util::try_with};
 
+#[napi(object)]
+pub struct NapiMinifyExtra {
+    #[napi(ts_type = "object")]
+    pub mangle_name_cache: Option<NameMangleCache>,
+}
+
 struct MinifyTask {
     c: Arc<swc_core::base::Compiler>,
     code: String,
     options: String,
+    extras: JsMinifyExtras,
 }
 
 #[derive(Deserialize)]
@@ -62,7 +70,7 @@ impl Task for MinifyTask {
         try_with(self.c.cm.clone(), false, ErrorFormat::Normal, |handler| {
             let fm = input.to_file(self.c.cm.clone());
 
-            self.c.minify(fm, handler, &options)
+            self.c.minify(fm, handler, &options, self.extras.clone())
         })
         .convert_err()
     }
@@ -72,24 +80,50 @@ impl Task for MinifyTask {
     }
 }
 
+type NameMangleCache = External<Arc<dyn MangleCache>>;
+
+#[napi(ts_return_type = "object")]
+fn new_mangle_name_cache() -> NameMangleCache {
+    let cache = Arc::new(SimpleMangleCache::default());
+    External::new(cache)
+}
+
 #[napi]
-fn minify(code: Buffer, opts: Buffer, signal: Option<AbortSignal>) -> AsyncTask<MinifyTask> {
+fn minify(
+    code: Buffer,
+    opts: Buffer,
+    extras: NapiMinifyExtra,
+    signal: Option<AbortSignal>,
+) -> AsyncTask<MinifyTask> {
     crate::util::init_default_trace_subscriber();
     let code = String::from_utf8_lossy(code.as_ref()).to_string();
     let options = String::from_utf8_lossy(opts.as_ref()).to_string();
+    let extras = JsMinifyExtras::default()
+        .with_mangle_name_cache(extras.mangle_name_cache.as_deref().cloned());
 
     let c = get_compiler();
 
-    let task = MinifyTask { c, code, options };
+    let task = MinifyTask {
+        c,
+        code,
+        options,
+        extras,
+    };
 
     AsyncTask::with_optional_signal(task, signal)
 }
 
 #[napi]
-pub fn minify_sync(code: Buffer, opts: Buffer) -> napi::Result<TransformOutput> {
+pub fn minify_sync(
+    code: Buffer,
+    opts: Buffer,
+    extras: NapiMinifyExtra,
+) -> napi::Result<TransformOutput> {
     crate::util::init_default_trace_subscriber();
     let code: MinifyTarget = get_deserialized(code)?;
     let opts = get_deserialized(opts)?;
+    let extras = JsMinifyExtras::default()
+        .with_mangle_name_cache(extras.mangle_name_cache.as_deref().cloned());
 
     let c = get_compiler();
 
@@ -100,7 +134,7 @@ pub fn minify_sync(code: Buffer, opts: Buffer) -> napi::Result<TransformOutput> 
         false,
         // TODO(kdy1): Maybe make this configurable?
         ErrorFormat::Normal,
-        |handler| c.minify(fm, handler, &opts),
+        |handler| c.minify(fm, handler, &opts, extras),
     )
     .convert_err()
 }

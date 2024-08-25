@@ -49,6 +49,7 @@ tracing-subscriber = { workspace = true, features = ["env-filter"] }
 swc_core = { workspace = true, features = [
   "allocator_node",
   "ecma_ast",
+  "ecma_minifier",
   "ecma_codegen",
   "ecma_ast_serde",
   "common_concurrent",

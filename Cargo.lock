@@ -4340,6 +4340,7 @@ dependencies = [
  "arrayvec",
  "indexmap 2.2.6",
  "is-macro",
+ "rustc-hash",
  "serde",
  "serde_derive",
  "smallvec",

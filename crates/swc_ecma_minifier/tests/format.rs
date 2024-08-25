@@ -56,6 +56,7 @@ fn assert_format(src: &str, expected: &str, opts: Config) {
             &ExtraOptions {
                 unresolved_mark,
                 top_level_mark,
+                mangle_name_cache: None,
             },
         )
         .expect_module();

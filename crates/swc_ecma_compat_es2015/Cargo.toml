@@ -16,6 +16,7 @@ version       = "0.11.1"
 arrayvec     = { workspace = true }
 indexmap     = { workspace = true }
 is-macro     = { workspace = true }
+rustc-hash   = { workspace = true }
 serde        = { workspace = true }
 serde_derive = { workspace = true }
 smallvec     = { workspace = true }

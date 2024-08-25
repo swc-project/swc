@@ -150,6 +150,7 @@ fn run(
         &ExtraOptions {
             unresolved_mark,
             top_level_mark,
+            mangle_name_cache: None,
         },
     )
     .expect_module();

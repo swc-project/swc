@@ -2,91 +2,55 @@
 /* eslint-disable */
 
 export class Compiler {
-    constructor();
+  constructor()
 }
-export type JsCompiler = Compiler;
+export type JsCompiler = Compiler
 
-export function bundle(
-    confItems: Buffer,
-    signal?: AbortSignal | undefined | null
-): Promise<{ [index: string]: { code: string; map?: string } }>;
+export declare function bundle(confItems: Buffer, signal?: AbortSignal | undefined | null): Promise<{ [index: string]: { code: string, map?: string } }>
 
-export function getTargetTriple(): string;
+export declare function getTargetTriple(): string
 
-export function initCustomTraceSubscriber(
-    traceOutFilePath?: string | undefined | null
-): void;
+export declare function initCustomTraceSubscriber(traceOutFilePath?: string | undefined | null): void
 
-export function minify(
-    code: Buffer,
-    opts: Buffer,
-    signal?: AbortSignal | undefined | null
-): Promise<TransformOutput>;
+export declare function minify(code: Buffer, opts: Buffer, extras: NapiMinifyExtra, signal?: AbortSignal | undefined | null): Promise<TransformOutput>
 
-export function minifySync(code: Buffer, opts: Buffer): TransformOutput;
+export declare function minifySync(code: Buffer, opts: Buffer, extras: NapiMinifyExtra): TransformOutput
 
-export function parse(
-    src: string,
-    options: Buffer,
-    filename?: string | undefined | null,
-    signal?: AbortSignal | undefined | null
-): Promise<string>;
+export interface NapiMinifyExtra {
+  mangleNameCache?: object
+}
 
-export function parseFile(
-    path: string,
-    options: Buffer,
-    signal?: AbortSignal | undefined | null
-): Promise<string>;
+export declare function newMangleNameCache(): object
 
-export function parseFileSync(path: string, opts: Buffer): string;
+export declare function parse(src: string, options: Buffer, filename?: string | undefined | null, signal?: AbortSignal | undefined | null): Promise<string>
 
-export function parseSync(
-    src: string,
-    opts: Buffer,
-    filename?: string | undefined | null
-): string;
+export declare function parseFile(path: string, options: Buffer, signal?: AbortSignal | undefined | null): Promise<string>
 
-export function print(
-    programJson: string,
-    options: Buffer,
-    signal?: AbortSignal | undefined | null
-): Promise<TransformOutput>;
+export declare function parseFileSync(path: string, opts: Buffer): string
 
-export function printSync(program: string, options: Buffer): TransformOutput;
+export declare function parseSync(src: string, opts: Buffer, filename?: string | undefined | null): string
 
-export function transform(
-    src: string,
-    isModule: boolean,
-    options: Buffer,
-    signal?: AbortSignal | undefined | null
-): Promise<TransformOutput>;
+export declare function print(programJson: string, options: Buffer, signal?: AbortSignal | undefined | null): Promise<TransformOutput>
 
-export function transformFile(
-    src: string,
-    isModule: boolean,
-    options: Buffer,
-    signal?: AbortSignal | undefined | null
-): Promise<TransformOutput>;
+export declare function printSync(program: string, options: Buffer): TransformOutput
 
-export function transformFileSync(
-    s: string,
-    isModule: boolean,
-    opts: Buffer
-): TransformOutput;
+export declare function transform(src: string, isModule: boolean, options: Buffer, signal?: AbortSignal | undefined | null): Promise<TransformOutput>
+
+export declare function transformFile(src: string, isModule: boolean, options: Buffer, signal?: AbortSignal | undefined | null): Promise<TransformOutput>
+
+export declare function transformFileSync(s: string, isModule: boolean, opts: Buffer): TransformOutput
 
 export interface TransformOutput {
-    code: string;
-    map?: string;
+  code: string
+  map?: string
+  output?: string
 }
 
 /** Hack for `Type Generation` */
 export interface TransformOutput {
-    code: string;
-    map?: string;
+  code: string
+  map?: string
 }
 
-export function transformSync(
-    s: string,
-    isModule: boolean,
-    opts: Buffer
-): TransformOutput;
+export declare function transformSync(s: string, isModule: boolean, opts: Buffer): TransformOutput
+

@@ -1,10 +1,14 @@
 #![cfg_attr(not(feature = "extra-serde"), allow(unused))]
 
+use std::sync::Arc;
+
+use parking_lot::RwLock;
+use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
-use swc_atoms::JsWord;
+use swc_atoms::{Atom, JsWord};
 use swc_common::{collections::AHashMap, Mark};
 use swc_config::{merge::Merge, CachedRegex};
-use swc_ecma_ast::{EsVersion, Expr};
+use swc_ecma_ast::{EsVersion, Expr, Id};
 
 /// Implement default using serde.
 macro_rules! impl_default {
@@ -20,13 +24,14 @@ macro_rules! impl_default {
 pub mod terser;
 
 /// This is not serializable.
-#[derive(Debug)]
 pub struct ExtraOptions {
     /// It should be the [Mark] used for `resolver`.
     pub unresolved_mark: Mark,
 
     /// It should be the [Mark] used for `resolver`.
     pub top_level_mark: Mark,
+
+    pub mangle_name_cache: Option<Arc<dyn MangleCache>>,
 }
 
 #[derive(Debug, Default, Clone)]
@@ -434,5 +439,43 @@ impl Default for CompressOptions {
             const_to_let: true,
             pristine_globals: true,
         }
+    }
+}
+
+pub trait MangleCache: Send + Sync {
+    fn vars_cache(&self, op: &mut dyn FnMut(&FxHashMap<Id, Atom>));
+
+    fn props_cache(&self, op: &mut dyn FnMut(&FxHashMap<Atom, Atom>));
+
+    fn update_vars_cache(&self, new_data: &FxHashMap<Id, Atom>);
+
+    fn update_props_cache(&self, new_data: &FxHashMap<Atom, Atom>);
+}
+
+#[derive(Debug, Default)]
+pub struct SimpleMangleCache {
+    pub vars: RwLock<FxHashMap<Id, Atom>>,
+    pub props: RwLock<FxHashMap<Atom, Atom>>,
+}
+
+impl MangleCache for SimpleMangleCache {
+    fn vars_cache(&self, op: &mut dyn FnMut(&FxHashMap<Id, Atom>)) {
+        let vars = self.vars.read();
+        op(&vars);
+    }
+
+    fn props_cache(&self, op: &mut dyn FnMut(&FxHashMap<Atom, Atom>)) {
+        let props = self.props.read();
+        op(&props);
+    }
+
+    fn update_vars_cache(&self, new_data: &FxHashMap<Id, JsWord>) {
+        let mut vars = self.vars.write();
+        vars.extend(new_data.iter().map(|(k, v)| (k.clone(), v.clone())));
+    }
+
+    fn update_props_cache(&self, new_data: &FxHashMap<JsWord, JsWord>) {
+        let mut props = self.props.write();
+        props.extend(new_data.iter().map(|(k, v)| (k.clone(), v.clone())));
     }
 }

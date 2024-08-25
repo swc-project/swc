@@ -112,7 +112,7 @@ macro_rules! build_minify_sync {
                   };
 
                   let fm = c.cm.new_source_file($crate::wasm::FileName::Anon.into(), s.into());
-                  let program = $crate::wasm::anyhow::Context::context(c.minify(fm, handler, &opts), "failed to minify file")?;
+                  let program = $crate::wasm::anyhow::Context::context(c.minify(fm, handler, &opts, Default::default()), "failed to minify file")?;
 
                   program
                     .serialize($crate::wasm::compat_serializer().as_ref())

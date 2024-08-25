@@ -908,8 +908,13 @@ fn issue_1984() {
             .into(),
         );
 
-        c.minify(fm, &handler, &serde_json::from_str("{}").unwrap())
-            .unwrap();
+        c.minify(
+            fm,
+            &handler,
+            &serde_json::from_str("{}").unwrap(),
+            Default::default(),
+        )
+        .unwrap();
 
         Ok(())
     })
@@ -1157,6 +1162,7 @@ fn issue_7513_2() {
                         toplevel: Some(true),
                         ..Default::default()
                     },
+                    Default::default(),
                 )
                 .context("failed to minify")
             })
@@ -1261,7 +1267,7 @@ fn minify(input_js: PathBuf) {
             config.source_map = BoolOrDataConfig::from_bool(true);
         }
 
-        let output = c.minify(fm, &handler, &config).unwrap();
+        let output = c.minify(fm, &handler, &config, Default::default()).unwrap();
 
         NormalizedOutput::from(output.code)
             .compare_to_file(input_dir.join("output.js"))

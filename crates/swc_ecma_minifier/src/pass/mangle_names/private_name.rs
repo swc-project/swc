@@ -1,20 +1,17 @@
 use swc_atoms::JsWord;
 use swc_common::collections::AHashMap;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use super::Base54Chars;
 
-pub(crate) fn private_name_mangler(
-    keep_private_props: bool,
-    chars: Base54Chars,
-) -> impl Fold + VisitMut {
-    as_folder(PrivateNameMangler {
+pub(crate) fn private_name_mangler(keep_private_props: bool, chars: Base54Chars) -> impl VisitMut {
+    PrivateNameMangler {
         keep_private_props,
         private_n: Default::default(),
         renamed_private: Default::default(),
         chars,
-    })
+    }
 }
 
 struct PrivateNameMangler {
