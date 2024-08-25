@@ -51,7 +51,7 @@ pub trait Renamer: Send + Sync {
     fn new_name_for(&self, orig: &Id, n: &mut usize) -> Atom;
 }
 
-pub type RenameMap = AHashMap<Id, Atom>;
+pub type RenameMap = FxHashMap<Id, Atom>;
 
 pub fn rename(map: &RenameMap) -> impl '_ + Fold + VisitMut {
     rename_with_config(map, Default::default())
@@ -65,7 +65,7 @@ pub fn rename_with_config(map: &RenameMap, config: Config) -> impl '_ + Fold + V
     })
 }
 
-pub fn remap(map: &AHashMap<Id, Id>, config: Config) -> impl '_ + Fold + VisitMut {
+pub fn remap(map: &FxHashMap<Id, Id>, config: Config) -> impl '_ + Fold + VisitMut {
     as_folder(Operator {
         rename: map,
         config,
@@ -98,7 +98,7 @@ where
     preserved: FxHashSet<Id>,
     unresolved: FxHashSet<Atom>,
 
-    previous_cache: AHashMap<Id, Atom>,
+    previous_cache: RenameMap,
 
     /// Used to store cache.
     ///

@@ -447,9 +447,9 @@ pub trait MangleCache: Send + Sync {
 
     fn props_cache(&self, op: &mut dyn FnMut(&FxHashMap<Atom, Atom>));
 
-    fn update_vars_cache(&self, new_data: &AHashMap<Id, Atom>);
+    fn update_vars_cache(&self, new_data: &FxHashMap<Id, Atom>);
 
-    fn update_props_cache(&self, new_data: &AHashMap<Atom, Atom>);
+    fn update_props_cache(&self, new_data: &FxHashMap<Atom, Atom>);
 }
 
 #[derive(Debug, Default)]
@@ -469,12 +469,12 @@ impl MangleCache for SimpleMangleCache {
         op(&props);
     }
 
-    fn update_vars_cache(&self, new_data: &AHashMap<Id, JsWord>) {
+    fn update_vars_cache(&self, new_data: &FxHashMap<Id, JsWord>) {
         let mut vars = self.vars.write();
         vars.extend(new_data.iter().map(|(k, v)| (k.clone(), v.clone())));
     }
 
-    fn update_props_cache(&self, new_data: &AHashMap<JsWord, JsWord>) {
+    fn update_props_cache(&self, new_data: &FxHashMap<JsWord, JsWord>) {
         let mut props = self.props.write();
         props.extend(new_data.iter().map(|(k, v)| (k.clone(), v.clone())));
     }

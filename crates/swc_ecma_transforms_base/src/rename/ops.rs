@@ -1,5 +1,5 @@
+use rustc_hash::FxHashMap;
 use swc_common::{
-    collections::AHashMap,
     util::{move_map::MoveMap, take::Take},
     Spanned, SyntaxContext, DUMMY_SP,
 };
@@ -7,6 +7,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, stack_size::maybe_grow_default};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
+use super::RenameMap;
 use crate::{
     hygiene::Config,
     perf::{cpu_count, ParExplode, Parallel, ParallelExt},
@@ -16,7 +17,7 @@ pub(super) struct Operator<'a, I>
 where
     I: IdentLike,
 {
-    pub rename: &'a AHashMap<Id, I>,
+    pub rename: &'a FxHashMap<Id, I>,
     pub config: Config,
 
     pub extra: Vec<ModuleItem>,
@@ -36,7 +37,7 @@ where
 
         {
             // Remove span hygiene of the class.
-            let mut rename = AHashMap::default();
+            let mut rename = RenameMap::default();
 
             rename.insert(ident.to_id(), orig_name.sym.clone());
 

@@ -1,9 +1,7 @@
 use indexmap::IndexMap;
+use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
-use swc_common::{
-    collections::{AHashMap, ARandomState},
-    Mark, SyntaxContext,
-};
+use swc_common::{collections::ARandomState, Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{rename::remap, scope::ScopeKind};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
@@ -70,7 +68,7 @@ impl BlockScopedVars {
             vars: &empty_vars,
         };
 
-        let mut rename_map = AHashMap::default();
+        let mut rename_map = FxHashMap::default();
 
         // dbg!(&self.scope);
 
@@ -105,7 +103,7 @@ impl BlockScopedVars {
 
 #[swc_trace]
 impl Scope {
-    fn rename(&mut self, parent: ParentScope, rename_map: &mut AHashMap<Id, Id>, fn_only: bool) {
+    fn rename(&mut self, parent: ParentScope, rename_map: &mut FxHashMap<Id, Id>, fn_only: bool) {
         for s in self.children.iter_mut() {
             let parent = ParentScope {
                 parent: Some(&parent),
@@ -189,7 +187,7 @@ impl Scope {
             .for_each(|s| s.collect_candidates(parent, symbols));
     }
 
-    fn rename_decls(&self, symbols: &[JsWord], rename_map: &mut AHashMap<Id, Id>) {
+    fn rename_decls(&self, symbols: &[JsWord], rename_map: &mut FxHashMap<Id, Id>) {
         for (id, _) in &self.vars {
             if !symbols.contains(&id.0) {
                 continue;
