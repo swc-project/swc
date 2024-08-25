@@ -132,7 +132,7 @@ impl DecoratorPass {
             _ => ThisExpr { span: DUMMY_SP }.as_arg(),
         };
 
-        let mut e_lhs = Vec::new();
+        let mut element_lhs = Vec::new();
         let mut combined_args = vec![first_arg];
 
         for id in self
@@ -141,7 +141,7 @@ impl DecoratorPass {
             .drain(..)
             .chain(self.state.proto_lhs.drain(..))
         {
-            e_lhs.push(Some(id.into()));
+            element_lhs.push(Some(id.into()));
         }
 
         if let Some(init) = self.state.init_proto.clone() {
@@ -152,7 +152,7 @@ impl DecoratorPass {
                 definite: false,
             });
 
-            e_lhs.push(Some(init.into()));
+            element_lhs.push(Some(init.into()));
         }
 
         if let Some(init) = self.state.init_static.clone() {
@@ -163,7 +163,7 @@ impl DecoratorPass {
                 definite: false,
             });
 
-            e_lhs.push(Some(init.into()));
+            element_lhs.push(Some(init.into()));
         }
 
         combined_args.push(
@@ -187,18 +187,14 @@ impl DecoratorPass {
             .as_arg(),
         );
 
-        if let Some(super_class) = self.state.super_class.as_ref() {
-            combined_args.push(super_class.clone().as_arg());
-        }
-
-        let e_pat = if e_lhs.is_empty() {
+        let e_pat = if element_lhs.is_empty() {
             None
         } else {
             Some(ObjectPatProp::KeyValue(KeyValuePatProp {
                 key: PropName::Ident("e".into()),
                 value: ArrayPat {
                     span: DUMMY_SP,
-                    elems: e_lhs,
+                    elems: element_lhs,
                     type_ann: Default::default(),
                     optional: false,
                 }
@@ -206,7 +202,7 @@ impl DecoratorPass {
             }))
         };
 
-        let c_pat = if self.state.class_lhs.is_empty() {
+        let class_pat = if self.state.class_lhs.is_empty() {
             None
         } else {
             Some(ObjectPatProp::KeyValue(KeyValuePatProp {
@@ -221,7 +217,7 @@ impl DecoratorPass {
             }))
         };
 
-        let mut rhs = match self.version {
+        let rhs = match self.version {
             DecoratorVersion::V202112 => todo!(),
             DecoratorVersion::V202203 => Box::new(
                 CallExpr {
@@ -240,6 +236,13 @@ impl DecoratorPass {
                     || self.state.class_decorations_flag != 0
                 {
                     combined_args.push((self.state.class_decorations_flag as f64).as_arg());
+                }
+
+                if let Some(brand_name) = &self.state.maybe_private_brand_name {
+                    combined_args
+                        .push(self.create_private_brand_check_closure(brand_name).as_arg());
+                } else if self.state.super_class.is_some() {
+                    combined_args.push(Expr::undefined(DUMMY_SP).as_arg());
                 }
 
                 if let Some(super_class) = &self.state.super_class {
@@ -263,7 +266,7 @@ impl DecoratorPass {
             op: op!("="),
             left: ObjectPat {
                 span: DUMMY_SP,
-                props: e_pat.into_iter().chain(c_pat).collect(),
+                props: e_pat.into_iter().chain(class_pat).collect(),
                 optional: false,
                 type_ann: None,
             }
@@ -852,6 +855,24 @@ impl DecoratorPass {
                 _ => {}
             }
         }
+    }
+
+    fn create_private_brand_check_closure(&self, brand_name: &PrivateName) -> Box<Expr> {
+        let param = private_ident!("_");
+        ArrowExpr {
+            params: vec![param.clone().into()],
+            body: Box::new(BlockStmtOrExpr::Expr(
+                BinExpr {
+                    span: DUMMY_SP,
+                    op: op!("in"),
+                    left: brand_name.clone().into(),
+                    right: param.clone().into(),
+                }
+                .into(),
+            )),
+            ..Default::default()
+        }
+        .into()
     }
 }
 
