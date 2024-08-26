@@ -389,6 +389,8 @@ impl DecoratorPass {
                         Ident::new_private(format!("_{prefix}_computedKey").into(), lit.span()),
                     ),
                     _ => {
+                        let value = create_to_property_key(Box::new(value));
+
                         let key_ident = private_ident!("_computedKey");
                         self.extra_vars.push(VarDeclarator {
                             span: DUMMY_SP,
@@ -402,7 +404,7 @@ impl DecoratorPass {
                                 span: DUMMY_SP,
                                 op: op!("="),
                                 left: key_ident.clone().into(),
-                                right: Box::new(value),
+                                right: value,
                             }
                             .into(),
                         );
@@ -1013,6 +1015,15 @@ impl DecoratorPass {
 
         self.inject_init_extra_inner(name, is_static);
     }
+}
+
+fn create_to_property_key(key: Box<Expr>) -> Box<Expr> {
+    CallExpr {
+        callee: helper!(to_property_key),
+        args: vec![key.as_arg()],
+        ..Default::default()
+    }
+    .into()
 }
 
 impl VisitMut for DecoratorPass {
