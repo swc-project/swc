@@ -354,6 +354,15 @@ impl DecoratorPass {
                     unreachable!()
                 }
             },
+            PropName::Computed(c) if c.expr.is_lit() => match &*c.expr {
+                Expr::Lit(lit) => (
+                    lit.clone().into(),
+                    Ident::new_private(format!("_{prefix}").into(), c.span),
+                ),
+                _ => {
+                    unreachable!()
+                }
+            },
             _ => {
                 let key_ident = private_ident!("_computedKey");
                 self.extra_vars.push(VarDeclarator {
