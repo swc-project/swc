@@ -1,17 +1,17 @@
-const dec = ()=>{};
+const dec = () => {};
 class Foo {
-    #__a_1;
-    get #a() {
-        return this.#__a_1;
-    }
-    set #a(_v) {
-        this.#__a_1 = _v;
-    }
-    #__b_2 = 123;
-    get #b() {
-        return this.#__b_2;
-    }
-    set #b(_v) {
-        this.#__b_2 = _v;
-    }
+  #A;
+  get #a() {
+    return this.#A;
+  }
+  set #a(v) {
+    this.#A = v;
+  }
+  #B = 123;
+  get #b() {
+    return this.#B;
+  }
+  set #b(v) {
+    this.#B = v;
+  }
 }
