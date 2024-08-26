@@ -393,15 +393,17 @@ impl TransformExecutor {
             .run(program, self.unresolved_mark, should_enable_comments_proxy)
             .with_context(|| {
                 format!(
-                "failed to run Wasm plugin transform. Please ensure the version of `swc_core` \
-                 used by the plugin is compatible with the host runtime. See the documentation \
-                 for compatibility information. If you are an author of the plugin, please update \
-                 `swc_core` to the compatible version.
+                    "failed to run Wasm plugin transform. Please ensure the version of `swc_core` \
+                     used by the plugin is compatible with the host runtime. See the \
+                     documentation for compatibility information. If you are an author of the \
+                     plugin, please update `swc_core` to the compatible version.
                  
                 Note that if you want to use the os features like filesystem, you need to use \
-                 `wasi`. Wasm itself does not have concept of filesystem.
+                     `wasi`. Wasm itself does not have concept of filesystem.
                  
                 https://swc.rs/docs/plugin/selecting-swc-core
+
+                See https://plugins.swc.rs/versions/from-plugin-runner/{PKG_VERSION} for the list of the compatible versions.
                  
                 Build info: 
                     Date: {BUILD_DATE}
@@ -411,7 +413,7 @@ impl TransformExecutor {
                     swc_plugin_runner: {PKG_VERSION}
                     Dependencies: {PKG_DEPS}
                 "
-            )
+                )
             })
     }
 }
