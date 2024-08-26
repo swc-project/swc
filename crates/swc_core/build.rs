@@ -5,7 +5,7 @@ use std::{
     path::Path,
 };
 
-use vergen::EmitBuilder;
+use vergen::{CargoBuilder, Emitter};
 
 // Validate conflict between host / plugin features
 #[cfg(all(
@@ -22,6 +22,8 @@ compile_error!(
 );
 
 fn main() {
+    let cargo = CargoBuilder::all_cargo().unwrap();
+
     // Creates a static compile time constants for the version of swc_core.
     let pkg_version = env::var("CARGO_PKG_VERSION").unwrap();
     let out_dir = env::var("OUT_DIR").expect("Outdir should exist");
@@ -33,5 +35,10 @@ fn main() {
 
     // Attempt to collect some build time env values but will skip if there are any
     // errors.
-    let _ = EmitBuilder::builder().all_cargo().emit();
+
+    Emitter::default()
+        .add_instructions(&cargo)
+        .unwrap()
+        .emit()
+        .unwrap();
 }
