@@ -8,9 +8,9 @@ new class extends _identity {
     static{
         class Foo {
             static{
-                ({ c: [_Foo1, _initClass] } = _apply_decs_2203_r(this, [], [
+                [_Foo1, _initClass] = _apply_decs_2203_r(this, [], [
                     dec
-                ]));
+                ]).c;
             }
             static field = 123;
         }
@@ -24,9 +24,9 @@ new class extends _identity {
     static{
         class Bar extends (_Foo = _Foo1) {
             static{
-                ({ c: [_Bar, _initClass1] } = _apply_decs_2203_r(this, [], [
+                [_Bar, _initClass1] = _apply_decs_2203_r(this, [], [
                     dec
-                ]));
+                ]).c;
             }
             static field = ((()=>{
                 this.otherField = 456;

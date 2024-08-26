@@ -3,9 +3,9 @@ const dec = ()=>{};
 let _Foo;
 class Foo extends (_Bar = Bar) {
     static{
-        ({ c: [_Foo, _initClass] } = _apply_decs_2203_r(this, [], [
+        [_Foo, _initClass] = _apply_decs_2203_r(this, [], [
             dec
-        ]));
+        ]).c;
     }
     constructor(){
         let foo = super();

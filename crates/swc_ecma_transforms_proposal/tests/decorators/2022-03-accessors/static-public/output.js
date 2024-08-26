@@ -3,7 +3,7 @@ const dec = ()=>{};
 _computedKey = 'c';
 class Foo {
     static{
-        ({ e: [_init_a, _init_b, _init_computedKey, _initStatic] } = _apply_decs_2203_r(this, [
+        [_init_a, _init_b, _init_computedKey, _initStatic] = _apply_decs_2203_r(this, [
             [
                 dec,
                 6,
@@ -19,7 +19,7 @@ class Foo {
                 6,
                 _computedKey
             ]
-        ], []));
+        ], []).e;
         _initStatic(this);
     }
     static #___private_a_1 = _init_a(this);

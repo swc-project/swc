@@ -3,7 +3,7 @@ const dec = ()=>{};
 _computedKey = 'c';
 class Foo {
     static{
-        ({ e: [_init_a, _init_b, _init__computedKey]  } = _apply_decs_2203_r(this, [
+        [_init_a, _init_b, _init__computedKey] = _apply_decs_2203_r(this, [
             [
                 dec,
                 5,
@@ -19,7 +19,7 @@ class Foo {
                 5,
                 _computedKey
             ]
-        ], []));
+        ], []).e;
     }
     static a = _init_a(this);
     static b = _init_b(this, 123);

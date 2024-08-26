@@ -2,9 +2,9 @@ var _initClass, _A, _initClass1, _C, _initClass2, _class, _initClass3, _class1, 
 const dec = ()=>{};
 const A = (class A {
     static{
-        ({ c: [_A, _initClass] } = _apply_decs_2203_r(this, [], [
+        [_A, _initClass] = _apply_decs_2203_r(this, [], [
             dec
-        ]));
+        ]).c;
     }
     static{
         _initClass();
@@ -12,9 +12,9 @@ const A = (class A {
 }, _A);
 const B = (class C {
     static{
-        ({ c: [_C, _initClass1] } = _apply_decs_2203_r(this, [], [
+        [_C, _initClass1] = _apply_decs_2203_r(this, [], [
             dec
-        ]));
+        ]).c;
     }
     static{
         _initClass1();
@@ -22,9 +22,9 @@ const B = (class C {
 }, _C);
 const D = (class {
     static{
-        ({ c: [_class, _initClass2] } = _apply_decs_2203_r(this, [], [
+        [_class, _initClass2] = _apply_decs_2203_r(this, [], [
             dec
-        ]));
+        ]).c;
     }
     static{
         _initClass2();
@@ -32,9 +32,9 @@ const D = (class {
 }, _class);
 const E = ((class {
     static{
-        ({ c: [_class1, _initClass3] } = _apply_decs_2203_r(this, [], [
+        [_class1, _initClass3] = _apply_decs_2203_r(this, [], [
             dec
-        ]));
+        ]).c;
     }
     static{
         _initClass3();
@@ -43,9 +43,9 @@ const E = ((class {
 const F = [
     (class G {
         static{
-            ({ c: [_G, _initClass4] } = _apply_decs_2203_r(this, [], [
+            [_G, _initClass4] = _apply_decs_2203_r(this, [], [
                 dec
-            ]));
+            ]).c;
         }
         static{
             _initClass4();
@@ -53,9 +53,9 @@ const F = [
     }, _G),
     (class {
         static{
-            ({ c: [_class2, _initClass5] } = _apply_decs_2203_r(this, [], [
+            [_class2, _initClass5] = _apply_decs_2203_r(this, [], [
                 dec
-            ]));
+            ]).c;
         }
         static{
             _initClass5();
@@ -64,9 +64,9 @@ const F = [
 ];
 const H = (class extends (_I = I) {
     static{
-        ({ c: [_class3, _initClass6] } = _apply_decs_2203_r(this, [], [
+        [_class3, _initClass6] = _apply_decs_2203_r(this, [], [
             dec
-        ]));
+        ]).c;
     }
     static{
         _initClass6();
@@ -74,9 +74,9 @@ const H = (class extends (_I = I) {
 }, _class3);
 const J = (class K extends (_L = L) {
     static{
-        ({ c: [_K, _initClass7] } = _apply_decs_2203_r(this, [], [
+        [_K, _initClass7] = _apply_decs_2203_r(this, [], [
             dec
-        ]));
+        ]).c;
     }
     static{
         _initClass7();
@@ -86,9 +86,9 @@ function classFactory() {
     var _initClass, _class;
     return class {
         static{
-            ({ c: [_class, _initClass] } = _apply_decs_2203_r(this, [], [
+            [_class, _initClass] = _apply_decs_2203_r(this, [], [
                 dec
-            ]));
+            ]).c;
         }
         static{
             _initClass();

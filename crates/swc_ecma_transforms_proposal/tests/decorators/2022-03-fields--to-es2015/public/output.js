@@ -11,7 +11,7 @@ class Foo {
 }
 var __ = {
     writable: true,
-    value: { e: [_init_a, _init_b, _init__computedKey] } = _apply_decs_2203_r(Foo, [
+    value: [_init_a, _init_b, _init__computedKey] = _apply_decs_2203_r(Foo, [
         [
             dec,
             0,
@@ -27,5 +27,5 @@ var __ = {
             0,
             _computedKey
         ]
-    ], [])
+    ], []).e
 };
