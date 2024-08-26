@@ -1,8 +1,8 @@
 use std::{collections::VecDeque, iter::once, mem::take};
 
 use rustc_hash::FxHashMap;
-use swc_atoms::JsWord;
-use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
+use swc_atoms::Atom;
+use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, helper_expr};
 use swc_ecma_utils::{
@@ -51,6 +51,11 @@ struct ClassState {
     init_proto: Option<Ident>,
     init_proto_args: Vec<Option<ExprOrSpread>>,
     is_init_proto_called: bool,
+
+    /// `fieldInitializerExpressions` of babel
+    field_init_exprs: Vec<Box<Expr>>,
+    /// `staticFieldInitializerExpressions` of babel
+    static_field_init_exprs: Vec<Box<Expr>>,
 
     init_static: Option<Ident>,
     init_static_args: Vec<Option<ExprOrSpread>>,
@@ -921,6 +926,81 @@ impl DecoratorPass {
         }
         .into()
     }
+
+    fn inject_init_extra_inner(&mut self, name: Atom, is_static: bool) {
+        // https://github.com/babel/babel/blob/440fe413330f19fdb2c5fa63ffab87e67383d12d/packages/babel-helper-create-class-features-plugin/src/decorators.ts#L1631
+        if let DecoratorVersion::V202311 = self.version {
+        } else {
+            return;
+        }
+
+        let init_extra_id = Ident::new_private(format!("init_extra_{name}").into(), DUMMY_SP);
+
+        self.extra_vars.push(VarDeclarator {
+            span: DUMMY_SP,
+            name: init_extra_id.clone().into(),
+            init: None,
+            definite: false,
+        });
+
+        let init_extra_call: Box<Expr> = CallExpr {
+            callee: init_extra_id.clone().as_callee(),
+            args: if is_static {
+                vec![]
+            } else {
+                vec![ThisExpr { span: DUMMY_SP }.as_arg()]
+            },
+            ..Default::default()
+        }
+        .into();
+
+        if is_static {
+            self.state.static_lhs.push(init_extra_id.clone());
+            self.state.field_init_exprs.push(init_extra_call);
+        } else {
+            self.state.proto_lhs.push(init_extra_id.clone());
+            self.state.static_field_init_exprs.push(init_extra_call);
+        }
+    }
+
+    fn inject_init_extra(&mut self, m: &mut ClassMember) {
+        // https://github.com/babel/babel/blob/440fe413330f19fdb2c5fa63ffab87e67383d12d/packages/babel-helper-create-class-features-plugin/src/decorators.ts#L1631
+        if let DecoratorVersion::V202311 = self.version {
+        } else {
+            return;
+        }
+
+        let (name, is_static) = match m {
+            ClassMember::AutoAccessor(a) => match &a.key {
+                Key::Private(key) => {
+                    let name = key.name.clone();
+
+                    (name, a.is_static)
+                }
+                Key::Public(key) => {
+                    let name = prop_name_to_symbol(key);
+
+                    (name, a.is_static)
+                }
+            },
+
+            ClassMember::ClassProp(p) => {
+                let name = prop_name_to_symbol(&p.key);
+
+                (name, p.is_static)
+            }
+
+            ClassMember::PrivateProp(p) => {
+                let name = p.key.name.clone();
+
+                (name, p.is_static)
+            }
+
+            _ => return,
+        };
+
+        self.inject_init_extra_inner(name, is_static);
+    }
 }
 
 impl VisitMut for DecoratorPass {
@@ -1105,6 +1185,8 @@ impl VisitMut for DecoratorPass {
                     });
                 }
             }
+
+            self.inject_init_extra(n);
         }
     }
 
@@ -1116,11 +1198,16 @@ impl VisitMut for DecoratorPass {
         for mut m in members.take() {
             match m {
                 ClassMember::AutoAccessor(mut accessor) => {
+                    let init_extra_name = match &accessor.key {
+                        Key::Private(k) => k.name.clone(),
+                        Key::Public(k) => prop_name_to_symbol(k),
+                    };
+
                     accessor.value.visit_mut_with(self);
 
                     let name;
                     let init;
-                    let field_name_like: JsWord;
+                    let field_name_like: Atom;
                     let private_field = PrivateProp {
                         span: DUMMY_SP,
                         key: match &mut accessor.key {
@@ -1420,6 +1507,8 @@ impl VisitMut for DecoratorPass {
                                 .proto_lhs
                                 .extend(getter_var.into_iter().chain(setter_var));
                         }
+
+                        self.inject_init_extra_inner(init_extra_name, accessor.is_static);
 
                         // https://github.com/babel/babel/blob/440fe413330f19fdb2c5fa63ffab87e67383d12d/packages/babel-helper-create-class-features-plugin/src/decorators.ts#L1130-L1143
                         match self.version {
@@ -1974,6 +2063,13 @@ impl VisitMut for DecoratorPass {
         self.extra_lets = old_extra_lets;
         self.pre_class_inits = old_pre_class_inits;
         self.state = old_state;
+    }
+}
+
+fn prop_name_to_symbol(key: &PropName) -> Atom {
+    match key {
+        PropName::Ident(i) => i.sym.clone(),
+        _ => "computedKey".into(),
     }
 }
 
