@@ -2,14 +2,14 @@ var _call_x, _initProto;
 const dec = ()=>{};
 class Foo {
     static{
-        ({ e: [_call_x, _initProto] } = _apply_decs_2203_r(this, [
+        [_call_x, _initProto] = _apply_decs_2203_r(this, [
             [
                 dec,
                 2,
                 "x",
                 function() {}
             ]
-        ], []));
+        ], []).e;
     }
     constructor(){
         _initProto(this);

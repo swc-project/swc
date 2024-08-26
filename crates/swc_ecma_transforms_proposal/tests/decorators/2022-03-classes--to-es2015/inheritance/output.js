@@ -6,9 +6,9 @@ class Bar {
 }
 var __ = {
     writable: true,
-    value: { c: [_Bar1, _initClass] } = _apply_decs_2203_r(Bar, [], [
+    value: [_Bar1, _initClass] = _apply_decs_2203_r(Bar, [], [
         dec1
-    ])
+    ]).c
 };
 var __2 = {
     writable: true,
@@ -19,9 +19,9 @@ class Foo extends (_Bar = _Bar1) {
 }
 var __1 = {
     writable: true,
-    value: { c: [_Foo, _initClass1] } = _apply_decs_2203_r(Foo, [], [
+    value: [_Foo, _initClass1] = _apply_decs_2203_r(Foo, [], [
         dec2
-    ])
+    ]).c
 };
 var __21 = {
     writable: true,

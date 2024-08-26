@@ -34,13 +34,13 @@ class Foo {
         _dec = this.#a;
         return class Nested {
             static{
-                ({ e: [_init_bar] } = _apply_decs_2203_r(this, [
+                [_init_bar] = _apply_decs_2203_r(this, [
                     [
                         _dec,
                         0,
                         "bar"
                     ]
-                ], []));
+                ], []).e;
             }
             bar = _init_bar(this);
         };

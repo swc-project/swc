@@ -3,7 +3,7 @@ const dec = ()=>{};
 _computedKey = 'b';
 class Foo {
     static{
-        ({ e: [_initProto]  } = _apply_decs_2203_r(this, [
+        [_initProto] = _apply_decs_2203_r(this, [
             [
                 dec,
                 2,
@@ -14,7 +14,7 @@ class Foo {
                 2,
                 _computedKey
             ]
-        ], []));
+        ], []).e;
     }
     constructor(){
         _initProto(this);

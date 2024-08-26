@@ -13,9 +13,9 @@ new (_class = class extends _identity {
         }
         var __ = {
             writable: true,
-            value: { c: [_Foo, _initClass] } = _apply_decs_2203_r(Foo, [], [
+            value: [_Foo, _initClass] = _apply_decs_2203_r(Foo, [], [
                 dec
-            ])
+            ]).c
         };
         _define_property(Foo, "foo", new _Foo());
     })()

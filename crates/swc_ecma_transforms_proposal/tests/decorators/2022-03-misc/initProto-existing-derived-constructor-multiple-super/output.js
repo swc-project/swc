@@ -3,12 +3,13 @@ const dec = ()=>{};
 class A extends B {
     static{
         ({ e: [_initProto] } = _apply_decs_2203_r(this, [
+        [_initProto] = _apply_decs_2203_r(this, [
             [
                 deco,
                 2,
                 "method"
             ]
-        ], []));
+        ], []).e;
     }
     constructor(){
         if (Math.random() > 0.5) {
@@ -22,12 +23,13 @@ class A extends B {
 class C extends B {
     static{
         ({ e: [_initProto1] } = _apply_decs_2203_r(this, [
+        [_initProto1] = _apply_decs_2203_r(this, [
             [
                 deco,
                 2,
                 "method"
             ]
-        ], []));
+        ], []).e;
     }
     constructor(){
         try {

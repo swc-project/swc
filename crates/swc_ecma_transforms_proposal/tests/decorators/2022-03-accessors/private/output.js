@@ -2,7 +2,7 @@ var _init_a, _get___a, _set___a, _init_b, _get___b, _set___b, _initProto;
 const dec = ()=>{};
 class Foo {
     static{
-        ({ e: [_init_a, _get___a, _set___a, _init_b, _get___b, _set___b, _initProto] } = _apply_decs_2203_r(this, [
+        [_init_a, _get___a, _set___a, _init_b, _get___b, _set___b, _initProto] = _apply_decs_2203_r(this, [
             [
                 dec,
                 1,
@@ -25,7 +25,7 @@ class Foo {
                     this.#__b_2 = _v;
                 }
             ]
-        ], []));
+        ], []).e;
     }
     #__a_1 = (_initProto(this), _init_a(this));
     get #a() {

@@ -7,9 +7,9 @@ const Foo = ((_Bar = class Bar {
     }
 }, __ = {
     writable: true,
-    value: { c: [_Bar1, _initClass] } = _apply_decs_2203_r(_Bar, [], [
+    value: [_Bar1, _initClass] = _apply_decs_2203_r(_Bar, [], [
         dec
-    ])
+    ]).c
 }, __2 = {
     writable: true,
     value: _initClass()

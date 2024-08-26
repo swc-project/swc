@@ -23,7 +23,7 @@ class Foo {
 }
 var __ = {
     writable: true,
-    value: { e: [_init_a, _get___a, _set___a, _init_b, _get___b, _set___b, _initProto] } = _apply_decs_2203_r(Foo, [
+    value: [_init_a, _get___a, _set___a, _init_b, _get___b, _set___b, _initProto] = _apply_decs_2203_r(Foo, [
         [
             dec,
             1,
@@ -46,7 +46,7 @@ var __ = {
                 _class_private_field_set(this, ___b_2, _v);
             }
         ]
-    ], [])
+    ], []).e
 };
 function get_a() {
     return _get___a(this);

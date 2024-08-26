@@ -39,7 +39,7 @@ class Foo {
 }
 var __ = {
     writable: true,
-    value: { e: [_init_a, _init_b, _init_computedKey, _initProto] } = _apply_decs_2203_r(Foo, [
+    value: [_init_a, _init_b, _init_computedKey, _initProto] = _apply_decs_2203_r(Foo, [
         [
             dec,
             1,
@@ -55,5 +55,5 @@ var __ = {
             1,
             _computedKey
         ]
-    ], [])
+    ], []).e
 };
