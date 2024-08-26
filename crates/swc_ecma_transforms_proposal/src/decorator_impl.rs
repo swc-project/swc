@@ -1034,7 +1034,9 @@ impl VisitMut for DecoratorPass {
 
         n.visit_mut_children_with(self);
 
-        if !self.state.is_init_proto_called || !self.state.field_init_exprs.is_empty() {
+        if (!self.state.is_init_proto_called && self.state.init_proto.is_some())
+            || !self.state.field_init_exprs.is_empty()
+        {
             let c = self.ensure_constructor(n);
             let mut exprs = vec![];
 
