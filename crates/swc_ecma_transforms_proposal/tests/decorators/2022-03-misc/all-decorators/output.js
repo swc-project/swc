@@ -1,4 +1,4 @@
-var _initClass, _init_d, _call_f, _call_g, _call_g1, _init_h, _get___h, _set___h, _init_m, _call_o, _call_p, _call_q, _init_r, _get___r, _set___r, _init_a, _init_e, _init_i, _init_n, _initProto, _initStatic;
+var _initClass, _init_d, _call_f, _call_g, _call_g1, _init_h, _get_h, _set_h, _init_m, _call_o, _call_p, _call_q, _init_r, _get_r, _set_r, _init_a, _init_e, _init_i, _init_n, _initProto, _initStatic;
 const dec = ()=>{};
 let _Class;
 new class extends _identity {
@@ -8,7 +8,7 @@ new class extends _identity {
     static{
         class Class {
             static{
-                ({ e: [_init_m, _call_o, _call_p, _call_q, _init_r, _get___r, _set___r, _init_i, _init_n, _init_d, _call_f, _call_g, _call_g1, _init_h, _get___h, _set___h, _init_a, _init_e, _initProto, _initStatic], c: [_Class, _initClass] } = _apply_decs_2203_r(this, [
+                ({ e: [_init_m, _call_o, _call_p, _call_q, _init_r, _get_r, _set_r, _init_i, _init_n, _init_d, _call_f, _call_g, _call_g1, _init_h, _get_h, _set_h, _init_a, _init_e, _initProto, _initStatic], c: [_Class, _initClass] } = _apply_decs_2203_r(this, [
                     [
                         dec,
                         7,
@@ -148,12 +148,12 @@ new class extends _identity {
             b() {}
             get c() {}
             set c(v) {}
-            #___private_d_1 = (_initProto(this), _init_d(this));
+            #_private_d_1 = (_initProto(this), _init_d(this));
             get d() {
-                return this.#___private_d_1;
+                return this.#_private_d_1;
             }
             set d(_v) {
-                this.#___private_d_1 = _v;
+                this.#_private_d_1 = _v;
             }
             #e = _init_e(this);
             get #f() {
@@ -167,24 +167,24 @@ new class extends _identity {
             }
             #__h_2 = _init_h(this);
             get #h() {
-                return _get___h(this);
+                return _get_h(this);
             }
             set #h(_v) {
-                _set___h(this, _v);
+                _set_h(this, _v);
             }
             static i = _init_i(this);
             static j() {}
             static get k() {}
             static set l(v) {}
             static get m() {
-                return this.#___private_m_3;
+                return this.#_private_m_3;
             }
             static set m(_v) {
-                this.#___private_m_3 = _v;
+                this.#_private_m_3 = _v;
             }
         }
     }
-    #___private_m_3 = _init_m(this);
+    #_private_m_3 = _init_m(this);
     #n = _init_n(this);
     get #o() {
         return _call_o;
@@ -197,9 +197,9 @@ new class extends _identity {
     }
     #__r_4 = _init_r(this);
     get #r() {
-        return _get___r(this);
+        return _get_r(this);
     }
     set #r(_v) {
-        _set___r(this, _v);
+        _set_r(this, _v);
     }
 }();

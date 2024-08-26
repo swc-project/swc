@@ -21,25 +21,25 @@ class Foo {
         ], []).e;
         _initStatic(this);
     }
-    static #___private_a_1 = _init_a(this);
+    static #_private_a_1 = _init_a(this);
     static get a() {
-        return this.#___private_a_1;
+        return this.#_private_a_1;
     }
     static set a(_v) {
-        this.#___private_a_1 = _v;
+        this.#_private_a_1 = _v;
     }
-    static #___private_b_2 = _init_b(this, 123);
+    static #_private_b_2 = _init_b(this, 123);
     static get b() {
-        return this.#___private_b_2;
+        return this.#_private_b_2;
     }
     static set b(_v) {
-        this.#___private_b_2 = _v;
+        this.#_private_b_2 = _v;
     }
-    static #___private_computedKey_3 = _init_computedKey(this, 456);
+    static #_private_computedKey_3 = _init_computedKey(this, 456);
     static get ['c']() {
-        return this.#___private_computedKey_3;
+        return this.#_private_computedKey_3;
     }
     static set ['c'](_v) {
-        this.#___private_computedKey_3 = _v;
+        this.#_private_computedKey_3 = _v;
     }
 }

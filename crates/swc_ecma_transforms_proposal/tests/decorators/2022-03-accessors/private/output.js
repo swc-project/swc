@@ -1,8 +1,8 @@
-var _init_a, _get___a, _set___a, _init_b, _get___b, _set___b, _initProto;
+var _init_a, _get_a, _set_a, _init_b, _get_b, _set_b, _initProto;
 const dec = ()=>{};
 class Foo {
     static{
-        [_init_a, _get___a, _set___a, _init_b, _get___b, _set___b, _initProto] = _apply_decs_2203_r(this, [
+        [_init_a, _get_a, _set_a, _init_b, _get_b, _set_b, _initProto] = _apply_decs_2203_r(this, [
             [
                 dec,
                 1,
@@ -29,16 +29,16 @@ class Foo {
     }
     #__a_1 = (_initProto(this), _init_a(this));
     get #a() {
-        return _get___a(this);
+        return _get_a(this);
     }
     set #a(_v) {
-        _set___a(this, _v);
+        _set_a(this, _v);
     }
     #__b_2 = _init_b(this, 123);
     get #b() {
-        return _get___b(this);
+        return _get_b(this);
     }
     set #b(_v) {
-        _set___b(this, _v);
+        _set_b(this, _v);
     }
 }

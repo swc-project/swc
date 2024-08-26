@@ -1,4 +1,4 @@
-var _init_a, _get___a, _set___a, _init_b, _get___b, _set___b, _initProto;
+var _init_a, _get_a, _set_a, _init_b, _get_b, _set_b, _initProto;
 const dec = ()=>{};
 var ___a_1 = /*#__PURE__*/ new WeakMap(), _a = /*#__PURE__*/ new WeakMap(), ___b_2 = /*#__PURE__*/ new WeakMap(), _b = /*#__PURE__*/ new WeakMap();
 class Foo {
@@ -23,7 +23,7 @@ class Foo {
 }
 var __ = {
     writable: true,
-    value: [_init_a, _get___a, _set___a, _init_b, _get___b, _set___b, _initProto] = _apply_decs_2203_r(Foo, [
+    value: [_init_a, _get_a, _set_a, _init_b, _get_b, _set_b, _initProto] = _apply_decs_2203_r(Foo, [
         [
             dec,
             1,
@@ -49,14 +49,14 @@ var __ = {
     ], []).e
 };
 function get_a() {
-    return _get___a(this);
+    return _get_a(this);
 }
 function set_a(_v) {
-    _set___a(this, _v);
+    _set_a(this, _v);
 }
 function get_b() {
-    return _get___b(this);
+    return _get_b(this);
 }
 function set_b(_v) {
-    _set___b(this, _v);
+    _set_b(this, _v);
 }
