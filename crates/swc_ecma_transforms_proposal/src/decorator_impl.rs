@@ -343,20 +343,12 @@ impl DecoratorPass {
                     raw: None,
                 })
                 .into(),
-                Ident::new(
-                    format!("_{prefix}_{}", i.sym).into(),
-                    i.span,
-                    SyntaxContext::empty().apply_mark(Mark::new()),
-                ),
+                Ident::new_private(format!("_{prefix}_{}", i.sym).into(), i.span),
             ),
             PropName::Computed(c) if c.expr.is_ident() => match &*c.expr {
                 Expr::Ident(i) => (
                     i.clone().into(),
-                    Ident::new(
-                        format!("_{prefix}_{}", i.sym).into(),
-                        i.span,
-                        SyntaxContext::empty().apply_mark(Mark::new()),
-                    ),
+                    Ident::new_private(format!("_{prefix}_{}", i.sym).into(), i.span),
                 ),
                 _ => {
                     unreachable!()
@@ -385,11 +377,8 @@ impl DecoratorPass {
                     expr: key_ident.clone().into(),
                 });
 
-                let init = Ident::new(
-                    format!("_{prefix}_computedKey").into(),
-                    key_ident.span,
-                    SyntaxContext::empty().apply_mark(Mark::new()),
-                );
+                let init =
+                    Ident::new_private(format!("_{prefix}_computedKey").into(), key_ident.span);
 
                 (key_ident.into(), init)
             }
