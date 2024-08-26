@@ -1034,20 +1034,22 @@ impl VisitMut for DecoratorPass {
 
         n.visit_mut_children_with(self);
 
-        if !self.state.is_init_proto_called {
-            if let Some(init_proto) = self.state.init_proto.clone() {
-                let c = self.ensure_constructor(n);
+        if !self.state.is_init_proto_called || !self.state.field_init_exprs.is_empty() {
+            let c = self.ensure_constructor(n);
+            let mut exprs = vec![];
 
-                inject_after_super(
-                    c,
-                    vec![Box::new(Expr::Call(CallExpr {
+            if !self.state.is_init_proto_called {
+                if let Some(init_proto) = self.state.init_proto.clone() {
+                    exprs.push(Box::new(Expr::Call(CallExpr {
                         span: DUMMY_SP,
                         callee: init_proto.as_callee(),
                         args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
                         ..Default::default()
-                    }))],
-                )
+                    })));
+                }
             }
+            exprs.append(&mut self.state.field_init_exprs);
+            inject_after_super(c, exprs)
         }
 
         self.consume_inits();
