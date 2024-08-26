@@ -5366,6 +5366,7 @@ dependencies = [
  "testing",
  "tokio",
  "tracing",
+ "vergen",
  "virtual-fs 0.11.4",
  "wasmer",
  "wasmer-cache",
