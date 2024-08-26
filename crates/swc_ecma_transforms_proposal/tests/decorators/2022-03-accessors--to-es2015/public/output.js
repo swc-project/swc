@@ -1,8 +1,6 @@
-var _init_a, _init_b, _computedKey, _init_computedKey, _initProto;
+var _init_a, _init_b, _init, _initProto;
 const dec = ()=>{};
-_computedKey = 'c';
-var ____private_a_1 = /*#__PURE__*/ new WeakMap(), ____private_b_2 = /*#__PURE__*/ new WeakMap(), ____private_computedKey_3 = /*#__PURE__*/ new WeakMap();
-let _computedKey1 = _computedKey, _computedKey2 = _computedKey;
+var ____private_a_1 = /*#__PURE__*/ new WeakMap(), ____private_b_2 = /*#__PURE__*/ new WeakMap(), ____private_3 = /*#__PURE__*/ new WeakMap();
 class Foo {
     get a() {
         return _class_private_field_get(this, ____private_a_1);
@@ -16,11 +14,11 @@ class Foo {
     set b(_v) {
         _class_private_field_set(this, ____private_b_2, _v);
     }
-    get [_computedKey1]() {
-        return _class_private_field_get(this, ____private_computedKey_3);
+    get ['c']() {
+        return _class_private_field_get(this, ____private_3);
     }
-    set [_computedKey2](_v) {
-        _class_private_field_set(this, ____private_computedKey_3, _v);
+    set ['c'](_v) {
+        _class_private_field_set(this, ____private_3, _v);
     }
     constructor(){
         _class_private_field_init(this, ____private_a_1, {
@@ -31,15 +29,15 @@ class Foo {
             writable: true,
             value: _init_b(this, 123)
         });
-        _class_private_field_init(this, ____private_computedKey_3, {
+        _class_private_field_init(this, ____private_3, {
             writable: true,
-            value: _init_computedKey(this, 456)
+            value: _init(this, 456)
         });
     }
 }
 var __ = {
     writable: true,
-    value: [_init_a, _init_b, _init_computedKey, _initProto] = _apply_decs_2203_r(Foo, [
+    value: [_init_a, _init_b, _init, _initProto] = _apply_decs_2203_r(Foo, [
         [
             dec,
             1,
@@ -53,7 +51,7 @@ var __ = {
         [
             dec,
             1,
-            _computedKey
+            'c'
         ]
     ], []).e
 };

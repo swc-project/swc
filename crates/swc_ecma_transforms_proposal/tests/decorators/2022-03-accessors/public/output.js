@@ -1,9 +1,8 @@
-var _init_a, _init_b, _computedKey, _init_computedKey, _initProto;
+var _init_a, _init_b, _init, _initProto;
 const dec = ()=>{};
-_computedKey = 'c';
 class Foo {
     static{
-        [_init_a, _init_b, _init_computedKey, _initProto] = _apply_decs_2203_r(this, [
+        [_init_a, _init_b, _init, _initProto] = _apply_decs_2203_r(this, [
             [
                 dec,
                 1,
@@ -17,7 +16,7 @@ class Foo {
             [
                 dec,
                 1,
-                _computedKey
+                'c'
             ]
         ], []).e;
     }
@@ -35,11 +34,11 @@ class Foo {
     set b(_v) {
         this.#___private_b_2 = _v;
     }
-    #___private_computedKey_3 = _init_computedKey(this, 456);
-    get [_computedKey]() {
-        return this.#___private_computedKey_3;
+    #___private_3 = _init(this, 456);
+    get ['c']() {
+        return this.#___private_3;
     }
-    set [_computedKey](_v) {
-        this.#___private_computedKey_3 = _v;
+    set ['c'](_v) {
+        this.#___private_3 = _v;
     }
 }

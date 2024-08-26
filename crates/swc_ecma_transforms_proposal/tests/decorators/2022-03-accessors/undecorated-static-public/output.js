@@ -1,6 +1,4 @@
-var _computedKey;
 const dec = ()=>{};
-_computedKey = 'c';
 class Foo {
     static #___private_a_1;
     static get a() {
@@ -16,11 +14,11 @@ class Foo {
     static set b(_v) {
         this.#___private_b_2 = _v;
     }
-    static #___private_computedKey_3 = 456;
-    static get [_computedKey]() {
-        return this.#___private_computedKey_3;
+    static #___private_3 = 456;
+    static get ['c']() {
+        return this.#___private_3;
     }
-    static set [_computedKey](_v) {
-        this.#___private_computedKey_3 = _v;
+    static set ['c'](_v) {
+        this.#___private_3 = _v;
     }
 }
