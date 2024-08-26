@@ -1219,7 +1219,7 @@ impl VisitMut for DecoratorPass {
                                 })
                                 .into();
                                 init = private_ident!(format!("_init_{}", k.name));
-                                field_name_like = format!("__{}", k.name).into();
+                                field_name_like = format!("{}", k.name).into();
 
                                 self.state.private_id_index += 1;
                                 PrivateName {
@@ -1230,7 +1230,7 @@ impl VisitMut for DecoratorPass {
                             }
                             Key::Public(k) => {
                                 (name, init) = self.initializer_name(k, "init");
-                                field_name_like = format!("__{}", init.sym)
+                                field_name_like = format!("{}", init.sym)
                                     .replacen("init", "private", 1)
                                     .into();
 
