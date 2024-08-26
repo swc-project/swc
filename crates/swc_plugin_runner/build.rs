@@ -4,7 +4,10 @@ use vergen::{BuildBuilder, CargoBuilder, Emitter};
 
 fn main() -> Result<(), Box<dyn Error>> {
     let build = BuildBuilder::all_build()?;
-    let cargo = CargoBuilder::all_cargo()?;
+    let cargo = CargoBuilder::default()
+        .dependencies(true)
+        .name_filter("*_ast")
+        .build()?;
 
     Emitter::default()
         .add_instructions(&build)?
