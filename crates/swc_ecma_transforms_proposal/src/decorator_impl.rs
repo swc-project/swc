@@ -1066,6 +1066,19 @@ impl VisitMut for DecoratorPass {
             );
         }
 
+        if !self.state.static_field_init_exprs.is_empty() {
+            n.body.push(ClassMember::StaticBlock(StaticBlock {
+                span: DUMMY_SP,
+                body: BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: vec![
+                        Expr::from_exprs(self.state.static_field_init_exprs.take()).into_stmt()
+                    ],
+                    ..Default::default()
+                },
+            }));
+        }
+
         self.state.init_proto = None;
         self.state.is_init_proto_called = false;
 
