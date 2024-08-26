@@ -354,42 +354,54 @@ impl DecoratorPass {
                     unreachable!()
                 }
             },
-            PropName::Computed(c) if c.expr.is_lit() => match &*c.expr {
-                Expr::Lit(lit) => (
-                    lit.clone().into(),
-                    Ident::new_private(format!("_{prefix}").into(), c.span),
-                ),
-                _ => {
-                    unreachable!()
-                }
-            },
             _ => {
-                let key_ident = private_ident!("_computedKey");
-                self.extra_vars.push(VarDeclarator {
-                    span: DUMMY_SP,
-                    name: key_ident.clone().into(),
-                    init: None,
-                    definite: false,
-                });
-
-                self.pre_class_inits.push(
-                    AssignExpr {
-                        span: DUMMY_SP,
-                        op: op!("="),
-                        left: key_ident.clone().into(),
-                        right: Box::new(prop_name_to_expr_value(name.take())),
+                let value = prop_name_to_expr_value(match name {
+                    PropName::Computed(c) => {
+                        if c.expr.is_lit() {
+                            name.clone()
+                        } else {
+                            name.take()
+                        }
                     }
-                    .into(),
-                );
-                *name = PropName::Computed(ComputedPropName {
-                    span: DUMMY_SP,
-                    expr: key_ident.clone().into(),
+                    _ => name.clone(),
                 });
 
-                let init =
-                    Ident::new_private(format!("_{prefix}_computedKey").into(), key_ident.span);
+                match value {
+                    Expr::Lit(lit) => (
+                        lit.clone().into(),
+                        Ident::new_private(format!("_{prefix}").into(), lit.span()),
+                    ),
+                    _ => {
+                        let key_ident = private_ident!("_computedKey");
+                        self.extra_vars.push(VarDeclarator {
+                            span: DUMMY_SP,
+                            name: key_ident.clone().into(),
+                            init: None,
+                            definite: false,
+                        });
 
-                (key_ident.into(), init)
+                        self.pre_class_inits.push(
+                            AssignExpr {
+                                span: DUMMY_SP,
+                                op: op!("="),
+                                left: key_ident.clone().into(),
+                                right: Box::new(value),
+                            }
+                            .into(),
+                        );
+                        *name = PropName::Computed(ComputedPropName {
+                            span: DUMMY_SP,
+                            expr: key_ident.clone().into(),
+                        });
+
+                        let init = Ident::new_private(
+                            format!("_{prefix}_computedKey").into(),
+                            key_ident.span,
+                        );
+
+                        (key_ident.into(), init)
+                    }
+                }
             }
         }
     }
@@ -838,8 +850,8 @@ impl DecoratorPass {
 
     fn process_prop_name(&mut self, name: &mut PropName) {
         match name {
-            PropName::Ident(..) => {}
-            PropName::Computed(c) if c.expr.is_ident() => {}
+            PropName::Ident(..) | PropName::Num(..) | PropName::Str(..) | PropName::BigInt(..) => {}
+            PropName::Computed(c) if c.expr.is_ident() || c.expr.is_lit() => {}
             _ => {
                 let ident = private_ident!("_computedKey");
                 self.extra_vars.push(VarDeclarator {
