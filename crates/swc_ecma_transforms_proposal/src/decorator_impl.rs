@@ -1308,10 +1308,15 @@ impl VisitMut for DecoratorPass {
                                 let init_call = CallExpr {
                                     span: DUMMY_SP,
                                     callee: init.clone().as_callee(),
-                                    args: if accessor.is_static {
-                                        None
-                                    } else {
-                                        Some(ThisExpr { span: DUMMY_SP }.as_arg())
+                                    args: match self.version {
+                                        DecoratorVersion::V202311 => {
+                                            if accessor.is_static {
+                                                None
+                                            } else {
+                                                Some(ThisExpr { span: DUMMY_SP }.as_arg())
+                                            }
+                                        }
+                                        _ => Some(ThisExpr { span: DUMMY_SP }.as_arg()),
                                     }
                                     .into_iter()
                                     .chain(accessor.value.take().map(|v| v.as_arg()))
