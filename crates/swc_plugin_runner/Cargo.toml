@@ -46,7 +46,7 @@ __rkyv    = []
 rkyv-impl = ["__rkyv", "swc_common/plugin-rt", "swc_plugin_proxy/plugin-rt"]
 
 [build-dependencies]
-vergen = { workspace = true }
+vergen = { workspace = true, features = ["build", "rustc"] }
 
 
 [dependencies]
