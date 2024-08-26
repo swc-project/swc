@@ -1508,11 +1508,9 @@ impl VisitMut for DecoratorPass {
                                     Key::Public(_) => {
                                         vec![
                                             dec,
-                                            Some(if accessor.is_static {
-                                                6.as_arg()
-                                            } else {
-                                                1.as_arg()
-                                            }),
+                                            Some(
+                                                flag(1, accessor.is_static, self.version).as_arg(),
+                                            ),
                                             Some(name.as_arg()),
                                         ]
                                     }
@@ -1992,7 +1990,7 @@ impl VisitMut for DecoratorPass {
                 span: DUMMY_SP,
                 elems: vec![
                     dec,
-                    Some(if p.is_static { 5.as_arg() } else { 0.as_arg() }),
+                    Some(flag(0, p.is_static, self.version).as_arg()),
                     Some((&*p.key.name).as_arg()),
                     Some(
                         FnExpr {
