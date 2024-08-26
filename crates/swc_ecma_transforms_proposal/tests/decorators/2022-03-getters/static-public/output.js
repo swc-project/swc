@@ -1,6 +1,5 @@
-var _computedKey, _initStatic;
+var _initStatic;
 const dec = ()=>{};
-_computedKey = 'b';
 class Foo {
     static{
         [_initStatic] = _apply_decs_2203_r(this, [
@@ -12,7 +11,7 @@ class Foo {
             [
                 dec,
                 8,
-                _computedKey
+                'b'
             ]
         ], []).e;
         _initStatic(this);
@@ -21,7 +20,7 @@ class Foo {
     static get a() {
         return this.value;
     }
-    static get [_computedKey]() {
+    static get ['b']() {
         return this.value;
     }
 }

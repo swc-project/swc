@@ -1,6 +1,5 @@
-var _computedKey, _initProto;
+var _initProto;
 const dec = ()=>{};
-_computedKey = 'b';
 class Foo {
     static{
         [_initProto] = _apply_decs_2203_r(this, [
@@ -12,7 +11,7 @@ class Foo {
             [
                 dec,
                 2,
-                _computedKey
+                'b'
             ]
         ], []).e;
     }
@@ -23,7 +22,7 @@ class Foo {
     a() {
         return this.value;
     }
-    [_computedKey]() {
+    ['b']() {
         return this.value;
     }
 }

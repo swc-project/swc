@@ -1,17 +1,15 @@
-var _computedKey, _init_a, _init_b, _init__computedKey;
+var _init_a, _init_b, _init_computedKey;
 const dec = ()=>{};
-_computedKey = 'c';
-let _computedKey1 = _computedKey;
 class Foo {
     constructor(){
         _define_property(this, "a", _init_a(this));
         _define_property(this, "b", _init_b(this, 123));
-        _define_property(this, _computedKey1, _init__computedKey(this, 456));
+        _define_property(this, 'c', _init_computedKey(this, 456));
     }
 }
 var __ = {
     writable: true,
-    value: [_init_a, _init_b, _init__computedKey] = _apply_decs_2203_r(Foo, [
+    value: [_init_a, _init_b, _init_computedKey] = _apply_decs_2203_r(Foo, [
         [
             dec,
             0,
@@ -25,7 +23,7 @@ var __ = {
         [
             dec,
             0,
-            _computedKey
+            'c'
         ]
     ], []).e
 };

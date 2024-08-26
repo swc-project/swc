@@ -1,9 +1,8 @@
-var _computedKey, _init_a, _init_b, _init__computedKey;
+var _init_a, _init_b, _init_computedKey;
 const dec = ()=>{};
-_computedKey = 'c';
 class Foo {
     static{
-        [_init_a, _init_b, _init__computedKey] = _apply_decs_2203_r(this, [
+        [_init_a, _init_b, _init_computedKey] = _apply_decs_2203_r(this, [
             [
                 dec,
                 0,
@@ -17,11 +16,11 @@ class Foo {
             [
                 dec,
                 0,
-                _computedKey
+                'c'
             ]
         ], []).e;
     }
     a = _init_a(this);
     b = _init_b(this, 123);
-    [_computedKey] = _init__computedKey(this, 456);
+    ['c'] = _init_computedKey(this, 456);
 }

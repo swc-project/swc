@@ -1,4 +1,4 @@
-var _init_a, _init_b, _init, _initStatic;
+var _init_a, _init_b, _init_computedKey, _initStatic;
 const dec = ()=>{};
 class Foo {
     static get a() {
@@ -14,16 +14,16 @@ class Foo {
         _class_static_private_field_spec_set(this, Foo, ____private_b_2, _v);
     }
     static get ['c']() {
-        return _class_static_private_field_spec_get(this, Foo, ____private_3);
+        return _class_static_private_field_spec_get(this, Foo, ____private_computedKey_3);
     }
     static set ['c'](_v) {
-        _class_static_private_field_spec_set(this, Foo, ____private_3, _v);
+        _class_static_private_field_spec_set(this, Foo, ____private_computedKey_3, _v);
     }
 }
 var __ = {
     writable: true,
     value: (()=>{
-        [_init_a, _init_b, _init, _initStatic] = _apply_decs_2203_r(Foo, [
+        [_init_a, _init_b, _init_computedKey, _initStatic] = _apply_decs_2203_r(Foo, [
             [
                 dec,
                 6,
@@ -51,7 +51,7 @@ var ____private_b_2 = {
     writable: true,
     value: _init_b(Foo, 123)
 };
-var ____private_3 = {
+var ____private_computedKey_3 = {
     writable: true,
-    value: _init(Foo, 456)
+    value: _init_computedKey(Foo, 456)
 };

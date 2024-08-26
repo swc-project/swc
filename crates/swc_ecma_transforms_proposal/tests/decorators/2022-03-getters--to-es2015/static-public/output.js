@@ -1,12 +1,10 @@
-var _computedKey, _initStatic;
+var _initStatic;
 const dec = ()=>{};
-_computedKey = 'b';
-let _computedKey1 = _computedKey;
 class Foo {
     static get a() {
         return this.value;
     }
-    static get [_computedKey1]() {
+    static get ['b']() {
         return this.value;
     }
 }
@@ -22,7 +20,7 @@ var __ = {
             [
                 dec,
                 8,
-                _computedKey
+                'b'
             ]
         ], []).e;
         _initStatic(Foo);
