@@ -73,6 +73,18 @@ struct ClassState {
     class_decorations_flag: u32,
 }
 
+fn flag(base: u32, is_static: bool, version: DecoratorVersion) -> f64 {
+    if !is_static {
+        return base as f64;
+    }
+
+    match version {
+        DecoratorVersion::V202311 => (base + 8) as f64,
+
+        _ => (base + 5) as f64,
+    }
+}
+
 impl DecoratorPass {
     fn preserve_side_effect_of_decorators(
         &mut self,
@@ -1090,19 +1102,15 @@ impl VisitMut for DecoratorPass {
                     elems: vec![
                         dec,
                         Some(
-                            if p.is_static {
-                                match p.kind {
-                                    MethodKind::Method => 7,
-                                    MethodKind::Setter => 9,
-                                    MethodKind::Getter => 8,
-                                }
-                            } else {
+                            flag(
                                 match p.kind {
                                     MethodKind::Method => 2,
                                     MethodKind::Setter => 4,
                                     MethodKind::Getter => 3,
-                                }
-                            }
+                                },
+                                p.is_static,
+                                self.version,
+                            )
                             .as_arg(),
                         ),
                         Some(p.key.name.clone().as_arg()),
@@ -1402,11 +1410,9 @@ impl VisitMut for DecoratorPass {
                                     Key::Private(_) => {
                                         let data = vec![
                                             dec,
-                                            Some(if accessor.is_static {
-                                                6.as_arg()
-                                            } else {
-                                                1.as_arg()
-                                            }),
+                                            Some(
+                                                flag(1, accessor.is_static, self.version).as_arg(),
+                                            ),
                                             Some(name.as_arg()),
                                             Some(
                                                 FnExpr {
@@ -1672,14 +1678,15 @@ impl VisitMut for DecoratorPass {
                 elems: vec![
                     dec,
                     Some(
-                        match (n.is_static, n.kind) {
-                            (true, MethodKind::Method) => 7,
-                            (false, MethodKind::Method) => 2,
-                            (true, MethodKind::Setter) => 9,
-                            (false, MethodKind::Setter) => 4,
-                            (true, MethodKind::Getter) => 8,
-                            (false, MethodKind::Getter) => 3,
-                        }
+                        flag(
+                            match n.kind {
+                                MethodKind::Method => 2,
+                                MethodKind::Setter => 4,
+                                MethodKind::Getter => 3,
+                            },
+                            n.is_static,
+                            self.version,
+                        )
                         .as_arg(),
                     ),
                     Some(name.as_arg()),
@@ -1736,7 +1743,7 @@ impl VisitMut for DecoratorPass {
                     span: DUMMY_SP,
                     elems: vec![
                         dec,
-                        Some(if p.is_static { 5.as_arg() } else { 0.as_arg() }),
+                        Some(flag(0, p.is_static, self.version).as_arg()),
                         Some(name.as_arg()),
                     ],
                 }
