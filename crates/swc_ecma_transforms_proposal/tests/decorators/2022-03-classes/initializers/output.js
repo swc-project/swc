@@ -26,7 +26,7 @@ new class extends _identity {
             static{
                 ({ c: [_Bar, _initClass1] } = _apply_decs_2203_r(this, [], [
                     dec
-                ], _Foo));
+                ]));
             }
             static field = ((()=>{
                 this.otherField = 456;

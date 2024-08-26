@@ -68,7 +68,7 @@ const H = ((_class3 = class extends (_I = I) {
     writable: true,
     value: { c: [_class7, _initClass6] } = _apply_decs_2203_r(_class3, [], [
         dec
-    ], _I)
+    ])
 }, __26 = {
     writable: true,
     value: _initClass6()
@@ -78,7 +78,7 @@ const J = ((_K = class K extends (_L = L) {
     writable: true,
     value: { c: [_K1, _initClass7] } = _apply_decs_2203_r(_K, [], [
         dec
-    ], _L)
+    ])
 }, __27 = {
     writable: true,
     value: _initClass7()

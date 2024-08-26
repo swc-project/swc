@@ -70,9 +70,9 @@ const F = [
 ];
 const H = (class extends (_I = I) {
     static{
-        ({ c: [_class3, _initClass6]  } = _apply_decs_2203_r(this, [], [
+        ({ c: [_class3, _initClass6] } = _apply_decs_2203_r(this, [], [
             dec
-        ], _I));
+        ]));
     }
     static{}
     static{
@@ -81,9 +81,9 @@ const H = (class extends (_I = I) {
 }, _class3);
 const J = (class K extends (_L = L) {
     static{
-        ({ c: [_K, _initClass7]  } = _apply_decs_2203_r(this, [], [
+        ({ c: [_K, _initClass7] } = _apply_decs_2203_r(this, [], [
             dec
-        ], _L));
+        ]));
     }
     static{}
     static{
