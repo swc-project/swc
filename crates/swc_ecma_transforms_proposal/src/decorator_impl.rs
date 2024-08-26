@@ -956,10 +956,10 @@ impl DecoratorPass {
 
         if is_static {
             self.state.static_lhs.push(init_extra_id.clone());
-            self.state.field_init_exprs.push(init_extra_call);
+            self.state.static_field_init_exprs.push(init_extra_call);
         } else {
             self.state.proto_lhs.push(init_extra_id.clone());
-            self.state.static_field_init_exprs.push(init_extra_call);
+            self.state.field_init_exprs.push(init_extra_call);
         }
     }
 
