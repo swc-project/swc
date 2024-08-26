@@ -58,7 +58,7 @@ struct ClassState {
     /// Injected into static blocks.
     extra_stmts: Vec<Stmt>,
 
-    class_lhs: Vec<Option<Pat>>,
+    class_locals: Vec<Option<Pat>>,
     class_decorators: Vec<Option<ExprOrSpread>>,
 
     super_class: Option<Ident>,
@@ -132,7 +132,7 @@ impl DecoratorPass {
             _ => ThisExpr { span: DUMMY_SP }.as_arg(),
         };
 
-        let mut element_lhs = Vec::new();
+        let mut element_locals = Vec::new();
         let mut combined_args = vec![first_arg];
 
         for id in self
@@ -141,7 +141,7 @@ impl DecoratorPass {
             .drain(..)
             .chain(self.state.proto_lhs.drain(..))
         {
-            element_lhs.push(Some(id.into()));
+            element_locals.push(Some(id.into()));
         }
 
         if let Some(init) = self.state.init_proto.clone() {
@@ -152,7 +152,7 @@ impl DecoratorPass {
                 definite: false,
             });
 
-            element_lhs.push(Some(init.into()));
+            element_locals.push(Some(init.into()));
         }
 
         if let Some(init) = self.state.init_static.clone() {
@@ -163,7 +163,7 @@ impl DecoratorPass {
                 definite: false,
             });
 
-            element_lhs.push(Some(init.into()));
+            element_locals.push(Some(init.into()));
         }
 
         let element_decoration_arg = ArrayLit {
@@ -193,37 +193,9 @@ impl DecoratorPass {
             }
         }
 
-        let e_pat = if element_lhs.is_empty() {
-            None
-        } else {
-            Some(ObjectPatProp::KeyValue(KeyValuePatProp {
-                key: PropName::Ident("e".into()),
-                value: ArrayPat {
-                    span: DUMMY_SP,
-                    elems: element_lhs,
-                    type_ann: Default::default(),
-                    optional: false,
-                }
-                .into(),
-            }))
-        };
+        let class_locals = self.state.class_locals.take();
 
-        let class_pat = if self.state.class_lhs.is_empty() {
-            None
-        } else {
-            Some(ObjectPatProp::KeyValue(KeyValuePatProp {
-                key: PropName::Ident("c".into()),
-                value: ArrayPat {
-                    span: DUMMY_SP,
-                    elems: self.state.class_lhs.take(),
-                    type_ann: Default::default(),
-                    optional: false,
-                }
-                .into(),
-            }))
-        };
-
-        let rhs = match self.version {
+        let rhs: Box<Expr> = match self.version {
             DecoratorVersion::V202112 => todo!(),
             DecoratorVersion::V202203 => Box::new(
                 CallExpr {
@@ -267,16 +239,71 @@ impl DecoratorPass {
             }
         };
 
+        // optimize `{ c: [classLocals] } = applyDecsHelper(...)` to
+        // `[classLocals] = applyDecsHelper(...).c`
+
+        let (lhs, rhs) = match (element_locals.is_empty(), class_locals.is_empty()) {
+            (false, false) => {
+                let element_locals = ObjectPatProp::KeyValue(KeyValuePatProp {
+                    key: PropName::Ident("e".into()),
+                    value: ArrayPat {
+                        span: DUMMY_SP,
+                        elems: element_locals,
+                        type_ann: Default::default(),
+                        optional: false,
+                    }
+                    .into(),
+                });
+
+                let class_locals = ObjectPatProp::KeyValue(KeyValuePatProp {
+                    key: PropName::Ident("c".into()),
+                    value: ArrayPat {
+                        span: DUMMY_SP,
+                        elems: class_locals,
+                        type_ann: Default::default(),
+                        optional: false,
+                    }
+                    .into(),
+                });
+
+                (
+                    ObjectPat {
+                        span: DUMMY_SP,
+                        props: vec![element_locals, class_locals],
+                        optional: false,
+                        type_ann: None,
+                    }
+                    .into(),
+                    rhs,
+                )
+            }
+            (false, true) => (
+                ArrayPat {
+                    span: DUMMY_SP,
+                    elems: element_locals,
+                    type_ann: Default::default(),
+                    optional: false,
+                }
+                .into(),
+                rhs.make_member(quote_ident!("e")).into(),
+            ),
+            (true, false) => (
+                ArrayPat {
+                    span: DUMMY_SP,
+                    elems: class_locals,
+                    type_ann: Default::default(),
+                    optional: false,
+                }
+                .into(),
+                rhs.make_member(quote_ident!("c")).into(),
+            ),
+            (true, true) => unreachable!(),
+        };
+
         let expr = AssignExpr {
             span: DUMMY_SP,
             op: op!("="),
-            left: ObjectPat {
-                span: DUMMY_SP,
-                props: e_pat.into_iter().chain(class_pat).collect(),
-                optional: false,
-                type_ann: None,
-            }
-            .into(),
+            left: lhs,
             right: rhs,
         }
         .into();
@@ -486,9 +513,11 @@ impl DecoratorPass {
         }
 
         self.state
-            .class_lhs
+            .class_locals
             .push(Some(new_class_name.clone().into()));
-        self.state.class_lhs.push(Some(init_class.clone().into()));
+        self.state
+            .class_locals
+            .push(Some(init_class.clone().into()));
 
         self.extra_vars.push(VarDeclarator {
             span: DUMMY_SP,
@@ -552,9 +581,11 @@ impl DecoratorPass {
             .insert(c.ident.to_id(), new_class_name.to_id());
 
         self.state
-            .class_lhs
+            .class_locals
             .push(Some(new_class_name.clone().into()));
-        self.state.class_lhs.push(Some(init_class.clone().into()));
+        self.state
+            .class_locals
+            .push(Some(init_class.clone().into()));
 
         self.state.class_decorators.extend(decorators);
         self.handle_super_class(&mut c.class);
