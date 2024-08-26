@@ -934,7 +934,7 @@ impl DecoratorPass {
             return;
         }
 
-        let init_extra_id = Ident::new_private(format!("init_extra_{name}").into(), DUMMY_SP);
+        let init_extra_id = Ident::new_private(format!("_init_extra_{name}").into(), DUMMY_SP);
 
         self.extra_vars.push(VarDeclarator {
             span: DUMMY_SP,
