@@ -99,6 +99,10 @@
             "import": "./esm/_await_value.js",
             "default": "./cjs/_await_value.cjs"
         },
+        "./_/_call_super": {
+            "import": "./esm/_call_super.js",
+            "default": "./cjs/_call_super.cjs"
+        },
         "./_/_check_private_redeclaration": {
             "import": "./esm/_check_private_redeclaration.js",
             "default": "./cjs/_check_private_redeclaration.cjs"

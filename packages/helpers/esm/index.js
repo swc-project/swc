@@ -13,6 +13,7 @@ export { _ as _async_iterator } from "./_async_iterator.js";
 export { _ as _async_to_generator } from "./_async_to_generator.js";
 export { _ as _await_async_generator } from "./_await_async_generator.js";
 export { _ as _await_value } from "./_await_value.js";
+export { _ as _call_super } from "./_call_super.js";
 export { _ as _check_private_redeclaration } from "./_check_private_redeclaration.js";
 export { _ as _class_apply_descriptor_destructure } from "./_class_apply_descriptor_destructure.js";
 export { _ as _class_apply_descriptor_get } from "./_class_apply_descriptor_get.js";

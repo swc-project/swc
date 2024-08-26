@@ -262,6 +262,11 @@ define_helpers!(Helpers {
     async_to_generator: (),
     await_async_generator: (await_value),
     await_value: (),
+    call_super: (
+        get_prototype_of,
+        is_native_reflect_construct,
+        possible_constructor_return
+    ),
     check_private_redeclaration: (),
     class_apply_descriptor_destructure: (),
     class_apply_descriptor_get: (),
