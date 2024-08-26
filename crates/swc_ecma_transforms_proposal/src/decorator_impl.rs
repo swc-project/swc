@@ -166,26 +166,32 @@ impl DecoratorPass {
             element_lhs.push(Some(init.into()));
         }
 
-        combined_args.push(
-            ArrayLit {
-                span: DUMMY_SP,
-                elems: self
-                    .state
-                    .init_static_args
-                    .drain(..)
-                    .chain(self.state.init_proto_args.drain(..))
-                    .collect(),
+        let element_decoration_arg = ArrayLit {
+            span: DUMMY_SP,
+            elems: self
+                .state
+                .init_static_args
+                .drain(..)
+                .chain(self.state.init_proto_args.drain(..))
+                .collect(),
+        }
+        .as_arg();
+        let class_decoration_arg = ArrayLit {
+            span: DUMMY_SP,
+            elems: self.state.class_decorators.take(),
+        }
+        .as_arg();
+        // https://github.com/babel/babel/blob/440fe413330f19fdb2c5fa63ffab87e67383d12d/packages/babel-helper-create-class-features-plugin/src/decorators.ts#L2103-L2105
+        match self.version {
+            DecoratorVersion::V202311 => {
+                combined_args.push(class_decoration_arg);
+                combined_args.push(element_decoration_arg);
             }
-            .as_arg(),
-        );
-
-        combined_args.push(
-            ArrayLit {
-                span: DUMMY_SP,
-                elems: self.state.class_decorators.take(),
+            _ => {
+                combined_args.push(element_decoration_arg);
+                combined_args.push(class_decoration_arg);
             }
-            .as_arg(),
-        );
+        }
 
         let e_pat = if element_lhs.is_empty() {
             None
