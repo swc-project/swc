@@ -1,7 +1,5 @@
-var _computedKey, _computedKey1, _initProto;
+var _initProto;
 const dec = ()=>{};
-_computedKey = 'b', _computedKey1 = 'b';
-let _computedKey2 = _computedKey, _computedKey3 = _computedKey1;
 class Foo {
     get a() {
         return this.value;
@@ -9,10 +7,10 @@ class Foo {
     set a(v) {
         this.value = v;
     }
-    get [_computedKey2]() {
+    get ['b']() {
         return this.value;
     }
-    set [_computedKey3](v) {
+    set ['b'](v) {
         this.value = v;
     }
     constructor(){
@@ -36,12 +34,12 @@ var __ = {
         [
             dec,
             3,
-            _computedKey
+            'b'
         ],
         [
             dec,
             4,
-            _computedKey1
+            'b'
         ]
     ], []).e
 };

@@ -14,11 +14,11 @@ class Foo {
     set b(_v) {
         this.#___private_b_2 = _v;
     }
-    #___private_3 = 456;
+    #___private_computedKey_3 = 456;
     get ['c']() {
-        return this.#___private_3;
+        return this.#___private_computedKey_3;
     }
     set ['c'](_v) {
-        this.#___private_3 = _v;
+        this.#___private_computedKey_3 = _v;
     }
 }

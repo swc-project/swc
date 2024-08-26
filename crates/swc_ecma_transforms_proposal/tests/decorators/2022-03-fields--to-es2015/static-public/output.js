@@ -1,11 +1,10 @@
-var _computedKey, _init_a, _init_b, _init__computedKey;
+var _init_a, _init_b, _init_computedKey;
 const dec = ()=>{};
-_computedKey = 'c';
 class Foo {
 }
 var __ = {
     writable: true,
-    value: [_init_a, _init_b, _init__computedKey] = _apply_decs_2203_r(Foo, [
+    value: [_init_a, _init_b, _init_computedKey] = _apply_decs_2203_r(Foo, [
         [
             dec,
             5,
@@ -19,10 +18,10 @@ var __ = {
         [
             dec,
             5,
-            _computedKey
+            'c'
         ]
     ], []).e
 };
 _define_property(Foo, "a", _init_a(Foo));
 _define_property(Foo, "b", _init_b(Foo, 123));
-_define_property(Foo, _computedKey, _init__computedKey(Foo, 456));
+_define_property(Foo, 'c', _init_computedKey(Foo, 456));
