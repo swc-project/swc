@@ -21,7 +21,7 @@ var __1 = {
     writable: true,
     value: { c: [_Foo, _initClass1] } = _apply_decs_2203_r(Foo, [], [
         dec2
-    ], _Bar)
+    ])
 };
 var __21 = {
     writable: true,

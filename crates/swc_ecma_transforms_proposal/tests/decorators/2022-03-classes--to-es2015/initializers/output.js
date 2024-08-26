@@ -35,7 +35,7 @@ new (_class1 = class extends _identity {
             writable: true,
             value: { c: [_Bar, _initClass1] } = _apply_decs_2203_r(Bar, [], [
                 dec
-            ], _Foo)
+            ])
         };
         _define_property(Bar, "field", ((()=>{
             Bar.otherField = 456;

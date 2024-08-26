@@ -16,7 +16,7 @@ class Foo extends (_Bar = _Bar1) {
     static{
         ({ c: [_Foo, _initClass1] } = _apply_decs_2203_r(this, [], [
             dec2
-        ], _Bar));
+        ]));
     }
     static{
         _initClass1();
