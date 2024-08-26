@@ -1246,45 +1246,66 @@ impl VisitMut for DecoratorPass {
                                 }
                             }
                         },
-                        value: if accessor.decorators.is_empty() {
-                            accessor.value
-                        } else {
-                            let init_proto =
-                                if self.state.is_init_proto_called || accessor.is_static {
-                                    None
-                                } else {
-                                    self.state.is_init_proto_called = true;
+                        value: {
+                            let value = if accessor.decorators.is_empty() {
+                                accessor.value
+                            } else {
+                                let init_proto =
+                                    if self.state.is_init_proto_called || accessor.is_static {
+                                        None
+                                    } else {
+                                        self.state.is_init_proto_called = true;
 
-                                    let init_proto = self
-                                        .state
-                                        .init_proto
-                                        .get_or_insert_with(|| private_ident!("_initProto"))
-                                        .clone();
+                                        let init_proto = self
+                                            .state
+                                            .init_proto
+                                            .get_or_insert_with(|| private_ident!("_initProto"))
+                                            .clone();
 
-                                    Some(
-                                        CallExpr {
-                                            span: DUMMY_SP,
-                                            callee: init_proto.clone().as_callee(),
-                                            args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-                                            ..Default::default()
-                                        }
-                                        .into(),
-                                    )
-                                };
+                                        Some(
+                                            CallExpr {
+                                                span: DUMMY_SP,
+                                                callee: init_proto.clone().as_callee(),
+                                                args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                                                ..Default::default()
+                                            }
+                                            .into(),
+                                        )
+                                    };
 
-                            let init_call = CallExpr {
-                                span: DUMMY_SP,
-                                callee: init.clone().as_callee(),
-                                args: once(ThisExpr { span: DUMMY_SP }.as_arg())
-                                    .chain(accessor.value.take().map(|v| v.as_arg()))
-                                    .collect(),
-                                ..Default::default()
+                                let init_call = CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: init.clone().as_callee(),
+                                    args: once(ThisExpr { span: DUMMY_SP }.as_arg())
+                                        .chain(accessor.value.take().map(|v| v.as_arg()))
+                                        .collect(),
+                                    ..Default::default()
+                                }
+                                .into();
+
+                                Some(Expr::from_exprs(
+                                    init_proto.into_iter().chain(once(init_call)).collect(),
+                                ))
+                            };
+
+                            // Prepend `fieldInitializerExpressions` to the value.
+                            // If value is `None`, we use `void 0` as the value.
+
+                            let init_exprs = if accessor.is_static {
+                                &mut self.state.static_field_init_exprs
+                            } else {
+                                &mut self.state.field_init_exprs
+                            };
+
+                            if !init_exprs.is_empty() || value.is_some() {
+                                init_exprs.push(value.unwrap_or_else(|| Expr::undefined(DUMMY_SP)));
                             }
-                            .into();
 
-                            Some(Expr::from_exprs(
-                                init_proto.into_iter().chain(once(init_call)).collect(),
-                            ))
+                            if init_exprs.is_empty() {
+                                None
+                            } else {
+                                Some(Expr::from_exprs(init_exprs.take()))
+                            }
                         },
                         type_ann: None,
                         is_static: accessor.is_static,
