@@ -369,7 +369,7 @@ impl DecoratorPass {
                 match value {
                     Expr::Lit(lit) => (
                         lit.clone().into(),
-                        Ident::new_private(format!("_{prefix}").into(), lit.span()),
+                        Ident::new_private(format!("_{prefix}_computedKey").into(), lit.span()),
                     ),
                     _ => {
                         let key_ident = private_ident!("_computedKey");
