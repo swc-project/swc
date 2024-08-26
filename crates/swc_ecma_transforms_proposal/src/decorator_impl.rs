@@ -1217,8 +1217,6 @@ impl VisitMut for DecoratorPass {
                     });
                 }
             }
-
-            self.inject_init_extra(n);
         }
     }
 
@@ -1744,6 +1742,8 @@ impl VisitMut for DecoratorPass {
             return;
         }
 
+        let init_extra_name = prop_name_to_symbol(&p.key);
+
         let decorators = self.preserve_side_effect_of_decorators(p.decorators.take());
         let dec = merge_decorators(decorators);
 
@@ -1790,6 +1790,8 @@ impl VisitMut for DecoratorPass {
             self.state.proto_lhs.push(init);
             self.state.init_proto_args.push(initialize_init);
         }
+
+        self.inject_init_extra_inner(init_extra_name, p.is_static)
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
