@@ -20,7 +20,7 @@ use crate::{get_compiler, util::try_with};
 struct MinifyTask {
     c: Arc<swc_core::base::Compiler>,
     code: String,
-    options: JsMinifyOptions,
+    options: String,
 }
 
 #[derive(Deserialize)]
