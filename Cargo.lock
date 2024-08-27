@@ -6222,7 +6222,6 @@ dependencies = [
  "derive_builder 0.20.0",
  "getset",
  "regex",
- "rustc_version 0.4.0",
  "rustversion",
  "time",
  "vergen-lib",
