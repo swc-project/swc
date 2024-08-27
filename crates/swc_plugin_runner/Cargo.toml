@@ -45,6 +45,10 @@ css = ["swc_css_ast/rkyv-impl"]
 __rkyv    = []
 rkyv-impl = ["__rkyv", "swc_common/plugin-rt", "swc_plugin_proxy/plugin-rt"]
 
+[build-dependencies]
+vergen = { workspace = true, features = ["build", "cargo"] }
+
+
 [dependencies]
 anyhow       = { workspace = true }
 enumset      = { workspace = true }
