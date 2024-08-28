@@ -4064,7 +4064,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.102.0"
+version = "0.102.1"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5017,7 +5017,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_usage_analyzer"
-version = "0.30.2"
+version = "0.30.3"
 dependencies = [
  "indexmap 2.2.6",
  "rustc-hash",
@@ -5396,7 +5396,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.112.1"
+version = "0.112.2"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",
