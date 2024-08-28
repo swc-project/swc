@@ -1,3 +1,5 @@
 //// [parserDoStatement2.ts]
-do {}while (false);
+do {
+    ;
+}while (false);
 false;

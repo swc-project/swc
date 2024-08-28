@@ -48,6 +48,7 @@ class C extends B {
                 super.w();
             })(),
             (()=>{
+                ; // no collision
                 super.w();
             })(),
             (()=>{

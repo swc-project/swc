@@ -6,4 +6,5 @@ function* g() {
     C = _ts_decorate([
         (yield 0)
     ], C);
+    ;
 }

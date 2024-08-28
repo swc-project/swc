@@ -7,5 +7,7 @@
  * @path bestPractice/Sbp_7.9_A9_T3.js
  * @description Execute do { \n ; \n }while(false) true
  */ //CHECK#1
-do {}while (false);
+do {
+    ;
+}while (false);
 true;

@@ -1,0 +1,15 @@
+{
+  "minify": false,
+  "jsc": {
+    "parser": {
+      "syntax": "typescript"
+    },
+    "target": "es2022",
+    "minify": {
+      "mangle": false,
+      "format": {
+        "comments": "all"
+      }
+    }
+  }
+}
