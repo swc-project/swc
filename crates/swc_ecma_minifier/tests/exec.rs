@@ -11348,6 +11348,19 @@ fn issue_9184_2() {
 }
 
 #[test]
+fn issue_9499() {
+    run_default_exec_test(
+        "
+        const o = {'a': 1, 'b': 2};
+        function fn() {
+            return 'a' in o;
+        }
+        console.log(fn());
+",
+    )
+}
+
+#[test]
 fn issue_9356() {
     run_default_exec_test("console.log((function ({ } = 42) { }).length)");
 }

@@ -340,6 +340,7 @@ where
             if e.op == op!("in") {
                 for_each_id_ref_in_expr(&e.right, &mut |obj| {
                     let var = self.data.var_or_default(obj.to_id());
+                    var.mark_used_as_ref();
 
                     match &*e.left {
                         Expr::Lit(Lit::Str(prop)) if prop.value.parse::<f64>().is_err() => {
