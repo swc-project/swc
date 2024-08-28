@@ -7,4 +7,5 @@ function* g() {
     _ts_decorate([
         (yield "")
     ], C.prototype, "m", null);
+    ;
 }

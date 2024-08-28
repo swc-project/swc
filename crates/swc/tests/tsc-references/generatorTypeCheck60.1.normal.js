@@ -2,4 +2,5 @@
 function* g() {
     class C extends (yield) {
     }
+    ;
 }
