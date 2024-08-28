@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.7.21] - 2024-08-28
 
 ### Bug Fixes
 
@@ -1266,9 +1266,6 @@
 
 
 - **(es/minifier)** Remove `raw` of strings after modification ([#8865](https://github.com/swc-project/swc/issues/8865)) ([740c0bb](https://github.com/swc-project/swc/commit/740c0bb00a0bb9e0f4d808c9dc71e8087d416f72))
-
-
-- **(es/parser)** Fix span of `BindingIdent` ([#8859](https://github.com/swc-project/swc/issues/8859)) ([fbd32fb](https://github.com/swc-project/swc/commit/fbd32fbff323ff4116e82d2dd1d763f7f3844de2))
 
 
 - **(es/proposal)** Update explicit resource management to match spec ([#8860](https://github.com/swc-project/swc/issues/8860)) ([6d24076](https://github.com/swc-project/swc/commit/6d240768b11cd6cabd347a54c135cb8937df2240))
