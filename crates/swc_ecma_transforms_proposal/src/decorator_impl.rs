@@ -885,7 +885,9 @@ impl DecoratorPass {
                         span: DUMMY_SP,
                         op: op!("="),
                         left: ident.clone().into(),
-                        right: Box::new(prop_name_to_expr_value(name.take())),
+                        right: create_to_property_key(Box::new(prop_name_to_expr_value(
+                            name.take(),
+                        ))),
                     }
                     .into(),
                 );
@@ -975,45 +977,6 @@ impl DecoratorPass {
             self.state.proto_lhs.push(init_extra_id.clone());
             self.state.field_init_exprs.push(init_extra_call);
         }
-    }
-
-    fn inject_init_extra(&mut self, m: &mut ClassMember) {
-        // https://github.com/babel/babel/blob/440fe413330f19fdb2c5fa63ffab87e67383d12d/packages/babel-helper-create-class-features-plugin/src/decorators.ts#L1631
-        if let DecoratorVersion::V202311 = self.version {
-        } else {
-            return;
-        }
-
-        let (name, is_static) = match m {
-            ClassMember::AutoAccessor(a) => match &a.key {
-                Key::Private(key) => {
-                    let name = key.name.clone();
-
-                    (name, a.is_static)
-                }
-                Key::Public(key) => {
-                    let name = prop_name_to_symbol(key);
-
-                    (name, a.is_static)
-                }
-            },
-
-            ClassMember::ClassProp(p) => {
-                let name = prop_name_to_symbol(&p.key);
-
-                (name, p.is_static)
-            }
-
-            ClassMember::PrivateProp(p) => {
-                let name = p.key.name.clone();
-
-                (name, p.is_static)
-            }
-
-            _ => return,
-        };
-
-        self.inject_init_extra_inner(name, is_static);
     }
 }
 
