@@ -538,6 +538,7 @@ jobs:
         working-directory: ./packages/${{ inputs.package }}
         run: |
           ./scripts/cli_artifacts.sh
+          ls -R ./artifacts
           ls -R ./artifacts_cli
           npm run artifacts
 

@@ -21,22 +21,19 @@
         "url": "https://github.com/swc-project/swc/issues"
     },
     "napi": {
-        "name": "swc-html",
-        "triples": {
-            "defaults": true,
-            "targets": [
-                "x86_64-apple-darwin",
-                "x86_64-pc-windows-msvc",
-                "x86_64-unknown-linux-gnu",
-                "x86_64-unknown-linux-musl",
-                "i686-pc-windows-msvc",
-                "armv7-unknown-linux-gnueabihf",
-                "aarch64-unknown-linux-gnu",
-                "aarch64-apple-darwin",
-                "aarch64-unknown-linux-musl",
-                "aarch64-pc-windows-msvc"
-            ]
-        }
+        "binaryName": "swc-html",
+        "targets": [
+            "x86_64-apple-darwin",
+            "x86_64-pc-windows-msvc",
+            "x86_64-unknown-linux-gnu",
+            "x86_64-unknown-linux-musl",
+            "i686-pc-windows-msvc",
+            "armv7-unknown-linux-gnueabihf",
+            "aarch64-unknown-linux-gnu",
+            "aarch64-apple-darwin",
+            "aarch64-unknown-linux-musl",
+            "aarch64-pc-windows-msvc"
+        ]
     },
     "publishConfig": {
         "registry": "https://registry.npmjs.org/",
