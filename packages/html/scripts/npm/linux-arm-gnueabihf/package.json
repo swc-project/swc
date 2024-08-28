@@ -1,40 +1,40 @@
 {
-    "name": "@swc/html-linux-arm-gnueabihf",
-    "version": "1.7.16-nightly-20240820.1",
-    "os": [
-        "linux"
-    ],
-    "cpu": [
-        "arm"
-    ],
-    "main": "swc-html.linux-arm-gnueabihf.node",
-    "files": [
-        "swc-html.linux-arm-gnueabihf.node"
-    ],
-    "description": "Super-fast HTML minifier",
-    "keywords": [
-        "swcpack",
-        "babel",
-        "typescript",
-        "rust",
-        "webpack",
-        "tsc"
-    ],
-    "author": "강동윤 <kdy1997.dev@gmail.com>",
-    "homepage": "https://swc.rs",
-    "license": "Apache-2.0",
-    "engines": {
-        "node": ">=10"
-    },
-    "publishConfig": {
-        "registry": "https://registry.npmjs.org/",
-        "access": "public"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/swc-project/swc.git"
-    },
-    "bugs": {
-        "url": "https://github.com/swc-project/swc/issues"
-    }
+  "name": "@swc/html-linux-arm-gnueabihf",
+  "version": "1.7.21-nightly-20240828.1",
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "arm"
+  ],
+  "main": "swc-html.linux-arm-gnueabihf.node",
+  "files": [
+    "swc-html.linux-arm-gnueabihf.node"
+  ],
+  "description": "Super-fast HTML minifier",
+  "keywords": [
+    "swcpack",
+    "babel",
+    "typescript",
+    "rust",
+    "webpack",
+    "tsc"
+  ],
+  "author": "강동윤 <kdy1997.dev@gmail.com>",
+  "homepage": "https://swc.rs",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=10"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/swc-project/swc.git"
+  },
+  "bugs": {
+    "url": "https://github.com/swc-project/swc/issues"
+  }
 }
