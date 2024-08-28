@@ -206,7 +206,7 @@ impl VisitMut for StripType {
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
         n.visit_mut_children_with(self);
-        n.retain(|s| !s.is_empty());
+        n.retain(|s| !matches!(s, Stmt::Empty(e) if e.span.is_dummy()));
     }
 
     fn visit_mut_stmt(&mut self, n: &mut Stmt) {
