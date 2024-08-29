@@ -1328,16 +1328,16 @@ impl VisitMut for DecoratorPass {
                     };
 
                     // https://github.com/babel/babel/blob/440fe413330f19fdb2c5fa63ffab87e67383d12d/packages/babel-helper-create-class-features-plugin/src/decorators.ts#L210C2-L215C28
-                    let this_arg = match self.version {
+                    let this_arg: Box<Expr> = match self.version {
                         DecoratorVersion::V202311 => {
                             if accessor.is_static && self.state.class_name.is_some() {
-                                self.state.class_name.clone().unwrap().as_arg()
+                                self.state.class_name.clone().unwrap().into()
                             } else {
-                                ThisExpr { span: DUMMY_SP }.as_arg()
+                                ThisExpr { span: DUMMY_SP }.into()
                             }
                         }
 
-                        _ => ThisExpr { span: DUMMY_SP }.as_arg(),
+                        _ => ThisExpr { span: DUMMY_SP }.into(),
                     };
 
                     let mut getter_function = Box::new(Function {
@@ -1350,7 +1350,7 @@ impl VisitMut for DecoratorPass {
                                 span: DUMMY_SP,
                                 arg: Some(Box::new(Expr::Member(MemberExpr {
                                     span: DUMMY_SP,
-                                    obj: ThisExpr { span: DUMMY_SP }.into(),
+                                    obj: this_arg.clone(),
                                     prop: MemberProp::PrivateName(private_field.key.clone()),
                                 }))),
                             })],
@@ -1380,7 +1380,7 @@ impl VisitMut for DecoratorPass {
                                         op: op!("="),
                                         left: MemberExpr {
                                             span: DUMMY_SP,
-                                            obj: ThisExpr { span: DUMMY_SP }.into(),
+                                            obj: this_arg.clone(),
                                             prop: MemberProp::PrivateName(
                                                 private_field.key.clone(),
                                             ),
@@ -1470,7 +1470,7 @@ impl VisitMut for DecoratorPass {
                                                             .clone()
                                                             .unwrap()
                                                             .as_callee(),
-                                                        args: vec![this_arg.clone()],
+                                                        args: vec![this_arg.clone().as_arg()],
                                                         ..Default::default()
                                                     }))),
                                                 })],
@@ -1502,7 +1502,7 @@ impl VisitMut for DecoratorPass {
                                                             .unwrap()
                                                             .as_callee(),
                                                         args: vec![
-                                                            this_arg.clone(),
+                                                            this_arg.clone().as_arg(),
                                                             param.as_arg(),
                                                         ],
                                                         ..Default::default()
