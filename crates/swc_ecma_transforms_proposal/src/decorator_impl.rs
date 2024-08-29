@@ -42,6 +42,7 @@ struct DecoratorPass {
 
 #[derive(Default)]
 struct ClassState {
+    class_name: Option<Ident>,
     private_id_index: u32,
 
     static_lhs: Vec<Ident>,
@@ -584,6 +585,7 @@ impl DecoratorPass {
     // This function will call `visit` internally.
     fn handle_class_decl(&mut self, c: &mut ClassDecl) -> Stmt {
         let old_state = take(&mut self.state);
+        self.state.class_name = Some(c.ident.clone());
 
         let decorators = self.preserve_side_effect_of_decorators(c.class.decorators.take());
 
@@ -1325,6 +1327,19 @@ impl VisitMut for DecoratorPass {
                         ctxt: Default::default(),
                     };
 
+                    // https://github.com/babel/babel/blob/440fe413330f19fdb2c5fa63ffab87e67383d12d/packages/babel-helper-create-class-features-plugin/src/decorators.ts#L210C2-L215C28
+                    let this_arg = match self.version {
+                        DecoratorVersion::V202311 => {
+                            if accessor.is_static && self.state.class_name.is_some() {
+                                self.state.class_name.clone().unwrap().as_arg()
+                            } else {
+                                ThisExpr { span: DUMMY_SP }.as_arg()
+                            }
+                        }
+
+                        _ => ThisExpr { span: DUMMY_SP }.as_arg(),
+                    };
+
                     let mut getter_function = Box::new(Function {
                         params: Default::default(),
                         decorators: Default::default(),
@@ -1455,9 +1470,7 @@ impl VisitMut for DecoratorPass {
                                                             .clone()
                                                             .unwrap()
                                                             .as_callee(),
-                                                        args: vec![
-                                                            ThisExpr { span: DUMMY_SP }.as_arg()
-                                                        ],
+                                                        args: vec![this_arg.clone()],
                                                         ..Default::default()
                                                     }))),
                                                 })],
@@ -1489,7 +1502,7 @@ impl VisitMut for DecoratorPass {
                                                             .unwrap()
                                                             .as_callee(),
                                                         args: vec![
-                                                            ThisExpr { span: DUMMY_SP }.as_arg(),
+                                                            this_arg.clone(),
                                                             param.as_arg(),
                                                         ],
                                                         ..Default::default()
