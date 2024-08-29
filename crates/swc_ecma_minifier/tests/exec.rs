@@ -11364,3 +11364,14 @@ fn issue_9499() {
 fn issue_9356() {
     run_default_exec_test("console.log((function ({ } = 42) { }).length)");
 }
+
+#[test]
+fn isssue_9498() {
+    run_default_exec_test(
+        "
+        const x = {a: 1};
+        const y = {...x, a: 2};
+        console.log(y.a);
+",
+    )
+}

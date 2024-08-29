@@ -1734,7 +1734,7 @@ fn get_key_value(key: &str, props: &mut Vec<PropOrSpread>) -> Option<Box<Expr>> 
         return None;
     }
 
-    for (i, prop) in props.iter_mut().enumerate() {
+    for (i, prop) in props.iter_mut().enumerate().rev() {
         let prop = match prop {
             PropOrSpread::Prop(x) => &mut **x,
             PropOrSpread::Spread(_) => unreachable!(),
