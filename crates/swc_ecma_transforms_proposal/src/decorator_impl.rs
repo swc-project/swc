@@ -1054,6 +1054,13 @@ impl VisitMut for DecoratorPass {
         self.state.extra_stmts = old_stmts;
     }
 
+    fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
+        let old_class_name = self.state.class_name.take();
+        self.state.class_name = Some(n.ident.clone());
+        n.visit_mut_children_with(self);
+        self.state.class_name = old_class_name;
+    }
+
     fn visit_mut_class_member(&mut self, n: &mut ClassMember) {
         n.visit_mut_children_with(self);
 
