@@ -1361,7 +1361,7 @@ impl VisitMut for DecoratorPass {
                         ..Default::default()
                     });
                     let mut setter_function = {
-                        let param = private_ident!("_v");
+                        let param = private_ident!("v");
 
                         Box::new(Function {
                             params: vec![Param {
@@ -1481,7 +1481,7 @@ impl VisitMut for DecoratorPass {
                                             ..Default::default()
                                         });
 
-                                        let param = private_ident!("_v");
+                                        let param = private_ident!("v");
 
                                         setter_function = Box::new(Function {
                                             params: vec![Param {
