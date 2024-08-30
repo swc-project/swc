@@ -4064,7 +4064,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.102.1"
+version = "0.102.2"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4887,7 +4887,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.208.0"
+version = "0.208.1"
 dependencies = [
  "dashmap",
  "indexmap 2.2.6",
