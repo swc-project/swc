@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Iterate object properties in reverse direction while inlining property access ([#9507](https://github.com/swc-project/swc/issues/9507)) ([f584ef7](https://github.com/swc-project/swc/commit/f584ef76d75e86da15d0725ac94be35a88a1c946))
+
 ## [1.7.21] - 2024-08-28
 
 ### Bug Fixes
@@ -1266,9 +1274,6 @@
 
 
 - **(es/minifier)** Remove `raw` of strings after modification ([#8865](https://github.com/swc-project/swc/issues/8865)) ([740c0bb](https://github.com/swc-project/swc/commit/740c0bb00a0bb9e0f4d808c9dc71e8087d416f72))
-
-
-- **(es/proposal)** Update explicit resource management to match spec ([#8860](https://github.com/swc-project/swc/issues/8860)) ([6d24076](https://github.com/swc-project/swc/commit/6d240768b11cd6cabd347a54c135cb8937df2240))
 
 ### Features
 
