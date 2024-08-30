@@ -197,7 +197,7 @@ jobs:
       matrix:
         package:
           - core
-          # - html
+          - html
     needs:
       - publish-cargo
       - run-ecosystem-ci-with-nightly
