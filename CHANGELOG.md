@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.7.22] - 2024-08-30
 
 ### Bug Fixes
 
@@ -1289,9 +1289,6 @@
 
 ### Build
 
-
-
-- **(cargo)** Update rustc to `nightly-2024-04-03` ([#8821](https://github.com/swc-project/swc/issues/8821)) ([ca9c76b](https://github.com/swc-project/swc/commit/ca9c76b46f26f0aaf6b7f18cb7b4c6fdb7ebd512))
 
 
 - **(cargo)** Update `rustc` to `nightly-2024-04-16` ([#8870](https://github.com/swc-project/swc/issues/8870)) ([f9459a8](https://github.com/swc-project/swc/commit/f9459a8adf28de02d44dfe1da243a1d66a6ec41e))
