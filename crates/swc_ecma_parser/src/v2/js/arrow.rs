@@ -1,10 +1,9 @@
-use oxc_syntax::precedence::Precedence;
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 
 use super::Tristate;
 use crate::{
-    types::FormalParamKind,
+    types::{FormalParamKind, Precedence},
     v2::{
         diagnostics::{self, Result},
         lexer::Kind,
