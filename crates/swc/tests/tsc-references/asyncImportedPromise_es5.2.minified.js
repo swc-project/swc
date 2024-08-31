@@ -7,14 +7,12 @@ Object.defineProperty(exports, "__esModule", {
         return Task;
     }
 });
-var _class_call_check = require("@swc/helpers/_/_class_call_check"), _inherits = require("@swc/helpers/_/_inherits"), _wrap_native_super = require("@swc/helpers/_/_wrap_native_super"), _create_super = require("@swc/helpers/_/_create_super"), Task = /*#__PURE__*/ function(Promise1) {
-    _inherits._(Task, Promise1);
-    var _super = _create_super._(Task);
+var _call_super = require("@swc/helpers/_/_call_super"), _class_call_check = require("@swc/helpers/_/_class_call_check"), _inherits = require("@swc/helpers/_/_inherits"), Task = /*#__PURE__*/ function(Promise1) {
     function Task() {
-        return _class_call_check._(this, Task), _super.apply(this, arguments);
+        return _class_call_check._(this, Task), _call_super._(this, Task, arguments);
     }
-    return Task;
-}(_wrap_native_super._(Promise));
+    return _inherits._(Task, Promise1), Task;
+}(require("@swc/helpers/_/_wrap_native_super")._(Promise));
 //// [test.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0

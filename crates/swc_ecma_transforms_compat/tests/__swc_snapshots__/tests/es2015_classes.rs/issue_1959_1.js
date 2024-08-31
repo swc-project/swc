@@ -1,10 +1,9 @@
 var Extended = /*#__PURE__*/ function(Base1) {
     "use strict";
     _inherits(Extended, Base1);
-    var _super = _create_super(Extended);
     function Extended() {
         _class_call_check(this, Extended);
-        return _super.apply(this, arguments);
+        return _call_super(this, Extended, arguments);
     }
     _create_class(Extended, [
         {

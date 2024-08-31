@@ -1,7 +1,7 @@
 //// [classWithBaseClassButNoConstructor.ts]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var Base = function Base(x) {
     "use strict";
     _class_call_check(this, Base);
@@ -9,10 +9,9 @@ var Base = function Base(x) {
 var C = /*#__PURE__*/ function(Base) {
     "use strict";
     _inherits(C, Base);
-    var _super = _create_super(C);
     function C() {
         _class_call_check(this, C);
-        return _super.apply(this, arguments);
+        return _call_super(this, C, arguments);
     }
     return C;
 }(Base);
@@ -26,10 +25,9 @@ var Base2 = function Base2(x) {
 var D = /*#__PURE__*/ function(Base2) {
     "use strict";
     _inherits(D, Base2);
-    var _super = _create_super(D);
     function D() {
         _class_call_check(this, D);
-        return _super.apply(this, arguments);
+        return _call_super(this, D, arguments);
     }
     return D;
 }(Base2);
@@ -40,10 +38,9 @@ var d2 = new D(1); // ok
 var D2 = /*#__PURE__*/ function(Base2) {
     "use strict";
     _inherits(D2, Base2);
-    var _super = _create_super(D2);
     function D2() {
         _class_call_check(this, D2);
-        return _super.apply(this, arguments);
+        return _call_super(this, D2, arguments);
     }
     return D2;
 }(Base2);
@@ -53,10 +50,9 @@ var d4 = new D(1); // ok
 var D3 = /*#__PURE__*/ function(Base2) {
     "use strict";
     _inherits(D3, Base2);
-    var _super = _create_super(D3);
     function D3() {
         _class_call_check(this, D3);
-        return _super.apply(this, arguments);
+        return _call_super(this, D3, arguments);
     }
     return D3;
 }(Base2);

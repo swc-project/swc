@@ -6,9 +6,9 @@
 * }} Foo
 */ /**
 * @template {Foo} T
-*/ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+*/ import { _ as _call_super } from "@swc/helpers/_/_call_super";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var A = function A(a) {
     "use strict";
     _class_call_check(this, A);
@@ -22,10 +22,9 @@ var A = function A(a) {
 */ var B = /*#__PURE__*/ function(A) {
     "use strict";
     _inherits(B, A);
-    var _super = _create_super(B);
     function B() {
         _class_call_check(this, B);
-        return _super.apply(this, arguments);
+        return _call_super(this, B, arguments);
     }
     return B;
 }(A);
@@ -37,10 +36,9 @@ var A = function A(a) {
  */ var C = /*#__PURE__*/ function(A) {
     "use strict";
     _inherits(C, A);
-    var _super = _create_super(C);
     function C() {
         _class_call_check(this, C);
-        return _super.apply(this, arguments);
+        return _call_super(this, C, arguments);
     }
     return C;
 }(A);
@@ -49,10 +47,9 @@ var A = function A(a) {
  */ var D = /*#__PURE__*/ function(A) {
     "use strict";
     _inherits(D, A);
-    var _super = _create_super(D);
     function D() {
         _class_call_check(this, D);
-        return _super.apply(this, arguments);
+        return _call_super(this, D, arguments);
     }
     return D;
 }(A);
@@ -61,10 +58,9 @@ var A = function A(a) {
  */ var E = /*#__PURE__*/ function(A) {
     "use strict";
     _inherits(E, A);
-    var _super = _create_super(E);
     function E() {
         _class_call_check(this, E);
-        return _super.apply(this, arguments);
+        return _call_super(this, E, arguments);
     }
     return E;
 }(A);

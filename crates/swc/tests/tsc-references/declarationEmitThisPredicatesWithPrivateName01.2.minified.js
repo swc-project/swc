@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
         return C;
     }
 });
-var _class_call_check = require("@swc/helpers/_/_class_call_check"), _inherits = require("@swc/helpers/_/_inherits"), _instanceof = require("@swc/helpers/_/_instanceof"), _create_super = require("@swc/helpers/_/_create_super"), C = /*#__PURE__*/ function() {
+var _call_super = require("@swc/helpers/_/_call_super"), _class_call_check = require("@swc/helpers/_/_class_call_check"), _inherits = require("@swc/helpers/_/_inherits"), _instanceof = require("@swc/helpers/_/_instanceof"), C = /*#__PURE__*/ function() {
     function C() {
         _class_call_check._(this, C);
     }
@@ -15,10 +15,8 @@ var _class_call_check = require("@swc/helpers/_/_class_call_check"), _inherits =
         return _instanceof._(this, D);
     }, C;
 }(), D = /*#__PURE__*/ function(C) {
-    _inherits._(D, C);
-    var _super = _create_super._(D);
     function D() {
-        return _class_call_check._(this, D), _super.apply(this, arguments);
+        return _class_call_check._(this, D), _call_super._(this, D, arguments);
     }
-    return D;
+    return _inherits._(D, C), D;
 }(C);

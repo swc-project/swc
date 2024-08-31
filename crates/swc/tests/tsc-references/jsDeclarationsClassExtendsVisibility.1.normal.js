@@ -6,9 +6,9 @@ var Bar = function Bar() {
 };
 module.exports = Bar;
 //// [cls.js]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var Bar = require("./bar");
 var Strings = {
     a: "A",
@@ -17,10 +17,9 @@ var Strings = {
 var Foo = /*#__PURE__*/ function(Bar) {
     "use strict";
     _inherits(Foo, Bar);
-    var _super = _create_super(Foo);
     function Foo() {
         _class_call_check(this, Foo);
-        return _super.apply(this, arguments);
+        return _call_super(this, Foo, arguments);
     }
     return Foo;
 }(Bar);

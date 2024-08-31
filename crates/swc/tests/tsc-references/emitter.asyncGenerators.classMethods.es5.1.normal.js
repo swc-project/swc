@@ -246,12 +246,12 @@ var C8 = /*#__PURE__*/ function() {
     return C8;
 }();
 //// [C9.ts]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 var B9 = /*#__PURE__*/ function() {
     "use strict";
@@ -265,10 +265,9 @@ var B9 = /*#__PURE__*/ function() {
 var C9 = /*#__PURE__*/ function(B9) {
     "use strict";
     _inherits(C9, B9);
-    var _super = _create_super(C9);
     function C9() {
         _class_call_check(this, C9);
-        return _super.apply(this, arguments);
+        return _call_super(this, C9, arguments);
     }
     var _proto = C9.prototype;
     _proto.f = function f() {

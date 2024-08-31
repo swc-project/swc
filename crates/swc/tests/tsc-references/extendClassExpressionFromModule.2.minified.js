@@ -6,4 +6,4 @@ module.exports = function x() {
 //// [foo2.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), require("@swc/helpers/_/_class_call_check"), require("@swc/helpers/_/_inherits"), require("@swc/helpers/_/_create_super"), require("./foo1");
+}), require("@swc/helpers/_/_call_super"), require("@swc/helpers/_/_class_call_check"), require("@swc/helpers/_/_inherits"), require("./foo1");

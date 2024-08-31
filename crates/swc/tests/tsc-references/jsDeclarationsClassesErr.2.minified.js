@@ -1,120 +1,94 @@
 //// [index.js]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 export var M = function M() {
     _class_call_check(this, M);
 };
 export var N = /*#__PURE__*/ function(M) {
-    _inherits(N, M);
-    var _super = _create_super(N);
     function N() {
-        return _class_call_check(this, N), _super.apply(this, arguments);
+        return _class_call_check(this, N), _call_super(this, N, arguments);
     }
-    return N;
+    return _inherits(N, M), N;
 }(M);
 export var O = function O() {
     _class_call_check(this, O);
 };
 export var P = /*#__PURE__*/ function(O) {
-    _inherits(P, O);
-    var _super = _create_super(P);
     function P() {
-        return _class_call_check(this, P), _super.apply(this, arguments);
+        return _class_call_check(this, P), _call_super(this, P, arguments);
     }
-    return P;
+    return _inherits(P, O), P;
 }(O);
 export var Q = /*#__PURE__*/ function(O) {
-    _inherits(Q, O);
-    var _super = _create_super(Q);
     function Q() {
-        return _class_call_check(this, Q), _super.apply(this, arguments);
+        return _class_call_check(this, Q), _call_super(this, Q, arguments);
     }
-    return Q;
+    return _inherits(Q, O), Q;
 }(O);
 export var R = /*#__PURE__*/ function(O) {
-    _inherits(R, O);
-    var _super = _create_super(R);
     function R() {
-        return _class_call_check(this, R), _super.apply(this, arguments);
+        return _class_call_check(this, R), _call_super(this, R, arguments);
     }
-    return R;
+    return _inherits(R, O), R;
 }(O);
 export var S = /*#__PURE__*/ function(O) {
-    _inherits(S, O);
-    var _super = _create_super(S);
     function S() {
-        return _class_call_check(this, S), _super.apply(this, arguments);
+        return _class_call_check(this, S), _call_super(this, S, arguments);
     }
-    return S;
+    return _inherits(S, O), S;
 }(O);
 export var T = function T() {
     _class_call_check(this, T);
 };
 export var U = /*#__PURE__*/ function(T) {
-    _inherits(U, T);
-    var _super = _create_super(U);
     function U() {
-        return _class_call_check(this, U), _super.apply(this, arguments);
+        return _class_call_check(this, U), _call_super(this, U, arguments);
     }
-    return U;
+    return _inherits(U, T), U;
 }(T);
 export var V = /*#__PURE__*/ function(T) {
-    _inherits(V, T);
-    var _super = _create_super(V);
     function V() {
-        return _class_call_check(this, V), _super.apply(this, arguments);
+        return _class_call_check(this, V), _call_super(this, V, arguments);
     }
-    return V;
+    return _inherits(V, T), V;
 }(T);
 export var W = /*#__PURE__*/ function(T) {
-    _inherits(W, T);
-    var _super = _create_super(W);
     function W() {
-        return _class_call_check(this, W), _super.apply(this, arguments);
+        return _class_call_check(this, W), _call_super(this, W, arguments);
     }
-    return W;
+    return _inherits(W, T), W;
 }(T);
 export var X = /*#__PURE__*/ function(T) {
-    _inherits(X, T);
-    var _super = _create_super(X);
     function X() {
-        return _class_call_check(this, X), _super.apply(this, arguments);
+        return _class_call_check(this, X), _call_super(this, X, arguments);
     }
-    return X;
+    return _inherits(X, T), X;
 }(T);
 export var Y = function Y() {
     _class_call_check(this, Y);
 };
 export var Z = /*#__PURE__*/ function(Y) {
-    _inherits(Z, Y);
-    var _super = _create_super(Z);
     function Z() {
-        return _class_call_check(this, Z), _super.apply(this, arguments);
+        return _class_call_check(this, Z), _call_super(this, Z, arguments);
     }
-    return Z;
+    return _inherits(Z, Y), Z;
 }(Y);
 export var AA = /*#__PURE__*/ function(Y) {
-    _inherits(AA, Y);
-    var _super = _create_super(AA);
     function AA() {
-        return _class_call_check(this, AA), _super.apply(this, arguments);
+        return _class_call_check(this, AA), _call_super(this, AA, arguments);
     }
-    return AA;
+    return _inherits(AA, Y), AA;
 }(Y);
 export var BB = /*#__PURE__*/ function(Y) {
-    _inherits(BB, Y);
-    var _super = _create_super(BB);
     function BB() {
-        return _class_call_check(this, BB), _super.apply(this, arguments);
+        return _class_call_check(this, BB), _call_super(this, BB, arguments);
     }
-    return BB;
+    return _inherits(BB, Y), BB;
 }(Y);
 export var CC = /*#__PURE__*/ function(Y) {
-    _inherits(CC, Y);
-    var _super = _create_super(CC);
     function CC() {
-        return _class_call_check(this, CC), _super.apply(this, arguments);
+        return _class_call_check(this, CC), _call_super(this, CC, arguments);
     }
-    return CC;
+    return _inherits(CC, Y), CC;
 }(Y);

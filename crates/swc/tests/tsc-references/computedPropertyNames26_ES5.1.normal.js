@@ -1,8 +1,8 @@
 //// [computedPropertyNames26_ES5.ts]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _define_property } from "@swc/helpers/_/_define_property";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var Base = /*#__PURE__*/ function() {
     "use strict";
     function Base() {
@@ -18,10 +18,9 @@ var _ = _define_property({}, super.bar(), 1)[0];
 var C = /*#__PURE__*/ function(Base) {
     "use strict";
     _inherits(C, Base);
-    var _super = _create_super(C);
     function C() {
         _class_call_check(this, C);
-        return _super.apply(this, arguments);
+        return _call_super(this, C, arguments);
     }
     var _proto = C.prototype;
     _proto[_] = function() {};

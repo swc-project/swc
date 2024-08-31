@@ -1,10 +1,10 @@
 //// [for-inStatements.ts]
 var aString, anAny, c, d, e, i, M, Color, Color1;
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 for(aString in {});
 for(anAny in {});
 for(var x in {});

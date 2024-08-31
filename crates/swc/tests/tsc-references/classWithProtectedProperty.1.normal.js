@@ -1,8 +1,8 @@
 //// [classWithProtectedProperty.ts]
 // accessing any protected outside the class is an error
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
@@ -28,10 +28,9 @@ C.g = function() {
 var D = /*#__PURE__*/ function(C1) {
     "use strict";
     _inherits(D, C1);
-    var _super = _create_super(D);
     function D() {
         _class_call_check(this, D);
-        return _super.apply(this, arguments);
+        return _call_super(this, D, arguments);
     }
     var _proto = D.prototype;
     _proto.method = function method() {

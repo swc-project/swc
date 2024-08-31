@@ -1,10 +1,9 @@
 let ColouredCanvasElement = /*#__PURE__*/ function(CanvasElement) {
     "use strict";
     _inherits(ColouredCanvasElement, CanvasElement);
-    var _super = _create_super(ColouredCanvasElement);
     function ColouredCanvasElement() {
         _class_call_check(this, ColouredCanvasElement);
-        return _super.apply(this, arguments);
+        return _call_super(this, ColouredCanvasElement, arguments);
     }
     _create_class(ColouredCanvasElement, [
         {

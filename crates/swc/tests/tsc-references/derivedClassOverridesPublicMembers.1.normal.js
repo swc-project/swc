@@ -1,8 +1,8 @@
 //// [derivedClassOverridesPublicMembers.ts]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _create_class } from "@swc/helpers/_/_create_class";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var x;
 var y;
 var Base = /*#__PURE__*/ function() {
@@ -35,10 +35,11 @@ var Base = /*#__PURE__*/ function() {
 var Derived = /*#__PURE__*/ function(Base) {
     "use strict";
     _inherits(Derived, Base);
-    var _super = _create_super(Derived);
     function Derived(a) {
         _class_call_check(this, Derived);
-        return _super.call(this, x);
+        return _call_super(this, Derived, [
+            x
+        ]);
     }
     var _proto = Derived.prototype;
     _proto.b = function b(a) {};
@@ -80,10 +81,9 @@ var Base2 = function Base2() {
 var Derived2 = /*#__PURE__*/ function(Base2) {
     "use strict";
     _inherits(Derived2, Base2);
-    var _super = _create_super(Derived2);
     function Derived2() {
         _class_call_check(this, Derived2);
-        return _super.apply(this, arguments);
+        return _call_super(this, Derived2, arguments);
     }
     return Derived2;
 }(Base2);

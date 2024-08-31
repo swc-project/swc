@@ -1,7 +1,7 @@
 //// [classConstructorAccessibility2.ts]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var BaseA = /*#__PURE__*/ function() {
     function BaseA(x) {
         _class_call_check(this, BaseA), this.x = x;
@@ -26,12 +26,13 @@ var BaseA = /*#__PURE__*/ function() {
         new BaseC(4);
     }, BaseC;
 }(), DerivedA = /*#__PURE__*/ function(BaseA1) {
-    _inherits(DerivedA, BaseA1);
-    var _super = _create_super(DerivedA);
     function DerivedA(x) {
         var _this;
-        return _class_call_check(this, DerivedA), (_this = _super.call(this, x)).x = x, _this;
+        return _class_call_check(this, DerivedA), (_this = _call_super(this, DerivedA, [
+            x
+        ])).x = x, _this;
     }
+    _inherits(DerivedA, BaseA1);
     var _proto = DerivedA.prototype;
     return _proto.createInstance = function() {
         new DerivedA(5);
@@ -41,12 +42,13 @@ var BaseA = /*#__PURE__*/ function() {
         new BaseA(7);
     }, DerivedA;
 }(BaseA), DerivedB = /*#__PURE__*/ function(BaseB1) {
-    _inherits(DerivedB, BaseB1);
-    var _super = _create_super(DerivedB);
     function DerivedB(x) {
         var _this;
-        return _class_call_check(this, DerivedB), (_this = _super.call(this, x)).x = x, _this;
+        return _class_call_check(this, DerivedB), (_this = _call_super(this, DerivedB, [
+            x
+        ])).x = x, _this;
     }
+    _inherits(DerivedB, BaseB1);
     var _proto = DerivedB.prototype;
     return _proto.createInstance = function() {
         new DerivedB(7);
@@ -56,12 +58,13 @@ var BaseA = /*#__PURE__*/ function() {
         new BaseB(9);
     }, DerivedB;
 }(BaseB), DerivedC = /*#__PURE__*/ function(BaseC1) {
-    _inherits(DerivedC, BaseC1);
-    var _super = _create_super(DerivedC);
     function DerivedC(x) {
         var _this;
-        return _class_call_check(this, DerivedC), (_this = _super.call(this, x)).x = x, _this;
+        return _class_call_check(this, DerivedC), (_this = _call_super(this, DerivedC, [
+            x
+        ])).x = x, _this;
     }
+    _inherits(DerivedC, BaseC1);
     var _proto = DerivedC.prototype;
     return _proto.createInstance = function() {
         new DerivedC(9);

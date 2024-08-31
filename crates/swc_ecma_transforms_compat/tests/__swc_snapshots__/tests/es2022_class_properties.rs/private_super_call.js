@@ -17,12 +17,11 @@ var _foo = /*#__PURE__*/ new WeakMap();
 var B = /*#__PURE__*/ function(A) {
     "use strict";
     _inherits(B, A);
-    var _super = _create_super(B);
     function B() {
         _class_call_check(this, B);
         var _this;
-        _this = _super.apply(this, arguments);
-        _class_private_field_init(_assert_this_initialized(_this), _foo, {
+        _this = _call_super(this, B, arguments);
+        _class_private_field_init(_this, _foo, {
             writable: true,
             value: _get((_assert_this_initialized(_this), _get_prototype_of(B.prototype)), "foo", _this).call(_this)
         });

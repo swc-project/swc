@@ -1,8 +1,8 @@
 //// [derivedClassWithAny.ts]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _create_class } from "@swc/helpers/_/_create_class";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
@@ -35,10 +35,9 @@ var C = /*#__PURE__*/ function() {
 var D = /*#__PURE__*/ function(C) {
     "use strict";
     _inherits(D, C);
-    var _super = _create_super(D);
     function D() {
         _class_call_check(this, D);
-        return _super.apply(this, arguments);
+        return _call_super(this, D, arguments);
     }
     var _proto = D.prototype;
     _proto.foo = function foo() {
@@ -68,10 +67,9 @@ var D = /*#__PURE__*/ function(C) {
 var E = /*#__PURE__*/ function(D) {
     "use strict";
     _inherits(E, D);
-    var _super = _create_super(E);
     function E() {
         _class_call_check(this, E);
-        return _super.apply(this, arguments);
+        return _call_super(this, E, arguments);
     }
     var _proto = E.prototype;
     _proto.foo = function foo() {

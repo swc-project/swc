@@ -1,8 +1,8 @@
 //// [subtypingWithObjectMembersAccessibility2.ts]
 // Derived member is private, base member is not causes errors
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var Base = function Base() {
     "use strict";
     _class_call_check(this, Base);
@@ -10,10 +10,9 @@ var Base = function Base() {
 var Derived = /*#__PURE__*/ function(Base) {
     "use strict";
     _inherits(Derived, Base);
-    var _super = _create_super(Derived);
     function Derived() {
         _class_call_check(this, Derived);
-        return _super.apply(this, arguments);
+        return _call_super(this, Derived, arguments);
     }
     return Derived;
 }(Base);
@@ -26,10 +25,9 @@ var ExplicitPublic;
     var B = /*#__PURE__*/ function(A) {
         "use strict";
         _inherits(B, A);
-        var _super = _create_super(B);
         function B() {
             _class_call_check(this, B);
-            return _super.apply(this, arguments);
+            return _call_super(this, B, arguments);
         }
         return B;
     }(A);
@@ -40,10 +38,9 @@ var ExplicitPublic;
     var B2 = /*#__PURE__*/ function(A2) {
         "use strict";
         _inherits(B2, A2);
-        var _super = _create_super(B2);
         function B2() {
             _class_call_check(this, B2);
-            return _super.apply(this, arguments);
+            return _call_super(this, B2, arguments);
         }
         return B2;
     }(A2);
@@ -54,10 +51,9 @@ var ExplicitPublic;
     var B3 = /*#__PURE__*/ function(A3) {
         "use strict";
         _inherits(B3, A3);
-        var _super = _create_super(B3);
         function B3() {
             _class_call_check(this, B3);
-            return _super.apply(this, arguments);
+            return _call_super(this, B3, arguments);
         }
         return B3;
     }(A3);
@@ -71,10 +67,9 @@ var ImplicitPublic;
     var B = /*#__PURE__*/ function(A) {
         "use strict";
         _inherits(B, A);
-        var _super = _create_super(B);
         function B() {
             _class_call_check(this, B);
-            return _super.apply(this, arguments);
+            return _call_super(this, B, arguments);
         }
         return B;
     }(A);
@@ -85,10 +80,9 @@ var ImplicitPublic;
     var B2 = /*#__PURE__*/ function(A2) {
         "use strict";
         _inherits(B2, A2);
-        var _super = _create_super(B2);
         function B2() {
             _class_call_check(this, B2);
-            return _super.apply(this, arguments);
+            return _call_super(this, B2, arguments);
         }
         return B2;
     }(A2);
@@ -99,10 +93,9 @@ var ImplicitPublic;
     var B3 = /*#__PURE__*/ function(A3) {
         "use strict";
         _inherits(B3, A3);
-        var _super = _create_super(B3);
         function B3() {
             _class_call_check(this, B3);
-            return _super.apply(this, arguments);
+            return _call_super(this, B3, arguments);
         }
         return B3;
     }(A3);

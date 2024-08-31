@@ -1,9 +1,9 @@
 //// [classAbstractSuperCalls.ts]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var A = /*#__PURE__*/ function() {
     "use strict";
     function A() {
@@ -18,10 +18,9 @@ var A = /*#__PURE__*/ function() {
 var B = /*#__PURE__*/ function(A) {
     "use strict";
     _inherits(B, A);
-    var _super = _create_super(B);
     function B() {
         _class_call_check(this, B);
-        return _super.apply(this, arguments);
+        return _call_super(this, B, arguments);
     }
     var _proto = B.prototype;
     _proto.bar = function bar() {
@@ -35,10 +34,9 @@ var B = /*#__PURE__*/ function(A) {
 var C = /*#__PURE__*/ function(B) {
     "use strict";
     _inherits(C, B);
-    var _super = _create_super(C);
     function C() {
         _class_call_check(this, C);
-        return _super.apply(this, arguments);
+        return _call_super(this, C, arguments);
     }
     var _proto = C.prototype;
     _proto.foo = function foo() {
@@ -70,10 +68,9 @@ var AA = /*#__PURE__*/ function() {
 var BB = /*#__PURE__*/ function(AA) {
     "use strict";
     _inherits(BB, AA);
-    var _super = _create_super(BB);
     function BB() {
         _class_call_check(this, BB);
-        return _super.apply(this, arguments);
+        return _call_super(this, BB, arguments);
     }
     return BB;
 }(AA);

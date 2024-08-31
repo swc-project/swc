@@ -1,7 +1,7 @@
 //// [castingTuple.ts]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var A = function A() {
     "use strict";
     _class_call_check(this, A);
@@ -18,20 +18,18 @@ var D = function D() {
 var E = /*#__PURE__*/ function(A) {
     "use strict";
     _inherits(E, A);
-    var _super = _create_super(E);
     function E() {
         _class_call_check(this, E);
-        return _super.apply(this, arguments);
+        return _call_super(this, E, arguments);
     }
     return E;
 }(A);
 var F = /*#__PURE__*/ function(A) {
     "use strict";
     _inherits(F, A);
-    var _super = _create_super(F);
     function F() {
         _class_call_check(this, F);
-        return _super.apply(this, arguments);
+        return _call_super(this, F, arguments);
     }
     return F;
 }(A);

@@ -1,8 +1,8 @@
 //// [typeGuardFunctionOfFormThisErrors.ts]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var RoyalGuard = /*#__PURE__*/ function() {
     "use strict";
     function RoyalGuard() {
@@ -20,10 +20,9 @@ var RoyalGuard = /*#__PURE__*/ function() {
 var LeadGuard = /*#__PURE__*/ function(RoyalGuard) {
     "use strict";
     _inherits(LeadGuard, RoyalGuard);
-    var _super = _create_super(LeadGuard);
     function LeadGuard() {
         _class_call_check(this, LeadGuard);
-        return _super.apply(this, arguments);
+        return _call_super(this, LeadGuard, arguments);
     }
     var _proto = LeadGuard.prototype;
     _proto.lead = function lead() {};
@@ -32,10 +31,9 @@ var LeadGuard = /*#__PURE__*/ function(RoyalGuard) {
 var FollowerGuard = /*#__PURE__*/ function(RoyalGuard) {
     "use strict";
     _inherits(FollowerGuard, RoyalGuard);
-    var _super = _create_super(FollowerGuard);
     function FollowerGuard() {
         _class_call_check(this, FollowerGuard);
-        return _super.apply(this, arguments);
+        return _call_super(this, FollowerGuard, arguments);
     }
     var _proto = FollowerGuard.prototype;
     _proto.follow = function follow() {};

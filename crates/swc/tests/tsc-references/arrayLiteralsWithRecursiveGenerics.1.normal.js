@@ -1,7 +1,7 @@
 //// [arrayLiteralsWithRecursiveGenerics.ts]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var List = function List() {
     "use strict";
     _class_call_check(this, List);
@@ -9,10 +9,9 @@ var List = function List() {
 var DerivedList = /*#__PURE__*/ function(List) {
     "use strict";
     _inherits(DerivedList, List);
-    var _super = _create_super(DerivedList);
     function DerivedList() {
         _class_call_check(this, DerivedList);
-        return _super.apply(this, arguments);
+        return _call_super(this, DerivedList, arguments);
     }
     return DerivedList;
 }(List);

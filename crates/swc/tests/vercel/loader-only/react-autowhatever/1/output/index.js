@@ -1,11 +1,10 @@
-import { _ as _assert_this_initialized } from "@swc/helpers/_/_assert_this_initialized";
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _create_class } from "@swc/helpers/_/_create_class";
 import { _ as _define_property } from "@swc/helpers/_/_define_property";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _object_spread } from "@swc/helpers/_/_object_spread";
 import { _ as _object_spread_props } from "@swc/helpers/_/_object_spread_props";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 import { jsx as _jsx } from "react/jsx-runtime";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
@@ -14,12 +13,11 @@ import compareObjects from "./compareObjects";
 var ItemsList = /*#__PURE__*/ function(Component) {
     "use strict";
     _inherits(ItemsList, Component);
-    var _super = _create_super(ItemsList);
     function ItemsList() {
         _class_call_check(this, ItemsList);
         var _this;
-        _this = _super.apply(this, arguments);
-        _define_property(_assert_this_initialized(_this), "storeHighlightedItemReference", function(highlightedItem) {
+        _this = _call_super(this, ItemsList, arguments);
+        _define_property(_this, "storeHighlightedItemReference", function(highlightedItem) {
             _this.props.onHighlightedItemChange(highlightedItem === null ? null : highlightedItem.item);
         });
         return _this;

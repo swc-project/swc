@@ -1,13 +1,13 @@
 //// [usingDeclarations.1.ts]
 import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _create_class } from "@swc/helpers/_/_create_class";
 import { _ as _define_property } from "@swc/helpers/_/_define_property";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _possible_constructor_return } from "@swc/helpers/_/_possible_constructor_return";
 import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
 try {
@@ -384,14 +384,13 @@ try {
     var C2 = /*#__PURE__*/ function(C1) {
         "use strict";
         _inherits(C2, C1);
-        var _super = _create_super(C2);
         function C2() {
             _class_call_check(this, C2);
             var _this;
             try {
                 var _usingCtx = _using_ctx();
                 var d16 = _usingCtx.u(_define_property({}, Symbol.dispose, function() {}));
-                _this = _super.call(this);
+                _this = _call_super(this, C2);
             } catch (_) {
                 _usingCtx.e = _;
             } finally{
@@ -404,14 +403,13 @@ try {
     var C3 = /*#__PURE__*/ function(C1) {
         "use strict";
         _inherits(C3, C1);
-        var _super = _create_super(C3);
         function C3() {
             _class_call_check(this, C3);
             var _this;
             try {
                 var _usingCtx = _using_ctx();
                 var d17 = _usingCtx.u(_define_property({}, Symbol.dispose, function() {}));
-                _this = _super.call(this);
+                _this = _call_super(this, C3);
                 _this.y = 1;
             } catch (_) {
                 _usingCtx.e = _;

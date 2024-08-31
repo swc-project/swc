@@ -1,10 +1,9 @@
 var TestEmpty = /*#__PURE__*/ function(_superClass) {
     "use strict";
     _inherits(TestEmpty, _superClass);
-    var _super = _create_super(TestEmpty);
     function TestEmpty() {
         _class_call_check(this, TestEmpty);
-        return _super.apply(this, arguments);
+        return _call_super(this, TestEmpty, arguments);
     }
     return TestEmpty;
 }(function _class() {
@@ -14,10 +13,9 @@ var TestEmpty = /*#__PURE__*/ function(_superClass) {
 var TestConstructorOnly = /*#__PURE__*/ function(_superClass) {
     "use strict";
     _inherits(TestConstructorOnly, _superClass);
-    var _super = _create_super(TestConstructorOnly);
     function TestConstructorOnly() {
         _class_call_check(this, TestConstructorOnly);
-        return _super.apply(this, arguments);
+        return _call_super(this, TestConstructorOnly, arguments);
     }
     return TestConstructorOnly;
 }(function _class() {
@@ -27,10 +25,9 @@ var TestConstructorOnly = /*#__PURE__*/ function(_superClass) {
 var TestMethodOnly = /*#__PURE__*/ function(_superClass) {
     "use strict";
     _inherits(TestMethodOnly, _superClass);
-    var _super = _create_super(TestMethodOnly);
     function TestMethodOnly() {
         _class_call_check(this, TestMethodOnly);
-        return _super.apply(this, arguments);
+        return _call_super(this, TestMethodOnly, arguments);
     }
     return TestMethodOnly;
 }(/*#__PURE__*/ function() {
@@ -49,10 +46,9 @@ var TestMethodOnly = /*#__PURE__*/ function(_superClass) {
 var TestConstructorAndMethod = /*#__PURE__*/ function(_superClass) {
     "use strict";
     _inherits(TestConstructorAndMethod, _superClass);
-    var _super = _create_super(TestConstructorAndMethod);
     function TestConstructorAndMethod() {
         _class_call_check(this, TestConstructorAndMethod);
-        return _super.apply(this, arguments);
+        return _call_super(this, TestConstructorAndMethod, arguments);
     }
     return TestConstructorAndMethod;
 }(/*#__PURE__*/ function() {
@@ -71,10 +67,9 @@ var TestConstructorAndMethod = /*#__PURE__*/ function(_superClass) {
 var TestMultipleMethods = /*#__PURE__*/ function(_superClass) {
     "use strict";
     _inherits(TestMultipleMethods, _superClass);
-    var _super = _create_super(TestMultipleMethods);
     function TestMultipleMethods() {
         _class_call_check(this, TestMultipleMethods);
-        return _super.apply(this, arguments);
+        return _call_super(this, TestMultipleMethods, arguments);
     }
     return TestMultipleMethods;
 }(/*#__PURE__*/ function() {

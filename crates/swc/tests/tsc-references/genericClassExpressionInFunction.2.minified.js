@@ -1,52 +1,40 @@
 //// [genericClassExpressionInFunction.ts]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var A = function A() {
     _class_call_check(this, A);
 }, K = /*#__PURE__*/ function(_B1) {
-    _inherits(K, _B1);
-    var _super = _create_super(K);
     function K() {
-        return _class_call_check(this, K), _super.apply(this, arguments);
+        return _class_call_check(this, K), _call_super(this, K, arguments);
     }
-    return K;
+    return _inherits(K, _B1), K;
 }(/*#__PURE__*/ function(A) {
-    _inherits(_class, A);
-    var _super = _create_super(_class);
     function _class() {
-        return _class_call_check(this, _class), _super.apply(this, arguments);
+        return _class_call_check(this, _class), _call_super(this, _class, arguments);
     }
-    return _class;
+    return _inherits(_class, A), _class;
 }(A)), C = /*#__PURE__*/ function(_anon) {
-    _inherits(C, _anon);
-    var _super = _create_super(C);
     function C() {
-        return _class_call_check(this, C), _super.apply(this, arguments);
+        return _class_call_check(this, C), _call_super(this, C, arguments);
     }
-    return C;
+    return _inherits(C, _anon), C;
 }(new function B2() {
     _class_call_check(this, B2), this.anon = /*#__PURE__*/ function(A) {
-        _inherits(_class, A);
-        var _super = _create_super(_class);
         function _class() {
-            return _class_call_check(this, _class), _super.apply(this, arguments);
+            return _class_call_check(this, _class), _call_super(this, _class, arguments);
         }
-        return _class;
+        return _inherits(_class, A), _class;
     }(A);
 }().anon), S = /*#__PURE__*/ function(b3Number) {
-    _inherits(S, b3Number);
-    var _super = _create_super(S);
     function S() {
-        return _class_call_check(this, S), _super.apply(this, arguments);
+        return _class_call_check(this, S), _call_super(this, S, arguments);
     }
-    return S;
+    return _inherits(S, b3Number), S;
 }(/*#__PURE__*/ function(A) {
-    _inherits(Inner, A);
-    var _super = _create_super(Inner);
     function Inner() {
-        return _class_call_check(this, Inner), _super.apply(this, arguments);
+        return _class_call_check(this, Inner), _call_super(this, Inner, arguments);
     }
-    return Inner;
+    return _inherits(Inner, A), Inner;
 }(A)), c = new C(), k = new K(), s = new S();
 c.genericVar = 12, k.genericVar = 12, s.genericVar = 12;

@@ -1,7 +1,7 @@
 //// [bestCommonTypeOfTuple2.ts]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function C() {
     "use strict";
     _class_call_check(this, C);
@@ -17,10 +17,9 @@ var E = function E() {
 var F = /*#__PURE__*/ function(C) {
     "use strict";
     _inherits(F, C);
-    var _super = _create_super(F);
     function F() {
         _class_call_check(this, F);
-        return _super.apply(this, arguments);
+        return _call_super(this, F, arguments);
     }
     return F;
 }(C);
@@ -32,11 +31,10 @@ var C1 = function C1() {
 var D1 = /*#__PURE__*/ function(C1) {
     "use strict";
     _inherits(D1, C1);
-    var _super = _create_super(D1);
     function D1() {
         _class_call_check(this, D1);
         var _this;
-        _this = _super.apply(this, arguments);
+        _this = _call_super(this, D1, arguments);
         _this.i = "bar";
         return _this;
     }

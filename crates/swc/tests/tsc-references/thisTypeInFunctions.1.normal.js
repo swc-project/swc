@@ -1,8 +1,8 @@
 //// [thisTypeInFunctions.ts]
 // body checking
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var _this = this;
 var B = function B() {
     "use strict";
@@ -31,10 +31,9 @@ var C = /*#__PURE__*/ function() {
 var D = /*#__PURE__*/ function(C) {
     "use strict";
     _inherits(D, C);
-    var _super = _create_super(D);
     function D() {
         _class_call_check(this, D);
-        return _super.apply(this, arguments);
+        return _call_super(this, D, arguments);
     }
     return D;
 }(C);
@@ -214,10 +213,9 @@ var Base1 = /*#__PURE__*/ function() {
 var Derived1 = /*#__PURE__*/ function(Base1) {
     "use strict";
     _inherits(Derived1, Base1);
-    var _super = _create_super(Derived1);
     function Derived1() {
         _class_call_check(this, Derived1);
-        return _super.apply(this, arguments);
+        return _call_super(this, Derived1, arguments);
     }
     return Derived1;
 }(Base1);
@@ -238,10 +236,9 @@ var Base2 = /*#__PURE__*/ function() {
 var Derived2 = /*#__PURE__*/ function(Base2) {
     "use strict";
     _inherits(Derived2, Base2);
-    var _super = _create_super(Derived2);
     function Derived2() {
         _class_call_check(this, Derived2);
-        return _super.apply(this, arguments);
+        return _call_super(this, Derived2, arguments);
     }
     return Derived2;
 }(Base2);

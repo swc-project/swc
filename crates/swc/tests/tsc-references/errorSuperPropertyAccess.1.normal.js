@@ -3,13 +3,13 @@
 //super property access in instance member function of class with no base type
 //super property access in instance member accessor(get and set) of class with no base type
 import { _ as _assert_this_initialized } from "@swc/helpers/_/_assert_this_initialized";
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _create_class } from "@swc/helpers/_/_create_class";
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _set } from "@swc/helpers/_/_set";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var NoBase = /*#__PURE__*/ function() {
     "use strict";
     function NoBase() {
@@ -66,10 +66,10 @@ SomeBase.publicStaticMember = 0;
 var SomeDerived1 = /*#__PURE__*/ function(SomeBase) {
     "use strict";
     _inherits(SomeDerived1, SomeBase);
-    var _super = _create_super(SomeDerived1);
     function SomeDerived1() {
         _class_call_check(this, SomeDerived1);
-        var _this = _super.call(this);
+        var _this;
+        _this = _call_super(this, SomeDerived1);
         _set((_assert_this_initialized(_this), _get_prototype_of(SomeDerived1.prototype)), "publicMember", 1, _this, true);
         return _this;
     }
@@ -107,10 +107,10 @@ var SomeDerived1 = /*#__PURE__*/ function(SomeBase) {
 var SomeDerived2 = /*#__PURE__*/ function(SomeBase) {
     "use strict";
     _inherits(SomeDerived2, SomeBase);
-    var _super = _create_super(SomeDerived2);
     function SomeDerived2() {
         _class_call_check(this, SomeDerived2);
-        var _this = _super.call(this);
+        var _this;
+        _this = _call_super(this, SomeDerived2);
         _set((_assert_this_initialized(_this), _get_prototype_of(SomeDerived2.prototype)), "privateMember", 1, _this, true);
         return _this;
     }
@@ -139,10 +139,9 @@ var SomeDerived2 = /*#__PURE__*/ function(SomeBase) {
 var SomeDerived3 = /*#__PURE__*/ function(SomeBase) {
     "use strict";
     _inherits(SomeDerived3, SomeBase);
-    var _super = _create_super(SomeDerived3);
     function SomeDerived3() {
         _class_call_check(this, SomeDerived3);
-        return _super.apply(this, arguments);
+        return _call_super(this, SomeDerived3, arguments);
     }
     SomeDerived3.fn = function fn() {
         _set(_get_prototype_of(SomeDerived3), "publicStaticMember", 3, this, true);

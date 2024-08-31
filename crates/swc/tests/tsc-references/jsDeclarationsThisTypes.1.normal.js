@@ -1,7 +1,7 @@
 //// [index.js]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 export var A = /*#__PURE__*/ function() {
     "use strict";
     function A() {
@@ -16,10 +16,9 @@ export var A = /*#__PURE__*/ function() {
 var Base = /*#__PURE__*/ function(A) {
     "use strict";
     _inherits(Base, A);
-    var _super = _create_super(Base);
     function Base() {
         _class_call_check(this, Base);
-        return _super.apply(this, arguments);
+        return _call_super(this, Base, arguments);
     }
     var _proto = Base.prototype;
     // This method is required to reproduce #35932

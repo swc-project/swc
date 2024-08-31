@@ -12,10 +12,9 @@ var _store = require("./store");
 let Login = /*#__PURE__*/ function(_React_Component) {
     "use strict";
     _inherits(Login, _React_Component);
-    var _super = _create_super(Login);
     function Login() {
         _class_call_check(this, Login);
-        return _super.apply(this, arguments);
+        return _call_super(this, Login, arguments);
     }
     _create_class(Login, [
         {

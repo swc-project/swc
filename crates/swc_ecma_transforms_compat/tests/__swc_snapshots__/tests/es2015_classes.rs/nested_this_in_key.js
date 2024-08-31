@@ -1,7 +1,6 @@
 let Outer = /*#__PURE__*/ function(B) {
     "use strict";
     _inherits(Outer, B);
-    var _super = _create_super(Outer);
     function Outer() {
         _class_call_check(this, Outer);
         var _this;
@@ -23,6 +22,7 @@ let Outer = /*#__PURE__*/ function(B) {
             return this;
         }
         return _possible_constructor_return(_this, new Inner());
+        return _possible_constructor_return(_this);
     }
     return Outer;
 }(B);

@@ -1,11 +1,11 @@
 //// [parserAstSpans1.ts]
 /** i1 is interface with properties*/ import { _ as _assert_this_initialized } from "@swc/helpers/_/_assert_this_initialized";
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _create_class } from "@swc/helpers/_/_create_class";
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var c1 = /*#__PURE__*/ function() {
     "use strict";
     function c1() {
@@ -88,11 +88,12 @@ var c2 = /*#__PURE__*/ function() {
 var c3 = /*#__PURE__*/ function(c2) {
     "use strict";
     _inherits(c3, c2);
-    var _super = _create_super(c3);
     function c3() {
         _class_call_check(this, c3);
         var _this;
-        _this = _super.call(this, 10);
+        _this = _call_super(this, c3, [
+            10
+        ]);
         _this.p1 = _get((_assert_this_initialized(_this), _get_prototype_of(c3.prototype)), "c2_p1", _this);
         return _this;
     }
@@ -134,10 +135,9 @@ c2_i.nc_f1();
 var c4 = /*#__PURE__*/ function(c2) {
     "use strict";
     _inherits(c4, c2);
-    var _super = _create_super(c4);
     function c4() {
         _class_call_check(this, c4);
-        return _super.apply(this, arguments);
+        return _call_super(this, c4, arguments);
     }
     return c4;
 }(c2);
@@ -177,11 +177,10 @@ i2_i.nc_l1();
 var c6 = /*#__PURE__*/ function(c5) {
     "use strict";
     _inherits(c6, c5);
-    var _super = _create_super(c6);
     function c6() {
         _class_call_check(this, c6);
         var _this;
-        _this = _super.call(this);
+        _this = _call_super(this, c6);
         _this.d = _get((_assert_this_initialized(_this), _get_prototype_of(c6.prototype)), "b", _this);
         return _this;
     }

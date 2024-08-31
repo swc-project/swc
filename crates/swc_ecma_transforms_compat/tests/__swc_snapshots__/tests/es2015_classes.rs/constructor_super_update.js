@@ -1,7 +1,6 @@
 let A = /*#__PURE__*/ function(B) {
     "use strict";
     _inherits(A, B);
-    var _super = _create_super(A);
     function A() {
         _class_call_check(this, A);
         var _this;

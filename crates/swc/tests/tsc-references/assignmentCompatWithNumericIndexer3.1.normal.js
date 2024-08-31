@@ -1,8 +1,8 @@
 //// [assignmentCompatWithNumericIndexer3.ts]
 // Derived type indexer must be subtype of base type indexer
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var A = function A() {
     "use strict";
     _class_call_check(this, A);
@@ -14,10 +14,9 @@ b = a; // ok
 var B2 = /*#__PURE__*/ function(A) {
     "use strict";
     _inherits(B2, A);
-    var _super = _create_super(B2);
     function B2() {
         _class_call_check(this, B2);
-        return _super.apply(this, arguments);
+        return _call_super(this, B2, arguments);
     }
     return B2;
 }(A);

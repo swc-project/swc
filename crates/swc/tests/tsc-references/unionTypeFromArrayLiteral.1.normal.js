@@ -3,9 +3,9 @@
 // If the array literal is empty, the resulting type is an array type with the element type Undefined.
 // Otherwise, if the array literal is contextually typed by a type that has a property with the numeric name ‘0’, the resulting type is a tuple type constructed from the types of the element expressions.
 // Otherwise, the resulting type is an array type with an element type that is the union of the types of the element expressions.
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var arr1 = [
     1,
     2
@@ -54,10 +54,9 @@ var D = /*#__PURE__*/ function() {
 var E = /*#__PURE__*/ function(C) {
     "use strict";
     _inherits(E, C);
-    var _super = _create_super(E);
     function E() {
         _class_call_check(this, E);
-        return _super.apply(this, arguments);
+        return _call_super(this, E, arguments);
     }
     var _proto = E.prototype;
     _proto.foo3 = function foo3() {};
@@ -66,10 +65,9 @@ var E = /*#__PURE__*/ function(C) {
 var F = /*#__PURE__*/ function(C) {
     "use strict";
     _inherits(F, C);
-    var _super = _create_super(F);
     function F() {
         _class_call_check(this, F);
-        return _super.apply(this, arguments);
+        return _call_super(this, F, arguments);
     }
     var _proto = F.prototype;
     _proto.foo4 = function foo4() {};

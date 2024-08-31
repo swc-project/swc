@@ -1,7 +1,7 @@
 //// [mergedInheritedClassInterface.ts]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var BaseClass = /*#__PURE__*/ function() {
     "use strict";
     function BaseClass() {
@@ -14,10 +14,9 @@ var BaseClass = /*#__PURE__*/ function() {
 var Child = /*#__PURE__*/ function(BaseClass) {
     "use strict";
     _inherits(Child, BaseClass);
-    var _super = _create_super(Child);
     function Child() {
         _class_call_check(this, Child);
-        return _super.apply(this, arguments);
+        return _call_super(this, Child, arguments);
     }
     var _proto = Child.prototype;
     _proto.method = function method() {};
@@ -35,10 +34,9 @@ var ChildNoBaseClass = /*#__PURE__*/ function() {
 var Grandchild = /*#__PURE__*/ function(ChildNoBaseClass) {
     "use strict";
     _inherits(Grandchild, ChildNoBaseClass);
-    var _super = _create_super(Grandchild);
     function Grandchild() {
         _class_call_check(this, Grandchild);
-        return _super.apply(this, arguments);
+        return _call_super(this, Grandchild, arguments);
     }
     return Grandchild;
 }(ChildNoBaseClass);

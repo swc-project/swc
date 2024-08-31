@@ -1,8 +1,8 @@
 //// [readonlyConstructorAssignment.ts]
 // Tests that readonly parameter properties behave like regular readonly properties
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var A = function A(x) {
     "use strict";
     _class_call_check(this, A);
@@ -12,11 +12,12 @@ var A = function A(x) {
 var B = /*#__PURE__*/ function(A) {
     "use strict";
     _inherits(B, A);
-    var _super = _create_super(B);
     function B(x) {
         _class_call_check(this, B);
         var _this;
-        _this = _super.call(this, x);
+        _this = _call_super(this, B, [
+            x
+        ]);
         // Fails, x is readonly
         _this.x = 1;
         return _this;
@@ -26,11 +27,12 @@ var B = /*#__PURE__*/ function(A) {
 var C = /*#__PURE__*/ function(A) {
     "use strict";
     _inherits(C, A);
-    var _super = _create_super(C);
     function C(x) {
         _class_call_check(this, C);
         var _this;
-        _this = _super.call(this, x);
+        _this = _call_super(this, C, [
+            x
+        ]);
         _this.x = x;
         _this.x = 1;
         return _this;
@@ -47,11 +49,12 @@ var D = function D(x) {
 var E = /*#__PURE__*/ function(D) {
     "use strict";
     _inherits(E, D);
-    var _super = _create_super(E);
     function E(x) {
         _class_call_check(this, E);
         var _this;
-        _this = _super.call(this, x);
+        _this = _call_super(this, E, [
+            x
+        ]);
         _this.x = x;
         _this.x = 1;
         return _this;

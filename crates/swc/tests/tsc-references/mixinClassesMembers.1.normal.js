@@ -1,9 +1,9 @@
 //// [mixinClassesMembers.ts]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 function f1() {
     var x1 = new Mixed1("hello");
     var x2 = new Mixed1(42);
@@ -53,11 +53,12 @@ function f6() {
 var C2 = /*#__PURE__*/ function(Mixed11) {
     "use strict";
     _inherits(C2, Mixed11);
-    var _super = _create_super(C2);
     function C2() {
         _class_call_check(this, C2);
         var _this;
-        _this = _super.call(this, "hello");
+        _this = _call_super(this, C2, [
+            "hello"
+        ]);
         _this.a;
         _this.b;
         _this.p;
@@ -68,11 +69,12 @@ var C2 = /*#__PURE__*/ function(Mixed11) {
 var C3 = /*#__PURE__*/ function(Mixed31) {
     "use strict";
     _inherits(C3, Mixed31);
-    var _super = _create_super(C3);
     function C3() {
         _class_call_check(this, C3);
         var _this;
-        _this = _super.call(this, 42);
+        _this = _call_super(this, C3, [
+            42
+        ]);
         _this.a;
         _this.b;
         _this.p;

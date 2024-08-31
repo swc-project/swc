@@ -1,8 +1,8 @@
 //// [typeGuardFunctionOfFormThisErrors.ts]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var c, RoyalGuard = /*#__PURE__*/ function() {
     function RoyalGuard() {
         _class_call_check(this, RoyalGuard);
@@ -14,19 +14,15 @@ var c, RoyalGuard = /*#__PURE__*/ function() {
         return _instanceof(this, FollowerGuard);
     }, RoyalGuard;
 }(), LeadGuard = /*#__PURE__*/ function(RoyalGuard) {
-    _inherits(LeadGuard, RoyalGuard);
-    var _super = _create_super(LeadGuard);
     function LeadGuard() {
-        return _class_call_check(this, LeadGuard), _super.apply(this, arguments);
+        return _class_call_check(this, LeadGuard), _call_super(this, LeadGuard, arguments);
     }
-    return LeadGuard.prototype.lead = function() {}, LeadGuard;
+    return _inherits(LeadGuard, RoyalGuard), LeadGuard.prototype.lead = function() {}, LeadGuard;
 }(RoyalGuard), FollowerGuard = /*#__PURE__*/ function(RoyalGuard) {
-    _inherits(FollowerGuard, RoyalGuard);
-    var _super = _create_super(FollowerGuard);
     function FollowerGuard() {
-        return _class_call_check(this, FollowerGuard), _super.apply(this, arguments);
+        return _class_call_check(this, FollowerGuard), _call_super(this, FollowerGuard, arguments);
     }
-    return FollowerGuard.prototype.follow = function() {}, FollowerGuard;
+    return _inherits(FollowerGuard, RoyalGuard), FollowerGuard.prototype.follow = function() {}, FollowerGuard;
 }(RoyalGuard), a = new FollowerGuard(), b = new LeadGuard();
 b.isFollower = b.isLeader, b.isLeader = b.isFollower, a.isFollower = a.isLeader, a.isLeader = a.isFollower, ({
     invalidGuard: function(c) {

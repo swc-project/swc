@@ -1,7 +1,7 @@
 //// [protectedClassPropertyAccessibleWithinSubclass2.ts]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var Base = /*#__PURE__*/ function() {
     "use strict";
     function Base() {
@@ -25,10 +25,9 @@ var Base = /*#__PURE__*/ function() {
 var Derived1 = /*#__PURE__*/ function(Base) {
     "use strict";
     _inherits(Derived1, Base);
-    var _super = _create_super(Derived1);
     function Derived1() {
         _class_call_check(this, Derived1);
-        return _super.apply(this, arguments);
+        return _call_super(this, Derived1, arguments);
     }
     var _proto = Derived1.prototype;
     _proto.method1 = function method1() {
@@ -48,10 +47,9 @@ var Derived1 = /*#__PURE__*/ function(Base) {
 var Derived2 = /*#__PURE__*/ function(Base) {
     "use strict";
     _inherits(Derived2, Base);
-    var _super = _create_super(Derived2);
     function Derived2() {
         _class_call_check(this, Derived2);
-        return _super.apply(this, arguments);
+        return _call_super(this, Derived2, arguments);
     }
     var _proto = Derived2.prototype;
     _proto.method2 = function method2() {
@@ -71,10 +69,9 @@ var Derived2 = /*#__PURE__*/ function(Base) {
 var Derived3 = /*#__PURE__*/ function(Derived1) {
     "use strict";
     _inherits(Derived3, Derived1);
-    var _super = _create_super(Derived3);
     function Derived3() {
         _class_call_check(this, Derived3);
-        return _super.apply(this, arguments);
+        return _call_super(this, Derived3, arguments);
     }
     var _proto = Derived3.prototype;
     _proto.method3 = function method3() {
@@ -94,10 +91,9 @@ var Derived3 = /*#__PURE__*/ function(Derived1) {
 var Derived4 = /*#__PURE__*/ function(Derived2) {
     "use strict";
     _inherits(Derived4, Derived2);
-    var _super = _create_super(Derived4);
     function Derived4() {
         _class_call_check(this, Derived4);
-        return _super.apply(this, arguments);
+        return _call_super(this, Derived4, arguments);
     }
     var _proto = Derived4.prototype;
     _proto.method4 = function method4() {

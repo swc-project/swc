@@ -9,10 +9,9 @@ var constructor;
 let CustomElement = /*#__PURE__*/ function(HTMLElement) {
     "use strict";
     _inherits(CustomElement, HTMLElement);
-    var _super = _create_super(CustomElement);
     function CustomElement() {
         _class_call_check(this, CustomElement);
-        return _super.apply(this, arguments);
+        return _call_super(this, CustomElement, arguments);
     }
     return CustomElement;
 }(_wrap_native_super(HTMLElement));

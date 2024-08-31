@@ -1,7 +1,7 @@
 //// [classConstructorParametersAccessibility2.ts]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C1 = function C1(x) {
     "use strict";
     _class_call_check(this, C1);
@@ -29,11 +29,12 @@ c3.p // protected, error
 var Derived = /*#__PURE__*/ function(C3) {
     "use strict";
     _inherits(Derived, C3);
-    var _super = _create_super(Derived);
     function Derived(p) {
         _class_call_check(this, Derived);
         var _this;
-        _this = _super.call(this, p);
+        _this = _call_super(this, Derived, [
+            p
+        ]);
         _this.p; // OK
         return _this;
     }

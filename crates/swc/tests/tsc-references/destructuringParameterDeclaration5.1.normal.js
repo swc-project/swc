@@ -1,8 +1,8 @@
 //// [destructuringParameterDeclaration5.ts]
 // Parameter Declaration with generic
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var Class = function Class() {
     "use strict";
     _class_call_check(this, Class);
@@ -10,10 +10,9 @@ var Class = function Class() {
 var SubClass = /*#__PURE__*/ function(Class) {
     "use strict";
     _inherits(SubClass, Class);
-    var _super = _create_super(SubClass);
     function SubClass() {
         _class_call_check(this, SubClass);
-        return _super.call(this);
+        return _call_super(this, SubClass);
     }
     return SubClass;
 }(Class);
@@ -24,10 +23,9 @@ var D = function D() {
 var SubD = /*#__PURE__*/ function(D) {
     "use strict";
     _inherits(SubD, D);
-    var _super = _create_super(SubD);
     function SubD() {
         _class_call_check(this, SubD);
-        return _super.call(this);
+        return _call_super(this, SubD);
     }
     return SubD;
 }(D);

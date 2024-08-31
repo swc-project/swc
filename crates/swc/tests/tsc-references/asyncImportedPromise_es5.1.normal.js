@@ -9,17 +9,16 @@ Object.defineProperty(exports, "Task", {
         return Task;
     }
 });
+var _call_super = require("@swc/helpers/_/_call_super");
 var _class_call_check = require("@swc/helpers/_/_class_call_check");
 var _inherits = require("@swc/helpers/_/_inherits");
 var _wrap_native_super = require("@swc/helpers/_/_wrap_native_super");
-var _create_super = require("@swc/helpers/_/_create_super");
 var Task = /*#__PURE__*/ function(Promise1) {
     "use strict";
     _inherits._(Task, Promise1);
-    var _super = _create_super._(Task);
     function Task() {
         _class_call_check._(this, Task);
-        return _super.apply(this, arguments);
+        return _call_super._(this, Task, arguments);
     }
     return Task;
 }(_wrap_native_super._(Promise));
