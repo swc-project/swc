@@ -6,7 +6,7 @@ var Foo1 = /*#__PURE__*/ function(Bar1) {
     _inherits._(Foo1, Bar1);
     function Foo1() {
         _class_call_check._(this, Foo1);
-        return _call_super._(this, Foo1);
+        return _call_super._(this, Foo1); // ok
     }
     return Foo1;
 }(Bar);
@@ -16,8 +16,7 @@ var Foo2 = /*#__PURE__*/ function(Bar1) {
     function Foo2() {
         _class_call_check._(this, Foo2);
         var _this;
-        0, _this = _call_super._(this, Foo2); // ?
-        return _this;
+        return 0, _this = _call_super._(this, Foo2); // ?
     }
     return Foo2;
 }(Bar);

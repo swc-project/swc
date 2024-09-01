@@ -17,7 +17,7 @@ var D = /*#__PURE__*/ function(Base) {
             function() {
                 _assert_this_initialized(_this)._t;
             }
-        ]);
+        ]); // no error. only check when this is directly accessing in constructor
     }
     return D;
 }(Base);
