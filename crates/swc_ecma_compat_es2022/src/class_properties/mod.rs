@@ -668,7 +668,6 @@ impl<C: Comments> ClassProperties<C> {
 
                         value.visit_mut_with(&mut SuperFieldAccessFolder {
                             class_name: &class_ident,
-                            vars: &mut vars,
                             constructor_this_mark: None,
                             is_static: true,
                             folding_constructor: false,
@@ -711,7 +710,6 @@ impl<C: Comments> ClassProperties<C> {
                         if prop.is_static {
                             value.visit_mut_with(&mut SuperFieldAccessFolder {
                                 class_name: &class_ident,
-                                vars: &mut vars,
                                 constructor_this_mark: None,
                                 is_static: true,
                                 folding_constructor: false,
@@ -941,7 +939,6 @@ impl<C: Comments> ClassProperties<C> {
 
                     method.function.visit_mut_with(&mut SuperFieldAccessFolder {
                         class_name: &class_ident,
-                        vars: &mut vars,
                         constructor_this_mark: None,
                         is_static,
                         folding_constructor: false,

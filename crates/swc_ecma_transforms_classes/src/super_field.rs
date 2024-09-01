@@ -24,7 +24,6 @@ use super::get_prototype_of;
 pub struct SuperFieldAccessFolder<'a> {
     pub class_name: &'a Ident,
 
-    pub vars: &'a mut Vec<VarDeclarator>,
     /// Mark for the `_this`. Used only when folding constructor.
     pub constructor_this_mark: Option<Mark>,
     pub is_static: bool,

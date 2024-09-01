@@ -1,8 +1,9 @@
 use std::mem;
 
-use swc_common::{util::take::Take, Mark, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, helper_expr};
+use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_utils::{default_constructor, private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
@@ -10,18 +11,11 @@ use tracing::debug;
 
 use super::Config;
 
-#[derive(Default)]
-pub(super) struct Meta {
-    pub(super) this_mark: Option<Mark>,
-    pub(super) has_super_prop: bool,
-}
-
 pub(super) fn fold_constructor(
     constructor: Option<Constructor>,
     class_name: &Ident,
     super_class_name: &Option<Ident>,
     config: Config,
-    meta: &mut Meta,
 ) -> FnDecl {
     let is_derived = super_class_name.is_some();
     let mut constructor = constructor.unwrap_or_else(|| default_constructor(is_derived));
@@ -42,9 +36,25 @@ pub(super) fn fold_constructor(
 
     let mut stmts = vec![];
 
-    if let Some(super_class_name) = super_class_name {
-        let body = constructor.body.as_mut().unwrap();
+    if !config.no_class_calls {
+        stmts.push(
+            CallExpr {
+                callee: helper!(class_call_check),
+                args: vec![
+                    Expr::This(ThisExpr { span: DUMMY_SP }).as_arg(),
+                    class_name.clone().as_arg(),
+                ],
+                ..Default::default()
+            }
+            .into_stmt(),
+        );
+    }
 
+    let mut has_super_prop = true;
+    let mut this_mark = None;
+
+    let mut body = constructor.body.take().unwrap();
+    if let Some(super_class_name) = super_class_name {
         let is_last_super = (&*body.stmts).is_super_last_call();
 
         let mut constructor_folder = ConstructorFolder {
@@ -63,12 +73,7 @@ pub(super) fn fold_constructor(
 
         body.visit_mut_with(&mut constructor_folder);
 
-        meta.this_mark = constructor_folder
-            .this
-            .as_ref()
-            .map(|this| this.ctxt.outer());
-
-        meta.has_super_prop = constructor_folder.has_super_prop;
+        has_super_prop = constructor_folder.has_super_prop;
 
         if is_last_super {
             if let Some(stmt) = body.stmts.last_mut() {
@@ -94,7 +99,7 @@ pub(super) fn fold_constructor(
                 .get_or_insert_with(|| private_ident!("_this"))
                 .clone();
 
-            meta.this_mark = Some(this.ctxt.outer());
+            this_mark = Some(this.ctxt.outer());
 
             let var = VarDeclarator {
                 name: Pat::Ident(this.into()),
@@ -128,13 +133,45 @@ pub(super) fn fold_constructor(
             };
             body.stmts.push(return_this.into());
         }
-    } else {
-        // We skipped the traversal of the constructor body,
-        // so we do not know if super prop is accessed.
-        meta.has_super_prop = true;
     }
 
-    stmts.extend(constructor.body.take().unwrap().stmts);
+    if has_super_prop {
+        let mut folder = SuperFieldAccessFolder {
+            class_name,
+            constructor_this_mark: this_mark,
+            // constructor cannot be static
+            is_static: false,
+            folding_constructor: true,
+            in_nested_scope: false,
+            in_injected_define_property_call: false,
+            this_alias_mark: None,
+            constant_super: config.constant_super,
+            super_class: super_class_name,
+            in_pat: false,
+        };
+
+        body.visit_mut_with(&mut folder);
+
+        if let Some(mark) = folder.this_alias_mark {
+            stmts.push(
+                VarDecl {
+                    span: DUMMY_SP,
+                    declare: false,
+                    kind: VarDeclKind::Var,
+                    decls: vec![VarDeclarator {
+                        span: DUMMY_SP,
+                        name: quote_ident!(SyntaxContext::empty().apply_mark(mark), "_this").into(),
+                        init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
+                        definite: false,
+                    }],
+                    ..Default::default()
+                }
+                .into(),
+            )
+        }
+    }
+
+    stmts.extend(body.stmts);
 
     let function = Function {
         params,

@@ -570,51 +570,9 @@ where
         }
 
         // constructor
-
-        let mut meta = Default::default();
-        let mut fn_decl = fold_constructor(
-            constructor,
-            &class_name,
-            &super_class_ident,
-            self.config,
-            &mut meta,
+        stmts.push(
+            fold_constructor(constructor, &class_name, &super_class_ident, self.config).into(),
         );
-
-        if let Some(body) = fn_decl
-            .function
-            .body
-            .as_mut()
-            .filter(|_| meta.has_super_prop)
-        {
-            body.stmts = self.handle_super_access(
-                &class_name,
-                &super_class_ident,
-                body.stmts.take(),
-                meta.this_mark,
-            );
-        }
-
-        if !self.config.no_class_calls {
-            fn_decl
-                .function
-                .body
-                .get_or_insert_with(Default::default)
-                .stmts
-                .insert(
-                    0,
-                    CallExpr {
-                        callee: helper!(class_call_check),
-                        args: vec![
-                            Expr::This(ThisExpr { span: DUMMY_SP }).as_arg(),
-                            class_name.clone().as_arg(),
-                        ],
-                        ..Default::default()
-                    }
-                    .into_stmt(),
-                );
-        }
-
-        stmts.push(fn_decl.into());
 
         // convert class methods
         stmts.extend(self.fold_class_methods(&class_name, &super_class_ident, methods));
@@ -664,70 +622,6 @@ where
         );
 
         stmts
-    }
-
-    ///
-    /// - `this_mark`: `Some(mark)` if we injected `var _this;`; otherwise
-    ///   `None`
-    fn handle_super_access(
-        &mut self,
-        class_name: &Ident,
-        super_class_ident: &Option<Ident>,
-        mut body: Vec<Stmt>,
-        this_mark: Option<Mark>,
-    ) -> Vec<Stmt> {
-        let mut vars = Vec::new();
-        let mut folder = SuperFieldAccessFolder {
-            class_name,
-            vars: &mut vars,
-            constructor_this_mark: this_mark,
-            // constructor cannot be static
-            is_static: false,
-            folding_constructor: true,
-            in_nested_scope: false,
-            in_injected_define_property_call: false,
-            this_alias_mark: None,
-            constant_super: self.config.constant_super,
-            super_class: super_class_ident,
-            in_pat: false,
-        };
-
-        body.visit_mut_with(&mut folder);
-
-        if let Some(mark) = folder.this_alias_mark {
-            prepend_stmt(
-                &mut body,
-                VarDecl {
-                    span: DUMMY_SP,
-                    declare: false,
-                    kind: VarDeclKind::Var,
-                    decls: vec![VarDeclarator {
-                        span: DUMMY_SP,
-                        name: quote_ident!(SyntaxContext::empty().apply_mark(mark), "_this").into(),
-                        init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
-                        definite: false,
-                    }],
-                    ..Default::default()
-                }
-                .into(),
-            );
-        }
-
-        if !vars.is_empty() {
-            prepend_stmt(
-                &mut body,
-                VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    declare: false,
-                    decls: vars,
-                    ..Default::default()
-                }
-                .into(),
-            );
-        }
-
-        body
     }
 
     fn fold_class_methods(
@@ -879,10 +773,9 @@ where
                 &mut props
             };
 
-            let mut vars = Vec::new();
             let mut folder = SuperFieldAccessFolder {
                 class_name,
-                vars: &mut vars,
+
                 constructor_this_mark: None,
                 is_static: m.is_static,
                 folding_constructor: false,
@@ -909,20 +802,6 @@ where
                             init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
                             definite: false,
                         }],
-                        ..Default::default()
-                    }
-                    .into(),
-                );
-            }
-
-            if !vars.is_empty() {
-                prepend_stmt(
-                    &mut m.function.body.as_mut().unwrap().stmts,
-                    VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        declare: false,
-                        decls: vars,
                         ..Default::default()
                     }
                     .into(),
