@@ -14,10 +14,10 @@ use super::Config;
 pub(super) fn fold_constructor(
     constructor: Option<Constructor>,
     class_name: &Ident,
-    super_class_name: &Option<Ident>,
+    class_super_name: &Option<Ident>,
     config: Config,
 ) -> FnDecl {
-    let is_derived = super_class_name.is_some();
+    let is_derived = class_super_name.is_some();
     let mut constructor = constructor.unwrap_or_else(|| default_constructor(is_derived));
 
     // Black magic to detect injected constructor.
@@ -37,6 +37,7 @@ pub(super) fn fold_constructor(
     let mut stmts = vec![];
 
     if !config.no_class_calls {
+        // _class_call_check(this, C)
         stmts.push(
             CallExpr {
                 callee: helper!(class_call_check),
@@ -50,50 +51,67 @@ pub(super) fn fold_constructor(
         );
     }
 
+    // handle super prop by default
     let mut has_super_prop = true;
     let mut this_mark = None;
 
     let mut body = constructor.body.take().unwrap();
-    if let Some(super_class_name) = super_class_name {
+    if let Some(class_super_name) = class_super_name {
         let is_last_super = (&*body.stmts).is_super_last_call();
 
         let mut constructor_folder = ConstructorFolder {
             class_key_init: vec![],
             class_name: class_name.clone(),
-            has_super_prop: false,
+            class_super_name: class_super_name.clone(),
             in_arrow: false,
             in_nested_class: false,
             is_constructor_default,
+            is_super_callable_constructor: config.super_is_callable_constructor,
             super_found: false,
-            super_is_callable_constructor: config.super_is_callable_constructor,
-            super_name: super_class_name.clone(),
-            this_ref_count: 0,
+            super_prop_found: false,
             this: None,
+            this_ref_count: 0,
         };
 
         body.visit_mut_with(&mut constructor_folder);
 
-        has_super_prop = constructor_folder.has_super_prop;
+        // disable SuperFieldAccessFolder if super prop is not used
+        has_super_prop = constructor_folder.super_prop_found;
 
+        // Optimize for last super call
         if is_last_super {
             if let Some(stmt) = body.stmts.last_mut() {
-                if let Some(assign) = stmt.as_mut_expr().and_then(|e| e.expr.as_mut_assign()) {
-                    let arg = if constructor_folder.this_ref_count == 1 {
-                        constructor_folder.this_ref_count = 0;
-                        assign.right.take()
-                    } else {
-                        assign.take().into()
-                    };
-                    *stmt = ReturnStmt {
-                        arg: arg.into(),
-                        ..Default::default()
+                if let Some(expr_stmt) = stmt.as_mut_expr() {
+                    let span = expr_stmt.span;
+                    match expr_stmt.expr.as_mut() {
+                        Expr::Assign(assign) => {
+                            let arg = if constructor_folder.this_ref_count == 1 {
+                                constructor_folder.this_ref_count = 0;
+                                assign.right.take()
+                            } else {
+                                assign.take().into()
+                            };
+                            *stmt = ReturnStmt {
+                                span,
+                                arg: arg.into(),
+                            }
+                            .into();
+                        }
+                        arg @ Expr::Seq(..) | arg @ Expr::Paren(..) => {
+                            *stmt = ReturnStmt {
+                                span,
+                                arg: Some(Box::new(arg.take())),
+                            }
+                            .into();
+                        }
+
+                        _ => {}
                     }
-                    .into();
                 };
             }
         }
 
-        if constructor_folder.this_ref_count > 0 || constructor_folder.has_super_prop {
+        if constructor_folder.this_ref_count > 0 || constructor_folder.super_prop_found {
             let this = constructor_folder
                 .this
                 .get_or_insert_with(|| private_ident!("_this"))
@@ -146,7 +164,7 @@ pub(super) fn fold_constructor(
             in_injected_define_property_call: false,
             this_alias_mark: None,
             constant_super: config.constant_super,
-            super_class: super_class_name,
+            super_class: class_super_name,
             in_pat: false,
         };
 
@@ -192,15 +210,22 @@ pub(super) fn fold_constructor(
 struct ConstructorFolder {
     class_key_init: Vec<Stmt>,
     class_name: Ident,
-    has_super_prop: bool,
+    class_super_name: Ident,
+
     in_arrow: bool,
     in_nested_class: bool,
+
     is_constructor_default: bool,
+    is_super_callable_constructor: bool,
+
+    // super_found will be inherited from parent scope
+    // but it should be reset when exiting from the conditional scope
+    // e.g. if/while/for/try
     super_found: bool,
-    super_is_callable_constructor: bool,
-    super_name: Ident,
-    this_ref_count: usize,
+    super_prop_found: bool,
+
     this: Option<Ident>,
+    this_ref_count: usize,
 }
 
 #[swc_trace]
@@ -369,7 +394,7 @@ impl VisitMut for ConstructorFolder {
     }
 
     fn visit_mut_super_prop(&mut self, node: &mut SuperProp) {
-        self.has_super_prop = true;
+        self.super_prop_found = true;
 
         node.visit_mut_children_with(self);
     }
@@ -396,10 +421,10 @@ impl ConstructorFolder {
             return false;
         };
 
-        if self.super_is_callable_constructor {
+        if self.is_super_callable_constructor {
             if self.is_constructor_default || is_spread_arguements(origin_args) {
                 *callee = self
-                    .super_name
+                    .class_super_name
                     .clone()
                     .make_member(quote_ident!("apply"))
                     .as_callee();
@@ -413,7 +438,7 @@ impl ConstructorFolder {
                 *origin_args = vec![ThisExpr { span: DUMMY_SP }.as_arg(), arguments.as_arg()];
             } else {
                 *callee = self
-                    .super_name
+                    .class_super_name
                     .clone()
                     .make_member(quote_ident!("call"))
                     .as_callee();
@@ -517,6 +542,9 @@ impl SuperLastCall for &Expr {
                 ..
             }) => true,
             Expr::Paren(ParenExpr { expr, .. }) => (&**expr).is_super_last_call(),
+            Expr::Seq(SeqExpr { exprs, .. }) => {
+                exprs.last().map_or(false, |e| (&**e).is_super_last_call())
+            }
             _ => false,
         }
     }
