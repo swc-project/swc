@@ -1,7 +1,7 @@
 //// [moduleWithStatementsOfEveryKind.ts]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var A;
 (function(A) {
     var A1 = function A() {
@@ -15,20 +15,18 @@ var A;
     var B = /*#__PURE__*/ function(AA) {
         "use strict";
         _inherits(B, AA);
-        var _super = _create_super(B);
         function B() {
             _class_call_check(this, B);
-            return _super.apply(this, arguments);
+            return _call_super(this, B, arguments);
         }
         return B;
     }(AA);
     var BB = /*#__PURE__*/ function(A) {
         "use strict";
         _inherits(BB, A);
-        var _super = _create_super(BB);
         function BB() {
             _class_call_check(this, BB);
-            return _super.apply(this, arguments);
+            return _call_super(this, BB, arguments);
         }
         return BB;
     }(A1);
@@ -73,10 +71,9 @@ var Y;
     var B = /*#__PURE__*/ function(AA) {
         "use strict";
         _inherits(B, AA);
-        var _super = _create_super(B);
         function B() {
             _class_call_check(this, B);
-            return _super.apply(this, arguments);
+            return _call_super(this, B, arguments);
         }
         return B;
     }(AA);
@@ -84,10 +81,9 @@ var Y;
     var BB = /*#__PURE__*/ function(A) {
         "use strict";
         _inherits(BB, A);
-        var _super = _create_super(BB);
         function BB() {
             _class_call_check(this, BB);
-            return _super.apply(this, arguments);
+            return _call_super(this, BB, arguments);
         }
         return BB;
     }(A);

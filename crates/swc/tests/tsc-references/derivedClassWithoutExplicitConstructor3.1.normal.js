@@ -1,8 +1,8 @@
 //// [derivedClassWithoutExplicitConstructor3.ts]
 // automatic constructors with a class hieararchy of depth > 2
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var Base = function Base(x) {
     "use strict";
     _class_call_check(this, Base);
@@ -12,11 +12,12 @@ var Base = function Base(x) {
 var Derived = /*#__PURE__*/ function(Base) {
     "use strict";
     _inherits(Derived, Base);
-    var _super = _create_super(Derived);
     function Derived(y, z) {
         _class_call_check(this, Derived);
         var _this;
-        _this = _super.call(this, 2);
+        _this = _call_super(this, Derived, [
+            2
+        ]);
         _this.b = '';
         _this.b = y;
         return _this;
@@ -26,11 +27,10 @@ var Derived = /*#__PURE__*/ function(Base) {
 var Derived2 = /*#__PURE__*/ function(Derived) {
     "use strict";
     _inherits(Derived2, Derived);
-    var _super = _create_super(Derived2);
     function Derived2() {
         _class_call_check(this, Derived2);
         var _this;
-        _this = _super.apply(this, arguments);
+        _this = _call_super(this, Derived2, arguments);
         _this.x = 1;
         _this.y = 'hello';
         return _this;
@@ -48,11 +48,12 @@ var Base2 = function Base2(x) {
 var D = /*#__PURE__*/ function(Base) {
     "use strict";
     _inherits(D, Base);
-    var _super = _create_super(D);
     function D(y, z) {
         _class_call_check(this, D);
         var _this;
-        _this = _super.call(this, 2);
+        _this = _call_super(this, D, [
+            2
+        ]);
         _this.b = null;
         _this.b = y;
         return _this;
@@ -62,11 +63,10 @@ var D = /*#__PURE__*/ function(Base) {
 var D2 = /*#__PURE__*/ function(D) {
     "use strict";
     _inherits(D2, D);
-    var _super = _create_super(D2);
     function D2() {
         _class_call_check(this, D2);
         var _this;
-        _this = _super.apply(this, arguments);
+        _this = _call_super(this, D2, arguments);
         _this.x = 2;
         _this.y = null;
         return _this;

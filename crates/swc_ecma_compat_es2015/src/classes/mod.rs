@@ -10,21 +10,17 @@ use swc_ecma_transforms_base::{helper, native::is_native, perf::Check};
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
-    alias_if_required, contains_this_expr, default_constructor, is_valid_ident,
-    is_valid_prop_ident, prepend_stmt, private_ident, prop_name_to_expr, quote_expr, quote_ident,
-    quote_str, replace_ident, ExprFactory, ModuleItemLike, StmtLike,
+    alias_if_required, contains_this_expr, is_valid_ident, is_valid_prop_ident, prepend_stmt,
+    private_ident, prop_name_to_expr, quote_expr, quote_ident, quote_str, replace_ident,
+    ExprFactory, ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use swc_trace_macro::swc_trace;
-use tracing::debug;
 
 use self::{
-    constructor::{
-        constructor_fn, make_possible_return_value, replace_this_in_constructor, ConstructorFolder,
-        ReturningMode, SuperCallFinder, SuperFoldingMode,
-    },
+    constructor::fold_constructor,
     prop_name::{is_pure_prop_name, should_extract_class_prop_key, HashKey},
 };
 
@@ -538,13 +534,7 @@ where
         let mut constructor = None;
         for member in class.body {
             match member {
-                ClassMember::Constructor(c) => {
-                    if constructor.is_some() {
-                        unimplemented!("multiple constructor")
-                    } else {
-                        constructor = Some(c)
-                    }
-                }
+                ClassMember::Constructor(c) => constructor = Some(c),
                 ClassMember::Method(m) => methods.push(m),
 
                 ClassMember::PrivateMethod(_)
@@ -579,201 +569,10 @@ where
             );
         }
 
-        let super_var = super_class_ident.as_ref().map(|super_class| {
-            let var = private_ident!("_super");
-            let mut class_name_sym = class_name.clone();
-            class_name_sym.span = DUMMY_SP;
-            class_name_sym.ctxt = class_name.ctxt;
-
-            if !self.config.super_is_callable_constructor {
-                stmts.push(
-                    VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        declare: Default::default(),
-                        decls: vec![VarDeclarator {
-                            span: DUMMY_SP,
-                            name: var.clone().into(),
-                            init: Some(Box::new(Expr::Call(CallExpr {
-                                span: DUMMY_SP,
-                                callee: helper!(create_super),
-                                args: vec![class_name_sym.as_arg()],
-                                ..Default::default()
-                            }))),
-                            definite: Default::default(),
-                        }],
-                        ..Default::default()
-                    }
-                    .into(),
-                );
-                var
-            } else {
-                super_class.clone()
-            }
-        });
-
-        // Marker for `_this`
-        let this_mark = Mark::fresh(Mark::root());
-
-        {
-            // Process constructor
-
-            let mut constructor =
-                constructor.unwrap_or_else(|| default_constructor(super_class_ident.is_some()));
-
-            // Rename variables to avoid conflicting with class name
-            // TODO: bring it back once we have a proper private ident
-            // constructor.body.visit_mut_with(&mut VarRenamer {
-            //     mark: Mark::fresh(Mark::root()),
-            //     class_name: &class_name.sym,
-            // });
-
-            // Black magic to detect injected constructor.
-            let is_constructor_default = constructor.span.is_dummy();
-            if is_constructor_default {
-                debug!("Dropping constructor parameters because the constructor is injected");
-                constructor.params = Vec::new();
-            }
-
-            let mut insert_this = false;
-
-            if super_class_ident.is_some() {
-                let inserted_this = replace_this_in_constructor(this_mark, &mut constructor);
-
-                insert_this |= inserted_this;
-            }
-
-            let mut vars = Vec::new();
-            let mut body = constructor.body.unwrap().stmts;
-            // should we insert `var _this`?
-
-            let is_always_initialized = is_always_initialized(&body);
-
-            // We should handle branching
-            if !is_always_initialized {
-                insert_this = true;
-            }
-
-            // inject possibleReturnCheck
-            let found_mode = SuperCallFinder::find(&body);
-            let mode = match found_mode {
-                None => None,
-                _ => {
-                    if insert_this {
-                        Some(SuperFoldingMode::Assign)
-                    } else {
-                        found_mode
-                    }
-                }
-            };
-
-            if super_class_ident.is_some() {
-                let this = quote_ident!(SyntaxContext::empty().apply_mark(this_mark), "_this");
-
-                // We should fold body instead of constructor itself.
-                // Handle `super()`
-                body.visit_mut_with(&mut ConstructorFolder {
-                    class_name: &class_name,
-                    mode: if insert_this {
-                        Some(SuperFoldingMode::Assign)
-                    } else {
-                        mode
-                    },
-                    mark: this_mark,
-                    is_constructor_default,
-                    super_var,
-                    ignore_return: false,
-                    super_is_callable_constructor: self.config.super_is_callable_constructor,
-                });
-
-                insert_this |= (mode.is_none() && !is_always_initialized)
-                    || mode == Some(SuperFoldingMode::Assign);
-
-                if insert_this {
-                    vars.push(VarDeclarator {
-                        span: DUMMY_SP,
-                        name: this.clone().into(),
-                        init: None,
-                        definite: false,
-                    });
-                }
-                if !vars.is_empty() {
-                    prepend_stmt(
-                        &mut body,
-                        VarDecl {
-                            span: DUMMY_SP,
-                            declare: false,
-                            kind: VarDeclKind::Var,
-                            decls: vars,
-                            ..Default::default()
-                        }
-                        .into(),
-                    );
-                }
-
-                let is_last_return = matches!(body.last(), Some(Stmt::Return(..)));
-                if !is_last_return {
-                    if is_always_initialized {
-                        body.push(
-                            ReturnStmt {
-                                span: DUMMY_SP,
-                                arg: Some(this.into()),
-                            }
-                            .into(),
-                        );
-                    } else {
-                        let possible_return_value =
-                            Box::new(make_possible_return_value(ReturningMode::Returning {
-                                mark: this_mark,
-                                arg: None,
-                            }));
-                        body.push(
-                            ReturnStmt {
-                                span: DUMMY_SP,
-                                arg: Some(possible_return_value),
-                            }
-                            .into(),
-                        );
-                    }
-                }
-            }
-
-            let is_this_declared = (insert_this && super_class_ident.is_some())
-                || (mode == Some(SuperFoldingMode::Var));
-
-            // Handle `super.XX`
-            body = self.handle_super_access(
-                &class_name,
-                &super_class_ident,
-                body,
-                if is_this_declared {
-                    Some(this_mark)
-                } else {
-                    None
-                },
-            );
-
-            // inject _class_call_check(this, Bar);
-            if !self.config.no_class_calls {
-                inject_class_call_check(&mut body, class_name.clone());
-            }
-
-            stmts.push(
-                FnDecl {
-                    ident: class_name.clone(),
-                    function: constructor_fn(Constructor {
-                        body: Some(BlockStmt {
-                            span: DUMMY_SP,
-                            stmts: body,
-                            ..Default::default()
-                        }),
-                        ..constructor
-                    }),
-                    declare: false,
-                }
-                .into(),
-            );
-        }
+        // constructor
+        stmts.push(
+            fold_constructor(constructor, &class_name, &super_class_ident, self.config).into(),
+        );
 
         // convert class methods
         stmts.extend(self.fold_class_methods(&class_name, &super_class_ident, methods));
@@ -823,70 +622,6 @@ where
         );
 
         stmts
-    }
-
-    ///
-    /// - `this_mark`: `Some(mark)` if we injected `var _this;`; otherwise
-    ///   `None`
-    fn handle_super_access(
-        &mut self,
-        class_name: &Ident,
-        super_class_ident: &Option<Ident>,
-        mut body: Vec<Stmt>,
-        this_mark: Option<Mark>,
-    ) -> Vec<Stmt> {
-        let mut vars = Vec::new();
-        let mut folder = SuperFieldAccessFolder {
-            class_name,
-            vars: &mut vars,
-            constructor_this_mark: this_mark,
-            // constructor cannot be static
-            is_static: false,
-            folding_constructor: true,
-            in_nested_scope: false,
-            in_injected_define_property_call: false,
-            this_alias_mark: None,
-            constant_super: self.config.constant_super,
-            super_class: super_class_ident,
-            in_pat: false,
-        };
-
-        body.visit_mut_with(&mut folder);
-
-        if let Some(mark) = folder.this_alias_mark {
-            prepend_stmt(
-                &mut body,
-                VarDecl {
-                    span: DUMMY_SP,
-                    declare: false,
-                    kind: VarDeclKind::Var,
-                    decls: vec![VarDeclarator {
-                        span: DUMMY_SP,
-                        name: quote_ident!(SyntaxContext::empty().apply_mark(mark), "_this").into(),
-                        init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
-                        definite: false,
-                    }],
-                    ..Default::default()
-                }
-                .into(),
-            );
-        }
-
-        if !vars.is_empty() {
-            prepend_stmt(
-                &mut body,
-                VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    declare: false,
-                    decls: vars,
-                    ..Default::default()
-                }
-                .into(),
-            );
-        }
-
-        body
     }
 
     fn fold_class_methods(
@@ -1038,10 +773,9 @@ where
                 &mut props
             };
 
-            let mut vars = Vec::new();
             let mut folder = SuperFieldAccessFolder {
                 class_name,
-                vars: &mut vars,
+
                 constructor_this_mark: None,
                 is_static: m.is_static,
                 folding_constructor: false,
@@ -1068,20 +802,6 @@ where
                             init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
                             definite: false,
                         }],
-                        ..Default::default()
-                    }
-                    .into(),
-                );
-            }
-
-            if !vars.is_empty() {
-                prepend_stmt(
-                    &mut m.function.body.as_mut().unwrap().stmts,
-                    VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        declare: false,
-                        decls: vars,
                         ..Default::default()
                     }
                     .into(),

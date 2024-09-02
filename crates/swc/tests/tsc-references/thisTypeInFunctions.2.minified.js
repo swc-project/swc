@@ -1,7 +1,7 @@
 //// [thisTypeInFunctions.ts]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var explicitCFunction, explicitPropertyFunction, _this = this, C = /*#__PURE__*/ function() {
     function C() {
         _class_call_check(this, C);
@@ -17,12 +17,10 @@ var explicitCFunction, explicitPropertyFunction, _this = this, C = /*#__PURE__*/
         return m + 1;
     }, C;
 }(), D = /*#__PURE__*/ function(C) {
-    _inherits(D, C);
-    var _super = _create_super(D);
     function D() {
-        return _class_call_check(this, D), _super.apply(this, arguments);
+        return _class_call_check(this, D), _call_super(this, D, arguments);
     }
-    return D;
+    return _inherits(D, C), D;
 }(C);
 function implicitThis(n) {
     return this.m + n + 12;
@@ -121,12 +119,10 @@ var Base1 = /*#__PURE__*/ function() {
         return this.y;
     }, Base1;
 }(), Derived1 = /*#__PURE__*/ function(Base1) {
-    _inherits(Derived1, Base1);
-    var _super = _create_super(Derived1);
     function Derived1() {
-        return _class_call_check(this, Derived1), _super.apply(this, arguments);
+        return _class_call_check(this, Derived1), _call_super(this, Derived1, arguments);
     }
-    return Derived1;
+    return _inherits(Derived1, Base1), Derived1;
 }(Base1), Base2 = /*#__PURE__*/ function() {
     function Base2() {
         _class_call_check(this, Base2);
@@ -138,12 +134,10 @@ var Base1 = /*#__PURE__*/ function() {
         return this.x;
     }, Base2;
 }(), Derived2 = /*#__PURE__*/ function(Base2) {
-    _inherits(Derived2, Base2);
-    var _super = _create_super(Derived2);
     function Derived2() {
-        return _class_call_check(this, Derived2), _super.apply(this, arguments);
+        return _class_call_check(this, Derived2), _call_super(this, Derived2, arguments);
     }
-    return Derived2;
+    return _inherits(Derived2, Base2), Derived2;
 }(Base2), b1 = new Base1(), b2 = new Base2(), d1 = new Derived1(), d2 = new Derived2();
 d2.polymorphic = d1.polymorphic, d1.polymorphic = d2.polymorphic, d1.polymorphic = b2.polymorphic, d2.polymorphic = d1.explicit, b1.polymorphic = d2.polymorphic, b1.explicit = d2.polymorphic, new function() {
     this.a = 12;

@@ -1,10 +1,9 @@
 let Test = /*#__PURE__*/ function(Foo) {
     "use strict";
     _inherits(Test, Foo);
-    var _super = _create_super(Test);
     function Test() {
         _class_call_check(this, Test);
-        return _super.apply(this, arguments);
+        return _call_super(this, Test, arguments);
     }
     _create_class(Test, [
         {

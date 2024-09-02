@@ -1,9 +1,9 @@
 //// [first.js]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 function Wagon(numberOxen) {
     this.numberOxen = numberOxen;
 }
@@ -15,48 +15,44 @@ Wagon.circle = function(wagons) {
     return this.numberOxen / this.weight();
 };
 var db = new /*#__PURE__*/ (function(Wagon) {
-    _inherits(Sql, Wagon);
-    var _super = _create_super(Sql);
     function Sql() {
         var _this;
-        return _class_call_check(this, Sql), (_this = _super.call(this)).foonly = 12, _this;
+        return _class_call_check(this, Sql), (_this = _call_super(this, Sql)).foonly = 12, _this;
     }
-    return Sql.prototype.load = function(files, format) {
+    return _inherits(Sql, Wagon), Sql.prototype.load = function(files, format) {
         if ("xmlolololol" === format) throw Error("please do not use XML. It was a joke.");
         _get(_get_prototype_of(Sql.prototype), "speed", this).call(this), _get(_get_prototype_of(Sql.prototype), "weight", this).call(this);
     }, Sql;
 }(Wagon))();
 db.numberOxen = db.foonly, /*#__PURE__*/ Dragon;
 //// [second.ts]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var c = new /*#__PURE__*/ (function(Wagon1) {
-    _inherits(Conestoga, Wagon1);
-    var _super = _create_super(Conestoga);
     function Conestoga(drunkOO) {
         var _this;
-        return _class_call_check(this, Conestoga), (_this = _super.call(this, 'nope')).drunkOO = drunkOO, _this;
+        return _class_call_check(this, Conestoga), (_this = _call_super(this, Conestoga, [
+            'nope'
+        ])).drunkOO = drunkOO, _this;
     }
-    return Conestoga.circle = function(others) {
+    return _inherits(Conestoga, Wagon1), Conestoga.circle = function(others) {
         return others.length;
     }, Conestoga;
 }(Wagon))(!0);
 c.drunkOO, c.numberOxen;
 //// [generic.js]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 function Soup(flavour) {
     this.flavour = flavour;
 }
 var Chowder = /*#__PURE__*/ function(Soup) {
-    _inherits(Chowder, Soup);
-    var _super = _create_super(Chowder);
     function Chowder() {
-        return _class_call_check(this, Chowder), _super.apply(this, arguments);
+        return _class_call_check(this, Chowder), _call_super(this, Chowder, arguments);
     }
-    return Chowder.prototype.log = function() {
+    return _inherits(Chowder, Soup), Chowder.prototype.log = function() {
         return this.flavour;
     }, Chowder;
 }(Soup);

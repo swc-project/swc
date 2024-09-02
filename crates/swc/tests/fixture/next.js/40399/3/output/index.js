@@ -1,9 +1,9 @@
 var _async_to_generator = require("@swc/helpers/_/_async_to_generator");
+var _call_super = require("@swc/helpers/_/_call_super");
 var _class_call_check = require("@swc/helpers/_/_class_call_check");
 var _create_class = require("@swc/helpers/_/_create_class");
 var _define_property = require("@swc/helpers/_/_define_property");
 var _inherits = require("@swc/helpers/_/_inherits");
-var _create_super = require("@swc/helpers/_/_create_super");
 var _ts_generator = require("@swc/helpers/_/_ts_generator");
 var Foo = function Foo(v) {
     "use strict";
@@ -23,10 +23,9 @@ _async_to_generator._(function() {
                 Bar = /*#__PURE__*/ function(Foo1) {
                     "use strict";
                     _inherits._(Bar, Foo1);
-                    var _super = _create_super._(Bar);
                     function Bar() {
                         _class_call_check._(this, Bar);
-                        return _super.apply(this, arguments);
+                        return _call_super._(this, Bar, arguments);
                     }
                     _create_class._(Bar, [
                         {

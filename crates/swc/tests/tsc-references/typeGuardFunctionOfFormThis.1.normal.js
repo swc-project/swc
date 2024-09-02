@@ -1,8 +1,8 @@
 //// [typeGuardFunctionOfFormThis.ts]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var RoyalGuard = /*#__PURE__*/ function() {
     "use strict";
     function RoyalGuard() {
@@ -20,10 +20,9 @@ var RoyalGuard = /*#__PURE__*/ function() {
 var LeadGuard = /*#__PURE__*/ function(RoyalGuard) {
     "use strict";
     _inherits(LeadGuard, RoyalGuard);
-    var _super = _create_super(LeadGuard);
     function LeadGuard() {
         _class_call_check(this, LeadGuard);
-        return _super.apply(this, arguments);
+        return _call_super(this, LeadGuard, arguments);
     }
     var _proto = LeadGuard.prototype;
     _proto.lead = function lead() {};
@@ -32,10 +31,9 @@ var LeadGuard = /*#__PURE__*/ function(RoyalGuard) {
 var FollowerGuard = /*#__PURE__*/ function(RoyalGuard) {
     "use strict";
     _inherits(FollowerGuard, RoyalGuard);
-    var _super = _create_super(FollowerGuard);
     function FollowerGuard() {
         _class_call_check(this, FollowerGuard);
-        return _super.apply(this, arguments);
+        return _call_super(this, FollowerGuard, arguments);
     }
     var _proto = FollowerGuard.prototype;
     _proto.follow = function follow() {};
@@ -87,10 +85,9 @@ var ArrowGuard = function ArrowGuard() {
 var ArrowElite = /*#__PURE__*/ function(ArrowGuard) {
     "use strict";
     _inherits(ArrowElite, ArrowGuard);
-    var _super = _create_super(ArrowElite);
     function ArrowElite() {
         _class_call_check(this, ArrowElite);
-        return _super.apply(this, arguments);
+        return _call_super(this, ArrowElite, arguments);
     }
     var _proto = ArrowElite.prototype;
     _proto.defend = function defend() {};
@@ -99,10 +96,9 @@ var ArrowElite = /*#__PURE__*/ function(ArrowGuard) {
 var ArrowMedic = /*#__PURE__*/ function(ArrowGuard) {
     "use strict";
     _inherits(ArrowMedic, ArrowGuard);
-    var _super = _create_super(ArrowMedic);
     function ArrowMedic() {
         _class_call_check(this, ArrowMedic);
-        return _super.apply(this, arguments);
+        return _call_super(this, ArrowMedic, arguments);
     }
     var _proto = ArrowMedic.prototype;
     _proto.heal = function heal() {};
@@ -140,10 +136,9 @@ var MimicGuard = /*#__PURE__*/ function() {
 var MimicLeader = /*#__PURE__*/ function(MimicGuard) {
     "use strict";
     _inherits(MimicLeader, MimicGuard);
-    var _super = _create_super(MimicLeader);
     function MimicLeader() {
         _class_call_check(this, MimicLeader);
-        return _super.apply(this, arguments);
+        return _call_super(this, MimicLeader, arguments);
     }
     var _proto = MimicLeader.prototype;
     _proto.lead = function lead() {};
@@ -152,10 +147,9 @@ var MimicLeader = /*#__PURE__*/ function(MimicGuard) {
 var MimicFollower = /*#__PURE__*/ function(MimicGuard) {
     "use strict";
     _inherits(MimicFollower, MimicGuard);
-    var _super = _create_super(MimicFollower);
     function MimicFollower() {
         _class_call_check(this, MimicFollower);
-        return _super.apply(this, arguments);
+        return _call_super(this, MimicFollower, arguments);
     }
     var _proto = MimicFollower.prototype;
     _proto.follow = function follow() {};

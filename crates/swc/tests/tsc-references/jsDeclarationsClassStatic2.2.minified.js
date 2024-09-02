@@ -1,30 +1,26 @@
 //// [Foo.js]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var Base = function Base() {
     _class_call_check(this, Base);
 };
 Base.foo = "";
 export var Foo = /*#__PURE__*/ function(Base) {
-    _inherits(Foo, Base);
-    var _super = _create_super(Foo);
     function Foo() {
-        return _class_call_check(this, Foo), _super.apply(this, arguments);
+        return _class_call_check(this, Foo), _call_super(this, Foo, arguments);
     }
-    return Foo;
+    return _inherits(Foo, Base), Foo;
 }(Base);
 Foo.foo = "foo";
 //// [Bar.ts]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 import { Foo } from "./Foo.js";
 /*#__PURE__*/ (function(Foo) {
-    _inherits(Bar, Foo);
-    var _super = _create_super(Bar);
     function Bar() {
-        return _class_call_check(this, Bar), _super.apply(this, arguments);
+        return _class_call_check(this, Bar), _call_super(this, Bar, arguments);
     }
-    return Bar;
+    return _inherits(Bar, Foo), Bar;
 })(Foo).foo = "foo";

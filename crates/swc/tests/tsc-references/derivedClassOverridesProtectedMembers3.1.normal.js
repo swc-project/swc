@@ -1,8 +1,8 @@
 //// [derivedClassOverridesProtectedMembers3.ts]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _create_class } from "@swc/helpers/_/_create_class";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var x;
 var y;
 var Base = /*#__PURE__*/ function() {
@@ -37,20 +37,22 @@ var Base = /*#__PURE__*/ function() {
 var Derived1 = /*#__PURE__*/ function(Base) {
     "use strict";
     _inherits(Derived1, Base);
-    var _super = _create_super(Derived1);
     function Derived1(a) {
         _class_call_check(this, Derived1);
-        return _super.call(this, a);
+        return _call_super(this, Derived1, [
+            a
+        ]);
     }
     return Derived1;
 }(Base);
 var Derived2 = /*#__PURE__*/ function(Base) {
     "use strict";
     _inherits(Derived2, Base);
-    var _super = _create_super(Derived2);
     function Derived2(a) {
         _class_call_check(this, Derived2);
-        return _super.call(this, a);
+        return _call_super(this, Derived2, [
+            a
+        ]);
     }
     var _proto = Derived2.prototype;
     _proto.b = function b(a) {};
@@ -59,10 +61,11 @@ var Derived2 = /*#__PURE__*/ function(Base) {
 var Derived3 = /*#__PURE__*/ function(Base) {
     "use strict";
     _inherits(Derived3, Base);
-    var _super = _create_super(Derived3);
     function Derived3(a) {
         _class_call_check(this, Derived3);
-        return _super.call(this, a);
+        return _call_super(this, Derived3, [
+            a
+        ]);
     }
     _create_class(Derived3, [
         {
@@ -77,10 +80,11 @@ var Derived3 = /*#__PURE__*/ function(Base) {
 var Derived4 = /*#__PURE__*/ function(Base) {
     "use strict";
     _inherits(Derived4, Base);
-    var _super = _create_super(Derived4);
     function Derived4(a) {
         _class_call_check(this, Derived4);
-        return _super.call(this, a);
+        return _call_super(this, Derived4, [
+            a
+        ]);
     }
     _create_class(Derived4, [
         {
@@ -93,30 +97,33 @@ var Derived4 = /*#__PURE__*/ function(Base) {
 var Derived5 = /*#__PURE__*/ function(Base) {
     "use strict";
     _inherits(Derived5, Base);
-    var _super = _create_super(Derived5);
     function Derived5(a) {
         _class_call_check(this, Derived5);
-        return _super.call(this, a);
+        return _call_super(this, Derived5, [
+            a
+        ]);
     }
     return Derived5;
 }(Base);
 var Derived6 = /*#__PURE__*/ function(Base) {
     "use strict";
     _inherits(Derived6, Base);
-    var _super = _create_super(Derived6);
     function Derived6(a) {
         _class_call_check(this, Derived6);
-        return _super.call(this, a);
+        return _call_super(this, Derived6, [
+            a
+        ]);
     }
     return Derived6;
 }(Base);
 var Derived7 = /*#__PURE__*/ function(Base) {
     "use strict";
     _inherits(Derived7, Base);
-    var _super = _create_super(Derived7);
     function Derived7(a) {
         _class_call_check(this, Derived7);
-        return _super.call(this, a);
+        return _call_super(this, Derived7, [
+            a
+        ]);
     }
     Derived7.s = function s(a) {};
     return Derived7;
@@ -124,10 +131,11 @@ var Derived7 = /*#__PURE__*/ function(Base) {
 var Derived8 = /*#__PURE__*/ function(Base) {
     "use strict";
     _inherits(Derived8, Base);
-    var _super = _create_super(Derived8);
     function Derived8(a) {
         _class_call_check(this, Derived8);
-        return _super.call(this, a);
+        return _call_super(this, Derived8, [
+            a
+        ]);
     }
     _create_class(Derived8, null, [
         {
@@ -142,10 +150,11 @@ var Derived8 = /*#__PURE__*/ function(Base) {
 var Derived9 = /*#__PURE__*/ function(Base) {
     "use strict";
     _inherits(Derived9, Base);
-    var _super = _create_super(Derived9);
     function Derived9(a) {
         _class_call_check(this, Derived9);
-        return _super.call(this, a);
+        return _call_super(this, Derived9, [
+            a
+        ]);
     }
     _create_class(Derived9, null, [
         {
@@ -158,10 +167,11 @@ var Derived9 = /*#__PURE__*/ function(Base) {
 var Derived10 = /*#__PURE__*/ function(Base) {
     "use strict";
     _inherits(Derived10, Base);
-    var _super = _create_super(Derived10);
     function Derived10(a) {
         _class_call_check(this, Derived10);
-        return _super.call(this, a);
+        return _call_super(this, Derived10, [
+            a
+        ]);
     }
     return Derived10;
 }(Base);

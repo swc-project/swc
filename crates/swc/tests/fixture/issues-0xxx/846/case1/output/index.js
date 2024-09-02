@@ -1,10 +1,9 @@
-var _assert_this_initialized = require("@swc/helpers/_/_assert_this_initialized");
+var _call_super = require("@swc/helpers/_/_call_super");
 var _class_call_check = require("@swc/helpers/_/_class_call_check");
 var _decorate = require("@swc/helpers/_/_decorate");
 var _get = require("@swc/helpers/_/_get");
 var _get_prototype_of = require("@swc/helpers/_/_get_prototype_of");
 var _inherits = require("@swc/helpers/_/_inherits");
-var _create_super = require("@swc/helpers/_/_create_super");
 var SomeClass = _decorate._([], function(_initialize) {
     "use strict";
     var SomeClass = function SomeClass() {
@@ -31,12 +30,11 @@ var OtherClass = _decorate._([], function(_initialize, _SomeClass) {
     var OtherClass = /*#__PURE__*/ function(_SomeClass) {
         "use strict";
         _inherits._(OtherClass, _SomeClass);
-        var _super = _create_super._(OtherClass);
         function OtherClass() {
             _class_call_check._(this, OtherClass);
             var _this;
-            _this = _super.apply(this, arguments);
-            _initialize(_assert_this_initialized._(_this));
+            _this = _call_super._(this, OtherClass, arguments);
+            _initialize(_this);
             return _this;
         }
         return OtherClass;

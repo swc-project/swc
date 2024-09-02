@@ -1,14 +1,12 @@
 //// [classExtendingClass.ts]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var d, d2, D = /*#__PURE__*/ function(C) {
-    _inherits(D, C);
-    var _super = _create_super(D);
     function D() {
-        return _class_call_check(this, D), _super.apply(this, arguments);
+        return _class_call_check(this, D), _call_super(this, D, arguments);
     }
-    return D;
+    return _inherits(D, C), D;
 }(/*#__PURE__*/ function() {
     function C() {
         _class_call_check(this, C);
@@ -17,12 +15,10 @@ var d, d2, D = /*#__PURE__*/ function(C) {
 }());
 d.foo, d.bar, d.thing(), D.other();
 var D2 = /*#__PURE__*/ function(C2) {
-    _inherits(D2, C2);
-    var _super = _create_super(D2);
     function D2() {
-        return _class_call_check(this, D2), _super.apply(this, arguments);
+        return _class_call_check(this, D2), _call_super(this, D2, arguments);
     }
-    return D2;
+    return _inherits(D2, C2), D2;
 }(/*#__PURE__*/ function() {
     function C2() {
         _class_call_check(this, C2);

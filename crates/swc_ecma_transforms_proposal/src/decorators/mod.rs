@@ -327,15 +327,12 @@ impl Decorators {
             }
         };
 
-        let mut vars = Vec::new();
-
         macro_rules! fold_method {
             ($method:expr, $fn_name:expr, $key_prop_value:expr) => {{
                 let fn_name = $fn_name;
                 let method = $method;
                 let mut folder = swc_ecma_visit::as_folder(SuperFieldAccessFolder {
                     class_name: &ident,
-                    vars: &mut vars,
                     constructor_this_mark: None,
                     is_static: method.is_static,
                     folding_constructor: false,
@@ -554,8 +551,6 @@ impl Decorators {
             })
             .map(Some)
             .collect();
-
-        self.vars.extend(vars);
 
         make_decorate_call(
             class.decorators,

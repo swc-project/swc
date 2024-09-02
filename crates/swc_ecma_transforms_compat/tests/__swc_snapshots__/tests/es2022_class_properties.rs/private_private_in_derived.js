@@ -9,10 +9,9 @@ var Outer = function Outer() {
     });
     var Test = /*#__PURE__*/ function(_class_private_field_get1) {
         _inherits(Test, _class_private_field_get1);
-        var _super = _create_super(Test);
         function Test() {
             _class_call_check(this, Test);
-            return _super.apply(this, arguments);
+            return _call_super(this, Test, arguments);
         }
         return Test;
     }(_class_private_field_get(_this, _outer));

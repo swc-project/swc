@@ -16,11 +16,10 @@ let Point = /*#__PURE__*/ function() {
 let ColorPoint = /*#__PURE__*/ function(Point) {
     "use strict";
     _inherits(ColorPoint, Point);
-    var _super = _create_super(ColorPoint);
     function ColorPoint() {
         _class_call_check(this, ColorPoint);
         var _this;
-        _this = _super.call(this);
+        _this = _call_super(this, ColorPoint);
         _this.x = 2;
         _set((_assert_this_initialized(_this), _get_prototype_of(ColorPoint.prototype)), "x", 3, _this, true);
         expect(_this.x).toBe(3); // A

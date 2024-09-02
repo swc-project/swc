@@ -1,22 +1,20 @@
 //// [typeOfThisInStaticMembers10.ts]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _create_class } from "@swc/helpers/_/_create_class";
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 import { _ as _ts_decorate } from "@swc/helpers/_/_ts_decorate";
 var C = function C() {
     _class_call_check(this, C);
 };
 C.a = 1, C.b = C.a + 1;
 var D = /*#__PURE__*/ function(C) {
-    _inherits(D, C);
-    var _super = _create_super(D);
     function D() {
-        return _class_call_check(this, D), _super.apply(this, arguments);
+        return _class_call_check(this, D), _call_super(this, D, arguments);
     }
-    return D.foo = function() {
+    return _inherits(D, C), D.foo = function() {
         return this.c + 1;
     }, _create_class(D, null, [
         {
@@ -44,12 +42,10 @@ var CC = function CC() {
 };
 CC.a = 1, CC.b = CC.a + 1;
 var DD = /*#__PURE__*/ function(CC) {
-    _inherits(DD, CC);
-    var _super = _create_super(DD);
     function DD() {
-        return _class_call_check(this, DD), _super.apply(this, arguments);
+        return _class_call_check(this, DD), _call_super(this, DD, arguments);
     }
-    return DD.foo = function() {
+    return _inherits(DD, CC), DD.foo = function() {
         return this.c + 1;
     }, _create_class(DD, null, [
         {

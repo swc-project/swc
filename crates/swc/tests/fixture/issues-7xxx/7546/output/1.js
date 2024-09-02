@@ -5,7 +5,7 @@ export default {
         "use strict";
         _inherits(ClassName1, ClassName);
         function ClassName1() {
-            return ClassName.call(this);
+            return ClassName.call(this) || this;
         }
         return ClassName1;
     }(ClassName)

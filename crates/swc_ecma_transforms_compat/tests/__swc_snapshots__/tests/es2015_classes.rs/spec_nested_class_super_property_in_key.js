@@ -16,10 +16,10 @@ var Hello = /*#__PURE__*/ function() {
 var Outer = /*#__PURE__*/ function(Hello) {
     "use strict";
     _inherits(Outer, Hello);
-    var _super = _create_super(Outer);
     function Outer() {
         _class_call_check(this, Outer);
-        var _this = _super.call(this);
+        var _this;
+        _this = _call_super(this, Outer);
         var Inner = /*#__PURE__*/ function() {
             function Inner() {
                 _class_call_check(this, Inner);
@@ -35,6 +35,7 @@ var Outer = /*#__PURE__*/ function(Hello) {
             return Inner;
         }();
         return _possible_constructor_return(_this, new Inner());
+        return _this;
     }
     return Outer;
 }(Hello);

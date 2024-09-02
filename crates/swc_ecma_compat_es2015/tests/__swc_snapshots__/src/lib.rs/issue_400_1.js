@@ -17,11 +17,10 @@ var A = /*#__PURE__*/ function() {
 var B = /*#__PURE__*/ function(A) {
     "use strict";
     _inherits(B, A);
-    var _super = _create_super(B);
     function B(num) {
         _class_call_check(this, B);
         var _this;
-        _this = _super.call(this);
+        _this = _call_super(this, B);
         _this.b_num = num;
         return _this;
     }

@@ -6,12 +6,12 @@
 //super.publicStaticMemberFunction in static member function of derived class
 //super.publicStaticMemberFunction in static member accessor(get and set) of derived class
 import { _ as _assert_this_initialized } from "@swc/helpers/_/_assert_this_initialized";
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _create_class } from "@swc/helpers/_/_create_class";
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var SomeBaseClass = /*#__PURE__*/ function() {
     "use strict";
     function SomeBaseClass() {
@@ -32,10 +32,10 @@ var SomeBaseClass = /*#__PURE__*/ function() {
 var SomeDerivedClass = /*#__PURE__*/ function(SomeBaseClass) {
     "use strict";
     _inherits(SomeDerivedClass, SomeBaseClass);
-    var _super = _create_super(SomeDerivedClass);
     function SomeDerivedClass() {
         _class_call_check(this, SomeDerivedClass);
-        var _this = _super.call(this);
+        var _this;
+        _this = _call_super(this, SomeDerivedClass);
         var x = _get((_assert_this_initialized(_this), _get_prototype_of(SomeDerivedClass.prototype)), "func", _this).call(_this);
         var x;
         return _this;

@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-var _class_call_check = require("@swc/helpers/_/_class_call_check"), _inherits = require("@swc/helpers/_/_inherits"), _create_super = require("@swc/helpers/_/_create_super"), _ts_decorate = require("@swc/helpers/_/_ts_decorate"), _ts_metadata = require("@swc/helpers/_/_ts_metadata"), A = function A() {
+var _call_super = require("@swc/helpers/_/_call_super"), _class_call_check = require("@swc/helpers/_/_class_call_check"), _inherits = require("@swc/helpers/_/_inherits"), _ts_decorate = require("@swc/helpers/_/_ts_decorate"), _ts_metadata = require("@swc/helpers/_/_ts_metadata"), A = function A() {
     _class_call_check._(this, A);
 };
 A = _ts_decorate._([
@@ -19,12 +19,10 @@ B = _ts_decorate._([
     ])
 ], B);
 var C = /*#__PURE__*/ function(A) {
-    _inherits._(C, A);
-    var _super = _create_super._(C);
     function C() {
-        return _class_call_check._(this, C), _super.apply(this, arguments);
+        return _class_call_check._(this, C), _call_super._(this, C, arguments);
     }
-    return C;
+    return _inherits._(C, A), C;
 }(A);
 _ts_decorate._([
     dec

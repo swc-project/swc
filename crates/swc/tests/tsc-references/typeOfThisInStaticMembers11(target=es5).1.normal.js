@@ -1,11 +1,11 @@
 //// [typeOfThisInStaticMembers11.ts]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _create_class } from "@swc/helpers/_/_create_class";
 import { _ as _define_property } from "@swc/helpers/_/_define_property";
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 import { _ as _ts_decorate } from "@swc/helpers/_/_ts_decorate";
 var C = function C() {
     "use strict";
@@ -19,10 +19,9 @@ C = _ts_decorate([
 var D = /*#__PURE__*/ function(C) {
     "use strict";
     _inherits(D, C);
-    var _super = _create_super(D);
     function D() {
         _class_call_check(this, D);
-        return _super.apply(this, arguments);
+        return _call_super(this, D, arguments);
     }
     _create_class(D, null, [
         {
@@ -64,10 +63,9 @@ _define_property(CC, "b", CC.a + 1);
 var DD = /*#__PURE__*/ function(CC) {
     "use strict";
     _inherits(DD, CC);
-    var _super = _create_super(DD);
     function DD() {
         _class_call_check(this, DD);
-        return _super.apply(this, arguments);
+        return _call_super(this, DD, arguments);
     }
     _create_class(DD, null, [
         {

@@ -1,7 +1,7 @@
 //// [overloadResolutionConstructors.ts]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var SomeBase = function SomeBase() {
     "use strict";
     _class_call_check(this, SomeBase);
@@ -9,30 +9,27 @@ var SomeBase = function SomeBase() {
 var SomeDerived1 = /*#__PURE__*/ function(SomeBase) {
     "use strict";
     _inherits(SomeDerived1, SomeBase);
-    var _super = _create_super(SomeDerived1);
     function SomeDerived1() {
         _class_call_check(this, SomeDerived1);
-        return _super.apply(this, arguments);
+        return _call_super(this, SomeDerived1, arguments);
     }
     return SomeDerived1;
 }(SomeBase);
 var SomeDerived2 = /*#__PURE__*/ function(SomeBase) {
     "use strict";
     _inherits(SomeDerived2, SomeBase);
-    var _super = _create_super(SomeDerived2);
     function SomeDerived2() {
         _class_call_check(this, SomeDerived2);
-        return _super.apply(this, arguments);
+        return _call_super(this, SomeDerived2, arguments);
     }
     return SomeDerived2;
 }(SomeBase);
 var SomeDerived3 = /*#__PURE__*/ function(SomeBase) {
     "use strict";
     _inherits(SomeDerived3, SomeBase);
-    var _super = _create_super(SomeDerived3);
     function SomeDerived3() {
         _class_call_check(this, SomeDerived3);
-        return _super.apply(this, arguments);
+        return _call_super(this, SomeDerived3, arguments);
     }
     return SomeDerived3;
 }(SomeBase);

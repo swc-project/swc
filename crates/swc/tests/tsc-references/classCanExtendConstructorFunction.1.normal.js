@@ -2,11 +2,11 @@
 /**
  * @constructor
  * @param {number} numberOxen
- */ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+ */ import { _ as _call_super } from "@swc/helpers/_/_call_super";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 function Wagon(numberOxen) {
     this.numberOxen = numberOxen;
 }
@@ -24,11 +24,10 @@ Wagon.prototype.speed = function() {
 var Sql = /*#__PURE__*/ function(Wagon) {
     "use strict";
     _inherits(Sql, Wagon);
-    var _super = _create_super(Sql);
     function Sql() {
         _class_call_check(this, Sql);
         var _this;
-        _this = _super.call(this); // error: not enough arguments
+        _this = _call_super(this, Sql); // error: not enough arguments
         _this.foonly = 12;
         return _this;
     }
@@ -55,19 +54,18 @@ db.numberOxen = db.foonly;
 var Drakkhen = /*#__PURE__*/ function(Dragon1) {
     "use strict";
     _inherits(Drakkhen, Dragon1);
-    var _super = _create_super(Drakkhen);
     function Drakkhen() {
         _class_call_check(this, Drakkhen);
-        return _super.apply(this, arguments);
+        return _call_super(this, Drakkhen, arguments);
     }
     return Drakkhen;
 }(Dragon);
 //// [second.ts]
 /**
  * @constructor
- */ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+ */ import { _ as _call_super } from "@swc/helpers/_/_call_super";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 function Dragon(numberEaten) {
     this.numberEaten = numberEaten;
 }
@@ -75,10 +73,9 @@ function Dragon(numberEaten) {
 var Firedrake = /*#__PURE__*/ function(Dragon) {
     "use strict";
     _inherits(Firedrake, Dragon);
-    var _super = _create_super(Firedrake);
     function Firedrake() {
         _class_call_check(this, Firedrake);
-        return _super.call(this);
+        return _call_super(this, Firedrake);
     }
     return Firedrake;
 }(Dragon);
@@ -86,12 +83,13 @@ var Firedrake = /*#__PURE__*/ function(Dragon) {
 var Conestoga = /*#__PURE__*/ function(Wagon1) {
     "use strict";
     _inherits(Conestoga, Wagon1);
-    var _super = _create_super(Conestoga);
     function Conestoga(drunkOO) {
         _class_call_check(this, Conestoga);
         var _this;
         // error: wrong type
-        _this = _super.call(this, 'nope');
+        _this = _call_super(this, Conestoga, [
+            'nope'
+        ]);
         _this.drunkOO = drunkOO;
         return _this;
     }
@@ -108,19 +106,18 @@ c.numberOxen;
 /**
  * @template T
  * @param {T} flavour
- */ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+ */ import { _ as _call_super } from "@swc/helpers/_/_call_super";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 function Soup(flavour) {
     this.flavour = flavour;
 }
 /** @extends {Soup<{ claim: "ignorant" | "malicious" }>} */ var Chowder = /*#__PURE__*/ function(Soup) {
     "use strict";
     _inherits(Chowder, Soup);
-    var _super = _create_super(Chowder);
     function Chowder() {
         _class_call_check(this, Chowder);
-        return _super.apply(this, arguments);
+        return _call_super(this, Chowder, arguments);
     }
     var _proto = Chowder.prototype;
     _proto.log = function log() {

@@ -1,7 +1,7 @@
 //// [override8.ts]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var B = function B() {
     "use strict";
     _class_call_check(this, B);
@@ -9,11 +9,10 @@ var B = function B() {
 var D = /*#__PURE__*/ function(B) {
     "use strict";
     _inherits(D, B);
-    var _super = _create_super(D);
     function D(a, b) {
         _class_call_check(this, D);
         var _this;
-        _this = _super.call(this);
+        _this = _call_super(this, D);
         _this.a = a;
         _this.b = b;
         return _this;
@@ -28,11 +27,12 @@ var BB = function BB(a) {
 var DD = /*#__PURE__*/ function(BB) {
     "use strict";
     _inherits(DD, BB);
-    var _super = _create_super(DD);
     function DD(a) {
         _class_call_check(this, DD);
         var _this;
-        _this = _super.call(this, a);
+        _this = _call_super(this, DD, [
+            a
+        ]);
         _this.a = a;
         return _this;
     }
@@ -41,11 +41,12 @@ var DD = /*#__PURE__*/ function(BB) {
 var DDD = /*#__PURE__*/ function(BB) {
     "use strict";
     _inherits(DDD, BB);
-    var _super = _create_super(DDD);
     function DDD(a) {
         _class_call_check(this, DDD);
         var _this;
-        _this = _super.call(this, a);
+        _this = _call_super(this, DDD, [
+            a
+        ]);
         _this.a = a;
         return _this;
     }

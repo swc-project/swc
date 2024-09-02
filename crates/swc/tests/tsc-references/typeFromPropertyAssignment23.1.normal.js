@@ -1,7 +1,7 @@
 //// [a.js]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var _this = this;
 var B = /*#__PURE__*/ function() {
     "use strict";
@@ -16,10 +16,9 @@ var B = /*#__PURE__*/ function() {
 var C = /*#__PURE__*/ function(B) {
     "use strict";
     _inherits(C, B);
-    var _super = _create_super(C);
     function C() {
         _class_call_check(this, C);
-        return _super.apply(this, arguments);
+        return _call_super(this, C, arguments);
     }
     return C;
 }(B);
@@ -28,10 +27,9 @@ C.prototype.foo = function() {};
 var D = /*#__PURE__*/ function(B) {
     "use strict";
     _inherits(D, B);
-    var _super = _create_super(D);
     function D() {
         _class_call_check(this, D);
-        return _super.apply(this, arguments);
+        return _call_super(this, D, arguments);
     }
     return D;
 }(B);
@@ -48,10 +46,9 @@ Module.prototype.size = null;
 var NormalModule = /*#__PURE__*/ function(Module) {
     "use strict";
     _inherits(NormalModule, Module);
-    var _super = _create_super(NormalModule);
     function NormalModule() {
         _class_call_check(this, NormalModule);
-        return _super.apply(this, arguments);
+        return _call_super(this, NormalModule, arguments);
     }
     var _proto = NormalModule.prototype;
     _proto.identifier = function identifier() {

@@ -1,14 +1,12 @@
 //// [file.tsx]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 export var Empty = /*#__PURE__*/ function(_React_Component) {
-    _inherits(Empty, _React_Component);
-    var _super = _create_super(Empty);
     function Empty() {
-        return _class_call_check(this, Empty), _super.apply(this, arguments);
+        return _class_call_check(this, Empty), _call_super(this, Empty, arguments);
     }
-    return Empty.prototype.render = function() {
+    return _inherits(Empty, _React_Component), Empty.prototype.render = function() {
         return /*#__PURE__*/ React.createElement("div", null, "Hello");
     }, Empty;
 }(React.Component);

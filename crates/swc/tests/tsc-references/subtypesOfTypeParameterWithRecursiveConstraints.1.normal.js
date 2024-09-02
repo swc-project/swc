@@ -1,8 +1,8 @@
 //// [subtypesOfTypeParameterWithRecursiveConstraints.ts]
 // checking whether other types are subtypes of type parameters with constraints
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var Foo = function Foo() {
     "use strict";
     _class_call_check(this, Foo);
@@ -54,90 +54,81 @@ var M1;
     var D1 = /*#__PURE__*/ function(Base) {
         "use strict";
         _inherits(D1, Base);
-        var _super = _create_super(D1);
         function D1() {
             _class_call_check(this, D1);
-            return _super.apply(this, arguments);
+            return _call_super(this, D1, arguments);
         }
         return D1;
     }(Base);
     var D2 = /*#__PURE__*/ function(Base) {
         "use strict";
         _inherits(D2, Base);
-        var _super = _create_super(D2);
         function D2() {
             _class_call_check(this, D2);
-            return _super.apply(this, arguments);
+            return _call_super(this, D2, arguments);
         }
         return D2;
     }(Base);
     var D3 = /*#__PURE__*/ function(Base) {
         "use strict";
         _inherits(D3, Base);
-        var _super = _create_super(D3);
         function D3() {
             _class_call_check(this, D3);
-            return _super.apply(this, arguments);
+            return _call_super(this, D3, arguments);
         }
         return D3;
     }(Base);
     var D4 = /*#__PURE__*/ function(Base) {
         "use strict";
         _inherits(D4, Base);
-        var _super = _create_super(D4);
         function D4() {
             _class_call_check(this, D4);
-            return _super.apply(this, arguments);
+            return _call_super(this, D4, arguments);
         }
         return D4;
     }(Base);
     var D5 = /*#__PURE__*/ function(Base) {
         "use strict";
         _inherits(D5, Base);
-        var _super = _create_super(D5);
         function D5() {
             _class_call_check(this, D5);
-            return _super.apply(this, arguments);
+            return _call_super(this, D5, arguments);
         }
         return D5;
     }(Base);
     var D6 = /*#__PURE__*/ function(Base) {
         "use strict";
         _inherits(D6, Base);
-        var _super = _create_super(D6);
         function D6() {
             _class_call_check(this, D6);
-            return _super.apply(this, arguments);
+            return _call_super(this, D6, arguments);
         }
         return D6;
     }(Base);
     var D7 = /*#__PURE__*/ function(Base) {
         "use strict";
         _inherits(D7, Base);
-        var _super = _create_super(D7);
         function D7() {
             _class_call_check(this, D7);
-            return _super.apply(this, arguments);
+            return _call_super(this, D7, arguments);
         }
         return D7;
     }(Base);
     var D8 = /*#__PURE__*/ function(Base) {
         "use strict";
         _inherits(D8, Base);
-        var _super = _create_super(D8);
         function D8() {
             _class_call_check(this, D8);
-            return _super.apply(this, arguments);
+            return _call_super(this, D8, arguments);
         }
         return D8;
     }(Base);
     var D9 = /*#__PURE__*/ function(Base) {
         "use strict";
         _inherits(D9, Base);
-        var _super = _create_super(D9);
         function D9() {
             _class_call_check(this, D9);
-            return _super.apply(this, arguments);
+            return _call_super(this, D9, arguments);
         }
         return D9;
     }(Base);
@@ -151,90 +142,81 @@ var M2;
     var D1 = /*#__PURE__*/ function(Base2) {
         "use strict";
         _inherits(D1, Base2);
-        var _super = _create_super(D1);
         function D1() {
             _class_call_check(this, D1);
-            return _super.apply(this, arguments);
+            return _call_super(this, D1, arguments);
         }
         return D1;
     }(Base2);
     var D2 = /*#__PURE__*/ function(Base2) {
         "use strict";
         _inherits(D2, Base2);
-        var _super = _create_super(D2);
         function D2() {
             _class_call_check(this, D2);
-            return _super.apply(this, arguments);
+            return _call_super(this, D2, arguments);
         }
         return D2;
     }(Base2);
     var D3 = /*#__PURE__*/ function(Base2) {
         "use strict";
         _inherits(D3, Base2);
-        var _super = _create_super(D3);
         function D3() {
             _class_call_check(this, D3);
-            return _super.apply(this, arguments);
+            return _call_super(this, D3, arguments);
         }
         return D3;
     }(Base2);
     var D4 = /*#__PURE__*/ function(Base2) {
         "use strict";
         _inherits(D4, Base2);
-        var _super = _create_super(D4);
         function D4() {
             _class_call_check(this, D4);
-            return _super.apply(this, arguments);
+            return _call_super(this, D4, arguments);
         }
         return D4;
     }(Base2);
     var D5 = /*#__PURE__*/ function(Base2) {
         "use strict";
         _inherits(D5, Base2);
-        var _super = _create_super(D5);
         function D5() {
             _class_call_check(this, D5);
-            return _super.apply(this, arguments);
+            return _call_super(this, D5, arguments);
         }
         return D5;
     }(Base2);
     var D6 = /*#__PURE__*/ function(Base2) {
         "use strict";
         _inherits(D6, Base2);
-        var _super = _create_super(D6);
         function D6() {
             _class_call_check(this, D6);
-            return _super.apply(this, arguments);
+            return _call_super(this, D6, arguments);
         }
         return D6;
     }(Base2);
     var D7 = /*#__PURE__*/ function(Base2) {
         "use strict";
         _inherits(D7, Base2);
-        var _super = _create_super(D7);
         function D7() {
             _class_call_check(this, D7);
-            return _super.apply(this, arguments);
+            return _call_super(this, D7, arguments);
         }
         return D7;
     }(Base2);
     var D8 = /*#__PURE__*/ function(Base2) {
         "use strict";
         _inherits(D8, Base2);
-        var _super = _create_super(D8);
         function D8() {
             _class_call_check(this, D8);
-            return _super.apply(this, arguments);
+            return _call_super(this, D8, arguments);
         }
         return D8;
     }(Base2);
     var D9 = /*#__PURE__*/ function(Base2) {
         "use strict";
         _inherits(D9, Base2);
-        var _super = _create_super(D9);
         function D9() {
             _class_call_check(this, D9);
-            return _super.apply(this, arguments);
+            return _call_super(this, D9, arguments);
         }
         return D9;
     }(Base2);

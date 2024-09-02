@@ -5,10 +5,9 @@ let Base = function Base() {
 let Obj = /*#__PURE__*/ function(Base) {
     "use strict";
     _inherits(Obj, Base);
-    var _super = _create_super(Obj);
     function Obj() {
         _class_call_check(this, Obj);
-        return _super.apply(this, arguments);
+        return _call_super(this, Obj, arguments);
     }
     _create_class(Obj, [
         {

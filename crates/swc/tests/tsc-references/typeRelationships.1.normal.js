@@ -1,8 +1,7 @@
 //// [typeRelationships.ts]
-import { _ as _assert_this_initialized } from "@swc/helpers/_/_assert_this_initialized";
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
@@ -40,12 +39,11 @@ var C = /*#__PURE__*/ function() {
 var D = /*#__PURE__*/ function(C) {
     "use strict";
     _inherits(D, C);
-    var _super = _create_super(D);
     function D() {
         _class_call_check(this, D);
         var _this;
-        _this = _super.apply(this, arguments);
-        _this.self1 = _assert_this_initialized(_this);
+        _this = _call_super(this, D, arguments);
+        _this.self1 = _this;
         _this.self2 = _this.self;
         _this.self3 = _this.foo();
         _this.d = new D();

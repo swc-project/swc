@@ -1,9 +1,10 @@
 //// [index.js]
+import { _ as _assert_this_initialized } from "@swc/helpers/_/_assert_this_initialized";
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _create_class } from "@swc/helpers/_/_create_class";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _possible_constructor_return } from "@swc/helpers/_/_possible_constructor_return";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 export var A = function A() {
     "use strict";
     _class_call_check(this, A);
@@ -141,21 +142,19 @@ export var K = /*#__PURE__*/ function() {
 export var L = /*#__PURE__*/ function(K) {
     "use strict";
     _inherits(L, K);
-    var _super = _create_super(L);
     function L() {
         _class_call_check(this, L);
-        return _super.apply(this, arguments);
+        return _call_super(this, L, arguments);
     }
     return L;
 }(K);
 export var M = /*#__PURE__*/ function(_superClass) {
     "use strict";
     _inherits(M, _superClass);
-    var _super = _create_super(M);
     function M() {
         _class_call_check(this, M);
         var _this;
-        _this.prop = 12;
+        _assert_this_initialized(_this).prop = 12;
         return _possible_constructor_return(_this);
     }
     return M;
@@ -165,11 +164,10 @@ export var M = /*#__PURE__*/ function(_superClass) {
  */ export var N = /*#__PURE__*/ function(L) {
     "use strict";
     _inherits(N, L);
-    var _super = _create_super(N);
     function N(param) {
         _class_call_check(this, N);
         var _this;
-        _this = _super.call(this);
+        _this = _call_super(this, N);
         _this.another = param;
         return _this;
     }
@@ -181,11 +179,12 @@ export var M = /*#__PURE__*/ function(_superClass) {
  */ export var O = /*#__PURE__*/ function(N) {
     "use strict";
     _inherits(O, N);
-    var _super = _create_super(O);
     function O(param) {
         _class_call_check(this, O);
         var _this;
-        _this = _super.call(this, param);
+        _this = _call_super(this, O, [
+            param
+        ]);
         _this.another2 = param;
         return _this;
     }
@@ -195,10 +194,9 @@ var x = /** @type {*} */ null;
 export var VariableBase = /*#__PURE__*/ function(x) {
     "use strict";
     _inherits(VariableBase, x);
-    var _super = _create_super(VariableBase);
     function VariableBase() {
         _class_call_check(this, VariableBase);
-        return _super.apply(this, arguments);
+        return _call_super(this, VariableBase, arguments);
     }
     return VariableBase;
 }(x);
@@ -213,10 +211,9 @@ export var HasStatics = /*#__PURE__*/ function() {
 export var ExtendsStatics = /*#__PURE__*/ function(HasStatics) {
     "use strict";
     _inherits(ExtendsStatics, HasStatics);
-    var _super = _create_super(ExtendsStatics);
     function ExtendsStatics() {
         _class_call_check(this, ExtendsStatics);
-        return _super.apply(this, arguments);
+        return _call_super(this, ExtendsStatics, arguments);
     }
     ExtendsStatics.also = function also() {};
     return ExtendsStatics;

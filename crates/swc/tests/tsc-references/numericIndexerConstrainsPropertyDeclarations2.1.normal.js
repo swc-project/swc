@@ -1,8 +1,8 @@
 //// [numericIndexerConstrainsPropertyDeclarations2.ts]
 // String indexer providing a constraint of a user defined type
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var A = /*#__PURE__*/ function() {
     "use strict";
     function A() {
@@ -17,10 +17,9 @@ var A = /*#__PURE__*/ function() {
 var B = /*#__PURE__*/ function(A) {
     "use strict";
     _inherits(B, A);
-    var _super = _create_super(B);
     function B() {
         _class_call_check(this, B);
-        return _super.apply(this, arguments);
+        return _call_super(this, B, arguments);
     }
     var _proto = B.prototype;
     _proto.bar = function bar() {

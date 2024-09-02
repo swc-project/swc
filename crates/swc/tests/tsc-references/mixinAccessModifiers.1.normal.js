@@ -1,7 +1,7 @@
 //// [mixinAccessModifiers.ts]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var Private = function Private() {
     "use strict";
     for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
@@ -66,40 +66,36 @@ function f6(x) {
 var C1 = /*#__PURE__*/ function(_Mix) {
     "use strict";
     _inherits(C1, _Mix);
-    var _super = _create_super(C1);
     function C1() {
         _class_call_check(this, C1);
-        return _super.apply(this, arguments);
+        return _call_super(this, C1, arguments);
     }
     return C1;
 }(Mix(Private, Private2));
 var C2 = /*#__PURE__*/ function(_Mix) {
     "use strict";
     _inherits(C2, _Mix);
-    var _super = _create_super(C2);
     function C2() {
         _class_call_check(this, C2);
-        return _super.apply(this, arguments);
+        return _call_super(this, C2, arguments);
     }
     return C2;
 }(Mix(Private, Protected));
 var C3 = /*#__PURE__*/ function(_Mix) {
     "use strict";
     _inherits(C3, _Mix);
-    var _super = _create_super(C3);
     function C3() {
         _class_call_check(this, C3);
-        return _super.apply(this, arguments);
+        return _call_super(this, C3, arguments);
     }
     return C3;
 }(Mix(Private, Public));
 var C4 = /*#__PURE__*/ function(_Mix) {
     "use strict";
     _inherits(C4, _Mix);
-    var _super = _create_super(C4);
     function C4() {
         _class_call_check(this, C4);
-        return _super.apply(this, arguments);
+        return _call_super(this, C4, arguments);
     }
     var _proto = C4.prototype;
     _proto.f = function f(c4, c5, c6) {
@@ -117,10 +113,9 @@ var C4 = /*#__PURE__*/ function(_Mix) {
 var C5 = /*#__PURE__*/ function(_Mix) {
     "use strict";
     _inherits(C5, _Mix);
-    var _super = _create_super(C5);
     function C5() {
         _class_call_check(this, C5);
-        return _super.apply(this, arguments);
+        return _call_super(this, C5, arguments);
     }
     var _proto = C5.prototype;
     _proto.f = function f(c4, c5, c6) {
@@ -138,10 +133,9 @@ var C5 = /*#__PURE__*/ function(_Mix) {
 var C6 = /*#__PURE__*/ function(_Mix) {
     "use strict";
     _inherits(C6, _Mix);
-    var _super = _create_super(C6);
     function C6() {
         _class_call_check(this, C6);
-        return _super.apply(this, arguments);
+        return _call_super(this, C6, arguments);
     }
     var _proto = C6.prototype;
     _proto.f = function f(c4, c5, c6) {
