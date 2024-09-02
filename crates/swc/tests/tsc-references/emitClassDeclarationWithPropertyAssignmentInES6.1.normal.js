@@ -12,14 +12,12 @@ class D {
 }
 class E extends D {
     constructor(...args){
-        super(...args);
-        this.z = true;
+        super(...args), this.z = true;
     }
 }
 class F extends D {
     constructor(){
-        super();
-        this.z = true;
+        super(), this.z = true;
         this.j = "HI";
     }
 }

@@ -16,13 +16,14 @@ var Derived = /*#__PURE__*/ function(Base) {
         var _this;
         _this = _call_super(this, Derived, [
             ''
-        ]);
-        _this.q = q;
-        var _temp;
+        ]), _this.q = q;
         //type of super call expression is void
-        var p = (_temp = _this = _call_super(this, Derived, [
-            ''
-        ]), _this.q = q, _temp);
+        var p = [
+            _this = _call_super(this, Derived, [
+                ''
+            ]),
+            _this.q = q
+        ][0];
         var p = v();
         return _this;
     }

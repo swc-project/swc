@@ -22,7 +22,6 @@ class D extends C {
         this._secret = value;
     }
     constructor(...args){
-        super(...args);
-        this._secret = 11;
+        super(...args), this._secret = 11;
     }
 }

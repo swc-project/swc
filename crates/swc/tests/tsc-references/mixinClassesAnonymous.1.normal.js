@@ -18,8 +18,7 @@ var Derived = /*#__PURE__*/ function(Base) {
         _this = _call_super(this, Derived, [
             x,
             y
-        ]);
-        _this.z = z;
+        ]), _this.z = z;
         return _this;
     }
     return Derived;
@@ -101,8 +100,7 @@ var Timestamped = function(Base) {
         function _class() {
             _class_call_check(this, _class);
             var _this;
-            _this = _call_super(this, _class, arguments);
-            _this.timestamp = new Date();
+            _this = _call_super(this, _class, arguments), _this.timestamp = new Date();
             return _this;
         }
         return _class;

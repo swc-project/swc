@@ -27,8 +27,7 @@ var Bar = /*#__PURE__*/ function(Fab) {
     function Bar() {
         _class_call_check(this, Bar);
         var _this;
-        _this = _call_super(this, Bar, arguments);
-        _this.x = /** @type {Bar} */ null;
+        _this = _call_super(this, Bar, arguments), _this.x = /** @type {Bar} */ null;
         return _this;
     }
     return Bar;

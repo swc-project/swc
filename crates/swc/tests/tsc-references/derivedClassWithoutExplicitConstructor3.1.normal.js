@@ -17,8 +17,7 @@ var Derived = /*#__PURE__*/ function(Base) {
         var _this;
         _this = _call_super(this, Derived, [
             2
-        ]);
-        _this.b = '';
+        ]), _this.b = '';
         _this.b = y;
         return _this;
     }
@@ -30,9 +29,7 @@ var Derived2 = /*#__PURE__*/ function(Derived) {
     function Derived2() {
         _class_call_check(this, Derived2);
         var _this;
-        _this = _call_super(this, Derived2, arguments);
-        _this.x = 1;
-        _this.y = 'hello';
+        _this = _call_super(this, Derived2, arguments), _this.x = 1, _this.y = 'hello';
         return _this;
     }
     return Derived2;
@@ -53,8 +50,7 @@ var D = /*#__PURE__*/ function(Base) {
         var _this;
         _this = _call_super(this, D, [
             2
-        ]);
-        _this.b = null;
+        ]), _this.b = null;
         _this.b = y;
         return _this;
     }
@@ -66,9 +62,7 @@ var D2 = /*#__PURE__*/ function(D) {
     function D2() {
         _class_call_check(this, D2);
         var _this;
-        _this = _call_super(this, D2, arguments);
-        _this.x = 2;
-        _this.y = null;
+        _this = _call_super(this, D2, arguments), _this.x = 2, _this.y = null;
         return _this;
     }
     return D2;

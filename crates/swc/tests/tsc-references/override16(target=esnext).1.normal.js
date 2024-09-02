@@ -3,7 +3,6 @@ class A {
 }
 class B extends A {
     constructor(...args){
-        super(...args);
-        this.foo = "string";
+        super(...args), this.foo = "string";
     }
 }

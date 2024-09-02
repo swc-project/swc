@@ -53,8 +53,7 @@ var Derived = /*#__PURE__*/ function(Base) {
     function Derived() {
         _class_call_check(this, Derived);
         var _this;
-        _this = _call_super(this, Derived, arguments);
-        _this.a = 1;
+        _this = _call_super(this, Derived, arguments), _this.a = 1;
         return _this;
     }
     var _proto = Derived.prototype;

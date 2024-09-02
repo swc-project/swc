@@ -32,8 +32,7 @@ var C = /*#__PURE__*/ function(A) {
         var _this;
         _this = _call_super(this, C, [
             x
-        ]);
-        _this.x = x;
+        ]), _this.x = x;
         _this.x = 1;
         return _this;
     }
@@ -54,8 +53,7 @@ var E = /*#__PURE__*/ function(D) {
         var _this;
         _this = _call_super(this, E, [
             x
-        ]);
-        _this.x = x;
+        ]), _this.x = x;
         _this.x = 1;
         return _this;
     }

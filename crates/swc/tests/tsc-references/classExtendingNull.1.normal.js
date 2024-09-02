@@ -26,8 +26,7 @@ var C3 = /*#__PURE__*/ function(_superClass) {
     function C3() {
         _class_call_check(this, C3);
         var _this;
-        _this = _call_super(this, C3, arguments);
-        _this.x = 1;
+        _this = _call_super(this, C3, arguments), _this.x = 1;
         return _this;
     }
     return C3;
@@ -38,8 +37,7 @@ var C4 = /*#__PURE__*/ function(_superClass) {
     function C4() {
         _class_call_check(this, C4);
         var _this;
-        _this = _call_super(this, C4, arguments);
-        _this.x = 1;
+        _this = _call_super(this, C4, arguments), _this.x = 1;
         return _this;
     }
     return C4;

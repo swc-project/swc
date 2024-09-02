@@ -11,11 +11,8 @@ var C = /*#__PURE__*/ function(B1) {
     function C() {
         _class_call_check(this, C);
         var _this;
-        _this = _call_super(this, C, arguments);
-        // these should be unaffected
-        _this.x = 1;
-        _this.y = _this.x;
-        _this.z = _get((_assert_this_initialized(_this), _get_prototype_of(C.prototype)), "f", _this).call(_this);
+        _this = _call_super(this, C, arguments), // these should be unaffected
+        _this.x = 1, _this.y = _this.x, _this.z = _get((_assert_this_initialized(_this), _get_prototype_of(C.prototype)), "f", _this).call(_this);
         return _this;
     }
     return C;

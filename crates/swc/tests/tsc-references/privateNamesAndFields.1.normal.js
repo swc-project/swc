@@ -14,8 +14,7 @@ class A {
 var _foo1 = /*#__PURE__*/ new WeakMap();
 class B extends A {
     constructor(){
-        super();
-        _class_private_field_init(this, _foo1, {
+        super(), _class_private_field_init(this, _foo1, {
             writable: true,
             value: void 0
         });
