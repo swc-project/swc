@@ -18,10 +18,7 @@ var D = /*#__PURE__*/ function(B) {
         _this = _call_super(this, D, [
             foo,
             42
-        ]);
-        _this.foo = foo;
-        _this.baz = baz;
-        _this.bar = 1;
+        ]), _this.foo = foo, _this.baz = baz, _this.bar = 1;
         return _this;
     }
     return D;

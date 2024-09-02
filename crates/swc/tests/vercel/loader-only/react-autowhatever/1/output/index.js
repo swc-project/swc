@@ -16,8 +16,7 @@ var ItemsList = /*#__PURE__*/ function(Component) {
     function ItemsList() {
         _class_call_check(this, ItemsList);
         var _this;
-        _this = _call_super(this, ItemsList, arguments);
-        _define_property(_this, "storeHighlightedItemReference", function(highlightedItem) {
+        _this = _call_super(this, ItemsList, arguments), _define_property(_this, "storeHighlightedItemReference", function(highlightedItem) {
             _this.props.onHighlightedItemChange(highlightedItem === null ? null : highlightedItem.item);
         });
         return _this;

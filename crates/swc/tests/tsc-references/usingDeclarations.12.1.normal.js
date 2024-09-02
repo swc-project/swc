@@ -7,8 +7,7 @@ class C2 extends C1 {
     constructor(){
         try {
             var _usingCtx = _using_ctx();
-            super();
-            this.y = 1;
+            super(), this.y = 1;
             const d17 = _usingCtx.u({
                 [Symbol.dispose] () {}
             });

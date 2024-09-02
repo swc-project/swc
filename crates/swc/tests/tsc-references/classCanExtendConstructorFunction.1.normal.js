@@ -89,8 +89,7 @@ var Conestoga = /*#__PURE__*/ function(Wagon1) {
         // error: wrong type
         _this = _call_super(this, Conestoga, [
             'nope'
-        ]);
-        _this.drunkOO = drunkOO;
+        ]), _this.drunkOO = drunkOO;
         return _this;
     }
     // should error since others is not optional

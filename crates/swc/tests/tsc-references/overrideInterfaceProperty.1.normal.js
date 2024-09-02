@@ -7,7 +7,6 @@ class Sizz extends Mup {
 }
 class Kasizz extends Mup {
     constructor(...args){
-        super(...args);
-        this.size = -1;
+        super(...args), this.size = -1;
     }
 }

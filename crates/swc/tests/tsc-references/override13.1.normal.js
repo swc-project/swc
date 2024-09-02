@@ -9,9 +9,7 @@ class Foo {
 }
 class SubFoo extends Foo {
     constructor(...args){
-        super(...args);
-        this.property = 42;
-        this.staticProperty = 42;
+        super(...args), this.property = 42, this.staticProperty = 42;
     }
 }
 class StaticSubFoo extends Foo {
@@ -26,9 +24,7 @@ class Intermediate extends Foo {
 }
 class Derived extends Intermediate {
     constructor(...args){
-        super(...args);
-        this.property = 42;
-        this.staticProperty = 42;
+        super(...args), this.property = 42, this.staticProperty = 42;
     }
 }
 class StaticDerived extends Intermediate {

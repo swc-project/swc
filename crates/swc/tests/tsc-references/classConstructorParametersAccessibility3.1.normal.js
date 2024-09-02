@@ -15,8 +15,7 @@ var Derived = /*#__PURE__*/ function(Base) {
         var _this;
         _this = _call_super(this, Derived, [
             p
-        ]);
-        _this.p = p;
+        ]), _this.p = p;
         _this.p; // OK
         return _this;
     }

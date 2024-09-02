@@ -5,11 +5,9 @@ var Foo = /*#__PURE__*/ function(Bar1) {
         _class_call_check(this, Foo);
         var _this;
         if (condition) {
-            _this = _call_super(this, Foo);
-            _define_property(_this, "bar", "foo");
+            _this = _call_super(this, Foo), _define_property(_this, "bar", "foo");
         } else {
-            _this = _call_super(this, Foo);
-            _define_property(_this, "bar", "foo");
+            _this = _call_super(this, Foo), _define_property(_this, "bar", "foo");
         }
         return _possible_constructor_return(_this);
     }

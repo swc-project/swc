@@ -42,11 +42,7 @@ var D = /*#__PURE__*/ function(C) {
     function D() {
         _class_call_check(this, D);
         var _this;
-        _this = _call_super(this, D, arguments);
-        _this.self1 = _this;
-        _this.self2 = _this.self;
-        _this.self3 = _this.foo();
-        _this.d = new D();
+        _this = _call_super(this, D, arguments), _this.self1 = _this, _this.self2 = _this.self, _this.self3 = _this.foo(), _this.d = new D();
         return _this;
     }
     var _proto = D.prototype;

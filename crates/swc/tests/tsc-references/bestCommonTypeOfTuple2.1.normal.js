@@ -34,8 +34,7 @@ var D1 = /*#__PURE__*/ function(C1) {
     function D1() {
         _class_call_check(this, D1);
         var _this;
-        _this = _call_super(this, D1, arguments);
-        _this.i = "bar";
+        _this = _call_super(this, D1, arguments), _this.i = "bar";
         return _this;
     }
     return D1;

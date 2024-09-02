@@ -2,7 +2,7 @@ var _call_x, _initProto;
 const dec = ()=>{};
 class Foo extends Bar {
     static{
-        ({ e: [_call_x, _initProto]  } = _apply_decs_2203_r(this, [
+        ({ e: [_call_x, _initProto] } = _apply_decs_2203_r(this, [
             [
                 dec,
                 3,
@@ -14,8 +14,7 @@ class Foo extends Bar {
         ], []));
     }
     constructor(...args){
-        super(...args);
-        _initProto(this);
+        super(...args), _initProto(this);
     }
     get #x() {
         return _call_x(this);

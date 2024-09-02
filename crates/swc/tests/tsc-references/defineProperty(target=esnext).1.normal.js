@@ -25,10 +25,7 @@ class C extends B {
     ka;
     z;
     constructor(ka){
-        super();
-        this.ka = ka;
-        this.z = this.ka;
-        this.ki = this.ka;
+        super(), this.ka = ka, this.z = this.ka, this.ki = this.ka;
     }
     ki;
 }
