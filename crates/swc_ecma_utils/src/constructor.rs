@@ -2,7 +2,7 @@ use std::{iter, mem};
 
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 
 use crate::ExprFactory;
 
@@ -58,6 +58,16 @@ impl VisitMut for Injector {
         let ignore_return_value = mem::replace(&mut self.ignore_return_value, true);
         node.visit_mut_children_with(self);
         self.ignore_return_value = ignore_return_value;
+    }
+
+    fn visit_mut_seq_expr(&mut self, node: &mut SeqExpr) {
+        if let Some(mut tail) = node.exprs.pop() {
+            let ignore_return_value = mem::replace(&mut self.ignore_return_value, true);
+            node.visit_mut_children_with(self);
+            self.ignore_return_value = ignore_return_value;
+            tail.visit_mut_with(self);
+            node.exprs.push(tail);
+        }
     }
 
     fn visit_mut_expr(&mut self, node: &mut Expr) {
