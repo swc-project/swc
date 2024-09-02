@@ -43,12 +43,7 @@ var C = /*#__PURE__*/ function(B) {
     function C(ka) {
         _class_call_check(this, C);
         var _this;
-        [
-            _this = _call_super(this, C),
-            _define_property(_this, "ka", void 0),
-            _define_property(_this, "z", void 0),
-            _define_property(_this, "ki", void 0)
-        ][0], _this.ka = ka, _this.z = _this.ka, _this.ki = _this.ka;
+        _this = _call_super(this, C), _define_property(_this, "ka", void 0), _define_property(_this, "z", void 0), _define_property(_this, "ki", void 0), _this.ka = ka, _this.z = _this.ka, _this.ki = _this.ka;
         return _this;
     }
     return C;
