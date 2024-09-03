@@ -304,6 +304,13 @@ impl VisitMut for ConstructorFolder {
         self.super_found = super_found;
     }
 
+    fn visit_mut_switch_stmt(&mut self, node: &mut SwitchStmt) {
+        node.discriminant.visit_mut_with(self);
+        let super_found = self.super_found;
+        node.cases.visit_mut_with(self);
+        self.super_found = super_found;
+    }
+
     fn visit_mut_try_stmt(&mut self, node: &mut TryStmt) {
         let super_found = self.super_found;
         node.block.visit_mut_with(self);
