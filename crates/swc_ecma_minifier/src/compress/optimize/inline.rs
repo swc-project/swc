@@ -156,7 +156,7 @@ impl Optimizer<'_> {
 
             if !usage.reassigned {
                 match init {
-                    Expr::Fn(..) | Expr::Arrow(..) => {
+                    Expr::Fn(..) | Expr::Arrow(..) | Expr::Class(..) => {
                         self.typeofs.insert(ident.to_id(), "function".into());
                     }
                     Expr::Array(..) | Expr::Object(..) => {
