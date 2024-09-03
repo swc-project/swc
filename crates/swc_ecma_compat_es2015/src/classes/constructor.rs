@@ -142,7 +142,7 @@ pub(super) fn fold_constructor(
                     .this
                     .map_or_else(|| Expr::undefined(DUMMY_SP).as_arg(), |this| this.as_arg());
 
-                helper_expr!(possible_constructor_return).as_call(DUMMY_SP, vec![this])
+                helper_expr!(assert_this_initialized).as_call(DUMMY_SP, vec![this])
             };
 
             let return_this = ReturnStmt {
