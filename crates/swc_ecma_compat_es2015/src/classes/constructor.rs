@@ -311,6 +311,16 @@ impl VisitMut for ConstructorFolder {
         node.finalizer.visit_mut_with(self);
     }
 
+    fn visit_mut_labeled_stmt(&mut self, node: &mut LabeledStmt) {
+        if node.body.is_block() {
+            let super_found = self.super_found;
+            node.body.visit_mut_with(self);
+            self.super_found = super_found;
+        } else {
+            node.body.visit_mut_with(self);
+        }
+    }
+
     fn visit_mut_bin_expr(&mut self, node: &mut BinExpr) {
         match node.op {
             op!("&&") | op!("||") => {
