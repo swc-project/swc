@@ -58,6 +58,7 @@ pub(super) fn fold_constructor(
     let mut body = constructor.body.take().unwrap();
     if let Some(class_super_name) = class_super_name {
         let is_last_super = (&*body.stmts).is_super_last_call();
+        let is_last_return = body.stmts.last().map_or(false, Stmt::is_return_stmt);
 
         let mut constructor_folder = ConstructorFolder {
             class_key_init: vec![],
@@ -134,7 +135,7 @@ pub(super) fn fold_constructor(
             stmts.push(var.into());
         }
 
-        if !is_last_super {
+        if !is_last_super && !is_last_return {
             let this = if constructor_folder.super_found {
                 Expr::Ident(constructor_folder.this.unwrap())
             } else {
