@@ -35,7 +35,6 @@ var Outer = /*#__PURE__*/ function(Hello) {
             return Inner;
         }();
         return _possible_constructor_return(_this, new Inner());
-        return _this;
     }
     return Outer;
 }(Hello);

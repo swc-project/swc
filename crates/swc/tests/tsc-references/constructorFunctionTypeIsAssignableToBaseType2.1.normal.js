@@ -29,7 +29,6 @@ var Derived2 = /*#__PURE__*/ function(Base) {
             x
         ]);
         return _possible_constructor_return(_this, 1);
-        return _this;
     }
     return Derived2;
 }(Base);

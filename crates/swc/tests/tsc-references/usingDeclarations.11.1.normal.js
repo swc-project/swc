@@ -1,8 +1,8 @@
 //// [usingDeclarations.11.ts]
+import { _ as _assert_this_initialized } from "@swc/helpers/_/_assert_this_initialized";
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _possible_constructor_return } from "@swc/helpers/_/_possible_constructor_return";
 import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
 var A = function A() {
     "use strict";
@@ -23,7 +23,7 @@ var C1 = /*#__PURE__*/ function(A) {
         } finally{
             _usingCtx.d();
         }
-        return _possible_constructor_return(_this);
+        return _assert_this_initialized(_this);
     }
     return C1;
 }(A);
@@ -42,7 +42,7 @@ var C2 = /*#__PURE__*/ function(A) {
         } finally{
             _usingCtx.d();
         }
-        return _possible_constructor_return(_this);
+        return _assert_this_initialized(_this);
     }
     return C2;
 }(A);
@@ -61,7 +61,7 @@ var C3 = /*#__PURE__*/ function(A) {
         } finally{
             _usingCtx.d();
         }
-        return _possible_constructor_return(_this);
+        return _assert_this_initialized(_this);
     }
     return C3;
 }(A);
@@ -80,7 +80,7 @@ var C4 = /*#__PURE__*/ function(A) {
         } finally{
             _usingCtx.d();
         }
-        return _possible_constructor_return(_this);
+        return _assert_this_initialized(_this);
     }
     return C4;
 }(A);
@@ -99,7 +99,7 @@ var C5 = /*#__PURE__*/ function(A) {
         } finally{
             _usingCtx.d();
         }
-        return _possible_constructor_return(_this);
+        return _assert_this_initialized(_this);
     }
     return C5;
 }(A);
