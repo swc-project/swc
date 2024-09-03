@@ -12,9 +12,12 @@ use swc_ecma_utils::{
 };
 
 use super::Pure;
-use crate::compress::{
-    pure::strings::{convert_str_value_to_tpl_cooked, convert_str_value_to_tpl_raw},
-    util::is_pure_undefined,
+use crate::{
+    compress::{
+        pure::strings::{convert_str_value_to_tpl_cooked, convert_str_value_to_tpl_raw},
+        util::is_pure_undefined,
+    },
+    util::contains_undetermined_props,
 };
 
 fn is_definitely_string(expr: &Expr) -> bool {
@@ -1543,21 +1546,21 @@ impl Pure<'_> {
                     prop: MemberProp::Computed(prop),
                     ..
                 }) => match &**obj {
-                    Expr::Object(..) | Expr::Array(..) => {
+                    Expr::Object(object) if !contains_undetermined_props(&object.props) => {
+                        *e = self
+                            .make_ignored_expr(*span, std::iter::once(prop.expr.take()))
+                            .unwrap_or(Invalid { span: DUMMY_SP }.into());
+                        return;
+                    }
+                    Expr::Array(..) => {
                         self.ignore_return_value(obj, opts);
-
-                        match &**obj {
-                            Expr::Object(..) => {}
-                            _ => {
-                                *e = self
-                                    .make_ignored_expr(
-                                        *span,
-                                        vec![obj.take(), prop.expr.take()].into_iter(),
-                                    )
-                                    .unwrap_or(Invalid { span: DUMMY_SP }.into());
-                                return;
-                            }
-                        };
+                        *e = self
+                            .make_ignored_expr(
+                                *span,
+                                vec![obj.take(), prop.expr.take()].into_iter(),
+                            )
+                            .unwrap_or(Invalid { span: DUMMY_SP }.into());
+                        return;
                     }
                     _ => {}
                 },

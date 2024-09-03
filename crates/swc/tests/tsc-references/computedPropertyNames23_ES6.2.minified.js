@@ -1,2 +1,4 @@
 //// [computedPropertyNames23_ES6.ts]
-this.bar();
+({
+    [this.bar()]: 1
+})[0];

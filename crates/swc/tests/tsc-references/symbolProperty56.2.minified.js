@@ -1,3 +1,5 @@
 //// [symbolProperty56.ts]
 var M;
-M || (M = {}), (void 0).iterator;
+M || (M = {}), ({
+    [Symbol.iterator]: 0
+})[(void 0).iterator];

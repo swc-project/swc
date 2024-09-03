@@ -8,6 +8,7 @@ use swc_ecma_ast::{
 use swc_ecma_utils::{prop_name_eq, ExprExt, Known};
 
 use super::Pure;
+use crate::util::contains_undetermined_props;
 
 /// Ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array
 static ARRAY_SYMBOLS: phf::Set<&str> = phf_set!(
@@ -474,16 +475,7 @@ impl Pure<'_> {
 
             Expr::Object(ObjectLit { props, span }) => {
                 // Do nothing if there are invalid keys.
-                //
-                // Objects with one or more keys that are not literals or identifiers
-                // are impossible to optimize as we don't know for certain if a given
-                // key is actually invalid, e.g. `{[bar()]: 5}`, since we don't know
-                // what `bar()` returns.
-                let contains_invalid_key = props
-                    .iter()
-                    .any(|prop| !matches!(prop, PropOrSpread::Prop(prop) if matches!(&**prop, Prop::KeyValue(kv) if kv.key.is_ident() || kv.key.is_str() || kv.key.is_num())));
-
-                if contains_invalid_key {
+                if contains_undetermined_props(props) {
                     return None;
                 }
 
