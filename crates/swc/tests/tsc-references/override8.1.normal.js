@@ -12,9 +12,7 @@ var D = /*#__PURE__*/ function(B) {
     function D(a, b) {
         _class_call_check(this, D);
         var _this;
-        _this = _call_super(this, D);
-        _this.a = a;
-        _this.b = b;
+        _this = _call_super(this, D), _this.a = a, _this.b = b;
         return _this;
     }
     return D;
@@ -32,8 +30,7 @@ var DD = /*#__PURE__*/ function(BB) {
         var _this;
         _this = _call_super(this, DD, [
             a
-        ]);
-        _this.a = a;
+        ]), _this.a = a;
         return _this;
     }
     return DD;

@@ -18,8 +18,7 @@ var Derived = /*#__PURE__*/ function(Base) {
         _this = _call_super(this, Derived, [
             x,
             y
-        ]);
-        _this.z = z;
+        ]), _this.z = z;
         return _this;
     }
     return Derived;

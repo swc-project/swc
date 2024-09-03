@@ -40,8 +40,7 @@ define([
             return new FileSystemError(messageOrUri, FileSystemProviderErrorCode.Unavailable, FileSystemError.Unavailable);
         }
         constructor(uriOrMessage, code = FileSystemProviderErrorCode.Unknown, terminator){
-            super(URI.isUri(uriOrMessage) ? uriOrMessage.toString(true) : uriOrMessage);
-            _define_property._(this, "code", void 0);
+            super(URI.isUri(uriOrMessage) ? uriOrMessage.toString(true) : uriOrMessage), _define_property._(this, "code", void 0);
             this.code = terminator?.name ?? 'Unknown';
             markAsFileSystemProviderError(this, code);
             if (typeof Object.setPrototypeOf === 'function') {

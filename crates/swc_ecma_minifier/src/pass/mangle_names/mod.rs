@@ -35,11 +35,12 @@ pub(crate) fn mangle_names(
         chars,
     ));
 
-    let mut cache = RenameMap::default();
+    let mut cache = None;
 
     if let Some(mangle_cache) = &mangle_name_cache {
-        mangle_cache
-            .vars_cache(&mut |v| cache.extend(v.iter().map(|(k, v)| (k.clone(), v.clone()))));
+        let mut c = RenameMap::default();
+        mangle_cache.vars_cache(&mut |v| c.extend(v.iter().map(|(k, v)| (k.clone(), v.clone()))));
+        cache = Some(c);
     }
 
     program.visit_mut_with(&mut renamer(
@@ -61,7 +62,7 @@ pub(crate) fn mangle_names(
 struct ManglingRenamer {
     chars: Base54Chars,
     preserved: FxHashSet<Id>,
-    cache: RenameMap,
+    cache: Option<RenameMap>,
     mangle_name_cache: Option<Arc<dyn MangleCache>>,
 }
 
@@ -82,7 +83,7 @@ impl Renamer for ManglingRenamer {
     }
 
     fn get_cached(&self) -> Option<Cow<RenameMap>> {
-        Some(Cow::Borrowed(&self.cache))
+        self.cache.as_ref().map(Cow::Borrowed)
     }
 
     fn store_cache(&mut self, update: &RenameMap) {

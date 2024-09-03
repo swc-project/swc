@@ -206,8 +206,7 @@ try {
                 const d17 = _usingCtx.u({
                     [Symbol.dispose] () {}
                 });
-                super();
-                this.y = 1;
+                super(), this.y = 1;
             } catch (_) {
                 _usingCtx.e = _;
             } finally{

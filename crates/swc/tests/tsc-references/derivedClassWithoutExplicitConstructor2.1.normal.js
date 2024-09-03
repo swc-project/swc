@@ -14,9 +14,7 @@ var Derived = /*#__PURE__*/ function(Base) {
     function Derived() {
         _class_call_check(this, Derived);
         var _this;
-        _this = _call_super(this, Derived, arguments);
-        _this.x = 1;
-        _this.y = 'hello';
+        _this = _call_super(this, Derived, arguments), _this.x = 1, _this.y = 'hello';
         return _this;
     }
     return Derived;
@@ -36,9 +34,7 @@ var D = /*#__PURE__*/ function(Base2) {
     function D() {
         _class_call_check(this, D);
         var _this;
-        _this = _call_super(this, D, arguments);
-        _this.x = 2;
-        _this.y = null;
+        _this = _call_super(this, D, arguments), _this.x = 2, _this.y = null;
         return _this;
     }
     return D;

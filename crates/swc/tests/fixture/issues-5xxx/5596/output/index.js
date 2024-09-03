@@ -16,8 +16,7 @@ class Sub extends Base {
         return _class_private_method_get._(this, _privateMethod, privateMethod).call(this);
     }
     constructor(...args){
-        super(...args);
-        _class_private_method_init._(this, _privateMethod);
+        super(...args), _class_private_method_init._(this, _privateMethod);
     }
 }
 function privateMethod() {

@@ -8,11 +8,8 @@ import { _ as _set } from "@swc/helpers/_/_set";
 import { _ as _update } from "@swc/helpers/_/_update";
 class C extends B {
     constructor(...args){
-        super(...args);
-        // these should be unaffected
-        _define_property(this, "x", 1);
-        _define_property(this, "y", this.x);
-        _define_property(this, "z", super.f());
+        super(...args), // these should be unaffected
+        _define_property(this, "x", 1), _define_property(this, "y", this.x), _define_property(this, "z", super.f());
     }
 }
 _define_property(C, "x", undefined);

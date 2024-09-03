@@ -3,8 +3,7 @@ let B = _decorate([
 ], function(_initialize, _A) {
     class B extends _A {
         constructor(){
-            var _temp;
-            _temp = super(), _initialize(this), _temp;
+            super(), _initialize(this);
         }
     }
     return {

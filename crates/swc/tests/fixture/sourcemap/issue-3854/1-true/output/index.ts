@@ -84,20 +84,16 @@ class BodyBuilder extends _AbstractBuilders.AbstractBuilder {
         };
     }
     constructor(...args){
-        super(...args);
-        _class_private_field_init._(this, _stages, {
+        super(...args), _class_private_field_init._(this, _stages, {
             writable: true,
             value: []
-        });
-        _class_private_field_init._(this, _trustBox, {
+        }), _class_private_field_init._(this, _trustBox, {
             writable: true,
             value: undefined
-        });
-        _class_private_field_init._(this, _disclaimer, {
+        }), _class_private_field_init._(this, _disclaimer, {
             writable: true,
             value: undefined
-        });
-        _class_private_field_init._(this, _articleSources, {
+        }), _class_private_field_init._(this, _articleSources, {
             writable: true,
             value: undefined
         });
@@ -120,12 +116,10 @@ class TrustBoxBuilder extends _AbstractBuilders.AbstractBuilder {
         };
     }
     constructor(...args){
-        super(...args);
-        _class_private_field_init._(this, _nodes, {
+        super(...args), _class_private_field_init._(this, _nodes, {
             writable: true,
             value: []
-        });
-        _class_private_field_init._(this, _hidden, {
+        }), _class_private_field_init._(this, _hidden, {
             writable: true,
             value: []
         });
@@ -143,8 +137,7 @@ class OpenerBuilder extends _AbstractBuilders.AbstractBuilder {
         };
     }
     constructor(...args){
-        super(...args);
-        _class_private_field_init._(this, _element, {
+        super(...args), _class_private_field_init._(this, _element, {
             writable: true,
             value: (0, _ElementBuilder.image)().build()
         });
@@ -178,20 +171,16 @@ class BodyStageSeqBuilder extends _AbstractBuilders.AbstractSeqBuilder {
         };
     }
     constructor(...args){
-        super(...args);
-        _class_private_field_init._(this, _nodes1, {
+        super(...args), _class_private_field_init._(this, _nodes1, {
             writable: true,
             value: []
-        });
-        _class_private_field_init._(this, _header, {
+        }), _class_private_field_init._(this, _header, {
             writable: true,
             value: undefined
-        });
-        _class_private_field_init._(this, _companions, {
+        }), _class_private_field_init._(this, _companions, {
             writable: true,
             value: []
-        });
-        _class_private_field_init._(this, _commercialsEndOfStage, {
+        }), _class_private_field_init._(this, _commercialsEndOfStage, {
             writable: true,
             value: []
         });
@@ -229,8 +218,7 @@ class BodyStageBuilder extends _AbstractBuilders.AbstractBuilder {
         return _class_private_field_get._(this, _seqBuilder).build();
     }
     constructor(...args){
-        super(...args);
-        _class_private_field_init._(this, _seqBuilder, {
+        super(...args), _class_private_field_init._(this, _seqBuilder, {
             writable: true,
             value: new BodyStageSeqBuilder()
         });
@@ -253,12 +241,10 @@ class BodyHeaderBuilder extends _AbstractBuilders.AbstractBuilder {
         };
     }
     constructor(...args){
-        super(...args);
-        _class_private_field_init._(this, _variant, {
+        super(...args), _class_private_field_init._(this, _variant, {
             writable: true,
             value: "full"
-        });
-        _class_private_field_init._(this, _opener, {
+        }), _class_private_field_init._(this, _opener, {
             writable: true,
             value: undefined
         });
@@ -278,8 +264,7 @@ class ArticleSourceSeqBuilder extends _AbstractBuilders.AbstractSeqBuilder {
         };
     }
     constructor(...args){
-        super(...args);
-        _class_private_field_init._(this, _nodes2, {
+        super(...args), _class_private_field_init._(this, _nodes2, {
             writable: true,
             value: []
         });
@@ -297,8 +282,7 @@ class ArticleSourceBuilder extends _AbstractBuilders.AbstractBuilder {
         return _class_private_field_get._(this, _seqBuilder1).build();
     }
     constructor(...nodes){
-        super();
-        _class_private_field_init._(this, _seqBuilder1, {
+        super(), _class_private_field_init._(this, _seqBuilder1, {
             writable: true,
             value: new ArticleSourceSeqBuilder()
         });
@@ -322,12 +306,10 @@ class ArticleSourcesBuilder extends _AbstractBuilders.AbstractBuilder {
         };
     }
     constructor(...args){
-        super(...args);
-        _class_private_field_init._(this, _nodes3, {
+        super(...args), _class_private_field_init._(this, _nodes3, {
             writable: true,
             value: []
-        });
-        _class_private_field_init._(this, _hidden1, {
+        }), _class_private_field_init._(this, _hidden1, {
             writable: true,
             value: []
         });

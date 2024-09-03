@@ -5,8 +5,6 @@ class Foo extends Bar {
     }
     static #d = 4;
     constructor(...args){
-        super(...args);
-        this.a = 1;
-        this.#b = 2;
+        super(...args), this.a = 1, this.#b = 2;
     }
 }

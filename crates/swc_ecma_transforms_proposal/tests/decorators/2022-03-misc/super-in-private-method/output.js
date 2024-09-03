@@ -14,8 +14,7 @@ class Foo extends Bar {
         ], []));
     }
     constructor(...args){
-        super(...args);
-        _initProto(this);
+        super(...args), _initProto(this);
     }
     get #x() {
         return _call_x;

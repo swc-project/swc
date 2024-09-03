@@ -49,8 +49,7 @@ var DerivedA = /*#__PURE__*/ function(BaseA1) {
         var _this;
         _this = _call_super(this, DerivedA, [
             x
-        ]);
-        _this.x = x;
+        ]), _this.x = x;
         return _this;
     }
     var _proto = DerivedA.prototype;
@@ -73,8 +72,7 @@ var DerivedB = /*#__PURE__*/ function(BaseB1) {
         var _this;
         _this = _call_super(this, DerivedB, [
             x
-        ]);
-        _this.x = x;
+        ]), _this.x = x;
         return _this;
     }
     var _proto = DerivedB.prototype;
@@ -99,8 +97,7 @@ var DerivedC = /*#__PURE__*/ function(BaseC1) {
         var _this;
         _this = _call_super(this, DerivedC, [
             x
-        ]);
-        _this.x = x;
+        ]), _this.x = x;
         return _this;
     }
     var _proto = DerivedC.prototype;

@@ -55,8 +55,7 @@ var C3 = /*#__PURE__*/ function(A) {
         try {
             var _usingCtx = _using_ctx();
             var x = _usingCtx.u(null);
-            _this = _call_super(this, C3);
-            _this.y = 1;
+            _this = _call_super(this, C3), _this.y = 1;
         } catch (_) {
             _usingCtx.e = _;
         } finally{
@@ -75,8 +74,7 @@ var C4 = /*#__PURE__*/ function(A) {
         try {
             var _usingCtx = _using_ctx();
             var x = _usingCtx.u(null);
-            _this = _call_super(this, C4);
-            _this.y = y;
+            _this = _call_super(this, C4), _this.y = y;
         } catch (_) {
             _usingCtx.e = _;
         } finally{
@@ -95,9 +93,7 @@ var C5 = /*#__PURE__*/ function(A) {
         try {
             var _usingCtx = _using_ctx();
             var x = _usingCtx.u(null);
-            _this = _call_super(this, C5);
-            _this.y = y;
-            _this.z = 1;
+            _this = _call_super(this, C5), _this.y = y, _this.z = 1;
         } catch (_) {
             _usingCtx.e = _;
         } finally{

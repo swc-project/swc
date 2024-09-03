@@ -4,8 +4,10 @@ var Foo = /*#__PURE__*/ function(Bar1) {
     function Foo() {
         _class_call_check(this, Foo);
         var _this;
-        var _temp;
-        foo((_temp = _this = _call_super(this, Foo), _define_property(_this, "bar", "foo"), _temp));
+        foo([
+            _this = _call_super(this, Foo),
+            _define_property(_this, "bar", "foo")
+        ][0]);
         return _this;
     }
     return Foo;
