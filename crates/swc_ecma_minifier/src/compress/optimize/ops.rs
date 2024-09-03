@@ -370,7 +370,7 @@ impl Optimizer<'_> {
                     }
                 }
 
-                Expr::Arrow(..) | Expr::Fn(..) => {
+                Expr::Arrow(..) | Expr::Fn(..) | Expr::Class(..) => {
                     report_change!("Converting typeof to 'function' as we know the value");
                     self.changed = true;
                     *e = Lit::Str(Str {

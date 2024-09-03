@@ -156,7 +156,7 @@ impl Optimizer<'_> {
 
             if !usage.reassigned {
                 match init {
-                    Expr::Fn(..) | Expr::Arrow(..) => {
+                    Expr::Fn(..) | Expr::Arrow(..) | Expr::Class(..) => {
                         self.typeofs.insert(ident.to_id(), "function".into());
                     }
                     Expr::Array(..) | Expr::Object(..) => {
@@ -569,11 +569,8 @@ impl Optimizer<'_> {
             if !usage.reassigned {
                 trace_op!("typeofs: Storing typeof `{}{:?}`", i.sym, i.ctxt);
                 match &*decl {
-                    Decl::Fn(..) => {
+                    Decl::Fn(..) | Decl::Class(..) => {
                         self.typeofs.insert(i.to_id(), "function".into());
-                    }
-                    Decl::Class(..) => {
-                        self.typeofs.insert(i.to_id(), "object".into());
                     }
                     _ => {}
                 }
