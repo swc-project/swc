@@ -19,7 +19,6 @@ var Outer = /*#__PURE__*/ function(Hello) {
             _define_property(this, _ref, "hello");
         };
         return _possible_constructor_return(_this, new Inner());
-        return _this;
     }
     return Outer;
 }(Hello);

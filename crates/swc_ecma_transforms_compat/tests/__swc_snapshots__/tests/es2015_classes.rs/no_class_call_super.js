@@ -10,7 +10,7 @@ let A = /*#__PURE__*/ function(B) {
             track
         ]);
         else _this = _call_super(this, A);
-        return _possible_constructor_return(_this);
+        return _assert_this_initialized(_this);
     }
     return A;
 }(B);

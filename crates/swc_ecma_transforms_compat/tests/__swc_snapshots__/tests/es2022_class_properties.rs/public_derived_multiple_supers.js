@@ -9,7 +9,7 @@ var Foo = /*#__PURE__*/ function(Bar1) {
         } else {
             _this = _call_super(this, Foo), _define_property(_this, "bar", "foo");
         }
-        return _possible_constructor_return(_this);
+        return _assert_this_initialized(_this);
     }
     return Foo;
 }(Bar);

@@ -4,7 +4,6 @@ import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _create_class } from "@swc/helpers/_/_create_class";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _possible_constructor_return } from "@swc/helpers/_/_possible_constructor_return";
 export var A = function A() {
     _class_call_check(this, A);
 };
@@ -101,7 +100,7 @@ export var L = /*#__PURE__*/ function(K) {
 export var M = /*#__PURE__*/ function(_superClass) {
     function M() {
         var _this;
-        return _class_call_check(this, M), _assert_this_initialized(_this).prop = 12, _possible_constructor_return(_this);
+        return _class_call_check(this, M), _assert_this_initialized(_this).prop = 12, _assert_this_initialized(_this);
     }
     return _inherits(M, null), M;
 }(0);

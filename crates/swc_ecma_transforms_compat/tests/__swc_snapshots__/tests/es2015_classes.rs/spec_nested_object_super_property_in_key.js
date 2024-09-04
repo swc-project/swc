@@ -26,7 +26,6 @@ var Outer = /*#__PURE__*/ function(Hello) {
             }
         };
         return _possible_constructor_return(_this, Inner);
-        return _this;
     }
     return Outer;
 }(Hello);

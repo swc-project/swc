@@ -5,7 +5,6 @@ var Child = /*#__PURE__*/ function(Base1) {
         _class_call_check(this, Child);
         var _this;
         return _possible_constructor_return(_this, false);
-        return _possible_constructor_return(_this);
     }
     return Child;
 }(Base);

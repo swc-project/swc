@@ -16,7 +16,7 @@ var Foo = /*#__PURE__*/ function(Bar1) {
                 value: "foo"
             });
         }
-        return _possible_constructor_return(_this);
+        return _assert_this_initialized(_this);
     }
     return Foo;
 }(Bar);

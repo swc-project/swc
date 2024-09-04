@@ -58,6 +58,7 @@ pub(super) fn fold_constructor(
     let mut body = constructor.body.take().unwrap();
     if let Some(class_super_name) = class_super_name {
         let is_last_super = (&*body.stmts).is_super_last_call();
+        let is_last_return = body.stmts.last().map_or(false, Stmt::is_return_stmt);
 
         let mut constructor_folder = ConstructorFolder {
             class_key_init: vec![],
@@ -134,7 +135,7 @@ pub(super) fn fold_constructor(
             stmts.push(var.into());
         }
 
-        if !is_last_super {
+        if !is_last_super && !is_last_return {
             let this = if constructor_folder.super_found {
                 Expr::Ident(constructor_folder.this.unwrap())
             } else {
@@ -142,7 +143,7 @@ pub(super) fn fold_constructor(
                     .this
                     .map_or_else(|| Expr::undefined(DUMMY_SP).as_arg(), |this| this.as_arg());
 
-                helper_expr!(possible_constructor_return).as_call(DUMMY_SP, vec![this])
+                helper_expr!(assert_this_initialized).as_call(DUMMY_SP, vec![this])
             };
 
             let return_this = ReturnStmt {
@@ -303,12 +304,29 @@ impl VisitMut for ConstructorFolder {
         self.super_found = super_found;
     }
 
+    fn visit_mut_switch_stmt(&mut self, node: &mut SwitchStmt) {
+        node.discriminant.visit_mut_with(self);
+        let super_found = self.super_found;
+        node.cases.visit_mut_with(self);
+        self.super_found = super_found;
+    }
+
     fn visit_mut_try_stmt(&mut self, node: &mut TryStmt) {
         let super_found = self.super_found;
         node.block.visit_mut_with(self);
         node.handler.visit_mut_with(self);
         self.super_found = super_found;
         node.finalizer.visit_mut_with(self);
+    }
+
+    fn visit_mut_labeled_stmt(&mut self, node: &mut LabeledStmt) {
+        if node.body.is_block() {
+            let super_found = self.super_found;
+            node.body.visit_mut_with(self);
+            self.super_found = super_found;
+        } else {
+            node.body.visit_mut_with(self);
+        }
     }
 
     fn visit_mut_bin_expr(&mut self, node: &mut BinExpr) {
