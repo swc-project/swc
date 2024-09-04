@@ -12,8 +12,7 @@ var Derived = /*#__PURE__*/ function(Base1) {
     function Derived() {
         _class_call_check(this, Derived);
         var _this;
-        _this = _call_super(this, Derived, arguments);
-        _this.bing = function() {
+        _this = _call_super(this, Derived, arguments), _this.bing = function() {
             return Base.foo;
         } // error
         ;

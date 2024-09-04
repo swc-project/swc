@@ -409,8 +409,7 @@ try {
             try {
                 var _usingCtx = _using_ctx();
                 var d17 = _usingCtx.u(_define_property({}, Symbol.dispose, function() {}));
-                _this = _call_super(this, C3);
-                _this.y = 1;
+                _this = _call_super(this, C3), _this.y = 1;
             } catch (_) {
                 _usingCtx.e = _;
             } finally{

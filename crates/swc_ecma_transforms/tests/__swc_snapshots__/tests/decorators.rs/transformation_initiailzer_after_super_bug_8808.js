@@ -3,8 +3,10 @@ let Sub = _decorate([
 ], function(_initialize, _Super) {
     class Sub extends _Super {
         constructor(){
-            var _temp;
-            (_temp = super(), _initialize(this), _temp).method();
+            [
+                super(),
+                _initialize(this)
+            ][0].method();
         }
     }
     return {

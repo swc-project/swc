@@ -8,6 +8,5 @@ var C = function C() {
 var D = function D(x) {
     "use strict";
     _class_call_check(this, D);
-    super(); // error
-    this.x = x;
+    super(), this.x = x; // error
 };

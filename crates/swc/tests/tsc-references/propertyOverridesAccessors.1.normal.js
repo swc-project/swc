@@ -7,8 +7,7 @@ class A {
 }
 class B extends A {
     constructor(...args){
-        super(...args);
-        _define_property(this, "p", 'yep' // error
+        super(...args), _define_property(this, "p", 'yep' // error
         );
     }
 }
@@ -25,8 +24,7 @@ class C {
 }
 class D extends C {
     constructor(...args){
-        super(...args);
-        _define_property(this, "p", 101 // error
+        super(...args), _define_property(this, "p", 101 // error
         );
     }
 }

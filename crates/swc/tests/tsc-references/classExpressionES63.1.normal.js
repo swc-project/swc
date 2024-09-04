@@ -5,13 +5,11 @@ let C = class extends class extends class {
     }
 } {
     constructor(...args){
-        super(...args);
-        this.b = 2;
+        super(...args), this.b = 2;
     }
 } {
     constructor(...args){
-        super(...args);
-        this.c = 3;
+        super(...args), this.c = 3;
     }
 };
 let c = new C();

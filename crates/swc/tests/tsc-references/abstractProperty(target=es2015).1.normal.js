@@ -7,8 +7,7 @@ class A {
 }
 class B extends A {
     constructor(...args){
-        super(...args);
-        _define_property(this, "x", 'B.x');
+        super(...args), _define_property(this, "x", 'B.x');
     }
 }
 class C extends A {

@@ -347,36 +347,28 @@ class Shard extends _utils.Emitter {
      * @param {ShardManager} manager The shard manager.
      * @param {number} id The ID of this shard.
      */ constructor(manager, id){
-        super();
-        _class_private_field_init._(this, _serialization1, {
+        super(), _class_private_field_init._(this, _serialization1, {
             writable: true,
             value: void 0
-        });
-        _class_private_field_init._(this, _compression1, {
+        }), _class_private_field_init._(this, _compression1, {
             writable: true,
             value: void 0
-        });
-        _class_private_field_init._(this, _seq, {
+        }), _class_private_field_init._(this, _seq, {
             writable: true,
             value: void 0
-        });
-        _class_private_field_init._(this, _closingSeq, {
+        }), _class_private_field_init._(this, _closingSeq, {
             writable: true,
             value: void 0
-        });
-        _class_private_field_init._(this, _bucket, {
+        }), _class_private_field_init._(this, _bucket, {
             writable: true,
             value: void 0
-        });
-        _class_private_field_init._(this, _presenceBucket, {
+        }), _class_private_field_init._(this, _presenceBucket, {
             writable: true,
             value: void 0
-        });
-        _class_private_field_init._(this, _ws1, {
+        }), _class_private_field_init._(this, _ws1, {
             writable: true,
             value: void 0
-        });
-        _class_private_field_init._(this, _queue, {
+        }), _class_private_field_init._(this, _queue, {
             writable: true,
             value: void 0
         });

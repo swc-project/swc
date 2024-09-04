@@ -1857,8 +1857,7 @@ class BufWriterSync extends AbstractBufBase {
         return writer instanceof BufWriterSync ? writer : new BufWriterSync(writer, size);
     }
     constructor(writer, size = DEFAULT_BUF_SIZE){
-        super();
-        this.writer = writer;
+        super(), this.writer = writer;
         if (size <= 0) {
             size = DEFAULT_BUF_SIZE;
         }

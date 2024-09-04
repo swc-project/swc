@@ -1,6 +1,6 @@
 {
   "name": "@swc/html-win32-ia32-msvc",
-  "version": "1.7.22",
+  "version": "1.7.23",
   "os": [
     "win32"
   ],

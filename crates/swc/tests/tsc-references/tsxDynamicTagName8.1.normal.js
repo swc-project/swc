@@ -11,8 +11,7 @@ export var Text = /*#__PURE__*/ function(_React_Component) {
     function Text() {
         _class_call_check(this, Text);
         var _this;
-        _this = _call_super(this, Text, arguments);
-        _this._tagName = 'div';
+        _this = _call_super(this, Text, arguments), _this._tagName = 'div';
         return _this;
     }
     var _proto = Text.prototype;

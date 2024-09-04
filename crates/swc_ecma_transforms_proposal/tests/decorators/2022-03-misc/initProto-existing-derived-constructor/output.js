@@ -2,7 +2,7 @@ var _initProto;
 const dec = ()=>{};
 class A extends B {
     static{
-        ({ e: [_initProto]  } = _apply_decs_2203_r(this, [
+        ({ e: [_initProto] } = _apply_decs_2203_r(this, [
             [
                 dec,
                 2,
@@ -12,8 +12,7 @@ class A extends B {
     }
     constructor(){
         let a = 2;
-        super(a);
-        _initProto(this);
+        super(a), _initProto(this);
         foo();
     }
     method() {}

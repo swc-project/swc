@@ -8,8 +8,7 @@ var C = /*#__PURE__*/ function(_superClass) {
     function C() {
         _class_call_check(this, C);
         var _this;
-        _this = _call_super(this, C, arguments);
-        _this.c = 3;
+        _this = _call_super(this, C, arguments), _this.c = 3;
         return _this;
     }
     return C;
@@ -19,8 +18,7 @@ var C = /*#__PURE__*/ function(_superClass) {
     function _class() {
         _class_call_check(this, _class);
         var _this;
-        _this = _call_super(this, _class, arguments);
-        _this.b = 2;
+        _this = _call_super(this, _class, arguments), _this.b = 2;
         return _this;
     }
     return _class;

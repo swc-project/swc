@@ -6,8 +6,6 @@ class Derived extends Base {
     a;
     b;
     constructor(a){
-        super();
-        this.a = a;
-        this.b = this.a /*undefined*/ ;
+        super(), this.a = a, this.b = this.a /*undefined*/ ;
     }
 }

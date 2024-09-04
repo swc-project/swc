@@ -5,8 +5,7 @@ export class App extends LitElement {
         return html`<p>Hello, ${this.name}!</p>`;
     }
     constructor(){
-        super();
-        _define_property(this, "name", void 0);
+        super(), _define_property(this, "name", void 0);
         this.name = "Somebody";
     }
 }

@@ -1,4 +1,21 @@
 # Changelog
+## [1.7.23] - 2024-09-02
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Fix name mangler ([#9524](https://github.com/swc-project/swc/issues/9524)) ([5fd68f9](https://github.com/swc-project/swc/commit/5fd68f9a3a9eeef0e61627a821c52ace69a89696))
+
+### Performance
+
+
+
+- **(es/compat)** Reimplement constructor transform ([#9519](https://github.com/swc-project/swc/issues/9519)) ([4b85a92](https://github.com/swc-project/swc/commit/4b85a92170576f194c2b1ad3b3ec624c4839e215))
+
+
+- **(es/utils)** Rewrite inject_after_super ([#9496](https://github.com/swc-project/swc/issues/9496)) ([c562cfa](https://github.com/swc-project/swc/commit/c562cfa8af1163a4946ef79cb025d461c7e2e5e0))
+
 ## [1.7.22] - 2024-08-30
 
 ### Bug Fixes
@@ -1265,27 +1282,6 @@
 - **(es/helpers)** Fix resolving of `usingCtx` helper ([#8874](https://github.com/swc-project/swc/issues/8874)) ([6e9d1a4](https://github.com/swc-project/swc/commit/6e9d1a4ebfa705d58b576f5de32d4a17393d4e81))
 
 ## [1.4.15] - 2024-04-17
-
-### Bug Fixes
-
-
-
-- **(es/codegen)** Fix `ascii_only` for identifiers ([#8866](https://github.com/swc-project/swc/issues/8866)) ([2075a23](https://github.com/swc-project/swc/commit/2075a23373eac575240ab33778079174505cdcb4))
-
-
-- **(es/minifier)** Remove `raw` of strings after modification ([#8865](https://github.com/swc-project/swc/issues/8865)) ([740c0bb](https://github.com/swc-project/swc/commit/740c0bb00a0bb9e0f4d808c9dc71e8087d416f72))
-
-### Features
-
-
-
-- **(es/transforms)** Allocate stacks dynamically ([#8867](https://github.com/swc-project/swc/issues/8867)) ([a1c5415](https://github.com/swc-project/swc/commit/a1c5415b3b84fdb8f780685e5eec4a121d442e28))
-
-### Refactor
-
-
-
-- **(es/minifier)** Remove `mangle.safari10` ([#8857](https://github.com/swc-project/swc/issues/8857)) ([df2e056](https://github.com/swc-project/swc/commit/df2e056f299c84d309bcc0d26e1da55a561614af))
 
 ### Build
 

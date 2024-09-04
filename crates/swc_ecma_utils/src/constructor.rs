@@ -1,166 +1,118 @@
-use std::iter;
+use std::{iter, mem};
 
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
-use crate::{prepend_stmts, ExprFactory};
+use crate::ExprFactory;
 
-pub fn inject_after_super(c: &mut Constructor, mut exprs: Vec<Box<Expr>>) {
-    // Allow using super multiple time
-    let mut folder = Injector {
-        exprs: &mut exprs,
-        injected: false,
+pub fn inject_after_super(c: &mut Constructor, exprs: Vec<Box<Expr>>) {
+    if exprs.is_empty() {
+        return;
+    }
+
+    let body = c.body.as_mut().expect("constructor should have a body");
+
+    let mut injector = Injector {
+        exprs,
+        ..Default::default()
     };
 
-    c.body = std::mem::take(&mut c.body).fold_with(&mut folder);
-    if !folder.injected {
-        if c.body.is_none() {
-            c.body = Some(BlockStmt {
-                ..Default::default()
-            });
-        }
-        // there was no super() call
-        prepend_stmts(
-            &mut c.body.as_mut().unwrap().stmts,
-            exprs.into_iter().map(|v| v.into_stmt()),
-        );
+    body.visit_mut_with(&mut injector);
+
+    if !injector.injected {
+        let exprs = injector.exprs.take();
+        body.stmts
+            .splice(0..0, exprs.into_iter().map(|e| e.into_stmt()));
     }
 }
 
-struct Injector<'a> {
+#[derive(Default)]
+struct Injector {
+    exprs: Vec<Box<Expr>>,
+    ignore_return_value: bool,
+
     injected: bool,
-    exprs: &'a mut Vec<Box<Expr>>,
 }
 
-impl<'a> Fold for Injector<'a> {
-    noop_fold_type!();
+impl VisitMut for Injector {
+    noop_visit_mut_type!();
 
-    fn fold_class(&mut self, c: Class) -> Class {
-        c
+    fn visit_mut_constructor(&mut self, _: &mut Constructor) {
+        // skip
     }
 
-    fn fold_constructor(&mut self, n: Constructor) -> Constructor {
-        n
+    fn visit_mut_function(&mut self, _: &mut Function) {
+        // skip
     }
 
-    fn fold_function(&mut self, n: Function) -> Function {
-        n
+    fn visit_mut_getter_prop(&mut self, _: &mut GetterProp) {
+        // skip
     }
 
-    fn fold_stmts(&mut self, stmts: Vec<Stmt>) -> Vec<Stmt> {
-        if self.exprs.is_empty() {
-            return stmts;
+    fn visit_mut_setter_prop(&mut self, _: &mut SetterProp) {
+        // skip
+    }
+
+    fn visit_mut_expr_stmt(&mut self, node: &mut ExprStmt) {
+        let ignore_return_value = mem::replace(&mut self.ignore_return_value, true);
+        node.visit_mut_children_with(self);
+        self.ignore_return_value = ignore_return_value;
+    }
+
+    fn visit_mut_seq_expr(&mut self, node: &mut SeqExpr) {
+        if let Some(mut tail) = node.exprs.pop() {
+            let ignore_return_value = mem::replace(&mut self.ignore_return_value, true);
+            node.visit_mut_children_with(self);
+            self.ignore_return_value = ignore_return_value;
+            tail.visit_mut_with(self);
+            node.exprs.push(tail);
         }
-
-        let mut buf = Vec::with_capacity(stmts.len() + 8);
-
-        stmts.into_iter().for_each(|stmt| {
-            if let Stmt::Expr(ExprStmt { ref expr, .. }) = stmt {
-                if let Expr::Call(CallExpr {
-                    callee: Callee::Super(..),
-                    ..
-                }) = &**expr
-                {
-                    self.injected = true;
-                    buf.push(stmt);
-                    buf.extend(self.exprs.clone().into_iter().map(|v| v.into_stmt()));
-                    return;
-                }
-            }
-
-            let mut folder = Injector {
-                injected: false,
-                exprs: self.exprs,
-            };
-            let mut stmt = stmt.fold_children_with(&mut folder);
-            self.injected |= folder.injected;
-            if folder.injected {
-                buf.push(stmt);
-            } else {
-                let mut folder = ExprInjector {
-                    injected: false,
-                    exprs: self.exprs,
-                    injected_tmp: None,
-                };
-                stmt.visit_mut_with(&mut folder);
-
-                self.injected |= folder.injected;
-
-                buf.extend(folder.injected_tmp.map(|ident| {
-                    VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        decls: vec![VarDeclarator {
-                            span: DUMMY_SP,
-                            name: Pat::Ident(ident.into()),
-                            init: None,
-                            definite: false,
-                        }],
-                        ..Default::default()
-                    }
-                    .into()
-                }));
-                buf.push(stmt);
-            }
-        });
-
-        buf
-    }
-}
-
-/// Handles code like `foo(super())`
-struct ExprInjector<'a> {
-    injected: bool,
-    exprs: &'a mut Vec<Box<Expr>>,
-    injected_tmp: Option<Ident>,
-}
-
-impl VisitMut for ExprInjector<'_> {
-    noop_visit_mut_type!(fail);
-
-    fn visit_mut_class(&mut self, c: &mut Class) {
-        c.super_class.visit_mut_with(self);
     }
 
-    fn visit_mut_constructor(&mut self, _: &mut Constructor) {}
-
-    fn visit_mut_expr(&mut self, expr: &mut Expr) {
-        expr.visit_mut_children_with(self);
+    fn visit_mut_expr(&mut self, node: &mut Expr) {
+        let ignore_return_value = self.ignore_return_value;
+        if !matches!(node, Expr::Paren(..) | Expr::Seq(..)) {
+            self.ignore_return_value = false;
+        }
+        node.visit_mut_children_with(self);
+        self.ignore_return_value = ignore_return_value;
 
         if let Expr::Call(CallExpr {
             callee: Callee::Super(..),
             ..
-        }) = expr
+        }) = node
         {
-            self.injected_tmp = Some(
-                self.injected_tmp
-                    .take()
-                    .unwrap_or_else(|| private_ident!("_temp")),
-            );
             self.injected = true;
-            let e = expr.take();
 
-            *expr = SeqExpr {
-                span: DUMMY_SP,
-                exprs: iter::once(
-                    AssignExpr {
+            let super_call = node.take();
+            let exprs = self.exprs.clone();
+
+            let exprs = iter::once(Box::new(super_call)).chain(exprs);
+
+            *node = if ignore_return_value {
+                SeqExpr {
+                    span: DUMMY_SP,
+                    exprs: exprs.collect(),
+                }
+                .into()
+            } else {
+                let array = ArrayLit {
+                    span: DUMMY_SP,
+                    elems: exprs.map(ExprOrSpread::from).map(Some).collect(),
+                };
+
+                MemberExpr {
+                    span: DUMMY_SP,
+                    obj: array.into(),
+                    prop: ComputedPropName {
                         span: DUMMY_SP,
-                        left: self.injected_tmp.as_ref().cloned().unwrap().into(),
-                        op: op!("="),
-                        right: Box::new(e),
+                        expr: 0.into(),
                     }
                     .into(),
-                )
-                .chain(self.exprs.clone())
-                .chain(iter::once(
-                    self.injected_tmp.as_ref().cloned().unwrap().into(),
-                ))
-                .collect(),
+                }
+                .into()
             }
-            .into()
         }
     }
-
-    fn visit_mut_function(&mut self, _: &mut Function) {}
 }
