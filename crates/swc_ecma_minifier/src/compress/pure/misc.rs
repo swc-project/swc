@@ -56,6 +56,45 @@ fn can_compress_new_regexp(args: Option<&[ExprOrSpread]>) -> bool {
     }
 }
 
+fn collect_exprs_from_object(obj: &mut ObjectLit) -> Vec<Box<Expr>> {
+    let mut exprs = Vec::new();
+
+    for prop in obj.props.take() {
+        if let PropOrSpread::Prop(p) = prop {
+            match *p {
+                Prop::Shorthand(p) => {
+                    exprs.push(p.into());
+                }
+                Prop::KeyValue(p) => {
+                    if let PropName::Computed(e) = p.key {
+                        exprs.push(e.expr);
+                    }
+
+                    exprs.push(p.value);
+                }
+                Prop::Getter(p) => {
+                    if let PropName::Computed(e) = p.key {
+                        exprs.push(e.expr);
+                    }
+                }
+                Prop::Setter(p) => {
+                    if let PropName::Computed(e) = p.key {
+                        exprs.push(e.expr);
+                    }
+                }
+                Prop::Method(p) => {
+                    if let PropName::Computed(e) = p.key {
+                        exprs.push(e.expr);
+                    }
+                }
+                _ => {}
+            }
+        }
+    }
+
+    exprs
+}
+
 impl Pure<'_> {
     /// `foo(...[1, 2])`` => `foo(1, 2)`
     pub(super) fn eval_spread_array(&mut self, args: &mut Vec<ExprOrSpread>) {
@@ -1417,39 +1456,8 @@ impl Pure<'_> {
                 }
 
                 Expr::Object(obj) => {
-                    if obj.props.iter().all(|p| match p {
-                        PropOrSpread::Spread(_) => false,
-                        PropOrSpread::Prop(p) => matches!(
-                            &**p,
-                            Prop::Shorthand(_) | Prop::KeyValue(_) | Prop::Method(..)
-                        ),
-                    }) {
-                        let mut exprs = Vec::new();
-
-                        for prop in obj.props.take() {
-                            if let PropOrSpread::Prop(p) = prop {
-                                match *p {
-                                    Prop::Shorthand(p) => {
-                                        exprs.push(p.into());
-                                    }
-                                    Prop::KeyValue(p) => {
-                                        if let PropName::Computed(e) = p.key {
-                                            exprs.push(e.expr);
-                                        }
-
-                                        exprs.push(p.value);
-                                    }
-                                    Prop::Method(p) => {
-                                        if let PropName::Computed(e) = p.key {
-                                            exprs.push(e.expr);
-                                        }
-                                    }
-
-                                    _ => unreachable!(),
-                                }
-                            }
-                        }
-
+                    if obj.props.iter().all(|prop| !prop.is_spread()) {
+                        let exprs = collect_exprs_from_object(obj);
                         *e = self
                             .make_ignored_expr(obj.span, exprs.into_iter())
                             .unwrap_or(Invalid { span: DUMMY_SP }.into());
@@ -1542,22 +1550,34 @@ impl Pure<'_> {
                     obj,
                     prop: MemberProp::Computed(prop),
                     ..
-                }) => match &**obj {
-                    Expr::Object(..) | Expr::Array(..) => {
+                }) => match obj.as_mut() {
+                    Expr::Object(object) => {
+                        // Accessing getters and setters may cause side effect
+                        // More precision is possible if comparing the lit prop names
+                        if object.props.iter().all(|p| match p {
+                            PropOrSpread::Spread(..) => false,
+                            PropOrSpread::Prop(p) => match &**p {
+                                Prop::Getter(..) | Prop::Setter(..) => false,
+                                _ => true,
+                            },
+                        }) {
+                            let mut exprs = collect_exprs_from_object(object);
+                            exprs.push(prop.expr.take());
+                            *e = self
+                                .make_ignored_expr(*span, exprs.into_iter())
+                                .unwrap_or(Invalid { span: DUMMY_SP }.into());
+                            return;
+                        }
+                    }
+                    Expr::Array(..) => {
                         self.ignore_return_value(obj, opts);
-
-                        match &**obj {
-                            Expr::Object(..) => {}
-                            _ => {
-                                *e = self
-                                    .make_ignored_expr(
-                                        *span,
-                                        vec![obj.take(), prop.expr.take()].into_iter(),
-                                    )
-                                    .unwrap_or(Invalid { span: DUMMY_SP }.into());
-                                return;
-                            }
-                        };
+                        *e = self
+                            .make_ignored_expr(
+                                *span,
+                                vec![obj.take(), prop.expr.take()].into_iter(),
+                            )
+                            .unwrap_or(Invalid { span: DUMMY_SP }.into());
+                        return;
                     }
                     _ => {}
                 },
