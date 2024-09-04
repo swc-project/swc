@@ -41,7 +41,6 @@ fn identity(entry: PathBuf) {
 
     // TODO: Unignore
     let postponed = &[
-        "constEnum4.ts",
         "decoratorOnClassMethod11.ts",
         "elementAccessChain.3.ts",
         "awaitUsingDeclarationsInForAwaitOf.ts",
