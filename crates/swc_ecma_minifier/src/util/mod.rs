@@ -24,16 +24,6 @@ pub(crate) fn make_number(span: Span, value: f64) -> Expr {
     .into()
 }
 
-/// Objects with one or more keys that are not literals or identifiers
-/// are impossible to optimize as we don't know for certain if a given
-/// key is actually invalid, e.g. `{[bar()]: 5}`, since we don't know
-/// what `bar()` returns.
-pub(crate) fn contains_undetermined_props(props: &[PropOrSpread]) -> bool {
-    props
-        .iter()
-        .any(|prop| !matches!(prop, PropOrSpread::Prop(prop) if matches!(&**prop, Prop::KeyValue(kv) if kv.key.is_ident() || kv.key.is_str() || kv.key.is_num())))
-}
-
 pub trait ModuleItemExt:
     StmtLike + ModuleItemLike + From<Stmt> + Spanned + std::fmt::Debug
 {
